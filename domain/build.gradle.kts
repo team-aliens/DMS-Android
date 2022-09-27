@@ -31,4 +31,5 @@ android {
 }
 
 dependencies {
+    implementation(Dependency.UnitTest.JUNIT)
 }

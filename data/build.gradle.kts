@@ -39,6 +39,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+
     implementation(Dependency.Moshi.MOSHI)
     kapt(Dependency.Moshi.MOSHI_COMPILER)
 
@@ -51,9 +52,6 @@ dependencies {
 
     implementation(Dependency.Room.ROOM_KTX)
     kapt(Dependency.Room.ROOM_COMPILER)
-
-    implementation(Dependency.DataStore.DATASTORE_PREF)
-    implementation(Dependency.DataStore.DATASTORE_PREF_CORE)
 
     implementation(Dependency.Kotlin.COROUTINES_CORE)
     implementation(Dependency.Kotlin.COROUTINES_ANDROID)

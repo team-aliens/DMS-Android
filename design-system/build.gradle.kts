@@ -61,4 +61,6 @@ dependencies {
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
     implementation(Dependency.Ui.MATERIAL)
     implementation(Dependency.Ui.CORE_KTX)
+
+    implementation(Dependency.UnitTest.JUNIT)
 }
