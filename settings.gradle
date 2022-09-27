@@ -10,3 +10,4 @@ rootProject.name = "DMS_Android"
 include ':presentation'
 include ':data'
 include ':domain'
+include ':design-system'
