@@ -70,5 +70,4 @@ dependencies {
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
     implementation(Dependency.UnitTest.JUNIT)
-
 }
