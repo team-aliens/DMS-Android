@@ -16,6 +16,6 @@ object ProjectProperties {
     const val BUILD_GRADLE = "4.2.1"
     const val COMPILE_SDK_VERSION = 32
     const val BUILD_TOOLS_VERSION = "32.0.0"
-    const val MIN_SDK_VERSION = 26
+    const val MIN_SDK_VERSION = 28
     const val TARGET_SDK_VERSION = 32
 }
