@@ -2,6 +2,7 @@ plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
     id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.DAGGER_HILT_PLUGIN)
 }
 
 android {
@@ -32,4 +33,8 @@ android {
 
 dependencies {
     implementation(Dependency.UnitTest.JUNIT)
+
+    implementation(Dependency.Hilt.HILT_ANDROID)
+    implementation(Dependency.Hilt.INJECT)
+    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 }

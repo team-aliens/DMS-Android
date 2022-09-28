@@ -1,15 +1,17 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
+    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.DAGGER_HILT_PLUGIN)
 }
 
 android {
     namespace = "com.example.local_database"
-    compileSdk = 32
+    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdk = 28
-        targetSdk = 32
+        minSdk = ProjectProperties.MIN_SDK_VERSION
+        targetSdk = ProjectProperties.TARGET_SDK_VERSION
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -36,10 +38,16 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation(Dependency.Moshi.MOSHI)
+    implementation(Dependency.Moshi.MOSHI_COMPILER)
+
+    implementation(Dependency.DataStore.DATASTORE_PREF)
+    implementation(Dependency.DataStore.DATASTORE_PREF_CORE)
+
+    implementation(Dependency.Room.ROOM_KTX)
+    implementation(Dependency.Room.ROOM_COMPILER)
+
+    implementation(Dependency.Hilt.HILT_ANDROID)
+    implementation(Dependency.Hilt.INJECT)
+    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 }
