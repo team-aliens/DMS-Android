@@ -49,7 +49,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(project(":auth_domain"))
+    implementation(project(":feature_domain"))
+    implementation(project(":local_domain"))
     implementation(project(":design-system"))
 
     implementation(Dependency.Ui.CORE_KTX)

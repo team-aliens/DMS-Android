@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "com.example.auth_data"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -25,23 +26,18 @@ android {
             )
         }
     }
-
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
-
-    implementation(project(":domain"))
-
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(project(":auth_domain"))
+    implementation(project(":local_database"))
 
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.INJECT)
@@ -49,9 +45,6 @@ dependencies {
 
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
-
-    implementation(Dependency.Room.ROOM_KTX)
-    kapt(Dependency.Room.ROOM_COMPILER)
 
     implementation(Dependency.Kotlin.COROUTINES_CORE)
     implementation(Dependency.Kotlin.COROUTINES_ANDROID)
