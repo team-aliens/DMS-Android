@@ -114,6 +114,13 @@ object DormTypography {
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
     )
+
+    @Stable
+    val button = TextStyle(
+        fontFamily = NotoSansFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp,
+    )
 }
 
 @Composable
@@ -127,7 +134,7 @@ fun Title1(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.title1,
@@ -146,7 +153,7 @@ fun Title2(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.title2,
@@ -165,7 +172,7 @@ fun Title3(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.title3,
@@ -184,7 +191,7 @@ fun Title4(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.title4,
@@ -203,7 +210,7 @@ fun Title5(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.title5,
@@ -222,7 +229,7 @@ fun Body1(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body1,
@@ -241,7 +248,7 @@ fun Body2(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body2,
@@ -260,7 +267,7 @@ fun Body3(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body3,
@@ -298,7 +305,7 @@ fun Body5(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body5,
@@ -317,7 +324,7 @@ fun Body6(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body6,
@@ -336,10 +343,29 @@ fun Body7(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body7,
+        color = color,
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun ButtonText(
+    text: String,
+    color: Color = DormColor.Gray900,
+    rippleEnabled: Boolean = false,
+    onClick: (() -> Unit)? = null,
+) {
+    Text(
+        modifier = Modifier.dormClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        text = text,
+        style = DormTypography.button,
         color = color,
     )
 }
