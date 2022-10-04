@@ -1,4 +1,4 @@
-package com.example.design_system.component
+package com.example.design_system.button
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -7,11 +7,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
+import com.example.design_system.component.BasicContainedRoundLargeButton
 
 @Stable
 private val DefaultButtonRound = 5.dp
