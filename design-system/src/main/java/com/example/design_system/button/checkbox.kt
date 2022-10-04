@@ -1,5 +1,6 @@
 package com.example.design_system.component
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,9 +41,13 @@ fun BasicCheckBox(
     rippleEnabled: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    val backgroundColor = if (rippleEnabled) selectedColor else disabledSelectedColor
+    val backgroundColor: Color by animateColorAsState(
+        if (rippleEnabled) selectedColor else disabledSelectedColor
+    )
 
-    val borderColor = if (rippleEnabled) unSelectedColor else disabledUnSelectedColor
+    val borderColor: Color by animateColorAsState(
+        if (rippleEnabled) unSelectedColor else disabledUnSelectedColor
+    )
 
     Box(
         modifier = modifier
@@ -146,7 +151,6 @@ fun BlueRoundCheckBox(
     onCheckedChange: (Boolean) -> Unit,
     rippleEnabled: Boolean = true,
 ) {
-
     BasicRoundIconCheckBox(
         modifier = modifier.size(DefaultCheckBoxSize),
         round = round,
