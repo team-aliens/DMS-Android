@@ -80,7 +80,6 @@ fun ToggleSwitch(
                 .drawColoredShadow(
                     color = DormColor.Gray400,
                     offsetY = 1.dp,
-                    shape = CircleShape,
                 )
         )
     }
