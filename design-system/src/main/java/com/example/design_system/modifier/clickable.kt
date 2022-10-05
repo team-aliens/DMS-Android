@@ -8,16 +8,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import com.example.design_system.utils.runIf
 
 @Stable
 internal fun Modifier.dormClickable(
     rippleEnabled: Boolean = true,
     rippleColor: Color? = null,
     onClick: (() -> Unit)?,
-) = if(onClick != null) {
+) = runIf(onClick != null) {
     composed {
         clickable(
-            onClick = onClick,
+            onClick = onClick!!,
             indication = rememberRipple(
                 color = rippleColor ?: Color.Unspecified,
             ).takeIf {
@@ -26,4 +27,4 @@ internal fun Modifier.dormClickable(
             interactionSource = remember { MutableInteractionSource() },
         )
     }
-} else this
+}
