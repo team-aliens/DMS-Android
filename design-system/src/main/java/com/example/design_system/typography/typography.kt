@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.design_system.R
 import com.example.design_system.color.DormColor
@@ -310,6 +311,7 @@ fun Body5(
         text = text,
         style = DormTypography.body5,
         color = color,
+        lineHeight = 24.sp,
     )
 }
 
