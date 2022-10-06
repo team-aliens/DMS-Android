@@ -18,27 +18,27 @@ import com.example.design_system.utils.rememberToast
 enum class DormButtonColor(
     val textColor: Color,
     val backgroundColor: Color,
-    val disbledColor: Color,
+    val disabledColor: Color,
     val rippleColor: Color,
 ) {
     Blue(
         textColor = DormColor.Gray100,
         backgroundColor = DormColor.DormPrimary,
-        disbledColor = DormColor.Lighten100,
+        disabledColor = DormColor.Lighten100,
         rippleColor = DormColor.Darken100,
     ),
 
     Gray(
         textColor = DormColor.Gray100,
         backgroundColor = DormColor.Gray600,
-        disbledColor = DormColor.Gray500,
+        disabledColor = DormColor.Gray500,
         rippleColor = DormColor.Gray800,
     ),
 
     Red(
         textColor = DormColor.Gray100,
         backgroundColor = DormColor.Error,
-        disbledColor = Color(0xFFFF7373),
+        disabledColor = Color(0xFFFF7373),
         rippleColor = Color(0xFFBB0000),
     ),
 }
@@ -62,10 +62,10 @@ fun DormContainedLargeButton(
         textColor = color.textColor,
         round = round,
         backgroundColor = color.backgroundColor,
-        disbledColor = color.disbledColor,
+        disabledColor = color.disabledColor,
         rippleColor = color.rippleColor,
         enabled = rippleEnabled,
-        onClick = onClick
+        onClick = onClick,
     )
 }
 
@@ -84,10 +84,10 @@ fun DormOutlineLargeButton(
         textColor = color.backgroundColor,
         round = round,
         backgroundColor = color.backgroundColor,
-        disbledColor = color.disbledColor,
+        disabledColor = color.disabledColor,
         rippleColor = color.rippleColor,
         enabled = rippleEnabled,
-        onClick = onClick
+        onClick = onClick,
     )
 }
 

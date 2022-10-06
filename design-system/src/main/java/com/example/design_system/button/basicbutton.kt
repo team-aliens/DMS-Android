@@ -30,7 +30,7 @@ private fun BasicButton(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledCOlor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -42,7 +42,7 @@ private fun BasicButton(
     val isPressed = interactionSource.collectIsPressedAsState()
 
     val btnColor =
-        if (!enabled) disbledColor else if (isPressed.value) rippleColor else backgroundColor
+        if (!enabled) disabledCOlor else if (isPressed.value) rippleColor else backgroundColor
 
     Box(
         modifier = modifier
@@ -72,7 +72,7 @@ private fun BasicContainedButton(
     textColor: Color,
     shape: Shape = RectangleShape,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -82,7 +82,7 @@ private fun BasicContainedButton(
         modifier = modifier,
         shape = shape,
         backgroundColor = backgroundColor,
-        disbledColor = disbledColor,
+        disabledCOlor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -101,18 +101,18 @@ private fun BasicOutlineButton(
     textColor: Color,
     shape: Shape = RectangleShape,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
 
     val outlineBackgroundColor by animateColorAsState(
-        if(enabled) backgroundColor else disbledColor
+        if(enabled) backgroundColor else disabledColor
     )
 
     val outlineTextColor by animateColorAsState(
-        if(enabled) textColor else disbledColor
+        if(enabled) textColor else disabledColor
     )
 
     BasicButton(
@@ -124,7 +124,7 @@ private fun BasicOutlineButton(
             ),
         shape = shape,
         backgroundColor = Color.Transparent,
-        disbledColor = Color.Transparent,
+        disabledCOlor = Color.Transparent,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -143,7 +143,7 @@ internal fun BasicContainedRoundButton(
     textColor: Color,
     round: Dp = 0.dp,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -154,7 +154,7 @@ internal fun BasicContainedRoundButton(
         textColor = textColor,
         shape = RoundedCornerShape(round),
         backgroundColor = backgroundColor,
-        disbledColor = disbledColor,
+        disabledColor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -168,7 +168,7 @@ internal fun BasicOutlineRoundButton(
     textColor: Color,
     round: Dp = 0.dp,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -179,7 +179,7 @@ internal fun BasicOutlineRoundButton(
         textColor = textColor,
         shape = RoundedCornerShape(round),
         backgroundColor = backgroundColor,
-        disbledColor = disbledColor,
+        disabledColor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -196,7 +196,7 @@ internal fun BasicContainedRoundLargeButton(
     textColor: Color,
     round: Dp = 0.dp,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -209,7 +209,7 @@ internal fun BasicContainedRoundLargeButton(
         textColor = textColor,
         round = round,
         backgroundColor = backgroundColor,
-        disbledColor = disbledColor,
+        disabledColor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -223,7 +223,7 @@ internal fun BasicOutlineRoundLargeButton(
     textColor: Color,
     round: Dp = 0.dp,
     backgroundColor: Color,
-    disbledColor: Color,
+    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -236,7 +236,7 @@ internal fun BasicOutlineRoundLargeButton(
         textColor = textColor,
         round = round,
         backgroundColor = backgroundColor,
-        disbledColor = disbledColor,
+        disabledColor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
