@@ -3,6 +3,8 @@ package com.example.design_system.button
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -11,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
+import com.example.design_system.utils.rememberToast
 
 enum class DormButtonColor(
     val textColor: Color,
@@ -28,7 +31,7 @@ enum class DormButtonColor(
     Gray(
         textColor = DormColor.Gray100,
         backgroundColor = DormColor.Gray600,
-        disbledColor = DormColor.Gray300,
+        disbledColor = DormColor.Gray500,
         rippleColor = DormColor.Gray800,
     ),
 
@@ -36,7 +39,7 @@ enum class DormButtonColor(
         textColor = DormColor.Gray100,
         backgroundColor = DormColor.Error,
         disbledColor = Color(0xFFFF7373),
-        rippleColor = Color(0xFFFF4646),
+        rippleColor = Color(0xFFBB0000),
     ),
 }
 
@@ -45,7 +48,7 @@ enum class DormButtonColor(
 private val DefaultButtonRound = 5.dp
 
 @Composable
-fun DormLargeButton(
+fun DormContainedLargeButton(
     modifier: Modifier = Modifier,
     text: String,
     round: Dp = DefaultButtonRound,
@@ -61,7 +64,29 @@ fun DormLargeButton(
         backgroundColor = color.backgroundColor,
         disbledColor = color.disbledColor,
         rippleColor = color.rippleColor,
-        rippleEnabled = rippleEnabled,
+        enabled = rippleEnabled,
+        onClick = onClick
+    )
+}
+
+@Composable
+fun DormOutlineLargeButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    round: Dp = DefaultButtonRound,
+    color: DormButtonColor,
+    rippleEnabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    BasicOutlineRoundLargeButton(
+        modifier = modifier,
+        text = text,
+        textColor = color.backgroundColor,
+        round = round,
+        backgroundColor = color.backgroundColor,
+        disbledColor = color.disbledColor,
+        rippleColor = color.rippleColor,
+        enabled = rippleEnabled,
         onClick = onClick
     )
 }
@@ -69,47 +94,128 @@ fun DormLargeButton(
 @Preview
 @Composable
 fun ButtonPreview() {
+    val scrollState = rememberScrollState()
+    val toast = rememberToast()
+
     Column(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        DormLargeButton(
+        DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Blue,
         ) {
+            toast(
+                message = "btn clicked"
+            )
         }
 
-        DormLargeButton(
+        DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Gray,
         ) {
+            toast(
+                message = "btn clicked"
+            )
         }
 
-        DormLargeButton(
+        DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Red,
         ) {
+            toast(
+                message = "btn clicked"
+            )
         }
 
-        DormLargeButton(
+        DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Blue,
             rippleEnabled = false,
         ) {
+            toast(
+                message = "btn clicked"
+            )
         }
 
-        DormLargeButton(
+        DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Gray,
             rippleEnabled = false,
         ) {
+            toast(
+                message = "btn clicked"
+            )
         }
 
-        DormLargeButton(
+        DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Red,
             rippleEnabled = false,
         ) {
+            toast(
+                message = "btn clicked"
+            )
+        }
+
+        DormOutlineLargeButton(
+            text = "로그인",
+            color = DormButtonColor.Blue,
+        ) {
+            toast(
+                message = "btn clicked"
+            )
+
+        }
+
+        DormOutlineLargeButton(
+            text = "로그인",
+            color = DormButtonColor.Gray,
+        ) {
+            toast(
+                message = "btn clicked"
+            )
+        }
+
+        DormOutlineLargeButton(
+            text = "로그인",
+            color = DormButtonColor.Red,
+        ) {
+            toast(
+                message = "btn clicked"
+            )
+        }
+
+        DormOutlineLargeButton(
+            text = "로그인",
+            color = DormButtonColor.Red,
+            rippleEnabled = false,
+        ) {
+            toast(
+                message = "btn clicked"
+            )
+        }
+
+        DormOutlineLargeButton(
+            text = "로그인",
+            color = DormButtonColor.Gray,
+            rippleEnabled = false,
+        ) {
+            toast(
+                message = "btn clicked"
+            )
+        }
+
+        DormOutlineLargeButton(
+            text = "로그인",
+            color = DormButtonColor.Blue,
+            rippleEnabled = false,
+        ) {
+            toast(
+                message = "btn clicked"
+            )
         }
     }
 }
