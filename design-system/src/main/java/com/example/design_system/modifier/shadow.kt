@@ -26,7 +26,7 @@ fun Modifier.drawColoredShadow(
             shadowRadius.toPx(),
             offsetX.toPx(),
             offsetY.toPx(),
-            shadowColor
+            shadowColor,
         )
         it.drawRoundRect(
             0f,
@@ -35,7 +35,7 @@ fun Modifier.drawColoredShadow(
             this.size.height,
             borderRadius.toPx(),
             borderRadius.toPx(),
-            paint
+            paint,
         )
     }
 }
