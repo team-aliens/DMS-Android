@@ -1,4 +1,4 @@
-package com.example.design_system.component
+package com.example.design_system.button
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
@@ -10,9 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -20,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
@@ -38,15 +34,15 @@ fun BasicCheckBox(
     unSelectedColor: Color,
     disabledSelectedColor: Color,
     disabledUnSelectedColor: Color,
-    rippleEnabled: Boolean = true,
+    enabled: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     val backgroundColor: Color by animateColorAsState(
-        if (rippleEnabled) selectedColor else disabledSelectedColor
+        if (enabled) selectedColor else disabledSelectedColor
     )
 
     val borderColor: Color by animateColorAsState(
-        if (rippleEnabled) unSelectedColor else disabledUnSelectedColor
+        if (enabled) unSelectedColor else disabledUnSelectedColor
     )
 
     Box(
@@ -63,11 +59,15 @@ fun BasicCheckBox(
                     )
                 }
             }
-            .dormClickable(
-                rippleEnabled = rippleEnabled,
-                rippleColor = null,
-            ) {
-                onCheckedChange(!checked)
+            .runIf(enabled) {
+                composed {
+                    dormClickable(
+                        rippleEnabled = enabled,
+                        rippleColor = null,
+                    ) {
+                        onCheckedChange(!checked)
+                    }
+                }
             },
         contentAlignment = Alignment.Center,
     ) {
@@ -87,7 +87,7 @@ fun BasicIconCheckBox(
     unSelectedColor: Color,
     disabledSelectedColor: Color,
     disabledUnSelectedColor: Color,
-    rippleEnabled: Boolean = true,
+    enabled: Boolean = true,
     icon: DormIcon = DormIcon.Check
 ) {
     BasicCheckBox(
@@ -99,7 +99,7 @@ fun BasicIconCheckBox(
         unSelectedColor = unSelectedColor,
         disabledSelectedColor = disabledSelectedColor,
         disabledUnSelectedColor = disabledUnSelectedColor,
-        rippleEnabled = rippleEnabled,
+        enabled = enabled,
     ) {
         Image(
             painter = painterResource(
@@ -120,7 +120,7 @@ fun BasicRoundIconCheckBox(
     unSelectedColor: Color,
     disabledSelectedColor: Color,
     disabledUnSelectedColor: Color,
-    rippleEnabled: Boolean = true,
+    enabled: Boolean = true,
     icon: DormIcon = DormIcon.Check
 ) {
     BasicIconCheckBox(
@@ -132,7 +132,7 @@ fun BasicRoundIconCheckBox(
         unSelectedColor = unSelectedColor,
         disabledSelectedColor = disabledSelectedColor,
         disabledUnSelectedColor = disabledUnSelectedColor,
-        rippleEnabled = rippleEnabled,
+        enabled = enabled,
         icon = icon,
     )
 }
@@ -149,7 +149,7 @@ fun BlueRoundCheckBox(
     round: Dp = DefaultCheckBoxRound,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    rippleEnabled: Boolean = true,
+    enabled: Boolean = true,
 ) {
     BasicRoundIconCheckBox(
         modifier = modifier.size(DefaultCheckBoxSize),
@@ -160,18 +160,7 @@ fun BlueRoundCheckBox(
         unSelectedColor = DormColor.Gray500,
         disabledSelectedColor = DormColor.Lighten100,
         disabledUnSelectedColor = DormColor.Gray300,
-        rippleEnabled = rippleEnabled,
+        enabled = enabled,
         icon = DormIcon.Check,
-    )
-}
-
-@Preview
-@Composable
-fun PreviewCheckBox() {
-    var checked by remember { mutableStateOf(true) }
-
-    BlueRoundCheckBox(
-        checked = checked,
-        onCheckedChange = { checked = !checked },
     )
 }
