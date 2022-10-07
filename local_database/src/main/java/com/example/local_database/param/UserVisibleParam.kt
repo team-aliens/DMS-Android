@@ -14,5 +14,5 @@ fun UserVisibleParam.toEntity() =
         surveyBoolean = surveyBoolean,
         noticeBoolean = noticeBoolean,
         myPageBoolean = myPageBoolean,
-        recentRoomBoolean = recentRoomBoolean
+        recentRoomBoolean = recentRoomBoolean,
     )
