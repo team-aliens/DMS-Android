@@ -17,10 +17,6 @@ class LocalUserRepositoryImpl @Inject constructor(
     override suspend fun fetchUserVisible(): UserVisibleLocalEntity =
         localUserDataSource.fetchUserVisibleInform().toEntity()
 
-    override suspend fun clearUserVisible() {
-        localUserDataSource.clearUserVisible()
-    }
-
     private fun UserVisibleLocalEntity.toParam() =
         UserVisibleParam(
             surveyBoolean = surveyBoolean,

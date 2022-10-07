@@ -6,5 +6,4 @@ interface LocalUserRepository {
 
     suspend fun setUserVisible(userVisibleLocalEntity: UserVisibleLocalEntity)
     suspend fun fetchUserVisible(): UserVisibleLocalEntity
-    suspend fun clearUserVisible()
 }
