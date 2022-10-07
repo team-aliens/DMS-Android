@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-fun Modifier.drawColoredShadow(
+fun Modifier.dormShadow(
     color: Color,
     alpha: Float = 0.2f,
     borderRadius: Dp = 0.dp,
