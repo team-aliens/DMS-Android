@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
 import com.example.design_system.modifier.dormClickable
-import com.example.design_system.modifier.drawColoredShadow
+import com.example.design_system.modifier.dormShadow
 
 
 @Stable
@@ -77,7 +77,7 @@ fun ToggleSwitch(
                     color = circleBackgroundColor,
                     shape = CircleShape,
                 )
-                .drawColoredShadow(
+                .dormShadow(
                     color = DormColor.Gray400,
                     offsetY = 1.dp,
                 )
