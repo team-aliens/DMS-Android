@@ -1,6 +1,15 @@
 package com.example.auth_data.util
 
-import com.example.auth_domain.exception.*
+import com.example.auth_domain.exception.BadRequestException
+import com.example.auth_domain.exception.UnauthorizedException
+import com.example.auth_domain.exception.ForbiddenException
+import com.example.auth_domain.exception.NotFoundException
+import com.example.auth_domain.exception.ConflictException
+import com.example.auth_domain.exception.ServerException
+import com.example.auth_domain.exception.NeedLoginException
+import com.example.auth_domain.exception.NoInternetException
+import com.example.auth_domain.exception.TimeoutException
+import com.example.auth_domain.exception.UnknownException
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
