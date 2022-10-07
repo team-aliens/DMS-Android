@@ -38,7 +38,7 @@ fun DormCustomDialog(
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
-        properties = properties
+        properties = properties,
     ) {
         content()
     }
