@@ -1,5 +1,8 @@
 package com.example.auth_data.remote.url
 
 object DmsUrl {
-    const val login = "login"
+
+    object User {
+        const val login = "login"
+    }
 }

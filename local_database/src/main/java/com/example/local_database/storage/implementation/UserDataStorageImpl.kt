@@ -14,35 +14,36 @@ import javax.inject.Inject
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ): UserDataStorage {
-    
+
     override fun setUserVisible(userVisibleParam: UserVisibleParam) {
         getSharedPreference().edit().let {
-            it.putBoolean(SURVEY.toString(), userVisibleParam.surveyBoolean)
-            it.putBoolean(NOTICE.toString(), userVisibleParam.noticeBoolean)
-            it.putBoolean(MYPAGE.toString(), userVisibleParam.myPageBoolean)
-            it.putBoolean(RECENTROOM.toString(), userVisibleParam.recentRoomBoolean)
+            it.putBoolean(SURVEY, userVisibleParam.surveyBoolean)
+            it.putBoolean(NOTICE, userVisibleParam.noticeBoolean)
+            it.putBoolean(MYPAGE, userVisibleParam.myPageBoolean)
+            it.putBoolean(RECENTROOM, userVisibleParam.recentRoomBoolean)
         }
     }
 
     override fun fetchSurveyBoolean(): Boolean =
-        getSharedPreference().getBoolean(SURVEY.toString(), false)
+        getSharedPreference().getBoolean(SURVEY, false)
 
     override fun fetchNoticeBoolean(): Boolean =
-        getSharedPreference().getBoolean(NOTICE.toString(), false)
+        getSharedPreference().getBoolean(NOTICE, false)
 
     override fun fetchMyPageBoolean(): Boolean =
-        getSharedPreference().getBoolean(MYPAGE.toString(), false)
+        getSharedPreference().getBoolean(MYPAGE, false)
 
     override fun fetchRecentRoomBoolean(): Boolean =
-        getSharedPreference().getBoolean(RECENTROOM.toString(), false)
+        getSharedPreference().getBoolean(RECENTROOM, false)
 
     private fun getSharedPreference() =
         PreferenceManager.getDefaultSharedPreferences(context)
 
     private object UserVisible {
-        const val SURVEY = false
-        const val NOTICE = false
-        const val MYPAGE = false
-        const val RECENTROOM = false
+        const val SURVEY = "SURVEY"
+        const val NOTICE = "NOTICE"
+        const val MYPAGE = "MYPAGE"
+        const val RECENTROOM = "RECENTROOM"
     }
+
 }

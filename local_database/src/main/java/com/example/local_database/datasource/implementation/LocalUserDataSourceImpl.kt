@@ -23,8 +23,4 @@ class LocalUserDataSourceImpl @Inject constructor(
             )
         }
     }
-
-    override suspend fun clearUserVisible() {
-        TODO("Not yet implemented")
-    }
 }

@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface UserApi {
 
-    @POST (DmsUrl.login)
+    @POST (DmsUrl.User.login)
     suspend fun postLogin(
         signInRequest: SignInRequest,
     ): SignInResponse

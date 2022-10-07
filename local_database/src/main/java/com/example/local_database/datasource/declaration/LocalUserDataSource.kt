@@ -7,5 +7,4 @@ interface LocalUserDataSource {
 
     suspend fun setUserVisibleInform(userVisibleParam: UserVisibleParam)
     suspend fun fetchUserVisibleInform(): UserVisibleParam
-    suspend fun clearUserVisible()
 }

@@ -5,6 +5,6 @@ import com.example.auth_data.remote.response.SignInResponse
 
 interface RemoteUserDataSource {
     suspend fun postUserSignIn(
-        signInRequest: SignInRequest
+        signInRequest: SignInRequest,
     ): SignInResponse
 }

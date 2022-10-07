@@ -13,7 +13,7 @@ import kotlin.math.log
 
 class UserRepositoryImpl @Inject constructor(
     private val remoteUserDataSource: RemoteUserDataSource,
-    private val localUserDataSource: LocalUserDataSource
+    private val localUserDataSource: LocalUserDataSource,
 ): UserRepository {
 
     override suspend fun login(
@@ -33,6 +33,6 @@ class UserRepositoryImpl @Inject constructor(
         surveyBoolean = surveyBoolean,
         noticeBoolean = noticeBoolean,
         myPageBoolean = myPageBoolean,
-        recentRoomBoolean = recentBoolean
+        recentRoomBoolean = recentBoolean,
     )
 }
