@@ -66,6 +66,7 @@ fun SurveyList(
 
 @Stable
 private val SurveyHorizontalPadding = PaddingValues(horizontal = 16.dp)
+
 @Composable
 private fun Survey(
     survey: Survey,
@@ -118,7 +119,7 @@ private fun Survey(
                         .background(
                             color = DormColor.Darken200,
                             shape = CircleShape,
-                        )
+                        ),
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))
