@@ -13,6 +13,8 @@ object Versions {
     const val HILT = "2.38.1"
     const val MATERIAL = "1.3.0"
 
+    const val COROUTINE = "1.6.0"
+
     const val MOSHI = "1.13.0"
 
     const val RETROFIT = "2.7.1"
