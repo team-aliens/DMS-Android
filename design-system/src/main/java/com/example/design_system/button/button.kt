@@ -53,7 +53,7 @@ fun DormContainedLargeButton(
     text: String,
     round: Dp = DefaultButtonRound,
     color: DormButtonColor,
-    rippleEnabled: Boolean = true,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     BasicContainedRoundLargeButton(
@@ -64,7 +64,7 @@ fun DormContainedLargeButton(
         backgroundColor = color.backgroundColor,
         disabledColor = color.disabledColor,
         rippleColor = color.rippleColor,
-        enabled = rippleEnabled,
+        enabled = enabled,
         onClick = onClick,
     )
 }
@@ -75,7 +75,7 @@ fun DormOutlineLargeButton(
     text: String,
     round: Dp = DefaultButtonRound,
     color: DormButtonColor,
-    rippleEnabled: Boolean = true,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     BasicOutlineRoundLargeButton(
@@ -86,7 +86,7 @@ fun DormOutlineLargeButton(
         backgroundColor = color.backgroundColor,
         disabledColor = color.disabledColor,
         rippleColor = color.rippleColor,
-        enabled = rippleEnabled,
+        enabled = enabled,
         onClick = onClick,
     )
 }
@@ -133,7 +133,7 @@ fun ButtonPreview() {
         DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Blue,
-            rippleEnabled = false,
+            enabled = false,
         ) {
             toast(
                 message = "btn clicked"
@@ -143,7 +143,7 @@ fun ButtonPreview() {
         DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Gray,
-            rippleEnabled = false,
+            enabled = false,
         ) {
             toast(
                 message = "btn clicked"
@@ -153,7 +153,7 @@ fun ButtonPreview() {
         DormContainedLargeButton(
             text = "로그인",
             color = DormButtonColor.Red,
-            rippleEnabled = false,
+            enabled = false,
         ) {
             toast(
                 message = "btn clicked"
@@ -191,7 +191,7 @@ fun ButtonPreview() {
         DormOutlineLargeButton(
             text = "로그인",
             color = DormButtonColor.Red,
-            rippleEnabled = false,
+            enabled = false,
         ) {
             toast(
                 message = "btn clicked"
@@ -201,7 +201,7 @@ fun ButtonPreview() {
         DormOutlineLargeButton(
             text = "로그인",
             color = DormButtonColor.Gray,
-            rippleEnabled = false,
+            enabled = false,
         ) {
             toast(
                 message = "btn clicked"
@@ -211,7 +211,7 @@ fun ButtonPreview() {
         DormOutlineLargeButton(
             text = "로그인",
             color = DormButtonColor.Blue,
-            rippleEnabled = false,
+            enabled = false,
         ) {
             toast(
                 message = "btn clicked"
