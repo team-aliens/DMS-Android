@@ -5,7 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -22,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.modifier.dormClickable
+import com.example.design_system.typography.Body5
 import com.example.design_system.utils.runIf
 
 @Composable
@@ -103,7 +108,7 @@ fun BasicIconCheckBox(
     ) {
         Image(
             painter = painterResource(
-                id = icon.drawableId
+                id = icon.drawableId,
             ),
             contentDescription = null,
         )
@@ -121,7 +126,7 @@ fun BasicRoundIconCheckBox(
     disabledSelectedColor: Color,
     disabledUnSelectedColor: Color,
     enabled: Boolean = true,
-    icon: DormIcon = DormIcon.Check
+    icon: DormIcon = DormIcon.Check,
 ) {
     BasicIconCheckBox(
         modifier = modifier,
@@ -144,7 +149,7 @@ private val DefaultCheckBoxRound = 2.dp
 private val DefaultCheckBoxSize = 24.dp
 
 @Composable
-fun BlueRoundCheckBox(
+fun DormCheckBox(
     modifier: Modifier = Modifier,
     round: Dp = DefaultCheckBoxRound,
     checked: Boolean,
@@ -163,4 +168,49 @@ fun BlueRoundCheckBox(
         enabled = enabled,
         icon = DormIcon.Check,
     )
+}
+
+@Composable
+fun DormTextCheckBox(
+    modifier: Modifier = Modifier,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    enabled: Boolean = true,
+    text: String,
+) {
+    Row(
+        modifier = modifier
+            .runIf(enabled) {
+                composed {
+                    dormClickable(
+                        rippleEnabled = false,
+                        rippleColor = null,
+                    ) {
+                        onCheckedChange(!checked)
+                    }
+                }
+            },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        DormCheckBox(
+            modifier = modifier,
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            enabled = enabled,
+        )
+
+        Spacer(modifier = Modifier.width(15.dp))
+
+        Box(
+            modifier = Modifier
+                .offset(
+                    y = (-1.2).dp,
+                ),
+        ) {
+            Body5(
+                text = text,
+                color = DormColor.Gray700,
+            )
+        }
+    }
 }
