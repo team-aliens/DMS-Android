@@ -38,6 +38,8 @@ android {
 dependencies {
     implementation(Dependency.UnitTest.JUNIT)
 
+    implementation(Dependency.Coroutine.CORE)
+
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.INJECT)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
