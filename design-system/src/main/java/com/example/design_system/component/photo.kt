@@ -1,10 +1,13 @@
 package com.example.design_system.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -16,12 +19,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.design_system.R
+import com.example.design_system.animate.HorizontalAnimationBox
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.modifier.dormClickable
@@ -33,6 +39,7 @@ val DefaultPhotoSize: Dp = 100.dp
 @Stable
 val PhotoShape: Shape = RoundedCornerShape(6.dp)
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhotoList(
     modifier: Modifier = Modifier,
@@ -54,35 +61,59 @@ fun PhotoList(
         }
 
         itemsIndexed(photos) { index, item ->
-            Photo(
-                photoUrl = item,
-                index = index,
-                onClick = onClickDelete,
-            )
+            HorizontalAnimationBox() {
+                Photo(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItemPlacement(),
+                    photoUrl = item,
+                    index = index,
+                    onClick = onClickDelete,
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun Photo(
+    modifier: Modifier = Modifier,
     photoUrl: String,
     index: Int,
     onClick: (Int) -> Unit,
 ) {
-    GlideImage(
-        modifier = Modifier
-            .size(DefaultPhotoSize)
-            .background(
-                color = Color.Transparent,
-                shape = PhotoShape,
-            )
-            .dormClickable(
-                rippleEnabled = true
-            ) {
-                onClick(index)
-            },
-        imageModel = photoUrl,
-    )
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.TopEnd,
+    ) {
+        GlideImage(
+            modifier = Modifier
+                .size(DefaultPhotoSize)
+                .background(
+                    color = Color.Transparent,
+                )
+                .dormClickable(
+                    rippleEnabled = true,
+                ) {
+                    onClick(index)
+                }
+                .clip(
+                    PhotoShape,
+                ),
+            imageModel = photoUrl,
+        )
+
+        Image(
+            modifier = Modifier.padding(
+                top = 8.dp,
+                end = 8.dp,
+            ),
+            painter = painterResource(
+                id = R.drawable.ic_photo_close,
+            ),
+            contentDescription = null,
+        )
+    }
 }
 
 @Composable
@@ -97,15 +128,17 @@ private fun AddPhoto(
                 shape = PhotoShape,
             )
             .dormClickable(
-                rippleEnabled = true
+                rippleEnabled = true,
             ) {
                 onClickAddPhoto()
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = DormIcon.Plus.drawableId),
+            painter = painterResource(
+                id = DormIcon.Plus.drawableId,
+            ),
             contentDescription = null,
         )
     }
