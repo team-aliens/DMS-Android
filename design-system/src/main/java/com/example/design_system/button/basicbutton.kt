@@ -34,7 +34,7 @@ private fun BasicButton(
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    content: @Composable (isPressed: Boolean) -> Unit
+    content: @Composable (isPressed: Boolean) -> Unit,
 ) {
 
     val interactionSource = remember { MutableInteractionSource() }
@@ -46,7 +46,9 @@ private fun BasicButton(
 
     Box(
         modifier = modifier
-            .runIf(enabled) {
+            .runIf(
+                enabled,
+            ) {
                 composed {
                     dormClickable(
                         rippleEnabled = enabled,

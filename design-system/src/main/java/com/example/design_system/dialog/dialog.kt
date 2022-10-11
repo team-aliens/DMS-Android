@@ -76,7 +76,9 @@ fun DormSurveyDialog(
             ),
     ) {
         Column(
-            modifier = Modifier.padding(DormSurveyDialogPadding)
+            modifier = Modifier.padding(
+                DormSurveyDialogPadding,
+            ),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -129,7 +131,7 @@ fun PreviewDialog() {
                 icon = DormIcon.Dinner,
                 title = "설문이 조기종료 되었습니다.",
                 content = "사유 : 이러이러한 사유로 설문이 종료되었습니다.",
-                btnText = "확인"
+                btnText = "확인",
             ) {
             }
         }

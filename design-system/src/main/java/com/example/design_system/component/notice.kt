@@ -76,7 +76,7 @@ private fun Notice(
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
-            Modifier.padding(horizontal = 16.dp)
+            Modifier.padding(horizontal = 16.dp),
         ) {
             Body4(
                 text = notice.title,
@@ -99,16 +99,16 @@ fun PreviewNotice() {
     val notices = listOf(
         Notice(
             title = "방 좀 치우고 살아주세요 ㅎㅎ",
-            createAt = "2022.10.14 PM 08:33"
+            createAt = "2022.10.14 PM 08:33",
         ),
         Notice(
             title = "방에서도 마스크를 착용해주세요",
-            createAt = "2022.10.15 PM 08:33"
-        )
+            createAt = "2022.10.15 PM 08:33",
+        ),
     )
 
     NoticeList(
         notices = notices,
-        onClick = {}
+        onClick = {},
     )
 }
