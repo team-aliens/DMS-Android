@@ -12,7 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class UserDataStorageImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ): UserDataStorage {
 
     override fun setUserVisible(userVisibleParam: UserVisibleParam) {

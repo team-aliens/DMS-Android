@@ -8,7 +8,7 @@ import com.example.local_domain.entity.repository.LocalUserRepository
 import javax.inject.Inject
 
 class LocalUserRepositoryImpl @Inject constructor(
-    private val localUserDataSource: LocalUserDataSource
+    private val localUserDataSource: LocalUserDataSource,
 ): LocalUserRepository {
     override suspend fun setUserVisible(userVisibleLocalEntity: UserVisibleLocalEntity) {
         localUserDataSource.setUserVisibleInform(userVisibleLocalEntity.toParam())

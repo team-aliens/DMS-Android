@@ -8,7 +8,7 @@ import com.example.auth_data.util.HttpHandler
 import javax.inject.Inject
 
 class RemoteUserDataSourceImpl @Inject constructor(
-    private val userApi: UserApi
+    private val userApi: UserApi,
 ): RemoteUserDataSource {
     override suspend fun postUserSignIn(
         signInRequest: SignInRequest
