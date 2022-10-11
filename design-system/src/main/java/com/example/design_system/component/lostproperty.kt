@@ -49,13 +49,13 @@ fun DormLostPropertyList(
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         itemsIndexed(propertyList) { index, property ->
             LostProperty(
                 property = property,
                 index = index,
-                onClick = onClick
+                onClick = onClick,
             )
         }
     }
@@ -99,7 +99,7 @@ private fun LostProperty(
             ),
     ) {
         Row(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         ) {
             GlideImage(
                 modifier = Modifier

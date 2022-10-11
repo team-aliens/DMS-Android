@@ -94,7 +94,7 @@ private fun Survey(
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
-            Modifier.padding(SurveyHorizontalPadding)
+            modifier = Modifier.padding(SurveyHorizontalPadding),
         ) {
             Body3(
                 text = survey.title,
@@ -157,7 +157,7 @@ fun PreviewSurvey() {
             state = SurveyState.InProgress,
             startAt = "2022/08/02",
             finishAt = "2022/08/22",
-        )
+        ),
     )
 
     SurveyList(

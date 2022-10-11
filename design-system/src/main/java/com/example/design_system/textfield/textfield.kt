@@ -66,17 +66,25 @@ fun DormTextField(
     Column {
         Box(
             modifier = modifier
-                .height(44.dp)
+                .height(
+                    height = 44.dp,
+                )
                 .background(
-                    shape = RoundedCornerShape(5.dp),
+                    shape = RoundedCornerShape(
+                        size = 5.dp,
+                    ),
                     color = Color.Transparent,
                 )
                 .border(
                     width = 1.dp,
                     color = borderColor,
                 )
-                .wrapContentHeight(Alignment.CenterVertically)
-                .runIf(onClick != null) {
+                .wrapContentHeight(
+                    align = Alignment.CenterVertically,
+                )
+                .runIf(
+                    condition = onClick != null,
+                ) {
                     composed {
                         dormClickable(
                             rippleEnabled = false,
@@ -84,16 +92,20 @@ fun DormTextField(
                             onClick!!
                         }
                     }
-                }
+                },
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 BasicTextField(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .padding(start = 14.dp),
+                        .fillMaxWidth(
+                            fraction = 0.9f,
+                        )
+                        .padding(
+                            start = 14.dp,
+                        ),
                     value = value,
                     onValueChange = onValueChange,
                     keyboardOptions = KeyboardOptions(
@@ -105,7 +117,10 @@ fun DormTextField(
                     textStyle = DormTypography.body4,
                     decorationBox = { innerTextField ->
                         if (value.isEmpty() && hint != null) {
-                            Body6(text = hint, color = DormColor.Gray500)
+                            Body6(
+                                text = hint,
+                                color = DormColor.Gray500,
+                            )
                         }
 
                         innerTextField()
@@ -119,8 +134,10 @@ fun DormTextField(
                             ) {
                                 passwordVisible = !passwordVisible
                             },
-                        painter = if (passwordVisible) painterResource(id = DormIcon.Password_Visible.drawableId) else painterResource(
-                            id = DormIcon.Password_InVisible.drawableId
+                        painter = if (passwordVisible) painterResource(
+                            id = DormIcon.Password_Visible.drawableId,
+                        ) else painterResource(
+                            id = DormIcon.Password_InVisible.drawableId,
                         ),
                         contentDescription = null,
                         alpha = if (value.isNotEmpty()) 1f else 0f,
@@ -131,7 +148,10 @@ fun DormTextField(
 
         if (error != null) {
             Box(
-                modifier = Modifier.padding(start = 3.dp, top = 6.dp),
+                modifier = Modifier.padding(
+                    start = 3.dp,
+                    top = 6.dp,
+                ),
             ) {
                 Body6(
                     text = error,
@@ -141,7 +161,10 @@ fun DormTextField(
 
         if (description != null) {
             Box(
-                modifier = Modifier.padding(start = 3.dp, top = 6.dp)
+                modifier = Modifier.padding(
+                    start = 3.dp,
+                    top = 6.dp,
+                ),
             ) {
                 Body6(
                     text = description,
@@ -160,40 +183,54 @@ fun PreviewDormTextField() {
     var value4 by remember { mutableStateOf(String()) }
 
     Column(
-        modifier = Modifier.padding(horizontal = 20.dp)
+        modifier = Modifier.padding(
+            horizontal = 20.dp
+        ),
     ) {
         // default text field
         DormTextField(
             value = value,
-            onValueChange = { value = it }
+            onValueChange = { value = it },
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(
+            modifier = Modifier.height(
+                height = 15.dp,
+            ),
+        )
 
         // password text field
         DormTextField(
             value = value2,
             onValueChange = { value2 = it },
-            isPassword = true
+            isPassword = true,
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(
+            modifier = Modifier.height(
+                height = 15.dp,
+            ),
+        )
 
         // error text field
         DormTextField(
             value = value3,
             onValueChange = { value3 = it },
-            error = "특수문자는 사용할 수 없습니다!"
+            error = "특수문자는 사용할 수 없습니다!",
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(
+            modifier = Modifier.height(
+                height = 15.dp,
+            ),
+        )
 
         // description text field
         DormTextField(
             value = value4,
             onValueChange = { value4 = it },
             description = "비밀번호는 4자리 이상 입력해주세요.",
-            hint = "비밀번호"
+            hint = "비밀번호",
         )
     }
 }
