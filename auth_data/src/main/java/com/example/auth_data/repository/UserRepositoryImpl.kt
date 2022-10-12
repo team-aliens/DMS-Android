@@ -16,38 +16,42 @@ import kotlin.math.log
 class UserRepositoryImpl @Inject constructor(
     private val remoteUserDataSource: RemoteUserDataSource,
     private val localUserDataSource: LocalUserDataSource,
-): UserRepository {
+) : UserRepository {
 
     override suspend fun login(
         loginParam: LoginParam,
     ) {
         val response = remoteUserDataSource.postUserSignIn(
-            SignInRequest(
-                id = loginParam.id,
-                password = loginParam.password,
-            )
+            loginParam.toRequest()
         )
 
         localUserDataSource.setUserVisibleInform(response.toEntity())
     }
 
-    private fun SignInResponse.toEntity() = UserVisibleParam(
+
+    override suspend fun register(
+        registerParam: RegisterParam,
+    ) = remoteUserDataSource.postUserSignUp(registerParam.toRequest())
+}
+
+private fun SignInResponse.toEntity() =
+    UserVisibleParam(
         surveyBoolean = surveyBoolean,
         noticeBoolean = noticeBoolean,
         myPageBoolean = myPageBoolean,
         recentRoomBoolean = recentBoolean,
     )
 
-    override suspend fun register(
-        registerParam: RegisterParam,
-    ) {
-        remoteUserDataSource.postUserSignUp(
-            SignUpRequest(
-                name = registerParam.name,
-                accountId = registerParam.accountId,
-                password = registerParam.password,
-                profileImageUrl = registerParam.profileImageUrl,
-            )
-        )
-    }
-}
+private fun LoginParam.toRequest() =
+    SignInRequest(
+        id = id,
+        password = password,
+    )
+
+private fun RegisterParam.toRequest() =
+    SignUpRequest(
+        name = name,
+        accountId = accountId,
+        password = password,
+        profileImageUrl = profileImageUrl,
+    )
