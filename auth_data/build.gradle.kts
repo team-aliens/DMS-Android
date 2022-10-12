@@ -45,6 +45,7 @@ dependencies {
 
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
 
     implementation(Dependency.Kotlin.COROUTINES_CORE)
     implementation(Dependency.Kotlin.COROUTINES_ANDROID)
