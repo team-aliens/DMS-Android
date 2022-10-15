@@ -51,7 +51,7 @@ fun ToastView(
                         color = Color.White,
                     ),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                horizontalArrangement = Arrangement.Start,
             ) {
                 Image(
                     modifier = Modifier
