@@ -4,6 +4,13 @@ object DmsUrl {
 
     object User {
         const val login = "auth"
-        const val register = "auth/signup"
+        const val emailCode = "auth/code"
+        const val refreshToken = "auth/reissue"
+        const val compareEmail = "auth/email"
+        const val checkId = "auth/account-id"
+    }
+
+    object Students {
+        const val register = "students/signup"
     }
 }
