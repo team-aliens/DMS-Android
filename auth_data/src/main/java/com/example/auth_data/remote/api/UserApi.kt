@@ -1,6 +1,6 @@
 package com.example.auth_data.remote.api
 
-import com.example.auth_data.remote.request.RequestEmailCodeRequest
+import com.example.auth_data.remote.request.GetEmailCodeRequest
 import com.example.auth_data.remote.request.SignInRequest
 import com.example.auth_data.remote.request.SignUpRequest
 import com.example.auth_data.remote.response.SignInResponse
@@ -26,7 +26,7 @@ interface UserApi {
 
     @POST (DmsUrl.User.emailCode)
     suspend fun requestEmailCode(
-        requestEmailCodeRequest: RequestEmailCodeRequest,
+        requestEmailCodeRequest: GetEmailCodeRequest,
     )
 
     @GET (DmsUrl.User.emailCode)
