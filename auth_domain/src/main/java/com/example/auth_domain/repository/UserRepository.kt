@@ -1,7 +1,10 @@
 package com.example.auth_domain.repository
 
-import com.example.auth_domain.enum.EmailType
-import com.example.auth_domain.param.*
+import com.example.auth_domain.param.CompareEmailParam
+import com.example.auth_domain.param.RegisterParam
+import com.example.auth_domain.param.LoginParam
+import com.example.auth_domain.param.CheckEmailCodeParam
+import com.example.auth_domain.param.RequestEmailCodeParam
 
 interface UserRepository {
 
