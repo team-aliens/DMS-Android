@@ -1,12 +1,13 @@
 package com.example.auth_data.repository
 
 import com.example.auth_data.remote.datasource.declaration.RemoteUserDataSource
+import com.example.auth_data.remote.request.RequestEmailCodeRequest
 import com.example.auth_data.remote.request.SignInRequest
 import com.example.auth_data.remote.request.SignUpRequest
 import com.example.auth_data.remote.response.SignInResponse
 import com.example.auth_domain.entity.UserVisibleEntity
-import com.example.auth_domain.param.LoginParam
-import com.example.auth_domain.param.RegisterParam
+import com.example.auth_domain.enum.EmailType
+import com.example.auth_domain.param.*
 import com.example.auth_domain.repository.UserRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
 import com.example.local_database.param.UserVisibleParam
@@ -32,6 +33,33 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun register(
         registerParam: RegisterParam,
     ) = remoteUserDataSource.postUserSignUp(registerParam.toRequest())
+
+    override suspend fun requestEmailCode(
+        requestEmailCodeParam: RequestEmailCodeParam,
+    ) = remoteUserDataSource.requestEmailCode(requestEmailCodeParam.toRequest())
+
+    override suspend fun checkEmailCode(
+        checkEmailCodeParam: CheckEmailCodeParam,
+    ) = remoteUserDataSource.checkEmailCode(
+        checkEmailCodeParam.email,
+        checkEmailCodeParam.accountId,
+        checkEmailCodeParam.type
+    )
+
+    override suspend fun refreshToken(
+        refreshToken: String,
+    ) = remoteUserDataSource.refreshToken(refreshToken)
+
+    override suspend fun compareEmail(
+        compareEmailParam: CompareEmailParam,
+    ) = remoteUserDataSource.compareEmail(
+        compareEmailParam.accountId,
+        compareEmailParam.email,
+    )
+
+    override suspend fun checkId(
+        accountId: String,
+    ) = remoteUserDataSource.checkId(accountId)
 }
 
 private fun SignInResponse.toEntity() =
@@ -54,4 +82,10 @@ private fun RegisterParam.toRequest() =
         accountId = accountId,
         password = password,
         profileImageUrl = profileImageUrl,
+    )
+
+private fun RequestEmailCodeParam.toRequest() =
+    RequestEmailCodeRequest(
+        email = email,
+        type = type,
     )
