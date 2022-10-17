@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DMS_Android</string>
+    <string name="Login">로그인</string>
+    <string name="Password">비밀번호</string>
+    <string name="AutoLogin">자동로그인</string>
+    <string name="DoRegister">회원가입하기</string>
+    <string name="FindId">아이디 찾기</string>
+    <string name="EditPassword">비밀번호 변경</string>
 </resources>
