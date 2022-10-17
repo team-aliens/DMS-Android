@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -143,8 +144,9 @@ fun AddFunction() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentWidth(CenterHorizontally)
                 .padding(10.dp, 24.dp, 10.dp, 0.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(
                 text = "회원가입하기",
