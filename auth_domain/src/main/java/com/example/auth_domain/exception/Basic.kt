@@ -10,6 +10,8 @@ class NoInternetException : RuntimeException()
 
 class NotFoundException : RuntimeException()
 
+class TooManyRequestException : RuntimeException()
+
 class ServerException : RuntimeException()
 
 class TimeoutException : RuntimeException()
