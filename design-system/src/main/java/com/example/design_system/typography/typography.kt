@@ -12,7 +12,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.design_system.R
 import com.example.design_system.color.DormColor
@@ -30,39 +29,44 @@ val NotoSansFamily = FontFamily(
 object DormTypography {
 
     @Stable
-    val title1 = TextStyle(
+    val headline1 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 32.sp,
+        fontSize = 36.sp,
+        lineHeight = 49.sp,
     )
 
     @Stable
-    val title2 = TextStyle(
+    val headline2 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 30.sp,
+        lineHeight = 41.sp,
     )
 
     @Stable
-    val title3 = TextStyle(
+    val headline3 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
+        lineHeight = 33.sp,
     )
 
     @Stable
-    val title4 = TextStyle(
+    val subtitle1 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
+        lineHeight = 30.sp,
     )
 
 
     @Stable
-    val title5 = TextStyle(
+    val subtitle2 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 18.sp,
+        lineHeight = 25.sp,
     )
 
     @Stable
@@ -70,6 +74,7 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
+        lineHeight = 30.sp,
     )
 
     @Stable
@@ -77,6 +82,7 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
+        lineHeight = 27.sp,
     )
 
     @Stable
@@ -84,6 +90,7 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp,
+        lineHeight = 32.sp,
     )
 
     @Stable
@@ -103,17 +110,19 @@ object DormTypography {
     )
 
     @Stable
-    val body6 = TextStyle(
+    val caption = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
+        lineHeight = 22.sp,
     )
 
     @Stable
-    val body7 = TextStyle(
+    val overline = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
+        lineHeight = 14.sp,
     )
 
     @Stable
@@ -126,7 +135,7 @@ object DormTypography {
 
 @Composable
 @NonRestartableComposable
-fun Title1(
+fun Headline1(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -138,14 +147,14 @@ fun Title1(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.title1,
+        style = DormTypography.headline1,
         color = color,
     )
 }
 
 @Composable
 @NonRestartableComposable
-fun Title2(
+fun Headline2(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -157,14 +166,14 @@ fun Title2(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.title2,
+        style = DormTypography.headline2,
         color = color,
     )
 }
 
 @Composable
 @NonRestartableComposable
-fun Title3(
+fun Headline3(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -176,14 +185,14 @@ fun Title3(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.title3,
+        style = DormTypography.headline3,
         color = color,
     )
 }
 
 @Composable
 @NonRestartableComposable
-fun Title4(
+fun SubTitle1(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -195,14 +204,14 @@ fun Title4(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.title4,
+        style = DormTypography.subtitle1,
         color = color,
     )
 }
 
 @Composable
 @NonRestartableComposable
-fun Title5(
+fun SubTitle2(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -214,7 +223,7 @@ fun Title5(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.title5,
+        style = DormTypography.subtitle2,
         color = color,
     )
 }
@@ -287,7 +296,7 @@ fun Body4(
     Text(
         modifier = Modifier.dormClickable(
             rippleEnabled = rippleEnabled,
-            onClick = onClick
+            onClick = onClick,
         ),
         text = text,
         style = DormTypography.body4,
@@ -317,7 +326,7 @@ fun Body5(
 
 @Composable
 @NonRestartableComposable
-fun Body6(
+fun Caption(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -329,14 +338,14 @@ fun Body6(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.body6,
+        style = DormTypography.caption,
         color = color,
     )
 }
 
 @Composable
 @NonRestartableComposable
-fun Body7(
+fun OverLine(
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
@@ -348,7 +357,7 @@ fun Body7(
             onClick = onClick,
         ),
         text = text,
-        style = DormTypography.body7,
+        style = DormTypography.overline,
         color = color,
     )
 }

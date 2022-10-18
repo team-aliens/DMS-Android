@@ -3,7 +3,7 @@ package com.example.dms_android.base
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.StateFlow
 
-abstract class BaseViewModel<S : MviState, E: MviEvent> : ViewModel() {
+abstract class BaseViewModel<S : MviState, E : MviEvent> : ViewModel() {
 
     private val reducer = BaseViewModelReducer()
 
@@ -12,7 +12,7 @@ abstract class BaseViewModel<S : MviState, E: MviEvent> : ViewModel() {
 
     abstract fun reduceEvent(oldState: S, event: E)
 
-    inner class BaseViewModelReducer: Reducer<S, E>(initialState) {
+    inner class BaseViewModelReducer : Reducer<S, E>(initialState) {
 
         override fun reduce(oldState: S, event: E) {
             reduceEvent(oldState, event)

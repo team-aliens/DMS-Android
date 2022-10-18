@@ -2,7 +2,6 @@ package com.example.dms_android.viewmodel.auth.login
 
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
-import com.example.auth_domain.exception.ConflictException
 import com.example.auth_domain.exception.NotFoundException
 import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
@@ -15,9 +14,7 @@ import com.example.dms_android.feature.auth.login.SignInState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
