@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.com.google.api.services.storage.model.Bucket.Lifecycle
+
 object Versions {
     const val KT_LINT = "10.2.0"
 
@@ -11,6 +13,11 @@ object Versions {
     const val DATASTORE = "1.0.0"
 
     const val HILT = "2.38.1"
+    const val HILTVIEWMODEL = "1.0.0-alpha03"
+
+    const val VIEWMODEL = "2.4.0-rc01"
+    const val LIFECYCLE = "2.4.1"
+
     const val MATERIAL = "1.3.0"
 
     const val COROUTINE = "1.6.0"

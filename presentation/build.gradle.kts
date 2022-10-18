@@ -70,6 +70,14 @@ dependencies {
 
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependency.Hilt.HILT_VIEWMODEL)
+
+    implementation(Dependency.Lifecycle.LIVEDATA)
+    implementation(Dependency.Lifecycle.VIEWMODEL)
+    implementation(Dependency.Lifecycle.RUNTIME)
+
+    implementation(Dependency.ViewModel.VIEWMODEL)
+    implementation(Dependency.ViewModel.LIVEDATA)
 
     implementation(Dependency.UnitTest.JUNIT)
 }
