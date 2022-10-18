@@ -30,8 +30,8 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.textfield.DormTextField
 import com.example.design_system.typography.Body4
-import com.example.design_system.typography.Body6
 import com.example.design_system.typography.ButtonText
+import com.example.design_system.typography.Caption
 import com.example.dms_android.R
 
 @Preview
@@ -100,7 +100,7 @@ fun ConfirmSchoolScreen() {
                             .fillMaxWidth()
                             .padding(horizontal = 88.dp)
                     ) {
-                        Body6(
+                        Caption(
                             text = stringResource(R.string.already_account),
                             color = DormColor.Gray500
                         )

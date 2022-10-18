@@ -1,14 +1,14 @@
-package com.example.auth_domain.usecase.managers
+package com.example.auth_domain.usecase.students
 
 import com.example.auth_domain.param.FindIdParam
-import com.example.auth_domain.repository.ManagersRepository
+import com.example.auth_domain.repository.StudentsRepository
 import com.example.auth_domain.usecase.UseCase
 import javax.inject.Inject
 
 class RemoteFindIdUseCase @Inject constructor(
-    private val managersRepository: ManagersRepository
+    private val studentsRepository: StudentsRepository
 ): UseCase<FindIdParam, Unit>() {
     override suspend fun execute(data: FindIdParam) {
-        managersRepository.findId(data)
+        studentsRepository.findId(data)
     }
 }
