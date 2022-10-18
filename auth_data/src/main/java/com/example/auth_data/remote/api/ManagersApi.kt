@@ -15,7 +15,10 @@ interface ManagersApi {
     @GET (DmsUrl.Managers.findId)
     suspend fun findId (
         @Path ("school-id") schoolId: UUID,
-        @Query ("answer") answer: String,
+        @Query ("name") name: String,
+        @Query ("grade") grade: Int,
+        @Query ("class_room") classRoom: Int,
+        @Query ("number") number: Int,
     ): IdResponse
 
     @PATCH (DmsUrl.Managers.changePassword)

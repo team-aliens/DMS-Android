@@ -3,7 +3,7 @@ package com.example.auth_domain.repository
 import com.example.auth_domain.param.ChangePasswordParam
 import com.example.auth_domain.param.FindIdParam
 
-interface ManagersRepository {
+interface StudentsRepository {
 
     suspend fun findId (
         findIdParam: FindIdParam,

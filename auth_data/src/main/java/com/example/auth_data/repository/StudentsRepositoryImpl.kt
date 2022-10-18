@@ -1,29 +1,32 @@
 package com.example.auth_data.repository
 
-import com.example.auth_data.remote.datasource.declaration.RemoteManagersDataSource
+import com.example.auth_data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.auth_data.remote.request.ChangePasswordRequest
 import com.example.auth_domain.param.ChangePasswordParam
 import com.example.auth_domain.param.FindIdParam
-import com.example.auth_domain.repository.ManagersRepository
+import com.example.auth_domain.repository.StudentsRepository
 import javax.inject.Inject
 
 class ManagersRepositoryImpl @Inject constructor(
-    private val remoteManagersDataSource: RemoteManagersDataSource,
-) : ManagersRepository {
+    private val remoteStudentsDataSource: RemoteStudentsDataSource,
+) : StudentsRepository {
 
     override suspend fun findId(
         findIdParam: FindIdParam,
     ) {
-        remoteManagersDataSource.findId(
+        remoteStudentsDataSource.findId(
             schoolId = findIdParam.schoolId,
-            answer = findIdParam.answer,
+            name = findIdParam.name,
+            grade = findIdParam.grade,
+            classRoom = findIdParam.class_room,
+            number = findIdParam.number,
         )
     }
 
     override suspend fun changePassword(
         changePasswordParam: ChangePasswordParam,
     ) {
-        remoteManagersDataSource.changePassword(
+        remoteStudentsDataSource.changePassword(
             changePasswordParam.toRequest(),
         )
     }

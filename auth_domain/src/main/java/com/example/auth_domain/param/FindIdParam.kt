@@ -4,5 +4,8 @@ import java.util.UUID
 
 data class FindIdParam(
     val schoolId: UUID,
-    val answer: String,
+    val name: String,
+    val grade: Int,
+    val class_room: Int,
+    val number: Int,
 )

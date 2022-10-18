@@ -4,11 +4,14 @@ import com.example.auth_data.remote.request.ChangePasswordRequest
 import com.example.auth_data.remote.response.IdResponse
 import java.util.UUID
 
-interface RemoteManagersDataSource {
+interface RemoteStudentsDataSource {
 
     suspend fun findId(
         schoolId: UUID,
-        answer: String,
+        name: String,
+        grade: Int,
+        classRoom: Int,
+        number: Int,
     ): IdResponse
 
     suspend fun changePassword(
