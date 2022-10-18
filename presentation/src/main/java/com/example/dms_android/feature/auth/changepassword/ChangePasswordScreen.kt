@@ -44,12 +44,12 @@ fun ChangePasswordScreen() {
 @Composable
 fun MainValue() {
     Box(
-        contentAlignment = Alignment.TopStart
+        contentAlignment = Alignment.TopStart,
     ) {
         Column(
             modifier = Modifier
                 .padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Image(
                 modifier = Modifier
@@ -96,7 +96,7 @@ fun PasswordTextField() {
             .padding(
                 start = 16.dp,
                 top = 90.dp,
-                end = 16.dp
+                end = 16.dp,
             ),
     ) {
         DormTextField(
