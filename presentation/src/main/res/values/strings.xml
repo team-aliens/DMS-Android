@@ -21,7 +21,9 @@
     <string name="enter_password">비밀번호 입력</string>
     <string name="reenter_password">비밀번호 재입력</string>
     <string name="check_password">비밀번호를 확인해주세요.</string>
-    <string name="Check">확인</string
+    <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
+    <string name="CheckAllPolicy">전체 약관 동의</string>
+    <string name="Check">확인</string>
     <string name="Login">로그인</string>
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
