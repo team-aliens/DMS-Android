@@ -54,27 +54,26 @@ fun ConfirmSchoolScreen() {
                 contentDescription = null,
                 modifier = Modifier.size(49.dp),
             )
-
-            Spacer(modifier = Modifier.height(7.dp))
-
+            Spacer(
+                modifier = Modifier.height(7.dp)
+            )
             Body4(
                 text = stringResource(R.string.question_confirm_school),
                 color = DormColor.Gray600,
             )
-
-            Spacer(modifier = Modifier.height(60.dp))
-
+            Spacer(
+                modifier = Modifier.height(60.dp)
+            )
             Body4(text = stringResource(R.string.school_students), color = DormColor.Gray700)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
             DormTextField(
                 value = replyValue,
                 onValueChange = { replyValue = it },
                 error = stringResource(R.string.inconsistent_school_reply),
                 hint = stringResource(R.string.reply),
             )
-
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
@@ -89,9 +88,9 @@ fun ConfirmSchoolScreen() {
                         enabled = false,
                     ) {
                     }
-
-                    Spacer(modifier = Modifier.height(17.dp))
-
+                    Spacer(
+                        modifier = Modifier.height(17.dp)
+                    )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -101,7 +100,9 @@ fun ConfirmSchoolScreen() {
                             text = stringResource(R.string.already_account),
                             color = DormColor.Gray500
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(
+                            modifier = Modifier.width(8.dp)
+                        )
                         ButtonText(text = stringResource(R.string.login), color = DormColor.Gray600)
                     }
                 }

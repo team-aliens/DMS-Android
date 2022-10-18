@@ -48,23 +48,22 @@ fun EnterEmailScreen() {
                 contentDescription = null,
                 modifier = Modifier.size(49.dp),
             )
-
-            Spacer(modifier = Modifier.height(7.dp))
-
+            Spacer(
+                modifier = Modifier.height(7.dp)
+            )
             Body4(
                 text = stringResource(R.string.enter_email_address),
                 color = DormColor.Gray600,
             )
-
-            Spacer(modifier = Modifier.height(60.dp))
-
+            Spacer(
+                modifier = Modifier.height(60.dp)
+            )
             DormTextField(
                 value = value,
                 onValueChange = { value = it },
                 error = stringResource(R.string.not_valid_email_format),
                 hint = stringResource(R.string.enter_email_address),
             )
-
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier

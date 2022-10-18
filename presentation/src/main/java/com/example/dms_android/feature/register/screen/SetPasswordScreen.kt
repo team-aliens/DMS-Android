@@ -50,22 +50,22 @@ fun SetPasswordScreen() {
                 contentDescription = null,
                 modifier = Modifier.size(49.dp),
             )
-
-            Spacer(modifier = Modifier.height(7.dp))
-
+            Spacer(
+                modifier = Modifier.height(7.dp)
+            )
             Body4(text = stringResource(R.string.set_password), color = DormColor.Gray600)
-
-            Spacer(modifier = Modifier.height(60.dp))
-
+            Spacer(
+                modifier = Modifier.height(60.dp)
+            )
             DormTextField(
                 value = passwordValue,
                 onValueChange = { passwordValue = it },
                 hint = stringResource(R.string.enter_password),
                 isPassword = true,
             )
-
-            Spacer(modifier = Modifier.height(37.dp))
-
+            Spacer(
+                modifier = Modifier.height(37.dp)
+            )
             DormTextField(
                 value = repasswordValue,
                 onValueChange = { repasswordValue = it },

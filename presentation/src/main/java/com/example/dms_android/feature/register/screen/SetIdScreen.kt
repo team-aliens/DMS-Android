@@ -56,13 +56,13 @@ fun SetIdScreen() {
                 contentDescription = null,
                 modifier = Modifier.size(49.dp),
             )
-
-            Spacer(modifier = Modifier.height(7.dp))
-
+            Spacer(
+                modifier = Modifier.height(7.dp)
+            )
             Body4(text = stringResource(R.string.set_id), color = DormColor.Gray600)
-
-            Spacer(modifier = Modifier.height(60.dp))
-
+            Spacer(
+                modifier = Modifier.height(60.dp)
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -86,9 +86,9 @@ fun SetIdScreen() {
                     modifier = Modifier.width(110.dp),
                 )
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
             DormTextField(
                 value = idValue,
                 onValueChange = { idValue = it },
