@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">DMS_Android</string>
+    <string name="Check">확인</string>
     <string name="Login">로그인</string>
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
@@ -12,4 +13,6 @@
     <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
     <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
     <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
+    <string name="ScanNewPassword">새 비밀번호 입력</string>
+    <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
 </resources>
