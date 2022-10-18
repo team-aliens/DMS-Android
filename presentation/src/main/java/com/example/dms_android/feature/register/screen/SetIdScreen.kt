@@ -67,6 +67,7 @@ fun SetIdScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+                //TODO: Toast완성되면 에러처리함
                 DormTextField(
                     value = gradeValue,
                     onValueChange = { gradeValue = it },
