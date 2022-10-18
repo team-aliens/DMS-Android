@@ -6,4 +6,10 @@
     <string name="DoRegister">회원가입하기</string>
     <string name="FindId">아이디 찾기</string>
     <string name="EditPassword">비밀번호 변경</string>
+    <string name="TooManyRequest">너무 많은 요청이 감지되었습니다. 잠시뒤에 다시 시도해주세요.</string>
+    <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
+    <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
+    <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
+    <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
+    <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
 </resources>

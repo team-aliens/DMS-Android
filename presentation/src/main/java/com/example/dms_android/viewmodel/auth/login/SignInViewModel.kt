@@ -45,13 +45,11 @@ class SignInViewModel @Inject constructor(
     fun signIn() {
         viewModelScope.launch {
             kotlin.runCatching {
-                withContext(Dispatchers.Default) {
-                    remoteSignInUseCase.execute(parameter)
-                }
-            }.onSuccess{
+                remoteSignInUseCase.execute(parameter)
+            }.onSuccess {
                 SignInEvent.SignInSuccess
             }.onFailure {
-                when(it) {
+                when (it) {
                     is BadRequestException -> SignInEvent.BadRequestException
                     is UnauthorizedException -> SignInEvent.UnAuthorizedException
                     is NotFoundException -> SignInEvent.NotFoundException
@@ -64,7 +62,7 @@ class SignInViewModel @Inject constructor(
     }
 
     override fun reduceEvent(oldState: SignInState, event: SignInEvent) {
-        when(event) {
+        when (event) {
             is SignInEvent.InputId -> {
                 setState(oldState.copy(id = event.id))
             }

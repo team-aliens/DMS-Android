@@ -71,12 +71,12 @@ private fun HandleViewEffect(
     effect: EventFlow<SignInEvent>,
     scaffoldState: ScaffoldState
 ) {
-    val badRequestComment = "잘못된 형식의 요청입니다. 다시 시도해주세요."
-    val unAuthorizedComment = "잘못된 비밀번호입니다. 다시 시도해주세요."
-    val notFoundComment = "해당 아이디는 존재하지 않는 아이디입니다."
-    val tooManyRequestComment = "너무 많은 요청이 감지되었습니다. 잠시뒤에 다시 시도해주세요."
-    val serverException = "서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요."
-    val unKnownException = "알 수 없는 에러가 발생하였습니다."
+    val badRequestComment = stringResource(id = R.string.LoginBadRequest)
+    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val notFoundComment = stringResource(id = R.string.LoginNotFound)
+    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
+    val serverException = stringResource(id = R.string.ServerException)
+    val unKnownException = stringResource(id = R.string.UnKnownException)
 
     effect.observeWithLifecycle(action = {
         when (it) {
@@ -277,8 +277,6 @@ fun LoginButton(
     signInViewModel: SignInViewModel,
     scaffoldState: ScaffoldState,
 ) {
-    val blankComment = "아이디와 비밀번호를 입력해주세요."
-
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -293,7 +291,7 @@ fun LoginButton(
             text = stringResource(id = R.string.Login),
             color = DormButtonColor.Blue,
         ) {
-            if ((signInViewModel.state.value.id != "") && (signInViewModel.state.value.password != "")) {
+            if ((signInViewModel.state.value.id.isNotBlank()) && (signInViewModel.state.value.password.isNotBlank())) {
                 signInViewModel.signIn()
             }
         }
