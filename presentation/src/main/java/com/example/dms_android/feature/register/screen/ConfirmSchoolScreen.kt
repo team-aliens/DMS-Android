@@ -55,18 +55,21 @@ fun ConfirmSchoolScreen() {
                 modifier = Modifier.size(49.dp),
             )
             Spacer(
-                modifier = Modifier.height(7.dp)
+                modifier = Modifier
+                    .height(7.dp)
             )
             Body4(
                 text = stringResource(R.string.question_confirm_school),
                 color = DormColor.Gray600,
             )
             Spacer(
-                modifier = Modifier.height(60.dp)
+                modifier = Modifier
+                    .height(60.dp)
             )
             Body4(text = stringResource(R.string.school_students), color = DormColor.Gray700)
             Spacer(
-                modifier = Modifier.height(8.dp)
+                modifier = Modifier
+                    .height(8.dp)
             )
             DormTextField(
                 value = replyValue,
@@ -89,7 +92,8 @@ fun ConfirmSchoolScreen() {
                     ) {
                     }
                     Spacer(
-                        modifier = Modifier.height(17.dp)
+                        modifier = Modifier
+                            .height(17.dp)
                     )
                     Row(
                         modifier = Modifier
@@ -101,7 +105,8 @@ fun ConfirmSchoolScreen() {
                             color = DormColor.Gray500
                         )
                         Spacer(
-                            modifier = Modifier.width(8.dp)
+                            modifier = Modifier
+                                .width(8.dp)
                         )
                         ButtonText(text = stringResource(R.string.login), color = DormColor.Gray600)
                     }

@@ -46,17 +46,20 @@ fun EnterEmailScreen() {
             Image(
                 painter = painterResource(id = DormIcon.Applicate.drawableId),
                 contentDescription = null,
-                modifier = Modifier.size(49.dp),
+                modifier = Modifier
+                    .size(49.dp),
             )
             Spacer(
-                modifier = Modifier.height(7.dp)
+                modifier = Modifier
+                    .height(7.dp)
             )
             Body4(
                 text = stringResource(R.string.enter_email_address),
                 color = DormColor.Gray600,
             )
             Spacer(
-                modifier = Modifier.height(60.dp)
+                modifier = Modifier
+                    .height(60.dp)
             )
             DormTextField(
                 value = value,
