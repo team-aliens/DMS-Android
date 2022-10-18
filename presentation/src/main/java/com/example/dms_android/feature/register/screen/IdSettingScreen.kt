@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.button.DormButtonColor
@@ -30,12 +31,15 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.textfield.DormTextField
 import com.example.design_system.typography.Body4
+import com.example.dms_android.R
 
 @Preview
 @Composable
 fun IdSettingScreen() {
-    var value by remember { mutableStateOf(String()) }
-    var value2 by remember { mutableStateOf(String()) }
+    var gradeValue by remember { mutableStateOf("") }
+    var classRoomValue by remember { mutableStateOf("") }
+    var numberValue by remember { mutableStateOf("") }
+    var idValue by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,41 +54,46 @@ fun IdSettingScreen() {
             Image(
                 painter = painterResource(id = DormIcon.Applicate.drawableId),
                 contentDescription = null,
-                modifier = Modifier.size(49.dp)
+                modifier = Modifier.size(49.dp),
             )
+
             Spacer(modifier = Modifier.height(7.dp))
-            Body4(text = "아이디 설정", color = DormColor.Gray600)
+
+            Body4(text = stringResource(R.string.set_id), color = DormColor.Gray600)
+
             Spacer(modifier = Modifier.height(60.dp))
+
             Row(
-                modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 DormTextField(
-                    value = value,
-                    onValueChange = { value = it },
-                    hint = "학년",
-                    modifier = Modifier.width(110.dp)
-                )
-                DormTextField(
-                    value = value,
-                    onValueChange = { value = it },
-                    hint = "반",
-                    modifier = Modifier.width(110.dp)
-                )
-                DormTextField(
-                    value = value,
-                    onValueChange = { value = it },
-                    hint = "번호",
+                    value = gradeValue,
+                    onValueChange = { gradeValue = it },
+                    hint = stringResource(R.string.grade),
                     modifier = Modifier.width(110.dp),
-
+                )
+                DormTextField(
+                    value = classRoomValue,
+                    onValueChange = { classRoomValue = it },
+                    hint = stringResource(R.string.class_room),
+                    modifier = Modifier.width(110.dp),
+                )
+                DormTextField(
+                    value = numberValue,
+                    onValueChange = { numberValue = it },
+                    hint = stringResource(R.string.number),
+                    modifier = Modifier.width(110.dp),
                 )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
+
             DormTextField(
-                value = value2,
-                onValueChange = { value2 = it },
-                hint = "아이디 입력",
-                error = "사용중인 아이디입니다."
+                value = idValue,
+                onValueChange = { idValue = it },
+                hint = stringResource(R.string.enter_id),
+                error = stringResource(R.string.using_id),
             )
             Box(
                 contentAlignment = Alignment.BottomCenter,
@@ -93,9 +102,9 @@ fun IdSettingScreen() {
                     .padding(bottom = 60.dp)
             ) {
                 DormContainedLargeButton(
-                    text = "다음",
+                    text = stringResource(R.string.next),
                     color = DormButtonColor.Blue,
-                    enabled = false
+                    enabled = false,
                 ) {
                 }
             }
