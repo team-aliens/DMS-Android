@@ -152,7 +152,8 @@ fun DormTextField(
                 ),
             ) {
                 Body6(
-                    text = error, color = DormColor.Error
+                    text = error,
+                    color = DormColor.Error,
                 )
             }
         }
