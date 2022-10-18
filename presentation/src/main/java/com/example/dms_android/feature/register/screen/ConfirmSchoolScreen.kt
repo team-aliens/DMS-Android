@@ -2,7 +2,6 @@ package com.example.dms_android.feature.register.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,15 +30,14 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.textfield.DormTextField
 import com.example.design_system.typography.Body4
+import com.example.design_system.typography.Body6
+import com.example.design_system.typography.ButtonText
 import com.example.dms_android.R
 
 @Preview
 @Composable
-fun IdSettingScreen() {
-    var gradeValue by remember { mutableStateOf("") }
-    var classRoomValue by remember { mutableStateOf("") }
-    var numberValue by remember { mutableStateOf("") }
-    var idValue by remember { mutableStateOf("") }
+fun ConfirmSchoolScreen() {
+    var replyValue by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -59,53 +57,53 @@ fun IdSettingScreen() {
 
             Spacer(modifier = Modifier.height(7.dp))
 
-            Body4(text = stringResource(R.string.set_id), color = DormColor.Gray600)
+            Body4(
+                text = stringResource(R.string.question_confirm_school),
+                color = DormColor.Gray600,
+            )
 
             Spacer(modifier = Modifier.height(60.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                DormTextField(
-                    value = gradeValue,
-                    onValueChange = { gradeValue = it },
-                    hint = stringResource(R.string.grade),
-                    modifier = Modifier.width(110.dp),
-                )
-                DormTextField(
-                    value = classRoomValue,
-                    onValueChange = { classRoomValue = it },
-                    hint = stringResource(R.string.class_room),
-                    modifier = Modifier.width(110.dp),
-                )
-                DormTextField(
-                    value = numberValue,
-                    onValueChange = { numberValue = it },
-                    hint = stringResource(R.string.number),
-                    modifier = Modifier.width(110.dp),
-                )
-            }
+            Body4(text = stringResource(R.string.school_students), color = DormColor.Gray700)
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             DormTextField(
-                value = idValue,
-                onValueChange = { idValue = it },
-                hint = stringResource(R.string.enter_id),
-                error = stringResource(R.string.using_id),
+                value = replyValue,
+                onValueChange = { replyValue = it },
+                error = stringResource(R.string.inconsistent_school_reply),
+                hint = stringResource(R.string.reply),
             )
+
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 60.dp)
+                    .padding(bottom = 24.dp),
             ) {
-                DormContainedLargeButton(
-                    text = stringResource(R.string.next),
-                    color = DormButtonColor.Blue,
-                    enabled = false,
-                ) {
+                Column() {
+
+                    DormContainedLargeButton(
+                        text = stringResource(R.string.verification),
+                        color = DormButtonColor.Blue,
+                        enabled = false,
+                    ) {
+                    }
+
+                    Spacer(modifier = Modifier.height(17.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 88.dp)
+                    ) {
+                        Body6(
+                            text = stringResource(R.string.already_account),
+                            color = DormColor.Gray500
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        ButtonText(text = stringResource(R.string.login), color = DormColor.Gray600)
+                    }
                 }
             }
         }

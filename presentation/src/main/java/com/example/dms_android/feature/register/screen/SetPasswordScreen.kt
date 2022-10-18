@@ -65,7 +65,7 @@ fun SetPasswordScreen() {
             )
 
             Spacer(modifier = Modifier.height(37.dp))
-            
+
             DormTextField(
                 value = repasswordValue,
                 onValueChange = { repasswordValue = it },
