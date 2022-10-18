@@ -10,8 +10,9 @@ import javax.inject.Inject
 class ManagersRepositoryImpl @Inject constructor(
     private val remoteManagersDataSource: RemoteManagersDataSource,
 ) : ManagersRepository {
+
     override suspend fun findId(
-        findIdParam: FindIdParam
+        findIdParam: FindIdParam,
     ) {
         remoteManagersDataSource.findId(
             schoolId = findIdParam.schoolId,
@@ -23,7 +24,7 @@ class ManagersRepositoryImpl @Inject constructor(
         changePasswordParam: ChangePasswordParam,
     ) {
         remoteManagersDataSource.changePassword(
-            changePasswordParam.toRequest()
+            changePasswordParam.toRequest(),
         )
     }
 }
