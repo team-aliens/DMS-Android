@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.modifier.dormClickable
-import com.example.design_system.typography.Body6
+import com.example.design_system.typography.Caption
 import com.example.design_system.typography.DormTypography
 import com.example.design_system.utils.runIf
 
@@ -117,7 +115,7 @@ fun DormTextField(
                     textStyle = DormTypography.body4,
                     decorationBox = { innerTextField ->
                         if (value.isEmpty() && hint != null) {
-                            Body6(
+                            Caption(
                                 text = hint,
                                 color = DormColor.Gray500,
                             )
@@ -149,12 +147,13 @@ fun DormTextField(
         if (error != null) {
             Box(
                 modifier = Modifier.padding(
-                    start = 3.dp,
+                    start = 16.dp,
                     top = 6.dp,
                 ),
             ) {
-                Body6(
+                Caption(
                     text = error,
+                    color = DormColor.Error,
                 )
             }
         }
@@ -166,7 +165,7 @@ fun DormTextField(
                     top = 6.dp,
                 ),
             ) {
-                Body6(
+                Caption(
                     text = description,
                 )
             }

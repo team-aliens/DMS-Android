@@ -1,5 +1,27 @@
 <resources>
     <string name="app_name">DMS_Android</string>
+    <string name="not_valid_email_format">올바른 이메일 형식이 아닙니다.</string>
+    <string name="enter_email_address">이메일 주소 입력</string>
+    <string name="send_verification_code">인증코드 발송</string>
+    <string name="set_id">아이디 설정</string>
+    <string name="grade">학년</string>
+    <string name="class_room">반</string>
+    <string name="number">번호</string>
+    <string name="enter_id">아이디 입력</string>
+    <string name="using_id">사용중인 아이디입니다.</string>
+    <string name="next">다음</string>
+    <string name="question_confirm_school">학교 확인 질문</string>
+    <string name="school_students">우리 학교 학생 수는?</string>
+    <string name="inconsistent_school_reply">학교 인증 질문과 답변이 일치하지 않습니다!</string>
+    <string name="reply">답변</string>
+    <string name="verification">인증</string>
+    <string name="already_account">이미 계정이 있으신가요?</string>
+    <string name="login">로그인</string>
+    <string name="set_password">비밀번호 설정</string>
+    <string name="enter_password">비밀번호 입력</string>
+    <string name="reenter_password">비밀번호 재입력</string>
+    <string name="check_password">비밀번호를 확인해주세요.</string>
+    <string name="Check">확인</string
     <string name="Login">로그인</string>
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
@@ -12,4 +34,6 @@
     <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
     <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
     <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
+    <string name="ScanNewPassword">새 비밀번호 입력</string>
+    <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
 </resources>
