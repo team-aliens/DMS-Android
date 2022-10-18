@@ -1,7 +1,6 @@
 package com.example.dms_android.feature.auth.login
 
 import android.app.Activity
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,12 +8,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
@@ -32,14 +31,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.design_system.button.DormButtonColor
-import com.example.dms_android.R
+import com.example.design_system.button.DormContainedLargeButton
+import com.example.design_system.button.DormTextCheckBox
 import com.example.design_system.color.DormColor
 import com.example.design_system.textfield.DormTextField
-import com.example.design_system.button.DormTextCheckBox
-import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.typography.Body4
-import com.example.design_system.typography.Body6
-import com.example.design_system.typography.Title5
+import com.example.design_system.typography.Caption
+import com.example.design_system.typography.SubTitle2
+import com.example.dms_android.R
 import com.example.dms_android.util.EventFlow
 import com.example.dms_android.util.observeWithLifecycle
 import com.example.dms_android.viewmodel.auth.login.SignInViewModel
@@ -162,7 +161,7 @@ fun MainTitle() {
                 painter = painterResource(id = R.drawable.ic_information_toast),
                 contentDescription = "MainLogo",
             )
-            Title5(text = "DMS For Android")
+            SubTitle2(text = "DMS For Android")
             Spacer(
                 modifier = Modifier
                     .height(1.dp)
@@ -263,11 +262,11 @@ fun AddFunction() {
                 ),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Body6(text = "회원가입하기")
-            Body6(text = "|")
-            Body6(text = "아이디 찾기")
-            Body6(text = "|")
-            Body6(text = "비밀번호 변경")
+            Caption(text = "회원가입하기")
+            Caption(text = "|")
+            Caption(text = "아이디 찾기")
+            Caption(text = "|")
+            Caption(text = "비밀번호 변경")
         }
     }
 }

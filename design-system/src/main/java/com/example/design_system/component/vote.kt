@@ -33,7 +33,7 @@ import com.example.design_system.button.DormTextCheckBox
 import com.example.design_system.button.DormTextRadioButton
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body3
-import com.example.design_system.typography.Body6
+import com.example.design_system.typography.Caption
 import com.example.design_system.utils.rememberToast
 
 data class VoteItem(
@@ -98,7 +98,7 @@ fun Vote(
                         if (vote.number != null) {
                             Spacer(modifier = Modifier.weight(1f))
 
-                            Body6(
+                            Caption(
                                 text = "${vote.number}명",
                                 color = DormColor.Gray500,
                             )
@@ -199,7 +199,7 @@ fun OverlapVote(
                         if (vote.number != null) {
                             Spacer(modifier = Modifier.weight(1f))
 
-                            Body6(
+                            Caption(
                                 text = "${vote.number}명",
                                 color = DormColor.Gray500,
                             )

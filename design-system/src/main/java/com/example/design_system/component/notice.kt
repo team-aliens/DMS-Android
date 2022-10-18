@@ -19,7 +19,7 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.modifier.dormClickable
 import com.example.design_system.modifier.dormShadow
 import com.example.design_system.typography.Body4
-import com.example.design_system.typography.Body7
+import com.example.design_system.typography.OverLine
 
 data class Notice(
     val title: String,
@@ -85,7 +85,7 @@ private fun Notice(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            Body7(
+            OverLine(
                 text = notice.createAt,
                 color = DormColor.Gray500,
             )

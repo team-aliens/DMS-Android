@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.modifier.dormClickable
-import com.example.design_system.typography.Body6
+import com.example.design_system.typography.Caption
 import com.example.design_system.typography.DormTypography
 import com.example.design_system.utils.runIf
 
@@ -117,7 +117,7 @@ fun DormTextField(
                     textStyle = DormTypography.body4,
                     decorationBox = { innerTextField ->
                         if (value.isEmpty() && hint != null) {
-                            Body6(
+                            Caption(
                                 text = hint,
                                 color = DormColor.Gray500,
                             )
@@ -153,7 +153,7 @@ fun DormTextField(
                     top = 6.dp,
                 ),
             ) {
-                Body6(
+                Caption(
                     text = error,
                 )
             }
@@ -166,7 +166,7 @@ fun DormTextField(
                     top = 6.dp,
                 ),
             ) {
-                Body6(
+                Caption(
                     text = description,
                 )
             }

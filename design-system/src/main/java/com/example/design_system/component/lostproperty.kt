@@ -30,7 +30,7 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.modifier.dormClickable
 import com.example.design_system.modifier.dormShadow
 import com.example.design_system.typography.Body5
-import com.example.design_system.typography.Body6
+import com.example.design_system.typography.Caption
 import com.skydoves.landscapist.glide.GlideImage
 
 data class Property(
@@ -135,7 +135,7 @@ private fun LostProperty(
 
                     Spacer(modifier = Modifier.width(10.dp))
 
-                    Body6(
+                    Caption(
                         text = property.userName,
                         color = DormColor.Gray600,
                     )
@@ -143,7 +143,7 @@ private fun LostProperty(
 
                 Spacer(modifier = Modifier.height(7.dp))
 
-                Body6(
+                Caption(
                     text = property.createAt,
                     color = DormColor.Gray600,
                 )
