@@ -2,13 +2,17 @@ package com.example.dms_android.feature.register.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,12 +55,31 @@ fun IdSettingScreen() {
             Spacer(modifier = Modifier.height(7.dp))
             Body4(text = "아이디 설정", color = DormColor.Gray600)
             Spacer(modifier = Modifier.height(60.dp))
-            DormTextField(
-                value = value,
-                onValueChange = { value = it },
-                hint = "학번",
-            )
-            Spacer(modifier = Modifier.height(37.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                DormTextField(
+                    value = value,
+                    onValueChange = { value = it },
+                    hint = "학년",
+                    modifier = Modifier.width(110.dp)
+                )
+                DormTextField(
+                    value = value,
+                    onValueChange = { value = it },
+                    hint = "반",
+                    modifier = Modifier.width(110.dp)
+                )
+                DormTextField(
+                    value = value,
+                    onValueChange = { value = it },
+                    hint = "번호",
+                    modifier = Modifier.width(110.dp),
+
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
             DormTextField(
                 value = value2,
                 onValueChange = { value2 = it },
