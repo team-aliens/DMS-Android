@@ -31,6 +31,17 @@ object Dependency {
 
     }
 
+    object Lifecycle {
+        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
+        const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
+        const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
+    }
+
+    object ViewModel {
+        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.VIEWMODEL}"
+        const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
+    }
+
     object Coroutine {
         const val CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}"
         const val ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
@@ -62,6 +73,7 @@ object Dependency {
     object Hilt {
         const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
         const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+        const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.HILTVIEWMODEL}"
         const val INJECT = "javax.inject:javax.inject:1"
     }
 

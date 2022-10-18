@@ -9,6 +9,7 @@ import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.NeedLoginException
 import com.example.auth_domain.exception.NoInternetException
 import com.example.auth_domain.exception.TimeoutException
+import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnknownException
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
@@ -22,6 +23,7 @@ class HttpHandler<T> {
     private var onForbidden: (message: String) -> Throwable = { ForbiddenException() }
     private var onNotFound: (message: String) -> Throwable = { NotFoundException() }
     private var onConflict: (message: String) -> Throwable = { ConflictException() }
+    private var onTooManyRequest: (message: String) -> Throwable = { TooManyRequestException() }
     private var onServerError: (code: Int) -> Throwable = { ServerException() }
     private var onOtherHttpStatusCode: (code: Int, message: String) -> Throwable =
         { _, _ -> UnknownException() }
@@ -44,6 +46,9 @@ class HttpHandler<T> {
     fun onConflict(onConflict: (message: String) -> Throwable) =
         this.apply { this.onConflict = onConflict }
 
+    fun onTooManyRequest(onTooManyRequest: (message: String) -> Throwable) =
+        this.apply { this.onTooManyRequest = onConflict }
+
     fun onServerError(onServerError: (code: Int) -> Throwable) =
         this.apply { this.onServerError = onServerError }
 
@@ -62,6 +67,7 @@ class HttpHandler<T> {
                 403 -> onForbidden(message)
                 404 -> onNotFound(message)
                 409 -> onConflict(message)
+                429 -> onTooManyRequest(message)
                 500, 501, 502, 503 -> onServerError(code)
                 else -> onOtherHttpStatusCode(code, message)
             }

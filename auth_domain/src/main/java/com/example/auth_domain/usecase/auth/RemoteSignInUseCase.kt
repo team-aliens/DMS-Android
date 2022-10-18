@@ -1,7 +1,8 @@
-package com.example.auth_domain.usecase
+package com.example.auth_domain.usecase.auth
 
 import com.example.auth_domain.param.LoginParam
 import com.example.auth_domain.repository.UserRepository
+import com.example.auth_domain.usecase.UseCase
 import javax.inject.Inject
 
 class RemoteSignInUseCase @Inject constructor(
