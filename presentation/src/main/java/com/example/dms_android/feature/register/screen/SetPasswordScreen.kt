@@ -29,7 +29,6 @@ import com.example.design_system.textfield.DormTextField
 import com.example.design_system.typography.Body4
 import com.example.dms_android.R
 
-@Preview
 @Composable
 fun SetPasswordScreen() {
     var passwordValue by remember { mutableStateOf("") }
