@@ -18,6 +18,11 @@ value class DormIcon private constructor(
         )
 
         @Stable
+        val BackArrow = DormIcon(
+            drawableId = R.drawable.ic_backarrow,
+        )
+
+        @Stable
         val Backward = DormIcon(
             drawableId = R.drawable.ic_backward,
         )

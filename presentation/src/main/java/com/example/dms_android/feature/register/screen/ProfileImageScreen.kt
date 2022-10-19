@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,18 +27,17 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.color.DormColor
-import com.example.design_system.dialog.DormCustomDialog
+import com.example.design_system.icon.DormIcon
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.NotoSansFamily
 import com.example.dms_android.R
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 @Composable
 fun ProfileImageScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormColor.Gray100),
+            .background(color = MaterialTheme.colors.background),
     ) {
         MainValue()
         PickImage()
@@ -60,9 +61,8 @@ fun MainValue() {
                         top = 16.dp,
                         bottom = 12.dp
                     )
-                    .height(24.dp)
-                    .width(24.dp),
-                painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                    .size(24.dp),
+                painter = painterResource(id = DormIcon.BackArrow.drawableId),
                 contentDescription = "backButton",
             )
             Image(
