@@ -31,7 +31,7 @@ fun OtpView(
     otpText: String = "",
     charColor: Color = Color.Black,
     charBackground: Color = Color.Transparent,
-    charSize: TextUnit = 30.sp,
+    charSize: TextUnit = 16.sp,
     containerSize: Dp = charSize.value.dp * 2,
     otpCount: Int = 8,
     type: Int = OTP_VIEW_TYPE_UNDERLINE,
@@ -112,11 +112,7 @@ private fun CharView(
             text = char,
             color = charColor,
             modifier = modifier
-                .wrapContentHeight()
-                .background(
-                    color = DormColor.Gray500,
-                    shape = CircleShape,
-                ),
+                .wrapContentHeight(),
             style = MaterialTheme.typography.body1,
             fontSize = charSize,
             textAlign = TextAlign.Center,
