@@ -1,6 +1,5 @@
 package com.example.dms_android.feature.register.screen
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -33,7 +32,7 @@ import com.example.design_system.typography.Body4
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.ButtonText
 import com.example.dms_android.R
-import com.example.dms_android.feature.register.screen.component.OTP_VIEW_TYPE_NONE
+import com.example.dms_android.feature.register.screen.component.OTP_VIEW_TYPE_UNDERLINE
 import com.example.dms_android.feature.register.screen.component.OtpView
 
 @Preview
@@ -73,10 +72,10 @@ fun SchoolCertificationCodeScreen() {
                 onOtpTextChange = {
                     otpValue = it
                 },
-                type = OTP_VIEW_TYPE_NONE,
+                type = OTP_VIEW_TYPE_UNDERLINE,
                 password = true,
                 containerSize = 24.dp,
-                passwordChar = "•",
+                passwordChar = "⚫",
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 charColor = DormColor.Gray600,
             )
