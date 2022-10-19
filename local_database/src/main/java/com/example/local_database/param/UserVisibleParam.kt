@@ -3,16 +3,29 @@ package com.example.local_database.param
 import com.example.local_domain.entity.UserVisibleLocalEntity
 
 data class UserVisibleParam(
-    val surveyBoolean: Boolean,
-    val noticeBoolean: Boolean,
-    val myPageBoolean: Boolean,
-    val recentRoomBoolean: Boolean,
-)
+    val accessToken: String,
+    val expiredAt: String,
+    val refreshToken: String,
+    val features: FeaturesParam,
+) {
+    data class FeaturesParam(
+        val mealService: Boolean,
+        val noticeService: Boolean,
+        val pointService: Boolean,
+    )
+}
 
-fun UserVisibleParam.toEntity() =
+fun UserVisibleParam.toDbEntity() =
     UserVisibleLocalEntity(
-        surveyBoolean = surveyBoolean,
-        noticeBoolean = noticeBoolean,
-        myPageBoolean = myPageBoolean,
-        recentRoomBoolean = recentRoomBoolean,
+        accessToken = accessToken,
+        expiredAt = expiredAt,
+        refreshToken = refreshToken,
+        features = features.toDbEntity()
+    )
+
+fun UserVisibleParam.FeaturesParam.toDbEntity() =
+    UserVisibleLocalEntity.FeaturesParam(
+        mealService = mealService,
+        noticeService = noticeService,
+        pointService = pointService,
     )

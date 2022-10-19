@@ -1,10 +1,9 @@
 package com.example.local_database.datasource.declaration
 
-import com.example.local_database.param.UserVisibleParam
-import com.example.local_domain.entity.UserVisibleLocalEntity
+import com.example.local_database.param.UserVisibleParam.FeaturesParam
 
 interface LocalUserDataSource {
 
-    suspend fun setUserVisibleInform(userVisibleParam: UserVisibleParam)
-    suspend fun fetchUserVisibleInform(): UserVisibleParam
+    suspend fun setUserVisibleInform(featuresParam: FeaturesParam)
+    suspend fun fetchUserVisibleInform(): FeaturesParam
 }
