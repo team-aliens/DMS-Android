@@ -54,11 +54,17 @@ fun SchoolCertificationCodeScreen() {
             Image(
                 painter = painterResource(id = DormIcon.Applicate.drawableId),
                 contentDescription = null,
-                modifier = Modifier.size(49.dp)
+                modifier = Modifier.size(49.dp),
             )
-            Spacer(modifier = Modifier.height(7.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(7.dp)
+            )
             Body4(text = stringResource(R.string.SchoolVerificationCode), color = DormColor.Gray600)
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(100.dp)
+            )
             OtpView(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,14 +72,13 @@ fun SchoolCertificationCodeScreen() {
                 otpText = otpValue,
                 onOtpTextChange = {
                     otpValue = it
-                    Log.d("dd", "$otpValue")
                 },
                 type = OTP_VIEW_TYPE_NONE,
                 password = true,
                 containerSize = 24.dp,
                 passwordChar = "•",
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                charColor = Color.Black,
+                charColor = DormColor.Gray600,
             )
             Spacer(
                 modifier = Modifier
@@ -95,7 +100,7 @@ fun SchoolCertificationCodeScreen() {
                 )
                 Body5(
                     text = "3 : 00",
-                    color = DormColor.DormPrimary
+                    color = DormColor.DormPrimary,
                 )
             }
 
