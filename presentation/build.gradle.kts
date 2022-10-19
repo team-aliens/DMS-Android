@@ -58,6 +58,8 @@ dependencies {
     implementation(Dependency.Ui.APP_COMPAT)
     implementation(Dependency.Ui.MATERIAL)
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
+    implementation(Dependency.Ui.CIRCLEIMAGEVIEW)
+    implementation(Dependency.Ui.COIL)
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
@@ -75,6 +77,8 @@ dependencies {
     implementation(Dependency.Lifecycle.LIVEDATA)
     implementation(Dependency.Lifecycle.VIEWMODEL)
     implementation(Dependency.Lifecycle.RUNTIME)
+
+    implementation(Dependency.TedImagePicker.TEDIMAGEPICKER)
 
     implementation(Dependency.ViewModel.VIEWMODEL)
     implementation(Dependency.ViewModel.LIVEDATA)
