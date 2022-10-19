@@ -48,4 +48,8 @@
     <string name="MainLogo">MainLogo</string>
     <string name="ContainAddImage">ContainAddImage</string>
     <string name="AddImageButton">AddImageButton</string>
+    <string name="CameraIcon">CameraIcon</string>
+    <string name="PhotoIcon">PhotoIcon</string>
+    <string name="TakePhoto">사진 촬영</string>
+    <string name="ChoosePhoto">사진 선택</string>
 </resources>
