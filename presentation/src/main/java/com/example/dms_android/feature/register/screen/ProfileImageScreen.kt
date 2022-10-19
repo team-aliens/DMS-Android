@@ -63,7 +63,7 @@ fun MainValue() {
                     )
                     .size(24.dp),
                 painter = painterResource(id = DormIcon.BackArrow.drawableId),
-                contentDescription = "backButton",
+                contentDescription = stringResource(id = R.string.backButton),
             )
             Image(
                 modifier = Modifier
@@ -74,7 +74,7 @@ fun MainValue() {
                     .height(85.dp)
                     .width(85.dp),
                 painter = painterResource(id = R.drawable.ic_information_toast),
-                contentDescription = "MainLogo",
+                contentDescription = stringResource(id = R.string.MainLogo),
             )
             Spacer(
                 modifier = Modifier
@@ -110,16 +110,15 @@ fun PickImage() {
                         .height(150.dp)
                         .width(150.dp),
                     painter = painterResource(id = R.drawable.addimage),
-                    contentDescription = "사진 추가 이미지가 담기는 곳",
+                    contentDescription = stringResource(id = R.string.ContainAddImage),
                 )
             }
             Image(
                 modifier = Modifier
                     .padding(start = 108.dp)
-                    .height(30.dp)
-                    .width(30.dp),
+                    .size(30.dp),
                 painter = painterResource(id = R.drawable.addplusimage),
-                contentDescription = "사진 추가 버튼",
+                contentDescription = stringResource(id = R.string.AddImageButton),
             )
         }
     }
@@ -129,8 +128,8 @@ fun PickImage() {
 fun EnterNextPageView() {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 233.dp),
+            .padding(top = 230.dp)
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

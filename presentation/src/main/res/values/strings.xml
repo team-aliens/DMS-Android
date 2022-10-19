@@ -44,4 +44,8 @@
     <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
     <string name="ProfileImage">프로필 사진</string>
     <string name="SettingLater">다음에 설정하기</string>
+    <string name="backButton">backButton</string>
+    <string name="MainLogo">MainLogo</string>
+    <string name="ContainAddImage">ContainAddImage</string>
+    <string name="AddImageButton">AddImageButton</string>
 </resources>
