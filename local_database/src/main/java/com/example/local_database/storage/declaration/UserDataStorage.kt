@@ -1,13 +1,12 @@
 package com.example.local_database.storage.declaration
 
-import com.example.local_database.param.UserVisibleParam
+import com.example.local_database.param.UserVisibleParam.FeaturesParam
 
 interface UserDataStorage {
 
-    fun setUserVisible(userVisibleParam: UserVisibleParam)
+    fun setUserVisible(featuresParam: FeaturesParam)
 
-    fun fetchSurveyBoolean(): Boolean
-    fun fetchNoticeBoolean(): Boolean
-    fun fetchMyPageBoolean(): Boolean
-    fun fetchRecentRoomBoolean(): Boolean
+    fun fetchMealServiceBoolean(): Boolean
+    fun fetchNoticeServiceBoolean(): Boolean
+    fun fetchPointServiceBoolean(): Boolean
 }

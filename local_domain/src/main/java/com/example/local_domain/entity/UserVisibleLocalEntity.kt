@@ -1,8 +1,14 @@
 package com.example.local_domain.entity
 
 data class UserVisibleLocalEntity(
-    val surveyBoolean: Boolean,
-    val noticeBoolean: Boolean,
-    val myPageBoolean: Boolean,
-    val recentRoomBoolean: Boolean,
-)
+    val accessToken: String,
+    val expiredAt: String,
+    val refreshToken: String,
+    val features: FeaturesParam,
+) {
+    data class FeaturesParam(
+        val mealService: Boolean,
+        val noticeService: Boolean,
+        val pointService: Boolean,
+    )
+}

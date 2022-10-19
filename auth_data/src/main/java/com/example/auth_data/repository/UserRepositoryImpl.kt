@@ -27,7 +27,7 @@ class UserRepositoryImpl @Inject constructor(
             loginParam.toRequest()
         )
 
-        localUserDataSource.setUserVisibleInform(response.toEntity())
+        localUserDataSource.setUserVisibleInform(response.features.toEntity())
     }
 
 
@@ -65,10 +65,17 @@ class UserRepositoryImpl @Inject constructor(
 
 private fun SignInResponse.toEntity() =
     UserVisibleParam(
-        surveyBoolean = surveyBoolean,
-        noticeBoolean = noticeBoolean,
-        myPageBoolean = myPageBoolean,
-        recentRoomBoolean = recentBoolean,
+        accessToken = accessToken,
+        expiredAt = expiredAt,
+        refreshToken = refreshToken,
+        features = features.toEntity()
+    )
+
+private fun SignInResponse.Features.toEntity() =
+    UserVisibleParam.FeaturesParam(
+        mealService = mealService,
+        noticeService = noticeService,
+        pointService = pointService,
     )
 
 private fun LoginParam.toRequest() =
@@ -79,7 +86,12 @@ private fun LoginParam.toRequest() =
 
 private fun RegisterParam.toRequest() =
     SignUpRequest(
-        name = name,
+        schoolCode = schoolCode,
+        schoolAnswer = schoolAnswer,
+        email = email,
+        authCode = authCode,
+        grade = grade,
+        number = number,
         accountId = accountId,
         password = password,
         profileImageUrl = profileImageUrl,
