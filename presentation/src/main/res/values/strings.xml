@@ -23,7 +23,9 @@
     <string name="reenter_password">비밀번호 재입력</string>
     <string name="check_password">비밀번호를 확인해주세요.</string>
     <string name="SchoolVerificationCode">학교 인증코드 입력</string>
+    <string name="VerificationCode">인증코드 입력</string>
     <string name="EmailEightCode">이메일로 전송된 인증코드 8자리를 입력해주세요.</string>
+    <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
     <string name="Check">확인</string>
     <string name="Login">로그인</string>
     <string name="Password">비밀번호</string>
