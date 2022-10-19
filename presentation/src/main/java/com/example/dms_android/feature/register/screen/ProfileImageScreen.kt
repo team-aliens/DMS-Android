@@ -1,5 +1,6 @@
 package com.example.dms_android.feature.register.screen
 
+import android.graphics.Paint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,9 +50,7 @@ import com.example.design_system.icon.DormIcon
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.NotoSansFamily
 import com.example.dms_android.R
-import com.example.dms_android.util.CircularImage
 import com.example.dms_android.util.fetchImage
-import gun0912.tedimagepicker.util.ToastUtil.context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -63,16 +63,16 @@ fun ProfileImageScreen() {
     )
     val defaultImage = rememberImagePainter(R.drawable.addimage)
     val curImage by remember { mutableStateOf<Painter>(defaultImage) }
+    val a: File? = null
     val scope = rememberCoroutineScope()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
-    val a: Boolean = false
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
             ContentLayout(
                 coroutineScope,
-                paint = curImage,
+                curImage,
             )
         }
     ) {
@@ -137,10 +137,10 @@ fun PickImage(
     state: ModalBottomSheetState,
     scope: CoroutineScope,
     paint: Painter,
-    a: Boolean,
+    image: File?,
 ) {
     val profileImage by remember { mutableStateOf(paint) }
-    val defaultImage: String = painterResource(id = R.drawable.addimage).toString()
+    val imageGet by remember { mutableStateOf(image) }
     Row(
         modifier = Modifier
             .padding(top = 60.dp)
@@ -166,7 +166,11 @@ fun PickImage(
                         }
                         .size(150.dp)
                         .clip(CircleShape),
-                    painter = profileImage,
+                    painter = if (imageGet == null) {
+                        profileImage
+                    } else {
+                        rememberImagePainter(imageGet)
+                    },
                     contentDescription = stringResource(id = R.string.AddImageButton)
                 )
             }
@@ -217,7 +221,8 @@ fun ContentLayout(
     paint: Painter,
 ) {
     var profileImage by remember { mutableStateOf(paint) }
-    var profileFile = File(profileImage.toString())
+    var getFile by remember { mutableStateOf<File?>(null) }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -262,7 +267,7 @@ fun ContentLayout(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    fetchImage(context)?.let { profileFile = it }
+                    fetchImage(context)?.let { getFile = it }
                 }
             },
             modifier = Modifier
