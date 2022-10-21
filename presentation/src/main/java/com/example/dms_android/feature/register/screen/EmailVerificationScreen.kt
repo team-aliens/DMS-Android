@@ -38,11 +38,12 @@ import com.example.dms_android.feature.register.screen.component.OtpView
 @Preview
 @Composable
 fun EmailVerificationScreen() {
+
     var otpValue by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(DormColor.Gray200)
     ) {
         Column(
             modifier = Modifier
@@ -59,7 +60,10 @@ fun EmailVerificationScreen() {
                 modifier = Modifier
                     .height(7.dp)
             )
-            Body4(text = stringResource(R.string.VerificationCode), color = DormColor.Gray600)
+            Body4(
+                text = stringResource(R.string.VerificationCode),
+                color = DormColor.Gray600,
+            )
             Spacer(
                 modifier = Modifier
                     .height(100.dp)
@@ -88,7 +92,7 @@ fun EmailVerificationScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Body5(
                     text = stringResource(R.string.EmailSixCode),
