@@ -10,13 +10,16 @@
     <string name="enter_id">아이디 입력</string>
     <string name="using_id">사용중인 아이디입니다.</string>
     <string name="next">다음</string>
+    <string name="NotSameName">일치하는 아이디가 존재하지 않습니다.</string>
     <string name="question_confirm_school">학교 확인 질문</string>
     <string name="school_students">우리 학교 학생 수는?</string>
     <string name="inconsistent_school_reply">학교 인증 질문과 답변이 일치하지 않습니다!</string>
     <string name="reply">답변</string>
     <string name="verification">인증</string>
+    <string name="VerificationMine">계정 본인인증</string>
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
+    <string name="EnterName">이름 입력</string>
     <string name="set_password">비밀번호 설정</string>
     <string name="enter_password">비밀번호 입력</string>
     <string name="reenter_password">비밀번호 재입력</string>
@@ -41,6 +44,7 @@
     <string name="ChangePasswordUnAuthorized">이메일 인증번호가 틀립니다.</string>
     <string name="ChangePasswordNotFound">해당 사용자를 찾을 수 없습니다.</string>
     <string name="ScanNewPassword">새 비밀번호 입력</string>
+    <string name="SameIdAndEmail">아이디와 일치하는 이메일입니다.</string>
     <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
     <string name="ProfileImage">프로필 사진</string>
     <string name="SettingLater">다음에 설정하기</string>
