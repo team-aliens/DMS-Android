@@ -14,6 +14,7 @@
     <string name="school_students">우리 학교 학생 수는?</string>
     <string name="inconsistent_school_reply">학교 인증 질문과 답변이 일치하지 않습니다!</string>
     <string name="reply">답변</string>
+    <string name="Name">이름</string>
     <string name="verification">인증</string>
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
