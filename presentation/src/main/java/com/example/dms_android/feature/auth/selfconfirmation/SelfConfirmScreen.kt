@@ -43,8 +43,18 @@ fun SelfConfirmScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .padding(top = 77.dp)
+                .padding(top = 16.dp)
         ) {
+            Image(
+                modifier = Modifier
+                    .size(24.dp),
+                painter = painterResource(id = DormIcon.BackArrow.drawableId),
+                contentDescription = stringResource(id = R.string.backButton),
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(37.dp)
+            )
             Image(
                 painter = painterResource(id = DormIcon.Applicate.drawableId),
                 contentDescription = null,

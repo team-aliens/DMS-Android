@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
@@ -33,6 +34,7 @@ import com.example.dms_android.R
 import com.example.dms_android.feature.register.screen.component.OTP_VIEW_TYPE_UNDERLINE
 import com.example.dms_android.feature.register.screen.component.OtpView
 
+@Preview
 @Composable
 fun VerificationScreen() {
 
@@ -46,8 +48,18 @@ fun VerificationScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .padding(top = 77.dp)
+                .padding(top = 16.dp)
         ) {
+            Image(
+                modifier = Modifier
+                    .size(24.dp),
+                painter = painterResource(id = DormIcon.BackArrow.drawableId),
+                contentDescription = stringResource(id = R.string.backButton),
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(37.dp)
+            )
             Image(
                 painter = painterResource(id = DormIcon.Applicate.drawableId),
                 contentDescription = null,
