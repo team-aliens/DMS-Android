@@ -1,8 +1,8 @@
 package com.example.auth_data.remote.api
 
-import com.example.auth_data.remote.request.auth.GetEmailCodeRequest
-import com.example.auth_data.remote.request.auth.SignInRequest
-import com.example.auth_data.remote.response.auth.SignInResponse
+import com.example.auth_data.remote.request.user.GetEmailCodeRequest
+import com.example.auth_data.remote.request.user.SignInRequest
+import com.example.auth_data.remote.response.user.SignInResponse
 import com.example.auth_data.remote.url.DmsUrl
 import com.example.auth_domain.enum.EmailType
 import retrofit2.http.GET
@@ -11,7 +11,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
-interface AuthApi {
+interface UserApi {
     @POST(DmsUrl.User.login)
     suspend fun postLogin(
         signInRequest: SignInRequest,

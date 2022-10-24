@@ -1,12 +1,11 @@
 package com.example.auth_data.remote.datasource.declaration
 
-import com.example.auth_data.remote.request.auth.GetEmailCodeRequest
-import com.example.auth_data.remote.request.auth.SignInRequest
-import com.example.auth_data.remote.request.students.SignUpRequest
-import com.example.auth_data.remote.response.auth.SignInResponse
+import com.example.auth_data.remote.request.user.GetEmailCodeRequest
+import com.example.auth_data.remote.request.user.SignInRequest
+import com.example.auth_data.remote.response.user.SignInResponse
 import com.example.auth_domain.enum.EmailType
 
-interface RemoteAuthDataSource {
+interface RemoteUserDataSource {
 
     suspend fun postUserSignIn(
         signInRequest: SignInRequest,
