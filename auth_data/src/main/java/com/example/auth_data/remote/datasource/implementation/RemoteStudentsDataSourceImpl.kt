@@ -1,38 +1,39 @@
 package com.example.auth_data.remote.datasource.implementation
 
-import com.example.auth_data.remote.api.ManagersApi
+import com.example.auth_data.remote.api.StudentsApi
 import com.example.auth_data.remote.datasource.declaration.RemoteStudentsDataSource
-import com.example.auth_data.remote.request.ChangePasswordRequest
-import com.example.auth_data.remote.response.IdResponse
+import com.example.auth_data.remote.request.students.SignUpRequest
+import com.example.auth_data.remote.response.students.SignUpResponse
 import com.example.auth_data.util.HttpHandler
-import java.util.UUID
 import javax.inject.Inject
 
 class RemoteStudentsDataSourceImpl @Inject constructor(
-    private val managersApi: ManagersApi,
-): RemoteStudentsDataSource {
+    private val studentsApi: StudentsApi,
+) : RemoteStudentsDataSource {
+    override suspend fun postUserSignUp(
+        signUpRequest: SignUpRequest,
+    ) = HttpHandler<SignUpResponse>()
+        .httpRequest {
+            studentsApi.postRegister(
+                signUpRequest,
+            )
+        }.sendRequest()
 
-    override suspend fun findId(
-        schoolId: UUID,
-        name: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
-    ) = HttpHandler<IdResponse>()
-        .httpRequest { managersApi.findId(
-            schoolId,
-            name,
-            grade,
-            classRoom,
-            number,
-        ) }
-        .sendRequest()
-
-    override suspend fun changePassword(
-        changePasswordRequest: ChangePasswordRequest,
+    override suspend fun duplicateCheckId(
+        accountId: String,
     ) = HttpHandler<Unit>()
-        .httpRequest { managersApi.changePassword(
-            changePasswordRequest,
-        ) }
-        .sendRequest()
+        .httpRequest {
+            studentsApi.duplicateCheckId(
+                accountId
+            )
+        }.sendRequest()
+
+    override suspend fun duplicateCheckEmail(
+        email: String,
+    ) = HttpHandler<Unit>()
+        .httpRequest {
+            studentsApi.duplicateCheckEmail(
+                email
+            )
+        }.sendRequest()
 }
