@@ -13,10 +13,6 @@ interface UserRepository {
         loginParam: LoginParam,
     )
 
-    suspend fun register(
-        registerParam: RegisterParam,
-    )
-
     suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam
     )
@@ -35,17 +31,5 @@ interface UserRepository {
 
     suspend fun checkId(
         accountId: String,
-    )
-
-    suspend fun duplicateCheckId(
-        accountId: String
-    )
-
-    suspend fun duplicateCheckEmail(
-        email: String
-    )
-
-    suspend fun resetPassword(
-        resetPasswordParam: ResetPasswordParam
     )
 }
