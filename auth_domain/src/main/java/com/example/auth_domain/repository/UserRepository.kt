@@ -5,6 +5,7 @@ import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.LoginParam
 import com.example.auth_domain.param.CheckEmailCodeParam
 import com.example.auth_domain.param.RequestEmailCodeParam
+import com.example.auth_domain.param.ResetPasswordParam
 
 interface UserRepository {
 
@@ -42,5 +43,9 @@ interface UserRepository {
 
     suspend fun duplicateCheckEmail(
         email: String
+    )
+
+    suspend fun resetPassword(
+        resetPasswordParam: ResetPasswordParam
     )
 }

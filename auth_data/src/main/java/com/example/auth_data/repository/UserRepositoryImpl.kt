@@ -4,6 +4,7 @@ import com.example.auth_data.remote.datasource.declaration.RemoteAuthDataSource
 import com.example.auth_data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.auth_data.remote.request.auth.GetEmailCodeRequest
 import com.example.auth_data.remote.request.auth.SignInRequest
+import com.example.auth_data.remote.request.students.ResetPasswordRequest
 import com.example.auth_data.remote.request.students.SignUpRequest
 import com.example.auth_data.remote.response.auth.SignInResponse
 import com.example.auth_data.remote.response.students.SignUpResponse
@@ -12,6 +13,7 @@ import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.LoginParam
 import com.example.auth_domain.param.CheckEmailCodeParam
 import com.example.auth_domain.param.RequestEmailCodeParam
+import com.example.auth_domain.param.ResetPasswordParam
 import com.example.auth_domain.repository.UserRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
 import com.example.local_database.param.UserVisibleParam
@@ -76,6 +78,14 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun duplicateCheckEmail(
         email: String,
     ) = remoteStudentsDataSource.duplicateCheckEmail(email)
+
+    override suspend fun resetPassword(
+        resetPasswordParam: ResetPasswordParam
+    ) {
+        remoteStudentsDataSource.resetPassword(
+            resetPasswordParam.toRequest()
+        )
+    }
 }
 
 private fun SignInResponse.toEntity() =
@@ -131,4 +141,13 @@ private fun RequestEmailCodeParam.toRequest() =
     GetEmailCodeRequest(
         email = email,
         type = type,
+    )
+
+private fun ResetPasswordParam.toRequest() =
+    ResetPasswordRequest(
+        accountId = accountId,
+        authCode = authCode,
+        email = email,
+        name = name,
+        newPassword = newPassword
     )
