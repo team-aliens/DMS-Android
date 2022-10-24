@@ -35,4 +35,12 @@ interface UserRepository {
     suspend fun checkId(
         accountId: String,
     )
+
+    suspend fun duplicateCheckId(
+        accountId: String
+    )
+
+    suspend fun duplicateCheckEmail(
+        email: String
+    )
 }
