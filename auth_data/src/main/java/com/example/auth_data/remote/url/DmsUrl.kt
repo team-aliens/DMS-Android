@@ -16,7 +16,8 @@ object DmsUrl {
     object Students {
         const val register = "$students/signup"
         const val duplicateCheckId = "$students/account-id/duplication"
-        const val duplicateCheckEmail ="$students/email/duplication"
+        const val duplicateCheckEmail = "$students/email/duplication"
+        const val resetPassword = "$students/password/initialization"
     }
 
     object Schools {
