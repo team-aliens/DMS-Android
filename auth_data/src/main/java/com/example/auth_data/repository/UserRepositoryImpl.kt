@@ -1,10 +1,12 @@
 package com.example.auth_data.repository
 
-import com.example.auth_data.remote.datasource.declaration.RemoteUserDataSource
-import com.example.auth_data.remote.request.GetEmailCodeRequest
-import com.example.auth_data.remote.request.SignInRequest
-import com.example.auth_data.remote.request.SignUpRequest
-import com.example.auth_data.remote.response.SignInResponse
+import com.example.auth_data.remote.datasource.declaration.RemoteAuthDataSource
+import com.example.auth_data.remote.datasource.declaration.RemoteStudentsDataSource
+import com.example.auth_data.remote.request.auth.GetEmailCodeRequest
+import com.example.auth_data.remote.request.auth.SignInRequest
+import com.example.auth_data.remote.request.students.SignUpRequest
+import com.example.auth_data.remote.response.auth.SignInResponse
+import com.example.auth_data.remote.response.students.SignUpResponse
 import com.example.auth_domain.param.CompareEmailParam
 import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.LoginParam
@@ -16,32 +18,37 @@ import com.example.local_database.param.UserVisibleParam
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val remoteUserDataSource: RemoteUserDataSource,
+    private val remoteAuthDataSource: RemoteAuthDataSource,
+    private val remoteStudentsDataSource: RemoteStudentsDataSource,
     private val localUserDataSource: LocalUserDataSource,
 ) : UserRepository {
 
     override suspend fun login(
         loginParam: LoginParam,
     ) {
-        val response = remoteUserDataSource.postUserSignIn(
+        val response = remoteAuthDataSource.postUserSignIn(
             loginParam.toRequest()
         )
 
         localUserDataSource.setUserVisibleInform(response.features.toEntity())
     }
 
-
     override suspend fun register(
         registerParam: RegisterParam,
-    ) = remoteUserDataSource.postUserSignUp(registerParam.toRequest())
+    ) {
+        val response = remoteStudentsDataSource.postUserSignUp(
+            registerParam.toRequest()
+        )
+        localUserDataSource.setUserVisibleInform(response.features.toEntity())
+    }
 
     override suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam,
-    ) = remoteUserDataSource.requestEmailCode(requestEmailCodeParam.toRequest())
+    ) = remoteAuthDataSource.requestEmailCode(requestEmailCodeParam.toRequest())
 
     override suspend fun checkEmailCode(
         checkEmailCodeParam: CheckEmailCodeParam,
-    ) = remoteUserDataSource.checkEmailCode(
+    ) = remoteAuthDataSource.checkEmailCode(
         checkEmailCodeParam.email,
         checkEmailCodeParam.accountId,
         checkEmailCodeParam.type
@@ -49,18 +56,26 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun refreshToken(
         refreshToken: String,
-    ) = remoteUserDataSource.refreshToken(refreshToken)
+    ) = remoteAuthDataSource.refreshToken(refreshToken)
 
     override suspend fun compareEmail(
         compareEmailParam: CompareEmailParam,
-    ) = remoteUserDataSource.compareEmail(
+    ) = remoteAuthDataSource.compareEmail(
         compareEmailParam.accountId,
         compareEmailParam.email,
     )
 
     override suspend fun checkId(
         accountId: String,
-    ) = remoteUserDataSource.checkId(accountId)
+    ) = remoteAuthDataSource.checkId(accountId)
+
+    override suspend fun duplicateCheckId(
+        accountId: String,
+    ) = remoteStudentsDataSource.duplicateCheckId(accountId)
+
+    override suspend fun duplicateCheckEmail(
+        email: String,
+    ) = remoteStudentsDataSource.duplicateCheckEmail(email)
 }
 
 private fun SignInResponse.toEntity() =
@@ -72,6 +87,21 @@ private fun SignInResponse.toEntity() =
     )
 
 private fun SignInResponse.Features.toEntity() =
+    UserVisibleParam.FeaturesParam(
+        mealService = mealService,
+        noticeService = noticeService,
+        pointService = pointService,
+    )
+
+private fun SignUpResponse.toEntity() =
+    UserVisibleParam(
+        accessToken = accessToken,
+        expiredAt = expiredAt,
+        refreshToken = refreshToken,
+        features = features.toEntity()
+    )
+
+private fun SignUpResponse.Features.toEntity() =
     UserVisibleParam.FeaturesParam(
         mealService = mealService,
         noticeService = noticeService,
