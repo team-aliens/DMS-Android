@@ -12,7 +12,8 @@ import com.example.auth_domain.param.CheckEmailCodeParam
 import com.example.auth_domain.param.RequestEmailCodeParam
 import com.example.auth_domain.repository.UserRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.param.UserVisibleParam
+import com.example.local_database.param.FeaturesParam
+import com.example.local_database.param.UserPersonalKeyParam
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -27,6 +28,7 @@ class UserRepositoryImpl @Inject constructor(
             loginParam.toRequest()
         )
 
+        localUserDataSource.setPersonalKey(response.toEntity())
         localUserDataSource.setUserVisibleInform(response.features.toEntity())
     }
 
@@ -64,15 +66,14 @@ class UserRepositoryImpl @Inject constructor(
 }
 
 private fun SignInResponse.toEntity() =
-    UserVisibleParam(
+    UserPersonalKeyParam(
         accessToken = accessToken,
         expiredAt = expiredAt,
         refreshToken = refreshToken,
-        features = features.toEntity()
     )
 
 private fun SignInResponse.Features.toEntity() =
-    UserVisibleParam.FeaturesParam(
+    FeaturesParam(
         mealService = mealService,
         noticeService = noticeService,
         pointService = pointService,
