@@ -1,30 +1,15 @@
 package com.example.local_database.param
 
-import com.example.local_domain.entity.UserVisibleLocalEntity
+import com.example.local_domain.param.FeaturesVisibleParam
 
-data class UserVisibleParam(
-    val accessToken: String,
-    val expiredAt: String,
-    val refreshToken: String,
-    val features: FeaturesParam,
-) {
-    data class FeaturesParam(
-        val mealService: Boolean,
-        val noticeService: Boolean,
-        val pointService: Boolean,
-    )
-}
+data class FeaturesParam(
+    val mealService: Boolean,
+    val noticeService: Boolean,
+    val pointService: Boolean,
+)
 
-fun UserVisibleParam.toDbEntity() =
-    UserVisibleLocalEntity(
-        accessToken = accessToken,
-        expiredAt = expiredAt,
-        refreshToken = refreshToken,
-        features = features.toDbEntity()
-    )
-
-fun UserVisibleParam.FeaturesParam.toDbEntity() =
-    UserVisibleLocalEntity.FeaturesParam(
+fun FeaturesParam.toDbEntity() =
+    FeaturesVisibleParam(
         mealService = mealService,
         noticeService = noticeService,
         pointService = pointService,

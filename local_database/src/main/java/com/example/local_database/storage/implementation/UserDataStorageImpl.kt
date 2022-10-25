@@ -2,8 +2,12 @@ package com.example.local_database.storage.implementation
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.example.local_database.param.UserVisibleParam.FeaturesParam
+import com.example.local_database.param.FeaturesParam
+import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.storage.declaration.UserDataStorage
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.EXPIRED_AT
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.MEAL
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
@@ -13,6 +17,23 @@ import javax.inject.Inject
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ): UserDataStorage {
+
+    override fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
+        getSharedPreference().edit().let {
+            it.putString(ACCESS_TOKEN, personalKeyParam.accessToken)
+            it.putString(EXPIRED_AT, personalKeyParam.expiredAt)
+            it.putString(REFRESH_TOKEN, personalKeyParam.refreshToken)
+        }
+    }
+
+    override fun fetchAccessToken(): String =
+        getSharedPreference().getString(ACCESS_TOKEN, "")!!
+
+    override fun fetchExpiredAt(): String =
+        getSharedPreference().getString(EXPIRED_AT, "")!!
+
+    override fun fetchRefreshToken(): String =
+        getSharedPreference().getString(REFRESH_TOKEN, "")!!
 
     override fun setUserVisible(featuresParam: FeaturesParam) {
         getSharedPreference().edit().let {
@@ -33,6 +54,12 @@ class UserDataStorageImpl @Inject constructor(
 
     private fun getSharedPreference() =
         PreferenceManager.getDefaultSharedPreferences(context)
+
+    private object UserPersonalKey {
+        const val ACCESS_TOKEN = "ACCESS_TOKEN"
+        const val EXPIRED_AT = "EXPIRED_AT"
+        const val REFRESH_TOKEN = "REFRESH_TOKEN"
+    }
 
     private object UserVisible {
         const val MEAL = "MEAL"
