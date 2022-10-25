@@ -1,23 +1,20 @@
 package com.example.auth_data.remote.datasource.declaration
 
-import com.example.auth_data.remote.request.students.ResetPasswordRequest
-import com.example.auth_data.remote.request.students.SignUpRequest
-import com.example.auth_data.remote.response.students.SignUpResponse
+import com.example.auth_data.remote.request.ChangePasswordRequest
+import com.example.auth_data.remote.response.IdResponse
+import java.util.UUID
 
 interface RemoteStudentsDataSource {
-    suspend fun postUserSignUp(
-        signUpRequest: SignUpRequest,
-    ): SignUpResponse
 
-    suspend fun duplicateCheckId(
-        accountId: String
-    )
+    suspend fun findId(
+        schoolId: UUID,
+        name: String,
+        grade: Int,
+        classRoom: Int,
+        number: Int,
+    ): IdResponse
 
-    suspend fun duplicateCheckEmail(
-        email: String
-    )
-
-    suspend fun resetPassword(
-        resetPasswordRequest: ResetPasswordRequest
+    suspend fun changePassword(
+        changePasswordRequest: ChangePasswordRequest,
     )
 }

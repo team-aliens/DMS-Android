@@ -5,12 +5,15 @@ import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.LoginParam
 import com.example.auth_domain.param.CheckEmailCodeParam
 import com.example.auth_domain.param.RequestEmailCodeParam
-import com.example.auth_domain.param.ResetPasswordParam
 
 interface UserRepository {
 
     suspend fun login(
         loginParam: LoginParam,
+    )
+
+    suspend fun register(
+        registerParam: RegisterParam,
     )
 
     suspend fun requestEmailCode(

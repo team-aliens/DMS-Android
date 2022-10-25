@@ -6,8 +6,8 @@ import com.example.auth_domain.exception.NotFoundException
 import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnauthorizedException
-import com.example.auth_domain.param.ResetPasswordParam
-import com.example.auth_domain.usecase.auth.RemoteResetPasswordUseCase
+import com.example.auth_domain.param.ChangePasswordParam
+import com.example.auth_domain.usecase.students.RemoteChangePasswordUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.auth.changepassword.ChangePasswordEvent
 import com.example.dms_android.feature.auth.changepassword.ChangePasswordState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
-    private val changePasswordUseCase: RemoteResetPasswordUseCase
+    private val changePasswordUseCase: RemoteChangePasswordUseCase
 ) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
@@ -30,12 +30,11 @@ class ChangePasswordViewModel @Inject constructor(
     */
 
     private val parameter =
-        ResetPasswordParam(
+        ChangePasswordParam(
             accountId = "",
             email = "",
             authCode = "",
             newPassword = "",
-            name = "",
         )
 
     override val initialState: ChangePasswordState
