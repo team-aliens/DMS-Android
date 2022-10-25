@@ -29,6 +29,9 @@ object Dependency {
 
         const val DYNAMIC_TOAST = "com.pranavpandey.android:dynamic-toasts:${Versions.DYNAMIC_TOAST}"
 
+        const val COIL =
+            "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
+        const val CIRCLEIMAGEVIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
     }
 
     object Lifecycle {
@@ -91,6 +94,10 @@ object Dependency {
 
     object CoroutineTest {
         const val COROUTINES_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
+    }
+
+    object TedImagePicker {
+        const val TEDIMAGEPICKER = "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
     object UnitTest {

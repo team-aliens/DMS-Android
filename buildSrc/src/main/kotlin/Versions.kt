@@ -24,6 +24,8 @@ object Versions {
 
     const val MOSHI = "1.13.0"
 
+    const val COILCOMPOSE = "1.4.0"
+
     const val RETROFIT = "2.7.1"
     const val OKHTTP = "3.14.9"
 
@@ -33,6 +35,8 @@ object Versions {
     const val MOCKITO_INLINE = "2.21.0"
     const val COROUTINES_TEST = "1.6.4"
 
+    const val TEDIMAGEPICKER = "1.2.7"
+
     const val NAV = "2.4.1"
     const val ANI_NAV = "0.24.5-alpha"
     const val LANDSCAPIST = "1.4.7"
@@ -41,4 +45,5 @@ object Versions {
     const val SPLASH_SCREEN_VERSION = "1.0.0-beta01"
     const val COMPOSE = "1.2.0-alpha03"
     const val ACTIVITY_COMPOSE = "1.4.0"
+    const val CIRCLEIMAGEVIEW = "3.1.0"
 }

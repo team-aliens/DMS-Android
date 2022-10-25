@@ -1,9 +1,8 @@
 package com.example.auth_data.remote.datasource.declaration
 
-import com.example.auth_data.remote.request.GetEmailCodeRequest
-import com.example.auth_data.remote.request.SignInRequest
-import com.example.auth_data.remote.request.SignUpRequest
-import com.example.auth_data.remote.response.SignInResponse
+import com.example.auth_data.remote.request.user.GetEmailCodeRequest
+import com.example.auth_data.remote.request.user.SignInRequest
+import com.example.auth_data.remote.response.user.SignInResponse
 import com.example.auth_domain.enum.EmailType
 
 interface RemoteUserDataSource {
@@ -11,10 +10,6 @@ interface RemoteUserDataSource {
     suspend fun postUserSignIn(
         signInRequest: SignInRequest,
     ): SignInResponse
-
-    suspend fun postUserSignUp(
-        signUpRequest: SignUpRequest,
-    )
 
     suspend fun requestEmailCode(
         requestEmailCodeRequest: GetEmailCodeRequest,
