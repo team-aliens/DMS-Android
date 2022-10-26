@@ -73,6 +73,8 @@ dependencies {
 
     implementation(Dependency.Date.THREETENAPP)
 
+    implementation(Dependency.Compose.ViewPager.VIEWPAGER)
+
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
     implementation(Dependency.Hilt.HILT_VIEWMODEL)

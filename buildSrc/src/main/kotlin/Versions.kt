@@ -46,4 +46,6 @@ object Versions {
     const val COMPOSE = "1.2.0-alpha03"
     const val ACTIVITY_COMPOSE = "1.4.0"
     const val CIRCLEIMAGEVIEW = "3.1.0"
+
+    const val VIEWPAGER = "0.20.1"
 }

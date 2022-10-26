@@ -71,6 +71,11 @@ object Dependency {
         const val COMPOSE_ANI_NAV = "com.google.accompanist:accompanist-navigation-animation:${Versions.ANI_NAV}"
         const val COMPOSE_LANDSCAPIST = "com.github.skydoves:landscapist-glide:${Versions.LANDSCAPIST}"
         const val COMPOSE_HILT_NAV = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAV}"
+
+        object ViewPager {
+            const val VIEWPAGER = "com.google.accompanist:accompanist-pager:${Versions.VIEWPAGER}"
+            const val VIEWPAGER_INDICATOR = "com.google.accompanist:accompanist-pager-indicators${Versions.VIEWPAGER}"
+        }
     }
 
     object Hilt {
