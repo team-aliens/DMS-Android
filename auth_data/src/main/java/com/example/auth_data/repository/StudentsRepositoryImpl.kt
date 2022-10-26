@@ -8,7 +8,7 @@ import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.ResetPasswordParam
 import com.example.auth_domain.repository.StudentsRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.param.UserVisibleParam
+import com.example.local_database.param.FeaturesParam
 import javax.inject.Inject
 
 class StudentsRepositoryImpl @Inject constructor(
@@ -41,16 +41,8 @@ class StudentsRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun SignUpResponse.toEntity() =
-        UserVisibleParam(
-            accessToken = accessToken,
-            expiredAt = expiredAt,
-            refreshToken = refreshToken,
-            features = features.toEntity()
-        )
-
     private fun SignUpResponse.Features.toEntity() =
-        UserVisibleParam.FeaturesParam(
+        FeaturesParam(
             mealService = mealService,
             noticeService = noticeService,
             pointService = pointService,
