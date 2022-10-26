@@ -27,7 +27,7 @@ object RoomModule {
     }
 
     @Provides
-    fun provideWalkHubDatabase(
+    fun provideDMSDatabase(
         @ApplicationContext context: Context,
         moshi: Moshi
     ): DMSDataBase = Room

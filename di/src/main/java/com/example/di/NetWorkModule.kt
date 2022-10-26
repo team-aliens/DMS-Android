@@ -27,14 +27,14 @@ object NetWorkModule {
             .build()
 
     @Provides
-    fun provideChallengeApi(retrofit: Retrofit): StudentsApi =
+    fun provideStudentsApi(retrofit: Retrofit): StudentsApi =
         retrofit.create(StudentsApi::class.java)
 
     @Provides
-    fun provideExerciseApi(retrofit: Retrofit): UserApi =
+    fun provideUserApi(retrofit: Retrofit): UserApi =
         retrofit.create(UserApi::class.java)
 
     @Provides
-    fun provideImageApi(retrofit: Retrofit): MealApi =
+    fun provideMealApi(retrofit: Retrofit): MealApi =
         retrofit.create(MealApi::class.java)
 }
