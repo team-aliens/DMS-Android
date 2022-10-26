@@ -69,12 +69,6 @@ class UserRepositoryImpl @Inject constructor(
             mealService = mealService,
             noticeService = noticeService,
             pointService = pointService,
-
-    private fun SignInResponse.Features.toEntity() =
-        UserVisibleParam.FeaturesParam(
-            mealService = mealService,
-            noticeService = noticeService,
-            pointService = pointService,
         )
 
     private fun LoginParam.toRequest() =

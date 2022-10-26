@@ -9,8 +9,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/auth_data" />
+            <option value="$PROJECT_DIR$/auth_domain" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/design-system" />
+            <option value="$PROJECT_DIR$/di" />
+            <option value="$PROJECT_DIR$/feature_data" />
+            <option value="$PROJECT_DIR$/feature_domain" />
+            <option value="$PROJECT_DIR$/local_database" />
+            <option value="$PROJECT_DIR$/local_domain" />
             <option value="$PROJECT_DIR$/presentation" />
           </set>
         </option>
