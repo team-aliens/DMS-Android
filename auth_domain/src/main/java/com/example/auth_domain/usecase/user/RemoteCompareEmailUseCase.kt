@@ -1,4 +1,4 @@
-package com.example.auth_domain.usecase.auth
+package com.example.auth_domain.usecase.user
 
 import com.example.auth_domain.param.CompareEmailParam
 import com.example.auth_domain.repository.UserRepository
