@@ -1,7 +1,10 @@
 package com.example.auth_data.repository
 
 import com.example.auth_data.remote.datasource.declaration.RemoteSchoolsDataSource
+import com.example.auth_data.remote.response.schools.SchoolConfirmQuestionResponse
+import com.example.auth_data.remote.response.schools.SchoolIdResponse
 import com.example.auth_domain.entity.SchoolConfirmQuestionEntity
+import com.example.auth_domain.entity.SchoolIdEntity
 import com.example.auth_domain.param.SchoolAnswerParam
 import com.example.auth_domain.repository.SchoolsRepository
 import java.util.UUID
@@ -12,7 +15,7 @@ class SchoolsRepositoryImpl @Inject constructor(
 ) : SchoolsRepository {
 
     override suspend fun schoolQuestion(schoolId: UUID): SchoolConfirmQuestionEntity =
-        remoteSchoolsDataSource.schoolQuestion(schoolId)
+        remoteSchoolsDataSource.schoolQuestion(schoolId).toEntity()
 
     override suspend fun schoolAnswer(schoolAnswerParam: SchoolAnswerParam) {
         remoteSchoolsDataSource.schoolAnswer(
@@ -22,5 +25,15 @@ class SchoolsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun schoolCode(schoolCode: String) =
-        remoteSchoolsDataSource.schoolCode(schoolCode)
+        remoteSchoolsDataSource.schoolCode(schoolCode).toEntity()
+
+    private fun SchoolConfirmQuestionResponse.toEntity() =
+        SchoolConfirmQuestionEntity(
+            question = question
+        )
+
+    private fun SchoolIdResponse.toEntity() =
+        SchoolIdEntity(
+            schoolId = schoolId
+        )
 }

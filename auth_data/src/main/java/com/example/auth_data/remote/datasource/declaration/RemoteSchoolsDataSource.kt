@@ -1,14 +1,14 @@
 package com.example.auth_data.remote.datasource.declaration
 
-import com.example.auth_domain.entity.SchoolConfirmQuestionEntity
-import com.example.auth_domain.entity.SchoolIdEntity
+import com.example.auth_data.remote.response.schools.SchoolConfirmQuestionResponse
+import com.example.auth_data.remote.response.schools.SchoolIdResponse
 import java.util.UUID
 
 interface RemoteSchoolsDataSource {
 
     suspend fun schoolQuestion(
         schoolId: UUID
-    ): SchoolConfirmQuestionEntity
+    ): SchoolConfirmQuestionResponse
 
     suspend fun schoolAnswer(
         schoolId: UUID,
@@ -17,5 +17,5 @@ interface RemoteSchoolsDataSource {
 
     suspend fun schoolCode(
         schoolCode: String
-    ): SchoolIdEntity
+    ): SchoolIdResponse
 }
