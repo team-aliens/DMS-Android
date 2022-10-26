@@ -17,18 +17,18 @@ class RemoteSchoolsDataSourceImpl @Inject constructor(
             .httpRequest { schoolsApi.schoolQuestion(schoolId) }
             .sendRequest()
 
-    override suspend fun schoolAnswer(schoolId: UUID, answer: String) =
+    override suspend fun compareSchoolAnswer(schoolId: UUID, answer: String) =
         HttpHandler<Unit>()
             .httpRequest {
-                schoolsApi.schoolAnswer(
+                schoolsApi.compareSchoolAnswer(
                     schoolId = schoolId,
                     answer = answer,
                 )
             }
             .sendRequest()
 
-    override suspend fun schoolCode(schoolCode: String) =
+    override suspend fun examineSchoolCode(schoolCode: String) =
         HttpHandler<SchoolIdResponse>()
-            .httpRequest { schoolsApi.schoolCode(schoolCode) }
+            .httpRequest { schoolsApi.examineSchoolCode(schoolCode) }
             .sendRequest()
 }

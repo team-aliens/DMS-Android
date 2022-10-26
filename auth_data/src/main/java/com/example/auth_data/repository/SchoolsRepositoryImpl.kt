@@ -17,15 +17,15 @@ class SchoolsRepositoryImpl @Inject constructor(
     override suspend fun schoolQuestion(schoolId: UUID): SchoolConfirmQuestionEntity =
         remoteSchoolsDataSource.schoolQuestion(schoolId).toEntity()
 
-    override suspend fun schoolAnswer(schoolAnswerParam: SchoolAnswerParam) {
-        remoteSchoolsDataSource.schoolAnswer(
+    override suspend fun compareSchoolAnswer(schoolAnswerParam: SchoolAnswerParam) {
+        remoteSchoolsDataSource.compareSchoolAnswer(
             schoolId = schoolAnswerParam.schoolId,
             answer = schoolAnswerParam.answer,
         )
     }
 
-    override suspend fun schoolCode(schoolCode: String) =
-        remoteSchoolsDataSource.schoolCode(schoolCode).toEntity()
+    override suspend fun examineSchoolCode(schoolCode: String) =
+        remoteSchoolsDataSource.examineSchoolCode(schoolCode).toEntity()
 
     private fun SchoolConfirmQuestionResponse.toEntity() =
         SchoolConfirmQuestionEntity(

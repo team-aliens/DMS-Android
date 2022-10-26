@@ -11,11 +11,11 @@ interface SchoolsRepository {
         schoolId: UUID
     ): SchoolConfirmQuestionEntity
 
-    suspend fun schoolAnswer(
+    suspend fun compareSchoolAnswer(
         schoolAnswerParam: SchoolAnswerParam
     )
 
-    suspend fun schoolCode(
+    suspend fun examineSchoolCode(
         schoolCode: String
     ): SchoolIdEntity
 }

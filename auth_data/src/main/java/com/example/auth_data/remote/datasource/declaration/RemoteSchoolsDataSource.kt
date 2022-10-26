@@ -10,12 +10,12 @@ interface RemoteSchoolsDataSource {
         schoolId: UUID
     ): SchoolConfirmQuestionResponse
 
-    suspend fun schoolAnswer(
+    suspend fun compareSchoolAnswer(
         schoolId: UUID,
         answer: String,
     )
 
-    suspend fun schoolCode(
+    suspend fun examineSchoolCode(
         schoolCode: String
     ): SchoolIdResponse
 }

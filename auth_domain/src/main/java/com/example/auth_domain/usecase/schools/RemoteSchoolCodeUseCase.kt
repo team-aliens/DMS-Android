@@ -9,5 +9,5 @@ class RemoteSchoolCodeUseCase @Inject constructor(
     private val schoolsRepository: SchoolsRepository
 ) : UseCase<String, SchoolIdEntity>() {
     override suspend fun execute(data: String): SchoolIdEntity =
-        schoolsRepository.schoolCode(data)
+        schoolsRepository.examineSchoolCode(data)
 }

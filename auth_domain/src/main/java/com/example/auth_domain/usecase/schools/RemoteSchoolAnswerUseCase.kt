@@ -9,6 +9,6 @@ class RemoteSchoolAnswerUseCase @Inject constructor(
     private val schoolsRepository: SchoolsRepository
 ) : UseCase<SchoolAnswerParam, Unit>() {
     override suspend fun execute(data: SchoolAnswerParam) {
-        schoolsRepository.schoolAnswer(data)
+        schoolsRepository.compareSchoolAnswer(data)
     }
 }

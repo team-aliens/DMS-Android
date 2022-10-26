@@ -16,13 +16,13 @@ interface SchoolsApi {
     ): SchoolConfirmQuestionResponse
 
     @GET(DmsUrl.Schools.schoolAnswer)
-    suspend fun schoolAnswer(
+    suspend fun compareSchoolAnswer(
         @Path("school-id") schoolId: UUID,
         @Query("answer") answer: String,
     )
 
     @GET(DmsUrl.Schools.schoolCode)
-    suspend fun schoolCode(
+    suspend fun examineSchoolCode(
         @Query("school_code") schoolCode: String
     ): SchoolIdResponse
 }
