@@ -7,7 +7,7 @@ import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnauthorizedException
 import com.example.auth_domain.param.ResetPasswordParam
-import com.example.auth_domain.usecase.auth.RemoteResetPasswordUseCase
+import com.example.auth_domain.usecase.students.RemoteResetPasswordUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.auth.changepassword.ChangePasswordEvent
 import com.example.dms_android.feature.auth.changepassword.ChangePasswordState
