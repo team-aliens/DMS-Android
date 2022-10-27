@@ -8,7 +8,7 @@ import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnauthorizedException
 import com.example.auth_domain.param.RegisterParam
-import com.example.auth_domain.usecase.auth.RemoteSignUpUseCase
+import com.example.auth_domain.usecase.students.RemoteSignUpUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.SignUpEvent
 import com.example.dms_android.feature.register.state.SignUpState
