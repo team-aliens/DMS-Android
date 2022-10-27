@@ -37,4 +37,7 @@ dependencies {
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.INJECT)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+
+    implementation(Dependency.Kotlin.COROUTINES_CORE)
+    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
 }

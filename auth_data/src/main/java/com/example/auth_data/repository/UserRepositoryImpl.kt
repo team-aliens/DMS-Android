@@ -1,18 +1,17 @@
 package com.example.auth_data.repository
 
 import com.example.auth_data.remote.datasource.declaration.RemoteUserDataSource
-import com.example.auth_data.remote.request.GetEmailCodeRequest
-import com.example.auth_data.remote.request.SignInRequest
-import com.example.auth_data.remote.request.SignUpRequest
-import com.example.auth_data.remote.response.SignInResponse
+import com.example.auth_data.remote.request.user.GetEmailCodeRequest
+import com.example.auth_data.remote.request.user.SignInRequest
+import com.example.auth_data.remote.response.user.SignInResponse
 import com.example.auth_domain.param.CompareEmailParam
-import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.LoginParam
 import com.example.auth_domain.param.CheckEmailCodeParam
 import com.example.auth_domain.param.RequestEmailCodeParam
 import com.example.auth_domain.repository.UserRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.param.UserVisibleParam
+import com.example.local_database.param.FeaturesParam
+import com.example.local_database.param.UserPersonalKeyParam
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -27,13 +26,9 @@ class UserRepositoryImpl @Inject constructor(
             loginParam.toRequest()
         )
 
+        localUserDataSource.setPersonalKey(response.toEntity())
         localUserDataSource.setUserVisibleInform(response.features.toEntity())
     }
-
-
-    override suspend fun register(
-        registerParam: RegisterParam,
-    ) = remoteUserDataSource.postUserSignUp(registerParam.toRequest())
 
     override suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam,
@@ -61,44 +56,30 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun checkId(
         accountId: String,
     ) = remoteUserDataSource.checkId(accountId)
+
+    private fun SignInResponse.toEntity() =
+        UserPersonalKeyParam(
+            accessToken = accessToken,
+            expiredAt = expiredAt,
+            refreshToken = refreshToken,
+    )
+
+    private fun SignInResponse.Features.toEntity() =
+        FeaturesParam(
+            mealService = mealService,
+            noticeService = noticeService,
+            pointService = pointService,
+        )
+
+    private fun LoginParam.toRequest() =
+        SignInRequest(
+            id = id,
+            password = password,
+        )
+
+    private fun RequestEmailCodeParam.toRequest() =
+        GetEmailCodeRequest(
+            email = email,
+            type = type,
+        )
 }
-
-private fun SignInResponse.toEntity() =
-    UserVisibleParam(
-        accessToken = accessToken,
-        expiredAt = expiredAt,
-        refreshToken = refreshToken,
-        features = features.toEntity()
-    )
-
-private fun SignInResponse.Features.toEntity() =
-    UserVisibleParam.FeaturesParam(
-        mealService = mealService,
-        noticeService = noticeService,
-        pointService = pointService,
-    )
-
-private fun LoginParam.toRequest() =
-    SignInRequest(
-        id = id,
-        password = password,
-    )
-
-private fun RegisterParam.toRequest() =
-    SignUpRequest(
-        schoolCode = schoolCode,
-        schoolAnswer = schoolAnswer,
-        email = email,
-        authCode = authCode,
-        grade = grade,
-        number = number,
-        accountId = accountId,
-        password = password,
-        profileImageUrl = profileImageUrl,
-    )
-
-private fun RequestEmailCodeParam.toRequest() =
-    GetEmailCodeRequest(
-        email = email,
-        type = type,
-    )

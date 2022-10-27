@@ -52,12 +52,15 @@ dependencies {
     implementation(project(":auth_domain"))
     implementation(project(":feature_domain"))
     implementation(project(":local_domain"))
+    implementation(project(":di"))
     implementation(project(":design-system"))
 
     implementation(Dependency.Ui.CORE_KTX)
     implementation(Dependency.Ui.APP_COMPAT)
     implementation(Dependency.Ui.MATERIAL)
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
+    implementation(Dependency.Ui.CIRCLEIMAGEVIEW)
+    implementation(Dependency.Ui.COIL)
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
@@ -68,6 +71,8 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
 
+    implementation(Dependency.Date.THREETENAPP)
+
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
     implementation(Dependency.Hilt.HILT_VIEWMODEL)
@@ -75,6 +80,8 @@ dependencies {
     implementation(Dependency.Lifecycle.LIVEDATA)
     implementation(Dependency.Lifecycle.VIEWMODEL)
     implementation(Dependency.Lifecycle.RUNTIME)
+
+    implementation(Dependency.TedImagePicker.TEDIMAGEPICKER)
 
     implementation(Dependency.ViewModel.VIEWMODEL)
     implementation(Dependency.ViewModel.LIVEDATA)
