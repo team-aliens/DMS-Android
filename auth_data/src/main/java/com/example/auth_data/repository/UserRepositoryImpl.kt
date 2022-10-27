@@ -38,8 +38,8 @@ class UserRepositoryImpl @Inject constructor(
         checkEmailCodeParam: CheckEmailCodeParam,
     ) = remoteUserDataSource.checkEmailCode(
         checkEmailCodeParam.email,
-        checkEmailCodeParam.accountId,
-        checkEmailCodeParam.type
+        checkEmailCodeParam.authCode,
+        checkEmailCodeParam.type,
     )
 
     override suspend fun refreshToken(
