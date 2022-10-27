@@ -1,4 +1,4 @@
-package com.example.auth_domain.usecase.auth
+package com.example.auth_domain.usecase.user
 
 import com.example.auth_domain.param.CheckEmailCodeParam
 import com.example.auth_domain.repository.UserRepository

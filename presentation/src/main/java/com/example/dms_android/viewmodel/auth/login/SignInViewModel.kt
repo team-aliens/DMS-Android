@@ -7,7 +7,7 @@ import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnauthorizedException
 import com.example.auth_domain.param.LoginParam
-import com.example.auth_domain.usecase.auth.RemoteSignInUseCase
+import com.example.auth_domain.usecase.user.RemoteSignInUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.auth.login.SignInEvent
 import com.example.dms_android.feature.auth.login.SignInState

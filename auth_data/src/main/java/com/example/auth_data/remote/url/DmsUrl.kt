@@ -4,6 +4,7 @@ object DmsUrl {
 
     const val auth = "auth"
     const val students = "students"
+    const val schools = "schools"
 
     object User {
         const val login = auth
@@ -21,6 +22,8 @@ object DmsUrl {
     }
 
     object Schools {
-        //TODO: SChool
+        const val schoolQuestions= "$schools/question"
+        const val schoolAnswer = "$schools/answer"
+        const val schoolCode = "$schools/code"
     }
 }

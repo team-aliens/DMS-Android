@@ -1,4 +1,4 @@
-package com.example.auth_domain.usecase.auth
+package com.example.auth_domain.usecase.students
 
 import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.repository.StudentsRepository
