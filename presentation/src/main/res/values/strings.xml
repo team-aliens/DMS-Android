@@ -20,6 +20,7 @@
     <string name="VerificationMine">계정 본인인증</string>
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
+    <style name="NoSameCode">인증코드가 일치하지 않습니다.</style>
     <string name="EnterName">이름 입력</string>
     <string name="set_password">비밀번호 설정</string>
     <string name="enter_password">비밀번호 입력</string>
