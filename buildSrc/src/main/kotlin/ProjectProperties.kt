@@ -10,7 +10,7 @@ object ProjectProperties {
     const val GRADLE_KOTLIN = "1.6.10"
 
     val JAVA_VERSION = JavaVersion.VERSION_1_8
-    const val KOTLIN_VERSION = "1.6.10"
+    const val KOTLIN_VERSION = "1.7.0"
     const val KOTLINX_COROUTINES = "1.6.0"
 
     const val BUILD_GRADLE = "4.2.1"

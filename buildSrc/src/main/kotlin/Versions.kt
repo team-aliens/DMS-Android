@@ -12,7 +12,7 @@ object Versions {
     const val DYNAMIC_TOAST = "3.3.1"
     const val DATASTORE = "1.0.0"
 
-    const val HILT = "2.38.1"
+    const val HILT = "2.44"
     const val HILTVIEWMODEL = "1.0.0-alpha03"
 
     const val VIEWMODEL = "2.4.0-rc01"

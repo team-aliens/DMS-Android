@@ -48,6 +48,7 @@ dependencies {
 
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
 
     implementation(Dependency.Room.ROOM_KTX)
     kapt(Dependency.Room.ROOM_COMPILER)
