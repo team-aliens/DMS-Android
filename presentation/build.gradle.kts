@@ -21,7 +21,6 @@ android {
 
     buildFeatures {
         compose = true
-        dataBinding = true
     }
 
     buildTypes {
@@ -33,6 +32,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = ProjectProperties.JAVA_VERSION
         targetCompatibility = ProjectProperties.JAVA_VERSION
@@ -43,6 +43,9 @@ android {
         kotlinCompilerVersion = ProjectProperties.KOTLIN_VERSION
     }
 
+    packagingOptions {
+        exclude("META-INF/gradle/incremental.annotation.processors")
+    }
     kotlinOptions {
         jvmTarget = ProjectProperties.JAVA_VERSION.toString()
     }
@@ -71,11 +74,8 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
 
-    implementation(Dependency.Date.THREETENAPP)
-
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
-    implementation(Dependency.Hilt.HILT_VIEWMODEL)
 
     implementation(Dependency.Lifecycle.LIVEDATA)
     implementation(Dependency.Lifecycle.VIEWMODEL)
@@ -87,4 +87,5 @@ dependencies {
     implementation(Dependency.ViewModel.LIVEDATA)
 
     implementation(Dependency.UnitTest.JUNIT)
+
 }

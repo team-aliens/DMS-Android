@@ -47,12 +47,14 @@ dependencies {
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
     implementation(Dependency.Retrofit.OKHTTP_LOGGING)
 
-    implementation(Dependency.Hilt.HILT_VIEWMODEL)
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
     implementation(Dependency.Moshi.MOSHI)
     kapt(Dependency.Moshi.MOSHI_COMPILER)
+
+    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependency.Retrofit.LOGINTERCEPTER)
 
     implementation(Dependency.Room.ROOM_KTX)
     kapt(Dependency.Room.ROOM_COMPILER)

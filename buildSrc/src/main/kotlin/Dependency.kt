@@ -53,6 +53,7 @@ object Dependency {
     object Room {
         const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
         const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
+        const val ROOM = "androidx.room:room-common:${Versions.ROOM}"
     }
 
     object DataStore {
@@ -76,7 +77,6 @@ object Dependency {
     object Hilt {
         const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
         const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
-        const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.HILTVIEWMODEL}"
         const val INJECT = "javax.inject:javax.inject:1"
     }
 
@@ -90,6 +90,7 @@ object Dependency {
         const val RETROFIT_CONVERTER_GSON =
             "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
         const val OKHTTP_LOGGING = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
+        const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }
 
     object CoroutineTest {
