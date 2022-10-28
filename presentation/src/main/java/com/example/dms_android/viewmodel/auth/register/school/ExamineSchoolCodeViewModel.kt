@@ -11,9 +11,11 @@ import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEv
 import com.example.dms_android.feature.register.state.school.ExamineSchoolCodeState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
     private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase
 ) : BaseViewModel<ExamineSchoolCodeState, ExamineSchoolCodeEvent>() {
