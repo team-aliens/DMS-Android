@@ -1,4 +1,4 @@
-package com.example.dms_android.feature.register.screen
+package com.example.dms_android.feature.register.screen.email
 
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
@@ -12,13 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,9 +35,11 @@ import com.example.dms_android.R
 import com.example.dms_android.feature.register.screen.component.OTP_VIEW_TYPE_UNDERLINE
 import com.example.dms_android.feature.register.screen.component.OtpView
 
-@Preview
+
 @Composable
-fun EmailVerificationScreen() {
+fun EmailVerificationScreen(
+
+) {
 
     var otpValue by remember { mutableStateOf("") }
     Box(
