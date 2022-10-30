@@ -40,6 +40,7 @@ import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEv
 import com.example.dms_android.feature.register.event.school.SchoolQuestionEvent
 import com.example.dms_android.util.EventFlow
 import com.example.dms_android.util.observeWithLifecycle
+import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.school.CompareSchoolAnswerViewModel
 import com.example.dms_android.viewmodel.auth.register.school.SchoolQuestionViewModel
 
@@ -50,6 +51,7 @@ fun ConfirmSchoolScreen(
     scaffoldState: ScaffoldState,
     schoolQuestionViewModel: SchoolQuestionViewModel = hiltViewModel(),
     compareSchoolAnswerViewModel: CompareSchoolAnswerViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
     HandleViewEffect(
         scaffoldState = scaffoldState,
@@ -100,8 +102,9 @@ fun ConfirmSchoolScreen(
                 value = replyValue,
                 onValueChange = {
                     replyValue = it
-                    compareSchoolAnswerViewModel.setSchoolAnswer(replyValue)
+                    compareSchoolAnswerViewModel.setSchoolAnswer(schoolAnswer = replyValue)
                     compareSchoolAnswerViewModel.compareSchoolAnswer()
+                    signUpViewModel.setSchoolAnswer(schoolAnswer = replyValue)
                 },
                 error = if (onActive) null else stringResource(R.string.inconsistent_school_reply),
                 hint = stringResource(R.string.reply),

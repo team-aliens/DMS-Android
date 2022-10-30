@@ -39,6 +39,7 @@ import com.example.dms_android.feature.register.screen.component.OTP_VIEW_TYPE_U
 import com.example.dms_android.feature.register.screen.component.OtpView
 import com.example.dms_android.util.EventFlow
 import com.example.dms_android.util.observeWithLifecycle
+import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 
 private var onBtnActive = false
@@ -47,6 +48,7 @@ private var onBtnActive = false
 fun SchoolCertificationCodeScreen(
     scaffoldState: ScaffoldState,
     examineSchoolCodeViewModel: ExamineSchoolCodeViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
     HandleViewEffect(
         scaffoldState = scaffoldState,
@@ -88,7 +90,8 @@ fun SchoolCertificationCodeScreen(
                 otpText = otpValue,
                 onOtpTextChange = {
                     otpValue = it
-                    examineSchoolCodeViewModel.setSchoolCode(otpValue)
+                    examineSchoolCodeViewModel.setSchoolCode(schoolCode = otpValue)
+                    signUpViewModel.setSchoolCode(schoolCode = otpValue)
                     if ((examineSchoolCodeViewModel.state.value.schoolCode.length == 8)) {
                         examineSchoolCodeViewModel.examineSchoolCode(schoolCode = otpValue)
                     }
