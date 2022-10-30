@@ -23,6 +23,14 @@ class SignUpViewModel @Inject constructor(
     private val remoteSignUpUseCase: RemoteSignUpUseCase
 ) : BaseViewModel<SignUpState, SignUpEvent>() {
 
+    fun setSchoolCode(schoolCode: String) {
+        sendEvent(SignUpEvent.InputSchoolCode(schoolCode))
+    }
+
+    fun setSchoolAnswer(schoolAnswer: String) {
+        sendEvent(SignUpEvent.InputSchoolAnswer(schoolAnswer))
+    }
+
     private val parameter =
         RegisterParam(
             schoolCode = "",
