@@ -13,6 +13,7 @@ import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +21,8 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase
 ) : BaseViewModel<ExamineSchoolCodeState, ExamineSchoolCodeEvent>() {
 
-    fun setSchoolCode(schoolCode: String){
+    private lateinit var schoolId : UUID
+    fun setSchoolCode(schoolCode: String) {
         sendEvent(ExamineSchoolCodeEvent.InputSchoolCode(schoolCode))
     }
 
@@ -30,9 +32,9 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     fun examineSchoolCode(schoolCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteSchoolCodeUseCase.execute(schoolCode)
+                schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
             }.onSuccess {
-                ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess
+                ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess(schoolId)
             }.onFailure {
                 when (it) {
                     is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
@@ -53,6 +55,7 @@ class ExamineSchoolCodeViewModel @Inject constructor(
             is ExamineSchoolCodeEvent.InputSchoolCode -> {
                 setState(oldState.copy(schoolCode = event.schoolCode))
             }
+
             else -> {
 
             }
