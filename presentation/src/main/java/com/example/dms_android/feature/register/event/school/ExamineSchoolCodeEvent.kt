@@ -5,9 +5,7 @@ import java.util.UUID
 
 
 sealed class ExamineSchoolCodeEvent: MviEvent {
-
     data class InputSchoolCode(val schoolCode: String) : ExamineSchoolCodeEvent()
-
     data class ExamineSchoolCodeSuccess(val schoolId: UUID) : ExamineSchoolCodeEvent()
     object BadRequestException : ExamineSchoolCodeEvent()
     object UnAuthorizedException : ExamineSchoolCodeEvent()
