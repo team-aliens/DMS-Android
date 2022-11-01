@@ -36,7 +36,6 @@ import com.example.design_system.typography.ButtonText
 import com.example.design_system.typography.Caption
 import com.example.dms_android.R
 import com.example.dms_android.feature.register.event.school.CompareSchoolAnswerEvent
-import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import com.example.dms_android.feature.register.event.school.SchoolQuestionEvent
 import com.example.dms_android.util.EventFlow
 import com.example.dms_android.util.observeWithLifecycle
@@ -44,7 +43,8 @@ import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.school.CompareSchoolAnswerViewModel
 import com.example.dms_android.viewmodel.auth.register.school.SchoolQuestionViewModel
 
-var onActive = false
+private var onActive = false
+private var question = ""
 
 @Composable
 fun ConfirmSchoolScreen(
@@ -53,11 +53,11 @@ fun ConfirmSchoolScreen(
     compareSchoolAnswerViewModel: CompareSchoolAnswerViewModel = hiltViewModel(),
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    HandleViewEffect(
+    SchoolQuestionHandleViewEffect(
         scaffoldState = scaffoldState,
         effect = schoolQuestionViewModel.schoolQuestionEvent,
     )
-    HandleViewEffectTwo(
+    CompareSchoolHandleViewEffect(
         scaffoldState = scaffoldState,
         effect = compareSchoolAnswerViewModel.compareSchoolAnswerEvent,
     )
@@ -91,7 +91,7 @@ fun ConfirmSchoolScreen(
                     .height(60.dp)
             )
             Body4(
-                text = TODO("여기에 그 질문 넣어야되는데 어떻게 할지 모르겠음"),
+                text = question,
                 color = DormColor.Gray700
             )
             Spacer(
@@ -155,7 +155,7 @@ fun ConfirmSchoolScreen(
 }
 
 @Composable
-fun HandleViewEffect(
+fun SchoolQuestionHandleViewEffect(
     scaffoldState: ScaffoldState,
     effect: EventFlow<SchoolQuestionEvent>,
 ) {
@@ -168,7 +168,6 @@ fun HandleViewEffect(
     effect.observeWithLifecycle(action = {
         when (it) {
             is SchoolQuestionEvent.SchoolQuestionSuccess -> {
-                //TODO: 여기서 schoolQuestion띄워주는 코드 작성하는게 맞는거지?
             }
 
             is SchoolQuestionEvent.BadRequestException -> {
@@ -213,7 +212,7 @@ fun HandleViewEffect(
 }
 
 @Composable
-fun HandleViewEffectTwo(
+fun CompareSchoolHandleViewEffect(
     scaffoldState: ScaffoldState,
     effect: EventFlow<CompareSchoolAnswerEvent>,
 ) {
