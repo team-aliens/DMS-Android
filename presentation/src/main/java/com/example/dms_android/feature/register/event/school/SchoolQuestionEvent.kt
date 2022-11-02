@@ -4,7 +4,7 @@ import com.example.dms_android.base.MviEvent
 
 
 sealed class SchoolQuestionEvent : MviEvent {
-    data class SchoolQuestionSuccess(val question: String) : SchoolQuestionEvent()
+    object SchoolQuestionSuccess : SchoolQuestionEvent()
     object BadRequestException : SchoolQuestionEvent()
     object NotFoundException : SchoolQuestionEvent()
     object TooManyRequestException : SchoolQuestionEvent()
