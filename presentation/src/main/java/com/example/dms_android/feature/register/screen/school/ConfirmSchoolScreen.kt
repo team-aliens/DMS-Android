@@ -43,8 +43,8 @@ import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.school.CompareSchoolAnswerViewModel
 import com.example.dms_android.viewmodel.auth.register.school.SchoolQuestionViewModel
 
+
 private var onActive = false
-private var question = ""
 
 @Composable
 fun ConfirmSchoolScreen(
@@ -61,6 +61,7 @@ fun ConfirmSchoolScreen(
         scaffoldState = scaffoldState,
         effect = compareSchoolAnswerViewModel.compareSchoolAnswerEvent,
     )
+    schoolQuestionViewModel.schoolQuestion(schoolId = TODO("네비게이터로 넘어온거 받아주기"))
     var replyValue by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
@@ -91,7 +92,7 @@ fun ConfirmSchoolScreen(
                     .height(60.dp)
             )
             Body4(
-                text = question,
+                text = schoolQuestionViewModel.question.value.toString(),
                 color = DormColor.Gray700
             )
             Spacer(
@@ -104,7 +105,6 @@ fun ConfirmSchoolScreen(
                     replyValue = it
                     compareSchoolAnswerViewModel.setSchoolAnswer(schoolAnswer = replyValue)
                     compareSchoolAnswerViewModel.compareSchoolAnswer()
-                    signUpViewModel.setSchoolAnswer(schoolAnswer = replyValue)
                 },
                 error = if (onActive) null else stringResource(R.string.inconsistent_school_reply),
                 hint = stringResource(R.string.reply),
@@ -134,7 +134,7 @@ fun ConfirmSchoolScreen(
                     ) {
                         Caption(
                             text = stringResource(R.string.already_account),
-                            color = DormColor.Gray500
+                            color = DormColor.Gray500,
                         )
                         Spacer(
                             modifier = Modifier
@@ -144,6 +144,7 @@ fun ConfirmSchoolScreen(
                             text = stringResource(R.string.login),
                             color = DormColor.Gray600,
                             onClick = {
+                                signUpViewModel.setSchoolAnswer(schoolAnswer = replyValue)
                                 //TODO: 로그인 화면으로 넘어가기
                             },
                         )
@@ -160,7 +161,7 @@ fun SchoolQuestionHandleViewEffect(
     effect: EventFlow<SchoolQuestionEvent>,
 ) {
     val badRequestComment = stringResource(id = R.string.LoginBadRequest)
-    val notFoundComment = stringResource(id = R.string.LoginNotFound)
+    val notFoundComment = stringResource(id = R.string.CompareSchoolNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
     val unKnownException = stringResource(id = R.string.UnKnownException)
@@ -168,44 +169,42 @@ fun SchoolQuestionHandleViewEffect(
     effect.observeWithLifecycle(action = {
         when (it) {
             is SchoolQuestionEvent.SchoolQuestionSuccess -> {
+
             }
 
             is SchoolQuestionEvent.BadRequestException -> {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = badRequestComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
             is SchoolQuestionEvent.NotFoundException -> {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = notFoundComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
             is SchoolQuestionEvent.TooManyRequestException -> {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = tooManyRequestComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
             is SchoolQuestionEvent.InternalServerException -> {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = serverException,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
             is SchoolQuestionEvent.UnknownException -> {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = unKnownException,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
-            }
-
-            else -> {
             }
         }
     })
@@ -217,8 +216,8 @@ fun CompareSchoolHandleViewEffect(
     effect: EventFlow<CompareSchoolAnswerEvent>,
 ) {
     val badRequestComment = stringResource(id = R.string.LoginBadRequest)
-    val notFoundComment = stringResource(id = R.string.LoginNotFound)
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val notFoundComment = stringResource(id = R.string.CompareSchoolNotFound)
+    val unAuthorizedComment = stringResource(id = R.string.CompareSchoolUnAuthorized)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
     val unKnownException = stringResource(id = R.string.UnKnownException)
@@ -233,7 +232,7 @@ fun CompareSchoolHandleViewEffect(
                 onActive = false
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = badRequestComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
@@ -241,7 +240,7 @@ fun CompareSchoolHandleViewEffect(
                 onActive = false
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = unAuthorizedComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
@@ -249,7 +248,7 @@ fun CompareSchoolHandleViewEffect(
                 onActive = false
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = notFoundComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
@@ -257,7 +256,7 @@ fun CompareSchoolHandleViewEffect(
                 onActive = false
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = tooManyRequestComment,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
@@ -265,19 +264,16 @@ fun CompareSchoolHandleViewEffect(
                 onActive = false
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = serverException,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
             is CompareSchoolAnswerEvent.UnKnownException -> {
+                onActive = false
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = unKnownException,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
-            }
-
-            else -> {
-                onActive = false
             }
         }
     })
