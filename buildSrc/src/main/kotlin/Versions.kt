@@ -43,7 +43,9 @@ object Versions {
     const val HILT_NAV = "1.0.0"
 
     const val SPLASH_SCREEN_VERSION = "1.0.0-beta01"
-    const val COMPOSE = "1.2.0-alpha03"
+    const val COMPOSE = "1.2.0-alpha07"
     const val ACTIVITY_COMPOSE = "1.4.0"
     const val CIRCLEIMAGEVIEW = "3.1.0"
+
+    const val VIEWPAGER = "0.23.1"
 }
