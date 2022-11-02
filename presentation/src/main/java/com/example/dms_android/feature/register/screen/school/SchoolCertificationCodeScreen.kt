@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.design_system.button.DormButtonColor
@@ -121,7 +122,6 @@ fun SchoolCertificationCodeScreen(
                     color = if (!onTvActive) DormColor.Gray500 else DormColor.Error,
                 )
             }
-
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
@@ -134,6 +134,7 @@ fun SchoolCertificationCodeScreen(
                         color = DormButtonColor.Blue,
                         enabled = onBtnActive,
                         onClick = {
+                             // examineSchoolCodeViewModel.schoolId.value 딥링크로 네비게이터로 넘겨주기
                             //TODO : 다음페이지로 넘어가기
                         }
                     )
@@ -149,7 +150,7 @@ fun HandleViewEffect(
     effect: EventFlow<ExamineSchoolCodeEvent>,
 ) {
     val badRequestComment = stringResource(id = R.string.LoginBadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val unAuthorizedComment = stringResource(id = R.string.SchoolUnAuthorized)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
     val unKnownException = stringResource(id = R.string.UnKnownException)
@@ -199,11 +200,6 @@ fun HandleViewEffect(
                     duration = SnackbarDuration.Short
                 )
             }
-
-            else -> {
-                onBtnActive = false
-            }
         }
     })
 }
-
