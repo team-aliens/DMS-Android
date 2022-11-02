@@ -1,5 +1,6 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
 import com.example.auth_domain.exception.ServerException
@@ -21,7 +22,7 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase
 ) : BaseViewModel<ExamineSchoolCodeState, ExamineSchoolCodeEvent>() {
 
-    private lateinit var schoolId : UUID
+    var schoolId: MutableLiveData<UUID> = MutableLiveData()
     fun setSchoolCode(schoolCode: String) {
         sendEvent(ExamineSchoolCodeEvent.InputSchoolCode(schoolCode))
     }
@@ -32,9 +33,11 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     fun examineSchoolCode(schoolCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
-            }.onSuccess {
-                ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess(schoolId)
+                remoteSchoolCodeUseCase.execute(schoolCode)
+            }.onSuccess { response ->
+                ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess
+
+                schoolId.value = response.schoolId
             }.onFailure {
                 when (it) {
                     is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
