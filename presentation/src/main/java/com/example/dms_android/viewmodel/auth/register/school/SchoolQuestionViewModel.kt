@@ -1,5 +1,6 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
@@ -20,7 +21,7 @@ class SchoolQuestionViewModel @Inject constructor(
     private val schoolQuestionUseCase: RemoteSchoolQuestionUseCase
 ) : ViewModel() {
 
-    private lateinit var question: String
+    var question: MutableLiveData<String> = MutableLiveData()
 
     private val _schoolQuestionEvent = MutableEventFlow<SchoolQuestionEvent>()
     val schoolQuestionEvent = _schoolQuestionEvent.asEventFlow()
@@ -28,9 +29,10 @@ class SchoolQuestionViewModel @Inject constructor(
     fun schoolQuestion(schoolId: UUID) {
         viewModelScope.launch {
             kotlin.runCatching {
-                question = schoolQuestionUseCase.execute(schoolId).question
-            }.onSuccess {
-                SchoolQuestionEvent.SchoolQuestionSuccess(question)
+                schoolQuestionUseCase.execute(schoolId)
+            }.onSuccess { response ->
+                SchoolQuestionEvent.SchoolQuestionSuccess
+                question.value = response.question
             }.onFailure {
                 when (it) {
                     is BadRequestException -> SchoolQuestionEvent.BadRequestException
