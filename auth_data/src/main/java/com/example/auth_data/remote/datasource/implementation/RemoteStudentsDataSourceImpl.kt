@@ -57,10 +57,10 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
     ) = HttpHandler<ExamineGradeResponse>()
         .httpRequest {
             studentsApi.examineGrade(
-                schoolId,
-                grade,
-                classRoom,
-                number,
+                schoolId = schoolId,
+                grade = grade,
+                classRoom = classRoom,
+                number = number,
             )
         }.sendRequest()
 }
