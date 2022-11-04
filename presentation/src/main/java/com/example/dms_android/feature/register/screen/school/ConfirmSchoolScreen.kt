@@ -61,7 +61,7 @@ fun ConfirmSchoolScreen(
         scaffoldState = scaffoldState,
         effect = compareSchoolAnswerViewModel.compareSchoolAnswerEvent,
     )
-    schoolQuestionViewModel.schoolQuestion(schoolId = TODO("네비게이터로 넘어온거 받아주기"))
+    schoolQuestionViewModel.schoolQuestion(schoolId = TODO("네비게이터로 넘어온거 받아서 넣어주기"))
     var replyValue by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
@@ -122,6 +122,7 @@ fun ConfirmSchoolScreen(
                         color = DormButtonColor.Blue,
                         enabled = onActive,
                     ) {
+                        TODO("")
                     }
                     Spacer(
                         modifier = Modifier

@@ -31,7 +31,6 @@ class CompareSchoolAnswerViewModel @Inject constructor(
 
     private val parameter =
         SchoolAnswerParam(
-            //schoolId 전달받기
             schoolId = schoolId,
             answer = state.value.schoolAnswer,
         )
@@ -68,7 +67,7 @@ class CompareSchoolAnswerViewModel @Inject constructor(
                 setState(oldState.copy(schoolAnswer = event.schoolAnswer))
             }
             else -> {
-
+                TODO("else")
             }
         }
     }

@@ -60,7 +60,7 @@ class ExamineSchoolCodeViewModel @Inject constructor(
             }
 
             else -> {
-
+                TODO("else")
             }
         }
     }
