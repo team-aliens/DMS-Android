@@ -23,7 +23,7 @@ class CompareSchoolAnswerViewModel @Inject constructor(
     private val remoteSchoolAnswerUseCase: RemoteSchoolAnswerUseCase
 ) : BaseViewModel<CompareSchoolAnswerState, CompareSchoolAnswerEvent>() {
 
-    private lateinit var schoolId : UUID
+    private var schoolId : UUID = TODO("schoolID 전달 받기")
 
     fun setSchoolAnswer(schoolAnswer: String) {
         sendEvent(CompareSchoolAnswerEvent.InputSchoolAnswer(schoolAnswer))
