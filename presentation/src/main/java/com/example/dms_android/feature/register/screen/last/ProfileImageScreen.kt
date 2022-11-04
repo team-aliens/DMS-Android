@@ -1,6 +1,5 @@
-package com.example.dms_android.feature.register.screen
+package com.example.dms_android.feature.register.screen.last
 
-import android.graphics.Paint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
