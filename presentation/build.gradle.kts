@@ -63,10 +63,10 @@ dependencies {
     implementation(Dependency.Ui.APP_COMPAT)
     implementation(Dependency.Ui.MATERIAL)
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
-    implementation(Dependency.Ui.CIRCLEIMAGEVIEW)
+    implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
     implementation(Dependency.Ui.COIL)
-    implementation(Dependency.Ui.GLIDECORE)
-    annotationProcessor(Dependency.Ui.GLIDECOMPILER)
+    implementation(Dependency.Ui.GLIDE_CORE)
+    annotationProcessor(Dependency.Ui.GLIDE_COMPILER)
 
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
@@ -78,8 +78,8 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
 
-    implementation(Dependency.Navigation.NAVIGATIONFRAGMENT)
-    implementation(Dependency.Navigation.NAVIGATIONUI)
+    implementation(Dependency.Navigation.NAVIGATION_FRAGMENT)
+    implementation(Dependency.Navigation.NAVIGATION_UI)
 
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
