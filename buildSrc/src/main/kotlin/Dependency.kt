@@ -31,6 +31,10 @@ object Dependency {
 
         const val COIL =
             "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
+
+        const val GLIDECORE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+        const val GLIDECOMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+
         const val CIRCLEIMAGEVIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
     }
 

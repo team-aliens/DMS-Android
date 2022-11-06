@@ -25,6 +25,7 @@ object Versions {
     const val MOSHI = "1.13.0"
 
     const val COILCOMPOSE = "1.4.0"
+    const val GLIDE = "4.13.0"
 
     const val RETROFIT = "2.7.1"
     const val OKHTTP = "3.14.9"

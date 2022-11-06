@@ -20,6 +20,7 @@ android {
     }
 
     buildFeatures {
+        dataBinding = true
         compose = true
     }
 
@@ -64,6 +65,9 @@ dependencies {
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
     implementation(Dependency.Ui.CIRCLEIMAGEVIEW)
     implementation(Dependency.Ui.COIL)
+    implementation(Dependency.Ui.GLIDECORE)
+    annotationProcessor(Dependency.Ui.GLIDECOMPILER)
+
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
