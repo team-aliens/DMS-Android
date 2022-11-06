@@ -8,10 +8,8 @@ object Dependency {
 
     object Kotlin {
         const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${ProjectProperties.KOTLIN_VERSION}"
-        const val COROUTINES_CORE =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${ProjectProperties.KOTLINX_COROUTINES}"
-        const val COROUTINES_ANDROID =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
+        const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${ProjectProperties.KOTLINX_COROUTINES}"
+        const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
     }
 
     object Ui {
@@ -27,11 +25,12 @@ object Dependency {
 
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
 
-        const val DYNAMIC_TOAST = "com.pranavpandey.android:dynamic-toasts:${Versions.DYNAMIC_TOAST}"
+        const val COIL = "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
 
-        const val COIL =
-            "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
-        const val CIRCLEIMAGEVIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
+        const val GLIDE_CORE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+        const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+
+        const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
     }
 
     object Lifecycle {
@@ -87,10 +86,14 @@ object Dependency {
 
     object Retrofit {
         const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-        const val RETROFIT_CONVERTER_GSON =
-            "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
+        const val RETROFIT_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
         const val OKHTTP_LOGGING = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
         const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
+    }
+
+    object Navigation {
+        const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAV}"
+        const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAV}"
     }
 
     object CoroutineTest {
@@ -104,8 +107,7 @@ object Dependency {
     object UnitTest {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
         const val MOCKITO = "org.mockito:mockito-core:${Versions.MOCKITO}"
-        const val MOCKITO_KOTLIN =
-            "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
+        const val MOCKITO_KOTLIN = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
         const val MOCKITO_INLINE = "org.mockito:mockito-inline:${Versions.MOCKITO_INLINE}"
     }
 }
