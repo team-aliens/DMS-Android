@@ -78,6 +78,9 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
 
+    implementation(Dependency.Navigation.NAVIGATIONFRAGMENT)
+    implementation(Dependency.Navigation.NAVIGATIONUI)
+
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 

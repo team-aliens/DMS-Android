@@ -1,13 +1,16 @@
 object Dependency {
 
     object GradlePlugin {
-        const val GRADLE_ANDROID = "com.android.tools.build:gradle:${ProjectProperties.GRADLE_ANDROID}"
-        const val GRADLE_KOTLIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${ProjectProperties.GRADLE_KOTLIN}"
+        const val GRADLE_ANDROID =
+            "com.android.tools.build:gradle:${ProjectProperties.GRADLE_ANDROID}"
+        const val GRADLE_KOTLIN =
+            "org.jetbrains.kotlin:kotlin-gradle-plugin:${ProjectProperties.GRADLE_KOTLIN}"
         const val GRADLE_HILT = "com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}"
     }
 
     object Kotlin {
-        const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${ProjectProperties.KOTLIN_VERSION}"
+        const val KOTLIN_STDLIB =
+            "org.jetbrains.kotlin:kotlin-stdlib:${ProjectProperties.KOTLIN_VERSION}"
         const val COROUTINES_CORE =
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:${ProjectProperties.KOTLINX_COROUTINES}"
         const val COROUTINES_ANDROID =
@@ -15,9 +18,11 @@ object Dependency {
     }
 
     object Ui {
-        const val SPLASH_SCREEN_API = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN_VERSION}"
+        const val SPLASH_SCREEN_API =
+            "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN_VERSION}"
 
-        const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
+        const val CONSTRAINT_LAYOUT =
+            "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
 
         const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
         const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
@@ -27,7 +32,8 @@ object Dependency {
 
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
 
-        const val DYNAMIC_TOAST = "com.pranavpandey.android:dynamic-toasts:${Versions.DYNAMIC_TOAST}"
+        const val DYNAMIC_TOAST =
+            "com.pranavpandey.android:dynamic-toasts:${Versions.DYNAMIC_TOAST}"
 
         const val COIL =
             "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
@@ -62,19 +68,23 @@ object Dependency {
 
     object DataStore {
         const val DATASTORE_PREF = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
-        const val DATASTORE_PREF_CORE = "androidx.datastore:datastore-preferences-core:${Versions.DATASTORE}"
+        const val DATASTORE_PREF_CORE =
+            "androidx.datastore:datastore-preferences-core:${Versions.DATASTORE}"
     }
 
     object Compose {
         const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
         const val COMPOSE_MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
         const val COMPOSE_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
-        const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
+        const val COMPOSE_ACTIVITY =
+            "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
         const val COMPOSE_TEST = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
         const val COMPOSE_UI_TOOL = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
         const val COMPOSE_NAV = "androidx.navigation:navigation-compose:${Versions.NAV}"
-        const val COMPOSE_ANI_NAV = "com.google.accompanist:accompanist-navigation-animation:${Versions.ANI_NAV}"
-        const val COMPOSE_LANDSCAPIST = "com.github.skydoves:landscapist-glide:${Versions.LANDSCAPIST}"
+        const val COMPOSE_ANI_NAV =
+            "com.google.accompanist:accompanist-navigation-animation:${Versions.ANI_NAV}"
+        const val COMPOSE_LANDSCAPIST =
+            "com.github.skydoves:landscapist-glide:${Versions.LANDSCAPIST}"
         const val COMPOSE_HILT_NAV = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAV}"
     }
 
@@ -97,12 +107,20 @@ object Dependency {
         const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }
 
+    object Navigation {
+        const val NAVIGATIONFRAGMENT =
+            "androidx.navigation:navigation-fragment-ktx:${Versions.NAV}"
+        const val NAVIGATIONUI = "androidx.navigation:navigation-ui-ktx:${Versions.NAV}"
+    }
+
     object CoroutineTest {
-        const val COROUTINES_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
+        const val COROUTINES_TEST =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
     }
 
     object TedImagePicker {
-        const val TEDIMAGEPICKER = "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
+        const val TEDIMAGEPICKER =
+            "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
     object UnitTest {
