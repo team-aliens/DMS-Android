@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RegisterCustomButton">
+        <attr name="first_text" format="reference|string" />
+        <attr name="custom_color_text" format="reference|color" />
+    </declare-styleable>
+</resources>
