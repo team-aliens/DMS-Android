@@ -4,7 +4,7 @@
     android:id="@+id/view"
     android:layout_width="match_parent"
     android:layout_height="37dp"
-    android:background="@drawable/custom_btn_background"
+    android:background="@drawable/register_custom_btn_background"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
 
