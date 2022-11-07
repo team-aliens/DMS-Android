@@ -104,6 +104,10 @@ object Dependency {
         const val TEDIMAGEPICKER = "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
+    object PinEntryEditText {
+        const val PINENTRYEDITTEXT = "com.alimuzaffar.lib:pinentryedittext:${Versions.PINENTRYEDITTEXT}"
+    }
+
     object UnitTest {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
         const val MOCKITO = "org.mockito:mockito-core:${Versions.MOCKITO}"

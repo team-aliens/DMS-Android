@@ -91,6 +91,8 @@ dependencies {
 
     implementation(Dependency.TedImagePicker.TEDIMAGEPICKER)
 
+    implementation(Dependency.PinEntryEditText.PINENTRYEDITTEXT)
+
     implementation(Dependency.ViewModel.VIEWMODEL)
     implementation(Dependency.ViewModel.LIVEDATA)
 

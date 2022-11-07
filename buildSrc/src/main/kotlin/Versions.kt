@@ -37,6 +37,8 @@ object Versions {
 
     const val TEDIMAGEPICKER = "1.2.7"
 
+    const val PINENTRYEDITTEXT = "2.0.6"
+
     const val NAV = "2.4.1"
     const val ANI_NAV = "0.24.5-alpha"
     const val LANDSCAPIST = "1.4.7"
