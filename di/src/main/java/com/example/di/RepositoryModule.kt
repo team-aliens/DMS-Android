@@ -1,7 +1,9 @@
 package com.example.di
 
+import com.example.auth_data.repository.SchoolsRepositoryImpl
 import com.example.auth_data.repository.StudentsRepositoryImpl
 import com.example.auth_data.repository.UserRepositoryImpl
+import com.example.auth_domain.repository.SchoolsRepository
 import com.example.auth_domain.repository.StudentsRepository
 import com.example.auth_domain.repository.UserRepository
 import com.example.feature_data.repository.MealRepositoryImpl
@@ -44,6 +46,11 @@ abstract class RepositoryModule {
     abstract fun provideRemoteNoticeRepository(
         noticeRepositoryImpl: NoticeRepositoryImpl
     ): NoticeRepository
+    
+    @Binds
+    abstract fun provideRemoteSchoolsRepository(
+        schoolsRepositoryImpl: SchoolsRepositoryImpl
+    ): SchoolsRepository
 
     @Binds
     abstract fun provideLocalUserRepository(

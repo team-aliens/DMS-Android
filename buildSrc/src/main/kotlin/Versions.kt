@@ -10,6 +10,7 @@ object Versions {
     const val FRAGMENT_KTX = "1.3.4"
     const val ROOM = "2.4.0"
     const val DYNAMIC_TOAST = "3.3.1"
+    
     const val DATASTORE = "1.0.0"
 
     const val HILT = "2.44"
@@ -25,6 +26,7 @@ object Versions {
     const val MOSHI = "1.13.0"
 
     const val COILCOMPOSE = "1.4.0"
+    const val GLIDE = "4.13.0"
 
     const val RETROFIT = "2.7.1"
     const val OKHTTP = "3.14.9"

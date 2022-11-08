@@ -1,18 +1,14 @@
-package com.example.dms_android.feature.register.screen
+package com.example.dms_android.feature.register.screen.password
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,13 +29,10 @@ import com.example.design_system.textfield.DormTextField
 import com.example.design_system.typography.Body4
 import com.example.dms_android.R
 
-@Preview
 @Composable
-fun SetIdScreen() {
-    var gradeValue by remember { mutableStateOf("") }
-    var classRoomValue by remember { mutableStateOf("") }
-    var numberValue by remember { mutableStateOf("") }
-    var idValue by remember { mutableStateOf("") }
+fun SetPasswordScreen() {
+    var passwordValue by remember { mutableStateOf("") }
+    var repasswordValue by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,50 +53,33 @@ fun SetIdScreen() {
                 modifier = Modifier
                     .height(7.dp)
             )
-            Body4(text = stringResource(R.string.set_id), color = DormColor.Gray600)
+            Body4(text = stringResource(R.string.set_password), color = DormColor.Gray600)
             Spacer(
                 modifier = Modifier
                     .height(60.dp)
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                //TODO: Toast완성되면 에러처리함
-                DormTextField(
-                    value = gradeValue,
-                    onValueChange = { gradeValue = it },
-                    hint = stringResource(R.string.grade),
-                    modifier = Modifier.width(110.dp),
-                )
-                DormTextField(
-                    value = classRoomValue,
-                    onValueChange = { classRoomValue = it },
-                    hint = stringResource(R.string.class_room),
-                    modifier = Modifier.width(110.dp),
-                )
-                DormTextField(
-                    value = numberValue,
-                    onValueChange = { numberValue = it },
-                    hint = stringResource(R.string.number),
-                    modifier = Modifier.width(110.dp),
-                )
-            }
+            DormTextField(
+                value = passwordValue,
+                onValueChange = { passwordValue = it },
+                hint = stringResource(R.string.enter_password),
+                isPassword = true,
+            )
             Spacer(
                 modifier = Modifier
-                    .height(24.dp)
+                    .height(37.dp)
             )
             DormTextField(
-                value = idValue,
-                onValueChange = { idValue = it },
-                hint = stringResource(R.string.enter_id),
-                error = stringResource(R.string.using_id),
+                value = repasswordValue,
+                onValueChange = { repasswordValue = it },
+                hint = stringResource(R.string.reenter_password),
+                error = stringResource(R.string.check_password),
+                isPassword = true,
             )
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 60.dp)
+                    .padding(bottom = 60.dp),
             ) {
                 DormContainedLargeButton(
                     text = stringResource(R.string.next),
