@@ -25,18 +25,12 @@ object Dependency {
 
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
 
-<<<<<<< HEAD
-        const val COIL =
-            "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
-        const val CIRCLEIMAGEVIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
-=======
         const val COIL = "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
 
         const val GLIDE_CORE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
         const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
 
         const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
->>>>>>> 96_Notice_Business_Logic
     }
 
     object Lifecycle {
