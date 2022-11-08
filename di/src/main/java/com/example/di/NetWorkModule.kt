@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.auth_data.remote.api.SchoolsApi
 import com.example.auth_data.remote.api.StudentsApi
 import com.example.auth_data.remote.api.UserApi
 import com.example.feature_data.remote.api.MealApi
@@ -55,4 +56,8 @@ object NetWorkModule {
     @Provides
     fun provideNoticeApi(retrofit: Retrofit): NoticeApi =
         retrofit.create(NoticeApi::class.java)
+
+    @Provides
+    fun provideSchoolsApi(retrofit: Retrofit): SchoolsApi =
+        retrofit.create(SchoolsApi::class.java)
 }

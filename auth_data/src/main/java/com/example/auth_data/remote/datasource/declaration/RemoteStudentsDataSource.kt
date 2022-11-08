@@ -2,7 +2,9 @@ package com.example.auth_data.remote.datasource.declaration
 
 import com.example.auth_data.remote.request.students.ResetPasswordRequest
 import com.example.auth_data.remote.request.students.SignUpRequest
+import com.example.auth_data.remote.response.students.ExamineGradeResponse
 import com.example.auth_data.remote.response.students.SignUpResponse
+import java.util.UUID
 
 interface RemoteStudentsDataSource {
     suspend fun postUserSignUp(
@@ -20,4 +22,11 @@ interface RemoteStudentsDataSource {
     suspend fun resetPassword(
         resetPasswordRequest: ResetPasswordRequest
     )
+
+    suspend fun examineGrade(
+        schoolId: UUID,
+        grade: Int,
+        classRoom: Int,
+        number: Int,
+    ): ExamineGradeResponse
 }

@@ -1,7 +1,11 @@
-package com.example.dms_android.feature.register.screen
+package com.example.dms_android.feature.register.screen.last
 
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,30 +13,37 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
+import com.example.design_system.button.DormTextCheckBox
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
-import com.example.design_system.textfield.DormTextField
 import com.example.design_system.typography.Body4
 import com.example.dms_android.R
 
+@Preview
 @Composable
-fun SetPasswordScreen() {
-    var passwordValue by remember { mutableStateOf("") }
-    var repasswordValue by remember { mutableStateOf("") }
+fun PolicyScreen() {
+    val context = LocalContext.current
+    val webViewClient = WebViewClient()
+    var confirmState by remember {
+        mutableStateOf(false)
+    }
+    var checked by remember {
+        mutableStateOf(false)
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,38 +64,42 @@ fun SetPasswordScreen() {
                 modifier = Modifier
                     .height(7.dp)
             )
-            Body4(text = stringResource(R.string.set_password), color = DormColor.Gray600)
-            Spacer(
-                modifier = Modifier
-                    .height(60.dp)
-            )
-            DormTextField(
-                value = passwordValue,
-                onValueChange = { passwordValue = it },
-                hint = stringResource(R.string.enter_password),
-                isPassword = true,
+            Body4(
+                text = stringResource(R.string.CheckRegisterPolicy),
+                color = DormColor.Gray600,
             )
             Spacer(
                 modifier = Modifier
-                    .height(37.dp)
+                    .height(35.dp)
             )
-            DormTextField(
-                value = repasswordValue,
-                onValueChange = { repasswordValue = it },
-                hint = stringResource(R.string.reenter_password),
-                error = stringResource(R.string.check_password),
-                isPassword = true,
+            AndroidView(
+                modifier = Modifier.height(300.dp),
+                factory = {
+                    WebView(context).apply {
+                        this.webViewClient = webViewClient
+                        this.loadUrl("https://velog.io/@dev-junku/Android-Naver-Android-Jetpack-Compose-%EC%A0%81%EC%9A%A9-%ED%9B%84%EA%B8%B0-%EB%B0%9C%ED%91%9C-%EC%A0%95%EB%A6%AC")
+                    }
+                },
             )
-            Box(
-                contentAlignment = Alignment.BottomCenter,
+            Column(
+                verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 60.dp),
+                    .padding(bottom = 60.dp)
+                    .fillMaxSize(),
             ) {
+                DormTextCheckBox(
+                    checked = checked,
+                    text = stringResource(R.string.CheckAllPolicy),
+                    onCheckedChange = {
+                        checked = !checked
+                        confirmState = !confirmState
+                    },
+                )
+                Spacer(modifier = Modifier.height(17.dp))
                 DormContainedLargeButton(
-                    text = stringResource(R.string.next),
+                    text = stringResource(R.string.Check),
                     color = DormButtonColor.Blue,
-                    enabled = false,
+                    enabled = confirmState,
                 ) {
                 }
             }
