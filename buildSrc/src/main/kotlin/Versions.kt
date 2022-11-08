@@ -8,7 +8,7 @@ object Versions {
     const val APP_COMPAT = "1.3.0"
     const val ACTIVITY_KTX = "1.2.3"
     const val FRAGMENT_KTX = "1.3.4"
-    const val ROOM = "2.5.0-alpha02"
+    const val ROOM = "2.4.0"
     const val DYNAMIC_TOAST = "3.3.1"
     const val DATASTORE = "1.0.0"
 
