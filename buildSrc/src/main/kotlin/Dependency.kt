@@ -27,8 +27,6 @@ object Dependency {
 
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
 
-        const val DYNAMIC_TOAST = "com.pranavpandey.android:dynamic-toasts:${Versions.DYNAMIC_TOAST}"
-
         const val COIL =
             "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
         const val CIRCLEIMAGEVIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
