@@ -23,7 +23,7 @@ class NoticeRepositoryImpl @Inject constructor(
 
     override suspend fun newNoticeBoolean(): Flow<NewNoticeBooleanEntity> =
         OfflineCacheUtil<NewNoticeBooleanEntity>()
-            .remoteData { remoteNoticeDataSource.newNoticeBoolean().toEntity() }
+            .remoteData { remoteNoticeDataSource.checkNoticeNewBoolean().toEntity() }
             .createFlow()
 
     override suspend fun fetchNoticeList(
@@ -44,15 +44,6 @@ class NoticeRepositoryImpl @Inject constructor(
                 ?.let { it1 -> localNoticeDataSource.saveNoticeDetail(notice_id, it1) } }
             .createFlow()
 }
-
-
-fun NoticeDetailResponse.toEntity() =
-    NoticeDetailEntity(
-        noticeId = null,
-        title = title,
-        content = content,
-        createAt = createAt
-    )
 
 fun NoticeListEntity.NoticeValue.toDbEntity() =
     NoticeListRoomEntity.NoticeLocalValue(

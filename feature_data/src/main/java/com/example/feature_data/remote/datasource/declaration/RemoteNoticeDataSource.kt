@@ -8,7 +8,7 @@ import java.util.UUID
 
 interface RemoteNoticeDataSource {
 
-    suspend fun newNoticeBoolean(): NewNoticeBooleanResponse
+    suspend fun checkNoticeNewBoolean(): NewNoticeBooleanResponse
 
     suspend fun fetchNoticeList(order: NoticeListSCType): NoticeListResponse
 
