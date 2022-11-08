@@ -5,7 +5,9 @@ import com.example.auth_data.remote.datasource.declaration.RemoteUserDataSource
 import com.example.auth_data.remote.datasource.implementation.RemoteStudentsDataSourceImpl
 import com.example.auth_data.remote.datasource.implementation.RemoteUserDataSourceImpl
 import com.example.feature_data.remote.datasource.declaration.RemoteMealDataSource
+import com.example.feature_data.remote.datasource.declaration.RemoteNoticeDataSource
 import com.example.feature_data.remote.datasource.implementation.RemoteMealDataSourceImpl
+import com.example.feature_data.remote.datasource.implementation.RemoteNoticeDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,4 +31,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideRemoteMealDataSource(
         remoteMealDataSourceImpl: RemoteMealDataSourceImpl
     ): RemoteMealDataSource
+
+    @Binds
+    abstract fun provideRemoteNoticeDataSource(
+        remoteNoticeDataSourceImpl: RemoteNoticeDataSourceImpl
+    ): RemoteNoticeDataSource
 }
