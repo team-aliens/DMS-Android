@@ -1,6 +1,5 @@
 package com.example.local_database.repository.meal
 
-import com.example.local_database.dao.MealDao
 import com.example.local_database.datasource.declaration.LocalMealDataSource
 import com.example.local_database.entity.meal.toEntity
 import com.example.local_domain.entity.meal.MealEntity

@@ -2,10 +2,11 @@ package com.example.local_database.entity.meal
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.local_database.tablename.TableName
 import com.example.local_domain.entity.meal.MealEntity
 import java.time.LocalDateTime
 
-@Entity(tableName = "mealList")
+@Entity(tableName = TableName.MEAL_LIST)
 data class MealRoomEntity(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     val meals: List<MealsRoomValue>,

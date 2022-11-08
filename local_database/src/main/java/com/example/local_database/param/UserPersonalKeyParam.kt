@@ -1,6 +1,6 @@
 package com.example.local_database.param
 
-import com.example.local_domain.entity.UserVisibleLocalEntity
+import com.example.local_domain.entity.UserVisibleLocalLocalEntity
 
 data class UserPersonalKeyParam(
     val accessToken: String,
@@ -9,7 +9,7 @@ data class UserPersonalKeyParam(
 )
 
 fun UserPersonalKeyParam.toDbEntity() =
-    UserVisibleLocalEntity(
+    UserVisibleLocalLocalEntity(
         accessToken = accessToken,
         expiredAt = expiredAt,
         refreshToken = refreshToken,
