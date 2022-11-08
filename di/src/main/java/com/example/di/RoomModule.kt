@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.local_database.converter.MealListTypeConverter
 import com.example.local_database.dao.MealDao
+import com.example.local_database.dao.NoticeDao
 import com.example.local_database.database.DMSDataBase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -39,4 +40,9 @@ object RoomModule {
     fun provideMealDao(
         dmsDataBase: DMSDataBase
     ): MealDao = dmsDataBase.mealDao()
+
+    @Provides
+    fun provideNoticeDao(
+        dmsDataBase: DMSDataBase
+    ): NoticeDao = dmsDataBase.noticeDao()
 }
