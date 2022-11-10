@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view"
     android:layout_width="match_parent"
-    android:layout_height="37dp"
+    android:layout_height="40dp"
     android:background="@drawable/register_custom_btn_background"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
