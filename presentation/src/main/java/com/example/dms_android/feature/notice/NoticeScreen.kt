@@ -48,7 +48,7 @@ fun NoticeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200)
+            .background(DormColor.Gray200),
     ) {
         NoticeTopBar()
         NoticeOrderButton()
@@ -57,7 +57,7 @@ fun NoticeScreen() {
                 .fillMaxWidth()
                 .padding(top = 20.dp, start = 20.dp, end = 20.dp),
             notices = notices,
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -93,7 +93,7 @@ fun NoticeOrderButton() {
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = stringResource(id = R.string.New),

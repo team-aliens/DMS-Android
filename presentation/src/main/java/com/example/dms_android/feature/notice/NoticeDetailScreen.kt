@@ -32,7 +32,7 @@ fun NoticeDetailScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200)
+            .background(DormColor.Gray200),
     ) {
         Topbar()
         NoticeDetailValue()
@@ -56,11 +56,11 @@ fun Topbar() {
             modifier = Modifier
                 .size(30.dp),
             painter = painterResource(id = DormIcon.BackArrow.drawableId), 
-            contentDescription = stringResource(id = R.string.backButton)
+            contentDescription = stringResource(id = R.string.backButton),
         )
         Spacer(
             modifier = Modifier
-                .width(45.dp)
+                .width(45.dp),
         )
         SubTitle2(text = stringResource(id = R.string.Notice))
     }
@@ -72,41 +72,41 @@ fun NoticeDetailValue() {
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 23.dp),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
     ) {
         Spacer(
             modifier = Modifier
-                .height(55.dp)
+                .height(55.dp),
         )
         SubTitle2(
-            text = stringResource(id = R.string.NoticeTitle)
+            text = stringResource(id = R.string.NoticeTitle),
         )
         Spacer(
             modifier = Modifier
-                .height(25.dp)
+                .height(25.dp),
         )
         Caption(text = stringResource(id = R.string.NoticeTime))
         Spacer(
             modifier = Modifier
-                .height(20.dp)
+                .height(20.dp),
         )
         Spacer(
             modifier = Modifier
                 .height(1.dp)
                 .fillMaxWidth()
                 .padding(end = 23.dp)
-                .background(DormColor.Gray300)
+                .background(DormColor.Gray300),
         )
         Spacer(
             modifier = Modifier
-                .height(20.dp)
+                .height(20.dp),
         )
         Box(
             modifier = Modifier
-                .padding(end = 23.dp)
+                .padding(end = 23.dp),
         ) {
             Body5(
-                text = stringResource(id = R.string.NoticeContent)
+                text = stringResource(id = R.string.NoticeContent),
             )
         }
     }
