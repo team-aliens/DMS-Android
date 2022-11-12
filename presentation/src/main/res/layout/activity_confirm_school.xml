@@ -8,27 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.04444" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.9555" />
-
-        <TextView
+        <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="57dp"
             android:layout_height="57dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="73dp"
-            android:text="dms logo"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            android:src="@drawable/temporarylogo"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -36,10 +23,11 @@
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/question_confirm_school"
             android:textColor="@color/gray_600"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
@@ -47,10 +35,11 @@
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="60dp"
             android:text="@string/school_students"
             android:textColor="@color/gray_700"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
@@ -58,24 +47,26 @@
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/register_et_background"
             android:hint="@string/reply"
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <com.example.dms_android.customui.RegisterCustomButton
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="60dp"
             app:first_text="@string/Check"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/guideline2" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

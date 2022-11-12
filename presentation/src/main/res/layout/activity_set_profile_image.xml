@@ -5,36 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.04444" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9555" />
-
     <ImageView
         android:id="@+id/ivBack"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/ic_arrow_back_black_24dp"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
+        android:layout_width="57dp"
         android:layout_height="57dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="37dp"
-        android:text="dms logo"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        android:src="@drawable/temporarylogo"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivBack" />
 
     <TextView
@@ -44,8 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/ProfileImage"
+        android:layout_marginStart="16dp"
         android:textColor="@color/gray_600"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -56,8 +45,8 @@
         android:layout_marginBottom="380dp"
         android:src="@drawable/addimage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -71,14 +60,14 @@
     <TextView
         android:id="@+id/tvSetLater"
         style="@style/DMS.NotoSans.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="98dp"
+        android:layout_height="26dp"
         android:layout_marginBottom="30dp"
         android:text="@string/SettingLater"
         android:textColor="@color/gray_600"
         app:layout_constraintBottom_toTopOf="@+id/btnVerificationCode"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.example.dms_android.customui.RegisterCustomButton
         android:id="@+id/btnVerificationCode"
@@ -86,7 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         app:first_text="@string/Next"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
