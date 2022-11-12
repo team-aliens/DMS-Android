@@ -1,6 +1,8 @@
 package com.example.di
 
+import com.example.local_database.storage.declaration.MyPageDataStorage
 import com.example.local_database.storage.declaration.UserDataStorage
+import com.example.local_database.storage.implementation.MyPageDataStorageImpl
 import com.example.local_database.storage.implementation.UserDataStorageImpl
 import dagger.Binds
 import dagger.Module
@@ -15,4 +17,9 @@ abstract class StorageModule {
     abstract fun provideUserDataStorage(
         userDataStorageImpl: UserDataStorageImpl
     ): UserDataStorage
+
+    @Binds
+    abstract fun provideMyPageDataStorage(
+        myPageDataStorageImpl: MyPageDataStorageImpl
+    ): MyPageDataStorage
 }
