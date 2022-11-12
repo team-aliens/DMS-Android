@@ -1,8 +1,10 @@
 package com.example.di
 
 import com.example.local_database.datasource.declaration.LocalMealDataSource
+import com.example.local_database.datasource.declaration.LocalNoticeDataSource
 import com.example.local_database.datasource.declaration.LocalUserDataSource
 import com.example.local_database.datasource.implementation.LocalMealDataSourceImpl
+import com.example.local_database.datasource.implementation.LocalNoticeDataSourceImpl
 import com.example.local_database.datasource.implementation.LocalUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -19,7 +21,12 @@ abstract class LocalDataSourceModule {
     ): LocalUserDataSource
 
     @Binds
-    abstract fun provideMealUserDataSource(
+    abstract fun provideLocalMealDataSource(
         localMealDataSourceImpl: LocalMealDataSourceImpl
     ): LocalMealDataSource
+
+    @Binds
+    abstract fun provideLocalNoticeDataSource(
+        localNoticeDataSourceImpl: LocalNoticeDataSourceImpl
+    ): LocalNoticeDataSource
 }

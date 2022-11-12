@@ -4,6 +4,7 @@ import com.example.auth_data.remote.api.SchoolsApi
 import com.example.auth_data.remote.api.StudentsApi
 import com.example.auth_data.remote.api.UserApi
 import com.example.feature_data.remote.api.MealApi
+import com.example.feature_data.remote.api.NoticeApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,6 +52,10 @@ object NetWorkModule {
     @Provides
     fun provideMealApi(retrofit: Retrofit): MealApi =
         retrofit.create(MealApi::class.java)
+
+    @Provides
+    fun provideNoticeApi(retrofit: Retrofit): NoticeApi =
+        retrofit.create(NoticeApi::class.java)
 
     @Provides
     fun provideSchoolsApi(retrofit: Retrofit): SchoolsApi =
