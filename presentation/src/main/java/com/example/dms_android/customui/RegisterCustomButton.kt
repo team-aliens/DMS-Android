@@ -14,7 +14,6 @@ import com.example.dms_android.R
 import com.example.dms_android.databinding.RegisterCustomButtonBinding
 
 
-@SuppressLint("ResourceType")
 class RegisterCustomButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -29,7 +28,6 @@ class RegisterCustomButton @JvmOverloads constructor(
         attrs?.run {
             val typedArr = context.obtainStyledAttributes(attrs, R.styleable.RegisterCustomButton)
             setMainText(typedArr.getString(R.styleable.RegisterCustomButton_first_text) ?: "값없음")
-            setCustomColorText(typedArr.getColorOrThrow(R.styleable.RegisterCustomButton_custom_color_text))
             if (!isInEditMode) {
                 typedArr.recycle()
             }
@@ -38,9 +36,5 @@ class RegisterCustomButton @JvmOverloads constructor(
 
     private fun setMainText(text_string: String) {
         binding.tvMain.text = text_string
-    }
-
-    private fun setCustomColorText(@ColorRes text_int: Int) {
-        binding.tvMain.setTextColor(text_int)
     }
 }

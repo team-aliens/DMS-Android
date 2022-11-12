@@ -118,7 +118,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"
-            app:custom_color_text="@color/gray_100"
             app:first_text="@string/Next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
