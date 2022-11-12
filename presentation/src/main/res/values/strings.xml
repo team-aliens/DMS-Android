@@ -20,7 +20,9 @@
     <string name="VerificationMine">계정 본인인증</string>
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
+
     <style name="NoSameCode">인증코드가 일치하지 않습니다.</style>
+
     <string name="EnterName">이름 입력</string>
     <string name="set_password">비밀번호 설정</string>
     <string name="enter_password">비밀번호 입력</string>
@@ -65,4 +67,10 @@
     <string name="PhotoIcon">PhotoIcon</string>
     <string name="TakePhoto">사진 촬영</string>
     <string name="ChoosePhoto">사진 선택</string>
+    <string name="BackButton">뒤로가기 버튼</string>
+    <string name="Notice">공지</string>
+    <string name="New">최신순</string>
+    <string name="NoticeTitle">공지사항 제목</string>
+    <string name="NoticeTime">2022/01/21  8:29</string>
+    <string name="NoticeContent">동해물과 백두산이 마르고 닳도록 하나님이 보우하사 우리 나라 만세</string>
 </resources>
