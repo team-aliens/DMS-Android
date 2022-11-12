@@ -14,6 +14,7 @@ import com.example.local_database.storage.implementation.UserDataStorageImpl.Use
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ): UserDataStorage {

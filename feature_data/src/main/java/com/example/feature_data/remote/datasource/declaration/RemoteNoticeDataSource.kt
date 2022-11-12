@@ -13,5 +13,4 @@ interface RemoteNoticeDataSource {
     suspend fun fetchNoticeList(order: NoticeListSCType): NoticeListResponse
 
     suspend fun fetchNoticeDetail(noticeId: UUID): NoticeDetailResponse
-
 }
