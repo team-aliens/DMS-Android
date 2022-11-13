@@ -104,6 +104,11 @@ object Dependency {
         const val TEDIMAGEPICKER = "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
+    //TODO: 추후에 커스텀으로 만들 예정입니다.
+    object PinEntryEditText {
+        const val PINENTRYEDITTEXT = "com.alimuzaffar.lib:pinentryedittext:${Versions.PINENTRYEDITTEXT}"
+    }
+
     object UnitTest {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
         const val MOCKITO = "org.mockito:mockito-core:${Versions.MOCKITO}"
