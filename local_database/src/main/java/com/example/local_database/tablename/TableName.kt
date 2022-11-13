@@ -6,6 +6,8 @@ object TableName {
 
     const val NOTICE = "notice"
 
+    const val POINT = "point"
+
     object Notice {
         const val NOTICE_LIST = "${NOTICE}List"
         const val NOTICE_DETAIL = "${NOTICE}Detail"
