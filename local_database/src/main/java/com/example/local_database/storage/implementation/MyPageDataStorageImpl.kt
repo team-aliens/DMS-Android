@@ -62,6 +62,7 @@ class MyPageDataStorageImpl @Inject constructor(
     override suspend fun fetchTotalPoint(): Int =
         getSharedPreference().getInt(TOTAL_POINT.toString(), 0)
 
+    //TODO("SharedPreference 성능 개선 필요")
     private fun getSharedPreference() =
         PreferenceManager.getDefaultSharedPreferences(context)
 

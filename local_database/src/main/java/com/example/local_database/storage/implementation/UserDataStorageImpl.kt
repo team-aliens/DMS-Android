@@ -53,6 +53,7 @@ class UserDataStorageImpl @Inject constructor(
     override fun fetchPointServiceBoolean(): Boolean =
         getSharedPreference().getBoolean(POINT, false)
 
+    //TODO("SharedPreference 성능 개선 필요")
     private fun getSharedPreference() =
         PreferenceManager.getDefaultSharedPreferences(context)
 
