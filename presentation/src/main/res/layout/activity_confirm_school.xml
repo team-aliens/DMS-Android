@@ -68,5 +68,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/tvAlreadyAccount"
+            style="@style/DMS.NotoSans.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/already_account"
+            android:textColor="@color/gray_500"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvLogin"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnConfirm" />
+
+        <TextView
+            android:id="@+id/tvLogin"
+            style="@style/DMS.NotoSans.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/Login"
+            android:textColor="@color/gray_600"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAlreadyAccount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvAlreadyAccount"
+            app:layout_constraintTop_toTopOf="@+id/tvAlreadyAccount" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
