@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class FetchPointListResponse(
     @SerializedName("total_point") val totalPoint: Int,
-    @SerializedName("points") val pointList: List<PointList>
+    @SerializedName("points") val pointList: List<PointList>,
 ) {
     data class PointList(
         @SerializedName("point_id") val pointId: UUID,
@@ -30,5 +30,5 @@ fun FetchPointListResponse.PointList.toEntity() =
 fun FetchPointListResponse.toEntity() =
     PointListEntity(
         totalPoint = totalPoint,
-        pointValue = pointList.map { it.toEntity() }
+        pointValue = pointList.map { it.toEntity() },
     )

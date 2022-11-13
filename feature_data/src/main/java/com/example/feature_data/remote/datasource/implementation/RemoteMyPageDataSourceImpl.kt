@@ -17,7 +17,7 @@ class RemoteMyPageDataSourceImpl @Inject constructor(
             .httpRequest { myPageApi.fetchMyPage() }
             .sendRequest()
 
-    override suspend fun fetchPointList(pointType: PointType) =
+    override suspend fun    fetchPointList(pointType: PointType) =
         HttpHandler<FetchPointListResponse>()
             .httpRequest { myPageApi.fetchPoint(pointType) }
             .sendRequest()

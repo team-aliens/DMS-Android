@@ -12,7 +12,7 @@ interface MyPageApi {
     @GET(DmsUrl.MyPage.MyPage)
     suspend fun fetchMyPage(): FetchMyPageResponse
 
-    @GET(DmsUrl.points)
+    @GET(DmsUrl.MyPage.Point)
     suspend fun fetchPoint(
         @Query("type") pointType: PointType
     ): FetchPointListResponse

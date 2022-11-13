@@ -1,10 +1,9 @@
 package com.example.local_database.entity.mypage
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.local_database.tablename.TableName
-import com.example.local_domain.entity.mypage.PointListEntity
+import com.example.local_domain.entity.mypage.PointListValueEntity
 import java.util.UUID
 
 @Entity(tableName = TableName.POINT)
@@ -18,7 +17,7 @@ data class PointListRoomEntity(
 )
 
 fun PointListRoomEntity.toEntity() =
-    PointListEntity(
+    PointListValueEntity(
         pointId = pointId,
         date = date,
         pointLocalType = pointLocalType,

@@ -39,10 +39,9 @@ class LocalMyPageDataSourceImpl @Inject constructor(
         pointDao.fetchPointList(pointLocalType)
 
     override suspend fun saveTotalPoint(totalPoint: Int) {
-        TODO("Not yet implemented")
+        myPageDataStorage.saveTotalPoint(totalPoint)
     }
 
-    override suspend fun fetchTotalPoint(): Int {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchTotalPoint(): Int =
+        myPageDataStorage.fetchTotalPoint()
 }
