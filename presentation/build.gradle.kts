@@ -90,6 +90,7 @@ dependencies {
 
     implementation(Dependency.TedImagePicker.TEDIMAGEPICKER)
 
+    //TODO: 추후에 커스텀으로 만들 예정입니다.
     implementation(Dependency.PinEntryEditText.PINENTRYEDITTEXT)
 
     implementation(Dependency.ViewModel.VIEWMODEL)
