@@ -27,7 +27,7 @@ class RegisterCustomButton @JvmOverloads constructor(
 
         attrs?.run {
             val typedArr = context.obtainStyledAttributes(attrs, R.styleable.RegisterCustomButton)
-            setMainText(typedArr.getString(R.styleable.RegisterCustomButton_first_text) ?: "값없음")
+            setMainText(typedArr.getString(R.styleable.RegisterCustomButton_first_text) ?: "")
             if (!isInEditMode) {
                 typedArr.recycle()
             }
