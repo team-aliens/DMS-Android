@@ -3,7 +3,7 @@
     <string name="not_valid_email_format">올바른 이메일 형식이 아닙니다.</string>
     <string name="enter_email_address">이메일 주소 입력</string>
     <string name="send_verification_code">인증코드 발송</string>
-    <string name="ResendVerificationCode">인증코드 재발송</string>
+    <string name="ResendVerificationCode"><u>인증코드 재발송</u></string>
     <string name="set_id">아이디 설정</string>
     <string name="grade">학년</string>
     <string name="class_room">반</string>
@@ -20,6 +20,9 @@
     <string name="VerificationMine">계정 본인인증</string>
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
+
+    <style name="NoSameCode">인증코드가 일치하지 않습니다.</style>
+
     <string name="EnterName">이름 입력</string>
     <string name="set_password">비밀번호 설정</string>
     <string name="enter_password">비밀번호 입력</string>
@@ -43,7 +46,10 @@
     <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
     <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
     <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
+    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
+    <string name="CompareSchoolUnAuthorized">질문에 대한 답변이 일치하지 않음.</string>
     <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
+    <string name="CompareSchoolNotFound">학교를 찾을 수 없음.</string>
     <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
     <string name="ChangePasswordBadRequest">잘못된 요청입니다. 다시 시도해주세요.</string>
     <string name="ChangePasswordUnAuthorized">이메일 인증번호가 틀립니다.</string>
@@ -52,7 +58,7 @@
     <string name="SameIdAndEmail">아이디와 일치하는 이메일입니다.</string>
     <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
     <string name="ProfileImage">프로필 사진</string>
-    <string name="SettingLater">다음에 설정하기</string>
+    <string name="SettingLater"><u>다음에 설정하기</u></string>
     <string name="backButton">backButton</string>
     <string name="NextButton">NextButton</string>
     <string name="MainLogo">MainLogo</string>
@@ -114,4 +120,10 @@
     <string name="ago">agoPager</string>
     <string name="TomorrowButton">TomorrowButton</string>
     <string name="CafeteriaBackground">CafeteriaBackGround</string>
+    <string name="BackButton">뒤로가기 버튼</string>
+    <string name="Notice">공지</string>
+    <string name="New">최신순</string>
+    <string name="NoticeTitle">공지사항 제목</string>
+    <string name="NoticeTime">2022/01/21  8:29</string>
+    <string name="NoticeContent">동해물과 백두산이 마르고 닳도록 하나님이 보우하사 우리 나라 만세</string>
 </resources>

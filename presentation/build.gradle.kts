@@ -3,7 +3,6 @@ plugins {
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.KT_LINT) version Versions.KT_LINT
 }
 
 android {
@@ -20,7 +19,9 @@ android {
     }
 
     buildFeatures {
+        dataBinding = true
         compose = true
+        viewBinding = true
     }
 
     buildTypes {
@@ -62,8 +63,11 @@ dependencies {
     implementation(Dependency.Ui.APP_COMPAT)
     implementation(Dependency.Ui.MATERIAL)
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
-    implementation(Dependency.Ui.CIRCLEIMAGEVIEW)
+    implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
     implementation(Dependency.Ui.COIL)
+    implementation(Dependency.Ui.GLIDE_CORE)
+    annotationProcessor(Dependency.Ui.GLIDE_COMPILER)
+
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
@@ -74,6 +78,9 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
 
+    implementation(Dependency.Navigation.NAVIGATION_FRAGMENT)
+    implementation(Dependency.Navigation.NAVIGATION_UI)
+
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
@@ -82,6 +89,9 @@ dependencies {
     implementation(Dependency.Lifecycle.RUNTIME)
 
     implementation(Dependency.TedImagePicker.TEDIMAGEPICKER)
+
+    //TODO: 추후에 커스텀으로 만들 예정입니다.
+    implementation(Dependency.PinEntryEditText.PINENTRYEDITTEXT)
 
     implementation(Dependency.ViewModel.VIEWMODEL)
     implementation(Dependency.ViewModel.LIVEDATA)

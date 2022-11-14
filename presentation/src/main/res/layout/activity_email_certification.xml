@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="37dp"
+        android:src="@drawable/temporarylogo"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivBack" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/DMS.NotoSans.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/VerificationCode"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/gray_600"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+    <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/etPinEntry"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="100dp"
+        android:cursorVisible="false"
+        android:inputType="number"
+        android:layoutDirection="ltr"
+        android:maxLength="6"
+        android:textIsSelectable="false"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:pinAnimationType="popIn"
+        app:pinBackgroundIsSquare="true"
+        app:pinCharacterMask="⚫"
+        app:pinCharacterSpacing="24dp"
+        app:pinLineColors="@color/gray_500" />
+
+    <TextView
+        android:id="@+id/tvDetail"
+        style="@style/DMS.NotoSans.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/EmailSixCode"
+        android:textColor="@color/gray_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPinEntry" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        style="@style/DMS.NotoSans.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="3:00"
+        android:textColor="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetail" />
+
+    <TextView
+        android:id="@+id/tvResendCode"
+        style="@style/DMS.NotoSans.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/ResendVerificationCode"
+        android:textColor="@color/gray_600"
+        app:layout_constraintBottom_toTopOf="@+id/btnVerificationCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.dms_android.customui.RegisterCustomButton
+        android:id="@+id/btnVerificationCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:layout_marginHorizontal="16dp"
+        app:first_text="@string/verification"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

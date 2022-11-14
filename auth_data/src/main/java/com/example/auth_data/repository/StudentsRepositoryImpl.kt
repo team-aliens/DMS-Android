@@ -3,7 +3,10 @@ package com.example.auth_data.repository
 import com.example.auth_data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.auth_data.remote.request.students.ResetPasswordRequest
 import com.example.auth_data.remote.request.students.SignUpRequest
+import com.example.auth_data.remote.response.students.ExamineGradeResponse
 import com.example.auth_data.remote.response.students.SignUpResponse
+import com.example.auth_domain.entity.ExamineGradeEntity
+import com.example.auth_domain.param.ExamineGradeParam
 import com.example.auth_domain.param.RegisterParam
 import com.example.auth_domain.param.ResetPasswordParam
 import com.example.auth_domain.repository.StudentsRepository
@@ -16,30 +19,32 @@ class StudentsRepositoryImpl @Inject constructor(
     private val localUserDataSource: LocalUserDataSource,
 ) : StudentsRepository {
 
-    override suspend fun register(
-        registerParam: RegisterParam,
-    ) {
+    override suspend fun register(registerParam: RegisterParam) {
         val response = remoteStudentsDataSource.postUserSignUp(
             registerParam.toRequest()
         )
         localUserDataSource.setUserVisibleInform(response.features.toEntity())
     }
 
-    override suspend fun duplicateCheckId(
-        accountId: String,
-    ) = remoteStudentsDataSource.duplicateCheckId(accountId)
+    override suspend fun duplicateCheckId(accountId: String) =
+        remoteStudentsDataSource.duplicateCheckId(accountId)
 
-    override suspend fun duplicateCheckEmail(
-        email: String,
-    ) = remoteStudentsDataSource.duplicateCheckEmail(email)
+    override suspend fun duplicateCheckEmail(email: String) =
+        remoteStudentsDataSource.duplicateCheckEmail(email)
 
-    override suspend fun resetPassword(
-        resetPasswordParam: ResetPasswordParam
-    ) {
+    override suspend fun resetPassword(resetPasswordParam: ResetPasswordParam) {
         remoteStudentsDataSource.resetPassword(
             resetPasswordParam.toRequest()
         )
     }
+
+    override suspend fun examineGrade(examineGradeParam: ExamineGradeParam): ExamineGradeEntity =
+        remoteStudentsDataSource.examineGrade(
+            schoolId = examineGradeParam.schoolId,
+            grade = examineGradeParam.grade,
+            number = examineGradeParam.number,
+            classRoom = examineGradeParam.classRoom,
+        ).toEntity()
 
     private fun SignUpResponse.Features.toEntity() =
         FeaturesParam(
@@ -68,5 +73,10 @@ class StudentsRepositoryImpl @Inject constructor(
             accountId = accountId,
             password = password,
             profileImageUrl = profileImageUrl,
+        )
+
+    private fun ExamineGradeResponse.toEntity() =
+        ExamineGradeEntity(
+            name = name
         )
 }

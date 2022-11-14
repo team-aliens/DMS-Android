@@ -4,8 +4,10 @@ import com.example.auth_data.remote.api.StudentsApi
 import com.example.auth_data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.auth_data.remote.request.students.ResetPasswordRequest
 import com.example.auth_data.remote.request.students.SignUpRequest
+import com.example.auth_data.remote.response.students.ExamineGradeResponse
 import com.example.auth_data.remote.response.students.SignUpResponse
 import com.example.auth_data.util.HttpHandler
+import java.util.UUID
 import javax.inject.Inject
 
 class RemoteStudentsDataSourceImpl @Inject constructor(
@@ -45,6 +47,20 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
             studentsApi.resetPassword(
                 resetPasswordRequest
             )
-        }
-        .sendRequest()
+        }.sendRequest()
+
+    override suspend fun examineGrade(
+        schoolId: UUID,
+        grade: Int,
+        classRoom: Int,
+        number: Int
+    ) = HttpHandler<ExamineGradeResponse>()
+        .httpRequest {
+            studentsApi.examineGrade(
+                schoolId = schoolId,
+                grade = grade,
+                classRoom = classRoom,
+                number = number,
+            )
+        }.sendRequest()
 }
