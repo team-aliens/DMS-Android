@@ -72,7 +72,9 @@ fun DialogBox() {
             text = stringResource(id = R.string.PlusPoint),
             color = DormButtonColor.Blue,
             enabled = false,
-            onClick = {},
+            onClick = {
+                // TODO("Change Category")
+            },
         )
         Spacer(
             modifier = Modifier
@@ -85,7 +87,9 @@ fun DialogBox() {
             text = stringResource(id = R.string.MinusPoint),
             color = DormButtonColor.Blue,
             enabled = false,
-            onClick = {},
+            onClick = {
+                // TODO("Change Category")
+            },
         )
     }
 }

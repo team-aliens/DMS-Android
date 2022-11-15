@@ -80,11 +80,7 @@ fun UserInformation(
                 .padding(start = 24.dp)
         ) {
             SubTitle1(
-                text = stringResource(
-                    id = R.string.ExampleGcn
-                ) + "  " + stringResource(
-                    id = R.string.ExampleName
-                )
+                text = "2115 유현명"
             )
             Spacer(
                 modifier = Modifier

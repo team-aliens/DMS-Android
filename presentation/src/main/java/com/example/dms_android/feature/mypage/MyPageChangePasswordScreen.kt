@@ -55,7 +55,7 @@ fun ChangePwValue() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(DormColor.Gray100)
     ) {
         Column(
             modifier = Modifier
