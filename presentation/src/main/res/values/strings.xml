@@ -73,4 +73,20 @@
     <string name="NoticeTitle">공지사항 제목</string>
     <string name="NoticeTime">2022/01/21  8:29</string>
     <string name="NoticeContent">동해물과 백두산이 마르고 닳도록 하나님이 보우하사 우리 나라 만세</string>
+    <string name="Gcn">UserGcn</string>
+    <string name="ExampleGcn">2115</string>
+    <string name="ExampleName">유현명</string>
+    <string name="ExampleSchool">대덕소프트웨어마이스터고등학교</string>
+    <string name="ExampleWarning">벌점 왤케 많아 씹련아.   벌점 줄여 개년아</string>
+    <string name="PlusPoint">상점</string>
+    <string name="MinusPoint">벌점</string>
+    <string name="ExamplePlusPoint">13</string>
+    <string name="CheckPointList">상벌점 내역 확인</string>
+    <string name="ChangePassword">비밀번호 변경</string>
+    <string name="Logout">로그아웃</string>
+    <string name="CheckPoint">상벌점 확인</string>
+    <string name="ALL">전체</string>
+    <string name="ExampleTotalPoint">-15 점</string>
+    <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
+    <string name="OriginPw">기존 비밀번호</string>
 </resources>
