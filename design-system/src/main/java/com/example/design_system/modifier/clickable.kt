@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.design_system.utils.runIf
 
 @Stable
-internal fun Modifier.dormClickable(
+fun Modifier.dormClickable(
     rippleEnabled: Boolean = true,
     rippleColor: Color? = null,
     onClick: (() -> Unit)?,

@@ -49,6 +49,7 @@ import com.example.design_system.icon.DormIcon
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.NotoSansFamily
 import com.example.dms_android.R
+import com.example.dms_android.component.changeBottomSheetState
 import com.example.dms_android.util.fetchImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -297,20 +298,6 @@ fun ContentLayout(
                     fontWeight = FontWeight.Normal,
                 )
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-fun changeBottomSheetState(
-    coroutineScope: CoroutineScope,
-    bottomSheetState: ModalBottomSheetState,
-    bottomSheetType: BottomSheetType,
-) {
-    coroutineScope.launch {
-        when (bottomSheetType) {
-            BottomSheetType.Hide -> bottomSheetState.hide()
-            BottomSheetType.Show -> bottomSheetState.show()
         }
     }
 }
