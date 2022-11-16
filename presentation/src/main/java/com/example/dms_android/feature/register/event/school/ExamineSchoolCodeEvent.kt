@@ -1,11 +1,9 @@
 package com.example.dms_android.feature.register.event.school
 
 import com.example.dms_android.base.MviEvent
-import java.util.UUID
 
 
 sealed class ExamineSchoolCodeEvent: MviEvent {
-    data class InputSchoolCode(val schoolCode: String) : ExamineSchoolCodeEvent()
     object ExamineSchoolCodeSuccess : ExamineSchoolCodeEvent()
     object BadRequestException : ExamineSchoolCodeEvent()
     object UnAuthorizedException : ExamineSchoolCodeEvent()
