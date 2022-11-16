@@ -1,6 +1,5 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
 import com.example.auth_domain.exception.ServerException
@@ -14,18 +13,12 @@ import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
-    private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase
+    private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase,
 ) : BaseViewModel<ExamineSchoolCodeState, ExamineSchoolCodeEvent>() {
-
-    var schoolId: MutableLiveData<UUID> = MutableLiveData()
-    fun setSchoolCode(schoolCode: String) {
-        sendEvent(ExamineSchoolCodeEvent.InputSchoolCode(schoolCode))
-    }
 
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
     val examineSchoolCodeEvent = _examineSchoolCodeEvent.asEventFlow()
@@ -34,10 +27,8 @@ class ExamineSchoolCodeViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteSchoolCodeUseCase.execute(schoolCode)
-            }.onSuccess { response ->
+            }.onSuccess {
                 ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess
-
-                schoolId.value = response.schoolId
             }.onFailure {
                 when (it) {
                     is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
@@ -54,14 +45,6 @@ class ExamineSchoolCodeViewModel @Inject constructor(
         get() = ExamineSchoolCodeState.initial()
 
     override fun reduceEvent(oldState: ExamineSchoolCodeState, event: ExamineSchoolCodeEvent) {
-        when (event) {
-            is ExamineSchoolCodeEvent.InputSchoolCode -> {
-                setState(oldState.copy(schoolCode = event.schoolCode))
-            }
-
-            else -> {
-                TODO("else")
-            }
-        }
+        TODO()
     }
 }
