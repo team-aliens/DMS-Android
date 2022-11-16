@@ -43,7 +43,7 @@ import com.example.dms_android.util.observeWithLifecycle
 import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 
-private var onBtnActive = false
+/*private var onBtnActive = false
 
 @Composable
 fun SchoolCertificationCodeScreen(
@@ -202,4 +202,4 @@ fun HandleViewEffect(
             }
         }
     })
-}
+}*/
