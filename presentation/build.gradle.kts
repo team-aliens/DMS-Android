@@ -84,6 +84,8 @@ dependencies {
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
+    implementation(Dependency.Ui.FRAGMENT_KTX)
+
     implementation(Dependency.Lifecycle.LIVEDATA)
     implementation(Dependency.Lifecycle.VIEWMODEL)
     implementation(Dependency.Lifecycle.RUNTIME)
