@@ -46,7 +46,7 @@ import com.example.dms_android.viewmodel.auth.register.school.SchoolQuestionView
 
 private var onActive = false
 
-@Composable
+/*@Composable
 fun ConfirmSchoolScreen(
     scaffoldState: ScaffoldState,
     schoolQuestionViewModel: SchoolQuestionViewModel = hiltViewModel(),
@@ -278,7 +278,7 @@ fun CompareSchoolHandleViewEffect(
             }
         }
     })
-}
+}*/
 
 
 
