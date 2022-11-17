@@ -56,7 +56,10 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
         }
 
         is ExamineSchoolCodeEvent.UnAuthorizedException -> {
-            showShortToast(R.string.SchoolUnAuthorized.toString())
+            binding.tvDetail.text = R.string.SchoolUnAuthorized.toString()
+            binding.tvDetail.setTextColor(R.color.error.toInt())
+            binding.btnVerificationCode.setBackgroundColor(Color.parseColor("#803D8AFF"))
+            binding.btnVerificationCode.isClickable = false
         }
 
         is ExamineSchoolCodeEvent.UnknownException -> {
@@ -65,21 +68,23 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     }
 
     override fun initView() {
-        binding.etPinEntry.setOnPinEnteredListener {
+
+        //TODO : 구현 필요 (시간을 너무 많이 써서 딴 거부터 조짐)
+        binding.etPinEntry.setOnPinEnteredListener() {
             if (binding.etPinEntry.length() == 8) {
-                binding.btnVerificationCode.setBackgroundColor(Color.parseColor("#3D8AFF"))
+                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.btnVerificationCode.isClickable = true
             } else {
-                binding.btnVerificationCode.setBackgroundColor(Color.parseColor("#803D8AFF"))
+                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isClickable = false
             }
+        }
 
             binding.btnVerificationCode.setOnClickListener {
-                OnPinEnteredListener { str ->
-                    showShortToast(str.toString())
+                binding.etPinEntry.setOnPinEnteredListener(OnPinEnteredListener { str ->
                     vmExamineSchoolCode.examineSchoolCode(str.toString())
-                }
+                })
             }
-        }
+
     }
 }
