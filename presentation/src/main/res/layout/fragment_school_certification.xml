@@ -33,7 +33,7 @@
         <com.alimuzaffar.lib.pin.PinEntryEditText
             android:id="@+id/etPinEntry"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginHorizontal="46dp"
             android:layout_marginTop="100dp"
             android:cursorVisible="false"
