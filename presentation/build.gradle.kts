@@ -68,7 +68,6 @@ dependencies {
     implementation(Dependency.Ui.GLIDE_CORE)
     annotationProcessor(Dependency.Ui.GLIDE_COMPILER)
 
-
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)
     implementation(Dependency.Compose.COMPOSE_PREVIEW)
@@ -84,7 +83,7 @@ dependencies {
     implementation(Dependency.Hilt.HILT_ANDROID)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Ui.FRAGMENT_KTX)
+    implementation(Dependency.Ui.FRAGMENT_KTX_NEW)
 
     implementation(Dependency.Lifecycle.LIVEDATA)
     implementation(Dependency.Lifecycle.VIEWMODEL)
