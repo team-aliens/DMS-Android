@@ -3,7 +3,7 @@ package com.example.dms_android.feature.register.event.school
 import com.example.dms_android.base.MviEvent
 
 
-sealed class ExamineSchoolCodeEvent: MviEvent {
+sealed class ExamineSchoolCodeEvent : MviEvent {
     object ExamineSchoolCodeSuccess : ExamineSchoolCodeEvent()
     object BadRequestException : ExamineSchoolCodeEvent()
     object UnAuthorizedException : ExamineSchoolCodeEvent()

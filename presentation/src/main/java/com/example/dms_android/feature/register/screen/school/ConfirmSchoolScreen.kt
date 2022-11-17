@@ -35,13 +35,9 @@ import com.example.design_system.typography.Body4
 import com.example.design_system.typography.ButtonText
 import com.example.design_system.typography.Caption
 import com.example.dms_android.R
-import com.example.dms_android.feature.register.event.school.CompareSchoolAnswerEvent
-import com.example.dms_android.feature.register.event.school.SchoolQuestionEvent
 import com.example.dms_android.util.EventFlow
 import com.example.dms_android.util.observeWithLifecycle
 import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
-import com.example.dms_android.viewmodel.auth.register.school.CompareSchoolAnswerViewModel
-import com.example.dms_android.viewmodel.auth.register.school.SchoolQuestionViewModel
 
 
 private var onActive = false
