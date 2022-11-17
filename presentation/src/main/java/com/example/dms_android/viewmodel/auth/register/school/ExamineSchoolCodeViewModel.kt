@@ -1,5 +1,6 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
 import com.example.auth_domain.exception.ServerException
@@ -13,6 +14,7 @@ import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,11 +25,16 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
     val examineSchoolCodeEvent = _examineSchoolCodeEvent.asEventFlow()
 
+    //TODO: sharedFlow로 바꿔야됨
+    var schoolId : MutableLiveData<UUID> = MutableLiveData()
+
     fun examineSchoolCode(schoolCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteSchoolCodeUseCase.execute(schoolCode)
-            }.onSuccess {
+
+            }.onSuccess { response ->
+                schoolId.value = response.schoolId
                 ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess
             }.onFailure {
                 when (it) {
