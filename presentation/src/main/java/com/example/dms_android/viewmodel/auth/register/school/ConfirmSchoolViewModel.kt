@@ -36,7 +36,7 @@ class ConfirmSchoolViewModel @Inject constructor(
     val question: LiveData<String> = _question
 
     private val parameter =
-        inputSchoolId.value?.let {
+        inputSchoolId.value!!.let {
             SchoolAnswerParam(
                 schoolId = it,
                 answer = schoolAnswer.value.toString(),
@@ -49,9 +49,7 @@ class ConfirmSchoolViewModel @Inject constructor(
     fun compareSchoolAnswer() {
         viewModelScope.launch {
             kotlin.runCatching {
-                if (parameter != null) {
-                    remoteSchoolAnswerUseCase.execute(parameter)
-                }
+                remoteSchoolAnswerUseCase.execute(parameter)
             }.onSuccess {
                 ConfirmSchoolEvent.CompareSchoolAnswerSuccess
             }.onFailure {
