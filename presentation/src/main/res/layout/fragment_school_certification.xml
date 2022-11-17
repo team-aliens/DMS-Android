@@ -63,18 +63,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPinEntry" />
 
-        <TextView
-            android:id="@+id/tvResendCode"
-            style="@style/DMS.NotoSans.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="@string/ResendVerificationCode"
-            android:textColor="@color/gray_600"
-            app:layout_constraintBottom_toTopOf="@+id/btnVerificationCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <com.example.dms_android.customui.RegisterCustomButton
             android:id="@+id/btnVerificationCode"
             android:layout_width="0dp"
