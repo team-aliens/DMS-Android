@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.alimuzaffar.lib.pin.PinEntryEditText.OnPinEnteredListener
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentSchoolCertificationBinding
@@ -68,9 +67,10 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     }
 
     override fun initView() {
+        var temp: String? = null
 
-        //TODO : 구현 필요 (시간을 너무 많이 써서 딴 거부터 조짐)
-        binding.etPinEntry.setOnPinEnteredListener() {
+        binding.etPinEntry.setOnPinEnteredListener() { str ->
+            temp = str.toString()
             if (binding.etPinEntry.length() == 8) {
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.btnVerificationCode.isClickable = true
@@ -80,11 +80,10 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
             }
         }
 
-            binding.btnVerificationCode.setOnClickListener {
-                binding.etPinEntry.setOnPinEnteredListener(OnPinEnteredListener { str ->
-                    vmExamineSchoolCode.examineSchoolCode(str.toString())
-                })
+        binding.btnVerificationCode.setOnClickListener {
+            temp?.let {
+                vmExamineSchoolCode.examineSchoolCode(it)
             }
-
+        }
     }
 }
