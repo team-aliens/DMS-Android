@@ -34,6 +34,10 @@ class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
             binding.tvError.invisible()
         }
 
+        binding.ivBack.setOnClickListener {
+            //TODO: back code
+        }
+
         binding.btnVerificationCode.setOnClickListener {
             //TODO: 다음 화면으로 가는 코드 작성, 회원가입 뷰모델 만들어지면 password 넣어야됨.....
         }
