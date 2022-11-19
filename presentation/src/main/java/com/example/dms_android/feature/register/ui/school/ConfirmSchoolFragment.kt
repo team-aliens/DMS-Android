@@ -2,7 +2,6 @@ package com.example.dms_android.feature.register.ui.school
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
