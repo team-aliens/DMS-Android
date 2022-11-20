@@ -84,3 +84,11 @@ class ConfirmSchoolViewModel @Inject constructor(
             _confirmSchoolEvent.emit(event)
         }
     }
+
+    override val initialState: ConfirmSchoolState
+        get() = ConfirmSchoolState.initial()
+
+    override fun reduceEvent(oldState: ConfirmSchoolState, event: ConfirmSchoolEvent) {
+        TODO("Not yet implemented")
+    }
+}
