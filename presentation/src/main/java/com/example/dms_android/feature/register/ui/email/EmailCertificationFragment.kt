@@ -40,7 +40,7 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
         when (event) {
             is RegisterEmailEvent.CheckEmailSuccess -> {
                 val mainActive = activity as MainActivity
-                //TODO: 여기에 다음페이지 넘어가는 코드 작성
+                mainActive.changeFragment(4)
             }
 
             is RegisterEmailEvent.SendEmailSuccess -> {

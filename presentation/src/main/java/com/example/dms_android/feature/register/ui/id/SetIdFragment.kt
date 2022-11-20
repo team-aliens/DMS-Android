@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.dms_android.databinding.FragmentSetIdBinding
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
+import com.example.dms_android.feature.MainActivity
 import com.example.dms_android.feature.register.event.id.SetIdEvent
 import com.example.dms_android.util.invisible
 import com.example.dms_android.util.repeatOnStarted
@@ -110,7 +111,8 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         }
 
         binding.btnVerificationCode.setOnClickListener {
-            //TODO: 다음화면으로 이동하는 코드 작성 필요
+            val mainActive = activity as MainActivity
+            mainActive.changeFragment(5)
         }
 
         binding.ivBack.setOnClickListener {
