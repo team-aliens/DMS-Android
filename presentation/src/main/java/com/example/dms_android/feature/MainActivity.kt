@@ -8,10 +8,7 @@ import com.example.dms_android.R
 import com.example.dms_android.feature.register.ui.email.EmailCertificationFragment
 import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
 import com.example.dms_android.feature.register.ui.id.SetIdFragment
-<<<<<<< HEAD
 import com.example.dms_android.feature.register.ui.password.SetPasswordFragment
-=======
->>>>>>> 126_implement_id_settings
 import com.example.dms_android.feature.register.ui.school.ConfirmSchoolFragment
 import com.example.dms_android.feature.register.ui.school.SchoolCertificationFragment
 
@@ -48,25 +45,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                     .replace(R.id.container, EmailCertificationFragment())
                     .commit()
             }
-<<<<<<< HEAD
 
             4 -> {
-=======
-            4 ->  {
->>>>>>> 126_implement_id_settings
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, SetIdFragment())
                     .commit()
             }
-<<<<<<< HEAD
 
             5 -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, SetPasswordFragment())
                     .commit()
             }
-=======
->>>>>>> 126_implement_id_settings
         }
     }
 }
