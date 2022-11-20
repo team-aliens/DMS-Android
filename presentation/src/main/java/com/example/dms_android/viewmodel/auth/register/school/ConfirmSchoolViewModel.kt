@@ -1,7 +1,5 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
 import com.example.auth_domain.exception.NotFoundException
@@ -21,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class ConfirmSchoolViewModel @Inject constructor(
@@ -28,20 +27,15 @@ class ConfirmSchoolViewModel @Inject constructor(
     private val remoteSchoolQuestionUseCase: RemoteSchoolQuestionUseCase,
 ) : BaseViewModel<ConfirmSchoolState, ConfirmSchoolEvent>() {
 
-    //TODO: sharedFlow로 바꿔야됨
-    var schoolAnswer: MutableLiveData<String> = MutableLiveData()
-    var inputSchoolId: MutableLiveData<UUID> = MutableLiveData()
-
-    private val _question: MutableLiveData<String> = MutableLiveData()
-    val question: LiveData<String> = _question
+    var schoolId by Delegates.notNull<UUID>()
+    var schoolAnswer by Delegates.notNull<String>()
+    var question by Delegates.notNull<String>()
 
     private val parameter =
-        inputSchoolId.value!!.let {
             SchoolAnswerParam(
-                schoolId = it,
-                answer = schoolAnswer.value.toString(),
+                schoolId = schoolId,
+                answer = schoolAnswer,
             )
-        }
 
     private val _confirmSchoolEvent = MutableEventFlow<ConfirmSchoolEvent>()
     val confirmSchoolEvent = _confirmSchoolEvent.asEventFlow()
@@ -51,7 +45,7 @@ class ConfirmSchoolViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteSchoolAnswerUseCase.execute(parameter)
             }.onSuccess {
-                ConfirmSchoolEvent.CompareSchoolAnswerSuccess
+                event(ConfirmSchoolEvent.CompareSchoolAnswerSuccess)
             }.onFailure {
                 when (it) {
                     is BadRequestException -> ConfirmSchoolEvent.CompareSchoolBadRequest
@@ -69,19 +63,25 @@ class ConfirmSchoolViewModel @Inject constructor(
     fun schoolQuestion() {
         viewModelScope.launch {
             kotlin.runCatching {
-                inputSchoolId.value?.let { remoteSchoolQuestionUseCase.execute(it) }
+                 remoteSchoolQuestionUseCase.execute(schoolId)
             }.onSuccess { response ->
                 ConfirmSchoolEvent.SchoolQuestionSuccess
-                _question.value = response?.question
+                question = response.question
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> ConfirmSchoolEvent.ErrorMessage(R.string.LoginBadRequest.toString())
+                    is BadRequestException -> ConfirmSchoolEvent.ErrorMessage(R.string.BadRequest.toString())
                     is NotFoundException -> ConfirmSchoolEvent.ErrorMessage(R.string.CompareSchoolNotFound.toString())
                     is TooManyRequestException -> ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString())
                     is ServerException -> ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString())
                     else -> ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString())
                 }
             }
+        }
+    }
+
+    private fun event(event: ConfirmSchoolEvent) {
+        viewModelScope.launch {
+            _confirmSchoolEvent.emit(event)
         }
     }
 
