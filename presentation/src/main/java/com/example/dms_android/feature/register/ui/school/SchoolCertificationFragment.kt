@@ -1,6 +1,5 @@
 package com.example.dms_android.feature.register.ui.school
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBinding>(
     R.layout.fragment_school_certification
 ) {
-    private val vmExamineSchoolCode: ExamineSchoolCodeViewModel by viewModels()
-    private val vmSchoolQuestion: ConfirmSchoolViewModel by viewModels()
+    private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
+    private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +29,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
         savedInstanceState: Bundle?
     ): View? {
         repeatOnStarted {
-            vmExamineSchoolCode.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
+            examineSchoolCodeViewModel.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -38,12 +37,12 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     private fun handleEvent(event: ExamineSchoolCodeEvent) = when (event) {
         is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
             val mainActive = activity as MainActivity
-            vmSchoolQuestion.inputSchoolId = vmExamineSchoolCode.schoolId
+            confirmSchoolViewModel.schoolId = examineSchoolCodeViewModel.schoolId
             mainActive.changeFragment(1)
         }
 
         is ExamineSchoolCodeEvent.BadRequestException -> {
-            showShortToast(R.string.LoginBadRequest.toString())
+            showShortToast(R.string.BadRequest.toString())
         }
 
         is ExamineSchoolCodeEvent.InternalServerException -> {
@@ -57,7 +56,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
         is ExamineSchoolCodeEvent.UnAuthorizedException -> {
             binding.tvDetail.text = R.string.SchoolUnAuthorized.toString()
             binding.tvDetail.setTextColor(R.color.error.toInt())
-            binding.btnVerificationCode.setBackgroundColor(Color.parseColor("#803D8AFF"))
+            binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
             binding.btnVerificationCode.isClickable = false
         }
 
@@ -82,7 +81,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
 
         binding.btnVerificationCode.setOnClickListener {
             temp?.let {
-                vmExamineSchoolCode.examineSchoolCode(it)
+                examineSchoolCodeViewModel.examineSchoolCode(it)
             }
         }
     }

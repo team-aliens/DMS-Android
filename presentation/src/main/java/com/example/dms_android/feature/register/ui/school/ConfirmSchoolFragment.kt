@@ -1,6 +1,5 @@
 package com.example.dms_android.feature.register.ui.school
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,17 +19,17 @@ import com.example.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewM
 class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
     R.layout.fragment_confirm_school
 ) {
-    private val vm: ConfirmSchoolViewModel by viewModels()
+    private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        vm.schoolQuestion()
+        confirmSchoolViewModel.schoolQuestion()
 
         repeatOnStarted {
-            vm.confirmSchoolEvent.collect { event -> handleEvent(event) }
+            confirmSchoolViewModel.confirmSchoolEvent.collect { event -> handleEvent(event) }
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -40,21 +39,21 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         when (event) {
             is ConfirmSchoolEvent.CompareSchoolAnswerSuccess -> {
                 binding.tvError.invisible()
-                binding.btnConfirm.setBackgroundColor(Color.parseColor("#3D8AFF"))
+                binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_background)
                 binding.btnConfirm.isClickable = true
             }
 
             is ConfirmSchoolEvent.SchoolQuestionSuccess -> {
-                binding.tvSchoolQuestion.text = vm.question.toString()
+                binding.tvSchoolQuestion.text = confirmSchoolViewModel.question
             }
 
             is ConfirmSchoolEvent.ErrorMessage -> showShortToast(event.message)
 
             is ConfirmSchoolEvent.CompareSchoolBadRequest -> {
-                binding.tvError.text = R.string.LoginBadRequest.toString()
+                binding.tvError.text = R.string.BadRequest.toString()
                 binding.tvError.setTextColor(R.color.error.toInt())
-                binding.btnConfirm.setBackgroundColor(Color.parseColor("#803D8AFF"))
+                binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
             }
@@ -62,7 +61,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
             is ConfirmSchoolEvent.CompareSchoolNotFound -> {
                 binding.tvError.text = R.string.CompareSchoolNotFound.toString()
                 binding.tvError.setTextColor(R.color.error.toInt())
-                binding.btnConfirm.setBackgroundColor(Color.parseColor("#803D8AFF"))
+                binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
             }
@@ -70,7 +69,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
             is ConfirmSchoolEvent.CompareSchoolUnauthorized -> {
                 binding.tvError.text = R.string.inconsistent_school_reply.toString()
                 binding.tvError.setTextColor(R.color.error.toInt())
-                binding.btnConfirm.setBackgroundColor(Color.parseColor("#803D8AFF"))
+                binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
             }
@@ -90,11 +89,11 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                vm.schoolAnswer.value = binding.etReply.toString()
+                confirmSchoolViewModel.schoolAnswer = binding.etReply.toString()
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                vm.compareSchoolAnswer()
+                confirmSchoolViewModel.compareSchoolAnswer()
             }
         })
 
