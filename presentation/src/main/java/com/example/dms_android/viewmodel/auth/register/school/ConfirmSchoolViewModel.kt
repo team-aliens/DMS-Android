@@ -32,10 +32,10 @@ class ConfirmSchoolViewModel @Inject constructor(
     var question by Delegates.notNull<String>()
 
     private val parameter =
-            SchoolAnswerParam(
-                schoolId = schoolId,
-                answer = schoolAnswer,
-            )
+        SchoolAnswerParam(
+            schoolId = schoolId,
+            answer = schoolAnswer,
+        )
 
     private val _confirmSchoolEvent = MutableEventFlow<ConfirmSchoolEvent>()
     val confirmSchoolEvent = _confirmSchoolEvent.asEventFlow()
@@ -48,12 +48,12 @@ class ConfirmSchoolViewModel @Inject constructor(
                 event(ConfirmSchoolEvent.CompareSchoolAnswerSuccess)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> ConfirmSchoolEvent.CompareSchoolBadRequest
-                    is UnauthorizedException -> ConfirmSchoolEvent.CompareSchoolUnauthorized
-                    is NotFoundException -> ConfirmSchoolEvent.CompareSchoolNotFound
-                    is TooManyRequestException -> ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString())
-                    is ServerException -> ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString())
-                    else -> ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString())
+                    is BadRequestException -> event(ConfirmSchoolEvent.CompareSchoolBadRequest)
+                    is UnauthorizedException -> event(ConfirmSchoolEvent.CompareSchoolUnauthorized)
+                    is NotFoundException -> event(ConfirmSchoolEvent.CompareSchoolNotFound)
+                    is TooManyRequestException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString()))
+                    is ServerException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString()))
+                    else -> event(ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString()))
                 }
             }
         }
@@ -63,17 +63,17 @@ class ConfirmSchoolViewModel @Inject constructor(
     fun schoolQuestion() {
         viewModelScope.launch {
             kotlin.runCatching {
-                 remoteSchoolQuestionUseCase.execute(schoolId)
+                remoteSchoolQuestionUseCase.execute(schoolId)
             }.onSuccess { response ->
-                ConfirmSchoolEvent.SchoolQuestionSuccess
+                event(ConfirmSchoolEvent.SchoolQuestionSuccess)
                 question = response.question
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> ConfirmSchoolEvent.ErrorMessage(R.string.BadRequest.toString())
-                    is NotFoundException -> ConfirmSchoolEvent.ErrorMessage(R.string.CompareSchoolNotFound.toString())
-                    is TooManyRequestException -> ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString())
-                    is ServerException -> ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString())
-                    else -> ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString())
+                    is BadRequestException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.BadRequest.toString()))
+                    is NotFoundException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.CompareSchoolNotFound.toString()))
+                    is TooManyRequestException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString()))
+                    is ServerException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString()))
+                    else -> event(ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString()))
                 }
             }
         }
@@ -84,11 +84,3 @@ class ConfirmSchoolViewModel @Inject constructor(
             _confirmSchoolEvent.emit(event)
         }
     }
-
-    override val initialState: ConfirmSchoolState
-        get() = ConfirmSchoolState.initial()
-
-    override fun reduceEvent(oldState: ConfirmSchoolState, event: ConfirmSchoolEvent) {
-        TODO("Not yet implemented")
-    }
-}
