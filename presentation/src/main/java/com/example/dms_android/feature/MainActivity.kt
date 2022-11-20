@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.example.dms_android.R
 import com.example.dms_android.feature.register.ui.email.EmailCertificationFragment
 import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
+import com.example.dms_android.feature.register.ui.id.SetIdFragment
 import com.example.dms_android.feature.register.ui.school.ConfirmSchoolFragment
 import com.example.dms_android.feature.register.ui.school.SchoolCertificationFragment
 
@@ -39,6 +40,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             3 -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, EmailCertificationFragment())
+                    .commit()
+            }
+            4 ->  {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, SetIdFragment())
                     .commit()
             }
         }
