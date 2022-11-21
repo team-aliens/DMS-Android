@@ -23,6 +23,6 @@ interface SchoolsApi {
 
     @GET(DmsUrl.Schools.schoolCode)
     suspend fun examineSchoolCode(
-        @Query("school_code") schoolCode: String
+        @Query("schoolCode") schoolCode: String
     ): SchoolIdResponse
 }
