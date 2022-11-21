@@ -42,26 +42,26 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
         }
 
         is ExamineSchoolCodeEvent.BadRequestException -> {
-            showShortToast(R.string.BadRequest.toString())
+            showShortToast(getString(R.string.BadRequest))
         }
 
         is ExamineSchoolCodeEvent.InternalServerException -> {
-            showShortToast(R.string.ServerException.toString())
+            showShortToast(getString(R.string.ServerException))
         }
 
         is ExamineSchoolCodeEvent.TooManyRequestException -> {
-            showShortToast(R.string.TooManyRequest.toString())
+            showShortToast(getString(R.string.TooManyRequest))
         }
 
         is ExamineSchoolCodeEvent.UnAuthorizedException -> {
-            binding.tvDetail.text = R.string.SchoolUnAuthorized.toString()
+            binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
             binding.tvDetail.setTextColor(R.color.error.toInt())
             binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
             binding.btnVerificationCode.isClickable = false
         }
 
         is ExamineSchoolCodeEvent.UnknownException -> {
-            showShortToast(R.string.UnKnownException.toString())
+            showShortToast(getString(R.string.UnKnownException))
         }
     }
 

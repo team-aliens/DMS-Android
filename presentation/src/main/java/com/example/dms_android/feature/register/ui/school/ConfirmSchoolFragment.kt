@@ -48,10 +48,8 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 binding.tvSchoolQuestion.text = confirmSchoolViewModel.question
             }
 
-            is ConfirmSchoolEvent.ErrorMessage -> showShortToast(event.message)
-
             is ConfirmSchoolEvent.CompareSchoolBadRequest -> {
-                binding.tvError.text = R.string.BadRequest.toString()
+                binding.tvError.text = getString(R.string.BadRequest)
                 binding.tvError.setTextColor(R.color.error.toInt())
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
@@ -59,7 +57,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
             }
 
             is ConfirmSchoolEvent.CompareSchoolNotFound -> {
-                binding.tvError.text = R.string.CompareSchoolNotFound.toString()
+                binding.tvError.text = getString(R.string.CompareSchoolNotFound)
                 binding.tvError.setTextColor(R.color.error.toInt())
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
@@ -67,12 +65,18 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
             }
 
             is ConfirmSchoolEvent.CompareSchoolUnauthorized -> {
-                binding.tvError.text = R.string.inconsistent_school_reply.toString()
+                binding.tvError.text = getString(R.string.inconsistent_school_reply)
                 binding.tvError.setTextColor(R.color.error.toInt())
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
             }
+
+            ConfirmSchoolEvent.InternalServerException -> showShortToast(getString(R.string.ServerException))
+            ConfirmSchoolEvent.TooManyRequestException -> showShortToast(getString(R.string.TooManyRequest))
+            ConfirmSchoolEvent.UnknownException -> showShortToast(getString(R.string.UnKnownException))
+            ConfirmSchoolEvent.SchoolQuestionBadRequest -> showShortToast(getString(R.string.BadRequest))
+            ConfirmSchoolEvent.SchoolQuestionNotFound -> showShortToast(getString(R.string.CompareSchoolNotFound))
         }
     }
 
