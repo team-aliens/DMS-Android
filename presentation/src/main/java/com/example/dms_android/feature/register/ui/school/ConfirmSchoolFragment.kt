@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
@@ -50,7 +51,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolBadRequest -> {
                 binding.tvError.text = getString(R.string.BadRequest)
-                binding.tvError.setTextColor(R.color.error.toInt())
+                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
@@ -58,7 +59,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolNotFound -> {
                 binding.tvError.text = getString(R.string.CompareSchoolNotFound)
-                binding.tvError.setTextColor(R.color.error.toInt())
+                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
@@ -66,7 +67,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolUnauthorized -> {
                 binding.tvError.text = getString(R.string.inconsistent_school_reply)
-                binding.tvError.setTextColor(R.color.error.toInt())
+                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
