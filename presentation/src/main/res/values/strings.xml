@@ -46,6 +46,7 @@
     <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
     <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
     <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
+    <string name="BadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
     <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
     <string name="CompareSchoolUnAuthorized">질문에 대한 답변이 일치하지 않음.</string>
     <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>

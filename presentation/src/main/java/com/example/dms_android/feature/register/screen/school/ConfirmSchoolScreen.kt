@@ -40,9 +40,11 @@ import com.example.dms_android.util.observeWithLifecycle
 import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 
 
+/*
+TODO : 나중에 JetpackCompose로 마이그레이션을 위해 주석 처리
 private var onActive = false
 
-/*@Composable
+@Composable
 fun ConfirmSchoolScreen(
     scaffoldState: ScaffoldState,
     schoolQuestionViewModel: SchoolQuestionViewModel = hiltViewModel(),
