@@ -51,9 +51,9 @@ class ConfirmSchoolViewModel @Inject constructor(
                     is BadRequestException -> event(ConfirmSchoolEvent.CompareSchoolBadRequest)
                     is UnauthorizedException -> event(ConfirmSchoolEvent.CompareSchoolUnauthorized)
                     is NotFoundException -> event(ConfirmSchoolEvent.CompareSchoolNotFound)
-                    is TooManyRequestException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString()))
-                    is ServerException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString()))
-                    else -> event(ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString()))
+                    is TooManyRequestException -> event(ConfirmSchoolEvent.TooManyRequestException)
+                    is ServerException -> event(ConfirmSchoolEvent.InternalServerException)
+                    else -> event(ConfirmSchoolEvent.UnknownException)
                 }
             }
         }
@@ -69,11 +69,11 @@ class ConfirmSchoolViewModel @Inject constructor(
                 question = response.question
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.BadRequest.toString()))
-                    is NotFoundException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.CompareSchoolNotFound.toString()))
-                    is TooManyRequestException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.TooManyRequest.toString()))
-                    is ServerException -> event(ConfirmSchoolEvent.ErrorMessage(R.string.ServerException.toString()))
-                    else -> event(ConfirmSchoolEvent.ErrorMessage(R.string.UnKnownException.toString()))
+                    is BadRequestException -> event(ConfirmSchoolEvent.SchoolQuestionBadRequest)
+                    is NotFoundException -> event(ConfirmSchoolEvent.SchoolQuestionNotFound)
+                    is TooManyRequestException -> event(ConfirmSchoolEvent.TooManyRequestException)
+                    is ServerException -> event(ConfirmSchoolEvent.InternalServerException)
+                    else -> event(ConfirmSchoolEvent.UnknownException)
                 }
             }
         }
