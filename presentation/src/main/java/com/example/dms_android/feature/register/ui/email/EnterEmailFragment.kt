@@ -35,23 +35,28 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
     override fun initView() {
         binding.btnSendCode.isClickable = false
 
-        val emailValidation =
-            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-
         fun checkEmail(): Boolean {
             val email = binding.etEnterEmail.text.toString().trim()
             val p = Pattern.matches(emailValidation, email)
             return if (p) {
                 binding.tvError.invisible()
                 binding.btnSendCode.isClickable = true
-                binding.btnSendCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
-                binding.etEnterEmail.setBackgroundResource(R.drawable.register_et_background)
+                binding.btnSendCode.setBackgroundResource(
+                    R.drawable.register_custom_active_btn_background
+                )
+                binding.etEnterEmail.setBackgroundResource(
+                    R.drawable.register_et_background
+                )
                 true
             } else {
                 binding.tvError.visible()
                 binding.btnSendCode.isClickable = false
-                binding.btnSendCode.setBackgroundResource(R.drawable.register_custom_btn_background)
-                binding.etEnterEmail.setBackgroundResource(R.drawable.register_et_error_background)
+                binding.btnSendCode.setBackgroundResource(
+                    R.drawable.register_custom_btn_background
+                )
+                binding.etEnterEmail.setBackgroundResource(
+                    R.drawable.register_et_error_background
+                )
                 false
             }
         }
