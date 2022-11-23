@@ -81,7 +81,7 @@ fun CheckPwValue() {
     )
     DormTextField(
         modifier = Modifier
-            .padding(start = 24.dp, end = 24.dp) ,
+            .padding(start = 24.dp, end = 24.dp),
         value = passwordValue,
         onValueChange = { passwordValue = it },
         hint = stringResource(R.string.enter_password),
