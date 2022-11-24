@@ -14,6 +14,7 @@ import com.example.local_database.storage.implementation.UserDataStorageImpl.Use
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ): UserDataStorage {
@@ -52,6 +53,7 @@ class UserDataStorageImpl @Inject constructor(
     override fun fetchPointServiceBoolean(): Boolean =
         getSharedPreference().getBoolean(POINT, false)
 
+    //TODO("SharedPreference 성능 개선 필요")
     private fun getSharedPreference() =
         PreferenceManager.getDefaultSharedPreferences(context)
 
