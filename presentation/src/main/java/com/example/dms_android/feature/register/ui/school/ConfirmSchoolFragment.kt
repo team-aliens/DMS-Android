@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentConfirmSchoolBinding
+import com.example.dms_android.feature.MainActivity
 import com.example.dms_android.feature.register.event.school.ConfirmSchoolEvent
 import com.example.dms_android.util.invisible
 import com.example.dms_android.util.repeatOnStarted
@@ -104,7 +105,8 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
 
         binding.btnConfirm.setOnClickListener {
-            //TODO: 다음 Flow로 이동.
+            val mainActive = activity as MainActivity
+            mainActive.changeFragment(2)
         }
     }
 }
