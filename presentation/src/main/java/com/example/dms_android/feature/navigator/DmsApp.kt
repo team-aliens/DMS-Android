@@ -45,7 +45,7 @@ fun DmsApp() {
         NavHost(
             navController = navHostController,
             startDestination = BottomNavigationItem.Meal.route,
-            Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding)
         ) {
             composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
             composable(BottomNavigationItem.Survey.route) { /*TODO("아직 구현 안됨")*/ }
