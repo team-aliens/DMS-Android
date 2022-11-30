@@ -143,4 +143,5 @@
     <string name="ExampleTotalPoint">-15 점</string>
     <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="OriginPw">기존 비밀번호</string>
+    <string name="TodayMeal">오늘의 급식</string>
 </resources>
