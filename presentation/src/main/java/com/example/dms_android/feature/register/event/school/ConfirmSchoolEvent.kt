@@ -8,6 +8,10 @@ sealed class ConfirmSchoolEvent : MviEvent {
     object CompareSchoolBadRequest : ConfirmSchoolEvent()
     object CompareSchoolUnauthorized : ConfirmSchoolEvent()
     object CompareSchoolNotFound : ConfirmSchoolEvent()
-    data class ErrorMessage(val message: String) : ConfirmSchoolEvent()
+    object SchoolQuestionBadRequest : ConfirmSchoolEvent()
+    object SchoolQuestionNotFound : ConfirmSchoolEvent()
+    object TooManyRequestException : ConfirmSchoolEvent()
+    object InternalServerException : ConfirmSchoolEvent()
+    object UnknownException : ConfirmSchoolEvent()
 }
 
