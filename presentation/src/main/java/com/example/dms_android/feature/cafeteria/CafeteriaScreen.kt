@@ -43,6 +43,7 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+/* TODO : 추후에 컴포즈 마이그레이션 시 사용
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen() {
@@ -318,3 +319,4 @@ fun CafeteriaViewPager(
 fun CafeteriaPreView() {
     CafeteriaScreen()
 }
+*/
