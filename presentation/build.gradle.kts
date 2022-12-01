@@ -99,4 +99,8 @@ dependencies {
 
     implementation(Dependency.UnitTest.JUNIT)
 
+    implementation(Dependency.Compose.VIEWPAGER)
+    implementation(Dependency.Compose.VIEWPAGERINDICATE)
+
+
 }

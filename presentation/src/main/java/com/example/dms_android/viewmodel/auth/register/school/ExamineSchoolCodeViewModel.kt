@@ -1,6 +1,5 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
 import com.example.auth_domain.exception.ServerException
@@ -16,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
@@ -25,26 +25,30 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
     val examineSchoolCodeEvent = _examineSchoolCodeEvent.asEventFlow()
 
-    //TODO: sharedFlow로 바꿔야됨
-    var schoolId : MutableLiveData<UUID> = MutableLiveData()
+    var schoolId by Delegates.notNull<UUID>()
 
     fun examineSchoolCode(schoolCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteSchoolCodeUseCase.execute(schoolCode)
-
             }.onSuccess { response ->
-                schoolId.value = response.schoolId
-                ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess
+                event(ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess)
+                schoolId = response.schoolId
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
-                    is UnauthorizedException -> ExamineSchoolCodeEvent.UnAuthorizedException
-                    is TooManyRequestException -> ExamineSchoolCodeEvent.TooManyRequestException
-                    is ServerException -> ExamineSchoolCodeEvent.InternalServerException
-                    else -> ExamineSchoolCodeEvent.UnknownException
+                    is BadRequestException -> event(ExamineSchoolCodeEvent.BadRequestException)
+                    is UnauthorizedException -> event(ExamineSchoolCodeEvent.UnAuthorizedException)
+                    is TooManyRequestException -> event(ExamineSchoolCodeEvent.TooManyRequestException)
+                    is ServerException -> event(ExamineSchoolCodeEvent.InternalServerException)
+                    else -> event(ExamineSchoolCodeEvent.UnknownException)
                 }
             }
+        }
+    }
+
+    private fun event(event: ExamineSchoolCodeEvent) {
+        viewModelScope.launch {
+            _examineSchoolCodeEvent.emit(event)
         }
     }
 

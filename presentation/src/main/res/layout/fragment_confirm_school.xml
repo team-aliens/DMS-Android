@@ -65,7 +65,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:visibility="gone"
-            android:text="학교 인증 질문과 답변이 일치하지 않습니다."
+            android:text="@string/inconsistent_school_reply"
             android:textColor="@color/error"
             app:layout_constraintStart_toStartOf="@+id/etReply"
             app:layout_constraintTop_toBottomOf="@+id/etReply" />

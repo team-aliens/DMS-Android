@@ -1,12 +1,11 @@
 package com.example.dms_android.feature.register.ui.school
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.alimuzaffar.lib.pin.PinEntryEditText.OnPinEnteredListener
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentSchoolCertificationBinding
@@ -22,8 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBinding>(
     R.layout.fragment_school_certification
 ) {
-    private val vmExamineSchoolCode: ExamineSchoolCodeViewModel by viewModels()
-    private val vmSchoolQuestion: ConfirmSchoolViewModel by viewModels()
+    private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
+    private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +30,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
         savedInstanceState: Bundle?
     ): View? {
         repeatOnStarted {
-            vmExamineSchoolCode.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
+            examineSchoolCodeViewModel.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -39,38 +38,39 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     private fun handleEvent(event: ExamineSchoolCodeEvent) = when (event) {
         is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
             val mainActive = activity as MainActivity
-            vmSchoolQuestion.inputSchoolId = vmExamineSchoolCode.schoolId
+            confirmSchoolViewModel.schoolId = examineSchoolCodeViewModel.schoolId
             mainActive.changeFragment(1)
         }
 
         is ExamineSchoolCodeEvent.BadRequestException -> {
-            showShortToast(R.string.LoginBadRequest.toString())
+            showShortToast(getString(R.string.BadRequest))
         }
 
         is ExamineSchoolCodeEvent.InternalServerException -> {
-            showShortToast(R.string.ServerException.toString())
+            showShortToast(getString(R.string.ServerException))
         }
 
         is ExamineSchoolCodeEvent.TooManyRequestException -> {
-            showShortToast(R.string.TooManyRequest.toString())
+            showShortToast(getString(R.string.TooManyRequest))
         }
 
         is ExamineSchoolCodeEvent.UnAuthorizedException -> {
-            binding.tvDetail.text = R.string.SchoolUnAuthorized.toString()
-            binding.tvDetail.setTextColor(R.color.error.toInt())
-            binding.btnVerificationCode.setBackgroundColor(Color.parseColor("#803D8AFF"))
+            binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
+            binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+            binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
             binding.btnVerificationCode.isClickable = false
         }
 
         is ExamineSchoolCodeEvent.UnknownException -> {
-            showShortToast(R.string.UnKnownException.toString())
+            showShortToast(getString(R.string.UnKnownException))
         }
     }
 
     override fun initView() {
+        var temp: String? = null
 
-        //TODO : 구현 필요 (시간을 너무 많이 써서 딴 거부터 조짐)
-        binding.etPinEntry.setOnPinEnteredListener() {
+        binding.etPinEntry.setOnPinEnteredListener() { str ->
+            temp = str.toString()
             if (binding.etPinEntry.length() == 8) {
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.btnVerificationCode.isClickable = true
@@ -80,11 +80,10 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
             }
         }
 
-            binding.btnVerificationCode.setOnClickListener {
-                binding.etPinEntry.setOnPinEnteredListener(OnPinEnteredListener { str ->
-                    vmExamineSchoolCode.examineSchoolCode(str.toString())
-                })
+        binding.btnVerificationCode.setOnClickListener {
+            temp?.let {
+                examineSchoolCodeViewModel.examineSchoolCode(it)
             }
-
+        }
     }
 }

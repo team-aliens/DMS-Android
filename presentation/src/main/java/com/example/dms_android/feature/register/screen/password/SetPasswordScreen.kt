@@ -91,3 +91,9 @@ fun SetPasswordScreen() {
         }
     }
 }
+
+@Preview
+@Composable
+fun PwPreView() {
+    SetPasswordScreen()
+}
