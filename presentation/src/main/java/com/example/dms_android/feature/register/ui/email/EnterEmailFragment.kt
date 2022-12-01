@@ -76,7 +76,7 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
 
         binding.btnSendCode.setOnClickListener {
             val mainActive = activity as MainActivity
-            vm._email.value = binding.etEnterEmail.toString()
+            vm.email = binding.etEnterEmail.toString()
             mainActive.changeFragment(3)
         }
     }

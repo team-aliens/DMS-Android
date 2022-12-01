@@ -1,7 +1,5 @@
 package com.example.dms_android.viewmodel.auth.register.id
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
 import com.example.auth_domain.exception.ConflictException
@@ -20,6 +18,7 @@ import com.example.dms_android.util.asEventFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class SetIdViewModel @Inject constructor(
     private val examineGradeUseCase: ExamineGradeUseCase,
@@ -29,20 +28,17 @@ class SetIdViewModel @Inject constructor(
     private val _examineGradeEvent = MutableEventFlow<SetIdEvent>()
     val examineGradeEvent = _examineGradeEvent.asEventFlow()
 
-    //TODO : 추후에 Flow로 바꿀 예정
-    private val _name: MutableLiveData<String> = MutableLiveData()
-    val name: LiveData<String> = _name
-
-    val grade: MutableLiveData<Int> = MutableLiveData()
-    val schoolId: MutableLiveData<UUID> = MutableLiveData()
-    val classRoom: MutableLiveData<Int> = MutableLiveData()
-    val number: MutableLiveData<Int> = MutableLiveData()
+    var name by Delegates.notNull<String>()
+    var grade by Delegates.notNull<Int>()
+    var schoolId by Delegates.notNull<UUID>()
+    var classRoom by Delegates.notNull<Int>()
+    var number by Delegates.notNull<Int>()
 
     private val parameter = ExamineGradeParam(
-        grade = grade.value!!.toInt(),
-        schoolId = schoolId.value!!,
-        classRoom = classRoom.value!!.toInt(),
-        number = number.value!!.toInt(),
+        grade = grade,
+        schoolId = schoolId,
+        classRoom = classRoom,
+        number = number,
     )
 
     fun examineGrade() {
@@ -50,7 +46,7 @@ class SetIdViewModel @Inject constructor(
             kotlin.runCatching {
                 examineGradeUseCase.execute(parameter)
             }.onSuccess { response ->
-                _name.value = response.name
+                name = response.name
                 SetIdEvent.ExamineGradeSuccess
             }.onFailure {
                 when (it) {

@@ -27,7 +27,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         repeatOnStarted {
@@ -41,7 +41,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         when (event) {
             is SetIdEvent.ExamineGradeSuccess -> {
                 binding.clName.visible()
-                binding.tvRealName.text = "${vm.name.value}님이 맞습니까?"
+                binding.tvRealName.text = "${vm.name}님이 맞습니까?"
             }
 
             is SetIdEvent.DuplicateIdSuccess -> {
@@ -81,9 +81,9 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         binding.btnVerificationCode.isClickable = false
 
         if (binding.etClass.length() > 1 && binding.etNumber.length() > 1 && binding.etGrade.length() > 1) {
-            vm.grade.value = binding.etGrade.toString().toInt()
-            vm.classRoom.value = binding.etClass.toString().toInt()
-            vm.number.value = binding.etNumber.toString().toInt()
+            vm.grade = binding.etGrade.toString().toInt()
+            vm.classRoom = binding.etClass.toString().toInt()
+            vm.number = binding.etNumber.toString().toInt()
 
             vm.examineGrade()
         }

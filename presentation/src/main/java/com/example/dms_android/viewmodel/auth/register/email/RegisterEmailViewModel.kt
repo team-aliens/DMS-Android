@@ -1,7 +1,5 @@
 package com.example.dms_android.viewmodel.auth.register.email
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.enum.EmailType
 import com.example.auth_domain.exception.BadRequestException
@@ -20,7 +18,9 @@ import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class RegisterEmailViewModel @Inject constructor(
@@ -28,24 +28,21 @@ class RegisterEmailViewModel @Inject constructor(
     private val remoteCheckEmailUseCase: RemoteCheckEmailUseCase,
 ) : BaseViewModel<RegisterEmailState, RegisterEmailEvent>() {
 
-    var _email: MutableLiveData<String> = MutableLiveData()
-    var email: LiveData<String> = _email
-
-    var _authCode: MutableLiveData<String> = MutableLiveData()
-    var authCode: LiveData<String> = _authCode
+    var email by Delegates.notNull<String>()
+    var authCode by Delegates.notNull<String>()
 
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
     val registerEmailEvent = _registerEmailEvent.asEventFlow()
 
     private val requestEmailParameter = RequestEmailCodeParam(
-        email = email.value.toString(),
+        email = email,
         type = EmailType.SIGNUP,
     )
 
     private val checkEmailParam = CheckEmailCodeParam(
-        email = email.value.toString(),
+        email = email,
         type = EmailType.SIGNUP,
-        authCode = authCode.value.toString(),
+        authCode = authCode,
     )
 
     fun sendEmailNumber() {

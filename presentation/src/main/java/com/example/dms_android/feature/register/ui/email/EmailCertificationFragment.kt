@@ -102,7 +102,7 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
         binding.etPinEntry.setOnPinEnteredListener() { str ->
             temp = str.toString()
             if (binding.etPinEntry.length() == 6) {
-                vm._authCode.value = temp
+                vm.authCode = temp.toString()
                 binding.btnVerificationCode.setBackgroundResource(
                     R.drawable.register_custom_active_btn_background
                 )
