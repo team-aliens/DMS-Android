@@ -2,45 +2,33 @@ package com.example.dms_android.feature.register.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.dms_android.databinding.ItemMealBinding
+import com.example.dms_android.feature.MainActivity
 import com.example.feature_domain.entity.MealEntity
 
-class MealPagerAdapter :
-    ListAdapter<MealEntity.MealsValue, MealPagerAdapter.MainItemViewHolder>(MainListDiffCallback) {
-    private lateinit var binding: ItemMealBinding
+class MealPagerAdapter(mainActivity: MainActivity) :
+    FragmentStateAdapter(mainActivity) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainItemViewHolder {
-        binding = ItemMealBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MainItemViewHolder(binding)
+    var fragments: ArrayList<Fragment> = ArrayList()
+
+    override fun getItemCount(): Int {
+        return fragments.size
     }
 
-    override fun onBindViewHolder(holder: MainItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun createFragment(position: Int): Fragment {
+        return fragments[position]
     }
 
-    inner class MainItemViewHolder(private val binding: ItemMealBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: MealEntity.MealsValue) {
-        }
+    fun addFragment(fragment: Fragment) {
+        fragments.add(fragment)
+        notifyItemInserted(fragments.size - 1)
     }
 
-    object MainListDiffCallback : DiffUtil.ItemCallback<MealEntity.MealsValue>() {
-        override fun areItemsTheSame(
-            oldItem: MealEntity.MealsValue,
-            newItem: MealEntity.MealsValue,
-        ): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(
-            oldItem: MealEntity.MealsValue,
-            newItem: MealEntity.MealsValue,
-        ): Boolean {
-            return oldItem.date == newItem.date
-        }
-
+    fun removeFragment() {
+        fragments.removeLast()
+        notifyItemRemoved(fragments.size)
     }
 }
