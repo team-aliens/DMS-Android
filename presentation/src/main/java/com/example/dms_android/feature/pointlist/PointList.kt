@@ -14,12 +14,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
 import com.example.design_system.modifier.dormClickable
 import com.example.design_system.modifier.dormShadow
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.Body5
+import com.example.feature_domain.enums.PointType
+import com.example.feature_domain.enums.PointType.*
 
 data class PointValue(
     val date: String,
@@ -98,7 +101,18 @@ private fun Point(
                 .padding(end = 15.dp, bottom = 15.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
-            Body4(text = pointValue.point.toString())
+            val ep: PointType = ALL
+            var color: Color = DormColor.Error
+            //TODO("VM 반환 값으로 색깔 변경 요함")
+            if (ep == MINUS) {
+                color = DormColor.Error
+            } else if (ep == BONUS) {
+                color = DormColor.DormPrimary
+            }
+            Body4(
+                text = pointValue.point.toString(),
+                color = color
+            )
         }
     }
 }

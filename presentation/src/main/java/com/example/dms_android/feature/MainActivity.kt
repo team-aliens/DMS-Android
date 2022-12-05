@@ -6,6 +6,8 @@ import com.example.dms_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.dms_android.R
 import com.example.dms_android.feature.register.ui.home.HomeFragment
+import com.example.dms_android.feature.register.ui.email.EmailCertificationFragment
+import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
 import com.example.dms_android.feature.register.ui.school.ConfirmSchoolFragment
 import com.example.dms_android.feature.register.ui.school.SchoolCertificationFragment
 
@@ -28,6 +30,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             1 -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, ConfirmSchoolFragment())
+                    .commit()
+            }
+            2 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, EnterEmailFragment())
+                    .commit()
+            }
+            3 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, EmailCertificationFragment())
                     .commit()
             }
         }
