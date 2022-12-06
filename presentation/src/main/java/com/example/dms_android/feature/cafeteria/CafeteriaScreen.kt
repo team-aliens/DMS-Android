@@ -33,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.SubTitle1
@@ -43,57 +44,16 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-/* TODO : 추후에 컴포즈 마이그레이션 시 사용
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CafeteriaScreen() {
+fun CafeteriaScreen(
+    navController: NavController
+) {
 
     val pages: List<String> = listOf(
-        stringResource(id = R.string.AM1),
-        stringResource(id = R.string.AL1),
-        stringResource(id = R.string.AD1),
-        stringResource(id = R.string.AM2),
-        stringResource(id = R.string.AL2),
-        stringResource(id = R.string.AD2),
-        stringResource(id = R.string.AM3),
-        stringResource(id = R.string.AL3),
-        stringResource(id = R.string.AD3),
-        stringResource(id = R.string.AM4),
-        stringResource(id = R.string.AL4),
-        stringResource(id = R.string.AD4),
-        stringResource(id = R.string.AM5),
-        stringResource(id = R.string.AL5),
-        stringResource(id = R.string.AD5),
-        stringResource(id = R.string.AM6),
-        stringResource(id = R.string.AL6),
-        stringResource(id = R.string.AD6),
-        stringResource(id = R.string.AM7),
-        stringResource(id = R.string.AL7),
-        stringResource(id = R.string.AD7),
         stringResource(id = R.string.TM),
         stringResource(id = R.string.TL),
         stringResource(id = R.string.TD),
-        stringResource(id = R.string.LM1),
-        stringResource(id = R.string.LL1),
-        stringResource(id = R.string.LD1),
-        stringResource(id = R.string.LM2),
-        stringResource(id = R.string.LL2),
-        stringResource(id = R.string.LD2),
-        stringResource(id = R.string.LM3),
-        stringResource(id = R.string.LL3),
-        stringResource(id = R.string.LD3),
-        stringResource(id = R.string.LM4),
-        stringResource(id = R.string.LL4),
-        stringResource(id = R.string.LD4),
-        stringResource(id = R.string.LM5),
-        stringResource(id = R.string.LL5),
-        stringResource(id = R.string.LD5),
-        stringResource(id = R.string.LM6),
-        stringResource(id = R.string.LL6),
-        stringResource(id = R.string.LD6),
-        stringResource(id = R.string.LM7),
-        stringResource(id = R.string.LL7),
-        stringResource(id = R.string.LD7),
     )
 
     val pagerState = rememberPagerState(23)
@@ -319,4 +279,3 @@ fun CafeteriaViewPager(
 fun CafeteriaPreView() {
     CafeteriaScreen()
 }
-*/
