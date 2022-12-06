@@ -57,6 +57,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSchoolQuestion" />
 
+        <TextView
+            android:id="@+id/tvError"
+            style="@style/DMS.NotoSans.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"
+            android:text="@string/inconsistent_school_reply"
+            android:textColor="@color/error"
+            app:layout_constraintStart_toStartOf="@+id/etReply"
+            app:layout_constraintTop_toBottomOf="@+id/etReply" />
+
         <com.example.dms_android.customui.RegisterCustomButton
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"

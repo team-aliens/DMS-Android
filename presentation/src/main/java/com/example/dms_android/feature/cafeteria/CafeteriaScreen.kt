@@ -273,3 +273,9 @@ fun CafeteriaViewPager(
         }
     }
 }
+
+@Preview
+@Composable
+fun CafeteriaPreView() {
+    CafeteriaScreen()
+}
