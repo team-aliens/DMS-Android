@@ -21,8 +21,8 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 ) {
     private val vm: SetIdViewModel by viewModels()
 
-    private var a = false
-    private var b = false
+    private var nameCheck = false
+    private var duplicateIdCheck = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +45,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
             }
 
             is SetIdEvent.DuplicateIdSuccess -> {
-                b = true
+                duplicateIdCheck = true
                 binding.etId.setBackgroundResource(R.drawable.register_et_background)
                 binding.tvError.invisible()
             }
@@ -90,10 +90,10 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 
         binding.btnOKName.setOnClickListener {
             binding.clName.isGone
-            a = true
+            nameCheck = true
         }
 
-        if (a) {
+        if (nameCheck) {
             binding.etClass.isClickable = false
             binding.etClass.isFocusable = false
             binding.etGrade.isClickable = false
@@ -102,7 +102,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
             binding.etNumber.isFocusable = false
         }
 
-        if (a && b) {
+        if (nameCheck && duplicateIdCheck) {
             binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
             binding.btnVerificationCode.isClickable = true
         } else {
