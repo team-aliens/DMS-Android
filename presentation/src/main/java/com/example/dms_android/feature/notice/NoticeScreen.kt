@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
 import com.example.design_system.component.Notice
 import com.example.design_system.component.NoticeList
@@ -32,7 +33,9 @@ import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
 
 @Composable
-fun NoticeScreen() {
+fun NoticeScreen(
+    navController: NavController
+) {
 
     val notices = listOf(
         Notice(
@@ -100,10 +103,4 @@ fun NoticeOrderButton() {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun NoticePreView() {
-    NoticeScreen()
 }

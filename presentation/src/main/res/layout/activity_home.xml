@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity"/>
+        tools:context=".feature.HomeActivity">
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

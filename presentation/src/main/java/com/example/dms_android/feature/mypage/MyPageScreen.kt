@@ -33,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.auth_domain.enum.BottomSheetType
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body5
@@ -45,7 +46,9 @@ import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MyPageScreen() {
+fun MyPageScreen(
+    navController: NavController
+) {
 
     val bottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
@@ -329,10 +332,4 @@ fun MyPageBlock() {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun MyPagePreView() {
-    MyPageScreen()
 }

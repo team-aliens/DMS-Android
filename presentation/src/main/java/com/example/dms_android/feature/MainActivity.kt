@@ -1,6 +1,7 @@
 package com.example.dms_android.feature
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import com.example.dms_android.base.BaseActivity
 import com.example.dms_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 ) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent {
+
+        }
     }
 
     override fun initView() {
