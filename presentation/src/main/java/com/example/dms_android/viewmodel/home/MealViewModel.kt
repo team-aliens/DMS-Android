@@ -2,14 +2,11 @@ package com.example.dms_android.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.example.auth_domain.exception.BadRequestException
-import com.example.auth_domain.exception.NotFoundException
 import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnauthorizedException
 import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.auth.changepassword.ChangePasswordEvent
 import com.example.dms_android.feature.register.event.home.MealEvent
-import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import com.example.dms_android.feature.register.state.home.MealState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
