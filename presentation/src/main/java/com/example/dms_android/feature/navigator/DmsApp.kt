@@ -25,7 +25,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.design_system.color.DormColor
-import com.example.dms_android.feature.cafeteria.CafeteriaScreen
 import com.example.dms_android.feature.mypage.MyPageScreen
 import com.example.dms_android.feature.notice.NoticeScreen
 
@@ -47,7 +46,7 @@ fun DmsApp() {
             startDestination = BottomNavigationItem.Meal.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
+            composable(BottomNavigationItem.Meal.route) { /*CafeteriaScreen(navController = navController)*/ }
             composable(BottomNavigationItem.Survey.route) { /*TODO("아직 구현 안됨")*/ }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
             composable(BottomNavigationItem.MyPage.route) { MyPageScreen(navController = navController) }
