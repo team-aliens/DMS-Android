@@ -26,11 +26,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.auth_domain.enum.BottomSheetType
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body5
@@ -43,7 +46,9 @@ import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MyPageScreen() {
+fun MyPageScreen(
+    navController: NavController
+) {
 
     val bottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden
@@ -166,7 +171,7 @@ fun PointBox() {
                     width = 1.dp,
                     shape = RoundedCornerShape(25)
                 )
-                .background(DormColor.Gray100),
+                .background(color = DormColor.Lighten200),
             contentAlignment = Alignment.TopStart,
         ) {
             Column(
@@ -180,7 +185,7 @@ fun PointBox() {
                 )
                 Body5(
                     text = stringResource(id = R.string.PlusPoint),
-                    color = DormColor.Gray600
+                    color = DormColor.Darken200,
                 )
                 Box(
                     contentAlignment = Alignment.BottomEnd,
@@ -189,7 +194,8 @@ fun PointBox() {
                         .padding(end = 24.dp, bottom = 18.dp)
                 ) {
                     Headline3(
-                        text = stringResource(id = R.string.ExamplePlusPoint)
+                        text = stringResource(id = R.string.ExamplePlusPoint),
+                        color = DormColor.Darken200,
                     )
                 }
             }
@@ -201,11 +207,11 @@ fun PointBox() {
                 .height(90.dp)
                 .clip(RoundedCornerShape(25))
                 .border(
-                    color = DormColor.DormPrimary,
+                    color = DormColor.Error,
                     width = 1.dp,
                     shape = RoundedCornerShape(25)
                 )
-                .background(DormColor.Gray100),
+                .background(DormColor.ErrorLighten100),
             contentAlignment = Alignment.TopStart,
         ) {
             Column(
@@ -219,7 +225,7 @@ fun PointBox() {
                 )
                 Body5(
                     text = stringResource(id = R.string.MinusPoint),
-                    color = DormColor.Gray600
+                    color = DormColor.Error,
                 )
                 Box(
                     contentAlignment = Alignment.BottomEnd,
@@ -228,7 +234,8 @@ fun PointBox() {
                         .padding(end = 24.dp, bottom = 18.dp)
                 ) {
                     Headline3(
-                        text = stringResource(id = R.string.ExamplePlusPoint)
+                        text = stringResource(id = R.string.ExamplePlusPoint),
+                        color = DormColor.Error,
                     )
                 }
             }
@@ -325,10 +332,4 @@ fun MyPageBlock() {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun MyPagePreView() {
-    MyPageScreen()
 }

@@ -8,6 +8,7 @@ import com.example.feature_domain.repository.MealRepository
 import com.example.local_database.datasource.declaration.LocalMealDataSource
 import com.example.local_database.entity.meal.MealRoomEntity
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 import javax.inject.Inject
 
 class MealRepositoryImpl @Inject constructor(
@@ -15,7 +16,7 @@ class MealRepositoryImpl @Inject constructor(
     private val localMealDataSource: LocalMealDataSource,
 ): MealRepository {
 
-    override suspend fun fetchMealValue(date: String): Flow<MealEntity> =
+    override suspend fun fetchMealValue(date: LocalDate): Flow<MealEntity> =
         OfflineCacheUtil<MealEntity>()
             .remoteData { remoteMealDataSource.getMealValue(date).toEntity() }
             .doOnNeedRefresh { localMealDataSource.setMeal(it.toDbEntity()) }
