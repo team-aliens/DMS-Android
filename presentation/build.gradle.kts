@@ -3,6 +3,7 @@ plugins {
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -76,6 +77,8 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_ANI_NAV)
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
+    implementation(Dependency.Compose.COMPOSE_VIEWBINDING)
+    implementation("androidx.compose.ui:ui-util:${Versions.COMPOSE}")
 
     implementation(Dependency.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dependency.Navigation.NAVIGATION_UI)
@@ -101,6 +104,4 @@ dependencies {
 
     implementation(Dependency.Compose.VIEWPAGER)
     implementation(Dependency.Compose.VIEWPAGERINDICATE)
-
-
 }
