@@ -128,6 +128,7 @@
     <string name="New">최신순</string>
     <string name="NoticeTitle">공지사항 제목</string>
     <string name="NoticeTime">2022/01/21  8:29</string>
+    <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
     <string name="NoticeContent">동해물과 백두산이 마르고 닳도록 하나님이 보우하사 우리 나라 만세</string>
     <string name="Gcn">UserGcn</string>
     <string name="ExampleGcn">2115</string>
@@ -146,4 +147,8 @@
     <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="OriginPw">기존 비밀번호</string>
     <string name="TodayMeal">오늘의 급식</string>
+    <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
+    <string name="NotFound">찾을 수 없음</string>
+    <string name="CompleteRegister">회원가입이 완료되었습니다.</string>
+    <string name="GoLogin">로그인 화면으로</string>
 </resources>
