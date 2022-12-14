@@ -74,7 +74,7 @@ object Dependency {
         const val COMPOSE_HILT_NAV = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAV}"
         const val VIEWPAGER = "com.google.accompanist:accompanist-pager:${Versions.VIEWPAGER}"
         const val VIEWPAGERINDICATE = "com.google.accompanist:accompanist-pager-indicators:${Versions.VIEWPAGER}"
-
+        const val COMPOSE_VIEWBINDING = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
     }
 
     object Hilt {
