@@ -24,8 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.platform.LocalDensity
@@ -35,9 +38,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
+import com.example.design_system.icon.DormIcon
+import com.example.design_system.modifier.dormShadow
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
+import com.example.dms_android.feature.home.ScrollEffectPager
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
@@ -47,16 +53,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
-    navController: NavController
 ) {
 
-    val pages: List<String> = listOf(
-        stringResource(id = R.string.TM),
-        stringResource(id = R.string.TL),
-        stringResource(id = R.string.TD),
-    )
-
-    val pagerState = rememberPagerState(23)
+    val pagerState = rememberPagerState(3)
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -65,16 +64,16 @@ fun CafeteriaScreen(
             .background(DormColor.Gray100),
     ) {
         TopBar()
+        Spacer(
+            modifier = Modifier
+                .height(15.dp)
+        )
         ImportantNotice()
         CafeteriaDiary(
-            pages = pages,
             pagerState = pagerState,
             coroutineScope = coroutineScope,
         )
-        CafeteriaViewPager(
-            pages = pages,
-            pagerState = pagerState,
-        )
+        CafeteriaViewPager()
     }
 }
 
@@ -99,86 +98,59 @@ fun TopBar(
 @Composable
 fun ImportantNotice() {
 
-    val padding = 20.dp
-    val density = LocalDensity.current
-
-    Surface(
-        shape = RectangleShape,
-        elevation = 12.dp,
+    Box(
+        contentAlignment = Alignment.CenterEnd,
         modifier = Modifier
             .fillMaxWidth()
-            .drawWithContent {
-                val paddingPx = with(density) { padding.toPx() }
-                clipRect(
-                    left = -paddingPx,
-                    top = 0f,
-                    right = size.width + paddingPx,
-                    bottom = size.height + paddingPx
-                ) {
-                    this@drawWithContent.drawContent()
-                }
-            }
-            .padding(start = 28.dp, end = 28.dp, top = 40.dp)
             .height(45.dp)
-            .background(DormColor.Gray100),
+            .padding(horizontal = 20.dp)
+            .dormShadow(
+                color = DormColor.Gray700,
+                offsetY = 1.dp,
+            )
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(100),
+            )
     ) {
-        Box(
-            contentAlignment = Alignment.CenterEnd,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    modifier = Modifier
-                        .padding(start = 15.dp)
-                        .size(30.dp),
-                    painter = painterResource(id = R.drawable.ic_notice),
-                    contentDescription = stringResource(id = R.string.icNotice),
-                )
-                Spacer(
-                    modifier = Modifier
-                        .width(13.dp)
-                )
-                Body5(
-                    text = "새로운 공지사항이 있습니다."
-                )
-            }
             Image(
                 modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(33.dp),
-                painter = painterResource(id = R.drawable.ic_noticedetail),
+                    .padding(start = 15.dp, top = 5.dp)
+                    .size(30.dp),
+                painter = painterResource(id = R.drawable.ic_notice),
                 contentDescription = stringResource(id = R.string.icNotice),
             )
+            Spacer(
+                modifier = Modifier
+                    .width(13.dp)
+            )
+            Body5(
+                text = "새로운 공지사항이 있습니다."
+            )
         }
+        Image(
+            modifier = Modifier
+                .padding(end = 10.dp)
+                .size(33.dp),
+            painter = painterResource(id = R.drawable.ic_next),
+            contentDescription = stringResource(id = R.string.icNotice),
+        )
     }
+
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaDiary(
-    pages: List<String>,
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
 ) {
-    val yesterdayField: @Composable () -> Unit = {
-        YesterdayCafeteria(
-            pages = pages,
-            pagerState = pagerState,
-            coroutineScope = coroutineScope,
-        )
-    }
-
-    val tomorrowField: @Composable () -> Unit = {
-        TomorrowCafeteria(
-            pages = pages,
-            pagerState = pagerState,
-            coroutineScope = coroutineScope,
-        )
-    }
 
     Box(
         modifier = Modifier
@@ -206,11 +178,9 @@ fun CafeteriaDiary(
                         .size(40.dp)
                         .padding(end = 12.dp)
                         .clickable {
-                            coroutineScope.launch {
-                                pagerState.scrollToPage(pagerState.currentPage - 1)
-                            }
+
                         },
-                    painter = painterResource(id = R.drawable.yesterday),
+                    painter = painterResource(id = DormIcon.Backward.drawableId),
                     contentDescription = stringResource(id = R.string.backButton)
                 )
                 Box(
@@ -229,11 +199,9 @@ fun CafeteriaDiary(
                         .size(40.dp)
                         .padding(start = 12.dp, top = 5.dp)
                         .clickable {
-                            coroutineScope.launch {
-                                pagerState.scrollToPage(pagerState.currentPage + 1)
-                            }
+
                         },
-                    painter = painterResource(id = R.drawable.tomorrow),
+                    painter = painterResource(id = R.drawable.ic_meal_next),
                     contentDescription = stringResource(id = R.string.NextButton),
                 )
             }
@@ -241,41 +209,34 @@ fun CafeteriaDiary(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CafeteriaViewPager(
-    pages: List<String>,
-    pagerState: PagerState,
-) {
+fun CafeteriaViewPager() {
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(top = 23.dp),
     ) {
         Image(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 60.dp),
-            painter = painterResource(id = R.drawable.cafeteria_background),
+                .fillMaxSize(),
+            painter = painterResource(id = R.drawable.photo_cafeteria_background),
             contentDescription = stringResource(id = R.string.CafeteriaBackground)
         )
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = 20.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            CafeteriaMenu(
-                pages = pages,
-                pagerState = pagerState,
-            )
+            ScrollEffectPager()
         }
     }
 }
 
 @Preview
 @Composable
-fun CafeteriaPreView() {
+fun CafeteriaPreview() {
     CafeteriaScreen()
 }
