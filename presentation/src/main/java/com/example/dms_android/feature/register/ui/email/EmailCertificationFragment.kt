@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentEmailCertificationBinding
@@ -49,12 +50,37 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
 
             is RegisterEmailEvent.CheckEmailUnauthorized -> {
                 binding.tvDetail.text = R.string.NoSameCode.toString()
-                binding.tvDetail.setTextColor(R.color.error.toInt())
-                binding.btnVerificationCode.setBackgroundColor(Color.parseColor("#803D8AFF"))
+                binding.tvDetail.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
+                binding.btnVerificationCode.setBackgroundResource(
+                    R.drawable.register_custom_btn_background
+                )
                 binding.btnVerificationCode.isClickable = false
             }
 
-            is RegisterEmailEvent.ErrorMessage -> showShortToast(event.message)
+            is RegisterEmailEvent.CheckEmailNotFound -> {
+                showShortToast(getString(R.string.CertificationInfoNotFound))
+            }
+
+            is RegisterEmailEvent.InternalServerException -> {
+                showShortToast(getString(R.string.ServerException))
+            }
+
+            is RegisterEmailEvent.BadRequestException -> {
+                showShortToast(getString(R.string.BadRequest))
+            }
+
+            is RegisterEmailEvent.TooManyRequestsException -> {
+                showShortToast(getString(R.string.TooManyRequest))
+            }
+
+            is RegisterEmailEvent.UnKnownException -> {
+                showShortToast(getString(R.string.UnKnownException))
+            }
         }
     }
 
@@ -77,10 +103,14 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
             temp = str.toString()
             if (binding.etPinEntry.length() == 6) {
                 vm._authCode.value = temp
-                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
+                binding.btnVerificationCode.setBackgroundResource(
+                    R.drawable.register_custom_active_btn_background
+                )
                 binding.btnVerificationCode.isClickable = true
             } else {
-                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
+                binding.btnVerificationCode.setBackgroundResource(
+                    R.drawable.register_custom_btn_background
+                )
                 binding.btnVerificationCode.isClickable = false
             }
         }
@@ -105,9 +135,6 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
             override fun onFinish() {
                 binding.tvMinute.text = "0"
                 binding.tvSecond.text = "00"
-                binding.tvDevide.setTextColor((Color.parseColor("#F04D51")))
-                binding.tvMinute.setTextColor((Color.parseColor("#F04D51")))
-                binding.tvSecond.setTextColor((Color.parseColor("#F04D51")))
             }
         }.start()
     }

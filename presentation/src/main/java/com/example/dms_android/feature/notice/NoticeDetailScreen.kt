@@ -21,11 +21,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
-import com.example.design_system.icon.DormIcon
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.Caption
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
+import com.example.dms_android.util.TopBar
 
 @Composable
 fun NoticeDetailScreen() {
@@ -34,35 +34,8 @@ fun NoticeDetailScreen() {
             .fillMaxSize()
             .background(DormColor.Gray200),
     ) {
-        Topbar()
+        TopBar(title = stringResource(id = R.string.Notice))
         NoticeDetailValue()
-    }
-}
-
-@Composable
-fun Topbar() {
-    Row(
-        modifier = Modifier
-            .height(70.dp)
-            .fillMaxWidth()
-            .background(color = DormColor.Gray100),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Spacer(
-            modifier = Modifier
-                .width(25.dp)
-        )
-        Image(
-            modifier = Modifier
-                .size(30.dp),
-            painter = painterResource(id = DormIcon.BackArrow.drawableId), 
-            contentDescription = stringResource(id = R.string.backButton),
-        )
-        Spacer(
-            modifier = Modifier
-                .width(45.dp),
-        )
-        SubTitle2(text = stringResource(id = R.string.Notice))
     }
 }
 

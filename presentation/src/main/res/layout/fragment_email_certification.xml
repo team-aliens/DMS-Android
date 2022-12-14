@@ -103,9 +103,9 @@
             android:layout_height="wrap_content"
             android:text="00"
             android:textColor="@color/primary"
-            app:layout_constraintBottom_toBottomOf="@+id/tvColon"
-            app:layout_constraintStart_toEndOf="@+id/tvColon"
-            app:layout_constraintTop_toTopOf="@+id/tvColon" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvDevide"
+            app:layout_constraintStart_toEndOf="@+id/tvDevide"
+            app:layout_constraintTop_toTopOf="@+id/tvDevide" />
 
         <TextView
             android:id="@+id/tvResendCode"

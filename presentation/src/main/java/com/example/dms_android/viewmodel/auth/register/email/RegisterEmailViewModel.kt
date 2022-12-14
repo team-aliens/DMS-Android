@@ -10,12 +10,9 @@ import com.example.auth_domain.exception.ServerException
 import com.example.auth_domain.exception.TooManyRequestException
 import com.example.auth_domain.exception.UnauthorizedException
 import com.example.auth_domain.param.CheckEmailCodeParam
-import com.example.auth_domain.param.CompareEmailParam
 import com.example.auth_domain.param.RequestEmailCodeParam
 import com.example.auth_domain.usecase.user.RemoteCheckEmailUseCase
-import com.example.auth_domain.usecase.user.RemoteCompareEmailUseCase
 import com.example.auth_domain.usecase.user.RemoteRequestEmailCodeUseCase
-import com.example.dms_android.R
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
 import com.example.dms_android.feature.register.state.email.RegisterEmailState
@@ -56,14 +53,13 @@ class RegisterEmailViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteRequestEmailCodeUseCase.execute(requestEmailParameter)
             }.onSuccess {
-                RegisterEmailEvent.SendEmailSuccess
+                event(RegisterEmailEvent.SendEmailSuccess)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> RegisterEmailEvent.ErrorMessage(R.string.LoginBadRequest.toString())
-                    is NotFoundException -> RegisterEmailEvent.ErrorMessage("찾을 수 없습니다.")
-                    is TooManyRequestException -> RegisterEmailEvent.ErrorMessage(R.string.TooManyRequest.toString())
-                    is ServerException -> RegisterEmailEvent.ErrorMessage(R.string.ServerException.toString())
-                    else -> RegisterEmailEvent.ErrorMessage(R.string.UnKnownException.toString())
+                    is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
+                    is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
+                    is ServerException -> event(RegisterEmailEvent.InternalServerException)
+                    else -> event(RegisterEmailEvent.UnKnownException)
                 }
             }
         }
@@ -74,17 +70,23 @@ class RegisterEmailViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteCheckEmailUseCase.execute(checkEmailParam)
             }.onSuccess {
-                RegisterEmailEvent.CheckEmailSuccess
+                event(RegisterEmailEvent.CheckEmailSuccess)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> RegisterEmailEvent.ErrorMessage(R.string.LoginBadRequest.toString())
-                    is UnauthorizedException -> RegisterEmailEvent.CheckEmailUnauthorized
-                    is NotFoundException -> RegisterEmailEvent.ErrorMessage(R.string.CertificationInfoNotFound.toString())
-                    is TooManyRequestException -> RegisterEmailEvent.ErrorMessage(R.string.TooManyRequest.toString())
-                    is ServerException -> RegisterEmailEvent.ErrorMessage(R.string.ServerException.toString())
-                    else -> RegisterEmailEvent.ErrorMessage(R.string.UnKnownException.toString())
+                    is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
+                    is UnauthorizedException -> event(RegisterEmailEvent.CheckEmailUnauthorized)
+                    is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
+                    is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
+                    is ServerException -> event(RegisterEmailEvent.InternalServerException)
+                    else -> event(RegisterEmailEvent.InternalServerException)
                 }
             }
+        }
+    }
+
+    private fun event(event: RegisterEmailEvent) {
+        viewModelScope.launch {
+            _registerEmailEvent.emit(event)
         }
     }
 
