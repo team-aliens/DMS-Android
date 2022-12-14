@@ -3,21 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.example.dms_android.feature.home.CafeteriaFragment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/home_background">
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="57dp"
-            android:layout_height="57dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="11dp"
             android:src="@drawable/temporarylogo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <View
             android:id="@+id/view2"
@@ -29,11 +36,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
             android:layout_width="0dp"
-            android:layout_height="42dp"
+            android:layout_height="45dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="18dp"
             android:elevation="20dp"
@@ -140,7 +146,7 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/noto_sans_kr_bold"
             android:text="2022/08/04 (목)"
             android:textColor="@color/gray_600"
@@ -151,15 +157,13 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpMeal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:layout_marginBottom="68dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="80dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
