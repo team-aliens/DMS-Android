@@ -2,7 +2,6 @@ package com.example.dms_android.feature.navigator
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerSize
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -45,7 +43,7 @@ fun DmsApp() {
         NavHost(
             navController = navHostController,
             startDestination = BottomNavigationItem.Meal.route,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
         ) {
             composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
             composable(BottomNavigationItem.Survey.route) { /*TODO("아직 구현 안됨")*/ }
@@ -57,7 +55,7 @@ fun DmsApp() {
 
 @Composable
 fun BottomNavBar(
-    navController: NavHostController
+    navController: NavHostController,
 ) =
     BottomAppBar(
         cutoutShape = MaterialTheme.shapes.small.copy(

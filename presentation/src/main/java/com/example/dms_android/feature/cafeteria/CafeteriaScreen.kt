@@ -53,6 +53,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
+    navController: NavController
 ) {
 
     val pagerState = rememberPagerState(3)
@@ -233,10 +234,4 @@ fun CafeteriaViewPager() {
             ScrollEffectPager()
         }
     }
-}
-
-@Preview
-@Composable
-fun CafeteriaPreview() {
-    CafeteriaScreen()
 }
