@@ -14,7 +14,7 @@ data class MealRoomEntity(
     @Embedded val dinner: List<String>,
 )
 
-fun MealRoomEntity.toEntity() =
+internal fun MealRoomEntity.toEntity() =
     MealEntity(
         date = date,
         breakfast = breakfast,

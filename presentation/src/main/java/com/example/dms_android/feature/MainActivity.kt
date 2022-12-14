@@ -1,9 +1,7 @@
 package com.example.dms_android.feature
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
-import androidx.fragment.app.FragmentContainerView
 import com.example.dms_android.base.BaseActivity
 import com.example.dms_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

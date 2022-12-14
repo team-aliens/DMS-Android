@@ -5,8 +5,10 @@ import com.example.dms_android.feature.mypage.MyPageEvent
 import com.example.dms_android.feature.mypage.MyPageState
 import com.example.feature_domain.usecase.mypage.RemoteMyPageUseCase
 import com.example.local_domain.usecase.mypage.LocalMyPageUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class MyPageViewModel @Inject constructor(
     val remoteMyPageUseCase: RemoteMyPageUseCase,
     val localMyPageUseCase: LocalMyPageUseCase,

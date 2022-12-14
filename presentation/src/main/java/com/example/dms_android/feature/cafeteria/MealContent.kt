@@ -90,6 +90,7 @@ fun ScrollEffectPager() {
                 verticalArrangement = Arrangement.Top
             ) {
                 when (pagerState.currentPage) {
+                    // TODO("뷰모델 구현시 값 연동")
                     0 -> {
                         Text(text = "1")
                     }

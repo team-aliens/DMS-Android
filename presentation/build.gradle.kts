@@ -78,7 +78,7 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
     implementation(Dependency.Compose.COMPOSE_VIEWBINDING)
-    implementation("androidx.compose.ui:ui-util:${Versions.COMPOSE}")
+    implementation(Dependency.Compose.COMPOSE_UI_UTIL)
 
     implementation(Dependency.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dependency.Navigation.NAVIGATION_UI)
