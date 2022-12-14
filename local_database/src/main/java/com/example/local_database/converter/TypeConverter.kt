@@ -11,27 +11,27 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 
 @ProvidedTypeConverter
-class MealListTypeConverter(
+class MealTypeConverter(
     private val moshi: Moshi,
 ) {
 
     @TypeConverter
-    fun fromString(value: String): List<MealRoomEntity.MealsRoomValue>? {
+    fun fromString(value: String): List<MealRoomEntity>? {
         val listType = Types.newParameterizedType(
             List::class.java,
-            MealRoomEntity.MealsRoomValue::class.java
+            MealRoomEntity::class.java
         )
-        val adapter: JsonAdapter<List<MealRoomEntity.MealsRoomValue>> =
+        val adapter: JsonAdapter<List<MealRoomEntity>> =
             moshi.adapter(listType)
         return adapter.fromJson(value)
     }
 
     @TypeConverter
-    fun fromList(type: List<MealRoomEntity.MealsRoomValue>): String {
+    fun fromList(type: List<MealRoomEntity>): String {
         val listType = Types.newParameterizedType(
-            List::class.java, MealRoomEntity.MealsRoomValue::class.java
+            List::class.java, MealRoomEntity::class.java
         )
-        val adapter: JsonAdapter<List<MealRoomEntity.MealsRoomValue>> =
+        val adapter: JsonAdapter<List<MealRoomEntity>> =
             moshi.adapter(listType)
         return adapter.toJson(type)
     }

@@ -18,19 +18,14 @@ class MealRepositoryImpl @Inject constructor(
     override suspend fun fetchMealValue(date: String): Flow<MealEntity> =
         OfflineCacheUtil<MealEntity>()
             .remoteData { remoteMealDataSource.getMealValue(date).toEntity() }
-            .doOnNeedRefresh { localMealDataSource.setMeal(it.toDbEntity()) }
+            .doOnNeedRefresh { localMealDataSource.setMeal(it.meals.map { it.toDbEntity() }) }
             .createFlow()
 }
 
 fun MealEntity.MealsValue.toDbEntity() =
-    MealRoomEntity.MealsRoomValue(
+    MealRoomEntity(
         date = date,
         breakfast = breakfast,
         lunch = lunch,
         dinner = dinner,
-    )
-
-fun MealEntity.toDbEntity() =
-    MealRoomEntity(
-        meals = meals.map { it.toDbEntity() }
     )
