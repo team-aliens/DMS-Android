@@ -50,12 +50,12 @@ class SetIdViewModel @Inject constructor(
                 SetIdEvent.ExamineGradeSuccess
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> SetIdEvent.ExamineGradeBadRequest
-                    is NotFoundException -> SetIdEvent.ExamineGradeNotFound
-                    is ConflictException -> SetIdEvent.ExamineConflict
-                    is TooManyRequestException -> SetIdEvent.ErrorMessage(R.string.TooManyRequest.toString())
-                    is ServerException -> SetIdEvent.ErrorMessage(R.string.ServerException.toString())
-                    else -> SetIdEvent.ErrorMessage(R.string.UnKnownException.toString())
+                    is BadRequestException -> SetIdEvent.ExamineGradeBadRequestException
+                    is NotFoundException -> SetIdEvent.ExamineGradeNotFoundException
+                    is ConflictException -> SetIdEvent.ExamineGradeConflictException
+                    is TooManyRequestException -> SetIdEvent.ExamineGradeTooManyRequestException
+                    is ServerException -> SetIdEvent.ExamineGradeInterServerException
+                    else -> SetIdEvent.UnknownException
                 }
             }
         }
@@ -69,11 +69,11 @@ class SetIdViewModel @Inject constructor(
                 SetIdEvent.DuplicateIdSuccess
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> SetIdEvent.ErrorMessage(R.string.LoginBadRequest.toString())
-                    is ConflictException -> SetIdEvent.DuplicateIdConflict
-                    is TooManyRequestException -> SetIdEvent.ErrorMessage(R.string.TooManyRequest.toString())
-                    is ServerException -> SetIdEvent.ErrorMessage(R.string.ServerException.toString())
-                    else -> SetIdEvent.ErrorMessage(R.string.UnKnownException.toString())
+                    is BadRequestException -> SetIdEvent.DuplicateIdBadRequestException
+                    is ConflictException -> SetIdEvent.DuplicateIdConflictException
+                    is TooManyRequestException -> SetIdEvent.DuplicateIdTooManyRequestException
+                    is ServerException -> SetIdEvent.DuplicateIdInterServerException
+                    else -> SetIdEvent.UnknownException
                 }
             }
         }
