@@ -6,8 +6,9 @@ import com.example.local_database.param.FeaturesParam
 import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.storage.declaration.UserDataStorage
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.EXPIRED_AT
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN_EXPIRED_AT
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.MEAL
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
@@ -22,7 +23,7 @@ class UserDataStorageImpl @Inject constructor(
     override fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
         getSharedPreference().edit().let {
             it.putString(ACCESS_TOKEN, personalKeyParam.accessToken)
-            it.putString(EXPIRED_AT, personalKeyParam.expiredAt)
+            it.putString(ACCESS_TOKEN_EXPIRED_AT, personalKeyParam.accessTokenExpiredAt)
             it.putString(REFRESH_TOKEN, personalKeyParam.refreshToken)
         }
     }
@@ -30,11 +31,14 @@ class UserDataStorageImpl @Inject constructor(
     override fun fetchAccessToken(): String =
         getSharedPreference().getString(ACCESS_TOKEN, "")!!
 
-    override fun fetchExpiredAt(): String =
-        getSharedPreference().getString(EXPIRED_AT, "")!!
+    override fun fetchAccessTokenExpiredAt(): String =
+        getSharedPreference().getString(ACCESS_TOKEN_EXPIRED_AT, "")!!
 
     override fun fetchRefreshToken(): String =
         getSharedPreference().getString(REFRESH_TOKEN, "")!!
+
+    override fun fetchRefreshTokenExpiredAt(): String =
+        getSharedPreference().getString(REFRESH_TOKEN_EXPIRED_AT, "")!!
 
     override fun setUserVisible(featuresParam: FeaturesParam) {
         getSharedPreference().edit().let {
@@ -59,8 +63,9 @@ class UserDataStorageImpl @Inject constructor(
 
     private object UserPersonalKey {
         const val ACCESS_TOKEN = "ACCESS_TOKEN"
-        const val EXPIRED_AT = "EXPIRED_AT"
+        const val ACCESS_TOKEN_EXPIRED_AT = "ACCESS_TOKEN_EXPIRED_AT"
         const val REFRESH_TOKEN = "REFRESH_TOKEN"
+        const val REFRESH_TOKEN_EXPIRED_AT = "REFRESH_TOKEN_EXPIRED_AT"
     }
 
     private object UserVisible {

@@ -18,8 +18,9 @@ class LocalUserDataSourceImpl @Inject constructor(
         userDataStorage.apply {
             return UserPersonalKeyParam(
                 fetchAccessToken(),
-                fetchExpiredAt(),
-                fetchRefreshToken()
+                fetchAccessTokenExpiredAt(),
+                fetchRefreshToken(),
+                fetchRefreshTokenExpiredAt(),
             )
         }
     }
