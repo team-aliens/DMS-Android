@@ -211,7 +211,7 @@ fun PointBox() {
                     width = 1.dp,
                     shape = RoundedCornerShape(25)
                 )
-                .background(DormColor.ErrorLighten100),
+                .background(DormColor.LightenError),
             contentAlignment = Alignment.TopStart,
         ) {
             Column(
