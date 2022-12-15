@@ -59,5 +59,5 @@ object DormColor {
     val Error = Color(color = 0xFFFF4646)
 
     @Stable
-    val ErrorLighten100 = Color(color = 0xEBFF4646)
+    val LightenError = Color(color = 0x14FF4646)
 }
