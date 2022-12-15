@@ -5,7 +5,7 @@ import com.example.feature_domain.enums.PointType
 
 sealed class MyPageEvent: MviEvent {
     
-    data class ChangeTypeSuccess(val type: PointType): MyPageEvent()
+    data class ChangePointTypeSuccess(val type: PointType): MyPageEvent()
     object UnAuthorizedException: MyPageEvent()
     object ForbiddenException: MyPageEvent()
     object TooManyException: MyPageEvent()

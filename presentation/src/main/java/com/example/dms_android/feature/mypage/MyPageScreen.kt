@@ -209,7 +209,7 @@ fun PointBox() {
                 .border(
                     color = DormColor.Error,
                     width = 1.dp,
-                    shape = RoundedCornerShape(25)
+                    shape = RoundedCornerShape(25),
                 )
                 .background(DormColor.LightenError),
             contentAlignment = Alignment.TopStart,
