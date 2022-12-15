@@ -4,13 +4,15 @@ import com.example.local_domain.entity.UserVisibleLocalEntity
 
 data class UserPersonalKeyParam(
     val accessToken: String,
-    val expiredAt: String,
+    val accessTokenExpiredAt: String,
     val refreshToken: String,
+    val refreshTokenExpiredAt: String,
 )
 
 fun UserPersonalKeyParam.toDbEntity() =
     UserVisibleLocalEntity(
         accessToken = accessToken,
-        expiredAt = expiredAt,
+        accessTokenExpiredAt = accessTokenExpiredAt,
         refreshToken = refreshToken,
+        refreshTokenExpiredAt = refreshTokenExpiredAt,
     )
