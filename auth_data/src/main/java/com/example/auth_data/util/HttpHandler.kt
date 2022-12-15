@@ -77,6 +77,8 @@ class HttpHandler<T> {
             throw TimeoutException()
         } catch (e: NeedLoginException) {
             throw e
+        } catch (e: NullPointerException) {
+            throw e
         } catch (e: Throwable) {
             throw UnknownException()
         }
