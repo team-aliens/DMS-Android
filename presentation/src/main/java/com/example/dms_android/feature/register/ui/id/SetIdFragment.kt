@@ -50,30 +50,35 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
                 binding.tvError.invisible()
             }
 
-            is SetIdEvent.ExamineConflict -> {
-                showShortToast(R.string.CheckGrade.toString())
+            is SetIdEvent.ExamineGradeConflictException -> {
+                showShortToast(getString(R.string.CheckGrade))
                 binding.etGrade.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.etClass.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.etNumber.setBackgroundResource(R.drawable.register_et_error_background)
             }
 
-            is SetIdEvent.ExamineGradeBadRequest -> {
-                showShortToast(R.string.LoginBadRequest.toString())
+            is SetIdEvent.ExamineGradeBadRequestException -> {
+                showShortToast(getString(R.string.BadRequest))
             }
 
-            is SetIdEvent.ExamineGradeNotFound -> {
-                showShortToast(R.string.CheckGrade.toString())
+            is SetIdEvent.ExamineGradeNotFoundException -> {
+                showShortToast(getString(R.string.CheckGrade))
                 binding.etGrade.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.etClass.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.etNumber.setBackgroundResource(R.drawable.register_et_error_background)
             }
 
-            is SetIdEvent.DuplicateIdConflict -> {
+            is SetIdEvent.DuplicateIdConflictException -> {
                 binding.etId.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
             }
 
-            is SetIdEvent.ErrorMessage -> showShortToast(event.message)
+            is SetIdEvent.DuplicateIdBadRequestException -> showShortToast(getString(R.string.BadRequest))
+            is SetIdEvent.DuplicateIdInterServerException -> showShortToast(getString(R.string.ServerException))
+            is SetIdEvent.DuplicateIdTooManyRequestException -> showShortToast(getString(R.string.TooManyRequest))
+            is SetIdEvent.ExamineGradeInterServerException -> showShortToast(getString(R.string.ServerException))
+            is SetIdEvent.ExamineGradeTooManyRequestException -> showShortToast(getString(R.string.TooManyRequest))
+            is SetIdEvent.UnknownException -> showShortToast(getString(R.string.UnKnownException))
         }
     }
 
