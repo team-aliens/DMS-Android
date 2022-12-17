@@ -21,8 +21,8 @@ import com.example.design_system.modifier.dormClickable
 import com.example.design_system.modifier.dormShadow
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.Body5
-import com.example.feature_domain.enums.PointType
-import com.example.feature_domain.enums.PointType.*
+import com.example.domain.enums.PointType
+import com.example.domain.enums.PointType.*
 
 data class PointValue(
     val date: String,

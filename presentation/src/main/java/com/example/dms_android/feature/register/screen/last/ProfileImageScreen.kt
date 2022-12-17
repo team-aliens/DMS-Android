@@ -41,7 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.example.auth_domain.enum.BottomSheetType
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.color.DormColor
@@ -51,6 +50,7 @@ import com.example.design_system.typography.NotoSansFamily
 import com.example.dms_android.R
 import com.example.dms_android.component.changeBottomSheetState
 import com.example.dms_android.util.fetchImage
+import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
