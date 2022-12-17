@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.example.auth_domain.entity.SchoolConfirmQuestionEntity
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentConfirmSchoolBinding
@@ -26,9 +27,11 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 ) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
         val args = this.arguments
         val inputData = args?.get("schoolId")
 
@@ -40,14 +43,6 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         repeatOnStarted {
             confirmSchoolViewModel.confirmSchoolEvent.collect { event -> handleEvent(event) }
         }
-
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -64,7 +59,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 binding.tvSchoolQuestion.text = confirmSchoolViewModel.question
             }
 
-            is ConfirmSchoolEvent.CompareSchoolBadRequest -> {
+            is ConfirmSchoolEvent.CompareSchoolBadRequestException -> {
                 binding.tvError.text = getString(R.string.BadRequest)
                 binding.tvError.setTextColor(
                     ContextCompat.getColor(
@@ -77,7 +72,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 binding.tvError.visible()
             }
 
-            is ConfirmSchoolEvent.CompareSchoolNotFound -> {
+            is ConfirmSchoolEvent.CompareSchoolNotFoundException -> {
                 binding.tvError.text = getString(R.string.CompareSchoolNotFound)
                 binding.tvError.setTextColor(
                     ContextCompat.getColor(
@@ -90,7 +85,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 binding.tvError.visible()
             }
 
-            is ConfirmSchoolEvent.CompareSchoolUnauthorized -> {
+            is ConfirmSchoolEvent.CompareSchoolUnauthorizedException -> {
                 binding.tvError.text = getString(R.string.inconsistent_school_reply)
                 binding.tvError.setTextColor(
                     ContextCompat.getColor(
@@ -103,11 +98,24 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 binding.tvError.visible()
             }
 
-            ConfirmSchoolEvent.InternalServerException -> showShortToast(getString(R.string.ServerException))
-            ConfirmSchoolEvent.TooManyRequestException -> showShortToast(getString(R.string.TooManyRequest))
-            ConfirmSchoolEvent.UnknownException -> showShortToast(getString(R.string.UnKnownException))
-            ConfirmSchoolEvent.SchoolQuestionBadRequest -> showShortToast(getString(R.string.BadRequest))
-            ConfirmSchoolEvent.SchoolQuestionNotFound -> showShortToast(getString(R.string.CompareSchoolNotFound))
+            is ConfirmSchoolEvent.SchoolQuestionInternalServerException -> showShortToast(
+                getString(
+                    R.string.ServerException
+                )
+            )
+
+            is ConfirmSchoolEvent.SchoolQuestionTooManyRequestException -> showShortToast(
+                getString(
+                    R.string.TooManyRequest
+                )
+            )
+
+            is ConfirmSchoolEvent.CompareSchoolInternalServerException -> showShortToast(getString(R.string.ServerException))
+            is ConfirmSchoolEvent.CompareSchoolTooManyRequestException -> showShortToast(getString(R.string.TooManyRequest))
+            is ConfirmSchoolEvent.UnknownException -> showShortToast(getString(R.string.UnKnownException))
+            is ConfirmSchoolEvent.SchoolQuestionBadRequestException -> showShortToast(getString(R.string.BadRequest))
+            is ConfirmSchoolEvent.SchoolQuestionNotFoundException -> showShortToast(getString(R.string.CompareSchoolNotFound))
+            is ConfirmSchoolEvent.FetchSchoolQuestion -> setSchoolQuestionValue(event.schoolConfirmQuestionEntity)
         }
     }
 
@@ -137,5 +145,9 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
             val mainActive = activity as MainActivity
             mainActive.changeFragment(2)
         }
+    }
+
+    private fun setSchoolQuestionValue(questionData: SchoolConfirmQuestionEntity) {
+        binding.tvSchoolQuestion.text = questionData.question
     }
 }
