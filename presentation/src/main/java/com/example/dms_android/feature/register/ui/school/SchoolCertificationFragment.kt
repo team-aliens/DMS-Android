@@ -22,24 +22,30 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     R.layout.fragment_school_certification
 ) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
-    private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
+
         repeatOnStarted {
             examineSchoolCodeViewModel.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+
     private fun handleEvent(event: ExamineSchoolCodeEvent) = when (event) {
         is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
             val mainActive = activity as MainActivity
-            confirmSchoolViewModel.schoolId = examineSchoolCodeViewModel.schoolId
-            mainActive.changeFragment(1)
+
+            val bundle = Bundle()
+            bundle.putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
+
+            val fragment = ConfirmSchoolFragment()
+            fragment.arguments = bundle
+            mainActive.supportFragmentManager.beginTransaction()
+                .replace(R.id.containerActivity, fragment).commit()
         }
 
         is ExamineSchoolCodeEvent.BadRequestException -> {

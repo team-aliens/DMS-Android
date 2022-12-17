@@ -17,22 +17,36 @@ import com.example.dms_android.util.invisible
 import com.example.dms_android.util.repeatOnStarted
 import com.example.dms_android.util.visible
 import com.example.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
+@AndroidEntryPoint
 class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
     R.layout.fragment_confirm_school
 ) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val args = this.arguments
+        val inputData = args?.get("schoolId")
+
+        val uuid = UUID.fromString(inputData.toString())
+        confirmSchoolViewModel.schoolId = uuid
 
         confirmSchoolViewModel.schoolQuestion()
 
         repeatOnStarted {
             confirmSchoolViewModel.confirmSchoolEvent.collect { event -> handleEvent(event) }
         }
+
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -52,7 +66,12 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolBadRequest -> {
                 binding.tvError.text = getString(R.string.BadRequest)
-                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                binding.tvError.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
@@ -60,7 +79,12 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolNotFound -> {
                 binding.tvError.text = getString(R.string.CompareSchoolNotFound)
-                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                binding.tvError.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
@@ -68,7 +92,12 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolUnauthorized -> {
                 binding.tvError.text = getString(R.string.inconsistent_school_reply)
-                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                binding.tvError.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()

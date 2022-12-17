@@ -27,9 +27,9 @@ class ConfirmSchoolViewModel @Inject constructor(
     private val remoteSchoolQuestionUseCase: RemoteSchoolQuestionUseCase,
 ) : BaseViewModel<ConfirmSchoolState, ConfirmSchoolEvent>() {
 
-    var schoolId by Delegates.notNull<UUID>()
-    var schoolAnswer by Delegates.notNull<String>()
-    var question by Delegates.notNull<String>()
+    var schoolId : UUID = UUID(0,0)
+    var schoolAnswer : String = ""
+    var question : String = ""
 
     private val parameter =
         SchoolAnswerParam(
@@ -63,10 +63,10 @@ class ConfirmSchoolViewModel @Inject constructor(
     fun schoolQuestion() {
         viewModelScope.launch {
             kotlin.runCatching {
+                question = remoteSchoolQuestionUseCase.execute(schoolId).question
                 remoteSchoolQuestionUseCase.execute(schoolId)
-            }.onSuccess { response ->
+            }.onSuccess {
                 event(ConfirmSchoolEvent.SchoolQuestionSuccess)
-                question = response.question
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(ConfirmSchoolEvent.SchoolQuestionBadRequest)

@@ -25,15 +25,15 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
     val examineSchoolCodeEvent = _examineSchoolCodeEvent.asEventFlow()
 
-    var schoolId by Delegates.notNull<UUID>()
+    var schoolId: UUID = UUID(0, 0)
 
     fun examineSchoolCode(schoolCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
+                schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
                 remoteSchoolCodeUseCase.execute(schoolCode)
-            }.onSuccess { response ->
+            }.onSuccess {
                 event(ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess)
-                schoolId = response.schoolId
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(ExamineSchoolCodeEvent.BadRequestException)
