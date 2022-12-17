@@ -3,6 +3,7 @@ plugins {
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -53,8 +54,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":auth_domain"))
-    implementation(project(":feature_domain"))
+    implementation(project(":domain"))
     implementation(project(":local_domain"))
     implementation(project(":di"))
     implementation(project(":design-system"))
@@ -66,6 +66,7 @@ dependencies {
     implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
     implementation(Dependency.Ui.COIL)
     implementation(Dependency.Ui.GLIDE_CORE)
+    implementation(Dependency.Ui.FRAGMENT_KTX)
     annotationProcessor(Dependency.Ui.GLIDE_COMPILER)
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
@@ -76,6 +77,8 @@ dependencies {
     implementation(Dependency.Compose.COMPOSE_ANI_NAV)
     implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
     implementation(Dependency.Compose.COMPOSE_HILT_NAV)
+    implementation(Dependency.Compose.COMPOSE_VIEWBINDING)
+    implementation(Dependency.Compose.COMPOSE_UI_UTIL)
 
     implementation(Dependency.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dependency.Navigation.NAVIGATION_UI)
@@ -101,6 +104,4 @@ dependencies {
 
     implementation(Dependency.Compose.VIEWPAGER)
     implementation(Dependency.Compose.VIEWPAGERINDICATE)
-
-
 }

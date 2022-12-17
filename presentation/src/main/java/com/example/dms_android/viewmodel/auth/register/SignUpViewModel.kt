@@ -1,19 +1,19 @@
 package com.example.dms_android.viewmodel.auth.register
 
 import androidx.lifecycle.viewModelScope
-import com.example.auth_domain.exception.BadRequestException
-import com.example.auth_domain.exception.ConflictException
-import com.example.auth_domain.exception.NotFoundException
-import com.example.auth_domain.exception.ServerException
-import com.example.auth_domain.exception.TooManyRequestException
-import com.example.auth_domain.exception.UnauthorizedException
-import com.example.auth_domain.param.RegisterParam
-import com.example.auth_domain.usecase.students.RemoteSignUpUseCase
+import com.example.domain.exception.BadRequestException
+import com.example.domain.exception.NotFoundException
+import com.example.domain.exception.ServerException
+import com.example.domain.exception.TooManyRequestException
+import com.example.domain.exception.UnauthorizedException
+import com.example.domain.usecase.students.RemoteSignUpUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.SignUpEvent
 import com.example.dms_android.feature.register.state.SignUpState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
+import com.example.domain.exception.ConflictException
+import com.example.domain.param.RegisterParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

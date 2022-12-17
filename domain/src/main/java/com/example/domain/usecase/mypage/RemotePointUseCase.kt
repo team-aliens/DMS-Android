@@ -1,0 +1,15 @@
+package com.example.domain.usecase.mypage
+
+import com.example.domain.entity.mypage.PointListEntity
+import com.example.domain.enums.PointType
+import com.example.domain.repository.MyPageRepository
+import com.example.domain.usecase.UseCase
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class RemotePointUseCase @Inject constructor(
+    private val myPageRepository: MyPageRepository
+): UseCase<PointType, Flow<PointListEntity>>() {
+    override suspend fun execute(data: PointType): Flow<PointListEntity> =
+        myPageRepository.fetchPointList(data)
+}

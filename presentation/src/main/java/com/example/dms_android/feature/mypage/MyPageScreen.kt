@@ -26,15 +26,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.auth_domain.enum.BottomSheetType
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.Caption
@@ -42,6 +38,7 @@ import com.example.design_system.typography.Headline3
 import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
 import com.example.dms_android.component.changeBottomSheetState
+import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -209,9 +206,9 @@ fun PointBox() {
                 .border(
                     color = DormColor.Error,
                     width = 1.dp,
-                    shape = RoundedCornerShape(25)
+                    shape = RoundedCornerShape(25),
                 )
-                .background(DormColor.ErrorLighten100),
+                .background(DormColor.LightenError),
             contentAlignment = Alignment.TopStart,
         ) {
             Column(
