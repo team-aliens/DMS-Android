@@ -54,8 +54,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":auth_domain"))
-    implementation(project(":feature_domain"))
+    implementation(project(":domain"))
     implementation(project(":local_domain"))
     implementation(project(":di"))
     implementation(project(":design-system"))
@@ -67,6 +66,7 @@ dependencies {
     implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
     implementation(Dependency.Ui.COIL)
     implementation(Dependency.Ui.GLIDE_CORE)
+    implementation(Dependency.Ui.FRAGMENT_KTX)
     annotationProcessor(Dependency.Ui.GLIDE_COMPILER)
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)

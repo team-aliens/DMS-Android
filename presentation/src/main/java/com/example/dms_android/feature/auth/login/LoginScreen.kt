@@ -16,8 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.button.DormTextCheckBox
@@ -39,19 +40,53 @@ import com.example.design_system.typography.Body4
 import com.example.design_system.typography.Caption
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
-import com.example.dms_android.util.EventFlow
-import com.example.dms_android.util.observeWithLifecycle
+import com.example.dms_android.feature.navigator.NavigationRoute
 import com.example.dms_android.viewmodel.auth.login.SignInViewModel
 
 @Composable
 fun LoginScreen(
     scaffoldState: ScaffoldState,
-    signInViewModel: SignInViewModel = hiltViewModel()
+    navController: NavController,
+    signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
-    HandleViewEffect(
-        scaffoldState = scaffoldState,
-        effect = signInViewModel.signInViewEvent
-    )
+
+    val badRequestComment = stringResource(id = R.string.LoginBadRequest)
+    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val notFoundComment = stringResource(id = R.string.LoginNotFound)
+    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
+    val serverException = stringResource(id = R.string.ServerException)
+    val unKnownException = stringResource(id = R.string.UnKnownException)
+
+    LaunchedEffect(Unit) {
+        signInViewModel.signInViewEffect.collect {
+            when (it) {
+                is SignInViewModel.Event.NavigateToHome -> {
+                    navController.navigate(
+                        route = NavigationRoute.Main
+                    )
+                }
+                is SignInViewModel.Event.WrongRequest -> {
+                    scaffoldState.snackbarHostState.showSnackbar(badRequestComment)
+                }
+                is SignInViewModel.Event.NotCorrectPassword -> {
+                    scaffoldState.snackbarHostState.showSnackbar(unAuthorizedComment)
+                }
+                is SignInViewModel.Event.UserNotFound -> {
+                    scaffoldState.snackbarHostState.showSnackbar(notFoundComment)
+                }
+                is SignInViewModel.Event.TooManyRequest -> {
+                    scaffoldState.snackbarHostState.showSnackbar(tooManyRequestComment)
+                }
+                is SignInViewModel.Event.ServerException -> {
+                    scaffoldState.snackbarHostState.showSnackbar(serverException)
+                }
+                is SignInViewModel.Event.UnKnownException -> {
+                    scaffoldState.snackbarHostState.showSnackbar(unKnownException)
+                }
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,71 +98,7 @@ fun LoginScreen(
         AddFunction()
         LoginButton(signInViewModel, scaffoldState)
     }
-}
 
-@Composable
-private fun HandleViewEffect(
-    effect: EventFlow<SignInEvent>,
-    scaffoldState: ScaffoldState
-) {
-    val badRequestComment = stringResource(id = R.string.LoginBadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
-    val notFoundComment = stringResource(id = R.string.LoginNotFound)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val unKnownException = stringResource(id = R.string.UnKnownException)
-
-    effect.observeWithLifecycle(action = {
-        when (it) {
-            is SignInEvent.SignInSuccess -> {
-                TODO("FeatureNavigator")
-            }
-
-            is SignInEvent.BadRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = badRequestComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is SignInEvent.UnAuthorizedException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = unAuthorizedComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is SignInEvent.NotFoundException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = notFoundComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is SignInEvent.TooManyRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = tooManyRequestComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is SignInEvent.InternalServerException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = serverException,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is SignInEvent.UnKnownException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = unKnownException,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            else -> {}
-        }
-    })
     BackPressHandle()
 }
 
@@ -173,7 +144,7 @@ fun MainTitle() {
 
 @Composable
 fun TextField(
-    signInViewModel: SignInViewModel
+    signInViewModel: SignInViewModel,
 ) {
 
     var idValue by remember { mutableStateOf("") }
@@ -289,10 +260,9 @@ fun LoginButton(
         DormContainedLargeButton(
             text = stringResource(id = R.string.Login),
             color = DormButtonColor.Blue,
-        ) {
-            if ((signInViewModel.state.value.id.isNotBlank()) && (signInViewModel.state.value.password.isNotBlank())) {
+            onClick = {
                 signInViewModel.signIn()
             }
-        }
+        )
     }
 }

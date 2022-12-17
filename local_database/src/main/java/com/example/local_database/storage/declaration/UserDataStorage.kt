@@ -8,8 +8,9 @@ interface UserDataStorage {
     fun setPersonalKey(personalKeyParam: UserPersonalKeyParam)
 
     fun fetchAccessToken(): String
-    fun fetchExpiredAt(): String
+    fun fetchAccessTokenExpiredAt(): String
     fun fetchRefreshToken(): String
+    fun fetchRefreshTokenExpiredAt(): String
 
     fun setUserVisible(featuresParam: FeaturesParam)
 

@@ -42,7 +42,7 @@ object Versions {
     //TODO: 추후에 커스텀으로 만들 예정입니다.
     const val PINENTRYEDITTEXT = "2.0.6"
 
-    const val NAV = "2.4.1"
+    const val NAV = "2.5.1"
     const val ANI_NAV = "0.24.5-alpha"
     const val LANDSCAPIST = "1.4.7"
     const val HILT_NAV = "1.0.0"

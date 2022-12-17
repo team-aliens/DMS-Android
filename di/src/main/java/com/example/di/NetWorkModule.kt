@@ -1,11 +1,11 @@
 package com.example.di
 
-import com.example.auth_data.remote.api.SchoolsApi
-import com.example.auth_data.remote.api.StudentsApi
-import com.example.auth_data.remote.api.UserApi
-import com.example.feature_data.remote.api.MealApi
-import com.example.feature_data.remote.api.MyPageApi
-import com.example.feature_data.remote.api.NoticeApi
+import com.example.data.remote.api.MealApi
+import com.example.data.remote.api.MyPageApi
+import com.example.data.remote.api.NoticeApi
+import com.example.data.remote.api.SchoolsApi
+import com.example.data.remote.api.StudentsApi
+import com.example.data.remote.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
