@@ -10,13 +10,16 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,9 +32,10 @@ import com.example.dms_android.feature.notice.NoticeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DmsApp() {
-    val navController = rememberNavController()
-    val scaffoldState = rememberScaffoldState()
+fun DmsApp(
+    navController: NavController,
+    scaffoldState: ScaffoldState
+) {
     val navHostController = rememberNavController()
 
     Scaffold(
@@ -147,7 +151,6 @@ fun BottomNavBar(
             selected = bottomTabSelectedItem.value == BottomNavigationItem.MyPage.route
         )
     }
-
 
 fun navigateBottomNavigation(route: String, navController: NavHostController) {
     navController.navigate(route) {
