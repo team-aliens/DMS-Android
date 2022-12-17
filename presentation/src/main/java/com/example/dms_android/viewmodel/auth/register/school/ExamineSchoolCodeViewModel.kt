@@ -1,16 +1,16 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
 import androidx.lifecycle.viewModelScope
-import com.example.auth_domain.exception.BadRequestException
-import com.example.auth_domain.exception.ServerException
-import com.example.auth_domain.exception.TooManyRequestException
-import com.example.auth_domain.exception.UnauthorizedException
 import com.example.auth_domain.usecase.schools.RemoteSchoolCodeUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import com.example.dms_android.feature.register.state.school.ExamineSchoolCodeState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
+import com.example.domain.exception.BadRequestException
+import com.example.domain.exception.ServerException
+import com.example.domain.exception.TooManyRequestException
+import com.example.domain.exception.UnauthorizedException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID

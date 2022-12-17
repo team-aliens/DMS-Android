@@ -3,7 +3,7 @@ package com.example.dms_android.viewmodel.mypage
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.mypage.MyPageEvent
 import com.example.dms_android.feature.mypage.MyPageState
-import com.example.feature_domain.usecase.mypage.RemoteMyPageUseCase
+import com.example.domain.usecase.mypage.RemoteMyPageUseCase
 import com.example.local_domain.usecase.mypage.LocalMyPageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

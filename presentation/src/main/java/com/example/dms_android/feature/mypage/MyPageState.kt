@@ -1,7 +1,7 @@
 package com.example.dms_android.feature.mypage
 
 import com.example.dms_android.base.MviState
-import com.example.feature_domain.enums.PointType
+import com.example.domain.enums.PointType
 
 data class MyPageState(
     val type: PointType
