@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.auth_domain.exception.BadRequestException
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
@@ -50,6 +51,7 @@ import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
 import com.example.dms_android.feature.navigator.BottomNavigationItem
 import com.example.dms_android.feature.navigator.DmsApp
+import com.example.dms_android.feature.navigator.NavigationRoute
 import com.example.dms_android.util.EventFlow
 import com.example.dms_android.util.observeWithLifecycle
 import com.example.dms_android.viewmodel.auth.login.SignInViewModel
@@ -71,11 +73,11 @@ fun LoginScreen(
     val unKnownException = stringResource(id = R.string.UnKnownException)
 
     LaunchedEffect(Unit) {
-        signInViewModel.signInViewEffect.collect() {
+        signInViewModel.signInViewEffect.collect {
             when (it) {
-                is SignInViewModel.Event.SignInSuccess -> {
+                is SignInViewModel.Event.NavigateToHome -> {
                     navController.navigate(
-                        route = "main"
+                        route = NavigationRoute.Main
                     )
                 }
                 is SignInViewModel.Event.WrongRequest -> {
@@ -274,7 +276,6 @@ fun LoginButton(
             text = stringResource(id = R.string.Login),
             color = DormButtonColor.Blue,
             onClick = {
-                Log.d("123", "123")
                 signInViewModel.signIn()
             }
         )

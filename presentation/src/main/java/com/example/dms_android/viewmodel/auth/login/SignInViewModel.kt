@@ -60,10 +60,8 @@ class SignInViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteSignInUseCase.execute(parameter)
             }.onSuccess {
-                Log.d("123", "1234")
-                event(Event.SignInSuccess)
+                event(Event.NavigateToHome)
             }.onFailure {
-                Log.d("123", "qwer")
                 when(it) {
                     is BadRequestException -> event(Event.WrongRequest)
                     is UnauthorizedException -> event(Event.NotCorrectPassword)
@@ -96,7 +94,7 @@ class SignInViewModel @Inject constructor(
     }
 
     sealed class Event() {
-        object SignInSuccess : Event()
+        object NavigateToHome : Event()
         object WrongRequest : Event()
         object NotCorrectPassword : Event()
         object UserNotFound : Event()

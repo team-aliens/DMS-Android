@@ -13,6 +13,7 @@ import com.example.local_database.storage.implementation.UserDataStorageImpl.Use
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
@@ -23,8 +24,9 @@ class UserDataStorageImpl @Inject constructor(
     override fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
         getSharedPreference().edit().let {
             it.putString(ACCESS_TOKEN, personalKeyParam.accessToken)
-            it.putString(ACCESS_TOKEN_EXPIRED_AT, personalKeyParam.accessTokenExpiredAt)
+            it.putString(ACCESS_TOKEN_EXPIRED_AT, personalKeyParam.accessTokenExpiredAt.toString())
             it.putString(REFRESH_TOKEN, personalKeyParam.refreshToken)
+            it.putString(REFRESH_TOKEN_EXPIRED_AT, personalKeyParam.refreshTokenExpiredAt.toString())
         }
     }
 

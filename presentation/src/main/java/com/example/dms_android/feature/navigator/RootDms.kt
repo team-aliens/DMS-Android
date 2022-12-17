@@ -12,13 +12,13 @@ fun RootDms() {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
 
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = NavigationRoute.Login) {
         composable(
-            route = "login"
+            route = NavigationRoute.Login
         ) {
             LoginScreen(scaffoldState = scaffoldState, navController = navController)
         }
-        composable("main") {
+        composable(NavigationRoute.Main) {
             DmsApp(
                 navController = navController,
                 scaffoldState = scaffoldState

@@ -1,7 +1,7 @@
 package com.example.dms_android.feature.auth.login
 
 sealed class SignInViewEffect {
-    object SignInSuccess : SignInEvent()
+    object NavigateToHome : SignInEvent()
     object BadRequestException : SignInEvent()
     object UnAuthorizedException : SignInEvent()
     object NotFoundException : SignInEvent()

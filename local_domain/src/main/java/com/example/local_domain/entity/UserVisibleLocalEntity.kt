@@ -1,8 +1,10 @@
 package com.example.local_domain.entity
 
+import java.time.LocalDateTime
+
 data class UserVisibleLocalEntity(
     val accessToken: String,
-    val accessTokenExpiredAt: String,
+    val accessTokenExpiredAt: LocalDateTime,
     val refreshToken: String,
-    val refreshTokenExpiredAt: String,
+    val refreshTokenExpiredAt: LocalDateTime,
 )
