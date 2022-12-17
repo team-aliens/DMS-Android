@@ -6,7 +6,6 @@ import com.example.dms_android.base.BaseActivity
 import com.example.dms_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.dms_android.R
-import com.example.dms_android.feature.register.ui.home.HomeFragment
 import com.example.dms_android.feature.register.ui.email.EmailCertificationFragment
 import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
 import com.example.dms_android.feature.register.ui.id.SetIdFragment
@@ -20,14 +19,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 ) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
 
-        }
     }
 
     override fun initView() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, HomeFragment())
+            .replace(R.id.containerActivity, SchoolCertificationFragment())
             .commit()
     }
 
@@ -35,31 +32,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         when (index) {
             1 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, ConfirmSchoolFragment())
+                    .replace(R.id.containerActivity, ConfirmSchoolFragment())
                     .commit()
             }
 
             2 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, EnterEmailFragment())
+                    .replace(R.id.containerActivity, EnterEmailFragment())
                     .commit()
             }
 
             3 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, EmailCertificationFragment())
+                    .replace(R.id.containerActivity, EmailCertificationFragment())
                     .commit()
             }
 
             4 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SetIdFragment())
+                    .replace(R.id.containerActivity, SetIdFragment())
                     .commit()
             }
 
             5 -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SetPasswordFragment())
+                    .replace(R.id.containerActivity, SetPasswordFragment())
                     .commit()
             }
         }
