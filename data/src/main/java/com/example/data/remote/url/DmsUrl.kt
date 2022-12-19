@@ -25,8 +25,8 @@ object DmsUrl {
     }
 
     object Schools {
-        const val schoolQuestions= "$schools/question"
-        const val schoolAnswer = "$schools/answer"
+        const val schoolQuestion = "$schools/question/{school-id}"
+        const val schoolAnswer = "$schools/answer/{school-id}"
         const val schoolCode = "$schools/code"
     }
 
