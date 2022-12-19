@@ -1,7 +1,7 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
 import androidx.lifecycle.viewModelScope
-import com.example.auth_domain.usecase.schools.RemoteSchoolCodeUseCase
+import com.example.domain.usecase.schools.RemoteSchoolCodeUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import com.example.dms_android.feature.register.state.school.ExamineSchoolCodeState
@@ -15,7 +15,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
@@ -31,7 +30,6 @@ class ExamineSchoolCodeViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
-                remoteSchoolCodeUseCase.execute(schoolCode)
             }.onSuccess {
                 event(ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess)
             }.onFailure {

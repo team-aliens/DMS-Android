@@ -12,7 +12,9 @@ import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentEmailCertificationBinding
 import com.example.dms_android.R
 import com.example.dms_android.feature.MainActivity
+import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
+import com.example.dms_android.feature.register.ui.id.SetIdFragment
 import com.example.dms_android.util.repeatOnStarted
 import com.example.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 
@@ -40,8 +42,10 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
     private fun handleEvent(event: RegisterEmailEvent) {
         when (event) {
             is RegisterEmailEvent.CheckEmailSuccess -> {
-                val mainActive = activity as MainActivity
-                mainActive.changeFragment(4)
+                val registerActive = activity as RegisterActivity
+                registerActive.supportFragmentManager.beginTransaction()
+                    .replace(R.id.containerRegister, SetIdFragment())
+                    .commit()
             }
 
             is RegisterEmailEvent.SendEmailSuccess -> {
