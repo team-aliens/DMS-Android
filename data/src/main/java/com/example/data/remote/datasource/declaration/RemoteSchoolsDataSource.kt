@@ -1,7 +1,7 @@
 package com.example.data.remote.datasource.declaration
 
-import com.example.auth_data.remote.response.schools.SchoolConfirmQuestionResponse
-import com.example.auth_data.remote.response.schools.SchoolIdResponse
+import com.example.data.remote.response.schools.SchoolConfirmQuestionResponse
+import com.example.data.remote.response.schools.SchoolIdResponse
 import java.util.UUID
 
 interface RemoteSchoolsDataSource {
