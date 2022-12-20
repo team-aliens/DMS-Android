@@ -1,6 +1,7 @@
 package com.example.dms_android.feature.register.ui.school
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -42,7 +43,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
         val uuid = UUID.fromString(inputData.toString())
         confirmSchoolViewModel.schoolId = uuid
-        println(uuid.toString())
+
         repeatOnStarted {
             confirmSchoolViewModel.confirmSchoolEvent.collect { event -> handleEvent(event) }
         }
@@ -127,7 +128,8 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         binding.btnConfirm.isEnabled = false
 
         binding.tvLogin.setOnClickListener {
-
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
         }
 
         binding.etReply.addTextChangedListener(object : TextWatcher {
@@ -149,7 +151,6 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 }
             }
         })
-
 
         binding.btnConfirm.setOnClickListener {
             confirmSchoolViewModel.compareSchoolAnswer(answer)
