@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -36,8 +37,9 @@ fun SeatContent(
             .size(SeatSize)
             .background(
                 color = color,
-                shape = CircleShape
+                shape = CircleShape,
             )
+            .clip(CircleShape)
             .dormClickable(
                 runIf = enabled,
             ) {
