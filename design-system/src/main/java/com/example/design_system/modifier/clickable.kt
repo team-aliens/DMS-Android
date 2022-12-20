@@ -14,8 +14,9 @@ import com.example.design_system.utils.runIf
 fun Modifier.dormClickable(
     rippleEnabled: Boolean = true,
     rippleColor: Color? = null,
+    runIf: Boolean = true,
     onClick: (() -> Unit)?,
-) = runIf(onClick != null) {
+) = runIf(runIf && onClick != null) {
     composed {
         clickable(
             onClick = onClick!!,
