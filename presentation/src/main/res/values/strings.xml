@@ -23,6 +23,7 @@
     <string name="login">로그인</string>
 
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
+    <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
 
     <string name="EnterName">이름 입력</string>
     <string name="set_password">비밀번호 설정</string>

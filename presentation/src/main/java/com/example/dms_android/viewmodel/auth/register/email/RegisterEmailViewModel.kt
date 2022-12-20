@@ -18,9 +18,7 @@ import com.example.domain.param.CheckEmailCodeParam
 import com.example.domain.param.RequestEmailCodeParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 class RegisterEmailViewModel @Inject constructor(
@@ -28,27 +26,18 @@ class RegisterEmailViewModel @Inject constructor(
     private val remoteCheckEmailUseCase: RemoteCheckEmailUseCase,
 ) : BaseViewModel<RegisterEmailState, RegisterEmailEvent>() {
 
-    var email by Delegates.notNull<String>()
-    var authCode by Delegates.notNull<String>()
-
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
     val registerEmailEvent = _registerEmailEvent.asEventFlow()
 
-    private val requestEmailParameter = RequestEmailCodeParam(
-        email = email,
-        type = EmailType.SIGNUP,
-    )
-
-    private val checkEmailParam = CheckEmailCodeParam(
-        email = email,
-        type = EmailType.SIGNUP,
-        authCode = authCode,
-    )
-
-    fun sendEmailNumber() {
+    fun requestEmailCode(email: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteRequestEmailCodeUseCase.execute(requestEmailParameter)
+                remoteRequestEmailCodeUseCase.execute(
+                    RequestEmailCodeParam(
+                        email = email,
+                        type = EmailType.SIGNUP
+                    )
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.SendEmailSuccess)
             }.onFailure {
@@ -62,10 +51,16 @@ class RegisterEmailViewModel @Inject constructor(
         }
     }
 
-    fun checkEmailCode() {
+    fun checkEmailCode(email: String, authCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteCheckEmailUseCase.execute(checkEmailParam)
+                remoteCheckEmailUseCase.execute(
+                    CheckEmailCodeParam(
+                        email = email,
+                        type = EmailType.SIGNUP,
+                        authCode = authCode,
+                    )
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.CheckEmailSuccess)
             }.onFailure {
