@@ -97,6 +97,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:background="@color/gray_200"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etGrade">

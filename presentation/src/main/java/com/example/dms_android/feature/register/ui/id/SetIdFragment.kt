@@ -1,6 +1,8 @@
 package com.example.dms_android.feature.register.ui.id
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +11,20 @@ import androidx.fragment.app.viewModels
 import com.example.dms_android.databinding.FragmentSetIdBinding
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
-import com.example.dms_android.feature.MainActivity
+import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.id.SetIdEvent
+import com.example.dms_android.feature.register.ui.password.SetPasswordFragment
 import com.example.dms_android.util.invisible
 import com.example.dms_android.util.repeatOnStarted
 import com.example.dms_android.util.visible
 import com.example.dms_android.viewmodel.auth.register.id.SetIdViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
     R.layout.fragment_set_id
 ) {
-    private val vm: SetIdViewModel by viewModels()
+    private val setIdViewModel: SetIdViewModel by viewModels()
 
     private var nameCheck = false
     private var duplicateIdCheck = false
@@ -31,7 +36,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
     ): View? {
 
         repeatOnStarted {
-            vm.examineGradeEvent.collect { event -> handleEvent(event) }
+            setIdViewModel.examineGradeEvent.collect { event -> handleEvent(event) }
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -41,7 +46,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         when (event) {
             is SetIdEvent.ExamineGradeSuccess -> {
                 binding.clName.visible()
-                binding.tvRealName.text = "${vm.name}님이 맞습니까?"
+                binding.tvRealName.text = "${setIdViewModel.name}님이 맞습니까?"
             }
 
             is SetIdEvent.DuplicateIdSuccess -> {
@@ -84,20 +89,24 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 
     override fun initView() {
         binding.btnVerificationCode.isClickable = false
+        binding.btnVerificationCode.isEnabled = false
 
-        if (binding.etClass.length() > 1 && binding.etNumber.length() > 1 && binding.etGrade.length() > 1) {
-            vm.grade = binding.etGrade.toString().toInt()
-            vm.classRoom = binding.etClass.toString().toInt()
-            vm.number = binding.etNumber.toString().toInt()
+        if (binding.etClass.text!!.isNotBlank() && binding.etNumber.text!!.isNotBlank() && binding.etGrade.text!!.isNotBlank()) {
+            /*setIdViewModel.grade = binding.etGrade.text.toInt()
+            setIdViewModel.classRoom = binding.etClass.text.toInt()
+            setIdViewModel.number = binding.etNumber.text.toInt()*/
 
-            vm.examineGrade()
+            setIdViewModel.examineGrade(
+                grade = binding.etGrade.text.toString().toInt(),
+                classRoom = binding.etClass.text.toString().toInt(),
+                number = binding.etNumber.text.toString().toInt(),
+            )
         }
 
         binding.btnOKName.setOnClickListener {
             binding.clName.isGone
             nameCheck = true
         }
-
         if (nameCheck) {
             binding.etClass.isClickable = false
             binding.etClass.isFocusable = false
@@ -110,14 +119,31 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         if (nameCheck && duplicateIdCheck) {
             binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
             binding.btnVerificationCode.isClickable = true
+            binding.btnVerificationCode.isEnabled = true
         } else {
             binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
             binding.btnVerificationCode.isClickable = false
+            binding.btnVerificationCode.isEnabled = false
         }
 
+        binding.etId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                 setIdViewModel.duplicateId(p0.toString())
+            }
+        })
+
         binding.btnVerificationCode.setOnClickListener {
-            val mainActive = activity as MainActivity
-            mainActive.changeFragment(5)
+            val registerActive = activity as RegisterActivity
+
+            registerActive.supportFragmentManager.beginTransaction()
+                .replace(R.id.containerRegister, SetPasswordFragment())
+                .commit()
         }
 
         binding.ivBack.setOnClickListener {
