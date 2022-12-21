@@ -1,4 +1,4 @@
-package com.example.auth_data.remote.response.user
+package com.example.data.remote.response.user
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime

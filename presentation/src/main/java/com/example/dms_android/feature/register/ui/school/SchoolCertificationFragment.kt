@@ -10,8 +10,10 @@ import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentSchoolCertificationBinding
 import com.example.dms_android.feature.MainActivity
+import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import com.example.dms_android.util.repeatOnStarted
+import com.example.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,47 +24,63 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     R.layout.fragment_school_certification
 ) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
-    private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
-
+    private val setIdViewModel: SetIdViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
+
         repeatOnStarted {
             examineSchoolCodeViewModel.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun handleEvent(event: ExamineSchoolCodeEvent) = when (event) {
-        is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
-            val mainActive = activity as MainActivity
-            confirmSchoolViewModel.schoolId = examineSchoolCodeViewModel.schoolId
-            mainActive.changeFragment(1)
-        }
 
-        is ExamineSchoolCodeEvent.BadRequestException -> {
-            showShortToast(getString(R.string.BadRequest))
-        }
+    private fun handleEvent(event: ExamineSchoolCodeEvent) {
+        when (event) {
+            is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
+                val registerActive = activity as RegisterActivity
 
-        is ExamineSchoolCodeEvent.InternalServerException -> {
-            showShortToast(getString(R.string.ServerException))
-        }
+                val bundle = Bundle()
+                bundle.putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
+                setIdViewModel.schoolId = examineSchoolCodeViewModel.schoolId
 
-        is ExamineSchoolCodeEvent.TooManyRequestException -> {
-            showShortToast(getString(R.string.TooManyRequest))
-        }
+                val fragment = ConfirmSchoolFragment()
+                fragment.arguments = bundle
+                registerActive.supportFragmentManager.beginTransaction()
+                    .replace(R.id.containerRegister, fragment)
+                    .commit()
+            }
 
-        is ExamineSchoolCodeEvent.UnAuthorizedException -> {
-            binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
-            binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
-            binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
-            binding.btnVerificationCode.isClickable = false
-        }
+            is ExamineSchoolCodeEvent.BadRequestException -> {
+                showShortToast(getString(R.string.BadRequest))
+            }
 
-        is ExamineSchoolCodeEvent.UnknownException -> {
-            showShortToast(getString(R.string.UnKnownException))
+            is ExamineSchoolCodeEvent.InternalServerException -> {
+                showShortToast(getString(R.string.ServerException))
+            }
+
+            is ExamineSchoolCodeEvent.TooManyRequestException -> {
+                showShortToast(getString(R.string.TooManyRequest))
+            }
+
+            is ExamineSchoolCodeEvent.UnAuthorizedException -> {
+                binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
+                binding.tvDetail.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
+                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
+                binding.btnVerificationCode.isClickable = false
+            }
+
+            is ExamineSchoolCodeEvent.UnknownException -> {
+                showShortToast(getString(R.string.UnKnownException))
+            }
         }
     }
 

@@ -5,7 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/ivBack"
@@ -40,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEnterPassword"
+            android:id="@+id/etGrade"
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -70,8 +71,8 @@
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
             app:layout_constraintEnd_toStartOf="@id/etNumber"
-            app:layout_constraintStart_toEndOf="@+id/etEnterPassword"
-            app:layout_constraintTop_toTopOf="@+id/etEnterPassword" />
+            app:layout_constraintStart_toEndOf="@+id/etGrade"
+            app:layout_constraintTop_toTopOf="@+id/etGrade" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNumber"
@@ -89,8 +90,45 @@
             app:layout_constraintStart_toEndOf="@+id/etClass"
             app:layout_constraintTop_toTopOf="@+id/etClass" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clName"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/gray_200"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etGrade">
+
+            <TextView
+                android:id="@+id/tvRealName"
+                style="@style/DMS.NotoSans.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/gray_700"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/btnOKName"
+                style="@style/DMS.NotoSans.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/Check"
+                android:textColor="@color/gray_600"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etReEnterPassword"
+            android:id="@+id/etId"
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -102,8 +140,20 @@
             android:textColor="@color/gray_900"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etEnterPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/clName" />
 
+        <TextView
+            android:id="@+id/tvError"
+            style="@style/DMS.NotoSans.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/using_id"
+            android:textColor="@color/error"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/etId"
+            app:layout_constraintTop_toBottomOf="@+id/etId" />
 
         <com.example.dms_android.customui.RegisterCustomButton
             android:id="@+id/btnVerificationCode"
