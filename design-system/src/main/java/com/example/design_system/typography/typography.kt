@@ -120,7 +120,7 @@ object DormTypography {
     @Stable
     val overline = TextStyle(
         fontFamily = NotoSansFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 10.sp,
         lineHeight = 14.sp,
     )
