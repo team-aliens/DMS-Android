@@ -1,21 +1,13 @@
 package com.example.dms_android.viewmodel.notice
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.MainActivity
-import com.example.dms_android.feature.mypage.MyPageEvent
-import com.example.dms_android.feature.mypage.MyPageState
 import com.example.dms_android.feature.notice.NoticeEvent
 import com.example.dms_android.feature.notice.NoticeState
-import com.example.dms_android.util.ConnectivityObserver
 import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.NetworkConnectivityObserver
 import com.example.dms_android.util.asEventFlow
 import com.example.domain.entity.notice.NoticeDetailEntity
 import com.example.domain.entity.notice.NoticeListEntity
-import com.example.domain.enums.NoticeListSCType
 import com.example.domain.exception.BadRequestException
 import com.example.domain.exception.ForbiddenException
 import com.example.domain.exception.ServerException
@@ -26,12 +18,9 @@ import com.example.domain.usecase.notice.RemoteNoticeListUseCase
 import com.example.local_domain.usecase.notice.LocalNoticeDetailUseCase
 import com.example.local_domain.usecase.notice.LocalNoticeListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
