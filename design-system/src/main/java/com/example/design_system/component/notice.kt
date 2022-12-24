@@ -22,8 +22,8 @@ import com.example.design_system.typography.Body4
 import com.example.design_system.typography.OverLine
 
 data class Notice(
-    val title: String,
-    val createAt: String,
+    var title: String,
+    var createAt: String,
 )
 
 @Composable
