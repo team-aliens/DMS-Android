@@ -1,8 +1,8 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
 }
 
 android {
@@ -38,14 +38,17 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
+    implementation ("com.google.code.gson:gson:2.9.0")
+
+    implementation(Dependency.Ui.LOCALDATETIME)
     implementation(Dependency.Moshi.MOSHI)
-    annotationProcessor(Dependency.Moshi.MOSHI_COMPILER)
+    kapt(Dependency.Moshi.MOSHI_COMPILER)
 
     implementation(Dependency.DataStore.DATASTORE_PREF)
     implementation(Dependency.DataStore.DATASTORE_PREF_CORE)
 
     implementation(Dependency.Room.ROOM_KTX)
-    annotationProcessor(Dependency.Room.ROOM_COMPILER)
+    kapt(Dependency.Room.ROOM_COMPILER)
 
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.INJECT)

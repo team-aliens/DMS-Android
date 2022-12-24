@@ -1,8 +1,8 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
 }
 
 android {
@@ -33,6 +33,8 @@ android {
 
 dependencies {
     implementation(Dependency.UnitTest.JUNIT)
+
+    implementation(Dependency.Ui.LOCALDATETIME)
 
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.INJECT)
