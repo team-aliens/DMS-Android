@@ -47,7 +47,7 @@ class HttpHandler<T> {
         this.apply { this.onConflict = onConflict }
 
     fun onTooManyRequest(onTooManyRequest: (message: String) -> Throwable) =
-        this.apply { this.onTooManyRequest = onConflict }
+        this.apply { this.onTooManyRequest = onTooManyRequest }
 
     fun onServerError(onServerError: (code: Int) -> Throwable) =
         this.apply { this.onServerError = onServerError }
