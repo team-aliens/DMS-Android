@@ -1,8 +1,11 @@
 package com.example.dms_android.feature.notice
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,35 +21,80 @@ import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
 import com.example.design_system.component.Notice
 import com.example.design_system.component.NoticeList
 import com.example.design_system.icon.DormIcon
+import com.example.design_system.toast.rememberToast
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
+import com.example.dms_android.feature.navigator.NavigationRoute
+import com.example.dms_android.viewmodel.auth.login.SignInViewModel
+import com.example.dms_android.viewmodel.notice.NoticeViewModel
+import com.example.domain.entity.notice.NoticeListEntity
+import com.example.domain.enums.NoticeListSCType
 
 @Composable
 fun NoticeScreen(
-    navController: NavController
+    navController: NavController,
+    noticeViewModel: NoticeViewModel = hiltViewModel()
 ) {
 
+    LaunchedEffect(key1 = noticeViewModel) {
+        noticeViewModel.fetchNoticeList()
+    }
+
     val notices = listOf(
-        Notice(
-            title = "방 좀 치우고 살아주세요 ㅎㅎ",
-            createAt = "2022.10.14 PM 08:33",
-        ),
-        Notice(
-            title = "방에서도 마스크를 착용해주세요",
-            createAt = "2022.10.15 PM 08:33",
-        ),
+        Notice("", "")
     )
+
+    val toast = rememberToast()
+
+    val badRequestComment = stringResource(id = R.string.BadRequest)
+    val unAuthorizedComment = stringResource(id = R.string.UnAuthorized)
+    val forbidden = stringResource(id = R.string.Forbidden)
+    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
+    val serverException = stringResource(id = R.string.ServerException)
+    val noInternetException = stringResource(id = R.string.NoInternetException)
+
+    LaunchedEffect(Unit) {
+        noticeViewModel.noticeViewEffect.collect {
+            when (it) {
+                is NoticeViewModel.Event.FetchNoticeList -> {
+
+                }
+                is NoticeViewModel.Event.BadRequestException -> {
+                    toast(badRequestComment)
+                }
+                is NoticeViewModel.Event.UnAuthorizedTokenException -> {
+                    toast(unAuthorizedComment)
+                }
+                is NoticeViewModel.Event.CannotConnectException -> {
+                    toast(forbidden)
+                }
+                is NoticeViewModel.Event.TooManyRequestException -> {
+                    toast(tooManyRequestComment)
+                }
+                is NoticeViewModel.Event.InternalServerException -> {
+                    toast(serverException)
+                }
+                is NoticeViewModel.Event.UnknownException -> {
+                    toast(noInternetException)
+                }
+                else -> {}
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -54,14 +102,32 @@ fun NoticeScreen(
             .background(DormColor.Gray200),
     ) {
         NoticeTopBar()
-        NoticeOrderButton()
+        NoticeOrderButton(noticeViewModel)
         NoticeList(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp, start = 20.dp, end = 20.dp),
             notices = notices,
-            onClick = {},
+            onClick = {
+
+            },
         )
+    }
+    fun NoticeListEntity.NoticeValue.toNoticeString() =
+        Notice(
+            title = title,
+            createAt = createAt
+        )
+}
+
+fun insertNoticeValue(
+    notices: List<Notice>,
+    noticeListEntity: NoticeListEntity,
+) {
+
+    for (i: Int in 0 until noticeListEntity.notices.size) {
+        notices[i].createAt = noticeListEntity.notices[i].createAt
+        notices[i].title = noticeListEntity.notices[i].title
     }
 }
 
@@ -79,10 +145,12 @@ fun NoticeTopBar() {
 }
 
 @Composable
-fun NoticeOrderButton() {
+fun NoticeOrderButton(
+    noticeViewModel: NoticeViewModel
+) {
     Button(
         onClick = { /*TODO*/ },
-        colors= ButtonDefaults.buttonColors(backgroundColor = DormColor.Gray100),
+        colors = ButtonDefaults.buttonColors(backgroundColor = DormColor.Gray100),
         modifier = Modifier
             .padding(start = 20.dp)
             .border(
@@ -92,14 +160,24 @@ fun NoticeOrderButton() {
             )
             .size(width = 82.dp, height = 40.dp),
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            contentAlignment = Alignment.Center
         ) {
             Text(
-                text = stringResource(id = R.string.New),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable {
+                        if (noticeViewModel.state.value.type == NoticeListSCType.NEW) {
+                            noticeViewModel.state.value.type = NoticeListSCType.OLD
+                            noticeViewModel.fetchNoticeList()
+                        } else {
+                            noticeViewModel.state.value.type = NoticeListSCType.NEW
+                            noticeViewModel.fetchNoticeList()
+                        }
+                    },
+                text = "최신순",
             )
         }
     }
