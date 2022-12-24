@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -29,6 +30,7 @@ import com.example.design_system.color.DormColor
 import com.example.dms_android.feature.cafeteria.CafeteriaScreen
 import com.example.dms_android.feature.mypage.MyPageScreen
 import com.example.dms_android.feature.notice.NoticeScreen
+import com.example.dms_android.viewmodel.mypage.MyPageViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -52,7 +54,7 @@ fun DmsApp(
             composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
             composable(BottomNavigationItem.Survey.route) { /*TODO("아직 구현 안됨")*/ }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
-            composable(BottomNavigationItem.MyPage.route) { MyPageScreen(navController = navController) }
+            composable(BottomNavigationItem.MyPage.route) { MyPageScreen(navController = navController, scaffoldState = scaffoldState) }
         }
     }
 }

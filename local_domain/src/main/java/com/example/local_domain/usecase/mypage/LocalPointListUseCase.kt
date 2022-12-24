@@ -3,6 +3,7 @@ package com.example.local_domain.usecase.mypage
 import com.example.local_domain.entity.mypage.PointListValueEntity
 import com.example.local_domain.repository.mypage.LocalMyPageRepository
 import com.example.local_domain.usecase.UseCase
+import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
 class LocalPointListUseCase @Inject constructor(

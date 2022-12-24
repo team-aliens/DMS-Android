@@ -220,7 +220,8 @@ fun CafeteriaViewPager() {
     ) {
         Image(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxWidth()
+                .height(500.dp),
             painter = painterResource(id = R.drawable.photo_cafeteria_background),
             contentDescription = stringResource(id = R.string.CafeteriaBackground)
         )
