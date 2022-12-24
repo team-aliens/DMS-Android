@@ -1,8 +1,8 @@
 package com.example.data.repository
 
 import com.example.data.remote.request.user.GetEmailCodeRequest
-import com.example.auth_data.remote.request.user.SignInRequest
-import com.example.auth_data.remote.response.user.SignInResponse
+import com.example.data.remote.request.user.SignInRequest
+import com.example.data.remote.response.user.SignInResponse
 import com.example.data.remote.datasource.declaration.RemoteUserDataSource
 import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.user.AuthInfoEntity
@@ -38,6 +38,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam,
     ) = remoteUserDataSource.requestEmailCode(requestEmailCodeParam.toRequest())
+
 
     override suspend fun checkEmailCode(
         checkEmailCodeParam: CheckEmailCodeParam,

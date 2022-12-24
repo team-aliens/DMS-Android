@@ -1,4 +1,4 @@
-package com.example.auth_data.remote.response.schools
+package com.example.data.remote.response.schools
 
 import com.google.gson.annotations.SerializedName
 

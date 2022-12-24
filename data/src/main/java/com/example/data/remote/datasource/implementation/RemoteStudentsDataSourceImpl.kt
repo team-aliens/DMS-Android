@@ -41,7 +41,7 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
         }.sendRequest()
 
     override suspend fun resetPassword(
-        resetPasswordRequest: ResetPasswordRequest
+        resetPasswordRequest: ResetPasswordRequest,
     ) = HttpHandler<Unit>()
         .httpRequest {
             studentsApi.resetPassword(
@@ -53,7 +53,7 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
         schoolId: UUID,
         grade: Int,
         classRoom: Int,
-        number: Int
+        number: Int,
     ) = HttpHandler<ExamineGradeResponse>()
         .httpRequest {
             studentsApi.examineGrade(

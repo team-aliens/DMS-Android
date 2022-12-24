@@ -1,4 +1,4 @@
-package com.example.auth_domain.usecase.schools
+package com.example.domain.usecase.schools
 
 import com.example.domain.entity.user.SchoolIdEntity
 import com.example.domain.repository.SchoolsRepository

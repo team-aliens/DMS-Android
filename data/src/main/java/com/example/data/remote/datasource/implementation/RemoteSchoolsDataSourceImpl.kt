@@ -1,7 +1,7 @@
 package com.example.data.remote.datasource.implementation
 
-import com.example.auth_data.remote.response.schools.SchoolConfirmQuestionResponse
-import com.example.auth_data.remote.response.schools.SchoolIdResponse
+import com.example.data.remote.response.schools.SchoolConfirmQuestionResponse
+import com.example.data.remote.response.schools.SchoolIdResponse
 import com.example.data.remote.api.SchoolsApi
 import com.example.data.remote.datasource.declaration.RemoteSchoolsDataSource
 import com.example.data.util.HttpHandler

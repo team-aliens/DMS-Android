@@ -16,7 +16,6 @@ interface UserRepository {
     suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam
     )
-
     suspend fun checkEmailCode(
         checkEmailCodeParam: CheckEmailCodeParam,
     )

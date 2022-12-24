@@ -1,7 +1,7 @@
 package com.example.data.remote.api
 
-import com.example.auth_data.remote.response.schools.SchoolConfirmQuestionResponse
-import com.example.auth_data.remote.response.schools.SchoolIdResponse
+import com.example.data.remote.response.schools.SchoolIdResponse
+import com.example.data.remote.response.schools.SchoolConfirmQuestionResponse
 import com.example.data.remote.url.DmsUrl
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -10,7 +10,7 @@ import java.util.UUID
 
 interface SchoolsApi {
 
-    @GET(DmsUrl.Schools.schoolQuestions)
+    @GET(DmsUrl.Schools.schoolQuestion)
     suspend fun schoolQuestion(
         @Path("school-id") schoolId: UUID
     ): SchoolConfirmQuestionResponse

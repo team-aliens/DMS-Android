@@ -1,7 +1,5 @@
 package com.example.dms_android.viewmodel.auth.register.email
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.user.RemoteCheckEmailUseCase
 import com.example.domain.usecase.user.RemoteRequestEmailCodeUseCase
@@ -28,30 +26,18 @@ class RegisterEmailViewModel @Inject constructor(
     private val remoteCheckEmailUseCase: RemoteCheckEmailUseCase,
 ) : BaseViewModel<RegisterEmailState, RegisterEmailEvent>() {
 
-    var _email: MutableLiveData<String> = MutableLiveData()
-    var email: LiveData<String> = _email
-
-    var _authCode: MutableLiveData<String> = MutableLiveData()
-    var authCode: LiveData<String> = _authCode
-
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
     val registerEmailEvent = _registerEmailEvent.asEventFlow()
 
-    private val requestEmailParameter = RequestEmailCodeParam(
-        email = email.value.toString(),
-        type = EmailType.SIGNUP,
-    )
-
-    private val checkEmailParam = CheckEmailCodeParam(
-        email = email.value.toString(),
-        type = EmailType.SIGNUP,
-        authCode = authCode.value.toString(),
-    )
-
-    fun sendEmailNumber() {
+    fun requestEmailCode(email: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteRequestEmailCodeUseCase.execute(requestEmailParameter)
+                remoteRequestEmailCodeUseCase.execute(
+                    RequestEmailCodeParam(
+                        email = email,
+                        type = EmailType.SIGNUP
+                    )
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.SendEmailSuccess)
             }.onFailure {
@@ -65,10 +51,16 @@ class RegisterEmailViewModel @Inject constructor(
         }
     }
 
-    fun checkEmailCode() {
+    fun checkEmailCode(email: String, authCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteCheckEmailUseCase.execute(checkEmailParam)
+                remoteCheckEmailUseCase.execute(
+                    CheckEmailCodeParam(
+                        email = email,
+                        type = EmailType.SIGNUP,
+                        authCode = authCode,
+                    )
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.CheckEmailSuccess)
             }.onFailure {
