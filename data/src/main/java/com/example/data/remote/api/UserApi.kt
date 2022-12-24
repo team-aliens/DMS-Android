@@ -5,7 +5,6 @@ import com.example.data.remote.request.user.SignInRequest
 import com.example.data.remote.response.user.SignInResponse
 import com.example.data.remote.url.DmsUrl
 import com.example.domain.enums.EmailType
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -14,9 +13,10 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface UserApi {
+
     @POST(DmsUrl.User.login)
     suspend fun postLogin(
-        signInRequest: SignInRequest,
+        @Body signInRequest: SignInRequest,
     ): SignInResponse
 
     @POST(DmsUrl.User.emailCode)
