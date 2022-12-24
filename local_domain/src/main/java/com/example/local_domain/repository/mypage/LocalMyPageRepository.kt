@@ -2,6 +2,7 @@ package com.example.local_domain.repository.mypage
 
 import com.example.local_domain.entity.mypage.PointListValueEntity
 import com.example.local_domain.param.MyPageParam
+import org.threeten.bp.LocalDateTime
 
 interface LocalMyPageRepository {
 

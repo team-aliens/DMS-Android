@@ -2,6 +2,7 @@ package com.example.local_database.datasource.declaration
 
 import com.example.local_database.entity.mypage.PointListRoomEntity
 import com.example.local_database.param.mypage.MyPageLocalParam
+import org.threeten.bp.LocalDateTime
 
 interface LocalMyPageDataSource {
 

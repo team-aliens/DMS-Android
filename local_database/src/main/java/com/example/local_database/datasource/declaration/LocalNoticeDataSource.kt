@@ -2,6 +2,7 @@ package com.example.local_database.datasource.declaration
 
 import com.example.local_database.entity.notice.NoticeDetailRoomEntity
 import com.example.local_database.entity.notice.NoticeListRoomEntity
+import com.example.local_domain.enums.NoticeListSCType
 import java.util.UUID
 
 interface LocalNoticeDataSource {
@@ -12,5 +13,5 @@ interface LocalNoticeDataSource {
 
     suspend fun saveNoticeList(noticeListRoomEntity: NoticeListRoomEntity)
 
-    suspend fun fetchNoticeList(): NoticeListRoomEntity
+    suspend fun fetchNoticeList(order: String): NoticeListRoomEntity
 }

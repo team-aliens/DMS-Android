@@ -9,13 +9,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
-    suspend fun login(
+    suspend fun userSignIn(
         loginParam: LoginParam,
-    ): Flow<AuthInfoEntity>
+    )
 
     suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam
     )
+
     suspend fun checkEmailCode(
         checkEmailCodeParam: CheckEmailCodeParam,
     )

@@ -4,6 +4,7 @@ import com.example.local_database.dao.NoticeDao
 import com.example.local_database.datasource.declaration.LocalNoticeDataSource
 import com.example.local_database.entity.notice.NoticeDetailRoomEntity
 import com.example.local_database.entity.notice.NoticeListRoomEntity
+import com.example.local_domain.enums.NoticeListSCType
 import java.util.UUID
 import javax.inject.Inject
 
@@ -27,6 +28,6 @@ class LocalNoticeDataSourceImpl @Inject constructor(
         noticeDao.saveNoticeList(noticeListRoomEntity)
     }
 
-    override suspend fun fetchNoticeList(): NoticeListRoomEntity =
-        noticeDao.fetchNoticeList()
+    override suspend fun fetchNoticeList(order: String): NoticeListRoomEntity =
+        noticeDao.fetchNoticeList(order)
 }

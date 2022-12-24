@@ -11,6 +11,7 @@ import com.example.domain.repository.NoticeRepository
 import com.example.local_database.datasource.declaration.LocalNoticeDataSource
 import com.example.local_database.entity.notice.NoticeDetailRoomEntity
 import com.example.local_database.entity.notice.NoticeListRoomEntity
+import com.example.local_database.entity.notice.toEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 import javax.inject.Inject
@@ -30,6 +31,7 @@ class NoticeRepositoryImpl @Inject constructor(
     ): Flow<NoticeListEntity> =
         OfflineCacheUtil<NoticeListEntity>()
             .remoteData { remoteNoticeDataSource.fetchNoticeList(order).toEntity() }
+            .localData { localNoticeDataSource.fetchNoticeList(order.toString()).toDmEntity() }
             .doOnNeedRefresh { localNoticeDataSource.saveNoticeList(it.toDbEntity()) }
             .createFlow()
 
@@ -65,3 +67,15 @@ fun NoticeDetailEntity.toDbEntity() =
             createAt = createAt,
         )
     }
+
+fun NoticeListRoomEntity.NoticeLocalValue.toDmEntity() =
+    NoticeListEntity.NoticeValue(
+        id = id,
+        title = title,
+        createAt = createAt,
+    )
+
+fun NoticeListRoomEntity.toDmEntity() =
+    NoticeListEntity(
+        notices = notices.map { it.toDmEntity() }
+    )

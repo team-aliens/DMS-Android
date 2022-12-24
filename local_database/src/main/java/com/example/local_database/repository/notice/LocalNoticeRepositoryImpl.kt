@@ -12,7 +12,7 @@ class LocalNoticeRepositoryImpl @Inject constructor(
     private val localNoticeDataSource: LocalNoticeDataSource
 ): LocalNoticeRepository {
     override suspend fun fetchNoticeList(): NoticeListLocalEntity =
-        localNoticeDataSource.fetchNoticeList().toEntity()
+        localNoticeDataSource.fetchNoticeList("").toEntity()
 
     override suspend fun fetchNoticeDetail(noticeId: UUID): NoticeDetailLocalEntity =
         localNoticeDataSource.fetchNoticeDetail(noticeId).toEntity()

@@ -6,6 +6,7 @@ import com.example.data.remote.response.user.SignInResponse
 import com.example.data.remote.api.UserApi
 import com.example.data.remote.datasource.declaration.RemoteUserDataSource
 import com.example.data.util.HttpHandler
+import com.example.data.util.sendHttpRequest
 import com.example.domain.enums.EmailType
 import javax.inject.Inject
 
@@ -13,15 +14,8 @@ class RemoteUserDataSourceImpl @Inject constructor(
     private val userApi: UserApi,
 ) : RemoteUserDataSource {
 
-    override suspend fun postUserSignIn(
-        signInRequest: SignInRequest,
-    ) = HttpHandler<SignInResponse>()
-        .httpRequest {
-            userApi.postLogin(
-                signInRequest,
-            )
-        }
-        .sendRequest()
+    override suspend fun postUserSignIn(signInRequest: SignInRequest): SignInResponse =
+        sendHttpRequest(httpRequest = { userApi.postLogin(signInRequest) })
 
     override suspend fun requestEmailCode(
         requestEmailCodeRequest: GetEmailCodeRequest,

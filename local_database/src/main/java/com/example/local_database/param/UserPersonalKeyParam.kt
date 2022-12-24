@@ -1,7 +1,7 @@
 package com.example.local_database.param
 
 import com.example.local_domain.entity.UserVisibleLocalEntity
-import java.time.LocalDateTime
+import org.threeten.bp.LocalDateTime
 
 data class UserPersonalKeyParam(
     val accessToken: String,
