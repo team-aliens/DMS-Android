@@ -3,9 +3,8 @@ package com.example.local_database.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.local_database.converter.MealTypeConverter
 import com.example.local_database.converter.NoticeListTypeConverter
-import com.example.local_database.converter.PointListTypeConverter
+import com.example.local_database.converter.StringListTypeConverter
 import com.example.local_database.dao.MealDao
 import com.example.local_database.dao.NoticeDao
 import com.example.local_database.dao.PointDao
@@ -25,9 +24,8 @@ import com.example.local_database.entity.notice.NoticeListRoomEntity
 
 @TypeConverters(
     value = [
-        MealTypeConverter::class,
         NoticeListTypeConverter::class,
-        PointListTypeConverter::class,
+        StringListTypeConverter::class,
     ]
 )
 
