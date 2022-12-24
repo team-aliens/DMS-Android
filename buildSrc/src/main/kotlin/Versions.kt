@@ -29,7 +29,7 @@ object Versions {
     const val GLIDE = "4.13.0"
 
     const val RETROFIT = "2.7.1"
-    const val OKHTTP = "3.14.9"
+    const val OKHTTP = "4.9.3"
 
     const val JUNIT = "4.13.2"
     const val MOCKITO = "4.2.0"
@@ -53,4 +53,6 @@ object Versions {
     const val CIRCLEIMAGEVIEW = "3.1.0"
 
     const val VIEWPAGER = "0.23.1"
+
+    const val LOCALDATETIME = "1.3.1"
 }

@@ -1,8 +1,8 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
 }
 
 android {
@@ -42,16 +42,16 @@ dependencies {
     implementation(Dependency.Moshi.MOSHI)
     kapt(Dependency.Moshi.MOSHI_COMPILER)
 
+    implementation(Dependency.Ui.LOCALDATETIME)
+
     implementation(Dependency.Hilt.HILT_ANDROID)
     implementation(Dependency.Hilt.INJECT)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation("com.squareup.okhttp3:okhttp:4.2.2" )
     implementation(Dependency.Retrofit.OKHTTP_LOGGING)
-
-    implementation(Dependency.Room.ROOM_KTX)
-    kapt(Dependency.Room.ROOM_COMPILER)
 
     implementation(Dependency.Kotlin.COROUTINES_CORE)
     implementation(Dependency.Kotlin.COROUTINES_ANDROID)
