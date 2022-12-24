@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.local_database.entity.mypage.PointListRoomEntity
 import com.example.local_database.tablename.TableName
+import org.threeten.bp.LocalDateTime
 
 @Dao
 interface PointDao {
