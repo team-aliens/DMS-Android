@@ -1,9 +1,10 @@
 package com.example.dms_android.feature.register.event.id
 
 import com.example.dms_android.base.MviEvent
+import com.example.domain.entity.user.ExamineGradeEntity
 
 sealed class SetIdEvent : MviEvent {
-    object ExamineGradeSuccess : SetIdEvent()
+    data class ExamineGradeName(val examineGradeEntity: ExamineGradeEntity) : SetIdEvent()
     object DuplicateIdSuccess : SetIdEvent()
     object ExamineGradeBadRequestException : SetIdEvent()
     object ExamineGradeNotFoundException : SetIdEvent()

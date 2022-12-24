@@ -5,6 +5,7 @@ import com.example.auth_data.remote.request.students.SignUpRequest
 import com.example.auth_data.remote.response.students.ExamineGradeResponse
 import com.example.auth_data.remote.response.students.SignUpResponse
 import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
+import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.user.ExamineGradeEntity
 import com.example.domain.param.ExamineGradeParam
 import com.example.domain.param.RegisterParam
@@ -12,6 +13,7 @@ import com.example.domain.param.ResetPasswordParam
 import com.example.domain.repository.StudentsRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
 import com.example.local_database.param.FeaturesParam
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class StudentsRepositoryImpl @Inject constructor(
@@ -38,13 +40,17 @@ class StudentsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun examineGrade(examineGradeParam: ExamineGradeParam): ExamineGradeEntity =
-        remoteStudentsDataSource.examineGrade(
-            schoolId = examineGradeParam.schoolId,
-            grade = examineGradeParam.grade,
-            number = examineGradeParam.number,
-            classRoom = examineGradeParam.classRoom,
-        ).toEntity()
+    override suspend fun examineGrade(examineGradeParam: ExamineGradeParam): Flow<ExamineGradeEntity> =
+        OfflineCacheUtil<ExamineGradeEntity>()
+            .remoteData {
+                remoteStudentsDataSource.examineGrade(
+                    schoolId = examineGradeParam.schoolId,
+                    grade = examineGradeParam.grade,
+                    classRoom = examineGradeParam.classRoom,
+                    number = examineGradeParam.number,
+                ).toEntity()
+            }.createRemoteFlow()
+
 
     private fun SignUpResponse.Features.toEntity() =
         FeaturesParam(

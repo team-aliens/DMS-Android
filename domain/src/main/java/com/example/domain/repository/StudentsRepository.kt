@@ -4,6 +4,7 @@ import com.example.domain.entity.user.ExamineGradeEntity
 import com.example.domain.param.ExamineGradeParam
 import com.example.domain.param.RegisterParam
 import com.example.domain.param.ResetPasswordParam
+import kotlinx.coroutines.flow.Flow
 
 interface StudentsRepository {
 
@@ -25,5 +26,5 @@ interface StudentsRepository {
 
     suspend fun examineGrade(
         examineGradeParam: ExamineGradeParam
-    ): ExamineGradeEntity
+    ): Flow<ExamineGradeEntity>
 }
