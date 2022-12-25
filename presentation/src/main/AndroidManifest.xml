@@ -23,6 +23,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity
+            android:name=".feature.RegisterActivity"
+            android:exported="false" />
         <activity
             android:name=".feature.MainActivity"
             android:exported="true"

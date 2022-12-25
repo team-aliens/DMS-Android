@@ -24,7 +24,6 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     R.layout.fragment_school_certification
 ) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
-    private val setIdViewModel: SetIdViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +44,6 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
 
                 val bundle = Bundle()
                 bundle.putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
-                setIdViewModel.schoolId = examineSchoolCodeViewModel.schoolId
 
                 val fragment = ConfirmSchoolFragment()
                 fragment.arguments = bundle
