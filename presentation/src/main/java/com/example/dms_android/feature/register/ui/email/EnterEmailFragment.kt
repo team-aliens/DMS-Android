@@ -15,6 +15,7 @@ import com.example.dms_android.util.emailValidation
 import com.example.dms_android.util.visible
 import com.example.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
@@ -22,12 +23,15 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
     R.layout.fragment_enter_email
 ) {
     private var emailAddress: String = ""
+    private var inputData = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        val args = arguments
+        inputData = args?.get("schoolId") as String
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -73,6 +77,7 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
             val fragment = EmailCertificationFragment()
 
             bundle.putString("email", emailAddress)
+            bundle.putString("schoolId", inputData)
             fragment.arguments = bundle
 
             registerActive.supportFragmentManager.beginTransaction()

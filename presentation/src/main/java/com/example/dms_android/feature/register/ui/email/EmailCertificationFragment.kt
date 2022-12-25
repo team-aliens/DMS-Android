@@ -25,19 +25,18 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
 ) {
     private val registerEmailViewModel: RegisterEmailViewModel by viewModels()
     private var email: String = ""
+    private var inputSchoolIdData : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        Log.d("d", "onCreateView: active")
-
         val args = arguments
         val inputData = args?.get("email")
+        inputSchoolIdData = args?.get("schoolId") as String
 
         email = inputData.toString()
-        println(inputData.toString())
 
         registerEmailViewModel.requestEmailCode(email)
 
@@ -52,8 +51,14 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
         when (event) {
             is RegisterEmailEvent.CheckEmailSuccess -> {
                 val registerActive = activity as RegisterActivity
+                val bundle = Bundle()
+                bundle.putString("schoolId", inputSchoolIdData)
+
+                val fragment = SetIdFragment()
+                fragment.arguments = bundle
+
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, SetIdFragment())
+                    .replace(R.id.containerRegister, fragment)
                     .addToBackStack("EmailCertification")
                     .commit()
             }

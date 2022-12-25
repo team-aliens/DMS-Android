@@ -19,7 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
-    private const val BASE_URL = "DSM-DMS.com"
+
+    private const val BASE_URL = "http://google.com/"
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =

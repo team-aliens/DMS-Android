@@ -32,6 +32,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
 
     private var answer: String = ""
+    private var inputData = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +40,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         savedInstanceState: Bundle?,
     ): View? {
         val args = arguments
-        val inputData = args?.get("schoolId")
+        inputData = args?.get("schoolId") as String
 
         val uuid = UUID.fromString(inputData.toString())
         confirmSchoolViewModel.schoolId = uuid
@@ -57,8 +58,15 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         when (event) {
             is ConfirmSchoolEvent.CompareSchoolAnswerSuccess -> {
                 val registerActive = activity as RegisterActivity
+
+                val bundle = Bundle()
+                bundle.putString("schoolId", inputData)
+
+                val fragment = EnterEmailFragment()
+                fragment.arguments = bundle
+
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, EnterEmailFragment())
+                    .replace(R.id.containerRegister, fragment)
                     .commit()
             }
 
