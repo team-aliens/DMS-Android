@@ -1,33 +1,27 @@
 package com.example.local_database.entity.meal
 
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.local_database.tablename.TableName
 import com.example.local_domain.entity.meal.MealEntity
-import java.time.LocalDateTime
 
 @Entity(tableName = TableName.MEAL_LIST)
 data class MealRoomEntity(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
-    val meals: List<MealsRoomValue>,
-) {
-    data class MealsRoomValue(
-        val date: LocalDateTime,
-        val breakfast: List<String>,
-        val lunch: List<String>,
-        val dinner: List<String>,
-    )
-}
+    @PrimaryKey var date: String,
+    var breakfast: List<String>,
+    var lunch: List<String>,
+    var dinner: List<String>,
+)
 
-private fun MealRoomEntity.MealsRoomValue.toEntity() =
-    MealEntity.MealValues(
+internal fun MealRoomEntity.toEntity() =
+    MealEntity(
         date = date,
         breakfast = breakfast,
         lunch = lunch,
         dinner = dinner,
     )
 
-fun MealRoomEntity.toEntity() =
-    MealEntity(
-        meals = meals.map { it.toEntity() }
-    )
+internal fun List<MealRoomEntity>.toEntity() =
+    map { it.toEntity() }

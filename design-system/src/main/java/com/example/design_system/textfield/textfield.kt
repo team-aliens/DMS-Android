@@ -64,9 +64,7 @@ fun DormTextField(
     Column {
         Box(
             modifier = modifier
-                .height(
-                    height = 44.dp,
-                )
+                .height(44.dp)
                 .background(
                     shape = RoundedCornerShape(
                         size = 5.dp,
@@ -98,12 +96,8 @@ fun DormTextField(
             ) {
                 BasicTextField(
                     modifier = Modifier
-                        .fillMaxWidth(
-                            fraction = 0.9f,
-                        )
-                        .padding(
-                            start = 14.dp,
-                        ),
+                        .fillMaxWidth(0.9f,)
+                        .padding(start = 14.dp),
                     value = value,
                     onValueChange = onValueChange,
                     keyboardOptions = KeyboardOptions(
@@ -147,7 +141,7 @@ fun DormTextField(
         if (error != null) {
             Box(
                 modifier = Modifier.padding(
-                    start = 16.dp,
+                    start = 3.dp,
                     top = 6.dp,
                 ),
             ) {

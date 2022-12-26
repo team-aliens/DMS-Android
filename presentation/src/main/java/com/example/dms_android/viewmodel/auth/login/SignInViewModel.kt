@@ -1,28 +1,33 @@
 package com.example.dms_android.viewmodel.auth.login
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.auth_domain.exception.BadRequestException
-import com.example.auth_domain.exception.NotFoundException
-import com.example.auth_domain.exception.ServerException
-import com.example.auth_domain.exception.TooManyRequestException
-import com.example.auth_domain.exception.UnauthorizedException
-import com.example.auth_domain.param.LoginParam
-import com.example.auth_domain.usecase.user.RemoteSignInUseCase
+import com.example.domain.usecase.user.RemoteSignInUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.auth.login.SignInEvent
 import com.example.dms_android.feature.auth.login.SignInState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
+import com.example.domain.exception.BadRequestException
+import com.example.domain.exception.NoInternetException
+import com.example.domain.exception.NotFoundException
+import com.example.domain.exception.ServerException
+import com.example.domain.exception.TooManyRequestException
+import com.example.domain.exception.UnauthorizedException
+import com.example.domain.exception.UnknownException
+import com.example.domain.param.LoginParam
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val remoteSignInUseCase: RemoteSignInUseCase
+    private val remoteSignInUseCase: RemoteSignInUseCase,
 ) : BaseViewModel<SignInState, SignInEvent>() {
 
-    private val parameter =
+    private var parameter =
         LoginParam(id = state.value.id, password = state.value.password)
 
     fun setId(id: String) {
@@ -36,25 +41,36 @@ class SignInViewModel @Inject constructor(
     override val initialState: SignInState
         get() = SignInState.initial()
 
-    private val _signInEvent = MutableEventFlow<SignInEvent>()
-    val signInViewEvent = _signInEvent.asEventFlow()
+    private val _signInViewEffect = MutableEventFlow<Event>()
+    var signInViewEffect = _signInViewEffect.asEventFlow()
 
-    fun signIn() {
+
+    fun postSignIn() {
+        parameter =
+            LoginParam(id = state.value.id, password = state.value.password)
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteSignInUseCase.execute(parameter)
             }.onSuccess {
-                SignInEvent.SignInSuccess
+                event(Event.NavigateToHome)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> SignInEvent.BadRequestException
-                    is UnauthorizedException -> SignInEvent.UnAuthorizedException
-                    is NotFoundException -> SignInEvent.NotFoundException
-                    is TooManyRequestException -> SignInEvent.TooManyRequestException
-                    is ServerException -> SignInEvent.InternalServerException
-                    else -> SignInEvent.UnKnownException
+                    is BadRequestException -> event(Event.WrongRequest)
+                    is UnauthorizedException -> event(Event.NotCorrectPassword)
+                    is NotFoundException -> event(Event.UserNotFound)
+                    is TooManyRequestException -> event(Event.TooManyRequest)
+                    is NoInternetException -> event(Event.NoInternetException)
+                    is ServerException -> event(Event.ServerException)
+                    else -> event(Event.UnKnownException)
                 }
             }
+        }
+    }
+
+    private fun event(event: Event) {
+        viewModelScope.launch {
+            _signInViewEffect.emit(event)
+            signInViewEffect = _signInViewEffect.asEventFlow()
         }
     }
 
@@ -68,5 +84,16 @@ class SignInViewModel @Inject constructor(
             }
             else -> {}
         }
+    }
+
+    sealed class Event() {
+        object NavigateToHome : Event()
+        object WrongRequest : Event()
+        object NotCorrectPassword : Event()
+        object UserNotFound : Event()
+        object TooManyRequest : Event()
+        object ServerException : Event()
+        object NoInternetException : Event()
+        object UnKnownException : Event()
     }
 }

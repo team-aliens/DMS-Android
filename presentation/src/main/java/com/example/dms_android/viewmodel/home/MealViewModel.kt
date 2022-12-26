@@ -1,20 +1,19 @@
 package com.example.dms_android.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
-import com.example.auth_domain.exception.BadRequestException
-import com.example.auth_domain.exception.ServerException
-import com.example.auth_domain.exception.TooManyRequestException
-import com.example.auth_domain.exception.UnauthorizedException
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.home.MealEvent
 import com.example.dms_android.feature.register.state.home.MealState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
-import com.example.feature_domain.exception.ForbiddenException
-import com.example.feature_domain.usecase.meal.RemoteMealUseCase
+import com.example.domain.exception.BadRequestException
+import com.example.domain.exception.ForbiddenException
+import com.example.domain.exception.ServerException
+import com.example.domain.exception.TooManyRequestException
+import com.example.domain.exception.UnauthorizedException
+import com.example.domain.usecase.meal.RemoteMealUseCase
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class MealViewModel @Inject constructor(

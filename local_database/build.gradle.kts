@@ -1,8 +1,8 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
 }
 
 android {
@@ -38,6 +38,9 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
+    implementation (Dependency.GSON.GSON)
+
+    implementation(Dependency.Ui.LOCALDATETIME)
     implementation(Dependency.Moshi.MOSHI)
     kapt(Dependency.Moshi.MOSHI_COMPILER)
 

@@ -1,11 +1,12 @@
 package com.example.di
 
-import com.example.auth_data.remote.api.SchoolsApi
-import com.example.auth_data.remote.api.StudentsApi
-import com.example.auth_data.remote.api.UserApi
-import com.example.feature_data.remote.api.MealApi
-import com.example.feature_data.remote.api.MyPageApi
-import com.example.feature_data.remote.api.NoticeApi
+import com.example.data.intercepter.AuthorizationInterceptor
+import com.example.data.remote.api.MealApi
+import com.example.data.remote.api.MyPageApi
+import com.example.data.remote.api.NoticeApi
+import com.example.data.remote.api.SchoolsApi
+import com.example.data.remote.api.StudentsApi
+import com.example.data.remote.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
-    private const val BASE_URL = "BASE_URL"
+
+    private const val BASE_URL = "http://google.com/"
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
@@ -27,9 +29,11 @@ object NetWorkModule {
 
     @Provides
     fun provideOkHttpclient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authorizationInterceptor: AuthorizationInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authorizationInterceptor)
         .build()
 
     @Provides

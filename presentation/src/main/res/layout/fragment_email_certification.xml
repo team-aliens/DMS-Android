@@ -80,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="3"
+            android:layout_marginEnd="16dp"
             android:textColor="@color/primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

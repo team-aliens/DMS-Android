@@ -32,6 +32,12 @@ object Dependency {
         const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
 
         const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
+
+        const val LOCALDATETIME = "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
+    }
+
+    object GSON {
+        const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
     }
 
     object Lifecycle {
@@ -53,6 +59,7 @@ object Dependency {
     object Room {
         const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
         const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
+        const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
         const val ROOM = "androidx.room:room-common:${Versions.ROOM}"
     }
 
@@ -74,7 +81,8 @@ object Dependency {
         const val COMPOSE_HILT_NAV = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAV}"
         const val VIEWPAGER = "com.google.accompanist:accompanist-pager:${Versions.VIEWPAGER}"
         const val VIEWPAGERINDICATE = "com.google.accompanist:accompanist-pager-indicators:${Versions.VIEWPAGER}"
-
+        const val COMPOSE_VIEWBINDING = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
+        const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
     }
 
     object Hilt {

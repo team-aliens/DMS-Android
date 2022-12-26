@@ -2,7 +2,7 @@ package com.example.dms_android.component
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
-import com.example.auth_domain.enum.BottomSheetType
+import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

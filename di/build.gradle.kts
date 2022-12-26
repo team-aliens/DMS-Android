@@ -1,8 +1,8 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
 }
 
 android {
@@ -36,19 +36,19 @@ android {
 }
 
 dependencies {
-    implementation(project(":auth_data"))
-    implementation(project(":auth_domain"))
-    implementation(project(":feature_data"))
-    implementation(project(":feature_domain"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
+
+    implementation(Dependency.Ui.LOCALDATETIME)
 
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
     implementation(Dependency.Retrofit.OKHTTP_LOGGING)
 
     implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
     implementation(Dependency.Moshi.MOSHI)
     kapt(Dependency.Moshi.MOSHI_COMPILER)
@@ -57,5 +57,6 @@ dependencies {
     implementation(Dependency.Retrofit.LOGINTERCEPTER)
 
     implementation(Dependency.Room.ROOM_KTX)
+    implementation(Dependency.Room.ROOM_RUNTIME)
     kapt(Dependency.Room.ROOM_COMPILER)
 }

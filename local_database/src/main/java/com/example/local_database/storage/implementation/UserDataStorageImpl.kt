@@ -1,66 +1,111 @@
 package com.example.local_database.storage.implementation
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.preference.PreferenceManager
+import android.content.SharedPreferences
+import android.util.Log
 import com.example.local_database.param.FeaturesParam
 import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.storage.declaration.UserDataStorage
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.EXPIRED_AT
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN_EXPIRED_AT
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.MEAL
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-@Suppress("DEPRECATION")
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-): UserDataStorage {
+) : UserDataStorage {
 
+    @SuppressLint("CommitPrefEdits")
     override fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
-        getSharedPreference().edit().let {
-            it.putString(ACCESS_TOKEN, personalKeyParam.accessToken)
-            it.putString(EXPIRED_AT, personalKeyParam.expiredAt)
-            it.putString(REFRESH_TOKEN, personalKeyParam.refreshToken)
-        }
+        setString(context, ACCESS_TOKEN, personalKeyParam.accessToken)
+        setString(
+            context,
+            ACCESS_TOKEN_EXPIRED_AT,
+            personalKeyParam.accessTokenExpiredAt.toString()
+        )
+        setString(context, REFRESH_TOKEN, personalKeyParam.refreshToken)
+        setString(
+            context,
+            REFRESH_TOKEN_EXPIRED_AT,
+            personalKeyParam.refreshTokenExpiredAt.toString()
+        )
     }
 
     override fun fetchAccessToken(): String =
-        getSharedPreference().getString(ACCESS_TOKEN, "")!!
+        getString(context, ACCESS_TOKEN)!!
 
-    override fun fetchExpiredAt(): String =
-        getSharedPreference().getString(EXPIRED_AT, "")!!
+    override fun fetchAccessTokenExpiredAt(): String {
+        Log.d("123123", getString(context, ACCESS_TOKEN_EXPIRED_AT)!!   )
+        return getString(context, ACCESS_TOKEN_EXPIRED_AT)!!
+    }
 
     override fun fetchRefreshToken(): String =
-        getSharedPreference().getString(REFRESH_TOKEN, "")!!
+        getString(context, REFRESH_TOKEN)!!
+
+    override fun fetchRefreshTokenExpiredAt(): String =
+        getString(context, REFRESH_TOKEN_EXPIRED_AT)!!
+
+    override fun clearToken() {
+        setString(context, ACCESS_TOKEN, "")
+        setString(context, ACCESS_TOKEN_EXPIRED_AT, "")
+        setString(context, REFRESH_TOKEN, "")
+        setString(context, REFRESH_TOKEN_EXPIRED_AT, "")
+    }
 
     override fun setUserVisible(featuresParam: FeaturesParam) {
-        getSharedPreference().edit().let {
-            it.putBoolean(MEAL, featuresParam.mealService)
-            it.putBoolean(NOTICE, featuresParam.noticeService)
-            it.putBoolean(POINT, featuresParam.pointService)
-        }
+            setBoolean(context, MEAL, featuresParam.mealService)
+            setBoolean(context, NOTICE, featuresParam.noticeService)
+            setBoolean(context, POINT, featuresParam.pointService)
     }
 
     override fun fetchMealServiceBoolean(): Boolean =
-        getSharedPreference().getBoolean(MEAL, false)
+        getBoolean(context, MEAL)
 
     override fun fetchNoticeServiceBoolean(): Boolean =
-        getSharedPreference().getBoolean(NOTICE, false)
+        getBoolean(context, NOTICE)
 
     override fun fetchPointServiceBoolean(): Boolean =
-        getSharedPreference().getBoolean(POINT, false)
+        getBoolean(context, POINT)
 
-    //TODO("SharedPreference 성능 개선 필요")
-    private fun getSharedPreference() =
-        PreferenceManager.getDefaultSharedPreferences(context)
+    private fun getPreferences(key: String?, context: Context): SharedPreferences? {
+        return context.getSharedPreferences(key, Context.MODE_PRIVATE)
+    }
+
+    private fun setString(context: Context?, key: String?, value: String?) {
+        val prefs: SharedPreferences = context?.let { getPreferences(key, it) }!!
+        val editor = prefs.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    private fun setBoolean(context: Context?, key: String?, value: Boolean) {
+        val prefs = context?.let { getPreferences(key, it) }
+        val editor = prefs!!.edit()
+        editor.putBoolean(key, value)
+        editor.apply()
+    }
+
+    private fun getString(context: Context?, key: String?): String? {
+        val prefs = context?.let { getPreferences(key, it) }
+        return prefs!!.getString(key, "")
+    }
+
+    private fun getBoolean(context: Context?, key: String?): Boolean {
+        val prefs = context?.let { getPreferences(key, it) }
+        return prefs!!.getBoolean(key, false)
+    }
 
     private object UserPersonalKey {
         const val ACCESS_TOKEN = "ACCESS_TOKEN"
-        const val EXPIRED_AT = "EXPIRED_AT"
+        const val ACCESS_TOKEN_EXPIRED_AT = "ACCESS_TOKEN_EXPIRED_AT"
         const val REFRESH_TOKEN = "REFRESH_TOKEN"
+        const val REFRESH_TOKEN_EXPIRED_AT = "REFRESH_TOKEN_EXPIRED_AT"
     }
 
     private object UserVisible {

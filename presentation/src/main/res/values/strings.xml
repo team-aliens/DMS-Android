@@ -23,6 +23,7 @@
     <string name="login">로그인</string>
 
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
+    <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
 
     <string name="EnterName">이름 입력</string>
     <string name="set_password">비밀번호 설정</string>
@@ -45,9 +46,12 @@
     <string name="EditPassword">비밀번호 변경</string>
     <string name="TooManyRequest">너무 많은 요청이 감지되었습니다. 잠시뒤에 다시 시도해주세요.</string>
     <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
+    <string name="NoInternetException">네트워크 연결을 확인해주세요.</string>
     <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
     <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
     <string name="BadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
+    <string name="UnAuthorized">토큰이 만료되었습니다. 재로그인해주세요.</string>
+    <string name="Forbidden">접근 권한이 없습니다.</string>
     <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
     <string name="CompareSchoolUnAuthorized">질문에 대한 답변이 일치하지 않음.</string>
     <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
