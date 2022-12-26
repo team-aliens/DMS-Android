@@ -1,6 +1,6 @@
 package com.example.domain.entity.user
 
-import java.time.LocalDateTime
+import org.threeten.bp.LocalDateTime
 
 data class AuthInfoEntity(
     val accessToken: String,

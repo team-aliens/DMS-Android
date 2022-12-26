@@ -4,7 +4,7 @@ import com.example.local_database.datasource.declaration.LocalUserDataSource
 import com.example.local_database.param.FeaturesParam
 import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.storage.declaration.UserDataStorage
-import com.example.local_database.util.toLocalDateTime
+import com.example.local_database.localutil.toLocalDateTime
 import javax.inject.Inject
 
 class LocalUserDataSourceImpl @Inject constructor(

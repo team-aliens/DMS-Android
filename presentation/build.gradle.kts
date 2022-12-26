@@ -3,7 +3,6 @@ plugins {
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID)
     id(BuildPlugins.KOTLIN_KAPT)
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -67,7 +66,7 @@ dependencies {
     implementation(Dependency.Ui.COIL)
     implementation(Dependency.Ui.GLIDE_CORE)
     implementation(Dependency.Ui.FRAGMENT_KTX)
-    annotationProcessor(Dependency.Ui.GLIDE_COMPILER)
+    kapt(Dependency.Ui.GLIDE_COMPILER)
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
     implementation(Dependency.Compose.COMPOSE_MATERIAL)

@@ -11,6 +11,8 @@ object Versions {
     const val FRAGMENT_KTX_NEW = "1.5.4"
     const val ROOM = "2.4.3"
 
+    const val GSON = "2.9.0"
+
     const val DATASTORE = "1.0.0"
 
     const val HILT = "2.44"
@@ -29,7 +31,7 @@ object Versions {
     const val GLIDE = "4.13.0"
 
     const val RETROFIT = "2.7.1"
-    const val OKHTTP = "3.14.9"
+    const val OKHTTP = "4.9.3"
 
     const val JUNIT = "4.13.2"
     const val MOCKITO = "4.2.0"
@@ -53,4 +55,6 @@ object Versions {
     const val CIRCLEIMAGEVIEW = "3.1.0"
 
     const val VIEWPAGER = "0.23.1"
+
+    const val LOCALDATETIME = "1.3.1"
 }

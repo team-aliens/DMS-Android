@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import java.lang.ref.WeakReference
 
-internal class ToastWrapper(context: Context) {
+class ToastWrapper(context: Context) {
     private val contextWrapper = WeakReference(context)
     private val _context get() = contextWrapper.get()!!
 
@@ -24,7 +24,7 @@ internal class ToastWrapper(context: Context) {
 }
 
 @Composable
-internal fun rememberToast(): ToastWrapper {
+fun rememberToast(): ToastWrapper {
     val context = LocalContext.current.applicationContext
     return remember(
         key1 = context,

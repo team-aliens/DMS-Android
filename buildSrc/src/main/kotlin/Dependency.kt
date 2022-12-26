@@ -32,6 +32,12 @@ object Dependency {
         const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
 
         const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
+
+        const val LOCALDATETIME = "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
+    }
+
+    object GSON {
+        const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
     }
 
     object Lifecycle {
@@ -53,6 +59,7 @@ object Dependency {
     object Room {
         const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
         const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
+        const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
         const val ROOM = "androidx.room:room-common:${Versions.ROOM}"
     }
 

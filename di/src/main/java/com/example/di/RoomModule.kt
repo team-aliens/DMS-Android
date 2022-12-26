@@ -2,9 +2,8 @@ package com.example.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.local_database.converter.MealTypeConverter
 import com.example.local_database.converter.NoticeListTypeConverter
-import com.example.local_database.converter.PointListTypeConverter
+import com.example.local_database.converter.StringListTypeConverter
 import com.example.local_database.dao.MealDao
 import com.example.local_database.dao.NoticeDao
 import com.example.local_database.dao.PointDao
@@ -36,9 +35,8 @@ object RoomModule {
         moshi: Moshi
     ): DMSDataBase = Room
         .databaseBuilder(context, DMSDataBase::class.java, "DMSDataBase")
-        .addTypeConverter(MealTypeConverter(moshi))
         .addTypeConverter(NoticeListTypeConverter(moshi))
-        .addTypeConverter(PointListTypeConverter(moshi))
+        .addTypeConverter(StringListTypeConverter(moshi))
         .build()
 
     @Provides

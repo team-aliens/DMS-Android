@@ -1,5 +1,6 @@
 package com.example.local_database.entity.meal
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,10 +9,10 @@ import com.example.local_domain.entity.meal.MealEntity
 
 @Entity(tableName = TableName.MEAL_LIST)
 data class MealRoomEntity(
-    @PrimaryKey val date: String,
-    @Embedded val breakfast: List<String>,
-    @Embedded val lunch: List<String>,
-    @Embedded val dinner: List<String>,
+    @PrimaryKey var date: String,
+    var breakfast: List<String>,
+    var lunch: List<String>,
+    var dinner: List<String>,
 )
 
 internal fun MealRoomEntity.toEntity() =
@@ -21,3 +22,6 @@ internal fun MealRoomEntity.toEntity() =
         lunch = lunch,
         dinner = dinner,
     )
+
+internal fun List<MealRoomEntity>.toEntity() =
+    map { it.toEntity() }

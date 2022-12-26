@@ -1,5 +1,6 @@
 package com.example.di
 
+import com.example.data.intercepter.AuthorizationInterceptor
 import com.example.data.remote.api.MealApi
 import com.example.data.remote.api.MyPageApi
 import com.example.data.remote.api.NoticeApi
@@ -18,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
+
     private const val BASE_URL = "http://google.com/"
 
     @Provides
@@ -27,9 +29,11 @@ object NetWorkModule {
 
     @Provides
     fun provideOkHttpclient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authorizationInterceptor: AuthorizationInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authorizationInterceptor)
         .build()
 
     @Provides

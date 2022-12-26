@@ -1,8 +1,8 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
     id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(BuildPlugins.KOTLIN_KAPT)
 }
 
 android {
@@ -41,6 +41,8 @@ dependencies {
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
 
+    implementation(Dependency.Ui.LOCALDATETIME)
+
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
     implementation(Dependency.Retrofit.OKHTTP_LOGGING)
@@ -55,5 +57,6 @@ dependencies {
     implementation(Dependency.Retrofit.LOGINTERCEPTER)
 
     implementation(Dependency.Room.ROOM_KTX)
+    implementation(Dependency.Room.ROOM_RUNTIME)
     kapt(Dependency.Room.ROOM_COMPILER)
 }

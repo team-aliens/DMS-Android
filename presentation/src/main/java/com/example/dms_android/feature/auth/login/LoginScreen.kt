@@ -36,12 +36,14 @@ import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.button.DormTextCheckBox
 import com.example.design_system.color.DormColor
 import com.example.design_system.textfield.DormTextField
+import com.example.design_system.toast.rememberToast
 import com.example.design_system.typography.Body4
 import com.example.design_system.typography.Caption
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
 import com.example.dms_android.feature.navigator.NavigationRoute
 import com.example.dms_android.viewmodel.auth.login.SignInViewModel
+import com.example.dms_android.viewmodel.auth.login.SignInViewModel.Event
 
 @Composable
 fun LoginScreen(
@@ -50,38 +52,43 @@ fun LoginScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
 
+    val toast = rememberToast()
+
     val badRequestComment = stringResource(id = R.string.LoginBadRequest)
     val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
     val notFoundComment = stringResource(id = R.string.LoginNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
-    val unKnownException = stringResource(id = R.string.UnKnownException)
+    val noInternetException = stringResource(id = R.string.NoInternetException)
 
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect {
             when (it) {
-                is SignInViewModel.Event.NavigateToHome -> {
+                is Event.NavigateToHome -> {
                     navController.navigate(
                         route = NavigationRoute.Main
                     )
                 }
-                is SignInViewModel.Event.WrongRequest -> {
-                    scaffoldState.snackbarHostState.showSnackbar(badRequestComment)
+                is Event.WrongRequest -> {
+                    toast(badRequestComment)
                 }
-                is SignInViewModel.Event.NotCorrectPassword -> {
-                    scaffoldState.snackbarHostState.showSnackbar(unAuthorizedComment)
+                is Event.NotCorrectPassword -> {
+                    toast(unAuthorizedComment)
                 }
-                is SignInViewModel.Event.UserNotFound -> {
-                    scaffoldState.snackbarHostState.showSnackbar(notFoundComment)
+                is Event.UserNotFound -> {
+                    toast(notFoundComment)
                 }
-                is SignInViewModel.Event.TooManyRequest -> {
-                    scaffoldState.snackbarHostState.showSnackbar(tooManyRequestComment)
+                is Event.TooManyRequest -> {
+                    toast(tooManyRequestComment)
                 }
-                is SignInViewModel.Event.ServerException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(serverException)
+                is Event.ServerException -> {
+                    toast(serverException)
                 }
-                is SignInViewModel.Event.UnKnownException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(unKnownException)
+                is Event.NoInternetException -> {
+                    toast(noInternetException)
+                }
+                is Event.UnKnownException -> {
+                    toast(noInternetException)
                 }
             }
         }
@@ -247,6 +254,7 @@ fun LoginButton(
     signInViewModel: SignInViewModel,
     scaffoldState: ScaffoldState,
 ) {
+
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -261,7 +269,9 @@ fun LoginButton(
             text = stringResource(id = R.string.Login),
             color = DormButtonColor.Blue,
             onClick = {
-                signInViewModel.signIn()
+                if (signInViewModel.state.value.id != "" && signInViewModel.state.value.password != "") {
+                    signInViewModel.postSignIn()
+                }
             }
         )
     }

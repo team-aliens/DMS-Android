@@ -9,7 +9,7 @@ object DmsUrl {
     const val schools = "schools"
 
     object User {
-        const val login = "auth/tokens"
+        const val login = "$auth/tokens"
         const val emailCode = "$auth/code"
         const val refreshToken = "$auth/reissue"
         const val compareEmail = "$auth/email"
