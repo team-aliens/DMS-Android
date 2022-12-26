@@ -24,6 +24,7 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.modifier.dormClickable
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.OverLine
+import java.util.UUID
 
 private val SeatSize: DpSize = DpSize(
     width = 40.dp,
@@ -32,11 +33,12 @@ private val SeatSize: DpSize = DpSize(
 
 @Composable
 fun SeatContent(
+    seatId: String,
     color: Color,
     text: String,
     textColor: Color = DormColor.Gray100,
     enabled: Boolean = true,
-    onClicked: () -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -49,7 +51,7 @@ fun SeatContent(
             .dormClickable(
                 runIf = enabled,
             ) {
-                onClicked()
+                onClick(seatId)
             },
         contentAlignment = Alignment.Center,
     ) {
@@ -61,13 +63,14 @@ fun SeatContent(
 }
 
 @Composable
-fun RequestSeatContent(
+fun RoomContent(
+    roomId: String,
     position: String,
     title: String,
     currentNumber: Int,
     maxNumber: Int,
     condition: String,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -75,7 +78,7 @@ fun RequestSeatContent(
             .height(91.dp)
             .background(DormColor.Gray100)
             .dormClickable {
-                onClick()
+                onClick(roomId)
             },
     ) {
         Column(
@@ -122,20 +125,24 @@ fun RequestSeatContent(
 fun PreviewSeatContent() {
     Column {
         SeatContent(
+            seatId = "b77eafed-69ab-422d-8448-1ec1f0a2eb8c",
             color = DormColor.DormPrimary,
             text = "임세현",
             enabled = true,
-        ) {
-
+        ) { seatId ->
+            print(seatId)
         }
 
-        RequestSeatContent(
+        RoomContent(
+            roomId = "b77eafed-69ab-422d-8448-1ec1f0a2eb8c",
             position = "2층",
             title = "제목입니다.",
             currentNumber = 5,
             maxNumber = 8,
             condition = "2학년 남자",
-            onClick = {}
+            onClick = { roomId ->
+                print(roomId)
+            }
         )
     }
 }
