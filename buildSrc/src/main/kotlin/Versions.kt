@@ -11,6 +11,8 @@ object Versions {
     const val FRAGMENT_KTX_NEW = "1.5.4"
     const val ROOM = "2.4.3"
 
+    const val GSON = "2.9.0"
+
     const val DATASTORE = "1.0.0"
 
     const val HILT = "2.44"

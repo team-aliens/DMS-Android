@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
-    implementation ("com.google.code.gson:gson:2.9.0")
+    implementation (Dependency.GSON.GSON)
 
     implementation(Dependency.Ui.LOCALDATETIME)
     implementation(Dependency.Moshi.MOSHI)

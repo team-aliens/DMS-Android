@@ -36,6 +36,10 @@ object Dependency {
         const val LOCALDATETIME = "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
     }
 
+    object GSON {
+        const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
+    }
+
     object Lifecycle {
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
         const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"

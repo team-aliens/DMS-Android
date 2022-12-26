@@ -50,7 +50,7 @@ dependencies {
 
     implementation(Dependency.Retrofit.RETROFIT)
     implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
-    implementation("com.squareup.okhttp3:okhttp:4.2.2" )
+
     implementation(Dependency.Retrofit.OKHTTP_LOGGING)
 
     implementation(Dependency.Kotlin.COROUTINES_CORE)
