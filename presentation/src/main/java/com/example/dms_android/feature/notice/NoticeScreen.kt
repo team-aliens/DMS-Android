@@ -55,7 +55,7 @@ fun NoticeScreen(
     }
 
     val notices = listOf(
-        Notice("", "")
+        Notice("", "공지사항이", "없습니다.")
     )
 
     val toast = rememberToast()
@@ -115,6 +115,7 @@ fun NoticeScreen(
     }
     fun NoticeListEntity.NoticeValue.toNoticeString() =
         Notice(
+            noticeId = id.toString(),
             title = title,
             createAt = createAt
         )
@@ -126,8 +127,7 @@ fun insertNoticeValue(
 ) {
 
     for (i: Int in 0 until noticeListEntity.notices.size) {
-        notices[i].createAt = noticeListEntity.notices[i].createAt
-        notices[i].title = noticeListEntity.notices[i].title
+
     }
 }
 
