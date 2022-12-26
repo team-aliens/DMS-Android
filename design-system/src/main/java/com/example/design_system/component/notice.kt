@@ -22,15 +22,16 @@ import com.example.design_system.typography.Body4
 import com.example.design_system.typography.OverLine
 
 data class Notice(
-    var title: String,
-    var createAt: String,
+    val noticeId: String,
+    val title: String,
+    val createAt: String,
 )
 
 @Composable
 fun NoticeList(
     modifier: Modifier = Modifier,
     notices: List<Notice>,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -53,7 +54,7 @@ fun NoticeList(
 private fun Notice(
     notice: Notice,
     index: Int,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -71,7 +72,7 @@ private fun Notice(
             .dormClickable(
                 rippleEnabled = true,
             ) {
-                onClick(index)
+                onClick(notice.noticeId)
             },
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -98,10 +99,12 @@ private fun Notice(
 fun PreviewNotice() {
     val notices = listOf(
         Notice(
+            noticeId = "asd",
             title = "방 좀 치우고 살아주세요 ㅎㅎ",
             createAt = "2022.10.14 PM 08:33",
         ),
         Notice(
+            noticeId = "asd",
             title = "방에서도 마스크를 착용해주세요",
             createAt = "2022.10.15 PM 08:33",
         ),
@@ -109,6 +112,8 @@ fun PreviewNotice() {
 
     NoticeList(
         notices = notices,
-        onClick = {},
+        onClick = { noticeId ->
+            print(noticeId)
+        },
     )
 }
