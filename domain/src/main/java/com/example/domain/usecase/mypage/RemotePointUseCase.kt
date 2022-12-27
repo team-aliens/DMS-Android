@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class RemotePointUseCase @Inject constructor(
     private val myPageRepository: MyPageRepository
-): UseCase<PointType, Flow<PointListEntity>>() {
-    override suspend fun execute(data: PointType): Flow<PointListEntity> =
+): UseCase<PointType, PointListEntity>() {
+    override suspend fun execute(data: PointType): PointListEntity =
         myPageRepository.fetchPointList(data)
 }
