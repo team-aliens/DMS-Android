@@ -1,4 +1,4 @@
-package com.example.dms_android.viewmodel.auth.register.last.dialog
+package com.example.dms_android.feature.register.ui.last.dialog
 
 import android.app.Dialog
 import android.content.Context

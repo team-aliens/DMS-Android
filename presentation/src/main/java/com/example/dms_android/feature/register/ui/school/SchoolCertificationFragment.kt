@@ -13,6 +13,7 @@ import com.example.dms_android.feature.MainActivity
 import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import com.example.dms_android.util.repeatOnStarted
+import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
@@ -24,6 +25,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     R.layout.fragment_school_certification
 ) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
+    private val signUpViewModel : SignUpViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,6 +100,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
 
         binding.btnVerificationCode.setOnClickListener {
             temp?.let {
+                signUpViewModel.schoolCode = it
                 examineSchoolCodeViewModel.examineSchoolCode(it)
             }
         }

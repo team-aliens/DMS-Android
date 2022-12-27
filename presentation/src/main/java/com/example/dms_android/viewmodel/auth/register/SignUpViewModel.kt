@@ -24,18 +24,29 @@ class SignUpViewModel @Inject constructor(
     private val remoteSignUpUseCase: RemoteSignUpUseCase
 ) : BaseViewModel<SignUpState, SignUpEvent>() {
 
+    var schoolCode = ""
+    var schoolAnswer = ""
+    var email = ""
+    var authCode = ""
+    var grade = 0
+    var classRoom = 0
+    var number = 0
+    var accountId = ""
+    var password = ""
+    var profileImageUrl = ""
+
     private val parameter =
         RegisterParam(
-            schoolCode = "",
-            schoolAnswer = "",
-            email = "",
-            authCode = "",
-            grade = 0,
-            classRoom = 0,
-            number = 0,
-            accountId = "",
-            password = "",
-            profileImageUrl = "",
+            schoolCode = schoolCode,
+            schoolAnswer = schoolAnswer,
+            email = email,
+            authCode = authCode,
+            grade = grade,
+            classRoom = classRoom,
+            number = number,
+            accountId = accountId,
+            password = password,
+            profileImageUrl = profileImageUrl,
         )
 
     private val _signUpEvent = MutableEventFlow<SignUpEvent>()

@@ -20,6 +20,7 @@ import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
 import com.example.dms_android.util.invisible
 import com.example.dms_android.util.repeatOnStarted
 import com.example.dms_android.util.visible
+import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import com.example.domain.entity.user.SchoolConfirmQuestionEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
     R.layout.fragment_confirm_school
 ) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by viewModels()
 
     private var answer: String = ""
     private var inputData = ""
@@ -161,6 +163,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         })
 
         binding.btnConfirm.setOnClickListener {
+            signUpViewModel.schoolAnswer = answer
             confirmSchoolViewModel.compareSchoolAnswer(answer)
         }
     }
