@@ -1,5 +1,7 @@
 package com.example.dms_android.feature.notice
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +17,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
 import com.example.design_system.component.Notice
 import com.example.design_system.toast.rememberToast
@@ -31,14 +38,20 @@ import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
 import com.example.dms_android.util.TopBar
 import com.example.dms_android.viewmodel.notice.NoticeViewModel
+import com.example.domain.util.toDate
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@SuppressLint("RememberReturnType")
 @Composable
-fun NoticeDetailScreen(noticeViewModel: NoticeViewModel = hiltViewModel()) {
+fun NoticeDetailScreen(
+    navController: NavController,
+    noticeId: String,
+    noticeViewModel: NoticeViewModel = hiltViewModel()
+) {
 
     LaunchedEffect(key1 = noticeViewModel) {
-        // NoticeViewModel.fetchNoticeDetail(noticeId)
+        noticeViewModel.fetchNoticeDetail(noticeId)
     }
-
     val toast = rememberToast()
 
     val badRequestComment = stringResource(id = R.string.BadRequest)
@@ -48,11 +61,13 @@ fun NoticeDetailScreen(noticeViewModel: NoticeViewModel = hiltViewModel()) {
     val serverException = stringResource(id = R.string.ServerException)
     val noInternetException = stringResource(id = R.string.NoInternetException)
 
+    val state = noticeViewModel.state.collectAsState().value.noticeDetail
+
     LaunchedEffect(Unit) {
-        noticeViewModel.noticeViewEffect.collect {
+        noticeViewModel.noticeDetailViewEffect.collect {
             when (it) {
                 is NoticeViewModel.Event.FetchNoticeDetail -> {
-
+                    state.createAt = state.createAt.toDate()
                 }
                 is NoticeViewModel.Event.BadRequestException -> {
                     toast(badRequestComment)
@@ -72,7 +87,9 @@ fun NoticeDetailScreen(noticeViewModel: NoticeViewModel = hiltViewModel()) {
                 is NoticeViewModel.Event.UnknownException -> {
                     toast(noInternetException)
                 }
-                else -> {}
+                else -> {
+                    toast("aewfawefaefawe")
+                }
             }
         }
     }
@@ -82,52 +99,47 @@ fun NoticeDetailScreen(noticeViewModel: NoticeViewModel = hiltViewModel()) {
             .background(DormColor.Gray200),
     ) {
         TopBar(title = stringResource(id = R.string.Notice))
-        NoticeDetailValue()
-    }
-}
-
-@Composable
-fun NoticeDetailValue() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 23.dp),
-        horizontalAlignment = Alignment.Start,
-    ) {
-        Spacer(
+        Column(
             modifier = Modifier
-                .height(55.dp),
-        )
-        SubTitle2(
-            text = stringResource(id = R.string.NoticeTitle),
-        )
-        Spacer(
-            modifier = Modifier
-                .height(25.dp),
-        )
-        Caption(text = stringResource(id = R.string.NoticeTime))
-        Spacer(
-            modifier = Modifier
-                .height(20.dp),
-        )
-        Spacer(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .padding(end = 23.dp)
-                .background(DormColor.Gray300),
-        )
-        Spacer(
-            modifier = Modifier
-                .height(20.dp),
-        )
-        Box(
-            modifier = Modifier
-                .padding(end = 23.dp),
+                .fillMaxSize()
+                .padding(start = 23.dp),
+            horizontalAlignment = Alignment.Start,
         ) {
-            Body5(
-                text = stringResource(id = R.string.NoticeContent),
+            Spacer(
+                modifier = Modifier
+                    .height(55.dp),
             )
+            SubTitle2(
+                text = state.title,
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(25.dp),
+            )
+            Caption(text = state.createAt)
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp),
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .padding(end = 23.dp)
+                    .background(DormColor.Gray300),
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp),
+            )
+            Box(
+                modifier = Modifier
+                    .padding(end = 23.dp),
+            ) {
+                Body5(
+                    text = state.content,
+                )
+            }
         }
     }
 }
@@ -135,5 +147,5 @@ fun NoticeDetailValue() {
 @Preview
 @Composable
 fun NoticeDetailPreView() {
-    NoticeDetailScreen()
+
 }
