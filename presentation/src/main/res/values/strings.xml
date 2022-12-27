@@ -22,6 +22,7 @@
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
 
+    <string name="EmailTooManyRequest">잠시 후에 다시 이메일을 보내주세요</string>
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
 
