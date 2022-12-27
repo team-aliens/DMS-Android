@@ -10,20 +10,20 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/ic_arrow_back_black_24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="124dp"
-            android:layout_height="44dp"
+            android:layout_width="97dp"
+            android:layout_height="34dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="56dp"
             android:src="@drawable/ic_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack" />

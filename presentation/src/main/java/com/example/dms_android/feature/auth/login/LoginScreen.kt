@@ -142,16 +142,16 @@ fun MainTitle() {
             Image(
                 modifier = Modifier
                     .padding(
-                        top = 82.dp
+                        top = 92.dp
                     )
-                    .height(44.dp)
-                    .width(124.dp),
+                    .height(34.dp)
+                    .width(97.dp),
                 painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = "MainLogo",
             )
             Spacer(
                 modifier = Modifier
-                    .height(8.dp)
+                    .height(4.dp)
             )
             Body4(text = "더 편한 기숙사 생활을 위해")
         }
