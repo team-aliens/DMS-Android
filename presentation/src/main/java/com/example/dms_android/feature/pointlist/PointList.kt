@@ -28,6 +28,7 @@ data class PointValue(
     val date: String,
     val content: String,
     val point: Int,
+    val pointType: PointType
 )
 
 @Composable
@@ -43,7 +44,7 @@ fun PointList(
             Point(
                 pointValue = point,
                 index = index,
-                onClick = onClick
+                onClick = onClick,
             )
 
             if (index != points.size) {
@@ -101,12 +102,11 @@ private fun Point(
                 .padding(end = 15.dp, bottom = 15.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
-            val ep: PointType = ALL
             var color: Color = DormColor.Error
             //TODO("VM 반환 값으로 색깔 변경 요함")
-            if (ep == MINUS) {
+            if (pointValue.pointType == MINUS) {
                 color = DormColor.Error
-            } else if (ep == BONUS) {
+            } else if (pointValue.pointType == BONUS) {
                 color = DormColor.DormPrimary
             }
             Body4(

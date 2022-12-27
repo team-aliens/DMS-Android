@@ -2,11 +2,11 @@ package com.example.data.remote.url
 
 object DmsUrl {
 
-    const val meal = "meals"
-    const val notices = "notices"
-    const val students = "students"
-    const val auth = "auth"
-    const val schools = "schools"
+    const val meal = "/meals/{date}"
+    const val notices = "/notices"
+    const val students = "/students"
+    const val auth = "/auth"
+    const val schools = "/schools"
 
     object User {
         const val login = "$auth/tokens"
@@ -37,6 +37,15 @@ object DmsUrl {
 
     object MyPage {
         const val MyPage = "${students}/profile"
-        const val Point = "point"
+        const val Point = "/points"
+    }
+
+    object StudyRoom{
+        const val Apply = "$studyRoom/seats/{seat-id}"
+        const val fetchApplyTime = "$studyRoom/available-time"
+        const val CancelApply = "$studyRoom/seats"
+        const val StudyRoomList = "$studyRoom/list/students"
+        const val StudyRoomType = "$studyRoom/types"
+        const val StudyRoomDetail = "$studyRoom/{study-room-id}/students"
     }
 }

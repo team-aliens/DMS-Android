@@ -22,6 +22,6 @@ interface NoticeApi {
 
     @GET(DmsUrl.Notice.NoticeDetail)
     suspend fun fetchNoticeDetail(
-        @Path("notice-id") noticeId: UUID
+        @Path("notice-id") noticeId: String
     ): NoticeDetailResponse
 }

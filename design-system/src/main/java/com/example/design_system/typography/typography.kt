@@ -131,6 +131,13 @@ object DormTypography {
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
     )
+
+    @Stable
+    val roomDescription = TextStyle(
+        fontFamily = NotoSansFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+    )
 }
 
 @Composable
@@ -288,13 +295,14 @@ fun Body3(
 @Composable
 @NonRestartableComposable
 fun Body4(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
+        modifier = modifier.dormClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),

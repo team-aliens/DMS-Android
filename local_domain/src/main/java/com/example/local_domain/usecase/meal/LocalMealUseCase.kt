@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class LocalMealUseCase @Inject constructor(
     private val localMealRepository: LocalMealRepository
-): UseCase<String, List<MealEntity>>() {
+): UseCase<String, MealEntity>() {
 
-    override suspend fun execute(data: String): List<MealEntity> =
+    override suspend fun execute(data: String): MealEntity =
         localMealRepository.fetchMealList(data)
 }

@@ -7,5 +7,5 @@ interface LocalMealDataSource {
 
     suspend fun setMeal(mealRoomEntity: List<MealRoomEntity>)
 
-    suspend fun fetchMealList(date: String): List<MealRoomEntity>
+    suspend fun fetchMealList(date: String): MealRoomEntity
 }

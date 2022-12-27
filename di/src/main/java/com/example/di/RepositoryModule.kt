@@ -5,12 +5,14 @@ import com.example.data.repository.MyPageRepositoryImpl
 import com.example.data.repository.NoticeRepositoryImpl
 import com.example.data.repository.SchoolsRepositoryImpl
 import com.example.data.repository.StudentsRepositoryImpl
+import com.example.data.repository.StudyRoomRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
 import com.example.domain.repository.MealRepository
 import com.example.domain.repository.MyPageRepository
 import com.example.domain.repository.NoticeRepository
 import com.example.domain.repository.SchoolsRepository
 import com.example.domain.repository.StudentsRepository
+import com.example.domain.repository.StudyRoomRepository
 import com.example.domain.repository.UserRepository
 import com.example.local_database.repository.LocalUserRepositoryImpl
 import com.example.local_database.repository.meal.LocalMealRepositoryImpl
@@ -58,6 +60,11 @@ abstract class RepositoryModule {
     abstract fun provideRemoteMyPageRepository(
         myPageRepositoryImpl: MyPageRepositoryImpl
     ): MyPageRepository
+
+    @Binds
+    abstract fun provideRemoteStudyRoomRepository(
+        studyRoomRepositoryImpl: StudyRoomRepositoryImpl
+    ): StudyRoomRepository
 
     @Binds
     abstract fun provideLocalUserRepository(

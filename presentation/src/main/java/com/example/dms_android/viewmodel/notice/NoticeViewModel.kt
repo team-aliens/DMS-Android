@@ -1,5 +1,9 @@
 package com.example.dms_android.viewmodel.notice
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewModelScope
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.notice.NoticeEvent
@@ -19,33 +23,35 @@ import com.example.local_domain.usecase.notice.LocalNoticeDetailUseCase
 import com.example.local_domain.usecase.notice.LocalNoticeListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.math.BigInteger
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val remoteNoticeListUseCase: RemoteNoticeListUseCase,
-    val remoteNoticeDetailUseCase: RemoteNoticeDetailUseCase,
+    private val remoteNoticeDetailUseCase: RemoteNoticeDetailUseCase,
     val localNoticeListUseCase: LocalNoticeListUseCase,
     val localNoticeDetailUseCase: LocalNoticeDetailUseCase,
-): BaseViewModel<NoticeState, NoticeEvent>() {
+) : BaseViewModel<NoticeState, NoticeEvent>() {
 
     override val initialState: NoticeState
         get() = NoticeState.initial()
 
-
     private val _noticeViewEffect = MutableEventFlow<Event>()
     var noticeViewEffect = _noticeViewEffect.asEventFlow()
+
+    private val _noticeDetailViewEffect = MutableEventFlow<Event>()
+    var noticeDetailViewEffect = _noticeDetailViewEffect.asEventFlow()
 
     fun fetchNoticeList() {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteNoticeListUseCase.execute(state.value.type)
-                    .collect {
-                        event(Event.FetchNoticeList(it))
-                    }
+            }.onSuccess {
+                event(Event.FetchNoticeList(it))
             }.onFailure {
-                when(it) {
+                when (it) {
                     is NullPointerException -> event(Event.NullPointException)
                     is BadRequestException -> event(Event.BadRequestException)
                     is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
@@ -58,22 +64,24 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
-    fun fetchNoticeDetail(noticeId: UUID) {
+    fun fetchNoticeDetail(noticeId: String) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteNoticeDetailUseCase.execute(noticeId)
-                    .collect {
-                        event(Event.FetchNoticeDetail(it))
-                    }
+            }.onSuccess {
+                event2(Event.FetchNoticeDetail)
+                state.value.noticeDetail.title = it.title
+                state.value.noticeDetail.content = it.content
+                state.value.noticeDetail.createAt = it.createAt
             }.onFailure {
-                when(it) {
-                    is NullPointerException -> event(Event.NullPointException)
-                    is BadRequestException -> event(Event.BadRequestException)
-                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event(Event.CannotConnectException)
-                    is TooManyRequestException -> event(Event.TooManyRequestException)
-                    is ServerException -> event(Event.InternalServerException)
-                    else -> event(Event.UnknownException)
+                when (it) {
+                    is NullPointerException -> event2(Event.NullPointException)
+                    is BadRequestException -> event2(Event.BadRequestException)
+                    is UnauthorizedException -> event2(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> event2(Event.CannotConnectException)
+                    is TooManyRequestException -> event2(Event.TooManyRequestException)
+                    is ServerException -> event2(Event.InternalServerException)
+                    else -> event2(Event.UnknownException)
                 }
             }
         }
@@ -86,19 +94,26 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
+    private fun event2(event: Event) {
+        viewModelScope.launch {
+            _noticeDetailViewEffect.emit(event)
+            noticeDetailViewEffect = _noticeDetailViewEffect.asEventFlow()
+        }
+    }
+
     override fun reduceEvent(oldState: NoticeState, event: NoticeEvent) {
         TODO("Not yet implemented")
     }
 
     sealed class Event {
-        data class FetchNoticeList(val noticeListEntity: NoticeListEntity): Event()
-        data class FetchNoticeDetail(val noticeDetailEntity: NoticeDetailEntity): Event()
-        object NullPointException: Event()
-        object BadRequestException: Event()
-        object UnAuthorizedTokenException: Event()
-        object CannotConnectException: Event()
-        object TooManyRequestException: Event()
-        object InternalServerException: Event()
-        object UnknownException: Event()
+        data class FetchNoticeList(val noticeListEntity: NoticeListEntity) : Event()
+        object FetchNoticeDetail : Event()
+        object NullPointException : Event()
+        object BadRequestException : Event()
+        object UnAuthorizedTokenException : Event()
+        object CannotConnectException : Event()
+        object TooManyRequestException : Event()
+        object InternalServerException : Event()
+        object UnknownException : Event()
     }
 }

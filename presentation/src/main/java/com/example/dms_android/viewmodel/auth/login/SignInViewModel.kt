@@ -44,7 +44,6 @@ class SignInViewModel @Inject constructor(
     private val _signInViewEffect = MutableEventFlow<Event>()
     var signInViewEffect = _signInViewEffect.asEventFlow()
 
-
     fun postSignIn() {
         parameter =
             LoginParam(id = state.value.id, password = state.value.password)

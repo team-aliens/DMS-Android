@@ -18,20 +18,11 @@ class MyPageRepositoryImpl @Inject constructor(
     private val localMyPageDataSource: LocalMyPageDataSource,
 ) : MyPageRepository {
 
-    override suspend fun fetchMyPage(): Flow<MyPageEntity> =
-        OfflineCacheUtil<MyPageEntity>()
-            .remoteData { remoteMyPageDataSource.fetchMyPage().toEntity() }
-            .doOnNeedRefresh { localMyPageDataSource.saveMyPage(it.toDbEntity()) }
-            .createFlow()
+    override suspend fun fetchMyPage(): MyPageEntity =
+        remoteMyPageDataSource.fetchMyPage().toEntity()
 
-    override suspend fun fetchPointList(pointType: PointType): Flow<PointListEntity> =
-        OfflineCacheUtil<PointListEntity>()
-            .remoteData { remoteMyPageDataSource.fetchPointList(pointType).toEntity() }
-            .doOnNeedRefresh {
-                localMyPageDataSource.savePointList(it.toDbEntity())
-                localMyPageDataSource.saveTotalPoint(it.totalPoint)
-            }
-            .createFlow()
+    override suspend fun fetchPointList(pointType: PointType): PointListEntity =
+        remoteMyPageDataSource.fetchPointList(pointType).toEntity()
 }
 
 fun MyPageEntity.toDbEntity() =
