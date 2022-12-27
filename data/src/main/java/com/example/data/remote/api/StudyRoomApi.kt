@@ -8,8 +8,10 @@ import com.example.data.remote.url.DmsUrl
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface StudyRoomApi {
+
     @PUT(DmsUrl.StudyRoom.Apply)
     suspend fun applySeat()
 
@@ -26,5 +28,7 @@ interface StudyRoomApi {
     suspend fun fetchStudyRoomType(): StudyRoomTypeResponse
 
     @GET(DmsUrl.StudyRoom.StudyRoomDetail)
-    suspend fun fetchStudyRoomDetail(): StudyRoomDetailResponse
+    suspend fun fetchStudyRoomDetail(
+        @Path("study-room-id") roomId: String,
+    ): StudyRoomDetailResponse
 }

@@ -7,6 +7,7 @@ object DmsUrl {
     const val students = "/students"
     const val auth = "/auth"
     const val schools = "/schools"
+    const val studyRoom = "/study-rooms"
 
     object User {
         const val login = "$auth/tokens"
@@ -40,7 +41,7 @@ object DmsUrl {
         const val Point = "/points"
     }
 
-    object StudyRoom{
+    object StudyRoom {
         const val Apply = "$studyRoom/seats/{seat-id}"
         const val fetchApplyTime = "$studyRoom/available-time"
         const val CancelApply = "$studyRoom/seats"

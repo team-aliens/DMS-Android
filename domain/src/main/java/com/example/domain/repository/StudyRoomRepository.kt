@@ -10,13 +10,13 @@ interface StudyRoomRepository {
 
     suspend fun applySeat()
 
-    suspend fun fetchApplySeatTime(): Flow<ApplySeatTimeEntity>
+    suspend fun fetchApplySeatTime(): ApplySeatTimeEntity
 
     suspend fun cancelApplySeat()
 
-    suspend fun fetchStudyRoomList(): Flow<StudyRoomListEntity>
+    suspend fun fetchStudyRoomList(): StudyRoomListEntity
 
-    suspend fun fetchStudyRoomType(): Flow<StudyRoomTypeEntity>
+    suspend fun fetchStudyRoomType(): StudyRoomTypeEntity
 
-    suspend fun fetchStudyRoomDetail(): Flow<StudyRoomDetailEntity>
+    suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity
 }

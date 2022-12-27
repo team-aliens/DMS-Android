@@ -16,5 +16,5 @@ interface RemoteStudyRoomDataSource {
 
     suspend fun fetchStudyRoomType(): StudyRoomTypeResponse
 
-    suspend fun fetchStudyRoomDetail(): StudyRoomDetailResponse
+    suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailResponse
 }

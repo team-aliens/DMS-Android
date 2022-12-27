@@ -3,39 +3,40 @@ package com.example.domain.entity.studyroom
 import java.util.UUID
 
 data class StudyRoomDetailEntity(
-    val floor: Int,
-    val name: String,
-    val totalAvailableSeat: Int,
-    val inUseHeadCount: Int,
-    val availableSex: String,
-    val availableGrade: Int,
-    val eastDescription: String,
-    val westDescription: String,
-    val southDescription: String,
-    val northDescription: String,
-    val totalWidthSize: Int,
-    val totalHeightSize: Int,
-    val seats: Seat,
+    var floor: Int,
+    var name: String,
+    var totalAvailableSeat: Int,
+    var inUseHeadCount: Int,
+    var availableSex: String,
+    var availableGrade: Int,
+    var eastDescription: String,
+    var westDescription: String,
+    var southDescription: String,
+    var northDescription: String,
+    var totalWidthSize: Int,
+    var totalHeightSize: Int,
+    var studyRoomSex: String,
+    var seats: List<Seat>,
 ) {
     data class Seat(
-        val id: UUID,
-        val widthLocation: Int,
-        val heightLocation: Int,
-        val number: Int?,
-        val type: Type?,
-        val status: String,
-        val isMine: Boolean?,
-        val student: Student?,
+        var id: String,
+        var widthLocation: Int,
+        var heightLocation: Int,
+        var number: Int?,
+        var type: Type?,
+        var status: String,
+        var isMine: Boolean?,
+        var student: Student?,
     )
 
     data class Type(
-        val id: UUID,
-        val name: String,
-        val color: String,
+        var id: String,
+        var name: String,
+        var color: String,
     )
 
     data class Student(
-        val id: UUID,
-        val name: String,
+        var id: String,
+        var name: String,
     )
 }
