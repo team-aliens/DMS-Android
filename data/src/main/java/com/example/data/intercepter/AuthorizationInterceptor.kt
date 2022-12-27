@@ -1,6 +1,5 @@
 package com.example.data.intercepter
 
-import android.util.Log
 import com.example.data.remote.response.user.SignInResponse
 import com.example.data.util.LocalDateTimeEx
 import com.example.domain.exception.NeedLoginException
@@ -8,7 +7,6 @@ import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.storage.declaration.UserDataStorage
 import com.example.local_database.localutil.toLocalDateTime
 import com.google.gson.Gson
-import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,8 +14,6 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
 import javax.inject.Inject
 
 class AuthorizationInterceptor @Inject constructor(
@@ -65,7 +61,6 @@ class AuthorizationInterceptor @Inject constructor(
         }
 
         val accessToken = userDataStorage.fetchAccessToken()
-        Log.d("123123", accessToken)
         return chain.proceed(
             request.newBuilder().addHeader(
                 "Authorization",
