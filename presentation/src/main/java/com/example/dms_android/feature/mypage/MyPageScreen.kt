@@ -26,6 +26,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.Caption
@@ -45,7 +47,6 @@ import com.example.dms_android.component.changeBottomSheetState
 import com.example.dms_android.feature.navigator.NavigationRoute
 import com.example.dms_android.viewmodel.auth.login.SignInViewModel
 import com.example.dms_android.viewmodel.mypage.MyPageViewModel
-import com.example.domain.entity.mypage.MyPageEntity
 import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
 
@@ -61,7 +62,6 @@ fun MyPageScreen(
         ModalBottomSheetValue.Hidden
     )
     val scope = rememberCoroutineScope()
-    var myPageEntity: MyPageEntity? = null
 
     val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
     val forbiddenException = stringResource(id = R.string.LoginNotFound)
@@ -69,12 +69,11 @@ fun MyPageScreen(
     val serverException = stringResource(id = R.string.ServerException)
     val unKnownException = stringResource(id = R.string.UnKnownException)
 
+    val state = myPageViewModel.state.collectAsState().value.myPageEntity
+
     LaunchedEffect(Unit) {
         myPageViewModel.myPageViewEffect.collect {
             when (it) {
-                is MyPageViewModel.Event.FetchMyPageValue -> {
-                    myPageEntity = it.myPageEntity
-                }
                 is MyPageViewModel.Event.NullPointException -> {
                     scaffoldState.snackbarHostState.showSnackbar("null")
                     Log.d("123", "2")
@@ -112,10 +111,10 @@ fun MyPageScreen(
             .fillMaxSize()
             .background(DormColor.Gray200),
     ) {
-        UserInformation(bottomSheetState, scope, myPageEntity)
-        WarningPoint(myPageEntity)
-        PointBox(myPageEntity)
-        MyPageBlock()
+        UserInformation(bottomSheetState, scope, state)
+        WarningPoint(state)
+        PointBox(state)
+        MyPageBlock(navController)
     }
 }
 
@@ -124,7 +123,7 @@ fun MyPageScreen(
 fun UserInformation(
     state: ModalBottomSheetState,
     scope: CoroutineScope,
-    myPageEntity: MyPageEntity?,
+    state2: MyPageEntity,
 ) {
 
     Row(
@@ -138,13 +137,13 @@ fun UserInformation(
                 .padding(start = 24.dp)
         ) {
             SubTitle1(
-                text = "${myPageEntity?.gcn} ${myPageEntity?.name}"
+                text = "${state2.gcn} ${state2.name}"
             )
             Spacer(
                 modifier = Modifier
                     .height(10.dp)
             )
-            myPageEntity?.let { Body5(text = it.schoolName) }
+            Body5(text = state2.schoolName)
         }
         Box(
             modifier = Modifier
@@ -155,7 +154,7 @@ fun UserInformation(
             Box(
                 contentAlignment = Alignment.Center,
             ) {
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .clickable {
                             changeBottomSheetState(
@@ -166,7 +165,7 @@ fun UserInformation(
                         }
                         .size(80.dp)
                         .clip(CircleShape),
-                    painter = painterResource(id = R.drawable.addimage),
+                    model = state2.profileImageUrl,
                     contentDescription = stringResource(id = R.string.AddImageButton),
                 )
             }
@@ -183,7 +182,7 @@ fun UserInformation(
 
 @Composable
 fun WarningPoint(
-    myPageEntity: MyPageEntity?,
+    state2: MyPageEntity,
 ) {
     Box(
         modifier = Modifier
@@ -207,14 +206,14 @@ fun WarningPoint(
                 modifier = Modifier
                     .width(20.dp),
             )
-            myPageEntity?.let { Caption(text = it.phrase) }
+            Caption(text = state2.phrase)
         }
     }
 }
 
 @Composable
 fun PointBox(
-    myPageEntity: MyPageEntity?,
+    state2: MyPageEntity,
 ) {
     Row() {
         Box(
@@ -251,7 +250,7 @@ fun PointBox(
                         .padding(end = 24.dp, bottom = 18.dp)
                 ) {
                     Headline3(
-                        text = myPageEntity?.bonusPoint.toString(),
+                        text = state2.bonusPoint.toString(),
                         color = DormColor.Darken200,
                     )
                 }
@@ -291,7 +290,7 @@ fun PointBox(
                         .padding(end = 24.dp, bottom = 18.dp)
                 ) {
                     Headline3(
-                        text = myPageEntity?.minusPoint.toString(),
+                        text = state2.minusPoint.toString(),
                         color = DormColor.Error,
                     )
                 }
@@ -301,7 +300,9 @@ fun PointBox(
 }
 
 @Composable
-fun MyPageBlock() {
+fun MyPageBlock(
+    navController: NavController
+) {
     Column() {
         Spacer(
             modifier = Modifier
@@ -323,7 +324,10 @@ fun MyPageBlock() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f),
+                    .fillMaxHeight(0.5f)
+                    .clickable {
+                        navController.navigate(NavigationRoute.PointList)
+                    },
                 contentAlignment = Alignment.CenterStart
             ) {
                 Row() {
