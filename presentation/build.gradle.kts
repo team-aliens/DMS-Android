@@ -63,7 +63,6 @@ dependencies {
     implementation(Dependency.Ui.MATERIAL)
     implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
     implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
-    implementation(Dependency.Ui.COIL)
     implementation(Dependency.Ui.GLIDE_CORE)
     implementation(Dependency.Ui.FRAGMENT_KTX)
     kapt(Dependency.Ui.GLIDE_COMPILER)
@@ -103,5 +102,5 @@ dependencies {
 
     implementation(Dependency.Compose.VIEWPAGER)
     implementation(Dependency.Compose.VIEWPAGERINDICATE)
-    implementation(Dependency.Ui.COIL)
+    implementation(Dependency.Ui.CIRCLECOMPOSEIMAGE)
 }
