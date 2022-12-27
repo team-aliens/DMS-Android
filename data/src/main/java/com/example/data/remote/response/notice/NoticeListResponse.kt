@@ -10,7 +10,7 @@ data class NoticeListResponse(
     data class Notices(
         @SerializedName("id") val id: UUID,
         @SerializedName("title") val title: String,
-        @SerializedName("create_at") val createAt: String,
+        @SerializedName("created_at") val createAt: String,
     )
 }
 

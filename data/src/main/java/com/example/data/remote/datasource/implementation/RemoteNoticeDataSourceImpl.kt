@@ -2,10 +2,13 @@ package com.example.data.remote.datasource.implementation
 
 import com.example.data.remote.api.NoticeApi
 import com.example.data.remote.datasource.declaration.RemoteNoticeDataSource
+import com.example.data.remote.request.user.SignInRequest
 import com.example.data.remote.response.notice.NewNoticeBooleanResponse
 import com.example.data.remote.response.notice.NoticeDetailResponse
 import com.example.data.remote.response.notice.NoticeListResponse
+import com.example.data.remote.response.user.SignInResponse
 import com.example.data.util.HttpHandler
+import com.example.data.util.sendHttpRequest
 import com.example.domain.enums.NoticeListSCType
 import java.util.UUID
 import javax.inject.Inject
@@ -21,13 +24,9 @@ class RemoteNoticeDataSourceImpl @Inject constructor(
 
     override suspend fun fetchNoticeList(
         order: NoticeListSCType,
-    ) = HttpHandler<NoticeListResponse>()
-            .httpRequest { noticeApi.fetchNoticeList(order) }
-            .sendRequest()
+    ): NoticeListResponse = sendHttpRequest(httpRequest = { noticeApi.fetchNoticeList(order) })
 
     override suspend fun fetchNoticeDetail(
-        noticeId: UUID,
-    ) = HttpHandler<NoticeDetailResponse>()
-        .httpRequest { noticeApi.fetchNoticeDetail(noticeId) }
-        .sendRequest()
+        noticeId: String,
+    ) = sendHttpRequest(httpRequest = { noticeApi.fetchNoticeDetail(noticeId) })
 }

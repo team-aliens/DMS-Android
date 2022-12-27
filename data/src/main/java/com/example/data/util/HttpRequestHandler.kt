@@ -1,3 +1,4 @@
+
 package com.example.data.util
 
 import com.example.domain.exception.BadRequestException

@@ -6,5 +6,5 @@ import java.time.LocalDate
 
 interface MealRepository {
 
-    suspend fun fetchMealValue(date: LocalDate): Flow<MealEntity>
+    suspend fun fetchMealValue(date: LocalDate): MealEntity
 }

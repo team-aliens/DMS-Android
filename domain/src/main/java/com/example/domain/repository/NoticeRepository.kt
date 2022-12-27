@@ -11,7 +11,7 @@ interface NoticeRepository {
 
     suspend fun newNoticeBoolean(): Flow<NewNoticeBooleanEntity>
 
-    suspend fun fetchNoticeList(order: NoticeListSCType): Flow<NoticeListEntity>
+    suspend fun fetchNoticeList(order: NoticeListSCType): NoticeListEntity
 
-    suspend fun fetchNoticeDetail(notice_id: UUID): Flow<NoticeDetailEntity>
+    suspend fun fetchNoticeDetail(notice_id: String): NoticeDetailEntity
 }
