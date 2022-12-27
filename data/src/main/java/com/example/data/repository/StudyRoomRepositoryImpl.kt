@@ -2,10 +2,12 @@ package com.example.data.repository
 
 import com.example.data.remote.datasource.declaration.RemoteStudyRoomDataSource
 import com.example.data.remote.response.studyroom.ApplySeatTimeResponse
+import com.example.data.remote.response.studyroom.StudyRoomDetailResponse
 import com.example.data.remote.response.studyroom.StudyRoomListResponse
 import com.example.data.remote.response.studyroom.StudyRoomTypeResponse
 import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.studyroom.ApplySeatTimeEntity
+import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 import com.example.domain.entity.studyroom.StudyRoomListEntity
 import com.example.domain.entity.studyroom.StudyRoomTypeEntity
 import com.example.domain.repository.StudyRoomRepository
@@ -41,6 +43,11 @@ class StudyRoomRepositoryImpl @Inject constructor(
             .remoteData { remoteStudyRoomDataSource.fetchStudyRoomType().toEntity() }
             .createRemoteFlow()
 
+    override suspend fun fetchStudyRoomDetail(): Flow<StudyRoomDetailEntity> =
+        OfflineCacheUtil<StudyRoomDetailEntity>()
+            .remoteData { remoteStudyRoomDataSource.fetchStudyRoomDetail().toEntity() }
+            .createRemoteFlow()
+
 
     private fun ApplySeatTimeResponse.toEntity() =
         ApplySeatTimeEntity(
@@ -74,6 +81,48 @@ class StudyRoomRepositoryImpl @Inject constructor(
     private fun StudyRoomTypeResponse.Type.toEntity() =
         StudyRoomTypeEntity.Type(
             color = color,
+            id = id,
+            name = name,
+        )
+
+    private fun StudyRoomDetailResponse.toEntity() =
+        StudyRoomDetailEntity(
+            floor = floor,
+            name = name,
+            totalAvailableSeat = totalAvailableSeat,
+            inUseHeadCount = inUseHeadCount,
+            availableSex = availableSex,
+            availableGrade = availableGrade,
+            eastDescription = eastDescription,
+            westDescription = westDescription,
+            southDescription = southDescription,
+            northDescription = northDescription,
+            totalWidthSize = totalWidthSize,
+            totalHeightSize = totalHeightSize,
+            seats = seats.toEntity()
+        )
+
+    private fun StudyRoomDetailResponse.Seat.toEntity() =
+        StudyRoomDetailEntity.Seat(
+            id = id,
+            widthLocation = widthLocation,
+            heightLocation = heightLocation,
+            number = number,
+            type = type?.toEntity(),
+            status = status,
+            isMine = isMine,
+            student = student?.toEntity()
+        )
+
+    private fun StudyRoomDetailResponse.Type.toEntity() =
+        StudyRoomDetailEntity.Type(
+            id = id,
+            name = name,
+            color = color,
+        )
+
+    private fun StudyRoomDetailResponse.Student.toEntity() =
+        StudyRoomDetailEntity.Student(
             id = id,
             name = name,
         )

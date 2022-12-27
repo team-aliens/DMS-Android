@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.entity.studyroom.ApplySeatTimeEntity
+import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 import com.example.domain.entity.studyroom.StudyRoomListEntity
 import com.example.domain.entity.studyroom.StudyRoomTypeEntity
 import kotlinx.coroutines.flow.Flow
@@ -16,4 +17,6 @@ interface StudyRoomRepository {
     suspend fun fetchStudyRoomList(): Flow<StudyRoomListEntity>
 
     suspend fun fetchStudyRoomType(): Flow<StudyRoomTypeEntity>
+
+    suspend fun fetchStudyRoomDetail(): Flow<StudyRoomDetailEntity>
 }

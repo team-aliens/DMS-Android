@@ -3,6 +3,7 @@ package com.example.data.remote.datasource.implementation
 import com.example.data.remote.api.StudyRoomApi
 import com.example.data.remote.datasource.declaration.RemoteStudyRoomDataSource
 import com.example.data.remote.response.studyroom.ApplySeatTimeResponse
+import com.example.data.remote.response.studyroom.StudyRoomDetailResponse
 import com.example.data.remote.response.studyroom.StudyRoomListResponse
 import com.example.data.remote.response.studyroom.StudyRoomTypeResponse
 import com.example.data.util.HttpHandler
@@ -36,4 +37,10 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         HttpHandler<StudyRoomTypeResponse>()
             .httpRequest { studyRoomApi.fetchStudyRoomType() }
             .sendRequest()
+
+    override suspend fun fetchStudyRoomDetail(): StudyRoomDetailResponse =
+        HttpHandler<StudyRoomDetailResponse>()
+            .httpRequest { studyRoomApi.fetchStudyRoomDetail() }
+            .sendRequest()
+
 }
