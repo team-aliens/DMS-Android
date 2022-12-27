@@ -1,43 +1,52 @@
-package com.example.dms_android.feature.home
+package com.example.dms_android.feature.cafeteria
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.util.lerp
 import com.example.design_system.color.DormColor
+import com.example.design_system.icon.DormIcon
+import com.example.design_system.typography.Body4
+import com.example.dms_android.viewmodel.home.MealViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 import kotlin.math.absoluteValue
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ScrollEffectPager() {
+fun ScrollEffectPager(
+    mealViewModel: MealViewModel
+) {
 
     val pagerState = rememberPagerState(
         initialPage = 1
     )
+
+    val state = mealViewModel.state.collectAsState().value
 
     HorizontalPager(
         state = pagerState,
@@ -59,7 +68,6 @@ fun ScrollEffectPager() {
                 )
                 .graphicsLayer {
                     val pageOffset = calculateCurrentOffsetForPage(pageIndex).absoluteValue
-
                     lerp(
                         start = 0.85f,
                         stop = 1f,
@@ -68,7 +76,6 @@ fun ScrollEffectPager() {
                         scaleX = scale
                         scaleY = scale
                     }
-
                     alpha = lerp(
                         start = 0.5f,
                         stop = 1f,
@@ -87,21 +94,46 @@ fun ScrollEffectPager() {
                 modifier = Modifier
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
+                verticalArrangement = Arrangement.Top,
             ) {
                 when (pagerState.currentPage) {
-                    // TODO("뷰모델 구현시 값 연동")
                     0 -> {
-                        Text(text = "1")
+                        MenuListLayout(state.mealList.breakfast, 1)
                     }
                     1 -> {
-                        Text(text = "2")
+                        MenuListLayout(state.mealList.lunch, 2)
                     }
                     2 -> {
-                        Text(text = "3")
+                        MenuListLayout(state.mealList.dinner, 3)
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun MenuListLayout(
+    menus: List<String>,
+    a: Int
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item {
+            Spacer(modifier = Modifier.height(9.dp))
+            var b: DormIcon = DormIcon.Launch
+            when(a) {
+                1 -> b = DormIcon.Breakfast
+                2 -> b = DormIcon.Launch
+                3 -> b = DormIcon.Dinner
+            }
+            Image(painter = painterResource(id = b.drawableId), contentDescription = "")
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+        items(menus) { menu ->
+            Body4(text = menu)
         }
     }
 }

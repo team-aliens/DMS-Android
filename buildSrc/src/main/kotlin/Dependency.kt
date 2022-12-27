@@ -34,6 +34,7 @@ object Dependency {
         const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
 
         const val LOCALDATETIME = "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
+        const val CircleComposeImage = "io.coil-kt:coil-compose:${Versions.COIL}"
     }
 
     object GSON {

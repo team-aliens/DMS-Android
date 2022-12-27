@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.remote.datasource.declaration.RemoteMealDataSource
 import com.example.data.remote.response.meal.toEntity
 import com.example.data.util.OfflineCacheUtil
@@ -16,11 +17,12 @@ class MealRepositoryImpl @Inject constructor(
     private val localMealDataSource: LocalMealDataSource,
 ): MealRepository {
 
-    override suspend fun fetchMealValue(date: LocalDate): Flow<MealEntity> =
-        OfflineCacheUtil<MealEntity>()
-            .remoteData { remoteMealDataSource.getMealValue(date).toEntity() }
-            .doOnNeedRefresh { localMealDataSource.setMeal(it.meals.map { it.toDbEntity() }) }
-            .createFlow()
+    override suspend fun fetchMealValue(date: LocalDate): MealEntity {
+        Log.d("meals", "Repository")
+        val response = remoteMealDataSource.getMealValue(date).toEntity()
+        localMealDataSource.setMeal(response.meals.map { it.toDbEntity() })
+        return response
+    }
 }
 
 fun MealEntity.MealsValue.toDbEntity() =

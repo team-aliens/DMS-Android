@@ -103,4 +103,5 @@ dependencies {
 
     implementation(Dependency.Compose.VIEWPAGER)
     implementation(Dependency.Compose.VIEWPAGERINDICATE)
+    implementation(Dependency.Ui.COIL)
 }

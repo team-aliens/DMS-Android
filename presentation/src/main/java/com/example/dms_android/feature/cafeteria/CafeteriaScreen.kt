@@ -1,5 +1,6 @@
 package com.example.dms_android.feature.cafeteria
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,47 +19,65 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.drawscope.clipRect
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
 import com.example.design_system.modifier.dormShadow
+import com.example.design_system.toast.rememberToast
+import com.example.design_system.typography.Body3
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
-import com.example.dms_android.feature.home.ScrollEffectPager
+import com.example.dms_android.viewmodel.home.MealViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
-    navController: NavController
+    navController: NavController,
+    mealViewModel: MealViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(key1 = mealViewModel) {
+        Log.d("meals", "View")
+        mealViewModel.fetchMeal(mealViewModel.state.value.today)
+    }
 
     val pagerState = rememberPagerState(3)
     val coroutineScope = rememberCoroutineScope()
+    val toast = rememberToast()
 
+    LaunchedEffect(Unit) {
+        mealViewModel.mealEvent.collect {
+            when (it) {
+                is MealViewModel.Event.FetchMealSuccess -> {
+
+                }
+                else -> {
+                    toast("h")
+                }
+            }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,8 +92,9 @@ fun CafeteriaScreen(
         CafeteriaDiary(
             pagerState = pagerState,
             coroutineScope = coroutineScope,
+            hiltViewModel()
         )
-        CafeteriaViewPager()
+        CafeteriaViewPager(mealViewModel)
     }
 }
 
@@ -98,7 +118,6 @@ fun TopBar(
 
 @Composable
 fun ImportantNotice() {
-
     Box(
         contentAlignment = Alignment.CenterEnd,
         modifier = Modifier
@@ -151,7 +170,9 @@ fun ImportantNotice() {
 fun CafeteriaDiary(
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
+    mealViewModel: MealViewModel
 ) {
+    val state = mealViewModel.state.collectAsState().value
 
     Box(
         modifier = Modifier
@@ -162,11 +183,13 @@ fun CafeteriaDiary(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Spacer(
                 modifier = Modifier
                     .fillMaxHeight(0.055f)
             )
             SubTitle1(text = stringResource(id = R.string.TodayCafeteria))
+
             Row(
                 modifier = Modifier
                     .padding(top = 50.dp)
@@ -179,12 +202,22 @@ fun CafeteriaDiary(
                         .size(40.dp)
                         .padding(end = 12.dp)
                         .clickable {
-
+//                            text = state.today.toString()
+//                            mealViewModel.fetchLocalMeal(
+//                                mealViewModel.state.value.today.minusDays(
+//                                    1
+//                                )
+//                            )
+//                            mealViewModel.state.value.today =
+//                                mealViewModel.state.value.today.minusDays(
+//                                    1
+//                                )
+                            mealViewModel.updateDay(state.today.minusDays(1))
                         },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
                     contentDescription = stringResource(id = R.string.backButton)
                 )
-                Box(
+                Row(
                     modifier = Modifier
                         .border(
                             width = 1.dp,
@@ -193,14 +226,35 @@ fun CafeteriaDiary(
                         )
                         .width(130.dp)
                         .height(35.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_calendar),
+                        contentDescription = ""
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(10.dp)
+                    )
+                    Body5(text = state.today.toString())
                 }
                 Image(
                     modifier = Modifier
                         .size(40.dp)
                         .padding(start = 12.dp, top = 5.dp)
                         .clickable {
-
+//                            text = mealViewModel.state.value.today.toString()
+//                            mealViewModel.fetchLocalMeal(
+//                                mealViewModel.state.value.today.plusDays(
+//                                    1
+//                                )
+//                            )
+//                            mealViewModel.state.value.today =
+//                                mealViewModel.state.value.today.plusDays(
+//                                    1
+//                                )
+                            mealViewModel.updateDay(state.today.plusDays(1))
                         },
                     painter = painterResource(id = R.drawable.ic_meal_next),
                     contentDescription = stringResource(id = R.string.NextButton),
@@ -211,7 +265,9 @@ fun CafeteriaDiary(
 }
 
 @Composable
-fun CafeteriaViewPager() {
+fun CafeteriaViewPager(
+    mealViewModel: MealViewModel
+) {
 
     Box(
         modifier = Modifier
@@ -232,7 +288,7 @@ fun CafeteriaViewPager() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ScrollEffectPager()
+            ScrollEffectPager(mealViewModel)
         }
     }
 }

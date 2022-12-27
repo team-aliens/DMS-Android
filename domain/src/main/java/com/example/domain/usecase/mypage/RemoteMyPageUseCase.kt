@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class RemoteMyPageUseCase @Inject constructor(
     private val myPageRepository: MyPageRepository
-): UseCase<Unit, Flow<MyPageEntity>>() {
-    override suspend fun execute(data: Unit): Flow<MyPageEntity> =
+): UseCase<Unit, MyPageEntity>() {
+    override suspend fun execute(data: Unit): MyPageEntity =
         myPageRepository.fetchMyPage()
 }

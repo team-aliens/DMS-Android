@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MyPageRepository {
 
-    suspend fun fetchMyPage(): Flow<MyPageEntity>
+    suspend fun fetchMyPage(): MyPageEntity
 
-    suspend fun fetchPointList(pointType: PointType): Flow<PointListEntity>
+    suspend fun fetchPointList(pointType: PointType): PointListEntity
 }

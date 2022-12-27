@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 interface MealDao {
 
     @Query("SELECT * FROM ${TableName.MEAL_LIST} WHERE date = :date")
-    suspend fun fetchMealList(date: String): List<MealRoomEntity>
+    suspend fun fetchMealList(date: String): MealRoomEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMealList(mealRoomEntity: List<MealRoomEntity>)

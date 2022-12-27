@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 
 interface LocalMealRepository {
 
-    suspend fun fetchMealList(date: String): List<MealEntity>
+    suspend fun fetchMealList(date: String): MealEntity
 }

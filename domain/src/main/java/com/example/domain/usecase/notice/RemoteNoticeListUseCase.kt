@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class RemoteNoticeListUseCase @Inject constructor(
     private val noticeRepository: NoticeRepository
-): UseCase<NoticeListSCType, Flow<NoticeListEntity>>() {
-    override suspend fun execute(data: NoticeListSCType): Flow<NoticeListEntity> =
+) : UseCase<NoticeListSCType, NoticeListEntity>() {
+    override suspend fun execute(data: NoticeListSCType): NoticeListEntity =
         noticeRepository.fetchNoticeList(data)
 }

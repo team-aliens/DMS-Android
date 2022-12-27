@@ -1,4 +1,4 @@
-package com.example.local_database.localutil
+package com.example.domain.util
 
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -13,7 +13,7 @@ fun String.toLocalDateTime(): LocalDateTime =
 
 fun String.toDate(): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
-    val subTime = dateFormat.parse(this.toString())
+    val subTime = dateFormat.parse(this)
     val date = Date(System.currentTimeMillis())
     val currentTime = dateFormat.format(date)
     val getTime = dateFormat.format(subTime)

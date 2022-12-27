@@ -11,6 +11,6 @@ class LocalMealRepositoryImpl @Inject constructor(
     private val localMealDataSource: LocalMealDataSource
 ) : LocalMealRepository {
 
-    override suspend fun fetchMealList(date: String): List<MealEntity> =
-        localMealDataSource.fetchMealList(date).map { it.toEntity() }
+    override suspend fun fetchMealList(date: String): MealEntity =
+        localMealDataSource.fetchMealList(date).toEntity()
 }

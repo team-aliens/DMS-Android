@@ -5,20 +5,17 @@ import com.example.data.remote.datasource.declaration.RemoteMyPageDataSource
 import com.example.data.remote.response.mypage.FetchMyPageResponse
 import com.example.data.remote.response.mypage.FetchPointListResponse
 import com.example.data.util.HttpHandler
+import com.example.data.util.sendHttpRequest
 import com.example.domain.enums.PointType
 import javax.inject.Inject
 
 class RemoteMyPageDataSourceImpl @Inject constructor(
     private val myPageApi: MyPageApi
-): RemoteMyPageDataSource {
+) : RemoteMyPageDataSource {
 
     override suspend fun fetchMyPage() =
-        HttpHandler<FetchMyPageResponse>()
-            .httpRequest { myPageApi.fetchMyPage() }
-            .sendRequest()
+        sendHttpRequest(httpRequest = { myPageApi.fetchMyPage() })
 
-    override suspend fun    fetchPointList(pointType: PointType) =
-        HttpHandler<FetchPointListResponse>()
-            .httpRequest { myPageApi.fetchPoint(pointType) }
-            .sendRequest()
+    override suspend fun fetchPointList(pointType: PointType) =
+        sendHttpRequest(httpRequest = { myPageApi.fetchPoint(pointType) })
 }
