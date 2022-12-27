@@ -7,6 +7,7 @@ object DmsUrl {
     const val students = "students"
     const val auth = "auth"
     const val schools = "schools"
+    const val studyRoom = "study-rooms"
 
     object User {
         const val login = "$auth/tokens"
@@ -38,5 +39,14 @@ object DmsUrl {
     object MyPage {
         const val MyPage = "${students}/profile"
         const val Point = "point"
+    }
+
+    object StudyRoom{
+        const val Apply = "$studyRoom/seats/{seat-id}"
+        const val fetchApplyTime = "$studyRoom/available-time"
+        const val CancelApply = "$studyRoom/seats"
+        const val StudyRoomList = "$studyRoom/list/students"
+        const val StudyRoomType = "$studyRoom/types"
+        const val StudyRoomDetail = "$studyRoom/{study-room-id}/students"
     }
 }

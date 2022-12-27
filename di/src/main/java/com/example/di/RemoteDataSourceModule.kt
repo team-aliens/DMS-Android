@@ -5,12 +5,14 @@ import com.example.data.remote.datasource.declaration.RemoteMyPageDataSource
 import com.example.data.remote.datasource.declaration.RemoteNoticeDataSource
 import com.example.data.remote.datasource.declaration.RemoteSchoolsDataSource
 import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
+import com.example.data.remote.datasource.declaration.RemoteStudyRoomDataSource
 import com.example.data.remote.datasource.declaration.RemoteUserDataSource
 import com.example.data.remote.datasource.implementation.RemoteMealDataSourceImpl
 import com.example.data.remote.datasource.implementation.RemoteMyPageDataSourceImpl
 import com.example.data.remote.datasource.implementation.RemoteNoticeDataSourceImpl
 import com.example.data.remote.datasource.implementation.RemoteSchoolsDataSourceImpl
 import com.example.data.remote.datasource.implementation.RemoteStudentsDataSourceImpl
+import com.example.data.remote.datasource.implementation.RemoteStudyRoomDataSourceImpl
 import com.example.data.remote.datasource.implementation.RemoteUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -50,4 +52,9 @@ abstract class RemoteDataSourceModule {
     abstract fun provideRemoteMyPageDataSource(
         remoteMyPageDataSourceImpl: RemoteMyPageDataSourceImpl
     ): RemoteMyPageDataSource
+
+    @Binds
+    abstract fun provideRemoteStudyRoomDataSource(
+        remoteStudyRoomDataSourceImpl: RemoteStudyRoomDataSourceImpl
+    ): RemoteStudyRoomDataSource
 }
