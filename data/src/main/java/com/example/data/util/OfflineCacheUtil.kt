@@ -14,6 +14,9 @@ class OfflineCacheUtil<T> {
     fun remoteData(fetchRemoteData: suspend () -> T): OfflineCacheUtil<T> =
         this.apply { this.fetchRemoteData = fetchRemoteData }
 
+    fun localData(fetchLocalData: suspend () -> T): OfflineCacheUtil<T> =
+        this.apply { this.fetchLocalData = fetchLocalData }
+
     fun compareData(isNeedRefresh: suspend (localData: T, remoteData: T) -> Boolean): OfflineCacheUtil<T> =
         this.apply { this.isNeedRefresh = isNeedRefresh }
 
