@@ -26,7 +26,6 @@ object Dependency {
         const val FRAGMENT_KTX_NEW = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX_NEW}"
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
 
-        const val COIL = "io.coil-kt:coil-compose:${Versions.COILCOMPOSE}"
 
         const val GLIDE_CORE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
         const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
@@ -34,7 +33,7 @@ object Dependency {
         const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${Versions.CIRCLEIMAGEVIEW}"
 
         const val LOCALDATETIME = "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
-        const val CircleComposeImage = "io.coil-kt:coil-compose:${Versions.COIL}"
+        const val CIRCLECOMPOSEIMAGE = "io.coil-kt:coil-compose:${Versions.COIL}"
     }
 
     object GSON {
