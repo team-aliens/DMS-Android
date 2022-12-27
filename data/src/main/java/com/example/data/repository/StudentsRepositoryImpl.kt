@@ -75,6 +75,7 @@ class StudentsRepositoryImpl @Inject constructor(
             email = email,
             authCode = authCode,
             grade = grade,
+            classRoom = classRoom
             number = number,
             accountId = accountId,
             password = password,
