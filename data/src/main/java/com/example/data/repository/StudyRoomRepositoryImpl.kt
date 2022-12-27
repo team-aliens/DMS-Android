@@ -18,13 +18,10 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun applySeat() =
         remoteStudyRoomDataSource.applySeat()
 
+
     override suspend fun fetchApplySeatTime(): Flow<ApplySeatTimeEntity> =
         OfflineCacheUtil<ApplySeatTimeEntity>()
             .remoteData { remoteStudyRoomDataSource.fetchApplySeatTime().toEntity() }
-                //TODO: 나중에 Local모듈 합쳐지면 짜야 하는 코드 일단은 RemoteFlow발행 하게 해놓음
-            /*.localData { localStudyRoomDataSource.fetchApplyTime() }
-            .doOnNeedRefresh { localStudyRoomDataSource.saveApplyTime(it) }
-            .createFlow()*/
             .createRemoteFlow()
 
     override suspend fun cancelApplySeat() =
