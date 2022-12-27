@@ -1,9 +1,9 @@
 package com.example.data.remote.datasource.declaration
 
-import com.example.auth_data.remote.request.students.ResetPasswordRequest
-import com.example.auth_data.remote.request.students.SignUpRequest
-import com.example.auth_data.remote.response.students.ExamineGradeResponse
-import com.example.auth_data.remote.response.students.SignUpResponse
+import com.example.data.remote.request.students.ResetPasswordRequest
+import com.example.data.remote.request.students.SignUpRequest
+import com.example.data.remote.response.students.ExamineGradeResponse
+import com.example.data.remote.response.students.SignUpResponse
 import java.util.UUID
 
 interface RemoteStudentsDataSource {

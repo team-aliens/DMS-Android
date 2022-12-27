@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.dms_android.databinding.FragmentSetIdBinding
 import com.example.dms_android.R
@@ -14,9 +15,10 @@ import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.id.SetIdEvent
 import com.example.dms_android.feature.register.ui.password.SetPasswordFragment
-import com.example.dms_android.util.invisible
+import com.example.dms_android.util.isVisible
 import com.example.dms_android.util.repeatOnStarted
 import com.example.dms_android.util.visible
+import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import com.example.domain.entity.user.ExamineGradeEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,9 +29,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
     R.layout.fragment_set_id
 ) {
     private val setIdViewModel: SetIdViewModel by viewModels()
-
-    /* private var nameCheck = false
-     private var duplicateIdCheck = false*/
+    private val signUpViewModel: SignUpViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +52,13 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 
     private fun handleEvent(event: SetIdEvent) {
         when (event) {
-            is SetIdEvent.ExamineGradeName -> setNameValue(event.examineGradeEntity)
+            is SetIdEvent.ExamineGradeName -> {
+                binding.etGrade.setBackgroundResource(R.drawable.register_et_background)
+                binding.etClass.setBackgroundResource(R.drawable.register_et_background)
+                binding.etNumber.setBackgroundResource(R.drawable.register_et_background)
+                binding.clName.visibility = View.VISIBLE
+                setNameValue(event.examineGradeEntity)
+            }
 
             is SetIdEvent.ExamineGradeConflictException -> {
                 showShortToast(getString(R.string.CheckGrade))
@@ -80,6 +86,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 
                 registerActive.supportFragmentManager.beginTransaction()
                     .replace(R.id.containerRegister, SetPasswordFragment())
+                    .addToBackStack("SetId")
                     .commit()
             }
 
@@ -99,64 +106,118 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
     override fun initView() {
         binding.btnVerificationCode.isClickable = false
         binding.btnVerificationCode.isEnabled = false
+        binding.etId.isEnabled = false
+
         var id = ""
 
-         if (binding.etClass.text!!.isNotEmpty() && binding.etNumber.text!!.isNotEmpty() && binding.etGrade.text!!.isNotEmpty()) {
-             println("excute")
-             setIdViewModel.examineGrade(
-                 grade = binding.etGrade.text.toString().toInt(),
-                 classRoom = binding.etClass.text.toString().toInt(),
-                 number = binding.etNumber.text.toString().toInt(),
-             )
-         }
+        checkNameLogic()
 
-         binding.btnOKName.setOnClickListener {
-             binding.clName.isGone
-             //nameCheck = true
-         }
-        //TODO: next pr
-         /*if (nameCheck) {
-             binding.etClass.isClickable = false
-             binding.etClass.isEnabled = false
-             binding.etGrade.isClickable = false
-             binding.etGrade.isEnabled = false
-             binding.etNumber.isClickable = false
-             binding.etNumber.isEnabled = false
-         }
+        binding.btnOKName.setOnClickListener {
+            binding.clName.visibility = View.GONE
+            binding.etId.isEnabled = true
 
-         if (nameCheck && duplicateIdCheck) {
-             binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
-             binding.btnVerificationCode.isClickable = true
-             binding.btnVerificationCode.isEnabled = true
-         } else {
-             binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
-             binding.btnVerificationCode.isClickable = false
-             binding.btnVerificationCode.isEnabled = false
-         }*/
+            binding.etNumber.isEnabled = false
+            binding.etGrade.isEnabled = false
+            binding.etClass.isEnabled = false
+        }
 
-         binding.etId.addTextChangedListener(object : TextWatcher {
-             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-             }
+        binding.etId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
 
-             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                 id = p0.toString()
-             }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                id = p0.toString()
+            }
 
-             override fun afterTextChanged(p0: Editable?) {
-             }
-         })
+            override fun afterTextChanged(p0: Editable?) {
+                if (binding.etId.text!!.isNotEmpty()) {
+                    binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
+                    binding.btnVerificationCode.isClickable = true
+                    binding.btnVerificationCode.isEnabled = true
+                } else {
+                    binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
+                    binding.btnVerificationCode.isClickable = false
+                    binding.btnVerificationCode.isEnabled = false
+                }
+            }
+        })
 
-         binding.btnVerificationCode.setOnClickListener {
-             setIdViewModel.duplicateId(id)
-         }
+        binding.btnVerificationCode.setOnClickListener {
+            signUpViewModel.classRoom = binding.etClass.text.toString().toInt()
+            signUpViewModel.grade = binding.etGrade.text.toString().toInt()
+            signUpViewModel.number = binding.etNumber.text.toString().toInt()
+            signUpViewModel.accountId = id
 
-         binding.ivBack.setOnClickListener {
-             //TODO: 뒤로가는 코드 작성
-         }
+            setIdViewModel.duplicateId(id)
+        }
+
+        binding.ivBack.setOnClickListener {
+            val registerActive = activity as RegisterActivity
+            registerActive.supportFragmentManager.beginTransaction()
+                .remove(SetIdFragment())
+                .commit()
+        }
+    }
+    private fun checkNameLogic() {
+        binding.etGrade.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (binding.etClass.text!!.isNotEmpty() && binding.etNumber.text!!.isNotEmpty() && binding.etGrade.text!!.isNotEmpty()) {
+                    setIdViewModel.examineGrade(
+                        grade = binding.etGrade.text.toString().toInt(),
+                        classRoom = binding.etClass.text.toString().toInt(),
+                        number = binding.etNumber.text.toString().toInt(),
+                    )
+                }
+            }
+        })
+
+        binding.etClass.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (binding.etClass.text!!.isNotEmpty() && binding.etNumber.text!!.isNotEmpty() && binding.etGrade.text!!.isNotEmpty()) {
+                    setIdViewModel.examineGrade(
+                        grade = binding.etGrade.text.toString().toInt(),
+                        classRoom = binding.etClass.text.toString().toInt(),
+                        number = binding.etNumber.text.toString().toInt(),
+                    )
+                }
+            }
+        })
+
+        binding.etNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (binding.etClass.text!!.isNotEmpty() && binding.etNumber.text!!.isNotEmpty() && binding.etGrade.text!!.isNotEmpty()) {
+                    setIdViewModel.examineGrade(
+                        grade = binding.etGrade.text.toString().toInt(),
+                        classRoom = binding.etClass.text.toString().toInt(),
+                        number = binding.etNumber.text.toString().toInt(),
+                    )
+                }
+            }
+        })
     }
 
     private fun setNameValue(examineGradeData: ExamineGradeEntity) {
-        binding.clName.isGone
         binding.tvRealName.text = "${examineGradeData.name}님이 맞습니까?"
     }
 }

@@ -22,6 +22,7 @@
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
 
+    <string name="EmailTooManyRequest">잠시 후에 다시 이메일을 보내주세요</string>
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
 
@@ -132,6 +133,7 @@
     <string name="New">최신순</string>
     <string name="NoticeTitle">공지사항 제목</string>
     <string name="NoticeTime">2022/01/21  8:29</string>
+    <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
     <string name="NoticeContent">동해물과 백두산이 마르고 닳도록 하나님이 보우하사 우리 나라 만세</string>
     <string name="Gcn">UserGcn</string>
     <string name="ExampleGcn">2115</string>
@@ -150,4 +152,8 @@
     <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="OriginPw">기존 비밀번호</string>
     <string name="TodayMeal">오늘의 급식</string>
+    <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
+    <string name="NotFound">찾을 수 없음</string>
+    <string name="CompleteRegister">회원가입이 완료되었습니다.</string>
+    <string name="GoHome">홈화면으로 가기</string>
 </resources>

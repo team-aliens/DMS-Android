@@ -11,11 +11,11 @@
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="57dp"
-            android:layout_height="57dp"
+            android:layout_width="97dp"
+            android:layout_height="34dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="73dp"
-            android:src="@drawable/temporarylogo"
+            android:layout_marginTop="92dp"
+            android:src="@drawable/ic_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

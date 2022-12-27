@@ -108,9 +108,10 @@ fun TopBar(
     ) {
         Image(
             modifier = Modifier
-                .size(60.dp)
-                .padding(start = 13.dp, top = 10.dp),
-            painter = painterResource(id = R.drawable.temporarylogo),
+                .height(34.dp)
+                .width(97.dp)
+                .padding(start = 13.dp, top = 12.dp),
+            painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = stringResource(id = R.string.MainLogo),
         )
     }
