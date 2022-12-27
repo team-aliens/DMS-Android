@@ -46,5 +46,6 @@ object DmsUrl {
         const val fetchApplyTime = "$studyRoom/available-time"
         const val CancelApply = "$studyRoom/seats"
         const val StudyRoomList = "$studyRoom/list/students"
+        const val StudyRoomType = "$studyRoom/types"
     }
 }
