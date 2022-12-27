@@ -8,10 +8,12 @@ import com.example.local_database.converter.StringListTypeConverter
 import com.example.local_database.dao.MealDao
 import com.example.local_database.dao.NoticeDao
 import com.example.local_database.dao.PointDao
+import com.example.local_database.dao.StudyRoomDao
 import com.example.local_database.entity.meal.MealRoomEntity
 import com.example.local_database.entity.mypage.PointListRoomEntity
 import com.example.local_database.entity.notice.NoticeDetailRoomEntity
 import com.example.local_database.entity.notice.NoticeListRoomEntity
+import com.example.local_database.entity.studyroom.FetchApplyTimeRoomEntity
 
 @Database(
     entities = [
@@ -19,6 +21,7 @@ import com.example.local_database.entity.notice.NoticeListRoomEntity
         NoticeListRoomEntity::class,
         NoticeDetailRoomEntity::class,
         PointListRoomEntity::class,
+        FetchApplyTimeRoomEntity::class,
     ], version = 1, exportSchema = false
 )
 
@@ -33,4 +36,5 @@ abstract class DMSDataBase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun noticeDao(): NoticeDao
     abstract fun pointDao(): PointDao
+    abstract fun studyRoomDao(): StudyRoomDao
 }

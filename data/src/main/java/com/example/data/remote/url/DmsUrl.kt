@@ -39,4 +39,13 @@ object DmsUrl {
         const val MyPage = "${students}/profile"
         const val Point = "/points"
     }
+
+    object StudyRoom{
+        const val Apply = "$studyRoom/seats/{seat-id}"
+        const val fetchApplyTime = "$studyRoom/available-time"
+        const val CancelApply = "$studyRoom/seats"
+        const val StudyRoomList = "$studyRoom/list/students"
+        const val StudyRoomType = "$studyRoom/types"
+        const val StudyRoomDetail = "$studyRoom/{study-room-id}/students"
+    }
 }
