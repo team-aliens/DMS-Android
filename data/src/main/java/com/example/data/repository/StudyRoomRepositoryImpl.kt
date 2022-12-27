@@ -2,8 +2,10 @@ package com.example.data.repository
 
 import com.example.data.remote.datasource.declaration.RemoteStudyRoomDataSource
 import com.example.data.remote.response.studyroom.ApplySeatTimeResponse
+import com.example.data.remote.response.studyroom.StudyRoomListResponse
 import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.studyroom.ApplySeatTimeEntity
+import com.example.domain.entity.studyroom.StudyRoomListEntity
 import com.example.domain.repository.StudyRoomRepository
 import com.example.local_database.datasource.declaration.LocalStudyRoomDataSource
 import com.example.local_database.entity.studyroom.FetchApplyTimeRoomEntity
@@ -27,10 +29,33 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun cancelApplySeat() =
         remoteStudyRoomDataSource.cancelApplySeat()
 
+    override suspend fun fetchStudyRoomList(): Flow<StudyRoomListEntity> =
+        OfflineCacheUtil<StudyRoomListEntity>()
+            .remoteData { remoteStudyRoomDataSource.fetchStudyRoomList().toEntity() }
+            .createRemoteFlow()
+
 
     private fun ApplySeatTimeResponse.toEntity() =
         ApplySeatTimeEntity(
             startAt = startAt,
             endAt = endAt,
+        )
+
+
+    private fun StudyRoomListResponse.toEntity() =
+        StudyRoomListEntity(
+            studyRooms = studyRooms.map { it.toEntity() }
+        )
+
+    private fun StudyRoomListResponse.StudyRoom.toEntity() =
+        StudyRoomListEntity.StudyRoom(
+            availableGrade = availableGrade,
+            availableSex = availableSex,
+            floor = floor,
+            id = id,
+            inUseHeadcount = inUseHeadcount,
+            isMine = isMine,
+            name = name,
+            totalAvailableSeat = totalAvailableSeat,
         )
 }

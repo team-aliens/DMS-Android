@@ -3,6 +3,7 @@ package com.example.data.remote.datasource.implementation
 import com.example.data.remote.api.StudyRoomApi
 import com.example.data.remote.datasource.declaration.RemoteStudyRoomDataSource
 import com.example.data.remote.response.studyroom.ApplySeatTimeResponse
+import com.example.data.remote.response.studyroom.StudyRoomListResponse
 import com.example.data.util.HttpHandler
 import javax.inject.Inject
 
@@ -23,5 +24,10 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     override suspend fun cancelApplySeat() =
         HttpHandler<Unit>()
             .httpRequest { studyRoomApi.cancelApplySeat() }
+            .sendRequest()
+
+    override suspend fun fetchStudyRoomList(): StudyRoomListResponse =
+        HttpHandler<StudyRoomListResponse>()
+            .httpRequest { studyRoomApi.fetchStudyRoomList() }
             .sendRequest()
 }
