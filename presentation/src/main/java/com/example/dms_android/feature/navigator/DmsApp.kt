@@ -30,6 +30,7 @@ import com.example.design_system.color.DormColor
 import com.example.dms_android.feature.cafeteria.CafeteriaScreen
 import com.example.dms_android.feature.mypage.MyPageScreen
 import com.example.dms_android.feature.notice.NoticeScreen
+import com.example.dms_android.feature.studyroom.StudyRoomListScreen
 import com.example.dms_android.viewmodel.mypage.MyPageViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -52,7 +53,7 @@ fun DmsApp(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
-            composable(BottomNavigationItem.Survey.route) { /*TODO("아직 구현 안됨")*/ }
+            composable(BottomNavigationItem.Survey.route) { StudyRoomListScreen(navController = navController) }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
             composable(BottomNavigationItem.MyPage.route) { MyPageScreen(navController = navController, scaffoldState = scaffoldState) }
         }

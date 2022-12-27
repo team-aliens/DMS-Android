@@ -15,6 +15,7 @@ import com.example.design_system.color.DormColor
 import com.example.dms_android.feature.auth.login.LoginScreen
 import com.example.dms_android.feature.notice.NoticeDetailScreen
 import com.example.dms_android.feature.pointlist.PointListScreen
+import com.example.dms_android.feature.studyroom.StudyRoomDetailScreen
 
 @Composable
 fun RootDms() {
@@ -46,6 +47,15 @@ fun RootDms() {
             PointListScreen(
                 navController = navController,
             )
+        }
+        composable(
+            route = "studyRoomDetail/{seatId}",
+            arguments = listOf(navArgument("seatId") { type = NavType.StringType })
+        ) {
+            val roomId = it.arguments!!.getString("seatId")
+            if (roomId != null) {
+                StudyRoomDetailScreen(navController = navController, roomId)
+            }
         }
     }
 }

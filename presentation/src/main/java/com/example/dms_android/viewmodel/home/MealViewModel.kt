@@ -46,10 +46,6 @@ class MealViewModel @Inject constructor(
                         )
                     )
                 )
-//                event(Event.FetchMealSuccess(it))
-//                state.value.mealList.breakfast = it.breakfast
-//                state.value.mealList.lunch = it.lunch
-//                state.value.mealList.dinner = it.dinner
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(Event.BadRequestException)

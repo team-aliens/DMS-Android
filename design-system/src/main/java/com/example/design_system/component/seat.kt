@@ -67,7 +67,7 @@ private val RoomBoxShape = RoundedCornerShape(22.dp)
  * @param color 좌석의 색갈
  */
 data class SeatItem(
-    val id: Int? = null,
+    val id: String? = null,
     val name: String? = null,
     val color: Color = DormColor.DormPrimary,
 )
@@ -92,7 +92,7 @@ fun RoomDetail(
     startDescription: String,
     endDescription: String,
     seats: List<List<SeatItem>>,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Layout(
         modifier = Modifier
@@ -209,12 +209,12 @@ fun RoomDetail(
 
 @Composable
 private fun SeatContent(
-    seatId: Int,
+    seatId: String,
     color: Color,
     text: String,
     textColor: Color = DormColor.Gray100,
     enabled: Boolean = true,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -242,7 +242,7 @@ private fun SeatContent(
 private fun SeatListContent(
     modifier: Modifier = Modifier,
     seats: List<List<SeatItem>>,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -288,7 +288,10 @@ fun RoomContent(
         modifier = Modifier
             .fillMaxWidth()
             .height(91.dp)
-            .background(DormColor.Gray100)
+            .background(
+                color = DormColor.Gray100,
+                shape = RoundedCornerShape(15),
+            )
             .dormClickable {
                 onClick(roomId)
             },
@@ -333,8 +336,8 @@ private val DummySeat = (0..20).map { a ->
     (0..20).map { b ->
         val random = Random.nextInt(3)
         when (random) {
-            0 -> SeatItem(id = a+b, name = "유저${a+b}", color = DormColor.DormPrimary)
-            1 -> SeatItem(id = a+b, name = null, color = DormColor.Lighten100)
+            0 -> SeatItem(id = "1", name = "유저${a + b}", color = DormColor.DormPrimary)
+            1 -> SeatItem(id =" a + b", name = null, color = DormColor.Lighten100)
             else -> SeatItem(id = null, name = null)
         }
     }.toList()

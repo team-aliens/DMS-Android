@@ -162,7 +162,6 @@ fun ImportantNotice() {
             contentDescription = stringResource(id = R.string.icNotice),
         )
     }
-
 }
 
 @OptIn(ExperimentalPagerApi::class)
