@@ -12,7 +12,7 @@ object Versions {
     const val ROOM = "2.4.3"
 
     const val GSON = "2.9.0"
-
+    const val COIL = "2.0.0-rc01"
     const val DATASTORE = "1.0.0"
 
     const val HILT = "2.44"
