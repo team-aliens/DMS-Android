@@ -21,7 +21,7 @@ import org.threeten.bp.ZoneId
 import javax.inject.Inject
 
 class AuthorizationInterceptor @Inject constructor(
-    private val userDataStorage: UserDataStorage
+    private val userDataStorage: UserDataStorage,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -29,10 +29,19 @@ class AuthorizationInterceptor @Inject constructor(
         val path = request.url.encodedPath
         val ignorePath = listOf(
             "/auth/tokens",
+            "/auth/code",
+            "/auth/email",
+            "/students/signup",
+            "/students/name",
+            "/students/account-id/duplication",
+            "/schools/code",
         )
         if (ignorePath.contains(path)) return chain.proceed(request)
+        if (path.contains("/schools/answer/")) return chain.proceed(request)
+        if (path.contains("/schools/question/")) return chain.proceed(request)
 
-        val expiredAt = runBlocking { userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime() }
+        val expiredAt =
+            runBlocking { userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime() }
         val currentTime = LocalDateTimeEx.getNow()
 
         if (expiredAt.isBefore(currentTime)) {
