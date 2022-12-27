@@ -1,5 +1,6 @@
 package com.example.dms_android.feature.register.ui.last
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentPolicyBinding
+import com.example.dms_android.feature.HomeActivity
 import com.example.dms_android.feature.MainActivity
 import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.SignUpEvent
@@ -42,7 +44,7 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
             SignUpEvent.NotFoundException -> showShortToast(getString(R.string.NotFound))
             SignUpEvent.SignUpSuccess -> {
                 GoLoginDialog(requireContext(), onYesClick = {
-                    val intent = Intent(context, MainActivity::class.java)
+                    val intent = Intent(context, HomeActivity::class.java)
                     startActivity(intent)
                 }).callDialog()
             }
@@ -53,13 +55,15 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
         }
     }
     
+    @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
+        binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl("https://team-aliens-webview.dsm-dms.com/sign-up-policy")
         binding.btnVerificationCode.isEnabled = false
         binding.cbCheckAllPolicy.isChecked = false
         
-        binding.cbCheckAllPolicy.setOnCheckedChangeListener { compoundButton, b ->
-            if(b) {
+        binding.cbCheckAllPolicy.setOnCheckedChangeListener { _, checked ->
+            if(checked) {
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.btnVerificationCode.isEnabled = true
             }else {
