@@ -10,4 +10,6 @@ object NavigationRoute {
     }
     const val Login = "login"
     const val Main = "main"
+    const val NoticeDetail = "noticeDetail/{noticeId}"
+    const val PointList = "pointList"
 }
