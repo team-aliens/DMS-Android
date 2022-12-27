@@ -8,8 +8,8 @@ import java.time.LocalDate
 
 interface MealApi {
 
-    @GET (DmsUrl.meal)
-    fun getCafeteriaValue(
-        @Path("date") date: LocalDate,
+    @GET(DmsUrl.meal)
+    suspend fun getCafeteriaValue(
+        @Path("date") date: String,
     ): MealResponse
 }
