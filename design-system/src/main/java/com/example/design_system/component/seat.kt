@@ -62,12 +62,14 @@ private val RoomBoxShape = RoundedCornerShape(22.dp)
  * 2. 사용 중인 좌석인 경우 (id != null && name != null)
  * 3. 사용 가능한 좌석인 경우 (id != null && name == null)
  *
- * @param id 좌석 id
+ * @param id 좌석 UUID
+ * @param number 좌석 넘버
  * @param name 좌석을 사용중인 사람의 이름
  * @param color 좌석의 색갈
  */
 data class SeatItem(
-    val id: String? = null,
+    val id: String,
+    val number: Int? = null,
     val name: String? = null,
     val color: Color = DormColor.DormPrimary,
 )
@@ -256,11 +258,11 @@ private fun SeatListContent(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 it.map { seat ->
-                    if (seat.id != null) {
+                    if (seat.number != null) {
                         SeatContent(
                             seatId = seat.id,
                             color = seat.color,
-                            text = seat.name ?: seat.id.toString(),
+                            text = seat.name ?: seat.number.toString(),
                             onClick = { seatId ->
                                 onClick(seatId)
                             },
@@ -336,9 +338,9 @@ private val DummySeat = (0..20).map { a ->
     (0..20).map { b ->
         val random = Random.nextInt(3)
         when (random) {
-            0 -> SeatItem(id = "1", name = "유저${a + b}", color = DormColor.DormPrimary)
-            1 -> SeatItem(id =" a + b", name = null, color = DormColor.Lighten100)
-            else -> SeatItem(id = null, name = null)
+            0 -> SeatItem(number = 1, name = "유저${a + b}", color = DormColor.DormPrimary, id = "")
+            1 -> SeatItem(number = a + b, name = null, color = DormColor.Lighten100, id = "")
+            else -> SeatItem(number = null, name = null, id = "")
         }
     }.toList()
 }.toList()

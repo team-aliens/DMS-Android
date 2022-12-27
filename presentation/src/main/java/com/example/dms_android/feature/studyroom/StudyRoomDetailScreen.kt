@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
@@ -114,12 +112,12 @@ fun StudyRoomDetailScreen(
             val random = Random.nextInt(3)
             when (random) {
                 0 -> SeatItem(
-                    id = (a + b).toString(),
+                    number = (a + b).toString(),
                     name = "유저${a + b}",
                     color = DormColor.DormPrimary
                 )
-                1 -> SeatItem(id = (a + b).toString(), name = null, color = DormColor.Lighten100)
-                else -> SeatItem(id = null, name = null)
+                1 -> SeatItem(number = (a + b).toString(), name = null, color = DormColor.Lighten100)
+                else -> SeatItem(number = null, name = null)
             }
         }.toList()
     }.toList()
