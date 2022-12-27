@@ -1,11 +1,20 @@
 package com.example.dms_android.feature.navigator
 
+import androidx.compose.material.SnackbarDefaults.backgroundColor
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.contentColorFor
+import androidx.compose.material.primarySurface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.design_system.color.DormColor
 import com.example.dms_android.feature.auth.login.LoginScreen
+import com.example.dms_android.feature.notice.NoticeDetailScreen
+import com.example.dms_android.feature.pointlist.PointListScreen
 
 @Composable
 fun RootDms() {
@@ -22,6 +31,20 @@ fun RootDms() {
             DmsApp(
                 navController = navController,
                 scaffoldState = scaffoldState
+            )
+        }
+        composable(
+            route = "noticeDetail/{noticeId}",
+            arguments = listOf(navArgument("noticeId") { type = NavType.StringType })
+        ) {
+            val noticeId = it.arguments!!.getString("noticeId")
+            if (noticeId != null) {
+                NoticeDetailScreen(navController, noticeId)
+            }
+        }
+        composable(NavigationRoute.PointList) {
+            PointListScreen(
+                navController = navController,
             )
         }
     }
