@@ -54,6 +54,7 @@ fun StudyRoomListEntity.StudyRoom.toNotice() =
         position = "${floor}층",
         title = name,
         currentNumber = inUseHeadcount,
+        isMine = isMine,
         maxNumber = totalAvailableSeat,
         condition = "${availableGrade}학년 $studyRoomSex",
     )
@@ -79,6 +80,7 @@ fun StudyRoomListScreen(
                 title = "qwef",
                 currentNumber = 1,
                 maxNumber = 2,
+                isMine = false,
                 condition = "afwe",
             ),
             RoomDataClass(
@@ -87,6 +89,7 @@ fun StudyRoomListScreen(
                 title = "qwef",
                 currentNumber = 1,
                 maxNumber = 2,
+                isMine = false,
                 condition = "afwe",
             )
         )
@@ -206,6 +209,7 @@ fun StudyRoomListScreen(
                     currentNumber = point.currentNumber,
                     maxNumber = point.maxNumber,
                     condition = point.condition,
+                    isMine = point.isMine,
                     onClick = { seatId ->
                         navController.navigate("studyRoomDetail/${seatId}")
                     }
@@ -220,6 +224,7 @@ data class RoomDataClass(
     val position: String,
     val title: String,
     val currentNumber: Int,
+    val isMine: Boolean,
     val maxNumber: Int,
     val condition: String,
 )
