@@ -255,8 +255,8 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
     }
 
     this.seats.map { seat ->
-        val width = seat.widthLocation
-        val height = seat.heightLocation
+        val width = seat.widthLocation - 1
+        val height = seat.heightLocation - 1
         val color = seat.type?.color
 
         defaultSeats[height][width] = SeatItem(
