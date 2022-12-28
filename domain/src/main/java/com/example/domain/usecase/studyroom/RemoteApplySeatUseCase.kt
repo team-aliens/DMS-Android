@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class RemoteApplySeatUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-) : UseCase<Unit, Unit>() {
-    override suspend fun execute(data: Unit) {
-        studyRoomRepository.applySeat()
+) : UseCase<String, Unit>() {
+    override suspend fun execute(data: String) {
+        studyRoomRepository.applySeat(data)
     }
 }

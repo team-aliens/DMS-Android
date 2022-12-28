@@ -29,7 +29,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -81,12 +83,20 @@ fun CafeteriaScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray100),
+            .background(DormColor.Gray100)
+            .paint(
+                painter = painterResource(R.drawable.photo_cafeteria_background),
+                contentScale = ContentScale.FillBounds
+            ),
     ) {
+        Spacer(
+            modifier = Modifier
+                .height(20.dp)
+        )
         TopBar()
         Spacer(
             modifier = Modifier
-                .height(15.dp)
+                .height(25.dp)
         )
         ImportantNotice()
         CafeteriaDiary(
@@ -101,16 +111,17 @@ fun CafeteriaScreen(
 @Composable
 fun TopBar(
 ) {
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth(),
-        contentAlignment = Alignment.TopStart,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
         Image(
             modifier = Modifier
-                .height(34.dp)
-                .width(97.dp)
-                .padding(start = 13.dp, top = 12.dp),
+                .height(40.dp)
+                .width(100.dp)
+                .padding(start = 20.dp, top = 12.dp),
             painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = stringResource(id = R.string.MainLogo),
         )
@@ -163,7 +174,6 @@ fun ImportantNotice() {
             contentDescription = stringResource(id = R.string.icNotice),
         )
     }
-
 }
 
 @OptIn(ExperimentalPagerApi::class)
@@ -275,13 +285,6 @@ fun CafeteriaViewPager(
             .fillMaxSize()
             .padding(top = 23.dp),
     ) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp),
-            painter = painterResource(id = R.drawable.photo_cafeteria_background),
-            contentDescription = stringResource(id = R.string.CafeteriaBackground)
-        )
         Row(
             modifier = Modifier
                 .fillMaxSize()

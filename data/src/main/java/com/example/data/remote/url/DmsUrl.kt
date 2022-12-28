@@ -41,7 +41,7 @@ object DmsUrl {
         const val Point = "/points"
     }
 
-    object StudyRoom{
+    object StudyRoom {
         const val Apply = "$studyRoom/seats/{seat-id}"
         const val fetchApplyTime = "$studyRoom/available-time"
         const val CancelApply = "$studyRoom/seats"

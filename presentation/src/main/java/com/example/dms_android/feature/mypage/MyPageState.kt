@@ -4,7 +4,7 @@ import com.example.dms_android.base.MviState
 import com.example.domain.enums.PointType
 
 data class MyPageState(
-    val type: PointType,
+    var type: PointType,
     var totalPoint: Int,
     val myPageEntity: MyPageEntity = MyPageEntity(),
 ) : MviState {

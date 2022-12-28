@@ -145,7 +145,8 @@ fun NoticeTopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(85.dp),
+            .height(85.dp)
+            .padding(horizontal = 25.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {

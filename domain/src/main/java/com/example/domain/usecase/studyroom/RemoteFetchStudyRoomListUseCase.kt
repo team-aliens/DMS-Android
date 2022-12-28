@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class RemoteFetchStudyRoomListUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-) : UseCase<Unit, Flow<StudyRoomListEntity>>() {
-    override suspend fun execute(data: Unit): Flow<StudyRoomListEntity> =
+) : UseCase<Unit, StudyRoomListEntity>() {
+    override suspend fun execute(data: Unit): StudyRoomListEntity =
         studyRoomRepository.fetchStudyRoomList()
 }

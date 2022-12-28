@@ -16,7 +16,7 @@ data class StudyRoomDetailResponse(
     @SerializedName("north_description") val northDescription: String,
     @SerializedName("total_width_size") val totalWidthSize: Int,
     @SerializedName("total_height_size") val totalHeightSize: Int,
-    @SerializedName("seats") val seats: Seat,
+    @SerializedName("seats") val seats: List<Seat>,
 ) {
     data class Seat(
         @SerializedName("id") val id: UUID,

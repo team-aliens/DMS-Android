@@ -29,6 +29,8 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.example.design_system.button.DormButtonColor
+import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.color.DormColor
 import com.example.design_system.constans.asLoose
 import com.example.design_system.modifier.dormClickable
@@ -62,14 +64,17 @@ private val RoomBoxShape = RoundedCornerShape(22.dp)
  * 2. 사용 중인 좌석인 경우 (id != null && name != null)
  * 3. 사용 가능한 좌석인 경우 (id != null && name == null)
  *
- * @param id 좌석 id
+ * @param id 좌석 UUID
+ * @param number 좌석 넘버
  * @param name 좌석을 사용중인 사람의 이름
  * @param color 좌석의 색갈
  */
 data class SeatItem(
-    val id: Int? = null,
+    val id: String? = null,
+    val number: Int? = null,
     val name: String? = null,
     val color: Color = DormColor.DormPrimary,
+    val isApplication: Boolean = false,
 )
 
 @Composable
@@ -92,7 +97,7 @@ fun RoomDetail(
     startDescription: String,
     endDescription: String,
     seats: List<List<SeatItem>>,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Layout(
         modifier = Modifier
@@ -209,12 +214,12 @@ fun RoomDetail(
 
 @Composable
 private fun SeatContent(
-    seatId: Int,
+    seatId: String,
     color: Color,
     text: String,
     textColor: Color = DormColor.Gray100,
     enabled: Boolean = true,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -242,7 +247,7 @@ private fun SeatContent(
 private fun SeatListContent(
     modifier: Modifier = Modifier,
     seats: List<List<SeatItem>>,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -256,11 +261,12 @@ private fun SeatListContent(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 it.map { seat ->
-                    if (seat.id != null) {
+                    if (seat.number != null) {
                         SeatContent(
-                            seatId = seat.id,
+                            seatId = seat.id ?: "",
                             color = seat.color,
-                            text = seat.name ?: seat.id.toString(),
+                            text = if (seat.isApplication) seat.number.toString() else seat.name
+                                ?: seat.number.toString(),
                             onClick = { seatId ->
                                 onClick(seatId)
                             },
@@ -282,13 +288,17 @@ fun RoomContent(
     currentNumber: Int,
     maxNumber: Int,
     condition: String,
+    isMine: Boolean,
     onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(91.dp)
-            .background(DormColor.Gray100)
+            .background(
+                color = DormColor.Gray100,
+                shape = RoundedCornerShape(15),
+            )
             .dormClickable {
                 onClick(roomId)
             },
@@ -318,10 +328,26 @@ fun RoomContent(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Body5(
-                text = condition,
-                color = DormColor.DormPrimary,
-            )
+            Row(
+                modifier =
+                Modifier.fillMaxWidth()
+            ) {
+                Body5(
+                    text = condition,
+                    color = DormColor.DormPrimary,
+                )
+                if (isMine) {
+                    DormContainedLargeButton(
+                        modifier = Modifier
+                            .height(24.dp)
+                            .width(52.dp),
+                        text = "신청함",
+                        color = DormButtonColor.Blue
+                    ) {
+
+                    }
+                }
+            }
         }
     }
 }
@@ -333,9 +359,9 @@ private val DummySeat = (0..20).map { a ->
     (0..20).map { b ->
         val random = Random.nextInt(3)
         when (random) {
-            0 -> SeatItem(id = a+b, name = "유저${a+b}", color = DormColor.DormPrimary)
-            1 -> SeatItem(id = a+b, name = null, color = DormColor.Lighten100)
-            else -> SeatItem(id = null, name = null)
+            0 -> SeatItem(number = 1, name = "유저${a + b}", color = DormColor.DormPrimary, id = "")
+            1 -> SeatItem(number = a + b, name = null, color = DormColor.Lighten100, id = "")
+            else -> SeatItem(number = null, name = null, id = "")
         }
     }.toList()
 }.toList()

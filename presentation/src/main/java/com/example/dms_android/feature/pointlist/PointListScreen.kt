@@ -1,5 +1,7 @@
 package com.example.dms_android.feature.pointlist
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,11 +18,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,7 +58,7 @@ fun PointListScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        myPageViewModel.fetchPointList()
+        myPageViewModel.fetchPointList(PointType.ALL)
     }
 
     val point = remember {
@@ -118,28 +122,42 @@ fun PointListScreen(
             .fillMaxSize()
             .background(DormColor.Gray200),
     ) {
-        TopBar(title = stringResource(id = R.string.CheckPoint))
-        DialogBox()
+        TopBar(title = stringResource(id = R.string.CheckPoint)) {
+            navController.popBackStack()
+        }
+        DialogBox(myPageViewModel)
         PointListValue(point, state)
     }
 }
 
+@SuppressLint("RememberReturnType")
 @Composable
-fun DialogBox() {
-
+fun DialogBox(
+    myPageViewModel: MyPageViewModel
+) {
     Row(
         modifier = Modifier
             .padding(start = 24.dp, top = 50.dp)
     ) {
-
+        val color = remember {
+            myPageViewModel.state.value.type == PointType.ALL
+        }
+        val color2 = remember {
+            myPageViewModel.state.value.type == PointType.BONUS
+        }
+        val color3 = remember {
+            myPageViewModel.state.value.type == PointType.MINUS
+        }
         DormContainedLargeButton(
             modifier = Modifier
                 .width(80.dp)
                 .height(44.dp),
             text = stringResource(id = R.string.ALL),
             color = DormButtonColor.Blue,
-            enabled = true,
-            onClick = {},
+            enabled = color,
+            onClick = {
+                myPageViewModel.fetchPointList(PointType.ALL)
+            }
         )
         Spacer(
             modifier = Modifier
@@ -151,10 +169,10 @@ fun DialogBox() {
                 .height(44.dp),
             text = stringResource(id = R.string.PlusPoint),
             color = DormButtonColor.Blue,
-            enabled = false,
+            enabled = color2,
             onClick = {
-                // TODO("Change Category")
-            },
+                myPageViewModel.fetchPointList(PointType.BONUS)
+            }
         )
         Spacer(
             modifier = Modifier
@@ -166,11 +184,10 @@ fun DialogBox() {
                 .height(44.dp),
             text = stringResource(id = R.string.MinusPoint),
             color = DormButtonColor.Blue,
-            enabled = false,
-            onClick = {
-                // TODO("Change Category")
-            },
-        )
+            enabled = color3,
+        ) {
+            myPageViewModel.fetchPointList(PointType.MINUS)
+        }
     }
 }
 
@@ -180,7 +197,7 @@ fun PointListValue(
     state: Int,
 ) {
 
-    Column() {
+    Column {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
