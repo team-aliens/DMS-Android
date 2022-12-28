@@ -13,15 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.example.design_system.color.DormColor
 import com.example.design_system.icon.DormIcon
+import com.example.design_system.modifier.dormClickable
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
 
+private val IconSize = DpSize(width = 24.dp, height = 24.dp)
+
 @Composable
 fun TopBar(
-    title: String
+    title: String,
+    onPrevious: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -30,20 +35,18 @@ fun TopBar(
             .background(color = DormColor.Gray100),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Spacer(
-            modifier = Modifier
-                .width(25.dp)
-        )
         Image(
             modifier = Modifier
-                .size(30.dp),
+                .size(IconSize)
+                .dormClickable {
+                    if (onPrevious != null) {
+                        onPrevious()
+                    }
+                },
             painter = painterResource(id = DormIcon.BackArrow.drawableId),
             contentDescription = stringResource(id = R.string.backButton),
         )
-        Spacer(
-            modifier = Modifier
-                .width(45.dp),
-        )
+        Spacer(modifier = Modifier.width(32.dp))
         SubTitle2(text = title)
     }
 }
