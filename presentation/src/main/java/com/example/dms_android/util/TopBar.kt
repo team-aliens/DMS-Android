@@ -2,10 +2,12 @@ package com.example.dms_android.util
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -31,6 +33,7 @@ fun TopBar(
     Row(
         modifier = Modifier
             .height(70.dp)
+            .padding(horizontal = 24.dp)
             .fillMaxWidth()
             .background(color = DormColor.Gray100),
         verticalAlignment = Alignment.CenterVertically,

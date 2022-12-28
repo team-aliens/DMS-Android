@@ -17,7 +17,7 @@ data class StudyRoomState(
                     totalAvailableSeat = 0,
                     inUseHeadCount = 0,
                     availableSex = "",
-                    availableGrade = 0,
+                    availableGrade = "",
                     eastDescription = "",
                     westDescription = "",
                     southDescription = "",

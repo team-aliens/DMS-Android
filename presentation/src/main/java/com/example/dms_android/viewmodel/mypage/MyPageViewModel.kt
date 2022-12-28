@@ -70,10 +70,10 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun fetchPointList() {
+    fun fetchPointList(pointType: PointType) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remotePointListUseCase.execute(state.value.type)
+                remotePointListUseCase.execute(pointType)
             }.onSuccess {
                 event2(Event.FetchPointList(it))
                 state.value.totalPoint = it.totalPoint

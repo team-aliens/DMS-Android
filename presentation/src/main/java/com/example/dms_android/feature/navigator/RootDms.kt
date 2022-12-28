@@ -50,7 +50,9 @@ fun RootDms() {
         }
         composable(
             route = "studyRoomDetail/{seatId}",
-            arguments = listOf(navArgument("seatId") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("seatId") { type = NavType.StringType },
+            )
         ) {
             val roomId = it.arguments!!.getString("seatId")
             if (roomId != null) {
