@@ -78,6 +78,16 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun updateCurrentSeat(
+        seatId: String,
+    ) {
+        setState(
+            state = state.value.copy(
+                currentSeat = seatId,
+            )
+        )
+    }
+
     private fun event(event: Event) {
         viewModelScope.launch {
             _studyRoomEffect.emit(event)
