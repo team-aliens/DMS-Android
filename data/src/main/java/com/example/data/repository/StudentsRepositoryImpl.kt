@@ -1,9 +1,9 @@
 package com.example.data.repository
 
-import com.example.auth_data.remote.request.students.ResetPasswordRequest
-import com.example.auth_data.remote.request.students.SignUpRequest
-import com.example.auth_data.remote.response.students.ExamineGradeResponse
-import com.example.auth_data.remote.response.students.SignUpResponse
+import com.example.data.remote.request.students.ResetPasswordRequest
+import com.example.data.remote.request.students.SignUpRequest
+import com.example.data.remote.response.students.ExamineGradeResponse
+import com.example.data.remote.response.students.SignUpResponse
 import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.user.ExamineGradeEntity
@@ -75,6 +75,7 @@ class StudentsRepositoryImpl @Inject constructor(
             email = email,
             authCode = authCode,
             grade = grade,
+            classRoom = classRoom,
             number = number,
             accountId = accountId,
             password = password,

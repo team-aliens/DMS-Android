@@ -15,6 +15,7 @@ import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
 import com.example.dms_android.feature.register.ui.id.SetIdFragment
 import com.example.dms_android.util.repeatOnStarted
+import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
@@ -24,8 +25,11 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
     R.layout.fragment_email_certification
 ) {
     private val registerEmailViewModel: RegisterEmailViewModel by viewModels()
+    private val signUpViewModel : SignUpViewModel by viewModels()
+
     private var email: String = ""
     private var inputSchoolIdData : String = ""
+    private var temp: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +58,8 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
                 val bundle = Bundle()
                 bundle.putString("schoolId", inputSchoolIdData)
 
+                signUpViewModel.email = email
+                signUpViewModel.authCode = temp
                 val fragment = SetIdFragment()
                 fragment.arguments = bundle
 
@@ -95,6 +101,13 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
             }
 
             is RegisterEmailEvent.TooManyRequestsException -> {
+                binding.tvDetail.text = getString(R.string.EmailTooManyRequest)
+                binding.tvDetail.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
                 showShortToast(getString(R.string.TooManyRequest))
             }
 
@@ -105,8 +118,6 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
     }
 
     override fun initView() {
-
-        var temp: String = ""
 
         binding.btnVerificationCode.isClickable = false
 
@@ -140,7 +151,6 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
         }
 
         binding.btnVerificationCode.setOnClickListener {
-            println(temp)
             registerEmailViewModel.checkEmailCode(email = email, authCode = temp)
         }
     }
