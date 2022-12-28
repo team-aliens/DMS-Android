@@ -37,6 +37,11 @@ import com.example.dms_android.util.TopBar
 import com.example.dms_android.util.observeWithLifecycle
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
+/**
+ * 자습실 상세보기 screen
+ *
+ * @param roomId 자습실 아이디
+ */
 @SuppressLint("ResourceType")
 @Composable
 fun StudyRoomDetailScreen(
@@ -134,7 +139,8 @@ fun StudyRoomDetailScreen(
             endDescription = state.roomDetail.eastDescription,
             seats = state.roomDetail.toDesignSystemModel(),
             onClick = { seatId ->
-                print(seatId)
+                vm.updateCurrentSeat(seatId)
+                //TODO(limsaehyun) Setver Request 필요
             },
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -163,6 +169,12 @@ fun StudyRoomDetailScreen(
     }
 }
 
+/**
+ * [StudyRoomDetailEntity] 를 디자인 시스템인 [RoomDetail] 에서 사용하기 위해
+ * List<List<SeatItem>> 형식으로 Mapping 에주는 extension
+ *
+ * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
+ */
 private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
     val defaultSeats: MutableList<MutableList<SeatItem>> = List(
         size = this.totalHeightSize,
