@@ -68,7 +68,7 @@ private val RoomBoxShape = RoundedCornerShape(22.dp)
  * @param color 좌석의 색갈
  */
 data class SeatItem(
-    val id: String,
+    val id: String? = null,
     val number: Int? = null,
     val name: String? = null,
     val color: Color = DormColor.DormPrimary,
@@ -260,7 +260,7 @@ private fun SeatListContent(
                 it.map { seat ->
                     if (seat.number != null) {
                         SeatContent(
-                            seatId = seat.id,
+                            seatId = seat.id ?: "",
                             color = seat.color,
                             text = seat.name ?: seat.number.toString(),
                             onClick = { seatId ->
