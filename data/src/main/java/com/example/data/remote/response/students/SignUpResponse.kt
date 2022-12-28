@@ -1,11 +1,12 @@
-package com.example.auth_data.remote.response.students
+package com.example.data.remote.response.students
 
 import com.google.gson.annotations.SerializedName
 
 data class SignUpResponse(
     @SerializedName("access_token") val accessToken: String,
-    @SerializedName("expired_at") val expiredAt: String,
+    @SerializedName("access_token_expired_at") val accessTokenExpiredAt: String,
     @SerializedName("refresh_token") val refreshToken: String,
+    @SerializedName("refresh_token_expired_at") val refreshTokenExpiredAt: String,
     @SerializedName("features") val features: Features,
 ) {
     data class Features(

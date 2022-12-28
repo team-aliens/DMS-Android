@@ -1,6 +1,7 @@
 package com.example.dms_android.feature.auth.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,9 +42,11 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.textfield.DormTextField
 import com.example.design_system.toast.rememberToast
 import com.example.design_system.typography.Body4
+import com.example.design_system.typography.ButtonText
 import com.example.design_system.typography.Caption
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
+import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.cafeteria.TopBar
 import com.example.dms_android.feature.navigator.NavigationRoute
 import com.example.dms_android.viewmodel.auth.login.SignInViewModel
@@ -72,24 +76,31 @@ fun LoginScreen(
                         route = NavigationRoute.Main
                     )
                 }
+
                 is Event.WrongRequest -> {
                     toast(badRequestComment)
                 }
+
                 is Event.NotCorrectPassword -> {
                     toast(unAuthorizedComment)
                 }
+
                 is Event.UserNotFound -> {
                     toast(notFoundComment)
                 }
+
                 is Event.TooManyRequest -> {
                     toast(tooManyRequestComment)
                 }
+
                 is Event.ServerException -> {
                     toast(serverException)
                 }
+
                 is Event.NoInternetException -> {
                     toast(noInternetException)
                 }
+
                 is Event.UnKnownException -> {
                     toast(noInternetException)
                 }
@@ -134,18 +145,16 @@ fun MainTitle() {
             Image(
                 modifier = Modifier
                     .padding(
-                        top = 56.dp,
-                        bottom = 7.dp
+                        top = 92.dp
                     )
-                    .height(85.dp)
-                    .width(85.dp),
-                painter = painterResource(id = R.drawable.ic_information_toast),
+                    .height(34.dp)
+                    .width(97.dp),
+                painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = "MainLogo",
             )
-            SubTitle2(text = "유현명의 DMS")
             Spacer(
                 modifier = Modifier
-                    .height(1.dp)
+                    .height(4.dp)
             )
             Body4(text = "더 편한 기숙사 생활을 위해")
         }
@@ -229,6 +238,7 @@ fun AutoLogin() {
 
 @Composable
 fun AddFunction() {
+    val mContext = LocalContext.current
     Box(
         contentAlignment = Alignment.TopCenter,
     ) {
@@ -243,7 +253,12 @@ fun AddFunction() {
                 ),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Caption(text = "회원가입하기")
+            Caption(
+                text = "회원가입하기",
+                onClick = {
+                    mContext.startActivity(Intent(mContext, RegisterActivity::class.java))
+                },
+            )
             Caption(text = "|")
             Caption(text = "아이디 찾기")
             Caption(text = "|")
