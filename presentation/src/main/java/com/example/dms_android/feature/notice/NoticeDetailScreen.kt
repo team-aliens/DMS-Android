@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -96,12 +98,18 @@ fun NoticeDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(DormColor.Gray100)
+            .verticalScroll(rememberScrollState()),
     ) {
-        TopBar(title = stringResource(id = R.string.Notice))
+        TopBar(
+            title = stringResource(id = R.string.Notice)
+        ) {
+            navController.popBackStack()
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(DormColor.Gray200)
                 .padding(start = 23.dp),
             horizontalAlignment = Alignment.Start,
         ) {
