@@ -1,11 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DMS_Android</string>
-
-    <!--RoomDetail-->
-    <string name="room_detail_application_room">자습실 신청</string>
-    <string name="floor">층</string>
-    <string name="cancel">취소</string>
-    <string name="application">신청</string>
 
     <string name="not_valid_email_format">올바른 이메일 형식이 아닙니다.</string>
     <string name="enter_email_address">이메일 주소 입력</string>
@@ -29,7 +23,7 @@
     <string name="already_account">이미 계정이 있으신가요?</string>
     <string name="login">로그인</string>
 
-    <string name="EmailTooManyRequest">잠시 후에 다시 이메일을 보내주세요</string>
+    <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
 
