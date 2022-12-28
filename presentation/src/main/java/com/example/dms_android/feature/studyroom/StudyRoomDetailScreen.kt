@@ -1,20 +1,40 @@
 package com.example.dms_android.feature.studyroom
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.design_system.button.DormButtonColor
+import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.color.DormColor
 import com.example.design_system.component.RoomContent
 import com.example.design_system.component.RoomDetail
 import com.example.design_system.component.SeatItem
 import com.example.design_system.toast.rememberToast
+import com.example.design_system.typography.Body4
+import com.example.design_system.typography.Body5
 import com.example.dms_android.R
+import com.example.dms_android.util.TopBar
 import com.example.dms_android.util.observeWithLifecycle
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
@@ -33,6 +53,7 @@ fun StudyRoomDetailScreen(
 
     val toast = rememberToast()
 
+    //TODO(limsaehyun): string 관리 방식 개선 필요
     val badRequestComment = stringResource(id = R.string.BadRequest)
     val unAuthorizedComment = stringResource(id = R.string.UnAuthorized)
     val forbidden = stringResource(id = R.string.Forbidden)
@@ -40,6 +61,7 @@ fun StudyRoomDetailScreen(
     val serverException = stringResource(id = R.string.ServerException)
     val noInternetException = stringResource(id = R.string.NoInternetException)
 
+    //TODO(limsaehyun): exception 처리 로직 개선 필요
     vm.studyRoomDetailEffect.observeWithLifecycle { sideEffect ->
         when (sideEffect) {
             is StudyRoomViewModel.Event.BadRequestException -> {
@@ -66,7 +88,36 @@ fun StudyRoomDetailScreen(
         }
     }
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .background(
+                color = DormColor.Gray200 //TODO(limsaehyun): 테마 적용 필요
+            )
+    ) {
+        TopBar(
+            title = "자습실 신청",
+        ) {
+            navController.popBackStack()
+        }
+        Spacer(modifier = Modifier.height(7.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(44.dp)
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(22.dp),
+                )
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(painter = painterResource(id = R.drawable.ic_notice), contentDescription = null)
+            Spacer(modifier = Modifier.width(12.dp))
+            Body5(text = "자습실 신청 시간은 18:00 ~ 21:00 까지 입니다.") //TODO(limsaehyun): 추후에 Server Request 필요
+        }
+        Spacer(modifier = Modifier.height(24.dp))
         RoomContent(
             roomId = "",
             position = "${state.roomDetail.floor}층",
@@ -76,6 +127,7 @@ fun StudyRoomDetailScreen(
             condition = "${state.roomDetail.availableGrade}학년 ${state.roomDetail.studyRoomSex}",
             onClick = { }
         )
+        Spacer(modifier = Modifier.height(30.dp))
         RoomDetail(
             topDescription = state.roomDetail.northDescription,
             bottomDescription = state.roomDetail.southDescription,
@@ -86,6 +138,29 @@ fun StudyRoomDetailScreen(
                 print(seatId)
             },
         )
+        Spacer(modifier = Modifier.weight(1f))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            //TODO(limsaehyun): 버튼 크기 유동적으로 변경 필요
+            DormContainedLargeButton(
+                modifier = Modifier.fillMaxWidth(0.48f),
+                text = "취소",
+                color = DormButtonColor.Gray,
+            ) {
+
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+            DormContainedLargeButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = "신청",
+                color = DormButtonColor.Blue,
+            ) {
+
+            }
+        }
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
