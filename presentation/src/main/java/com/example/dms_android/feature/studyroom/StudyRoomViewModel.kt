@@ -7,10 +7,14 @@ import com.example.dms_android.util.asEventFlow
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 import com.example.domain.entity.studyroom.StudyRoomListEntity
 import com.example.domain.exception.BadRequestException
+import com.example.domain.exception.ConflictException
 import com.example.domain.exception.ForbiddenException
+import com.example.domain.exception.NotFoundException
 import com.example.domain.exception.ServerException
 import com.example.domain.exception.TooManyRequestException
 import com.example.domain.exception.UnauthorizedException
+import com.example.domain.usecase.studyroom.RemoteApplySeatUseCase
+import com.example.domain.usecase.studyroom.RemoteCancelApplySeat
 import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
 import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
 import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomTypeUseCase
@@ -23,6 +27,8 @@ class StudyRoomViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
     private val studyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
     private val studyRoomTypeUseCase: RemoteFetchStudyRoomTypeUseCase,
+    private val studyApplySeatUseCase: RemoteApplySeatUseCase,
+    private val studyCancelApplySeat: RemoteCancelApplySeat,
 ) : BaseViewModel<StudyRoomState, StudyRoomEvent>() {
 
     private val _studyRoomEffect = MutableEventFlow<Event>()
@@ -30,6 +36,9 @@ class StudyRoomViewModel @Inject constructor(
 
     private val _studyRoomDetailEffect = MutableEventFlow<Event>()
     val studyRoomDetailEffect = _studyRoomDetailEffect.asEventFlow()
+
+    private val _studyRoomApplyEffect = MutableEventFlow<Event>()
+    val studyRoomApplyEffect = _studyRoomApplyEffect.asEventFlow()
 
     override val initialState: StudyRoomState
         get() = StudyRoomState.initial()
@@ -78,6 +87,49 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun applyStudyRoomSeat(
+        currentSeat: String,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                studyApplySeatUseCase.execute(currentSeat)
+            }.onSuccess {
+                event3(Event.ApplyStudyRoom)
+            }.onFailure {
+                when (it) {
+                    is BadRequestException -> event3(Event.BadRequestException)
+                    is UnauthorizedException -> event3(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> event3(Event.CannotConnectException)
+                    is TooManyRequestException -> event3(Event.TooManyRequestException)
+                    is ConflictException -> event3(Event.ConflictException)
+                    is NullPointerException -> event3(Event.NullPointException)
+                    is ServerException -> event3(Event.InternalServerException)
+                    else -> event3(Event.UnknownException)
+                }
+            }
+        }
+    }
+
+    fun cancelStudyRoomSeat() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                studyCancelApplySeat.execute(Unit)
+            }.onSuccess {
+                event3(Event.CancelStudyRoom)
+            }.onFailure {
+                when (it) {
+                    is BadRequestException -> event3(Event.BadRequestException)
+                    is UnauthorizedException -> event3(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> event3(Event.CannotConnectException)
+                    is TooManyRequestException -> event3(Event.TooManyRequestException)
+                    is NullPointerException -> event3(Event.NullPointException)
+                    is ServerException -> event3(Event.InternalServerException)
+                    else -> event3(Event.UnknownException)
+                }
+            }
+        }
+    }
+
     fun updateCurrentSeat(
         seatId: String,
     ) {
@@ -100,15 +152,25 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    private fun event3(event: Event) {
+        viewModelScope.launch {
+            _studyRoomApplyEffect.emit(event)
+        }
+    }
+
     //TODO BaseViewModel 에서 처리 필요. StudentRoomEvent
     sealed class Event {
         data class FetchStudyRoomList(val studyRoomListEntity: StudyRoomListEntity) : Event()
         data class FetchStudyDetail(val studyRoomDetailEntity: StudyRoomDetailEntity) : Event()
+        object ApplyStudyRoom: Event()
+        object CancelStudyRoom: Event()
         object BadRequestException : Event()
         object UnAuthorizedTokenException : Event()
         object CannotConnectException : Event()
+        object NotFoundException: Event()
         object TooManyRequestException : Event()
         object NullPointException : Event()
+        object ConflictException: Event()
         object InternalServerException : Event()
         object UnknownException : Event()
     }
