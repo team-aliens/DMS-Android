@@ -8,7 +8,7 @@ data class StudyRoomDetailEntity(
     var totalAvailableSeat: Int,
     var inUseHeadCount: Int,
     var availableSex: String,
-    var availableGrade: Int,
+    var availableGrade: String,
     var eastDescription: String,
     var westDescription: String,
     var southDescription: String,

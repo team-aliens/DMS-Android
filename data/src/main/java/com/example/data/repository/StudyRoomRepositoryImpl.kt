@@ -14,17 +14,18 @@ import javax.inject.Inject
 
 class StudyRoomRepositoryImpl @Inject constructor(
     private val remoteStudyRoomDataSource: RemoteStudyRoomDataSource,
+) : StudyRoomRepository {
 
-    ) : StudyRoomRepository {
-
-    override suspend fun applySeat() =
-        remoteStudyRoomDataSource.applySeat()
+    override suspend fun applySeat(data: String) {
+        remoteStudyRoomDataSource.applySeat(data)
+    }
 
     override suspend fun fetchApplySeatTime(): ApplySeatTimeEntity =
         remoteStudyRoomDataSource.fetchApplySeatTime().toEntity()
 
-    override suspend fun cancelApplySeat() =
+    override suspend fun cancelApplySeat() {
         remoteStudyRoomDataSource.cancelApplySeat()
+    }
 
     override suspend fun fetchStudyRoomList(): StudyRoomListEntity =
         remoteStudyRoomDataSource.fetchStudyRoomList().toEntity()
@@ -99,7 +100,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
             totalAvailableSeat = totalAvailableSeat,
             inUseHeadCount = inUseHeadCount,
             availableSex = availableSex,
-            availableGrade = availableGrade,
+            availableGrade = availableGrade.toString().toInt2(),
             eastDescription = eastDescription,
             westDescription = westDescription,
             southDescription = southDescription,

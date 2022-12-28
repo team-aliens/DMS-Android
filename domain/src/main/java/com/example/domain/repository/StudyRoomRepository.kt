@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface StudyRoomRepository {
 
-    suspend fun applySeat()
+    suspend fun applySeat(data: String)
 
     suspend fun fetchApplySeatTime(): ApplySeatTimeEntity
 

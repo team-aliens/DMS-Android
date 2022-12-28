@@ -14,14 +14,16 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     private val studyRoomApi: StudyRoomApi,
 ) : RemoteStudyRoomDataSource {
 
-    override suspend fun applySeat() =
-        sendHttpRequest(httpRequest = suspend { studyRoomApi.applySeat() })
+    override suspend fun applySeat(data: String) {
+        sendHttpRequest(httpRequest = suspend { studyRoomApi.applySeat(data) })
+    }
 
     override suspend fun fetchApplySeatTime() =
         sendHttpRequest(httpRequest = suspend { studyRoomApi.fetchApplySeatTime() })
 
-    override suspend fun cancelApplySeat() =
+    override suspend fun cancelApplySeat() {
         sendHttpRequest(httpRequest = suspend { studyRoomApi.cancelApplySeat() })
+    }
 
     override suspend fun fetchStudyRoomList() =
         sendHttpRequest(httpRequest = suspend { studyRoomApi.fetchStudyRoomList() })

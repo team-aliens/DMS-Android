@@ -6,7 +6,7 @@ import com.example.data.remote.response.studyroom.StudyRoomListResponse
 import com.example.data.remote.response.studyroom.StudyRoomTypeResponse
 
 interface RemoteStudyRoomDataSource {
-    suspend fun applySeat()
+    suspend fun applySeat(data: String)
 
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse
 

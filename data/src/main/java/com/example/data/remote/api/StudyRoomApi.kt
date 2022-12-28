@@ -5,6 +5,7 @@ import com.example.data.remote.response.studyroom.StudyRoomDetailResponse
 import com.example.data.remote.response.studyroom.StudyRoomListResponse
 import com.example.data.remote.response.studyroom.StudyRoomTypeResponse
 import com.example.data.remote.url.DmsUrl
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -13,7 +14,9 @@ import retrofit2.http.Path
 interface StudyRoomApi {
 
     @PUT(DmsUrl.StudyRoom.Apply)
-    suspend fun applySeat()
+    suspend fun applySeat(
+        @Path("seat-id") data: String,
+    )
 
     @GET(DmsUrl.StudyRoom.fetchApplyTime)
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse
