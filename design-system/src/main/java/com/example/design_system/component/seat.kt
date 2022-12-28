@@ -29,6 +29,8 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.example.design_system.button.DormButtonColor
+import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.color.DormColor
 import com.example.design_system.constans.asLoose
 import com.example.design_system.modifier.dormClickable
@@ -286,6 +288,7 @@ fun RoomContent(
     currentNumber: Int,
     maxNumber: Int,
     condition: String,
+    isMine: Boolean,
     onClick: (String) -> Unit,
 ) {
     Box(
@@ -325,10 +328,26 @@ fun RoomContent(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Body5(
-                text = condition,
-                color = DormColor.DormPrimary,
-            )
+            Row(
+                modifier =
+                Modifier.fillMaxWidth()
+            ) {
+                Body5(
+                    text = condition,
+                    color = DormColor.DormPrimary,
+                )
+                if (isMine) {
+                    DormContainedLargeButton(
+                        modifier = Modifier
+                            .height(24.dp)
+                            .width(52.dp),
+                        text = "신청함",
+                        color = DormButtonColor.Blue
+                    ) {
+
+                    }
+                }
+            }
         }
     }
 }
