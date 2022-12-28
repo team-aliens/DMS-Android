@@ -204,6 +204,7 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
             color = if(color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
+            isApplication = seat.number != null,
         )
     }
 

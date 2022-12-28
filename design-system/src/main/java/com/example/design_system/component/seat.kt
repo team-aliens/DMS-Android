@@ -72,6 +72,7 @@ data class SeatItem(
     val number: Int? = null,
     val name: String? = null,
     val color: Color = DormColor.DormPrimary,
+    val isApplication: Boolean = false,
 )
 
 @Composable
@@ -262,7 +263,8 @@ private fun SeatListContent(
                         SeatContent(
                             seatId = seat.id ?: "",
                             color = seat.color,
-                            text = seat.name ?: seat.number.toString(),
+                            text = if (seat.isApplication) seat.number.toString() else seat.name
+                                ?: seat.number.toString(),
                             onClick = { seatId ->
                                 onClick(seatId)
                             },
