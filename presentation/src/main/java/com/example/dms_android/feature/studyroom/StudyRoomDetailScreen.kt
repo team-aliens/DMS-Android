@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -13,7 +15,7 @@ import com.example.design_system.component.RoomDetail
 import com.example.design_system.component.SeatItem
 import com.example.design_system.toast.rememberToast
 import com.example.dms_android.R
-import kotlin.random.Random
+import com.example.dms_android.util.observeWithLifecycle
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
 @SuppressLint("ResourceType")
@@ -21,11 +23,13 @@ import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 fun StudyRoomDetailScreen(
     navController: NavController,
     roomId: String,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel()
+    vm: StudyRoomViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        studyRoomViewModel.fetchStudyRoomDetail(roomId)
+        vm.fetchStudyRoomDetail(roomId)
     }
+
+    val state = vm.state.collectAsState().value
 
     val toast = rememberToast()
 
@@ -36,127 +40,86 @@ fun StudyRoomDetailScreen(
     val serverException = stringResource(id = R.string.ServerException)
     val noInternetException = stringResource(id = R.string.NoInternetException)
 
-    var studyROomDetailEntity: StudyRoomDetailEntity =
-        com.example.domain.entity.studyroom.StudyRoomDetailEntity(
-            floor = 0,
-            name = "",
-            totalAvailableSeat = 0,
-            inUseHeadCount = 0,
-            availableSex = "",
-            availableGrade = 0,
-            eastDescription = "",
-            westDescription = "",
-            southDescription = "",
-            northDescription = "",
-            totalWidthSize = 0,
-            totalHeightSize = 0,
-            studyRoomSex = "",
-            seats = listOf(
-                StudyRoomDetailEntity.Seat(
-                    id = "",
-                    widthLocation = 0,
-                    heightLocation = 0,
-                    number = 0,
-                    type = StudyRoomDetailEntity.Type(
-                        id = "",
-                        name = "",
-                        color = "",
-                    ),
-                    status = "",
-                    isMine = false,
-                    student = StudyRoomDetailEntity.Student(
-                        id = "",
-                        name = ""
-                    )
-                )
-            )
-        )
-
-
-    LaunchedEffect(Unit) {
-        studyRoomViewModel.studyRoomDetailEffect.collect {
-            when (it) {
-                is StudyRoomViewModel.Event.FetchStudyDetail -> {
-                    studyROomDetailEntity = it.studyRoomDetailEntity
-                }
-                is StudyRoomViewModel.Event.BadRequestException -> {
-                    toast(badRequestComment)
-                }
-                is StudyRoomViewModel.Event.UnAuthorizedTokenException -> {
-                    toast(unAuthorizedComment)
-                }
-                is StudyRoomViewModel.Event.CannotConnectException -> {
-                    toast(forbidden)
-                }
-                is StudyRoomViewModel.Event.TooManyRequestException -> {
-                    toast(tooManyRequestComment)
-                }
-                is StudyRoomViewModel.Event.InternalServerException -> {
-                    toast(serverException)
-                }
-                is StudyRoomViewModel.Event.UnknownException -> {
-                    toast(noInternetException)
-                }
-                else -> {
-                    toast("aewfawefaefawe")
-                }
+    vm.studyRoomDetailEffect.observeWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            is StudyRoomViewModel.Event.BadRequestException -> {
+                toast(badRequestComment)
+            }
+            is StudyRoomViewModel.Event.UnAuthorizedTokenException -> {
+                toast(unAuthorizedComment)
+            }
+            is StudyRoomViewModel.Event.CannotConnectException -> {
+                toast(forbidden)
+            }
+            is StudyRoomViewModel.Event.TooManyRequestException -> {
+                toast(tooManyRequestComment)
+            }
+            is StudyRoomViewModel.Event.InternalServerException -> {
+                toast(serverException)
+            }
+            is StudyRoomViewModel.Event.UnknownException -> {
+                toast(noInternetException)
+            }
+            else -> {
+                toast("알 수 없는 에러가 발생했습니다.")
             }
         }
     }
 
-    var heightMax = 0
-    var widthMax = 0
-
-    val DummySeat = (0..20).map { a ->
-        (0..20).map { b ->
-            val random = Random.nextInt(3)
-            when (random) {
-                0 -> SeatItem(
-                    number = (a + b).toString(),
-                    name = "유저${a + b}",
-                    color = DormColor.DormPrimary
-                )
-                1 -> SeatItem(number = (a + b).toString(), name = null, color = DormColor.Lighten100)
-                else -> SeatItem(number = null, name = null)
-            }
-        }.toList()
-    }.toList()
-//    for (i in 0 until studyRoomDetailEntity?.seats?.size!!) {
-//        if (studyRoomDetailEntity!!.seats[i].heightLocation > heightMax) {
-//            heightMax = studyRoomDetailEntity!!.seats[i].heightLocation
-//        }
-//        if (studyRoomDetailEntity!!.seats[i].widthLocation > widthMax) {
-//            widthMax = studyRoomDetailEntity!!.seats[i].widthLocation
-//        }
-//    }
-    val dummySeat = (0..heightMax).map { a ->
-        (0..widthMax).map { b ->
-//            SeatItem(
-//                id = studyRoomDetailEntity!!.seats[i].id.toString(),
-//                name = studyRoomDetailEntity!!.seats[i].student?.name,
-//                color = colorResource(studyRoomDetailEntity!!.seats[i].type?.color!!.toColorInt())
-//            )
-        }.toList()
-    }.toList()
-    Column() {
+    Column {
         RoomContent(
             roomId = "",
-            position = "${studyROomDetailEntity.floor}층",
-            title = studyROomDetailEntity.name,
-            currentNumber = studyROomDetailEntity.inUseHeadCount,
-            maxNumber = studyROomDetailEntity.totalAvailableSeat,
-            condition = "${studyROomDetailEntity.availableGrade}학년 $studyROomDetailEntity.studyRoomSex",
+            position = "${state.roomDetail.floor}층",
+            title = state.roomDetail.name,
+            currentNumber = state.roomDetail.inUseHeadCount,
+            maxNumber = state.roomDetail.totalAvailableSeat,
+            condition = "${state.roomDetail.availableGrade}학년 ${state.roomDetail.studyRoomSex}",
             onClick = { }
         )
         RoomDetail(
-            topDescription = studyROomDetailEntity.northDescription,
-            bottomDescription = studyROomDetailEntity.southDescription,
-            startDescription = studyROomDetailEntity.westDescription,
-            endDescription = studyROomDetailEntity.eastDescription,
-            seats = DummySeat,
+            topDescription = state.roomDetail.northDescription,
+            bottomDescription = state.roomDetail.southDescription,
+            startDescription = state.roomDetail.westDescription,
+            endDescription = state.roomDetail.eastDescription,
+            seats = state.roomDetail.toDesignSystemModel(),
             onClick = { seatId ->
                 print(seatId)
             },
         )
     }
+}
+
+private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
+    val defaultSeats: MutableList<MutableList<SeatItem>> = List(
+        size = this.totalHeightSize,
+        init = {
+            List(
+                size = this.totalWidthSize,
+                init = {
+                    SeatItem()
+                }
+            ).toMutableList()
+        }
+    ).toMutableList()
+
+    fun getColor(colorString: String): Color {
+        return Color(android.graphics.Color.parseColor(colorString))
+    }
+
+    this.seats.map { seat ->
+        val width = seat.widthLocation
+        val height = seat.heightLocation
+        val color = seat.type?.color
+
+        defaultSeats[height][width] = SeatItem(
+            id = seat.id,
+            number = seat.number,
+            name = seat.type?.name,
+            color = if(color != null) {
+                getColor(color)
+            } else DormColor.DormPrimary,
+        )
+    }
+
+    return defaultSeats
 }
