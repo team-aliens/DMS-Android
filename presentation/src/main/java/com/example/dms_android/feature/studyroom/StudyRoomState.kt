@@ -4,11 +4,13 @@ import com.example.dms_android.base.MviState
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
 data class StudyRoomState(
+    val currentSeat: String?,
     val roomDetail: StudyRoomDetailEntity,
 ) : MviState {
     companion object {
         fun initial() =
             StudyRoomState(
+                currentSeat = null,
                 roomDetail = StudyRoomDetailEntity(
                     floor = 0,
                     name = "",

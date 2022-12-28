@@ -21,8 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class StudyRoomViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
-    val studyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
-    val studyRoomTypeUseCase: RemoteFetchStudyRoomTypeUseCase,
+    private val studyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
+    private val studyRoomTypeUseCase: RemoteFetchStudyRoomTypeUseCase,
 ) : BaseViewModel<StudyRoomState, StudyRoomEvent>() {
 
     private val _studyRoomEffect = MutableEventFlow<Event>()
@@ -78,6 +78,16 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun updateCurrentSeat(
+        seatId: String,
+    ) {
+        setState(
+            state = state.value.copy(
+                currentSeat = seatId,
+            )
+        )
+    }
+
     private fun event(event: Event) {
         viewModelScope.launch {
             _studyRoomEffect.emit(event)
@@ -90,6 +100,7 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    //TODO BaseViewModel 에서 처리 필요. StudentRoomEvent
     sealed class Event {
         data class FetchStudyRoomList(val studyRoomListEntity: StudyRoomListEntity) : Event()
         data class FetchStudyDetail(val studyRoomDetailEntity: StudyRoomDetailEntity) : Event()

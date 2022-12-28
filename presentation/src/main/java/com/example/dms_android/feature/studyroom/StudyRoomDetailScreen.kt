@@ -31,13 +31,17 @@ import com.example.design_system.component.RoomContent
 import com.example.design_system.component.RoomDetail
 import com.example.design_system.component.SeatItem
 import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body4
 import com.example.design_system.typography.Body5
 import com.example.dms_android.R
 import com.example.dms_android.util.TopBar
 import com.example.dms_android.util.observeWithLifecycle
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
+/**
+ * 자습실 상세보기 screen
+ *
+ * @param roomId 자습실 아이디
+ */
 @SuppressLint("ResourceType")
 @Composable
 fun StudyRoomDetailScreen(
@@ -91,13 +95,13 @@ fun StudyRoomDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
             .background(
                 color = DormColor.Gray200 //TODO(limsaehyun): 테마 적용 필요
             )
+            .padding(horizontal = 16.dp)
     ) {
         TopBar(
-            title = "자습실 신청",
+            title = stringResource(id = R.string.room_detail_application_room),
         ) {
             navController.popBackStack()
         }
@@ -120,11 +124,11 @@ fun StudyRoomDetailScreen(
         Spacer(modifier = Modifier.height(24.dp))
         RoomContent(
             roomId = "",
-            position = "${state.roomDetail.floor}층",
+            position = "${state.roomDetail.floor} ${stringResource(id = R.string.floor)}",
             title = state.roomDetail.name,
             currentNumber = state.roomDetail.inUseHeadCount,
             maxNumber = state.roomDetail.totalAvailableSeat,
-            condition = "${state.roomDetail.availableGrade}학년 ${state.roomDetail.studyRoomSex}",
+            condition = "${state.roomDetail.availableGrade}${stringResource(id = R.string.grade)} ${state.roomDetail.studyRoomSex}",
             onClick = { }
         )
         Spacer(modifier = Modifier.height(30.dp))
@@ -135,7 +139,8 @@ fun StudyRoomDetailScreen(
             endDescription = state.roomDetail.eastDescription,
             seats = state.roomDetail.toDesignSystemModel(),
             onClick = { seatId ->
-                print(seatId)
+                vm.updateCurrentSeat(seatId)
+                //TODO(limsaehyun) Setver Request 필요
             },
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -146,7 +151,7 @@ fun StudyRoomDetailScreen(
             //TODO(limsaehyun): 버튼 크기 유동적으로 변경 필요
             DormContainedLargeButton(
                 modifier = Modifier.fillMaxWidth(0.48f),
-                text = "취소",
+                text = stringResource(id = R.string.cancel),
                 color = DormButtonColor.Gray,
             ) {
 
@@ -154,7 +159,7 @@ fun StudyRoomDetailScreen(
             Spacer(modifier = Modifier.width(10.dp))
             DormContainedLargeButton(
                 modifier = Modifier.fillMaxWidth(),
-                text = "신청",
+                text = stringResource(id = R.string.application),
                 color = DormButtonColor.Blue,
             ) {
 
@@ -164,6 +169,12 @@ fun StudyRoomDetailScreen(
     }
 }
 
+/**
+ * [StudyRoomDetailEntity] 를 디자인 시스템인 [RoomDetail] 에서 사용하기 위해
+ * List<List<SeatItem>> 형식으로 Mapping 에주는 extension
+ *
+ * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
+ */
 private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
     val defaultSeats: MutableList<MutableList<SeatItem>> = List(
         size = this.totalHeightSize,
