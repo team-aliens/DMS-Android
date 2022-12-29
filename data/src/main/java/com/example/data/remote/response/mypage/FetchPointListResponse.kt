@@ -20,7 +20,7 @@ data class FetchPointListResponse(
 
 fun FetchPointListResponse.PointList.toEntity() =
     PointListEntity.PointValue(
-        pointId = pointId,
+        pointId = pointId.toString(),
         date = date,
         pointType = pointType,
         name = name,
