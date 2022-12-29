@@ -47,7 +47,7 @@ class AuthorizationInterceptor @Inject constructor(
             val tokenRefreshRequest = Request.Builder()
                 .url("http://3.39.162.197:8080/users/reissue")
                 .put("".toRequestBody("application/json".toMediaTypeOrNull()))
-                .addHeader("Refresh-Token", "Bearer $refreshToken")
+                .addHeader("refresh-token", "Bearer $refreshToken")
                 .build()
             val response = client.newCall(tokenRefreshRequest).execute()
 
