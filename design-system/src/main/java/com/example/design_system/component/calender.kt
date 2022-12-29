@@ -17,6 +17,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.design_system.modifier.dormClickable
 import kotlinx.coroutines.launch
 
+/**
+ * TODO(limsaehyun): CalendarView가 아닌 직접 구현한 DormCalenderView 사용 필요
+ */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormCalendar(
