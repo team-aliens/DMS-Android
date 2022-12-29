@@ -75,8 +75,13 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 remotePointListUseCase.execute(pointType)
             }.onSuccess {
-                event2(Event.FetchPointList(it))
-                state.value.totalPoint = it.totalPoint
+                event2(Event.FetchPointList)
+                setState(
+                    state.value.copy(
+                        totalPoint = it.totalPoint,
+                        pointListEntity = it
+                    )
+                )
             }.onFailure {
                 when (it) {
                     is NullPointerException -> event2(Event.NullPointException)
@@ -111,8 +116,8 @@ class MyPageViewModel @Inject constructor(
 
     sealed class Event {
         data class FetchMyPageValue(val myPageEntity: MyPageEntity) : Event()
-        data class FetchPointList(val pointListEntity: PointListEntity): Event()
-        object BadRequestException: Event()
+        object FetchPointList : Event()
+        object BadRequestException : Event()
         object NullPointException : Event()
         object UnAuthorizedTokenException : Event()
         object CannotConnectException : Event()
