@@ -6,7 +6,10 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.example.local_database.param.FeaturesParam
 import com.example.local_database.param.UserPersonalKeyParam
+import com.example.local_database.param.user.UserInfoParam
 import com.example.local_database.storage.declaration.UserDataStorage
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserInfo.ID
+import com.example.local_database.storage.implementation.UserDataStorageImpl.UserInfo.PASSWORD
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
 import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
@@ -73,6 +76,19 @@ class UserDataStorageImpl @Inject constructor(
     override fun fetchPointServiceBoolean(): Boolean =
         getBoolean(context, POINT)
 
+    override fun setUserInfo(userInfoParam: UserInfoParam) {
+        setString(context, ID, userInfoParam.id)
+        setString(context, PASSWORD, userInfoParam.password)
+    }
+
+    override fun fetchId(): String =
+        getString(context, ID)!!
+
+
+    override fun fetchPassword(): String =
+        getString(context, PASSWORD)!!
+
+
     private fun getPreferences(key: String?, context: Context): SharedPreferences? {
         return context.getSharedPreferences(key, Context.MODE_PRIVATE)
     }
@@ -99,6 +115,11 @@ class UserDataStorageImpl @Inject constructor(
     private fun getBoolean(context: Context?, key: String?): Boolean {
         val prefs = context?.let { getPreferences(key, it) }
         return prefs!!.getBoolean(key, false)
+    }
+
+    private object UserInfo {
+        const val ID = "ID"
+        const val PASSWORD = "PASSWORD"
     }
 
     private object UserPersonalKey {
