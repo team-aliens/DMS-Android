@@ -1,8 +1,6 @@
 package com.example.dms_android.viewmodel.auth.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.user.RemoteSignInUseCase
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.auth.login.SignInEvent
 import com.example.dms_android.feature.auth.login.SignInState
@@ -14,12 +12,10 @@ import com.example.domain.exception.NotFoundException
 import com.example.domain.exception.ServerException
 import com.example.domain.exception.TooManyRequestException
 import com.example.domain.exception.UnauthorizedException
-import com.example.domain.exception.UnknownException
 import com.example.domain.param.LoginParam
+import com.example.domain.usecase.user.RemoteSignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +24,7 @@ class SignInViewModel @Inject constructor(
 ) : BaseViewModel<SignInState, SignInEvent>() {
 
     private var parameter =
-        LoginParam(id = state.value.id, password = state.value.password)
+        LoginParam(id = state.value.id, password = state.value.password, autoLogin = state.value.autoLogin)
 
     fun setId(id: String) {
         sendEvent(SignInEvent.InputId(id))
@@ -46,7 +42,7 @@ class SignInViewModel @Inject constructor(
 
     fun postSignIn() {
         parameter =
-            LoginParam(id = state.value.id, password = state.value.password)
+            LoginParam(id = state.value.id, password = state.value.password, autoLogin = state.value.autoLogin)
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteSignInUseCase.execute(parameter)

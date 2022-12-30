@@ -115,7 +115,7 @@ fun LoginScreen(
     ) {
         MainTitle()
         TextField(signInViewModel)
-        AutoLogin()
+        AutoLogin(signInViewModel)
         AddFunction()
         LoginButton(signInViewModel, scaffoldState)
     }
@@ -210,7 +210,9 @@ fun TextField(
 }
 
 @Composable
-fun AutoLogin() {
+fun AutoLogin(
+    signInViewModel: SignInViewModel
+) {
 
     var checked by remember { mutableStateOf(false) }
 
@@ -230,6 +232,7 @@ fun AutoLogin() {
                 checked = checked,
                 onCheckedChange = {
                     checked = !checked
+                    signInViewModel.state.value.autoLogin = checked
                 },
             )
         }

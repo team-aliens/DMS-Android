@@ -26,7 +26,6 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun userSignIn(loginParam: LoginParam) {
         val response = remoteUserDataSource.postUserSignIn(loginParam.toRequest())
-        Log.d("123", loginParam.autoLogin.toString())
         if (loginParam.autoLogin) {
             localUserDataSource.setUserInfo(UserInfoParam(loginParam.id, loginParam.password))
         }
@@ -36,7 +35,6 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun autoSignIn() {
         val info = localUserDataSource.fetchUserInfo()
-        Log.d("123123", info.toString())
         try {
             val response = remoteUserDataSource.postUserSignIn(signInRequest = SignInRequest(info.id, info.password))
             localUserDataSource.setUserInfo(UserInfoParam(info.id, info.password))
