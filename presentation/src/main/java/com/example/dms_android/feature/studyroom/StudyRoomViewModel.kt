@@ -9,17 +9,19 @@ import com.example.domain.entity.studyroom.StudyRoomListEntity
 import com.example.domain.exception.BadRequestException
 import com.example.domain.exception.ConflictException
 import com.example.domain.exception.ForbiddenException
-import com.example.domain.exception.NotFoundException
 import com.example.domain.exception.ServerException
 import com.example.domain.exception.TooManyRequestException
 import com.example.domain.exception.UnauthorizedException
 import com.example.domain.usecase.studyroom.RemoteApplySeatUseCase
 import com.example.domain.usecase.studyroom.RemoteCancelApplySeat
+import com.example.domain.usecase.studyroom.RemoteFetchApplySeatUseCase
 import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
 import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
 import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomTypeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +31,7 @@ class StudyRoomViewModel @Inject constructor(
     private val studyRoomTypeUseCase: RemoteFetchStudyRoomTypeUseCase,
     private val studyApplySeatUseCase: RemoteApplySeatUseCase,
     private val studyCancelApplySeat: RemoteCancelApplySeat,
+    private val studyRoomApplyTimeUseCase: RemoteFetchApplySeatUseCase,
 ) : BaseViewModel<StudyRoomState, StudyRoomEvent>() {
 
     private val _studyRoomEffect = MutableEventFlow<Event>()
@@ -39,6 +42,9 @@ class StudyRoomViewModel @Inject constructor(
 
     private val _studyRoomApplyEffect = MutableEventFlow<Event>()
     val studyRoomApplyEffect = _studyRoomApplyEffect.asEventFlow()
+
+    private val _studyRoomTimeEffect = MutableEventFlow<Event>()
+    val studyRoomTimeEffect = _studyRoomTimeEffect.asEventFlow()
 
     override val initialState: StudyRoomState
         get() = StudyRoomState.initial()
@@ -130,6 +136,36 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun fetchApplyTime() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                studyRoomApplyTimeUseCase.execute(Unit)
+            }.onSuccess {
+                event4(Event.RoomApplyTime)
+                setState(
+                    state = state.value.copy(
+                        startAt = it.startAt.toHour(),
+                        endAt = it.endAt.toHour(),
+                    )
+                )
+            }.onFailure {
+                when (it) {
+                    is BadRequestException -> event4(Event.BadRequestException)
+                    is UnauthorizedException -> event4(Event.UnAuthorizedTokenException)
+                    is TooManyRequestException -> event4(Event.TooManyRequestException)
+                    is NullPointerException -> event4(Event.NullPointException)
+                    is TooManyRequestException -> event4(Event.TooManyRequestException)
+                    is ServerException -> event4(Event.InternalServerException)
+                    else -> event4(Event.UnknownException)
+                }
+            }
+        }
+    }
+
+    private fun String.toHour(): String {
+        return this.substring(0, 5)
+    }
+
     fun updateCurrentSeat(
         seatId: String,
     ) {
@@ -158,10 +194,17 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    private fun event4(event: Event) {
+        viewModelScope.launch {
+            _studyRoomTimeEffect.emit(event)
+        }
+    }
+
     //TODO BaseViewModel 에서 처리 필요. StudentRoomEvent
     sealed class Event {
         data class FetchStudyRoomList(val studyRoomListEntity: StudyRoomListEntity) : Event()
         data class FetchStudyDetail(val studyRoomDetailEntity: StudyRoomDetailEntity) : Event()
+        object RoomApplyTime: Event()
         object ApplyStudyRoom: Event()
         object CancelStudyRoom: Event()
         object BadRequestException : Event()
