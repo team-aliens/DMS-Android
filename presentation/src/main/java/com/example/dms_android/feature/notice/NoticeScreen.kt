@@ -35,6 +35,8 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.component.Notice
 import com.example.design_system.component.NoticeList
 import com.example.design_system.toast.rememberToast
+import com.example.design_system.typography.Body1
+import com.example.design_system.typography.Body2
 import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
 import com.example.dms_android.feature.navigator.NavigationRoute
@@ -150,7 +152,7 @@ fun NoticeTopBar() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        SubTitle2(text = stringResource(id = R.string.Notice))
+        Body1(text = "자습실 신청")
     }
 }
 

@@ -1,8 +1,10 @@
 package com.example.dms_android.feature.pointlist
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,27 +13,33 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
+import com.example.design_system.button.DormOutlineLargeButton
 import com.example.design_system.color.DormColor
 import com.example.design_system.toast.rememberToast
 import com.example.design_system.typography.Headline2
@@ -72,7 +80,7 @@ fun PointListScreen(
         )
     }
 
-    val state = myPageViewModel.state.collectAsState().value.totalPoint
+    val state = myPageViewModel.state.collectAsState().value
     val toast = rememberToast()
     val badRequestComment = "잘못된 요청입니다."
     val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
@@ -84,11 +92,6 @@ fun PointListScreen(
         myPageViewModel.pointViewEffect.collect {
             when (it) {
                 is MyPageViewModel.Event.FetchPointList -> {
-                    point.clear()
-                    val mappingNotice = it.pointListEntity.pointValue.map { item ->
-                        item.toNotice()
-                    }
-                    point.addAll(mappingNotice.toMutableStateList())
                 }
                 is MyPageViewModel.Event.BadRequestException -> {
                     toast(badRequestComment)
@@ -126,7 +129,12 @@ fun PointListScreen(
             navController.popBackStack()
         }
         DialogBox(myPageViewModel)
-        PointListValue(point, state)
+        point.clear()
+        val mappingNotice = state.pointListEntity.pointValue.map { item ->
+            item.toNotice()
+        }
+        point.addAll(mappingNotice.toMutableStateList())
+        PointListValue(point, myPageViewModel)
     }
 }
 
@@ -135,58 +143,75 @@ fun PointListScreen(
 fun DialogBox(
     myPageViewModel: MyPageViewModel
 ) {
+    var selected by remember { mutableStateOf(PointButtonType.ALL) }
+
     Row(
         modifier = Modifier
-            .padding(start = 24.dp, top = 50.dp)
+            .padding(start = 24.dp, top = 50.dp),
+        horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        val color = remember {
-            myPageViewModel.state.value.type == PointType.ALL
+        PointTypeButton(
+            type = PointButtonType.ALL,
+            isSelected = selected == PointButtonType.ALL,
+        ) { type ->
+            selected = type
+            myPageViewModel.fetchPointList(PointType.ALL)
         }
-        val color2 = remember {
-            myPageViewModel.state.value.type == PointType.BONUS
+        PointTypeButton(
+            type = PointButtonType.PLUS,
+            isSelected = selected == PointButtonType.PLUS,
+        ) { type ->
+            selected = type
+            myPageViewModel.fetchPointList(PointType.BONUS)
         }
-        val color3 = remember {
-            myPageViewModel.state.value.type == PointType.MINUS
-        }
-        DormContainedLargeButton(
-            modifier = Modifier
-                .width(80.dp)
-                .height(44.dp),
-            text = stringResource(id = R.string.ALL),
-            color = DormButtonColor.Blue,
-            enabled = color,
-            onClick = {
-                myPageViewModel.fetchPointList(PointType.ALL)
-            }
-        )
-        Spacer(
-            modifier = Modifier
-                .width(15.dp)
-        )
-        DormContainedLargeButton(
-            modifier = Modifier
-                .width(80.dp)
-                .height(44.dp),
-            text = stringResource(id = R.string.PlusPoint),
-            color = DormButtonColor.Blue,
-            enabled = color2,
-            onClick = {
-                myPageViewModel.fetchPointList(PointType.BONUS)
-            }
-        )
-        Spacer(
-            modifier = Modifier
-                .width(15.dp)
-        )
-        DormContainedLargeButton(
-            modifier = Modifier
-                .width(80.dp)
-                .height(44.dp),
-            text = stringResource(id = R.string.MinusPoint),
-            color = DormButtonColor.Blue,
-            enabled = color3,
-        ) {
+        PointTypeButton(
+            type = PointButtonType.MINUS,
+            isSelected = selected == PointButtonType.MINUS,
+        ) { type ->
+            selected = type
             myPageViewModel.fetchPointList(PointType.MINUS)
+        }
+    }
+}
+
+private enum class PointButtonType(
+    val title: String,
+) {
+    ALL("전체"),
+    PLUS("상점"),
+    MINUS("벌점"),
+}
+
+@Stable
+private val PointTypeButtonSize = DpSize(
+    width = 80.dp,
+    height = 44.dp,
+)
+
+@Composable
+private fun PointTypeButton(
+    type: PointButtonType,
+    isSelected: Boolean,
+    onClicked: (PointButtonType) -> Unit,
+) {
+    when (isSelected) {
+        true -> DormContainedLargeButton(
+            modifier = Modifier
+                .size(PointTypeButtonSize),
+            text = type.title,
+            color = DormButtonColor.Blue,
+            enabled = true,
+        ) {
+            onClicked(type)
+        }
+        false -> DormOutlineLargeButton(
+            modifier = Modifier
+                .size(PointTypeButtonSize),
+            text = type.title,
+            color = DormButtonColor.Gray,
+            enabled = true,
+        ) {
+            onClicked(type)
         }
     }
 }
@@ -194,9 +219,8 @@ fun DialogBox(
 @Composable
 fun PointListValue(
     point: MutableList<PointValue>,
-    state: Int,
+    myPageViewModel: MyPageViewModel
 ) {
-
     Column {
         Column(
             modifier = Modifier
@@ -207,7 +231,8 @@ fun PointListValue(
                 modifier = Modifier
                     .height(44.dp)
             )
-            Headline2(text = "$state 점")
+            val state = myPageViewModel.state.collectAsState().value
+            Headline2(text = " ${state.totalPoint}점")
         }
         Spacer(
             modifier = Modifier

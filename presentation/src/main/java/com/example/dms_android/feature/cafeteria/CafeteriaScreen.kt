@@ -119,8 +119,8 @@ fun TopBar(
     ) {
         Image(
             modifier = Modifier
-                .height(40.dp)
-                .width(100.dp)
+                .height(34.dp)
+                .width(97.dp)
                 .padding(start = 20.dp, top = 12.dp),
             painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = stringResource(id = R.string.MainLogo),
@@ -153,9 +153,9 @@ fun ImportantNotice() {
         ) {
             Image(
                 modifier = Modifier
-                    .padding(start = 15.dp, top = 5.dp)
-                    .size(30.dp),
-                painter = painterResource(id = R.drawable.ic_notice),
+                    .padding(start = 15.dp)
+                    .size(26.dp),
+                painter = painterResource(id = R.drawable.coloricnotice),
                 contentDescription = stringResource(id = R.string.icNotice),
             )
             Spacer(
@@ -213,16 +213,6 @@ fun CafeteriaDiary(
                         .size(40.dp)
                         .padding(end = 12.dp)
                         .clickable {
-//                            text = state.today.toString()
-//                            mealViewModel.fetchLocalMeal(
-//                                mealViewModel.state.value.today.minusDays(
-//                                    1
-//                                )
-//                            )
-//                            mealViewModel.state.value.today =
-//                                mealViewModel.state.value.today.minusDays(
-//                                    1
-//                                )
                             mealViewModel.updateDay(state.today.minusDays(1))
                         },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
@@ -253,18 +243,8 @@ fun CafeteriaDiary(
                 Image(
                     modifier = Modifier
                         .size(40.dp)
-                        .padding(start = 12.dp, top = 5.dp)
+                        .padding(start = 12.dp)
                         .clickable {
-//                            text = mealViewModel.state.value.today.toString()
-//                            mealViewModel.fetchLocalMeal(
-//                                mealViewModel.state.value.today.plusDays(
-//                                    1
-//                                )
-//                            )
-//                            mealViewModel.state.value.today =
-//                                mealViewModel.state.value.today.plusDays(
-//                                    1
-//                                )
                             mealViewModel.updateDay(state.today.plusDays(1))
                         },
                     painter = painterResource(id = R.drawable.ic_meal_next),

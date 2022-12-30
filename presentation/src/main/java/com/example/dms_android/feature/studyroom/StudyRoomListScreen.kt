@@ -66,6 +66,7 @@ fun StudyRoomListScreen(
 ) {
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomList()
+        studyRoomViewModel.fetchApplyTime()
     }
 
     var sex by remember {
@@ -140,7 +141,7 @@ fun StudyRoomListScreen(
             }
         }
     }
-
+    val state = studyRoomViewModel.state.collectAsState().value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -173,9 +174,9 @@ fun StudyRoomListScreen(
             ) {
                 Image(
                     modifier = Modifier
-                        .padding(start = 15.dp, top = 5.dp)
-                        .size(30.dp),
-                    painter = painterResource(id = R.drawable.ic_notice),
+                        .padding(start = 15.dp)
+                        .size(26.dp),
+                    painter = painterResource(id = R.drawable.coloricnotice),
                     contentDescription = stringResource(id = R.string.icNotice),
                 )
                 Spacer(
@@ -183,16 +184,9 @@ fun StudyRoomListScreen(
                         .width(13.dp)
                 )
                 Body5(
-                    text = "새로운 공지사항이 있습니다."
+                    text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}"
                 )
             }
-            Image(
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(33.dp),
-                painter = painterResource(id = R.drawable.ic_next),
-                contentDescription = stringResource(id = R.string.icNotice),
-            )
         }
         Spacer(modifier = Modifier.height(30.dp))
         LazyColumn(

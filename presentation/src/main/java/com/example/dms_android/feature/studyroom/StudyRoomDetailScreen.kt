@@ -54,6 +54,7 @@ fun StudyRoomDetailScreen(
 ) {
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomDetail(roomId)
+        studyRoomViewModel.fetchApplyTime()
     }
 
     val state = studyRoomViewModel.state.collectAsState().value
@@ -104,11 +105,11 @@ fun StudyRoomDetailScreen(
             when (it) {
                 is StudyRoomViewModel.Event.ApplyStudyRoom -> {
                     toast("자습실 신청에 성공하셨습니다.")
-                    studyRoomViewModel.fetchStudyRoomDetail(state.currentSeat!!)
+                    studyRoomViewModel.fetchStudyRoomDetail(roomId)
                 }
                 is StudyRoomViewModel.Event.CancelStudyRoom -> {
                     toast("자습실 신청을 취소하셨습니다.")
-                    studyRoomViewModel.fetchStudyRoomDetail(state.currentSeat!!)
+                    studyRoomViewModel.fetchStudyRoomDetail(roomId)
                 }
                 is StudyRoomViewModel.Event.BadRequestException -> {
                     toast(badRequestComment)
@@ -154,7 +155,7 @@ fun StudyRoomDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = DormColor.Gray200 //TODO(limsaehyun): 테마 적용 필요
+                    color = DormColor.Gray200
                 )
                 .padding(horizontal = 16.dp)
         ) {
@@ -171,11 +172,15 @@ fun StudyRoomDetailScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_notice),
+                    modifier = Modifier
+                        .padding(start = 2.dp),
+                    painter = painterResource(id = R.drawable.coloricnotice),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Body5(text = "자습실 신청 시간은 18:00 ~ 21:00 까지 입니다.")
+                Body5(
+                    text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}"
+                )
             }
             Spacer(modifier = Modifier.height(24.dp))
             RoomContent(
@@ -209,8 +214,7 @@ fun StudyRoomDetailScreen(
                     text = "취소",
                     color = DormButtonColor.Gray,
                 ) {
-                    toast("자습실 신청 기능은 잠시 보류되었습니다.")
-         //           studyRoomViewModel.cancelStudyRoomSeat()
+                    studyRoomViewModel.cancelStudyRoomSeat()
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 DormContainedLargeButton(
@@ -218,12 +222,11 @@ fun StudyRoomDetailScreen(
                     text = "신청",
                     color = DormButtonColor.Blue,
                 ) {
-//                    if (state.currentSeat == null) {
-//                        toast("자리를 먼저 선택해주세요.")
-//                    } else {
-//                        studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
-//                    }
-                    toast("자습실 신청 기능은 잠시 보류되었습니다.")
+                    if (state.currentSeat == null) {
+                        toast("자리를 먼저 선택해주세요.")
+                    } else {
+                        studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
