@@ -18,11 +18,13 @@ import com.example.dms_android.feature.pointlist.PointListScreen
 import com.example.dms_android.feature.studyroom.StudyRoomDetailScreen
 
 @Composable
-fun RootDms() {
+fun RootDms(
+    route: String
+) {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
 
-    NavHost(navController = navController, startDestination = NavigationRoute.Login) {
+    NavHost(navController = navController, startDestination = route) {
         composable(
             route = NavigationRoute.Login
         ) {
