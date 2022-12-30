@@ -5,8 +5,8 @@ import com.example.local_database.param.FeaturesParam
 import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.storage.declaration.UserDataStorage
 import com.example.local_database.localutil.toLocalDateTime
+import com.example.local_database.param.user.UserInfoParam
 import javax.inject.Inject
-
 class LocalUserDataSourceImpl @Inject constructor(
     private val userDataStorage: UserDataStorage
 ): LocalUserDataSource {
@@ -36,6 +36,19 @@ class LocalUserDataSourceImpl @Inject constructor(
                 fetchMealServiceBoolean(),
                 fetchNoticeServiceBoolean(),
                 fetchPointServiceBoolean(),
+            )
+        }
+    }
+
+    override suspend fun setUserInfo(userInfoParam: UserInfoParam) {
+        userDataStorage.setUserInfo(userInfoParam)
+    }
+
+    override suspend fun fetchUserInfo(): UserInfoParam {
+        userDataStorage.apply {
+            return UserInfoParam(
+                fetchId(),
+                fetchPassword(),
             )
         }
     }
