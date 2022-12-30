@@ -5,11 +5,15 @@ import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
 data class StudyRoomState(
     val currentSeat: String?,
+    var startAt: String,
+    var endAt: String,
     val roomDetail: StudyRoomDetailEntity,
 ) : MviState {
     companion object {
         fun initial() =
             StudyRoomState(
+                startAt = "",
+                endAt = "",
                 currentSeat = null,
                 roomDetail = StudyRoomDetailEntity(
                     floor = 0,
