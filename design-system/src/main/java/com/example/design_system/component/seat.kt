@@ -55,14 +55,30 @@ private const val RoomDescriptionPaddingInt: Int = 12
 
 private val RoomBoxShape = RoundedCornerShape(22.dp)
 
+enum class SeatType {
+    // 이용중
+    IN_USE,
+
+    // 사용가능
+    AVAILABLE,
+
+    // 사용불가
+    UNAVAILABLE,
+
+    // 비어있는 자리
+    EMPTY;
+
+    companion object {
+        fun toSeatType(type: String) = SeatType.values().firstOrNull {
+            it.toString() == type
+        } ?: EMPTY
+    }
+}
+
 /**
  * 자습실 좌석을 구성하는 data class
  *
  * 자습실 좌석은 3가지 경우로 나뉩니다.
- *
- * 1. 빈 좌석인 경우 (id == null && text == null)
- * 2. 사용 중인 좌석인 경우 (id != null && name != null)
- * 3. 사용 가능한 좌석인 경우 (id != null && name == null)
  *
  * @param id 좌석 UUID
  * @param number 좌석 넘버
@@ -74,7 +90,7 @@ data class SeatItem(
     val number: Int? = null,
     val name: String? = null,
     val color: Color = DormColor.DormPrimary,
-    val isApplication: Boolean = false,
+    val type: SeatType = SeatType.EMPTY,
 )
 
 @Composable
@@ -97,7 +113,8 @@ fun RoomDetail(
     startDescription: String,
     endDescription: String,
     seats: List<List<SeatItem>>,
-    onClick: (String) -> Unit,
+    selected: String,
+    onSelectedChanged: (String) -> Unit,
 ) {
     Layout(
         modifier = Modifier
@@ -122,7 +139,8 @@ fun RoomDetail(
                         blur = 20.dp
                     ),
                 seats = seats,
-                onClick = onClick,
+                selected = selected,
+                onSelectedChanged = onSelectedChanged,
             )
             RoomDescription(
                 modifier = Modifier.layoutId(RoomTopDescriptionLayoutId),
@@ -218,28 +236,51 @@ private fun SeatContent(
     color: Color,
     text: String,
     textColor: Color = DormColor.Gray100,
-    enabled: Boolean = true,
-    onClick: (String) -> Unit,
+    isSelected: Boolean = false,
+    onSelectedChanged: (String) -> Unit,
+    clickedEnabled: Boolean = true
 ) {
-    Box(
-        modifier = Modifier
-            .size(SeatSize)
-            .background(
-                color = color,
-                shape = CircleShape,
+    if (isSelected) {
+        Box(
+            modifier = Modifier
+                .size(SeatSize)
+                .border(
+                    width = 1.dp,
+                    color = color,
+                    shape = CircleShape,
+                )
+                .background(
+                    color = Color.White,
+                    shape = CircleShape,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            OverLine(
+                text = text,
+                color = Color.Black,
             )
-            .clip(CircleShape)
-            .dormClickable(
-                runIf = enabled,
-            ) {
-                onClick(seatId)
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-        OverLine(
-            text = text,
-            color = textColor,
-        )
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .size(SeatSize)
+                .background(
+                    color = color,
+                    shape = CircleShape,
+                )
+                .clip(CircleShape)
+                .dormClickable(
+                    runIf = clickedEnabled,
+                ) {
+                    onSelectedChanged(seatId)
+                },
+            contentAlignment = Alignment.Center,
+        ) {
+            OverLine(
+                text = text,
+                color = textColor,
+            )
+        }
     }
 }
 
@@ -247,7 +288,8 @@ private fun SeatContent(
 private fun SeatListContent(
     modifier: Modifier = Modifier,
     seats: List<List<SeatItem>>,
-    onClick: (String) -> Unit,
+    selected: String,
+    onSelectedChanged: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -261,18 +303,47 @@ private fun SeatListContent(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 it.map { seat ->
-                    if (seat.number != null) {
-                        SeatContent(
-                            seatId = seat.id ?: "",
-                            color = seat.color,
-                            text = if (seat.isApplication) seat.number.toString() else seat.name
-                                ?: seat.number.toString(),
-                            onClick = { seatId ->
-                                onClick(seatId)
-                            },
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.size(SeatSize))
+                    when (seat.type) {
+                        SeatType.EMPTY -> {
+                            Spacer(modifier = Modifier.size(SeatSize))
+                        }
+                        SeatType.IN_USE -> {
+                            SeatContent(
+                                seatId = seat.id ?: "",
+                                color = seat.color,
+                                text = seat.name ?: seat.number.toString(),
+                                isSelected = selected == seat.id,
+                                onSelectedChanged = { seatId ->
+                                    onSelectedChanged(seatId)
+                                },
+                                clickedEnabled = false,
+                            )
+                        }
+                        SeatType.AVAILABLE -> {
+                            SeatContent(
+                                seatId = seat.id ?: "",
+                                color = seat.color,
+                                isSelected = selected == seat.id,
+                                text = seat.number.toString(),
+                                onSelectedChanged = { seatId ->
+                                    onSelectedChanged(seatId)
+                                },
+                            )
+                        }
+                        SeatType.UNAVAILABLE -> {
+                            Box(
+                                modifier = Modifier
+                                    .size(SeatSize)
+                                    .clip(CircleShape)
+                                    .background(color = DormColor.Gray400),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                OverLine(
+                                    text = "불가",
+                                    color = Color.White,
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -376,9 +447,10 @@ fun PreviewSeatContent() {
             startDescription = "칠판",
             endDescription = "칠판",
             seats = DummySeat,
-            onClick = { seatId ->
+            onSelectedChanged = { seatId ->
                 print(seatId)
             },
+            selected = ""
         )
     }
 }

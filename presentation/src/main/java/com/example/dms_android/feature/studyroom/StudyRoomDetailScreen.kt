@@ -31,14 +31,12 @@ import com.example.design_system.color.DormColor
 import com.example.design_system.component.RoomContent
 import com.example.design_system.component.RoomDetail
 import com.example.design_system.component.SeatItem
+import com.example.design_system.component.SeatType
 import com.example.design_system.toast.rememberToast
 import com.example.design_system.typography.Body5
 import com.example.dms_android.R
 import com.example.dms_android.util.TopBar
-import com.example.dms_android.util.observeWithLifecycle
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
-import kotlinx.coroutines.NonCancellable.cancel
-import kotlinx.coroutines.flow.collect
 
 /**
  * 자습실 상세보기 screen
@@ -200,7 +198,8 @@ fun StudyRoomDetailScreen(
                 startDescription = state.roomDetail.westDescription,
                 endDescription = state.roomDetail.eastDescription,
                 seats = state.roomDetail.toDesignSystemModel(),
-                onClick = { seatId ->
+                selected = state.currentSeat ?: "",
+                onSelectedChanged = { seatId ->
                     studyRoomViewModel.updateCurrentSeat(seatId)
                 },
             )
@@ -265,11 +264,11 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
         defaultSeats[height][width] = SeatItem(
             id = seat.id,
             number = seat.number,
-            name = seat.type?.name,
+            name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            isApplication = seat.number != null,
+            type = SeatType.toSeatType(seat.status)
         )
     }
 
