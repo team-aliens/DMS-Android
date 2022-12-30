@@ -35,16 +35,3 @@ fun MyPageEntity.toDbEntity() =
         minusPoint = minusPoint,
         phrase = phrase,
     )
-
-fun PointListEntity.PointValue.toDbEntity() =
-    PointListRoomEntity(
-        pointId = pointId,
-        date = date,
-        pointLocalType = pointType.toString(),
-        name = name,
-        score = score,
-    )
-
-fun PointListEntity.toDbEntity() =
-    pointValue.map { it.toDbEntity() }
-
