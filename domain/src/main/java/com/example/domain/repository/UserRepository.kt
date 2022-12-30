@@ -13,6 +13,8 @@ interface UserRepository {
         loginParam: LoginParam,
     )
 
+    suspend fun autoSignIn()
+
     suspend fun requestEmailCode(
         requestEmailCodeParam: RequestEmailCodeParam
     )

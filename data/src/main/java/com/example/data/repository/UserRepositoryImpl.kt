@@ -1,10 +1,12 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.remote.request.user.GetEmailCodeRequest
 import com.example.data.remote.request.user.SignInRequest
 import com.example.data.remote.response.user.SignInResponse
 import com.example.data.remote.datasource.declaration.RemoteUserDataSource
 import com.example.domain.entity.user.AuthInfoEntity
+import com.example.domain.exception.NoInternetException
 import com.example.domain.param.CheckEmailCodeParam
 import com.example.domain.param.CompareEmailParam
 import com.example.domain.param.LoginParam
@@ -14,6 +16,7 @@ import com.example.local_database.datasource.declaration.LocalUserDataSource
 import com.example.local_database.param.FeaturesParam
 import com.example.local_database.param.UserPersonalKeyParam
 import com.example.local_database.localutil.toLocalDateTime
+import com.example.local_database.param.user.UserInfoParam
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -23,8 +26,23 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun userSignIn(loginParam: LoginParam) {
         val response = remoteUserDataSource.postUserSignIn(loginParam.toRequest())
+        if (loginParam.autoLogin) {
+            localUserDataSource.setUserInfo(UserInfoParam(loginParam.id, loginParam.password))
+        }
         localUserDataSource.setUserVisibleInform(response.features.toDbEntity())
         localUserDataSource.setPersonalKey(response.toDbEntity())
+    }
+
+    override suspend fun autoSignIn() {
+        val info = localUserDataSource.fetchUserInfo()
+        try {
+            val response = remoteUserDataSource.postUserSignIn(signInRequest = SignInRequest(info.id, info.password))
+            localUserDataSource.setUserInfo(UserInfoParam(info.id, info.password))
+            localUserDataSource.setUserVisibleInform(response.features.toDbEntity())
+            localUserDataSource.setPersonalKey(response.toDbEntity())
+        } catch (e: NoInternetException) {
+            if (info.id.isEmpty() && info.password.isEmpty()) throw e
+        }
     }
 
     override suspend fun requestEmailCode(
