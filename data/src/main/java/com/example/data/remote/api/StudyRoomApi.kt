@@ -16,13 +16,13 @@ interface StudyRoomApi {
     @PUT(DmsUrl.StudyRoom.Apply)
     suspend fun applySeat(
         @Path("seat-id") data: String,
-    )
+    ): Response<Unit>
 
     @GET(DmsUrl.StudyRoom.fetchApplyTime)
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse
 
     @DELETE(DmsUrl.StudyRoom.CancelApply)
-    suspend fun cancelApplySeat()
+    suspend fun cancelApplySeat(): Response<Unit>
 
     @GET(DmsUrl.StudyRoom.StudyRoomList)
     suspend fun fetchStudyRoomList(): StudyRoomListResponse
