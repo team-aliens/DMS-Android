@@ -7,20 +7,17 @@ import com.example.data.remote.response.students.SignUpResponse
 import com.example.data.remote.api.StudentsApi
 import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.data.util.HttpHandler
+import com.example.data.util.sendHttpRequest
 import java.util.UUID
 import javax.inject.Inject
 
 class RemoteStudentsDataSourceImpl @Inject constructor(
     private val studentsApi: StudentsApi,
 ) : RemoteStudentsDataSource {
-    override suspend fun postUserSignUp(
-        signUpRequest: SignUpRequest,
-    ) = HttpHandler<SignUpResponse>()
-        .httpRequest {
-            studentsApi.postRegister(
-                signUpRequest,
-            )
-        }.sendRequest()
+    override suspend fun postUserSignUp(signUpRequest: SignUpRequest) =
+        HttpHandler<Unit>()
+            .httpRequest { studentsApi.postRegister(signUpRequest) }
+            .sendRequest()
 
     override suspend fun duplicateCheckId(
         accountId: String,

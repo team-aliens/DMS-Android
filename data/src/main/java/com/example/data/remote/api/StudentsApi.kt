@@ -16,7 +16,7 @@ interface StudentsApi {
     @POST(DmsUrl.Students.register)
     suspend fun postRegister(
         signUpRequest: SignUpRequest,
-    ): SignUpResponse
+    )
 
     @GET(DmsUrl.Students.duplicateCheckId)
     suspend fun duplicateCheckId(
