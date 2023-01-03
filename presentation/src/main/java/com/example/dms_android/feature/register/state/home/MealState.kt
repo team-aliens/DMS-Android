@@ -10,7 +10,8 @@ data class MealState(
     var mealList: MealList = MealList(),
     var today: LocalDate = LocalDate.now(),
     var a: Int = 0,
-    var b: Int = 0
+    var b: Int = 0,
+    var noticeBoolean: Boolean = false,
 ) : MviState {
     companion object {
         fun initial() = MealState(
