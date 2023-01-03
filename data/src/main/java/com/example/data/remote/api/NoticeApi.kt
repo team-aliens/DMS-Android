@@ -13,7 +13,7 @@ import java.util.UUID
 interface NoticeApi {
 
     @GET(DmsUrl.Notice.NewNoticeBoolean)
-    suspend fun checkNewNoticeBoolean(): NewNoticeBooleanResponse
+    suspend fun checkNewNoticeBoolean(): Boolean
 
     @GET(DmsUrl.notices)
     suspend fun fetchNoticeList(

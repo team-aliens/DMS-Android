@@ -17,10 +17,7 @@ class RemoteNoticeDataSourceImpl @Inject constructor(
     private val noticeApi: NoticeApi,
 ) : RemoteNoticeDataSource {
 
-    override suspend fun checkNoticeNewBoolean() =
-        HttpHandler<NewNoticeBooleanResponse>()
-            .httpRequest { noticeApi.checkNewNoticeBoolean() }
-            .sendRequest()
+    override suspend fun checkNoticeNewBoolean() = sendHttpRequest(httpRequest = { noticeApi.checkNewNoticeBoolean() })
 
     override suspend fun fetchNoticeList(
         order: NoticeListSCType,

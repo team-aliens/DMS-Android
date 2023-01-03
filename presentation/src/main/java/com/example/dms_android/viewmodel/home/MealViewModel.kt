@@ -1,6 +1,5 @@
 package com.example.dms_android.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.home.MealEvent
@@ -8,13 +7,13 @@ import com.example.dms_android.feature.register.state.home.MealList
 import com.example.dms_android.feature.register.state.home.MealState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
-import com.example.dms_android.viewmodel.notice.NoticeViewModel
 import com.example.domain.exception.BadRequestException
 import com.example.domain.exception.ForbiddenException
 import com.example.domain.exception.ServerException
 import com.example.domain.exception.TooManyRequestException
 import com.example.domain.exception.UnauthorizedException
 import com.example.domain.usecase.meal.RemoteMealUseCase
+import com.example.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
 import com.example.local_domain.entity.meal.MealEntity
 import com.example.local_domain.usecase.meal.LocalMealUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MealViewModel @Inject constructor(
     private val localMealUseCase: LocalMealUseCase,
-    private val remoteMealUseCase: RemoteMealUseCase
+    private val remoteMealUseCase: RemoteMealUseCase,
+    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase
 ) : BaseViewModel<MealState, MealEvent>() {
 
     private val _mealEvent = MutableEventFlow<Event>()
@@ -59,7 +59,30 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    fun fetchLocalMeal(date: LocalDate,) {
+    fun noticeCheckBoolean(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                remoteCheckNewNoticeBooleanUseCase.execute(Unit)
+            }.onSuccess {
+                setState(
+                    state = state.value.copy(
+                        noticeBoolean = it
+                    )
+                )
+            }.onFailure {
+                when (it) {
+                    is BadRequestException -> event(Event.BadRequestException)
+                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> event(Event.CannotConnectException)
+                    is TooManyRequestException -> event(Event.TooManyRequestException)
+                    is ServerException -> event(Event.InternalServerException)
+                    else -> event(Event.UnknownException)
+                }
+            }
+        }
+    }
+
+    fun fetchLocalMeal(date: LocalDate) {
         viewModelScope.launch {
             kotlin.runCatching {
                 val response = localMealUseCase.execute(date.toString())

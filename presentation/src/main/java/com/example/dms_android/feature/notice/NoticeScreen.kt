@@ -152,7 +152,7 @@ fun NoticeTopBar() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        Body1(text = "자습실 신청")
+        Body1(text = "공지사항")
     }
 }
 
