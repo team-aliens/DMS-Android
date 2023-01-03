@@ -9,7 +9,7 @@ import java.util.UUID
 
 interface NoticeRepository {
 
-    suspend fun newNoticeBoolean(): Flow<NewNoticeBooleanEntity>
+    suspend fun newNoticeBoolean(): Boolean
 
     suspend fun fetchNoticeList(order: NoticeListSCType): NoticeListEntity
 

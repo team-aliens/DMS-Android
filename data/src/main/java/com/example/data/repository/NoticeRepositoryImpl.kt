@@ -20,10 +20,8 @@ class NoticeRepositoryImpl @Inject constructor(
     private val localNoticeDataSource: LocalNoticeDataSource,
 ) : NoticeRepository {
 
-    override suspend fun newNoticeBoolean(): Flow<NewNoticeBooleanEntity> =
-        OfflineCacheUtil<NewNoticeBooleanEntity>()
-            .remoteData { remoteNoticeDataSource.checkNoticeNewBoolean().toEntity() }
-            .createFlow()
+    override suspend fun newNoticeBoolean(): Boolean =
+        remoteNoticeDataSource.checkNoticeNewBoolean()
 
     override suspend fun fetchNoticeList(
         order: NoticeListSCType
