@@ -15,6 +15,7 @@ import com.example.domain.exception.ServerException
 import com.example.domain.exception.TooManyRequestException
 import com.example.domain.exception.UnauthorizedException
 import com.example.domain.usecase.meal.RemoteMealUseCase
+import com.example.domain.usecase.notice.RemoteCheckNewNoticeBoolean
 import com.example.local_domain.entity.meal.MealEntity
 import com.example.local_domain.usecase.meal.LocalMealUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MealViewModel @Inject constructor(
     private val localMealUseCase: LocalMealUseCase,
-    private val remoteMealUseCase: RemoteMealUseCase
+    private val remoteMealUseCase: RemoteMealUseCase,
+    private val remoteCheckNewNoticeBoolean: RemoteCheckNewNoticeBoolean
 ) : BaseViewModel<MealState, MealEvent>() {
 
     private val _mealEvent = MutableEventFlow<Event>()
@@ -59,7 +61,30 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    fun fetchLocalMeal(date: LocalDate,) {
+    fun noticeCheckBoolean(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                remoteCheckNewNoticeBoolean.execute(Unit)
+            }.onSuccess {
+                setState(
+                    state = state.value.copy(
+                        noticeBoolean = it
+                    )
+                )
+            }.onFailure {
+                when (it) {
+                    is BadRequestException -> event(Event.BadRequestException)
+                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> event(Event.CannotConnectException)
+                    is TooManyRequestException -> event(Event.TooManyRequestException)
+                    is ServerException -> event(Event.InternalServerException)
+                    else -> event(Event.UnknownException)
+                }
+            }
+        }
+    }
+
+    fun fetchLocalMeal(date: LocalDate) {
         viewModelScope.launch {
             kotlin.runCatching {
                 val response = localMealUseCase.execute(date.toString())
