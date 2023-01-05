@@ -3,21 +3,14 @@ package com.example.data.repository
 import com.example.data.remote.request.students.ResetPasswordRequest
 import com.example.data.remote.request.students.SignUpRequest
 import com.example.data.remote.response.students.ExamineGradeResponse
-import com.example.data.remote.response.students.SignUpResponse
 import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
-import com.example.data.remote.response.user.SignInResponse
 import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.user.ExamineGradeEntity
 import com.example.domain.param.ExamineGradeParam
-import com.example.domain.param.LoginParam
 import com.example.domain.param.RegisterParam
 import com.example.domain.param.ResetPasswordParam
 import com.example.domain.repository.StudentsRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.localutil.toLocalDateTime
-import com.example.local_database.param.FeaturesParam
-import com.example.local_database.param.UserPersonalKeyParam
-import com.example.local_database.param.user.UserInfoParam
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -51,23 +44,7 @@ class StudentsRepositoryImpl @Inject constructor(
                     number = examineGradeParam.number,
                 ).toEntity()
             }.createRemoteFlow()
-
-
-    private fun SignUpResponse.Features.toEntity() =
-        FeaturesParam(
-            mealService = mealService,
-            noticeService = noticeService,
-            pointService = pointService,
-        )
-
-    private fun SignUpResponse.toDbEntity() =
-        UserPersonalKeyParam(
-            accessToken = accessToken,
-            accessTokenExpiredAt = accessTokenExpiredAt.toLocalDateTime(),
-            refreshToken = refreshToken,
-            refreshTokenExpiredAt = refreshTokenExpiredAt.toLocalDateTime(),
-        )
-
+    
     private fun ResetPasswordParam.toRequest() =
         ResetPasswordRequest(
             accountId = accountId,
