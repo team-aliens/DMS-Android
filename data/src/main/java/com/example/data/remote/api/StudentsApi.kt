@@ -5,6 +5,7 @@ import com.example.data.remote.request.students.SignUpRequest
 import com.example.data.remote.response.students.ExamineGradeResponse
 import com.example.data.remote.response.students.SignUpResponse
 import com.example.data.remote.url.DmsUrl
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -15,7 +16,7 @@ import java.util.UUID
 interface StudentsApi {
     @POST(DmsUrl.Students.register)
     suspend fun postRegister(
-        signUpRequest: SignUpRequest,
+        @Body signUpRequest: SignUpRequest,
     )
 
     @GET(DmsUrl.Students.duplicateCheckId)
