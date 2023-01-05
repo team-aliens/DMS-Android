@@ -31,10 +31,10 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
     R.layout.fragment_confirm_school
 ) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
-    private val signUpViewModel: SignUpViewModel by viewModels()
 
     private var answer: String = ""
     private var inputData = ""
+    private var schoolCode: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +43,7 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
     ): View? {
         val args = arguments
         inputData = args?.get("schoolId") as String
+        schoolCode = args.get("schoolCode") as String
 
         val uuid = UUID.fromString(inputData.toString())
         confirmSchoolViewModel.schoolId = uuid
@@ -63,6 +64,8 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
                 val bundle = Bundle()
                 bundle.putString("schoolId", inputData)
+                bundle.putString("answer", answer)
+                bundle.putString("schoolCode", schoolCode)
 
                 val fragment = EnterEmailFragment()
                 fragment.arguments = bundle
@@ -163,7 +166,6 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
         })
 
         binding.btnConfirm.setOnClickListener {
-            signUpViewModel.schoolAnswer = answer
             confirmSchoolViewModel.compareSchoolAnswer(answer)
         }
     }
