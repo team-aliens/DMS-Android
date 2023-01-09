@@ -6,6 +6,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -69,7 +72,7 @@ enum class SeatType {
     EMPTY;
 
     companion object {
-        fun toSeatType(type: String) = SeatType.values().firstOrNull {
+        fun toSeatType(type: String) = values().firstOrNull {
             it.toString() == type
         } ?: EMPTY
     }
@@ -423,34 +426,61 @@ fun RoomContent(
     }
 }
 
-/**
- * 20x20 더미 데이터
- */
-private val DummySeat = (0..20).map { a ->
-    (0..20).map { b ->
-        val random = Random.nextInt(3)
-        when (random) {
-            0 -> SeatItem(number = 1, name = "유저${a + b}", color = DormColor.DormPrimary, id = "")
-            1 -> SeatItem(number = a + b, name = null, color = DormColor.Lighten100, id = "")
-            else -> SeatItem(number = null, name = null, id = "")
+data class SeatTypeUiModel(
+    val color: Color,
+    val text: String,
+)
+
+@Composable
+fun SeatTypeList(
+    items: List<SeatTypeUiModel>,
+) {
+    LazyRow(
+        contentPadding = PaddingValues(
+            start = 2.dp,
+        ),
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+    ) {
+        items(items) { seatType ->
+            SeatTypeContent(item = seatType)
         }
-    }.toList()
-}.toList()
+    }
+}
+
+@Composable
+private fun SeatTypeContent(
+    item: SeatTypeUiModel,
+) {
+    Row(
+        modifier = Modifier
+            .height(20.dp)
+            .padding(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(10.dp)
+                .background(
+                    color = item.color,
+                    shape = CircleShape,
+                )
+                .clip(CircleShape),
+        )
+        OverLine(text = item.text)
+    }
+}
 
 @Preview
 @Composable
 fun PreviewSeatContent() {
-    Box(modifier = Modifier.padding(16.dp)) {
-        RoomDetail(
-            topDescription = "칠판",
-            bottomDescription = "칠판",
-            startDescription = "칠판",
-            endDescription = "칠판",
-            seats = DummySeat,
-            onSelectedChanged = { seatId ->
-                print(seatId)
-            },
-            selected = ""
+    Column {
+        SeatTypeList(
+            items = listOf(
+                SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터"),
+                SeatTypeUiModel(DormColor.Gray800, "일반"),
+                SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터")
+            )
         )
     }
 }
