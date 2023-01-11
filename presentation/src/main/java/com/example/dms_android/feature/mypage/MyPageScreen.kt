@@ -1,7 +1,6 @@
 package com.example.dms_android.feature.mypage
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,9 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
@@ -31,23 +28,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.example.design_system.color.DormColor
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.Caption
 import com.example.design_system.typography.Headline3
 import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
-import com.example.dms_android.component.changeBottomSheetState
 import com.example.dms_android.feature.navigator.NavigationRoute
-import com.example.dms_android.viewmodel.auth.login.SignInViewModel
+import com.example.dms_android.util.compose.DormImageUploadLayout
 import com.example.dms_android.viewmodel.mypage.MyPageViewModel
-import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -151,30 +144,12 @@ fun UserInformation(
                 .padding(24.dp),
             contentAlignment = Alignment.BottomEnd,
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-            ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .clickable {
-                            changeBottomSheetState(
-                                coroutineScope = scope,
-                                bottomSheetState = state,
-                                bottomSheetType = BottomSheetType.Show,
-                            )
-                        }
-                        .size(80.dp)
-                        .clip(CircleShape),
-                    model = state2.profileImageUrl,
-                    contentDescription = stringResource(id = R.string.AddImageButton),
-                )
-            }
-            Image(
-                modifier = Modifier
-                    .padding(start = 68.dp)
-                    .size(16.dp),
-                painter = painterResource(id = R.drawable.addplusimage),
-                contentDescription = stringResource(id = R.string.AddImageButton),
+            DormImageUploadLayout(
+                onImageChanged = { File ->
+
+                },
+                onError = {},
+                image = state2.profileImageUrl
             )
         }
     }
