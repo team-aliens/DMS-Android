@@ -39,8 +39,10 @@ fun DormCalendar(
                     CalendarView(it)
                 },
                 update = {
-                    it.setOnDateChangeListener { view, year, month, day ->
-                        onChangeDate("${day}-${month-1}-${year}")
+                    it.setOnDateChangeListener { _, year, month, day ->
+                        val month = (month+1).toString().padStart(2, '0')
+                        val day = day.toString().padStart(2, '0')
+                        onChangeDate("${year}-${month}-${day}")
                     }
                 },
             )
