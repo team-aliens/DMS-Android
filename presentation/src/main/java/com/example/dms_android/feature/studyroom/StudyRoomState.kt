@@ -2,13 +2,16 @@ package com.example.dms_android.feature.studyroom
 
 import com.example.dms_android.base.MviState
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
+import com.example.domain.entity.studyroom.SeatTypeEntity
 
 data class StudyRoomState(
     val currentSeat: String?,
     var startAt: String,
     var endAt: String,
+    var seatTypeListEntity: SeatTypeEntity,
     val roomDetail: StudyRoomDetailEntity,
 ) : MviState {
+
     companion object {
         fun initial() =
             StudyRoomState(
@@ -46,6 +49,15 @@ data class StudyRoomState(
                                 id = "",
                                 name = ""
                             )
+                        )
+                    )
+                ),
+                seatTypeListEntity = SeatTypeEntity(
+                    types = listOf(
+                        SeatTypeEntity.Type(
+                            id = "",
+                            name = "",
+                            color = "",
                         )
                     )
                 )
