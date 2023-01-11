@@ -1,5 +1,6 @@
 package com.example.design_system.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -29,9 +30,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import com.example.design_system.button.DormButtonColor
 import com.example.design_system.button.DormContainedLargeButton
 import com.example.design_system.color.DormColor
@@ -427,7 +430,7 @@ fun RoomContent(
 }
 
 data class SeatTypeUiModel(
-    val color: Color,
+    val color: String,
     val text: String,
 )
 
@@ -447,6 +450,7 @@ fun SeatTypeList(
     }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 private fun SeatTypeContent(
     item: SeatTypeUiModel,
@@ -462,25 +466,11 @@ private fun SeatTypeContent(
             modifier = Modifier
                 .size(10.dp)
                 .background(
-                    color = item.color,
+                    color = colorResource(id = item.color.toColorInt()),
                     shape = CircleShape,
                 )
                 .clip(CircleShape),
         )
         OverLine(text = item.text)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewSeatContent() {
-    Column {
-        SeatTypeList(
-            items = listOf(
-                SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터"),
-                SeatTypeUiModel(DormColor.Gray800, "일반"),
-                SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터")
-            )
-        )
     }
 }

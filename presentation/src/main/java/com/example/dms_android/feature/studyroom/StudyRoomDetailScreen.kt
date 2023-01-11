@@ -19,7 +19,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,10 +34,13 @@ import com.example.design_system.component.RoomContent
 import com.example.design_system.component.RoomDetail
 import com.example.design_system.component.SeatItem
 import com.example.design_system.component.SeatType
+import com.example.design_system.component.SeatTypeList
+import com.example.design_system.component.SeatTypeUiModel
 import com.example.design_system.toast.rememberToast
 import com.example.design_system.typography.Body5
 import com.example.dms_android.R
 import com.example.dms_android.util.TopBar
+import com.example.domain.entity.studyroom.SeatTypeEntity
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 
 /**
@@ -53,6 +58,7 @@ fun StudyRoomDetailScreen(
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomDetail(roomId)
         studyRoomViewModel.fetchApplyTime()
+        studyRoomViewModel.fetchRoomSeatType()
     }
 
     val state = studyRoomViewModel.state.collectAsState().value
@@ -192,53 +198,64 @@ fun StudyRoomDetailScreen(
                 onClick = { }
             )
             Spacer(modifier = Modifier.height(30.dp))
-            RoomDetail(
-                topDescription = state.roomDetail.northDescription,
-                bottomDescription = state.roomDetail.southDescription,
-                startDescription = state.roomDetail.westDescription,
-                endDescription = state.roomDetail.eastDescription,
-                seats = state.roomDetail.toDesignSystemModel(),
-                selected = state.currentSeat ?: "",
-                onSelectedChanged = { seatId ->
-                    studyRoomViewModel.updateCurrentSeat(seatId)
-                },
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Column(
+                modifier = Modifier
+                    .background(
+                        color = DormColor.Gray100
+                    )
             ) {
-                DormContainedLargeButton(
-                    modifier = Modifier.fillMaxWidth(0.48f),
-                    text = "취소",
-                    color = DormButtonColor.Gray,
-                ) {
-                    studyRoomViewModel.cancelStudyRoomSeat()
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-                DormContainedLargeButton(
+                Spacer(modifier = Modifier.height(25.dp))
+                SeatTypeList(items = state.seatTypeListEntity.types.map { it.toModel() })
+                Spacer(modifier = Modifier.height(25.dp))
+                RoomDetail(
+                    topDescription = state.roomDetail.northDescription,
+                    bottomDescription = state.roomDetail.southDescription,
+                    startDescription = state.roomDetail.westDescription,
+                    endDescription = state.roomDetail.eastDescription,
+                    seats = state.roomDetail.toDesignSystemModel(),
+                    selected = state.currentSeat ?: "",
+                    onSelectedChanged = { seatId ->
+                        studyRoomViewModel.updateCurrentSeat(seatId)
+                    },
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "신청",
-                    color = DormButtonColor.Blue,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    if (state.currentSeat == null) {
-                        toast("자리를 먼저 선택해주세요.")
-                    } else {
-                        studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
+                    DormContainedLargeButton(
+                        modifier = Modifier.fillMaxWidth(0.48f),
+                        text = "취소",
+                        color = DormButtonColor.Gray,
+                    ) {
+                        studyRoomViewModel.cancelStudyRoomSeat()
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    DormContainedLargeButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "신청",
+                        color = DormButtonColor.Blue,
+                    ) {
+                        if (state.currentSeat == null) {
+                            toast("자리를 먼저 선택해주세요.")
+                        } else {
+                            studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
+                        }
                     }
                 }
+                Spacer(modifier = Modifier.height(30.dp))   
             }
-            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
 
-/**
- * [StudyRoomDetailEntity] 를 디자인 시스템인 [RoomDetail] 에서 사용하기 위해
- * List<List<SeatItem>> 형식으로 Mapping 에주는 extension
- *
- * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
- */
+
+fun SeatTypeEntity.Type.toModel() =
+    SeatTypeUiModel(
+        color = color,
+        text = name
+    )
+
 private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
     val defaultSeats: MutableList<MutableList<SeatItem>> = List(
         size = this.totalHeightSize,

@@ -162,6 +162,20 @@ class StudyRoomViewModel @Inject constructor(
         }
     }
 
+    fun fetchRoomSeatType() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                studyRoomTypeUseCase.execute(Unit)
+            }.onSuccess {
+                setState(
+                    state = state.value.copy(
+                        seatTypeListEntity = it
+                    )
+                )
+            }
+        }
+    }
+
     private fun String.toHour(): String {
         return this.substring(0, 5)
     }

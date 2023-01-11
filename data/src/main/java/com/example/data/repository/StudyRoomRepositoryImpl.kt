@@ -8,7 +8,7 @@ import com.example.data.remote.response.studyroom.StudyRoomTypeResponse
 import com.example.domain.entity.studyroom.ApplySeatTimeEntity
 import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 import com.example.domain.entity.studyroom.StudyRoomListEntity
-import com.example.domain.entity.studyroom.StudyRoomTypeEntity
+import com.example.domain.entity.studyroom.SeatTypeEntity
 import com.example.domain.repository.StudyRoomRepository
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun fetchStudyRoomList(): StudyRoomListEntity =
         remoteStudyRoomDataSource.fetchStudyRoomList().toEntity()
 
-    override suspend fun fetchStudyRoomType(): StudyRoomTypeEntity =
+    override suspend fun fetchStudyRoomType(): SeatTypeEntity =
         remoteStudyRoomDataSource.fetchStudyRoomType().toEntity()
 
     override suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity =
@@ -82,12 +82,12 @@ class StudyRoomRepositoryImpl @Inject constructor(
         }
 
     private fun StudyRoomTypeResponse.toEntity() =
-        StudyRoomTypeEntity(
+        SeatTypeEntity(
             types = types.map { it.toEntity() }
         )
 
     private fun StudyRoomTypeResponse.Type.toEntity() =
-        StudyRoomTypeEntity.Type(
+        SeatTypeEntity.Type(
             color = color,
             id = id,
             name = name,
