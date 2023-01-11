@@ -19,6 +19,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,10 +43,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.design_system.color.DormColor
+import com.example.design_system.component.DormCalendar
 import com.example.design_system.icon.DormIcon
+import com.example.design_system.modifier.dormClickable
 import com.example.design_system.modifier.dormShadow
 import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body3
 import com.example.design_system.typography.Body5
 import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
@@ -50,9 +56,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun CafeteriaScreen(
     navController: NavController,
@@ -60,13 +68,16 @@ fun CafeteriaScreen(
 ) {
 
     LaunchedEffect(key1 = mealViewModel) {
-        Log.d("meals", "View")
         mealViewModel.fetchMeal(mealViewModel.state.value.today)
     }
 
     val pagerState = rememberPagerState(3)
-    val coroutineScope = rememberCoroutineScope()
     val toast = rememberToast()
+
+    val bottomSheetState = rememberModalBottomSheetState(
+        ModalBottomSheetValue.Hidden
+    )
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         mealViewModel.mealEvent.collect {
@@ -80,31 +91,45 @@ fun CafeteriaScreen(
             }
         }
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DormColor.Gray100)
-            .paint(
-                painter = painterResource(R.drawable.photo_cafeteria_background),
-                contentScale = ContentScale.FillBounds
-            ),
+
+    var formatter2: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+    fun String.toLocalDate(): LocalDate =
+        LocalDate.parse(this, formatter2)
+
+    DormCalendar(
+        bottomSheetState = bottomSheetState,
+        onChangeDate = { date ->
+            mealViewModel.updateDay(date.toLocalDate())
+        },
     ) {
-        Spacer(
+        Column(
             modifier = Modifier
-                .height(20.dp)
-        )
-        TopBar()
-        Spacer(
-            modifier = Modifier
-                .height(25.dp)
-        )
-        ImportantNotice()
-        CafeteriaDiary(
-            pagerState = pagerState,
-            coroutineScope = coroutineScope,
-            hiltViewModel()
-        )
-        CafeteriaViewPager(mealViewModel)
+                .fillMaxSize()
+                .background(DormColor.Gray100)
+                .paint(
+                    painter = painterResource(R.drawable.photo_cafeteria_background),
+                    contentScale = ContentScale.FillBounds
+                ),
+        ) {
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp)
+            )
+            TopBar()
+            Spacer(
+                modifier = Modifier
+                    .height(25.dp)
+            )
+            ImportantNotice()
+            CafeteriaDiary(
+                pagerState = pagerState,
+                coroutineScope = coroutineScope,
+                hiltViewModel(),
+                bottomSheetState
+            )
+            CafeteriaViewPager(mealViewModel)
+        }
     }
 }
 
@@ -176,12 +201,13 @@ fun ImportantNotice() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun CafeteriaDiary(
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
-    mealViewModel: MealViewModel
+    mealViewModel: MealViewModel,
+    bottomSheetState: ModalBottomSheetState,
 ) {
     val state = mealViewModel.state.collectAsState().value
 
@@ -191,6 +217,7 @@ fun CafeteriaDiary(
             .wrapContentHeight(),
         contentAlignment = Alignment.TopCenter,
     ) {
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -204,7 +231,12 @@ fun CafeteriaDiary(
             Row(
                 modifier = Modifier
                     .padding(top = 50.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .dormClickable {
+                        coroutineScope.launch {
+                            bottomSheetState.show()
+                        }
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
