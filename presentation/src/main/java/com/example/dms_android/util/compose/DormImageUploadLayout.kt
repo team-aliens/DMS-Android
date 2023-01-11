@@ -41,7 +41,8 @@ private val ImageSize: Dp = 100.dp
 
 @Composable
 fun DormImageUploadLayout(
-    imageFile: (File) -> Unit,
+    image: String,
+    onImageChanged: (File) -> Unit,
     onError: ((String) -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -54,7 +55,7 @@ fun DormImageUploadLayout(
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         bitmap = uri.parseBitmap(context)
                     }
-                    imageFile(
+                    onImageChanged(
                         UriUtil.toFile(
                             context = context,
                             uri = uri,
@@ -78,17 +79,14 @@ fun DormImageUploadLayout(
         contentAlignment = Alignment.BottomEnd,
     ) {
         if (bitmap == null) {
-            Box(
+            AsyncImage(
+                model = image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(ImageSize)
-                    .background(
-                        color = DormColor.Gray200,
-                        shape = CircleShape,
-                    )
                     .clip(CircleShape)
-                    .dormClickable(
-                        rippleEnabled = true,
-                    ) {
+                    .dormClickable {
                         takePhotoFromAlbumLauncher.launch(takePhotoFromAlbumIntent)
                     },
             )
@@ -129,7 +127,11 @@ val takePhotoFromAlbumIntent =
 @Composable
 fun PreviewImageUpload() {
     DormImageUploadLayout(
-        imageFile = {},
-        onError = {},
+        image = "url",
+        onImageChanged = { img ->
+        },
+        onError = { error ->
+            print(error)
+        }
     )
 }
