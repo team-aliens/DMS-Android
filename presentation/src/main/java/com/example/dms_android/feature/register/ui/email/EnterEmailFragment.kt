@@ -24,6 +24,8 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
 ) {
     private var emailAddress: String = ""
     private var inputData = ""
+    private var answer: String = ""
+    private var schoolCode: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,8 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
     ): View? {
         val args = arguments
         inputData = args?.get("schoolId") as String
+        answer = args.get("answer") as String
+        schoolCode = args.get("schoolCode") as String
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -78,6 +82,8 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
 
             bundle.putString("email", emailAddress)
             bundle.putString("schoolId", inputData)
+            bundle.putString("answer", answer)
+            bundle.putString("schoolCode", schoolCode)
             fragment.arguments = bundle
 
             registerActive.supportFragmentManager.beginTransaction()

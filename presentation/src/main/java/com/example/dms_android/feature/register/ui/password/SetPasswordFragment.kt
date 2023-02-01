@@ -23,15 +23,32 @@ import dagger.hilt.android.AndroidEntryPoint
 class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
     R.layout.fragment_set_password
 ) {
-    private val signUpViewModel: SignUpViewModel by viewModels()
-
     private var pwd = ""
     private var rePwd = ""
+    private var email: String = ""
+    private var authCode: String = ""
+    private var answer: String = ""
+    private var schoolCode: String = ""
+    private var id = ""
+    private var grade = 0
+    private var number = 0
+    private var classRoom = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+
+        val args = arguments
+        email = args?.get("email") as String
+        answer = args.get("answer") as String
+        schoolCode = args.get("schoolCode") as String
+        authCode = args.get("authCode") as String
+        id = args.get("accountId") as String
+        grade = args.getInt("grade")
+        number = args.getInt("number")
+        classRoom = args.getInt("classRoom")
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -51,10 +68,23 @@ class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
             if (pwd == rePwd) {
                 val registerActive = activity as RegisterActivity
 
-                signUpViewModel.password = pwd
+                val bundle = Bundle()
+                val fragment = SetProfileImageFragment()
+
+                bundle.putString("email", email)
+                bundle.putString("answer", answer)
+                bundle.putString("schoolCode", schoolCode)
+                bundle.putString("authCode", authCode)
+                bundle.putInt("grade", grade)
+                bundle.putInt("classRoom", classRoom)
+                bundle.putInt("number", number)
+                bundle.putString("accountId", id)
+                bundle.putString("password", pwd)
+
+                fragment.arguments = bundle
 
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, SetProfileImageFragment())
+                    .replace(R.id.containerRegister, fragment)
                     .addToBackStack("SetPassword")
                     .commit()
             } else {
@@ -76,7 +106,7 @@ class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if(binding.etEnterPassword.text!!.isNotEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()){
+                if (binding.etEnterPassword.text!!.isNotEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()) {
                     binding.btnVerificationCode.isEnabled = true
                     binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 }
@@ -92,7 +122,7 @@ class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if(binding.etEnterPassword.text!!.isNotEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()){
+                if (binding.etEnterPassword.text!!.isNotEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()) {
                     binding.btnVerificationCode.isEnabled = true
                     binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 }

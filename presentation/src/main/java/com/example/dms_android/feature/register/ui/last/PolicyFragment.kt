@@ -17,6 +17,7 @@ import com.example.dms_android.feature.register.event.SignUpEvent
 import com.example.dms_android.util.repeatOnStarted
 import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
 import com.example.dms_android.feature.register.ui.last.dialog.GoLoginDialog
+import com.example.domain.param.RegisterParam
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,11 +26,34 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
 ) {
     private val signUpViewModel: SignUpViewModel by viewModels()
 
+    private var pwd = ""
+    private var email: String = ""
+    private var authCode: String = ""
+    private var answer: String = ""
+    private var schoolCode: String = ""
+    private var id = ""
+    private var grade = 0
+    private var number = 0
+    private var classRoom = 0
+    private var profileImageUrl : String? = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+
+        val args = arguments
+        email = args?.get("email") as String
+        answer = args.get("answer") as String
+        schoolCode = args.get("schoolCode") as String
+        authCode = args.get("authCode") as String
+        id = args.get("accountId") as String
+        grade = args.getInt("grade")
+        number = args.getInt("number")
+        classRoom = args.getInt("classRoom")
+        pwd = args.get("password") as String
+
         repeatOnStarted {
             signUpViewModel.signUpViewEvent.collect { event -> handleEvent(event) }
         }
@@ -44,7 +68,7 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
             SignUpEvent.NotFoundException -> showShortToast(getString(R.string.NotFound))
             SignUpEvent.SignUpSuccess -> {
                 GoLoginDialog(requireContext(), onYesClick = {
-                    val intent = Intent(context, HomeActivity::class.java)
+                    val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
                 }).callDialog()
             }
@@ -54,26 +78,39 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
             SignUpEvent.UnKnownException -> showShortToast(getString(R.string.UnKnownException))
         }
     }
-    
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl("https://team-aliens-webview.dsm-dms.com/sign-up-policy")
         binding.btnVerificationCode.isEnabled = false
         binding.cbCheckAllPolicy.isChecked = false
-        
+
         binding.cbCheckAllPolicy.setOnCheckedChangeListener { _, checked ->
-            if(checked) {
+            if (checked) {
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.btnVerificationCode.isEnabled = true
-            }else {
+            } else {
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isEnabled = false
             }
         }
 
         binding.btnVerificationCode.setOnClickListener {
-            signUpViewModel.signUp()
+            signUpViewModel.signUp(
+                RegisterParam(
+                    schoolCode = schoolCode,
+                    schoolAnswer = answer,
+                    email = email,
+                    authCode = authCode,
+                    grade = grade,
+                    classRoom = classRoom,
+                    number = number,
+                    accountId = id,
+                    password = pwd,
+                    profileImageUrl = profileImageUrl,
+                )
+            )
         }
 
         binding.ivBack.setOnClickListener {

@@ -25,7 +25,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     R.layout.fragment_school_certification
 ) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
-    private val signUpViewModel : SignUpViewModel by viewModels()
+    private var temp: String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +46,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
 
                 val bundle = Bundle()
                 bundle.putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
+                bundle.putString("schoolCode", temp)
 
                 val fragment = ConfirmSchoolFragment()
                 fragment.arguments = bundle
@@ -85,8 +86,6 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
     }
 
     override fun initView() {
-        var temp: String? = null
-
         binding.etPinEntry.setOnPinEnteredListener() { str ->
             temp = str.toString()
             if (binding.etPinEntry.length() == 8) {
@@ -100,7 +99,6 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
 
         binding.btnVerificationCode.setOnClickListener {
             temp?.let {
-                signUpViewModel.schoolCode = it
                 examineSchoolCodeViewModel.examineSchoolCode(it)
             }
         }

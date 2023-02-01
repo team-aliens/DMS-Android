@@ -7,6 +7,7 @@ import com.example.dms_android.R
 import com.example.dms_android.feature.register.ui.email.EmailCertificationFragment
 import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
 import com.example.dms_android.feature.register.ui.id.SetIdFragment
+import com.example.dms_android.feature.register.ui.last.PolicyFragment
 import com.example.dms_android.feature.register.ui.password.SetPasswordFragment
 import com.example.dms_android.feature.register.ui.school.ConfirmSchoolFragment
 import com.example.dms_android.feature.register.ui.school.SchoolCertificationFragment

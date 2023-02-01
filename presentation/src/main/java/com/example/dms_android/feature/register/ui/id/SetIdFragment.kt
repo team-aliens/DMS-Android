@@ -14,6 +14,7 @@ import com.example.dms_android.R
 import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.feature.RegisterActivity
 import com.example.dms_android.feature.register.event.id.SetIdEvent
+import com.example.dms_android.feature.register.ui.email.EmailCertificationFragment
 import com.example.dms_android.feature.register.ui.password.SetPasswordFragment
 import com.example.dms_android.util.isVisible
 import com.example.dms_android.util.repeatOnStarted
@@ -29,7 +30,15 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
     R.layout.fragment_set_id
 ) {
     private val setIdViewModel: SetIdViewModel by viewModels()
-    private val signUpViewModel: SignUpViewModel by viewModels()
+
+    private var email: String = ""
+    private var authCode: String = ""
+    private var answer: String = ""
+    private var schoolCode: String = ""
+    private var id = ""
+    private var grade = 0
+    private var number = 0
+    private var classRoom = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +48,10 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 
         val args = arguments
         val inputData = args!!.get("schoolId")
+        email = args.get("email") as String
+        answer = args.get("answer") as String
+        schoolCode = args.get("schoolCode") as String
+        authCode = args.get("authCode") as String
 
         val uuid = UUID.fromString(inputData.toString())
         setIdViewModel.schoolId = uuid
@@ -84,8 +97,22 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
             is SetIdEvent.DuplicateIdSuccess -> {
                 val registerActive = activity as RegisterActivity
 
+                val bundle = Bundle()
+                val fragment = SetPasswordFragment()
+
+                bundle.putString("email", email)
+                bundle.putString("answer", answer)
+                bundle.putString("schoolCode", schoolCode)
+                bundle.putString("authCode", authCode)
+                bundle.putInt("grade", grade)
+                bundle.putInt("classRoom", classRoom)
+                bundle.putInt("number", number)
+                bundle.putString("accountId", id)
+
+                fragment.arguments = bundle
+
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, SetPasswordFragment())
+                    .replace(R.id.containerRegister, fragment)
                     .addToBackStack("SetId")
                     .commit()
             }
@@ -107,8 +134,6 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         binding.btnVerificationCode.isClickable = false
         binding.btnVerificationCode.isEnabled = false
         binding.etId.isEnabled = false
-
-        var id = ""
 
         checkNameLogic()
 
@@ -143,10 +168,9 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
         })
 
         binding.btnVerificationCode.setOnClickListener {
-            signUpViewModel.classRoom = binding.etClass.text.toString().toInt()
-            signUpViewModel.grade = binding.etGrade.text.toString().toInt()
-            signUpViewModel.number = binding.etNumber.text.toString().toInt()
-            signUpViewModel.accountId = id
+            classRoom = binding.etClass.text.toString().toInt()
+            grade = binding.etGrade.text.toString().toInt()
+            number = binding.etNumber.text.toString().toInt()
 
             setIdViewModel.duplicateId(id)
         }
@@ -158,6 +182,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
                 .commit()
         }
     }
+
     private fun checkNameLogic() {
         binding.etGrade.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

@@ -25,11 +25,12 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
     R.layout.fragment_email_certification
 ) {
     private val registerEmailViewModel: RegisterEmailViewModel by viewModels()
-    private val signUpViewModel : SignUpViewModel by viewModels()
 
     private var email: String = ""
     private var inputSchoolIdData : String = ""
     private var temp: String = ""
+    private var answer: String = ""
+    private var schoolCode: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +38,10 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
         savedInstanceState: Bundle?,
     ): View? {
         val args = arguments
-        val inputData = args?.get("email")
         inputSchoolIdData = args?.get("schoolId") as String
-
-        email = inputData.toString()
+        email = args.get("email") as String
+        answer = args.get("answer") as String
+        schoolCode = args.get("schoolCode") as String
 
         registerEmailViewModel.requestEmailCode(email)
 
@@ -57,9 +58,11 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
                 val registerActive = activity as RegisterActivity
                 val bundle = Bundle()
                 bundle.putString("schoolId", inputSchoolIdData)
+                bundle.putString("email", email)
+                bundle.putString("answer", answer)
+                bundle.putString("schoolCode", schoolCode)
+                bundle.putString("authCode", temp)
 
-                signUpViewModel.email = email
-                signUpViewModel.authCode = temp
                 val fragment = SetIdFragment()
                 fragment.arguments = bundle
 

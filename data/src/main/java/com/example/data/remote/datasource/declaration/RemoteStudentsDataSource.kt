@@ -9,7 +9,7 @@ import java.util.UUID
 interface RemoteStudentsDataSource {
     suspend fun postUserSignUp(
         signUpRequest: SignUpRequest,
-    ): SignUpResponse
+    )
 
     suspend fun duplicateCheckId(
         accountId: String

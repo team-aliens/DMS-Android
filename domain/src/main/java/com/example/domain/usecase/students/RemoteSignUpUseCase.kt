@@ -8,7 +8,6 @@ import javax.inject.Inject
 class RemoteSignUpUseCase @Inject constructor(
     private val studentsRepository: StudentsRepository,
 ): UseCase<RegisterParam, Unit>() {
-    override suspend fun execute(data: RegisterParam) {
+    override suspend fun execute(data: RegisterParam) =
         studentsRepository.register(data)
-    }
 }

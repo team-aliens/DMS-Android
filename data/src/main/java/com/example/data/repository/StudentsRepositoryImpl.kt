@@ -3,7 +3,6 @@ package com.example.data.repository
 import com.example.data.remote.request.students.ResetPasswordRequest
 import com.example.data.remote.request.students.SignUpRequest
 import com.example.data.remote.response.students.ExamineGradeResponse
-import com.example.data.remote.response.students.SignUpResponse
 import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
 import com.example.data.util.OfflineCacheUtil
 import com.example.domain.entity.user.ExamineGradeEntity
@@ -12,7 +11,6 @@ import com.example.domain.param.RegisterParam
 import com.example.domain.param.ResetPasswordParam
 import com.example.domain.repository.StudentsRepository
 import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.param.FeaturesParam
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -21,12 +19,8 @@ class StudentsRepositoryImpl @Inject constructor(
     private val localUserDataSource: LocalUserDataSource,
 ) : StudentsRepository {
 
-    override suspend fun register(registerParam: RegisterParam) {
-        val response = remoteStudentsDataSource.postUserSignUp(
-            registerParam.toRequest()
-        )
-        localUserDataSource.setUserVisibleInform(response.features.toEntity())
-    }
+    override suspend fun register(registerParam: RegisterParam) =
+        remoteStudentsDataSource.postUserSignUp(registerParam.toRequest())
 
     override suspend fun duplicateCheckId(accountId: String) =
         remoteStudentsDataSource.duplicateCheckId(accountId)
@@ -50,15 +44,7 @@ class StudentsRepositoryImpl @Inject constructor(
                     number = examineGradeParam.number,
                 ).toEntity()
             }.createRemoteFlow()
-
-
-    private fun SignUpResponse.Features.toEntity() =
-        FeaturesParam(
-            mealService = mealService,
-            noticeService = noticeService,
-            pointService = pointService,
-        )
-
+    
     private fun ResetPasswordParam.toRequest() =
         ResetPasswordRequest(
             accountId = accountId,

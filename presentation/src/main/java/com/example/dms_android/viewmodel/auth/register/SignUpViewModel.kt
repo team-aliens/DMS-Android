@@ -23,39 +23,13 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val remoteSignUpUseCase: RemoteSignUpUseCase
 ) : BaseViewModel<SignUpState, SignUpEvent>() {
-
-    var schoolCode = ""
-    var schoolAnswer = ""
-    var email = ""
-    var authCode = ""
-    var grade = 0
-    var classRoom = 0
-    var number = 0
-    var accountId = ""
-    var password = ""
-    var profileImageUrl = ""
-
-    private val parameter =
-        RegisterParam(
-            schoolCode = schoolCode,
-            schoolAnswer = schoolAnswer,
-            email = email,
-            authCode = authCode,
-            grade = grade,
-            classRoom = classRoom,
-            number = number,
-            accountId = accountId,
-            password = password,
-            profileImageUrl = profileImageUrl,
-        )
-
     private val _signUpEvent = MutableEventFlow<SignUpEvent>()
     val signUpViewEvent = _signUpEvent.asEventFlow()
 
-    fun signUp() {
+    fun signUp(registerParam: RegisterParam) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteSignUpUseCase.execute(parameter)
+                remoteSignUpUseCase.execute(registerParam)
             }.onSuccess {
                 event(SignUpEvent.SignUpSuccess)
             }.onFailure {
