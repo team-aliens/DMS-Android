@@ -2,7 +2,7 @@ package com.example.dms_android.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.register.event.home.MealEvent
+import com.example.dms_android.feature.cafeteria.home.MealEvent
 import com.example.dms_android.feature.register.state.home.MealList
 import com.example.dms_android.feature.register.state.home.MealState
 import com.example.dms_android.util.MutableEventFlow
