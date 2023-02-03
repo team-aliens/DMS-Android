@@ -1,10 +1,9 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.schools.RemoteSchoolCodeUseCase
-import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
-import com.example.dms_android.feature.register.state.school.ExamineSchoolCodeState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import com.example.domain.exception.BadRequestException
@@ -19,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
     private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase,
-) : BaseViewModel<ExamineSchoolCodeState, ExamineSchoolCodeEvent>() {
+) : ViewModel() {
 
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
     val examineSchoolCodeEvent = _examineSchoolCodeEvent.asEventFlow()
@@ -48,12 +47,5 @@ class ExamineSchoolCodeViewModel @Inject constructor(
         viewModelScope.launch {
             _examineSchoolCodeEvent.emit(event)
         }
-    }
-
-    override val initialState: ExamineSchoolCodeState
-        get() = ExamineSchoolCodeState.initial()
-
-    override fun reduceEvent(oldState: ExamineSchoolCodeState, event: ExamineSchoolCodeEvent) {
-        TODO()
     }
 }

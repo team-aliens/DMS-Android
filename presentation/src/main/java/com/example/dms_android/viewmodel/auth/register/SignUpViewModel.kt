@@ -1,5 +1,6 @@
 package com.example.dms_android.viewmodel.auth.register
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.exception.BadRequestException
 import com.example.domain.exception.NotFoundException
@@ -7,10 +8,7 @@ import com.example.domain.exception.ServerException
 import com.example.domain.exception.TooManyRequestException
 import com.example.domain.exception.UnauthorizedException
 import com.example.domain.usecase.students.RemoteSignUpUseCase
-import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.SignUpEvent
-import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
-import com.example.dms_android.feature.register.state.SignUpState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import com.example.domain.exception.ConflictException
@@ -22,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val remoteSignUpUseCase: RemoteSignUpUseCase
-) : BaseViewModel<SignUpState, SignUpEvent>() {
+) : ViewModel() {
     private val _signUpEvent = MutableEventFlow<SignUpEvent>()
     val signUpViewEvent = _signUpEvent.asEventFlow()
 
@@ -50,13 +48,5 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             _signUpEvent.emit(event)
         }
-    }
-
-    override val initialState: SignUpState
-        get() = SignUpState.initial()
-
-
-    override fun reduceEvent(oldState: SignUpState, event: SignUpEvent) {
-        //TODO
     }
 }
