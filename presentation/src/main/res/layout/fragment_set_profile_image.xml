@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLogo"
             android:layout_width="97dp"
             android:layout_height="34dp"
@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnAddImage"
             android:layout_width="46dp"
             android:layout_height="46dp"
@@ -59,7 +59,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
             app:layout_constraintEnd_toEndOf="@+id/ivProfileImage" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSetLater"
             style="@style/DMS.NotoSans.Button"
             android:layout_width="98dp"

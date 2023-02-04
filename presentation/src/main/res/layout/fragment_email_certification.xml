@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLogo"
             android:layout_width="97dp"
             android:layout_height="34dp"
@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBack" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/DMS.NotoSans.Body1"
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             app:pinCharacterSpacing="24dp"
             app:pinLineColors="@color/gray_500" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDetail"
             style="@style/DMS.NotoSans.Body2"
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPinEntry" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMinute"
             style="@style/DMS.NotoSans.Body2"
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             app:layout_constraintStart_toEndOf="@+id/tvMinute"
             app:layout_constraintTop_toTopOf="@+id/tvMinute" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSecond"
             style="@style/DMS.NotoSans.Body2"
             android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
             app:layout_constraintStart_toEndOf="@+id/tvDevide"
             app:layout_constraintTop_toTopOf="@+id/tvDevide" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvResendCode"
             style="@style/DMS.NotoSans.Button"
             android:layout_width="wrap_content"

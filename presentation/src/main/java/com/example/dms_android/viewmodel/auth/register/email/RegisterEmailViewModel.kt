@@ -1,11 +1,10 @@
 package com.example.dms_android.viewmodel.auth.register.email
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.user.RemoteCheckEmailUseCase
 import com.example.domain.usecase.user.RemoteRequestEmailCodeUseCase
-import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
-import com.example.dms_android.feature.register.state.email.RegisterEmailState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import com.example.domain.enums.EmailType
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class RegisterEmailViewModel @Inject constructor(
     private val remoteRequestEmailCodeUseCase: RemoteRequestEmailCodeUseCase,
     private val remoteCheckEmailUseCase: RemoteCheckEmailUseCase,
-) : BaseViewModel<RegisterEmailState, RegisterEmailEvent>() {
+) : ViewModel() {
 
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
     val registerEmailEvent = _registerEmailEvent.asEventFlow()
@@ -80,12 +79,5 @@ class RegisterEmailViewModel @Inject constructor(
         viewModelScope.launch {
             _registerEmailEvent.emit(event)
         }
-    }
-
-    override val initialState: RegisterEmailState
-        get() = RegisterEmailState.initial()
-
-    override fun reduceEvent(oldState: RegisterEmailState, event: RegisterEmailEvent) {
-        TODO("Not yet implemented")
     }
 }

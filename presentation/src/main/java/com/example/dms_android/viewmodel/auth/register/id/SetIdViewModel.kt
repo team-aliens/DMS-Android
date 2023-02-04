@@ -1,5 +1,6 @@
 package com.example.dms_android.viewmodel.auth.register.id
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.exception.BadRequestException
 import com.example.domain.exception.ConflictException
@@ -9,9 +10,7 @@ import com.example.domain.exception.TooManyRequestException
 import com.example.domain.param.ExamineGradeParam
 import com.example.domain.usecase.students.DuplicateCheckIdUseCase
 import com.example.domain.usecase.students.ExamineGradeUseCase
-import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.id.SetIdEvent
-import com.example.dms_android.feature.register.state.id.SetIdState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import com.example.domain.entity.user.ExamineGradeEntity
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class SetIdViewModel @Inject constructor(
     private val examineGradeUseCase: ExamineGradeUseCase,
     private val duplicateCheckIdUseCase: DuplicateCheckIdUseCase,
-) : BaseViewModel<SetIdState, SetIdEvent>() {
+) : ViewModel() {
 
     private val _examineGradeEvent = MutableEventFlow<SetIdEvent>()
     val examineGradeEvent = _examineGradeEvent.asEventFlow()
@@ -86,11 +85,4 @@ class SetIdViewModel @Inject constructor(
         ExamineGradeEntity(
             name = name
         )
-
-    override val initialState: SetIdState
-        get() = SetIdState.initial()
-
-    override fun reduceEvent(oldState: SetIdState, event: SetIdEvent) {
-        TODO("Not yet implemented")
-    }
 }

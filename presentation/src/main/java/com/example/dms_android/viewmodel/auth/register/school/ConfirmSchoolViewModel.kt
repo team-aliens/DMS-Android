@@ -1,12 +1,11 @@
 package com.example.dms_android.viewmodel.auth.register.school
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.schools.RemoteSchoolAnswerUseCase
 import com.example.domain.usecase.schools.RemoteSchoolQuestionUseCase
-import com.example.dms_android.base.BaseViewModel
 import com.example.dms_android.feature.register.event.school.ConfirmSchoolEvent
-import com.example.dms_android.feature.register.state.school.ConfirmSchoolState
 import com.example.dms_android.util.MutableEventFlow
 import com.example.dms_android.util.asEventFlow
 import com.example.domain.entity.user.SchoolConfirmQuestionEntity
@@ -25,7 +24,7 @@ import javax.inject.Inject
 class ConfirmSchoolViewModel @Inject constructor(
     private val remoteSchoolAnswerUseCase: RemoteSchoolAnswerUseCase,
     private val remoteSchoolQuestionUseCase: RemoteSchoolQuestionUseCase,
-) : BaseViewModel<ConfirmSchoolState, ConfirmSchoolEvent>() {
+) : ViewModel() {
 
     private val _confirmSchoolEvent = MutableEventFlow<ConfirmSchoolEvent>()
     val confirmSchoolEvent = _confirmSchoolEvent.asEventFlow()
@@ -85,11 +84,4 @@ class ConfirmSchoolViewModel @Inject constructor(
         SchoolConfirmQuestionEntity(
             question = question
         )
-
-    override val initialState: ConfirmSchoolState
-        get() = ConfirmSchoolState.initial()
-
-    override fun reduceEvent(oldState: ConfirmSchoolState, event: ConfirmSchoolEvent) {
-        TODO()
-    }
 }

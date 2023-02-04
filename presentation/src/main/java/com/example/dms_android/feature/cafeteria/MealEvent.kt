@@ -1,4 +1,4 @@
-package com.example.dms_android.feature.register.event.home
+package com.example.dms_android.feature.cafeteria
 
 import com.example.dms_android.base.MviEvent
 

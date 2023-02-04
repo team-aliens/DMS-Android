@@ -1,9 +1,7 @@
-package com.example.dms_android.feature.register.state.home
+package com.example.dms_android.feature.cafeteria
 
-import androidx.compose.runtime.Composable
 import com.example.dms_android.base.MviState
 import java.time.LocalDate
-import java.util.Arrays
 
 data class MealState(
     val meal: String,
