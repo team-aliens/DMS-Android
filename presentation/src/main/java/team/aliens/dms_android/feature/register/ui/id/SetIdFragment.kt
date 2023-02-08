@@ -7,23 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.dms_android.databinding.FragmentSetIdBinding
 import com.example.dms_android.R
-import com.example.dms_android.base.BaseFragment
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.register.event.id.SetIdEvent
-import com.example.dms_android.feature.register.ui.password.SetPasswordFragment
-import com.example.dms_android.util.repeatOnStarted
-import com.example.dms_android.util.visible
-import com.example.dms_android.viewmodel.auth.register.id.SetIdViewModel
-import com.example.domain.entity.user.ExamineGradeEntity
+import com.example.dms_android.databinding.FragmentSetIdBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.UUID
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.register.event.id.SetIdEvent
+import team.aliens.dms_android.feature.register.ui.password.SetPasswordFragment
+import team.aliens.dms_android.util.repeatOnStarted
+import team.aliens.dms_android.util.visible
+import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
+import team.aliens.domain.entity.user.ExamineGradeEntity
+import java.util.*
 
 @AndroidEntryPoint
-class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
-    R.layout.fragment_set_id
-) {
+class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_id) {
     private val setIdViewModel: SetIdViewModel by viewModels()
 
     private var email: String = ""
@@ -107,9 +105,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
                 fragment.arguments = bundle
 
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, fragment)
-                    .addToBackStack("SetId")
-                    .commit()
+                    .replace(R.id.containerRegister, fragment).addToBackStack("SetId").commit()
             }
 
             is SetIdEvent.DuplicateIdConflictException -> {
@@ -172,8 +168,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(
 
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
-            registerActive.supportFragmentManager.beginTransaction()
-                .remove(SetIdFragment())
+            registerActive.supportFragmentManager.beginTransaction().remove(SetIdFragment())
                 .commit()
         }
     }

@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature.register.event.id
 
-import com.example.dms_android.base.MviEvent
-import com.example.domain.entity.user.ExamineGradeEntity
+import team.aliens.dms_android.base.MviEvent
+import team.aliens.domain.entity.user.ExamineGradeEntity
 
 sealed class SetIdEvent : MviEvent {
     data class ExamineGradeName(val examineGradeEntity: ExamineGradeEntity) : SetIdEvent()

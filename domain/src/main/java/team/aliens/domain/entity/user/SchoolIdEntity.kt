@@ -1,7 +1,7 @@
 package team.aliens.domain.entity.user
 
-import java.util.UUID
+import java.util.*
 
 data class SchoolIdEntity(
-    val schoolId: UUID
+    val schoolId: UUID,
 )

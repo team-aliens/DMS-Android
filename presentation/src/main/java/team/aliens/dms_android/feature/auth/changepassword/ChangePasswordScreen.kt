@@ -4,21 +4,10 @@ import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,19 +16,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.design_system.button.DormButtonColor
-import com.example.design_system.button.DormContainedLargeButton
-import com.example.design_system.color.DormColor
-import com.example.design_system.textfield.DormTextField
-import com.example.design_system.typography.Body4
 import com.example.dms_android.R
-import com.example.dms_android.util.EventFlow
-import com.example.dms_android.util.observeWithLifecycle
-import com.example.dms_android.viewmodel.changepw.ChangePasswordViewModel
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.typography.Body4
+import team.aliens.dms_android.util.EventFlow
+import team.aliens.dms_android.util.observeWithLifecycle
+import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 
 @Composable
 fun ChangePasswordScreen(
-    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel()
+    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = Modifier
@@ -55,7 +44,7 @@ fun ChangePasswordScreen(
 @Composable
 private fun HandleViewEffect(
     effect: EventFlow<ChangePasswordEvent>,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
 ) {
 
     val badRequestComment = stringResource(id = R.string.ChangePasswordBadRequest)
@@ -211,7 +200,7 @@ fun PasswordTextField() {
 
 @Composable
 fun ScanNewPasswordButton(
-    changePasswordViewModel: ChangePasswordViewModel
+    changePasswordViewModel: ChangePasswordViewModel,
 ) {
     Box(
         contentAlignment = Alignment.BottomCenter,

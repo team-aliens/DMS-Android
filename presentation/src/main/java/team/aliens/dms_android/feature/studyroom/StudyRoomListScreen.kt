@@ -2,28 +2,12 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,31 +17,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.design_system.color.DormColor
-import com.example.design_system.component.RoomContent
-import com.example.design_system.modifier.dormShadow
-import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body2
-import com.example.design_system.typography.Body5
 import com.example.dms_android.R
-import com.example.dms_android.feature.notice.toNotice
-import com.example.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.component.RoomContent
+import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body2
+import team.aliens.design_system.typography.Body5
+import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 
-fun StudyRoomListEntity.StudyRoom.toNotice() =
-    RoomDataClass(
-        roomId = id,
-        position = "${floor}층",
-        title = name,
-        currentNumber = inUseHeadcount,
-        isMine = isMine,
-        maxNumber = totalAvailableSeat,
-        condition = "${availableGrade}학년 $studyRoomSex",
-    )
+fun StudyRoomListEntity.StudyRoom.toNotice() = RoomDataClass(
+    roomId = id,
+    position = "${floor}층",
+    title = name,
+    currentNumber = inUseHeadcount,
+    isMine = isMine,
+    maxNumber = totalAvailableSeat,
+    condition = "${availableGrade}학년 $studyRoomSex",
+)
 
 @Composable
 fun StudyRoomListScreen(
     navController: NavController,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel()
+    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomList()
@@ -69,7 +51,15 @@ fun StudyRoomListScreen(
     }
 
     var points = remember {
-        mutableStateListOf(
+        mutableStateListOf(RoomDataClass(
+            roomId = "qewf",
+            position = "qwef",
+            title = "qwef",
+            currentNumber = 1,
+            maxNumber = 2,
+            isMine = false,
+            condition = "afwe",
+        ),
             RoomDataClass(
                 roomId = "qewf",
                 position = "qwef",
@@ -78,17 +68,7 @@ fun StudyRoomListScreen(
                 maxNumber = 2,
                 isMine = false,
                 condition = "afwe",
-            ),
-            RoomDataClass(
-                roomId = "qewf",
-                position = "qwef",
-                title = "qwef",
-                currentNumber = 1,
-                maxNumber = 2,
-                isMine = false,
-                condition = "afwe",
-            )
-        )
+            ))
     }
 
     val toast = rememberToast()
@@ -146,8 +126,7 @@ fun StudyRoomListScreen(
         Spacer(modifier = Modifier.height(32.dp))
         Body2(text = "자습실 신청")
         Spacer(modifier = Modifier.height(27.dp))
-        Box(
-            contentAlignment = Alignment.CenterEnd,
+        Box(contentAlignment = Alignment.CenterEnd,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(45.dp)
@@ -159,11 +138,9 @@ fun StudyRoomListScreen(
                 .background(
                     color = Color.White,
                     shape = RoundedCornerShape(100),
-                )
-        ) {
+                )) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -174,13 +151,8 @@ fun StudyRoomListScreen(
                     painter = painterResource(id = R.drawable.coloricnotice),
                     contentDescription = stringResource(id = R.string.icNotice),
                 )
-                Spacer(
-                    modifier = Modifier
-                        .width(13.dp)
-                )
-                Body5(
-                    text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}"
-                )
+                Spacer(modifier = Modifier.width(13.dp))
+                Body5(text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
@@ -191,8 +163,7 @@ fun StudyRoomListScreen(
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             items(items = points) { point ->
-                RoomContent(
-                    roomId = point.roomId,
+                RoomContent(roomId = point.roomId,
                     position = point.position,
                     title = point.title,
                     currentNumber = point.currentNumber,
@@ -201,8 +172,7 @@ fun StudyRoomListScreen(
                     isMine = point.isMine,
                     onClick = { seatId ->
                         navController.navigate("studyRoomDetail/${seatId}")
-                    }
-                )
+                    })
             }
         }
     }

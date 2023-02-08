@@ -1,6 +1,6 @@
 package team.aliens.domain.param
 
-import java.util.UUID
+import java.util.*
 
 data class SchoolAnswerParam(
     val schoolId: UUID,

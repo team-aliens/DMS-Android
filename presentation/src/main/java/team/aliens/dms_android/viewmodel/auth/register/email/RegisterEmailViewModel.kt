@@ -2,21 +2,17 @@ package team.aliens.dms_android.viewmodel.auth.register.email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.user.RemoteCheckEmailUseCase
-import com.example.domain.usecase.user.RemoteRequestEmailCodeUseCase
-import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.enums.EmailType
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.NotFoundException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.param.CheckEmailCodeParam
-import com.example.domain.param.RequestEmailCodeParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.enums.EmailType
+import team.aliens.domain.exception.*
+import team.aliens.domain.param.CheckEmailCodeParam
+import team.aliens.domain.param.RequestEmailCodeParam
+import team.aliens.domain.usecase.user.RemoteCheckEmailUseCase
+import team.aliens.domain.usecase.user.RemoteRequestEmailCodeUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,12 +27,8 @@ class RegisterEmailViewModel @Inject constructor(
     fun requestEmailCode(email: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteRequestEmailCodeUseCase.execute(
-                    RequestEmailCodeParam(
-                        email = email,
-                        type = EmailType.SIGNUP
-                    )
-                )
+                remoteRequestEmailCodeUseCase.execute(RequestEmailCodeParam(email = email,
+                    type = EmailType.SIGNUP))
             }.onSuccess {
                 event(RegisterEmailEvent.SendEmailSuccess)
             }.onFailure {
@@ -53,13 +45,11 @@ class RegisterEmailViewModel @Inject constructor(
     fun checkEmailCode(email: String, authCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteCheckEmailUseCase.execute(
-                    CheckEmailCodeParam(
-                        email = email,
-                        type = EmailType.SIGNUP,
-                        authCode = authCode,
-                    )
-                )
+                remoteCheckEmailUseCase.execute(CheckEmailCodeParam(
+                    email = email,
+                    type = EmailType.SIGNUP,
+                    authCode = authCode,
+                ))
             }.onSuccess {
                 event(RegisterEmailEvent.CheckEmailSuccess)
             }.onFailure {

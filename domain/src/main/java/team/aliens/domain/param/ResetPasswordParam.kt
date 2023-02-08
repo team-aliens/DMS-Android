@@ -5,5 +5,5 @@ class ResetPasswordParam(
     val authCode: String,
     val email: String,
     val name: String,
-    val newPassword: String
+    val newPassword: String,
 )

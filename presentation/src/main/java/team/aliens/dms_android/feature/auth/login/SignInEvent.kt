@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.auth.login
 
-import com.example.dms_android.base.MviEvent
+import team.aliens.dms_android.base.MviEvent
 
 sealed class SignInEvent : MviEvent {
     data class InputId(val id: String) : SignInEvent()

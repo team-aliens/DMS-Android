@@ -1,8 +1,8 @@
 package team.aliens.domain.entity.studyroom
 
 data class StudyRoomListEntity(
-    val studyRooms: List<StudyRoom>
-){
+    val studyRooms: List<StudyRoom>,
+) {
     data class StudyRoom(
         val availableGrade: String,
         val availableSex: String,

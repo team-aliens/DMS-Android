@@ -19,26 +19,24 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.example.design_system.color.DormColor
-import com.example.design_system.icon.DormIcon
-import com.example.design_system.typography.Body4
-import com.example.dms_android.viewmodel.home.MealViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.typography.Body4
+import team.aliens.dms_android.viewmodel.home.MealViewModel
 import kotlin.math.absoluteValue
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ScrollEffectPager(
-    mealViewModel: MealViewModel
+    mealViewModel: MealViewModel,
 ) {
 
-    val pagerState = rememberPagerState(
-        initialPage = 1
-    )
+    val pagerState = rememberPagerState(initialPage = 1)
 
     val state = mealViewModel.state.collectAsState().value
 
@@ -46,10 +44,7 @@ fun ScrollEffectPager(
         state = pagerState,
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = 40.dp,
-                bottom = 40.dp
-            )
+            .padding(top = 40.dp, bottom = 40.dp)
             .background(Color.Transparent),
         contentPadding = PaddingValues(horizontal = 64.dp),
         count = 3,
@@ -62,19 +57,14 @@ fun ScrollEffectPager(
                 )
                 .graphicsLayer {
                     val pageOffset = calculateCurrentOffsetForPage(pageIndex).absoluteValue
-                    lerp(
-                        start = 0.85f,
+                    lerp(start = 0.85f,
                         stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    ).also { scale ->
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)).also { scale ->
                         scaleX = scale
                         scaleY = scale
                     }
-                    alpha = lerp(
-                        start = 0.5f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    )
+                    alpha =
+                        lerp(start = 0.5f, stop = 1f, fraction = 1f - pageOffset.coerceIn(0f, 1f))
                 }
                 .clip(RoundedCornerShape(15))
                 .border(
@@ -85,8 +75,7 @@ fun ScrollEffectPager(
             shape = RoundedCornerShape(24.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
             ) {
@@ -109,16 +98,14 @@ fun ScrollEffectPager(
 @Composable
 private fun MenuListLayout(
     menus: List<String>,
-    a: Int
+    a: Int,
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(14.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
         item {
             Spacer(modifier = Modifier.height(9.dp))
             var b: DormIcon = DormIcon.Launch
-            when(a) {
+            when (a) {
                 1 -> b = DormIcon.Breakfast
                 2 -> b = DormIcon.Launch
                 3 -> b = DormIcon.Dinner

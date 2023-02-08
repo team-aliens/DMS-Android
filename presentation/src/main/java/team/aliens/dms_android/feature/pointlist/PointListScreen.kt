@@ -2,55 +2,33 @@ package team.aliens.dms_android.feature.pointlist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.design_system.button.DormButtonColor
-import com.example.design_system.button.DormContainedLargeButton
-import com.example.design_system.button.DormOutlineLargeButton
-import com.example.design_system.color.DormColor
-import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Headline2
 import com.example.dms_android.R
-import com.example.dms_android.util.TopBar
-import com.example.dms_android.viewmodel.mypage.MyPageViewModel
-import com.example.domain.entity.mypage.PointListEntity
-import com.example.domain.enums.PointType
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.button.DormOutlineLargeButton
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Headline2
+import team.aliens.dms_android.util.TopBar
+import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
+import team.aliens.domain.entity.mypage.PointListEntity
+import team.aliens.domain.enums.PointType
 
 fun PointListEntity.PointValue.toNotice() =
-    PointValue(
-        date = date,
-        content = name,
-        point = score,
-        pointType = pointType
-    )
+    PointValue(date = date, content = name, point = score, pointType = pointType)
 
 @Composable
 fun PointListScreen(
     navController: NavController,
-    myPageViewModel: MyPageViewModel = hiltViewModel()
+    myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
@@ -58,14 +36,12 @@ fun PointListScreen(
     }
 
     val point = remember {
-        mutableStateListOf(
-            PointValue(
-                "",
-                "",
-                0,
-                PointType.ALL,
-            )
-        )
+        mutableStateListOf(PointValue(
+            "",
+            "",
+            0,
+            PointType.ALL,
+        ))
     }
 
     val state = myPageViewModel.state.collectAsState().value
@@ -129,15 +105,12 @@ fun PointListScreen(
 @SuppressLint("RememberReturnType")
 @Composable
 fun DialogBox(
-    myPageViewModel: MyPageViewModel
+    myPageViewModel: MyPageViewModel,
 ) {
     var selected by remember { mutableStateOf(PointButtonType.ALL) }
 
-    Row(
-        modifier = Modifier
-            .padding(start = 24.dp, top = 50.dp),
-        horizontalArrangement = Arrangement.spacedBy(15.dp)
-    ) {
+    Row(modifier = Modifier.padding(start = 24.dp, top = 50.dp),
+        horizontalArrangement = Arrangement.spacedBy(15.dp)) {
         PointTypeButton(
             type = PointButtonType.ALL,
             isSelected = selected == PointButtonType.ALL,
@@ -165,9 +138,7 @@ fun DialogBox(
 private enum class PointButtonType(
     val title: String,
 ) {
-    ALL("전체"),
-    PLUS("상점"),
-    MINUS("벌점"),
+    ALL("전체"), PLUS("상점"), MINUS("벌점"),
 }
 
 @Stable
@@ -184,8 +155,7 @@ private fun PointTypeButton(
 ) {
     when (isSelected) {
         true -> DormContainedLargeButton(
-            modifier = Modifier
-                .size(PointTypeButtonSize),
+            modifier = Modifier.size(PointTypeButtonSize),
             text = type.title,
             color = DormButtonColor.Blue,
             enabled = true,
@@ -193,8 +163,7 @@ private fun PointTypeButton(
             onClicked(type)
         }
         false -> DormOutlineLargeButton(
-            modifier = Modifier
-                .size(PointTypeButtonSize),
+            modifier = Modifier.size(PointTypeButtonSize),
             text = type.title,
             color = DormButtonColor.Gray,
             enabled = true,
@@ -207,25 +176,17 @@ private fun PointTypeButton(
 @Composable
 fun PointListValue(
     point: MutableList<PointValue>,
-    myPageViewModel: MyPageViewModel
+    myPageViewModel: MyPageViewModel,
 ) {
     Column {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp)
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .height(44.dp)
-            )
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp)) {
+            Spacer(modifier = Modifier.height(44.dp))
             val state = myPageViewModel.state.collectAsState().value
             Headline2(text = " ${state.totalPoint}점")
         }
-        Spacer(
-            modifier = Modifier
-                .height(40.dp)
-        )
+        Spacer(modifier = Modifier.height(40.dp))
         PointList(points = point, onClick = {})
     }
 }

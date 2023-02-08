@@ -36,37 +36,31 @@ fun OtpView(
     password: Boolean = false,
     passwordChar: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-    onOtpTextChange: (String) -> Unit
+    onOtpTextChange: (String) -> Unit,
 ) {
-    BasicTextField(
-        modifier = modifier,
-        value = otpText,
-        onValueChange = {
-            if (it.length <= otpCount) {
-                onOtpTextChange.invoke(it)
+    BasicTextField(modifier = modifier, value = otpText, onValueChange = {
+        if (it.length <= otpCount) {
+            onOtpTextChange.invoke(it)
+        }
+    }, enabled = enabled, keyboardOptions = keyboardOptions, decorationBox = {
+        Row(horizontalArrangement = Arrangement.SpaceAround) {
+            repeat(otpCount) { index ->
+                Spacer(modifier = Modifier.width(4.dp))
+                CharView(
+                    index = index,
+                    text = otpText,
+                    charColor = charColor,
+                    charSize = charSize,
+                    containerSize = containerSize,
+                    type = type,
+                    charBackground = charBackground,
+                    password = password,
+                    passwordChar = passwordChar,
+                )
+                Spacer(modifier = Modifier.width(4.dp))
             }
-        },
-        enabled = enabled,
-        keyboardOptions = keyboardOptions,
-        decorationBox = {
-            Row(horizontalArrangement = Arrangement.SpaceAround) {
-                repeat(otpCount) { index ->
-                    Spacer(modifier = Modifier.width(4.dp))
-                    CharView(
-                        index = index,
-                        text = otpText,
-                        charColor = charColor,
-                        charSize = charSize,
-                        containerSize = containerSize,
-                        type = type,
-                        charBackground = charBackground,
-                        password = password,
-                        passwordChar = passwordChar,
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                }
-            }
-        })
+        }
+    })
 }
 
 
@@ -80,16 +74,12 @@ private fun CharView(
     type: Int = OTP_VIEW_TYPE_UNDERLINE,
     charBackground: Color = Color.Transparent,
     password: Boolean = false,
-    passwordChar: String = ""
+    passwordChar: String = "",
 ) {
     val modifier = if (type == OTP_VIEW_TYPE_BORDER) {
         Modifier
             .size(containerSize)
-            .border(
-                width = 1.dp,
-                color = charColor,
-                shape = MaterialTheme.shapes.medium
-            )
+            .border(width = 1.dp, color = charColor, shape = MaterialTheme.shapes.medium)
             .padding(bottom = 4.dp)
             .background(charBackground)
     } else Modifier
@@ -108,20 +98,17 @@ private fun CharView(
         Text(
             text = char,
             color = charColor,
-            modifier = modifier
-                .wrapContentHeight(),
+            modifier = modifier.wrapContentHeight(),
             style = MaterialTheme.typography.body1,
             fontSize = charSize,
             textAlign = TextAlign.Center,
         )
         if (type == OTP_VIEW_TYPE_UNDERLINE) {
             Spacer(modifier = Modifier.height(2.dp))
-            Box(
-                modifier = Modifier
-                    .background(charColor)
-                    .height(1.dp)
-                    .width(containerSize)
-            )
+            Box(modifier = Modifier
+                .background(charColor)
+                .height(1.dp)
+                .width(containerSize))
         }
     }
 }

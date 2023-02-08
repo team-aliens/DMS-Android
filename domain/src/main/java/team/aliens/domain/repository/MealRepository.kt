@@ -1,6 +1,6 @@
 package team.aliens.domain.repository
 
-import com.example.domain.entity.MealEntity
+import team.aliens.domain.entity.MealEntity
 import java.time.LocalDate
 
 interface MealRepository {

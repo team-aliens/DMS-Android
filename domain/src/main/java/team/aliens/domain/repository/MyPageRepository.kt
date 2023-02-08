@@ -1,8 +1,8 @@
 package team.aliens.domain.repository
 
-import com.example.domain.entity.mypage.MyPageEntity
-import com.example.domain.entity.mypage.PointListEntity
-import com.example.domain.enums.PointType
+import team.aliens.domain.entity.mypage.MyPageEntity
+import team.aliens.domain.entity.mypage.PointListEntity
+import team.aliens.domain.enums.PointType
 
 interface MyPageRepository {
 

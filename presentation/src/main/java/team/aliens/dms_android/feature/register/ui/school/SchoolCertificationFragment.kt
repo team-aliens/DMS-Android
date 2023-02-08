@@ -7,19 +7,17 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.dms_android.R
-import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentSchoolCertificationBinding
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
-import com.example.dms_android.util.repeatOnStarted
-import com.example.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
+import team.aliens.dms_android.util.repeatOnStarted
+import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 
 @AndroidEntryPoint
-class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBinding>(
-    R.layout.fragment_school_certification
-) {
+class SchoolCertificationFragment :
+    BaseFragment<FragmentSchoolCertificationBinding>(R.layout.fragment_school_certification) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
     private var temp: String? = null
     override fun onCreateView(
@@ -47,8 +45,7 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
                 val fragment = ConfirmSchoolFragment()
                 fragment.arguments = bundle
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, fragment)
-                    .commit()
+                    .replace(R.id.containerRegister, fragment).commit()
             }
 
             is ExamineSchoolCodeEvent.BadRequestException -> {
@@ -65,12 +62,8 @@ class SchoolCertificationFragment : BaseFragment<FragmentSchoolCertificationBind
 
             is ExamineSchoolCodeEvent.UnAuthorizedException -> {
                 binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
-                binding.tvDetail.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.error
-                    )
-                )
+                binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.error))
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isClickable = false
             }

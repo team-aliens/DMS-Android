@@ -7,11 +7,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.dms_android.R
 import com.example.dms_android.databinding.RegisterCustomButtonBinding
 
-
 class RegisterCustomButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private var binding: RegisterCustomButtonBinding

@@ -1,15 +1,15 @@
 package team.aliens.dms_android.feature.splash
 
 import androidx.lifecycle.viewModelScope
-import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.base.MviEvent
-import com.example.dms_android.base.MviState
-import com.example.dms_android.feature.navigator.NavigationRoute
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.usecase.user.AutoLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.base.MviEvent
+import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.usecase.user.AutoLoginUseCase
 import javax.inject.Inject
 
 @HiltViewModel

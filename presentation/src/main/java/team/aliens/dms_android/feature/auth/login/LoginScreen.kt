@@ -5,24 +5,9 @@ import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -32,19 +17,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.design_system.button.DormButtonColor
-import com.example.design_system.button.DormContainedLargeButton
-import com.example.design_system.button.DormTextCheckBox
-import com.example.design_system.color.DormColor
-import com.example.design_system.textfield.DormTextField
-import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body4
-import com.example.design_system.typography.Caption
 import com.example.dms_android.R
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.navigator.NavigationRoute
-import com.example.dms_android.viewmodel.auth.login.SignInViewModel
-import com.example.dms_android.viewmodel.auth.login.SignInViewModel.Event
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.button.DormTextCheckBox
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body4
+import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
+import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
 
 @Composable
 fun LoginScreen(
@@ -66,9 +51,7 @@ fun LoginScreen(
         signInViewModel.signInViewEffect.collect {
             when (it) {
                 is Event.NavigateToHome -> {
-                    navController.navigate(
-                        route = NavigationRoute.Main
-                    )
+                    navController.navigate(route = NavigationRoute.Main)
                 }
 
                 is Event.WrongRequest -> {
@@ -128,28 +111,18 @@ private fun BackPressHandle() {
 
 @Composable
 fun MainTitle() {
-    Box(
-        contentAlignment = Alignment.TopStart
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+    Box(contentAlignment = Alignment.TopStart) {
+        Column(modifier = Modifier.padding(start = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Image(
                 modifier = Modifier
-                    .padding(
-                        top = 92.dp
-                    )
+                    .padding(top = 92.dp)
                     .height(34.dp)
                     .width(97.dp),
                 painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = "MainLogo",
             )
-            Spacer(
-                modifier = Modifier
-                    .height(4.dp)
-            )
+            Spacer(modifier = Modifier.height(4.dp))
             Body4(text = "더 편한 기숙사 생활을 위해")
         }
     }
@@ -163,20 +136,12 @@ fun TextField(
     var idValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
 
-    Box(
-        contentAlignment = Alignment.TopStart
-    ) {
+    Box(contentAlignment = Alignment.TopStart) {
         Column(
-            modifier = Modifier
-                .padding(
-                    start = 16.dp,
-                    top = 6.dp,
-                    end = 16.dp
-                ),
+            modifier = Modifier.padding(start = 16.dp, top = 6.dp, end = 16.dp),
         ) {
             Spacer(
-                modifier = Modifier
-                    .height(52.dp),
+                modifier = Modifier.height(52.dp),
             )
             DormTextField(
                 value = idValue,
@@ -187,8 +152,7 @@ fun TextField(
                 hint = stringResource(id = R.string.Login),
             )
             Spacer(
-                modifier = Modifier
-                    .height(36.dp),
+                modifier = Modifier.height(36.dp),
             )
             DormTextField(
                 value = passwordValue,
@@ -205,7 +169,7 @@ fun TextField(
 
 @Composable
 fun AutoLogin(
-    signInViewModel: SignInViewModel
+    signInViewModel: SignInViewModel,
 ) {
 
     var checked by remember { mutableStateOf(false) }
@@ -214,12 +178,10 @@ fun AutoLogin(
         contentAlignment = Alignment.TopStart,
     ) {
         Column(
-            modifier = Modifier
-                .padding(start = 22.dp),
+            modifier = Modifier.padding(start = 22.dp),
         ) {
             Spacer(
-                modifier = Modifier
-                    .height(25.dp),
+                modifier = Modifier.height(25.dp),
             )
             DormTextCheckBox(
                 text = stringResource(id = R.string.AutoLogin),
@@ -280,14 +242,12 @@ fun LoginButton(
             )
             .fillMaxSize(),
     ) {
-        DormContainedLargeButton(
-            text = stringResource(id = R.string.Login),
+        DormContainedLargeButton(text = stringResource(id = R.string.Login),
             color = DormButtonColor.Blue,
             onClick = {
                 if (signInViewModel.state.value.id != "" && signInViewModel.state.value.password != "") {
                     signInViewModel.postSignIn()
                 }
-            }
-        )
+            })
     }
 }

@@ -8,21 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.dms_android.R
-import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentPolicyBinding
-import com.example.dms_android.feature.MainActivity
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.register.event.SignUpEvent
-import com.example.dms_android.util.repeatOnStarted
-import com.example.dms_android.viewmodel.auth.register.SignUpViewModel
-import com.example.dms_android.feature.register.ui.last.dialog.GoLoginDialog
-import com.example.domain.param.RegisterParam
 import dagger.hilt.android.AndroidEntryPoint
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.MainActivity
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.register.event.SignUpEvent
+import team.aliens.dms_android.feature.register.ui.last.dialog.GoLoginDialog
+import team.aliens.dms_android.util.repeatOnStarted
+import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
+import team.aliens.domain.param.RegisterParam
 
 @AndroidEntryPoint
-class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
-    R.layout.fragment_policy
-) {
+class PolicyFragment : BaseFragment<FragmentPolicyBinding>(R.layout.fragment_policy) {
     private val signUpViewModel: SignUpViewModel by viewModels()
 
     private var pwd = ""
@@ -34,7 +32,7 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
     private var grade = 0
     private var number = 0
     private var classRoom = 0
-    private var profileImageUrl : String? = ""
+    private var profileImageUrl: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,26 +94,23 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(
         }
 
         binding.btnVerificationCode.setOnClickListener {
-            signUpViewModel.signUp(
-                RegisterParam(
-                    schoolCode = schoolCode,
-                    schoolAnswer = answer,
-                    email = email,
-                    authCode = authCode,
-                    grade = grade,
-                    classRoom = classRoom,
-                    number = number,
-                    accountId = id,
-                    password = pwd,
-                    profileImageUrl = profileImageUrl,
-                )
-            )
+            signUpViewModel.signUp(RegisterParam(
+                schoolCode = schoolCode,
+                schoolAnswer = answer,
+                email = email,
+                authCode = authCode,
+                grade = grade,
+                classRoom = classRoom,
+                number = number,
+                accountId = id,
+                password = pwd,
+                profileImageUrl = profileImageUrl,
+            ))
         }
 
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
-            registerActive.supportFragmentManager.beginTransaction()
-                .remove(PolicyFragment())
+            registerActive.supportFragmentManager.beginTransaction().remove(PolicyFragment())
                 .commit()
         }
     }

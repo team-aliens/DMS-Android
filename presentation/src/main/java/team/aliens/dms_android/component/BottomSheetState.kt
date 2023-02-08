@@ -2,9 +2,9 @@ package team.aliens.dms_android.component
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
-import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import team.aliens.domain.enums.BottomSheetType
 
 @OptIn(ExperimentalMaterialApi::class)
 fun changeBottomSheetState(

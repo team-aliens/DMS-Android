@@ -1,9 +1,9 @@
 package team.aliens.domain.repository
 
-import com.example.domain.param.CheckEmailCodeParam
-import com.example.domain.param.CompareEmailParam
-import com.example.domain.param.LoginParam
-import com.example.domain.param.RequestEmailCodeParam
+import team.aliens.domain.param.CheckEmailCodeParam
+import team.aliens.domain.param.CompareEmailParam
+import team.aliens.domain.param.LoginParam
+import team.aliens.domain.param.RequestEmailCodeParam
 
 interface UserRepository {
 
@@ -14,7 +14,7 @@ interface UserRepository {
     suspend fun autoSignIn()
 
     suspend fun requestEmailCode(
-        requestEmailCodeParam: RequestEmailCodeParam
+        requestEmailCodeParam: RequestEmailCodeParam,
     )
 
     suspend fun checkEmailCode(
@@ -26,7 +26,7 @@ interface UserRepository {
     )
 
     suspend fun compareEmail(
-        compareEmailParam: CompareEmailParam
+        compareEmailParam: CompareEmailParam,
     )
 
     suspend fun checkId(

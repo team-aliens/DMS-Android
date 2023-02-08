@@ -1,25 +1,21 @@
 package team.aliens.dms_android.viewmodel.changepw
 
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.students.RemoteResetPasswordUseCase
-import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.auth.changepassword.ChangePasswordEvent
-import com.example.dms_android.feature.auth.changepassword.ChangePasswordState
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.NotFoundException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.param.ResetPasswordParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordEvent
+import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordState
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.exception.*
+import team.aliens.domain.param.ResetPasswordParam
+import team.aliens.domain.usecase.students.RemoteResetPasswordUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
-    private val changePasswordUseCase: RemoteResetPasswordUseCase
+    private val changePasswordUseCase: RemoteResetPasswordUseCase,
 ) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
@@ -29,14 +25,13 @@ class ChangePasswordViewModel @Inject constructor(
         그리고 이메일 인증번호 확인 Api를 사용하여 인증을 완료하고 Students의 비밀번호 재설정 Api를 사용하여 재설정합니다.
     */
 
-    private val parameter =
-        ResetPasswordParam(
-            accountId = "",
-            email = "",
-            authCode = "",
-            newPassword = "",
-            name = "",
-        )
+    private val parameter = ResetPasswordParam(
+        accountId = "",
+        email = "",
+        authCode = "",
+        newPassword = "",
+        name = "",
+    )
 
     override val initialState: ChangePasswordState
         get() = ChangePasswordState.initial()

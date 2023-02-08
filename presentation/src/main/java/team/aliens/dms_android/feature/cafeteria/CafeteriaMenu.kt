@@ -1,30 +1,21 @@
 package team.aliens.dms_android.feature.cafeteria
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.typography.Body4
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.typography.Body4
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -38,9 +29,7 @@ fun CafeteriaMenu(
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
-                )
+                TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions))
             },
             modifier = Modifier
                 .fillMaxHeight(0.72f)
@@ -51,17 +40,13 @@ fun CafeteriaMenu(
                 count = pages.size,
                 state = pagerState,
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .border(
-                            color = DormColor.DormPrimary,
-                            width = 1.dp,
-                            shape = RoundedCornerShape(15)
-                        ),
+                Column(modifier = Modifier
+                    .fillMaxSize()
+                    .border(color = DormColor.DormPrimary,
+                        width = 1.dp,
+                        shape = RoundedCornerShape(15)),
                     verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "\n김범진김범진김범진\n")
                     Text(text = "\n김범진김범진김범진\n")
                     Text(text = "\n김범진김범진김범진\n")
@@ -100,14 +85,12 @@ fun YesterdayCafeteria(
     coroutineScope: CoroutineScope,
 ) {
     pages.forEachIndexed { index, title ->
-        Tab(
-            text = { Body4(text = title) },
+        Tab(text = { Body4(text = title) },
             selected = pagerState.currentPage == index - 1,
             onClick = {
                 coroutineScope.launch {
                     pagerState.scrollToPage(index - 1)
                 }
-            }
-        )
+            })
     }
 }

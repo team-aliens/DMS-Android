@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.register.event.school
 
-import com.example.dms_android.base.MviEvent
-
+import team.aliens.dms_android.base.MviEvent
 
 sealed class ExamineSchoolCodeEvent : MviEvent {
     object ExamineSchoolCodeSuccess : ExamineSchoolCodeEvent()

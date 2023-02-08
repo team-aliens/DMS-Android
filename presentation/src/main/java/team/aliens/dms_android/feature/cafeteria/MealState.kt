@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.cafeteria
 
-import com.example.dms_android.base.MviState
+import team.aliens.dms_android.base.MviState
 import java.time.LocalDate
 
 data class MealState(

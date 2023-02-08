@@ -20,12 +20,10 @@ class GoLoginDialog(
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val binding: DialogSignUpBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
+        val binding: DialogSignUpBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
             R.layout.dialog_sign_up,
             null,
-            false
-        )
+            false)
         dialog.setContentView(binding.root)
 
         binding.tvGoLogin.setOnClickListener {

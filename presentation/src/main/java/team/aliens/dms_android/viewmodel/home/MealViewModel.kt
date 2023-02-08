@@ -1,23 +1,19 @@
 package team.aliens.dms_android.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
-import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.cafeteria.MealEvent
-import com.example.dms_android.feature.cafeteria.MealList
-import com.example.dms_android.feature.cafeteria.MealState
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.ForbiddenException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.usecase.meal.RemoteMealUseCase
-import com.example.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
-import com.example.local_domain.entity.meal.MealEntity
-import com.example.local_domain.usecase.meal.LocalMealUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.cafeteria.MealEvent
+import team.aliens.dms_android.feature.cafeteria.MealList
+import team.aliens.dms_android.feature.cafeteria.MealState
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.MealEntity
+import team.aliens.domain.exception.*
+import team.aliens.domain.usecase.meal.RemoteMealUseCase
+import team.aliens.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
+import team.aliens.local_domain.usecase.meal.LocalMealUseCase
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -25,7 +21,7 @@ import javax.inject.Inject
 class MealViewModel @Inject constructor(
     private val localMealUseCase: LocalMealUseCase,
     private val remoteMealUseCase: RemoteMealUseCase,
-    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase
+    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase,
 ) : BaseViewModel<MealState, MealEvent>() {
 
     private val _mealEvent = MutableEventFlow<Event>()
@@ -37,15 +33,11 @@ class MealViewModel @Inject constructor(
                 remoteMealUseCase.execute(date)
                 localMealUseCase.execute(date.toString())
             }.onSuccess {
-                setState(
-                    state = state.value.copy(
-                        mealList = MealList(
-                            breakfast = it.breakfast,
-                            lunch = it.lunch,
-                            dinner = it.dinner,
-                        )
-                    )
-                )
+                setState(state = state.value.copy(mealList = MealList(
+                    breakfast = it.breakfast,
+                    lunch = it.lunch,
+                    dinner = it.dinner,
+                )))
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(Event.BadRequestException)
@@ -59,16 +51,12 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    fun noticeCheckBoolean(){
+    fun noticeCheckBoolean() {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteCheckNewNoticeBooleanUseCase.execute(Unit)
             }.onSuccess {
-                setState(
-                    state = state.value.copy(
-                        noticeBoolean = it
-                    )
-                )
+                setState(state = state.value.copy(noticeBoolean = it))
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(Event.BadRequestException)
@@ -107,16 +95,14 @@ class MealViewModel @Inject constructor(
     }
 
     fun updateDay(day: LocalDate) {
-        setState(
-            state = state.value.copy(
-                today = day,
-            )
-        )
+        setState(state = state.value.copy(
+            today = day,
+        ))
         fetchMeal(day)
     }
 
     sealed class Event {
-        data class FetchMealSuccess(val mealEntity: MealEntity): Event()
+        data class FetchMealSuccess(val mealEntity: MealEntity) : Event()
         object BadRequestException : Event()
         object UnAuthorizedTokenException : Event()
         object CannotConnectException : Event()

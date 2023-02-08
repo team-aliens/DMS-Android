@@ -1,23 +1,19 @@
 package team.aliens.dms_android.viewmodel.notice
 
 import androidx.lifecycle.viewModelScope
-import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.notice.NoticeEvent
-import com.example.dms_android.feature.notice.NoticeState
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.entity.notice.NoticeListEntity
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.ForbiddenException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.usecase.notice.RemoteNoticeDetailUseCase
-import com.example.domain.usecase.notice.RemoteNoticeListUseCase
-import com.example.local_domain.usecase.notice.LocalNoticeDetailUseCase
-import com.example.local_domain.usecase.notice.LocalNoticeListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.notice.NoticeEvent
+import team.aliens.dms_android.feature.notice.NoticeState
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.notice.NoticeListEntity
+import team.aliens.domain.exception.*
+import team.aliens.domain.usecase.notice.RemoteNoticeDetailUseCase
+import team.aliens.domain.usecase.notice.RemoteNoticeListUseCase
+import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
+import team.aliens.local_domain.usecase.notice.LocalNoticeListUseCase
 import javax.inject.Inject
 
 @HiltViewModel

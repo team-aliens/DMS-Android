@@ -1,25 +1,15 @@
 package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
-import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.entity.studyroom.StudyRoomDetailEntity
-import com.example.domain.entity.studyroom.StudyRoomListEntity
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.ConflictException
-import com.example.domain.exception.ForbiddenException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.usecase.studyroom.RemoteApplySeatUseCase
-import com.example.domain.usecase.studyroom.RemoteCancelApplySeat
-import com.example.domain.usecase.studyroom.RemoteFetchApplySeatUseCase
-import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
-import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
-import com.example.domain.usecase.studyroom.RemoteFetchStudyRoomTypeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.domain.exception.*
+import team.aliens.domain.usecase.studyroom.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,11 +62,7 @@ class StudyRoomViewModel @Inject constructor(
             kotlin.runCatching {
                 studyRoomDetailUseCase.execute(roomId)
             }.onSuccess {
-                setState(
-                    state = state.value.copy(
-                        roomDetail = it
-                    )
-                )
+                setState(state = state.value.copy(roomDetail = it))
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event2(Event.BadRequestException)
@@ -140,12 +126,10 @@ class StudyRoomViewModel @Inject constructor(
                 studyRoomApplyTimeUseCase.execute(Unit)
             }.onSuccess {
                 event4(Event.RoomApplyTime)
-                setState(
-                    state = state.value.copy(
-                        startAt = it.startAt.toHour(),
-                        endAt = it.endAt.toHour(),
-                    )
-                )
+                setState(state = state.value.copy(
+                    startAt = it.startAt.toHour(),
+                    endAt = it.endAt.toHour(),
+                ))
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event4(Event.BadRequestException)
@@ -167,11 +151,9 @@ class StudyRoomViewModel @Inject constructor(
     fun updateCurrentSeat(
         seatId: String,
     ) {
-        setState(
-            state = state.value.copy(
-                currentSeat = seatId,
-            )
-        )
+        setState(state = state.value.copy(
+            currentSeat = seatId,
+        ))
     }
 
     private fun event(event: Event) {
@@ -202,16 +184,16 @@ class StudyRoomViewModel @Inject constructor(
     sealed class Event {
         data class FetchStudyRoomList(val studyRoomListEntity: StudyRoomListEntity) : Event()
         data class FetchStudyDetail(val studyRoomDetailEntity: StudyRoomDetailEntity) : Event()
-        object RoomApplyTime: Event()
-        object ApplyStudyRoom: Event()
-        object CancelStudyRoom: Event()
+        object RoomApplyTime : Event()
+        object ApplyStudyRoom : Event()
+        object CancelStudyRoom : Event()
         object BadRequestException : Event()
         object UnAuthorizedTokenException : Event()
         object CannotConnectException : Event()
-        object NotFoundException: Event()
+        object NotFoundException : Event()
         object TooManyRequestException : Event()
         object NullPointException : Event()
-        object ConflictException: Event()
+        object ConflictException : Event()
         object InternalServerException : Event()
         object UnknownException : Event()
     }

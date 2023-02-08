@@ -7,24 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.example.dms_android.base.BaseFragment
-import com.example.dms_android.databinding.FragmentEmailCertificationBinding
 import com.example.dms_android.R
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.register.event.email.RegisterEmailEvent
-import com.example.dms_android.feature.register.ui.id.SetIdFragment
-import com.example.dms_android.util.repeatOnStarted
-import com.example.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
+import com.example.dms_android.databinding.FragmentEmailCertificationBinding
 import dagger.hilt.android.AndroidEntryPoint
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
+import team.aliens.dms_android.feature.register.ui.id.SetIdFragment
+import team.aliens.dms_android.util.repeatOnStarted
+import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 
 @AndroidEntryPoint
-class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBinding>(
-    R.layout.fragment_email_certification
-) {
+class EmailCertificationFragment :
+    BaseFragment<FragmentEmailCertificationBinding>(R.layout.fragment_email_certification) {
     private val registerEmailViewModel: RegisterEmailViewModel by viewModels()
 
     private var email: String = ""
-    private var inputSchoolIdData : String = ""
+    private var inputSchoolIdData: String = ""
     private var temp: String = ""
     private var answer: String = ""
     private var schoolCode: String = ""
@@ -64,8 +63,7 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
                 fragment.arguments = bundle
 
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, fragment)
-                    .addToBackStack("EmailCertification")
+                    .replace(R.id.containerRegister, fragment).addToBackStack("EmailCertification")
                     .commit()
             }
 
@@ -76,15 +74,9 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
 
             is RegisterEmailEvent.CheckEmailUnauthorized -> {
                 binding.tvDetail.text = getString(R.string.NoSameCode)
-                binding.tvDetail.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.error
-                    )
-                )
-                binding.btnVerificationCode.setBackgroundResource(
-                    R.drawable.register_custom_btn_background
-                )
+                binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.error))
+                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isClickable = false
             }
 
@@ -102,12 +94,8 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
 
             is RegisterEmailEvent.TooManyRequestsException -> {
                 binding.tvDetail.text = getString(R.string.EmailTooManyRequest)
-                binding.tvDetail.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.error
-                    )
-                )
+                binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.error))
                 showShortToast(getString(R.string.TooManyRequest))
             }
 
@@ -129,22 +117,17 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
             registerActive.supportFragmentManager.beginTransaction()
-                .remove(EmailCertificationFragment())
-                .commit()
+                .remove(EmailCertificationFragment()).commit()
         }
 
         binding.etPinEntry.setOnPinEnteredListener() { str ->
             temp = str.toString()
             if (binding.etPinEntry.length() == 6) {
-                binding.btnVerificationCode.setBackgroundResource(
-                    R.drawable.register_custom_active_btn_background
-                )
+                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 binding.btnVerificationCode.isClickable = true
                 binding.btnVerificationCode.isEnabled = true
             } else {
-                binding.btnVerificationCode.setBackgroundResource(
-                    R.drawable.register_custom_btn_background
-                )
+                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isClickable = false
                 binding.btnVerificationCode.isEnabled = false
             }
@@ -164,12 +147,8 @@ class EmailCertificationFragment : BaseFragment<FragmentEmailCertificationBindin
 
                 if (num == 0) {
                     binding.tvDetail.text = getString(R.string.AuthenticationTimeout)
-                    binding.tvDetail.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.error
-                        )
-                    )
+                    binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
+                        R.color.error))
                     binding.btnVerificationCode.isClickable = false
                     binding.btnVerificationCode.isEnabled = false
                 }

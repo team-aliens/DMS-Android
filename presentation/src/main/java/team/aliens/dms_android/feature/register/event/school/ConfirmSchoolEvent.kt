@@ -1,10 +1,12 @@
 package team.aliens.dms_android.feature.register.event.school
 
-import com.example.dms_android.base.MviEvent
-import com.example.domain.entity.user.SchoolConfirmQuestionEntity
+import team.aliens.dms_android.base.MviEvent
+import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
 
 sealed class ConfirmSchoolEvent : MviEvent {
-    data class FetchSchoolQuestion(val schoolConfirmQuestionEntity: SchoolConfirmQuestionEntity) : ConfirmSchoolEvent()
+    data class FetchSchoolQuestion(val schoolConfirmQuestionEntity: SchoolConfirmQuestionEntity) :
+        ConfirmSchoolEvent()
+
     object CompareSchoolAnswerSuccess : ConfirmSchoolEvent()
     object CompareSchoolBadRequestException : ConfirmSchoolEvent()
     object CompareSchoolUnauthorizedException : ConfirmSchoolEvent()

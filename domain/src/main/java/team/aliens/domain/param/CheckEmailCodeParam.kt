@@ -1,6 +1,6 @@
 package team.aliens.domain.param
 
-import com.example.domain.enums.EmailType
+import team.aliens.domain.enums.EmailType
 
 data class CheckEmailCodeParam(
     val email: String,

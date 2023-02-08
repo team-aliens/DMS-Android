@@ -10,24 +10,23 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.dms_android.R
-import com.example.dms_android.base.BaseFragment
 import com.example.dms_android.databinding.FragmentConfirmSchoolBinding
-import com.example.dms_android.feature.MainActivity
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.register.event.school.ConfirmSchoolEvent
-import com.example.dms_android.feature.register.ui.email.EnterEmailFragment
-import com.example.dms_android.util.invisible
-import com.example.dms_android.util.repeatOnStarted
-import com.example.dms_android.util.visible
-import com.example.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
-import com.example.domain.entity.user.SchoolConfirmQuestionEntity
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.UUID
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.MainActivity
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.register.event.school.ConfirmSchoolEvent
+import team.aliens.dms_android.feature.register.ui.email.EnterEmailFragment
+import team.aliens.dms_android.util.invisible
+import team.aliens.dms_android.util.repeatOnStarted
+import team.aliens.dms_android.util.visible
+import team.aliens.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
+import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
+import java.util.*
 
 @AndroidEntryPoint
-class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
-    R.layout.fragment_confirm_school
-) {
+class ConfirmSchoolFragment :
+    BaseFragment<FragmentConfirmSchoolBinding>(R.layout.fragment_confirm_school) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
 
     private var answer: String = ""
@@ -69,18 +68,13 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
                 fragment.arguments = bundle
 
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, fragment)
-                    .commit()
+                    .replace(R.id.containerRegister, fragment).commit()
             }
 
             is ConfirmSchoolEvent.CompareSchoolBadRequestException -> {
                 binding.tvError.text = getString(R.string.BadRequest)
-                binding.tvError.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.error
-                    )
-                )
+                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
@@ -88,12 +82,8 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolNotFoundException -> {
                 binding.tvError.text = getString(R.string.CompareSchoolNotFound)
-                binding.tvError.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.error
-                    )
-                )
+                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
@@ -101,28 +91,18 @@ class ConfirmSchoolFragment : BaseFragment<FragmentConfirmSchoolBinding>(
 
             is ConfirmSchoolEvent.CompareSchoolUnauthorizedException -> {
                 binding.tvError.text = getString(R.string.inconsistent_school_reply)
-                binding.tvError.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.error
-                    )
-                )
+                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.visible()
             }
 
-            is ConfirmSchoolEvent.SchoolQuestionInternalServerException -> showShortToast(
-                getString(
-                    R.string.ServerException
-                )
-            )
+            is ConfirmSchoolEvent.SchoolQuestionInternalServerException -> showShortToast(getString(
+                R.string.ServerException))
 
-            is ConfirmSchoolEvent.SchoolQuestionTooManyRequestException -> showShortToast(
-                getString(
-                    R.string.TooManyRequest
-                )
-            )
+            is ConfirmSchoolEvent.SchoolQuestionTooManyRequestException -> showShortToast(getString(
+                R.string.TooManyRequest))
 
             is ConfirmSchoolEvent.CompareSchoolInternalServerException -> showShortToast(getString(R.string.ServerException))
             is ConfirmSchoolEvent.CompareSchoolTooManyRequestException -> showShortToast(getString(R.string.TooManyRequest))

@@ -1,9 +1,9 @@
 package team.aliens.domain.repository
 
-import com.example.domain.entity.studyroom.ApplySeatTimeEntity
-import com.example.domain.entity.studyroom.StudyRoomDetailEntity
-import com.example.domain.entity.studyroom.StudyRoomListEntity
-import com.example.domain.entity.studyroom.StudyRoomTypeEntity
+import team.aliens.domain.entity.studyroom.ApplySeatTimeEntity
+import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.domain.entity.studyroom.StudyRoomTypeEntity
 
 interface StudyRoomRepository {
 

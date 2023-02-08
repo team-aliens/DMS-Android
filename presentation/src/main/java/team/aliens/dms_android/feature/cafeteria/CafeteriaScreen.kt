@@ -5,19 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,24 +21,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.design_system.color.DormColor
-import com.example.design_system.icon.DormIcon
-import com.example.design_system.modifier.dormShadow
-import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body5
-import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
-import com.example.dms_android.viewmodel.home.MealViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.SubTitle1
+import team.aliens.dms_android.viewmodel.home.MealViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
     navController: NavController,
-    mealViewModel: MealViewModel = hiltViewModel()
+    mealViewModel: MealViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(key1 = mealViewModel) {
@@ -78,26 +66,14 @@ fun CafeteriaScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DormColor.Gray100)
-            .paint(
-                painter = painterResource(R.drawable.photo_cafeteria_background),
-                contentScale = ContentScale.FillBounds
-            ),
+            .paint(painter = painterResource(R.drawable.photo_cafeteria_background),
+                contentScale = ContentScale.FillBounds),
     ) {
-        Spacer(
-            modifier = Modifier
-                .height(20.dp)
-        )
+        Spacer(modifier = Modifier.height(20.dp))
         TopBar()
-        Spacer(
-            modifier = Modifier
-                .height(25.dp)
-        )
+        Spacer(modifier = Modifier.height(25.dp))
         ImportantNotice()
-        CafeteriaDiary(
-            pagerState = pagerState,
-            coroutineScope = coroutineScope,
-            hiltViewModel()
-        )
+        CafeteriaDiary(pagerState = pagerState, coroutineScope = coroutineScope, hiltViewModel())
         CafeteriaViewPager(mealViewModel)
     }
 }
@@ -105,12 +81,9 @@ fun CafeteriaScreen(
 @Composable
 fun TopBar(
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+    Row(modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
+        horizontalArrangement = Arrangement.Start) {
         Image(
             modifier = Modifier
                 .height(34.dp)
@@ -124,8 +97,7 @@ fun TopBar(
 
 @Composable
 fun ImportantNotice() {
-    Box(
-        contentAlignment = Alignment.CenterEnd,
+    Box(contentAlignment = Alignment.CenterEnd,
         modifier = Modifier
             .fillMaxWidth()
             .height(45.dp)
@@ -137,11 +109,9 @@ fun ImportantNotice() {
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(100),
-            )
-    ) {
+            )) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -152,13 +122,8 @@ fun ImportantNotice() {
                 painter = painterResource(id = R.drawable.coloricnotice),
                 contentDescription = stringResource(id = R.string.icNotice),
             )
-            Spacer(
-                modifier = Modifier
-                    .width(13.dp)
-            )
-            Body5(
-                text = "새로운 공지사항이 있습니다."
-            )
+            Spacer(modifier = Modifier.width(13.dp))
+            Body5(text = "새로운 공지사항이 있습니다.")
         }
         Image(
             modifier = Modifier
@@ -175,7 +140,7 @@ fun ImportantNotice() {
 fun CafeteriaDiary(
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
-    mealViewModel: MealViewModel
+    mealViewModel: MealViewModel,
 ) {
     val state = mealViewModel.state.collectAsState().value
 
@@ -185,53 +150,37 @@ fun CafeteriaDiary(
             .wrapContentHeight(),
         contentAlignment = Alignment.TopCenter,
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Spacer(
-                modifier = Modifier
-                    .fillMaxHeight(0.055f)
-            )
+            Spacer(modifier = Modifier.fillMaxHeight(0.055f))
             SubTitle1(text = stringResource(id = R.string.TodayCafeteria))
 
-            Row(
-                modifier = Modifier
-                    .padding(top = 50.dp)
-                    .fillMaxWidth(),
+            Row(modifier = Modifier
+                .padding(top = 50.dp)
+                .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .padding(end = 12.dp)
-                        .clickable {
-                            mealViewModel.updateDay(state.today.minusDays(1))
-                        },
+                horizontalArrangement = Arrangement.Center) {
+                Image(modifier = Modifier
+                    .size(40.dp)
+                    .padding(end = 12.dp)
+                    .clickable {
+                        mealViewModel.updateDay(state.today.minusDays(1))
+                    },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
-                    contentDescription = stringResource(id = R.string.backButton)
-                )
-                Row(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = DormColor.Gray500,
-                            shape = RoundedCornerShape(25),
-                        )
-                        .width(130.dp)
-                        .height(35.dp),
+                    contentDescription = stringResource(id = R.string.backButton))
+                Row(modifier = Modifier
+                    .border(
+                        width = 1.dp,
+                        color = DormColor.Gray500,
+                        shape = RoundedCornerShape(25),
+                    )
+                    .width(130.dp)
+                    .height(35.dp),
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = ""
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .width(10.dp)
-                    )
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Image(painter = painterResource(id = R.drawable.ic_calendar),
+                        contentDescription = "")
+                    Spacer(modifier = Modifier.width(10.dp))
                     Body5(text = state.today.toString())
                 }
                 Image(
@@ -251,7 +200,7 @@ fun CafeteriaDiary(
 
 @Composable
 fun CafeteriaViewPager(
-    mealViewModel: MealViewModel
+    mealViewModel: MealViewModel,
 ) {
 
     Box(

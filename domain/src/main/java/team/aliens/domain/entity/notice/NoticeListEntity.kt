@@ -1,9 +1,9 @@
 package team.aliens.domain.entity.notice
 
-import java.util.UUID
+import java.util.*
 
 data class NoticeListEntity(
-    val notices: List<NoticeValue>
+    val notices: List<NoticeValue>,
 ) {
     data class NoticeValue(
         val id: UUID,

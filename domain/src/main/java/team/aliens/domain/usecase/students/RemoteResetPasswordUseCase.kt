@@ -1,12 +1,12 @@
 package team.aliens.domain.usecase.students
 
-import com.example.domain.param.ResetPasswordParam
-import com.example.domain.repository.StudentsRepository
-import com.example.domain.usecase.UseCase
+import team.aliens.domain.param.ResetPasswordParam
+import team.aliens.domain.repository.StudentsRepository
+import team.aliens.domain.usecase.UseCase
 import javax.inject.Inject
 
 class RemoteResetPasswordUseCase @Inject constructor(
-    private val studentsRepository: StudentsRepository
+    private val studentsRepository: StudentsRepository,
 ) : UseCase<ResetPasswordParam, Unit>() {
     override suspend fun execute(data: ResetPasswordParam) {
         studentsRepository.resetPassword(data)

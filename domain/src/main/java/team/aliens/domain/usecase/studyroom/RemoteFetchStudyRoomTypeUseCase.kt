@@ -1,8 +1,8 @@
 package team.aliens.domain.usecase.studyroom
 
-import com.example.domain.entity.studyroom.StudyRoomTypeEntity
-import com.example.domain.repository.StudyRoomRepository
-import com.example.domain.usecase.UseCase
+import team.aliens.domain.entity.studyroom.StudyRoomTypeEntity
+import team.aliens.domain.repository.StudyRoomRepository
+import team.aliens.domain.usecase.UseCase
 import javax.inject.Inject
 
 class RemoteFetchStudyRoomTypeUseCase @Inject constructor(

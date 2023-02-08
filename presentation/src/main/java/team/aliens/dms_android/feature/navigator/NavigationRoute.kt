@@ -8,6 +8,7 @@ object NavigationRoute {
         const val Notice = "notice"
         const val MyPage = "mypage"
     }
+
     const val Login = "login"
     const val Main = "main"
     const val NoticeDetail = "noticeDetail/{noticeId}"

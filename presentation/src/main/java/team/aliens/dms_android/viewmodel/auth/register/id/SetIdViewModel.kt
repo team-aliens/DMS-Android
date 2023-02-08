@@ -2,21 +2,17 @@ package team.aliens.dms_android.viewmodel.auth.register.id
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.ConflictException
-import com.example.domain.exception.NotFoundException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.param.ExamineGradeParam
-import com.example.domain.usecase.students.DuplicateCheckIdUseCase
-import com.example.domain.usecase.students.ExamineGradeUseCase
-import com.example.dms_android.feature.register.event.id.SetIdEvent
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.entity.user.ExamineGradeEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
+import team.aliens.dms_android.feature.register.event.id.SetIdEvent
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.user.ExamineGradeEntity
+import team.aliens.domain.exception.*
+import team.aliens.domain.param.ExamineGradeParam
+import team.aliens.domain.usecase.students.DuplicateCheckIdUseCase
+import team.aliens.domain.usecase.students.ExamineGradeUseCase
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,14 +30,10 @@ class SetIdViewModel @Inject constructor(
     fun examineGrade(grade: Int, classRoom: Int, number: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                examineGradeUseCase.execute(
-                    ExamineGradeParam(
-                        grade = grade,
-                        classRoom = classRoom,
-                        number = number,
-                        schoolId = schoolId
-                    )
-                ).collect {
+                examineGradeUseCase.execute(ExamineGradeParam(grade = grade,
+                    classRoom = classRoom,
+                    number = number,
+                    schoolId = schoolId)).collect {
                     event(SetIdEvent.ExamineGradeName(it.toData()))
                 }
             }.onFailure {
@@ -81,8 +73,5 @@ class SetIdViewModel @Inject constructor(
         }
     }
 
-    private fun ExamineGradeEntity.toData() =
-        ExamineGradeEntity(
-            name = name
-        )
+    private fun ExamineGradeEntity.toData() = ExamineGradeEntity(name = name)
 }

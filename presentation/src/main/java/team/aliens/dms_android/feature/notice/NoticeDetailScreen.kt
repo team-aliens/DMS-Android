@@ -2,13 +2,7 @@ package team.aliens.dms_android.feature.notice
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -21,22 +15,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.design_system.color.DormColor
-import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body5
-import com.example.design_system.typography.Caption
-import com.example.design_system.typography.SubTitle2
 import com.example.dms_android.R
-import com.example.dms_android.util.TopBar
-import com.example.dms_android.viewmodel.notice.NoticeViewModel
-import com.example.domain.util.toDate
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.Caption
+import team.aliens.design_system.typography.SubTitle2
+import team.aliens.dms_android.util.TopBar
+import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
+import team.aliens.domain.util.toDate
 
 @SuppressLint("RememberReturnType")
 @Composable
 fun NoticeDetailScreen(
     navController: NavController,
     noticeId: String,
-    noticeViewModel: NoticeViewModel = hiltViewModel()
+    noticeViewModel: NoticeViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(key1 = noticeViewModel) {
@@ -89,9 +83,7 @@ fun NoticeDetailScreen(
             .background(DormColor.Gray100)
             .verticalScroll(rememberScrollState()),
     ) {
-        TopBar(
-            title = stringResource(id = R.string.Notice)
-        ) {
+        TopBar(title = stringResource(id = R.string.Notice)) {
             navController.popBackStack()
         }
         Column(
@@ -102,20 +94,17 @@ fun NoticeDetailScreen(
             horizontalAlignment = Alignment.Start,
         ) {
             Spacer(
-                modifier = Modifier
-                    .height(55.dp),
+                modifier = Modifier.height(55.dp),
             )
             SubTitle2(
                 text = state.title,
             )
             Spacer(
-                modifier = Modifier
-                    .height(25.dp),
+                modifier = Modifier.height(25.dp),
             )
             Caption(text = state.createAt)
             Spacer(
-                modifier = Modifier
-                    .height(20.dp),
+                modifier = Modifier.height(20.dp),
             )
             Spacer(
                 modifier = Modifier
@@ -125,12 +114,10 @@ fun NoticeDetailScreen(
                     .background(DormColor.Gray300),
             )
             Spacer(
-                modifier = Modifier
-                    .height(20.dp),
+                modifier = Modifier.height(20.dp),
             )
             Box(
-                modifier = Modifier
-                    .padding(end = 23.dp),
+                modifier = Modifier.padding(end = 23.dp),
             ) {
                 Body5(
                     text = state.content,

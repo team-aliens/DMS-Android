@@ -2,24 +2,19 @@ package team.aliens.dms_android.viewmodel.auth.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.NotFoundException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.usecase.students.RemoteSignUpUseCase
-import com.example.dms_android.feature.register.event.SignUpEvent
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.exception.ConflictException
-import com.example.domain.param.RegisterParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.feature.register.event.SignUpEvent
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.exception.*
+import team.aliens.domain.param.RegisterParam
+import team.aliens.domain.usecase.students.RemoteSignUpUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val remoteSignUpUseCase: RemoteSignUpUseCase
+    private val remoteSignUpUseCase: RemoteSignUpUseCase,
 ) : ViewModel() {
     private val _signUpEvent = MutableEventFlow<SignUpEvent>()
     val signUpViewEvent = _signUpEvent.asEventFlow()

@@ -1,8 +1,8 @@
 package team.aliens.domain.repository
 
-import com.example.domain.entity.notice.NoticeDetailEntity
-import com.example.domain.entity.notice.NoticeListEntity
-import com.example.domain.enums.NoticeListSCType
+import team.aliens.domain.entity.notice.NoticeDetailEntity
+import team.aliens.domain.entity.notice.NoticeListEntity
+import team.aliens.domain.enums.NoticeListSCType
 
 interface NoticeRepository {
 

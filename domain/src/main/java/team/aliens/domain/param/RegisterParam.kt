@@ -5,7 +5,7 @@ data class RegisterParam(
     val schoolAnswer: String,
     val email: String,
     val authCode: String,
-    val classRoom : Int,
+    val classRoom: Int,
     val grade: Int,
     val number: Int,
     val accountId: String,

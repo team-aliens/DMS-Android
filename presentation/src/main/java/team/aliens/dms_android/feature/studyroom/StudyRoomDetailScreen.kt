@@ -4,15 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,18 +17,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.design_system.button.DormButtonColor
-import com.example.design_system.button.DormContainedLargeButton
-import com.example.design_system.color.DormColor
-import com.example.design_system.component.RoomContent
-import com.example.design_system.component.RoomDetail
-import com.example.design_system.component.SeatItem
-import com.example.design_system.component.SeatType
-import com.example.design_system.toast.rememberToast
-import com.example.design_system.typography.Body5
 import com.example.dms_android.R
-import com.example.dms_android.util.TopBar
-import com.example.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.component.RoomContent
+import team.aliens.design_system.component.RoomDetail
+import team.aliens.design_system.component.SeatItem
+import team.aliens.design_system.component.SeatType
+import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body5
+import team.aliens.dms_android.util.TopBar
+import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 
 /**
  * 자습실 상세보기 screen
@@ -48,7 +40,7 @@ import com.example.domain.entity.studyroom.StudyRoomDetailEntity
 fun StudyRoomDetailScreen(
     navController: NavController,
     roomId: String,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel()
+    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomDetail(roomId)
@@ -137,26 +129,18 @@ fun StudyRoomDetailScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = DormColor.Gray100
-            )
-    ) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = DormColor.Gray100)) {
         TopBar(
             title = "자습실 신청",
         ) {
             navController.popBackStack()
         }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = DormColor.Gray200
-                )
-                .padding(horizontal = 16.dp)
-        ) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(color = DormColor.Gray200)
+            .padding(horizontal = 16.dp)) {
             Spacer(modifier = Modifier.height(17.dp))
             Row(
                 modifier = Modifier
@@ -169,28 +153,21 @@ fun StudyRoomDetailScreen(
                     .padding(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Image(
-                    modifier = Modifier
-                        .padding(start = 2.dp),
+                Image(modifier = Modifier.padding(start = 2.dp),
                     painter = painterResource(id = R.drawable.coloricnotice),
-                    contentDescription = null
-                )
+                    contentDescription = null)
                 Spacer(modifier = Modifier.width(12.dp))
-                Body5(
-                    text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}"
-                )
+                Body5(text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
             }
             Spacer(modifier = Modifier.height(24.dp))
-            RoomContent(
-                roomId = "",
+            RoomContent(roomId = "",
                 position = "${state.roomDetail.floor}층",
                 title = state.roomDetail.name,
                 currentNumber = state.roomDetail.inUseHeadCount,
                 maxNumber = state.roomDetail.totalAvailableSeat,
                 isMine = false,
                 condition = "${state.roomDetail.availableGrade}${stringResource(id = R.string.grade)} ${state.roomDetail.studyRoomSex}",
-                onClick = { }
-            )
+                onClick = { })
             Spacer(modifier = Modifier.height(30.dp))
             RoomDetail(
                 topDescription = state.roomDetail.northDescription,
@@ -240,17 +217,12 @@ fun StudyRoomDetailScreen(
  * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
  */
 private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
-    val defaultSeats: MutableList<MutableList<SeatItem>> = List(
-        size = this.totalHeightSize,
-        init = {
-            List(
-                size = this.totalWidthSize,
-                init = {
-                    SeatItem()
-                }
-            ).toMutableList()
-        }
-    ).toMutableList()
+    val defaultSeats: MutableList<MutableList<SeatItem>> =
+        List(size = this.totalHeightSize, init = {
+            List(size = this.totalWidthSize, init = {
+                SeatItem()
+            }).toMutableList()
+        }).toMutableList()
 
     fun getColor(colorString: String): Color {
         return Color(android.graphics.Color.parseColor(colorString))
@@ -261,15 +233,13 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
         val height = seat.heightLocation - 1
         val color = seat.type?.color
 
-        defaultSeats[height][width] = SeatItem(
-            id = seat.id,
+        defaultSeats[height][width] = SeatItem(id = seat.id,
             number = seat.number,
             name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status)
-        )
+            type = SeatType.toSeatType(seat.status))
     }
 
     return defaultSeats

@@ -1,10 +1,10 @@
 package team.aliens.domain.entity.mypage
 
-import com.example.domain.enums.PointType
+import team.aliens.domain.enums.PointType
 
 data class PointListEntity(
     val totalPoint: Int,
-    val pointValue: List<PointValue>
+    val pointValue: List<PointValue>,
 ) {
     data class PointValue(
         val pointId: String,

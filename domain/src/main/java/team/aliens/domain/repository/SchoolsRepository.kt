@@ -1,10 +1,10 @@
 package team.aliens.domain.repository
 
-import com.example.domain.entity.user.SchoolConfirmQuestionEntity
-import com.example.domain.entity.user.SchoolIdEntity
-import com.example.domain.param.SchoolAnswerParam
 import kotlinx.coroutines.flow.Flow
-import java.util.UUID
+import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
+import team.aliens.domain.entity.user.SchoolIdEntity
+import team.aliens.domain.param.SchoolAnswerParam
+import java.util.*
 
 interface SchoolsRepository {
 

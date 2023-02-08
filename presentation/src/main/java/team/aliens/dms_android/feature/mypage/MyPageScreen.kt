@@ -5,25 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,17 +22,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.design_system.color.DormColor
-import com.example.design_system.typography.Body5
-import com.example.design_system.typography.Caption
-import com.example.design_system.typography.Headline3
-import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
-import com.example.dms_android.component.changeBottomSheetState
-import com.example.dms_android.feature.navigator.NavigationRoute
-import com.example.dms_android.viewmodel.mypage.MyPageViewModel
-import com.example.domain.enums.BottomSheetType
 import kotlinx.coroutines.CoroutineScope
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.Caption
+import team.aliens.design_system.typography.Headline3
+import team.aliens.design_system.typography.SubTitle1
+import team.aliens.dms_android.component.changeBottomSheetState
+import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
+import team.aliens.domain.enums.BottomSheetType
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -57,9 +42,7 @@ fun MyPageScreen(
 ) {
     val myPageViewModel: MyPageViewModel = hiltViewModel()
 
-    val bottomSheetState = rememberModalBottomSheetState(
-        ModalBottomSheetValue.Hidden
-    )
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
     val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
@@ -131,17 +114,9 @@ fun UserInformation(
             .padding(top = 55.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(
-            modifier = Modifier
-                .padding(start = 24.dp)
-        ) {
-            SubTitle1(
-                text = "${state2.gcn} ${state2.name}"
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(10.dp)
-            )
+        Column(modifier = Modifier.padding(start = 24.dp)) {
+            SubTitle1(text = "${state2.gcn} ${state2.name}")
+            Spacer(modifier = Modifier.height(10.dp))
             Body5(text = state2.schoolName)
         }
         Box(
@@ -189,21 +164,14 @@ fun WarningPoint(
             .height(70.dp)
             .padding(start = 24.dp, end = 24.dp, top = 20.dp)
             .clip(RoundedCornerShape(25))
-            .border(
-                color = DormColor.Lighten200,
-                width = 1.dp,
-                shape = RoundedCornerShape(25)
-            )
+            .border(color = DormColor.Lighten200, width = 1.dp, shape = RoundedCornerShape(25))
             .background(DormColor.Lighten200),
         contentAlignment = Alignment.CenterStart,
     ) {
-        Row(
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically) {
             Spacer(
-                modifier = Modifier
-                    .width(20.dp),
+                modifier = Modifier.width(20.dp),
             )
             Caption(text = state2.phrase)
         }
@@ -221,33 +189,22 @@ fun PointBox(
                 .padding(start = 24.dp, top = 20.dp, end = 5.dp)
                 .height(90.dp)
                 .clip(RoundedCornerShape(25))
-                .border(
-                    color = DormColor.DormPrimary,
-                    width = 1.dp,
-                    shape = RoundedCornerShape(25)
-                )
+                .border(color = DormColor.DormPrimary, width = 1.dp, shape = RoundedCornerShape(25))
                 .background(color = DormColor.Lighten200),
             contentAlignment = Alignment.TopStart,
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 14.dp)
-                    .fillMaxWidth()
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .height(10.dp)
-                )
+            Column(modifier = Modifier
+                .padding(start = 14.dp)
+                .fillMaxWidth()) {
+                Spacer(modifier = Modifier.height(10.dp))
                 Body5(
                     text = stringResource(id = R.string.PlusPoint),
                     color = DormColor.Darken200,
                 )
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
+                Box(contentAlignment = Alignment.BottomEnd,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(end = 24.dp, bottom = 18.dp)
-                ) {
+                        .padding(end = 24.dp, bottom = 18.dp)) {
                     Headline3(
                         text = state2.bonusPoint.toString(),
                         color = DormColor.Darken200,
@@ -269,25 +226,18 @@ fun PointBox(
                 .background(DormColor.LightenError),
             contentAlignment = Alignment.TopStart,
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 14.dp)
-                    .fillMaxSize()
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .height(10.dp)
-                )
+            Column(modifier = Modifier
+                .padding(start = 14.dp)
+                .fillMaxSize()) {
+                Spacer(modifier = Modifier.height(10.dp))
                 Body5(
                     text = stringResource(id = R.string.MinusPoint),
                     color = DormColor.Error,
                 )
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
+                Box(contentAlignment = Alignment.BottomEnd,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(end = 24.dp, bottom = 18.dp)
-                ) {
+                        .padding(end = 24.dp, bottom = 18.dp)) {
                     Headline3(
                         text = state2.minusPoint.toString(),
                         color = DormColor.Error,
@@ -300,90 +250,57 @@ fun PointBox(
 
 @Composable
 fun MyPageBlock(
-    navController: NavController
+    navController: NavController,
 ) {
     Column() {
-        Spacer(
-            modifier = Modifier
-                .height(15.dp)
-        )
+        Spacer(modifier = Modifier.height(15.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 24.dp, end = 24.dp)
                 .height(110.dp)
                 .clip(RoundedCornerShape(20))
-                .border(
-                    color = DormColor.Gray100,
-                    width = 1.dp,
-                    shape = RoundedCornerShape(20)
-                )
+                .border(color = DormColor.Gray100, width = 1.dp, shape = RoundedCornerShape(20))
                 .background(DormColor.Gray100),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-                    .clickable {
-                        navController.navigate(NavigationRoute.PointList)
-                    },
-                contentAlignment = Alignment.CenterStart
-            ) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f)
+                .clickable {
+                    navController.navigate(NavigationRoute.PointList)
+                }, contentAlignment = Alignment.CenterStart) {
                 Row() {
-                    Spacer(
-                        modifier = Modifier
-                            .width(20.dp)
-                    )
+                    Spacer(modifier = Modifier.width(20.dp))
                     Body5(text = stringResource(id = R.string.CheckPointList))
                 }
             }
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .padding(start = 15.dp, end = 15.dp)
-                    .background(DormColor.Gray300)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                contentAlignment = Alignment.CenterStart
-            ) {
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .padding(start = 15.dp, end = 15.dp)
+                .background(DormColor.Gray300))
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+                contentAlignment = Alignment.CenterStart) {
                 Row() {
-                    Spacer(
-                        modifier = Modifier
-                            .width(20.dp)
-                    )
+                    Spacer(modifier = Modifier.width(20.dp))
                     Body5(text = stringResource(id = R.string.ChangePassword))
                 }
             }
         }
 
         Column() {
-            Spacer(
-                modifier = Modifier
-                    .height(15.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(55.dp)
-                    .padding(start = 24.dp, end = 24.dp)
-                    .clip(RoundedCornerShape(20))
-                    .border(
-                        color = DormColor.Gray100,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(20)
-                    )
-                    .background(DormColor.Gray100),
-                contentAlignment = Alignment.CenterStart
-            ) {
+            Spacer(modifier = Modifier.height(15.dp))
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(55.dp)
+                .padding(start = 24.dp, end = 24.dp)
+                .clip(RoundedCornerShape(20))
+                .border(color = DormColor.Gray100, width = 1.dp, shape = RoundedCornerShape(20))
+                .background(DormColor.Gray100), contentAlignment = Alignment.CenterStart) {
                 Row() {
-                    Spacer(
-                        modifier = Modifier
-                            .width(20.dp)
-                    )
+                    Spacer(modifier = Modifier.width(20.dp))
                     Body5(
                         text = stringResource(id = R.string.Logout),
                         color = DormColor.Error,

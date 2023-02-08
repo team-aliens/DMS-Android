@@ -6,13 +6,13 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.dms_android.base.BaseFragment
-import com.example.dms_android.databinding.FragmentEnterEmailBinding
 import com.example.dms_android.R
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.util.emailValidation
-import com.example.dms_android.util.visible
+import com.example.dms_android.databinding.FragmentEnterEmailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.util.emailValidation
+import team.aliens.dms_android.util.visible
 import java.util.regex.Pattern
 
 @AndroidEntryPoint

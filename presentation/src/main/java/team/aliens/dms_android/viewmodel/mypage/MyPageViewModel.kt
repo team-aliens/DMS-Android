@@ -1,30 +1,26 @@
 package team.aliens.dms_android.viewmodel.mypage
 
 import androidx.lifecycle.viewModelScope
-import com.example.dms_android.base.BaseViewModel
-import com.example.dms_android.feature.mypage.MyPageEvent
-import com.example.dms_android.feature.mypage.MyPageState
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.entity.mypage.MyPageEntity
-import com.example.domain.enums.PointType
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.ForbiddenException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.usecase.mypage.RemoteMyPageUseCase
-import com.example.domain.usecase.mypage.RemotePointUseCase
-import com.example.local_domain.usecase.mypage.LocalMyPageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.mypage.MyPageEvent
+import team.aliens.dms_android.feature.mypage.MyPageState
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.mypage.MyPageEntity
+import team.aliens.domain.enums.PointType
+import team.aliens.domain.exception.*
+import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
+import team.aliens.domain.usecase.mypage.RemotePointUseCase
+import team.aliens.local_domain.usecase.mypage.LocalMyPageUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val remoteMyPageUseCase: RemoteMyPageUseCase,
     val localMyPageUseCase: LocalMyPageUseCase,
-    private val remotePointListUseCase: RemotePointUseCase
+    private val remotePointListUseCase: RemotePointUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
 
     override val initialState: MyPageState
@@ -67,12 +63,7 @@ class MyPageViewModel @Inject constructor(
                 remotePointListUseCase.execute(pointType)
             }.onSuccess {
                 event2(Event.FetchPointList)
-                setState(
-                    state.value.copy(
-                        totalPoint = it.totalPoint,
-                        pointListEntity = it
-                    )
-                )
+                setState(state.value.copy(totalPoint = it.totalPoint, pointListEntity = it))
             }.onFailure {
                 when (it) {
                     is NullPointerException -> event2(Event.NullPointException)

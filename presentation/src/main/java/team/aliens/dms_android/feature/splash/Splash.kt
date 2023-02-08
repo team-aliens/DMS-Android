@@ -3,11 +3,7 @@ package team.aliens.dms_android.feature.splash
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -17,11 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.design_system.color.DormColor
-import com.example.design_system.typography.SubTitle1
 import com.example.dms_android.R
-import com.example.dms_android.feature.MainActivity
 import kotlinx.coroutines.launch
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.typography.SubTitle1
+import team.aliens.dms_android.feature.MainActivity
 
 @Composable
 fun Splash() {
@@ -33,7 +29,7 @@ fun Splash() {
 
 @Composable
 fun Splash(
-    splashViewModel: SplashViewModel
+    splashViewModel: SplashViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -49,24 +45,14 @@ fun Splash(
             }
         }
     }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Box(
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Image(
-                modifier = Modifier.size(180.dp),
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(contentAlignment = Alignment.TopCenter) {
+            Image(modifier = Modifier.size(180.dp),
                 painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = null
-            )
+                contentDescription = null)
             Column {
                 Spacer(Modifier.size(142.dp))
-                SubTitle1(
-                    text = "DMS",
-                    color = DormColor.Gray100
-                )
+                SubTitle1(text = "DMS", color = DormColor.Gray100)
             }
         }
     }

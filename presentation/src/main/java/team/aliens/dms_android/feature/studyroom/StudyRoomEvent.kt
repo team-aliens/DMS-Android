@@ -1,5 +1,5 @@
 package team.aliens.dms_android.feature.studyroom
 
-import com.example.dms_android.base.MviEvent
+import team.aliens.dms_android.base.MviEvent
 
-sealed class StudyRoomEvent: MviEvent
+sealed class StudyRoomEvent : MviEvent

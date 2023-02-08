@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.dms_android.base.BaseFragment
-import com.example.dms_android.databinding.FragmentSetProfileImageBinding
 import com.example.dms_android.R
-import com.example.dms_android.feature.RegisterActivity
+import com.example.dms_android.databinding.FragmentSetProfileImageBinding
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.RegisterActivity
 
 class SetProfileImageFragment : BaseFragment<FragmentSetProfileImageBinding>(
     R.layout.fragment_set_profile_image
@@ -25,7 +25,7 @@ class SetProfileImageFragment : BaseFragment<FragmentSetProfileImageBinding>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         val args = arguments
