@@ -3,12 +3,7 @@ package team.aliens.design_system.component
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,11 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.design_system.R
-import com.example.design_system.animate.HorizontalAnimationBox
-import com.example.design_system.color.DormColor
-import com.example.design_system.icon.DormIcon
-import com.example.design_system.modifier.dormClickable
 import com.skydoves.landscapist.glide.GlideImage
+import team.aliens.design_system.animate.HorizontalAnimationBox
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.modifier.dormClickable
 
 @Stable
 val DefaultPhotoSize: Dp = 100.dp
@@ -87,19 +82,15 @@ private fun Photo(
         contentAlignment = Alignment.TopEnd,
     ) {
         GlideImage(
-            modifier = Modifier
-                .size(DefaultPhotoSize)
-                .background(
-                    color = Color.Transparent,
-                )
-                .dormClickable(
-                    rippleEnabled = true,
-                ) {
-                    onClick(index)
-                }
-                .clip(
-                    PhotoShape,
-                ),
+            modifier = Modifier.size(DefaultPhotoSize).background(
+                color = Color.Transparent,
+            ).dormClickable(
+                rippleEnabled = true,
+            ) {
+                onClick(index)
+            }.clip(
+                PhotoShape,
+            ),
             imageModel = photoUrl,
         )
 
@@ -121,17 +112,14 @@ private fun AddPhoto(
     onClickAddPhoto: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .size(DefaultPhotoSize)
-            .background(
-                color = DormColor.Gray300,
-                shape = PhotoShape,
-            )
-            .dormClickable(
-                rippleEnabled = true,
-            ) {
-                onClickAddPhoto()
-            },
+        modifier = Modifier.size(DefaultPhotoSize).background(
+            color = DormColor.Gray300,
+            shape = PhotoShape,
+        ).dormClickable(
+            rippleEnabled = true,
+        ) {
+            onClickAddPhoto()
+        },
         contentAlignment = Alignment.Center,
     ) {
         Icon(

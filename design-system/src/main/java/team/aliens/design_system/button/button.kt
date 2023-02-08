@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.utils.rememberToast
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.toast.rememberToast
 
 enum class DormButtonColor(
     val textColor: Color,

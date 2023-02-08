@@ -1,12 +1,7 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,11 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.modifier.dormShadow
-import com.example.design_system.typography.Body4
-import com.example.design_system.typography.OverLine
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.typography.Body4
+import team.aliens.design_system.typography.OverLine
 
 data class Notice(
     var noticeId: String,
@@ -57,23 +52,18 @@ private fun Notice(
     onClick: (String) -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .background(
-                color = DormColor.Gray100,
-                shape = RoundedCornerShape(6.dp),
-            )
-            .fillMaxWidth()
-            .height(70.dp)
-            .dormShadow(
-                color = DormColor.Gray100,
-                offsetX = 1.dp,
-                offsetY = 1.dp,
-            )
-            .dormClickable(
-                rippleEnabled = true,
-            ) {
-                onClick(notice.noticeId)
-            },
+        modifier = Modifier.background(
+            color = DormColor.Gray100,
+            shape = RoundedCornerShape(6.dp),
+        ).fillMaxWidth().height(70.dp).dormShadow(
+            color = DormColor.Gray100,
+            offsetX = 1.dp,
+            offsetY = 1.dp,
+        ).dormClickable(
+            rippleEnabled = true,
+        ) {
+            onClick(notice.noticeId)
+        },
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(

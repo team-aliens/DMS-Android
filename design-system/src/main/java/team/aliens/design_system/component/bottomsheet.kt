@@ -1,13 +1,7 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
@@ -19,7 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
+import team.aliens.design_system.color.DormColor
 
 private val BottomSheetShape = RoundedCornerShape(
     topStart = 16.dp,
@@ -95,14 +89,12 @@ private fun DormBottomSheetHandle(
         contentAlignment = Alignment.Center,
     ) {
         if (useHandle) {
-            Box(
-                modifier = Modifier
-                    .size(BottomSheetHandleSize)
-                    .clip(BottomSheetHandleShape)
-                    .background(
-                        color = DormColor.Gray300,
-                    )
-            )
+            Box(modifier = Modifier
+                .size(BottomSheetHandleSize)
+                .clip(BottomSheetHandleShape)
+                .background(
+                    color = DormColor.Gray300,
+                ))
         }
     }
 }

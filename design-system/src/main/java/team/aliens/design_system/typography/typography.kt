@@ -14,17 +14,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.design_system.R
-import com.example.design_system.color.DormColor
-import com.example.design_system.modifier.dormClickable
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
 
-val NotoSansFamily = FontFamily(
-    Font(R.font.noto_sans_kr_black, FontWeight.Black),
+val NotoSansFamily = FontFamily(Font(R.font.noto_sans_kr_black, FontWeight.Black),
     Font(R.font.noto_sans_kr_bold, FontWeight.Bold),
     Font(R.font.noto_sans_kr_medium, FontWeight.Medium),
     Font(R.font.noto_sans_kr_regular, FontWeight.Normal),
     Font(R.font.noto_sans_kr_light, FontWeight.Light),
-    Font(R.font.noto_sans_kr_thin, FontWeight.Thin)
-)
+    Font(R.font.noto_sans_kr_thin, FontWeight.Thin))
 
 object DormTypography {
 

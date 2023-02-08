@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.typography.ButtonText
-import com.example.design_system.utils.runIf
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.ButtonText
+import team.aliens.design_system.utils.runIf
 
 @Composable
 private fun BasicButton(
@@ -110,11 +110,11 @@ private fun BasicOutlineButton(
 ) {
 
     val outlineBackgroundColor by animateColorAsState(
-        if(enabled) backgroundColor else disabledColor
+        if (enabled) backgroundColor else disabledColor
     )
 
     val outlineTextColor by animateColorAsState(
-        if(enabled) textColor else disabledColor
+        if (enabled) textColor else disabledColor
     )
 
     BasicButton(

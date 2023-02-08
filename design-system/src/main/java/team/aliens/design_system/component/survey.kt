@@ -1,16 +1,7 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -21,11 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.modifier.dormShadow
-import com.example.design_system.typography.Body3
-import com.example.design_system.typography.Body5
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.typography.Body3
+import team.aliens.design_system.typography.Body5
 
 data class Survey(
     val title: String,
@@ -36,9 +27,7 @@ data class Survey(
 )
 
 enum class SurveyState(name: String) {
-    ToDo("진행중"),
-    InProgress("시작전"),
-    Done("종료"),
+    ToDo("진행중"), InProgress("시작전"), Done("종료"),
 }
 
 @Composable
@@ -74,23 +63,18 @@ private fun Survey(
     onClick: (Int) -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .background(
-                color = DormColor.Gray100,
-                shape = RoundedCornerShape(6.dp),
-            )
-            .fillMaxWidth()
-            .height(148.dp)
-            .dormShadow(
-                color = DormColor.Gray100,
-                offsetX = 1.dp,
-                offsetY = 1.dp,
-            )
-            .dormClickable(
-                rippleEnabled = true,
-            ) {
-                onClick(index)
-            },
+        modifier = Modifier.background(
+            color = DormColor.Gray100,
+            shape = RoundedCornerShape(6.dp),
+        ).fillMaxWidth().height(148.dp).dormShadow(
+            color = DormColor.Gray100,
+            offsetX = 1.dp,
+            offsetY = 1.dp,
+        ).dormClickable(
+            rippleEnabled = true,
+        ) {
+            onClick(index)
+        },
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(

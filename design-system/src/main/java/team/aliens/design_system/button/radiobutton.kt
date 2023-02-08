@@ -4,19 +4,9 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -24,10 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.typography.Body5
-import com.example.design_system.utils.runIf
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.utils.runIf
 
 @Composable
 fun BasicRadioButton(
@@ -40,27 +30,16 @@ fun BasicRadioButton(
     disabledUnSelectedColor: Color,
     enabled: Boolean = true,
 ) {
-    val enabledBackgroundColor: Color by animateColorAsState(
-        if (checked) selectedColor else unSelectedColor
-    )
+    val enabledBackgroundColor: Color by animateColorAsState(if (checked) selectedColor else unSelectedColor)
 
-    val disabledBackgroundColor: Color by animateColorAsState(
-        if (checked) disabledSelectedColor else disabledUnSelectedColor
-    )
+    val disabledBackgroundColor: Color by animateColorAsState(if (checked) disabledSelectedColor else disabledUnSelectedColor)
 
     val backgroundColor = if (enabled) enabledBackgroundColor else disabledBackgroundColor
 
-    val inCircleSize: Dp by animateDpAsState(
-        if (checked) 10.dp else 0.dp
-    )
+    val inCircleSize: Dp by animateDpAsState(if (checked) 10.dp else 0.dp)
 
     Box(
-        modifier = modifier
-            .border(
-                width = 2.dp,
-                shape = CircleShape,
-                color = backgroundColor
-            )
+        modifier = modifier.border(width = 2.dp, shape = CircleShape, color = backgroundColor)
             .runIf(enabled) {
                 composed {
                     dormClickable(
@@ -73,14 +52,12 @@ fun BasicRadioButton(
             },
         contentAlignment = Alignment.Center,
     ) {
-        Box(
-            modifier = Modifier
-                .size(inCircleSize)
-                .background(
-                    color = backgroundColor,
-                    shape = CircleShape,
-                )
-        )
+        Box(modifier = Modifier
+            .size(inCircleSize)
+            .background(
+                color = backgroundColor,
+                shape = CircleShape,
+            ))
     }
 }
 
@@ -115,17 +92,16 @@ fun DormTextRadioButton(
     text: String,
 ) {
     Row(
-        modifier = modifier
-            .runIf(enabled) {
-                composed {
-                    dormClickable(
-                        rippleEnabled = false,
-                        rippleColor = null,
-                    ) {
-                        onCheckedChange(!checked)
-                    }
+        modifier = modifier.runIf(enabled) {
+            composed {
+                dormClickable(
+                    rippleEnabled = false,
+                    rippleColor = null,
+                ) {
+                    onCheckedChange(!checked)
                 }
-            },
+            }
+        },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         DormRadioButton(
@@ -138,10 +114,9 @@ fun DormTextRadioButton(
         Spacer(modifier = Modifier.width(15.dp))
 
         Box(
-            modifier = Modifier
-                .offset(
-                    y = (-1.2).dp,
-                ),
+            modifier = Modifier.offset(
+                y = (-1.2).dp,
+            ),
         ) {
             Body5(
                 text = text,

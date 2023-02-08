@@ -1,16 +1,7 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -26,12 +17,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.modifier.dormShadow
-import com.example.design_system.typography.Body5
-import com.example.design_system.typography.Caption
 import com.skydoves.landscapist.glide.GlideImage
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.Caption
 
 data class Property(
     val propertyImage: String,
@@ -80,23 +70,18 @@ private fun LostProperty(
     onClick: (Int) -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(LostPropertyHeight)
-            .background(
-                color = DormColor.Gray100,
-                shape = LostPropertyShape,
-            )
-            .dormClickable(
-                rippleEnabled = true,
-            ) {
-                onClick(index)
-            }
-            .dormShadow(
-                color = DormColor.Gray400,
-                offsetY = 1.dp,
-                offsetX = 1.dp,
-            ),
+        modifier = Modifier.fillMaxWidth().height(LostPropertyHeight).background(
+            color = DormColor.Gray100,
+            shape = LostPropertyShape,
+        ).dormClickable(
+            rippleEnabled = true,
+        ) {
+            onClick(index)
+        }.dormShadow(
+            color = DormColor.Gray400,
+            offsetY = 1.dp,
+            offsetX = 1.dp,
+        ),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),

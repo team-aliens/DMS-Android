@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
-import com.example.design_system.utils.runIf
+import team.aliens.design_system.utils.runIf
 
 @Stable
 fun Modifier.dormClickable(

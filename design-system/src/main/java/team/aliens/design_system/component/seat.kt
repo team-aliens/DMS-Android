@@ -1,26 +1,11 @@
 package team.aliens.design_system.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,15 +17,15 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.example.design_system.button.DormButtonColor
-import com.example.design_system.button.DormContainedLargeButton
-import com.example.design_system.color.DormColor
-import com.example.design_system.constans.asLoose
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.modifier.innerShadow
-import com.example.design_system.typography.Body5
-import com.example.design_system.typography.DormTypography
-import com.example.design_system.typography.OverLine
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.constans.asLoose
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.innerShadow
+import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.DormTypography
+import team.aliens.design_system.typography.OverLine
 
 private val SeatSize: DpSize = DpSize(
     width = 40.dp,
@@ -118,51 +103,45 @@ fun RoomDetail(
     selected: String,
     onSelectedChanged: (String) -> Unit,
 ) {
-    Layout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(328.dp)
-            .background(
-                color = Color.White,
-                shape = RoomBoxShape,
-            )
-            .border(
-                width = 1.dp,
-                color = DormColor.DormPrimary,
-                shape = RoomBoxShape,
-            ),
-        content = {
-            SeatListContent(
-                modifier = Modifier
-                    .layoutId(RoomSeatContentLayoutId)
-                    .padding(30.dp)
-                    .innerShadow(
-                        color = Color.White,
-                        blur = 20.dp
-                    ),
-                seats = seats,
-                selected = selected,
-                onSelectedChanged = onSelectedChanged,
-            )
-            RoomDescription(
-                modifier = Modifier.layoutId(RoomTopDescriptionLayoutId),
-                text = topDescription,
-            )
-            RoomDescription(
-                modifier = Modifier.layoutId(RoomBottomDescriptionLayoutId),
-                text = bottomDescription,
-            )
-            RoomDescription(
-                modifier = Modifier.layoutId(RoomStartDescriptionLayoutId),
-                text = startDescription,
-            )
-            RoomDescription(
-                modifier = Modifier.layoutId(RoomEndDescriptionLayoutId),
-                text = endDescription,
-            )
+    Layout(modifier = Modifier
+        .fillMaxWidth()
+        .height(328.dp)
+        .background(
+            color = Color.White,
+            shape = RoomBoxShape,
+        )
+        .border(
+            width = 1.dp,
+            color = DormColor.DormPrimary,
+            shape = RoomBoxShape,
+        ), content = {
+        SeatListContent(
+            modifier = Modifier
+                .layoutId(RoomSeatContentLayoutId)
+                .padding(30.dp)
+                .innerShadow(color = Color.White, blur = 20.dp),
+            seats = seats,
+            selected = selected,
+            onSelectedChanged = onSelectedChanged,
+        )
+        RoomDescription(
+            modifier = Modifier.layoutId(RoomTopDescriptionLayoutId),
+            text = topDescription,
+        )
+        RoomDescription(
+            modifier = Modifier.layoutId(RoomBottomDescriptionLayoutId),
+            text = bottomDescription,
+        )
+        RoomDescription(
+            modifier = Modifier.layoutId(RoomStartDescriptionLayoutId),
+            text = startDescription,
+        )
+        RoomDescription(
+            modifier = Modifier.layoutId(RoomEndDescriptionLayoutId),
+            text = endDescription,
+        )
 
-        }
-    ) { measurables, constraints ->
+    }) { measurables, constraints ->
         val looseConstraints = constraints.asLoose()
         val extraLooseConstraints = constraints.asLoose(width = true)
 
@@ -186,10 +165,7 @@ fun RoomDetail(
             measurable.layoutId == RoomEndDescriptionLayoutId
         }?.measure(extraLooseConstraints) ?: throw NullPointerException()
 
-        layout(
-            width = constraints.maxWidth,
-            height = constraints.maxHeight
-        ) {
+        layout(width = constraints.maxWidth, height = constraints.maxHeight) {
             seatsPlaceable.place(
                 x = 0,
                 y = 0,
@@ -213,21 +189,17 @@ fun RoomDetail(
                 y = constraints.maxHeight - bottomDescriptionPlaceable.height - RoomDescriptionPaddingInt,
             )
 
-            startDescriptionPlaceable.place(
-                x = RoomDescriptionPaddingInt,
+            startDescriptionPlaceable.place(x = RoomDescriptionPaddingInt,
                 y = Alignment.CenterVertically.align(
                     size = startDescriptionPlaceable.width,
                     space = constraints.maxHeight,
-                )
-            )
+                ))
 
-            endDescriptionPlaceable.place(
-                x = constraints.maxWidth - endDescriptionPlaceable.width - RoomDescriptionPaddingInt,
+            endDescriptionPlaceable.place(x = constraints.maxWidth - endDescriptionPlaceable.width - RoomDescriptionPaddingInt,
                 y = Alignment.CenterVertically.align(
                     size = endDescriptionPlaceable.width,
                     space = constraints.maxHeight,
-                )
-            )
+                ))
         }
     }
 }
@@ -240,7 +212,7 @@ private fun SeatContent(
     textColor: Color = DormColor.Gray100,
     isSelected: Boolean = false,
     onSelectedChanged: (String) -> Unit,
-    clickedEnabled: Boolean = true
+    clickedEnabled: Boolean = true,
 ) {
     if (isSelected) {
         Box(
@@ -264,18 +236,14 @@ private fun SeatContent(
         }
     } else {
         Box(
-            modifier = Modifier
-                .size(SeatSize)
-                .background(
-                    color = color,
-                    shape = CircleShape,
-                )
-                .clip(CircleShape)
-                .dormClickable(
-                    runIf = clickedEnabled,
-                ) {
-                    onSelectedChanged(seatId)
-                },
+            modifier = Modifier.size(SeatSize).background(
+                color = color,
+                shape = CircleShape,
+            ).clip(CircleShape).dormClickable(
+                runIf = clickedEnabled,
+            ) {
+                onSelectedChanged(seatId)
+            },
             contentAlignment = Alignment.Center,
         ) {
             OverLine(
@@ -301,9 +269,7 @@ private fun SeatListContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         seats.map {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 it.map { seat ->
                     when (seat.type) {
                         SeatType.EMPTY -> {
@@ -365,29 +331,20 @@ fun RoomContent(
     onClick: (String) -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(91.dp)
-            .background(
-                color = DormColor.Gray100,
-                shape = RoundedCornerShape(15),
-            )
-            .dormClickable {
-                onClick(roomId)
-            },
+        modifier = Modifier.fillMaxWidth().height(91.dp).background(
+            color = DormColor.Gray100,
+            shape = RoundedCornerShape(15),
+        ).dormClickable {
+            onClick(roomId)
+        },
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 14.dp,
-                )
-        ) {
-            Row(
-                modifier =
-                Modifier.fillMaxWidth()
-            ) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                horizontal = 16.dp,
+                vertical = 14.dp,
+            )) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Body5(
                     text = position,
                     color = DormColor.DormPrimary,
@@ -401,22 +358,17 @@ fun RoomContent(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Row(
-                modifier =
-                Modifier.fillMaxWidth()
-            ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Body5(
                     text = condition,
                     color = DormColor.DormPrimary,
                 )
                 if (isMine) {
-                    DormContainedLargeButton(
-                        modifier = Modifier
-                            .height(24.dp)
-                            .width(52.dp),
+                    DormContainedLargeButton(modifier = Modifier
+                        .height(24.dp)
+                        .width(52.dp),
                         text = "신청함",
-                        color = DormButtonColor.Blue
-                    ) {
+                        color = DormButtonColor.Blue) {
 
                     }
                 }
@@ -474,12 +426,8 @@ private fun SeatTypeContent(
 @Composable
 fun PreviewSeatContent() {
     Column {
-        SeatTypeList(
-            items = listOf(
-                SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터"),
-                SeatTypeUiModel(DormColor.Gray800, "일반"),
-                SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터")
-            )
-        )
+        SeatTypeList(items = listOf(SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터"),
+            SeatTypeUiModel(DormColor.Gray800, "일반"),
+            SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터")))
     }
 }

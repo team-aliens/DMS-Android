@@ -2,33 +2,24 @@ package team.aliens.design_system.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.design_system.button.DormButtonColor
-import com.example.design_system.button.DormContainedLargeButton
-import com.example.design_system.color.DormColor
-import com.example.design_system.icon.DormIcon
-import com.example.design_system.typography.Body5
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.typography.Body5
 
 @Composable
 fun DormCustomDialog(
@@ -132,8 +123,7 @@ fun PreviewDialog() {
                 title = "설문이 조기종료 되었습니다.",
                 content = "사유 : 이러이러한 사유로 설문이 종료되었습니다.",
                 btnText = "확인",
-            ) {
-            }
+            ) {}
         }
     }
 }
