@@ -15,55 +15,43 @@ import team.aliens.data.remote.api.*
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
 
-    private const val BASE_URL = "http://3.39.162.197:8080/"
+    private const val BASE_URL = ""
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY)
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Provides
     fun provideOkHttpclient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authorizationInterceptor: AuthorizationInterceptor
-    ): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(httpLoggingInterceptor)
-        .addInterceptor(authorizationInterceptor)
-        .build()
+        authorizationInterceptor: AuthorizationInterceptor,
+    ): OkHttpClient = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authorizationInterceptor).build()
 
     @Provides
     fun provideRetrofit(
-        okHttpClient: OkHttpClient
-    ): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        okHttpClient: OkHttpClient,
+    ): Retrofit = Retrofit.Builder().baseUrl(BASE_URL).client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create()).build()
 
     @Provides
     fun provideStudentsApi(retrofit: Retrofit): StudentsApi =
         retrofit.create(StudentsApi::class.java)
 
     @Provides
-    fun provideUserApi(retrofit: Retrofit): UserApi =
-        retrofit.create(UserApi::class.java)
+    fun provideUserApi(retrofit: Retrofit): UserApi = retrofit.create(UserApi::class.java)
 
     @Provides
-    fun provideMealApi(retrofit: Retrofit): MealApi =
-        retrofit.create(MealApi::class.java)
+    fun provideMealApi(retrofit: Retrofit): MealApi = retrofit.create(MealApi::class.java)
 
     @Provides
-    fun provideNoticeApi(retrofit: Retrofit): NoticeApi =
-        retrofit.create(NoticeApi::class.java)
+    fun provideNoticeApi(retrofit: Retrofit): NoticeApi = retrofit.create(NoticeApi::class.java)
 
     @Provides
-    fun provideSchoolsApi(retrofit: Retrofit): SchoolsApi =
-        retrofit.create(SchoolsApi::class.java)
+    fun provideSchoolsApi(retrofit: Retrofit): SchoolsApi = retrofit.create(SchoolsApi::class.java)
 
     @Provides
-    fun provideMyPageApi(retrofit: Retrofit): MyPageApi =
-        retrofit.create(MyPageApi::class.java)
+    fun provideMyPageApi(retrofit: Retrofit): MyPageApi = retrofit.create(MyPageApi::class.java)
 
     @Provides
     fun provideStudyRoomApi(retrofit: Retrofit): StudyRoomApi =

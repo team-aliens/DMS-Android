@@ -1,17 +1,17 @@
 package team.aliens.di
 
-import com.example.local_database.datasource.declaration.LocalMealDataSource
-import com.example.local_database.datasource.declaration.LocalMyPageDataSource
-import com.example.local_database.datasource.declaration.LocalNoticeDataSource
-import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.datasource.implementation.LocalMealDataSourceImpl
-import com.example.local_database.datasource.implementation.LocalMyPageDataSourceImpl
-import com.example.local_database.datasource.implementation.LocalNoticeDataSourceImpl
-import com.example.local_database.datasource.implementation.LocalUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.local_database.datasource.declaration.LocalMealDataSource
+import team.aliens.local_database.datasource.declaration.LocalMyPageDataSource
+import team.aliens.local_database.datasource.declaration.LocalNoticeDataSource
+import team.aliens.local_database.datasource.declaration.LocalUserDataSource
+import team.aliens.local_database.datasource.implementation.LocalMealDataSourceImpl
+import team.aliens.local_database.datasource.implementation.LocalMyPageDataSourceImpl
+import team.aliens.local_database.datasource.implementation.LocalNoticeDataSourceImpl
+import team.aliens.local_database.datasource.implementation.LocalUserDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,21 +19,21 @@ abstract class LocalDataSourceModule {
 
     @Binds
     abstract fun provideLocalUserDataSource(
-        localUserDataSourceImpl: LocalUserDataSourceImpl
+        localUserDataSourceImpl: LocalUserDataSourceImpl,
     ): LocalUserDataSource
 
     @Binds
     abstract fun provideLocalMealDataSource(
-        localMealDataSourceImpl: LocalMealDataSourceImpl
+        localMealDataSourceImpl: LocalMealDataSourceImpl,
     ): LocalMealDataSource
 
     @Binds
     abstract fun provideLocalNoticeDataSource(
-        localNoticeDataSourceImpl: LocalNoticeDataSourceImpl
+        localNoticeDataSourceImpl: LocalNoticeDataSourceImpl,
     ): LocalNoticeDataSource
 
     @Binds
     abstract fun provideLocalMyPageDataSource(
-        localMyPageDataSourceImpl: LocalMyPageDataSourceImpl
+        localMyPageDataSourceImpl: LocalMyPageDataSourceImpl,
     ): LocalMyPageDataSource
 }

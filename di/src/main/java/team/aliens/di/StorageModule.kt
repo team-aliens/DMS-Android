@@ -1,13 +1,13 @@
 package team.aliens.di
 
-import com.example.local_database.storage.declaration.MyPageDataStorage
-import com.example.local_database.storage.declaration.UserDataStorage
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl
-import com.example.local_database.storage.implementation.UserDataStorageImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.local_database.storage.declaration.MyPageDataStorage
+import team.aliens.local_database.storage.declaration.UserDataStorage
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -15,11 +15,11 @@ abstract class StorageModule {
 
     @Binds
     abstract fun provideUserDataStorage(
-        userDataStorageImpl: UserDataStorageImpl
+        userDataStorageImpl: UserDataStorageImpl,
     ): UserDataStorage
 
     @Binds
     abstract fun provideMyPageDataStorage(
-        myPageDataStorageImpl: MyPageDataStorageImpl
+        myPageDataStorageImpl: MyPageDataStorageImpl,
     ): MyPageDataStorage
 }

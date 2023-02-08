@@ -1,31 +1,19 @@
 package team.aliens.di
 
-import com.example.data.repository.MealRepositoryImpl
-import com.example.data.repository.MyPageRepositoryImpl
-import com.example.data.repository.NoticeRepositoryImpl
-import com.example.data.repository.SchoolsRepositoryImpl
-import com.example.data.repository.StudentsRepositoryImpl
-import com.example.data.repository.StudyRoomRepositoryImpl
-import com.example.data.repository.UserRepositoryImpl
-import com.example.domain.repository.MealRepository
-import com.example.domain.repository.MyPageRepository
-import com.example.domain.repository.NoticeRepository
-import com.example.domain.repository.SchoolsRepository
-import com.example.domain.repository.StudentsRepository
-import com.example.domain.repository.StudyRoomRepository
-import com.example.domain.repository.UserRepository
-import com.example.local_database.repository.LocalUserRepositoryImpl
-import com.example.local_database.repository.meal.LocalMealRepositoryImpl
-import com.example.local_database.repository.mypage.LocalMyPageRepositoryImpl
-import com.example.local_database.repository.notice.LocalNoticeRepositoryImpl
-import com.example.local_domain.repository.LocalUserRepository
-import com.example.local_domain.repository.meal.LocalMealRepository
-import com.example.local_domain.repository.mypage.LocalMyPageRepository
-import com.example.local_domain.repository.notice.LocalNoticeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.data.repository.*
+import team.aliens.domain.repository.*
+import team.aliens.local_database.repository.LocalUserRepositoryImpl
+import team.aliens.local_database.repository.meal.LocalMealRepositoryImpl
+import team.aliens.local_database.repository.mypage.LocalMyPageRepositoryImpl
+import team.aliens.local_database.repository.notice.LocalNoticeRepositoryImpl
+import team.aliens.local_domain.repository.LocalUserRepository
+import team.aliens.local_domain.repository.meal.LocalMealRepository
+import team.aliens.local_domain.repository.mypage.LocalMyPageRepository
+import team.aliens.local_domain.repository.notice.LocalNoticeRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,56 +21,56 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun providesRemoteStudentsRepository(
-        studentsRepositoryImpl: StudentsRepositoryImpl
+        studentsRepositoryImpl: StudentsRepositoryImpl,
     ): StudentsRepository
 
     @Binds
     abstract fun providesRemoteUserRepository(
-        userRepositoryImpl: UserRepositoryImpl
+        userRepositoryImpl: UserRepositoryImpl,
     ): UserRepository
 
     @Binds
     abstract fun provideRemoteMealRepository(
-        mealRepositoryImpl: MealRepositoryImpl
+        mealRepositoryImpl: MealRepositoryImpl,
     ): MealRepository
 
     @Binds
     abstract fun provideRemoteNoticeRepository(
-        noticeRepositoryImpl: NoticeRepositoryImpl
+        noticeRepositoryImpl: NoticeRepositoryImpl,
     ): NoticeRepository
-    
+
     @Binds
     abstract fun provideRemoteSchoolsRepository(
-        schoolsRepositoryImpl: SchoolsRepositoryImpl
+        schoolsRepositoryImpl: SchoolsRepositoryImpl,
     ): SchoolsRepository
 
     @Binds
     abstract fun provideRemoteMyPageRepository(
-        myPageRepositoryImpl: MyPageRepositoryImpl
+        myPageRepositoryImpl: MyPageRepositoryImpl,
     ): MyPageRepository
 
     @Binds
     abstract fun provideRemoteStudyRoomRepository(
-        studyRoomRepositoryImpl: StudyRoomRepositoryImpl
+        studyRoomRepositoryImpl: StudyRoomRepositoryImpl,
     ): StudyRoomRepository
 
     @Binds
     abstract fun provideLocalUserRepository(
-        localUserRepositoryImpl: LocalUserRepositoryImpl
+        localUserRepositoryImpl: LocalUserRepositoryImpl,
     ): LocalUserRepository
 
     @Binds
     abstract fun provideLocalMealRepository(
-        localMealRepositoryImpl: LocalMealRepositoryImpl
+        localMealRepositoryImpl: LocalMealRepositoryImpl,
     ): LocalMealRepository
 
     @Binds
     abstract fun provideLocalNoticeRepository(
-        localNoticeRepositoryImpl: LocalNoticeRepositoryImpl
+        localNoticeRepositoryImpl: LocalNoticeRepositoryImpl,
     ): LocalNoticeRepository
 
     @Binds
     abstract fun provideLocalMyPageRepository(
-        localMyPageRepositoryImpl: LocalMyPageRepositoryImpl
+        localMyPageRepositoryImpl: LocalMyPageRepositoryImpl,
     ): LocalMyPageRepository
 }
