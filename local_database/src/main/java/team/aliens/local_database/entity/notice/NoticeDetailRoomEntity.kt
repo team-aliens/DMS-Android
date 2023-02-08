@@ -2,9 +2,9 @@ package team.aliens.local_database.entity.notice
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.local_database.tablename.TableName
-import com.example.local_domain.entity.notice.NoticeDetailLocalEntity
-import java.util.UUID
+import team.aliens.local_database.tablename.TableName
+import team.aliens.local_domain.entity.notice.NoticeDetailLocalEntity
+import java.util.*
 
 @Entity(tableName = TableName.Notice.NOTICE_DETAIL)
 data class NoticeDetailRoomEntity(
@@ -16,8 +16,4 @@ data class NoticeDetailRoomEntity(
 )
 
 fun NoticeDetailRoomEntity.toEntity() =
-    NoticeDetailLocalEntity(
-        title = title,
-        content = content,
-        createAt = createAt
-    )
+    NoticeDetailLocalEntity(title = title, content = content, createAt = createAt)

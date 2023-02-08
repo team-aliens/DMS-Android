@@ -1,6 +1,6 @@
 package team.aliens.local_database.param
 
-import com.example.local_domain.param.FeaturesVisibleParam
+import team.aliens.local_domain.param.FeaturesVisibleParam
 
 data class FeaturesParam(
     val mealService: Boolean,
@@ -8,9 +8,8 @@ data class FeaturesParam(
     val pointService: Boolean,
 )
 
-fun FeaturesParam.toDbEntity() =
-    FeaturesVisibleParam(
-        mealService = mealService,
-        noticeService = noticeService,
-        pointService = pointService,
-    )
+fun FeaturesParam.toDbEntity() = FeaturesVisibleParam(
+    mealService = mealService,
+    noticeService = noticeService,
+    pointService = pointService,
+)

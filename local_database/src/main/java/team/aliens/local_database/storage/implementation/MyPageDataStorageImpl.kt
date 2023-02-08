@@ -3,17 +3,17 @@ package team.aliens.local_database.storage.implementation
 import android.annotation.SuppressLint
 import android.content.Context
 import android.preference.PreferenceManager
-import com.example.local_database.param.mypage.MyPageLocalParam
-import com.example.local_database.storage.declaration.MyPageDataStorage
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.BONUS
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.GCN
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.MINUS
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.PHRASE
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.PROFILE
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.SCHOOL_NAME
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.TOTAL_POINT
-import com.example.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.USER_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
+import team.aliens.local_database.param.mypage.MyPageLocalParam
+import team.aliens.local_database.storage.declaration.MyPageDataStorage
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.BONUS
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.GCN
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.MINUS
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.PHRASE
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.PROFILE
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.SCHOOL_NAME
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.TOTAL_POINT
+import team.aliens.local_database.storage.implementation.MyPageDataStorageImpl.MyPageValue.USER_NAME
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
@@ -23,10 +23,8 @@ class MyPageDataStorageImpl @Inject constructor(
 ) : MyPageDataStorage {
 
     override suspend fun saveMyPage(myPageLocalParam: MyPageLocalParam) {
-        getSharedPreference().edit()
-            .putString(SCHOOL_NAME, myPageLocalParam.schoolName)
-            .putString(USER_NAME, myPageLocalParam.name)
-            .putString(GCN, myPageLocalParam.gcn)
+        getSharedPreference().edit().putString(SCHOOL_NAME, myPageLocalParam.schoolName)
+            .putString(USER_NAME, myPageLocalParam.name).putString(GCN, myPageLocalParam.gcn)
             .putString(PROFILE, myPageLocalParam.profileImageUrl)
             .putInt(BONUS.toString(), myPageLocalParam.bonusPoint)
             .putInt(MINUS.toString(), myPageLocalParam.minusPoint)
@@ -36,35 +34,27 @@ class MyPageDataStorageImpl @Inject constructor(
     override suspend fun fetchSchoolName(): String =
         getSharedPreference().getString(SCHOOL_NAME, "")!!
 
-    override suspend fun fetchName(): String =
-        getSharedPreference().getString(USER_NAME, "")!!
+    override suspend fun fetchName(): String = getSharedPreference().getString(USER_NAME, "")!!
 
-    override suspend fun fetchGcn(): String =
-        getSharedPreference().getString(GCN, "")!!
+    override suspend fun fetchGcn(): String = getSharedPreference().getString(GCN, "")!!
 
-    override suspend fun fetchProfile(): String =
-        getSharedPreference().getString(PROFILE, "")!!
+    override suspend fun fetchProfile(): String = getSharedPreference().getString(PROFILE, "")!!
 
-    override suspend fun fetchBonusPoint(): Int =
-        getSharedPreference().getInt(BONUS.toString(), 0)
+    override suspend fun fetchBonusPoint(): Int = getSharedPreference().getInt(BONUS.toString(), 0)
 
-    override suspend fun fetchMinusPoint(): Int =
-        getSharedPreference().getInt(MINUS.toString(), 0)
+    override suspend fun fetchMinusPoint(): Int = getSharedPreference().getInt(MINUS.toString(), 0)
 
-    override suspend fun fetchPhrase(): String =
-        getSharedPreference().getString(PHRASE, "")!!
+    override suspend fun fetchPhrase(): String = getSharedPreference().getString(PHRASE, "")!!
 
     override suspend fun saveTotalPoint(totalPoint: Int) {
-        getSharedPreference().edit()
-            .putInt(TOTAL_POINT.toString(), totalPoint)
+        getSharedPreference().edit().putInt(TOTAL_POINT.toString(), totalPoint)
     }
 
     override suspend fun fetchTotalPoint(): Int =
         getSharedPreference().getInt(TOTAL_POINT.toString(), 0)
 
     //TODO("SharedPreference 성능 개선 필요")
-    private fun getSharedPreference() =
-        PreferenceManager.getDefaultSharedPreferences(context)
+    private fun getSharedPreference() = PreferenceManager.getDefaultSharedPreferences(context)
 
     private object MyPageValue {
         const val SCHOOL_NAME = "SCHOOL_NAME"

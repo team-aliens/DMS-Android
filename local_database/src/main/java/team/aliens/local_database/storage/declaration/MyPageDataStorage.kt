@@ -1,6 +1,6 @@
 package team.aliens.local_database.storage.declaration
 
-import com.example.local_database.param.mypage.MyPageLocalParam
+import team.aliens.local_database.param.mypage.MyPageLocalParam
 
 interface MyPageDataStorage {
 

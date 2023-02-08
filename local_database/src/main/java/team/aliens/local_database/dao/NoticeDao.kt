@@ -4,10 +4,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.local_database.entity.notice.NoticeDetailRoomEntity
-import com.example.local_database.entity.notice.NoticeListRoomEntity
-import com.example.local_database.tablename.TableName
-import java.util.UUID
+import team.aliens.local_database.entity.notice.NoticeDetailRoomEntity
+import team.aliens.local_database.entity.notice.NoticeListRoomEntity
+import team.aliens.local_database.tablename.TableName
+import java.util.*
 
 @Dao
 interface NoticeDao {

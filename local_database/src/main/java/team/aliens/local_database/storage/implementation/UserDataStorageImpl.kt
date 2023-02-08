@@ -4,20 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.example.local_database.param.FeaturesParam
-import com.example.local_database.param.UserPersonalKeyParam
-import com.example.local_database.param.user.UserInfoParam
-import com.example.local_database.storage.declaration.UserDataStorage
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserInfo.ID
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserInfo.PASSWORD
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN_EXPIRED_AT
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.MEAL
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
-import com.example.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
 import dagger.hilt.android.qualifiers.ApplicationContext
+import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserPersonalKeyParam
+import team.aliens.local_database.param.user.UserInfoParam
+import team.aliens.local_database.storage.declaration.UserDataStorage
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserInfo.ID
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserInfo.PASSWORD
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN_EXPIRED_AT
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserVisible.MEAL
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
 import javax.inject.Inject
 
 class UserDataStorageImpl @Inject constructor(
@@ -27,29 +27,23 @@ class UserDataStorageImpl @Inject constructor(
     @SuppressLint("CommitPrefEdits")
     override fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
         setString(context, ACCESS_TOKEN, personalKeyParam.accessToken)
-        setString(
-            context,
+        setString(context,
             ACCESS_TOKEN_EXPIRED_AT,
-            personalKeyParam.accessTokenExpiredAt.toString()
-        )
+            personalKeyParam.accessTokenExpiredAt.toString())
         setString(context, REFRESH_TOKEN, personalKeyParam.refreshToken)
-        setString(
-            context,
+        setString(context,
             REFRESH_TOKEN_EXPIRED_AT,
-            personalKeyParam.refreshTokenExpiredAt.toString()
-        )
+            personalKeyParam.refreshTokenExpiredAt.toString())
     }
 
-    override fun fetchAccessToken(): String =
-        getString(context, ACCESS_TOKEN)!!
+    override fun fetchAccessToken(): String = getString(context, ACCESS_TOKEN)!!
 
     override fun fetchAccessTokenExpiredAt(): String {
-        Log.d("123123", getString(context, ACCESS_TOKEN_EXPIRED_AT)!!   )
+        Log.d("123123", getString(context, ACCESS_TOKEN_EXPIRED_AT)!!)
         return getString(context, ACCESS_TOKEN_EXPIRED_AT)!!
     }
 
-    override fun fetchRefreshToken(): String =
-        getString(context, REFRESH_TOKEN)!!
+    override fun fetchRefreshToken(): String = getString(context, REFRESH_TOKEN)!!
 
     override fun fetchRefreshTokenExpiredAt(): String =
         getString(context, REFRESH_TOKEN_EXPIRED_AT)!!
@@ -62,31 +56,26 @@ class UserDataStorageImpl @Inject constructor(
     }
 
     override fun setUserVisible(featuresParam: FeaturesParam) {
-            setBoolean(context, MEAL, featuresParam.mealService)
-            setBoolean(context, NOTICE, featuresParam.noticeService)
-            setBoolean(context, POINT, featuresParam.pointService)
+        setBoolean(context, MEAL, featuresParam.mealService)
+        setBoolean(context, NOTICE, featuresParam.noticeService)
+        setBoolean(context, POINT, featuresParam.pointService)
     }
 
-    override fun fetchMealServiceBoolean(): Boolean =
-        getBoolean(context, MEAL)
+    override fun fetchMealServiceBoolean(): Boolean = getBoolean(context, MEAL)
 
-    override fun fetchNoticeServiceBoolean(): Boolean =
-        getBoolean(context, NOTICE)
+    override fun fetchNoticeServiceBoolean(): Boolean = getBoolean(context, NOTICE)
 
-    override fun fetchPointServiceBoolean(): Boolean =
-        getBoolean(context, POINT)
+    override fun fetchPointServiceBoolean(): Boolean = getBoolean(context, POINT)
 
     override fun setUserInfo(userInfoParam: UserInfoParam) {
         setString(context, ID, userInfoParam.id)
         setString(context, PASSWORD, userInfoParam.password)
     }
 
-    override fun fetchId(): String =
-        getString(context, ID)!!
+    override fun fetchId(): String = getString(context, ID)!!
 
 
-    override fun fetchPassword(): String =
-        getString(context, PASSWORD)!!
+    override fun fetchPassword(): String = getString(context, PASSWORD)!!
 
 
     private fun getPreferences(key: String?, context: Context): SharedPreferences? {

@@ -3,13 +3,11 @@ package team.aliens.local_database.localutil
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
 
-fun String.toLocalDateTime(): LocalDateTime =
-    LocalDateTime.parse(this, formatter)
+fun String.toLocalDateTime(): LocalDateTime = LocalDateTime.parse(this, formatter)
 
 fun String.toDate(): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
@@ -28,11 +26,9 @@ fun String.toDate(): String {
     } else {
         if (dayDiff <= 0) {
             when (diff) {
-                in 0..60 ->
-                    later = "방금"
+                in 0..60 -> later = "방금"
                 in 61..120 -> later = "1분전"
-                in 121..3600 ->
-                    later = "${diff / 60}분 전"
+                in 121..3600 -> later = "${diff / 60}분 전"
                 in 3601..7200 -> later = "1시간 전"
                 else -> later = "${diff / 3600}시간 전"
             }

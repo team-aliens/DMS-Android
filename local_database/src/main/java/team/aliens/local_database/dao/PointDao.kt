@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.local_database.entity.mypage.PointListRoomEntity
-import com.example.local_database.tablename.TableName
+import team.aliens.local_database.entity.mypage.PointListRoomEntity
+import team.aliens.local_database.tablename.TableName
 
 @Dao
 interface PointDao {

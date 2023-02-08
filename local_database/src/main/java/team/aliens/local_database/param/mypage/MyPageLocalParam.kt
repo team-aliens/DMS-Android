@@ -1,6 +1,6 @@
 package team.aliens.local_database.param.mypage
 
-import com.example.local_domain.param.MyPageParam
+import team.aliens.local_domain.param.MyPageParam
 
 data class MyPageLocalParam(
     val schoolName: String,
@@ -12,13 +12,12 @@ data class MyPageLocalParam(
     val phrase: String,
 )
 
-fun MyPageLocalParam.toParam() =
-    MyPageParam(
-        schoolName = schoolName,
-        name = name,
-        gcn = gcn,
-        profileImageUrl = profileImageUrl,
-        bonusPoint = bonusPoint,
-        minusPoint = minusPoint,
-        phrase = phrase,
-    )
+fun MyPageLocalParam.toParam() = MyPageParam(
+    schoolName = schoolName,
+    name = name,
+    gcn = gcn,
+    profileImageUrl = profileImageUrl,
+    bonusPoint = bonusPoint,
+    minusPoint = minusPoint,
+    phrase = phrase,
+)

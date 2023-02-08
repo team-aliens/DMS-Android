@@ -2,9 +2,9 @@ package team.aliens.local_database.entity.mypage
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.local_database.tablename.TableName
-import com.example.local_domain.entity.mypage.PointListValueEntity
-import java.util.UUID
+import team.aliens.local_database.tablename.TableName
+import team.aliens.local_domain.entity.mypage.PointListValueEntity
+import java.util.*
 
 @Entity(tableName = TableName.POINT)
 data class PointListRoomEntity(
@@ -16,11 +16,10 @@ data class PointListRoomEntity(
     var score: Int,
 )
 
-internal fun PointListRoomEntity.toEntity() =
-    PointListValueEntity(
-        pointId = pointId,
-        date = date,
-        pointLocalType = pointLocalType,
-        name = name,
-        score = score,
-    )
+internal fun PointListRoomEntity.toEntity() = PointListValueEntity(
+    pointId = pointId,
+    date = date,
+    pointLocalType = pointLocalType,
+    name = name,
+    score = score,
+)

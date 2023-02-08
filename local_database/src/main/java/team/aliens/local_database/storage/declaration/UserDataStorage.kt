@@ -1,8 +1,8 @@
 package team.aliens.local_database.storage.declaration
 
-import com.example.local_database.param.FeaturesParam
-import com.example.local_database.param.UserPersonalKeyParam
-import com.example.local_database.param.user.UserInfoParam
+import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserPersonalKeyParam
+import team.aliens.local_database.param.user.UserInfoParam
 
 interface UserDataStorage {
 
