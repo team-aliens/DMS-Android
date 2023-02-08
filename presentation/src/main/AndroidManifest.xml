@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".DMSApplication"
+        android:name="team.aliens.dms_android.DMSApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
@@ -17,7 +17,7 @@
         android:theme="@style/Theme.DMS_Android"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".feature.HomeActivity"
+            android:name="team.aliens.dms_android.feature.MainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -25,13 +25,10 @@
         </activity>
 
         <activity
-            android:name=".feature.RegisterActivity"
+            android:name="team.aliens.dms_android.feature.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".feature.splash.SplashActivity"
+            android:name="team.aliens.dms_android.feature.splash.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DMS_Android.NoActionBar">
