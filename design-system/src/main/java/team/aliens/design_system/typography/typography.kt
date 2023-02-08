@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.design_system.R
+import team.aliens.design_system.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 

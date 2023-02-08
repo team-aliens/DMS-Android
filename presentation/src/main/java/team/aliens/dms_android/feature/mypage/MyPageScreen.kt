@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.dms_android.R
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.typography.Body5
@@ -33,6 +32,7 @@ import team.aliens.dms_android.component.changeBottomSheetState
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
 import team.aliens.domain.enums.BottomSheetType
+import team.aliens.presentation.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

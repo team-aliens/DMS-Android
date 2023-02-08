@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.dms_android.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
@@ -24,6 +23,7 @@ import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.domain.util.toDate
+import team.aliens.presentation.R
 
 @SuppressLint("RememberReturnType")
 @Composable

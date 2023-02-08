@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.navigator
 
-import com.example.dms_android.R
+import team.aliens.presentation.R
 
 sealed class BottomNavigationItem(var route: String, var iconResId: Int, var title: String) {
     object Meal :

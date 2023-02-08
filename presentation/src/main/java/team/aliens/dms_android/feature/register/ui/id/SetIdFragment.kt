@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
@@ -20,7 +19,6 @@ import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentSetIdBinding
 import java.util.*
 
-@AndroidEntryPoint
 class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_id) {
     private val setIdViewModel: SetIdViewModel by viewModels()
 

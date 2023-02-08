@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.dms_android.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.Notice
 import team.aliens.design_system.component.NoticeList
@@ -24,6 +23,7 @@ import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.domain.entity.notice.NoticeListEntity
 import team.aliens.domain.enums.NoticeListSCType
 import team.aliens.domain.util.toDate
+import team.aliens.presentation.R
 
 fun NoticeListEntity.NoticeValue.toNotice() = Notice(
     noticeId = this.id.toString(),

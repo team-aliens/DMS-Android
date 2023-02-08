@@ -10,7 +10,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.dms_android.R
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
@@ -18,6 +17,7 @@ import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.util.TopBar
+import team.aliens.presentation.R
 
 @Composable
 fun MyPageChangePasswordScreen() {

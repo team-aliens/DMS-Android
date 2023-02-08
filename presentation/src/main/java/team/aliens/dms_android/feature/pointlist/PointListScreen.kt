@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.dms_android.R
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormOutlineLargeButton
@@ -21,6 +20,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
+import team.aliens.presentation.R
 
 fun PointListEntity.PointValue.toNotice() =
     PointValue(date = date, content = name, point = score, pointType = pointType)

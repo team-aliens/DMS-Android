@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.dms_android.R
-import com.example.dms_android.databinding.RegisterCustomButtonBinding
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.RegisterCustomButtonBinding
 
 class RegisterCustomButton @JvmOverloads constructor(
     context: Context,

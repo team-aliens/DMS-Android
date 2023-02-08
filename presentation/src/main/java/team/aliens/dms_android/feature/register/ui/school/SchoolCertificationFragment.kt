@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
@@ -15,7 +14,6 @@ import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeV
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentSchoolCertificationBinding
 
-@AndroidEntryPoint
 class SchoolCertificationFragment :
     BaseFragment<FragmentSchoolCertificationBinding>(R.layout.fragment_school_certification) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()

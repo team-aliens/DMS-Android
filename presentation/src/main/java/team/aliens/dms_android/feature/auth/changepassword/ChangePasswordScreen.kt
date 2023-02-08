@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.dms_android.R
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
@@ -25,6 +24,7 @@ import team.aliens.design_system.typography.Body4
 import team.aliens.dms_android.util.EventFlow
 import team.aliens.dms_android.util.observeWithLifecycle
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
+import team.aliens.presentation.R
 
 @Composable
 fun ChangePasswordScreen(
@@ -61,45 +61,33 @@ private fun HandleViewEffect(
             }
 
             is ChangePasswordEvent.BadRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = badRequestComment,
-                    duration = SnackbarDuration.Short
-                )
+                scaffoldState.snackbarHostState.showSnackbar(message = badRequestComment,
+                    duration = SnackbarDuration.Short)
             }
 
             is ChangePasswordEvent.UnAuthorizedException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = unAuthorizedComment,
-                    duration = SnackbarDuration.Short
-                )
+                scaffoldState.snackbarHostState.showSnackbar(message = unAuthorizedComment,
+                    duration = SnackbarDuration.Short)
             }
 
             is ChangePasswordEvent.NotFoundException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = notFoundComment,
-                    duration = SnackbarDuration.Short
-                )
+                scaffoldState.snackbarHostState.showSnackbar(message = notFoundComment,
+                    duration = SnackbarDuration.Short)
             }
 
             is ChangePasswordEvent.TooManyRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = tooManyRequestComment,
-                    duration = SnackbarDuration.Short
-                )
+                scaffoldState.snackbarHostState.showSnackbar(message = tooManyRequestComment,
+                    duration = SnackbarDuration.Short)
             }
 
             is ChangePasswordEvent.InternalServerException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = serverException,
-                    duration = SnackbarDuration.Short
-                )
+                scaffoldState.snackbarHostState.showSnackbar(message = serverException,
+                    duration = SnackbarDuration.Short)
             }
 
             is ChangePasswordEvent.UnKnownException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = unKnownException,
-                    duration = SnackbarDuration.Short
-                )
+                scaffoldState.snackbarHostState.showSnackbar(message = unKnownException,
+                    duration = SnackbarDuration.Short)
             }
 
             else -> {}
@@ -123,16 +111,12 @@ fun MainValue() {
         contentAlignment = Alignment.TopStart,
     ) {
         Column(
-            modifier = Modifier
-                .padding(start = 16.dp),
+            modifier = Modifier.padding(start = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Image(
                 modifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                        bottom = 12.dp
-                    )
+                    .padding(top = 16.dp, bottom = 12.dp)
                     .height(24.dp)
                     .width(24.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
@@ -140,19 +124,13 @@ fun MainValue() {
             )
             Image(
                 modifier = Modifier
-                    .padding(
-                        top = 32.dp,
-                        bottom = 7.dp
-                    )
+                    .padding(top = 32.dp, bottom = 7.dp)
                     .height(85.dp)
                     .width(85.dp),
                 painter = painterResource(id = R.drawable.ic_information_toast),
                 contentDescription = "MainLogo",
             )
-            Spacer(
-                modifier = Modifier
-                    .height(1.dp)
-            )
+            Spacer(modifier = Modifier.height(1.dp))
             Body4(
                 text = "새 비밀번호 설정",
                 color = DormColor.Gray600,
@@ -168,12 +146,11 @@ fun PasswordTextField() {
     var passwordCheckValue by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
-            .padding(
-                start = 16.dp,
-                top = 90.dp,
-                end = 16.dp,
-            ),
+        modifier = Modifier.padding(
+            start = 16.dp,
+            top = 90.dp,
+            end = 16.dp,
+        ),
     ) {
         DormTextField(
             value = passwordValue,
@@ -183,10 +160,7 @@ fun PasswordTextField() {
             isPassword = true,
             hint = stringResource(id = R.string.ScanNewPassword),
         )
-        Spacer(
-            modifier = Modifier
-                .height(37.dp)
-        )
+        Spacer(modifier = Modifier.height(37.dp))
         DormTextField(
             value = passwordCheckValue,
             onValueChange = {

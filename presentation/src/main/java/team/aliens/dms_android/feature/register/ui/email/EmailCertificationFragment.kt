@@ -7,17 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.example.dms_android.R
-import com.example.dms_android.databinding.FragmentEmailCertificationBinding
-import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.feature.register.ui.id.SetIdFragment
 import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.FragmentEmailCertificationBinding
 
-@AndroidEntryPoint
 class EmailCertificationFragment :
     BaseFragment<FragmentEmailCertificationBinding>(R.layout.fragment_email_certification) {
     private val registerEmailViewModel: RegisterEmailViewModel by viewModels()
