@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.local_database.entity.studyroom.FetchApplyTimeRoomEntity
+import team.aliens.local_database.entity.studyroom.FetchApplyTimeRoomEntity
 
 @Dao
 interface StudyRoomDao {

@@ -1,6 +1,7 @@
 package team.aliens.local_database.repository.notice
 
 import team.aliens.local_database.datasource.declaration.LocalNoticeDataSource
+import team.aliens.local_database.entity.notice.toEntity
 import team.aliens.local_domain.entity.notice.NoticeDetailLocalEntity
 import team.aliens.local_domain.entity.notice.NoticeListLocalEntity
 import team.aliens.local_domain.repository.notice.LocalNoticeRepository

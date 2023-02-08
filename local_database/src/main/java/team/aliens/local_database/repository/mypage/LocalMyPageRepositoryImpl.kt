@@ -1,6 +1,8 @@
 package team.aliens.local_database.repository.mypage
 
 import team.aliens.local_database.datasource.declaration.LocalMyPageDataSource
+import team.aliens.local_database.entity.mypage.toEntity
+import team.aliens.local_database.param.mypage.toParam
 import team.aliens.local_domain.entity.mypage.PointListValueEntity
 import team.aliens.local_domain.param.MyPageParam
 import team.aliens.local_domain.repository.mypage.LocalMyPageRepository

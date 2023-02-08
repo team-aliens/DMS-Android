@@ -1,8 +1,8 @@
 package team.aliens.local_database.datasource.implementation
 
-import com.example.local_database.dao.StudyRoomDao
-import com.example.local_database.datasource.declaration.LocalStudyRoomDataSource
-import com.example.local_database.entity.studyroom.FetchApplyTimeRoomEntity
+import team.aliens.local_database.dao.StudyRoomDao
+import team.aliens.local_database.datasource.declaration.LocalStudyRoomDataSource
+import team.aliens.local_database.entity.studyroom.FetchApplyTimeRoomEntity
 import javax.inject.Inject
 
 class LocalStudyRoomDataSourceImpl @Inject constructor(

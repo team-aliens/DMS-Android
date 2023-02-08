@@ -1,7 +1,7 @@
 package team.aliens.local_database.datasource.declaration
 
-import com.example.local_database.entity.notice.NoticeDetailRoomEntity
-import com.example.local_database.entity.notice.NoticeListRoomEntity
+import team.aliens.local_database.entity.notice.NoticeDetailRoomEntity
+import team.aliens.local_database.entity.notice.NoticeListRoomEntity
 import java.util.UUID
 
 interface LocalNoticeDataSource {

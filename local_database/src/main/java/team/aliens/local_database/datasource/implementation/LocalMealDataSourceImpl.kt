@@ -1,9 +1,9 @@
 package team.aliens.local_database.datasource.implementation
 
 import android.util.Log
-import com.example.local_database.dao.MealDao
-import com.example.local_database.datasource.declaration.LocalMealDataSource
-import com.example.local_database.entity.meal.MealRoomEntity
+import team.aliens.local_database.dao.MealDao
+import team.aliens.local_database.datasource.declaration.LocalMealDataSource
+import team.aliens.local_database.entity.meal.MealRoomEntity
 import javax.inject.Inject
 
 class LocalMealDataSourceImpl @Inject constructor(

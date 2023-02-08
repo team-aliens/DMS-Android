@@ -1,10 +1,10 @@
 package team.aliens.local_database.datasource.implementation
 
-import com.example.local_database.dao.PointDao
-import com.example.local_database.datasource.declaration.LocalMyPageDataSource
-import com.example.local_database.entity.mypage.PointListRoomEntity
-import com.example.local_database.param.mypage.MyPageLocalParam
-import com.example.local_database.storage.declaration.MyPageDataStorage
+import team.aliens.local_database.dao.PointDao
+import team.aliens.local_database.datasource.declaration.LocalMyPageDataSource
+import team.aliens.local_database.entity.mypage.PointListRoomEntity
+import team.aliens.local_database.param.mypage.MyPageLocalParam
+import team.aliens.local_database.storage.declaration.MyPageDataStorage
 import javax.inject.Inject
 
 class LocalMyPageDataSourceImpl @Inject constructor(

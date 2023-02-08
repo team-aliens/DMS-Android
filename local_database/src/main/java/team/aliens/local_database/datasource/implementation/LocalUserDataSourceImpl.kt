@@ -1,15 +1,16 @@
 package team.aliens.local_database.datasource.implementation
 
-import com.example.local_database.datasource.declaration.LocalUserDataSource
-import com.example.local_database.param.FeaturesParam
-import com.example.local_database.param.UserPersonalKeyParam
-import com.example.local_database.storage.declaration.UserDataStorage
-import com.example.local_database.localutil.toLocalDateTime
-import com.example.local_database.param.user.UserInfoParam
+import team.aliens.local_database.datasource.declaration.LocalUserDataSource
+import team.aliens.local_database.localutil.toLocalDateTime
+import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserPersonalKeyParam
+import team.aliens.local_database.param.user.UserInfoParam
+import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Inject
+
 class LocalUserDataSourceImpl @Inject constructor(
-    private val userDataStorage: UserDataStorage
-): LocalUserDataSource {
+    private val userDataStorage: UserDataStorage,
+) : LocalUserDataSource {
 
     override suspend fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
         userDataStorage.setPersonalKey(personalKeyParam)

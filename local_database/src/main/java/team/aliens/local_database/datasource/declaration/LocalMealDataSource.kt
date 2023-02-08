@@ -1,6 +1,6 @@
 package team.aliens.local_database.datasource.declaration
 
-import com.example.local_database.entity.meal.MealRoomEntity
+import team.aliens.local_database.entity.meal.MealRoomEntity
 
 interface LocalMealDataSource {
 

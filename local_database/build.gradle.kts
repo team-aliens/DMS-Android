@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
-    implementation (Dependency.GSON.GSON)
+    implementation(Dependency.GSON.GSON)
 
     implementation(Dependency.Ui.LOCALDATETIME)
     implementation(Dependency.Moshi.MOSHI)

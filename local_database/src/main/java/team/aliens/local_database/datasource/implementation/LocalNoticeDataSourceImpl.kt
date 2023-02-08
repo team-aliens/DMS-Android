@@ -1,9 +1,9 @@
 package team.aliens.local_database.datasource.implementation
 
-import com.example.local_database.dao.NoticeDao
-import com.example.local_database.datasource.declaration.LocalNoticeDataSource
-import com.example.local_database.entity.notice.NoticeDetailRoomEntity
-import com.example.local_database.entity.notice.NoticeListRoomEntity
+import team.aliens.local_database.dao.NoticeDao
+import team.aliens.local_database.datasource.declaration.LocalNoticeDataSource
+import team.aliens.local_database.entity.notice.NoticeDetailRoomEntity
+import team.aliens.local_database.entity.notice.NoticeListRoomEntity
 import java.util.UUID
 import javax.inject.Inject
 

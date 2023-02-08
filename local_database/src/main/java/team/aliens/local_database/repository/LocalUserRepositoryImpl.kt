@@ -2,6 +2,7 @@ package team.aliens.local_database.repository
 
 import team.aliens.local_database.datasource.declaration.LocalUserDataSource
 import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.toDbEntity
 import team.aliens.local_domain.param.FeaturesVisibleParam
 import team.aliens.local_domain.repository.LocalUserRepository
 import javax.inject.Inject
