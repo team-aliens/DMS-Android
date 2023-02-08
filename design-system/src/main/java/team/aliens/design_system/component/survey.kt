@@ -63,18 +63,23 @@ private fun Survey(
     onClick: (Int) -> Unit,
 ) {
     Box(
-        modifier = Modifier.background(
-            color = DormColor.Gray100,
-            shape = RoundedCornerShape(6.dp),
-        ).fillMaxWidth().height(148.dp).dormShadow(
-            color = DormColor.Gray100,
-            offsetX = 1.dp,
-            offsetY = 1.dp,
-        ).dormClickable(
-            rippleEnabled = true,
-        ) {
-            onClick(index)
-        },
+        modifier = Modifier
+            .background(
+                color = DormColor.Gray100,
+                shape = RoundedCornerShape(6.dp),
+            )
+            .fillMaxWidth()
+            .height(148.dp)
+            .dormShadow(
+                color = DormColor.Gray100,
+                offsetX = 1.dp,
+                offsetY = 1.dp,
+            )
+            .dormClickable(
+                rippleEnabled = true,
+            ) {
+                onClick(index)
+            },
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(

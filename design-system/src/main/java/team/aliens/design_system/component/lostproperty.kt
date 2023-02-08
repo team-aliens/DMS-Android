@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 
@@ -70,18 +71,23 @@ private fun LostProperty(
     onClick: (Int) -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().height(LostPropertyHeight).background(
-            color = DormColor.Gray100,
-            shape = LostPropertyShape,
-        ).dormClickable(
-            rippleEnabled = true,
-        ) {
-            onClick(index)
-        }.dormShadow(
-            color = DormColor.Gray400,
-            offsetY = 1.dp,
-            offsetX = 1.dp,
-        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(LostPropertyHeight)
+            .background(
+                color = DormColor.Gray100,
+                shape = LostPropertyShape,
+            )
+            .dormClickable(
+                rippleEnabled = true,
+            ) {
+                onClick(index)
+            }
+            .dormShadow(
+                color = DormColor.Gray400,
+                offsetY = 1.dp,
+                offsetX = 1.dp,
+            ),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
