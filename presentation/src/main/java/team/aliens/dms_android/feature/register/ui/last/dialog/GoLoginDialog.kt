@@ -7,8 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.Window
 import androidx.databinding.DataBindingUtil
-import com.example.dms_android.R
-import com.example.dms_android.databinding.DialogSignUpBinding
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.DialogSignUpBinding
 
 class GoLoginDialog(
     private val context: Context,

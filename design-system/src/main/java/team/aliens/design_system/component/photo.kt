@@ -21,8 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.design_system.R
 import com.skydoves.landscapist.glide.GlideImage
+import team.aliens.design_system.R
 import team.aliens.design_system.animate.HorizontalAnimationBox
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
@@ -82,15 +82,19 @@ private fun Photo(
         contentAlignment = Alignment.TopEnd,
     ) {
         GlideImage(
-            modifier = Modifier.size(DefaultPhotoSize).background(
-                color = Color.Transparent,
-            ).dormClickable(
-                rippleEnabled = true,
-            ) {
-                onClick(index)
-            }.clip(
-                PhotoShape,
-            ),
+            modifier = Modifier
+                .size(DefaultPhotoSize)
+                .background(
+                    color = Color.Transparent,
+                )
+                .dormClickable(
+                    rippleEnabled = true,
+                ) {
+                    onClick(index)
+                }
+                .clip(
+                    PhotoShape,
+                ),
             imageModel = photoUrl,
         )
 
@@ -112,14 +116,17 @@ private fun AddPhoto(
     onClickAddPhoto: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.size(DefaultPhotoSize).background(
-            color = DormColor.Gray300,
-            shape = PhotoShape,
-        ).dormClickable(
-            rippleEnabled = true,
-        ) {
-            onClickAddPhoto()
-        },
+        modifier = Modifier
+            .size(DefaultPhotoSize)
+            .background(
+                color = DormColor.Gray300,
+                shape = PhotoShape,
+            )
+            .dormClickable(
+                rippleEnabled = true,
+            ) {
+                onClickAddPhoto()
+            },
         contentAlignment = Alignment.Center,
     ) {
         Icon(

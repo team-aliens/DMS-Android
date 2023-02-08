@@ -2,21 +2,17 @@ package team.aliens.dms_android.viewmodel.auth.register.school
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.schools.RemoteSchoolAnswerUseCase
-import com.example.domain.usecase.schools.RemoteSchoolQuestionUseCase
-import com.example.dms_android.feature.register.event.school.ConfirmSchoolEvent
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.entity.user.SchoolConfirmQuestionEntity
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.NotFoundException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
-import com.example.domain.param.SchoolAnswerParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
+import team.aliens.dms_android.feature.register.event.school.ConfirmSchoolEvent
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
+import team.aliens.domain.exception.*
+import team.aliens.domain.param.SchoolAnswerParam
+import team.aliens.domain.usecase.schools.RemoteSchoolAnswerUseCase
+import team.aliens.domain.usecase.schools.RemoteSchoolQuestionUseCase
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,12 +29,8 @@ class ConfirmSchoolViewModel @Inject constructor(
     fun compareSchoolAnswer(answer: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteSchoolAnswerUseCase.execute(
-                    SchoolAnswerParam(
-                        schoolId = schoolId,
-                        answer = answer
-                    )
-                )
+                remoteSchoolAnswerUseCase.execute(SchoolAnswerParam(schoolId = schoolId,
+                    answer = answer))
             }.onSuccess {
                 event(ConfirmSchoolEvent.CompareSchoolAnswerSuccess)
             }.onFailure {
@@ -80,7 +72,5 @@ class ConfirmSchoolViewModel @Inject constructor(
     }
 
     private fun SchoolConfirmQuestionEntity.toData() =
-        SchoolConfirmQuestionEntity(
-            question = question
-        )
+        SchoolConfirmQuestionEntity(question = question)
 }

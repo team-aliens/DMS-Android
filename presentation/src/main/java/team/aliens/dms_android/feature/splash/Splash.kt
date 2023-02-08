@@ -13,11 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.dms_android.R
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.typography.SubTitle1
 import team.aliens.dms_android.feature.MainActivity
+import team.aliens.presentation.R
 
 @Composable
 fun Splash() {

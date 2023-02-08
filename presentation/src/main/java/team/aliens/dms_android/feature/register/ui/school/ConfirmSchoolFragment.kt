@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.example.dms_android.R
-import com.example.dms_android.databinding.FragmentConfirmSchoolBinding
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.MainActivity
@@ -22,6 +20,8 @@ import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.util.visible
 import team.aliens.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.FragmentConfirmSchoolBinding
 import java.util.*
 
 @AndroidEntryPoint

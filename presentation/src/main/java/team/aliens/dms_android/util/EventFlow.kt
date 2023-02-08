@@ -25,7 +25,7 @@ interface MutableEventFlow<T> : EventFlow<T>, FlowCollector<T>
 
 @Suppress("FunctionName")
 fun <T> MutableEventFlow(
-    replay: Int = EventFlow.DEFAULT_REPLAY
+    replay: Int = EventFlow.DEFAULT_REPLAY,
 ): MutableEventFlow<T> = EventFlowImpl(replay)
 
 fun <T> MutableEventFlow<T>.asEventFlow(): EventFlow<T> = ReadOnlyEventFlow(this)
@@ -33,17 +33,16 @@ fun <T> MutableEventFlow<T>.asEventFlow(): EventFlow<T> = ReadOnlyEventFlow(this
 private class ReadOnlyEventFlow<T>(flow: EventFlow<T>) : EventFlow<T> by flow
 
 private class EventFlowImpl<T>(
-    replay: Int
+    replay: Int,
 ) : MutableEventFlow<T> {
 
     private val flow: MutableSharedFlow<EventFlowSlot<T>> = MutableSharedFlow(replay = replay)
 
-    override suspend fun collect(collector: FlowCollector<T>) = flow
-        .collect { slot ->
-            if (!slot.markConsumed()) {
-                collector.emit(slot.value)
-            }
+    override suspend fun collect(collector: FlowCollector<T>) = flow.collect { slot ->
+        if (!slot.markConsumed()) {
+            collector.emit(slot.value)
         }
+    }
 
     override suspend fun emit(value: T) {
         flow.emit(EventFlowSlot(value))
@@ -61,7 +60,7 @@ private class EventFlowSlot<T>(val value: T) {
 inline fun <reified T> Flow<T>.observeWithLifecycle(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    noinline action: suspend(T) -> Unit
+    noinline action: suspend (T) -> Unit,
 ) {
     LaunchedEffect(key1 = Unit) {
         lifecycleOwner.lifecycleScope.launch {

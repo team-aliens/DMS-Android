@@ -17,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.dms_android.R
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
@@ -29,6 +28,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.presentation.R
 
 /**
  * 자습실 상세보기 screen

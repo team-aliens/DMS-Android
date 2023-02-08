@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.dms_android.R
-import com.example.dms_android.databinding.FragmentPolicyBinding
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.MainActivity
@@ -18,6 +16,8 @@ import team.aliens.dms_android.feature.register.ui.last.dialog.GoLoginDialog
 import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
 import team.aliens.domain.param.RegisterParam
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.FragmentPolicyBinding
 
 @AndroidEntryPoint
 class PolicyFragment : BaseFragment<FragmentPolicyBinding>(R.layout.fragment_policy) {

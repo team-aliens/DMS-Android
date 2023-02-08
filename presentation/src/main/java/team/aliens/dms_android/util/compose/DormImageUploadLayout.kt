@@ -24,11 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.dms_android.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.dms_android.util.covert.UriUtil
 import team.aliens.dms_android.util.covert.parseBitmap
+import team.aliens.presentation.R
 import java.io.File
 
 private const val TakePhotoError: String = "이미지를 가져오던 중 오류가 발생하였습니다."

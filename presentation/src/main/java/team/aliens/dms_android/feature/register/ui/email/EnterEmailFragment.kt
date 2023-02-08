@@ -6,19 +6,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.dms_android.R
-import com.example.dms_android.databinding.FragmentEnterEmailBinding
-import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.util.emailValidation
 import team.aliens.dms_android.util.visible
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.FragmentEnterEmailBinding
 import java.util.regex.Pattern
 
-@AndroidEntryPoint
-class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
-    R.layout.fragment_enter_email
-) {
+class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(R.layout.fragment_enter_email) {
     private var emailAddress: String = ""
     private var inputData = ""
     private var answer: String = ""
@@ -51,9 +47,7 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
                     binding.btnSendCode.isClickable = true
                     binding.btnSendCode.isEnabled = true
 
-                    binding.btnSendCode.setBackgroundResource(
-                        R.drawable.register_custom_active_btn_background
-                    )
+                    binding.btnSendCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 }
             }
 
@@ -84,19 +78,13 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(
             fragment.arguments = bundle
 
             registerActive.supportFragmentManager.beginTransaction()
-                .replace(R.id.containerRegister, fragment)
-                .addToBackStack("EnterEmail")
-                .commit()
+                .replace(R.id.containerRegister, fragment).addToBackStack("EnterEmail").commit()
         } else {
             binding.tvError.visible()
             binding.btnSendCode.isClickable = false
             binding.btnSendCode.isEnabled = false
-            binding.btnSendCode.setBackgroundResource(
-                R.drawable.register_custom_btn_background
-            )
-            binding.etEnterEmail.setBackgroundResource(
-                R.drawable.register_et_error_background
-            )
+            binding.btnSendCode.setBackgroundResource(R.drawable.register_custom_btn_background)
+            binding.etEnterEmail.setBackgroundResource(R.drawable.register_et_error_background)
         }
     }
 }

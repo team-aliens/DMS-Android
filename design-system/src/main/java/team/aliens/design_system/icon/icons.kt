@@ -3,7 +3,7 @@ package team.aliens.design_system.icon
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import com.example.design_system.R
+import team.aliens.design_system.R
 
 @Immutable
 @JvmInline

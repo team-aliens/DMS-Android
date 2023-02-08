@@ -2,17 +2,17 @@ package team.aliens.dms_android.viewmodel.auth.register.school
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.schools.RemoteSchoolCodeUseCase
-import com.example.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
-import com.example.dms_android.util.MutableEventFlow
-import com.example.dms_android.util.asEventFlow
-import com.example.domain.exception.BadRequestException
-import com.example.domain.exception.ServerException
-import com.example.domain.exception.TooManyRequestException
-import com.example.domain.exception.UnauthorizedException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
+import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.schools.RemoteSchoolCodeUseCase
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel

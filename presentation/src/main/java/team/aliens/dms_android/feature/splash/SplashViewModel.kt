@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val autoLoginUseCase: AutoLoginUseCase
+    private val autoLoginUseCase: AutoLoginUseCase,
 ) : BaseViewModel<SplashState, SplashEvent>() {
 
     private val _eventFlow = MutableEventFlow<Event>()
@@ -25,11 +25,7 @@ class SplashViewModel @Inject constructor(
             autoLoginUseCase.execute(Unit)
         }.onSuccess {
             emitEvent(Event.AutoLoginSuccess)
-            setState(
-                state.value.copy(
-                    route = NavigationRoute.Main
-                )
-            )
+            setState(state.value.copy(route = NavigationRoute.Main))
         }.onFailure {
             emitEvent(Event.NeedLogin)
         }
@@ -52,12 +48,10 @@ class SplashViewModel @Inject constructor(
 }
 
 data class SplashState(
-    var route: String
-): MviState {
+    var route: String,
+) : MviState {
     companion object {
-        fun initial() = SplashState(
-            route = NavigationRoute.Login
-        )
+        fun initial() = SplashState(route = NavigationRoute.Login)
     }
 }
 

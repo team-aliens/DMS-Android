@@ -6,18 +6,17 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.dms_android.base.BaseFragment
-import com.example.dms_android.databinding.FragmentSetPasswordBinding
-import com.example.dms_android.R
-import com.example.dms_android.feature.RegisterActivity
-import com.example.dms_android.feature.register.ui.last.SetProfileImageFragment
-import com.example.dms_android.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import team.aliens.dms_android.base.BaseFragment
+import team.aliens.dms_android.feature.RegisterActivity
+import team.aliens.dms_android.feature.register.ui.last.SetProfileImageFragment
+import team.aliens.dms_android.util.visible
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.FragmentSetPasswordBinding
 
 @AndroidEntryPoint
-class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
-    R.layout.fragment_set_password
-) {
+class SetPasswordFragment :
+    BaseFragment<FragmentSetPasswordBinding>(R.layout.fragment_set_password) {
     private var pwd = ""
     private var rePwd = ""
     private var email: String = ""
@@ -54,8 +53,7 @@ class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
 
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
-            registerActive.supportFragmentManager.beginTransaction()
-                .remove(SetPasswordFragment())
+            registerActive.supportFragmentManager.beginTransaction().remove(SetPasswordFragment())
                 .commit()
         }
 
@@ -79,8 +77,7 @@ class SetPasswordFragment : BaseFragment<FragmentSetPasswordBinding>(
                 fragment.arguments = bundle
 
                 registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, fragment)
-                    .addToBackStack("SetPassword")
+                    .replace(R.id.containerRegister, fragment).addToBackStack("SetPassword")
                     .commit()
             } else {
                 binding.etReEnterPassword.setBackgroundResource(R.drawable.register_et_error_background)

@@ -2,11 +2,11 @@ package team.aliens.dms_android.feature
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import com.example.dms_android.R
-import com.example.dms_android.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseActivity
 import team.aliens.dms_android.feature.navigator.RootDms
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {

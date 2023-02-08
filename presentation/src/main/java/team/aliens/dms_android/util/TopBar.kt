@@ -2,13 +2,7 @@ package team.aliens.dms_android.util
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,11 +10,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.example.design_system.color.DormColor
-import com.example.design_system.icon.DormIcon
-import com.example.design_system.modifier.dormClickable
-import com.example.design_system.typography.SubTitle2
-import com.example.dms_android.R
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.SubTitle2
+import team.aliens.presentation.R
 
 private val IconSize = DpSize(width = 24.dp, height = 24.dp)
 

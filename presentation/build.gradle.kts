@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+
+    namespace = "team.aliens.presentation"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.dms_android.R
-import com.example.dms_android.databinding.FragmentSetIdBinding
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
@@ -18,6 +16,8 @@ import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.util.visible
 import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.domain.entity.user.ExamineGradeEntity
+import team.aliens.presentation.R
+import team.aliens.presentation.databinding.FragmentSetIdBinding
 import java.util.*
 
 @AndroidEntryPoint

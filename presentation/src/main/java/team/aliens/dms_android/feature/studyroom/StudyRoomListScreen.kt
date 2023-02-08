@@ -7,8 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.dms_android.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomContent
 import team.aliens.design_system.modifier.dormShadow
@@ -25,6 +22,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body5
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.presentation.R
 
 fun StudyRoomListEntity.StudyRoom.toNotice() = RoomDataClass(
     roomId = id,

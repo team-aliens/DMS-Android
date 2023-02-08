@@ -12,12 +12,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 suspend fun fetchImage(context: Context): File? = suspendCoroutine {
-    TedImagePicker.with(context)
-        .mediaType(MediaType.IMAGE)
-        .showTitle(false)
-        .cancelListener { it.resume(null) }
-        .errorListener { _ -> it.resume(null) }
-        .start { uri ->
+    TedImagePicker.with(context).mediaType(MediaType.IMAGE).showTitle(false)
+        .cancelListener { it.resume(null) }.errorListener { _ -> it.resume(null) }.start { uri ->
             it.resume(File(getRealPathFromURI(uri, context)!!))
         }
 }
