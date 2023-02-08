@@ -1,6 +1,6 @@
 package team.aliens.local_domain.repository
 
-import com.example.local_domain.param.FeaturesVisibleParam
+import team.aliens.local_domain.param.FeaturesVisibleParam
 
 interface LocalUserRepository {
 

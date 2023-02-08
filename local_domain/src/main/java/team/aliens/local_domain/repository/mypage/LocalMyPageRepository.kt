@@ -1,7 +1,7 @@
 package team.aliens.local_domain.repository.mypage
 
-import com.example.local_domain.entity.mypage.PointListValueEntity
-import com.example.local_domain.param.MyPageParam
+import team.aliens.local_domain.entity.mypage.PointListValueEntity
+import team.aliens.local_domain.param.MyPageParam
 
 interface LocalMyPageRepository {
 

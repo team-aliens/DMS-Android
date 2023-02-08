@@ -1,8 +1,8 @@
 package team.aliens.local_domain.repository.notice
 
-import com.example.local_domain.entity.notice.NoticeDetailLocalEntity
-import com.example.local_domain.entity.notice.NoticeListLocalEntity
-import java.util.UUID
+import team.aliens.local_domain.entity.notice.NoticeDetailLocalEntity
+import team.aliens.local_domain.entity.notice.NoticeListLocalEntity
+import java.util.*
 
 interface LocalNoticeRepository {
 
