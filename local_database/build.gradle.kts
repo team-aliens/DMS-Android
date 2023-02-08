@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.local_database"
+    namespace = "team.aliens.local_database"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {
