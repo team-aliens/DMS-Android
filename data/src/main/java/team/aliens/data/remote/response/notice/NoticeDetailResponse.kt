@@ -1,7 +1,7 @@
 package team.aliens.data.remote.response.notice
 
-import com.example.domain.entity.notice.NoticeDetailEntity
 import com.google.gson.annotations.SerializedName
+import team.aliens.domain.entity.notice.NoticeDetailEntity
 
 data class NoticeDetailResponse(
     @SerializedName("title") val title: String,
@@ -10,9 +10,4 @@ data class NoticeDetailResponse(
 )
 
 fun NoticeDetailResponse.toEntity() =
-    NoticeDetailEntity(
-        noticeId = null,
-        title = title,
-        content = content,
-        createAt = createAt
-    )
+    NoticeDetailEntity(noticeId = null, title = title, content = content, createAt = createAt)

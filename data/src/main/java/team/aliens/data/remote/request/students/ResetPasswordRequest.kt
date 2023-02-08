@@ -7,5 +7,5 @@ data class ResetPasswordRequest(
     @SerializedName("auth_code") val authCode: String,
     @SerializedName("email") val email: String,
     @SerializedName("name") val name: String,
-    @SerializedName("new_password") val newPassword: String
+    @SerializedName("new_password") val newPassword: String,
 )

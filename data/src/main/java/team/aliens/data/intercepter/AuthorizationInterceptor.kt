@@ -1,19 +1,19 @@
 package team.aliens.data.intercepter
 
-import com.example.data.remote.response.user.SignInResponse
-import com.example.data.util.LocalDateTimeEx
-import com.example.domain.exception.NeedLoginException
-import com.example.local_database.param.UserPersonalKeyParam
-import com.example.local_database.storage.declaration.UserDataStorage
-import com.example.local_database.localutil.toLocalDateTime
 import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import team.aliens.data.remote.response.user.SignInResponse
+import team.aliens.data.util.LocalDateTimeEx
+import team.aliens.domain.exception.NeedLoginException
+import team.aliens.local_database.localutil.toLocalDateTime
+import team.aliens.local_database.param.UserPersonalKeyParam
+import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Inject
 
 class AuthorizationInterceptor @Inject constructor(
@@ -44,18 +44,14 @@ class AuthorizationInterceptor @Inject constructor(
             val client = OkHttpClient()
             val refreshToken = userDataStorage.fetchRefreshToken()
 
-            val tokenRefreshRequest = Request.Builder()
-                .url("http://3.39.162.197:8080/users/reissue")
-                .put("".toRequestBody("application/json".toMediaTypeOrNull()))
-                .addHeader("refresh-token", "Bearer $refreshToken")
-                .build()
+            val tokenRefreshRequest =
+                Request.Builder().url("http://3.39.162.197:8080/users/reissue")
+                    .put("".toRequestBody("application/json".toMediaTypeOrNull()))
+                    .addHeader("refresh-token", "Bearer $refreshToken").build()
             val response = client.newCall(tokenRefreshRequest).execute()
 
             if (response.isSuccessful) {
-                val token = Gson().fromJson(
-                    response.body!!.toString(),
-                    SignInResponse::class.java
-                )
+                val token = Gson().fromJson(response.body!!.toString(), SignInResponse::class.java)
                 runBlocking {
                     userDataStorage.setPersonalKey(
                         personalKeyParam = UserPersonalKeyParam(
@@ -70,11 +66,7 @@ class AuthorizationInterceptor @Inject constructor(
         }
 
         val accessToken = userDataStorage.fetchAccessToken()
-        return chain.proceed(
-            request.newBuilder().addHeader(
-                "Authorization",
-                "Bearer $accessToken"
-            ).build()
-        )
+        return chain.proceed(request.newBuilder().addHeader("Authorization", "Bearer $accessToken")
+            .build())
     }
 }

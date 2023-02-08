@@ -1,8 +1,8 @@
 package team.aliens.data.remote.datasource.implementation
 
-import com.example.data.remote.api.StudyRoomApi
-import com.example.data.remote.datasource.declaration.RemoteStudyRoomDataSource
-import com.example.data.util.sendHttpRequest
+import team.aliens.data.remote.api.StudyRoomApi
+import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
+import team.aliens.data.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteStudyRoomDataSourceImpl @Inject constructor(

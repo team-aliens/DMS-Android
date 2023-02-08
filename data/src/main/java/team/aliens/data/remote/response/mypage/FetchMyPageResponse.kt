@@ -1,7 +1,7 @@
 package team.aliens.data.remote.response.mypage
 
-import com.example.domain.entity.mypage.MyPageEntity
 import com.google.gson.annotations.SerializedName
+import team.aliens.domain.entity.mypage.MyPageEntity
 
 data class FetchMyPageResponse(
     @SerializedName("school_name") val schoolName: String,
@@ -13,13 +13,12 @@ data class FetchMyPageResponse(
     @SerializedName("phrase") val phrase: String,
 )
 
-fun FetchMyPageResponse.toEntity() =
-    MyPageEntity(
-        schoolName = schoolName,
-        name = name,
-        gcn = gcn,
-        profileImageUrl = profileImageUrl,
-        bonusPoint = bonusPoint,
-        minusPoint = minusPoint,
-        phrase = phrase,
-    )
+fun FetchMyPageResponse.toEntity() = MyPageEntity(
+    schoolName = schoolName,
+    name = name,
+    gcn = gcn,
+    profileImageUrl = profileImageUrl,
+    bonusPoint = bonusPoint,
+    minusPoint = minusPoint,
+    phrase = phrase,
+)

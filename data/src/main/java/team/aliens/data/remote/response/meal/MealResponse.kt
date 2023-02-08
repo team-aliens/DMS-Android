@@ -1,7 +1,7 @@
 package team.aliens.data.remote.response.meal
 
-import com.example.domain.entity.MealEntity
 import com.google.gson.annotations.SerializedName
+import team.aliens.domain.entity.MealEntity
 
 data class MealResponse(
     @SerializedName("meals") val meals: List<Meals>,
@@ -14,15 +14,11 @@ data class MealResponse(
     )
 }
 
-fun MealResponse.Meals.toEntity() =
-    MealEntity.MealsValue(
-        date = date,
-        breakfast = breakfast,
-        lunch = lunch,
-        dinner = dinner,
-    )
+fun MealResponse.Meals.toEntity() = MealEntity.MealsValue(
+    date = date,
+    breakfast = breakfast,
+    lunch = lunch,
+    dinner = dinner,
+)
 
-fun MealResponse.toEntity() =
-    MealEntity(
-        meals = meals.map { it.toEntity() }
-    )
+fun MealResponse.toEntity() = MealEntity(meals = meals.map { it.toEntity() })

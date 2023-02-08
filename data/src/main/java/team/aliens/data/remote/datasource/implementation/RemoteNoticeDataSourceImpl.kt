@@ -1,17 +1,18 @@
 package team.aliens.data.remote.datasource.implementation
 
-import com.example.data.remote.api.NoticeApi
-import com.example.data.remote.datasource.declaration.RemoteNoticeDataSource
-import com.example.data.remote.response.notice.NoticeListResponse
-import com.example.data.util.sendHttpRequest
-import com.example.domain.enums.NoticeListSCType
+import team.aliens.data.remote.api.NoticeApi
+import team.aliens.data.remote.datasource.declaration.RemoteNoticeDataSource
+import team.aliens.data.remote.response.notice.NoticeListResponse
+import team.aliens.data.util.sendHttpRequest
+import team.aliens.domain.enums.NoticeListSCType
 import javax.inject.Inject
 
 class RemoteNoticeDataSourceImpl @Inject constructor(
     private val noticeApi: NoticeApi,
 ) : RemoteNoticeDataSource {
 
-    override suspend fun checkNoticeNewBoolean() = sendHttpRequest(httpRequest = { noticeApi.checkNewNoticeBoolean() })
+    override suspend fun checkNoticeNewBoolean() =
+        sendHttpRequest(httpRequest = { noticeApi.checkNewNoticeBoolean() })
 
     override suspend fun fetchNoticeList(
         order: NoticeListSCType,

@@ -1,6 +1,6 @@
 package team.aliens.data.remote.datasource.declaration
 
-import com.example.data.remote.response.meal.MealResponse
+import team.aliens.data.remote.response.meal.MealResponse
 import java.time.LocalDate
 
 interface RemoteMealDataSource {

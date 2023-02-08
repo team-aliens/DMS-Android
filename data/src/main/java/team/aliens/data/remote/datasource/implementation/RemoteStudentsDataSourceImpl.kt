@@ -1,12 +1,12 @@
 package team.aliens.data.remote.datasource.implementation
 
-import com.example.data.remote.request.students.ResetPasswordRequest
-import com.example.data.remote.request.students.SignUpRequest
-import com.example.data.remote.response.students.ExamineGradeResponse
-import com.example.data.remote.api.StudentsApi
-import com.example.data.remote.datasource.declaration.RemoteStudentsDataSource
-import com.example.data.util.HttpHandler
-import java.util.UUID
+import team.aliens.data.remote.api.StudentsApi
+import team.aliens.data.remote.datasource.declaration.RemoteStudentsDataSource
+import team.aliens.data.remote.request.students.ResetPasswordRequest
+import team.aliens.data.remote.request.students.SignUpRequest
+import team.aliens.data.remote.response.students.ExamineGradeResponse
+import team.aliens.data.util.HttpHandler
+import java.util.*
 import javax.inject.Inject
 
 class RemoteStudentsDataSourceImpl @Inject constructor(

@@ -1,13 +1,13 @@
 package team.aliens.data.repository
 
-import com.example.data.remote.datasource.declaration.RemoteMyPageDataSource
-import com.example.data.remote.response.mypage.toEntity
-import com.example.domain.entity.mypage.MyPageEntity
-import com.example.domain.entity.mypage.PointListEntity
-import com.example.domain.enums.PointType
-import com.example.domain.repository.MyPageRepository
-import com.example.local_database.datasource.declaration.LocalMyPageDataSource
-import com.example.local_database.param.mypage.MyPageLocalParam
+import team.aliens.data.remote.datasource.declaration.RemoteMyPageDataSource
+import team.aliens.data.remote.response.mypage.toEntity
+import team.aliens.domain.entity.mypage.MyPageEntity
+import team.aliens.domain.entity.mypage.PointListEntity
+import team.aliens.domain.enums.PointType
+import team.aliens.domain.repository.MyPageRepository
+import team.aliens.local_database.datasource.declaration.LocalMyPageDataSource
+import team.aliens.local_database.param.mypage.MyPageLocalParam
 import javax.inject.Inject
 
 class MyPageRepositoryImpl @Inject constructor(
@@ -22,13 +22,12 @@ class MyPageRepositoryImpl @Inject constructor(
         remoteMyPageDataSource.fetchPointList(pointType).toEntity()
 }
 
-fun MyPageEntity.toDbEntity() =
-    MyPageLocalParam(
-        schoolName = schoolName,
-        name = name,
-        gcn = gcn,
-        profileImageUrl = profileImageUrl,
-        bonusPoint = bonusPoint,
-        minusPoint = minusPoint,
-        phrase = phrase,
-    )
+fun MyPageEntity.toDbEntity() = MyPageLocalParam(
+    schoolName = schoolName,
+    name = name,
+    gcn = gcn,
+    profileImageUrl = profileImageUrl,
+    bonusPoint = bonusPoint,
+    minusPoint = minusPoint,
+    phrase = phrase,
+)

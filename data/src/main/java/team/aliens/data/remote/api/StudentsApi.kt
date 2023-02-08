@@ -1,15 +1,11 @@
 package team.aliens.data.remote.api
 
-import com.example.data.remote.request.students.ResetPasswordRequest
-import com.example.data.remote.request.students.SignUpRequest
-import com.example.data.remote.response.students.ExamineGradeResponse
-import com.example.data.remote.url.DmsUrl
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.Query
-import java.util.UUID
+import retrofit2.http.*
+import team.aliens.data.remote.request.students.ResetPasswordRequest
+import team.aliens.data.remote.request.students.SignUpRequest
+import team.aliens.data.remote.response.students.ExamineGradeResponse
+import team.aliens.data.remote.url.DmsUrl
+import java.util.*
 
 interface StudentsApi {
     @POST(DmsUrl.Students.register)
@@ -19,17 +15,17 @@ interface StudentsApi {
 
     @GET(DmsUrl.Students.duplicateCheckId)
     suspend fun duplicateCheckId(
-        @Query("account_id") accountId: String
+        @Query("account_id") accountId: String,
     )
 
     @GET(DmsUrl.Students.duplicateCheckEmail)
     suspend fun duplicateCheckEmail(
-        @Query("email") email: String
+        @Query("email") email: String,
     )
 
     @PATCH(DmsUrl.Students.resetPassword)
     suspend fun resetPassword(
-        @Body resetPasswordRequest: ResetPasswordRequest
+        @Body resetPasswordRequest: ResetPasswordRequest,
     )
 
     @GET(DmsUrl.Students.examineGrade)

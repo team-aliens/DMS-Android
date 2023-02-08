@@ -1,9 +1,9 @@
 package team.aliens.data.remote.datasource.declaration
 
-import com.example.data.remote.request.user.GetEmailCodeRequest
-import com.example.data.remote.request.user.SignInRequest
-import com.example.data.remote.response.user.SignInResponse
-import com.example.domain.enums.EmailType
+import team.aliens.data.remote.request.user.GetEmailCodeRequest
+import team.aliens.data.remote.request.user.SignInRequest
+import team.aliens.data.remote.response.user.SignInResponse
+import team.aliens.domain.enums.EmailType
 
 interface RemoteUserDataSource {
 

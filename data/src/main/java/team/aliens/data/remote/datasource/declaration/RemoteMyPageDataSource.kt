@@ -1,8 +1,8 @@
 package team.aliens.data.remote.datasource.declaration
 
-import com.example.data.remote.response.mypage.FetchMyPageResponse
-import com.example.data.remote.response.mypage.FetchPointListResponse
-import com.example.domain.enums.PointType
+import team.aliens.data.remote.response.mypage.FetchMyPageResponse
+import team.aliens.data.remote.response.mypage.FetchPointListResponse
+import team.aliens.domain.enums.PointType
 
 interface RemoteMyPageDataSource {
 

@@ -1,19 +1,19 @@
 package team.aliens.data.repository
 
 import android.util.Log
-import com.example.data.remote.datasource.declaration.RemoteMealDataSource
-import com.example.data.remote.response.meal.toEntity
-import com.example.domain.entity.MealEntity
-import com.example.domain.repository.MealRepository
-import com.example.local_database.datasource.declaration.LocalMealDataSource
-import com.example.local_database.entity.meal.MealRoomEntity
+import team.aliens.data.remote.datasource.declaration.RemoteMealDataSource
+import team.aliens.data.remote.response.meal.toEntity
+import team.aliens.domain.entity.MealEntity
+import team.aliens.domain.repository.MealRepository
+import team.aliens.local_database.datasource.declaration.LocalMealDataSource
+import team.aliens.local_database.entity.meal.MealRoomEntity
 import java.time.LocalDate
 import javax.inject.Inject
 
 class MealRepositoryImpl @Inject constructor(
     private val remoteMealDataSource: RemoteMealDataSource,
     private val localMealDataSource: LocalMealDataSource,
-): MealRepository {
+) : MealRepository {
 
     override suspend fun fetchMealValue(date: LocalDate): MealEntity {
         Log.d("meals", "Repository")
@@ -23,10 +23,9 @@ class MealRepositoryImpl @Inject constructor(
     }
 }
 
-fun MealEntity.MealsValue.toDbEntity() =
-    MealRoomEntity(
-        date = date,
-        breakfast = breakfast,
-        lunch = lunch,
-        dinner = dinner,
-    )
+fun MealEntity.MealsValue.toDbEntity() = MealRoomEntity(
+    date = date,
+    breakfast = breakfast,
+    lunch = lunch,
+    dinner = dinner,
+)

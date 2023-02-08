@@ -1,9 +1,9 @@
 package team.aliens.data.remote.datasource.declaration
 
-import com.example.data.remote.request.students.ResetPasswordRequest
-import com.example.data.remote.request.students.SignUpRequest
-import com.example.data.remote.response.students.ExamineGradeResponse
-import java.util.UUID
+import team.aliens.data.remote.request.students.ResetPasswordRequest
+import team.aliens.data.remote.request.students.SignUpRequest
+import team.aliens.data.remote.response.students.ExamineGradeResponse
+import java.util.*
 
 interface RemoteStudentsDataSource {
     suspend fun postUserSignUp(
@@ -11,15 +11,15 @@ interface RemoteStudentsDataSource {
     )
 
     suspend fun duplicateCheckId(
-        accountId: String
+        accountId: String,
     )
 
     suspend fun duplicateCheckEmail(
-        email: String
+        email: String,
     )
 
     suspend fun resetPassword(
-        resetPasswordRequest: ResetPasswordRequest
+        resetPasswordRequest: ResetPasswordRequest,
     )
 
     suspend fun examineGrade(

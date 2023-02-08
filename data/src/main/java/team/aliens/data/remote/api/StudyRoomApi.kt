@@ -1,15 +1,15 @@
 package team.aliens.data.remote.api
 
-import com.example.data.remote.response.studyroom.ApplySeatTimeResponse
-import com.example.data.remote.response.studyroom.StudyRoomDetailResponse
-import com.example.data.remote.response.studyroom.StudyRoomListResponse
-import com.example.data.remote.response.studyroom.StudyRoomTypeResponse
-import com.example.data.remote.url.DmsUrl
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import team.aliens.data.remote.response.studyroom.ApplySeatTimeResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomDetailResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomListResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomTypeResponse
+import team.aliens.data.remote.url.DmsUrl
 
 interface StudyRoomApi {
 

@@ -1,13 +1,13 @@
 package team.aliens.data.remote.datasource.implementation
 
-import com.example.data.remote.api.MyPageApi
-import com.example.data.remote.datasource.declaration.RemoteMyPageDataSource
-import com.example.data.util.sendHttpRequest
-import com.example.domain.enums.PointType
+import team.aliens.data.remote.api.MyPageApi
+import team.aliens.data.remote.datasource.declaration.RemoteMyPageDataSource
+import team.aliens.data.util.sendHttpRequest
+import team.aliens.domain.enums.PointType
 import javax.inject.Inject
 
 class RemoteMyPageDataSourceImpl @Inject constructor(
-    private val myPageApi: MyPageApi
+    private val myPageApi: MyPageApi,
 ) : RemoteMyPageDataSource {
 
     override suspend fun fetchMyPage() =

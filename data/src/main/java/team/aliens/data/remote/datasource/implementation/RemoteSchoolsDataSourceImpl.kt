@@ -1,10 +1,10 @@
 package team.aliens.data.remote.datasource.implementation
 
-import com.example.data.remote.response.schools.SchoolConfirmQuestionResponse
-import com.example.data.remote.response.schools.SchoolIdResponse
-import com.example.data.remote.api.SchoolsApi
-import com.example.data.remote.datasource.declaration.RemoteSchoolsDataSource
-import com.example.data.util.HttpHandler
+import team.aliens.data.remote.api.SchoolsApi
+import team.aliens.data.remote.datasource.declaration.RemoteSchoolsDataSource
+import team.aliens.data.remote.response.schools.SchoolConfirmQuestionResponse
+import team.aliens.data.remote.response.schools.SchoolIdResponse
+import team.aliens.data.util.HttpHandler
 import java.util.UUID
 import javax.inject.Inject
 

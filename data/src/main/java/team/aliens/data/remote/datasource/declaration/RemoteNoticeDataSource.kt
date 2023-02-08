@@ -1,8 +1,8 @@
 package team.aliens.data.remote.datasource.declaration
 
-import com.example.data.remote.response.notice.NoticeDetailResponse
-import com.example.data.remote.response.notice.NoticeListResponse
-import com.example.domain.enums.NoticeListSCType
+import team.aliens.data.remote.response.notice.NoticeDetailResponse
+import team.aliens.data.remote.response.notice.NoticeListResponse
+import team.aliens.domain.enums.NoticeListSCType
 
 interface RemoteNoticeDataSource {
 

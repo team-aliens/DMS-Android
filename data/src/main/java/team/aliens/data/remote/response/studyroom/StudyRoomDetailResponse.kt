@@ -1,7 +1,7 @@
 package team.aliens.data.remote.response.studyroom
 
 import com.google.gson.annotations.SerializedName
-import java.util.UUID
+import java.util.*
 
 data class StudyRoomDetailResponse(
     @SerializedName("floor") val floor: Int,

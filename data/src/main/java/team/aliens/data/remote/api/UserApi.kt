@@ -1,16 +1,11 @@
 package team.aliens.data.remote.api
 
-import com.example.data.remote.request.user.GetEmailCodeRequest
-import com.example.data.remote.request.user.SignInRequest
-import com.example.data.remote.response.user.SignInResponse
-import com.example.data.remote.url.DmsUrl
-import com.example.domain.enums.EmailType
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.*
+import team.aliens.data.remote.request.user.GetEmailCodeRequest
+import team.aliens.data.remote.request.user.SignInRequest
+import team.aliens.data.remote.response.user.SignInResponse
+import team.aliens.data.remote.url.DmsUrl
+import team.aliens.domain.enums.EmailType
 
 interface UserApi {
 

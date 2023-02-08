@@ -23,27 +23,25 @@ class OfflineCacheUtil<T> {
     fun doOnNeedRefresh(refreshLocalData: suspend (remoteData: T) -> Unit): OfflineCacheUtil<T> =
         this.apply { this.refreshLocalData = refreshLocalData }
 
-    fun createFlow(): Flow<T> =
-        flow {
-            try {
-                val localData = fetchLocalData()
-                emit(localData)
+    fun createFlow(): Flow<T> = flow {
+        try {
+            val localData = fetchLocalData()
+            emit(localData)
 
-                val remoteData = fetchRemoteData()
-                if (isNeedRefresh(localData, remoteData)) {
-                    refreshLocalData(remoteData)
-                    emit(remoteData)
-                }
-            } catch (e: NullPointerException) {
-                val remoteData = fetchRemoteData()
+            val remoteData = fetchRemoteData()
+            if (isNeedRefresh(localData, remoteData)) {
                 refreshLocalData(remoteData)
                 emit(remoteData)
             }
-        }
-
-    fun createRemoteFlow(): Flow<T> =
-        flow {
+        } catch (e: NullPointerException) {
             val remoteData = fetchRemoteData()
+            refreshLocalData(remoteData)
             emit(remoteData)
         }
+    }
+
+    fun createRemoteFlow(): Flow<T> = flow {
+        val remoteData = fetchRemoteData()
+        emit(remoteData)
+    }
 }

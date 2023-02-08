@@ -1,7 +1,7 @@
 package team.aliens.data.remote.datasource.declaration
 
-import com.example.data.remote.response.schools.SchoolConfirmQuestionResponse
-import com.example.data.remote.response.schools.SchoolIdResponse
+import team.aliens.data.remote.response.schools.SchoolConfirmQuestionResponse
+import team.aliens.data.remote.response.schools.SchoolIdResponse
 import java.util.UUID
 
 interface RemoteSchoolsDataSource {

@@ -1,11 +1,11 @@
 package team.aliens.data.remote.api
 
-import com.example.data.remote.response.mypage.FetchMyPageResponse
-import com.example.data.remote.response.mypage.FetchPointListResponse
-import com.example.data.remote.url.DmsUrl
-import com.example.domain.enums.PointType
 import retrofit2.http.GET
 import retrofit2.http.Query
+import team.aliens.data.remote.response.mypage.FetchMyPageResponse
+import team.aliens.data.remote.response.mypage.FetchPointListResponse
+import team.aliens.data.remote.url.DmsUrl
+import team.aliens.domain.enums.PointType
 
 interface MyPageApi {
 

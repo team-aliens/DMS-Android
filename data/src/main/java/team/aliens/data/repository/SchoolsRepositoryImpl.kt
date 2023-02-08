@@ -1,25 +1,25 @@
 package team.aliens.data.repository
 
-import com.example.data.remote.response.schools.SchoolConfirmQuestionResponse
-import com.example.data.remote.response.schools.SchoolIdResponse
-import com.example.data.remote.datasource.declaration.RemoteSchoolsDataSource
-import com.example.data.util.OfflineCacheUtil
-import com.example.domain.entity.user.SchoolConfirmQuestionEntity
-import com.example.domain.entity.user.SchoolIdEntity
-import com.example.domain.param.SchoolAnswerParam
-import com.example.domain.repository.SchoolsRepository
 import kotlinx.coroutines.flow.Flow
-import java.util.UUID
+import team.aliens.data.remote.datasource.declaration.RemoteSchoolsDataSource
+import team.aliens.data.remote.response.schools.SchoolConfirmQuestionResponse
+import team.aliens.data.remote.response.schools.SchoolIdResponse
+import team.aliens.data.util.OfflineCacheUtil
+import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
+import team.aliens.domain.entity.user.SchoolIdEntity
+import team.aliens.domain.param.SchoolAnswerParam
+import team.aliens.domain.repository.SchoolsRepository
+import java.util.*
 import javax.inject.Inject
 
 class SchoolsRepositoryImpl @Inject constructor(
-    private val remoteSchoolsDataSource: RemoteSchoolsDataSource
+    private val remoteSchoolsDataSource: RemoteSchoolsDataSource,
 ) : SchoolsRepository {
 
     override suspend fun schoolQuestion(schoolId: UUID): Flow<SchoolConfirmQuestionEntity> =
-        OfflineCacheUtil<SchoolConfirmQuestionEntity>()
-            .remoteData { remoteSchoolsDataSource.schoolQuestion(schoolId).toEntity() }
-            .createRemoteFlow()
+        OfflineCacheUtil<SchoolConfirmQuestionEntity>().remoteData {
+            remoteSchoolsDataSource.schoolQuestion(schoolId).toEntity()
+        }.createRemoteFlow()
 
     override suspend fun compareSchoolAnswer(schoolAnswerParam: SchoolAnswerParam) {
         remoteSchoolsDataSource.compareSchoolAnswer(
@@ -32,12 +32,7 @@ class SchoolsRepositoryImpl @Inject constructor(
         remoteSchoolsDataSource.examineSchoolCode(schoolCode).toEntity()
 
     private fun SchoolConfirmQuestionResponse.toEntity() =
-        SchoolConfirmQuestionEntity(
-            question = question
-        )
+        SchoolConfirmQuestionEntity(question = question)
 
-    private fun SchoolIdResponse.toEntity() =
-        SchoolIdEntity(
-            schoolId = schoolId
-        )
+    private fun SchoolIdResponse.toEntity() = SchoolIdEntity(schoolId = schoolId)
 }
