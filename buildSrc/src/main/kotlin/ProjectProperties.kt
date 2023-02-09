@@ -4,7 +4,7 @@ object ProjectProperties {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
 
-    const val APPLICATION_ID = "com.example.dms_android"
+    const val APPLICATION_ID = "team.aliens.dms_android"
 
     const val GRADLE_ANDROID = "7.2.1"
     const val GRADLE_KOTLIN = "1.6.10"

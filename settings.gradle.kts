@@ -15,10 +15,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "DMS_Android"
 
-include (":presentation")
-include (":data")
-include (":domain")
-include (":design-system")
+include(":presentation")
+include(":data")
+include(":domain")
+include(":design-system")
 include(":local_database")
 include(":local_domain")
 include(":di")

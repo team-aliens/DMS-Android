@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.local_database"
+    namespace = "team.aliens.local_database"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
-    implementation (Dependency.GSON.GSON)
+    implementation(Dependency.GSON.GSON)
 
     implementation(Dependency.Ui.LOCALDATETIME)
     implementation(Dependency.Moshi.MOSHI)

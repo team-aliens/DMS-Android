@@ -5,6 +5,8 @@ plugins {
 }
 
 android {
+
+    namespace = "team.aliens.design_system"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {

@@ -7,7 +7,7 @@ plugins {
 
 android {
 
-    namespace = "com.example.local_domain"
+    namespace = "team.aliens.local_domain"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {

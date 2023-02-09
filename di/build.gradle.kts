@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.di"
+    namespace = "team.aliens.di"
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {

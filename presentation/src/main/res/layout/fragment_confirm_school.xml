@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
@@ -64,13 +63,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:visibility="gone"
             android:text="@string/inconsistent_school_reply"
             android:textColor="@color/error"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/etReply"
             app:layout_constraintTop_toBottomOf="@+id/etReply" />
 
-        <com.example.dms_android.customui.RegisterCustomButton
+        <team.aliens.dms_android.customui.RegisterCustomButton
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
