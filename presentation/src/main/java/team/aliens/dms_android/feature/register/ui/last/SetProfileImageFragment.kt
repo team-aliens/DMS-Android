@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentSetProfileImageBinding
 
+@AndroidEntryPoint
 class SetProfileImageFragment :
     BaseFragment<FragmentSetProfileImageBinding>(R.layout.fragment_set_profile_image) {
     private var pwd = ""

@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.util.emailValidation
@@ -14,6 +15,7 @@ import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentEnterEmailBinding
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(R.layout.fragment_enter_email) {
     private var emailAddress: String = ""
     private var inputData = ""

@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.ui.last.SetProfileImageFragment
@@ -13,6 +14,7 @@ import team.aliens.dms_android.util.visible
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentSetPasswordBinding
 
+@AndroidEntryPoint
 class SetPasswordFragment :
     BaseFragment<FragmentSetPasswordBinding>(R.layout.fragment_set_password) {
     private var pwd = ""

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.MainActivity
 import team.aliens.dms_android.feature.RegisterActivity
@@ -18,6 +19,7 @@ import team.aliens.domain.param.RegisterParam
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentPolicyBinding
 
+@AndroidEntryPoint
 class PolicyFragment : BaseFragment<FragmentPolicyBinding>(R.layout.fragment_policy) {
     private val signUpViewModel: SignUpViewModel by viewModels()
 
