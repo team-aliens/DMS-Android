@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.MainActivity
 import team.aliens.dms_android.feature.RegisterActivity
@@ -23,6 +24,7 @@ import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentConfirmSchoolBinding
 import java.util.*
 
+@AndroidEntryPoint
 class ConfirmSchoolFragment :
     BaseFragment<FragmentConfirmSchoolBinding>(R.layout.fragment_confirm_school) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
