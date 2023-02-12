@@ -58,15 +58,15 @@ fun ChangePwValue() {
             DormTextField(
                 value = passwordValue,
                 onValueChange = { passwordValue = it },
-                hint = stringResource(R.string.enter_password),
+                hint = stringResource(R.string.EnterPassword),
                 isPassword = true,
             )
             Spacer(modifier = Modifier.height(37.dp))
             DormTextField(
                 value = rePasswordValue,
                 onValueChange = { rePasswordValue = it },
-                hint = stringResource(R.string.reenter_password),
-                error = stringResource(R.string.check_password),
+                hint = stringResource(R.string.ReEnterPassword),
+                error = stringResource(R.string.CheckPassword),
                 isPassword = true,
             )
             Box(
@@ -76,7 +76,7 @@ fun ChangePwValue() {
                     .padding(bottom = 60.dp),
             ) {
                 DormContainedLargeButton(
-                    text = stringResource(R.string.next),
+                    text = stringResource(R.string.Next),
                     color = DormButtonColor.Blue,
                     enabled = false,
                 ) {}

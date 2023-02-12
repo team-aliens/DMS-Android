@@ -40,7 +40,7 @@ fun TopBar(
                     }
                 },
             painter = painterResource(id = DormIcon.BackArrow.drawableId),
-            contentDescription = stringResource(id = R.string.backButton),
+            contentDescription = stringResource(id = R.string.BackButtonEng),
         )
         Spacer(modifier = Modifier.width(32.dp))
         SubTitle2(text = title)

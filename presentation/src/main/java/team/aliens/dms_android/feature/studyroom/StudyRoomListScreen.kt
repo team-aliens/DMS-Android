@@ -147,7 +147,7 @@ fun StudyRoomListScreen(
                         .padding(start = 15.dp)
                         .size(26.dp),
                     painter = painterResource(id = R.drawable.coloricnotice),
-                    contentDescription = stringResource(id = R.string.icNotice),
+                    contentDescription = stringResource(id = R.string.IcNotice),
                 )
                 Spacer(modifier = Modifier.width(13.dp))
                 Body5(text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")

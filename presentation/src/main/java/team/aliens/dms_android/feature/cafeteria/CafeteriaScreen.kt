@@ -120,7 +120,7 @@ fun ImportantNotice() {
                     .padding(start = 15.dp)
                     .size(26.dp),
                 painter = painterResource(id = R.drawable.coloricnotice),
-                contentDescription = stringResource(id = R.string.icNotice),
+                contentDescription = stringResource(id = R.string.IcNotice),
             )
             Spacer(modifier = Modifier.width(13.dp))
             Body5(text = "새로운 공지사항이 있습니다.")
@@ -130,7 +130,7 @@ fun ImportantNotice() {
                 .padding(end = 10.dp)
                 .size(33.dp),
             painter = painterResource(id = R.drawable.ic_next),
-            contentDescription = stringResource(id = R.string.icNotice),
+            contentDescription = stringResource(id = R.string.IcNotice),
         )
     }
 }
@@ -167,7 +167,7 @@ fun CafeteriaDiary(
                         mealViewModel.updateDay(state.today.minusDays(1))
                     },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
-                    contentDescription = stringResource(id = R.string.backButton))
+                    contentDescription = stringResource(id = R.string.BackButtonEng))
                 Row(modifier = Modifier
                     .border(
                         width = 1.dp,
