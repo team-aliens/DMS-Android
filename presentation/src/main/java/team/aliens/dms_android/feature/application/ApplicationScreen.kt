@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.apply
+package team.aliens.dms_android.feature.application
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,16 +28,16 @@ import team.aliens.presentation.R
 )
 @Composable
 fun Preview() {
-    ApplicationMainScreen(
+    ApplicationScreen(
         navController = rememberNavController(),
     )
 }
 
 @Composable
-fun ApplicationMainScreen(
+fun ApplicationScreen(
     navController: NavController,
 ) {
-    val mContext = LocalContext.current
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -47,21 +47,21 @@ fun ApplicationMainScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(14.dp))
-        Body1(text = mContext.getString(R.string.Application))
+        Body1(text = context.getString(R.string.Application))
         Spacer(modifier = Modifier.height(40.dp))
         ApplicationCard(
-            title = mContext.getString(R.string.StudyRoom),
-            content = mContext.getString(R.string.StudyRoomApplyDescription),
-            buttonText = mContext.getString(R.string.DoApplyStudyRoom),
+            title = context.getString(R.string.StudyRoom),
+            content = context.getString(R.string.StudyRoomApplyDescription),
+            buttonText = context.getString(R.string.DoApplyStudyRoom),
             buttonOnClick = {
                 navController.navigate(NavigationRoute.StudyRoom)
             },
         )
         Spacer(modifier = Modifier.height(30.dp))
         ApplicationCard(
-            title = mContext.getString(R.string.Stay),
-            content = mContext.getString(R.string.StayApplyDescription),
-            buttonText = mContext.getString(R.string.DoApplyStay),
+            title = context.getString(R.string.Stay),
+            content = context.getString(R.string.StayApplyDescription),
+            buttonText = context.getString(R.string.DoApplyStay),
             buttonOnClick = {
                 // TODO 잔류 신청 화면으로 이동 로직 구현
             },

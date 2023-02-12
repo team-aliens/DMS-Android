@@ -19,7 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.color.DormColor
-import team.aliens.dms_android.feature.apply.ApplicationMainScreen
+import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.notice.NoticeScreen
@@ -43,7 +43,7 @@ fun DmsApp(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
-            composable(BottomNavigationItem.Survey.route) { ApplicationMainScreen(navController = navController) }
+            composable(BottomNavigationItem.Application.route) { ApplicationScreen(navController = navController) }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
             composable(BottomNavigationItem.MyPage.route) {
                 MyPageScreen(navController = navController, scaffoldState = scaffoldState)
@@ -79,14 +79,14 @@ fun BottomNavBar(
     BottomNavigationItem(modifier = Modifier
         .weight(0.5f)
         .size(25.dp), onClick = {
-        navigateBottomNavigation(BottomNavigationItem.Survey.route, navController)
-        bottomTabSelectedItem.value = BottomNavigationItem.Survey.route
+        navigateBottomNavigation(BottomNavigationItem.Application.route, navController)
+        bottomTabSelectedItem.value = BottomNavigationItem.Application.route
     }, icon = {
         Icon(
-            painter = painterResource(id = BottomNavigationItem.Survey.iconResId),
+            painter = painterResource(id = BottomNavigationItem.Application.iconResId),
             contentDescription = null
         )
-    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Survey.route
+    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Application.route
     )
 
     BottomNavigationItem(modifier = Modifier
