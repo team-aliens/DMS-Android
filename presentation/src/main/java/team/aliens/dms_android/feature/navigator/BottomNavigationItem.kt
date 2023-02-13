@@ -7,7 +7,7 @@ sealed class BottomNavigationItem(var route: String, var iconResId: Int, var tit
         BottomNavigationItem(NavigationRoute.BottomNavigation.Meal, R.drawable.ic_house, "Meal")
 
     object Application :
-        BottomNavigationItem(NavigationRoute.BottomNavigation.Survey, R.drawable.ic_plus, "Survey")
+        BottomNavigationItem(NavigationRoute.BottomNavigation.Application, R.drawable.ic_plus, "Application")
 
     object Notice : BottomNavigationItem(
         NavigationRoute.BottomNavigation.Notice,
