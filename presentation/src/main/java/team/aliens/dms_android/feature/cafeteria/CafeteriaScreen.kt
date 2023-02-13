@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.cafeteria
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +30,7 @@ import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle1
+import team.aliens.dms_android.util.FloatingNotice
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.presentation.R
 
@@ -42,7 +42,6 @@ fun CafeteriaScreen(
 ) {
 
     LaunchedEffect(key1 = mealViewModel) {
-        Log.d("meals", "View")
         mealViewModel.fetchMeal(mealViewModel.state.value.today)
     }
 
@@ -57,7 +56,7 @@ fun CafeteriaScreen(
 
                 }
                 else -> {
-                    toast("h")
+
                 }
             }
         }
@@ -66,8 +65,10 @@ fun CafeteriaScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DormColor.Gray100)
-            .paint(painter = painterResource(R.drawable.photo_cafeteria_background),
-                contentScale = ContentScale.FillBounds),
+            .paint(
+                painter = painterResource(R.drawable.photo_cafeteria_background),
+                contentScale = ContentScale.FillBounds
+            ),
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         TopBar()
@@ -81,9 +82,11 @@ fun CafeteriaScreen(
 @Composable
 fun TopBar(
 ) {
-    Row(modifier = Modifier.fillMaxWidth(),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start) {
+        horizontalArrangement = Arrangement.Start
+    ) {
         Image(
             modifier = Modifier
                 .height(34.dp)
@@ -97,7 +100,8 @@ fun TopBar(
 
 @Composable
 fun ImportantNotice() {
-    Box(contentAlignment = Alignment.CenterEnd,
+    Box(
+        contentAlignment = Alignment.CenterEnd,
         modifier = Modifier
             .fillMaxWidth()
             .height(45.dp)
@@ -109,22 +113,10 @@ fun ImportantNotice() {
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(100),
-            )) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .size(26.dp),
-                painter = painterResource(id = R.drawable.coloricnotice),
-                contentDescription = stringResource(id = R.string.icNotice),
             )
-            Spacer(modifier = Modifier.width(13.dp))
-            Body5(text = "새로운 공지사항이 있습니다.")
-        }
+    ) {
+        // TODO string resource 로 빼주기
+        FloatingNotice(content = "새로운 공지사항이 있습니다.")
         Image(
             modifier = Modifier
                 .padding(end = 10.dp)
@@ -155,31 +147,39 @@ fun CafeteriaDiary(
             Spacer(modifier = Modifier.fillMaxHeight(0.055f))
             SubTitle1(text = stringResource(id = R.string.TodayCafeteria))
 
-            Row(modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxWidth(),
+            Row(
+                modifier = Modifier
+                    .padding(top = 50.dp)
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center) {
-                Image(modifier = Modifier
-                    .size(40.dp)
-                    .padding(end = 12.dp)
-                    .clickable {
-                        mealViewModel.updateDay(state.today.minusDays(1))
-                    },
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(end = 12.dp)
+                        .clickable {
+                            mealViewModel.updateDay(state.today.minusDays(1))
+                        },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
-                    contentDescription = stringResource(id = R.string.backButton))
-                Row(modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = DormColor.Gray500,
-                        shape = RoundedCornerShape(25),
-                    )
-                    .width(130.dp)
-                    .height(35.dp),
+                    contentDescription = stringResource(id = R.string.backButton)
+                )
+                Row(
+                    modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = DormColor.Gray500,
+                            shape = RoundedCornerShape(25),
+                        )
+                        .width(130.dp)
+                        .height(35.dp),
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Image(painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = "")
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_calendar),
+                        contentDescription = ""
+                    )
                     Spacer(modifier = Modifier.width(10.dp))
                     Body5(text = state.today.toString())
                 }
