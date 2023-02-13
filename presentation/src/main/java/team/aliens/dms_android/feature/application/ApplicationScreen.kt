@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,8 +38,6 @@ fun ApplicationScreenPreview() {
 fun ApplicationScreen(
     navController: NavController,
 ) {
-    val context = LocalContext.current
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,21 +46,21 @@ fun ApplicationScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(14.dp))
-        Body1(text = context.getString(R.string.Application))
+        Body1(text = stringResource(id = R.string.Application))
         Spacer(modifier = Modifier.height(40.dp))
         ApplicationCard(
-            title = context.getString(R.string.StudyRoom),
-            content = context.getString(R.string.StudyRoomApplyDescription),
-            buttonText = context.getString(R.string.DoApplyStudyRoom),
+            title = stringResource(id = R.string.StudyRoom),
+            content = stringResource(id = R.string.StudyRoomApplyDescription),
+            buttonText = stringResource(id = R.string.DoApplyStudyRoom),
             buttonOnClick = {
                 navController.navigate(NavigationRoute.StudyRoom)
             },
         )
         Spacer(modifier = Modifier.height(30.dp))
         ApplicationCard(
-            title = context.getString(R.string.Stay),
-            content = context.getString(R.string.StayApplyDescription),
-            buttonText = context.getString(R.string.DoApplyStay),
+            title = stringResource(id = R.string.Stay),
+            content = stringResource(id = R.string.StayApplyDescription),
+            buttonText = stringResource(id = R.string.DoApplyStay),
             buttonOnClick = {
                 // TODO 잔류 신청 화면으로 이동 로직 구현
             },
