@@ -7,9 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,8 +17,8 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.DormTypography
-import team.aliens.design_system.typography.NotoSansFamily
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.presentation.R
 
@@ -64,6 +62,7 @@ fun ApplicationScreen(
             buttonOnClick = {
                 // TODO 잔류 신청 화면으로 이동 로직 구현
             },
+            lastApplied = "금요 귀가"
         )
     }
 }
@@ -108,7 +107,7 @@ fun ApplicationCard(
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Body5(
+                    ButtonText(
                         text = lastApplied,
                         color = DormColor.DormPrimary,
                     )
