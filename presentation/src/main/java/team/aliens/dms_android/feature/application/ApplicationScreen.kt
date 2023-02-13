@@ -27,7 +27,7 @@ import team.aliens.presentation.R
     showSystemUi = true,
 )
 @Composable
-fun Preview() {
+fun ApplicationScreenPreview() {
     ApplicationScreen(
         navController = rememberNavController(),
     )
