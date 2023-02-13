@@ -108,10 +108,8 @@ fun ApplicationCard(
                         ),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(
+                    Body5(
                         text = lastApplied,
-                        fontFamily = NotoSansFamily,
-                        fontWeight = FontWeight.Bold,
                         color = DormColor.DormPrimary,
                     )
                 }
