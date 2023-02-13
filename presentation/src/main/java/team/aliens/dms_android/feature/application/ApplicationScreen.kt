@@ -50,7 +50,7 @@ fun ApplicationScreen(
             title = stringResource(id = R.string.StudyRoom),
             content = stringResource(id = R.string.StudyRoomApplyDescription),
             buttonText = stringResource(id = R.string.DoApplyStudyRoom),
-            buttonOnClick = {
+            onButtonClick = {
                 navController.navigate(NavigationRoute.StudyRoom)
             },
         )
@@ -59,10 +59,9 @@ fun ApplicationScreen(
             title = stringResource(id = R.string.Stay),
             content = stringResource(id = R.string.StayApplyDescription),
             buttonText = stringResource(id = R.string.DoApplyStay),
-            buttonOnClick = {
+            onButtonClick = {
                 // TODO 잔류 신청 화면으로 이동 로직 구현
             },
-            lastApplied = "금요 귀가"
         )
     }
 }
@@ -72,7 +71,7 @@ fun ApplicationCard(
     title: String,
     content: String,
     buttonText: String,
-    buttonOnClick: () -> Unit,
+    onButtonClick: () -> Unit,
     lastApplied: String = "",
 ) {
     Column(
@@ -119,7 +118,7 @@ fun ApplicationCard(
             modifier = Modifier.height(40.dp),
             text = buttonText,
             color = DormButtonColor.Blue,
-            onClick = buttonOnClick,
+            onClick = onButtonClick,
         )
     }
 }
