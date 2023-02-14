@@ -36,17 +36,19 @@ fun PointListScreen(
     }
 
     val point = remember {
-        mutableStateListOf(PointValue(
-            "",
-            "",
-            0,
-            PointType.ALL,
-        ))
+        mutableStateListOf(
+            PointValue(
+                "",
+                "",
+                0,
+                PointType.ALL,
+            )
+        )
     }
 
     val state = myPageViewModel.state.collectAsState().value
     val toast = rememberToast()
-    val badRequestComment = "잘못된 요청입니다."
+    val badRequestComment = stringResource(id = R.string.BadRequest)
     val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
     val forbiddenException = stringResource(id = R.string.LoginNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
@@ -109,8 +111,10 @@ fun DialogBox(
 ) {
     var selected by remember { mutableStateOf(PointButtonType.ALL) }
 
-    Row(modifier = Modifier.padding(start = 24.dp, top = 50.dp),
-        horizontalArrangement = Arrangement.spacedBy(15.dp)) {
+    Row(
+        modifier = Modifier.padding(start = 24.dp, top = 50.dp),
+        horizontalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
         PointTypeButton(
             type = PointButtonType.ALL,
             isSelected = selected == PointButtonType.ALL,
@@ -179,9 +183,11 @@ fun PointListValue(
     myPageViewModel: MyPageViewModel,
 ) {
     Column {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp)
+        ) {
             Spacer(modifier = Modifier.height(44.dp))
             val state = myPageViewModel.state.collectAsState().value
             Headline2(text = " ${state.totalPoint}점")
