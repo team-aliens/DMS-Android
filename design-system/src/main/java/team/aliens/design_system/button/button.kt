@@ -41,13 +41,6 @@ enum class DormButtonColor(
         disabledColor = Color(0xFFFF7373),
         rippleColor = Color(0xFFBB0000),
     ),
-
-    LightenRed(
-        textColor = Color(0xFFC23535),
-        backgroundColor = Color(0xFFFFF0F0),
-        disabledColor = Color(0xFFFF7373),
-        rippleColor = Color(0xFFBB0000),
-    )
 }
 
 

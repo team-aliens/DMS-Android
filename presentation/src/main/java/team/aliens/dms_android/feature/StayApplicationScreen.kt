@@ -121,10 +121,10 @@ fun StayApplicationScreen(
 
             DormContainedLargeButton(
                 // TODO string resource 로 빼주기 (conflict 방지)
-                text = if (selectedItem == lastAppliedItem) "신청 취소하기"
+                text = if (selectedItem == lastAppliedItem) "신청 완료"
                 else "$selectedItem 신청하기",
-                color = if (selectedItem == lastAppliedItem) DormButtonColor.LightenRed
-                else DormButtonColor.Blue,
+                color = DormButtonColor.Blue,
+                enabled = (selectedItem != lastAppliedItem),
             ) {
                 // TODO 항목 신청 로직 구현
             }
