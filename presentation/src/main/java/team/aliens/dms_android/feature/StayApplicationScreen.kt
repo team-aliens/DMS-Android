@@ -61,6 +61,9 @@ fun StayApplicationScreen(
 
         var selectedItem by remember { mutableStateOf(lastAppliedItem) }
         var expandedItem by remember { mutableStateOf("") }
+        var isButtonVisible by remember { mutableStateOf(false) }
+
+        if (lastAppliedItem.isNotBlank()) isButtonVisible = true
 
         // TODO string resource 로 빼기 (conflict 방지)
         TopBar(title = "잔류 신청") {
@@ -105,7 +108,10 @@ fun StayApplicationScreen(
                                 content = content,
                                 borderColor = borderColor,
                                 rotationState = rotationState,
-                                onItemClick = { selectedItem = title },
+                                onItemClick = {
+                                    selectedItem = title
+                                    isButtonVisible = true
+                                },
                                 onDrawableClick = {
                                     expandedItem = if (isExpandedItem) ""
                                     else title
@@ -119,14 +125,19 @@ fun StayApplicationScreen(
                 }
             }
 
-            DormContainedLargeButton(
-                // TODO string resource 로 빼주기 (conflict 방지)
-                text = if (selectedItem == lastAppliedItem) "신청 완료"
-                else "$selectedItem 신청하기",
-                color = DormButtonColor.Blue,
-                enabled = (selectedItem != lastAppliedItem),
-            ) {
-                // TODO 항목 신청 로직 구현
+            // TODO string resource 로 빼주기 (conflict 방지)
+            val buttonText = if (selectedItem == lastAppliedItem) "신청 완료"
+            else if (lastAppliedItem.isBlank()) "$selectedItem 신청하기"
+            else "${selectedItem}로 변경하기"
+
+            if (isButtonVisible) {
+                DormContainedLargeButton(
+                    text = buttonText,
+                    color = DormButtonColor.Blue,
+                    enabled = (selectedItem != lastAppliedItem),
+                ) {
+                    // TODO 항목 신청 로직 구현
+                }
             }
         }
     }
