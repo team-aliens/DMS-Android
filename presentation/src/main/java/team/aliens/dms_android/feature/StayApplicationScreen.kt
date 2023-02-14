@@ -17,22 +17,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
-import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.ButtonText
-import team.aliens.design_system.typography.NotoSansFamily
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.util.FloatingNotice
 import team.aliens.dms_android.util.TopBar
-import team.aliens.presentation.R
 
 // TODO 테스트 더미 값들
 // TODO 추후 서버와 연동 과정에서 삭제하고 작업 진행
@@ -49,11 +47,12 @@ val list = listOf(
 )
 
 @Composable
-fun StayApplicationScreen() {
+fun StayApplicationScreen(
+    navController: NavController,
+) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -64,64 +63,71 @@ fun StayApplicationScreen() {
         var expandedItem by remember { mutableStateOf("") }
 
         // TODO string resource 로 빼기 (conflict 방지)
-        TopBar(title = "잔류 신청")
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // TODO 서버로부터 받은 값 가공하여 넣기
-        FloatingNotice(content = "")
-
-        Spacer(modifier = Modifier.height(30.dp))
+        TopBar(title = "잔류 신청") {
+            navController.popBackStack()
+        }
 
         Column(
-            modifier = Modifier.fillMaxHeight(0.9f)
+            modifier = Modifier.padding(horizontal = 20.dp)
         ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.Center,
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // TODO 서버로부터 받은 값 가공하여 넣기
+            FloatingNotice(content = "")
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Column(
+                modifier = Modifier.fillMaxHeight(0.9f)
             ) {
-                itemsIndexed(
-                    items = list,
-                ) { index, item ->
-                    item.run {
+                LazyColumn(
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    itemsIndexed(
+                        items = list,
+                    ) { index, item ->
+                        item.run {
 
-                        val isExpandedItem = (expandedItem == title)
-                        val isSelectedItem = (selectedItem == title)
+                            val isExpandedItem = (expandedItem == title)
+                            val isSelectedItem = (selectedItem == title)
 
-                        val borderColor = if (isSelectedItem) DormColor.DormPrimary
-                        else DormColor.Gray100
+                            val borderColor = if (isSelectedItem) DormColor.DormPrimary
+                            else DormColor.Gray100
 
-                        val rotationState by animateFloatAsState(
-                            targetValue = if (isExpandedItem) 90f else 270f
-                        )
-                        // TODO 서버 Response 값에 맞게 값들들 수정
-                        Spacer(modifier = Modifier.height(20.dp))
-                        ApplicationCard(
-                            title = title,
-                            content = content,
-                            borderColor = borderColor,
-                            rotationState = rotationState,
-                            onItemClick = { selectedItem = title },
-                            onDrawableClick = {
-                                expandedItem = if (isExpandedItem) ""
-                                else title
-                            },
-                            isContentVisible = isExpandedItem,
-                            hasLastApplied = (lastAppliedItem == title),
-                        )
-                        if (list.size == index + 1) Spacer(modifier = Modifier.height(30.dp))
+                            val rotationState by animateFloatAsState(
+                                targetValue = if (isExpandedItem) 90f else 270f
+                            )
+                            // TODO 서버 Response 값에 맞게 값들들 수정
+                            Spacer(modifier = Modifier.height(20.dp))
+                            ApplicationCard(
+                                title = title,
+                                content = content,
+                                borderColor = borderColor,
+                                rotationState = rotationState,
+                                onItemClick = { selectedItem = title },
+                                onDrawableClick = {
+                                    expandedItem = if (isExpandedItem) ""
+                                    else title
+                                },
+                                isContentVisible = isExpandedItem,
+                                hasLastApplied = (lastAppliedItem == title),
+                            )
+                            if (list.size == index + 1) Spacer(modifier = Modifier.height(30.dp))
+                        }
                     }
                 }
             }
-        }
 
-        DormContainedLargeButton(
-            // TODO string resource 로 빼주기 (conflict 방지)
-            text = if(selectedItem == lastAppliedItem) "신청 취소하기"
-            else "$selectedItem 신청하기",
-            color =  if(selectedItem == lastAppliedItem) DormButtonColor.LightenRed
-            else DormButtonColor.Blue,
-        ) {
-            // TODO 항목 신청 로직 구현
+            DormContainedLargeButton(
+                // TODO string resource 로 빼주기 (conflict 방지)
+                text = if (selectedItem == lastAppliedItem) "신청 취소하기"
+                else "$selectedItem 신청하기",
+                color = if (selectedItem == lastAppliedItem) DormButtonColor.LightenRed
+                else DormButtonColor.Blue,
+            ) {
+                // TODO 항목 신청 로직 구현
+            }
         }
     }
 }
@@ -213,7 +219,6 @@ fun ApplicationCard(
                     bottom = 20.dp,
                 ),
                 text = content,
-                fontFamily = NotoSansFamily,
             )
         }
     }
@@ -223,6 +228,6 @@ fun ApplicationCard(
     showSystemUi = true,
 )
 @Composable
-fun Preview() {
-    StayApplicationScreen()
+fun StayApplicationScreenPreview() {
+    StayApplicationScreen(rememberNavController())
 }
