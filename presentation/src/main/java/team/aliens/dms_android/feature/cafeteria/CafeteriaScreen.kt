@@ -56,7 +56,7 @@ fun CafeteriaScreen(
 
                 }
                 else -> {
-
+                    // TODO toast message
                 }
             }
         }

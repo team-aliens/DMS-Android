@@ -35,15 +35,15 @@ import team.aliens.dms_android.util.TopBar
 // TODO 테스트 더미 값들
 // TODO 추후 서버와 연동 과정에서 삭제하고 작업 진행
 
-data class DummyData(
+data class StayApplicationInformation(
     val title: String,
     val content: String,
 )
 
-val list = listOf(
-    DummyData("title1", "content1"),
-    DummyData("title2", "content2"),
-    DummyData("title3", "content3"),
+val list = mutableListOf(
+    StayApplicationInformation("title1", "content1"),
+    StayApplicationInformation("title2", "content2"),
+    StayApplicationInformation("title3", "content3"),
 )
 
 @Composable
@@ -63,7 +63,9 @@ fun StayApplicationScreen(
         var expandedItem by remember { mutableStateOf("") }
         var isButtonVisible by remember { mutableStateOf(false) }
 
-        if (lastAppliedItem.isNotBlank()) isButtonVisible = true
+        if (lastAppliedItem.isNotBlank()) {
+            isButtonVisible = true
+        }
 
         // TODO string resource 로 빼기 (conflict 방지)
         TopBar(title = "잔류 신청") {
@@ -95,11 +97,18 @@ fun StayApplicationScreen(
                             val isExpandedItem = (expandedItem == title)
                             val isSelectedItem = (selectedItem == title)
 
-                            val borderColor = if (isSelectedItem) DormColor.DormPrimary
-                            else DormColor.Gray100
+                            val borderColor = if (isSelectedItem) {
+                                DormColor.DormPrimary
+                            } else {
+                                DormColor.Gray100
+                            }
 
                             val rotationState by animateFloatAsState(
-                                targetValue = if (isExpandedItem) 90f else 270f
+                                targetValue = if (isExpandedItem) {
+                                    90f
+                                } else {
+                                    270f
+                                }
                             )
                             // TODO 서버 Response 값에 맞게 값들들 수정
                             Spacer(modifier = Modifier.height(20.dp))
@@ -113,22 +122,31 @@ fun StayApplicationScreen(
                                     isButtonVisible = true
                                 },
                                 onDrawableClick = {
-                                    expandedItem = if (isExpandedItem) ""
-                                    else title
+                                    expandedItem = if (isExpandedItem) {
+                                        ""
+                                    } else {
+                                        title
+                                    }
                                 },
                                 isContentVisible = isExpandedItem,
                                 hasLastApplied = (lastAppliedItem == title),
                             )
-                            if (list.size == index + 1) Spacer(modifier = Modifier.height(30.dp))
+                            if (list.size == index + 1) {
+                                Spacer(modifier = Modifier.height(30.dp))
+                            }
                         }
                     }
                 }
             }
 
             // TODO string resource 로 빼주기 (conflict 방지)
-            val buttonText = if (selectedItem == lastAppliedItem) "신청 완료"
-            else if (lastAppliedItem.isBlank()) "$selectedItem 신청하기"
-            else "${selectedItem}로 변경하기"
+            val buttonText = if (selectedItem == lastAppliedItem) {
+                "신청 완료"
+            } else if (lastAppliedItem.isBlank()) {
+                "$selectedItem 신청하기"
+            } else {
+                "${selectedItem}로 변경하기"
+            }
 
             if (isButtonVisible) {
                 DormContainedLargeButton(
@@ -174,13 +192,16 @@ fun ApplicationCard(
     ) {
         Spacer(
             modifier = Modifier.height(
-                if (hasLastApplied) 13.dp
-                else 16.dp,
+                if (hasLastApplied) {
+                    13.dp
+                } else {
+                    16.dp
+                },
             )
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(start = 24.dp)
+            modifier = Modifier.padding(start = 24.dp),
         ) {
             SubTitle2(text = title)
             // TODO 신청 메인 화면에 동일 컴포넌트가 있음 -> 따로 빼주기
@@ -207,8 +228,11 @@ fun ApplicationCard(
             }
             Spacer(
                 modifier = Modifier.fillMaxWidth(
-                    fraction = if (hasLastApplied) 0.8f
-                    else 0.87f,
+                    fraction = if (hasLastApplied) {
+                        0.8f
+                    } else {
+                        0.87f
+                    },
                 )
             )
             Image(
