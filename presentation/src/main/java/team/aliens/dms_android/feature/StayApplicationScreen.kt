@@ -32,24 +32,29 @@ import team.aliens.design_system.typography.SubTitle2
 import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 
-// TODO 테스트 더미 값들
-// TODO 추후 서버와 연동 과정에서 삭제하고 작업 진행
-
-data class StayApplicationInformation(
-    val title: String,
-    val content: String,
-)
-
-val list = mutableListOf(
-    StayApplicationInformation("title1", "content1"),
-    StayApplicationInformation("title2", "content2"),
-    StayApplicationInformation("title3", "content3"),
-)
-
 @Composable
 fun StayApplicationScreen(
     navController: NavController,
 ) {
+
+    // TODO 테스트 더미 값들
+    // TODO 추후 서버와 연동 과정에서 삭제하고 작업 진행
+
+    data class StayApplicationInformation(
+        val stayApplicationTitle: String,
+        val staApplicationContent: String,
+    )
+
+    val stayApplicationItemList by remember {
+        mutableStateOf(
+            mutableListOf(
+                StayApplicationInformation("title1", "content1"),
+                StayApplicationInformation("title2", "content2"),
+                StayApplicationInformation("title3", "content3"),
+            ),
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -90,12 +95,12 @@ fun StayApplicationScreen(
                     verticalArrangement = Arrangement.Center,
                 ) {
                     itemsIndexed(
-                        items = list,
+                        items = stayApplicationItemList,
                     ) { index, item ->
                         item.run {
 
-                            val isExpandedItem = (expandedItem == title)
-                            val isSelectedItem = (selectedItem == title)
+                            val isExpandedItem = (expandedItem == stayApplicationTitle)
+                            val isSelectedItem = (selectedItem == stayApplicationTitle)
 
                             val borderColor = if (isSelectedItem) {
                                 DormColor.DormPrimary
@@ -113,25 +118,25 @@ fun StayApplicationScreen(
                             // TODO 서버 Response 값에 맞게 값들들 수정
                             Spacer(modifier = Modifier.height(20.dp))
                             ApplicationCard(
-                                title = title,
-                                content = content,
+                                title = stayApplicationTitle,
+                                content = staApplicationContent,
                                 borderColor = borderColor,
                                 rotationState = rotationState,
                                 onItemClick = {
-                                    selectedItem = title
+                                    selectedItem = stayApplicationTitle
                                     isButtonVisible = true
                                 },
                                 onDrawableClick = {
                                     expandedItem = if (isExpandedItem) {
                                         ""
                                     } else {
-                                        title
+                                        stayApplicationTitle
                                     }
                                 },
                                 isContentVisible = isExpandedItem,
-                                hasLastApplied = (lastAppliedItem == title),
+                                hasLastApplied = (lastAppliedItem == stayApplicationTitle),
                             )
-                            if (list.size == index + 1) {
+                            if (stayApplicationItemList.size == index + 1) {
                                 Spacer(modifier = Modifier.height(30.dp))
                             }
                         }
