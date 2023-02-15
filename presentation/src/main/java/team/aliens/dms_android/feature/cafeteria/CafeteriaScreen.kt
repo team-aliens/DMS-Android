@@ -25,12 +25,12 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle1
-import team.aliens.dms_android.util.FloatingNotice
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.presentation.R
 

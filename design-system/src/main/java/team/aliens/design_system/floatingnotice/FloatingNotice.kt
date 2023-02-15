@@ -1,4 +1,4 @@
-package team.aliens.dms_android.util
+package team.aliens.design_system.floatingnotice
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,12 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.Body5
-import team.aliens.presentation.R
 
 @Composable
 fun FloatingNotice(
@@ -44,7 +43,7 @@ fun FloatingNotice(
                     .padding(start = 15.dp)
                     .size(26.dp),
                 painter = painterResource(id = R.drawable.coloricnotice),
-                contentDescription = stringResource(id = R.string.icNotice),
+                contentDescription = "NoticeIcon",
             )
             Spacer(modifier = Modifier.width(13.dp))
             Body5(text = content)

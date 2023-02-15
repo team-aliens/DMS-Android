@@ -20,7 +20,7 @@ import team.aliens.design_system.component.RoomDetail
 import team.aliens.design_system.component.SeatItem
 import team.aliens.design_system.component.SeatType
 import team.aliens.design_system.toast.rememberToast
-import team.aliens.dms_android.util.FloatingNotice
+import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R

@@ -29,7 +29,7 @@ import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.SubTitle2
-import team.aliens.dms_android.util.FloatingNotice
+import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 
 // TODO 테스트 더미 값들
