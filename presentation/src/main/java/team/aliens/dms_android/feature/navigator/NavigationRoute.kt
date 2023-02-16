@@ -4,7 +4,7 @@ object NavigationRoute {
 
     object BottomNavigation {
         const val Meal = "meal"
-        const val Survey = "survey"
+        const val Application = "application"
         const val Notice = "notice"
         const val MyPage = "mypage"
     }
@@ -13,4 +13,5 @@ object NavigationRoute {
     const val Main = "main"
     const val NoticeDetail = "noticeDetail/{noticeId}"
     const val PointList = "pointList"
+    const val StudyRoom = "studyRoom"
 }

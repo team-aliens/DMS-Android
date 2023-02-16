@@ -6,14 +6,18 @@ sealed class BottomNavigationItem(var route: String, var iconResId: Int, var tit
     object Meal :
         BottomNavigationItem(NavigationRoute.BottomNavigation.Meal, R.drawable.ic_house, "Meal")
 
-    object Survey :
-        BottomNavigationItem(NavigationRoute.BottomNavigation.Survey, R.drawable.ic_plus, "Survey")
+    object Application :
+        BottomNavigationItem(NavigationRoute.BottomNavigation.Application, R.drawable.ic_plus, "Application")
 
-    object Notice : BottomNavigationItem(NavigationRoute.BottomNavigation.Notice,
+    object Notice : BottomNavigationItem(
+        NavigationRoute.BottomNavigation.Notice,
         R.drawable.ic_notice,
-        "Notice")
+        "Notice"
+    )
 
-    object MyPage : BottomNavigationItem(NavigationRoute.BottomNavigation.MyPage,
+    object MyPage : BottomNavigationItem(
+        NavigationRoute.BottomNavigation.MyPage,
         R.drawable.ic_mypage,
-        "MyPage")
+        "MyPage"
+    )
 }

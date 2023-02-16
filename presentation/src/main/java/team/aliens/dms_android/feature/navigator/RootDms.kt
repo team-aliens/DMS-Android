@@ -11,6 +11,7 @@ import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
+import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
 
 @Composable
 fun RootDms(
@@ -46,6 +47,11 @@ fun RootDms(
             if (roomId != null) {
                 StudyRoomDetailScreen(navController = navController, roomId)
             }
+        }
+        composable(NavigationRoute.StudyRoom){
+            StudyRoomListScreen(
+                navController = navController
+            )
         }
     }
 }
