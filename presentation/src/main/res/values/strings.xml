@@ -76,8 +76,8 @@
     <string name="TodayCafeteria">오늘의 급식</string>
 
     // 공지
-    <string name="AnnounceMent">공지</string>
-    <string name="Notice">공지사신</string>
+    <string name="Announcement">공지</string>
+    <string name="Notice">공지사항</string>
     <string name="NewNotice">새로운 공지사항이 있습니다.</string>
 
     // 마이페이지

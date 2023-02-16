@@ -52,10 +52,9 @@ fun CafeteriaScreen(
         mealViewModel.mealEvent.collect {
             when (it) {
                 is MealViewModel.Event.FetchMealSuccess -> {
-
+                    // TODO 급식 정보 불러오기 로직 구현
                 }
-                else -> {
-                }
+                else -> {}
             }
         }
     }
