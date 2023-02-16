@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -24,12 +26,12 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.SubTitle2
-import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 
 @Composable
@@ -244,7 +246,10 @@ fun ApplicationCard(
                 painterResource(id = DormIcon.Backward.drawableId),
                 contentDescription = null,
                 modifier = Modifier
-                    .dormClickable { onDrawableClick() }
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) { onDrawableClick() }
                     .rotate(rotationState),
             )
         }
