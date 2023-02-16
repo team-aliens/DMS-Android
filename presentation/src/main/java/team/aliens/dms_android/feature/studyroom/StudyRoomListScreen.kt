@@ -19,8 +19,8 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomContent
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
-import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body5
+import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.presentation.R
 
@@ -121,8 +121,9 @@ fun StudyRoomListScreen(
             .background(DormColor.Gray200),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Body2(text = "자습실 신청")
+        TopBar(title = "자습실 신청"){
+            navController.popBackStack()
+        }
         Spacer(modifier = Modifier.height(27.dp))
         Box(contentAlignment = Alignment.CenterEnd,
             modifier = Modifier
