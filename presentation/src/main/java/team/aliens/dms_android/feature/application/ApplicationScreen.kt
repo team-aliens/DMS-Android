@@ -46,7 +46,7 @@ fun ApplicationScreen(
         Spacer(modifier = Modifier.height(14.dp))
         Body1(text = stringResource(id = R.string.Application))
         Spacer(modifier = Modifier.height(40.dp))
-        ApplicationCard(
+        ApplicationCard( // todo lastApplied param 추가
             title = stringResource(id = R.string.StudyRoom),
             content = stringResource(id = R.string.StudyRoomApplyDescription),
             buttonText = stringResource(id = R.string.DoApplyStudyRoom),
