@@ -20,6 +20,7 @@ import team.aliens.design_system.component.RoomContent
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
+import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.presentation.R
@@ -49,15 +50,7 @@ fun StudyRoomListScreen(
     }
 
     var points = remember {
-        mutableStateListOf(RoomDataClass(
-            roomId = "qewf",
-            position = "qwef",
-            title = "qwef",
-            currentNumber = 1,
-            maxNumber = 2,
-            isMine = false,
-            condition = "afwe",
-        ),
+        mutableStateListOf(
             RoomDataClass(
                 roomId = "qewf",
                 position = "qwef",
@@ -66,7 +59,17 @@ fun StudyRoomListScreen(
                 maxNumber = 2,
                 isMine = false,
                 condition = "afwe",
-            ))
+            ),
+            RoomDataClass(
+                roomId = "qewf",
+                position = "qwef",
+                title = "qwef",
+                currentNumber = 1,
+                maxNumber = 2,
+                isMine = false,
+                condition = "afwe",
+            )
+        )
     }
 
     val toast = rememberToast()
@@ -121,38 +124,14 @@ fun StudyRoomListScreen(
             .background(DormColor.Gray200),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TopBar(title = "자습실 신청"){
+        TopBar(title = "자습실 신청") {
             navController.popBackStack()
         }
         Spacer(modifier = Modifier.height(27.dp))
-        Box(contentAlignment = Alignment.CenterEnd,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(45.dp)
-                .padding(horizontal = 20.dp)
-                .dormShadow(
-                    color = DormColor.Gray500,
-                    offsetY = 1.dp,
-                )
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(100),
-                )) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    modifier = Modifier
-                        .padding(start = 15.dp)
-                        .size(26.dp),
-                    painter = painterResource(id = R.drawable.coloricnotice),
-                    contentDescription = stringResource(id = R.string.IcNotice),
-                )
-                Spacer(modifier = Modifier.width(13.dp))
-                Body5(text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
-            }
+        Box(
+            modifier = Modifier.padding(horizontal = 20.dp)
+        ){
+            FloatingNotice(content = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
         }
         Spacer(modifier = Modifier.height(30.dp))
         LazyColumn(

@@ -1,18 +1,13 @@
 package team.aliens.dms_android.feature.studyroom
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,7 +20,7 @@ import team.aliens.design_system.component.RoomDetail
 import team.aliens.design_system.component.SeatItem
 import team.aliens.design_system.component.SeatType
 import team.aliens.design_system.toast.rememberToast
-import team.aliens.design_system.typography.Body5
+import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
@@ -83,6 +78,7 @@ fun StudyRoomDetailScreen(
                     toast(noInternetException)
                 }
                 else -> {
+                    // TODO string resource 로 빼주기
                     toast("알 수 없는 에러가 발생했습니다.")
                 }
             }
@@ -91,13 +87,14 @@ fun StudyRoomDetailScreen(
 
     LaunchedEffect(Unit) {
         studyRoomViewModel.studyRoomApplyEffect.collect {
-            Log.d("123", "svd")
             when (it) {
                 is StudyRoomViewModel.Event.ApplyStudyRoom -> {
+                    // TODO string resource 로 빼주기
                     toast("자습실 신청에 성공하셨습니다.")
                     studyRoomViewModel.fetchStudyRoomDetail(roomId)
                 }
                 is StudyRoomViewModel.Event.CancelStudyRoom -> {
+                    // TODO string resource 로 빼주기
                     toast("자습실 신청을 취소하셨습니다.")
                     studyRoomViewModel.fetchStudyRoomDetail(roomId)
                 }
@@ -111,6 +108,7 @@ fun StudyRoomDetailScreen(
                     toast(forbidden)
                 }
                 is StudyRoomViewModel.Event.ConflictException -> {
+                    // TODO string resource 로 빼주기
                     toast("해당 자리로 이미 예약 되었습니다.")
                 }
                 is StudyRoomViewModel.Event.TooManyRequestException -> {
@@ -123,42 +121,32 @@ fun StudyRoomDetailScreen(
                     toast(noInternetException)
                 }
                 else -> {
+                    // TODO string resource 로 빼주기
                     toast("알 수 없는 에러가 발생했습니다.")
                 }
             }
         }
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = DormColor.Gray100)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = DormColor.Gray100)
+    ) {
+        // TODO string resource 로 빼주기
         TopBar(
             title = "자습실 신청",
         ) {
             navController.popBackStack()
         }
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .background(color = DormColor.Gray200)
-            .padding(horizontal = 16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = DormColor.Gray200)
+                .padding(horizontal = 16.dp)
+        ) {
             Spacer(modifier = Modifier.height(17.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(44.dp)
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(22.dp),
-                    )
-                    .padding(10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(modifier = Modifier.padding(start = 2.dp),
-                    painter = painterResource(id = R.drawable.coloricnotice),
-                    contentDescription = null)
-                Spacer(modifier = Modifier.width(12.dp))
-                Body5(text = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
-            }
+            FloatingNotice(content = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
             Spacer(modifier = Modifier.height(24.dp))
             RoomContent(roomId = "",
                 position = "${state.roomDetail.floor}층",
@@ -185,6 +173,7 @@ fun StudyRoomDetailScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+                // TODO string resource 로 빼주기
                 DormContainedLargeButton(
                     modifier = Modifier.fillMaxWidth(0.48f),
                     text = "취소",
@@ -193,12 +182,14 @@ fun StudyRoomDetailScreen(
                     studyRoomViewModel.cancelStudyRoomSeat()
                 }
                 Spacer(modifier = Modifier.width(10.dp))
+                // TODO string resource 로 빼주기
                 DormContainedLargeButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = "신청",
                     color = DormButtonColor.Blue,
                 ) {
                     if (state.currentSeat == null) {
+                        // TODO string resource 로 빼주기
                         toast("자리를 먼저 선택해주세요.")
                     } else {
                         studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
@@ -233,13 +224,15 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
         val height = seat.heightLocation - 1
         val color = seat.type?.color
 
-        defaultSeats[height][width] = SeatItem(id = seat.id,
+        defaultSeats[height][width] = SeatItem(
+            id = seat.id,
             number = seat.number,
             name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status))
+            type = SeatType.toSeatType(seat.status)
+        )
     }
 
     return defaultSeats

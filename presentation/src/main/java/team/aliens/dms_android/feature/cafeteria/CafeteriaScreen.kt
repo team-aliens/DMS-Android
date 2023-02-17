@@ -13,7 +13,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,10 +25,10 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
-import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle1
+import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.presentation.R
 
@@ -54,7 +53,9 @@ fun CafeteriaScreen(
                 is MealViewModel.Event.FetchMealSuccess -> {
                     // TODO 급식 정보 불러오기 로직 구현
                 }
-                else -> {}
+                else -> {
+                    // TODO show toast message
+                }
             }
         }
     }
@@ -99,34 +100,10 @@ fun TopBar(
 fun ImportantNotice() {
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(45.dp)
-            .padding(horizontal = 20.dp)
-            .dormShadow(
-                color = DormColor.Gray700,
-                offsetY = 1.dp,
-            )
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(100),
-            )
+        modifier = Modifier.padding(horizontal = 20.dp),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .size(26.dp),
-                painter = painterResource(id = R.drawable.coloricnotice),
-                contentDescription = stringResource(id = R.string.IcNotice),
-            )
-            Spacer(modifier = Modifier.width(13.dp))
-            Body5(text = stringResource(id = R.string.NewNotice))
-        }
+        // TODO string resource 로 빼주기
+        FloatingNotice(content = "새로운 공지사항이 있습니다.")
         Image(
             modifier = Modifier
                 .padding(end = 10.dp)
@@ -172,7 +149,7 @@ fun CafeteriaDiary(
                             mealViewModel.updateDay(state.today.minusDays(1))
                         },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
-                    contentDescription = stringResource(id = R.string.BackButton)
+                    contentDescription = stringResource(id = R.string.BackButton),
                 )
                 Row(
                     modifier = Modifier
