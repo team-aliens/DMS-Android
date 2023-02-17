@@ -14,6 +14,7 @@ import team.aliens.local_domain.repository.LocalUserRepository
 import team.aliens.local_domain.repository.meal.LocalMealRepository
 import team.aliens.local_domain.repository.mypage.LocalMyPageRepository
 import team.aliens.local_domain.repository.notice.LocalNoticeRepository
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -73,4 +74,10 @@ abstract class RepositoryModule {
     abstract fun provideLocalMyPageRepository(
         localMyPageRepositoryImpl: LocalMyPageRepositoryImpl,
     ): LocalMyPageRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsRemainRepository(
+        remainRepositoryImpl: RemainRepositoryImpl,
+    ): RemainRepository
 }
