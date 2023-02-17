@@ -23,7 +23,7 @@ fun FloatingNotice(
         contentAlignment = Alignment.CenterEnd,
         modifier = Modifier
             .fillMaxWidth()
-            .height(45.dp)
+            .height(50.dp)
             .dormShadow(
                 color = DormColor.Gray500,
                 offsetY = 1.dp,

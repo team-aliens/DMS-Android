@@ -31,8 +31,15 @@ import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.ButtonText
+import team.aliens.design_system.typography.SubTitle1
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.util.TopBar
+
+// TODO 테스트 더미 값 추후 삭제
+data class StayApplicationInformation(
+    val stayApplicationTitle: String,
+    val staApplicationContent: String,
+)
 
 @Composable
 fun StayApplicationScreen(
@@ -42,12 +49,8 @@ fun StayApplicationScreen(
     // TODO 테스트 더미 값들
     // TODO 추후 서버와 연동 과정에서 삭제하고 작업 진행
 
-    data class StayApplicationInformation(
-        val stayApplicationTitle: String,
-        val staApplicationContent: String,
-    )
-
-    val stayApplicationItemList by remember {
+    val stayApplicationItems by remember {
+        // TODO Immutable 객체로 변경하기
         mutableStateOf(
             mutableListOf(
                 StayApplicationInformation("title1", "content1"),
@@ -83,62 +86,64 @@ fun StayApplicationScreen(
             modifier = Modifier.padding(horizontal = 20.dp)
         ) {
 
-            Spacer(modifier = Modifier.height(8.dp))
-
             // TODO 서버로부터 받은 값 가공하여 넣기
-            FloatingNotice(content = "")
+            val noticeContent = ""
 
-            Spacer(modifier = Modifier.height(30.dp))
+            if (noticeContent.isNotBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                FloatingNotice(content = noticeContent)
+                Spacer(modifier = Modifier.height(30.dp))
+            }
 
             Column(
                 modifier = Modifier.fillMaxHeight(0.9f)
             ) {
                 LazyColumn(
-                    verticalArrangement = Arrangement.Center,
+                   verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     itemsIndexed(
-                        items = stayApplicationItemList,
+                        items = stayApplicationItems,
                     ) { index, item ->
                         item.run {
 
-                            val isExpandedItem = (expandedItem == stayApplicationTitle)
-                            val isSelectedItem = (selectedItem == stayApplicationTitle)
+                            val isItemExpanded = (expandedItem == stayApplicationTitle)
+                            val isItemSelected = (selectedItem == stayApplicationTitle)
 
-                            val borderColor = if (isSelectedItem) {
+                            val borderColor = if (isItemSelected) {
                                 DormColor.DormPrimary
                             } else {
                                 DormColor.Gray100
                             }
 
                             val rotationState by animateFloatAsState(
-                                targetValue = if (isExpandedItem) {
+                                targetValue = if (isItemExpanded) {
                                     90f
                                 } else {
                                     270f
                                 }
                             )
                             // TODO 서버 Response 값에 맞게 값들들 수정
-                            Spacer(modifier = Modifier.height(20.dp))
+                            //Spacer(modifier = Modifier.height(20.dp))
                             ApplicationCard(
                                 title = stayApplicationTitle,
                                 content = staApplicationContent,
                                 borderColor = borderColor,
                                 rotationState = rotationState,
-                                onItemClick = {
+                                onSelect = {
                                     selectedItem = stayApplicationTitle
                                     isButtonVisible = true
                                 },
-                                onDrawableClick = {
-                                    expandedItem = if (isExpandedItem) {
+                                onUnfold = {
+                                    expandedItem = if (isItemExpanded) {
                                         ""
                                     } else {
                                         stayApplicationTitle
                                     }
                                 },
-                                isContentVisible = isExpandedItem,
+                                isContentVisible = isItemExpanded,
                                 hasLastApplied = (lastAppliedItem == stayApplicationTitle),
                             )
-                            if (stayApplicationItemList.size == index + 1) {
+                            if (stayApplicationItems.size == index + 1) {
                                 Spacer(modifier = Modifier.height(30.dp))
                             }
                         }
@@ -174,8 +179,8 @@ fun ApplicationCard(
     content: String,
     borderColor: Color,
     rotationState: Float,
-    onItemClick: () -> Unit,
-    onDrawableClick: () -> Unit,
+    onSelect: () -> Unit,
+    onUnfold: () -> Unit,
     isContentVisible: Boolean,
     hasLastApplied: Boolean = false,
 ) {
@@ -195,53 +200,45 @@ fun ApplicationCard(
                 shape = RoundedCornerShape(8.dp),
             )
             .background(color = DormColor.Gray100)
-            .dormClickable { onItemClick() },
+            .dormClickable { onSelect() },
     ) {
         Spacer(
-            modifier = Modifier.height(
-                if (hasLastApplied) {
-                    13.dp
-                } else {
-                    16.dp
-                },
-            )
+            modifier = Modifier.height(14.dp)
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(start = 24.dp),
+        Box(
+            modifier = Modifier.height(32.dp),
+            contentAlignment = Alignment.CenterEnd,
         ) {
-            SubTitle2(text = title)
-            // TODO 신청 메인 화면에 동일 컴포넌트가 있음 -> 따로 빼주기
-            if (hasLastApplied) {
-                Spacer(modifier = Modifier.width(20.dp))
-                Box(
-                    modifier = Modifier
-                        .size(
-                            width = 92.dp,
-                            height = 34.dp,
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(0.96f)
+                    .padding(start = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                SubTitle2(text = title)
+                // TODO 신청 메인 화면에 동일 컴포넌트가 있음 -> 따로 빼주기
+                if (hasLastApplied) {
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(
+                                width = 92.dp,
+                                height = 34.dp,
+                            )
+                            .background(
+                                color = DormColor.Lighten200,
+                                shape = RoundedCornerShape(100)
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        // TODO string resource 로 빼기 (conflict 방지)
+                        ButtonText(
+                            text = "신청 완료",
+                            color = DormColor.DormPrimary,
                         )
-                        .background(
-                            color = DormColor.Lighten200,
-                            shape = RoundedCornerShape(100)
-                        ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    // TODO string resource 로 빼기 (conflict 방지)
-                    ButtonText(
-                        text = "신청 완료",
-                        color = DormColor.DormPrimary,
-                    )
+                    }
                 }
             }
-            Spacer(
-                modifier = Modifier.fillMaxWidth(
-                    fraction = if (hasLastApplied) {
-                        0.8f
-                    } else {
-                        0.87f
-                    },
-                )
-            )
             Image(
                 painterResource(id = DormIcon.Backward.drawableId),
                 contentDescription = null,
@@ -249,7 +246,7 @@ fun ApplicationCard(
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
-                    ) { onDrawableClick() }
+                    ) { onUnfold() }
                     .rotate(rotationState),
             )
         }
