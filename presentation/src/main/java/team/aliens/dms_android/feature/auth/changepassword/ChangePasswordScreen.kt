@@ -47,8 +47,8 @@ private fun HandleViewEffect(
     scaffoldState: ScaffoldState,
 ) {
 
-    val badRequestComment = stringResource(id = R.string.ChangePasswordBadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.ChangePasswordUnAuthorized)
+    val badRequestComment = stringResource(id = R.string.BadRequest)
+    val unAuthorizedComment = stringResource(id = R.string.NoSameCode)
     val notFoundComment = stringResource(id = R.string.ChangePasswordNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
@@ -61,33 +61,45 @@ private fun HandleViewEffect(
             }
 
             is ChangePasswordEvent.BadRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(message = badRequestComment,
-                    duration = SnackbarDuration.Short)
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = badRequestComment,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             is ChangePasswordEvent.UnAuthorizedException -> {
-                scaffoldState.snackbarHostState.showSnackbar(message = unAuthorizedComment,
-                    duration = SnackbarDuration.Short)
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = unAuthorizedComment,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             is ChangePasswordEvent.NotFoundException -> {
-                scaffoldState.snackbarHostState.showSnackbar(message = notFoundComment,
-                    duration = SnackbarDuration.Short)
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = notFoundComment,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             is ChangePasswordEvent.TooManyRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(message = tooManyRequestComment,
-                    duration = SnackbarDuration.Short)
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = tooManyRequestComment,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             is ChangePasswordEvent.InternalServerException -> {
-                scaffoldState.snackbarHostState.showSnackbar(message = serverException,
-                    duration = SnackbarDuration.Short)
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = serverException,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             is ChangePasswordEvent.UnKnownException -> {
-                scaffoldState.snackbarHostState.showSnackbar(message = unKnownException,
-                    duration = SnackbarDuration.Short)
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = unKnownException,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             else -> {}
@@ -120,7 +132,7 @@ fun MainValue() {
                     .height(24.dp)
                     .width(24.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                contentDescription = "backButton",
+                contentDescription = stringResource(id = R.string.BackButton),
             )
             Image(
                 modifier = Modifier
@@ -128,11 +140,11 @@ fun MainValue() {
                     .height(85.dp)
                     .width(85.dp),
                 painter = painterResource(id = R.drawable.ic_information_toast),
-                contentDescription = "MainLogo",
+                contentDescription = stringResource(id = R.string.MainLogo),
             )
             Spacer(modifier = Modifier.height(1.dp))
             Body4(
-                text = "새 비밀번호 설정",
+                text = stringResource(id = R.string.SetNewPassword),
                 color = DormColor.Gray600,
             )
         }

@@ -19,10 +19,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.color.DormColor
+import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.notice.NoticeScreen
-import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -43,7 +43,7 @@ fun DmsApp(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
-            composable(BottomNavigationItem.Survey.route) { StudyRoomListScreen(navController = navController) }
+            composable(BottomNavigationItem.Application.route) { ApplicationScreen(navController = navController) }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
             composable(BottomNavigationItem.MyPage.route) {
                 MyPageScreen(navController = navController, scaffoldState = scaffoldState)
@@ -69,19 +69,25 @@ fun BottomNavBar(
         navigateBottomNavigation(BottomNavigationItem.Meal.route, navController)
         bottomTabSelectedItem.value = BottomNavigationItem.Meal.route
     }, icon = {
-        Icon(painter = painterResource(id = BottomNavigationItem.Meal.iconResId),
-            contentDescription = null)
-    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Meal.route)
+        Icon(
+            painter = painterResource(id = BottomNavigationItem.Meal.iconResId),
+            contentDescription = null
+        )
+    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Meal.route
+    )
 
     BottomNavigationItem(modifier = Modifier
         .weight(0.5f)
         .size(25.dp), onClick = {
-        navigateBottomNavigation(BottomNavigationItem.Survey.route, navController)
-        bottomTabSelectedItem.value = BottomNavigationItem.Survey.route
+        navigateBottomNavigation(BottomNavigationItem.Application.route, navController)
+        bottomTabSelectedItem.value = BottomNavigationItem.Application.route
     }, icon = {
-        Icon(painter = painterResource(id = BottomNavigationItem.Survey.iconResId),
-            contentDescription = null)
-    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Survey.route)
+        Icon(
+            painter = painterResource(id = BottomNavigationItem.Application.iconResId),
+            contentDescription = null
+        )
+    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Application.route
+    )
 
     BottomNavigationItem(modifier = Modifier
         .weight(0.5f)
@@ -89,9 +95,12 @@ fun BottomNavBar(
         navigateBottomNavigation(BottomNavigationItem.Notice.route, navController)
         bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
     }, icon = {
-        Icon(painter = painterResource(id = BottomNavigationItem.Notice.iconResId),
-            contentDescription = null)
-    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Notice.route)
+        Icon(
+            painter = painterResource(id = BottomNavigationItem.Notice.iconResId),
+            contentDescription = null
+        )
+    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.Notice.route
+    )
 
     BottomNavigationItem(modifier = Modifier
         .weight(0.5f)
@@ -99,9 +108,12 @@ fun BottomNavBar(
         navigateBottomNavigation(BottomNavigationItem.MyPage.route, navController)
         bottomTabSelectedItem.value = BottomNavigationItem.MyPage.route
     }, icon = {
-        Icon(painter = painterResource(id = BottomNavigationItem.MyPage.iconResId),
-            contentDescription = null)
-    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.MyPage.route)
+        Icon(
+            painter = painterResource(id = BottomNavigationItem.MyPage.iconResId),
+            contentDescription = null
+        )
+    }, selected = bottomTabSelectedItem.value == BottomNavigationItem.MyPage.route
+    )
 }
 
 fun navigateBottomNavigation(route: String, navController: NavHostController) {

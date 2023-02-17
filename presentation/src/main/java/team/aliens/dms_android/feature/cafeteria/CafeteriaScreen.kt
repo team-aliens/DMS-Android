@@ -53,10 +53,10 @@ fun CafeteriaScreen(
         mealViewModel.mealEvent.collect {
             when (it) {
                 is MealViewModel.Event.FetchMealSuccess -> {
-
+                    // TODO 급식 정보 불러오기 로직 구현
                 }
                 else -> {
-                    // TODO toast message
+                    // TODO show toast message
                 }
             }
         }
@@ -102,18 +102,7 @@ fun TopBar(
 fun ImportantNotice() {
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(45.dp)
-            .padding(horizontal = 20.dp)
-            .dormShadow(
-                color = DormColor.Gray700,
-                offsetY = 1.dp,
-            )
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(100),
-            )
+        modifier = Modifier.padding(horizontal = 20.dp),
     ) {
         // TODO string resource 로 빼주기
         FloatingNotice(content = "새로운 공지사항이 있습니다.")
@@ -162,7 +151,7 @@ fun CafeteriaDiary(
                             mealViewModel.updateDay(state.today.minusDays(1))
                         },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
-                    contentDescription = stringResource(id = R.string.backButton)
+                    contentDescription = stringResource(id = R.string.BackButton),
                 )
                 Row(
                     modifier = Modifier

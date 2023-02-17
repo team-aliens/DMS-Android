@@ -68,14 +68,18 @@ class EmailCertificationFragment :
             }
 
             is RegisterEmailEvent.SendEmailSuccess -> {
-                showShortToast("성공적으로 이메일을 보냈습니다")
+                showShortToast(getString(R.string.SendSuccess))
                 fiveTimer()
             }
 
             is RegisterEmailEvent.CheckEmailUnauthorized -> {
                 binding.tvDetail.text = getString(R.string.NoSameCode)
-                binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.error))
+                binding.tvDetail.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error,
+                    )
+                )
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isClickable = false
             }
@@ -94,8 +98,12 @@ class EmailCertificationFragment :
 
             is RegisterEmailEvent.TooManyRequestsException -> {
                 binding.tvDetail.text = getString(R.string.EmailTooManyRequest)
-                binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.error))
+                binding.tvDetail.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error,
+                    )
+                )
                 showShortToast(getString(R.string.TooManyRequest))
             }
 
@@ -147,8 +155,12 @@ class EmailCertificationFragment :
 
                 if (num == 0) {
                     binding.tvDetail.text = getString(R.string.AuthenticationTimeout)
-                    binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
-                        R.color.error))
+                    binding.tvDetail.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.error,
+                        )
+                    )
                     binding.btnVerificationCode.isClickable = false
                     binding.btnVerificationCode.isEnabled = false
                 }

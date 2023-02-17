@@ -154,7 +154,7 @@ fun StudyRoomDetailScreen(
                 currentNumber = state.roomDetail.inUseHeadCount,
                 maxNumber = state.roomDetail.totalAvailableSeat,
                 isMine = false,
-                condition = "${state.roomDetail.availableGrade}${stringResource(id = R.string.grade)} ${state.roomDetail.studyRoomSex}",
+                condition = "${state.roomDetail.availableGrade}${stringResource(id = R.string.Grade)} ${state.roomDetail.studyRoomSex}",
                 onClick = { })
             Spacer(modifier = Modifier.height(30.dp))
             RoomDetail(

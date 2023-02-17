@@ -55,7 +55,7 @@ fun CheckPwValue() {
         modifier = Modifier.padding(start = 24.dp, end = 24.dp),
         value = passwordValue,
         onValueChange = { passwordValue = it },
-        hint = stringResource(R.string.enter_password),
+        hint = stringResource(R.string.EnterPassword),
         isPassword = true,
     )
 
@@ -66,7 +66,7 @@ fun CheckPwValue() {
             .padding(start = 24.dp, end = 24.dp, bottom = 60.dp),
     ) {
         DormContainedLargeButton(
-            text = stringResource(R.string.next),
+            text = stringResource(R.string.Next),
             color = DormButtonColor.Blue,
             enabled = false,
         ) {

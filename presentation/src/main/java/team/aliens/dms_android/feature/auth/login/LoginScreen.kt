@@ -40,7 +40,7 @@ fun LoginScreen(
 
     val toast = rememberToast()
 
-    val badRequestComment = stringResource(id = R.string.LoginBadRequest)
+    val badRequestComment = stringResource(id = R.string.BadRequest)
     val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
     val notFoundComment = stringResource(id = R.string.LoginNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
@@ -112,18 +112,20 @@ private fun BackPressHandle() {
 @Composable
 fun MainTitle() {
     Box(contentAlignment = Alignment.TopStart) {
-        Column(modifier = Modifier.padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(
+            modifier = Modifier.padding(start = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Image(
                 modifier = Modifier
                     .padding(top = 92.dp)
                     .height(34.dp)
                     .width(97.dp),
                 painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = "MainLogo",
+                contentDescription = stringResource(id = R.string.MainLogo),
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Body4(text = "더 편한 기숙사 생활을 위해")
+            Body4(text = stringResource(id = R.string.AppDescription))
         }
     }
 }
@@ -213,15 +215,15 @@ fun AddFunction() {
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Caption(
-                text = "회원가입하기",
+                text = stringResource(id = R.string.DoRegister),
                 onClick = {
                     mContext.startActivity(Intent(mContext, RegisterActivity::class.java))
                 },
             )
             Caption(text = "|")
-            Caption(text = "아이디 찾기")
+            Caption(text = stringResource(id = R.string.FindId))
             Caption(text = "|")
-            Caption(text = "비밀번호 변경")
+            Caption(text = stringResource(id = R.string.ChangePassword))
         }
     }
 }

@@ -40,17 +40,17 @@ fun CafeteriaMenu(
                 count = pages.size,
                 state = pagerState,
             ) {
-                Column(modifier = Modifier
-                    .fillMaxSize()
-                    .border(color = DormColor.DormPrimary,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(15)),
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(
+                            color = DormColor.DormPrimary,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(15)
+                        ),
                     verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "\n김범진김범진김범진\n")
-                    Text(text = "\n김범진김범진김범진\n")
-                    Text(text = "\n김범진김범진김범진\n")
-                    Text(text = "\n김범진김범진김범진\n")
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                 }
             }
         }
