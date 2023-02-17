@@ -87,7 +87,7 @@ fun NoticeScreen(
                     toast(noInternetException)
                 }
                 is NoticeViewModel.Event.FetchNoticeDetail -> {
-                    toast("dw")
+
                 }
                 is NoticeViewModel.Event.NullPointException -> {
                     toast("null")
@@ -128,7 +128,7 @@ fun NoticeTopBar() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        Body1(text = "공지사항")
+        Body1(text = stringResource(id = R.string.Notice))
     }
 }
 

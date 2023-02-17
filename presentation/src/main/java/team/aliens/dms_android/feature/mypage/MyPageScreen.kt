@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.mypage
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -58,27 +57,21 @@ fun MyPageScreen(
             when (it) {
                 is MyPageViewModel.Event.NullPointException -> {
                     scaffoldState.snackbarHostState.showSnackbar("null")
-                    Log.d("123", "2")
                 }
                 is MyPageViewModel.Event.UnAuthorizedTokenException -> {
                     scaffoldState.snackbarHostState.showSnackbar(unAuthorizedComment)
-                    Log.d("123", "3")
                 }
                 is MyPageViewModel.Event.CannotConnectException -> {
                     scaffoldState.snackbarHostState.showSnackbar(forbiddenException)
-                    Log.d("123", "4")
                 }
                 is MyPageViewModel.Event.TooManyRequestException -> {
                     scaffoldState.snackbarHostState.showSnackbar(tooManyRequestComment)
-                    Log.d("123", "5")
                 }
                 is MyPageViewModel.Event.InternalServerException -> {
                     scaffoldState.snackbarHostState.showSnackbar(serverException)
-                    Log.d("123", "6")
                 }
                 is MyPageViewModel.Event.UnknownException -> {
                     scaffoldState.snackbarHostState.showSnackbar(unKnownException)
-                    Log.d("123", "7")
                 }
             }
         }

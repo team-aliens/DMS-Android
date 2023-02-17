@@ -1,6 +1,5 @@
 package team.aliens.data.repository
 
-import android.util.Log
 import team.aliens.data.remote.datasource.declaration.RemoteMealDataSource
 import team.aliens.data.remote.response.meal.toEntity
 import team.aliens.domain.entity.MealEntity
@@ -16,7 +15,6 @@ class MealRepositoryImpl @Inject constructor(
 ) : MealRepository {
 
     override suspend fun fetchMealValue(date: LocalDate): MealEntity {
-        Log.d("meals", "Repository")
         val response = remoteMealDataSource.getMealValue(date).toEntity()
         localMealDataSource.setMeal(response.meals.map { it.toDbEntity() })
         return response

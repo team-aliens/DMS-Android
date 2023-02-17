@@ -72,7 +72,7 @@ fun NoticeDetailScreen(
                     toast(noInternetException)
                 }
                 else -> {
-                    toast("aewfawefaefawe")
+
                 }
             }
         }
@@ -83,7 +83,7 @@ fun NoticeDetailScreen(
             .background(DormColor.Gray100)
             .verticalScroll(rememberScrollState()),
     ) {
-        TopBar(title = stringResource(id = R.string.Notice)) {
+        TopBar(title = stringResource(id = R.string.Announcement)) {
             navController.popBackStack()
         }
         Column(

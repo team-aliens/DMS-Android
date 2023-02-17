@@ -90,7 +90,7 @@ class ConfirmSchoolFragment :
             }
 
             is ConfirmSchoolEvent.CompareSchoolUnauthorizedException -> {
-                binding.tvError.text = getString(R.string.inconsistent_school_reply)
+                binding.tvError.text = getString(R.string.InconsistentSchoolReply)
                 binding.tvError.setTextColor(ContextCompat.getColor(requireContext(),
                     R.color.error))
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)

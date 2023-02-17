@@ -1,162 +1,137 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">DMS_Android</string>
 
-    <string name="not_valid_email_format">올바른 이메일 형식이 아닙니다.</string>
-    <string name="enter_email_address">이메일 주소 입력</string>
-    <string name="send_verification_code">인증코드 발송</string>
-    <string name="ResendVerificationCode"><u>인증코드 재발송</u></string>
-    <string name="set_id">아이디 설정</string>
-    <string name="grade">학년</string>
-    <string name="class_room">반</string>
-    <string name="number">번호</string>
-    <string name="enter_id">아이디 입력</string>
-    <string name="CheckGrade">학번을 확인해주세요.</string>
-    <string name="using_id">사용중인 아이디입니다.</string>
-    <string name="next">다음</string>
-    <string name="NotSameName">일치하는 아이디가 존재하지 않습니다.</string>
-    <string name="question_confirm_school">학교 확인 질문</string>
-    <string name="school_students">우리 학교 학생 수는?</string>
-    <string name="inconsistent_school_reply">학교 인증 질문과 답변이 일치하지 않습니다!</string>
-    <string name="reply">답변</string>
-    <string name="verification">인증</string>
-    <string name="VerificationMine">계정 본인인증</string>
-    <string name="already_account">이미 계정이 있으신가요?</string>
-    <string name="login">로그인</string>
+    // 앱 이름
+    <string name="AppName">DMS_Android</string>
+    <string name="Dms">DMS</string>
 
-    <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
-    <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
-    <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
-
-    <string name="EnterName">이름 입력</string>
-    <string name="set_password">비밀번호 설정</string>
-    <string name="enter_password">비밀번호 입력</string>
-    <string name="reenter_password">비밀번호 재입력</string>
-    <string name="check_password">비밀번호를 확인해주세요.</string>
-    <string name="SchoolVerificationCode">학교 인증코드 입력</string>
-    <string name="VerificationCode">인증코드 입력</string>
-    <string name="EmailEightCode">소속된 학교의 인증코드 8자리를 입력해주세요.</string>
-    <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
-    <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
-    <string name="CheckAllPolicy">전체 약관 동의</string>
-    <string name="Next">다음</string>
-    <string name="Check">확인</string>
+    // 로그인
     <string name="Login">로그인</string>
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
     <string name="DoRegister">회원가입하기</string>
-    <string name="FindId">아이디 찾기</string>
-    <string name="EditPassword">비밀번호 변경</string>
-    <string name="TooManyRequest">너무 많은 요청이 감지되었습니다. 잠시뒤에 다시 시도해주세요.</string>
-    <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
-    <string name="NoInternetException">네트워크 연결을 확인해주세요.</string>
-    <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
-    <string name="LoginBadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
+    <string name="FindId">아이디 찾운</string>
+
+    // 회원가입
+    <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
+    <string name="CompleteRegister">회원가입이 완료되었습니다.</string>
+    <string name="GoLogin">로그인 화면으로 가기</string>
+    <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
+
+    // 약관
+    <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
+    <string name="CheckAllPolicy">전체 약관 동의</string>
+
+    // 이메일 입력
+    <string name="NotValidEmailFormat">올바른 이메일 형식이 아닙니다.</string>
+    <string name="EnterEmailAddress">이메일 주소 입력</string>
+    <string name="SendVerificationCode">인증코드 발송</string>
+
+    // 이메일 인증
+    <string name="ResendVerificationCode"><u>인증코드 재발송</u></string>
+    <string name="Verification">인증</string>
+    <string name="SendSuccess">성공정으로 이메일을 보냈습니다.</string>
+    <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
+    <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
+    <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
+    <string name="VerificationCode">인증코드 입력</string>
+    <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
+
+    // 아이디 설정
+    <string name="SetId">아이디 설정</string>
+    <string name="EnterId">아이디 입력</string>
+
+    <string name="Grade">학년</string>
+    <string name="ClassRoom">반</string>
+    <string name="Number">번호</string>
+
+    <string name="CheckGrade">학번을 확인해주세요.</string>
+    <string name="UsingId">사용중인 아이디입니다.</string>
+
+    // 학교 확인
+    <string name="QuestionConfirmSchool">학교 확인 질문</string>
+    <string name="InconsistentSchoolReply">학교 인증 질문과 답변이 일치하지 않습니다!</string>
+    <string name="Reply">답변</string>
+    <string name="AlreadyAccount">이미 계정이 있으신가요?</string>
+
+    // 학교 인증
+    <string name="SchoolVerificationCode">학교 인증코드 입력</string>
+    <string name="EmailEightCode">소속된 학교의 인증코드 8자리를 입력해주세요.</string>
+    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
+
+    // 비밀번호 설정
+    <string name="SetPassword">비밀번호 설정</string>
+    <string name="SetNewPassword">새 비밀번호 설정</string>
+    <string name="EnterPassword">비밀번호 입력</string>
+    <string name="ReEnterPassword">비밀번호 재입력</string>
+    <string name="CheckPassword">비밀번호를 확인해주세요.</string>
+
+    // 비밀번호 변경
+    <string name="ScanNewPassword">새 비밀번호 입력</string>
+    <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
+    <string name="ChangePassword">비밀번호 변경</string>
+    <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
+    <string name="OriginPw">기존 비밀번호</string>
+
+    // 급식
+    <string name="TodayCafeteria">오늘의 급식</string>
+
+    // 공지
+    <string name="Announcement">공지</string>
+    <string name="Notice">공지사항</string>
+    <string name="NewNotice">새로운 공지사항이 있습니다.</string>
+
+    // 마이페이지
+    <string name="PlusPoint">상점</string>
+    <string name="MinusPoint">벌점</string>
+    <string name="CheckPointList">상벌점 내역 확인</string>
+    <string name="Logout">로그아웃</string>
+
+    // 상벌점 목록
+    <string name="CheckPoint">상벌점 확인</string>
+
+    // 프로필 이미지 설정
+    <string name="ProfileImage">프로필 사진</string>
+    <string name="SettingLater"><u>다음에 설정하기</u></string>
+    <string name="LoadImageError">이미지를 가져오던 중 오류가 발생하였습니다.</string>
+
+    // 전역
+    <string name="Next">다음</string>
+    <string name="Check">확인</string>
+    <string name="AppDescription">더 편한 기숙사 생활을 위디</string>
+
+    // 에러 처리
+    <string name="Forbidden">접근 권한이 없습니다.</string>
     <string name="BadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
     <string name="UnAuthorized">토큰이 만료되었습니다. 재로그인해주세요.</string>
-    <string name="Forbidden">접근 권한이 없습니다.</string>
-    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
-    <string name="CompareSchoolUnAuthorized">질문에 대한 답변이 일치하지 않음.</string>
+    <string name="TooManyRequest">너무 많은 요청이 감지되었습니다. 잠시뒤에 다시 시도해주세요.</string>
+    <string name="NoInternetException">네트워크 연결을 확인해주세요.</string>
+    <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
+    <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
+    <string name="NotFound">찾을 수 없음</string>
+
+    // 인증 실패
     <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
     <string name="CompareSchoolNotFound">학교를 찾을 수 없습니다.</string>
     <string name="CertificationInfoNotFound">인증 정보를 찾을 수 없습니다.</string>
     <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
-    <string name="ChangePasswordBadRequest">잘못된 요청입니다. 다시 시도해주세요.</string>
-    <string name="ChangePasswordUnAuthorized">이메일 인증번호가 틀립니다.</string>
     <string name="ChangePasswordNotFound">해당 사용자를 찾을 수 없습니다.</string>
-    <string name="ScanNewPassword">새 비밀번호 입력</string>
-    <string name="SameIdAndEmail">아이디와 일치하는 이메일입니다.</string>
-    <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
-    <string name="ProfileImage">프로필 사진</string>
-    <string name="SettingLater"><u>다음에 설정하기</u></string>
-    <string name="backButton">backButton</string>
+
+    // 설명
+    <string name="BackButton">backButton</string>
     <string name="NextButton">NextButton</string>
     <string name="MainLogo">MainLogo</string>
     <string name="ContainAddImage">ContainAddImage</string>
     <string name="AddImageButton">AddImageButton</string>
     <string name="CameraIcon">CameraIcon</string>
     <string name="PhotoIcon">PhotoIcon</string>
-    <string name="TakePhoto">사진 촬영</string>
-    <string name="ChoosePhoto">사진 선택</string>
-    <string name="TodayCafeteria">오늘의 급식</string>
-    <string name="icNotice">NoticeIcon</string>
-    <string name="AM7">AgoMon7</string>
-    <string name="AL7">AgoLun7</string>
-    <string name="AD7">AgoDin7</string>
-    <string name="AM6">AgoMon6</string>
-    <string name="AL6">AgoLun6</string>
-    <string name="AD6">AgoDin6</string>
-    <string name="AM5">AgoMon5</string>
-    <string name="AL5">AgoLun5</string>
-    <string name="AD5">AgoDin5</string>
-    <string name="AM4">AgoMon4</string>
-    <string name="AL4">AgoLun4</string>
-    <string name="AD4">AgoDin4</string>
-    <string name="AM3">AgoMon3</string>
-    <string name="AL3">AgoLun3</string>
-    <string name="AD3">AgoDin3</string>
-    <string name="AM2">AgoMon2</string>
-    <string name="AL2">AgoLun2</string>
-    <string name="AD2">AgoDin2</string>
-    <string name="AM1">AgoMon1</string>
-    <string name="AL1">AgoLun1</string>
-    <string name="AD1">AgoDin1</string>
-    <string name="TM">TodayMon</string>
-    <string name="TL">TodayLun</string>
-    <string name="TD">TodayDin</string>
-    <string name="LM7">LaterMon7</string>
-    <string name="LL7">LaterLun7</string>
-    <string name="LD7">LaterDin7</string>
-    <string name="LM6">LaterMon6</string>
-    <string name="LL6">LaterLun6</string>
-    <string name="LD6">LaterDin6</string>
-    <string name="LM5">LaterMon5</string>
-    <string name="LL5">LaterLun5</string>
-    <string name="LD5">LaterDin5</string>
-    <string name="LM4">LaterMon4</string>
-    <string name="LL4">LaterLun4</string>
-    <string name="LD4">LaterDin4</string>
-    <string name="LM3">LaterMon3</string>
-    <string name="LL3">LaterLun3</string>
-    <string name="LD3">LaterDin3</string>
-    <string name="LM2">LaterMon2</string>
-    <string name="LL2">LaterLun2</string>
-    <string name="LD2">LaterDin2</string>
-    <string name="LM1">LaterMon1</string>
-    <string name="LL1">LaterLun1</string>
-    <string name="LD1">LaterDin1</string>
-    <string name="later">laterPager</string>
-    <string name="now">nowPager</string>
-    <string name="ago">agoPager</string>
+    <string name="IcNotice">NoticeIcon</string>
+    <string name="Later">laterPager</string>
+    <string name="Now">nowPager</string>
+    <string name="Ago">agoPager</string>
     <string name="TomorrowButton">TomorrowButton</string>
     <string name="CafeteriaBackground">CafeteriaBackGround</string>
-    <string name="BackButton">뒤로가기 버튼</string>
-    <string name="Notice">공지</string>
-    <string name="New">최신순</string>
-    <string name="NoticeTitle">공지사항 제목</string>
-    <string name="NoticeTime">2022/01/21  8:29</string>
-    <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
-    <string name="NoticeContent">동해물과 백두산이 마르고 닳도록 하나님이 보우하사 우리 나라 만세</string>
-    <string name="Gcn">UserGcn</string>
-    <string name="ExampleGcn">2115</string>
-    <string name="ExampleName">유현명</string>
-    <string name="ExampleSchool">대덕소프트웨어마이스터고등학교</string>
-    <string name="ExampleWarning">벌점 왤케 많아 씹련아.   벌점 줄여 개년아</string>
-    <string name="PlusPoint">상점</string>
-    <string name="MinusPoint">벌점</string>
-    <string name="ExamplePlusPoint">13</string>
-    <string name="CheckPointList">상벌점 내역 확인</string>
-    <string name="ChangePassword">비밀번호 변경</string>
-    <string name="Logout">로그아웃</string>
-    <string name="CheckPoint">상벌점 확인</string>
-    <string name="ALL">전체</string>
-    <string name="ExampleTotalPoint">-15 점</string>
-    <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
-    <string name="OriginPw">기존 비밀번호</string>
-    <string name="TodayMeal">오늘의 급식</string>
-    <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
-    <string name="NotFound">찾을 수 없음</string>
-    <string name="CompleteRegister">회원가입이 완료되었습니다.</string>
-    <string name="GoLogin">로그인 화면으로 가기</string>
+    
+    // 잔류 신청
     <string name="Application">신청</string>
     <string name="StudyRoom">자습실</string>
     <string name="Stay">잔류</string>
@@ -164,4 +139,5 @@
     <string name="StayApplyDescription">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
     <string name="DoApplyStudyRoom">자습실 신청하기</string>
     <string name="DoApplyStay">잔류 신청하기</string>
+
 </resources>

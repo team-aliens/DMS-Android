@@ -3,7 +3,6 @@ package team.aliens.local_database.storage.implementation
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
@@ -27,19 +26,22 @@ class UserDataStorageImpl @Inject constructor(
     @SuppressLint("CommitPrefEdits")
     override fun setPersonalKey(personalKeyParam: UserPersonalKeyParam) {
         setString(context, ACCESS_TOKEN, personalKeyParam.accessToken)
-        setString(context,
+        setString(
+            context,
             ACCESS_TOKEN_EXPIRED_AT,
-            personalKeyParam.accessTokenExpiredAt.toString())
+            personalKeyParam.accessTokenExpiredAt.toString()
+        )
         setString(context, REFRESH_TOKEN, personalKeyParam.refreshToken)
-        setString(context,
+        setString(
+            context,
             REFRESH_TOKEN_EXPIRED_AT,
-            personalKeyParam.refreshTokenExpiredAt.toString())
+            personalKeyParam.refreshTokenExpiredAt.toString()
+        )
     }
 
     override fun fetchAccessToken(): String = getString(context, ACCESS_TOKEN)!!
 
     override fun fetchAccessTokenExpiredAt(): String {
-        Log.d("123123", getString(context, ACCESS_TOKEN_EXPIRED_AT)!!)
         return getString(context, ACCESS_TOKEN_EXPIRED_AT)!!
     }
 
