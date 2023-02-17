@@ -83,7 +83,7 @@ fun NoticeDetailScreen(
             .background(DormColor.Gray100)
             .verticalScroll(rememberScrollState()),
     ) {
-        TopBar(title = stringResource(id = R.string.AnnounceMent)) {
+        TopBar(title = stringResource(id = R.string.Announcement)) {
             navController.popBackStack()
         }
         Column(
