@@ -8,6 +8,7 @@ object DmsUrl {
     const val auth = "/auth"
     const val schools = "/schools"
     const val studyRoom = "/study-rooms"
+    const val remains = "/remains"
 
     object User {
         const val login = "$auth/tokens"
@@ -48,5 +49,12 @@ object DmsUrl {
         const val StudyRoomList = "$studyRoom/list/students"
         const val StudyRoomType = "$studyRoom/types"
         const val StudyRoomDetail = "$studyRoom/{study-room-id}/students"
+    }
+
+    object Remain {
+        const val updateRemainOption = "$remains/{remain-option-id}"
+        const val fetchCurrentRemainOption = "$remains/my"
+        const val fetchAvailableRemainTime = "$remains/available-time"
+        const val fetchRemainOptions = "$remains/options"
     }
 }
