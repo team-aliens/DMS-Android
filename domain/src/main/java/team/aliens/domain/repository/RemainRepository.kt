@@ -7,13 +7,13 @@ import java.util.*
 
 interface RemainRepository {
 
-    fun updateRemainOption(
+    suspend fun updateRemainOption(
         remainOptionId: UUID,
     )
 
-    fun fetchCurrentRemainOption(): CurrentRemainOptionEntity
+    suspend fun fetchCurrentRemainOption(): CurrentRemainOptionEntity
 
-    fun fetchAvailableRemainTime(): AvailableRemainTimeEntity
+    suspend fun fetchAvailableRemainTime(): AvailableRemainTimeEntity
 
-    fun fetchRemainOptions(): RemainOptionsEntity
+    suspend fun fetchRemainOptions(): RemainOptionsEntity
 }
