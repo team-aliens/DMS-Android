@@ -4,9 +4,9 @@ import java.util.*
 
 data class RemainOptionsEntity(
     val selectedOption: String,
-    val remainOptions: List<RemainOption>,
+    val remainOptionEntities: List<RemainOptionEntity>,
 ) {
-    data class RemainOption(
+    data class RemainOptionEntity(
         val id: UUID,
         val title: String,
         val description: String,
