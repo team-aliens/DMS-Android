@@ -111,7 +111,7 @@ fun ImportantNotice() {
                 .padding(end = 10.dp)
                 .size(33.dp),
             painter = painterResource(id = R.drawable.ic_next),
-            contentDescription = stringResource(id = R.string.icNotice),
+            contentDescription = stringResource(id = R.string.IcNotice),
         )
     }
 }
