@@ -26,12 +26,11 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.floatingnotice.FloatingNotice
+import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.ButtonText
-import team.aliens.design_system.typography.SubTitle1
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.util.TopBar
 
@@ -89,8 +88,9 @@ fun StayApplicationScreen(
             // TODO 서버로부터 받은 값 가공하여 넣기
             val noticeContent = ""
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             if (noticeContent.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
                 FloatingNotice(content = noticeContent)
                 Spacer(modifier = Modifier.height(30.dp))
             }

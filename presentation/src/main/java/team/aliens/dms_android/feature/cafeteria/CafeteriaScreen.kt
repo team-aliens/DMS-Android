@@ -13,7 +13,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,12 +24,11 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.floatingnotice.FloatingNotice
 import team.aliens.design_system.icon.DormIcon
-import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle1
+import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.presentation.R
 

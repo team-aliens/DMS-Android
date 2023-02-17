@@ -1,4 +1,4 @@
-package team.aliens.design_system.floatingnotice
+package team.aliens.dms_android.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
