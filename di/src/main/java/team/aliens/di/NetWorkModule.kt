@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import team.aliens.data.intercepter.AuthorizationInterceptor
 import team.aliens.data.remote.api.*
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,4 +57,8 @@ object NetWorkModule {
     @Provides
     fun provideStudyRoomApi(retrofit: Retrofit): StudyRoomApi =
         retrofit.create(StudyRoomApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRemainApi(retrofit: Retrofit): RemainApi = retrofit.create(RemainApi::class.java)
 }
