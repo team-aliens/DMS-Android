@@ -12,16 +12,16 @@ import java.util.*
 interface RemainApi {
 
     @PUT(DmsUrl.Remain.updateRemainOption)
-    fun updateRemainOption(
+    suspend fun updateRemainOption(
         @Query("remain-option-id") remainOptionId: UUID,
     )
 
     @GET(DmsUrl.Remain.fetchCurrentRemainOption)
-    fun fetchCurrentRemainOption(): FetchCurrentRemainOptionResponse
+    suspend fun fetchCurrentRemainOption(): FetchCurrentRemainOptionResponse
 
     @GET(DmsUrl.Remain.fetchAvailableRemainTime)
-    fun fetchAvailableRemainTime(): FetchAvailableRemainTimeResponse
+    suspend fun fetchAvailableRemainTime(): FetchAvailableRemainTimeResponse
 
     @GET(DmsUrl.Remain.fetchRemainOptions)
-    fun fetchRemainOptions(): FetchRemainOptionsResponse
+    suspend fun fetchRemainOptions(): FetchRemainOptionsResponse
 }
