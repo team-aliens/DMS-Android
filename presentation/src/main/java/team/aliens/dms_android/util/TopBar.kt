@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.Body1
+import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.presentation.R
 
@@ -43,6 +45,6 @@ fun TopBar(
             contentDescription = stringResource(id = R.string.BackButton),
         )
         Spacer(modifier = Modifier.width(32.dp))
-        SubTitle2(text = title)
+        Body3(text = title)
     }
 }
