@@ -17,7 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.toast.rememberToast
-import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.SubTitle2
@@ -81,7 +80,7 @@ fun NoticeDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray100)
+            .background(DormColor.Gray200)
             .verticalScroll(rememberScrollState()),
     ) {
         TopBar(title = stringResource(id = R.string.Announcement)) {
@@ -89,9 +88,8 @@ fun NoticeDetailScreen(
         }
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .background(DormColor.Gray200)
-                .padding(start = 23.dp),
+                .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.Start,
         ) {
             Spacer(
@@ -114,19 +112,14 @@ fun NoticeDetailScreen(
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
-                    .padding(end = 23.dp)
                     .background(DormColor.Gray300),
             )
             Spacer(
                 modifier = Modifier.height(20.dp),
             )
-            Box(
-                modifier = Modifier.padding(end = 23.dp),
-            ) {
-                Body5(
-                    text = state.content,
-                )
-            }
+            Body5(
+                text = state.content,
+            )
         }
     }
 }
