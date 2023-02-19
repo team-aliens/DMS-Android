@@ -34,7 +34,9 @@ fun TopBar(
         Image(
             modifier = Modifier
                 .size(IconSize)
-                .dormClickable {
+                .dormClickable(
+                    rippleEnabled = false,
+                ) {
                     if (onPrevious != null) {
                         onPrevious()
                     }
