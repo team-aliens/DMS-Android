@@ -14,4 +14,5 @@ object NavigationRoute {
     const val NoticeDetail = "noticeDetail/{noticeId}"
     const val PointList = "pointList"
     const val StudyRoom = "studyRoom"
+    const val RemainApplication = "remainApplication"
 }

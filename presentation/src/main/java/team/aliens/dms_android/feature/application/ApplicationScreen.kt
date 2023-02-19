@@ -45,7 +45,8 @@ fun ApplicationScreen(
         Spacer(modifier = Modifier.height(14.dp))
         Body1(text = stringResource(id = R.string.Application))
         Spacer(modifier = Modifier.height(40.dp))
-        ApplicationCard( // todo lastApplied param 추가
+        ApplicationCard(
+            // todo lastApplied param 추가
             title = stringResource(id = R.string.StudyRoom),
             content = stringResource(id = R.string.StudyRoomApplyDescription),
             buttonText = stringResource(id = R.string.DoApplyStudyRoom),
@@ -59,7 +60,7 @@ fun ApplicationScreen(
             content = stringResource(id = R.string.StayApplyDescription),
             buttonText = stringResource(id = R.string.DoApplyStay),
             onButtonClick = {
-                // TODO 잔류 신청 화면으로 이동 로직 구현
+                navController.navigate(NavigationRoute.RemainApplication)
             },
         )
     }

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature
+package team.aliens.dms_android.feature.remain
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -39,7 +39,7 @@ data class StayApplicationInformation(
 )
 
 @Composable
-fun StayApplicationScreen(
+fun RemainApplicationScreen(
     navController: NavController,
 ) {
 
@@ -263,12 +263,4 @@ fun ApplicationCard(
             )
         }
     }
-}
-
-@Preview(
-    showSystemUi = true,
-)
-@Composable
-fun StayApplicationScreenPreview() {
-    StayApplicationScreen(rememberNavController())
 }

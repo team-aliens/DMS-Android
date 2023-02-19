@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
+import team.aliens.dms_android.feature.remain.RemainApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
 
@@ -22,16 +23,25 @@ fun RootDms(
 
     NavHost(navController = navController, startDestination = route) {
         composable(route = NavigationRoute.Login) {
-            LoginScreen(scaffoldState = scaffoldState, navController = navController)
+            LoginScreen(
+                scaffoldState = scaffoldState,
+                navController = navController,
+            )
         }
         composable(NavigationRoute.Main) {
-            DmsApp(navController = navController, scaffoldState = scaffoldState)
+            DmsApp(
+                navController = navController,
+                scaffoldState = scaffoldState,
+            )
         }
         composable(route = "noticeDetail/{noticeId}",
             arguments = listOf(navArgument("noticeId") { type = NavType.StringType })) {
             val noticeId = it.arguments!!.getString("noticeId")
             if (noticeId != null) {
-                NoticeDetailScreen(navController, noticeId)
+                NoticeDetailScreen(
+                    navController = navController,
+                    noticeId = noticeId,
+                )
             }
         }
         composable(NavigationRoute.PointList) {
@@ -45,12 +55,20 @@ fun RootDms(
             )) {
             val roomId = it.arguments!!.getString("seatId")
             if (roomId != null) {
-                StudyRoomDetailScreen(navController = navController, roomId)
+                StudyRoomDetailScreen(
+                    navController = navController,
+                    roomId = roomId,
+                )
             }
         }
         composable(NavigationRoute.StudyRoom){
             StudyRoomListScreen(
-                navController = navController
+                navController = navController,
+            )
+        }
+        composable(NavigationRoute.RemainApplication){
+            RemainApplicationScreen(
+                navController = navController,
             )
         }
     }
