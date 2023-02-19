@@ -80,7 +80,7 @@ fun NoticeDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray100)
+            .background(DormColor.Gray200)
             .verticalScroll(rememberScrollState()),
     ) {
         TopBar(title = stringResource(id = R.string.Announcement)) {
@@ -88,9 +88,8 @@ fun NoticeDetailScreen(
         }
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .background(DormColor.Gray200)
-                .padding(start = 23.dp),
+                .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.Start,
         ) {
             Spacer(
@@ -102,7 +101,10 @@ fun NoticeDetailScreen(
             Spacer(
                 modifier = Modifier.height(25.dp),
             )
-            Caption(text = state.createAt)
+            Caption(
+                text = state.createAt,
+                color = DormColor.Gray500,
+            )
             Spacer(
                 modifier = Modifier.height(20.dp),
             )
@@ -110,19 +112,14 @@ fun NoticeDetailScreen(
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
-                    .padding(end = 23.dp)
                     .background(DormColor.Gray300),
             )
             Spacer(
                 modifier = Modifier.height(20.dp),
             )
-            Box(
-                modifier = Modifier.padding(end = 23.dp),
-            ) {
-                Body5(
-                    text = state.content,
-                )
-            }
+            Body5(
+                text = state.content,
+            )
         }
     }
 }
