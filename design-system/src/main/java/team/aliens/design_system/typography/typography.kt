@@ -62,7 +62,7 @@ object DormTypography {
     @Stable
     val subtitle2 = TextStyle(
         fontFamily = NotoSansFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
         lineHeight = 25.sp,
     )
