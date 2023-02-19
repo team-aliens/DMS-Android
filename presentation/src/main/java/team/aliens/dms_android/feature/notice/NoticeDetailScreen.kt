@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.SubTitle2
@@ -102,7 +103,10 @@ fun NoticeDetailScreen(
             Spacer(
                 modifier = Modifier.height(25.dp),
             )
-            Caption(text = state.createAt)
+            Caption(
+                text = state.createAt,
+                color = DormColor.Gray500,
+            )
             Spacer(
                 modifier = Modifier.height(20.dp),
             )
