@@ -57,8 +57,8 @@ fun ApplicationScreen(
         Spacer(modifier = Modifier.height(30.dp))
         ApplicationCard(
             title = stringResource(id = R.string.Stay),
-            content = stringResource(id = R.string.StayApplyDescription),
-            buttonText = stringResource(id = R.string.DoApplyStay),
+            content = stringResource(id = R.string.RemainApplyDescription),
+            buttonText = stringResource(id = R.string.DoApplyRemain),
             onButtonClick = {
                 navController.navigate(NavigationRoute.RemainApplication)
             },
