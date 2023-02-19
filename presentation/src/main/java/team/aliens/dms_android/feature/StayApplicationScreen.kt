@@ -5,8 +5,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,12 +24,12 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.SubTitle2
+import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 
 // TODO 테스트 더미 값 추후 삭제
@@ -99,7 +97,7 @@ fun StayApplicationScreen(
                 modifier = Modifier.fillMaxHeight(0.9f)
             ) {
                 LazyColumn(
-                   verticalArrangement = Arrangement.spacedBy(20.dp)
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     itemsIndexed(
                         items = stayApplicationItems,
@@ -243,10 +241,11 @@ fun ApplicationCard(
                 painterResource(id = DormIcon.Backward.drawableId),
                 contentDescription = null,
                 modifier = Modifier
-                    .clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
-                    ) { onUnfold() }
+                    .dormClickable(
+                        rippleEnabled = false,
+                    ) {
+                        onUnfold()
+                    }
                     .rotate(rotationState),
             )
         }

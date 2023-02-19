@@ -28,15 +28,17 @@ fun TopBar(
     Row(
         modifier = Modifier
             .height(70.dp)
-            .padding(horizontal = 24.dp)
             .fillMaxWidth()
             .background(color = DormColor.Gray100),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        Spacer(modifier = Modifier.padding(start = 24.dp))
         Image(
             modifier = Modifier
                 .size(IconSize)
-                .dormClickable {
+                .dormClickable(
+                    rippleEnabled = false,
+                ) {
                     if (onPrevious != null) {
                         onPrevious()
                     }
