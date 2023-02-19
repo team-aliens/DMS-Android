@@ -3,7 +3,6 @@ package team.aliens.dms_android.feature.application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +17,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.ButtonText
-import team.aliens.design_system.typography.DormTypography
+import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.presentation.R
 
@@ -87,12 +86,8 @@ fun ApplicationCard(
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(0.74f),
-                text = title,
-                style = DormTypography.subtitle2,
-                color = DormColor.Gray900,
-            )
+            SubTitle2(text = title)
+            Spacer(modifier = Modifier.fillMaxWidth(0.74f))
             if (lastApplied.isNotBlank()) {
                 Box(
                     modifier = Modifier
