@@ -18,6 +18,7 @@ import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.SubTitle2
+import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.presentation.R
 
@@ -35,6 +36,10 @@ fun ApplicationScreenPreview() {
 fun ApplicationScreen(
     navController: NavController,
 ) {
+    // TODO 서버로부터 받아오기
+    val studyRoomLastApplied = ""
+    val remainLastApplied = ""
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,13 +51,13 @@ fun ApplicationScreen(
         Body1(text = stringResource(id = R.string.Application))
         Spacer(modifier = Modifier.height(40.dp))
         ApplicationCard(
-            // todo lastApplied param 추가
             title = stringResource(id = R.string.StudyRoom),
             content = stringResource(id = R.string.StudyRoomApplyDescription),
             buttonText = stringResource(id = R.string.DoApplyStudyRoom),
             onButtonClick = {
                 navController.navigate(NavigationRoute.StudyRoom)
             },
+            lastApplied = studyRoomLastApplied,
         )
         Spacer(modifier = Modifier.height(30.dp))
         ApplicationCard(
@@ -62,6 +67,7 @@ fun ApplicationScreen(
             onButtonClick = {
                 navController.navigate(NavigationRoute.RemainApplication)
             },
+            lastApplied = remainLastApplied,
         )
     }
 }
@@ -72,7 +78,7 @@ fun ApplicationCard(
     content: String,
     buttonText: String,
     onButtonClick: () -> Unit,
-    lastApplied: String = "",
+    lastApplied: String,
 ) {
     Column(
         modifier = Modifier
@@ -90,23 +96,7 @@ fun ApplicationCard(
             SubTitle2(text = title)
             Spacer(modifier = Modifier.fillMaxWidth(0.74f))
             if (lastApplied.isNotBlank()) {
-                Box(
-                    modifier = Modifier
-                        .size(
-                            width = 92.dp,
-                            height = 34.dp,
-                        )
-                        .background(
-                            color = DormColor.Lighten200,
-                            shape = RoundedCornerShape(100)
-                        ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    ButtonText(
-                        text = lastApplied,
-                        color = DormColor.DormPrimary,
-                    )
-                }
+                LastAppliedItem(lastApplied)
             }
         }
         Body5(text = content)
