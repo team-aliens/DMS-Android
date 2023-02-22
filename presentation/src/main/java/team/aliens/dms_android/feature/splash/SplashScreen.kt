@@ -61,7 +61,10 @@ fun SplashScreen(
     }
 }
 
-private fun moveToMainActivity(context: Context, route: String) {
+private fun moveToMainActivity(
+    context: Context,
+    route: String,
+) {
 
     val intent = Intent(
         context,
