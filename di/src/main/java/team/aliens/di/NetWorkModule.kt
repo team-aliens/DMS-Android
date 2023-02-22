@@ -9,7 +9,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import team.aliens.data.intercepter.AuthorizationInterceptor
+import team.aliens.data.intercepter.DefaultOkHttpClient
+import team.aliens.data.intercepter.TokenReissueClient
+import team.aliens.data.intercepter.TokenReissueOkHttpClient
 import team.aliens.data.remote.api.*
+import team.aliens.data.remote.url.DmsUrl
+import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Singleton
 
 @Module
@@ -29,7 +34,17 @@ object NetWorkModule {
         )
 
     @Provides
-    fun provideOkHttpclient(
+    @Singleton
+    fun providesAuthorizationInterceptor(
+        userDataStorage: UserDataStorage,
+        @TokenReissueOkHttpClient tokenReissueClient: TokenReissueClient,
+    ): AuthorizationInterceptor {
+        return AuthorizationInterceptor(
+            userDataStorage = userDataStorage,
+            tokenReissueClient = tokenReissueClient,
+        )
+    }
+
     @DefaultOkHttpClient
     @Provides
     fun provideDefaultOkHttpClient(
@@ -37,6 +52,12 @@ object NetWorkModule {
         authorizationInterceptor: AuthorizationInterceptor,
     ): OkHttpClient = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
         .addInterceptor(authorizationInterceptor).build()
+
+    @TokenReissueOkHttpClient
+    @Provides
+    @Singleton
+    fun providesTokenReissueOkHttpClient(): TokenReissueClient =
+        TokenReissueClient(BASE_URL + DmsUrl.User.refreshToken)
 
     @Provides
     fun provideRetrofit(
@@ -55,13 +76,16 @@ object NetWorkModule {
     fun provideMealApi(retrofit: Retrofit): MealApi = retrofit.create(MealApi::class.java)
 
     @Provides
-    fun provideNoticeApi(retrofit: Retrofit): NoticeApi = retrofit.create(NoticeApi::class.java)
+    fun provideNoticeApi(retrofit: Retrofit): NoticeApi =
+        retrofit.create(NoticeApi::class.java)
 
     @Provides
-    fun provideSchoolsApi(retrofit: Retrofit): SchoolsApi = retrofit.create(SchoolsApi::class.java)
+    fun provideSchoolsApi(retrofit: Retrofit): SchoolsApi =
+        retrofit.create(SchoolsApi::class.java)
 
     @Provides
-    fun provideMyPageApi(retrofit: Retrofit): MyPageApi = retrofit.create(MyPageApi::class.java)
+    fun provideMyPageApi(retrofit: Retrofit): MyPageApi =
+        retrofit.create(MyPageApi::class.java)
 
     @Provides
     fun provideStudyRoomApi(retrofit: Retrofit): StudyRoomApi =
@@ -69,5 +93,6 @@ object NetWorkModule {
 
     @Provides
     @Singleton
-    fun provideRemainApi(retrofit: Retrofit): RemainApi = retrofit.create(RemainApi::class.java)
+    fun provideRemainApi(retrofit: Retrofit): RemainApi =
+        retrofit.create(RemainApi::class.java)
 }

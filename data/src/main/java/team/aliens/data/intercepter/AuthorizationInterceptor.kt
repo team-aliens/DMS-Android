@@ -1,72 +1,74 @@
 package team.aliens.data.intercepter
 
-import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import team.aliens.data.remote.response.user.SignInResponse
+import team.aliens.data.remote.url.DmsUrl
+import team.aliens.data.remote.url.DmsUrlProperties
 import team.aliens.data.util.LocalDateTimeEx
-import team.aliens.domain.exception.NeedLoginException
 import team.aliens.local_database.localutil.toLocalDateTime
 import team.aliens.local_database.param.UserPersonalKeyParam
 import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Inject
 
+private val ignorePath = listOf(
+    DmsUrl.User.login,
+    DmsUrl.User.refreshToken,
+    DmsUrl.User.emailCode,
+    DmsUrl.User.compareEmail,
+    DmsUrl.Students.register,
+    DmsUrl.Students.examineGrade,
+    DmsUrl.Students.duplicateCheckId,
+    DmsUrl.Schools.schoolCode,
+    DmsUrl.Schools.schoolAnswer.split('{')[0],
+    DmsUrl.Schools.schoolQuestion.split('{')[0],
+)
+
 class AuthorizationInterceptor @Inject constructor(
     private val userDataStorage: UserDataStorage,
+    private val tokenReissueClient: TokenReissueClient,
 ) : Interceptor {
-
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        val path = request.url.encodedPath
-        val ignorePath = listOf(
-            "/auth/tokens",
-            "/auth/code",
-            "/auth/email",
-            "/students/signup",
-            "/students/name",
-            "/students/account-id/duplication",
-            "/schools/code",
-        )
-        if (ignorePath.contains(path)) return chain.proceed(request)
-        if (path.contains("/schools/answer/")) return chain.proceed(request)
-        if (path.contains("/schools/question/")) return chain.proceed(request)
 
-        val expiredAt =
-            runBlocking { userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime() }
+        val request = chain.request()
+
+        val path = request.url.encodedPath
+
+        if (ignorePath.contains(path)) return chain.proceed(request)
+
+        val expiredAt = runBlocking {
+            userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()
+        }
+
         val currentTime = LocalDateTimeEx.getNow()
 
-        if (expiredAt.isBefore(currentTime)) {
-            val client = OkHttpClient()
+        if (currentTime.isAfter(expiredAt)) {
+
             val refreshToken = userDataStorage.fetchRefreshToken()
 
-            val tokenRefreshRequest =
-                Request.Builder().url("http://3.39.162.197:8080/users/reissue")
-                    .put("".toRequestBody("application/json".toMediaTypeOrNull()))
-                    .addHeader("refresh-token", "Bearer $refreshToken").build()
-            val response = client.newCall(tokenRefreshRequest).execute()
+            val token = tokenReissueClient(
+                refreshToken = refreshToken,
+            )
 
-            if (response.isSuccessful) {
-                val token = Gson().fromJson(response.body!!.toString(), SignInResponse::class.java)
-                runBlocking {
-                    userDataStorage.setPersonalKey(
-                        personalKeyParam = UserPersonalKeyParam(
-                            accessToken = token.accessToken,
-                            refreshToken = token.refreshToken,
-                            accessTokenExpiredAt = token.accessTokenExpiredAt.toLocalDateTime(),
-                            refreshTokenExpiredAt = token.refreshTokenExpiredAt.toLocalDateTime(),
-                        ),
-                    )
-                }
-            } else throw NeedLoginException()
+            runBlocking {
+                userDataStorage.setPersonalKey(
+                    personalKeyParam = UserPersonalKeyParam(
+                        accessToken = token.accessToken,
+                        refreshToken = token.refreshToken,
+                        accessTokenExpiredAt = token.accessTokenExpiredAt.toLocalDateTime(),
+                        refreshTokenExpiredAt = token.refreshTokenExpiredAt.toLocalDateTime(),
+                    ),
+                )
+            }
         }
 
         val accessToken = userDataStorage.fetchAccessToken()
-        return chain.proceed(request.newBuilder().addHeader("Authorization", "Bearer $accessToken")
-            .build())
+
+        return chain.proceed(
+            request.newBuilder().addHeader(
+                DmsUrlProperties.Header.AUTHORIZATION,
+                DmsUrlProperties.Prefix.BEARER + accessToken,
+            ).build(),
+        )
     }
 }
