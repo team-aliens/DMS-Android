@@ -151,7 +151,52 @@ fun LoginScreen(
             onCheckedChange = onAutoLoginStateChange,
         )
 
-        AuthOption()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentWidth(CenterHorizontally)
+                .padding(
+                    start = 10.dp,
+                    top = 24.dp,
+                    end = 10.dp,
+                ),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+
+            Caption(
+                text = stringResource(id = R.string.DoRegister),
+                onClick = {
+                    context.startActivity(
+                        Intent(
+                            context,
+                            RegisterActivity::class.java,
+                        ),
+                    )
+                },
+            )
+
+            Caption(text = "|")
+
+            Caption(
+                text = stringResource(
+                    id = R.string.FindId,
+                ),
+                onClick = {
+                    // todo implement and link find id screen
+                },
+            )
+
+            Caption(text = "|")
+
+            Caption(
+                text = stringResource(
+                    id = R.string.ChangePassword,
+                ),
+                onClick = {
+                    navController.navigate(NavigationRoute.ChangePassword)
+                },
+            )
+        }
 
         LoginButton(signInViewModel, scaffoldState)
     }
@@ -183,56 +228,6 @@ private fun BackPressHandle() {
     val activity = (LocalContext.current as Activity)
     BackHandler(backHandlingEnabled) {
         activity.finish()
-    }
-}
-
-@Composable
-fun AuthOption() {
-
-    val mContext = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentWidth(CenterHorizontally)
-            .padding(
-                start = 10.dp,
-                top = 24.dp,
-                end = 10.dp,
-            ),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-
-        Caption(
-            text = stringResource(id = R.string.DoRegister),
-            onClick = {
-                mContext.startActivity(
-                    Intent(
-                        mContext,
-                        RegisterActivity::class.java,
-                    ),
-                )
-            },
-        )
-
-        Caption(text = "|")
-
-        Caption(
-            text = stringResource(
-                id = R.string.FindId,
-            ),
-        )
-
-        Caption(text = "|")
-
-        Caption(
-            text = stringResource(
-                id = R.string.ChangePassword,
-            ),
-            onClick = {
-
-            },
-        )
     }
 }
 
