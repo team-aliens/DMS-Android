@@ -16,7 +16,6 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
-import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.navigator.NavigationRoute
@@ -57,7 +56,7 @@ fun ApplicationScreen(
             onButtonClick = {
                 navController.navigate(NavigationRoute.StudyRoom)
             },
-            lastApplied = studyRoomLastApplied,
+            lastApplicationText = studyRoomLastApplied,
         )
         Spacer(modifier = Modifier.height(30.dp))
         ApplicationCard(
@@ -67,7 +66,7 @@ fun ApplicationScreen(
             onButtonClick = {
                 navController.navigate(NavigationRoute.RemainApplication)
             },
-            lastApplied = remainLastApplied,
+            lastApplicationText = remainLastApplied,
         )
     }
 }
@@ -78,25 +77,24 @@ fun ApplicationCard(
     content: String,
     buttonText: String,
     onButtonClick: () -> Unit,
-    lastApplied: String,
+    lastApplicationText: String,
 ) {
     Column(
         modifier = Modifier
-            .height(192.dp)
             .background(
                 color = DormColor.Gray100,
                 shape = RoundedCornerShape(10.dp),
             )
             .padding(20.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
             SubTitle2(text = title)
-            Spacer(modifier = Modifier.fillMaxWidth(0.74f))
-            if (lastApplied.isNotBlank()) {
-                LastAppliedItem(lastApplied)
+            if (lastApplicationText.isNotBlank()) {
+                Spacer(modifier = Modifier.weight(1f))
+                LastAppliedItem(lastApplicationText)
             }
         }
         Body5(text = content)
