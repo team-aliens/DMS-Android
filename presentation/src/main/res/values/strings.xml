@@ -97,7 +97,7 @@
     // 전역
     <string name="Next">다음</string>
     <string name="Check">확인</string>
-    <string name="AppDescription">더 편한 기숙사 생활을 위디</string>
+    <string name="AppDescription">더 편한 기숙사 생활을 위해</string>
 
     // 에러 처리
     <string name="Forbidden">접근 권한이 없습니다.</string>
