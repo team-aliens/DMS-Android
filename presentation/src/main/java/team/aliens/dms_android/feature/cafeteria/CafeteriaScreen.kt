@@ -36,7 +36,7 @@ import team.aliens.presentation.R
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
-    moveToNoticeScreen: () -> Unit,
+    onNoticeIconClick: () -> Unit,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
 
@@ -72,7 +72,7 @@ fun CafeteriaScreen(
         Spacer(modifier = Modifier.height(20.dp))
         TopBar()
         Spacer(modifier = Modifier.height(25.dp))
-        ImportantNotice(moveToNoticeScreen)
+        ImportantNotice(onNoticeIconClick = onNoticeIconClick)
         CafeteriaDiary(pagerState = pagerState, coroutineScope = coroutineScope, hiltViewModel())
         CafeteriaViewPager(mealViewModel)
     }
@@ -99,7 +99,7 @@ fun TopBar(
 
 @Composable
 fun ImportantNotice(
-    moveToNoticeScreen: () -> Unit,
+    onNoticeIconClick: () -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.CenterEnd,
@@ -114,7 +114,7 @@ fun ImportantNotice(
                 .dormClickable(
                     rippleEnabled = false,
                 ){
-                    moveToNoticeScreen()
+                    onNoticeIconClick()
                 },
             painter = painterResource(id = R.drawable.ic_next),
             contentDescription = stringResource(id = R.string.IcNotice),

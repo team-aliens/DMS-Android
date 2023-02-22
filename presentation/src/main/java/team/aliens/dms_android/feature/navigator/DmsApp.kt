@@ -39,10 +39,12 @@ fun DmsApp(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { BottomNavBar(
-            navController = navHostController,
-            bottomTabSelectedItem = bottomTabSelectedItem,
-        ) },
+        bottomBar = {
+            BottomNavBar(
+                navController = navHostController,
+                bottomTabSelectedItem = bottomTabSelectedItem,
+            )
+        },
         modifier = Modifier.background(DormColor.Gray900),
     ) { innerPadding ->
         NavHost(
@@ -51,10 +53,15 @@ fun DmsApp(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(BottomNavigationItem.Meal.route) {
-                CafeteriaScreen(moveToNoticeScreen = {
-                    navigateBottomNavigation(BottomNavigationItem.Notice.route, navHostController)
-                    bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
-                })
+                CafeteriaScreen(
+                    onNoticeIconClick = {
+                        navigateBottomNavigation(
+                            route = BottomNavigationItem.Notice.route,
+                            navController = navHostController,
+                        )
+                        bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
+                    },
+                )
             }
             composable(BottomNavigationItem.Application.route) { ApplicationScreen(navController = navController) }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
