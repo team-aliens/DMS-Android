@@ -25,6 +25,7 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle1
@@ -35,7 +36,7 @@ import team.aliens.presentation.R
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
-    navController: NavController,
+    moveToNoticeScreen: () -> Unit,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
 
@@ -71,7 +72,7 @@ fun CafeteriaScreen(
         Spacer(modifier = Modifier.height(20.dp))
         TopBar()
         Spacer(modifier = Modifier.height(25.dp))
-        ImportantNotice()
+        ImportantNotice(moveToNoticeScreen)
         CafeteriaDiary(pagerState = pagerState, coroutineScope = coroutineScope, hiltViewModel())
         CafeteriaViewPager(mealViewModel)
     }
@@ -97,17 +98,24 @@ fun TopBar(
 }
 
 @Composable
-fun ImportantNotice() {
+fun ImportantNotice(
+    moveToNoticeScreen: () -> Unit,
+) {
     Box(
         contentAlignment = Alignment.CenterEnd,
         modifier = Modifier.padding(horizontal = 20.dp),
     ) {
         // TODO string resource 로 빼주기
-        FloatingNotice(content = "새로운 공지사항이 있습니다.")
+        FloatingNotice(content = stringResource(id = R.string.NewNotice))
         Image(
             modifier = Modifier
                 .padding(end = 10.dp)
-                .size(33.dp),
+                .size(33.dp)
+                .dormClickable(
+                    rippleEnabled = false,
+                ){
+                    moveToNoticeScreen()
+                },
             painter = painterResource(id = R.drawable.ic_next),
             contentDescription = stringResource(id = R.string.IcNotice),
         )

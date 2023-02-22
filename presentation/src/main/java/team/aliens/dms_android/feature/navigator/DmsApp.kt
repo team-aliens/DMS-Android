@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -32,9 +33,16 @@ fun DmsApp(
 ) {
     val navHostController = rememberNavController()
 
+    val bottomTabSelectedItem = rememberSaveable {
+        mutableStateOf(BottomNavigationItem.Meal.route)
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { BottomNavBar(navController = navHostController) },
+        bottomBar = { BottomNavBar(
+            navController = navHostController,
+            bottomTabSelectedItem = bottomTabSelectedItem,
+        ) },
         modifier = Modifier.background(DormColor.Gray900),
     ) { innerPadding ->
         NavHost(
@@ -42,7 +50,12 @@ fun DmsApp(
             startDestination = BottomNavigationItem.Meal.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(BottomNavigationItem.Meal.route) { CafeteriaScreen(navController = navController) }
+            composable(BottomNavigationItem.Meal.route) {
+                CafeteriaScreen(moveToNoticeScreen = {
+                    navigateBottomNavigation(BottomNavigationItem.Notice.route, navHostController)
+                    bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
+                })
+            }
             composable(BottomNavigationItem.Application.route) { ApplicationScreen(navController = navController) }
             composable(BottomNavigationItem.Notice.route) { NoticeScreen(navController = navController) }
             composable(BottomNavigationItem.MyPage.route) {
@@ -55,14 +68,12 @@ fun DmsApp(
 @Composable
 fun BottomNavBar(
     navController: NavHostController,
+    bottomTabSelectedItem: MutableState<String>,
 ) = BottomAppBar(
     cutoutShape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)),
     backgroundColor = MaterialTheme.colors.background,
     contentColor = DormColor.Gray900,
 ) {
-    val bottomTabSelectedItem = rememberSaveable {
-        mutableStateOf(BottomNavigationItem.Meal.route)
-    }
     BottomNavigationItem(modifier = Modifier
         .weight(0.5f)
         .size(25.dp), onClick = {
