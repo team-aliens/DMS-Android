@@ -7,29 +7,47 @@ import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
 import team.aliens.local_database.param.user.UserInfoParam
 import team.aliens.local_database.storage.declaration.UserDataStorage
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserInfo.ID
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserInfo.PASSWORD
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserPersonalKey.REFRESH_TOKEN_EXPIRED_AT
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserVisible.MEAL
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserVisible.NOTICE
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.UserVisible.POINT
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserInfo.ID
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserInfo.PASSWORD
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.ACCESS_TOKEN
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.REFRESH_TOKEN
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.REFRESH_TOKEN_EXPIRED_AT
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.MEAL
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.NOTICE
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.POINT
 import javax.inject.Inject
 
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : UserDataStorage {
 
-    companion object {
+    private companion object {
+
         const val USER_DATA_STORAGE_KEY = "user_data_storage"
+
+        object UserInfo {
+            const val ID = "ID"
+            const val PASSWORD = "PASSWORD"
+        }
+
+        object UserPersonalKey {
+            const val ACCESS_TOKEN = "ACCESS_TOKEN"
+            const val ACCESS_TOKEN_EXPIRED_AT = "ACCESS_TOKEN_EXPIRED_AT"
+            const val REFRESH_TOKEN = "REFRESH_TOKEN"
+            const val REFRESH_TOKEN_EXPIRED_AT = "REFRESH_TOKEN_EXPIRED_AT"
+        }
+
+        object UserVisible {
+            const val MEAL = "MEAL"
+            const val NOTICE = "NOTICE"
+            const val POINT = "POINT"
+        }
     }
 
     private val prefs: SharedPreferences
-        get() = run {
-            context.getSharedPreferences(USER_DATA_STORAGE_KEY, Context.MODE_PRIVATE)!!
-        }
+        get() = context.getSharedPreferences(USER_DATA_STORAGE_KEY, Context.MODE_PRIVATE)
+            ?: throw IllegalStateException()
 
     private val editor: SharedPreferences.Editor
         get() = prefs.edit()
@@ -60,9 +78,7 @@ class UserDataStorageImpl @Inject constructor(
     }
 
     override fun clearToken() {
-        editor.run {
-            clear()
-        }.apply()
+        editor.clear().apply()
     }
 
     override fun setUserVisible(featuresParam: FeaturesParam) {
@@ -99,23 +115,5 @@ class UserDataStorageImpl @Inject constructor(
 
     override fun fetchPassword(): String {
         return prefs.getString(PASSWORD, "")!!
-    }
-
-    private object UserInfo {
-        const val ID = "ID"
-        const val PASSWORD = "PASSWORD"
-    }
-
-    private object UserPersonalKey {
-        const val ACCESS_TOKEN = "ACCESS_TOKEN"
-        const val ACCESS_TOKEN_EXPIRED_AT = "ACCESS_TOKEN_EXPIRED_AT"
-        const val REFRESH_TOKEN = "REFRESH_TOKEN"
-        const val REFRESH_TOKEN_EXPIRED_AT = "REFRESH_TOKEN_EXPIRED_AT"
-    }
-
-    private object UserVisible {
-        const val MEAL = "MEAL"
-        const val NOTICE = "NOTICE"
-        const val POINT = "POINT"
     }
 }
