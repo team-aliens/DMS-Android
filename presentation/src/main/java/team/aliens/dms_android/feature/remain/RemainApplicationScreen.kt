@@ -16,45 +16,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
-import team.aliens.design_system.typography.ButtonText
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.component.LastAppliedItem
+import team.aliens.dms_android.util.DayOfWeek
 import team.aliens.dms_android.util.TopBar
-
-// TODO 테스트 더미 값 추후 삭제
-data class StayApplicationInformation(
-    val stayApplicationTitle: String,
-    val staApplicationContent: String,
-)
+import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
+import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
+import team.aliens.domain.entity.remain.RemainOptionsEntity
+import team.aliens.presentation.R
 
 @Composable
 fun RemainApplicationScreen(
     navController: NavController,
+    remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
 
-    // TODO 테스트 더미 값들
-    // TODO 추후 서버와 연동 과정에서 삭제하고 작업 진행
+    var lastAppliedItem by remember { mutableStateOf("") }
+    var noticeContent by remember { mutableStateOf("") }
 
-    val stayApplicationItems by remember {
-        // TODO Immutable 객체로 변경하기
-        mutableStateOf(
-            mutableListOf(
-                StayApplicationInformation("title1", "content1"),
-                StayApplicationInformation("title2", "content2"),
-                StayApplicationInformation("title3", "content3"),
-            ),
-        )
+    val remainOptions = remember { mutableStateListOf<RemainOptionsEntity.RemainOptionEntity>() }
+
+    val toast = rememberToast()
+    LaunchedEffect(key1 = remainApplicationViewModel) {
+        with(remainApplicationViewModel) {
+            fetchAvailableRemainTime()
+            fetchRemainOptions()
+        }
     }
 
     Column(
@@ -62,20 +64,50 @@ fun RemainApplicationScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
-        // TODO 서버로부터 이전 신청 값 받아오기
-        val lastAppliedItem = ""
+        LaunchedEffect(Unit) {
+            remainApplicationViewModel.remainApplicationEffect.collect {
+                when (it) {
+                    is Event.UpdateRemainOption -> {
+                        toast(context.getString(R.string.CompleteApply))
+                    }
+                    is Event.AvailableRemainTime -> {
+                        noticeContent = it.availableRemainTimeEntity.run {
+                            "잔류 신청 시간은 ${DayOfWeek.valueOf(startDayOfWeek.toString()).week}" +
+                                    " ${startsAt.split(':')[0]}:${startsAt.split(':')[1]} ~" +
+                                    " ${DayOfWeek.valueOf(endDayOfWeek.toString()).week} " +
+                                    " ${endsAt.split(':')[0]}:${endsAt.split(':')[1]}" +
+                                    " 까지 입니다."
+                        }
+                    }
+                    is Event.RemainOptions -> {
+                        lastAppliedItem = it.remainOptionsEntity.selectedOption ?: ""
+                        remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
+                    }
+                    is Event.BadRequestException -> {
+                        toast(context.getString(R.string.BadRequest))
+                    }
+                    is Event.NotFoundException -> {
+                        toast(context.getString(R.string.NotFound))
+                    }
+                    is Event.TooManyRequestException -> {
+                        toast(context.getString(R.string.TooManyRequest))
+                    }
+                    is Event.ServerException -> {
+                        toast(context.getString(R.string.ServerException))
+                    }
+                    is Event.UnauthorizedException -> {
+                        toast(context.getString(R.string.UnAuthorized))
+                    }
+                    else -> toast(context.getString(R.string.UnKnownException))
+                }
+            }
+        }
 
         var selectedItem by remember { mutableStateOf(lastAppliedItem) }
         var expandedItem by remember { mutableStateOf("") }
         var isButtonVisible by remember { mutableStateOf(false) }
 
-        if (lastAppliedItem.isNotBlank()) {
-            isButtonVisible = true
-        }
-
-        // TODO string resource 로 빼기 (conflict 방지)
-        TopBar(title = "잔류 신청") {
+        TopBar(title = stringResource(id = R.string.RemainApplication)) {
             navController.popBackStack()
         }
 
@@ -83,29 +115,22 @@ fun RemainApplicationScreen(
             modifier = Modifier.padding(horizontal = 20.dp)
         ) {
 
-            // TODO 서버로부터 받은 값 가공하여 넣기
-            val noticeContent = ""
-
             Spacer(modifier = Modifier.height(8.dp))
 
             if (noticeContent.isNotBlank()) {
                 FloatingNotice(content = noticeContent)
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(10.dp))
             }
-
             Column(
                 modifier = Modifier.fillMaxHeight(0.9f)
             ) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
-                ) {
+                LazyColumn {
                     itemsIndexed(
-                        items = stayApplicationItems,
+                        items = remainOptions,
                     ) { index, item ->
                         item.run {
-
-                            val isItemExpanded = (expandedItem == stayApplicationTitle)
-                            val isItemSelected = (selectedItem == stayApplicationTitle)
+                            val isItemExpanded = (expandedItem == item.title)
+                            val isItemSelected = (selectedItem == item.title)
 
                             val borderColor = if (isItemSelected) {
                                 DormColor.DormPrimary
@@ -120,28 +145,30 @@ fun RemainApplicationScreen(
                                     270f
                                 }
                             )
-                            // TODO 서버 Response 값에 맞게 값들들 수정
-                            //Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(20.dp))
                             ApplicationCard(
-                                title = stayApplicationTitle,
-                                content = staApplicationContent,
+                                title = item.title,
+                                content = item.description,
                                 borderColor = borderColor,
                                 rotationState = rotationState,
                                 onSelect = {
-                                    selectedItem = stayApplicationTitle
+                                    selectedItem = item.title
+                                    remainApplicationViewModel.setRemainOption(
+                                        remainOptionId = item.id,
+                                    )
                                     isButtonVisible = true
                                 },
                                 onUnfold = {
                                     expandedItem = if (isItemExpanded) {
                                         ""
                                     } else {
-                                        stayApplicationTitle
+                                        item.title
                                     }
                                 },
                                 isContentVisible = isItemExpanded,
-                                hasLastApplied = (lastAppliedItem == stayApplicationTitle),
+                                hasLastApplied = (lastAppliedItem == item.title),
                             )
-                            if (stayApplicationItems.size == index + 1) {
+                            if (remainOptions.size == index + 1) {
                                 Spacer(modifier = Modifier.height(30.dp))
                             }
                         }
@@ -149,13 +176,12 @@ fun RemainApplicationScreen(
                 }
             }
 
-            // TODO string resource 로 빼주기 (conflict 방지)
             val buttonText = if (selectedItem == lastAppliedItem) {
-                "신청 완료"
+                stringResource(id = R.string.CompleteApplication)
             } else if (lastAppliedItem.isBlank()) {
-                "$selectedItem 신청하기"
+                "$selectedItem ${stringResource(id = R.string.DoApply)}"
             } else {
-                "${selectedItem}로 변경하기"
+                "${selectedItem}${stringResource(id = R.string.ChangeTo)}"
             }
 
             if (isButtonVisible) {
@@ -164,7 +190,7 @@ fun RemainApplicationScreen(
                     color = DormButtonColor.Blue,
                     enabled = (selectedItem != lastAppliedItem),
                 ) {
-                    // TODO 항목 신청 로직 구현
+                    remainApplicationViewModel.updateRemainOption()
                 }
             }
         }
@@ -180,9 +206,8 @@ fun ApplicationCard(
     onSelect: () -> Unit,
     onUnfold: () -> Unit,
     isContentVisible: Boolean,
-    hasLastApplied: Boolean = false,
+    hasLastApplied: Boolean,
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -214,27 +239,9 @@ fun ApplicationCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 SubTitle2(text = title)
-                // TODO 신청 메인 화면에 동일 컴포넌트가 있음 -> 따로 빼주기
                 if (hasLastApplied) {
                     Spacer(modifier = Modifier.width(20.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(
-                                width = 92.dp,
-                                height = 34.dp,
-                            )
-                            .background(
-                                color = DormColor.Lighten200,
-                                shape = RoundedCornerShape(100)
-                            ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        // TODO string resource 로 빼기 (conflict 방지)
-                        ButtonText(
-                            text = "신청 완료",
-                            color = DormColor.DormPrimary,
-                        )
-                    }
+                    LastAppliedItem(stringResource(id = R.string.CompleteApplication))
                 }
             }
             Image(
