@@ -9,7 +9,7 @@
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
     <string name="DoRegister">회원가입하기</string>
-    <string name="FindId">아이디 찾운</string>
+    <string name="FindId">아이디 찾기</string>
 
     // 회원가입
     <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
