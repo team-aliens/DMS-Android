@@ -1,6 +1,6 @@
 package team.aliens.data.remote.url
 
-object DmsUrlProperties {
+object DmsHttpProperties {
 
     object ContentType {
         const val APPLICATION_JSON = "application/json"

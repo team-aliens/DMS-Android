@@ -4,7 +4,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.data.remote.url.DmsUrl
-import team.aliens.data.remote.url.DmsUrlProperties
+import team.aliens.data.remote.url.DmsHttpProperties
 import team.aliens.data.util.LocalDateTimeEx
 import team.aliens.local_database.localutil.toLocalDateTime
 import team.aliens.local_database.param.UserPersonalKeyParam
@@ -66,8 +66,8 @@ class AuthorizationInterceptor @Inject constructor(
 
         return chain.proceed(
             request.newBuilder().addHeader(
-                DmsUrlProperties.Header.AUTHORIZATION,
-                DmsUrlProperties.Prefix.BEARER + accessToken,
+                DmsHttpProperties.Header.AUTHORIZATION,
+                DmsHttpProperties.Prefix.BEARER + accessToken,
             ).build(),
         )
     }

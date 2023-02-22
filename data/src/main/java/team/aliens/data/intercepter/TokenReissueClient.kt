@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import team.aliens.data.remote.response.user.SignInResponse
-import team.aliens.data.remote.url.DmsUrlProperties
+import team.aliens.data.remote.url.DmsHttpProperties
 import team.aliens.domain.exception.NeedLoginException
 import javax.inject.Inject
 
@@ -40,10 +40,10 @@ class TokenReissueClient @Inject constructor(
             reissueUrl,
         ).put(
             "".toRequestBody(
-                DmsUrlProperties.ContentType.APPLICATION_JSON.toMediaTypeOrNull(),
+                DmsHttpProperties.ContentType.APPLICATION_JSON.toMediaTypeOrNull(),
             ),
         ).addHeader(
-            DmsUrlProperties.Header.REFRESH_TOKEN,
+            DmsHttpProperties.Header.REFRESH_TOKEN,
             refreshToken,
         ).build()
     }
