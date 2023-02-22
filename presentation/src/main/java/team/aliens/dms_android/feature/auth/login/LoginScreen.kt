@@ -42,7 +42,11 @@ fun LoginScreen(
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
                 Event.NavigateToHome -> {
-                    navController.navigate(route = NavigationRoute.Main)
+                    navController.navigate(NavigationRoute.Main) {
+                        popUpTo(NavigationRoute.Login) {
+                            inclusive = true
+                        }
+                    }
                 }
                 else -> {
                     toast(
