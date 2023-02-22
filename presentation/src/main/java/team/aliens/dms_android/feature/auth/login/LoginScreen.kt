@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.auth.login
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
@@ -40,46 +41,21 @@ fun LoginScreen(
 
     val toast = rememberToast()
 
-    val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
-    val notFoundComment = stringResource(id = R.string.LoginNotFound)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val noInternetException = stringResource(id = R.string.NoInternetException)
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        signInViewModel.signInViewEffect.collect {
-            when (it) {
-                is Event.NavigateToHome -> {
+        signInViewModel.signInViewEffect.collect { event ->
+            when (event) {
+                Event.NavigateToHome -> {
                     navController.navigate(route = NavigationRoute.Main)
                 }
-
-                is Event.WrongRequest -> {
-                    toast(badRequestComment)
-                }
-
-                is Event.NotCorrectPassword -> {
-                    toast(unAuthorizedComment)
-                }
-
-                is Event.UserNotFound -> {
-                    toast(notFoundComment)
-                }
-
-                is Event.TooManyRequest -> {
-                    toast(tooManyRequestComment)
-                }
-
-                is Event.ServerException -> {
-                    toast(serverException)
-                }
-
-                is Event.NoInternetException -> {
-                    toast(noInternetException)
-                }
-
-                is Event.UnKnownException -> {
-                    toast(noInternetException)
+                else -> {
+                    toast(
+                        getStringFromEvent(
+                            context = context,
+                            event = event,
+                        ),
+                    )
                 }
             }
         }
@@ -100,12 +76,30 @@ fun LoginScreen(
     BackPressHandle()
 }
 
+private fun getStringFromEvent(
+    context: Context,
+    event: Event,
+): String {
+    return context.getString(
+        when (event) {
+            Event.WrongRequest -> R.string.BadRequest
+            Event.NotCorrectPassword -> R.string.CheckPassword
+            Event.UserNotFound -> R.string.LoginNotFound
+            Event.TooManyRequest -> R.string.TooManyRequest
+            Event.ServerException -> R.string.ServerException
+            Event.NoInternetException -> R.string.NoInternetException
+            Event.UnKnownException -> R.string.UnKnownException
+            else -> throw IllegalArgumentException()
+        },
+    )
+}
+
 @Composable
 private fun BackPressHandle() {
     val backHandlingEnabled by remember { mutableStateOf(true) }
-    val activity = (LocalContext.current as? Activity)
+    val activity = (LocalContext.current as Activity)
     BackHandler(backHandlingEnabled) {
-        activity?.finish()
+        activity.finish()
     }
 }
 
