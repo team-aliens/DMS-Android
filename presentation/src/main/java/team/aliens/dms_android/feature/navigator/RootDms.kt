@@ -29,7 +29,9 @@ fun RootDms(
     ) {
 
         composable(NavigationRoute.Login) {
-            LoginScreen(scaffoldState = scaffoldState, navController = navController)
+            LoginScreen(
+                navController = navController,
+            )
         }
 
         composable(NavigationRoute.Main) {

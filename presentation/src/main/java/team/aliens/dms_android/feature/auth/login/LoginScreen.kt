@@ -1,15 +1,11 @@
 package team.aliens.dms_android.feature.auth.login
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,7 +30,6 @@ import team.aliens.presentation.R
 
 @Composable
 fun LoginScreen(
-    scaffoldState: ScaffoldState,
     navController: NavController,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
@@ -198,10 +193,41 @@ fun LoginScreen(
             )
         }
 
-        LoginButton(signInViewModel, scaffoldState)
-    }
+        Spacer(
+            modifier = Modifier.weight(1f),
+        )
 
-    BackPressHandle()
+        DormContainedLargeButton(
+            text = stringResource(id = R.string.Login),
+            color = DormButtonColor.Blue,
+            onClick = {
+
+                if (signInViewModel.state.value.id.isBlank()) {
+
+                    toast(
+                        context.getString(R.string.PleaseEnterId)
+                    )
+
+                    return@DormContainedLargeButton
+                }
+
+                if (signInViewModel.state.value.password.isBlank()) {
+
+                    toast(
+                        context.getString(R.string.PleaseEnterPassword)
+                    )
+
+                    return@DormContainedLargeButton
+                }
+
+                signInViewModel.postSignIn()
+            },
+        )
+
+        Spacer(
+            modifier = Modifier.height(57.dp),
+        )
+    }
 }
 
 private fun getStringFromEvent(
@@ -220,39 +246,4 @@ private fun getStringFromEvent(
             else -> throw IllegalArgumentException()
         },
     )
-}
-
-@Composable
-private fun BackPressHandle() {
-    val backHandlingEnabled by remember { mutableStateOf(true) }
-    val activity = (LocalContext.current as Activity)
-    BackHandler(backHandlingEnabled) {
-        activity.finish()
-    }
-}
-
-@Composable
-fun LoginButton(
-    signInViewModel: SignInViewModel,
-    scaffoldState: ScaffoldState,
-) {
-
-    Box(
-        contentAlignment = Alignment.BottomCenter,
-        modifier = Modifier
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 60.dp,
-            )
-            .fillMaxSize(),
-    ) {
-        DormContainedLargeButton(text = stringResource(id = R.string.Login),
-            color = DormButtonColor.Blue,
-            onClick = {
-                if (signInViewModel.state.value.id != "" && signInViewModel.state.value.password != "") {
-                    signInViewModel.postSignIn()
-                }
-            })
-    }
 }
