@@ -99,7 +99,23 @@ fun LoginScreen(
             ),
     ) {
 
-        MainTitle()
+        Image(
+            modifier = Modifier
+                .height(34.dp)
+                .width(97.dp),
+            painter = painterResource(id = R.drawable.ic_logo),
+            contentDescription = null,
+        )
+
+        Spacer(
+            modifier = Modifier.height(8.dp),
+        )
+
+        Body4(
+            text = stringResource(
+                id = R.string.AppDescription,
+            ),
+        )
 
         Spacer(
             modifier = Modifier.height(52.dp),
@@ -135,7 +151,7 @@ fun LoginScreen(
             onCheckedChange = onAutoLoginStateChange,
         )
 
-        AddFunction()
+        AuthOption()
 
         LoginButton(signInViewModel, scaffoldState)
     }
@@ -171,53 +187,52 @@ private fun BackPressHandle() {
 }
 
 @Composable
-fun MainTitle() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+fun AuthOption() {
+
+    val mContext = LocalContext.current
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentWidth(CenterHorizontally)
+            .padding(
+                start = 10.dp,
+                top = 24.dp,
+                end = 10.dp,
+            ),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Image(
-            modifier = Modifier
-                .height(34.dp)
-                .width(97.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = null,
+
+        Caption(
+            text = stringResource(id = R.string.DoRegister),
+            onClick = {
+                mContext.startActivity(
+                    Intent(
+                        mContext,
+                        RegisterActivity::class.java,
+                    ),
+                )
+            },
         )
-        Body4(
+
+        Caption(text = "|")
+
+        Caption(
             text = stringResource(
-                id = R.string.AppDescription,
+                id = R.string.FindId,
             ),
         )
-    }
-}
 
-@Composable
-fun AddFunction() {
-    val mContext = LocalContext.current
-    Box(
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(CenterHorizontally)
-                .padding(
-                    start = 10.dp,
-                    top = 24.dp,
-                    end = 10.dp,
-                ),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            Caption(
-                text = stringResource(id = R.string.DoRegister),
-                onClick = {
-                    mContext.startActivity(Intent(mContext, RegisterActivity::class.java))
-                },
-            )
-            Caption(text = "|")
-            Caption(text = stringResource(id = R.string.FindId))
-            Caption(text = "|")
-            Caption(text = stringResource(id = R.string.ChangePassword))
-        }
+        Caption(text = "|")
+
+        Caption(
+            text = stringResource(
+                id = R.string.ChangePassword,
+            ),
+            onClick = {
+
+            },
+        )
     }
 }
 
