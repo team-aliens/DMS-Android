@@ -2,7 +2,8 @@ package team.aliens.dms_android.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,22 +16,22 @@ import team.aliens.presentation.R
 
 @Composable
 fun LastAppliedItem(
-    lastApplied: String = ""
-){
+    text: String,
+) {
     Box(
         modifier = Modifier
-            .size(
-                width = 92.dp,
-                height = 34.dp,
-            )
+            .height(34.dp)
             .background(
                 color = DormColor.Lighten200,
-                shape = RoundedCornerShape(100)
+                shape = RoundedCornerShape(100),
+            )
+            .padding(
+                horizontal = 12.dp,
             ),
         contentAlignment = Alignment.Center,
     ) {
         ButtonText(
-            text = lastApplied.ifBlank { stringResource(id = R.string.CompleteApplication) },
+            text = text.ifBlank { stringResource(id = R.string.CompleteApplication) },
             color = DormColor.DormPrimary,
         )
     }
