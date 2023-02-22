@@ -6,6 +6,7 @@
 
     // 로그인
     <string name="Login">로그인</string>
+    <string name="ID">아이디</string>
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
     <string name="DoRegister">회원가입하기</string>

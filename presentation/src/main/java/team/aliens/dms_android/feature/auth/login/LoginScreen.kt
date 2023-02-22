@@ -61,15 +61,82 @@ fun LoginScreen(
         }
     }
 
+    var idState by remember {
+        mutableStateOf("")
+    }
+
+    val onIdChange = { value: String ->
+        idState = value
+        signInViewModel.setId(value)
+    }
+
+    var passwordState by remember {
+        mutableStateOf("")
+    }
+
+    val onPasswordChange = { value: String ->
+        passwordState = value
+        signInViewModel.setPassword(value)
+    }
+
+    var autoLoginState by remember {
+        mutableStateOf(false)
+    }
+
+    val onAutoLoginStateChange = { value: Boolean ->
+        autoLoginState = value
+        signInViewModel.state.value.autoLogin = value
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormColor.Gray100),
+            .background(color = DormColor.Gray100)
+            .padding(
+                top = 92.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
     ) {
+
         MainTitle()
-        TextField(signInViewModel)
-        AutoLogin(signInViewModel)
+
+        Spacer(
+            modifier = Modifier.height(52.dp),
+        )
+
+        DormTextField(
+            value = idState,
+            onValueChange = onIdChange,
+            hint = stringResource(id = R.string.ID),
+        )
+
+        Spacer(
+            modifier = Modifier.height(36.dp),
+        )
+
+        DormTextField(
+            value = passwordState,
+            onValueChange = onPasswordChange,
+            isPassword = true,
+            hint = stringResource(id = R.string.Password),
+        )
+
+        Spacer(
+            modifier = Modifier.height(30.dp),
+        )
+
+        DormTextCheckBox(
+            modifier = Modifier.padding(
+                start = 6.dp,
+            ),
+            text = stringResource(id = R.string.AutoLogin),
+            checked = autoLoginState,
+            onCheckedChange = onAutoLoginStateChange,
+        )
+
         AddFunction()
+
         LoginButton(signInViewModel, scaffoldState)
     }
 
@@ -106,12 +173,10 @@ private fun BackPressHandle() {
 @Composable
 fun MainTitle() {
     Column(
-        modifier = Modifier.padding(start = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Image(
             modifier = Modifier
-                .padding(top = 92.dp)
                 .height(34.dp)
                 .width(97.dp),
             painter = painterResource(id = R.drawable.ic_logo),
@@ -122,73 +187,6 @@ fun MainTitle() {
                 id = R.string.AppDescription,
             ),
         )
-    }
-}
-
-@Composable
-fun TextField(
-    signInViewModel: SignInViewModel,
-) {
-
-    var idValue by remember { mutableStateOf("") }
-    var passwordValue by remember { mutableStateOf("") }
-
-    Box(contentAlignment = Alignment.TopStart) {
-        Column(
-            modifier = Modifier.padding(start = 16.dp, top = 6.dp, end = 16.dp),
-        ) {
-            Spacer(
-                modifier = Modifier.height(52.dp),
-            )
-            DormTextField(
-                value = idValue,
-                onValueChange = {
-                    idValue = it
-                    signInViewModel.setId(idValue)
-                },
-                hint = stringResource(id = R.string.Login),
-            )
-            Spacer(
-                modifier = Modifier.height(36.dp),
-            )
-            DormTextField(
-                value = passwordValue,
-                onValueChange = {
-                    passwordValue = it
-                    signInViewModel.setPassword(passwordValue)
-                },
-                isPassword = true,
-                hint = stringResource(id = R.string.Password),
-            )
-        }
-    }
-}
-
-@Composable
-fun AutoLogin(
-    signInViewModel: SignInViewModel,
-) {
-
-    var checked by remember { mutableStateOf(false) }
-
-    Box(
-        contentAlignment = Alignment.TopStart,
-    ) {
-        Column(
-            modifier = Modifier.padding(start = 22.dp),
-        ) {
-            Spacer(
-                modifier = Modifier.height(25.dp),
-            )
-            DormTextCheckBox(
-                text = stringResource(id = R.string.AutoLogin),
-                checked = checked,
-                onCheckedChange = {
-                    checked = !checked
-                    signInViewModel.state.value.autoLogin = checked
-                },
-            )
-        }
     }
 }
 
