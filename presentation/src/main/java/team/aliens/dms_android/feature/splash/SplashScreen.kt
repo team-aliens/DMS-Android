@@ -21,7 +21,7 @@ import team.aliens.presentation.R
 
 // todo 스플래시 스크린을 없애는 방법 검토 필요!@!
 @Composable
-fun Splash(
+fun SplashScreen(
     splashViewModel: SplashViewModel = hiltViewModel(),
 ) {
 
