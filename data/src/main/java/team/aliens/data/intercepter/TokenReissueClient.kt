@@ -24,6 +24,8 @@ class TokenReissueClient @Inject constructor(
         val response = newCall(tokenReissueRequest).execute()
 
         return if (response.isSuccessful) {
+            checkNotNull(response.body)
+
             Gson().fromJson(
                 response.body!!.string(),
                 SignInResponse::class.java,
