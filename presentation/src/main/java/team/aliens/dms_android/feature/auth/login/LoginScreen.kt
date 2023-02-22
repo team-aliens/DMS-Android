@@ -105,22 +105,23 @@ private fun BackPressHandle() {
 
 @Composable
 fun MainTitle() {
-    Box(contentAlignment = Alignment.TopStart) {
-        Column(
-            modifier = Modifier.padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(top = 92.dp)
-                    .height(34.dp)
-                    .width(97.dp),
-                painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = stringResource(id = R.string.MainLogo),
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Body4(text = stringResource(id = R.string.AppDescription))
-        }
+    Column(
+        modifier = Modifier.padding(start = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Image(
+            modifier = Modifier
+                .padding(top = 92.dp)
+                .height(34.dp)
+                .width(97.dp),
+            painter = painterResource(id = R.drawable.ic_logo),
+            contentDescription = null,
+        )
+        Body4(
+            text = stringResource(
+                id = R.string.AppDescription,
+            ),
+        )
     }
 }
 
