@@ -140,4 +140,9 @@
     <string name="DoApplyStudyRoom">자습실 신청하기</string>
     <string name="DoApplyStay">잔류 신청하기</string>
 
+    // 바텀 내비게이션
+    <string name="Home">홈</string>
+    <string name="Guide">안내</string>
+    <string name="MyPage">마이페이지</string>
+
 </resources>
