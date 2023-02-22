@@ -24,6 +24,9 @@ object NetWorkModule {
 
     @Provides
     fun provideOkHttpclient(
+    @DefaultOkHttpClient
+    @Provides
+    fun provideDefaultOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authorizationInterceptor: AuthorizationInterceptor,
     ): OkHttpClient = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
@@ -31,7 +34,7 @@ object NetWorkModule {
 
     @Provides
     fun provideRetrofit(
-        okHttpClient: OkHttpClient,
+        @DefaultOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit = Retrofit.Builder().baseUrl(BASE_URL).client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create()).build()
 
