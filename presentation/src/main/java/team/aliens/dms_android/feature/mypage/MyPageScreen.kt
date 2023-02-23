@@ -44,7 +44,7 @@ fun MyPageScreen(
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val unAuthorizedComment = stringResource(id = R.string.LoginUnauthorized)
     val forbiddenException = stringResource(id = R.string.LoginNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
