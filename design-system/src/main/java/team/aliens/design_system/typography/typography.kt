@@ -138,7 +138,7 @@ object DormTypography {
     )
 
     @Stable
-    val bottomNavItem = TextStyle(
+    val bottomNavItemLabel = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
@@ -397,13 +397,13 @@ fun ButtonText(
 
 @Composable
 @NonRestartableComposable
-fun BottomNavItemText(
+fun BottomNavItemLabel(
     text: String,
     color: Color,
 ){
     Text(
         text = text,
         color = color,
-        style = DormTypography.bottomNavItem,
+        style = DormTypography.bottomNavItemLabel,
     )
 }

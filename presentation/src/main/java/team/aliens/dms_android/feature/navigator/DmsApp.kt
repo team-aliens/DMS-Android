@@ -21,7 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.typography.BottomNavItemText
+import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
@@ -98,7 +98,7 @@ fun BottomNavBar(
             bottomTabSelectedItem.value = BottomNavigationItem.Meal.route
         },
         label = {
-            BottomNavItemText(
+            BottomNavItemLabel(
                 text = stringResource(id = R.string.Home),
                 color = if (selected == 1) selectedColor
                 else unselectedColor
@@ -123,7 +123,7 @@ fun BottomNavBar(
             bottomTabSelectedItem.value = BottomNavigationItem.Application.route
         },
         label = {
-            BottomNavItemText(
+            BottomNavItemLabel(
                 text = stringResource(id = R.string.Application),
                 color = if (selected == 2) selectedColor
                 else unselectedColor
@@ -148,7 +148,7 @@ fun BottomNavBar(
             bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
         },
         label = {
-            BottomNavItemText(
+            BottomNavItemLabel(
                 text = stringResource(id = R.string.Guide),
                 color = if (selected == 3) selectedColor
                 else unselectedColor
@@ -173,7 +173,7 @@ fun BottomNavBar(
             bottomTabSelectedItem.value = BottomNavigationItem.MyPage.route
         },
         label = {
-            BottomNavItemText(
+            BottomNavItemLabel(
                 text = stringResource(id = R.string.MyPage),
                 color = if (selected == 4) selectedColor
                 else unselectedColor
