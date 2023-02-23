@@ -1,14 +1,11 @@
 package team.aliens.dms_android.feature.auth.login
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,176 +30,126 @@ import team.aliens.presentation.R
 
 @Composable
 fun LoginScreen(
-    scaffoldState: ScaffoldState,
     navController: NavController,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
 
     val toast = rememberToast()
 
-    val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
-    val notFoundComment = stringResource(id = R.string.LoginNotFound)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val noInternetException = stringResource(id = R.string.NoInternetException)
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        signInViewModel.signInViewEffect.collect {
-            when (it) {
-                is Event.NavigateToHome -> {
-                    navController.navigate(route = NavigationRoute.Main)
+        signInViewModel.signInViewEffect.collect { event ->
+            when (event) {
+                Event.NavigateToHome -> {
+                    navController.navigate(NavigationRoute.Main) {
+                        popUpTo(NavigationRoute.Login) {
+                            inclusive = true
+                        }
+                    }
                 }
-
-                is Event.WrongRequest -> {
-                    toast(badRequestComment)
-                }
-
-                is Event.NotCorrectPassword -> {
-                    toast(unAuthorizedComment)
-                }
-
-                is Event.UserNotFound -> {
-                    toast(notFoundComment)
-                }
-
-                is Event.TooManyRequest -> {
-                    toast(tooManyRequestComment)
-                }
-
-                is Event.ServerException -> {
-                    toast(serverException)
-                }
-
-                is Event.NoInternetException -> {
-                    toast(noInternetException)
-                }
-
-                is Event.UnKnownException -> {
-                    toast(noInternetException)
+                else -> {
+                    toast(
+                        getStringFromEvent(
+                            context = context,
+                            event = event,
+                        ),
+                    )
                 }
             }
         }
     }
 
+    var idState by remember {
+        mutableStateOf("")
+    }
+
+    val onIdChange = { value: String ->
+        idState = value
+        signInViewModel.setId(value)
+    }
+
+    var passwordState by remember {
+        mutableStateOf("")
+    }
+
+    val onPasswordChange = { value: String ->
+        passwordState = value
+        signInViewModel.setPassword(value)
+    }
+
+    var autoLoginState by remember {
+        mutableStateOf(false)
+    }
+
+    val onAutoLoginStateChange = { value: Boolean ->
+        autoLoginState = value
+        signInViewModel.state.value.autoLogin = value
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormColor.Gray100),
+            .background(color = DormColor.Gray100)
+            .padding(
+                top = 92.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
     ) {
-        MainTitle()
-        TextField(signInViewModel)
-        AutoLogin(signInViewModel)
-        AddFunction()
-        LoginButton(signInViewModel, scaffoldState)
-    }
 
-    BackPressHandle()
-}
+        Image(
+            modifier = Modifier
+                .height(34.dp)
+                .width(97.dp),
+            painter = painterResource(id = R.drawable.ic_logo),
+            contentDescription = null,
+        )
 
-@Composable
-private fun BackPressHandle() {
-    val backHandlingEnabled by remember { mutableStateOf(true) }
-    val activity = (LocalContext.current as? Activity)
-    BackHandler(backHandlingEnabled) {
-        activity?.finish()
-    }
-}
+        Spacer(
+            modifier = Modifier.height(8.dp),
+        )
 
-@Composable
-fun MainTitle() {
-    Box(contentAlignment = Alignment.TopStart) {
-        Column(
-            modifier = Modifier.padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(top = 92.dp)
-                    .height(34.dp)
-                    .width(97.dp),
-                painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = stringResource(id = R.string.MainLogo),
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Body4(text = stringResource(id = R.string.AppDescription))
-        }
-    }
-}
+        Body4(
+            text = stringResource(
+                id = R.string.AppDescription,
+            ),
+        )
 
-@Composable
-fun TextField(
-    signInViewModel: SignInViewModel,
-) {
+        Spacer(
+            modifier = Modifier.height(52.dp),
+        )
 
-    var idValue by remember { mutableStateOf("") }
-    var passwordValue by remember { mutableStateOf("") }
+        DormTextField(
+            value = idState,
+            onValueChange = onIdChange,
+            hint = stringResource(id = R.string.ID),
+        )
 
-    Box(contentAlignment = Alignment.TopStart) {
-        Column(
-            modifier = Modifier.padding(start = 16.dp, top = 6.dp, end = 16.dp),
-        ) {
-            Spacer(
-                modifier = Modifier.height(52.dp),
-            )
-            DormTextField(
-                value = idValue,
-                onValueChange = {
-                    idValue = it
-                    signInViewModel.setId(idValue)
-                },
-                hint = stringResource(id = R.string.Login),
-            )
-            Spacer(
-                modifier = Modifier.height(36.dp),
-            )
-            DormTextField(
-                value = passwordValue,
-                onValueChange = {
-                    passwordValue = it
-                    signInViewModel.setPassword(passwordValue)
-                },
-                isPassword = true,
-                hint = stringResource(id = R.string.Password),
-            )
-        }
-    }
-}
+        Spacer(
+            modifier = Modifier.height(36.dp),
+        )
 
-@Composable
-fun AutoLogin(
-    signInViewModel: SignInViewModel,
-) {
+        DormTextField(
+            value = passwordState,
+            onValueChange = onPasswordChange,
+            isPassword = true,
+            hint = stringResource(id = R.string.Password),
+        )
 
-    var checked by remember { mutableStateOf(false) }
+        Spacer(
+            modifier = Modifier.height(30.dp),
+        )
 
-    Box(
-        contentAlignment = Alignment.TopStart,
-    ) {
-        Column(
-            modifier = Modifier.padding(start = 22.dp),
-        ) {
-            Spacer(
-                modifier = Modifier.height(25.dp),
-            )
-            DormTextCheckBox(
-                text = stringResource(id = R.string.AutoLogin),
-                checked = checked,
-                onCheckedChange = {
-                    checked = !checked
-                    signInViewModel.state.value.autoLogin = checked
-                },
-            )
-        }
-    }
-}
+        DormTextCheckBox(
+            modifier = Modifier.padding(
+                start = 6.dp,
+            ),
+            text = stringResource(id = R.string.AutoLogin),
+            checked = autoLoginState,
+            onCheckedChange = onAutoLoginStateChange,
+        )
 
-@Composable
-fun AddFunction() {
-    val mContext = LocalContext.current
-    Box(
-        contentAlignment = Alignment.TopCenter,
-    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -214,42 +161,93 @@ fun AddFunction() {
                 ),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
+
             Caption(
                 text = stringResource(id = R.string.DoRegister),
                 onClick = {
-                    mContext.startActivity(Intent(mContext, RegisterActivity::class.java))
+                    context.startActivity(
+                        Intent(
+                            context,
+                            RegisterActivity::class.java,
+                        ),
+                    )
                 },
             )
+
             Caption(text = "|")
-            Caption(text = stringResource(id = R.string.FindId))
+
+            Caption(
+                text = stringResource(
+                    id = R.string.FindId,
+                ),
+                onClick = {
+                    // todo implement and link find id screen
+                },
+            )
+
             Caption(text = "|")
-            Caption(text = stringResource(id = R.string.ChangePassword))
+
+            Caption(
+                text = stringResource(
+                    id = R.string.ChangePassword,
+                ),
+                onClick = {
+                    navController.navigate(NavigationRoute.ChangePassword)
+                },
+            )
         }
+
+        Spacer(
+            modifier = Modifier.weight(1f),
+        )
+
+        DormContainedLargeButton(
+            text = stringResource(id = R.string.Login),
+            color = DormButtonColor.Blue,
+            onClick = {
+
+                if (signInViewModel.state.value.id.isBlank()) {
+
+                    toast(
+                        context.getString(R.string.PleaseEnterId)
+                    )
+
+                    return@DormContainedLargeButton
+                }
+
+                if (signInViewModel.state.value.password.isBlank()) {
+
+                    toast(
+                        context.getString(R.string.PleaseEnterPassword)
+                    )
+
+                    return@DormContainedLargeButton
+                }
+
+                signInViewModel.postSignIn()
+            },
+        )
+
+        Spacer(
+            modifier = Modifier.height(57.dp),
+        )
     }
 }
 
-@Composable
-fun LoginButton(
-    signInViewModel: SignInViewModel,
-    scaffoldState: ScaffoldState,
-) {
-
-    Box(
-        contentAlignment = Alignment.BottomCenter,
-        modifier = Modifier
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 60.dp,
-            )
-            .fillMaxSize(),
-    ) {
-        DormContainedLargeButton(text = stringResource(id = R.string.Login),
-            color = DormButtonColor.Blue,
-            onClick = {
-                if (signInViewModel.state.value.id != "" && signInViewModel.state.value.password != "") {
-                    signInViewModel.postSignIn()
-                }
-            })
-    }
+private fun getStringFromEvent(
+    context: Context,
+    event: Event,
+): String {
+    return context.getString(
+        when (event) {
+            Event.WrongRequest -> R.string.BadRequest
+            Event.NotCorrectPassword -> R.string.CheckPassword
+            Event.UserNotFound -> R.string.LoginNotFound
+            Event.TooManyRequest -> R.string.TooManyRequest
+            Event.ServerException -> R.string.ServerException
+            Event.NoInternetException -> R.string.NoInternetException
+            Event.UnKnownException -> R.string.UnKnownException
+            else -> throw IllegalArgumentException()
+        },
+    )
 }
