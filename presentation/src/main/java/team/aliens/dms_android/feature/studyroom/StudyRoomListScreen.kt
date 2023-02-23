@@ -1,31 +1,37 @@
 package team.aliens.dms_android.feature.studyroom
 
-import androidx.compose.foundation.Image
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomContent
-import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.toast.rememberToast
-import team.aliens.design_system.typography.Body5
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.presentation.R
 
-fun StudyRoomListEntity.StudyRoom.toNotice() = RoomDataClass(
+data class RoomDataClass(
+    val roomId: String,
+    val position: String,
+    val title: String,
+    val currentNumber: Int,
+    val isMine: Boolean,
+    val maxNumber: Int,
+    val condition: String,
+)
+
+private fun StudyRoomListEntity.StudyRoom.toNotice() = RoomDataClass(
     roomId = id,
     position = "${floor}층",
     title = name,
@@ -40,128 +46,129 @@ fun StudyRoomListScreen(
     navController: NavController,
     studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(Unit) {
-        studyRoomViewModel.fetchStudyRoomList()
-        studyRoomViewModel.fetchApplyTime()
-    }
-
-    var sex by remember {
-        mutableStateOf("")
-    }
-
-    var points = remember {
-        mutableStateListOf(
-            RoomDataClass(
-                roomId = "qewf",
-                position = "qwef",
-                title = "qwef",
-                currentNumber = 1,
-                maxNumber = 2,
-                isMine = false,
-                condition = "afwe",
-            ),
-            RoomDataClass(
-                roomId = "qewf",
-                position = "qwef",
-                title = "qwef",
-                currentNumber = 1,
-                maxNumber = 2,
-                isMine = false,
-                condition = "afwe",
-            )
-        )
-    }
 
     val toast = rememberToast()
-    val badRequestComment = "잘못된 요청입니다."
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
-    val forbiddenException = stringResource(id = R.string.LoginNotFound)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val unKnownException = stringResource(id = R.string.UnKnownException)
+
+    val context = LocalContext.current
+
+    val studyRooms = remember {
+        mutableStateListOf<RoomDataClass>()
+    }
 
     LaunchedEffect(studyRoomViewModel) {
-        studyRoomViewModel.studyRoomEffect.collect() {
-            when (it) {
+
+        studyRoomViewModel.fetchStudyRoomList()
+
+        studyRoomViewModel.studyRoomEffect.collect() { event ->
+            when (event) {
                 is StudyRoomViewModel.Event.FetchStudyRoomList -> {
-                    points.clear()
-                    val mappingStudyRoom = it.studyRoomListEntity.studyRooms.map { item ->
-                        item.toNotice()
+
+                    val mappedStudyRoom = event.studyRoomListEntity.studyRooms.map {
+                        it.toNotice()
                     }
-                    points.addAll(mappingStudyRoom.toMutableStateList())
-                }
-                is StudyRoomViewModel.Event.BadRequestException -> {
-                    toast(badRequestComment)
-                }
-                is StudyRoomViewModel.Event.UnAuthorizedTokenException -> {
-                    toast(unAuthorizedComment)
-                }
-                is StudyRoomViewModel.Event.CannotConnectException -> {
-                    toast(forbiddenException)
-                }
-                is StudyRoomViewModel.Event.TooManyRequestException -> {
-                    toast(tooManyRequestComment)
-                }
-                is StudyRoomViewModel.Event.InternalServerException -> {
-                    toast(serverException)
-                }
-                is StudyRoomViewModel.Event.UnknownException -> {
-                    toast(unKnownException)
-                }
-                is StudyRoomViewModel.Event.NullPointException -> {
-                    toast("null")
+
+                    studyRooms.addAll(
+                        mappedStudyRoom.toMutableStateList(),
+                    )
                 }
                 else -> {
-                    toast(unKnownException)
+                    toast(
+                        getStringFromEvent(
+                            context = context,
+                            event = event,
+                        ),
+                    )
                 }
             }
         }
     }
-    val state = studyRoomViewModel.state.collectAsState().value
+
+    val studyRoomState = studyRoomViewModel.state.collectAsState().value
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(DormColor.Gray100),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TopBar(title = "자습실 신청") {
+
+        TopBar(
+            title = stringResource(
+                id = R.string.ApplicateStudyRoom,
+            ),
+        ) {
             navController.popBackStack()
         }
-        Spacer(modifier = Modifier.height(27.dp))
+
         Box(
-            modifier = Modifier.padding(horizontal = 20.dp)
-        ){
-            FloatingNotice(content = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        LazyColumn(
             modifier = Modifier
-                .padding(horizontal = 14.dp)
-                .background(DormColor.Gray200),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
+                .fillMaxSize()
+                .background(DormColor.Gray200)
+                .padding(horizontal = 16.dp),
         ) {
-            items(items = points) { point ->
-                RoomContent(roomId = point.roomId,
-                    position = point.position,
-                    title = point.title,
-                    currentNumber = point.currentNumber,
-                    maxNumber = point.maxNumber,
-                    condition = point.condition,
-                    isMine = point.isMine,
-                    onClick = { seatId ->
-                        navController.navigate("studyRoomDetail/${seatId}")
-                    })
+
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+
+                item {
+                    Spacer(
+                        modifier = Modifier.height(79.dp),
+                    )
+                }
+
+                items(
+                    items = studyRooms,
+                ) { point ->
+                    RoomContent(
+                        roomId = point.roomId,
+                        position = point.position,
+                        title = point.title,
+                        currentNumber = point.currentNumber,
+                        maxNumber = point.maxNumber,
+                        condition = point.condition,
+                        isMine = point.isMine,
+                        onClick = { seatId ->
+                            navController.navigate("studyRoomDetail/${seatId}")
+                        },
+                    )
+                }
+
+                item {
+                    Spacer(
+                        modifier = Modifier.height(12.dp),
+                    )
+                }
+            }
+
+            Column() {
+
+                Spacer(modifier = Modifier.height(17.dp))
+
+                FloatingNotice(
+                    content = "자습실 신청 가능 시간: ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
 }
 
-data class RoomDataClass(
-    val roomId: String,
-    val position: String,
-    val title: String,
-    val currentNumber: Int,
-    val isMine: Boolean,
-    val maxNumber: Int,
-    val condition: String,
-)
+private fun getStringFromEvent(
+    context: Context,
+    event: StudyRoomViewModel.Event,
+): String {
+    return context.getString(
+        when (event) {
+            StudyRoomViewModel.Event.BadRequestException -> R.string.BadRequest
+            StudyRoomViewModel.Event.CannotConnectException -> R.string.NoInternetException
+            StudyRoomViewModel.Event.InternalServerException -> R.string.ServerException
+            StudyRoomViewModel.Event.NotFoundException -> R.string.NotFound
+            StudyRoomViewModel.Event.TooManyRequestException -> R.string.TooManyRequest
+            StudyRoomViewModel.Event.UnAuthorizedTokenException -> R.string.UnAuthorized
+            StudyRoomViewModel.Event.UnknownException -> R.string.UnKnownException
+            else -> throw IllegalArgumentException()
+        },
+    )
+}
