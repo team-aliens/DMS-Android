@@ -4,20 +4,28 @@ import team.aliens.presentation.R
 
 sealed class BottomNavigationItem(var route: String, var iconResId: Int, var title: String) {
     object Meal :
-        BottomNavigationItem(NavigationRoute.BottomNavigation.Meal, R.drawable.ic_house, "Meal")
+        BottomNavigationItem(
+            route = NavigationRoute.BottomNavigation.Meal,
+            iconResId = R.drawable.ic_house,
+            title = "Meal",
+        )
 
     object Application :
-        BottomNavigationItem(NavigationRoute.BottomNavigation.Application, R.drawable.ic_plus, "Application")
+        BottomNavigationItem(
+            route = NavigationRoute.BottomNavigation.Application,
+            iconResId = R.drawable.ic_plus,
+            title = "Application",
+        )
 
     object Notice : BottomNavigationItem(
-        NavigationRoute.BottomNavigation.Notice,
-        R.drawable.ic_notice,
-        "Notice"
+        route = NavigationRoute.BottomNavigation.Notice,
+        iconResId = R.drawable.ic_notice,
+        title = "Notice",
     )
 
     object MyPage : BottomNavigationItem(
-        NavigationRoute.BottomNavigation.MyPage,
-        R.drawable.ic_mypage,
-        "MyPage"
+        route = NavigationRoute.BottomNavigation.MyPage,
+        iconResId = R.drawable.ic_mypage,
+        title = "MyPage",
     )
 }

@@ -9,9 +9,11 @@ object NavigationRoute {
         const val MyPage = "mypage"
     }
 
+    const val ChangePassword = "changePassword"
     const val Login = "login"
     const val Main = "main"
     const val NoticeDetail = "noticeDetail/{noticeId}"
     const val PointList = "pointList"
     const val StudyRoom = "studyRoom"
+    const val StudyRoomDetail = "studyRoomDetail/{seatId}"
 }
