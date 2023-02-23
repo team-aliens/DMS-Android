@@ -102,8 +102,7 @@ fun ImportantNotice() {
         contentAlignment = Alignment.CenterEnd,
         modifier = Modifier.padding(horizontal = 20.dp),
     ) {
-        // TODO string resource 로 빼주기
-        FloatingNotice(content = "새로운 공지사항이 있습니다.")
+        FloatingNotice(content = stringResource(id = R.string.NewNotice))
         Image(
             modifier = Modifier
                 .padding(end = 10.dp)
