@@ -35,7 +35,7 @@ class StudyRoomViewModel @Inject constructor(
     val studyRoomTimeEffect = _studyRoomTimeEffect.asEventFlow()
 
     override val initialState: StudyRoomState
-        get() = StudyRoomState.initial()
+        get() = StudyRoomState.getDefaultInstance()
 
     fun fetchStudyRoomList() {
         viewModelScope.launch {

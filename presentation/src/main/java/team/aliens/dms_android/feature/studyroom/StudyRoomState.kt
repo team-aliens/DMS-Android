@@ -10,10 +10,12 @@ data class StudyRoomState(
     val roomDetail: StudyRoomDetailEntity,
 ) : MviState {
     companion object {
-        fun initial() = StudyRoomState(startAt = "",
+        fun getDefaultInstance() = StudyRoomState(
+            startAt = "",
             endAt = "",
             currentSeat = null,
-            roomDetail = StudyRoomDetailEntity(floor = 0,
+            roomDetail = StudyRoomDetailEntity(
+                floor = 0,
                 name = "",
                 totalAvailableSeat = 0,
                 inUseHeadCount = 0,
@@ -26,17 +28,23 @@ data class StudyRoomState(
                 totalWidthSize = 2,
                 totalHeightSize = 2,
                 studyRoomSex = "",
-                seats = listOf(StudyRoomDetailEntity.Seat(id = "",
-                    widthLocation = 1,
-                    heightLocation = 1,
-                    number = 0,
-                    type = StudyRoomDetailEntity.Type(
+                seats = listOf(
+                    StudyRoomDetailEntity.Seat(
                         id = "",
-                        name = "",
-                        color = "#FFFFFF",
+                        widthLocation = 1,
+                        heightLocation = 1,
+                        number = 0,
+                        type = StudyRoomDetailEntity.Type(
+                            id = "",
+                            name = "",
+                            color = "#FFFFFF",
+                        ),
+                        status = "",
+                        isMine = false,
+                        student = StudyRoomDetailEntity.Student(id = "", name = ""),
                     ),
-                    status = "",
-                    isMine = false,
-                    student = StudyRoomDetailEntity.Student(id = "", name = "")))))
+                ),
+            ),
+        )
     }
 }
