@@ -6,10 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -18,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
@@ -30,13 +27,16 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle1
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.feature.navigator.BottomNavigationItem
+import team.aliens.dms_android.feature.navigator.navigateBottomNavigation
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaScreen(
-    onNoticeIconClick: () -> Unit,
+    navController: NavHostController,
+    bottomTabSelectedItem: MutableState<String>,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
 
@@ -72,7 +72,15 @@ fun CafeteriaScreen(
         Spacer(modifier = Modifier.height(20.dp))
         TopBar()
         Spacer(modifier = Modifier.height(25.dp))
-        ImportantNotice(onNoticeIconClick = onNoticeIconClick)
+        ImportantNotice(
+            onNoticeIconClick = {
+                navigateBottomNavigation(
+                    route = BottomNavigationItem.Notice.route,
+                    navController = navController,
+                )
+                bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
+            }
+        )
         CafeteriaDiary(pagerState = pagerState, coroutineScope = coroutineScope, hiltViewModel())
         CafeteriaViewPager(mealViewModel)
     }
@@ -113,7 +121,7 @@ fun ImportantNotice(
                 .size(33.dp)
                 .dormClickable(
                     rippleEnabled = false,
-                ){
+                ) {
                     onNoticeIconClick()
                 },
             painter = painterResource(id = R.drawable.ic_next),

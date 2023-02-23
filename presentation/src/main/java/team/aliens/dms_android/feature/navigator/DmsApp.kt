@@ -54,13 +54,8 @@ fun DmsApp(
         ) {
             composable(BottomNavigationItem.Meal.route) {
                 CafeteriaScreen(
-                    onNoticeIconClick = {
-                        navigateBottomNavigation(
-                            route = BottomNavigationItem.Notice.route,
-                            navController = navHostController,
-                        )
-                        bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
-                    },
+                    navController = navHostController,
+                    bottomTabSelectedItem = bottomTabSelectedItem,
                 )
             }
             composable(BottomNavigationItem.Application.route) { ApplicationScreen(navController = navController) }
