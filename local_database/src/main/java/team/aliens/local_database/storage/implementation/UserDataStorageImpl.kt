@@ -109,6 +109,9 @@ class UserDataStorageImpl @Inject constructor(
     }
 
     override fun signOut() {
+
+        clearToken()
+
         editor.putBoolean(AUTO_SIGN_IN, false).apply()
     }
 }
