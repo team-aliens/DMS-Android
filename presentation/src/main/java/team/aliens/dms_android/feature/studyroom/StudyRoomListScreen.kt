@@ -21,7 +21,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.presentation.R
 
-data class RoomDataClass(
+data class StudyRoomInformation(
     val roomId: String,
     val position: String,
     val title: String,
@@ -31,7 +31,7 @@ data class RoomDataClass(
     val condition: String,
 )
 
-private fun StudyRoomListEntity.StudyRoom.toNotice() = RoomDataClass(
+private fun StudyRoomListEntity.StudyRoom.toNotice() = StudyRoomInformation(
     roomId = id,
     position = "${floor}층",
     title = name,
@@ -52,7 +52,7 @@ fun StudyRoomListScreen(
     val context = LocalContext.current
 
     val studyRooms = remember {
-        mutableStateListOf<RoomDataClass>()
+        mutableStateListOf<StudyRoomInformation>()
     }
 
     LaunchedEffect(studyRoomViewModel) {
