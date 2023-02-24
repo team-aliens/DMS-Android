@@ -3,14 +3,12 @@ package team.aliens.dms_android.feature.navigator
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,11 +47,10 @@ fun DmsApp(
             )
         },
         modifier = Modifier.background(DormColor.Gray900),
-    ) { innerPadding ->
+    ) {
         NavHost(
             navController = navHostController,
             startDestination = BottomNavigationItem.Meal.route,
-            modifier = Modifier.padding(innerPadding),
         ) {
             composable(BottomNavigationItem.Meal.route) {
                 CafeteriaScreen(
@@ -75,14 +72,21 @@ fun BottomNavBar(
     navController: NavHostController,
     bottomTabSelectedItem: MutableState<String>,
 ) = BottomAppBar(
-    cutoutShape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)),
+    modifier = Modifier
+        .height(60.dp)
+        .clip(
+            shape = RoundedCornerShape(
+                topStart = 28.dp,
+                topEnd = 28.dp,
+            )
+        ),
     backgroundColor = MaterialTheme.colors.background,
     contentColor = DormColor.Gray900,
 ) {
     val selectedColor = DormColor.Gray900
     val unselectedColor = DormColor.Gray500
 
-    val selected = when(bottomTabSelectedItem.value){
+    val selected = when (bottomTabSelectedItem.value) {
         BottomNavigationItem.Meal.route -> 1
         BottomNavigationItem.Application.route -> 2
         BottomNavigationItem.Notice.route -> 3
@@ -113,7 +117,7 @@ fun BottomNavBar(
         selected = selected == 1,
         unselectedContentColor = unselectedColor,
     )
-    
+
     BottomNavigationItem(
         modifier = Modifier
             .weight(0.5f)

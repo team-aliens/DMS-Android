@@ -208,7 +208,9 @@ fun CafeteriaViewPager(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 23.dp),
+            .padding(
+                bottom = 60.dp,
+            ),
     ) {
         Row(
             modifier = Modifier
