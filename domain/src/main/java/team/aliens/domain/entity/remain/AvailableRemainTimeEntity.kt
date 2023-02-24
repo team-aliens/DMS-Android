@@ -4,7 +4,7 @@ import java.time.DayOfWeek
 
 data class AvailableRemainTimeEntity(
     val startDayOfWeek: DayOfWeek,
-    val startsAt: String,
+    val startTime: String,
     val endDayOfWeek: DayOfWeek,
-    val endsAt: String,
+    val endTime: String,
 )

@@ -6,16 +6,16 @@ import java.time.DayOfWeek
 
 data class FetchAvailableRemainTimeResponse(
     @SerializedName("start_day_of_week") val startDayOfWeek: DayOfWeek,
-    @SerializedName("start_time") val startsAt: String,
+    @SerializedName("start_time") val startTime: String,
     @SerializedName("end_day_of_week") val endDayOfWeek: DayOfWeek,
-    @SerializedName("end_time") val endsAt: String,
+    @SerializedName("end_time") val endTime: String,
 )
 
 fun FetchAvailableRemainTimeResponse.toEntity(): AvailableRemainTimeEntity {
     return AvailableRemainTimeEntity(
         startDayOfWeek = this.startDayOfWeek,
-        startsAt = this.startsAt,
+        startTime = this.startTime,
         endDayOfWeek = this.endDayOfWeek,
-        endsAt = this.endsAt,
+        endTime = this.endTime,
     )
 }
