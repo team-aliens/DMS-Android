@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -43,26 +44,28 @@ fun BasicCheckBox(
     val borderColor: Color by animateColorAsState(if (enabled) unSelectedColor else disabledUnSelectedColor)
 
     Box(
-        modifier = modifier.background(
-            color = if (checked) backgroundColor else Color.Transparent,
-            shape = shape,
-        ).runIf(!checked) {
-            composed {
-                border(
-                    width = 2.dp,
-                    color = borderColor,
-                )
-            }
-        }.runIf(enabled) {
-            composed {
-                dormClickable(
-                    rippleEnabled = enabled,
-                    rippleColor = null,
-                ) {
-                    onCheckedChange(!checked)
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(2.dp))
+            .background(
+                color = if (checked) backgroundColor else Color.Transparent,
+            ).runIf(!checked) {
+                composed {
+                    border(
+                        shape = RoundedCornerShape(2.dp),
+                        width = 2.dp,
+                        color = borderColor,
+                    )
                 }
-            }
-        },
+            }.runIf(enabled) {
+                composed {
+                    dormClickable(
+                        rippleEnabled = enabled,
+                        rippleColor = null,
+                    ) {
+                        onCheckedChange(!checked)
+                    }
+                }
+            },
         contentAlignment = Alignment.Center,
     ) {
         if (checked) {
