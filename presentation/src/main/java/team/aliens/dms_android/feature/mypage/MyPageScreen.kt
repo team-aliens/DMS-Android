@@ -61,9 +61,9 @@ fun MyPageScreen(
             },
         ) {
             DormDoubleButtonDialog(
-                content = "정말 로그아웃 하시겠습니까?",
-                mainBtnText = "확인",
-                subBtnText = "취소",
+                content = stringResource(R.string.AreYouSureYouLogOut),
+                mainBtnText = stringResource(R.string.Check),
+                subBtnText = stringResource(R.string.Cancel),
                 onMainBtnClick = {
 
                     navController.navigate(NavigationRoute.Login) {
