@@ -2,6 +2,9 @@ package team.aliens.dms_android.viewmodel.auth.login
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.auth.login.SignInEvent
@@ -24,13 +27,50 @@ class SignInViewModel @Inject constructor(
     private val _signInViewEffect = MutableEventFlow<Event>()
     internal val signInViewEffect = _signInViewEffect.asEventFlow()
 
-    internal fun setId(id: String) {
-        sendEvent(SignInEvent.InputId(id))
+    private val _signInButtonState = MutableStateFlow(false)
+    internal val signInButtonState = _signInButtonState.asStateFlow()
+
+
+    private var idEntered: Boolean = false
+        set(value) {
+            field = value
+            checkSignInAvailable()
+        }
+
+    private var passwordEntered = false
+        set(value) {
+            field = value
+            checkSignInAvailable()
+        }
+
+    private fun checkSignInAvailable() {
+        viewModelScope.launch(Dispatchers.Main) {
+            _signInButtonState.emit(idEntered && passwordEntered)
+        }
     }
 
-    internal fun setPassword(password: String) {
-        sendEvent(SignInEvent.InputPassword(password))
+    internal fun setId(
+        id: String,
+    ) {
+
+        sendEvent(
+            SignInEvent.InputId(id),
+        )
+
+        idEntered = id.isNotBlank()
     }
+
+    internal fun setPassword(
+        password: String,
+    ) {
+
+        sendEvent(
+            SignInEvent.InputPassword(password),
+        )
+
+        passwordEntered = password.isNotBlank()
+    }
+
 
     internal fun postSignIn() {
         viewModelScope.launch {

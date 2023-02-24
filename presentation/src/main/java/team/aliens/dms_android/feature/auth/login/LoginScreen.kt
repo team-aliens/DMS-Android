@@ -38,7 +38,7 @@ fun LoginScreen(
 
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect("signInViewEffect") {
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
                 Event.NavigateToHome -> {
@@ -60,6 +60,24 @@ fun LoginScreen(
         }
     }
 
+
+    var signInButtonState by remember {
+        mutableStateOf(false)
+    }
+
+    signInButtonState = signInViewModel.signInButtonState.collectAsState(false).value
+
+
+    var autoLoginState by remember {
+        mutableStateOf(false)
+    }
+
+    val onAutoLoginStateChange = { value: Boolean ->
+        autoLoginState = value
+        signInViewModel.state.value.autoLogin = value
+    }
+
+
     var idState by remember {
         mutableStateOf("")
     }
@@ -78,14 +96,6 @@ fun LoginScreen(
         signInViewModel.setPassword(value)
     }
 
-    var autoLoginState by remember {
-        mutableStateOf(false)
-    }
-
-    val onAutoLoginStateChange = { value: Boolean ->
-        autoLoginState = value
-        signInViewModel.state.value.autoLogin = value
-    }
 
     Column(
         modifier = Modifier
@@ -204,6 +214,7 @@ fun LoginScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.Login),
             color = DormButtonColor.Blue,
+            enabled = signInButtonState,
             onClick = {
 
                 if (signInViewModel.state.value.id.isBlank()) {
