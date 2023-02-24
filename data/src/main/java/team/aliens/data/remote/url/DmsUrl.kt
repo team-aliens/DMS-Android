@@ -13,7 +13,7 @@ object DmsUrl {
     object User {
         const val login = "$auth/tokens"
         const val emailCode = "$auth/code"
-        const val refreshToken = "$auth/reissue"
+        const val reissueToken = "$auth/reissue"
         const val compareEmail = "$auth/email"
         const val checkId = "$auth/account-id"
     }

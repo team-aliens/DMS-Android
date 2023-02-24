@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 private val ignorePath = listOf(
     DmsUrl.User.login,
-    DmsUrl.User.refreshToken,
+    DmsUrl.User.reissueToken,
     DmsUrl.User.emailCode,
     DmsUrl.User.compareEmail,
     DmsUrl.Students.register,

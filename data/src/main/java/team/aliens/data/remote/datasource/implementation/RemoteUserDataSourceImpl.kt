@@ -39,11 +39,13 @@ class RemoteUserDataSourceImpl @Inject constructor(
 
     override suspend fun reissueToken(
         refreshToken: String,
-    ) = HttpHandler<Unit>().httpRequest {
-        userApi.refreshToken(
-            refreshToken,
-        )
-    }.sendRequest()
+    ): SignInResponse {
+        return HttpHandler<SignInResponse>().httpRequest {
+            userApi.reissueToken(
+                refreshToken,
+            )
+        }.sendRequest()
+    }
 
     override suspend fun compareEmail(
         accountId: String,
