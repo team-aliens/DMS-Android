@@ -6,10 +6,13 @@
 
     // 로그인
     <string name="Login">로그인</string>
+    <string name="ID">아이디</string>
     <string name="Password">비밀번호</string>
     <string name="AutoLogin">자동로그인</string>
     <string name="DoRegister">회원가입하기</string>
-    <string name="FindId">아이디 찾운</string>
+    <string name="FindId">아이디 찾기</string>
+    <string name="PleaseEnterId">아이디를 입력해 주세요</string>
+    <string name="PleaseEnterPassword">비밀번호를 입력해 주세요</string>
 
     // 회원가입
     <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
@@ -78,7 +81,7 @@
     // 공지
     <string name="Announcement">공지</string>
     <string name="Notice">공지사항</string>
-    <string name="NewNotice">새로운 공지사항이 있습니다.</string>
+    <string name="NewNotice">새로운 공지 있어요!</string>
 
     // 마이페이지
     <string name="PlusPoint">상점</string>
@@ -97,7 +100,7 @@
     // 전역
     <string name="Next">다음</string>
     <string name="Check">확인</string>
-    <string name="AppDescription">더 편한 기숙사 생활을 위디</string>
+    <string name="AppDescription">더 편한 기숙사 생활을 위해</string>
 
     // 에러 처리
     <string name="Forbidden">접근 권한이 없습니다.</string>
@@ -110,7 +113,7 @@
     <string name="NotFound">찾을 수 없음</string>
 
     // 인증 실패
-    <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
+    <string name="LoginUnauthorized">인증에 실패하였습니다.</string>
     <string name="CompareSchoolNotFound">학교를 찾을 수 없습니다.</string>
     <string name="CertificationInfoNotFound">인증 정보를 찾을 수 없습니다.</string>
     <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
@@ -131,7 +134,7 @@
     <string name="TomorrowButton">TomorrowButton</string>
     <string name="CafeteriaBackground">CafeteriaBackGround</string>
     
-    // 잔류 신청
+    // 신청
     <string name="Application">신청</string>
     <string name="DoApply">신청하기</string>
     <string name="CompleteApplication">신청 완료</string>
@@ -139,11 +142,17 @@
     <string name="CompleteApply">신청이 완료되었습니다!</string>
     <string name="ForbiddenApplyRemain">잔류 신청 시간이 아닙니다.</string>
     <string name="StudyRoom">자습실</string>
+    <string name="ApplicateStudyRoom">자습실 신청</string>
     <string name="Stay">잔류</string>
     <string name="RemainApplication">잔류 신청</string>
     <string name="StudyRoomApplyDescription">자습실 사용이 필요한 경우, 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
     <string name="RemainApplyDescription">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
     <string name="DoApplyStudyRoom">자습실 신청하기</string>
     <string name="DoApplyRemain">잔류 신청하기</string>
+
+    // 바텀 내비게이션
+    <string name="Home">홈</string>
+    <string name="Guide">안내</string>
+    <string name="MyPage">마이페이지</string>
 
 </resources>

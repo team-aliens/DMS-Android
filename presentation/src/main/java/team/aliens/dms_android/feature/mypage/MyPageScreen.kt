@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +20,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
@@ -44,13 +43,22 @@ fun MyPageScreen(
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val unAuthorizedComment = stringResource(id = R.string.LoginUnauthorized)
     val forbiddenException = stringResource(id = R.string.LoginNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
     val unKnownException = stringResource(id = R.string.UnKnownException)
 
     val state = myPageViewModel.state.collectAsState().value.myPageEntity
+
+    var signOutDialogState by remember {
+        mutableStateOf(false)
+    }
+
+    val onSignOutButtonClick = {
+        signOutDialogState = true
+        //myPageViewModel.signOut()
+    }
 
     LaunchedEffect(Unit) {
         myPageViewModel.myPageViewEffect.collect {
@@ -86,10 +94,39 @@ fun MyPageScreen(
             .fillMaxSize()
             .background(DormColor.Gray200),
     ) {
+
+        if (signOutDialogState) {
+            DormCustomDialog(
+                onDismissRequest = {
+                    /* explicit blank */
+                },
+            ) {
+                DormDoubleButtonDialog(
+                    content = "정말 로그아웃 하시겠습니까?",
+                    mainBtnText = "확인",
+                    subBtnText = "취소",
+                    onMainBtnClick = {
+                        navController.navigate(NavigationRoute.Login) {
+                            popUpTo(navController.currentDestination?.route!!) {
+                                inclusive = true
+                            }
+                        }
+                        myPageViewModel.signOut()
+                    },
+                    onSubBtnClick = {
+                        signOutDialogState = false
+                    },
+                )
+            }
+
+        }
         UserInformation(bottomSheetState, scope, state)
         WarningPoint(state)
         PointBox(state)
-        MyPageBlock(navController)
+        MyPageBlock(
+            navController,
+            onSignOutButtonClick,
+        )
     }
 }
 
@@ -244,6 +281,7 @@ fun PointBox(
 @Composable
 fun MyPageBlock(
     navController: NavController,
+    onSignOutButtonClick: () -> Unit,
 ) {
     Column() {
         Spacer(modifier = Modifier.height(15.dp))
@@ -283,7 +321,7 @@ fun MyPageBlock(
             }
         }
 
-        Column() {
+        Column {
             Spacer(modifier = Modifier.height(15.dp))
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -291,7 +329,10 @@ fun MyPageBlock(
                 .padding(start = 24.dp, end = 24.dp)
                 .clip(RoundedCornerShape(20))
                 .border(color = DormColor.Gray100, width = 1.dp, shape = RoundedCornerShape(20))
-                .background(DormColor.Gray100), contentAlignment = Alignment.CenterStart) {
+                .background(DormColor.Gray100)
+                .clickable {
+                    onSignOutButtonClick()
+                }, contentAlignment = Alignment.CenterStart) {
                 Row() {
                     Spacer(modifier = Modifier.width(20.dp))
                     Body5(

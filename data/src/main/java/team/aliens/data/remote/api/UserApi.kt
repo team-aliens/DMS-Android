@@ -26,10 +26,10 @@ interface UserApi {
         @Query("type") type: EmailType,
     )
 
-    @PUT(DmsUrl.User.refreshToken)
-    suspend fun refreshToken(
+    @PUT(DmsUrl.User.reissueToken)
+    suspend fun reissueToken(
         @Header("refresh-token") refreshToken: String,
-    )
+    ): SignInResponse
 
     @GET(DmsUrl.User.compareEmail)
     suspend fun compareEmail(

@@ -2,7 +2,6 @@ package team.aliens.local_database.storage.declaration
 
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
-import team.aliens.local_database.param.user.UserInfoParam
 
 interface UserDataStorage {
 
@@ -21,7 +20,8 @@ interface UserDataStorage {
     fun fetchNoticeServiceBoolean(): Boolean
     fun fetchPointServiceBoolean(): Boolean
 
-    fun setUserInfo(userInfoParam: UserInfoParam)
-    fun fetchId(): String
-    fun fetchPassword(): String
+    fun setAutoSignInOption(autoSignInEnabled: Boolean)
+    fun fetchAutoSignInOption(): Boolean
+
+    fun signOut()
 }

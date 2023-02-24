@@ -49,7 +49,7 @@ fun PointListScreen(
     val state = myPageViewModel.state.collectAsState().value
     val toast = rememberToast()
     val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnAuthorized)
+    val unAuthorizedComment = stringResource(id = R.string.LoginUnauthorized)
     val forbiddenException = stringResource(id = R.string.LoginNotFound)
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
