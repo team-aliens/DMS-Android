@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.remote.datasource.declaration.*
 import team.aliens.data.remote.datasource.implementation.*
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -45,4 +46,10 @@ abstract class RemoteDataSourceModule {
     abstract fun provideRemoteStudyRoomDataSource(
         remoteStudyRoomDataSourceImpl: RemoteStudyRoomDataSourceImpl,
     ): RemoteStudyRoomDataSource
+
+    @Binds
+    @Singleton
+    abstract fun provideRemoteRemainDataSource(
+        remoteRemainDataSourceImpl: RemoteRemainDataSourceImpl,
+    ): RemoteRemainDataSource
 }

@@ -2,6 +2,7 @@ package team.aliens.data.remote.api
 
 import retrofit2.http.GET
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.data.remote.response.remain.FetchAvailableRemainTimeResponse
 import team.aliens.data.remote.response.remain.FetchCurrentRemainOptionResponse
@@ -12,16 +13,16 @@ import java.util.*
 interface RemainApi {
 
     @PUT(DmsUrl.Remain.updateRemainOption)
-    fun updateRemainOption(
-        @Query("remain-option-id") remainOptionId: UUID,
+    suspend fun updateRemainOption(
+        @Path("remain-option-id") remainOptionId: UUID,
     )
 
     @GET(DmsUrl.Remain.fetchCurrentRemainOption)
-    fun fetchCurrentRemainOption(): FetchCurrentRemainOptionResponse
+    suspend fun fetchCurrentRemainOption(): FetchCurrentRemainOptionResponse
 
     @GET(DmsUrl.Remain.fetchAvailableRemainTime)
-    fun fetchAvailableRemainTime(): FetchAvailableRemainTimeResponse
+    suspend fun fetchAvailableRemainTime(): FetchAvailableRemainTimeResponse
 
     @GET(DmsUrl.Remain.fetchRemainOptions)
-    fun fetchRemainOptions(): FetchRemainOptionsResponse
+    suspend fun fetchRemainOptions(): FetchRemainOptionsResponse
 }
