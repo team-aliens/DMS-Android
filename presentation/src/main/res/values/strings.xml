@@ -88,6 +88,9 @@
     <string name="MinusPoint">벌점</string>
     <string name="CheckPointList">상벌점 내역 확인</string>
     <string name="Logout">로그아웃</string>
+    <string name="AreYouSureYouLogOut">정말 로그아웃 하시겠습니까?</string>
+    <string name="TakePhoto">사진 촬영</string>
+    <string name="SelectPhoto">사진 선택</string>
 
     // 상벌점 목록
     <string name="CheckPoint">상벌점 확인</string>
@@ -155,6 +158,4 @@
     <string name="Home">홈</string>
     <string name="Guide">안내</string>
     <string name="MyPage">마이페이지</string>
-
-    <string name="AreYouSureYouLogOut">정말 로그아웃 하시겠습니까?</string>
 </resources>
