@@ -2,6 +2,7 @@ package team.aliens.design_system.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
@@ -46,6 +48,16 @@ private val DormSurveyDialogPadding = PaddingValues(
 
 @Stable
 private val DormDoubleButtonDialogShape: Shape = RoundedCornerShape(10.dp)
+
+@Stable
+private val DormDoubleButtonDialogSubButtonShape: Shape = RoundedCornerShape(
+    bottomStart = 10.dp,
+)
+
+@Stable
+private val DormDoubleButtonDialogMainButtonShape: Shape = RoundedCornerShape(
+    bottomEnd = 10.dp,
+)
 
 @Stable
 private val DormSurveyDialogShape: Shape = RoundedCornerShape(6.dp)
@@ -128,6 +140,7 @@ fun DormDoubleButtonDialog(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .height(170.dp)
             .background(
                 Color.White,
                 DormDoubleButtonDialogShape,
@@ -154,28 +167,52 @@ fun DormDoubleButtonDialog(
         )
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(62.dp),
+            //horizontalArrangement = Arrangement.spacedBy(62.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            Body3(
-                text = subBtnText,
-                color = subBtnTextColor,
-                onClick = onSubBtnClick,
-            )
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(
+                        DormDoubleButtonDialogSubButtonShape,
+                    )
+                    .clickable {
+                        onSubBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body3(
+                    text = subBtnText,
+                    color = subBtnTextColor,
+                )
+            }
 
             Divider(
                 modifier = Modifier
                     .background(DormColor.Gray400)
-                    .width(1.dp)
-                    .height(50.dp),
+                    .fillMaxHeight()
+                    .width(1.dp),
             )
 
-            Body3(
-                text = mainBtnText,
-                color = mainBtnTextColor,
-                onClick = onMainBtnClick,
-            )
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(
+                        DormDoubleButtonDialogMainButtonShape,
+                    )
+                    .clickable {
+                        onMainBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body3(
+                    text = mainBtnText,
+                    color = mainBtnTextColor,
+                )
+            }
         }
     }
 }
