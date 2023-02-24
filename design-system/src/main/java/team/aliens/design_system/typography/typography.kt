@@ -17,12 +17,14 @@ import team.aliens.design_system.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 
-val NotoSansFamily = FontFamily(Font(R.font.noto_sans_kr_black, FontWeight.Black),
+val NotoSansFamily = FontFamily(
+    Font(R.font.noto_sans_kr_black, FontWeight.Black),
     Font(R.font.noto_sans_kr_bold, FontWeight.Bold),
     Font(R.font.noto_sans_kr_medium, FontWeight.Medium),
     Font(R.font.noto_sans_kr_regular, FontWeight.Normal),
     Font(R.font.noto_sans_kr_light, FontWeight.Light),
-    Font(R.font.noto_sans_kr_thin, FontWeight.Thin))
+    Font(R.font.noto_sans_kr_thin, FontWeight.Thin),
+)
 
 object DormTypography {
 
@@ -31,7 +33,7 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 36.sp,
-        lineHeight = 49.sp,
+        lineHeight = 50.sp,
     )
 
     @Stable
@@ -39,7 +41,7 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 30.sp,
-        lineHeight = 41.sp,
+        lineHeight = 42.sp,
     )
 
     @Stable
@@ -47,9 +49,34 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
-        lineHeight = 33.sp,
+        lineHeight = 34.sp,
     )
 
+    @Stable
+    val title1 = TextStyle(
+        fontFamily = NotoSansFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp,
+        lineHeight = 34.sp,
+    )
+
+    @Stable
+    val title2 = TextStyle(
+        fontFamily = NotoSansFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        lineHeight = 32.sp,
+    )
+
+    @Stable
+    val title3 = TextStyle(
+        fontFamily = NotoSansFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 28.sp,
+    )
+
+    // TODO subtitle 1 && subtitle 2 -> 삭제하고 사용중인것들 -> 다른 typography 로 교체 필요
     @Stable
     val subtitle1 = TextStyle(
         fontFamily = NotoSansFamily,
@@ -57,7 +84,6 @@ object DormTypography {
         fontSize = 22.sp,
         lineHeight = 30.sp,
     )
-
 
     @Stable
     val subtitle2 = TextStyle(
@@ -71,26 +97,27 @@ object DormTypography {
     val body1 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 30.sp,
+        fontSize = 18.sp,
+        lineHeight = 26.sp,
     )
 
     @Stable
     val body2 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 27.sp,
+        fontSize = 16.sp,
+        lineHeight = 26.sp,
     )
 
     @Stable
     val body3 = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 18.sp,
-        lineHeight = 32.sp,
+        fontSize = 14.sp,
+        lineHeight = 22.sp,
     )
 
+    // TODO body 4 && body 5 -> 대체 필요
     @Stable
     val body4 = TextStyle(
         fontFamily = NotoSansFamily,
@@ -120,14 +147,15 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 10.sp,
-        lineHeight = 14.sp,
+        lineHeight = 16.sp,
     )
 
     @Stable
     val button = TextStyle(
         fontFamily = NotoSansFamily,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
+        lineHeight = 22.sp,
     )
 
     @Stable
@@ -199,6 +227,63 @@ fun Headline3(
         ),
         text = text,
         style = DormTypography.headline3,
+        color = color,
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun Title1(
+    text: String,
+    color: Color = DormColor.Gray900,
+    rippleEnabled: Boolean = false,
+    onClick: (() -> Unit)? = null,
+) {
+    Text(
+        modifier = Modifier.dormClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        text = text,
+        style = DormTypography.title1,
+        color = color,
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun Title2(
+    text: String,
+    color: Color = DormColor.Gray900,
+    rippleEnabled: Boolean = false,
+    onClick: (() -> Unit)? = null,
+) {
+    Text(
+        modifier = Modifier.dormClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        text = text,
+        style = DormTypography.title2,
+        color = color,
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun Title3(
+    text: String,
+    color: Color = DormColor.Gray900,
+    rippleEnabled: Boolean = false,
+    onClick: (() -> Unit)? = null,
+) {
+    Text(
+        modifier = Modifier.dormClickable(
+            rippleEnabled = rippleEnabled,
+            onClick = onClick,
+        ),
+        text = text,
+        style = DormTypography.title3,
         color = color,
     )
 }
@@ -297,7 +382,7 @@ fun Body3(
         color = color,
     )
 }
-
+// TODO body 4 && body 5 -> 대체
 @Composable
 @NonRestartableComposable
 fun Body4(
