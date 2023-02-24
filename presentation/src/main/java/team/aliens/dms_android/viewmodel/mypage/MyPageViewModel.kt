@@ -13,6 +13,7 @@ import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
 import team.aliens.domain.usecase.mypage.RemotePointUseCase
+import team.aliens.domain.usecase.user.SignOutUseCase
 import team.aliens.local_domain.usecase.mypage.LocalMyPageUseCase
 import javax.inject.Inject
 
@@ -21,6 +22,7 @@ class MyPageViewModel @Inject constructor(
     private val remoteMyPageUseCase: RemoteMyPageUseCase,
     val localMyPageUseCase: LocalMyPageUseCase,
     private val remotePointListUseCase: RemotePointUseCase,
+    private val signOutUseCase: SignOutUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
 
     override val initialState: MyPageState
@@ -31,6 +33,14 @@ class MyPageViewModel @Inject constructor(
 
     private val _pointViewEffect = MutableEventFlow<Event>()
     var pointViewEffect = _pointViewEffect.asEventFlow()
+
+    fun signOut() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                signOutUseCase.execute(Unit)
+            }
+        }
+    }
 
     fun fetchMyPage() {
         viewModelScope.launch {

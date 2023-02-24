@@ -21,9 +21,9 @@ interface RemoteUserDataSource {
         type: EmailType,
     )
 
-    suspend fun refreshToken(
+    suspend fun reissueToken(
         refreshToken: String,
-    )
+    ): SignInResponse
 
     suspend fun compareEmail(
         accountId: String,

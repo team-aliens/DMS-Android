@@ -4,8 +4,7 @@ import team.aliens.data.remote.datasource.declaration.RemoteUserDataSource
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
 import team.aliens.data.remote.response.user.SignInResponse
-import team.aliens.domain.entity.user.AuthInfoEntity
-import team.aliens.domain.exception.NoInternetException
+import team.aliens.domain.exception.NeedLoginException
 import team.aliens.domain.param.CheckEmailCodeParam
 import team.aliens.domain.param.CompareEmailParam
 import team.aliens.domain.param.LoginParam
@@ -15,7 +14,6 @@ import team.aliens.local_database.datasource.declaration.LocalUserDataSource
 import team.aliens.local_database.localutil.toLocalDateTime
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
-import team.aliens.local_database.param.user.UserInfoParam
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -24,25 +22,36 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
 
     override suspend fun userSignIn(loginParam: LoginParam) {
+
         val response = remoteUserDataSource.postUserSignIn(loginParam.toRequest())
-        if (loginParam.autoLogin) {
-            localUserDataSource.setUserInfo(UserInfoParam(loginParam.id, loginParam.password))
-        }
+
+        // 혹시 만약 그럴 일은 없겠지만 서비스 이용 중간에 다시 로그인 화면으로 오는 일이
+        // 발생할 경우를 대비해서 방어적으로 코드를 작성하였습니다
+        localUserDataSource.setAutoSignInOption(loginParam.autoLogin)
+
         localUserDataSource.setUserVisibleInform(response.features.toDbEntity())
+
         localUserDataSource.setPersonalKey(response.toDbEntity())
     }
 
     override suspend fun autoSignIn() {
-        val info = localUserDataSource.fetchUserInfo()
-        try {
-            val response =
-                remoteUserDataSource.postUserSignIn(signInRequest = SignInRequest(info.id,
-                    info.password))
-            localUserDataSource.setUserInfo(UserInfoParam(info.id, info.password))
-            localUserDataSource.setUserVisibleInform(response.features.toDbEntity())
+
+        val autoSignInEnabled = localUserDataSource.fetchAutoSignInOption()
+
+        if (autoSignInEnabled) {
+            val refreshToken = localUserDataSource.fetchPersonalKey().refreshToken
+            check(refreshToken.isNotBlank())
+
+            val response = remoteUserDataSource.reissueToken(
+                refreshToken = refreshToken,
+            )
+
+            val enabledFeatures = response.features.toDbEntity()
+
+            localUserDataSource.setUserVisibleInform(enabledFeatures)
             localUserDataSource.setPersonalKey(response.toDbEntity())
-        } catch (e: NoInternetException) {
-            if (info.id.isEmpty() && info.password.isEmpty()) throw e
+        } else {
+            throw NeedLoginException()
         }
     }
 
@@ -58,9 +67,14 @@ class UserRepositoryImpl @Inject constructor(
         checkEmailCodeParam.type,
     )
 
-    override suspend fun refreshToken(
+    override suspend fun reissueToken(
         refreshToken: String,
-    ) = remoteUserDataSource.refreshToken(refreshToken)
+    ) {
+
+        val newTokens = remoteUserDataSource.reissueToken(refreshToken).toDbEntity()
+
+        localUserDataSource.setPersonalKey(newTokens)
+    }
 
     override suspend fun compareEmail(
         compareEmailParam: CompareEmailParam,
@@ -73,50 +87,37 @@ class UserRepositoryImpl @Inject constructor(
         accountId: String,
     ) = remoteUserDataSource.checkId(accountId)
 
-    private fun SignInResponse.toDbEntity() = UserPersonalKeyParam(
+    override suspend fun signOut() {
+        localUserDataSource.signOut()
+    }
+}
+
+private fun SignInResponse.toDbEntity(): UserPersonalKeyParam {
+    return UserPersonalKeyParam(
         accessToken = accessToken,
         accessTokenExpiredAt = accessTokenExpiredAt.toLocalDateTime(),
         refreshToken = refreshToken,
         refreshTokenExpiredAt = refreshTokenExpiredAt.toLocalDateTime(),
     )
+}
 
-    private fun SignInResponse.Features.toDbEntity() = FeaturesParam(
+private fun SignInResponse.Features.toDbEntity(): FeaturesParam {
+    return FeaturesParam(
         mealService = mealService,
         noticeService = noticeService,
         pointService = pointService,
     )
+}
 
-    private fun SignInResponse.toEntity() = AuthInfoEntity(accessToken = accessToken,
-        accessTokenExpiredAt = accessTokenExpiredAt.toLocalDateTime(),
-        refreshToken = refreshToken,
-        refreshTokenExpiredAt = refreshTokenExpiredAt.toLocalDateTime(),
-        features = features.toEntity())
-
-    private fun SignInResponse.Features.toEntity() = AuthInfoEntity.Features(
-        mealService = mealService,
-        noticeService = noticeService,
-        pointService = pointService,
-    )
-
-    private fun AuthInfoEntity.toDbEntity() = UserPersonalKeyParam(
-        accessToken = accessToken,
-        accessTokenExpiredAt = accessTokenExpiredAt,
-        refreshToken = refreshToken,
-        refreshTokenExpiredAt = refreshTokenExpiredAt,
-    )
-
-    private fun AuthInfoEntity.Features.toDbEntity() = FeaturesParam(
-        mealService = mealService,
-        noticeService = noticeService,
-        pointService = pointService,
-    )
-
-    private fun LoginParam.toRequest() = SignInRequest(
+private fun LoginParam.toRequest(): SignInRequest {
+    return SignInRequest(
         id = id,
         password = password,
     )
+}
 
-    private fun RequestEmailCodeParam.toRequest() = GetEmailCodeRequest(
+private fun RequestEmailCodeParam.toRequest(): GetEmailCodeRequest {
+    return GetEmailCodeRequest(
         email = email,
         type = type,
     )

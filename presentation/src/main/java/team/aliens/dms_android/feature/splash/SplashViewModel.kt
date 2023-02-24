@@ -9,12 +9,12 @@ import team.aliens.dms_android.base.MviState
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.usecase.user.AutoLoginUseCase
+import team.aliens.domain.usecase.user.AutoSignInUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val autoLoginUseCase: AutoLoginUseCase,
+    private val autoSignInUseCase: AutoSignInUseCase,
 ) : BaseViewModel<SplashState, SplashEvent>() {
 
     private val _eventFlow = MutableEventFlow<Event>()
@@ -22,7 +22,7 @@ class SplashViewModel @Inject constructor(
 
     fun autoLogin() = viewModelScope.launch {
         kotlin.runCatching {
-            autoLoginUseCase.execute(Unit)
+            autoSignInUseCase.execute(Unit)
         }.onSuccess {
             emitEvent(Event.AutoLoginSuccess)
             setState(state.value.copy(route = NavigationRoute.Main))

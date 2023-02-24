@@ -4,7 +4,6 @@ import team.aliens.local_database.datasource.declaration.LocalUserDataSource
 import team.aliens.local_database.localutil.toLocalDateTime
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
-import team.aliens.local_database.param.user.UserInfoParam
 import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Inject
 
@@ -41,16 +40,15 @@ class LocalUserDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun setUserInfo(userInfoParam: UserInfoParam) {
-        userDataStorage.setUserInfo(userInfoParam)
+    override suspend fun setAutoSignInOption(autoSignInEnabled: Boolean) {
+        userDataStorage.setAutoSignInOption(autoSignInEnabled)
     }
 
-    override suspend fun fetchUserInfo(): UserInfoParam {
-        userDataStorage.apply {
-            return UserInfoParam(
-                fetchId(),
-                fetchPassword(),
-            )
-        }
+    override suspend fun fetchAutoSignInOption(): Boolean {
+        return userDataStorage.fetchAutoSignInOption()
+    }
+
+    override suspend fun signOut() {
+        userDataStorage.signOut()
     }
 }

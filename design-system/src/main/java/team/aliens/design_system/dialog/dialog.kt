@@ -2,13 +2,17 @@ package team.aliens.design_system.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +23,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 
 @Composable
@@ -39,6 +44,19 @@ fun DormCustomDialog(
 private val DormSurveyDialogPadding = PaddingValues(
     horizontal = 16.dp,
     vertical = 20.dp,
+)
+
+@Stable
+private val DormDoubleButtonDialogShape: Shape = RoundedCornerShape(10.dp)
+
+@Stable
+private val DormDoubleButtonDialogSubButtonShape: Shape = RoundedCornerShape(
+    bottomStart = 10.dp,
+)
+
+@Stable
+private val DormDoubleButtonDialogMainButtonShape: Shape = RoundedCornerShape(
+    bottomEnd = 10.dp,
 )
 
 @Stable
@@ -109,13 +127,104 @@ fun DormSurveyDialog(
     }
 }
 
-@Preview
+@Composable
+fun DormDoubleButtonDialog(
+    content: String,
+    mainBtnText: String,
+    subBtnText: String,
+    onMainBtnClick: () -> Unit,
+    onSubBtnClick: () -> Unit,
+    mainBtnTextColor: Color = DormColor.Error,
+    subBtnTextColor: Color = DormColor.Gray500,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(170.dp)
+            .background(
+                Color.White,
+                DormDoubleButtonDialogShape,
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+
+        Spacer(
+            modifier = Modifier.height(50.dp),
+        )
+
+        Body3(
+            text = content,
+        )
+
+        Spacer(
+            modifier = Modifier.height(40.dp),
+        )
+
+        Divider(
+            modifier = Modifier
+                .background(DormColor.Gray400)
+                .height(1.dp),
+        )
+
+        Row(
+            //horizontalArrangement = Arrangement.spacedBy(62.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(
+                        DormDoubleButtonDialogSubButtonShape,
+                    )
+                    .clickable {
+                        onSubBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body3(
+                    text = subBtnText,
+                    color = subBtnTextColor,
+                )
+            }
+
+            Divider(
+                modifier = Modifier
+                    .background(DormColor.Gray400)
+                    .fillMaxHeight()
+                    .width(1.dp),
+            )
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(
+                        DormDoubleButtonDialogMainButtonShape,
+                    )
+                    .clickable {
+                        onMainBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body3(
+                    text = mainBtnText,
+                    color = mainBtnTextColor,
+                )
+            }
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    showBackground = true,
+)
 @Composable
 fun PreviewDialog() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        DormCustomDialog(
+    Column {
+        /*DormCustomDialog(
             onDismissRequest = { },
         ) {
             DormSurveyDialog(
@@ -124,6 +233,13 @@ fun PreviewDialog() {
                 content = "사유 : 이러이러한 사유로 설문이 종료되었습니다.",
                 btnText = "확인",
             ) {}
+        }*/
+        DormCustomDialog(onDismissRequest = { }) {
+            DormDoubleButtonDialog(content = "정말 로그아웃 하시겠습니까?",
+                mainBtnText = "확인",
+                subBtnText = "취소",
+                onMainBtnClick = { /*TODO*/ },
+                onSubBtnClick = { /*TODO*/ })
         }
     }
 }

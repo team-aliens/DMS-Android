@@ -8,6 +8,10 @@ data class SignInState(
     var autoLogin: Boolean,
 ) : MviState {
     companion object {
-        fun initial() = SignInState(id = "", password = "", autoLogin = false)
+        fun getDefaultInstance() = SignInState(
+            id = "",
+            password = "",
+            autoLogin = false,
+        )
     }
 }
