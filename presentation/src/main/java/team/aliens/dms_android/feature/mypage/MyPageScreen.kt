@@ -11,29 +11,31 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.dialog.DormBottomAlignedSingleButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.SubTitle1
-import team.aliens.dms_android.component.changeBottomSheetState
+import team.aliens.dms_android.component.GettingImageOptionItem
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
-import team.aliens.domain.enums.BottomSheetType
 import team.aliens.presentation.R
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MyPageScreen(
     navController: NavController,
@@ -52,6 +54,10 @@ fun MyPageScreen(
 
     var signOutDialogState by remember {
         mutableStateOf(false)
+    }
+
+    val onSignOutButtonClick = {
+        signOutDialogState = true
     }
 
     if (signOutDialogState) {
@@ -81,9 +87,53 @@ fun MyPageScreen(
         }
     }
 
-    val onSignOutButtonClick = {
-        signOutDialogState = true
+
+    var setProfileDialogState by remember {
+        mutableStateOf(false)
     }
+
+    if (setProfileDialogState) {
+        DormCustomDialog(
+            onDismissRequest = {
+                /* explicit blank */
+            },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+            ),
+        ) {
+            DormBottomAlignedSingleButtonDialog(
+                btnText = stringResource(R.string.Cancel),
+                onBtnClick = {
+                    setProfileDialogState = false
+                },
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+
+                    // 사진 촬영
+                    GettingImageOptionItem(
+                        icon = R.drawable.ic_camera,
+                        text = stringResource(R.string.TakePhoto),
+                    ) {
+                        // todo camera
+                    }
+
+                    // 사진 선택
+                    GettingImageOptionItem(
+                        icon = R.drawable.ic_photo,
+                        text = stringResource(R.string.SelectPhoto),
+                    ) {
+                        // todo pick from gallery
+                    }
+                }
+            }
+        }
+    }
+
 
     LaunchedEffect(Unit) {
         myPageViewModel.myPageViewEffect.collect { event ->
@@ -139,11 +189,7 @@ fun MyPageScreen(
                         .size(64.dp)
                         .clip(CircleShape)
                         .clickable {
-                            changeBottomSheetState(
-                                coroutineScope = scope,
-                                bottomSheetState = bottomSheetState,
-                                bottomSheetType = BottomSheetType.Show,
-                            )
+                            setProfileDialogState = true
                         },
                     model = myPageState.profileImageUrl,
                     contentDescription = null,
