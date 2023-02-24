@@ -7,7 +7,6 @@ import team.aliens.domain.entity.remain.RemainOptionsEntity.RemainOptionEntity
 import java.util.*
 
 data class FetchRemainOptionsResponse(
-    @SerializedName("selected_option") val selectedOption: String,
     @SerializedName("remain_options") val remainOptionEntities: List<RemainOptionResponse>,
 ) {
     data class RemainOptionResponse(
@@ -27,7 +26,6 @@ fun RemainOptionResponse.toEntity(): RemainOptionEntity {
 
 fun FetchRemainOptionsResponse.toEntity(): RemainOptionsEntity {
     return RemainOptionsEntity(
-        selectedOption = this.selectedOption,
         remainOptionEntities = this.remainOptionEntities.map {
             it.toEntity()
         },
