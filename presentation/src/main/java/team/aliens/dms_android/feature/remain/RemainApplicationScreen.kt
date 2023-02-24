@@ -71,9 +71,9 @@ fun RemainApplicationScreen(
                     is Event.AvailableRemainTime -> {
                         with(it.availableRemainTimeEntity) {
                             noticeContent = setAvailableRemainTime(
-                                startDayOfWeek = DayOfWeek.valueOf(startDayOfWeek.toString()).week,
+                                startDayOfWeek = DayOfWeek.valueOf(startDayOfWeek.toString()).day,
                                 startTime = startTime,
-                                endDayOfWeek = DayOfWeek.valueOf(endDayOfWeek.toString()).week,
+                                endDayOfWeek = DayOfWeek.valueOf(endDayOfWeek.toString()).day,
                                 endTime = endTime,
                             )
                         }

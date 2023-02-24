@@ -1,7 +1,7 @@
 package team.aliens.dms_android.util
 
 enum class DayOfWeek(
-    val week: String,
+    val day: String,
 ) {
     MONDAY("월"),
     TUESDAY("화"),
