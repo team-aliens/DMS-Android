@@ -3,12 +3,13 @@ package team.aliens.dms_android.feature.application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
@@ -19,6 +20,8 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.studyroom.StudyRoomViewModel
+import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
 import team.aliens.presentation.R
 
 @Preview(
@@ -34,10 +37,31 @@ fun ApplicationScreenPreview() {
 @Composable
 fun ApplicationScreen(
     navController: NavController,
+    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
+    remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
 ) {
     // TODO 서버로부터 받아오기
-    val studyRoomLastApplied = ""
-    val remainLastApplied = ""
+    var studyRoomLastApplied by remember { mutableStateOf("") }
+    var remainLastApplied by remember { mutableStateOf("") }
+
+    LaunchedEffect(key1 = studyRoomViewModel) {
+        with(studyRoomViewModel) {
+            // TODO update studyRoomLastApplied logic
+        }
+    }
+
+    LaunchedEffect(key1 = remainApplicationViewModel) {
+        with(remainApplicationViewModel) {
+            remainApplicationViewModel.fetchCurrentRemainOption()
+            remainApplicationEffect.collect {
+                when (it) {
+                    is RemainApplicationViewModel.Event.CurrentRemainOption -> {
+                        remainLastApplied = it.title
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -87,7 +111,7 @@ fun ApplicationCard(
             )
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
-        ) {
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
