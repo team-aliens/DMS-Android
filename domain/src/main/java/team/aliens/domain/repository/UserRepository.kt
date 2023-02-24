@@ -32,4 +32,6 @@ interface UserRepository {
     suspend fun checkId(
         accountId: String,
     )
+
+    suspend fun signOut()
 }

@@ -22,4 +22,6 @@ interface UserDataStorage {
 
     fun setAutoSignInOption(autoSignInEnabled: Boolean)
     fun fetchAutoSignInOption(): Boolean
+
+    fun signOut()
 }

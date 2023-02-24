@@ -107,4 +107,8 @@ class UserDataStorageImpl @Inject constructor(
     override fun fetchAutoSignInOption(): Boolean {
         return prefs.getBoolean(AUTO_SIGN_IN, false)
     }
+
+    override fun signOut() {
+        editor.putBoolean(AUTO_SIGN_IN, false).apply()
+    }
 }

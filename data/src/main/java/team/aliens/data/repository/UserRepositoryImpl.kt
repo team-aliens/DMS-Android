@@ -86,6 +86,10 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun checkId(
         accountId: String,
     ) = remoteUserDataSource.checkId(accountId)
+
+    override suspend fun signOut() {
+        localUserDataSource.signOut()
+    }
 }
 
 private fun SignInResponse.toDbEntity(): UserPersonalKeyParam {

@@ -13,4 +13,6 @@ interface LocalUserDataSource {
 
     suspend fun setAutoSignInOption(autoSignInEnabled: Boolean)
     suspend fun fetchAutoSignInOption(): Boolean
+
+    suspend fun signOut()
 }
