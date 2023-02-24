@@ -5,10 +5,8 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
-import team.aliens.local_database.param.user.UserInfoParam
 import team.aliens.local_database.storage.declaration.UserDataStorage
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserInfo.ID
-import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserInfo.PASSWORD
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserInfo.AUTO_SIGN_IN
 import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.ACCESS_TOKEN
 import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.ACCESS_TOKEN_EXPIRED_AT
 import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserPersonalKey.REFRESH_TOKEN
@@ -29,6 +27,7 @@ class UserDataStorageImpl @Inject constructor(
         object UserInfo {
             const val ID = "ID"
             const val PASSWORD = "PASSWORD"
+            const val AUTO_SIGN_IN = "AUTO_SIGN_IN"
         }
 
         object UserPersonalKey {
@@ -101,19 +100,11 @@ class UserDataStorageImpl @Inject constructor(
         return prefs.getBoolean(POINT, false)
     }
 
-    override fun setUserInfo(userInfoParam: UserInfoParam) {
-        editor.run {
-            putString(ID, userInfoParam.id)
-            putString(PASSWORD, userInfoParam.password)
-        }.apply()
+    override fun setAutoSignInOption(autoSignInEnabled: Boolean) {
+        editor.putBoolean(AUTO_SIGN_IN, autoSignInEnabled).apply()
     }
 
-    override fun fetchId(): String {
-        return prefs.getString(ID, "")!!
-    }
-
-
-    override fun fetchPassword(): String {
-        return prefs.getString(PASSWORD, "")!!
+    override fun fetchAutoSignInOption(): Boolean {
+        return prefs.getBoolean(AUTO_SIGN_IN, false)
     }
 }

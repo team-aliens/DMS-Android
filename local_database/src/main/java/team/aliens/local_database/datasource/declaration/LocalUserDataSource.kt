@@ -2,7 +2,6 @@ package team.aliens.local_database.datasource.declaration
 
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
-import team.aliens.local_database.param.user.UserInfoParam
 
 interface LocalUserDataSource {
 
@@ -12,6 +11,6 @@ interface LocalUserDataSource {
     suspend fun setUserVisibleInform(featuresParam: FeaturesParam)
     suspend fun fetchUserVisibleInform(): FeaturesParam
 
-    suspend fun setUserInfo(userInfoParam: UserInfoParam)
-    suspend fun fetchUserInfo(): UserInfoParam
+    suspend fun setAutoSignInOption(autoSignInEnabled: Boolean)
+    suspend fun fetchAutoSignInOption(): Boolean
 }
