@@ -10,6 +10,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,6 +24,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 
@@ -128,6 +130,47 @@ fun DormSurveyDialog(
 }
 
 @Composable
+fun DormBottomAlignedSingleButtonDialog(
+    btnText: String,
+    onBtnClick: () -> Unit,
+    btnTextColor: Color = DormColor.Gray600,
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Column(Modifier.background(Color.White)) {
+
+            content()
+
+            Divider(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 10.dp,
+                    )
+                    .fillMaxWidth(),
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .clickable {
+                        onBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body2(
+                    color = btnTextColor,
+                    text = btnText,
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun DormDoubleButtonDialog(
     content: String,
     mainBtnText: String,
@@ -217,6 +260,7 @@ fun DormDoubleButtonDialog(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview(
     showSystemUi = true,
     showBackground = true,
@@ -234,12 +278,23 @@ fun PreviewDialog() {
                 btnText = "확인",
             ) {}
         }*/
-        DormCustomDialog(onDismissRequest = { }) {
+        /*DormCustomDialog(onDismissRequest = { }) {
             DormDoubleButtonDialog(content = "정말 로그아웃 하시겠습니까?",
                 mainBtnText = "확인",
                 subBtnText = "취소",
-                onMainBtnClick = { /*TODO*/ },
-                onSubBtnClick = { /*TODO*/ })
+                onMainBtnClick = { *//*TODO*//* },
+                onSubBtnClick = { *//*TODO*//* })
+        }*/
+
+        DormCustomDialog(
+            onDismissRequest = {},
+        ) {
+            DormBottomAlignedSingleButtonDialog(
+                btnText = "취소",
+                onBtnClick = { },
+            ) {
+
+            }
         }
     }
 }
