@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.mypage
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,13 +13,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import kotlinx.coroutines.CoroutineScope
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
@@ -37,239 +38,333 @@ import team.aliens.presentation.R
 fun MyPageScreen(
     navController: NavController,
     scaffoldState: ScaffoldState,
+    myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
-    val myPageViewModel: MyPageViewModel = hiltViewModel()
 
-    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
-    val unAuthorizedComment = stringResource(id = R.string.LoginUnauthorized)
-    val forbiddenException = stringResource(id = R.string.LoginNotFound)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val unKnownException = stringResource(id = R.string.UnKnownException)
+    val context = LocalContext.current
 
-    val state = myPageViewModel.state.collectAsState().value.myPageEntity
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
+    val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity
+
 
     var signOutDialogState by remember {
         mutableStateOf(false)
     }
 
-    val onSignOutButtonClick = {
-        signOutDialogState = true
-        //myPageViewModel.signOut()
-    }
+    if (signOutDialogState) {
+        DormCustomDialog(
+            onDismissRequest = {
+                /* explicit blank */
+            },
+        ) {
+            DormDoubleButtonDialog(
+                content = stringResource(R.string.AreYouSureYouLogOut),
+                mainBtnText = stringResource(R.string.Check),
+                subBtnText = stringResource(R.string.Cancel),
+                onMainBtnClick = {
 
-    LaunchedEffect(Unit) {
-        myPageViewModel.myPageViewEffect.collect {
-            when (it) {
-                is MyPageViewModel.Event.NullPointException -> {
-                    scaffoldState.snackbarHostState.showSnackbar("null")
-                }
-                is MyPageViewModel.Event.UnAuthorizedTokenException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(unAuthorizedComment)
-                }
-                is MyPageViewModel.Event.CannotConnectException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(forbiddenException)
-                }
-                is MyPageViewModel.Event.TooManyRequestException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(tooManyRequestComment)
-                }
-                is MyPageViewModel.Event.InternalServerException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(serverException)
-                }
-                is MyPageViewModel.Event.UnknownException -> {
-                    scaffoldState.snackbarHostState.showSnackbar(unKnownException)
-                }
-            }
+                    navController.navigate(NavigationRoute.Login) {
+                        popUpTo(navController.currentDestination?.route!!) {
+                            inclusive = true
+                        }
+                    }
+
+                    myPageViewModel.signOut()
+                },
+                onSubBtnClick = {
+                    signOutDialogState = false
+                },
+            )
         }
     }
 
-    LaunchedEffect(key1 = myPageViewModel) {
-        myPageViewModel.fetchMyPage()
+    val onSignOutButtonClick = {
+        signOutDialogState = true
+    }
+
+    LaunchedEffect(Unit) {
+        myPageViewModel.myPageViewEffect.collect { event ->
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = getStringFromEvent(
+                    context = context,
+                    event = event,
+                ),
+            )
+        }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(DormColor.Gray200)
+            .padding(
+                vertical = 60.dp,
+                horizontal = 16.dp,
+            ),
     ) {
 
-        if (signOutDialogState) {
-            DormCustomDialog(
-                onDismissRequest = {
-                    /* explicit blank */
-                },
-            ) {
-                DormDoubleButtonDialog(
-                    content = "정말 로그아웃 하시겠습니까?",
-                    mainBtnText = "확인",
-                    subBtnText = "취소",
-                    onMainBtnClick = {
-                        navController.navigate(NavigationRoute.Login) {
-                            popUpTo(navController.currentDestination?.route!!) {
-                                inclusive = true
-                            }
-                        }
-                        myPageViewModel.signOut()
-                    },
-                    onSubBtnClick = {
-                        signOutDialogState = false
-                    },
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Column {
+
+                // 사용자 정보
+                SubTitle1(
+                    text = "${myPageState.gcn} ${myPageState.name}",
+                )
+
+                Spacer(
+                    modifier = Modifier.height(10.dp),
+                )
+
+                // 학교 정보
+                Body5(
+                    text = myPageState.schoolName,
                 )
             }
 
-        }
-        UserInformation(bottomSheetState, scope, state)
-        WarningPoint(state)
-        PointBox(state)
-        MyPageBlock(
-            navController,
-            onSignOutButtonClick,
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun UserInformation(
-    state: ModalBottomSheetState,
-    scope: CoroutineScope,
-    state2: MyPageEntity,
-) {
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 55.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(modifier = Modifier.padding(start = 24.dp)) {
-            SubTitle1(text = "${state2.gcn} ${state2.name}")
-            Spacer(modifier = Modifier.height(10.dp))
-            Body5(text = state2.schoolName)
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp),
-            contentAlignment = Alignment.BottomEnd,
-        ) {
             Box(
-                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.BottomEnd,
             ) {
+
+                // 사용자 프로필
                 AsyncImage(
                     modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape)
                         .clickable {
                             changeBottomSheetState(
                                 coroutineScope = scope,
-                                bottomSheetState = state,
+                                bottomSheetState = bottomSheetState,
                                 bottomSheetType = BottomSheetType.Show,
                             )
-                        }
-                        .size(80.dp)
-                        .clip(CircleShape),
-                    model = state2.profileImageUrl,
-                    contentDescription = stringResource(id = R.string.AddImageButton),
+                        },
+                    model = myPageState.profileImageUrl,
+                    contentDescription = null,
+                )
+
+                Image(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(
+                        id = R.drawable.ic_mypage_edit,
+                    ),
+                    contentDescription = null,
                 )
             }
-            Image(
-                modifier = Modifier
-                    .padding(start = 68.dp)
-                    .size(16.dp),
-                painter = painterResource(id = R.drawable.addplusimage),
-                contentDescription = stringResource(id = R.string.AddImageButton),
-            )
         }
-    }
-}
 
-@Composable
-fun WarningPoint(
-    state2: MyPageEntity,
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .padding(start = 24.dp, end = 24.dp, top = 20.dp)
-            .clip(RoundedCornerShape(25))
-            .border(color = DormColor.Lighten200, width = 1.dp, shape = RoundedCornerShape(25))
-            .background(DormColor.Lighten200),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Row(horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically) {
-            Spacer(
-                modifier = Modifier.width(20.dp),
-            )
-            Caption(text = state2.phrase)
-        }
-    }
-}
 
-@Composable
-fun PointBox(
-    state2: MyPageEntity,
-) {
-    Row() {
+        Spacer(
+            modifier = Modifier.height(60.dp),
+        )
+
+
         Box(
             modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .padding(start = 24.dp, top = 20.dp, end = 5.dp)
-                .height(90.dp)
-                .clip(RoundedCornerShape(25))
-                .border(color = DormColor.DormPrimary, width = 1.dp, shape = RoundedCornerShape(25))
-                .background(color = DormColor.Lighten200),
-            contentAlignment = Alignment.TopStart,
+                .fillMaxWidth()
+                .height(44.dp)
+                .clip(
+                    RoundedCornerShape(5.dp),
+                )
+                .background(DormColor.Lighten200)
+                .padding(12.dp),
+            contentAlignment = Alignment.CenterStart,
         ) {
-            Column(modifier = Modifier
-                .padding(start = 14.dp)
-                .fillMaxWidth()) {
-                Spacer(modifier = Modifier.height(10.dp))
-                Body5(
-                    text = stringResource(id = R.string.PlusPoint),
+
+            // 문구
+            Caption(
+                text = myPageState.phrase,
+            )
+        }
+
+
+        Spacer(
+            modifier = Modifier.height(10.dp),
+        )
+
+
+        Row(
+            modifier = Modifier.height(90.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+
+            // 상점
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(
+                        RoundedCornerShape(10.dp),
+                    )
+                    .border(
+                        color = DormColor.DormPrimary,
+                        width = 1.dp,
+                        shape = RoundedCornerShape(10.dp),
+                    )
+                    .background(
+                        color = DormColor.Lighten200,
+                    )
+                    .padding(
+                        vertical = 14.dp,
+                        horizontal = 20.dp,
+                    ),
+            ) {
+
+                Caption(
+                    text = stringResource(
+                        id = R.string.PlusPoint,
+                    ),
                     color = DormColor.Darken200,
                 )
-                Box(contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 24.dp, bottom = 18.dp)) {
+
+                Box(
+                    contentAlignment = Alignment.BottomEnd,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
                     Headline3(
-                        text = state2.bonusPoint.toString(),
+                        text = myPageState.bonusPoint.toString(),
                         color = DormColor.Darken200,
                     )
                 }
             }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 5.dp, top = 20.dp, end = 24.dp)
-                .height(90.dp)
-                .clip(RoundedCornerShape(25))
-                .border(
+
+            // 벌점
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(
+                        RoundedCornerShape(10.dp),
+                    )
+                    .border(
+                        color = DormColor.Error,
+                        width = 1.dp,
+                        shape = RoundedCornerShape(10.dp),
+                    )
+                    .background(
+                        color = DormColor.LightenError,
+                    )
+                    .padding(
+                        vertical = 14.dp,
+                        horizontal = 20.dp,
+                    ),
+            ) {
+
+                Caption(
+                    text = stringResource(
+                        id = R.string.MinusPoint,
+                    ),
                     color = DormColor.Error,
-                    width = 1.dp,
-                    shape = RoundedCornerShape(25),
                 )
-                .background(DormColor.LightenError),
-            contentAlignment = Alignment.TopStart,
-        ) {
-            Column(modifier = Modifier
-                .padding(start = 14.dp)
-                .fillMaxSize()) {
-                Spacer(modifier = Modifier.height(10.dp))
-                Body5(
-                    text = stringResource(id = R.string.MinusPoint),
-                    color = DormColor.Error,
-                )
-                Box(contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 24.dp, bottom = 18.dp)) {
+
+                Box(
+                    contentAlignment = Alignment.BottomEnd,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
                     Headline3(
-                        text = state2.minusPoint.toString(),
+                        text = myPageState.minusPoint.toString(),
+                        color = DormColor.Error,
+                    )
+                }
+            }
+        }
+
+
+        Spacer(
+            modifier = Modifier.height(10.dp),
+        )
+
+
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(
+                        RoundedCornerShape(10.dp),
+                    )
+                    .background(DormColor.Gray100),
+            ) {
+
+                // 상벌점 내역 확인
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate(NavigationRoute.PointList)
+                        }
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 16.dp,
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Body5(
+                        text = stringResource(
+                            id = R.string.CheckPointList,
+                        ),
+                    )
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 10.dp,
+                        )
+                        .background(DormColor.Gray100),
+                )
+
+                // 비밀번호 변경
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate(NavigationRoute.PointList)
+                        }
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 16.dp,
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Body5(
+                        text = stringResource(
+                            id = R.string.ChangePassword,
+                        ),
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(
+                        RoundedCornerShape(10.dp),
+                    )
+                    .background(DormColor.Gray100),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(DormColor.Gray100)
+                        .clickable {
+                            onSignOutButtonClick()
+                        }
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 16.dp,
+                        ),
+                ) {
+
+                    // 로그아웃
+                    Body5(
+                        text = stringResource(
+                            id = R.string.Logout,
+                        ),
                         color = DormColor.Error,
                     )
                 }
@@ -278,69 +373,17 @@ fun PointBox(
     }
 }
 
-@Composable
-fun MyPageBlock(
-    navController: NavController,
-    onSignOutButtonClick: () -> Unit,
-) {
-    Column() {
-        Spacer(modifier = Modifier.height(15.dp))
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp)
-                .height(110.dp)
-                .clip(RoundedCornerShape(20))
-                .border(color = DormColor.Gray100, width = 1.dp, shape = RoundedCornerShape(20))
-                .background(DormColor.Gray100),
-        ) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.5f)
-                .clickable {
-                    navController.navigate(NavigationRoute.PointList)
-                }, contentAlignment = Alignment.CenterStart) {
-                Row() {
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Body5(text = stringResource(id = R.string.CheckPointList))
-                }
-            }
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .padding(start = 15.dp, end = 15.dp)
-                .background(DormColor.Gray300))
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-                contentAlignment = Alignment.CenterStart) {
-                Row() {
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Body5(text = stringResource(id = R.string.ChangePassword))
-                }
-            }
-        }
-
-        Column {
-            Spacer(modifier = Modifier.height(15.dp))
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(55.dp)
-                .padding(start = 24.dp, end = 24.dp)
-                .clip(RoundedCornerShape(20))
-                .border(color = DormColor.Gray100, width = 1.dp, shape = RoundedCornerShape(20))
-                .background(DormColor.Gray100)
-                .clickable {
-                    onSignOutButtonClick()
-                }, contentAlignment = Alignment.CenterStart) {
-                Row() {
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Body5(
-                        text = stringResource(id = R.string.Logout),
-                        color = DormColor.Error,
-                    )
-                }
-            }
-        }
-    }
+private fun getStringFromEvent(
+    context: Context,
+    event: MyPageViewModel.Event,
+): String {
+    return context.getString(
+        when (event) {
+            is MyPageViewModel.Event.UnAuthorizedTokenException -> R.string.LoginUnauthorized
+            is MyPageViewModel.Event.CannotConnectException -> R.string.LoginNotFound
+            is MyPageViewModel.Event.TooManyRequestException -> R.string.TooManyRequest
+            is MyPageViewModel.Event.InternalServerException -> R.string.ServerException
+            else -> R.string.UnKnownException
+        },
+    )
 }
