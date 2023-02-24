@@ -27,7 +27,7 @@ class RemainApplicationViewModel @Inject constructor(
 ) : BaseViewModel<RemainApplicationState, RemainApplicationEvent>() {
 
     override val initialState: RemainApplicationState
-        get() = RemainApplicationState.initial()
+        get() = RemainApplicationState.getDefaultInstance()
 
     private val _remainApplicationEffect = MutableEventFlow<Event>()
     val remainApplicationEffect = _remainApplicationEffect.asEventFlow()

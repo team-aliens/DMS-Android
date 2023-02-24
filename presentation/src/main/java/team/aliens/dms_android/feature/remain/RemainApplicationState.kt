@@ -7,7 +7,7 @@ data class RemainApplicationState(
     val remainOptionId: UUID,
 ) : MviState {
     companion object {
-        fun initial() = RemainApplicationState(
+        fun getDefaultInstance() = RemainApplicationState(
             remainOptionId = UUID.randomUUID(),
         )
     }
