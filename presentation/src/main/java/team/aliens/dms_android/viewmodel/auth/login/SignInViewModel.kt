@@ -31,7 +31,7 @@ class SignInViewModel @Inject constructor(
     }
 
     override val initialState: SignInState
-        get() = SignInState.initial()
+        get() = SignInState.getDefaultInstance()
 
     private val _signInViewEffect = MutableEventFlow<Event>()
     var signInViewEffect = _signInViewEffect.asEventFlow()
