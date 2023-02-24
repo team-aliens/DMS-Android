@@ -286,21 +286,13 @@ private fun getStringFromEvent(
     context: Context,
     event: Event,
 ): String =
-    when (event) {
-        is Event.BadRequestException -> {
-            context.getString(R.string.BadRequest)
+    context.getString(
+        when (event) {
+            is Event.BadRequestException -> R.string.BadRequest
+            is Event.UnauthorizedException -> R.string.UnAuthorized
+            is Event.ForbiddenException -> R.string.Forbidden
+            is Event.TooManyRequestException -> R.string.TooManyRequest
+            is Event.ServerException -> R.string.ServerException
+            else -> R.string.UnKnownException
         }
-        is Event.UnauthorizedException -> {
-            context.getString(R.string.UnAuthorized)
-        }
-        is Event.ForbiddenException -> {
-            context.getString(R.string.Forbidden)
-        }
-        is Event.TooManyRequestException -> {
-            context.getString(R.string.TooManyRequest)
-        }
-        is Event.ServerException -> {
-            context.getString(R.string.ServerException)
-        }
-        else -> context.getString(R.string.UnKnownException)
-    }
+    )

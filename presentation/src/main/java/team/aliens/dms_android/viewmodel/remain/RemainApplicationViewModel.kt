@@ -87,29 +87,6 @@ class RemainApplicationViewModel @Inject constructor(
         }
     }
 
-    // TODO 추후에 리팩토링 필요
-    private fun Throwable.handleThrowable(
-        throwable: Throwable
-    ) {
-        when (throwable) {
-            is BadRequestException -> {
-                event(Event.BadRequestException)
-            }
-            is UnauthorizedException -> {
-                event(Event.UnauthorizedException)
-            }
-            is ForbiddenException -> {
-                event(Event.ForbiddenException)
-            }
-            is TooManyRequestException -> {
-                event(Event.TooManyRequestException)
-            }
-            is ServerException -> {
-                event(Event.ServerException)
-            }
-        }
-    }
-
     internal fun setRemainOption(
         remainOptionId: UUID,
     ) {
