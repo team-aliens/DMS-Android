@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
 import team.aliens.dms_android.feature.remain.RemainApplicationEvent
 import team.aliens.dms_android.feature.remain.RemainApplicationState
 import team.aliens.dms_android.util.MutableEventFlow
@@ -39,7 +40,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.UpdateRemainOption)
             }.onFailure {
-                handleThrowable(it)
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -51,7 +52,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.CurrentRemainOption(it.title))
             }.onFailure {
-                handleThrowable(it)
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -63,7 +64,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.AvailableRemainTime(it))
             }.onFailure {
-                handleThrowable(it)
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -75,7 +76,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.RemainOptions(it))
             }.onFailure {
-                handleThrowable(it)
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -86,7 +87,8 @@ class RemainApplicationViewModel @Inject constructor(
         }
     }
 
-    private fun handleThrowable(
+    // TODO 추후에 리팩토링 필요
+    private fun Throwable.handleThrowable(
         throwable: Throwable
     ) {
         when (throwable) {
@@ -135,5 +137,22 @@ class RemainApplicationViewModel @Inject constructor(
         object ForbiddenException : Event()
         object TooManyRequestException : Event()
         object ServerException : Event()
+        object NullPointException: Event()
+        object UnknownException: Event()
+    }
+}
+
+// TODO 추후에 리팩토링 필요
+private fun getEventFromThrowable(
+    throwable: Throwable?,
+): Event {
+    return when(throwable){
+        is BadRequestException -> Event.BadRequestException
+        is UnauthorizedException -> Event.UnauthorizedException
+        is ForbiddenException -> Event.ForbiddenException
+        is TooManyRequestException -> Event.TooManyRequestException
+        is ServerException -> Event.ServerException
+        is NullPointerException -> Event.NullPointException
+        else -> Event.UnknownException
     }
 }
