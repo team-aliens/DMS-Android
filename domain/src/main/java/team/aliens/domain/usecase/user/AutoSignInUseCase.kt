@@ -4,7 +4,7 @@ import team.aliens.domain.repository.UserRepository
 import team.aliens.domain.usecase.UseCase
 import javax.inject.Inject
 
-class AutoLoginUseCase @Inject constructor(
+class AutoSignInUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) : UseCase<Unit, Unit>() {
 
