@@ -4,11 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +21,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 
 @Composable
@@ -40,6 +43,9 @@ private val DormSurveyDialogPadding = PaddingValues(
     horizontal = 16.dp,
     vertical = 20.dp,
 )
+
+@Stable
+private val DormDoubleButtonDialogShape: Shape = RoundedCornerShape(10.dp)
 
 @Stable
 private val DormSurveyDialogShape: Shape = RoundedCornerShape(6.dp)
@@ -109,13 +115,79 @@ fun DormSurveyDialog(
     }
 }
 
-@Preview
+@Composable
+fun DormDoubleButtonDialog(
+    content: String,
+    mainBtnText: String,
+    subBtnText: String,
+    onMainBtnClick: () -> Unit,
+    onSubBtnClick: () -> Unit,
+    mainBtnTextColor: Color = DormColor.Error,
+    subBtnTextColor: Color = DormColor.Gray500,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                Color.White,
+                DormDoubleButtonDialogShape,
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+
+        Spacer(
+            modifier = Modifier.height(50.dp),
+        )
+
+        Body3(
+            text = content,
+        )
+
+        Spacer(
+            modifier = Modifier.height(40.dp),
+        )
+
+        Divider(
+            modifier = Modifier
+                .background(DormColor.Gray400)
+                .height(1.dp),
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(62.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Body3(
+                text = subBtnText,
+                color = subBtnTextColor,
+                onClick = onSubBtnClick,
+            )
+
+            Divider(
+                modifier = Modifier
+                    .background(DormColor.Gray400)
+                    .width(1.dp)
+                    .height(50.dp),
+            )
+
+            Body3(
+                text = mainBtnText,
+                color = mainBtnTextColor,
+                onClick = onMainBtnClick,
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    showBackground = true,
+)
 @Composable
 fun PreviewDialog() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        DormCustomDialog(
+    Column {
+        /*DormCustomDialog(
             onDismissRequest = { },
         ) {
             DormSurveyDialog(
@@ -124,6 +196,13 @@ fun PreviewDialog() {
                 content = "사유 : 이러이러한 사유로 설문이 종료되었습니다.",
                 btnText = "확인",
             ) {}
+        }*/
+        DormCustomDialog(onDismissRequest = { }) {
+            DormDoubleButtonDialog(content = "정말 로그아웃 하시겠습니까?",
+                mainBtnText = "확인",
+                subBtnText = "취소",
+                onMainBtnClick = { /*TODO*/ },
+                onSubBtnClick = { /*TODO*/ })
         }
     }
 }
