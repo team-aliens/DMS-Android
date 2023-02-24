@@ -18,67 +18,83 @@ class SignInViewModel @Inject constructor(
     private val remoteSignInUseCase: RemoteSignInUseCase,
 ) : BaseViewModel<SignInState, SignInEvent>() {
 
-    private var parameter = LoginParam(id = state.value.id,
-        password = state.value.password,
-        autoLogin = state.value.autoLogin)
-
-    fun setId(id: String) {
-        sendEvent(SignInEvent.InputId(id))
-    }
-
-    fun setPassword(password: String) {
-        sendEvent(SignInEvent.InputPassword(password))
-    }
-
     override val initialState: SignInState
         get() = SignInState.getDefaultInstance()
 
     private val _signInViewEffect = MutableEventFlow<Event>()
-    var signInViewEffect = _signInViewEffect.asEventFlow()
+    internal val signInViewEffect = _signInViewEffect.asEventFlow()
 
-    fun postSignIn() {
-        parameter = LoginParam(id = state.value.id,
-            password = state.value.password,
-            autoLogin = state.value.autoLogin)
+    internal fun setId(id: String) {
+        sendEvent(SignInEvent.InputId(id))
+    }
+
+    internal fun setPassword(password: String) {
+        sendEvent(SignInEvent.InputPassword(password))
+    }
+
+    internal fun postSignIn() {
         viewModelScope.launch {
-            kotlin.runCatching {
-                remoteSignInUseCase.execute(parameter)
-            }.onSuccess {
-                event(Event.NavigateToHome)
-            }.onFailure {
-                when (it) {
-                    is BadRequestException -> event(Event.WrongRequest)
-                    is UnauthorizedException -> event(Event.NotCorrectPassword)
-                    is NotFoundException -> event(Event.UserNotFound)
-                    is TooManyRequestException -> event(Event.TooManyRequest)
-                    is NoInternetException -> event(Event.NoInternetException)
-                    is ServerException -> event(Event.ServerException)
-                    else -> event(Event.UnKnownException)
-                }
+
+            val result = kotlin.runCatching {
+                remoteSignInUseCase.execute(
+                    getLoginParamFromCurrentState(),
+                )
             }
+
+            emitSignInViewEvent(
+                if (result.isSuccess) {
+                    Event.NavigateToHome
+                } else {
+                    getEventFromThrowable(
+                        result.exceptionOrNull(),
+                    )
+                },
+            )
         }
     }
 
-    private fun event(event: Event) {
+    private fun emitSignInViewEvent(
+        event: Event,
+    ) {
         viewModelScope.launch {
             _signInViewEffect.emit(event)
-            signInViewEffect = _signInViewEffect.asEventFlow()
         }
     }
 
-    override fun reduceEvent(oldState: SignInState, event: SignInEvent) {
+    override fun reduceEvent(
+        oldState: SignInState,
+        event: SignInEvent,
+    ) {
         when (event) {
             is SignInEvent.InputId -> {
-                setState(oldState.copy(id = event.id))
+                setState(
+                    oldState.copy(
+                        id = event.id,
+                    ),
+                )
             }
             is SignInEvent.InputPassword -> {
-                setState(oldState.copy(password = event.password))
+                setState(
+                    oldState.copy(
+                        password = event.password,
+                    ),
+                )
             }
-            else -> {}
+            else -> {
+                /* explicit blank */
+            }
         }
     }
 
-    sealed class Event() {
+    private fun getLoginParamFromCurrentState(): LoginParam {
+        return LoginParam(
+            id = state.value.id,
+            password = state.value.password,
+            autoLogin = state.value.autoLogin,
+        )
+    }
+
+    sealed class Event {
         object NavigateToHome : Event()
         object WrongRequest : Event()
         object NotCorrectPassword : Event()
@@ -87,5 +103,19 @@ class SignInViewModel @Inject constructor(
         object ServerException : Event()
         object NoInternetException : Event()
         object UnKnownException : Event()
+    }
+}
+
+private fun getEventFromThrowable(
+    throwable: Throwable?,
+): SignInViewModel.Event {
+    return when (throwable) {
+        is BadRequestException -> SignInViewModel.Event.WrongRequest
+        is UnauthorizedException -> SignInViewModel.Event.NotCorrectPassword
+        is NotFoundException -> SignInViewModel.Event.UserNotFound
+        is TooManyRequestException -> SignInViewModel.Event.TooManyRequest
+        is NoInternetException -> SignInViewModel.Event.NoInternetException
+        is ServerException -> SignInViewModel.Event.ServerException
+        else -> SignInViewModel.Event.UnKnownException
     }
 }
