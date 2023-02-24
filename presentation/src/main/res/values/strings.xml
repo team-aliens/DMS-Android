@@ -113,7 +113,7 @@
     <string name="NotFound">찾을 수 없음</string>
 
     // 인증 실패
-    <string name="LoginUnAuthorized">잘못된 비밀번호입니다. 다시 시도해주세요.</string>
+    <string name="LoginUnauthorized">인증에 실패하였습니다.</string>
     <string name="CompareSchoolNotFound">학교를 찾을 수 없습니다.</string>
     <string name="CertificationInfoNotFound">인증 정보를 찾을 수 없습니다.</string>
     <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
@@ -134,9 +134,10 @@
     <string name="TomorrowButton">TomorrowButton</string>
     <string name="CafeteriaBackground">CafeteriaBackGround</string>
     
-    // 잔류 신청
+    // 신청
     <string name="Application">신청</string>
     <string name="StudyRoom">자습실</string>
+    <string name="ApplicateStudyRoom">자습실 신청</string>
     <string name="Stay">잔류</string>
     <string name="StudyRoomApplyDescription">자습실 사용이 필요한 경우, 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
     <string name="StayApplyDescription">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
