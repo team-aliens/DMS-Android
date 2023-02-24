@@ -37,7 +37,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
         )
     }.sendRequest()
 
-    override suspend fun refreshToken(
+    override suspend fun reissueToken(
         refreshToken: String,
     ) = HttpHandler<Unit>().httpRequest {
         userApi.refreshToken(

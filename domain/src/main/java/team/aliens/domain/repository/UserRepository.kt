@@ -21,7 +21,7 @@ interface UserRepository {
         checkEmailCodeParam: CheckEmailCodeParam,
     )
 
-    suspend fun refreshToken(
+    suspend fun reissueToken(
         refreshToken: String,
     )
 
