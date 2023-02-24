@@ -137,6 +137,7 @@
     <string name="CompleteApplication">신청 완료</string>
     <string name="ChangeTo">로 변경하기</string>
     <string name="CompleteApply">신청이 완료되었습니다!</string>
+    <string name="ForbiddenApplyRemain">잔류 신청 시간이 아닙니다.</string>
     <string name="StudyRoom">자습실</string>
     <string name="Stay">잔류</string>
     <string name="RemainApplication">잔류 신청</string>

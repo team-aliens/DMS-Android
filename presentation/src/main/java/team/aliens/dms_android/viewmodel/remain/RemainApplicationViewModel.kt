@@ -39,7 +39,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.UpdateRemainOption)
             }.onFailure {
-                handleErrorException(it)
+                handleThrowable(it)
             }
         }
     }
@@ -51,7 +51,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.CurrentRemainOption(it.title))
             }.onFailure {
-                handleErrorException(it)
+                handleThrowable(it)
             }
         }
     }
@@ -63,7 +63,7 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.AvailableRemainTime(it))
             }.onFailure {
-                handleErrorException(it)
+                handleThrowable(it)
             }
         }
     }
@@ -75,15 +75,9 @@ class RemainApplicationViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.RemainOptions(it))
             }.onFailure {
-                handleErrorException(it)
+                handleThrowable(it)
             }
         }
-    }
-
-    internal fun setRemainOption(
-        remainOptionId: UUID,
-    ) {
-        sendEvent(RemainApplicationEvent.SetRemainOptionId(remainOptionId))
     }
 
     private fun event(event: Event) {
@@ -92,17 +86,32 @@ class RemainApplicationViewModel @Inject constructor(
         }
     }
 
-    private fun handleErrorException(
-        throwable: Throwable,
+    private fun handleThrowable(
+        throwable: Throwable
     ) {
         when (throwable) {
-            is BadRequestException -> event(Event.BadRequestException)
-            is NotFoundException -> event(Event.NotFoundException)
-            is TooManyRequestException -> event(Event.TooManyRequestException)
-            is ServerException -> event(Event.ServerException)
-            is UnauthorizedException -> event(Event.UnauthorizedException)
-            else -> event(Event.UnknownException)
+            is BadRequestException -> {
+                event(Event.BadRequestException)
+            }
+            is UnauthorizedException -> {
+                event(Event.UnauthorizedException)
+            }
+            is ForbiddenException -> {
+                event(Event.ForbiddenException)
+            }
+            is TooManyRequestException -> {
+                event(Event.TooManyRequestException)
+            }
+            is ServerException -> {
+                event(Event.ServerException)
+            }
         }
+    }
+
+    internal fun setRemainOption(
+        remainOptionId: UUID,
+    ) {
+        sendEvent(RemainApplicationEvent.SetRemainOptionId(remainOptionId))
     }
 
     override fun reduceEvent(oldState: RemainApplicationState, event: RemainApplicationEvent) {
@@ -120,11 +129,11 @@ class RemainApplicationViewModel @Inject constructor(
 
         data class CurrentRemainOption(val title: String) : Event()
         data class RemainOptions(val remainOptionsEntity: RemainOptionsEntity) : Event()
+
         object BadRequestException : Event()
-        object NotFoundException : Event()
+        object UnauthorizedException : Event()
+        object ForbiddenException : Event()
         object TooManyRequestException : Event()
         object ServerException : Event()
-        object UnauthorizedException : Event()
-        object UnknownException : Event()
     }
 }

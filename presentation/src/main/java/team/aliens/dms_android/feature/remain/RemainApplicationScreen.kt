@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.remain
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -52,10 +53,44 @@ fun RemainApplicationScreen(
     val remainOptions = remember { mutableStateListOf<RemainOptionsEntity.RemainOptionEntity>() }
 
     val toast = rememberToast()
-    LaunchedEffect(key1 = remainApplicationViewModel) {
+
+    LaunchedEffect(remainApplicationViewModel) {
         with(remainApplicationViewModel) {
+            fetchCurrentRemainOption()
             fetchAvailableRemainTime()
             fetchRemainOptions()
+            remainApplicationEffect.collect {
+                when (it) {
+                    is Event.UpdateRemainOption -> {
+                        toast(message = context.getString(R.string.CompleteApply))
+                        fetchCurrentRemainOption()
+                    }
+                    is Event.CurrentRemainOption -> {
+                        lastAppliedItem = it.title
+                    }
+                    is Event.AvailableRemainTime -> {
+                        with(it.availableRemainTimeEntity) {
+                            noticeContent = setAvailableRemainTime(
+                                startDayOfWeek = DayOfWeek.valueOf(startDayOfWeek.toString()).week,
+                                startTime = startTime,
+                                endDayOfWeek = DayOfWeek.valueOf(endDayOfWeek.toString()).week,
+                                endTime = endTime,
+                            )
+                        }
+                    }
+                    is Event.RemainOptions -> {
+                        remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
+                    }
+                    else -> {
+                        toast(
+                            getStringFromEvent(
+                                context = context,
+                                event = it,
+                            ),
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -64,44 +99,6 @@ fun RemainApplicationScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        LaunchedEffect(Unit) {
-            remainApplicationViewModel.remainApplicationEffect.collect {
-                when (it) {
-                    is Event.UpdateRemainOption -> {
-                        toast(context.getString(R.string.CompleteApply))
-                    }
-                    is Event.AvailableRemainTime -> {
-                        noticeContent = it.availableRemainTimeEntity.run {
-                            "잔류 신청 시간은 ${DayOfWeek.valueOf(startDayOfWeek.toString()).week}" +
-                                    " ${startsAt.split(':')[0]}:${startsAt.split(':')[1]} ~" +
-                                    " ${DayOfWeek.valueOf(endDayOfWeek.toString()).week} " +
-                                    " ${endsAt.split(':')[0]}:${endsAt.split(':')[1]}" +
-                                    " 까지 입니다."
-                        }
-                    }
-                    is Event.RemainOptions -> {
-                        lastAppliedItem = it.remainOptionsEntity.selectedOption ?: ""
-                        remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
-                    }
-                    is Event.BadRequestException -> {
-                        toast(context.getString(R.string.BadRequest))
-                    }
-                    is Event.NotFoundException -> {
-                        toast(context.getString(R.string.NotFound))
-                    }
-                    is Event.TooManyRequestException -> {
-                        toast(context.getString(R.string.TooManyRequest))
-                    }
-                    is Event.ServerException -> {
-                        toast(context.getString(R.string.ServerException))
-                    }
-                    is Event.UnauthorizedException -> {
-                        toast(context.getString(R.string.UnAuthorized))
-                    }
-                    else -> toast(context.getString(R.string.UnKnownException))
-                }
-            }
-        }
 
         var selectedItem by remember { mutableStateOf(lastAppliedItem) }
         var expandedItem by remember { mutableStateOf("") }
@@ -271,3 +268,39 @@ fun ApplicationCard(
         }
     }
 }
+
+private fun setAvailableRemainTime(
+    startDayOfWeek: String,
+    startTime: String,
+    endDayOfWeek: String,
+    endTime: String,
+): String =
+    "잔류 신청 시간은 $startDayOfWeek" +
+            " ${startTime.split(':')[0]}:${startTime.split(':')[1]} ~" +
+            " $endDayOfWeek" +
+            " ${endTime.split(':')[0]}:${endTime.split(':')[1]}" +
+            " 까지 입니다."
+
+
+private fun getStringFromEvent(
+    context: Context,
+    event: Event,
+): String =
+    when (event) {
+        is Event.BadRequestException -> {
+            context.getString(R.string.BadRequest)
+        }
+        is Event.UnauthorizedException -> {
+            context.getString(R.string.UnAuthorized)
+        }
+        is Event.ForbiddenException -> {
+            context.getString(R.string.Forbidden)
+        }
+        is Event.TooManyRequestException -> {
+            context.getString(R.string.TooManyRequest)
+        }
+        is Event.ServerException -> {
+            context.getString(R.string.ServerException)
+        }
+        else -> context.getString(R.string.UnKnownException)
+    }
