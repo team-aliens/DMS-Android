@@ -177,16 +177,12 @@ object DormTypography {
 @Composable
 @NonRestartableComposable
 fun Headline1(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.headline1,
         color = color,
@@ -196,16 +192,14 @@ fun Headline1(
 @Composable
 @NonRestartableComposable
 fun Headline2(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.headline2,
         color = color,
@@ -215,16 +209,12 @@ fun Headline2(
 @Composable
 @NonRestartableComposable
 fun Headline3(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.headline3,
         color = color,
@@ -234,16 +224,12 @@ fun Headline3(
 @Composable
 @NonRestartableComposable
 fun Title1(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.title1,
         color = color,
@@ -253,16 +239,12 @@ fun Title1(
 @Composable
 @NonRestartableComposable
 fun Title2(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.title2,
         color = color,
@@ -272,16 +254,12 @@ fun Title2(
 @Composable
 @NonRestartableComposable
 fun Title3(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.title3,
         color = color,
@@ -291,16 +269,12 @@ fun Title3(
 @Composable
 @NonRestartableComposable
 fun SubTitle1(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.subtitle1,
         color = color,
@@ -310,16 +284,12 @@ fun SubTitle1(
 @Composable
 @NonRestartableComposable
 fun SubTitle2(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.subtitle2,
         color = color,
@@ -329,16 +299,12 @@ fun SubTitle2(
 @Composable
 @NonRestartableComposable
 fun Body1(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.body1,
         color = color,
@@ -348,16 +314,12 @@ fun Body1(
 @Composable
 @NonRestartableComposable
 fun Body2(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.body2,
         color = color,
@@ -367,16 +329,12 @@ fun Body2(
 @Composable
 @NonRestartableComposable
 fun Body3(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.body3,
         color = color,
@@ -389,14 +347,9 @@ fun Body4(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.body4,
         color = color,
@@ -406,33 +359,30 @@ fun Body4(
 @Composable
 @NonRestartableComposable
 fun Body5(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.body5,
         color = color,
         lineHeight = 24.sp,
     )
 }
-
+// TODO onClick 삭제하고 loginScreen 에서 modifier 통해 클릭 이벤트 넣어주기
 @Composable
 @NonRestartableComposable
 fun Caption(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
+        modifier = modifier.dormClickable(
             rippleEnabled = rippleEnabled,
             onClick = onClick,
         ),
@@ -445,16 +395,12 @@ fun Caption(
 @Composable
 @NonRestartableComposable
 fun OverLine(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.overline,
         color = color,
@@ -464,16 +410,12 @@ fun OverLine(
 @Composable
 @NonRestartableComposable
 fun ButtonText(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color = DormColor.Gray900,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
 ) {
     Text(
-        modifier = Modifier.dormClickable(
-            rippleEnabled = rippleEnabled,
-            onClick = onClick,
-        ),
+        modifier = modifier,
         text = text,
         style = DormTypography.button,
         color = color,
@@ -483,10 +425,12 @@ fun ButtonText(
 @Composable
 @NonRestartableComposable
 fun BottomNavItemLabel(
+    modifier: Modifier = Modifier,
     text: String,
     color: Color,
 ){
     Text(
+        modifier = modifier,
         text = text,
         color = color,
         style = DormTypography.bottomNavItemLabel,
