@@ -58,9 +58,14 @@ class UserRepositoryImpl @Inject constructor(
         checkEmailCodeParam.type,
     )
 
-    override suspend fun refreshToken(
+    override suspend fun reissueToken(
         refreshToken: String,
-    ) = remoteUserDataSource.refreshToken(refreshToken)
+    ) {
+
+        val newTokens = remoteUserDataSource.reissueToken(refreshToken).toDbEntity()
+
+        localUserDataSource.setPersonalKey(newTokens)
+    }
 
     override suspend fun compareEmail(
         compareEmailParam: CompareEmailParam,
@@ -106,10 +111,13 @@ class UserRepositoryImpl @Inject constructor(
     )
 
     private fun AuthInfoEntity.Features.toDbEntity() = FeaturesParam(
+private fun SignInResponse.Features.toDbEntity(): FeaturesParam {
+    return FeaturesParam(
         mealService = mealService,
         noticeService = noticeService,
         pointService = pointService,
     )
+}
 
     private fun LoginParam.toRequest() = SignInRequest(
         id = id,
