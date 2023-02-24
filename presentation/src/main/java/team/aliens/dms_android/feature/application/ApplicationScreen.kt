@@ -41,22 +41,22 @@ fun ApplicationScreen(
     remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
 ) {
     // TODO 서버로부터 받아오기
-    var studyRoomLastApplied by remember { mutableStateOf("") }
-    var remainLastApplied by remember { mutableStateOf("") }
+    var lastAppliedStudyRoom by remember { mutableStateOf("") }
+    var lastAppliedRemain by remember { mutableStateOf("") }
 
-    LaunchedEffect(key1 = studyRoomViewModel) {
+    LaunchedEffect(Unit) {
         with(studyRoomViewModel) {
             // TODO update studyRoomLastApplied logic
         }
     }
 
-    LaunchedEffect(key1 = remainApplicationViewModel) {
+    LaunchedEffect(Unit) {
         with(remainApplicationViewModel) {
-            remainApplicationViewModel.fetchCurrentRemainOption()
+            fetchCurrentRemainOption()
             remainApplicationEffect.collect {
                 when (it) {
                     is RemainApplicationViewModel.Event.CurrentRemainOption -> {
-                        remainLastApplied = it.title
+                        lastAppliedRemain = it.title
                     }
                 }
             }
@@ -80,7 +80,7 @@ fun ApplicationScreen(
             onButtonClick = {
                 navController.navigate(NavigationRoute.StudyRoom)
             },
-            lastApplicationText = studyRoomLastApplied,
+            lastApplicationText = lastAppliedStudyRoom,
         )
         Spacer(modifier = Modifier.height(30.dp))
         ApplicationCard(
@@ -90,7 +90,7 @@ fun ApplicationScreen(
             onButtonClick = {
                 navController.navigate(NavigationRoute.RemainApplication)
             },
-            lastApplicationText = remainLastApplied,
+            lastApplicationText = lastAppliedRemain,
         )
     }
 }

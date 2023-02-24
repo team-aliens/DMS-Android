@@ -54,7 +54,7 @@ fun RemainApplicationScreen(
 
     val toast = rememberToast()
 
-    LaunchedEffect(remainApplicationViewModel) {
+    LaunchedEffect(Unit) {
         with(remainApplicationViewModel) {
             fetchCurrentRemainOption()
             fetchAvailableRemainTime()
