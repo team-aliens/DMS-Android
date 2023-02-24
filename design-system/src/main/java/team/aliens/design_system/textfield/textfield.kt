@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,12 +52,10 @@ fun DormTextField(
     Column {
         Box(
             modifier = modifier.height(44.dp).background(
-                shape = RoundedCornerShape(
-                    size = 5.dp,
-                ),
                 color = Color.Transparent,
             ).border(
                 width = 1.dp,
+                shape = MaterialTheme.shapes.small,
                 color = borderColor,
             ).wrapContentHeight(
                 align = Alignment.CenterVertically,
