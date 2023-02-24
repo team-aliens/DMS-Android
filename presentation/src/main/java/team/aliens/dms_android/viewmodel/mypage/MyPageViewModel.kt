@@ -25,6 +25,10 @@ class MyPageViewModel @Inject constructor(
     private val signOutUseCase: SignOutUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
 
+    init {
+        fetchMyPage()
+    }
+
     override val initialState: MyPageState
         get() = MyPageState.initial()
 
@@ -42,7 +46,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun fetchMyPage() {
+    private fun fetchMyPage() {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMyPageUseCase.execute(Unit)
