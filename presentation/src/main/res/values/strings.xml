@@ -81,7 +81,7 @@
     // 공지
     <string name="Announcement">공지</string>
     <string name="Notice">공지사항</string>
-    <string name="NewNotice">새로운 공지사항이 있습니다.</string>
+    <string name="NewNotice">새로운 공지 있어요!</string>
 
     // 마이페이지
     <string name="PlusPoint">상점</string>
@@ -143,5 +143,10 @@
     <string name="StayApplyDescription">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
     <string name="DoApplyStudyRoom">자습실 신청하기</string>
     <string name="DoApplyStay">잔류 신청하기</string>
+
+    // 바텀 내비게이션
+    <string name="Home">홈</string>
+    <string name="Guide">안내</string>
+    <string name="MyPage">마이페이지</string>
 
 </resources>

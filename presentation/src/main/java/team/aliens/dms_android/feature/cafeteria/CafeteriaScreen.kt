@@ -113,7 +113,6 @@ fun ImportantNotice(
         contentAlignment = Alignment.CenterEnd,
         modifier = Modifier.padding(horizontal = 20.dp),
     ) {
-        // TODO string resource 로 빼주기
         FloatingNotice(content = stringResource(id = R.string.NewNotice))
         Image(
             modifier = Modifier
@@ -209,7 +208,9 @@ fun CafeteriaViewPager(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 23.dp),
+            .padding(
+                bottom = 60.dp,
+            ),
     ) {
         Row(
             modifier = Modifier
