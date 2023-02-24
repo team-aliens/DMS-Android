@@ -20,17 +20,15 @@ internal fun GettingImageOptionItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = 32.dp,
-                vertical = 16.dp,
-            )
             .clickable {
                 onClick()
-            },
+            }
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
         Icon(
+            modifier = Modifier.size(24.dp),
             painter = painterResource(
                 id = icon,
             ),
