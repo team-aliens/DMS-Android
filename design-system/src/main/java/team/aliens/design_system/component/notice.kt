@@ -1,6 +1,7 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -8,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
@@ -50,18 +52,20 @@ private fun Notice(
     onClick: (String) -> Unit,
 ) {
     Box(
-        modifier = Modifier.background(
-            color = DormColor.Gray100,
-            shape = RoundedCornerShape(6.dp),
-        ).fillMaxWidth().dormShadow(
-            color = DormColor.Gray100,
-            offsetX = 1.dp,
-            offsetY = 1.dp,
-        ).dormClickable(
-            rippleEnabled = true,
-        ) {
-            onClick(notice.noticeId)
-        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(6.dp))
+            .background(
+                color = DormColor.Gray100,
+            )
+            .dormClickable{
+                onClick(notice.noticeId)
+            }
+            .dormShadow(
+                color = DormColor.Gray100,
+                offsetX = 1.dp,
+                offsetY = 1.dp,
+            ),
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
