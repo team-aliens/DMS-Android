@@ -9,6 +9,7 @@ object DmsUrl {
     const val schools = "/schools"
     const val studyRoom = "/study-rooms"
     const val remains = "/remains"
+    const val uploadFile = "/files"
 
     object User {
         const val login = "$auth/tokens"

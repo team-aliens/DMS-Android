@@ -52,4 +52,10 @@ abstract class RemoteDataSourceModule {
     abstract fun provideRemoteRemainDataSource(
         remoteRemainDataSourceImpl: RemoteRemainDataSourceImpl,
     ): RemoteRemainDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsRemoteFileDataSource(
+        remoteFileDataSourceImpl: RemoteFileDataSourceImpl,
+    ): RemoteFileDataSource
 }
