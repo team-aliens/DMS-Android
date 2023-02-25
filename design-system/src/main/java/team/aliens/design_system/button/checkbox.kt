@@ -154,11 +154,11 @@ fun DormCheckBox(
         checked = checked,
         onCheckedChange = onCheckedChange,
         selectedColor = DormColor.DormPrimary,
-        unSelectedColor = DormColor.Gray500,
+        unSelectedColor = DormColor.Gray300,
         disabledSelectedColor = DormColor.Lighten100,
         disabledUnSelectedColor = DormColor.Gray300,
         enabled = enabled,
-        icon = DormIcon.Check,
+        icon = DormIcon.Check
     )
 }
 
