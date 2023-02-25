@@ -6,11 +6,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.ui.last.SetProfileImageFragment
-import team.aliens.dms_android.util.visible
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentSetPasswordBinding
 
@@ -81,7 +81,7 @@ class SetPasswordFragment :
                     .commit()
             } else {
                 binding.etReEnterPassword.setBackgroundResource(R.drawable.register_et_error_background)
-                binding.tvError.visible()
+                binding.tvError.isVisible = true
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isEnabled = false
             }
@@ -114,7 +114,7 @@ class SetPasswordFragment :
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (binding.etEnterPassword.text!!.isNotEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()) {
+                if (binding.etEnterPassword.text!!.isEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()) {
                     binding.btnVerificationCode.isEnabled = true
                     binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 }

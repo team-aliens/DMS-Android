@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
@@ -13,7 +14,6 @@ import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.feature.register.ui.password.SetPasswordFragment
 import team.aliens.dms_android.util.repeatOnStarted
-import team.aliens.dms_android.util.visible
 import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.domain.entity.user.ExamineGradeEntity
 import team.aliens.presentation.R
@@ -110,7 +110,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_i
 
             is SetIdEvent.DuplicateIdConflictException -> {
                 binding.etId.setBackgroundResource(R.drawable.register_et_error_background)
-                binding.tvError.visible()
+                binding.tvError.isVisible = true
             }
 
             is SetIdEvent.DuplicateIdBadRequestException -> showShortToast(getString(R.string.BadRequest))
