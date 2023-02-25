@@ -66,7 +66,7 @@ fun ChangePwValue() {
                 value = rePasswordValue,
                 onValueChange = { rePasswordValue = it },
                 hint = stringResource(R.string.ReEnterPassword),
-                error = stringResource(R.string.CheckPassword),
+                //error = stringResource(R.string.CheckPassword),
                 isPassword = true,
             )
             Box(

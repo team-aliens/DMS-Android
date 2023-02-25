@@ -6,7 +6,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,18 +17,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.DormTypography
+import team.aliens.design_system.typography.NotoSansFamily
 import team.aliens.design_system.utils.runIf
 
 /**
@@ -59,7 +64,6 @@ fun DormTextField(
 
     val textfieldWidth = if (isPassword) 0.9f
     else 1f
-
 
     Column {
         Box(
@@ -106,16 +110,17 @@ fun DormTextField(
                     singleLine = true,
                     visualTransformation = if (!passwordVisible && isPassword) PasswordVisualTransformation() else VisualTransformation.None,
                     maxLines = 1,
-                    textStyle = DormTypography.body4,
+                    textStyle = DormTypography.body2,
                     decorationBox = { innerTextField ->
                         if (value.isEmpty() && hint != null) {
                             Body2(
+                                modifier = Modifier.padding(top = 1.dp),
                                 text = hint,
                                 color = DormColor.Gray500,
                             )
                         }
                         innerTextField()
-                    },
+                    }
                 )
                 if (isPassword) {
                     Image(

@@ -106,7 +106,6 @@ object DormTypography {
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 26.sp,
     )
 
     @Stable
