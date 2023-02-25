@@ -96,7 +96,8 @@ fun RemainApplicationScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = DormColor.Gray200),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 

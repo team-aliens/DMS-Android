@@ -114,6 +114,7 @@ fun ApplicationCard(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             SubTitle2(text = title)
             if (lastApplicationText.isNotBlank()) {
