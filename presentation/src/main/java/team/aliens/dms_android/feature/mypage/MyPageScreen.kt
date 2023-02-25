@@ -8,10 +8,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -35,7 +35,6 @@ import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
 import team.aliens.presentation.R
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MyPageScreen(
     navController: NavController,
@@ -43,11 +42,7 @@ fun MyPageScreen(
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
-    val scope = rememberCoroutineScope()
-
     val context = LocalContext.current
-
-    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity
 
