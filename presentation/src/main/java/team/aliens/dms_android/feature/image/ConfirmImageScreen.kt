@@ -13,13 +13,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
-import team.aliens.presentation.R
 import java.io.File
 
 @Composable
@@ -69,10 +70,14 @@ internal fun ConfirmImageScreen(
                     val selectedImage = getImageFromGallery(context)
 
                     confirmImageViewModel.setImage(selectedImage)
+
+                    gettingImageOptionDialogState = false
                 }
             },
         )
     }
+
+    val confirmImageState = confirmImageViewModel.state.collectAsState().value
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -93,7 +98,9 @@ internal fun ConfirmImageScreen(
                     },
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                painter = /* todo show viewmodel's image */ painterResource(id = R.drawable.addimage),
+                painter = rememberAsyncImagePainter(
+                    model = confirmImageState.selectedImage?.toUri(),
+                ),
             )
 
             Image(
