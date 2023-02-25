@@ -3,7 +3,6 @@ package team.aliens.dms_android.feature.image
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
@@ -22,6 +21,7 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
@@ -135,7 +135,7 @@ internal fun ConfirmImageScreen(
                     modifier = Modifier
                         .size(100.dp)
                         .clip(CircleShape)
-                        .clickable {
+                        .dormClickable {
                             gettingImageOptionDialogState = true
                         },
                     contentDescription = null,
