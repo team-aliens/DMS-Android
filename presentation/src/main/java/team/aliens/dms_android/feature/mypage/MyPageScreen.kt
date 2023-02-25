@@ -14,24 +14,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.dialog.DormBottomAlignedSingleButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.SubTitle1
-import team.aliens.dms_android.component.GettingImageOptionItem
+import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
 import team.aliens.presentation.R
 
@@ -50,7 +50,6 @@ fun MyPageScreen(
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity
-
 
     var signOutDialogState by remember {
         mutableStateOf(false)
@@ -93,45 +92,23 @@ fun MyPageScreen(
     }
 
     if (setProfileDialogState) {
-        DormCustomDialog(
-            onDismissRequest = {
-                /* explicit blank */
+        GettingImageOptionDialog(
+            onCancel = {
+                setProfileDialogState = false
             },
-            properties = DialogProperties(
-                usePlatformDefaultWidth = false,
-            ),
-        ) {
-            DormBottomAlignedSingleButtonDialog(
-                btnText = stringResource(R.string.Cancel),
-                onBtnClick = {
-                    setProfileDialogState = false
-                },
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-
-                    // 사진 촬영
-                    GettingImageOptionItem(
-                        icon = R.drawable.ic_camera,
-                        text = stringResource(R.string.TakePhoto),
-                    ) {
-                        // todo camera
-                    }
-
-                    // 사진 선택
-                    GettingImageOptionItem(
-                        icon = R.drawable.ic_photo,
-                        text = stringResource(R.string.SelectPhoto),
-                    ) {
-                        // todo pick from gallery
-                    }
-                }
-            }
-        }
+            onTakePhoto = {
+                navController.navigate(
+                    NavigationRoute.ConfirmImage +
+                            "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                )
+            },
+            onSelectPhoto = {
+                navController.navigate(
+                    NavigationRoute.ConfirmImage +
+                            "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                )
+            },
+        )
     }
 
 
@@ -193,6 +170,7 @@ fun MyPageScreen(
                         },
                     model = myPageState.profileImageUrl,
                     contentDescription = null,
+                    contentScale = ContentScale.Crop,
                 )
 
                 Image(

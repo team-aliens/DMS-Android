@@ -9,11 +9,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
+import team.aliens.dms_android.feature.image.ConfirmImageScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
 import team.aliens.dms_android.feature.remain.RemainApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
+import team.aliens.dms_android.util.SelectImageType
 
 @Composable
 fun RootDms(
@@ -81,15 +83,34 @@ fun RootDms(
                 )
             }
         }
-        
-        composable(NavigationRoute.StudyRoom){
+
+        composable(NavigationRoute.StudyRoom) {
             StudyRoomListScreen(
                 navController = navController,
             )
         }
-        
-        composable(NavigationRoute.RemainApplication){
+
+        composable(NavigationRoute.RemainApplication) {
             RemainApplicationScreen(
+                navController = navController,
+            )
+        }
+
+        composable(
+            route = NavigationRoute.ConfirmImage + "/{selectImageType}",
+            arguments = listOf(
+                navArgument("selectImageType") {
+                    defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
+                    type = NavType.IntType
+                },
+            ),
+        ) { navBackStackEntry ->
+
+            val selectImageType = navBackStackEntry.arguments?.getInt("selectImageType")
+                ?: SelectImageType.SELECT_FROM_GALLERY.ordinal
+
+            ConfirmImageScreen(
+                selectImageType = selectImageType,
                 navController = navController,
             )
         }

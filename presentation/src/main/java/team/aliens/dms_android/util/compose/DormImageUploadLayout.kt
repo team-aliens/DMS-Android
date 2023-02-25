@@ -7,7 +7,6 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -102,6 +101,7 @@ fun DormImageUploadLayout(
         Image(
             painter = painterResource(id = R.drawable.ic_mypage_edit),
             contentDescription = null,
+            modifier = Modifier.size(30.dp),
         )
     }
 }
@@ -115,7 +115,6 @@ val takePhotoFromAlbumIntent =
         putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
     }
 
-@RequiresApi(Build.VERSION_CODES.P)
 @Preview
 @Composable
 fun PreviewImageUpload() {
