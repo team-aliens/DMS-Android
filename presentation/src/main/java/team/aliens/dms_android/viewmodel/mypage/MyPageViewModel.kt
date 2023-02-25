@@ -11,7 +11,6 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.mypage.MyPageEntity
 import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.file.RemoteUploadFileUseCase
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
 import team.aliens.domain.usecase.mypage.RemotePointUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
@@ -20,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val remoteMyPageUseCase: RemoteMyPageUseCase,
-    private val remoteUploadFileUseCase: RemoteUploadFileUseCase,
     private val remotePointListUseCase: RemotePointUseCase,
     private val signOutUseCase: SignOutUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
