@@ -1,36 +1,79 @@
 package team.aliens.dms_android.viewmodel.image
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.image.ConfirmImageEvent
 import team.aliens.dms_android.feature.image.ConfirmImageState
+import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.file.RemoteUploadFileUseCase
+import team.aliens.domain.usecase.students.RemoteEditProfileImageUseCase
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmImageViewModel @Inject constructor(
     private val remoteUploadFileUseCase: RemoteUploadFileUseCase,
+    private val remoteEditProfileImageUseCase: RemoteEditProfileImageUseCase,
 ) : BaseViewModel<ConfirmImageState, ConfirmImageEvent>() {
 
     override val initialState: ConfirmImageState
         get() = ConfirmImageState.getDefaultInstance()
 
-    internal fun uploadImage() {
+    private lateinit var profileUrl: String
 
-        val selectedImage = state.value.selectedImage ?: throw IllegalStateException()
+    private var _confirmImageEvent = MutableEventFlow<Event>()
+    internal val confirmImageEvent = _confirmImageEvent.asEventFlow()
 
-        viewModelScope.launch {
+    private fun uploadImage() {
+        runBlocking {
             kotlin.runCatching {
                 remoteUploadFileUseCase.execute(state.value.selectedImage!!) // non-null checked
             }.onSuccess {
-                Log.e("SUCCESS", "uploadFile: $it")
+
+                profileUrl = it.fileUrl
             }.onFailure {
-                Log.e("FAILURE", "uploadFile: ${it.printStackTrace()}")
+                emitEvent(
+                    getEventFromThrowable(it),
+                )
             }
+        }
+    }
+
+
+    internal fun editProfileImage() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+
+                uploadImage()
+
+                check(this@ConfirmImageViewModel::profileUrl.isInitialized)
+
+                remoteEditProfileImageUseCase.execute(profileUrl)
+            }.onSuccess {
+                emitEvent(
+                    Event.ProfileEdited,
+                )
+            }.onFailure {
+                emitEvent(
+                    getEventFromThrowable(it),
+                )
+            }
+        }
+    }
+
+
+    private fun emitEvent(
+        event: Event,
+    ) {
+        viewModelScope.launch {
+            _confirmImageEvent.emit(
+                event,
+            )
         }
     }
 
@@ -44,5 +87,28 @@ class ConfirmImageViewModel @Inject constructor(
         oldState: ConfirmImageState,
         event: ConfirmImageEvent,
     ) {
+    }
+
+    sealed class Event {
+        object ProfileEdited : Event()
+        object BadRequestException : Event()
+        object UnAuthorizedTokenException : Event()
+        object CannotConnectException : Event()
+        object TooManyRequestException : Event()
+        object InternalServerException : Event()
+        object UnknownException : Event()
+    }
+}
+
+private fun getEventFromThrowable(
+    throwable: Throwable,
+): ConfirmImageViewModel.Event {
+    return when (throwable) {
+        is BadRequestException -> ConfirmImageViewModel.Event.BadRequestException
+        is UnauthorizedException -> ConfirmImageViewModel.Event.UnAuthorizedTokenException
+        is NoInternetException -> ConfirmImageViewModel.Event.CannotConnectException
+        is TooManyRequestException -> ConfirmImageViewModel.Event.TooManyRequestException
+        is ServerException -> ConfirmImageViewModel.Event.InternalServerException
+        else -> ConfirmImageViewModel.Event.UnknownException
     }
 }
