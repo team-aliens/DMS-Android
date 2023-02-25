@@ -42,6 +42,10 @@ fun MyPageScreen(
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
+    LaunchedEffect(navController.currentDestination) {
+        myPageViewModel.fetchMyPage()
+    }
+
     val context = LocalContext.current
 
     val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity

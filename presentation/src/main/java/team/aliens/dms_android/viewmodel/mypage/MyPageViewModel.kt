@@ -44,7 +44,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    private fun fetchMyPage() {
+    internal fun fetchMyPage() {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMyPageUseCase.execute(Unit)
