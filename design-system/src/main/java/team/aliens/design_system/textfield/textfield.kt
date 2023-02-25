@@ -69,7 +69,7 @@ fun DormTextField(
         Box(
             modifier = modifier.clip(
                 shape = MaterialTheme.shapes.small,
-            ).height(44.dp).background(
+            ).height(46.dp).background(
                 color = Color.White,
             ).border(
                 width = borderWidth,

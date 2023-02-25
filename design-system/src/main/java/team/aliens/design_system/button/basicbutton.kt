@@ -189,7 +189,7 @@ internal fun BasicOutlineRoundButton(
 }
 
 @Stable
-private val BasicLargeButtonHeight = 48.dp
+private val BasicLargeButtonHeight = 40.dp
 
 @Composable
 internal fun BasicContainedRoundLargeButton(
