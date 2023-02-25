@@ -210,7 +210,6 @@ fun DormDoubleButtonDialog(
         )
 
         Row(
-            //horizontalArrangement = Arrangement.spacedBy(62.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
