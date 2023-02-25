@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.image
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,16 +11,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.dms_android.util.SelectImageType
+import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
-import java.io.File
+import team.aliens.presentation.R
 
 @Composable
 internal fun ConfirmImageScreen(
@@ -43,7 +46,7 @@ internal fun ConfirmImageScreen(
 
                 scope.launch {
 
-                    val selectedImage = getImageFromGallery(context)
+                    val selectedImage = fetchImage(context) ?: return@launch
 
                     confirmImageViewModel.setImage(selectedImage)
                 }
@@ -67,7 +70,7 @@ internal fun ConfirmImageScreen(
             onSelectPhoto = {
                 scope.launch {
 
-                    val selectedImage = getImageFromGallery(context)
+                    val selectedImage = fetchImage(context) ?: return@launch
 
                     confirmImageViewModel.setImage(selectedImage)
 
@@ -80,47 +83,70 @@ internal fun ConfirmImageScreen(
     val confirmImageState = confirmImageViewModel.state.collectAsState().value
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize(),
     ) {
-        Box(
-            contentAlignment = Alignment.BottomEnd,
+
+        TopBar(
+            title = stringResource(R.string.EditProfile),
+        ) {
+            navController.popBackStack()
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            // 사용자 프로필
-            Image(
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        gettingImageOptionDialogState = true
-                    },
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(
-                    model = confirmImageState.selectedImage?.toUri(),
-                ),
+            Box(
+                contentAlignment = Alignment.BottomEnd,
+            ) {
+
+                // 사용자 프로필
+                Image(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(CircleShape)
+                        .clickable {
+                            gettingImageOptionDialogState = true
+                        },
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    painter = rememberAsyncImagePainter(
+                        model = confirmImageState.selectedImage?.toUri(),
+                    ),
+                )
+
+                // 수정 아이콘
+                Image(
+                    modifier = Modifier.size(30.dp),
+                    painter = painterResource(
+                        id = R.drawable.ic_mypage_edit,
+                    ),
+                    contentDescription = null,
+                )
+            }
+
+
+            Spacer(
+                modifier = Modifier.height(80.dp),
             )
 
-            Image(
-                modifier = Modifier.size(30.dp),
-                painter = painterResource(
-                    id = team.aliens.presentation.R.drawable.ic_mypage_edit,
-                ),
-                contentDescription = null,
-            )
+
+            // 확인 버튼
+            DormContainedLargeButton(
+                text = stringResource(R.string.Check),
+                color = DormButtonColor.Blue,
+            ) {
+
+                confirmImageViewModel.uploadImage()
+
+                navController.popBackStack()
+            }
         }
     }
-}
-
-private suspend fun getImageFromGallery(
-    context: Context,
-): File {
-
-    val selectedImage = fetchImage(context)
-
-    checkNotNull(selectedImage)
-
-    return selectedImage
 }
