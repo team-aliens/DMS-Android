@@ -102,33 +102,28 @@ fun NoticeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(DormColor.Gray200)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        NoticeTopBar()
-        NoticeOrderButton(noticeViewModel)
+        Spacer(modifier = Modifier.height(14.dp))
+        Body1(text = stringResource(id = R.string.Notice))
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            NoticeOrderButton(noticeViewModel)
+        }
         NoticeList(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp, start = 20.dp, end = 20.dp),
+                .padding(top = 20.dp),
             notices = notices,
             onClick = { noticeId ->
                 navController.navigate("noticeDetail/${noticeId}")
             },
         )
-    }
-}
-
-@Composable
-fun NoticeTopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(85.dp)
-            .padding(horizontal = 25.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        Body1(text = stringResource(id = R.string.Notice))
     }
 }
 
