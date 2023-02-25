@@ -25,6 +25,7 @@ object DmsUrl {
         const val duplicateCheckEmail = "$students/email/duplication"
         const val resetPassword = "$students/password/initialization"
         const val examineGrade = "$students/name"
+        const val editProfileImage = "$students/profile"
     }
 
     object Schools {

@@ -2,6 +2,7 @@ package team.aliens.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import team.aliens.data.remote.datasource.declaration.RemoteStudentsDataSource
+import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
 import team.aliens.data.remote.response.students.ExamineGradeResponse
@@ -41,6 +42,16 @@ class StudentsRepositoryImpl @Inject constructor(
                 number = examineGradeParam.number,
             ).toEntity()
         }.createRemoteFlow()
+
+    override suspend fun editProfileImage(
+        profileImageUrl: String,
+    ) {
+        remoteStudentsDataSource.editProfileImage(
+            editProfileImageRequest = EditProfileImageRequest(
+                profileImageUrl = profileImageUrl,
+            ),
+        )
+    }
 
     private fun ResetPasswordParam.toRequest() = ResetPasswordRequest(accountId = accountId,
         authCode = authCode,

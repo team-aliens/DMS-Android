@@ -2,16 +2,19 @@ package team.aliens.data.remote.datasource.implementation
 
 import team.aliens.data.remote.api.StudentsApi
 import team.aliens.data.remote.datasource.declaration.RemoteStudentsDataSource
+import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
 import team.aliens.data.remote.response.students.ExamineGradeResponse
 import team.aliens.data.util.HttpHandler
+import team.aliens.data.util.sendHttpRequest
 import java.util.*
 import javax.inject.Inject
 
 class RemoteStudentsDataSourceImpl @Inject constructor(
     private val studentsApi: StudentsApi,
 ) : RemoteStudentsDataSource {
+
     override suspend fun postUserSignUp(signUpRequest: SignUpRequest) =
         HttpHandler<Unit>()
             .httpRequest { studentsApi.postRegister(signUpRequest) }
@@ -58,4 +61,16 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
                 number = number,
             )
         }.sendRequest()
+
+    override suspend fun editProfileImage(
+        editProfileImageRequest: EditProfileImageRequest,
+    ) {
+        sendHttpRequest(
+            httpRequest = {
+                studentsApi.editProfileImage(
+                    editProfileImageRequest = editProfileImageRequest,
+                )
+            },
+        )
+    }
 }

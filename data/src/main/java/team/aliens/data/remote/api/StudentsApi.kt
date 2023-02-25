@@ -1,6 +1,7 @@
 package team.aliens.data.remote.api
 
 import retrofit2.http.*
+import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
 import team.aliens.data.remote.response.students.ExamineGradeResponse
@@ -35,4 +36,9 @@ interface StudentsApi {
         @Query("class_room") classRoom: Int,
         @Query("number") number: Int,
     ): ExamineGradeResponse
+
+    @PATCH(DmsUrl.Students.editProfileImage)
+    suspend fun editProfileImage(
+        @Body editProfileImageRequest: EditProfileImageRequest,
+    )
 }
