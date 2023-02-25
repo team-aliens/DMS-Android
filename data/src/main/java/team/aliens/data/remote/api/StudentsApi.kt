@@ -1,5 +1,6 @@
 package team.aliens.data.remote.api
 
+import retrofit2.Response
 import retrofit2.http.*
 import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
@@ -40,5 +41,5 @@ interface StudentsApi {
     @PATCH(DmsUrl.Students.editProfileImage)
     suspend fun editProfileImage(
         @Body editProfileImageRequest: EditProfileImageRequest,
-    )
+    ): Response<Unit>
 }
