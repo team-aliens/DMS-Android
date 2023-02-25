@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.register.event.school.ConfirmSchoolEvent
+import team.aliens.dms_android.feature.register.event.school.*
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
@@ -29,18 +29,18 @@ class ConfirmSchoolViewModel @Inject constructor(
     fun compareSchoolAnswer(answer: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteSchoolAnswerUseCase.execute(SchoolAnswerParam(schoolId = schoolId,
-                    answer = answer))
+                remoteSchoolAnswerUseCase.execute(
+                    SchoolAnswerParam(
+                        schoolId = schoolId,
+                        answer = answer
+                    )
+                )
             }.onSuccess {
-                event(ConfirmSchoolEvent.CompareSchoolAnswerSuccess)
+                event(CompareSchoolAnswerSuccess)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> event(ConfirmSchoolEvent.CompareSchoolBadRequestException)
-                    is UnauthorizedException -> event(ConfirmSchoolEvent.CompareSchoolUnauthorizedException)
-                    is NotFoundException -> event(ConfirmSchoolEvent.CompareSchoolNotFoundException)
-                    is TooManyRequestException -> event(ConfirmSchoolEvent.CompareSchoolTooManyRequestException)
-                    is ServerException -> event(ConfirmSchoolEvent.CompareSchoolInternalServerException)
-                    else -> event(ConfirmSchoolEvent.UnknownException)
+                    is UnauthorizedException -> event(MissMatchCompareSchool)
+                    is NotFoundException -> event(NotFoundCompareSchool)
                 }
             }
         }
@@ -49,18 +49,8 @@ class ConfirmSchoolViewModel @Inject constructor(
 
     fun schoolQuestion(schoolId: UUID) {
         viewModelScope.launch {
-            kotlin.runCatching {
-                remoteSchoolQuestionUseCase.execute(schoolId).collect {
-                    event(ConfirmSchoolEvent.FetchSchoolQuestion(it.toData()))
-                }
-            }.onFailure {
-                when (it) {
-                    is BadRequestException -> event(ConfirmSchoolEvent.SchoolQuestionBadRequestException)
-                    is NotFoundException -> event(ConfirmSchoolEvent.SchoolQuestionNotFoundException)
-                    is TooManyRequestException -> event(ConfirmSchoolEvent.SchoolQuestionTooManyRequestException)
-                    is ServerException -> event(ConfirmSchoolEvent.SchoolQuestionInternalServerException)
-                    else -> event(ConfirmSchoolEvent.UnknownException)
-                }
+            remoteSchoolQuestionUseCase.execute(schoolId).collect {
+                event(FetchSchoolQuestion(it.toData()))
             }
         }
     }
