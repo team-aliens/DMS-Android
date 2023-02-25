@@ -34,7 +34,6 @@ class ConfirmImageViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteUploadFileUseCase.execute(state.value.selectedImage!!) // non-null checked
             }.onSuccess {
-
                 profileUrl = it.fileUrl
             }.onFailure {
                 emitEvent(

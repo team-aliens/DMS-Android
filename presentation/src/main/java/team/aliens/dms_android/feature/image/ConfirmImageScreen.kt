@@ -129,7 +129,7 @@ internal fun ConfirmImageScreen(
                 contentAlignment = Alignment.BottomEnd,
             ) {
 
-                // 사용자 프로필
+                // `사용자` 프로필
                 Image(
                     modifier = Modifier
                         .size(100.dp)
@@ -165,7 +165,6 @@ internal fun ConfirmImageScreen(
                 text = stringResource(R.string.Check),
                 color = DormButtonColor.Blue,
             ) {
-
                 confirmImageViewModel.editProfileImage()
             }
         }
