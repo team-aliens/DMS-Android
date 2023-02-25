@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.image.ConfirmImageScreen
+import team.aliens.dms_android.feature.mypage.MyPageChangePasswordScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
 import team.aliens.dms_android.feature.remain.RemainApplicationScreen
@@ -67,6 +68,10 @@ fun RootDms(
 
         composable(NavigationRoute.ChangePassword) {
             ChangePasswordScreen()
+        }
+
+        composable(NavigationRoute.MyPageChangePassword){
+            MyPageChangePasswordScreen()
         }
 
         composable(

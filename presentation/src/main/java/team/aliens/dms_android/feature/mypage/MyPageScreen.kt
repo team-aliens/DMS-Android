@@ -346,7 +346,7 @@ fun MyPageScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate(NavigationRoute.PointList)
+                            navController.navigate(NavigationRoute.MyPageChangePassword)
                         }
                         .padding(
                             vertical = 14.dp,
