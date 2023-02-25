@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -135,10 +136,20 @@ fun NoticeOrderButton(
         mutableStateOf("최신순")
     }
     Button(
+        modifier = Modifier
+            .border(
+                color = DormColor.Gray600,
+                width = 1.dp,
+                shape = RoundedCornerShape(15),
+            )
+            .size(
+                width = 94.dp,
+                height = 40.dp,
+            ),
         onClick = {
             if (noticeViewModel.state.value.type == NoticeListSCType.NEW) {
                 noticeViewModel.state.value.type = NoticeListSCType.OLD
-                text = "오래된순"
+                text = "오래된 순"
                 noticeViewModel.fetchNoticeList()
             } else {
                 noticeViewModel.state.value.type = NoticeListSCType.NEW
@@ -147,10 +158,6 @@ fun NoticeOrderButton(
             }
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = DormColor.Gray100),
-        modifier = Modifier
-            .padding(start = 20.dp)
-            .border(color = DormColor.Gray600, width = 1.dp, shape = RoundedCornerShape(15))
-            .size(width = 88.dp, height = 40.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
