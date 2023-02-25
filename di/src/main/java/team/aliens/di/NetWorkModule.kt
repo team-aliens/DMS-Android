@@ -95,4 +95,9 @@ object NetWorkModule {
     @Singleton
     fun provideRemainApi(retrofit: Retrofit): RemainApi =
         retrofit.create(RemainApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesFileApi(retrofit: Retrofit): FileApi =
+        retrofit.create(FileApi::class.java)
 }

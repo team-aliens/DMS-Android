@@ -14,13 +14,11 @@ import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
 import team.aliens.domain.usecase.mypage.RemotePointUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
-import team.aliens.local_domain.usecase.mypage.LocalMyPageUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val remoteMyPageUseCase: RemoteMyPageUseCase,
-    val localMyPageUseCase: LocalMyPageUseCase,
     private val remotePointListUseCase: RemotePointUseCase,
     private val signOutUseCase: SignOutUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
@@ -46,7 +44,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    private fun fetchMyPage() {
+    internal fun fetchMyPage() {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMyPageUseCase.execute(Unit)
@@ -106,9 +104,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    override fun reduceEvent(oldState: MyPageState, event: MyPageEvent) {
-        TODO("Not yet implemented")
-    }
+    override fun reduceEvent(oldState: MyPageState, event: MyPageEvent) {}
 
     sealed class Event {
         data class FetchMyPageValue(val myPageEntity: MyPageEntity) : Event()

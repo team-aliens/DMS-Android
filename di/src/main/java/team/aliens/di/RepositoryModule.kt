@@ -80,4 +80,10 @@ abstract class RepositoryModule {
     abstract fun bindsRemainRepository(
         remainRepositoryImpl: RemainRepositoryImpl,
     ): RemainRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsFileRepository(
+        fileRepositoryImpl: FileRepositoryImpl,
+    ): FileRepository
 }

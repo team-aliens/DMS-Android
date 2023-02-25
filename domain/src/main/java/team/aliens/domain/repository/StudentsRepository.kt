@@ -27,4 +27,8 @@ interface StudentsRepository {
     suspend fun examineGrade(
         examineGradeParam: ExamineGradeParam,
     ): Flow<ExamineGradeEntity>
+
+    suspend fun editProfileImage(
+        profileImageUrl: String,
+    )
 }

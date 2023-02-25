@@ -8,11 +8,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,13 +29,12 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.SubTitle1
-import team.aliens.dms_android.component.changeBottomSheetState
+import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
-import team.aliens.domain.enums.BottomSheetType
 import team.aliens.presentation.R
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyPageScreen(
     navController: NavController,
@@ -41,17 +42,20 @@ fun MyPageScreen(
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
-    val scope = rememberCoroutineScope()
+    LaunchedEffect(navController.currentDestination) {
+        myPageViewModel.fetchMyPage()
+    }
 
     val context = LocalContext.current
 
-    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-
     val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity
-
 
     var signOutDialogState by remember {
         mutableStateOf(false)
+    }
+
+    val onSignOutButtonClick = {
+        signOutDialogState = true
     }
 
     if (signOutDialogState) {
@@ -81,9 +85,31 @@ fun MyPageScreen(
         }
     }
 
-    val onSignOutButtonClick = {
-        signOutDialogState = true
+
+    var setProfileDialogState by remember {
+        mutableStateOf(false)
     }
+
+    if (setProfileDialogState) {
+        GettingImageOptionDialog(
+            onCancel = {
+                setProfileDialogState = false
+            },
+            onTakePhoto = {
+                navController.navigate(
+                    NavigationRoute.ConfirmImage +
+                            "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                )
+            },
+            onSelectPhoto = {
+                navController.navigate(
+                    NavigationRoute.ConfirmImage +
+                            "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                )
+            },
+        )
+    }
+
 
     LaunchedEffect(Unit) {
         myPageViewModel.myPageViewEffect.collect { event ->
@@ -139,14 +165,11 @@ fun MyPageScreen(
                         .size(64.dp)
                         .clip(CircleShape)
                         .clickable {
-                            changeBottomSheetState(
-                                coroutineScope = scope,
-                                bottomSheetState = bottomSheetState,
-                                bottomSheetType = BottomSheetType.Show,
-                            )
+                            setProfileDialogState = true
                         },
                     model = myPageState.profileImageUrl,
                     contentDescription = null,
+                    contentScale = ContentScale.Crop,
                 )
 
                 Image(

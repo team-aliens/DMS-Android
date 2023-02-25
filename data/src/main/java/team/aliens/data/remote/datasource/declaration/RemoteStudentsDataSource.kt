@@ -1,5 +1,6 @@
 package team.aliens.data.remote.datasource.declaration
 
+import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
 import team.aliens.data.remote.response.students.ExamineGradeResponse
@@ -28,4 +29,8 @@ interface RemoteStudentsDataSource {
         classRoom: Int,
         number: Int,
     ): ExamineGradeResponse
+
+    suspend fun editProfileImage(
+        editProfileImageRequest: EditProfileImageRequest,
+    )
 }
