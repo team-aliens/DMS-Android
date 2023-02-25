@@ -34,7 +34,6 @@ fun NoticeList(
         itemsIndexed(items = notices) { index, notice ->
             Notice(
                 notice = notice,
-                index = index,
                 onClick = onClick,
             )
 
@@ -48,14 +47,13 @@ fun NoticeList(
 @Composable
 private fun Notice(
     notice: Notice,
-    index: Int,
     onClick: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier.background(
             color = DormColor.Gray100,
             shape = RoundedCornerShape(6.dp),
-        ).fillMaxWidth().height(70.dp).dormShadow(
+        ).fillMaxWidth().dormShadow(
             color = DormColor.Gray100,
             offsetX = 1.dp,
             offsetY = 1.dp,
@@ -70,6 +68,7 @@ private fun Notice(
             Modifier.padding(horizontal = 16.dp),
         ) {
             Body4(
+                modifier = Modifier.padding(top = 12.dp),
                 text = notice.title,
                 color = DormColor.Gray900,
             )
@@ -77,6 +76,7 @@ private fun Notice(
             Spacer(modifier = Modifier.height(4.dp))
 
             OverLine(
+                modifier = Modifier.padding(bottom = 12.dp),
                 text = notice.createAt,
                 color = DormColor.Gray500,
             )
