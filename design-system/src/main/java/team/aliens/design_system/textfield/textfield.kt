@@ -125,7 +125,7 @@ fun DormTextField(
                 if (isPassword) {
                     Image(
                         modifier = Modifier.dormClickable(
-                            rippleEnabled = true,
+                            rippleEnabled = false,
                         ) {
                             passwordVisible = !passwordVisible
                         },

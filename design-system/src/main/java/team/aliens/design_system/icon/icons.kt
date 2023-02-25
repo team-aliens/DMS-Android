@@ -54,7 +54,7 @@ value class DormIcon private constructor(
 
         @Stable
         val Invisible = DormIcon(
-            drawableId = R.drawable.ic_invisible,
+            drawableId = R.drawable.ic_password_visible,
         )
 
         @Stable
@@ -96,7 +96,7 @@ value class DormIcon private constructor(
         val Password_Visible = DormIcon(drawableId = R.drawable.ic_password_visible)
 
         @Stable
-        val Password_InVisible = DormIcon(drawableId = R.drawable.ic_invisible)
+        val Password_InVisible = DormIcon(drawableId = R.drawable.ic_password_invisible)
 
         @Stable
         val Information = DormIcon(
