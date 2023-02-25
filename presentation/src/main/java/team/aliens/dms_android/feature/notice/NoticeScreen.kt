@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -102,33 +103,28 @@ fun NoticeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(DormColor.Gray200)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        NoticeTopBar()
-        NoticeOrderButton(noticeViewModel)
+        Spacer(modifier = Modifier.height(14.dp))
+        Body1(text = stringResource(id = R.string.Notice))
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            NoticeOrderButton(noticeViewModel)
+        }
         NoticeList(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp, start = 20.dp, end = 20.dp),
+                .padding(top = 20.dp),
             notices = notices,
             onClick = { noticeId ->
                 navController.navigate("noticeDetail/${noticeId}")
             },
         )
-    }
-}
-
-@Composable
-fun NoticeTopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(85.dp)
-            .padding(horizontal = 25.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        Body1(text = stringResource(id = R.string.Notice))
     }
 }
 
@@ -140,10 +136,20 @@ fun NoticeOrderButton(
         mutableStateOf("최신순")
     }
     Button(
+        modifier = Modifier
+            .border(
+                color = DormColor.Gray600,
+                width = 1.dp,
+                shape = RoundedCornerShape(15),
+            )
+            .size(
+                width = 94.dp,
+                height = 40.dp,
+            ),
         onClick = {
             if (noticeViewModel.state.value.type == NoticeListSCType.NEW) {
                 noticeViewModel.state.value.type = NoticeListSCType.OLD
-                text = "오래된순"
+                text = "오래된 순"
                 noticeViewModel.fetchNoticeList()
             } else {
                 noticeViewModel.state.value.type = NoticeListSCType.NEW
@@ -152,10 +158,6 @@ fun NoticeOrderButton(
             }
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = DormColor.Gray100),
-        modifier = Modifier
-            .padding(start = 20.dp)
-            .border(color = DormColor.Gray600, width = 1.dp, shape = RoundedCornerShape(15))
-            .size(width = 88.dp, height = 40.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),

@@ -1,6 +1,7 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -8,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
@@ -34,7 +36,6 @@ fun NoticeList(
         itemsIndexed(items = notices) { index, notice ->
             Notice(
                 notice = notice,
-                index = index,
                 onClick = onClick,
             )
 
@@ -48,28 +49,30 @@ fun NoticeList(
 @Composable
 private fun Notice(
     notice: Notice,
-    index: Int,
     onClick: (String) -> Unit,
 ) {
     Box(
-        modifier = Modifier.background(
-            color = DormColor.Gray100,
-            shape = RoundedCornerShape(6.dp),
-        ).fillMaxWidth().height(70.dp).dormShadow(
-            color = DormColor.Gray100,
-            offsetX = 1.dp,
-            offsetY = 1.dp,
-        ).dormClickable(
-            rippleEnabled = true,
-        ) {
-            onClick(notice.noticeId)
-        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(6.dp))
+            .background(
+                color = DormColor.Gray100,
+            )
+            .dormClickable{
+                onClick(notice.noticeId)
+            }
+            .dormShadow(
+                color = DormColor.Gray100,
+                offsetX = 1.dp,
+                offsetY = 1.dp,
+            ),
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
             Modifier.padding(horizontal = 16.dp),
         ) {
             Body4(
+                modifier = Modifier.padding(top = 12.dp),
                 text = notice.title,
                 color = DormColor.Gray900,
             )
@@ -77,6 +80,7 @@ private fun Notice(
             Spacer(modifier = Modifier.height(4.dp))
 
             OverLine(
+                modifier = Modifier.padding(bottom = 12.dp),
                 text = notice.createAt,
                 color = DormColor.Gray500,
             )
