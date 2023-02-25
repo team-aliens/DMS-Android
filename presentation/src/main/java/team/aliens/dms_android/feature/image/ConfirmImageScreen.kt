@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.image
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -185,7 +184,7 @@ private fun getStringFromEvent(
             ConfirmImageViewModel.Event.TooManyRequestException -> R.string.TooManyRequest
             ConfirmImageViewModel.Event.InternalServerException -> R.string.ServerException
             ConfirmImageViewModel.Event.UnknownException -> R.string.UnKnownException
-            else -> Log.e("ERR", "getStringFromEvent: $event", ).run{throw IllegalArgumentException()}
+            else -> throw IllegalArgumentException()
         },
     )
 }
