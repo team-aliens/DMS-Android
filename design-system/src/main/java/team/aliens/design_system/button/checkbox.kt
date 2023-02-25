@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.utils.runIf
 
@@ -197,9 +198,9 @@ fun DormTextCheckBox(
                 y = (-1.2).dp,
             ),
         ) {
-            Body5(
+            Body3(
                 text = text,
-                color = DormColor.Gray700,
+                color = DormColor.Gray500,
             )
         }
     }
