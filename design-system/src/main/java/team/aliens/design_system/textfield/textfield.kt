@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -12,6 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.DormTypography
 import team.aliens.design_system.utils.runIf
@@ -37,24 +39,36 @@ fun DormTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    error: String? = null,
+    error: Boolean = false,
     isPassword: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
     onClick: (() -> Unit)? = null,
     hint: String? = null,
-    description: String? = null,
+    errorDescription: String? = null,
 ) {
-    val borderColor: Color = if (error == null) DormColor.Gray500 else DormColor.Error
-
     var passwordVisible by remember { mutableStateOf(false) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    val borderColor: Color = if (error) DormColor.Error
+    else if (isFocused) DormColor.DormPrimary
+    else DormColor.Gray500
+
+    val borderWidth = if (isFocused) 2.dp
+    else 1.dp
+
+    val textfieldWidth = if (isPassword) 0.9f
+    else 1f
+
 
     Column {
         Box(
-            modifier = modifier.height(44.dp).background(
-                color = Color.Transparent,
+            modifier = modifier.clip(
+                shape = MaterialTheme.shapes.small,
+            ).height(44.dp).background(
+                color = Color.White,
             ).border(
-                width = 1.dp,
+                width = borderWidth,
                 shape = MaterialTheme.shapes.small,
                 color = borderColor,
             ).wrapContentHeight(
@@ -77,25 +91,29 @@ fun DormTextField(
             ) {
                 BasicTextField(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .padding(start = 14.dp),
+                        .fillMaxWidth(textfieldWidth)
+                        .padding(horizontal = 14.dp)
+                        .background(color = Color.Transparent)
+                        .onFocusChanged {
+                            isFocused = it.isFocused
+                        },
                     value = value,
                     onValueChange = onValueChange,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType,
                         imeAction = imeAction,
                     ),
+                    singleLine = true,
                     visualTransformation = if (!passwordVisible && isPassword) PasswordVisualTransformation() else VisualTransformation.None,
                     maxLines = 1,
                     textStyle = DormTypography.body4,
                     decorationBox = { innerTextField ->
                         if (value.isEmpty() && hint != null) {
-                            Caption(
+                            Body2(
                                 text = hint,
                                 color = DormColor.Gray500,
                             )
                         }
-
                         innerTextField()
                     },
                 )
@@ -118,7 +136,7 @@ fun DormTextField(
             }
         }
 
-        if (error != null) {
+        if (errorDescription != null) {
             Box(
                 modifier = Modifier.padding(
                     start = 3.dp,
@@ -126,21 +144,8 @@ fun DormTextField(
                 ),
             ) {
                 Caption(
-                    text = error,
-                    color = DormColor.Error,
-                )
-            }
-        }
-
-        if (description != null) {
-            Box(
-                modifier = Modifier.padding(
-                    start = 3.dp,
-                    top = 6.dp,
-                ),
-            ) {
-                Caption(
-                    text = description,
+                    text = errorDescription,
+                    color = DormColor.Error
                 )
             }
         }
@@ -187,7 +192,7 @@ fun PreviewDormTextField() {
         DormTextField(
             value = value3,
             onValueChange = { value3 = it },
-            error = "특수문자는 사용할 수 없습니다!",
+            errorDescription = "특수문자는 사용할 수 없습니다!",
         )
 
         Spacer(
@@ -200,7 +205,7 @@ fun PreviewDormTextField() {
         DormTextField(
             value = value4,
             onValueChange = { value4 = it },
-            description = "비밀번호는 4자리 이상 입력해주세요.",
+            errorDescription = "비밀번호는 4자리 이상 입력해주세요.",
             hint = "비밀번호",
         )
     }
