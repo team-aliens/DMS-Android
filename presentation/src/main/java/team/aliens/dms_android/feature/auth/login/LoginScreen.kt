@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,7 +39,7 @@ fun LoginScreen(
 
     val context = LocalContext.current
 
-    LaunchedEffect("signInViewEffect") {
+    LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
                 Event.NavigateToHome -> {
@@ -101,12 +102,12 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(color = DormColor.Gray100)
-            .padding(
-                top = 92.dp,
-                start = 16.dp,
-                end = 16.dp,
-            ),
+            .padding(16.dp)
     ) {
+
+        Spacer(
+            modifier = Modifier.height(92.dp),
+        )
 
         Image(
             modifier = Modifier
@@ -127,7 +128,7 @@ fun LoginScreen(
         )
 
         Spacer(
-            modifier = Modifier.height(52.dp),
+            modifier = Modifier.height(60.dp),
         )
 
         DormTextField(
@@ -160,16 +161,17 @@ fun LoginScreen(
             onCheckedChange = onAutoLoginStateChange,
         )
 
+        Spacer(
+            modifier = Modifier.height(26.dp)
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(CenterHorizontally)
-                .padding(
-                    start = 10.dp,
-                    top = 24.dp,
-                    end = 10.dp,
-                ),
+                .padding(horizontal = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
 
             Caption(
@@ -182,9 +184,13 @@ fun LoginScreen(
                         ),
                     )
                 },
+                color = DormColor.Gray500,
             )
 
-            Caption(text = "|")
+            Caption(
+                text = "|",
+                color = DormColor.Gray500,
+            )
 
             Caption(
                 text = stringResource(
@@ -193,9 +199,13 @@ fun LoginScreen(
                 onClick = {
                     // todo implement and link find id screen
                 },
+                color = DormColor.Gray500,
             )
 
-            Caption(text = "|")
+            Caption(
+                text = "|",
+                color = DormColor.Gray500,
+            )
 
             Caption(
                 text = stringResource(
@@ -204,6 +214,7 @@ fun LoginScreen(
                 onClick = {
                     navController.navigate(NavigationRoute.ChangePassword)
                 },
+                color = DormColor.Gray500,
             )
         }
 
@@ -220,7 +231,7 @@ fun LoginScreen(
                 if (signInViewModel.state.value.id.isBlank()) {
 
                     toast(
-                        context.getString(R.string.PleaseEnterId)
+                        message = context.getString(R.string.PleaseEnterId)
                     )
 
                     return@DormContainedLargeButton
@@ -229,7 +240,7 @@ fun LoginScreen(
                 if (signInViewModel.state.value.password.isBlank()) {
 
                     toast(
-                        context.getString(R.string.PleaseEnterPassword)
+                        message = context.getString(R.string.PleaseEnterPassword)
                     )
 
                     return@DormContainedLargeButton
