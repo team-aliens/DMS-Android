@@ -5,15 +5,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import team.aliens.design_system.dialog.DormBottomAlignedSingleButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.GettingImageOptionItem
 import team.aliens.presentation.R
 
@@ -25,9 +24,7 @@ internal fun GettingImageOptionDialog(
     onSelectPhoto: () -> Unit,
 ) {
 
-    val scope = rememberCoroutineScope()
-
-    val context = LocalContext.current
+    val toast = rememberToast()
 
     DormCustomDialog(
         onDismissRequest = {
@@ -53,7 +50,10 @@ internal fun GettingImageOptionDialog(
                     icon = R.drawable.ic_camera,
                     text = stringResource(R.string.TakePhoto),
                 ) {
-                    onTakePhoto()
+
+                    toast("죄송합니다, 현재 기능을 사용할 수 없습니다.") // todo replace with taking photo with camera
+
+                    //onTakePhoto()
                 }
 
                 // 사진 선택
