@@ -1,6 +1,5 @@
 package team.aliens.data.intercepter
 
-import android.util.Log
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -22,7 +21,7 @@ private val ignorePath = listOf(
     DmsUrl.Students.duplicateCheckId,
     DmsUrl.Schools.schoolCode,
     "${DmsUrl.schools}/question",
-    "DmsUrl.schools/answer",
+    "${DmsUrl.schools}/answer",
 )
 
 class AuthorizationInterceptor @Inject constructor(
@@ -43,7 +42,7 @@ class AuthorizationInterceptor @Inject constructor(
 
         val currentTime = LocalDateTimeEx.getNow()
 
-        if (currentTime.isBefore(expiredAt)) {
+        if (currentTime.isAfter(expiredAt)) {
 
             val refreshToken = userDataStorage.fetchRefreshToken()
 
