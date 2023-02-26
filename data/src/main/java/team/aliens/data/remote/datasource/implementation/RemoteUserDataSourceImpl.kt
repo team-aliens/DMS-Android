@@ -60,19 +60,22 @@ class RemoteUserDataSourceImpl @Inject constructor(
 
     override suspend fun checkId(
         accountId: String,
-    ) = HttpHandler<Unit>().httpRequest {
-        userApi.checkId(
-            accountId,
-        )
-    }.sendRequest()
+    ) = HttpHandler<Unit>()
+        .httpRequest {
+            userApi.checkId(
+                accountId,
+            )
+        }.sendRequest()
 
     override suspend fun editPassword(
         editPasswordRequest: EditPasswordRequest,
-    ) = HttpHandler<Unit>().httpRequest {
-        userApi.editPassword(
-            editPasswordRequest = editPasswordRequest,
-        )
-    }.sendRequest()
+    ) = HttpHandler<Unit>()
+        .httpRequest {
+            userApi.editPassword(
+                editPasswordRequest = editPasswordRequest,
+            )
+        }.sendRequest()
+
 
     override suspend fun comparePassword(
         password: String,
@@ -82,3 +85,4 @@ class RemoteUserDataSourceImpl @Inject constructor(
         )
     }.sendRequest()
 }
+
