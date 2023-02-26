@@ -55,6 +55,7 @@ fun ScrollEffectPager(
     ) { pageIndex ->
         Card(
             modifier = Modifier
+                .fillMaxSize()
                 .background(
                     color = Color.Transparent,
                     shape = RoundedCornerShape(20.dp),
@@ -85,10 +86,12 @@ fun ScrollEffectPager(
                     color = DormColor.DormPrimary,
                     shape = RoundedCornerShape(15),
                 ),
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(20.dp),
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
             ) {
@@ -119,41 +122,38 @@ fun ScrollEffectPager(
 
 @Composable
 private fun MenuListLayout(
-    menus: List<String>,
+    menus: Pair<List<String>, String>,
     dormIcon: DormIcon,
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
         item {
-            Spacer(modifier = Modifier.height(25.dp))
             Image(
                 painter = painterResource(
                     id = dormIcon.drawableId,
                 ),
                 contentDescription = null,
             )
-            Spacer(modifier = Modifier.height(25.dp))
         }
-        items(menus) { menu ->
-            Spacer(
-                modifier = Modifier.padding(vertical = 6.dp, horizontal = 10.dp)
-            )
+
+        items(
+            menus.first,
+        ) { menu ->
             Body4(
-                text = menu
+                text = menu,
+                color = DormColor.Gray600,
             )
         }
 
-        items(1) { menu ->
-            Spacer(modifier = Modifier.height(30.dp))
-            if (menus.size > 1) {
-                Body4(
-                    text = menus.last(),
-                    color = DormColor.Gray500
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
+        item {
+            Body4(
+                text = menus.second,
+                color = DormColor.Gray500,
+            )
         }
     }
 }
