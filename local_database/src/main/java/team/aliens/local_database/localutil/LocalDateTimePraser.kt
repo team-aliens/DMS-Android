@@ -5,6 +5,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
 
 fun String.toLocalDateTime(): LocalDateTime = LocalDateTime.parse(this, formatter)
