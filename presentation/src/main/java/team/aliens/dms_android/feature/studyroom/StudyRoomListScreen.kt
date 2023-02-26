@@ -315,7 +315,7 @@ fun DormTimeChip(
                 vertical = 8.dp,
                 horizontal = 10.dp,
             ),
-            color = if (selected) Color.White else DormColor.Gray400
+            color = if (selected) DormColor.Gray100 else DormColor.Gray400
         )
     }
 }
