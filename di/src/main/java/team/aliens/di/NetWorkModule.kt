@@ -57,7 +57,7 @@ object NetWorkModule {
     @Provides
     @Singleton
     fun providesTokenReissueOkHttpClient(): TokenReissueClient =
-        TokenReissueClient(BASE_URL + DmsUrl.User.reissueToken)
+        TokenReissueClient(BASE_URL + DmsUrl.Auth.reissueToken)
 
     @Provides
     fun provideRetrofit(
