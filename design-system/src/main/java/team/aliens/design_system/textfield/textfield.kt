@@ -141,7 +141,7 @@ fun DormTextField(
             }
         }
 
-        if (errorDescription != null) {
+        if (error) {
             Box(
                 modifier = Modifier.padding(
                     start = 3.dp,
@@ -149,7 +149,7 @@ fun DormTextField(
                 ),
             ) {
                 Caption(
-                    text = errorDescription,
+                    text = errorDescription ?: "",
                     color = DormColor.Error
                 )
             }

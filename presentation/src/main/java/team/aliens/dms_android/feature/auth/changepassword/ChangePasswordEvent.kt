@@ -10,4 +10,8 @@ sealed class ChangePasswordEvent : MviEvent {
     object TooManyRequestException : ChangePasswordEvent()
     object InternalServerException : ChangePasswordEvent()
     object UnKnownException : ChangePasswordEvent()
+
+    data class SetCurrentPassword(val currentPassword: String): ChangePasswordEvent()
+    data class SetRepeatPassword(val repeatPassword: String): ChangePasswordEvent()
+    data class SetNewPassword(val newPassword: String): ChangePasswordEvent()
 }
