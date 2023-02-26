@@ -143,7 +143,7 @@ fun DormBottomAlignedContainedLargeButtonDialog(
         Column(
             modifier = Modifier
                 .background(
-                    color = Color.White,
+                    color = DormColor.Gray100,
                 )
                 .padding(
                     horizontal = 16.dp,
@@ -179,7 +179,7 @@ fun DormBottomAlignedSingleButtonDialog(
     ) {
         Column(
             Modifier.background(
-                color = Color.White,
+                color = DormColor.Gray100,
             ),
         ) {
 
@@ -226,7 +226,7 @@ fun DormDoubleButtonDialog(
             .fillMaxWidth()
             .height(160.dp)
             .background(
-                Color.White,
+                DormColor.Gray100,
                 DormDoubleButtonDialogShape,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
