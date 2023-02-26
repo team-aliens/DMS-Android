@@ -346,7 +346,7 @@ fun MyPageScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate(NavigationRoute.PointList)
+                            // todo change password screen
                         }
                         .padding(
                             vertical = 14.dp,
