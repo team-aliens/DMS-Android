@@ -5,7 +5,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLogo"
@@ -50,6 +51,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/register_et_background"
             android:hint="@string/Reply"
+            android:textColorHint="@color/gray_500"
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
             app:layout_constraintEnd_toEndOf="parent"

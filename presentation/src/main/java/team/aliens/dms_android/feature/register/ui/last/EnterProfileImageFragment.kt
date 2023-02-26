@@ -8,11 +8,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentSetProfileImageBinding
+import team.aliens.presentation.databinding.FragmentSignUpEnterProfileImageBinding
 
 @AndroidEntryPoint
-class SetProfileImageFragment :
-    BaseFragment<FragmentSetProfileImageBinding>(R.layout.fragment_set_profile_image) {
+class EnterProfileImageFragment :
+    BaseFragment<FragmentSignUpEnterProfileImageBinding>(R.layout.fragment_sign_up_enter_profile_image) {
     private var pwd = ""
     private var email: String = ""
     private var authCode: String = ""
@@ -48,7 +48,7 @@ class SetProfileImageFragment :
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
             registerActive.supportFragmentManager.beginTransaction()
-                .remove(SetProfileImageFragment()).commit()
+                .remove(EnterProfileImageFragment()).commit()
         }
 
         binding.tvSetLater.setOnClickListener {

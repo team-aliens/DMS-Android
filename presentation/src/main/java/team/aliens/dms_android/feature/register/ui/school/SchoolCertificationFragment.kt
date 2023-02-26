@@ -12,14 +12,13 @@ import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeSuccess
 import team.aliens.dms_android.feature.register.event.school.MissMatchSchoolCode
 import team.aliens.dms_android.util.repeatOnFragmentStarted
-import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentSchoolCertificationBinding
+import team.aliens.presentation.databinding.FragmentSignUpConfirmVerificationCodeSchoolBinding
 
 @AndroidEntryPoint
 class SchoolCertificationFragment :
-    BaseFragment<FragmentSchoolCertificationBinding>(R.layout.fragment_school_certification) {
+    BaseFragment<FragmentSignUpConfirmVerificationCodeSchoolBinding>(R.layout.fragment_sign_up_confirm_verification_code_school) {
     private val examineSchoolCodeViewModel: ExamineSchoolCodeViewModel by viewModels()
     private var temp: String? = null
     override fun onCreateView(
@@ -52,12 +51,8 @@ class SchoolCertificationFragment :
 
                     is MissMatchSchoolCode -> {
                         binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
-                        binding.tvDetail.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.error
-                            )
-                        )
+                        binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.error))
                         binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                         binding.btnVerificationCode.isClickable = false
                     }

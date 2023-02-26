@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.RegisterCustomButtonBinding
+import team.aliens.presentation.databinding.BtnSignUpPrimaryBinding
 
 class RegisterCustomButton @JvmOverloads constructor(
     context: Context,
@@ -13,10 +13,10 @@ class RegisterCustomButton @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var binding: RegisterCustomButtonBinding
+    private var binding: BtnSignUpPrimaryBinding
 
     init {
-        binding = RegisterCustomButtonBinding.inflate(LayoutInflater.from(context), this, true)
+        binding = BtnSignUpPrimaryBinding.inflate(LayoutInflater.from(context), this, true)
 
         attrs?.run {
             val typedArr = context.obtainStyledAttributes(attrs, R.styleable.RegisterCustomButton)

@@ -70,7 +70,7 @@ fun ApplicationScreen(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Body1(text = stringResource(id = R.string.Application))
         Spacer(modifier = Modifier.height(40.dp))
         ApplicationCard(
