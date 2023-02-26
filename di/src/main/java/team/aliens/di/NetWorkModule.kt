@@ -70,10 +70,13 @@ object NetWorkModule {
         retrofit.create(StudentsApi::class.java)
 
     @Provides
-    fun provideUserApi(retrofit: Retrofit): UserApi = retrofit.create(UserApi::class.java)
+    @Singleton
+    fun provideUserApi(retrofit: Retrofit): AuthApi =
+        retrofit.create(AuthApi::class.java)
 
     @Provides
-    fun provideMealApi(retrofit: Retrofit): MealApi = retrofit.create(MealApi::class.java)
+    fun provideMealApi(retrofit: Retrofit): MealApi =
+        retrofit.create(MealApi::class.java)
 
     @Provides
     fun provideNoticeApi(retrofit: Retrofit): NoticeApi =

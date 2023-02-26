@@ -1,6 +1,6 @@
 package team.aliens.data.remote.datasource.implementation
 
-import team.aliens.data.remote.api.UserApi
+import team.aliens.data.remote.api.AuthApi
 import team.aliens.data.remote.datasource.declaration.RemoteUserDataSource
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
@@ -11,16 +11,16 @@ import team.aliens.domain.enums.EmailType
 import javax.inject.Inject
 
 class RemoteUserDataSourceImpl @Inject constructor(
-    private val userApi: UserApi,
+    private val authApi: AuthApi,
 ) : RemoteUserDataSource {
 
     override suspend fun postUserSignIn(signInRequest: SignInRequest): SignInResponse =
-        sendHttpRequest(httpRequest = { userApi.postLogin(signInRequest) })
+        sendHttpRequest(httpRequest = { authApi.postLogin(signInRequest) })
 
     override suspend fun requestEmailCode(
         requestEmailCodeRequest: GetEmailCodeRequest,
     ) = HttpHandler<Unit>().httpRequest {
-        userApi.requestEmailCode(
+        authApi.requestEmailCode(
             requestEmailCodeRequest,
         )
     }.sendRequest()
@@ -30,7 +30,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
         authCode: String,
         type: EmailType,
     ) = HttpHandler<Unit>().httpRequest {
-        userApi.checkEmailCode(
+        authApi.checkEmailCode(
             email,
             authCode,
             type,
@@ -41,7 +41,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
         refreshToken: String,
     ): SignInResponse {
         return HttpHandler<SignInResponse>().httpRequest {
-            userApi.reissueToken(
+            authApi.reissueToken(
                 refreshToken,
             )
         }.sendRequest()
@@ -51,7 +51,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
         accountId: String,
         email: String,
     ) = HttpHandler<Unit>().httpRequest {
-        userApi.compareEmail(
+        authApi.compareEmail(
             accountId,
             email,
         )
@@ -60,7 +60,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
     override suspend fun checkId(
         accountId: String,
     ) = HttpHandler<Unit>().httpRequest {
-        userApi.checkId(
+        authApi.checkId(
             accountId,
         )
     }.sendRequest()

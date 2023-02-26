@@ -7,7 +7,7 @@ import team.aliens.data.remote.response.user.SignInResponse
 import team.aliens.data.remote.url.DmsUrl
 import team.aliens.domain.enums.EmailType
 
-interface UserApi {
+interface AuthApi {
 
     @POST(DmsUrl.Auth.login)
     suspend fun postLogin(
