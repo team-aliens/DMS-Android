@@ -73,16 +73,24 @@ class ConfirmSchoolFragment :
 
             MissMatchCompareSchool -> {
                 binding.tvError.text = getString(R.string.InconsistentSchoolReply)
-                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.error))
+                binding.tvError.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.isVisible = true
             }
             NotFoundCompareSchool -> {
                 binding.tvError.text = getString(R.string.CompareSchoolNotFound)
-                binding.tvError.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.error))
+                binding.tvError.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.error
+                    )
+                )
                 binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.etReply.setBackgroundResource(R.drawable.register_et_error_background)
                 binding.tvError.isVisible = true
@@ -99,16 +107,14 @@ class ConfirmSchoolFragment :
             startActivity(intent)
         }
 
-       with(binding.etReply){
-           addTextChangedListener {
-               answer = it.toString()
-               binding.tvError.isVisible = false
-               binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_active_btn_background)
-               binding.etReply.setBackgroundResource(R.drawable.register_et_background)
-               binding.btnConfirm.isClickable = true
-               binding.btnConfirm.isEnabled = true
-           }
-       }
+        binding.etReply.addTextChangedListener {
+            answer = it.toString()
+            binding.tvError.isVisible = false
+            binding.btnConfirm.setBackgroundResource(R.drawable.register_custom_active_btn_background)
+            binding.etReply.setBackgroundResource(R.drawable.register_et_background)
+            binding.btnConfirm.isClickable = true
+            binding.btnConfirm.isEnabled = true
+        }
 
         binding.btnConfirm.setOnClickListener {
             confirmSchoolViewModel.compareSchoolAnswer(answer)
