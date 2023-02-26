@@ -333,10 +333,12 @@ fun RoomItem(
 ) {
     Box(
         modifier = Modifier
+            .clip(
+                shape = RoundedCornerShape(10.dp),
+            )
             .fillMaxWidth()
             .background(
                 color = DormColor.Gray100,
-                shape = RoundedCornerShape(15),
             ),
     ) {
         Column(
