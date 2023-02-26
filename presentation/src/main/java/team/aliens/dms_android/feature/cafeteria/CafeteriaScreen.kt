@@ -3,15 +3,18 @@ package team.aliens.dms_android.feature.cafeteria
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -20,17 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.DormCalendar
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
-import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
-import team.aliens.design_system.typography.SubTitle1
+import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
 import team.aliens.dms_android.feature.navigator.navigateBottomNavigation
@@ -47,23 +47,10 @@ fun CafeteriaScreen(
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
 
-    val pagerState = rememberPagerState(3)
     val scope = rememberCoroutineScope()
-    val toast = rememberToast()
 
-    LaunchedEffect(Unit) {
-        mealViewModel.mealEvent.collect {
-            when (it) {
-                is MealViewModel.Event.FetchMealSuccess -> {
-                    // TODO 급식 정보 불러오기 로직 구현
-                }
-                else -> {
-                    // TODO show toast message
-                }
-            }
-        }
-    }
 
+    val pagerState = rememberPagerState(3)
 
     val calendarBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
@@ -113,9 +100,7 @@ fun CafeteriaScreen(
             )
 
 
-            CafeteriaDiary(
-                pagerState = pagerState,
-                coroutineScope = scope,
+            DateSelector(
                 onCalendarClick = {
                     onCalendarClick()
                 },
@@ -169,68 +154,108 @@ fun ImportantNotice(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CafeteriaDiary(
-    pagerState: PagerState,
+fun DateSelector(
     onCalendarClick: () -> Unit,
-    coroutineScope: CoroutineScope,
     mealViewModel: MealViewModel,
 ) {
+
     val state = mealViewModel.state.collectAsState().value
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(
+                vertical = 38.dp,
+            )
             .wrapContentHeight(),
-        contentAlignment = Alignment.TopCenter,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
 
-            Spacer(modifier = Modifier.fillMaxHeight(0.055f))
-            SubTitle1(text = stringResource(id = R.string.TodayCafeteria))
+            // 오늘의 급식
+            Title1(
+                text = stringResource(
+                    id = R.string.TodayCafeteria,
+                ),
+            )
 
-            Row(modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxWidth()
-                .dormClickable {
-                    onCalendarClick()
-                },
+
+            Spacer(
+                modifier = Modifier.height(46.dp),
+            )
+
+
+            // 날짜 선택
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center) {
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 12.dp,
+                    alignment = Alignment.CenterHorizontally,
+                ),
+            ) {
+
+                // left arrow
                 Image(
                     modifier = Modifier
-                        .size(40.dp)
-                        .padding(end = 12.dp)
-                        .clickable {
-                            mealViewModel.updateDay(state.selectedDay.minusDays(1))
+                        .padding(8.dp)
+                        .size(24.dp)
+                        .clip(
+                            RoundedCornerShape(4.dp),
+                        )
+                        .dormClickable {
+                            mealViewModel.updateDay(
+                                state.selectedDay.minusDays(1),
+                            )
                         },
-                    painter = painterResource(id = DormIcon.Backward.drawableId),
+                    painter = painterResource(
+                        id = DormIcon.Backward.drawableId,
+                    ),
                     contentDescription = stringResource(id = R.string.BackButton),
                 )
-                Row(modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = DormColor.Gray500,
-                        shape = RoundedCornerShape(25),
-                    )
-                    .width(130.dp)
-                    .height(35.dp),
+
+                // date text
+                Row(
+                    modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = DormColor.Gray500,
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .clip(
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .dormClickable {
+                            onCalendarClick()
+                        }
+                        .padding(8.dp),
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically) {
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Image(painter = painterResource(id = R.drawable.ic_calendar),
                         contentDescription = "")
                     Spacer(modifier = Modifier.width(10.dp))
                     Body5(text = state.selectedDay.toString())
                 }
+
+                // right arrow
                 Image(
                     modifier = Modifier
-                        .size(40.dp)
-                        .padding(start = 12.dp)
-                        .clickable {
+                        .padding(8.dp)
+                        .size(24.dp)
+                        .clip(
+                            RoundedCornerShape(4.dp),
+                        )
+                        .dormClickable {
                             mealViewModel.updateDay(state.selectedDay.plusDays(1))
                         },
-                    painter = painterResource(id = R.drawable.ic_meal_next),
+                    painter = painterResource(
+                        id = R.drawable.ic_meal_next,
+                    ),
                     contentDescription = stringResource(id = R.string.NextButton),
                 )
             }
