@@ -6,7 +6,7 @@ import java.time.LocalDate
 data class MealState(
     val meal: String,
     var mealList: MealList = MealList(),
-    var today: LocalDate = LocalDate.now(),
+    var selectedDay: LocalDate = LocalDate.now(),
     var hasNewNotice: Boolean = false,
 ) : MviState {
     companion object {

@@ -23,7 +23,7 @@ class MealViewModel @Inject constructor(
 ) : BaseViewModel<MealState, MealEvent>() {
 
     init {
-        state.value.today.run {
+        state.value.selectedDay.run {
             fetchMealFromRemote(this)
             updateDay(this)
         }
@@ -105,9 +105,13 @@ class MealViewModel @Inject constructor(
 
     internal fun updateDay(day: LocalDate) {
 
+        if (day.month != state.value.selectedDay.month) {
+            fetchMealFromRemote(day)
+        }
+
         setState(
             state = state.value.copy(
-                today = day,
+                selectedDay = day,
             ),
         )
 
