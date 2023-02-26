@@ -1,21 +1,36 @@
 package team.aliens.dms_android.feature.studyroom
 
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
+import team.aliens.design_system.dialog.DormBottomAlignedContainedLargeButtonDialog
+import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body3
+import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
@@ -41,6 +56,15 @@ private fun StudyRoomListEntity.StudyRoom.toNotice() = StudyRoomInformation(
     condition = "${availableGrade}학년 $studyRoomSex",
 )
 
+// todo remove ---------
+
+private const val firstPart = "22:00 ~ 22:50"
+private const val secondPart = "23:00 ~ 23:50"
+
+// todo ----------------
+
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun StudyRoomListScreen(
     navController: NavController,
@@ -85,10 +109,60 @@ fun StudyRoomListScreen(
 
     val studyRoomState = studyRoomViewModel.state.collectAsState().value
 
+
+    var filterTimeState by remember {
+        mutableStateOf(firstPart)
+    }
+
+    var showTimeFilterDialogState by remember {
+        mutableStateOf(false)
+    }
+
+    if (showTimeFilterDialogState) {
+        DormCustomDialog(
+            onDismissRequest = {
+                showTimeFilterDialogState = false
+            },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+            ),
+        ) {
+            DormBottomAlignedContainedLargeButtonDialog(
+                btnText = stringResource(
+                    id = R.string.Check,
+                ),
+                btnColor = DormButtonColor.Blue,
+                onBtnClick = {
+
+                    // todo save filter
+
+                    showTimeFilterDialogState = false
+                },
+            ) {
+
+                // todo fetch time from remote
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    DormTimeChip(
+                        selected = true,
+                        text = firstPart,
+                    )
+                    DormTimeChip(
+                        selected = false,
+                        text = secondPart,
+                    )
+                }
+            }
+        }
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray100),
+            .background(DormColor.Gray200),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -100,22 +174,65 @@ fun StudyRoomListScreen(
             navController.popBackStack()
         }
 
-        Box(
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(DormColor.Gray200)
                 .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
+            Spacer(
+                modifier = Modifier.height(17.dp),
+            )
+
+
+            // Available study room application time
+            FloatingNotice(
+                content = "자습실 신청 가능 시간: ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
+            )
+
+            Spacer(
+                modifier = Modifier.height(24.dp),
+            )
+
+
+            // Study room time filter
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+
+                // slider icon
+                Image(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            showTimeFilterDialogState = true
+                        },
+                    painter = painterResource(
+                        id = R.drawable.ic_slider,
+                    ),
+                    contentDescription = null,
+                )
+
+                // available time
+                Body3(
+                    text = "23:30 ~ 00:00", // todo sync with server
+                    color = DormColor.DormPrimary,
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.height(24.dp),
+            )
+
+            // List of study room
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-
-                item {
-                    Spacer(
-                        modifier = Modifier.height(79.dp),
-                    )
-                }
 
                 items(
                     items = studyRooms,
@@ -132,24 +249,12 @@ fun StudyRoomListScreen(
                         },
                     )
                 }
-
-                item {
-                    Spacer(
-                        modifier = Modifier.height(12.dp),
-                    )
-                }
             }
 
-            Column() {
 
-                Spacer(modifier = Modifier.height(17.dp))
-
-                FloatingNotice(
-                    content = "자습실 신청 가능 시간: ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-            }
+            Spacer(
+                modifier = Modifier.height(24.dp),
+            )
         }
     }
 }
@@ -170,4 +275,38 @@ private fun getStringFromEvent(
             else -> throw IllegalArgumentException()
         },
     )
+}
+
+
+// todo move to design-system layer
+private val DormTimeChipShape: Shape = RoundedCornerShape(5.dp)
+
+// todo move to design-system layer
+@Composable
+fun DormTimeChip(
+    selected: Boolean,
+    text: String,
+) {
+    Surface(
+        color = when {
+            selected -> DormColor.DormPrimary
+            else -> Color.Transparent
+        },
+        shape = DormTimeChipShape,
+        border = BorderStroke(
+            width = 1.dp,
+            color = if (!selected) DormColor.Gray400 else Color.Transparent
+
+        ),
+        modifier = Modifier,
+    ) {
+        ButtonText(
+            text = text,
+            modifier = Modifier.padding(
+                vertical = 8.dp,
+                horizontal = 10.dp,
+            ),
+            color = if (selected) Color.White else DormColor.Gray400
+        )
+    }
 }
