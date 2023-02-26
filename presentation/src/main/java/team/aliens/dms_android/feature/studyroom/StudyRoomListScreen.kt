@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,6 +27,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
 import team.aliens.design_system.dialog.DormBottomAlignedContainedLargeButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
@@ -218,7 +218,7 @@ fun StudyRoomListScreen(
                 Image(
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable {
+                        .dormClickable {
                             showTimeFilterDialogState = true
                         },
                     painter = painterResource(
