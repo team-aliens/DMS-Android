@@ -144,11 +144,11 @@ fun OrderButton(
         onClick = {
             if (noticeViewModel.state.value.type == NoticeListSCType.NEW) {
                 noticeViewModel.state.value.type = NoticeListSCType.OLD
-                text = context.getString(R.string.LatestOrder)
+                text = context.getString(R.string.OldestOrder)
                 noticeViewModel.fetchNoticeList()
             } else {
                 noticeViewModel.state.value.type = NoticeListSCType.NEW
-                text = context.getString(R.string.OldestOrder)
+                text = context.getString(R.string.LatestOrder)
                 noticeViewModel.fetchNoticeList()
             }
         },
