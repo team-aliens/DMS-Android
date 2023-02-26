@@ -114,7 +114,7 @@ class SetPasswordFragment :
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (binding.etEnterPassword.text!!.isEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()) {
+                if (binding.etEnterPassword.text!!.isNotEmpty() && binding.etReEnterPassword.text!!.isNotEmpty()) {
                     binding.btnVerificationCode.isEnabled = true
                     binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_active_btn_background)
                 }
