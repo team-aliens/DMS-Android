@@ -80,7 +80,7 @@ class MealViewModel @Inject constructor(
             dropLast(1) to last()
         }
 
-        val dinner = entity.lunch.run {
+        val dinner = entity.dinner.run {
             dropLast(1) to last()
         }
 
