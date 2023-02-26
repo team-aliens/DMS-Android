@@ -11,15 +11,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
-import team.aliens.dms_android.feature.register.ui.id.SetIdFragment
+import team.aliens.dms_android.feature.register.ui.id.EnterIdFragment
 import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentEmailCertificationBinding
+import team.aliens.presentation.databinding.FragmentSignUpConfirmVerificationCodeEmailBinding
 
 @AndroidEntryPoint
-class EmailCertificationFragment :
-    BaseFragment<FragmentEmailCertificationBinding>(R.layout.fragment_email_certification) {
+class ConfirmEmailVerificationCodeFragment :
+    BaseFragment<FragmentSignUpConfirmVerificationCodeEmailBinding>(R.layout.fragment_sign_up_confirm_verification_code_email) {
     private val registerEmailViewModel: RegisterEmailViewModel by viewModels()
 
     private var email: String = ""
@@ -59,7 +59,7 @@ class EmailCertificationFragment :
                 bundle.putString("schoolCode", schoolCode)
                 bundle.putString("authCode", temp)
 
-                val fragment = SetIdFragment()
+                val fragment = EnterIdFragment()
                 fragment.arguments = bundle
 
                 registerActive.supportFragmentManager.beginTransaction()
@@ -129,7 +129,7 @@ class EmailCertificationFragment :
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
             registerActive.supportFragmentManager.beginTransaction()
-                .remove(EmailCertificationFragment()).commit()
+                .remove(ConfirmEmailVerificationCodeFragment()).commit()
         }
 
         binding.etPinEntry.setOnPinEnteredListener() { str ->

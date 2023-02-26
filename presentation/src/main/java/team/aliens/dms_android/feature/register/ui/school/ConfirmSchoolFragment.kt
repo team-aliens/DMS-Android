@@ -19,12 +19,12 @@ import team.aliens.dms_android.util.repeatOnFragmentStarted
 import team.aliens.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentConfirmSchoolBinding
+import team.aliens.presentation.databinding.FragmentSignUpConfirmSchoolQuestionBinding
 import java.util.*
 
 @AndroidEntryPoint
 class ConfirmSchoolFragment :
-    BaseFragment<FragmentConfirmSchoolBinding>(R.layout.fragment_confirm_school) {
+    BaseFragment<FragmentSignUpConfirmSchoolQuestionBinding>(R.layout.fragment_sign_up_confirm_school_question) {
     private val confirmSchoolViewModel: ConfirmSchoolViewModel by viewModels()
 
     private var answer: String = ""

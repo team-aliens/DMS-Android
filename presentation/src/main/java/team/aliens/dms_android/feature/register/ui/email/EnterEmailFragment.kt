@@ -12,11 +12,12 @@ import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.util.emailValidation
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentEnterEmailBinding
+import team.aliens.presentation.databinding.FragmentSignUpEnterEmailBinding
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
-class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(R.layout.fragment_enter_email) {
+class EnterEmailFragment :
+    BaseFragment<FragmentSignUpEnterEmailBinding>(R.layout.fragment_sign_up_enter_email) {
     private var emailAddress: String = ""
     private var inputData = ""
     private var answer: String = ""
@@ -71,7 +72,7 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(R.layout.frag
             val registerActive = activity as RegisterActivity
 
             val bundle = Bundle()
-            val fragment = EmailCertificationFragment()
+            val fragment = ConfirmEmailVerificationCodeFragment()
 
             bundle.putString("email", emailAddress)
             bundle.putString("schoolId", inputData)

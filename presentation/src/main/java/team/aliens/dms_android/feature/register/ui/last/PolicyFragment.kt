@@ -10,15 +10,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.SignUpEvent
-import team.aliens.dms_android.feature.register.ui.last.dialog.GoLoginDialog
+import team.aliens.dms_android.feature.register.ui.last.dialog.SignUpSuccessDialog
 import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
 import team.aliens.domain.param.RegisterParam
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentPolicyBinding
+import team.aliens.presentation.databinding.FragmentSignUpPolicyBinding
 
 @AndroidEntryPoint
-class PolicyFragment : BaseFragment<FragmentPolicyBinding>(R.layout.fragment_policy) {
+class PolicyFragment : BaseFragment<FragmentSignUpPolicyBinding>(R.layout.fragment_sign_up_policy) {
     private val signUpViewModel: SignUpViewModel by viewModels()
 
     private var pwd = ""
@@ -62,7 +62,7 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(R.layout.fragment_pol
             SignUpEvent.InternalServerException -> showShortToast(getString(R.string.ServerException))
             SignUpEvent.NotFoundException -> showShortToast(getString(R.string.NotFound))
             SignUpEvent.SignUpSuccess -> {
-                GoLoginDialog(requireContext(), onYesClick = {
+                SignUpSuccessDialog(requireContext(), onYesClick = {
                     requireActivity().finish()
                 }).callDialog()
             }
