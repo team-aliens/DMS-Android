@@ -5,13 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -19,7 +19,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
-import team.aliens.design_system.typography.SubTitle2
+import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.domain.util.toDate
@@ -80,52 +80,62 @@ fun NoticeDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200)
-            .verticalScroll(rememberScrollState()),
+            .background(DormColor.Gray200),
     ) {
-        TopBar(title = stringResource(id = R.string.Announcement)) {
+
+        TopBar(
+            title = stringResource(
+                id = R.string.Announcement,
+            ),
+        ) {
             navController.popBackStack()
         }
+
+
         Column(
             modifier = Modifier
                 .background(DormColor.Gray200)
-                .padding(horizontal = 24.dp),
+                .padding(
+                    top = 40.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                )
+                .fillMaxHeight(),
             horizontalAlignment = Alignment.Start,
         ) {
-            Spacer(
-                modifier = Modifier.height(55.dp),
-            )
-            SubTitle2(
-                text = state.title,
-            )
-            Spacer(
-                modifier = Modifier.height(25.dp),
-            )
-            Caption(
-                text = state.createAt,
-                color = DormColor.Gray500,
-            )
-            Spacer(
-                modifier = Modifier.height(20.dp),
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(DormColor.Gray300),
-            )
-            Spacer(
-                modifier = Modifier.height(20.dp),
-            )
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+
+                // title
+                Title3(
+                    text = state.title,
+                )
+
+                // date
+                Caption(
+                    text = state.createAt,
+                    color = DormColor.Gray500,
+                )
+
+                Divider(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = DormColor.Gray300,
+                )
+            }
+
+            // Content
             Body5(
+                modifier = Modifier
+                    .verticalScroll(
+                        rememberScrollState(),
+                    )
+                    .padding(
+                        top = 8.dp,
+                    ),
                 text = state.content,
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun NoticeDetailPreView() {
-
 }
