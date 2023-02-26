@@ -57,7 +57,7 @@ object NetWorkModule {
     @Provides
     @Singleton
     fun providesTokenReissueOkHttpClient(): TokenReissueClient =
-        TokenReissueClient(BASE_URL + DmsUrl.Auth.reissueToken)
+        TokenReissueClient(BASE_URL + DmsUrl.User.reissueToken)
 
     @Provides
     fun provideRetrofit(
@@ -71,8 +71,8 @@ object NetWorkModule {
 
     @Provides
     @Singleton
-    fun provideUserApi(retrofit: Retrofit): AuthApi =
-        retrofit.create(AuthApi::class.java)
+    fun provideUserApi(retrofit: Retrofit): UserApi =
+        retrofit.create(UserApi::class.java)
 
     @Provides
     fun provideMealApi(retrofit: Retrofit): MealApi =

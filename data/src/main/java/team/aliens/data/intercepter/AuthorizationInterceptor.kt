@@ -12,10 +12,10 @@ import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Inject
 
 private val ignorePath = listOf(
-    DmsUrl.Auth.login,
-    DmsUrl.Auth.reissueToken,
-    DmsUrl.Auth.emailCode,
-    DmsUrl.Auth.compareEmail,
+    DmsUrl.User.login,
+    DmsUrl.User.reissueToken,
+    DmsUrl.User.emailCode,
+    DmsUrl.User.compareEmail,
     DmsUrl.Students.register,
     DmsUrl.Students.examineGrade,
     DmsUrl.Students.duplicateCheckId,

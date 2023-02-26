@@ -12,12 +12,14 @@ object DmsUrl {
     const val uploadFile = "/files"
     const val users = "/users"
 
-    object Auth {
+    object User {
         const val login = "$auth/tokens"
         const val emailCode = "$auth/code"
         const val reissueToken = "$auth/reissue"
         const val compareEmail = "$auth/email"
         const val checkId = "$auth/account-id"
+        const val editPassword = "$users/password"
+        const val comparePassword = "$users/password"
     }
 
     object Students {
@@ -59,10 +61,5 @@ object DmsUrl {
         const val fetchCurrentRemainOption = "$remains/my"
         const val fetchAvailableRemainTime = "$remains/available-time"
         const val fetchRemainOptions = "$remains/options"
-    }
-
-    object User{
-        const val editPassword = "$users/password"
-        const val comparePassword = "$users/password"
     }
 }
