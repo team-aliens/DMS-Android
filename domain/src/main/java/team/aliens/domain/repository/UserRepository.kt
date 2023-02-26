@@ -1,9 +1,6 @@
 package team.aliens.domain.repository
 
-import team.aliens.domain.param.CheckEmailCodeParam
-import team.aliens.domain.param.CompareEmailParam
-import team.aliens.domain.param.LoginParam
-import team.aliens.domain.param.RequestEmailCodeParam
+import team.aliens.domain.param.*
 
 interface UserRepository {
 
@@ -31,6 +28,14 @@ interface UserRepository {
 
     suspend fun checkId(
         accountId: String,
+    )
+
+    suspend fun editPassword(
+        editPasswordParam: EditPasswordParam,
+    )
+
+    suspend fun comparePassword(
+        password: String,
     )
 
     suspend fun signOut()

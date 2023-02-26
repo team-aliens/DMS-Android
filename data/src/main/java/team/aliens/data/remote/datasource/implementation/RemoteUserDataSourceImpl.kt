@@ -2,6 +2,7 @@ package team.aliens.data.remote.datasource.implementation
 
 import team.aliens.data.remote.api.UserApi
 import team.aliens.data.remote.datasource.declaration.RemoteUserDataSource
+import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
 import team.aliens.data.remote.response.user.SignInResponse
@@ -62,6 +63,22 @@ class RemoteUserDataSourceImpl @Inject constructor(
     ) = HttpHandler<Unit>().httpRequest {
         userApi.checkId(
             accountId,
+        )
+    }.sendRequest()
+
+    override suspend fun editPassword(
+        editPasswordRequest: EditPasswordRequest,
+    ) = HttpHandler<Unit>().httpRequest {
+        userApi.editPassword(
+            editPasswordRequest = editPasswordRequest,
+        )
+    }.sendRequest()
+
+    override suspend fun comparePassword(
+        password: String,
+    ) = HttpHandler<Unit>().httpRequest {
+        userApi.comparePassword(
+            password = password
         )
     }.sendRequest()
 }
