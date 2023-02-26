@@ -82,6 +82,8 @@
     <string name="Announcement">공지</string>
     <string name="Notice">공지사항</string>
     <string name="NewNotice">새로운 공지 있어요!</string>
+    <string name="LatestOrder">최신순</string>
+    <string name="OldestOrder">오래된 순</string>
 
     // 마이페이지
     <string name="PlusPoint">상점</string>
