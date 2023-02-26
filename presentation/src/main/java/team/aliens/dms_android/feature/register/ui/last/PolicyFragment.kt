@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.last
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
-import team.aliens.dms_android.feature.MainActivity
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.SignUpEvent
 import team.aliens.dms_android.feature.register.ui.last.dialog.GoLoginDialog
@@ -65,8 +63,7 @@ class PolicyFragment : BaseFragment<FragmentPolicyBinding>(R.layout.fragment_pol
             SignUpEvent.NotFoundException -> showShortToast(getString(R.string.NotFound))
             SignUpEvent.SignUpSuccess -> {
                 GoLoginDialog(requireContext(), onYesClick = {
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
+                    requireActivity().finish()
                 }).callDialog()
             }
 
