@@ -111,16 +111,20 @@ fun CafeteriaScreen(
 @Composable
 private fun CafeteriaTopBar(
 ) {
-    Row(modifier = Modifier.fillMaxWidth(),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start) {
+        horizontalArrangement = Arrangement.Start,
+    ) {
         Image(
             modifier = Modifier
-                .height(34.dp)
-                .width(97.dp)
-                .padding(start = 20.dp, top = 12.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = stringResource(id = R.string.MainLogo),
+                .padding(16.dp)
+                .height(30.dp)
+                .width(80.dp),
+            painter = painterResource(
+                id = R.drawable.ic_logo,
+            ),
+            contentDescription = null,
         )
     }
 }
@@ -131,9 +135,13 @@ fun ImportantNotice(
 ) {
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier.padding(horizontal = 20.dp),
+        modifier = Modifier.padding(
+            horizontal = 16.dp,
+        ),
     ) {
-        FloatingNotice(content = stringResource(id = R.string.NewNotice))
+        FloatingNotice(
+            content = stringResource(id = R.string.NewNotice),
+        )
         Image(
             modifier = Modifier
                 .padding(end = 10.dp)
@@ -185,8 +193,7 @@ fun DateSelector(
 
             // 날짜
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(
                     space = 12.dp,
