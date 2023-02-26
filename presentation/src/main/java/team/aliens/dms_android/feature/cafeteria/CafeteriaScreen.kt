@@ -102,13 +102,15 @@ fun CafeteriaScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
 
-            ImportantNotice(onNoticeIconClick = {
-                navigateBottomNavigation(
-                    route = BottomNavigationItem.Notice.route,
-                    navController = navController,
-                )
-                bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
-            })
+            ImportantNotice(
+                onNoticeIconClick = {
+                    navigateBottomNavigation(
+                        route = BottomNavigationItem.Notice.route,
+                        navController = navController,
+                    )
+                    bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
+                },
+            )
 
 
             CafeteriaDiary(
@@ -201,7 +203,7 @@ fun CafeteriaDiary(
                         .size(40.dp)
                         .padding(end = 12.dp)
                         .clickable {
-                            mealViewModel.updateDay(state.today.minusDays(1))
+                            mealViewModel.updateDay(state.selectedDay.minusDays(1))
                         },
                     painter = painterResource(id = DormIcon.Backward.drawableId),
                     contentDescription = stringResource(id = R.string.BackButton),
@@ -219,14 +221,14 @@ fun CafeteriaDiary(
                     Image(painter = painterResource(id = R.drawable.ic_calendar),
                         contentDescription = "")
                     Spacer(modifier = Modifier.width(10.dp))
-                    Body5(text = state.today.toString())
+                    Body5(text = state.selectedDay.toString())
                 }
                 Image(
                     modifier = Modifier
                         .size(40.dp)
                         .padding(start = 12.dp)
                         .clickable {
-                            mealViewModel.updateDay(state.today.plusDays(1))
+                            mealViewModel.updateDay(state.selectedDay.plusDays(1))
                         },
                     painter = painterResource(id = R.drawable.ic_meal_next),
                     contentDescription = stringResource(id = R.string.NextButton),
