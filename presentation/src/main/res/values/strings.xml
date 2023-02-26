@@ -19,6 +19,7 @@
     <string name="CompleteRegister">회원가입이 완료되었습니다.</string>
     <string name="GoLogin">로그인 화면으로 가기</string>
     <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
+    <string name="AgreeAllPolicy">전체 약관 동의</string>
 
     // 약관
     <string name="CheckRegisterPolicy">회원가입 약관 동의</string>

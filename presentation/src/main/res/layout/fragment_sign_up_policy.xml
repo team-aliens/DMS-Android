@@ -47,7 +47,7 @@
             android:layout_marginBottom="16dp"
             android:buttonTint="@color/gray_600"
             android:checked="false"
-            android:text="전체 약관 동의"
+            android:text="@string/AgreeAllPolicy"
             android:textColor="@color/gray_600"
             app:layout_constraintBottom_toTopOf="@+id/btnVerificationCode"
             app:layout_constraintStart_toStartOf="parent" />
