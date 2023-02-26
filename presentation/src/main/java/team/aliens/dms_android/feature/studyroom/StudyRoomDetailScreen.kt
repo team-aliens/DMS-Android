@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,10 +38,13 @@ fun StudyRoomDetailScreen(
     roomId: String,
     studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
 ) {
+
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomDetail(roomId)
         studyRoomViewModel.fetchApplyTime()
     }
+
+    val context = LocalContext.current
 
     val state = studyRoomViewModel.state.collectAsState().value
 
@@ -170,11 +174,9 @@ fun StudyRoomDetailScreen(
                 title = state.roomDetail.name,
                 currentNumber = state.roomDetail.inUseHeadCount,
                 maxNumber = state.roomDetail.totalAvailableSeat,
-                condition = state.roomDetail.availableGrade +
-                        stringResource(
-                            id = R.string.Grade,
-                        ) +
-                        " ${state.roomDetail.studyRoomSex}",
+                condition = state.roomDetail.availableGrade + stringResource(
+                    id = R.string.Grade,
+                ) + " ${state.roomDetail.studyRoomSex}",
                 onClick = { },
             )
 
@@ -197,7 +199,7 @@ fun StudyRoomDetailScreen(
             )
 
 
-            //Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
 
             Row(
@@ -205,8 +207,9 @@ fun StudyRoomDetailScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
 
+                // Cancel button
                 DormContainedLargeButton(
-                    modifier = Modifier.fillMaxWidth(0.48f),
+                    modifier = Modifier.fillMaxWidth(0.5f),
                     text = stringResource(
                         id = R.string.Cancel,
                     ),
@@ -214,22 +217,35 @@ fun StudyRoomDetailScreen(
                 ) {
                     studyRoomViewModel.cancelStudyRoomSeat()
                 }
-                Spacer(modifier = Modifier.width(10.dp))
-                // TODO string resource 로 빼주기
+
+
+                Spacer(
+                    modifier = Modifier.width(10.dp),
+                )
+
+
+                // Apply button
                 DormContainedLargeButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "신청",
+                    text = stringResource(
+                        id = R.string.Application,
+                    ),
                     color = DormButtonColor.Blue,
                 ) {
                     if (state.currentSeat == null) {
-                        // TODO string resource 로 빼주기
-                        toast("자리를 먼저 선택해주세요.")
+                        toast(
+                            context.getString(R.string.PleaseSelectSeatFirst),
+                        )
                     } else {
                         studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(30.dp))
+
+
+            Spacer(
+                modifier = Modifier.height(54.dp),
+            )
         }
     }
 }

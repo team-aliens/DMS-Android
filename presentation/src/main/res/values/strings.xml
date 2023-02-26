@@ -156,6 +156,7 @@
     <string name="RemainApplyDescription">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
     <string name="DoApplyStudyRoom">자습실 신청하기</string>
     <string name="DoApplyRemain">잔류 신청하기</string>
+    <string name="PleaseSelectSeatFirst">자리를 먼저 선택해주세요.</string>
 
     // 바텀 내비게이션
     <string name="Home">홈</string>
