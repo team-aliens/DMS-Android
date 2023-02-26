@@ -115,6 +115,10 @@ class EmailCertificationFragment :
 
     override fun initView() {
 
+        binding.ivBack.setOnClickListener {
+            (requireActivity() as RegisterActivity).supportFragmentManager.popBackStack()
+        }
+
         binding.btnVerificationCode.isClickable = false
 
         binding.tvResendCode.setOnClickListener {

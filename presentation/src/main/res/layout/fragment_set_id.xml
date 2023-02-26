@@ -52,6 +52,7 @@
             android:inputType="number"
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
+            android:textColorHint="@color/gray_600"
             app:layout_constraintEnd_toStartOf="@id/etClass"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +70,7 @@
             android:inputType="number"
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
+            android:textColorHint="@color/gray_600"
             app:layout_constraintEnd_toStartOf="@id/etNumber"
             app:layout_constraintStart_toEndOf="@+id/etGrade"
             app:layout_constraintTop_toTopOf="@+id/etGrade" />
@@ -85,6 +87,7 @@
             android:inputType="number"
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
+            android:textColorHint="@color/gray_600"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/etClass"
             app:layout_constraintTop_toTopOf="@+id/etClass" />
@@ -137,6 +140,7 @@
             android:hint="@string/EnterId"
             android:paddingStart="16dp"
             android:textColor="@color/gray_900"
+            android:textColorHint="@color/gray_600"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clName" />

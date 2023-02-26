@@ -41,10 +41,14 @@
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/cbCheckAllPolicy"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="16dp"
+            android:buttonTint="@color/gray_600"
+            android:checked="false"
+            android:text="전체 약관 동의"
+            android:textColor="@color/gray_600"
             app:layout_constraintBottom_toTopOf="@+id/btnVerificationCode"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -59,18 +63,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCheckPolicy"
-            style="@style/DMS.NotoSans.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:text="@string/CheckAllPolicy"
-            android:textColor="@color/gray_600"
-            app:layout_constraintBottom_toBottomOf="@+id/cbCheckAllPolicy"
-            app:layout_constraintStart_toEndOf="@+id/cbCheckAllPolicy"
-            app:layout_constraintTop_toTopOf="@+id/cbCheckAllPolicy" />
 
         <team.aliens.dms_android.customui.RegisterCustomButton
             android:id="@+id/btnVerificationCode"
