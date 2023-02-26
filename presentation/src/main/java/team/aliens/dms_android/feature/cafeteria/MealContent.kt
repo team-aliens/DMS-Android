@@ -36,7 +36,7 @@ fun ScrollEffectPager(
     mealViewModel: MealViewModel,
 ) {
 
-    val pagerState = rememberPagerState(initialPage = 1)
+    val pagerState = rememberPagerState()
 
     val state = mealViewModel.state.collectAsState().value
 
@@ -44,27 +44,40 @@ fun ScrollEffectPager(
         state = pagerState,
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 40.dp, bottom = 40.dp)
-            .background(Color.Transparent),
-        contentPadding = PaddingValues(horizontal = 64.dp),
+            .padding(
+                vertical = 40.dp,
+            )
+            .background(Color.White),
+        contentPadding = PaddingValues(
+            horizontal = 64.dp,
+        ),
         count = 3,
     ) { pageIndex ->
         Card(
             modifier = Modifier
                 .background(
                     color = Color.Transparent,
-                    shape = RoundedCornerShape(15),
+                    shape = RoundedCornerShape(20.dp),
                 )
                 .graphicsLayer {
+
                     val pageOffset = calculateCurrentOffsetForPage(pageIndex).absoluteValue
-                    lerp(start = 0.85f,
+
+                    lerp(
+                        start = 0.85f,
                         stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)).also { scale ->
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f),
+                    ).also { scale ->
                         scaleX = scale
                         scaleY = scale
                     }
+
                     alpha =
-                        lerp(start = 0.5f, stop = 1f, fraction = 1f - pageOffset.coerceIn(0f, 1f))
+                        lerp(
+                            start = 0.5f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f),
+                        )
                 }
                 .clip(RoundedCornerShape(15))
                 .border(
@@ -79,15 +92,24 @@ fun ScrollEffectPager(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
             ) {
-                when (pagerState.currentPage) {
+                when (pageIndex) {
                     0 -> {
-                        MenuListLayout(state.mealList.breakfast, 1)
+                        MenuListLayout(
+                            state.mealList.breakfast,
+                            DormIcon.Breakfast,
+                        )
                     }
                     1 -> {
-                        MenuListLayout(state.mealList.lunch, 2)
+                        MenuListLayout(
+                            state.mealList.lunch,
+                            DormIcon.Launch,
+                        )
                     }
                     2 -> {
-                        MenuListLayout(state.mealList.dinner, 3)
+                        MenuListLayout(
+                            state.mealList.dinner,
+                            DormIcon.Dinner,
+                        )
                     }
                 }
             }
@@ -98,23 +120,40 @@ fun ScrollEffectPager(
 @Composable
 private fun MenuListLayout(
     menus: List<String>,
-    a: Int,
+    dormIcon: DormIcon,
 ) {
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(14.dp),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+    LazyColumn(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         item {
-            Spacer(modifier = Modifier.height(9.dp))
-            var b: DormIcon = DormIcon.Launch
-            when (a) {
-                1 -> b = DormIcon.Breakfast
-                2 -> b = DormIcon.Launch
-                3 -> b = DormIcon.Dinner
-            }
-            Image(painter = painterResource(id = b.drawableId), contentDescription = "")
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(25.dp))
+            Image(
+                painter = painterResource(
+                    id = dormIcon.drawableId,
+                ),
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.height(25.dp))
         }
         items(menus) { menu ->
-            Body4(text = menu)
+            Spacer(
+                modifier = Modifier.padding(vertical = 6.dp, horizontal = 10.dp)
+            )
+            Body4(
+                text = menu
+            )
+        }
+
+        items(1) { menu ->
+            Spacer(modifier = Modifier.height(30.dp))
+            if (menus.size > 1) {
+                Body4(
+                    text = menus.last(),
+                    color = DormColor.Gray500
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
