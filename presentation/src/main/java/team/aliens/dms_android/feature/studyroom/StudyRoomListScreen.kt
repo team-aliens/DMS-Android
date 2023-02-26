@@ -31,6 +31,7 @@ import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
+import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
@@ -141,6 +142,14 @@ fun StudyRoomListScreen(
             ) {
 
                 // todo fetch time from remote
+
+                Title3(
+                    text = stringResource(R.string.Time),
+                )
+
+                Spacer(
+                    modifier = Modifier.height(24.dp),
+                )
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
