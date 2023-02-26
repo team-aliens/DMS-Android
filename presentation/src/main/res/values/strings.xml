@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     // 앱 이름
-    <string name="AppName">DMS_Android</string>
+    <string name="app_name">DMS</string>
     <string name="Dms">DMS</string>
 
     // 로그인
