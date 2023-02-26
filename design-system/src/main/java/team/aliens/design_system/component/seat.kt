@@ -17,8 +17,6 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
 import team.aliens.design_system.modifier.dormClickable
@@ -236,14 +234,18 @@ private fun SeatContent(
         }
     } else {
         Box(
-            modifier = Modifier.size(SeatSize).background(
-                color = color,
-                shape = CircleShape,
-            ).clip(CircleShape).dormClickable(
-                runIf = clickedEnabled,
-            ) {
-                onSelectedChanged(seatId)
-            },
+            modifier = Modifier
+                .size(SeatSize)
+                .background(
+                    color = color,
+                    shape = CircleShape,
+                )
+                .clip(CircleShape)
+                .dormClickable(
+                    runIf = clickedEnabled,
+                ) {
+                    onSelectedChanged(seatId)
+                },
             contentAlignment = Alignment.Center,
         ) {
             OverLine(
@@ -320,59 +322,76 @@ private fun SeatListContent(
 }
 
 @Composable
-fun RoomContent(
+fun RoomItem(
     roomId: String,
     position: String,
     title: String,
     currentNumber: Int,
     maxNumber: Int,
     condition: String,
-    isMine: Boolean,
     onClick: (String) -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().height(91.dp).background(
-            color = DormColor.Gray100,
-            shape = RoundedCornerShape(15),
-        ).dormClickable {
-            onClick(roomId)
-        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = DormColor.Gray100,
+                shape = RoundedCornerShape(15),
+            ),
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 16.dp,
-                vertical = 14.dp,
-            )) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .dormClickable {
+                    onClick(roomId)
+                }
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 14.dp,
+                ),
+        ) {
+
+            // room information
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+
+                // floor
                 Body5(
                     text = position,
                     color = DormColor.DormPrimary,
                 )
+
+
                 Spacer(modifier = Modifier.width(14.dp))
-                Body5(text = title)
+
+
+                // title
+                Body5(
+                    text = title,
+                )
+
+
                 Spacer(modifier = Modifier.weight(1f))
+
+
+                // reserved seat
                 Body5(
                     text = "$currentNumber / $maxNumber",
                     color = DormColor.Gray500,
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Body5(
-                    text = condition,
-                    color = DormColor.DormPrimary,
-                )
-                if (isMine) {
-                    DormContainedLargeButton(modifier = Modifier
-                        .height(24.dp)
-                        .width(52.dp),
-                        text = "신청함",
-                        color = DormButtonColor.Blue) {
 
-                    }
-                }
-            }
+
+            Spacer(
+                modifier = Modifier.height(14.dp),
+            )
+
+
+            // available gender
+            Body5(
+                text = condition,
+                color = DormColor.DormPrimary,
+            )
         }
     }
 }

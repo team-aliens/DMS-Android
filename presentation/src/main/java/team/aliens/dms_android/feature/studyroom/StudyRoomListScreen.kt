@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.RoomContent
+import team.aliens.design_system.component.RoomItem
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
@@ -120,14 +120,13 @@ fun StudyRoomListScreen(
                 items(
                     items = studyRooms,
                 ) { point ->
-                    RoomContent(
+                    RoomItem(
                         roomId = point.roomId,
                         position = point.position,
                         title = point.title,
                         currentNumber = point.currentNumber,
                         maxNumber = point.maxNumber,
                         condition = point.condition,
-                        isMine = point.isMine,
                         onClick = { seatId ->
                             navController.navigate("studyRoomDetail/${seatId}")
                         },
