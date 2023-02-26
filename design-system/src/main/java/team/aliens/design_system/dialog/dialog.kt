@@ -130,6 +130,43 @@ fun DormSurveyDialog(
 }
 
 @Composable
+fun DormBottomAlignedContainedLargeButtonDialog(
+    btnText: String,
+    btnColor: DormButtonColor,
+    onBtnClick: () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Column(
+            modifier = Modifier
+                .background(
+                    color = Color.White,
+                )
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 40.dp,
+                ),
+        ) {
+
+            content()
+
+            Spacer(
+                modifier = Modifier.height(50.dp),
+            )
+
+            DormContainedLargeButton(
+                text = btnText,
+                color = btnColor,
+                onClick = onBtnClick,
+            )
+        }
+    }
+}
+
+@Composable
 fun DormBottomAlignedSingleButtonDialog(
     btnText: String,
     onBtnClick: () -> Unit,
@@ -140,7 +177,11 @@ fun DormBottomAlignedSingleButtonDialog(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter,
     ) {
-        Column(Modifier.background(Color.White)) {
+        Column(
+            Modifier.background(
+                color = Color.White,
+            ),
+        ) {
 
             content()
 
