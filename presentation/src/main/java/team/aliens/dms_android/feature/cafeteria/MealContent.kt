@@ -47,7 +47,7 @@ fun ScrollEffectPager(
             .padding(
                 vertical = 40.dp,
             )
-            .background(Color.White),
+            .background(Color.Transparent),
         contentPadding = PaddingValues(
             horizontal = 64.dp,
         ),
