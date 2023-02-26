@@ -2,7 +2,6 @@ package team.aliens.local_database.storage.implementation
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import team.aliens.local_database.param.FeaturesParam
 import team.aliens.local_database.param.UserPersonalKeyParam
