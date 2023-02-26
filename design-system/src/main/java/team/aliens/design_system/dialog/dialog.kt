@@ -183,7 +183,7 @@ fun DormDoubleButtonDialog(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(170.dp)
+            .height(160.dp)
             .background(
                 Color.White,
                 DormDoubleButtonDialogShape,
