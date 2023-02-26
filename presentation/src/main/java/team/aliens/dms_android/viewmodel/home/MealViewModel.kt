@@ -9,10 +9,9 @@ import team.aliens.dms_android.feature.cafeteria.MealList
 import team.aliens.dms_android.feature.cafeteria.MealState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.entity.MealEntity
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.meal.RemoteMealUseCase
-import team.aliens.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
+import team.aliens.local_domain.entity.meal.MealEntity
 import team.aliens.local_domain.usecase.meal.LocalMealUseCase
 import java.time.LocalDate
 import javax.inject.Inject
@@ -21,64 +20,79 @@ import javax.inject.Inject
 class MealViewModel @Inject constructor(
     private val localMealUseCase: LocalMealUseCase,
     private val remoteMealUseCase: RemoteMealUseCase,
-    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase,
 ) : BaseViewModel<MealState, MealEvent>() {
+
+    init {
+        state.value.selectedDay.run {
+            fetchMealFromRemote(this)
+            updateDay(this)
+        }
+    }
+
+    override val initialState: MealState
+        get() = MealState.getDefaultInstance()
 
     private val _mealEvent = MutableEventFlow<Event>()
     val mealEvent = _mealEvent.asEventFlow()
 
-    fun fetchMeal(date: LocalDate) {
+    private fun fetchMealFromRemote(
+        date: LocalDate,
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMealUseCase.execute(date)
+            }.onFailure {
+                when (it) {
+                    is BadRequestException -> event(Event.BadRequestException)
+                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> event(Event.CannotConnectException)
+                    is TooManyRequestException -> event(Event.TooManyRequestException)
+                    is ServerException -> event(Event.InternalServerException)
+                    else -> event(Event.UnknownException)
+                }
+            }
+        }
+    }
+
+    private fun fetchMealFromLocal(
+        date: LocalDate,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
                 localMealUseCase.execute(date.toString())
             }.onSuccess {
-                setState(state = state.value.copy(mealList = MealList(
-                    breakfast = it.breakfast,
-                    lunch = it.lunch,
-                    dinner = it.dinner,
-                )))
+                setMealState(it)
             }.onFailure {
-                when (it) {
-                    is BadRequestException -> event(Event.BadRequestException)
-                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event(Event.CannotConnectException)
-                    is TooManyRequestException -> event(Event.TooManyRequestException)
-                    is ServerException -> event(Event.InternalServerException)
-                    else -> event(Event.UnknownException)
-                }
+                event(Event.UnknownException)
             }
         }
     }
 
-    fun noticeCheckBoolean() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                remoteCheckNewNoticeBooleanUseCase.execute(Unit)
-            }.onSuccess {
-                setState(state = state.value.copy(noticeBoolean = it))
-            }.onFailure {
-                when (it) {
-                    is BadRequestException -> event(Event.BadRequestException)
-                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event(Event.CannotConnectException)
-                    is TooManyRequestException -> event(Event.TooManyRequestException)
-                    is ServerException -> event(Event.InternalServerException)
-                    else -> event(Event.UnknownException)
-                }
-            }
-        }
-    }
+    private fun setMealState(
+        entity: MealEntity,
+    ) {
 
-    fun fetchLocalMeal(date: LocalDate) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                val response = localMealUseCase.execute(date.toString())
-                state.value.mealList.breakfast = response.breakfast
-                state.value.mealList.lunch = response.lunch
-                state.value.mealList.dinner = response.dinner
-            }
+        val breakfast = entity.breakfast.run {
+            dropLast(1) to last() // menu list to kcal
         }
+
+        val lunch = entity.lunch.run {
+            dropLast(1) to last()
+        }
+
+        val dinner = entity.dinner.run {
+            dropLast(1) to last()
+        }
+
+        setState(
+            state = state.value.copy(
+                mealList = MealList(
+                    breakfast = breakfast,
+                    lunch = lunch,
+                    dinner = dinner,
+                ),
+            ),
+        )
     }
 
     private fun event(event: Event) {
@@ -87,18 +101,21 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    override val initialState: MealState
-        get() = MealState.initial()
+    override fun reduceEvent(oldState: MealState, event: MealEvent) {}
 
-    override fun reduceEvent(oldState: MealState, event: MealEvent) {
-        TODO("Not yet implemented")
-    }
+    internal fun updateDay(day: LocalDate) {
 
-    fun updateDay(day: LocalDate) {
-        setState(state = state.value.copy(
-            today = day,
-        ))
-        fetchMeal(day)
+        if (day.month != state.value.selectedDay.month) {
+            fetchMealFromRemote(day)
+        }
+
+        setState(
+            state = state.value.copy(
+                selectedDay = day,
+            ),
+        )
+
+        fetchMealFromLocal(day)
     }
 
     sealed class Event {
