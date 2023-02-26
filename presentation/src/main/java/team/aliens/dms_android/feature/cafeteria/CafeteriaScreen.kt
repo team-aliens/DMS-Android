@@ -22,8 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.DormCalendar
@@ -39,7 +37,7 @@ import team.aliens.presentation.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CafeteriaScreen(
     navController: NavHostController,
@@ -48,9 +46,6 @@ fun CafeteriaScreen(
 ) {
 
     val scope = rememberCoroutineScope()
-
-
-    val pagerState = rememberPagerState(3)
 
     val calendarBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
@@ -188,7 +183,7 @@ fun DateSelector(
             )
 
 
-            // 날짜 선택
+            // 날짜
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -205,7 +200,7 @@ fun DateSelector(
                         .padding(8.dp)
                         .size(24.dp)
                         .clip(
-                            RoundedCornerShape(4.dp),
+                            RoundedCornerShape(8.dp),
                         )
                         .dormClickable {
                             mealViewModel.updateDay(
@@ -215,10 +210,11 @@ fun DateSelector(
                     painter = painterResource(
                         id = DormIcon.Backward.drawableId,
                     ),
-                    contentDescription = stringResource(id = R.string.BackButton),
+                    contentDescription = null,
                 )
 
-                // date text
+
+                // 날짜 선택
                 Row(
                     modifier = Modifier
                         .border(
@@ -233,14 +229,24 @@ fun DateSelector(
                             onCalendarClick()
                         }
                         .padding(8.dp),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Image(painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = "")
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Body5(text = state.selectedDay.toString())
+
+                    // 캘린더 아이콘
+                    Image(
+                        painter = painterResource(
+                            id = R.drawable.ic_calendar,
+                        ),
+                        contentDescription = null,
+                    )
+
+                    // 날짜
+                    Body5(
+                        text = state.selectedDay.toString(),
+                    )
                 }
+
 
                 // right arrow
                 Image(
@@ -248,7 +254,7 @@ fun DateSelector(
                         .padding(8.dp)
                         .size(24.dp)
                         .clip(
-                            RoundedCornerShape(4.dp),
+                            RoundedCornerShape(8.dp),
                         )
                         .dormClickable {
                             mealViewModel.updateDay(state.selectedDay.plusDays(1))
@@ -256,7 +262,7 @@ fun DateSelector(
                     painter = painterResource(
                         id = R.drawable.ic_meal_next,
                     ),
-                    contentDescription = stringResource(id = R.string.NextButton),
+                    contentDescription = null,
                 )
             }
         }
@@ -267,19 +273,16 @@ fun DateSelector(
 fun CafeteriaViewPager(
     mealViewModel: MealViewModel,
 ) {
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
+    Row(
+        modifier = Modifier
+            .padding(
+                bottom = 100.dp,
+            )
+            .fillMaxSize(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 20.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ScrollEffectPager(mealViewModel)
-        }
+        ScrollEffectPager(mealViewModel)
     }
 }
 
