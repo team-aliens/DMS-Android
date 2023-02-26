@@ -6,11 +6,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.util.emailValidation
-import team.aliens.dms_android.util.visible
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentEnterEmailBinding
 import java.util.regex.Pattern
@@ -82,7 +82,7 @@ class EnterEmailFragment : BaseFragment<FragmentEnterEmailBinding>(R.layout.frag
             registerActive.supportFragmentManager.beginTransaction()
                 .replace(R.id.containerRegister, fragment).addToBackStack("EnterEmail").commit()
         } else {
-            binding.tvError.visible()
+            binding.tvError.isVisible = true
             binding.btnSendCode.isClickable = false
             binding.btnSendCode.isEnabled = false
             binding.btnSendCode.setBackgroundResource(R.drawable.register_custom_btn_background)

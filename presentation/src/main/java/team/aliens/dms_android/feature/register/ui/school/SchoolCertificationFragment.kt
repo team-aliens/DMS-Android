@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
-import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
+import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeSuccess
+import team.aliens.dms_android.feature.register.event.school.MissMatchSchoolCode
+import team.aliens.dms_android.util.repeatOnFragmentStarted
 import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import team.aliens.presentation.R
@@ -25,51 +27,41 @@ class SchoolCertificationFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        callNetwork()
 
-        repeatOnStarted {
-            examineSchoolCodeViewModel.examineSchoolCodeEvent.collect { event -> handleEvent(event) }
-        }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    private fun callNetwork() {
+        repeatOnFragmentStarted {
+            examineSchoolCodeViewModel.examineSchoolCodeEvent.collect {
+                when (it) {
+                    is ExamineSchoolCodeSuccess -> {
+                        //Fixme : 추후PR에서 개선 필요
+                        val registerActive = activity as RegisterActivity
 
-    private fun handleEvent(event: ExamineSchoolCodeEvent) {
-        when (event) {
-            is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
-                val registerActive = activity as RegisterActivity
+                        val bundle = Bundle()
+                        bundle.putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
+                        bundle.putString("schoolCode", temp)
 
-                val bundle = Bundle()
-                bundle.putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
-                bundle.putString("schoolCode", temp)
+                        val fragment = ConfirmSchoolFragment()
+                        fragment.arguments = bundle
+                        registerActive.supportFragmentManager.beginTransaction()
+                            .replace(R.id.containerRegister, fragment).commit()
+                    }
 
-                val fragment = ConfirmSchoolFragment()
-                fragment.arguments = bundle
-                registerActive.supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerRegister, fragment).commit()
-            }
-
-            is ExamineSchoolCodeEvent.BadRequestException -> {
-                showShortToast(getString(R.string.BadRequest))
-            }
-
-            is ExamineSchoolCodeEvent.InternalServerException -> {
-                showShortToast(getString(R.string.ServerException))
-            }
-
-            is ExamineSchoolCodeEvent.TooManyRequestException -> {
-                showShortToast(getString(R.string.TooManyRequest))
-            }
-
-            is ExamineSchoolCodeEvent.UnAuthorizedException -> {
-                binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
-                binding.tvDetail.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.error))
-                binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
-                binding.btnVerificationCode.isClickable = false
-            }
-
-            is ExamineSchoolCodeEvent.UnknownException -> {
-                showShortToast(getString(R.string.UnKnownException))
+                    is MissMatchSchoolCode -> {
+                        binding.tvDetail.text = getString(R.string.SchoolUnAuthorized)
+                        binding.tvDetail.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.error
+                            )
+                        )
+                        binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
+                        binding.btnVerificationCode.isClickable = false
+                    }
+                }
             }
         }
     }
