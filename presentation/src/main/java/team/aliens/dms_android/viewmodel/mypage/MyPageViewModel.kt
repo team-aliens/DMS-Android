@@ -2,8 +2,8 @@ package team.aliens.dms_android.viewmodel.mypage
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
@@ -40,7 +40,7 @@ class MyPageViewModel @Inject constructor(
     internal val signOutEvent = _signOutEvent.asEventFlow()
 
     fun signOut() {
-        runBlocking {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 signOutUseCase.execute(Unit)
             }.onSuccess {
