@@ -21,10 +21,13 @@ class SignUpSuccessDialog(
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val binding: DialogSignUpSuccessBinding =
-            DataBindingUtil.inflate(LayoutInflater.from(context),
+            DataBindingUtil.inflate(
+                LayoutInflater.from(context),
                 R.layout.dialog_sign_up_success,
                 null,
-                false)
+                false,
+            )
+
         dialog.setContentView(binding.root)
 
         binding.tvGoLogin.setOnClickListener {
