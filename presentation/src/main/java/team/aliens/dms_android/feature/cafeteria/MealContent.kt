@@ -53,10 +53,6 @@ fun ScrollEffectPager(
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    color = Color.Transparent,
-                    shape = RoundedCornerShape(20.dp),
-                )
                 .graphicsLayer {
 
                     val pageOffset = calculateCurrentOffsetForPage(pageIndex).absoluteValue
@@ -70,18 +66,23 @@ fun ScrollEffectPager(
                         scaleY = scale
                     }
 
-                    alpha =
-                        lerp(
-                            start = 0.5f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f),
-                        )
+                    alpha = lerp(
+                        start = 0.5f,
+                        stop = 1f,
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f),
+                    )
                 }
-                .clip(RoundedCornerShape(15))
+                .background(
+                    color = Color.Transparent,
+                    shape = RoundedCornerShape(20.dp),
+                )
+                .clip(
+                    RoundedCornerShape(20.dp),
+                )
                 .border(
                     width = 1.dp,
                     color = DormColor.DormPrimary,
-                    shape = RoundedCornerShape(15),
+                    shape = RoundedCornerShape(20.dp),
                 ),
             shape = RoundedCornerShape(20.dp),
         ) {
@@ -95,20 +96,20 @@ fun ScrollEffectPager(
                 when (pageIndex) {
                     0 -> {
                         MenuListLayout(
-                            state.mealList.breakfast,
-                            DormIcon.Breakfast,
+                            icon = DormIcon.Breakfast,
+                            menus = state.mealList.breakfast,
                         )
                     }
                     1 -> {
                         MenuListLayout(
-                            state.mealList.lunch,
-                            DormIcon.Launch,
+                            icon = DormIcon.Lunch,
+                            menus = state.mealList.lunch,
                         )
                     }
                     2 -> {
                         MenuListLayout(
-                            state.mealList.dinner,
-                            DormIcon.Dinner,
+                            icon = DormIcon.Dinner,
+                            menus = state.mealList.dinner,
                         )
                     }
                 }
@@ -119,8 +120,8 @@ fun ScrollEffectPager(
 
 @Composable
 private fun MenuListLayout(
+    icon: DormIcon,
     menus: Pair<List<String>, String>,
-    dormIcon: DormIcon,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -131,7 +132,7 @@ private fun MenuListLayout(
         item {
             Image(
                 painter = painterResource(
-                    id = dormIcon.drawableId,
+                    id = icon.drawableId,
                 ),
                 contentDescription = null,
             )
