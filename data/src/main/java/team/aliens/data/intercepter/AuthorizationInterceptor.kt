@@ -34,7 +34,7 @@ class AuthorizationInterceptor @Inject constructor(
 
         val path = request.url.encodedPath
 
-        if (ignorePath.contains(path)) return chain.proceed(request)
+        if (ignorePath.any { path.contains(it) }) return chain.proceed(request)
 
         val expiredAt = runBlocking {
             userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()
