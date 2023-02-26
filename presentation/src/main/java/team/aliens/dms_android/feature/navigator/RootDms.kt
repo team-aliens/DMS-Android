@@ -71,7 +71,9 @@ fun RootDms(
         }
 
         composable(NavigationRoute.MyPageChangePassword){
-            MyPageChangePasswordScreen()
+            MyPageChangePasswordScreen(
+                navController = navController,
+            )
         }
 
         composable(
