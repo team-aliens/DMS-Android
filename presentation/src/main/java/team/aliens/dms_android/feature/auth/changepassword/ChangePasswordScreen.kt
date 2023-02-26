@@ -203,8 +203,6 @@ fun ScanNewPasswordButton(
             color = DormButtonColor.Blue,
         ) {
             TODO("두개의 TextField에 Null 검사 후 눌리게 구현해야함.")
-
-            changePasswordViewModel.changePassword()
         }
     }
 }

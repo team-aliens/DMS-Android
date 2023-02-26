@@ -9,13 +9,17 @@ import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
-import team.aliens.domain.param.ResetPasswordParam
+import team.aliens.domain.param.EditPasswordParam
 import team.aliens.domain.usecase.students.RemoteResetPasswordUseCase
+import team.aliens.domain.usecase.user.ComparePasswordUseCase
+import team.aliens.domain.usecase.user.EditPasswordUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
     private val changePasswordUseCase: RemoteResetPasswordUseCase,
+    private val editPasswordUseCase: EditPasswordUseCase,
+    private val comparePasswordUseCase: ComparePasswordUseCase,
 ) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
@@ -25,40 +29,110 @@ class ChangePasswordViewModel @Inject constructor(
         그리고 이메일 인증번호 확인 Api를 사용하여 인증을 완료하고 Students의 비밀번호 재설정 Api를 사용하여 재설정합니다.
     */
 
-    private val parameter = ResetPasswordParam(
-        accountId = "",
-        email = "",
-        authCode = "",
-        newPassword = "",
-        name = "",
-    )
-
     override val initialState: ChangePasswordState
-        get() = ChangePasswordState.initial()
+        get() = ChangePasswordState.getDefaultInstance()
 
-    private val _changePasswordEvent = MutableEventFlow<ChangePasswordEvent>()
-    val changePasswordEvent = _changePasswordEvent.asEventFlow()
+    private val _editPasswordEffect = MutableEventFlow<Event>()
+    var editPasswordEffect = _editPasswordEffect.asEventFlow()
 
-    fun changePassword() {
+    internal fun editPassword() {
         viewModelScope.launch {
             kotlin.runCatching {
-                changePasswordUseCase.execute(parameter)
+                with(state.value) {
+                    if (newPassword == repeatPassword) {
+                        editPasswordUseCase.execute(
+                            data = EditPasswordParam(
+                                currentPassword = currentPassword,
+                                newPassword = newPassword,
+                            )
+                        )
+                    }
+                }
             }.onSuccess {
-                ChangePasswordEvent.ChangePasswordSuccess
+                event(Event.EditPasswordSuccess)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> ChangePasswordEvent.BadRequestException
-                    is UnauthorizedException -> ChangePasswordEvent.UnAuthorizedException
-                    is NotFoundException -> ChangePasswordEvent.NotFoundException
-                    is TooManyRequestException -> ChangePasswordEvent.TooManyRequestException
-                    is ServerException -> ChangePasswordEvent.InternalServerException
-                    else -> ChangePasswordEvent.UnKnownException
+                    is UnknownException -> {}
+                    else -> {
+                        event(getEventFromThrowable(it))
+                    }
                 }
             }
         }
     }
 
+    internal fun comparePassword() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                comparePasswordUseCase.execute(
+                    data = state.value.currentPassword,
+                )
+            }
+            // TODO 현재 비밀번호 확인 화면에서 사용 예정
+        }
+    }
+
+    internal fun setCurrentPassword(
+        currentPassword: String,
+    ) {
+        sendEvent(event = ChangePasswordEvent.SetCurrentPassword(currentPassword))
+    }
+
+    internal fun setRepeatPassword(
+        repeatPassword: String,
+    ) {
+        sendEvent(event = ChangePasswordEvent.SetRepeatPassword(repeatPassword))
+    }
+
+    internal fun setNewPassword(
+        newPassword: String,
+    ) {
+        sendEvent(event = ChangePasswordEvent.SetNewPassword(newPassword))
+    }
+
     override fun reduceEvent(oldState: ChangePasswordState, event: ChangePasswordEvent) {
-        TODO("Please Impl Here")
+        when (event) {
+            is ChangePasswordEvent.SetCurrentPassword -> {
+                setState(state = oldState.copy(currentPassword = event.currentPassword))
+            }
+            is ChangePasswordEvent.SetRepeatPassword -> {
+                setState(state = oldState.copy(repeatPassword = event.repeatPassword))
+            }
+            is ChangePasswordEvent.SetNewPassword -> {
+                setState(state = oldState.copy(newPassword = event.newPassword))
+            }
+        }
+    }
+
+    private fun event(event: Event) {
+        viewModelScope.launch {
+            _editPasswordEffect.emit(event)
+        }
+    }
+
+    sealed class Event() {
+        object EditPasswordSuccess : Event()
+
+        object BadRequestException : Event()
+        object UnauthorizedException : Event()
+        object ForbiddenException : Event()
+        object TooManyRequestException : Event()
+        object ServerException : Event()
+        object UnknownException : Event()
+
+    }
+}
+
+// TODO 추후에 리팩토링 필요
+private fun getEventFromThrowable(
+    throwable: Throwable?,
+): ChangePasswordViewModel.Event {
+    return when (throwable) {
+        is BadRequestException -> ChangePasswordViewModel.Event.BadRequestException
+        is UnauthorizedException -> ChangePasswordViewModel.Event.UnauthorizedException
+        is ForbiddenException -> ChangePasswordViewModel.Event.ForbiddenException
+        is TooManyRequestException -> ChangePasswordViewModel.Event.TooManyRequestException
+        is ServerException -> ChangePasswordViewModel.Event.ServerException
+        else -> ChangePasswordViewModel.Event.UnknownException
     }
 }
