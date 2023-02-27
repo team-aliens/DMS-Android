@@ -292,7 +292,7 @@ private fun getStringFromEvent(
         when (event) {
             is Event.BadRequestException -> R.string.BadRequest
             is Event.UnauthorizedException -> R.string.UnAuthorized
-            is Event.ForbiddenException -> R.string.Forbidden
+            is Event.ForbiddenException -> R.string.ForbiddenApplyRemain
             is Event.TooManyRequestException -> R.string.TooManyRequest
             is Event.ServerException -> R.string.ServerException
             else -> R.string.UnKnownException
