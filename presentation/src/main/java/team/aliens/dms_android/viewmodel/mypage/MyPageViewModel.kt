@@ -31,10 +31,10 @@ class MyPageViewModel @Inject constructor(
         get() = MyPageState.getDefaultInstance()
 
     private val _myPageViewEffect = MutableEventFlow<Event>()
-    var myPageViewEffect = _myPageViewEffect.asEventFlow()
+    internal val myPageViewEffect = _myPageViewEffect.asEventFlow()
 
     private val _pointViewEffect = MutableEventFlow<Event>()
-    var pointViewEffect = _pointViewEffect.asEventFlow()
+    internal val pointViewEffect = _pointViewEffect.asEventFlow()
 
     private val _signOutEvent = MutableEventFlow<Event>()
     internal val signOutEvent = _signOutEvent.asEventFlow()
@@ -56,13 +56,15 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteMyPageUseCase.execute(Unit)
             }.onSuccess {
-                state.value.myPageEntity.gcn = it.gcn
-                state.value.myPageEntity.bonusPoint = it.bonusPoint
-                state.value.myPageEntity.minusPoint = it.minusPoint
-                state.value.myPageEntity.name = it.name
-                state.value.myPageEntity.phrase = it.phrase
-                state.value.myPageEntity.schoolName = it.schoolName
-                state.value.myPageEntity.profileImageUrl = it.profileImageUrl
+                state.value.myPageEntity.run {
+                    gcn = it.gcn
+                    bonusPoint = it.bonusPoint
+                    minusPoint = it.minusPoint
+                    name = it.name
+                    phrase = it.phrase
+                    schoolName = it.schoolName
+                    profileImageUrl = it.profileImageUrl
+                }
             }.onFailure {
                 when (it) {
                     is NullPointerException -> event(Event.NullPointException)
@@ -82,7 +84,12 @@ class MyPageViewModel @Inject constructor(
                 remotePointListUseCase.execute(pointType)
             }.onSuccess {
                 event2(Event.FetchPointList)
-                setState(state.value.copy(totalPoint = it.totalPoint, pointListEntity = it))
+                setState(
+                    state.value.copy(
+                        totalPoint = it.totalPoint,
+                        pointListEntity = it,
+                    ),
+                )
             }.onFailure {
                 when (it) {
                     is NullPointerException -> event2(Event.NullPointException)
