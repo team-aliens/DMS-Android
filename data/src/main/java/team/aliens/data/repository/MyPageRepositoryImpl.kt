@@ -1,6 +1,5 @@
 package team.aliens.data.repository
 
-import android.util.Log
 import team.aliens.data.remote.datasource.declaration.RemoteMyPageDataSource
 import team.aliens.data.remote.response.mypage.toEntity
 import team.aliens.domain.entity.mypage.MyPageEntity
@@ -17,9 +16,7 @@ class MyPageRepositoryImpl @Inject constructor(
 ) : MyPageRepository {
 
     override suspend fun fetchMyPage(): MyPageEntity =
-        remoteMyPageDataSource.fetchMyPage().toEntity().also {
-            Log.e("ENTITY", "fetchMyPage: $it", )
-        }
+        remoteMyPageDataSource.fetchMyPage().toEntity()
 
     override suspend fun fetchPointList(pointType: PointType): PointListEntity =
         remoteMyPageDataSource.fetchPointList(pointType).toEntity()
