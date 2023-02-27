@@ -47,6 +47,6 @@ fun TopBar(
             contentDescription = stringResource(id = R.string.BackButton),
         )
         Spacer(modifier = Modifier.width(32.dp))
-        Body3(text = title)
+        Body1(text = title)
     }
 }
