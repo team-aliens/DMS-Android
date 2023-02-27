@@ -28,7 +28,8 @@ import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
-import team.aliens.design_system.typography.SubTitle1
+import team.aliens.design_system.typography.Title1
+import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
@@ -130,7 +131,7 @@ fun MyPageScreen(
             .fillMaxSize()
             .background(DormColor.Gray200)
             .padding(
-                vertical = 60.dp,
+                vertical = 66.dp,
                 horizontal = 16.dp,
             ),
     ) {
@@ -142,11 +143,25 @@ fun MyPageScreen(
 
             Column {
 
-                // 사용자 정보
-                SubTitle1(
-                    text = "${myPageState.gcn} ${myPageState.name}",
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    // 사용자 정보
+                    Title1(
+                        text = "${myPageState.gcn} ${myPageState.name}",
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    LastAppliedItem(
+                        text = if (myPageState.sex == "MALE") "남" else "여",
+                        backgroundColor = if (myPageState.sex == "FEMALE") {
+                            DormColor.LightenError
+                        } else DormColor.Lighten200,
+                        textColor = if (myPageState.sex == "FEMALE") {
+                            DormColor.Error
+                        } else DormColor.DormPrimary,
+                    )
 
+                }
                 Spacer(
                     modifier = Modifier.height(10.dp),
                 )

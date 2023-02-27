@@ -63,6 +63,7 @@ class MyPageViewModel @Inject constructor(
                 state.value.myPageEntity.phrase = it.phrase
                 state.value.myPageEntity.schoolName = it.schoolName
                 state.value.myPageEntity.profileImageUrl = it.profileImageUrl
+                state.value.myPageEntity.sex = it.sex
             }.onFailure {
                 when (it) {
                     is NullPointerException -> event(Event.NullPointException)

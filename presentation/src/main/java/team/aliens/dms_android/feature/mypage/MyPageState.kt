@@ -27,6 +27,7 @@ data class MyPageEntity(
     var name: String = "",
     var gcn: String = "",
     var profileImageUrl: String = "",
+    var sex: String = "",
     var bonusPoint: Int = 0,
     var minusPoint: Int = 0,
     var phrase: String = "",

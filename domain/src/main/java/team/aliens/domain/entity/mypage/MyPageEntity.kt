@@ -5,6 +5,7 @@ data class MyPageEntity(
     val name: String,
     val gcn: String,
     val profileImageUrl: String,
+    val sex: String,
     val bonusPoint: Int,
     val minusPoint: Int,
     val phrase: String,
