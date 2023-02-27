@@ -4,11 +4,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
 import team.aliens.dms_android.feature.remain.RemainApplicationEvent
 import team.aliens.dms_android.feature.remain.RemainApplicationState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
 import team.aliens.domain.entity.remain.AvailableRemainTimeEntity
 import team.aliens.domain.entity.remain.RemainOptionsEntity
 import team.aliens.domain.exception.*
@@ -110,6 +110,7 @@ class RemainApplicationViewModel @Inject constructor(
         data class RemainOptions(val remainOptionsEntity: RemainOptionsEntity) : Event()
 
         object BadRequestException : Event()
+        object NotFoundException: Event()
         object UnauthorizedException : Event()
         object ForbiddenException : Event()
         object TooManyRequestException : Event()
@@ -125,6 +126,7 @@ private fun getEventFromThrowable(
 ): Event {
     return when(throwable){
         is BadRequestException -> Event.BadRequestException
+        is NotFoundException -> Event.NotFoundException
         is UnauthorizedException -> Event.UnauthorizedException
         is ForbiddenException -> Event.ForbiddenException
         is TooManyRequestException -> Event.TooManyRequestException

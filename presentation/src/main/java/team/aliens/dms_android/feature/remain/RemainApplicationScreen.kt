@@ -81,6 +81,7 @@ fun RemainApplicationScreen(
                     is Event.RemainOptions -> {
                         remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
                     }
+                    is Event.NotFoundException -> {}
                     else -> {
                         toast(
                             getStringFromEvent(
