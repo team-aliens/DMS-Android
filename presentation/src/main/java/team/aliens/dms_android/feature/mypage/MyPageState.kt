@@ -11,14 +11,21 @@ data class MyPageState(
     var pointListEntity: PointListEntity,
 ) : MviState {
     companion object {
-        fun initial() = MyPageState(type = PointType.ALL,
+        fun getDefaultInstance() = MyPageState(
+            type = PointType.ALL,
             totalPoint = 0,
-            pointListEntity = PointListEntity(totalPoint = 0,
-                pointValue = listOf(PointListEntity.PointValue(
-                    date = "",
-                    pointType = PointType.ALL,
-                    name = "",
-                    score = 0))))
+            pointListEntity = PointListEntity(
+                totalPoint = 0,
+                pointValue = listOf(
+                    PointListEntity.PointValue(
+                        date = "",
+                        pointType = PointType.ALL,
+                        name = "",
+                        score = 0,
+                    ),
+                ),
+            ),
+        )
     }
 }
 

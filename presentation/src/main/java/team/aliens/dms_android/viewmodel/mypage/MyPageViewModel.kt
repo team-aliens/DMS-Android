@@ -28,7 +28,7 @@ class MyPageViewModel @Inject constructor(
     }
 
     override val initialState: MyPageState
-        get() = MyPageState.initial()
+        get() = MyPageState.getDefaultInstance()
 
     private val _myPageViewEffect = MutableEventFlow<Event>()
     var myPageViewEffect = _myPageViewEffect.asEventFlow()
