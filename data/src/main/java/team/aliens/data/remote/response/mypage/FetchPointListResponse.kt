@@ -10,7 +10,7 @@ data class FetchPointListResponse(
     @SerializedName("points") val pointList: List<PointList>,
 ) {
     data class PointList(
-        @SerializedName("point_id") val pointId: UUID,
+        @SerializedName("point_history_id") val pointId: UUID,
         @SerializedName("date") val date: String,
         @SerializedName("type") val pointType: PointType,
         @SerializedName("name") val name: String,
