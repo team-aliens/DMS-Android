@@ -14,7 +14,7 @@ data class MyPageState(
         fun initial() = MyPageState(type = PointType.ALL,
             totalPoint = 0,
             pointListEntity = PointListEntity(totalPoint = 0,
-                pointValue = listOf(PointListEntity.PointValue(pointId = "",
+                pointValue = listOf(PointListEntity.PointValue(
                     date = "",
                     pointType = PointType.ALL,
                     name = "",
