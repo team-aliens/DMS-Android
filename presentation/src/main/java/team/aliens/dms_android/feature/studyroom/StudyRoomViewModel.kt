@@ -21,6 +21,7 @@ class StudyRoomViewModel @Inject constructor(
     private val studyApplySeatUseCase: RemoteApplySeatUseCase,
     private val studyCancelApplySeat: RemoteCancelApplySeat,
     private val studyRoomApplyTimeUseCase: RemoteFetchApplySeatUseCase,
+    private val currentStudyRoomOptionUseCase: RemoteFetchCurrentStudyRoomOptionUseCase,
 ) : BaseViewModel<StudyRoomState, StudyRoomEvent>() {
 
     init {
@@ -38,6 +39,9 @@ class StudyRoomViewModel @Inject constructor(
 
     private val _studyRoomTimeEffect = MutableEventFlow<Event>()
     val studyRoomTimeEffect = _studyRoomTimeEffect.asEventFlow()
+
+    private val _currentStudyRoomOptionEffect = MutableEventFlow<Event>()
+    val currentStudyRoomOptionEffect = _currentStudyRoomOptionEffect.asEventFlow()
 
     override val initialState: StudyRoomState
         get() = StudyRoomState.getDefaultInstance()
@@ -208,11 +212,49 @@ class StudyRoomViewModel @Inject constructor(
         )
     }
 
+    internal fun fetchCurrentStudyRoomOption() {
+        viewModelScope.launch {
+            val result = kotlin.runCatching {
+                currentStudyRoomOptionUseCase.execute(Unit)
+            }
+
+            result.getOrNull()?.run {
+                if (result.isSuccess) {
+                    _currentStudyRoomOptionEffect.emit(
+                        Event.FetchCurrentStudyRoomOption(
+                            floor = floor,
+                            name = name,
+                        )
+                    )
+                } else {
+                    emitCurrentStudyRoomOptionEvent(
+                        event = getEventFromThrowable(
+                            throwable = result.exceptionOrNull(),
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun emitCurrentStudyRoomOptionEvent(
+        event: Event,
+    ) {
+        viewModelScope.launch {
+            _currentStudyRoomOptionEffect.emit(event)
+        }
+    }
+
 
     //TODO BaseViewModel 에서 처리 필요. StudentRoomEvent
     sealed class Event {
         data class FetchStudyRoomList(val studyRoomListEntity: StudyRoomListEntity) : Event()
         data class FetchStudyDetail(val studyRoomDetailEntity: StudyRoomDetailEntity) : Event()
+        data class FetchCurrentStudyRoomOption(
+            val floor: Long,
+            val name: String,
+        ) : Event()
+
         object RoomApplyTime : Event()
         object ApplyStudyRoom : Event()
         object CancelStudyRoom : Event()
@@ -240,6 +282,7 @@ private fun getEventFromThrowable(
 ): Event {
     return when (throwable) {
         is BadRequestException -> Event.BadRequestException
+        is NotFoundException -> Event.NotFoundException
         is UnauthorizedException -> Event.UnAuthorizedTokenException
         is ForbiddenException -> Event.CannotConnectException
         is TooManyRequestException -> Event.TooManyRequestException
