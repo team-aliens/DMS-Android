@@ -177,12 +177,7 @@ fun LoginScreen(
             Caption(
                 text = stringResource(id = R.string.DoRegister),
                 onClick = {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            RegisterActivity::class.java,
-                        ),
-                    )
+                    navController.navigate(NavigationRoute.VerifySchool)
                 },
                 color = DormColor.Gray500,
             )

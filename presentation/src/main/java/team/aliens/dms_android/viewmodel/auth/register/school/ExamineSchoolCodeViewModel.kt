@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
-import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeSuccess
-import team.aliens.dms_android.feature.register.event.school.MissMatchSchoolCode
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.schools.RemoteSchoolCodeUseCase
 import java.util.*
@@ -29,9 +29,9 @@ class ExamineSchoolCodeViewModel @Inject constructor(
             kotlin.runCatching {
                 schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
             }.onSuccess {
-                event(ExamineSchoolCodeSuccess)
+                event(ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess)
             }.onFailure {
-                if (it is UnauthorizedException) event(MissMatchSchoolCode)
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -42,3 +42,14 @@ class ExamineSchoolCodeViewModel @Inject constructor(
         }
     }
 }
+
+private fun getEventFromThrowable(
+    throwable: Throwable?,
+): ExamineSchoolCodeEvent =
+    when(throwable) {
+        is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
+        is UnauthorizedException -> ExamineSchoolCodeEvent.MissMatchSchoolCode
+        is TooManyListenersException -> ExamineSchoolCodeEvent.TooManyRequestException
+        is ServerException -> ExamineSchoolCodeEvent.ServerException
+        else -> ExamineSchoolCodeEvent.UnknownException
+    }

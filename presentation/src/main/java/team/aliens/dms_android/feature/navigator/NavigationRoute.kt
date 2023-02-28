@@ -19,4 +19,5 @@ object NavigationRoute {
     const val RemainApplication = "remainApplication"
     const val StudyRoomDetail = "studyRoomDetail/{seatId}"
     const val ConfirmImage = "confirmImage"
+    const val VerifySchool = "verifySchool"
 }
