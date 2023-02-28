@@ -13,6 +13,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,7 +32,6 @@ import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEv
 import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import team.aliens.presentation.R
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpVerifySchoolScreen(
     navController: NavController,
@@ -40,15 +40,19 @@ fun SignUpVerifySchoolScreen(
 
     val context = LocalContext.current
 
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     var verificationCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
 
     val onVerificationCodeChange = { value: String ->
-        verificationCode = value
-        if (verificationCode.length == 8) {
-            keyboardController?.hide()
+        if (value.length <= 8) {
+            verificationCode = value
+            if (value.length == 8) {
+                focusManager.clearFocus()
+            } else {}
+        }else{
+            verificationCode = value.take(8)
         }
     }
 
@@ -60,7 +64,7 @@ fun SignUpVerifySchoolScreen(
                 is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
                     navController.currentBackStackEntry?.savedStateHandle?.set(
                         "schoolId",
-                         examineSchoolCodeViewModel.schoolId.toString(),
+                        examineSchoolCodeViewModel.schoolId.toString(),
                     )
                     navController.navigate(NavigationRoute.SchoolQuestion)
                 }
@@ -106,7 +110,7 @@ fun SignUpVerifySchoolScreen(
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(24.dp)
                     ) {
-                        items(8) {index ->
+                        items(8) { index ->
                             Box(
                                 modifier = Modifier
                                     .size(16.dp)
@@ -130,7 +134,7 @@ fun SignUpVerifySchoolScreen(
                     DormColor.Error
                 } else DormColor.Gray500,
             )
-            Spacer(modifier = Modifier.fillMaxHeight(0.768f))
+            Spacer(modifier = Modifier.fillMaxHeight(0.767f))
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
