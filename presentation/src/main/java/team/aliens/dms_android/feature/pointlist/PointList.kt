@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
@@ -56,9 +57,11 @@ private fun Point(
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
+            .clip(
+                RoundedCornerShape(10.dp),
+            )
             .background(
                 color = DormColor.Gray100,
-                shape = RoundedCornerShape(6.dp),
             )
             .fillMaxWidth()
             .height(70.dp)

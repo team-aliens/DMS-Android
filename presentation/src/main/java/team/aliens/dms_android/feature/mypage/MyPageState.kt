@@ -7,18 +7,25 @@ import team.aliens.domain.enums.PointType
 data class MyPageState(
     var type: PointType,
     var totalPoint: Int,
-    val myPageEntity: MyPageEntity = MyPageEntity(),
+    var myPageEntity: MyPageEntity = MyPageEntity(),
     var pointListEntity: PointListEntity,
 ) : MviState {
     companion object {
-        fun initial() = MyPageState(type = PointType.ALL,
+        fun getDefaultInstance() = MyPageState(
+            type = PointType.ALL,
             totalPoint = 0,
-            pointListEntity = PointListEntity(totalPoint = 0,
-                pointValue = listOf(PointListEntity.PointValue(pointId = "",
-                    date = "",
-                    pointType = PointType.ALL,
-                    name = "",
-                    score = 0))))
+            pointListEntity = PointListEntity(
+                totalPoint = 0,
+                pointValue = listOf(
+                    PointListEntity.PointValue(
+                        date = "",
+                        pointType = PointType.ALL,
+                        name = "",
+                        score = 0,
+                    ),
+                ),
+            ),
+        )
     }
 }
 

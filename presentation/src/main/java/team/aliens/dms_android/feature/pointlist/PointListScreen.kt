@@ -91,15 +91,29 @@ fun PointListScreen(
             .fillMaxSize()
             .background(DormColor.Gray200),
     ) {
-        TopBar(title = stringResource(id = R.string.CheckPoint)) {
+
+        TopBar(
+            title = stringResource(
+                id = R.string.CheckPoint,
+            ),
+        ) {
             navController.popBackStack()
         }
+
+        // point filter
         DialogBox(myPageViewModel)
+
+
+        // todo move
         point.clear()
+
         val mappingNotice = state.pointListEntity.pointValue.map { item ->
             item.toNotice()
         }
+
         point.addAll(mappingNotice.toMutableStateList())
+
+        // points
         PointListValue(point, myPageViewModel)
     }
 }
