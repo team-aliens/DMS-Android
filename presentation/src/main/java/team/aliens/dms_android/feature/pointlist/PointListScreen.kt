@@ -22,9 +22,6 @@ import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
 import team.aliens.presentation.R
 
-fun PointListEntity.PointValue.toNotice() =
-    PointValue(date = date, content = name, point = score, pointType = pointType)
-
 @Composable
 fun PointListScreen(
     navController: NavController,
@@ -35,19 +32,12 @@ fun PointListScreen(
         myPageViewModel.fetchPointList(PointType.ALL)
     }
 
-    val point = remember {
-        mutableStateListOf(
-            PointValue(
-                "",
-                "",
-                0,
-                PointType.ALL,
-            )
-        )
-    }
+    val point = remember { mutableStateListOf<PointListEntity.PointValue>() }
 
-    val state = myPageViewModel.state.collectAsState().value
+    var totalPoint by remember { mutableStateOf(0) }
+
     val toast = rememberToast()
+
     val badRequestComment = stringResource(id = R.string.BadRequest)
     val unAuthorizedComment = stringResource(id = R.string.LoginUnauthorized)
     val forbiddenException = stringResource(id = R.string.LoginNotFound)
@@ -58,6 +48,8 @@ fun PointListScreen(
         myPageViewModel.pointViewEffect.collect {
             when (it) {
                 is MyPageViewModel.Event.FetchPointList -> {
+                    point.addAll(it.pointListEntity.pointValue)
+                    totalPoint = it.pointListEntity.totalPoint
                 }
                 is MyPageViewModel.Event.BadRequestException -> {
                     toast(badRequestComment)
@@ -95,12 +87,10 @@ fun PointListScreen(
             navController.popBackStack()
         }
         DialogBox(myPageViewModel)
-        point.clear()
-        val mappingNotice = state.pointListEntity.pointValue.map { item ->
-            item.toNotice()
-        }
-        point.addAll(mappingNotice.toMutableStateList())
-        PointListValue(point, myPageViewModel)
+        PointListValue(
+            totalPoint = totalPoint,
+            point = point,
+        )
     }
 }
 
@@ -179,8 +169,8 @@ private fun PointTypeButton(
 
 @Composable
 fun PointListValue(
-    point: MutableList<PointValue>,
-    myPageViewModel: MyPageViewModel,
+    totalPoint: Int,
+    point: MutableList<PointListEntity.PointValue>,
 ) {
     Column {
         Column(
@@ -189,10 +179,9 @@ fun PointListValue(
                 .padding(start = 24.dp)
         ) {
             Spacer(modifier = Modifier.height(44.dp))
-            val state = myPageViewModel.state.collectAsState().value
-            Headline2(text = " ${state.totalPoint}점")
+            Headline2(text = " ${totalPoint}점")
         }
         Spacer(modifier = Modifier.height(40.dp))
-        PointList(points = point, onClick = {})
+        PointList(points = point)
     }
 }

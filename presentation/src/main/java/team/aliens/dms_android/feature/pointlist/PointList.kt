@@ -8,39 +8,29 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.OverLine
+import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
-
-data class PointValue(
-    val date: String,
-    val content: String,
-    val point: Int,
-    val pointType: PointType,
-)
 
 @Composable
 fun PointList(
     modifier: Modifier = Modifier,
-    points: List<PointValue>,
-    onClick: (Int) -> Unit,
+    points: MutableList<PointListEntity.PointValue>,
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.fillMaxHeight(),
     ) {
         itemsIndexed(items = points) { index, point ->
+            Spacer(modifier = Modifier.height(12.dp))
             Point(
                 pointValue = point,
-                index = index,
-                onClick = onClick,
             )
-
-            if (index != points.size) {
+            if(index == points.size - 1){
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
@@ -49,43 +39,37 @@ fun PointList(
 
 @Composable
 private fun Point(
-    pointValue: PointValue,
-    index: Int,
-    onClick: (Int) -> Unit,
+    pointValue: PointListEntity.PointValue,
 ) {
     Box(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 16.dp)
+            .dormShadow(
+                color = DormColor.Gray500,
+                offsetY = 1.dp,
+            )
             .background(
                 color = DormColor.Gray100,
                 shape = RoundedCornerShape(6.dp),
             )
             .fillMaxWidth()
-            .height(70.dp)
-            .dormShadow(
-                color = DormColor.Gray100,
-                offsetX = 1.dp,
-                offsetY = 1.dp,
-            )
-            .dormClickable(
-                rippleEnabled = true,
-            ) {
-                onClick(index)
-            },
+            .height(70.dp),
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
             Modifier.padding(horizontal = 24.dp),
         ) {
-            Body4(
-                text = pointValue.date,
+
+            OverLine(
+                text = "${pointValue.date.split("-")[1]}월"
+                + " ${pointValue.date.split("-")[2]}일",
                 color = DormColor.Gray500,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Body5(
-                text = pointValue.content,
+                text = pointValue.name,
                 color = DormColor.Gray600,
             )
         }
@@ -95,15 +79,15 @@ private fun Point(
             contentAlignment = Alignment.BottomEnd,
         ) {
             when(pointValue.pointType){
-                PointType.MINUS -> {
+                PointType.BONUS -> {
                     Body4(
-                        text = "+${pointValue.point}",
+                        text = "+${pointValue.score}",
                         color = DormColor.DormPrimary
                     )
                 }
                 else -> {
                     Body4(
-                        text = "-${pointValue.point}",
+                        text = "-${pointValue.score}",
                         color = DormColor.Error
                     )
                 }
