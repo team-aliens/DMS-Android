@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.register.ui.school
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -57,7 +58,7 @@ fun SignUpVerifySchoolScreen(
         examineSchoolCodeViewModel.examineSchoolCodeEvent.collect {
             when (it) {
                 is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.putString(
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
                         "schoolId",
                          examineSchoolCodeViewModel.schoolId.toString(),
                     )
@@ -82,7 +83,7 @@ fun SignUpVerifySchoolScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                top = 92.dp,
+                top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
             ),
@@ -102,8 +103,10 @@ fun SignUpVerifySchoolScreen(
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 decorationBox = {
-                    Row {
-                        repeat(8) { index ->
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(24.dp)
+                    ) {
+                        items(8) {index ->
                             Box(
                                 modifier = Modifier
                                     .size(16.dp)
@@ -114,7 +117,6 @@ fun SignUpVerifySchoolScreen(
                                         } else DormColor.Gray400,
                                     ),
                             )
-                            Spacer(modifier = Modifier.width(24.dp))
                         }
                     }
                 }
@@ -128,7 +130,7 @@ fun SignUpVerifySchoolScreen(
                     DormColor.Error
                 } else DormColor.Gray500,
             )
-            Spacer(modifier = Modifier.fillMaxHeight(0.774f))
+            Spacer(modifier = Modifier.fillMaxHeight(0.768f))
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
