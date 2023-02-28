@@ -48,6 +48,7 @@ fun PointListScreen(
         myPageViewModel.pointViewEffect.collect {
             when (it) {
                 is MyPageViewModel.Event.FetchPointList -> {
+                    point.clear()
                     point.addAll(it.pointListEntity.pointValue)
                     totalPoint = it.pointListEntity.totalPoint
                 }
