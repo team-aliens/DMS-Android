@@ -1,7 +1,8 @@
 package team.aliens.design_system.component
 
 import android.widget.CalendarView
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.launch
 import team.aliens.design_system.modifier.dormClickable
@@ -29,14 +31,19 @@ fun DormCalendar(
         sheetContent = {
             AndroidView(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(
+                        bottom = 60.dp,
+                    )
                     .wrapContentWidth(Alignment.CenterHorizontally),
                 factory = {
                     CalendarView(it)
                 },
                 update = {
-                    it.setOnDateChangeListener { view, year, month, day ->
-                        onChangeDate("${day}-${month - 1}-${year}")
+                    it.setOnDateChangeListener { _, year, month, day ->
+                        val formedMonth = (month + 1).toString().padStart(2, '0')
+                        val formedDay = day.toString().padStart(2, '0')
+                        onChangeDate("${year}-${formedMonth}-${formedDay}")
                     }
                 },
             )

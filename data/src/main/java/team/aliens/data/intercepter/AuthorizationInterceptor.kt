@@ -3,8 +3,8 @@ package team.aliens.data.intercepter
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import team.aliens.data.remote.url.DmsUrl
 import team.aliens.data.remote.url.DmsHttpProperties
+import team.aliens.data.remote.url.DmsUrl
 import team.aliens.data.util.LocalDateTimeEx
 import team.aliens.local_database.localutil.toLocalDateTime
 import team.aliens.local_database.param.UserPersonalKeyParam
@@ -20,8 +20,8 @@ private val ignorePath = listOf(
     DmsUrl.Students.examineGrade,
     DmsUrl.Students.duplicateCheckId,
     DmsUrl.Schools.schoolCode,
-    DmsUrl.Schools.schoolAnswer.split('{')[0],
-    DmsUrl.Schools.schoolQuestion.split('{')[0],
+    "${DmsUrl.schools}/question",
+    "${DmsUrl.schools}/answer",
 )
 
 class AuthorizationInterceptor @Inject constructor(
@@ -34,7 +34,7 @@ class AuthorizationInterceptor @Inject constructor(
 
         val path = request.url.encodedPath
 
-        if (ignorePath.contains(path)) return chain.proceed(request)
+        if (ignorePath.any { path.contains(it) }) return chain.proceed(request)
 
         val expiredAt = runBlocking {
             userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()

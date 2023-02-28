@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,8 +16,8 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.RoomContent
 import team.aliens.design_system.component.RoomDetail
+import team.aliens.design_system.component.RoomItem
 import team.aliens.design_system.component.SeatItem
 import team.aliens.design_system.component.SeatType
 import team.aliens.design_system.toast.rememberToast
@@ -37,10 +38,13 @@ fun StudyRoomDetailScreen(
     roomId: String,
     studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
 ) {
+
     LaunchedEffect(Unit) {
         studyRoomViewModel.fetchStudyRoomDetail(roomId)
         studyRoomViewModel.fetchApplyTime()
     }
+
+    val context = LocalContext.current
 
     val state = studyRoomViewModel.state.collectAsState().value
 
@@ -128,35 +132,60 @@ fun StudyRoomDetailScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DormColor.Gray100)
-    ) {
-        // TODO string resource 로 빼주기
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = DormColor.Gray100)) {
+
         TopBar(
-            title = "자습실 신청",
+            title = stringResource(
+                id = R.string.ApplicateStudyRoom,
+            ),
         ) {
             navController.popBackStack()
         }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = DormColor.Gray200)
-                .padding(horizontal = 16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(17.dp))
-            FloatingNotice(content = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}")
-            Spacer(modifier = Modifier.height(24.dp))
-            RoomContent(roomId = "",
+
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = DormColor.Gray200,
+            )
+            .padding(
+                horizontal = 16.dp,
+            )) {
+
+            Spacer(
+                modifier = Modifier.height(17.dp),
+            )
+
+
+            FloatingNotice(
+                content = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}",
+            )
+
+
+            Spacer(
+                modifier = Modifier.height(24.dp),
+            )
+
+
+            RoomItem(
+                roomId = "",
                 position = "${state.roomDetail.floor}층",
                 title = state.roomDetail.name,
                 currentNumber = state.roomDetail.inUseHeadCount,
                 maxNumber = state.roomDetail.totalAvailableSeat,
-                isMine = false,
-                condition = "${state.roomDetail.availableGrade}${stringResource(id = R.string.Grade)} ${state.roomDetail.studyRoomSex}",
-                onClick = { })
-            Spacer(modifier = Modifier.height(30.dp))
+                condition = state.roomDetail.availableGrade + stringResource(
+                    id = R.string.Grade,
+                ) + " ${state.roomDetail.studyRoomSex}",
+                onClick = { },
+            )
+
+
+            Spacer(
+                modifier = Modifier.height(30.dp),
+            )
+
+
             RoomDetail(
                 topDescription = state.roomDetail.northDescription,
                 bottomDescription = state.roomDetail.southDescription,
@@ -168,35 +197,55 @@ fun StudyRoomDetailScreen(
                     studyRoomViewModel.updateCurrentSeat(seatId)
                 },
             )
+
+
             Spacer(modifier = Modifier.weight(1f))
+
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                // TODO string resource 로 빼주기
+
+                // Cancel button
                 DormContainedLargeButton(
-                    modifier = Modifier.fillMaxWidth(0.48f),
-                    text = "취소",
+                    modifier = Modifier.fillMaxWidth(0.5f),
+                    text = stringResource(
+                        id = R.string.Cancel,
+                    ),
                     color = DormButtonColor.Gray,
                 ) {
                     studyRoomViewModel.cancelStudyRoomSeat()
                 }
-                Spacer(modifier = Modifier.width(10.dp))
-                // TODO string resource 로 빼주기
+
+
+                Spacer(
+                    modifier = Modifier.width(10.dp),
+                )
+
+
+                // Apply button
                 DormContainedLargeButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "신청",
+                    text = stringResource(
+                        id = R.string.Application,
+                    ),
                     color = DormButtonColor.Blue,
                 ) {
                     if (state.currentSeat == null) {
-                        // TODO string resource 로 빼주기
-                        toast("자리를 먼저 선택해주세요.")
+                        toast(
+                            context.getString(R.string.PleaseSelectSeatFirst),
+                        )
                     } else {
                         studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(30.dp))
+
+
+            Spacer(
+                modifier = Modifier.height(54.dp),
+            )
         }
     }
 }
@@ -224,15 +273,13 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
         val height = seat.heightLocation - 1
         val color = seat.type?.color
 
-        defaultSeats[height][width] = SeatItem(
-            id = seat.id,
+        defaultSeats[height][width] = SeatItem(id = seat.id,
             number = seat.number,
             name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status)
-        )
+            type = SeatType.toSeatType(seat.status))
     }
 
     return defaultSeats

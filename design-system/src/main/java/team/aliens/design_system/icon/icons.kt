@@ -58,8 +58,8 @@ value class DormIcon private constructor(
         )
 
         @Stable
-        val Launch = DormIcon(
-            drawableId = R.drawable.ic_launch,
+        val Lunch = DormIcon(
+            drawableId = R.drawable.ic_lunch,
         )
 
         @Stable

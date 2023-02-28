@@ -5,10 +5,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseActivity
 import team.aliens.dms_android.feature.register.ui.school.SchoolCertificationFragment
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.ActivityRegisterBinding
+import team.aliens.presentation.databinding.ActivitySignUpBinding
 
 @AndroidEntryPoint
-class RegisterActivity : BaseActivity<ActivityRegisterBinding>(R.layout.activity_register) {
+class RegisterActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

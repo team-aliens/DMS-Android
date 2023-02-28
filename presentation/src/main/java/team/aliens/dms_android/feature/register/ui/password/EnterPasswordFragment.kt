@@ -6,17 +6,17 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
-import team.aliens.dms_android.feature.register.ui.last.SetProfileImageFragment
-import team.aliens.dms_android.util.visible
+import team.aliens.dms_android.feature.register.ui.last.EnterProfileImageFragment
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentSetPasswordBinding
+import team.aliens.presentation.databinding.FragmentSignUpEnterPasswordBinding
 
 @AndroidEntryPoint
-class SetPasswordFragment :
-    BaseFragment<FragmentSetPasswordBinding>(R.layout.fragment_set_password) {
+class EnterPasswordFragment :
+    BaseFragment<FragmentSignUpEnterPasswordBinding>(R.layout.fragment_sign_up_enter_password) {
     private var pwd = ""
     private var rePwd = ""
     private var email: String = ""
@@ -53,7 +53,7 @@ class SetPasswordFragment :
 
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
-            registerActive.supportFragmentManager.beginTransaction().remove(SetPasswordFragment())
+            registerActive.supportFragmentManager.beginTransaction().remove(EnterPasswordFragment())
                 .commit()
         }
 
@@ -62,7 +62,7 @@ class SetPasswordFragment :
                 val registerActive = activity as RegisterActivity
 
                 val bundle = Bundle()
-                val fragment = SetProfileImageFragment()
+                val fragment = EnterProfileImageFragment()
 
                 bundle.putString("email", email)
                 bundle.putString("answer", answer)
@@ -81,7 +81,7 @@ class SetPasswordFragment :
                     .commit()
             } else {
                 binding.etReEnterPassword.setBackgroundResource(R.drawable.register_et_error_background)
-                binding.tvError.visible()
+                binding.tvError.isVisible = true
                 binding.btnVerificationCode.setBackgroundResource(R.drawable.register_custom_btn_background)
                 binding.btnVerificationCode.isEnabled = false
             }

@@ -6,22 +6,23 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.base.BaseFragment
 import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
-import team.aliens.dms_android.feature.register.ui.password.SetPasswordFragment
+import team.aliens.dms_android.feature.register.ui.password.EnterPasswordFragment
 import team.aliens.dms_android.util.repeatOnStarted
-import team.aliens.dms_android.util.visible
 import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.domain.entity.user.ExamineGradeEntity
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.FragmentSetIdBinding
+import team.aliens.presentation.databinding.FragmentSignUpEnterIdBinding
 import java.util.*
 
 @AndroidEntryPoint
-class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_id) {
+class EnterIdFragment :
+    BaseFragment<FragmentSignUpEnterIdBinding>(R.layout.fragment_sign_up_enter_id) {
     private val setIdViewModel: SetIdViewModel by viewModels()
 
     private var email: String = ""
@@ -91,7 +92,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_i
                 val registerActive = activity as RegisterActivity
 
                 val bundle = Bundle()
-                val fragment = SetPasswordFragment()
+                val fragment = EnterPasswordFragment()
 
                 bundle.putString("email", email)
                 bundle.putString("answer", answer)
@@ -110,7 +111,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_i
 
             is SetIdEvent.DuplicateIdConflictException -> {
                 binding.etId.setBackgroundResource(R.drawable.register_et_error_background)
-                binding.tvError.visible()
+                binding.tvError.isVisible = true
             }
 
             is SetIdEvent.DuplicateIdBadRequestException -> showShortToast(getString(R.string.BadRequest))
@@ -168,7 +169,7 @@ class SetIdFragment : BaseFragment<FragmentSetIdBinding>(R.layout.fragment_set_i
 
         binding.ivBack.setOnClickListener {
             val registerActive = activity as RegisterActivity
-            registerActive.supportFragmentManager.beginTransaction().remove(SetIdFragment())
+            registerActive.supportFragmentManager.beginTransaction().remove(EnterIdFragment())
                 .commit()
         }
     }

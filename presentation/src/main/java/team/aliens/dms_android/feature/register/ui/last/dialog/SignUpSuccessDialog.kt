@@ -8,9 +8,9 @@ import android.view.LayoutInflater
 import android.view.Window
 import androidx.databinding.DataBindingUtil
 import team.aliens.presentation.R
-import team.aliens.presentation.databinding.DialogSignUpBinding
+import team.aliens.presentation.databinding.DialogSignUpSuccessBinding
 
-class GoLoginDialog(
+class SignUpSuccessDialog(
     private val context: Context,
     private val onYesClick: () -> Unit = {},
 ) {
@@ -20,10 +20,14 @@ class GoLoginDialog(
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val binding: DialogSignUpBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.dialog_sign_up,
-            null,
-            false)
+        val binding: DialogSignUpSuccessBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(context),
+                R.layout.dialog_sign_up_success,
+                null,
+                false,
+            )
+
         dialog.setContentView(binding.root)
 
         binding.tvGoLogin.setOnClickListener {

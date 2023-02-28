@@ -2,13 +2,13 @@ package team.aliens.dms_android.viewmodel.mypage
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.entity.mypage.MyPageEntity
 import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
@@ -36,10 +36,17 @@ class MyPageViewModel @Inject constructor(
     private val _pointViewEffect = MutableEventFlow<Event>()
     var pointViewEffect = _pointViewEffect.asEventFlow()
 
+    private val _signOutEvent = MutableEventFlow<Event>()
+    internal val signOutEvent = _signOutEvent.asEventFlow()
+
     fun signOut() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 signOutUseCase.execute(Unit)
+            }.onSuccess {
+                emitSignOutEvent(
+                    Event.SignedOut,
+                )
             }
         }
     }
@@ -93,21 +100,27 @@ class MyPageViewModel @Inject constructor(
     private fun event(event: Event) {
         viewModelScope.launch {
             _myPageViewEffect.emit(event)
-            myPageViewEffect = _myPageViewEffect.asEventFlow()
         }
     }
 
     private fun event2(event: Event) {
         viewModelScope.launch {
             _pointViewEffect.emit(event)
-            pointViewEffect = _pointViewEffect.asEventFlow()
+        }
+    }
+
+    private fun emitSignOutEvent(
+        event: Event,
+    ) {
+        viewModelScope.launch {
+            _signOutEvent.emit(event)
         }
     }
 
     override fun reduceEvent(oldState: MyPageState, event: MyPageEvent) {}
 
     sealed class Event {
-        data class FetchMyPageValue(val myPageEntity: MyPageEntity) : Event()
+        object SignedOut : Event()
         object FetchPointList : Event()
         object BadRequestException : Event()
         object NullPointException : Event()

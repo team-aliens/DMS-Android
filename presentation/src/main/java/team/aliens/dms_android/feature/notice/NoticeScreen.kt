@@ -1,12 +1,10 @@
 package team.aliens.dms_android.feature.notice
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,7 @@ import team.aliens.design_system.component.Notice
 import team.aliens.design_system.component.NoticeList
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body1
+import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.domain.entity.notice.NoticeListEntity
 import team.aliens.domain.enums.NoticeListSCType
@@ -107,14 +106,14 @@ fun NoticeScreen(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Body1(text = stringResource(id = R.string.Notice))
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
         ) {
-            NoticeOrderButton(noticeViewModel)
+            OrderButton(noticeViewModel)
         }
         NoticeList(
             modifier = Modifier
@@ -129,43 +128,48 @@ fun NoticeScreen(
 }
 
 @Composable
-fun NoticeOrderButton(
+fun OrderButton(
     noticeViewModel: NoticeViewModel,
 ) {
+
+    val context = LocalContext.current
+
     var text by remember {
-        mutableStateOf("최신순")
+        mutableStateOf(
+            context.getString(R.string.LatestOrder),
+        )
     }
+
     Button(
-        modifier = Modifier
-            .border(
-                color = DormColor.Gray600,
-                width = 1.dp,
-                shape = RoundedCornerShape(15),
-            )
-            .size(
-                width = 94.dp,
-                height = 40.dp,
-            ),
         onClick = {
             if (noticeViewModel.state.value.type == NoticeListSCType.NEW) {
                 noticeViewModel.state.value.type = NoticeListSCType.OLD
-                text = "오래된 순"
+                text = context.getString(R.string.OldestOrder)
                 noticeViewModel.fetchNoticeList()
             } else {
                 noticeViewModel.state.value.type = NoticeListSCType.NEW
-                text = "최신순"
+                text = context.getString(R.string.LatestOrder)
                 noticeViewModel.fetchNoticeList()
             }
         },
+        border = BorderStroke(
+            width = 1.dp,
+            color = DormColor.Gray600,
+        ),
         colors = ButtonDefaults.buttonColors(backgroundColor = DormColor.Gray100),
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .padding(
+                    horizontal = 8.dp,
+                    vertical = 4.dp,
+                ),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            ButtonText(
                 text = text,
+                color = DormColor.Gray600,
             )
         }
     }

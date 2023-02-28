@@ -69,13 +69,6 @@ fun MyPageScreen(
                 mainBtnText = stringResource(R.string.Check),
                 subBtnText = stringResource(R.string.Cancel),
                 onMainBtnClick = {
-
-                    navController.navigate(NavigationRoute.Login) {
-                        popUpTo(navController.currentDestination?.route!!) {
-                            inclusive = true
-                        }
-                    }
-
                     myPageViewModel.signOut()
                 },
                 onSubBtnClick = {
@@ -119,6 +112,16 @@ fun MyPageScreen(
                     event = event,
                 ),
             )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        myPageViewModel.signOutEvent.collect {
+            navController.navigate(NavigationRoute.Login) {
+                popUpTo(navController.currentDestination?.route!!) {
+                    inclusive = true
+                }
+            }
         }
     }
 
