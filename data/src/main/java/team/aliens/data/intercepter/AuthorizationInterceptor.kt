@@ -19,6 +19,7 @@ private val ignorePath = listOf(
     DmsUrl.Students.register,
     DmsUrl.Students.examineGrade,
     DmsUrl.Students.duplicateCheckId,
+    DmsUrl.Students.duplicateCheckEmail,
     DmsUrl.Schools.schoolCode,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",

@@ -11,6 +11,7 @@ import team.aliens.domain.enums.EmailType
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.CheckEmailCodeParam
 import team.aliens.domain.param.RequestEmailCodeParam
+import team.aliens.domain.usecase.students.DuplicateCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteRequestEmailCodeUseCase
 import javax.inject.Inject
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class RegisterEmailViewModel @Inject constructor(
     private val remoteRequestEmailCodeUseCase: RemoteRequestEmailCodeUseCase,
     private val remoteCheckEmailUseCase: RemoteCheckEmailUseCase,
+    private val remoteDuplicateCheckEmailUseCase: DuplicateCheckEmailUseCase,
 ) : ViewModel() {
 
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
@@ -65,9 +67,44 @@ class RegisterEmailViewModel @Inject constructor(
         }
     }
 
+    internal fun checkEmailDuplicate(
+        email: String,
+    ){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                remoteDuplicateCheckEmailUseCase.execute(email)
+            }.onSuccess {
+                event(RegisterEmailEvent.AllowEmail)
+            }.onFailure {
+                event(getEventFromThrowable(it))
+            }
+        }
+    }
+
     private fun event(event: RegisterEmailEvent) {
         viewModelScope.launch {
             _registerEmailEvent.emit(event)
         }
     }
 }
+
+private fun getEventFromThrowable(
+    throwable: Throwable?
+): RegisterEmailEvent =
+    when(throwable){
+        is BadRequestException -> {
+            RegisterEmailEvent.BadRequestException
+        }
+        is ConflictException -> {
+            RegisterEmailEvent.ConflictException
+        }
+        is TooManyRequestException -> {
+            RegisterEmailEvent.TooManyRequestsException
+        }
+        is ServerException -> {
+            RegisterEmailEvent.InternalServerException
+        }
+        else -> {
+            RegisterEmailEvent.UnKnownException
+        }
+    }

@@ -36,6 +36,7 @@
     <string name="SendSuccess">성공정으로 이메일을 보냈습니다.</string>
     <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
+    <string name="ConflictEmail">이미 존재하는 이메일 입니다.</string>
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
     <string name="VerificationCode">인증코드 입력</string>
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
