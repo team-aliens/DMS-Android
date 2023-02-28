@@ -218,22 +218,24 @@ class StudyRoomViewModel @Inject constructor(
                 currentStudyRoomOptionUseCase.execute(Unit)
             }
 
-            result.getOrNull()?.run {
-                if (result.isSuccess) {
-                    _currentStudyRoomOptionEffect.emit(
-                        Event.FetchCurrentStudyRoomOption(
-                            floor = floor,
-                            name = name,
-                        )
+            if (result.isSuccess) {
+
+                val resultEntity = result.getOrThrow()
+
+                _currentStudyRoomOptionEffect.emit(
+                    Event.FetchCurrentStudyRoomOption(
+                        floor = resultEntity.floor,
+                        name = resultEntity.name,
                     )
-                } else {
-                    emitCurrentStudyRoomOptionEvent(
-                        event = getEventFromThrowable(
-                            throwable = result.exceptionOrNull(),
-                        )
+                )
+            } else {
+                emitCurrentStudyRoomOptionEvent(
+                    event = getEventFromThrowable(
+                        throwable = result.exceptionOrNull(),
                     )
-                }
+                )
             }
+
         }
     }
 
