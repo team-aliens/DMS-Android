@@ -54,6 +54,7 @@ object DmsUrl {
         const val StudyRoomList = "$studyRoom/list/students"
         const val StudyRoomType = "$studyRoom/types"
         const val StudyRoomDetail = "$studyRoom/{study-room-id}/students"
+        const val CurrentStudyRoomOption = "$studyRoom/my"
     }
 
     object Remain {

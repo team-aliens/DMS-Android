@@ -1,14 +1,8 @@
 package team.aliens.data.repository
 
 import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
-import team.aliens.data.remote.response.studyroom.ApplySeatTimeResponse
-import team.aliens.data.remote.response.studyroom.StudyRoomDetailResponse
-import team.aliens.data.remote.response.studyroom.StudyRoomListResponse
-import team.aliens.data.remote.response.studyroom.StudyRoomTypeResponse
-import team.aliens.domain.entity.studyroom.ApplySeatTimeEntity
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
-import team.aliens.domain.entity.studyroom.StudyRoomListEntity
-import team.aliens.domain.entity.studyroom.StudyRoomTypeEntity
+import team.aliens.data.remote.response.studyroom.*
+import team.aliens.domain.entity.studyroom.*
 import team.aliens.domain.repository.StudyRoomRepository
 import javax.inject.Inject
 
@@ -35,6 +29,9 @@ class StudyRoomRepositoryImpl @Inject constructor(
 
     override suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity =
         remoteStudyRoomDataSource.fetchStudyRoomDetail(roomId).toEntity()
+
+    override suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionEntity =
+        remoteStudyRoomDataSource.fetchCurrentStudyRoomOption().toEntity()
 
     private fun ApplySeatTimeResponse.toEntity() = ApplySeatTimeEntity(
         startAt = startAt,
@@ -119,5 +116,11 @@ class StudyRoomRepositoryImpl @Inject constructor(
         id = id.toString(),
         name = name,
     )
+
+    private fun CurrentStudyRoomOptionResponse.toEntity() =
+        CurrentStudyRoomOptionEntity(
+            floor = floor,
+            name = name,
+        )
 }
 

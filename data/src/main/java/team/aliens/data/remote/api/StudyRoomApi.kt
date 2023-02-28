@@ -5,10 +5,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import team.aliens.data.remote.response.studyroom.ApplySeatTimeResponse
-import team.aliens.data.remote.response.studyroom.StudyRoomDetailResponse
-import team.aliens.data.remote.response.studyroom.StudyRoomListResponse
-import team.aliens.data.remote.response.studyroom.StudyRoomTypeResponse
+import team.aliens.data.remote.response.studyroom.*
 import team.aliens.data.remote.url.DmsUrl
 
 interface StudyRoomApi {
@@ -34,4 +31,7 @@ interface StudyRoomApi {
     suspend fun fetchStudyRoomDetail(
         @Path("study-room-id") roomId: String,
     ): StudyRoomDetailResponse
+
+    @GET(DmsUrl.StudyRoom.CurrentStudyRoomOption)
+    suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionResponse
 }

@@ -40,13 +40,20 @@ fun ApplicationScreen(
     studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
     remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
 ) {
-    // TODO 서버로부터 받아오기
+
     var lastAppliedStudyRoom by remember { mutableStateOf("") }
     var lastAppliedRemain by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         with(studyRoomViewModel) {
-            // TODO update studyRoomLastApplied logic
+            fetchCurrentStudyRoomOption()
+            currentStudyRoomOptionEffect.collect{
+                when(it){
+                    is StudyRoomViewModel.Event.FetchCurrentStudyRoomOption -> {
+                        lastAppliedStudyRoom = "${it.floor}층 ${it.name}"
+                    }
+                }
+            }
         }
     }
 

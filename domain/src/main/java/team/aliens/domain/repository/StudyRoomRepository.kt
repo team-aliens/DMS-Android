@@ -1,9 +1,6 @@
 package team.aliens.domain.repository
 
-import team.aliens.domain.entity.studyroom.ApplySeatTimeEntity
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
-import team.aliens.domain.entity.studyroom.StudyRoomListEntity
-import team.aliens.domain.entity.studyroom.StudyRoomTypeEntity
+import team.aliens.domain.entity.studyroom.*
 
 interface StudyRoomRepository {
 
@@ -18,4 +15,6 @@ interface StudyRoomRepository {
     suspend fun fetchStudyRoomType(): StudyRoomTypeEntity
 
     suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity
+
+    suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionEntity
 }
