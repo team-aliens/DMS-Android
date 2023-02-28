@@ -9,6 +9,7 @@ object NavigationRoute {
         const val MyPage = "mypage"
     }
 
+    const val MyPageChangePassword = "myPageChangePassword"
     const val ChangePassword = "changePassword"
     const val Login = "login"
     const val Main = "main"

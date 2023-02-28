@@ -10,6 +10,7 @@ object DmsUrl {
     const val studyRoom = "/study-rooms"
     const val remains = "/remains"
     const val uploadFile = "/files"
+    const val users = "/users"
 
     object User {
         const val login = "$auth/tokens"
@@ -17,6 +18,8 @@ object DmsUrl {
         const val reissueToken = "$auth/reissue"
         const val compareEmail = "$auth/email"
         const val checkId = "$auth/account-id"
+        const val editPassword = "$users/password"
+        const val comparePassword = "$users/password"
     }
 
     object Students {

@@ -1,6 +1,8 @@
 package team.aliens.data.remote.api
 
+import retrofit2.Response
 import retrofit2.http.*
+import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
 import team.aliens.data.remote.response.user.SignInResponse
@@ -40,5 +42,15 @@ interface UserApi {
     @GET(DmsUrl.User.checkId)
     suspend fun checkId(
         @Query("account_id") accountId: String,
+    )
+
+    @PATCH(DmsUrl.User.editPassword)
+    suspend fun editPassword(
+        @Body editPasswordRequest: EditPasswordRequest,
+    )
+
+    @GET(DmsUrl.User.comparePassword)
+    suspend fun comparePassword(
+        @Query("password") password: String,
     )
 }

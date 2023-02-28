@@ -7,16 +7,20 @@ data class ChangePasswordState(
     val name: String,
     val email: String,
     val authCode: String,
+    val currentPassword: String,
+    val repeatPassword: String,
     val newPassword: String,
 ) : MviState {
 
     companion object {
-        fun initial() =
+        fun getDefaultInstance() =
             ChangePasswordState(
                 accountId = "",
                 name = "",
                 email = "",
                 authCode = "",
+                currentPassword = "",
+                repeatPassword = "",
                 newPassword = "",
             )
     }

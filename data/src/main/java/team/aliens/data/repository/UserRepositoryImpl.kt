@@ -1,14 +1,12 @@
 package team.aliens.data.repository
 
 import team.aliens.data.remote.datasource.declaration.RemoteUserDataSource
+import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
 import team.aliens.data.remote.response.user.SignInResponse
 import team.aliens.domain.exception.NeedLoginException
-import team.aliens.domain.param.CheckEmailCodeParam
-import team.aliens.domain.param.CompareEmailParam
-import team.aliens.domain.param.LoginParam
-import team.aliens.domain.param.RequestEmailCodeParam
+import team.aliens.domain.param.*
 import team.aliens.domain.repository.UserRepository
 import team.aliens.local_database.datasource.declaration.LocalUserDataSource
 import team.aliens.local_database.localutil.toLocalDateTime
@@ -87,6 +85,18 @@ class UserRepositoryImpl @Inject constructor(
         accountId: String,
     ) = remoteUserDataSource.checkId(accountId)
 
+    override suspend fun editPassword(
+        editPasswordParam: EditPasswordParam,
+    ) = remoteUserDataSource.editPassword(
+        editPasswordRequest = editPasswordParam.toRequest(),
+    )
+
+    override suspend fun comparePassword(
+        password: String,
+    ) = remoteUserDataSource.comparePassword(
+        password = password,
+    )
+
     override suspend fun signOut() {
         localUserDataSource.signOut()
     }
@@ -120,5 +130,12 @@ private fun RequestEmailCodeParam.toRequest(): GetEmailCodeRequest {
     return GetEmailCodeRequest(
         email = email,
         type = type,
+    )
+}
+
+private fun EditPasswordParam.toRequest(): EditPasswordRequest{
+    return EditPasswordRequest(
+        currentPassword = currentPassword,
+        newPassword = newPassword,
     )
 }
