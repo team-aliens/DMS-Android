@@ -96,12 +96,6 @@ fun PointListScreen(
         // point filter
         DialogBox(myPageViewModel)
         
-        
-        // todo move
-        point.clear()
-
-        point.addAll(mappingNotice.toMutableStateList())
-        
         // points
         PointListValue(
             totalPoint = totalPoint,

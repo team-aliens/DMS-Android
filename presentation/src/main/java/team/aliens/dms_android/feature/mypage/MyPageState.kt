@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.mypage
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
+import java.util.*
 
 data class MyPageState(
     var type: PointType,
@@ -18,7 +19,7 @@ data class MyPageState(
                 totalPoint = 0,
                 pointValue = listOf(
                     PointListEntity.PointValue(
-                        pointId = "",
+                        pointId = UUID.randomUUID(),
                         date = "",
                         pointType = PointType.ALL,
                         name = "",
