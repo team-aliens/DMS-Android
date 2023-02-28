@@ -13,6 +13,7 @@ import team.aliens.dms_android.feature.image.ConfirmImageScreen
 import team.aliens.dms_android.feature.mypage.MyPageChangePasswordScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
+import team.aliens.dms_android.feature.register.ui.school.SignUpSchoolQuestionScreen
 import team.aliens.dms_android.feature.register.ui.school.SignUpVerifySchoolScreen
 import team.aliens.dms_android.feature.remain.RemainApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
@@ -125,6 +126,12 @@ fun RootDms(
 
         composable(NavigationRoute.VerifySchool){
             SignUpVerifySchoolScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SchoolQuestion){
+            SignUpSchoolQuestionScreen(
                 navController = navController,
             )
         }

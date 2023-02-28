@@ -41,7 +41,7 @@ class ConfirmSchoolFragment :
         schoolCode = args.get("schoolCode") as String
 
         val uuid = UUID.fromString(inputData)
-        confirmSchoolViewModel.schoolId = uuid
+
 
         repeatOnFragmentStarted {
             confirmSchoolViewModel.confirmSchoolEvent.collect { event -> handleEvent(event) }
@@ -117,7 +117,7 @@ class ConfirmSchoolFragment :
         }
 
         binding.btnConfirm.setOnClickListener {
-            confirmSchoolViewModel.compareSchoolAnswer(answer)
+            //confirmSchoolViewModel.compareSchoolAnswer(answer)
         }
     }
 

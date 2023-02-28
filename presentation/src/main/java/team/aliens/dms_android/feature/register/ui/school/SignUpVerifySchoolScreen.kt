@@ -25,6 +25,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import team.aliens.presentation.R
@@ -56,7 +57,11 @@ fun SignUpVerifySchoolScreen(
         examineSchoolCodeViewModel.examineSchoolCodeEvent.collect {
             when (it) {
                 is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
-                    navController.navigate("")
+                    navController.currentBackStackEntry?.arguments?.putString(
+                        "schoolId",
+                         examineSchoolCodeViewModel.schoolId.toString(),
+                    )
+                    navController.navigate(NavigationRoute.SchoolQuestion)
                 }
                 is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {
                     isError = true
@@ -79,6 +84,7 @@ fun SignUpVerifySchoolScreen(
             .padding(
                 top = 92.dp,
                 start = 16.dp,
+                end = 16.dp,
             ),
     ) {
         AppLogo()
@@ -122,7 +128,7 @@ fun SignUpVerifySchoolScreen(
                     DormColor.Error
                 } else DormColor.Gray500,
             )
-            Spacer(modifier = Modifier.fillMaxHeight(0.8f))
+            Spacer(modifier = Modifier.fillMaxHeight(0.774f))
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,

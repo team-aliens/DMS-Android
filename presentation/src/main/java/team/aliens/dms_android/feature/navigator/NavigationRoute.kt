@@ -20,4 +20,5 @@ object NavigationRoute {
     const val StudyRoomDetail = "studyRoomDetail/{seatId}"
     const val ConfirmImage = "confirmImage"
     const val VerifySchool = "verifySchool"
+    const val SchoolQuestion = "schoolQuestion"
 }
