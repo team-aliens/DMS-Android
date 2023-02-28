@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.mypage
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +29,8 @@ import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
-import team.aliens.design_system.typography.SubTitle1
+import team.aliens.design_system.typography.Title1
+import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
@@ -130,7 +132,7 @@ fun MyPageScreen(
             .fillMaxSize()
             .background(DormColor.Gray200)
             .padding(
-                vertical = 60.dp,
+                vertical = 66.dp,
                 horizontal = 16.dp,
             ),
     ) {
@@ -142,11 +144,24 @@ fun MyPageScreen(
 
             Column {
 
-                // 사용자 정보
-                SubTitle1(
-                    text = "${myPageState.gcn} ${myPageState.name}",
-                )
-
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    // 사용자 정보
+                    Title1(
+                        text = "${myPageState.gcn} ${myPageState.name}",
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    LastAppliedItem(
+                        text = myPageState.sex.gender,
+                        backgroundColor = if (myPageState.sex.toString() == "MALE") {
+                            DormColor.Lighten200
+                        } else DormColor.LightenError,
+                        textColor = if (myPageState.sex.toString() == "MALE") {
+                            DormColor.DormPrimary
+                        } else DormColor.Error,
+                    )
+                }
                 Spacer(
                     modifier = Modifier.height(10.dp),
                 )

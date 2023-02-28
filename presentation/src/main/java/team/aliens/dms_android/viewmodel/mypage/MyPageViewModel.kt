@@ -5,10 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.mypage.Gender
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
@@ -64,15 +66,16 @@ class MyPageViewModel @Inject constructor(
                     phrase = it.phrase
                     schoolName = it.schoolName
                     profileImageUrl = it.profileImageUrl
+                    sex = Gender.valueOf(it.sex)
                 }
             }.onFailure {
                 when (it) {
-                    is NullPointerException -> event(Event.NullPointException)
-                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event(Event.CannotConnectException)
-                    is TooManyRequestException -> event(Event.TooManyRequestException)
-                    is ServerException -> event(Event.InternalServerException)
-                    else -> event(Event.UnknownException)
+                    is NullPointerException -> emitMyPageViewEffect(Event.NullPointException)
+                    is UnauthorizedException -> emitMyPageViewEffect(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> emitMyPageViewEffect(Event.CannotConnectException)
+                    is TooManyRequestException -> emitMyPageViewEffect(Event.TooManyRequestException)
+                    is ServerException -> emitMyPageViewEffect(Event.InternalServerException)
+                    else -> emitMyPageViewEffect(Event.UnknownException)
                 }
             }
         }
@@ -83,34 +86,28 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 remotePointListUseCase.execute(pointType)
             }.onSuccess {
-                event2(Event.FetchPointList)
-                setState(
-                    state.value.copy(
-                        totalPoint = it.totalPoint,
-                        pointListEntity = it,
-                    ),
-                )
+                emitPointViewEffect(Event.FetchPointList(it))
             }.onFailure {
                 when (it) {
-                    is NullPointerException -> event2(Event.NullPointException)
-                    is BadRequestException -> event2(Event.BadRequestException)
-                    is UnauthorizedException -> event2(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event2(Event.CannotConnectException)
-                    is TooManyRequestException -> event2(Event.TooManyRequestException)
-                    is ServerException -> event2(Event.InternalServerException)
-                    else -> event2(Event.UnknownException)
+                    is NullPointerException -> emitPointViewEffect(Event.NullPointException)
+                    is BadRequestException -> emitPointViewEffect(Event.BadRequestException)
+                    is UnauthorizedException -> emitPointViewEffect(Event.UnAuthorizedTokenException)
+                    is ForbiddenException -> emitPointViewEffect(Event.CannotConnectException)
+                    is TooManyRequestException -> emitPointViewEffect(Event.TooManyRequestException)
+                    is ServerException -> emitPointViewEffect(Event.InternalServerException)
+                    else -> emitPointViewEffect(Event.UnknownException)
                 }
             }
         }
     }
 
-    private fun event(event: Event) {
+    private fun emitMyPageViewEffect(event: Event) {
         viewModelScope.launch {
             _myPageViewEffect.emit(event)
         }
     }
 
-    private fun event2(event: Event) {
+    private fun emitPointViewEffect(event: Event) {
         viewModelScope.launch {
             _pointViewEffect.emit(event)
         }
@@ -128,7 +125,7 @@ class MyPageViewModel @Inject constructor(
 
     sealed class Event {
         object SignedOut : Event()
-        object FetchPointList : Event()
+        data class FetchPointList(val pointListEntity: PointListEntity) : Event()
         object BadRequestException : Event()
         object NullPointException : Event()
         object UnAuthorizedTokenException : Event()

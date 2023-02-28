@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.mypage
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
+import java.util.*
 
 data class MyPageState(
     var type: PointType,
@@ -18,10 +19,11 @@ data class MyPageState(
                 totalPoint = 0,
                 pointValue = listOf(
                     PointListEntity.PointValue(
+                        pointId = null,
                         date = "",
                         pointType = PointType.ALL,
                         name = "",
-                        score = 0,
+                        score = 0
                     ),
                 ),
             ),
@@ -34,7 +36,15 @@ data class MyPageEntity(
     var name: String = "",
     var gcn: String = "",
     var profileImageUrl: String = "",
+    var sex: Gender = Gender.MALE,
     var bonusPoint: Int = 0,
     var minusPoint: Int = 0,
     var phrase: String = "",
 )
+
+enum class Gender(
+    val gender: String,
+){
+    MALE("남"),
+    FEMALE("여")
+}
