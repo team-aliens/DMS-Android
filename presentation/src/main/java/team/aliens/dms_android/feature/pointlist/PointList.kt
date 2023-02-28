@@ -25,16 +25,17 @@ fun PointList(
     points: List<PointListEntity.PointValue>,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxHeight()
+        modifier = modifier.fillMaxHeight(),
+        contentPadding = PaddingValues(
+            top = 20.dp,
+            bottom = 10.dp,
+        )
     ) {
         itemsIndexed(items = points) { index, point ->
             Spacer(modifier = Modifier.height(12.dp))
             Point(
                 pointValue = point,
             )
-            if(index == points.size - 1){
-                Spacer(modifier = Modifier.height(12.dp))
-            }
         }
     }
 }
