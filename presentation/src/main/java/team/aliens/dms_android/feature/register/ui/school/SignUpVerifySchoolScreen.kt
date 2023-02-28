@@ -41,10 +41,11 @@ fun SignUpVerifySchoolScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var verificationCode by remember { mutableStateOf("") }
+    var isError by remember { mutableStateOf(false) }
 
     val onVerificationCodeChange = { value: String ->
         verificationCode = value
-        if(verificationCode.length == 8){
+        if (verificationCode.length == 8) {
             keyboardController?.hide()
         }
     }
@@ -56,6 +57,9 @@ fun SignUpVerifySchoolScreen(
             when (it) {
                 is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
                     navController.navigate("")
+                }
+                is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {
+                    isError = true
                 }
                 else -> {
                     toast(
@@ -111,8 +115,12 @@ fun SignUpVerifySchoolScreen(
             )
             Spacer(modifier = Modifier.height(40.dp))
             Body3(
-                text = stringResource(id = R.string.EmailEightCode),
-                color = DormColor.Gray500,
+                text = if (isError) {
+                    stringResource(id = R.string.NoSameCode)
+                } else stringResource(id = R.string.EmailEightCode),
+                color = if (isError) {
+                    DormColor.Error
+                } else DormColor.Gray500,
             )
             Spacer(modifier = Modifier.fillMaxHeight(0.8f))
             DormContainedLargeButton(
@@ -133,9 +141,6 @@ private fun getStringFromEvent(
     when (event) {
         is ExamineSchoolCodeEvent.BadRequestException -> {
             context.getString(R.string.BadRequest)
-        }
-        is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {
-            context.getString(R.string.NoSameCode)
         }
         is ExamineSchoolCodeEvent.TooManyRequestException -> {
             context.getString(R.string.TooManyRequest)
