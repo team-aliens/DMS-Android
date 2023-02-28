@@ -92,15 +92,22 @@ private fun Point(
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(end = 15.dp, bottom = 15.dp),
-            contentAlignment = Alignment.BottomEnd) {
-            var color: Color = DormColor.Error
-            //TODO("VM 반환 값으로 색깔 변경 요함")
-            if (pointValue.pointType == PointType.MINUS) {
-                color = DormColor.Error
-            } else if (pointValue.pointType == PointType.BONUS) {
-                color = DormColor.DormPrimary
+            contentAlignment = Alignment.BottomEnd,
+        ) {
+            when(pointValue.pointType){
+                PointType.MINUS -> {
+                    Body4(
+                        text = "+${pointValue.point}",
+                        color = DormColor.DormPrimary
+                    )
+                }
+                else -> {
+                    Body4(
+                        text = "-${pointValue.point}",
+                        color = DormColor.Error
+                    )
+                }
             }
-            Body4(text = pointValue.point.toString(), color = color)
         }
     }
 }
