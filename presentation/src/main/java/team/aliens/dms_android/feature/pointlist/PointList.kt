@@ -22,10 +22,10 @@ import team.aliens.domain.enums.PointType
 @Composable
 fun PointList(
     modifier: Modifier = Modifier,
-    points: MutableList<PointListEntity.PointValue>,
+    points: List<PointListEntity.PointValue>,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxHeight(),
+        modifier = modifier.fillMaxHeight()
     ) {
         itemsIndexed(items = points) { index, point ->
             Spacer(modifier = Modifier.height(12.dp))
@@ -64,9 +64,11 @@ private fun Point(
             Modifier.padding(horizontal = 24.dp),
         ) {
 
+            val pointDate = pointValue.date.split("-")
+
             OverLine(
-                text = "${pointValue.date.split("-")[1]}월"
-                + " ${pointValue.date.split("-")[2]}일",
+                text = "${pointDate[1]}월"
+                + " ${pointDate[2]}일",
                 color = DormColor.Gray500,
             )
 

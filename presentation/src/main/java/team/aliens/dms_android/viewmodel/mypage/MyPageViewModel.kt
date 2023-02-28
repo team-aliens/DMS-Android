@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.mypage.Gender
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
@@ -65,6 +66,7 @@ class MyPageViewModel @Inject constructor(
                     phrase = it.phrase
                     schoolName = it.schoolName
                     profileImageUrl = it.profileImageUrl
+                    sex = Gender.valueOf(it.sex)
                 }
             }.onFailure {
                 when (it) {

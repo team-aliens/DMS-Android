@@ -8,7 +8,7 @@ data class PointListEntity(
     val pointValue: List<PointValue>,
 ) {
     data class PointValue(
-        val pointId: UUID,
+        val pointId: UUID?,
         val date: String,
         val pointType: PointType,
         val name: String,

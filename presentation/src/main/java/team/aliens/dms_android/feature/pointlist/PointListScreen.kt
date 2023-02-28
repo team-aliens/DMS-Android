@@ -180,7 +180,7 @@ private fun PointTypeButton(
 @Composable
 fun PointListValue(
     totalPoint: Int,
-    point: MutableList<PointListEntity.PointValue>,
+    point: List<PointListEntity.PointValue>,
 ) {
     Column {
         Column(

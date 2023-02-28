@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.mypage
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -152,15 +153,14 @@ fun MyPageScreen(
                     )
                     Spacer(modifier = Modifier.width(20.dp))
                     LastAppliedItem(
-                        text = if (myPageState.sex == "MALE") "남" else "여",
-                        backgroundColor = if (myPageState.sex == "FEMALE") {
-                            DormColor.LightenError
-                        } else DormColor.Lighten200,
-                        textColor = if (myPageState.sex == "FEMALE") {
-                            DormColor.Error
-                        } else DormColor.DormPrimary,
+                        text = myPageState.sex.gender,
+                        backgroundColor = if (myPageState.sex.toString() == "MALE") {
+                            DormColor.Lighten200
+                        } else DormColor.LightenError,
+                        textColor = if (myPageState.sex.toString() == "MALE") {
+                            DormColor.DormPrimary
+                        } else DormColor.Error,
                     )
-
                 }
                 Spacer(
                     modifier = Modifier.height(10.dp),
