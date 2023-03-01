@@ -14,6 +14,7 @@ import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.presentation.R
@@ -48,7 +49,10 @@ fun SignUpEmailScreen(
                     errorDescription = context.getString(R.string.ConflictEmail)
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
-                    navController.navigate("")
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        "email", email
+                    )
+                    navController.navigate(NavigationRoute.SignUpEmailVerify)
                 }
                 is RegisterEmailEvent.BadRequestException -> {
                     toast(context.getString(R.string.BadRequest))
