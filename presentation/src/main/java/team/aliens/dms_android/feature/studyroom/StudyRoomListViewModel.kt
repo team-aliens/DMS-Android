@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
+import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.usecase.studyroom.*
 import javax.inject.Inject
 
@@ -265,6 +266,3 @@ private const val secondPart = "23:00 ~ 23:50"
 
 // todo ----------------
 
-private fun String.extractHourFromDate(): String {
-    return this.substring(0, 5)
-}

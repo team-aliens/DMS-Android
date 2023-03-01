@@ -1,6 +1,5 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
+import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.UnauthorizedException
@@ -71,7 +71,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 applySeatUseCase.execute(seat)
-            }.onSuccess{
+            }.onSuccess {
                 fetchStudyRoomDetails(
                     studyRoomId = _uiState.value.studyRoomId,
                 )
@@ -123,8 +123,8 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 fetchApplicationTimeUseCase.execute(Unit)
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(
-                    startAt = it.startAt,
-                    endAt = it.endAt,
+                    startAt = it.startAt.extractHourFromDate(),
+                    endAt = it.endAt.extractHourFromDate(),
                 )
             }.onFailure {
                 emitErrorEventFromThrowable(it)
