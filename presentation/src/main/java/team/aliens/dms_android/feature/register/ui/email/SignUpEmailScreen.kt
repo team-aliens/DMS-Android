@@ -1,11 +1,13 @@
 package team.aliens.dms_android.feature.register.ui.email
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
@@ -49,9 +51,12 @@ fun SignUpEmailScreen(
                     errorDescription = context.getString(R.string.ConflictEmail)
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
-                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                        "email", email
-                    )
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("email", email)
+                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                    }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
                 }
                 is RegisterEmailEvent.BadRequestException -> {
@@ -86,7 +91,9 @@ fun SignUpEmailScreen(
         DormTextField(
             value = email,
             onValueChange = onEmailChange,
-            hint = stringResource(id = R.string.EnterEmailAddress)
+            hint = stringResource(id = R.string.EnterEmailAddress),
+            error = isError,
+            errorDescription = errorDescription,
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.796f))
         DormContainedLargeButton(

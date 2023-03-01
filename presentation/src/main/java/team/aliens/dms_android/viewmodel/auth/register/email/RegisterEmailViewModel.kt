@@ -36,6 +36,7 @@ class RegisterEmailViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
+                    is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.UnKnownException)

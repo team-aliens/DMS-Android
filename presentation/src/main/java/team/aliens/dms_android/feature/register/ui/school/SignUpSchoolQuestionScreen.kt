@@ -45,7 +45,7 @@ fun SignUpSchoolQuestionScreen(
 
     LaunchedEffect(Unit) {
         schoolId = UUID.fromString(
-            navController.previousBackStackEntry?.savedStateHandle?.get("schoolId"),
+            navController.previousBackStackEntry?.arguments?.getString("schoolId"),
         )
         confirmSchoolViewModel.schoolQuestion(schoolId)
         confirmSchoolViewModel.confirmSchoolEvent.collect {
@@ -58,6 +58,11 @@ fun SignUpSchoolQuestionScreen(
                 }
                 is CompareSchoolAnswerSuccess -> {
                     isError = false
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("schoolId", schoolId.toString())
+                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolAnswer", schoolAnswer)
+                    }
                     navController.navigate(NavigationRoute.SignUpEmail)
                 }
                 is MissMatchCompareSchool -> {

@@ -62,10 +62,10 @@ fun SignUpVerifySchoolScreen(
         examineSchoolCodeViewModel.examineSchoolCodeEvent.collect {
             when (it) {
                 is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
-                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                        "schoolId",
-                        examineSchoolCodeViewModel.schoolId.toString(),
-                    )
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
+                        putString("schoolCode", verificationCode)
+                    }
                     navController.navigate(NavigationRoute.SchoolQuestion)
                 }
                 is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {

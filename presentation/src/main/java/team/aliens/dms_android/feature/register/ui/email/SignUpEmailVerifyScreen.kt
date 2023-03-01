@@ -28,6 +28,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.presentation.R
@@ -56,11 +57,18 @@ fun SignUpEmailVerifyScreen(
 
     LaunchedEffect(Unit) {
         email =
-            navController.previousBackStackEntry?.savedStateHandle?.get<String>("email").toString()
+            navController.previousBackStackEntry?.arguments?.getString("email").toString()
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
-                    navController.navigate("")
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("email", email)
+                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString("authCode", navController.previousBackStackEntry?.arguments?.getString("authCode"))
+                    }
+                    navController.navigate(NavigationRoute.SignUpId)
                 }
 
                 is RegisterEmailEvent.CheckEmailUnauthorized -> {
