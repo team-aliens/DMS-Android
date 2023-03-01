@@ -23,4 +23,5 @@ object NavigationRoute {
     const val SchoolQuestion = "schoolQuestion"
     const val SignUpEmail = "signUpEmail"
     const val SignUpEmailVerify = "signUpEmailVerify"
+    const val SignUpId = "signUpId"
 }

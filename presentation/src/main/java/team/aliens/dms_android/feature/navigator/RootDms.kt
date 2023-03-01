@@ -15,6 +15,7 @@ import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
 import team.aliens.dms_android.feature.register.ui.email.SignUpEmailScreen
 import team.aliens.dms_android.feature.register.ui.email.SignUpEmailVerifyScreen
+import team.aliens.dms_android.feature.register.ui.id.SignUpIdScreen
 import team.aliens.dms_android.feature.register.ui.school.SignUpSchoolQuestionScreen
 import team.aliens.dms_android.feature.register.ui.school.SignUpVerifySchoolScreen
 import team.aliens.dms_android.feature.remain.RemainApplicationScreen
@@ -146,6 +147,12 @@ fun RootDms(
 
         composable(NavigationRoute.SignUpEmailVerify){
             SignUpEmailVerifyScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpId){
+            SignUpIdScreen(
                 navController = navController,
             )
         }

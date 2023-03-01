@@ -141,7 +141,7 @@ fun DormTextField(
             }
         }
 
-        if (error) {
+        if (error && errorDescription?.isNotBlank() == true) {
             Box(
                 modifier = Modifier.padding(
                     start = 3.dp,
