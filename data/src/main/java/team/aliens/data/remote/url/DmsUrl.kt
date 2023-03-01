@@ -29,6 +29,7 @@ object DmsUrl {
         const val resetPassword = "$students/password/initialization"
         const val examineGrade = "$students/name"
         const val editProfileImage = "$students/profile"
+        const val withdraw = students
     }
 
     object Schools {

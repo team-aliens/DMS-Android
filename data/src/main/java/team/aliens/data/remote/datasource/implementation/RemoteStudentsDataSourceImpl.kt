@@ -73,4 +73,12 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
             },
         )
     }
+
+    override suspend fun withdraw() {
+        sendHttpRequest(
+            httpRequest = {
+                studentsApi.withdraw()
+            }
+        )
+    }
 }

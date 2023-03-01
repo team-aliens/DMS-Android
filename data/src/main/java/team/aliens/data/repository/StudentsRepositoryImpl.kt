@@ -53,6 +53,10 @@ class StudentsRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun withdraw() {
+        remoteStudentsDataSource.withdraw()
+    }
+
     private fun ResetPasswordParam.toRequest() = ResetPasswordRequest(accountId = accountId,
         authCode = authCode,
         email = email,
