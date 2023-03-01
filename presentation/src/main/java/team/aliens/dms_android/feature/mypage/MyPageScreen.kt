@@ -151,13 +151,16 @@ fun MyPageScreen(
                     Title1(
                         text = "${myPageState.gcn} ${myPageState.name}",
                     )
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(
+                        modifier = Modifier.width(20.dp),
+                    )
+
                     LastAppliedItem(
                         text = myPageState.sex.gender,
-                        backgroundColor = if (myPageState.sex.toString() == "MALE") {
+                        backgroundColor = if (myPageState.sex == Gender.MALE) {
                             DormColor.Lighten200
                         } else DormColor.LightenError,
-                        textColor = if (myPageState.sex.toString() == "MALE") {
+                        textColor = if (myPageState.sex == Gender.FEMALE) {
                             DormColor.DormPrimary
                         } else DormColor.Error,
                     )
