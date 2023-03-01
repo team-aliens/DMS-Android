@@ -6,7 +6,7 @@ import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 
 data class StudyRoomDetailUiState(
     var studyRoomId: String = "",
-    var currentSeat: String = "",
+    var currentSeat: MutableEventFlow<String> = MutableEventFlow(),
     var startAt: String = "",
     var endAt: String? = null,
     var errorMessage: MutableEventFlow<String> = MutableEventFlow(),

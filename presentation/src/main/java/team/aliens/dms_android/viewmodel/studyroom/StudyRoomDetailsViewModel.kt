@@ -1,9 +1,9 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
@@ -32,7 +32,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         class ChangeSelectedSeat(val seat: String) : UiEvent()
     }
 
-    override val _uiState = mutableStateOf(StudyRoomDetailUiState())
+    override val _uiState = MutableStateFlow(StudyRoomDetailUiState())
 
     internal fun initStudyRoom(
         studyRoomId: String,
@@ -102,9 +102,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun changeSelectedSeat(
         seat: String,
     ) {
-        _uiState.value = _uiState.value.copy(
-            currentSeat = seat,
-        )
+        viewModelScope.launch {
+            _uiState.value.currentSeat.emit(seat)
+        }
     }
 
     private fun fetchApplyTime() {
@@ -129,7 +129,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchStudyRoomDetailUseCase.execute(studyRoomId)
             }.onSuccess {
-                _uiState.value.studyRoomDetails = it
+                _uiState.value = _uiState.value.copy(
+                    studyRoomDetails = it,
+                )
             }.onFailure {
                 emitErrorEventFromThrowable(it)
             }

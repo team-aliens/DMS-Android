@@ -1,10 +1,11 @@
 package team.aliens.dms_android._base
 
 import android.app.Application
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
@@ -18,9 +19,9 @@ abstract class BaseViewModel<S : BaseUiState, E : BaseEvent> : ViewModel() {
     lateinit var application: Application
 
     // represents view's ui state
-    protected abstract val _uiState: MutableState<S>
-    val uiState: State<S>
-        get() = _uiState
+    protected abstract val _uiState: MutableStateFlow<S>
+    val uiState: StateFlow<S>
+        get() = _uiState.asStateFlow()
 
     abstract fun onEvent(
         event: E,

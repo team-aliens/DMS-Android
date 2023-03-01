@@ -1,8 +1,8 @@
 package team.aliens.dms_android.feature.studyroom
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
@@ -33,7 +33,7 @@ class StudyRoomListViewModel @Inject constructor(
         ) : UiEvent() // todo implement
     }
 
-    override val _uiState = mutableStateOf(StudyRoomListUiState())
+    override val _uiState = MutableStateFlow(StudyRoomListUiState())
 
     override fun onEvent(
         event: UiEvent,

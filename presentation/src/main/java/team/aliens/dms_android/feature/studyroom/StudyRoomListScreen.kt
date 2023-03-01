@@ -43,7 +43,7 @@ fun StudyRoomListScreen(
 
     val toast = rememberToast()
 
-    val studyRoomState = studyRoomListViewModel.uiState.value
+    val studyRoomState = studyRoomListViewModel.uiState.collectAsState().value
 
     LaunchedEffect(Unit) {
         studyRoomListViewModel.errorState.collect {

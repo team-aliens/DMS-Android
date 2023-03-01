@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -12,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
@@ -47,7 +50,10 @@ fun StudyRoomDetailScreen(
 
     val context = LocalContext.current
     val toast = rememberToast()
-    val uiState = studyRoomDetailsViewModel.uiState.value
+    val scope = rememberCoroutineScope()
+
+    val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
+    val currentSeat = uiState.currentSeat.collectAsState("").value
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
@@ -127,7 +133,7 @@ fun StudyRoomDetailScreen(
                 startDescription = uiState.studyRoomDetails.westDescription,
                 endDescription = uiState.studyRoomDetails.eastDescription,
                 seats = uiState.studyRoomDetails.toDesignSystemModel(),
-                selected = uiState.currentSeat,
+                selected = currentSeat,
             ) { seat ->
                 studyRoomDetailsViewModel.onEvent(
                     event = StudyRoomDetailsViewModel.UiEvent.ChangeSelectedSeat(
@@ -172,17 +178,19 @@ fun StudyRoomDetailScreen(
                     ),
                     color = DormButtonColor.Blue,
                 ) {
-                    if (uiState.currentSeat.isBlank()) {
-                        return@DormContainedLargeButton toast(
-                            context.getString(R.string.PleaseSelectSeatFirst),
+                    scope.launch {
+                        if (currentSeat.isEmpty()) {
+                            return@launch toast(
+                                context.getString(R.string.PleaseSelectSeatFirst),
+                            )
+                        }
+
+                        studyRoomDetailsViewModel.onEvent(
+                            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                                seat = currentSeat,
+                            )
                         )
                     }
-
-                    studyRoomDetailsViewModel.onEvent(
-                        event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                            seat = uiState.currentSeat,
-                        )
-                    )
                 }
             }
 
