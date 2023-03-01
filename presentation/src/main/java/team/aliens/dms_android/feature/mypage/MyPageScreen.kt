@@ -160,7 +160,7 @@ fun MyPageScreen(
                         backgroundColor = if (myPageState.sex == Gender.MALE) {
                             DormColor.Lighten200
                         } else DormColor.LightenError,
-                        textColor = if (myPageState.sex == Gender.FEMALE) {
+                        textColor = if (myPageState.sex == Gender.MALE) {
                             DormColor.DormPrimary
                         } else DormColor.Error,
                     )
