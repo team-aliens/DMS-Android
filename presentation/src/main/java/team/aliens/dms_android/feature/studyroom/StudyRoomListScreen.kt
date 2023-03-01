@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
-import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,86 +34,26 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
-import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.presentation.R
-
-data class StudyRoomInformation(
-    val roomId: String,
-    val position: String,
-    val title: String,
-    val currentNumber: Int,
-    val isMine: Boolean,
-    val maxNumber: Int,
-    val condition: String,
-)
-
-private fun StudyRoomListEntity.StudyRoom.toNotice() = StudyRoomInformation(
-    roomId = id,
-    position = "${floor}층",
-    title = name,
-    currentNumber = inUseHeadcount,
-    isMine = isMine,
-    maxNumber = totalAvailableSeat,
-    condition = "${availableGrade}학년 $studyRoomSex",
-)
-
-// todo remove ---------
-
-private const val firstPart = "22:00 ~ 22:50"
-private const val secondPart = "23:00 ~ 23:50"
-
-// todo ----------------
-
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun StudyRoomListScreen(
     navController: NavController,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
+    studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {
 
     val toast = rememberToast()
 
     val context = LocalContext.current
 
-    val studyRooms = remember {
-        mutableStateListOf<StudyRoomInformation>()
+    val studyRoomState = studyRoomListViewModel.uiState.value.also {
+        Log.e("", "StudyRoomListScreen: $it", )
     }
 
-    LaunchedEffect(studyRoomViewModel) {
-
-        studyRoomViewModel.fetchStudyRoomList()
-
-        studyRoomViewModel.studyRoomEffect.collect() { event ->
-            when (event) {
-                is StudyRoomViewModel.Event.FetchStudyRoomList -> {
-
-                    val mappedStudyRoom = event.studyRoomListEntity.studyRooms.map {
-                        it.toNotice()
-                    }
-
-                    studyRooms.addAll(
-                        mappedStudyRoom.toMutableStateList(),
-                    )
-                }
-                else -> {
-                    toast(
-                        getStringFromEvent(
-                            context = context,
-                            event = event,
-                        ),
-                    )
-                }
-            }
-        }
-    }
-
-    val studyRoomState = studyRoomViewModel.state.collectAsState().value
-
-
-    var filterTimeState by remember {
+    /*var filterTimeState by remember {
         mutableStateOf(firstPart)
-    }
+    }*/
 
     var showTimeFilterDialogState by remember {
         mutableStateOf(false)
@@ -154,14 +94,14 @@ fun StudyRoomListScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    DormTimeChip(
+                    /*DormTimeChip(
                         selected = true,
                         text = firstPart,
                     )
                     DormTimeChip(
                         selected = false,
                         text = secondPart,
-                    )
+                    )*/
                 }
             }
         }
@@ -238,25 +178,33 @@ fun StudyRoomListScreen(
                 modifier = Modifier.height(24.dp),
             )
 
-            // List of study room
+            // List of study rooms
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
 
-                items(
-                    items = studyRooms,
-                ) { point ->
-                    RoomItem(
-                        roomId = point.roomId,
-                        position = point.position,
-                        title = point.title,
-                        currentNumber = point.currentNumber,
-                        maxNumber = point.maxNumber,
-                        condition = point.condition,
-                        onClick = { seatId ->
-                            navController.navigate("studyRoomDetail/${seatId}")
-                        },
-                    )
+                if (studyRoomState.studyRooms.isNotEmpty()) {
+                    items(
+                        items = studyRoomState.studyRooms,
+                    ) { point ->
+                        RoomItem(
+                            roomId = point.roomId,
+                            position = point.position,
+                            title = point.title,
+                            currentNumber = point.currentNumber,
+                            maxNumber = point.maxNumber,
+                            condition = point.condition,
+                            onClick = { seatId ->
+                                navController.navigate("studyRoomDetail/${seatId}")
+                            },
+                        )
+                    }
+                } else {
+                    item {
+                        Body3(
+                            text = stringResource(R.string.NoAvailableStudyRoom),
+                        )
+                    }
                 }
             }
 
@@ -267,25 +215,6 @@ fun StudyRoomListScreen(
         }
     }
 }
-
-private fun getStringFromEvent(
-    context: Context,
-    event: StudyRoomViewModel.Event,
-): String {
-    return context.getString(
-        when (event) {
-            StudyRoomViewModel.Event.BadRequestException -> R.string.BadRequest
-            StudyRoomViewModel.Event.CannotConnectException -> R.string.NoInternetException
-            StudyRoomViewModel.Event.InternalServerException -> R.string.ServerException
-            StudyRoomViewModel.Event.NotFoundException -> R.string.NotFound
-            StudyRoomViewModel.Event.TooManyRequestException -> R.string.TooManyRequest
-            StudyRoomViewModel.Event.UnAuthorizedTokenException -> R.string.UnAuthorized
-            StudyRoomViewModel.Event.UnknownException -> R.string.UnKnownException
-            else -> throw IllegalArgumentException()
-        },
-    )
-}
-
 
 // todo move to design-system layer
 private val DormTimeChipShape: Shape = RoundedCornerShape(5.dp)
