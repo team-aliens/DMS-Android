@@ -112,6 +112,8 @@ fun BottomNavBar(
             Icon(
                 painter = painterResource(id = BottomNavigationItem.Meal.iconResId),
                 contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
             )
         },
         selected = selected == 1,
@@ -137,6 +139,8 @@ fun BottomNavBar(
             Icon(
                 painter = painterResource(id = BottomNavigationItem.Application.iconResId),
                 contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
             )
         },
         selected = selected == 2,
@@ -162,6 +166,8 @@ fun BottomNavBar(
             Icon(
                 painter = painterResource(id = BottomNavigationItem.Notice.iconResId),
                 contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
             )
         },
         selected = selected == 3,
@@ -187,6 +193,8 @@ fun BottomNavBar(
             Icon(
                 painter = painterResource(id = BottomNavigationItem.MyPage.iconResId),
                 contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
             )
         },
         selected = selected == 4,
