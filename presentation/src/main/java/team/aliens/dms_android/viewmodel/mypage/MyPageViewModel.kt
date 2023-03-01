@@ -15,6 +15,7 @@ import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
 import team.aliens.domain.usecase.mypage.RemotePointUseCase
+import team.aliens.domain.usecase.students.RemoteStudentWithdrawUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ class MyPageViewModel @Inject constructor(
     private val remoteMyPageUseCase: RemoteMyPageUseCase,
     private val remotePointListUseCase: RemotePointUseCase,
     private val signOutUseCase: SignOutUseCase,
+    private val withdrawUseCase: RemoteStudentWithdrawUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
 
     init {
@@ -41,7 +43,10 @@ class MyPageViewModel @Inject constructor(
     private val _signOutEvent = MutableEventFlow<Event>()
     internal val signOutEvent = _signOutEvent.asEventFlow()
 
-    fun signOut() {
+    private val _withdrawEvent = MutableEventFlow<Event>()
+    internal val withdrawEvent = _withdrawEvent.asEventFlow()
+
+    internal fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 signOutUseCase.execute(Unit)
@@ -49,6 +54,16 @@ class MyPageViewModel @Inject constructor(
                 emitSignOutEvent(
                     Event.SignedOut,
                 )
+            }
+        }
+    }
+
+    internal fun withdraw() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                withdrawUseCase.execute(Unit)
+            }.onSuccess {
+
             }
         }
     }
