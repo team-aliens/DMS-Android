@@ -88,12 +88,14 @@ fun SignUpIdScreen(
     var isNameShowed by remember { mutableStateOf(false) }
 
     var isGradeError by remember { mutableStateOf(false) }
-    var isIdError by remember { mutableStateOf(false)}
+    var isIdError by remember { mutableStateOf(false) }
+
+    var isNameChecked by remember { mutableStateOf(false) }
 
     val toast = rememberToast()
 
     LaunchedEffect(Unit) {
-        setIdViewModel.schoolId = UUID.fromString(navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+        //setIdViewModel.schoolId = UUID.fromString(navController.previousBackStackEntry?.arguments?.getString("schoolId"))
         setIdViewModel.examineGradeEvent.collect {
             when (it) {
                 is SetIdEvent.ExamineGradeName -> {
@@ -181,7 +183,7 @@ fun SignUpIdScreen(
             }
         }
         AnimatedVisibility(
-            visible = isNameShowed,
+            visible = isNameShowed && !isNameChecked,
         ) {
             Row(
                 modifier = Modifier
@@ -195,12 +197,14 @@ fun SignUpIdScreen(
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                Spacer(modifier = Modifier.width(16.dp))
                 Body3(text = "${userName}님이 맞으신가요?")
                 Spacer(modifier = Modifier.fillMaxWidth(0.8f))
                 ButtonText(
                     modifier = Modifier.dormClickable(
                         rippleEnabled = false,
                     ) {
+                        isNameChecked = true
                         isNameShowed = false
                     },
                     text = stringResource(id = R.string.Check),
@@ -212,12 +216,13 @@ fun SignUpIdScreen(
             modifier = Modifier
                 .onFocusChanged {
                     if (it.isFocused) {
-                        callExamineGrade(
-                            grade = grade,
-                            classRoom = classRoom,
-                            number = number,
-                            setIdViewModel = setIdViewModel,
-                        )
+//                        callExamineGrade(
+//                            grade = grade,
+//                            classRoom = classRoom,
+//                            number = number,
+//                            setIdViewModel = setIdViewModel,
+//                        )
+                        isNameShowed = true
                     }
                 },
             value = userId,
