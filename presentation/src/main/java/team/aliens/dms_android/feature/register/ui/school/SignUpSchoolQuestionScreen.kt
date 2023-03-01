@@ -60,12 +60,9 @@ fun SignUpSchoolQuestionScreen(
                 is CompareSchoolAnswerSuccess -> {
                     isError = false
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolId", schoolId.toString())
-                        putString(
-                            "schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
-                        )
+                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
                         putString("schoolAnswer", schoolAnswer)
+                        putString("schoolId", schoolId.toString())
                     }
                     navController.navigate(NavigationRoute.SignUpEmail)
                 }

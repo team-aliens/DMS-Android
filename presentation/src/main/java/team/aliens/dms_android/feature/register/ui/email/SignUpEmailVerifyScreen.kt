@@ -62,11 +62,10 @@ fun SignUpEmailVerifyScreen(
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("email", email)
-                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
                         putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
                         putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
-                        putString("authCode", navController.previousBackStackEntry?.arguments?.getString("authCode"))
+                        putString("email", email)
+                        putString("authCode", verificationCode)
                     }
                     navController.navigate(NavigationRoute.SignUpId)
                 }

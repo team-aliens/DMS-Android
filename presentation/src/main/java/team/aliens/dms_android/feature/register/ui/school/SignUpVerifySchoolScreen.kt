@@ -63,8 +63,8 @@ fun SignUpVerifySchoolScreen(
             when (it) {
                 is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
                         putString("schoolCode", verificationCode)
+                        putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
                     }
                     navController.navigate(NavigationRoute.SchoolQuestion)
                 }

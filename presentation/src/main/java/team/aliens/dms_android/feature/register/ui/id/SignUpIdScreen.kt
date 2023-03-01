@@ -110,11 +110,6 @@ fun SignUpIdScreen(
                 is SetIdEvent.DuplicateIdSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
                         putString(
-                            "email",
-                            navController.previousBackStackEntry?.arguments?.getString("email")
-                        )
-                        putString("schoolId", setIdViewModel.schoolId.toString())
-                        putString(
                             "schoolCode",
                             navController.previousBackStackEntry?.arguments?.getString("schoolCode")
                         )
@@ -123,12 +118,16 @@ fun SignUpIdScreen(
                             navController.previousBackStackEntry?.arguments?.getString("schoolName")
                         )
                         putString(
+                            "email",
+                            navController.previousBackStackEntry?.arguments?.getString("email")
+                        )
+                        putString(
                             "authCode",
                             navController.previousBackStackEntry?.arguments?.getString("authCode")
                         )
-                        putString("grade", grade)
-                        putString("classRoom", classRoom)
-                        putString("number", number)
+                        putInt("classRoom", classRoom.toInt())
+                        putInt("grade", grade.toInt())
+                        putInt("number", number.toInt())
                         putString("accountId", userId)
                     }
                     navController.navigate("")

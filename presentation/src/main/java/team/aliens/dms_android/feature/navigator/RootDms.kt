@@ -167,11 +167,11 @@ fun RootDms(
             )
         }
 
-        composable(NavigationRoute.SignUpProfile){
-            SignUpProfileScreen(
-                navController = navController,
-            )
-        }
+//        composable(NavigationRoute.SignUpProfile){
+//            SignUpProfileScreen(
+//                navController = navController,
+//            )
+//        }
 
         composable(NavigationRoute.SignUpPolicy){
             SignUpPolicyScreen(

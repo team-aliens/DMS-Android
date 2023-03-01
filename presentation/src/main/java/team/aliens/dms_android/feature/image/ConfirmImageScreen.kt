@@ -43,6 +43,10 @@ internal fun ConfirmImageScreen(
 
     val scope = rememberCoroutineScope()
 
+    var isSignUp by remember { mutableStateOf(false) }
+
+    isSignUp = navController.previousBackStackEntry?.arguments?.getBoolean("isSignUp") ?: false
+
     LaunchedEffect(Unit) {
         confirmImageViewModel.confirmImageEvent.collect {
             when (it) {
@@ -112,7 +116,8 @@ internal fun ConfirmImageScreen(
     ) {
 
         TopBar(
-            title = stringResource(R.string.EditProfile),
+            title = if (isSignUp) stringResource(id = R.string.SetProfile)
+            else stringResource(R.string.EditProfile),
         ) {
             navController.popBackStack()
         }
@@ -151,9 +156,10 @@ internal fun ConfirmImageScreen(
                 Image(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(
-                        id = R.drawable.ic_mypage_edit,
-                    ),
-                    contentDescription = null,
+                        id = if (isSignUp) R.drawable.addplusimage
+                        else R . drawable . ic_mypage_edit,
+                ),
+                contentDescription = null,
                 )
             }
 

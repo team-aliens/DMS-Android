@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.last
 
+import android.content.Context
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -7,22 +8,38 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormCheckBox
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.dialog.DormDoubleButtonDialog
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.register.event.SignUpEvent
+import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
+import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
+import team.aliens.domain.param.RegisterParam
 import team.aliens.presentation.R
 
 @Composable
 fun SignUpPolicyScreen(
     navController: NavController,
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
+
+    val context = LocalContext.current
+
+    val toast = rememberToast()
 
     val profileImageUrl by remember { mutableStateOf("https://team-aliens-webview.dsm-dms.com/sign-up-policy") }
 
@@ -30,6 +47,56 @@ fun SignUpPolicyScreen(
 
     val onCheckedChange = { value: Boolean ->
         isChecked = !isChecked
+    }
+
+    var signUpDialogState by remember { mutableStateOf(false) }
+
+    if (signUpDialogState) {
+        DormCustomDialog(
+            onDismissRequest = {},
+        ) {
+            DormDoubleButtonDialog(
+                content = stringResource(R.string.AreYouSureYouLogOut),
+                mainBtnText = stringResource(R.string.Check),
+                subBtnText = stringResource(R.string.Cancel),
+                onMainBtnClick = {
+
+                },
+                onSubBtnClick = {
+                    signUpDialogState = false
+                },
+            )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        signUpViewModel.signUpViewEvent.collect {
+            when (it) {
+                is SignUpEvent.SignUpSuccess -> {
+                    signUpDialogState = true
+                    navController.previousBackStackEntry?.arguments?.run {
+                        signInViewModel.setId(id = getString("accountId").toString())
+                        signInViewModel.setPassword(password = getString("password").toString())
+                    }
+                    signInViewModel.postSignIn()
+                    signInViewModel.signInViewEffect.collect {
+                        when (it) {
+                            is SignInViewModel.Event.NavigateToHome -> {
+                                navController.navigate(NavigationRoute.Main)
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    toast(
+                        getStringFromEvent(
+                            context = context,
+                            event = it,
+                        )
+                    )
+                }
+            }
+        }
     }
 
     Column(
@@ -86,7 +153,8 @@ fun SignUpPolicyScreen(
                 Spacer(modifier = Modifier.width(14.dp))
                 Caption(
                     modifier = Modifier.padding(bottom = 1.dp),
-                    text = stringResource(id = R.string.CheckAllPolicy)),
+                    text = stringResource(id = R.string.CheckAllPolicy),
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
             DormContainedLargeButton(
@@ -94,8 +162,50 @@ fun SignUpPolicyScreen(
                 color = DormButtonColor.Blue,
                 enabled = isChecked,
             ) {
-
+                navController.previousBackStackEntry?.arguments?.run {
+                    signUpViewModel.signUp(
+                        registerParam = RegisterParam(
+                            schoolCode = getString("schoolCode").toString(),
+                            schoolAnswer = getString("schoolAnswer").toString(),
+                            email = getString("email").toString(),
+                            authCode = getString("authCode").toString(),
+                            classRoom = getInt("classRoom"),
+                            grade = getInt("grade"),
+                            number = getInt("number"),
+                            accountId = getString("accountId").toString(),
+                            password = getString("password").toString(),
+                            profileImageUrl = getString("profileImageUrl").toString(),
+                        )
+                    )
+                }
             }
         }
+    }
+}
+
+private fun getStringFromEvent(
+    context: Context,
+    event: SignUpEvent,
+): String = when (event) {
+    is SignUpEvent.BadRequestException -> {
+        context.getString(R.string.BadRequest)
+    }
+    is SignUpEvent.UnAuthorizedException -> {
+        context.getString(R.string.SignUpUnAuthorized)
+    }
+    is SignUpEvent.ConflictException -> {
+        context.getString(R.string.SignUpConflict)
+    }
+    is SignUpEvent.InternalServerException -> {
+        context.getString(R.string.ServerException)
+    }
+    is SignUpEvent.NotFoundException -> {
+        context.getString(R.string.NotFound)
+    }
+    is SignUpEvent.TooManyRequestsException -> {
+        context.getString(R.string.TooManyRequest)
+    }
+    else -> {
+        context.getString(R.string.UnKnownException)
     }
 }

@@ -22,7 +22,9 @@ import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.util.SelectImageType
 import team.aliens.presentation.R
 
 @Composable
@@ -34,6 +36,26 @@ fun SignUpProfileScreen(
 
     var isSelectedImage by remember { mutableStateOf(false) }
 
+    var setProfileDialogState by remember { mutableStateOf(false)}
+
+    if (setProfileDialogState) {
+        GettingImageOptionDialog(
+            onCancel = {
+                setProfileDialogState = false
+            },
+            onTakePhoto = {
+
+            },
+            onSelectPhoto = {
+                navController.currentBackStackEntry?.arguments?.putBoolean("isSignUp", true)
+                navController.navigate(
+                    NavigationRoute.ConfirmImage +
+                            "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                )
+            },
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,7 +64,6 @@ fun SignUpProfileScreen(
                 start = 16.dp,
                 end = 16.dp,
             ),
-
         ) {
         AppLogo()
         Spacer(modifier = Modifier.height(8.dp))
@@ -65,7 +86,10 @@ fun SignUpProfileScreen(
                 AsyncImage(
                     modifier = Modifier
                         .size(150.dp)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .clickable {
+                            setProfileDialogState = true
+                        },
                     model = profileImageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
