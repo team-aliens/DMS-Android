@@ -61,9 +61,13 @@ fun StudyRoomDetailScreen(
         }
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = DormColor.Gray100)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = DormColor.Gray100,
+            ),
+    ) {
 
         TopBar(
             title = stringResource(
@@ -73,14 +77,16 @@ fun StudyRoomDetailScreen(
             navController.popBackStack()
         }
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = DormColor.Gray200,
-            )
-            .padding(
-                horizontal = 16.dp,
-            )) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = DormColor.Gray200,
+                )
+                .padding(
+                    horizontal = 16.dp,
+                ),
+        ) {
 
             Spacer(
                 modifier = Modifier.height(17.dp),
@@ -122,9 +128,11 @@ fun StudyRoomDetailScreen(
                 endDescription = uiState.studyRoomDetails.eastDescription,
                 seats = uiState.studyRoomDetails.toDesignSystemModel(),
                 selected = uiState.currentSeat,
-            ) { seatId ->
+            ) { seat ->
                 studyRoomDetailsViewModel.onEvent(
-                    event = StudyRoomDetailsViewModel.UiEvent.ChangeSelectedSeat(seatId),
+                    event = StudyRoomDetailsViewModel.UiEvent.ChangeSelectedSeat(
+                        seat = seat,
+                    ),
                 )
             }
 

@@ -55,7 +55,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 cancelSeat()
             }
             is UiEvent.ChangeSelectedSeat -> {
-                TODO()
+                changeSelectedSeat(
+                    seat = event.seat,
+                )
             }
         }
     }
@@ -95,6 +97,14 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 emitErrorEventFromThrowable(it)
             }
         }
+    }
+
+    private fun changeSelectedSeat(
+        seat: String,
+    ) {
+        _uiState.value = _uiState.value.copy(
+            currentSeat = seat,
+        )
     }
 
     private fun fetchApplyTime() {
