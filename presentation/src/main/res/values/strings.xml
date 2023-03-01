@@ -69,6 +69,7 @@
     <string name="EnterPassword">비밀번호 입력</string>
     <string name="ReEnterPassword">비밀번호 재입력</string>
     <string name="CheckPassword">비밀번호를 확인해주세요.</string>
+    <string name="PasswordWarning">비밀번호는 8~20자로 숫자 및 특수 문자를 포함해야 합니다.</string>
 
     // 비밀번호 변경
     <string name="ScanNewPassword">새 비밀번호 입력</string>
