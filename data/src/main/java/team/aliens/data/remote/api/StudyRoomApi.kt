@@ -13,7 +13,7 @@ interface StudyRoomApi {
     @PUT(DmsUrl.StudyRoom.Apply)
     suspend fun applySeat(
         @Path("seat-id") data: String,
-    ): Response<Unit>
+    )
 
     @GET(DmsUrl.StudyRoom.fetchApplyTime)
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse

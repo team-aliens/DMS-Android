@@ -20,7 +20,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.feature.studyroom.StudyRoomViewModel
+import team.aliens.dms_android.feature.studyroom.StudyRoomListViewModel
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
 import team.aliens.presentation.R
 
@@ -37,14 +37,13 @@ fun ApplicationScreenPreview() {
 @Composable
 fun ApplicationScreen(
     navController: NavController,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
     remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
 ) {
 
     var lastAppliedStudyRoom by remember { mutableStateOf("") }
     var lastAppliedRemain by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) {
+    /*LaunchedEffect(Unit) {
         with(studyRoomViewModel) {
             fetchCurrentStudyRoomOption()
             currentStudyRoomOptionEffect.collect{
@@ -55,7 +54,7 @@ fun ApplicationScreen(
                 }
             }
         }
-    }
+    }*/
 
     LaunchedEffect(Unit) {
         with(remainApplicationViewModel) {
