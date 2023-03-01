@@ -161,6 +161,8 @@
     <string name="DoApplyRemain">잔류 신청하기</string>
     <string name="PleaseSelectSeatFirst">자리를 먼저 선택해주세요.</string>
     <string name="Time">시간</string>
+    <string name="NoAvailableStudyRoom">신청 가능한 자습실이 없습니다.</string>
+    <string name="SeatAlreadyBeenUsed">이미 사용중인 자리입니다.</string>
 
     // 바텀 내비게이션
     <string name="Home">홈</string>
