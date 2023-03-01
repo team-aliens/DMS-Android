@@ -1,38 +1,34 @@
 package team.aliens.dms_android._base
 
 import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain.exception.*
 import team.aliens.presentation.R
+import javax.inject.Inject
 
-@HiltViewModel
-abstract class BaseViewModel<S : BaseUiState, E : BaseEvent>(
-    application: Application,
-) : AndroidViewModel(application) {
+abstract class BaseViewModel<S : BaseUiState, E : BaseEvent> : ViewModel() {
 
-    protected val context: Context
-        get() = getApplication()
+    @Inject
+    lateinit var application: Application
 
     // represents view's ui state
     protected abstract val _uiState: MutableState<S>
-
     val uiState: State<S>
         get() = _uiState
 
-    protected abstract fun onEvent(
+    abstract fun onEvent(
         event: E,
     )
 
     // represents error state
     private val _errorState = MutableEventFlow<String>()
-    internal val errorState = _errorState.asEventFlow()
+    val errorState = _errorState.asEventFlow()
 
     protected fun emitErrorEvent(
         errorEvent: ErrorEvent,
@@ -46,10 +42,34 @@ abstract class BaseViewModel<S : BaseUiState, E : BaseEvent>(
         }
     }
 
+    protected fun emitErrorEventFromThrowable(
+        throwable: Throwable?,
+    ) {
+        emitErrorEvent(
+            errorEvent = getErrorEventFromThrowable(
+                throwable = throwable,
+            ),
+        )
+    }
+
+    protected fun getErrorEventFromThrowable(
+        throwable: Throwable?,
+    ): ErrorEvent {
+        return when (throwable) {
+            is BadRequestException -> ErrorEvent.BadRequest
+            is NullPointerException -> ErrorEvent.NullPointer
+            is UnauthorizedException -> ErrorEvent.Unauthorized
+            is NoInternetException -> ErrorEvent.NoInternet
+            is TooManyRequestException -> ErrorEvent.TooManyRequests
+            is ServerException -> ErrorEvent.InternalServerError
+            else -> ErrorEvent.Unknown
+        }
+    }
+
     private fun getStringFromErrorEvent(
         errorEvent: ErrorEvent,
     ): String {
-        return context.getString(
+        return application.getString(
             when (errorEvent) {
                 ErrorEvent.BadRequest -> R.string.BadRequest
                 ErrorEvent.NoInternet -> R.string.NoInternetException
