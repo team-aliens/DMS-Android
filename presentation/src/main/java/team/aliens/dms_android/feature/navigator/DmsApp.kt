@@ -187,6 +187,8 @@ fun BottomNavBar(
             Icon(
                 painter = painterResource(id = BottomNavigationItem.MyPage.iconResId),
                 contentDescription = null,
+                modifier = Modifier
+                    .size(30.dp)
             )
         },
         selected = selected == 4,
