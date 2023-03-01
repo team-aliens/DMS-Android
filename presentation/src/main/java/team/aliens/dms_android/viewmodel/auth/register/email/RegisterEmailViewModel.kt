@@ -59,6 +59,7 @@ class RegisterEmailViewModel @Inject constructor(
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
                     is UnauthorizedException -> event(RegisterEmailEvent.CheckEmailUnauthorized)
                     is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
+                    is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.InternalServerException)

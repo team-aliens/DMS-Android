@@ -40,7 +40,7 @@ fun SignUpEmailScreen(
 
     LaunchedEffect(Unit) {
         registerEmailViewModel.registerEmailEvent.collect {
-            when(it){
+            when (it) {
                 is RegisterEmailEvent.AllowEmail -> {
                     registerEmailViewModel.requestEmailCode(email)
                 }
@@ -58,7 +58,7 @@ fun SignUpEmailScreen(
                     toast(context.getString(R.string.BadRequest))
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.TooManyRequest))
+                    toast(context.getString(R.string.EmailTooManyRequest))
                 }
                 is RegisterEmailEvent.InternalServerException -> {
                     toast(context.getString(R.string.ServerException))

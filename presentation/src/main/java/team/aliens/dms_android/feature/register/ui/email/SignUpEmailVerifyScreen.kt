@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.email
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -21,10 +23,12 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.presentation.R
 
@@ -34,9 +38,13 @@ fun SignUpEmailVerifyScreen(
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
 ) {
 
+    val context = LocalContext.current
+
     val focusManager = LocalFocusManager.current
 
     var verificationCode by remember { mutableStateOf("") }
+
+    val toast = rememberToast()
 
     var time by remember { mutableStateOf("3 : 00") }
 
@@ -44,9 +52,28 @@ fun SignUpEmailVerifyScreen(
 
     var email by remember { mutableStateOf("") }
 
+    var isError by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         email =
             navController.previousBackStackEntry?.savedStateHandle?.get<String>("email").toString()
+        registerEmailViewModel.registerEmailEvent.collect {
+            when (it) {
+                is RegisterEmailEvent.CheckEmailSuccess -> {
+                    navController.navigate("")
+                }
+
+                is RegisterEmailEvent.CheckEmailUnauthorized -> {
+                    isError = true
+                }
+                else -> toast(
+                    getStringFromEvent(
+                        context = context,
+                        event = it,
+                    ),
+                )
+            }
+        }
     }
 
     LaunchedEffect(isRunningTimer) {
@@ -61,6 +88,9 @@ fun SignUpEmailVerifyScreen(
                 val minutes = totalSecond / 60
                 val seconds = totalSecond % 60
                 time = "$minutes : $seconds"
+                if (totalSecond == 0) {
+                    toast(context.getString(R.string.AuthenticationTimeout))
+                }
             }
         }
     }
@@ -123,8 +153,10 @@ fun SignUpEmailVerifyScreen(
             )
             Spacer(modifier = Modifier.height(40.dp))
             Body3(
-                text = stringResource(id = R.string.EmailSixCode),
-                color = DormColor.Gray500,
+                text = if (isError) stringResource(id = R.string.NoSameCode)
+                else stringResource(id = R.string.EmailSixCode),
+                color = if (isError) DormColor.Error
+                else DormColor.Gray500,
             )
             Spacer(modifier = Modifier.height(10.dp))
             Body3(
@@ -148,8 +180,35 @@ fun SignUpEmailVerifyScreen(
                 color = DormButtonColor.Blue,
                 enabled = verificationCode.isNotEmpty() && isRunningTimer
             ) {
-
+                registerEmailViewModel.checkEmailCode(
+                    email = email,
+                    authCode = verificationCode,
+                )
             }
         }
+    }
+}
+
+private fun getStringFromEvent(
+    context: Context,
+    event: RegisterEmailEvent
+): String = when (event) {
+    is RegisterEmailEvent.CheckEmailNotFound -> {
+        context.getString(R.string.CertificationInfoNotFound)
+    }
+    is RegisterEmailEvent.BadRequestException -> {
+        context.getString(R.string.NotFound)
+    }
+    is RegisterEmailEvent.ConflictException -> {
+        context.getString(R.string.ConflictEmail)
+    }
+    is RegisterEmailEvent.TooManyRequestsException -> {
+        context.getString(R.string.EmailTooManyRequest)
+    }
+    is RegisterEmailEvent.InternalServerException -> {
+        context.getString(R.string.ServerException)
+    }
+    else -> {
+        context.getString(R.string.UnKnownException)
     }
 }
