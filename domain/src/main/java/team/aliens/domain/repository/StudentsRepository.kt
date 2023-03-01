@@ -31,4 +31,6 @@ interface StudentsRepository {
     suspend fun editProfileImage(
         profileImageUrl: String,
     )
+
+    suspend fun withdraw()
 }

@@ -33,4 +33,6 @@ interface RemoteStudentsDataSource {
     suspend fun editProfileImage(
         editProfileImageRequest: EditProfileImageRequest,
     )
+
+    suspend fun withdraw()
 }
