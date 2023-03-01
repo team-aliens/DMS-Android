@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +22,7 @@ import team.aliens.design_system.component.SeatType
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
+import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
 
@@ -36,99 +36,28 @@ import team.aliens.presentation.R
 fun StudyRoomDetailScreen(
     navController: NavController,
     roomId: String,
-    studyRoomViewModel: StudyRoomViewModel = hiltViewModel(),
+    studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
-        studyRoomViewModel.fetchStudyRoomDetail(roomId)
-        studyRoomViewModel.fetchApplyTime()
+        studyRoomDetailsViewModel.initStudyRoom(
+            studyRoomId = roomId,
+        )
     }
 
     val context = LocalContext.current
-
-    val state = studyRoomViewModel.state.collectAsState().value
-
     val toast = rememberToast()
-
-    val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.UnAuthorized)
-    val forbidden = stringResource(id = R.string.Forbidden)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val noInternetException = stringResource(id = R.string.NoInternetException)
+    val uiState = studyRoomDetailsViewModel.uiState.value
 
     LaunchedEffect(Unit) {
-        studyRoomViewModel.studyRoomDetailEffect.collect {
-            when (it) {
-                is StudyRoomViewModel.Event.FetchStudyDetail -> {
-
-                }
-                is StudyRoomViewModel.Event.BadRequestException -> {
-                    toast(badRequestComment)
-                }
-                is StudyRoomViewModel.Event.UnAuthorizedTokenException -> {
-                    toast(unAuthorizedComment)
-                }
-                is StudyRoomViewModel.Event.CannotConnectException -> {
-                    toast(forbidden)
-                }
-                is StudyRoomViewModel.Event.TooManyRequestException -> {
-                    toast(tooManyRequestComment)
-                }
-                is StudyRoomViewModel.Event.InternalServerException -> {
-                    toast(serverException)
-                }
-                is StudyRoomViewModel.Event.UnknownException -> {
-                    toast(noInternetException)
-                }
-                else -> {
-                    // TODO string resource 로 빼주기
-                    toast("알 수 없는 에러가 발생했습니다.")
-                }
-            }
+        studyRoomDetailsViewModel.errorState.collect {
+            toast(it)
         }
     }
 
     LaunchedEffect(Unit) {
-        studyRoomViewModel.studyRoomApplyEffect.collect {
-            when (it) {
-                is StudyRoomViewModel.Event.ApplyStudyRoom -> {
-                    // TODO string resource 로 빼주기
-                    toast("자습실 신청에 성공하셨습니다.")
-                    studyRoomViewModel.fetchStudyRoomDetail(roomId)
-                }
-                is StudyRoomViewModel.Event.CancelStudyRoom -> {
-                    // TODO string resource 로 빼주기
-                    toast("자습실 신청을 취소하셨습니다.")
-                    studyRoomViewModel.fetchStudyRoomDetail(roomId)
-                }
-                is StudyRoomViewModel.Event.BadRequestException -> {
-                    toast(badRequestComment)
-                }
-                is StudyRoomViewModel.Event.UnAuthorizedTokenException -> {
-                    toast(unAuthorizedComment)
-                }
-                is StudyRoomViewModel.Event.CannotConnectException -> {
-                    toast(forbidden)
-                }
-                is StudyRoomViewModel.Event.ConflictException -> {
-                    // TODO string resource 로 빼주기
-                    toast("해당 자리로 이미 예약 되었습니다.")
-                }
-                is StudyRoomViewModel.Event.TooManyRequestException -> {
-                    toast(tooManyRequestComment)
-                }
-                is StudyRoomViewModel.Event.InternalServerException -> {
-                    toast(serverException)
-                }
-                is StudyRoomViewModel.Event.UnknownException -> {
-                    toast(noInternetException)
-                }
-                else -> {
-                    // TODO string resource 로 빼주기
-                    toast("알 수 없는 에러가 발생했습니다.")
-                }
-            }
+        studyRoomDetailsViewModel.uiState.value.errorMessage.collect {
+            toast(it)
         }
     }
 
@@ -159,7 +88,7 @@ fun StudyRoomDetailScreen(
 
 
             FloatingNotice(
-                content = "자습실 신청 가능 시간: ${state.startAt} ~ ${state.endAt}",
+                content = "자습실 신청 가능 시간: ${uiState.startAt} ~ ${uiState.endAt}",
             )
 
 
@@ -170,13 +99,13 @@ fun StudyRoomDetailScreen(
 
             RoomItem(
                 roomId = "",
-                position = "${state.roomDetail.floor}층",
-                title = state.roomDetail.name,
-                currentNumber = state.roomDetail.inUseHeadCount,
-                maxNumber = state.roomDetail.totalAvailableSeat,
-                condition = state.roomDetail.availableGrade + stringResource(
+                position = "${uiState.studyRoomDetails.floor}층",
+                title = uiState.studyRoomDetails.name,
+                currentNumber = uiState.studyRoomDetails.inUseHeadCount,
+                maxNumber = uiState.studyRoomDetails.totalAvailableSeat,
+                condition = uiState.studyRoomDetails.availableGrade + stringResource(
                     id = R.string.Grade,
-                ) + " ${state.roomDetail.studyRoomSex}",
+                ) + " ${uiState.studyRoomDetails.studyRoomSex}",
                 onClick = { },
             )
 
@@ -187,16 +116,17 @@ fun StudyRoomDetailScreen(
 
 
             RoomDetail(
-                topDescription = state.roomDetail.northDescription,
-                bottomDescription = state.roomDetail.southDescription,
-                startDescription = state.roomDetail.westDescription,
-                endDescription = state.roomDetail.eastDescription,
-                seats = state.roomDetail.toDesignSystemModel(),
-                selected = state.currentSeat ?: "",
-                onSelectedChanged = { seatId ->
-                    studyRoomViewModel.updateCurrentSeat(seatId)
-                },
-            )
+                topDescription = uiState.studyRoomDetails.northDescription,
+                bottomDescription = uiState.studyRoomDetails.southDescription,
+                startDescription = uiState.studyRoomDetails.westDescription,
+                endDescription = uiState.studyRoomDetails.eastDescription,
+                seats = uiState.studyRoomDetails.toDesignSystemModel(),
+                selected = uiState.currentSeat,
+            ) { seatId ->
+                studyRoomDetailsViewModel.onEvent(
+                    event = StudyRoomDetailsViewModel.UiEvent.ChangeSelectedSeat(seatId),
+                )
+            }
 
 
             Spacer(modifier = Modifier.weight(1f))
@@ -215,7 +145,9 @@ fun StudyRoomDetailScreen(
                     ),
                     color = DormButtonColor.Gray,
                 ) {
-                    studyRoomViewModel.cancelStudyRoomSeat()
+                    studyRoomDetailsViewModel.onEvent(
+                        event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat,
+                    )
                 }
 
 
@@ -232,13 +164,17 @@ fun StudyRoomDetailScreen(
                     ),
                     color = DormButtonColor.Blue,
                 ) {
-                    if (state.currentSeat == null) {
-                        toast(
+                    if (uiState.currentSeat.isBlank()) {
+                        return@DormContainedLargeButton toast(
                             context.getString(R.string.PleaseSelectSeatFirst),
                         )
-                    } else {
-                        studyRoomViewModel.applyStudyRoomSeat(state.currentSeat)
                     }
+
+                    studyRoomDetailsViewModel.onEvent(
+                        event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                            seat = uiState.currentSeat,
+                        )
+                    )
                 }
             }
 
