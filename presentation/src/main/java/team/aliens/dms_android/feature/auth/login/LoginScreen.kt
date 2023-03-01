@@ -177,7 +177,7 @@ fun LoginScreen(
             Caption(
                 text = stringResource(id = R.string.DoRegister),
                 onClick = {
-                    navController.navigate(NavigationRoute.SignUpId)
+                    navController.navigate(NavigationRoute.VerifySchool)
                 },
                 color = DormColor.Gray500,
             )
