@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.studyroom
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,7 +14,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,10 +43,12 @@ fun StudyRoomListScreen(
 
     val toast = rememberToast()
 
-    val context = LocalContext.current
+    val studyRoomState = studyRoomListViewModel.uiState.value
 
-    val studyRoomState = studyRoomListViewModel.uiState.value.also {
-        Log.e("", "StudyRoomListScreen: $it", )
+    LaunchedEffect(Unit) {
+        studyRoomListViewModel.errorState.collect {
+            toast(it)
+        }
     }
 
     /*var filterTimeState by remember {
@@ -80,8 +80,6 @@ fun StudyRoomListScreen(
                     showTimeFilterDialogState = false
                 },
             ) {
-
-                // todo fetch time from remote
 
                 Title3(
                     text = stringResource(R.string.Time),
@@ -139,7 +137,7 @@ fun StudyRoomListScreen(
 
             // Available study room application time
             FloatingNotice(
-                content = "자습실 신청 가능 시간: ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
+                content = "자습실 신청 가능 시간 : ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
             )
 
             Spacer(
