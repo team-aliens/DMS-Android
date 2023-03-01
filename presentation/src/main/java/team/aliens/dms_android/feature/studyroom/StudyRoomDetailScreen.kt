@@ -100,7 +100,7 @@ fun StudyRoomDetailScreen(
 
 
             FloatingNotice(
-                content = "자습실 신청 가능 시간: ${uiState.startAt} ~ ${uiState.endAt}",
+                content = "자습실 신청 가능 시간 : ${uiState.startAt} ~ ${uiState.endAt}",
             )
 
 

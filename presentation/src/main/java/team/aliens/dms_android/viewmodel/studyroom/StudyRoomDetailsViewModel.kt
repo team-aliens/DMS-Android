@@ -1,5 +1,6 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +9,8 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.domain.exception.ConflictException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.studyroom.RemoteApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.RemoteCancelApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
@@ -68,12 +71,19 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 applySeatUseCase.execute(seat)
-            }.onSuccess {
+            }.onSuccess{
                 fetchStudyRoomDetails(
                     studyRoomId = _uiState.value.studyRoomId,
                 )
             }.onFailure {
+                it.printStackTrace()
                 when (it) {
+                    is UnauthorizedException -> emitErrorEvent(
+                        application.getString(R.string.NotAvailableSeat),
+                    )
+                    is ForbiddenException -> emitErrorEvent(
+                        application.getString(R.string.NotStudyRoomApplicateTime),
+                    )
                     is ConflictException -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
