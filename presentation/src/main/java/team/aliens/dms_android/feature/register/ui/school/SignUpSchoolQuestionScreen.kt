@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,7 +61,10 @@ fun SignUpSchoolQuestionScreen(
                     isError = false
                     navController.currentBackStackEntry?.arguments?.run {
                         putString("schoolId", schoolId.toString())
-                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
                         putString("schoolAnswer", schoolAnswer)
                     }
                     navController.navigate(NavigationRoute.SignUpEmail)
@@ -81,22 +85,25 @@ fun SignUpSchoolQuestionScreen(
                 end = 16.dp,
             ),
     ) {
-        AppLogo()
-        Spacer(modifier = Modifier.height(8.dp))
-        Body2(
-            text = stringResource(id = R.string.QuestionConfirmSchool)
-        )
-        Spacer(modifier = Modifier.height(60.dp))
-        Body2(text = schoolQuestion)
-        Spacer(modifier = Modifier.height(10.dp))
-        DormTextField(
-            value = schoolAnswer,
-            onValueChange = onAnswerChange,
-            hint = stringResource(id = R.string.Reply),
-            error = isError,
-            errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
-        )
-        Spacer(modifier = Modifier.fillMaxHeight(0.786f))
+        Column(
+            modifier = Modifier.fillMaxHeight(0.843f)
+        ) {
+            AppLogo()
+            Spacer(modifier = Modifier.height(8.dp))
+            Body2(
+                text = stringResource(id = R.string.QuestionConfirmSchool)
+            )
+            Spacer(modifier = Modifier.height(60.dp))
+            Body2(text = schoolQuestion)
+            Spacer(modifier = Modifier.height(10.dp))
+            DormTextField(
+                value = schoolAnswer,
+                onValueChange = onAnswerChange,
+                hint = stringResource(id = R.string.Reply),
+                error = isError,
+                errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
+            )
+        }
         DormContainedLargeButton(
             text = stringResource(id = R.string.Check),
             color = DormButtonColor.Blue,

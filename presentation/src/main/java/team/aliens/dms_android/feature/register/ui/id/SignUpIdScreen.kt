@@ -164,74 +164,75 @@ fun SignUpIdScreen(
             text = stringResource(id = R.string.SetId)
         )
         Spacer(modifier = Modifier.height(60.dp))
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 21.dp,
-            ),
-        ) {
-            items(valueList.size) { index ->
-                DormTextField(
-                    modifier = Modifier.width(112.dp),
-                    value = valueList[index].first,
-                    onValueChange = valueList[index].second,
-                    hint = valueList[index].third,
-                    keyboardType = KeyboardType.Number,
-                    error = isGradeError,
-                )
-            }
-        }
-        AnimatedVisibility(
-            visible = isNameShowed && !isNameChecked,
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 12.dp,
-                    )
-                    .height(54.dp)
-                    .background(
-                        color = DormColor.Gray200,
-                    ),
+        Column(modifier = Modifier.fillMaxHeight(0.812f)) {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 21.dp,
+                ),
             ) {
-                Spacer(modifier = Modifier.width(16.dp))
-                Body3(text = "${userName}님이 맞으신가요?")
-                Spacer(modifier = Modifier.fillMaxWidth(0.8f))
-                ButtonText(
-                    modifier = Modifier.dormClickable(
-                        rippleEnabled = false,
-                    ) {
-                        isNameChecked = true
-                        isNameShowed = false
-                    },
-                    text = stringResource(id = R.string.Check),
-                )
+                items(valueList.size) { index ->
+                    DormTextField(
+                        modifier = Modifier.width(112.dp),
+                        value = valueList[index].first,
+                        onValueChange = valueList[index].second,
+                        hint = valueList[index].third,
+                        keyboardType = KeyboardType.Number,
+                        error = isGradeError,
+                    )
+                }
             }
+            AnimatedVisibility(
+                visible = isNameShowed,
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = 12.dp,
+                        )
+                        .height(54.dp)
+                        .background(
+                            color = DormColor.Gray200,
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Body3(text = "${userName}님이 맞으신가요?")
+                    Spacer(modifier = Modifier.fillMaxWidth(0.8f))
+                    ButtonText(
+                        modifier = Modifier.dormClickable(
+                            rippleEnabled = false,
+                        ) {
+                            isNameChecked = true
+                            isNameShowed = false
+                        },
+                        text = stringResource(id = R.string.Check),
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            DormTextField(
+                modifier = Modifier
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            callExamineGrade(
+                                grade = grade,
+                                classRoom = classRoom,
+                                number = number,
+                                setIdViewModel = setIdViewModel,
+                            )
+                            isNameShowed = true
+                        }
+                    },
+                value = userId,
+                onValueChange = onUserIdChange,
+                hint = stringResource(id = R.string.EnterId),
+                error = isIdError,
+                errorDescription = errorDescription,
+            )
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        DormTextField(
-            modifier = Modifier
-                .onFocusChanged {
-                    if (it.isFocused) {
-//                        callExamineGrade(
-//                            grade = grade,
-//                            classRoom = classRoom,
-//                            number = number,
-//                            setIdViewModel = setIdViewModel,
-//                        )
-                        isNameShowed = true
-                    }
-                },
-            value = userId,
-            onValueChange = onUserIdChange,
-            hint = stringResource(id = R.string.EnterId),
-            error = isIdError,
-            errorDescription = errorDescription,
-        )
-        Spacer(modifier = Modifier.fillMaxHeight(0.766f))
         DormContainedLargeButton(
             text = stringResource(id = R.string.Next),
             color = DormButtonColor.Blue,

@@ -1,13 +1,12 @@
 package team.aliens.dms_android.feature.register.ui.email
 
-import android.os.Bundle
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
@@ -59,16 +58,12 @@ fun SignUpEmailScreen(
                     }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
                 }
-                is RegisterEmailEvent.BadRequestException -> {
-                    toast(context.getString(R.string.BadRequest))
-                }
-                is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.EmailTooManyRequest))
-                }
-                is RegisterEmailEvent.InternalServerException -> {
-                    toast(context.getString(R.string.ServerException))
-                }
-                else -> toast(context.getString(R.string.UnKnownException))
+                else -> toast(
+                    getStringFromEvent(
+                        context = context,
+                        event = it,
+                    )
+                )
             }
         }
     }
@@ -82,20 +77,23 @@ fun SignUpEmailScreen(
                 end = 16.dp,
             ),
     ) {
-        AppLogo()
-        Spacer(modifier = Modifier.height(8.dp))
-        Body2(
-            text = stringResource(id = R.string.EnterEmailAddress)
-        )
-        Spacer(modifier = Modifier.height(60.dp))
-        DormTextField(
-            value = email,
-            onValueChange = onEmailChange,
-            hint = stringResource(id = R.string.EnterEmailAddress),
-            error = isError,
-            errorDescription = errorDescription,
-        )
-        Spacer(modifier = Modifier.fillMaxHeight(0.796f))
+        Column(
+            modifier = Modifier.fillMaxHeight(0.843f)
+        ) {
+            AppLogo()
+            Spacer(modifier = Modifier.height(8.dp))
+            Body2(
+                text = stringResource(id = R.string.EnterEmailAddress)
+            )
+            Spacer(modifier = Modifier.height(60.dp))
+            DormTextField(
+                value = email,
+                onValueChange = onEmailChange,
+                hint = stringResource(id = R.string.EnterEmailAddress),
+                error = isError,
+                errorDescription = errorDescription,
+            )
+        }
         DormContainedLargeButton(
             text = stringResource(id = R.string.SendVerificationCode),
             color = DormButtonColor.Blue,
@@ -104,4 +102,23 @@ fun SignUpEmailScreen(
             registerEmailViewModel.checkEmailDuplicate(email)
         }
     }
+}
+
+private fun getStringFromEvent(
+    context: Context,
+    event: RegisterEmailEvent,
+): String = when(event){
+    is RegisterEmailEvent.BadRequestException -> {
+        context.getString(R.string.BadRequest)
+    }
+    is RegisterEmailEvent.TooManyRequestsException -> {
+        context.getString(R.string.EmailTooManyRequest)
+    }
+    is RegisterEmailEvent.InternalServerException -> {
+        context.getString(R.string.ServerException)
+    }
+    else -> {
+        context.getString(R.string.UnKnownException)
+    }
+
 }

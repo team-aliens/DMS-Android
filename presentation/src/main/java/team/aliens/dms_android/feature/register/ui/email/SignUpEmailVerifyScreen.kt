@@ -171,7 +171,7 @@ fun SignUpEmailVerifyScreen(
                 text = time,
                 color = DormColor.DormPrimary,
             )
-            Spacer(modifier = Modifier.fillMaxHeight(0.652f))
+            Spacer(modifier = Modifier.fillMaxHeight(0.65f))
             ButtonText(
                 modifier = Modifier
                     .dormClickable(
