@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,6 +14,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Caption
@@ -36,11 +37,16 @@ fun SignUpSchoolQuestionScreen(
     var schoolQuestion by remember { mutableStateOf("") }
     var schoolAnswer by remember { mutableStateOf("") }
 
+    val toast = rememberToast()
+
+    val context = LocalContext.current
+
     var isError by remember { mutableStateOf(false) }
 
     var schoolId by remember { mutableStateOf(UUID.randomUUID()) }
 
     val onAnswerChange = { value: String ->
+        if(isError && value.length < schoolAnswer.length) isError = false
         schoolAnswer = value
     }
 
@@ -56,6 +62,7 @@ fun SignUpSchoolQuestionScreen(
                 }
                 is NotFoundCompareSchool -> {
                     isError = true
+                    toast(context.getString(R.string.CheckSchoolCode))
                 }
                 is CompareSchoolAnswerSuccess -> {
                     isError = false

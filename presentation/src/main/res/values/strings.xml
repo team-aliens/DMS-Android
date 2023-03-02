@@ -61,7 +61,8 @@
     // 학교 인증
     <string name="SchoolVerificationCode">학교 인증코드 입력</string>
     <string name="EmailEightCode">소속된 학교의 인증코드 8자리를 입력해주세요.</string>
-    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
+    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>ㄷ
+    <string name="CheckSchoolCode">학교 인증코드를 확인해주세요.</string>
 
     // 비밀번호 설정
     <string name="SetPassword">비밀번호 설정</string>
