@@ -55,7 +55,7 @@ fun StudyRoomListScreen(
         mutableStateOf(firstPart)
     }*/
 
-    var showTimeFilterDialogState by remember {
+    /*var showTimeFilterDialogState by remember {
         mutableStateOf(false)
     }
 
@@ -92,18 +92,18 @@ fun StudyRoomListScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    /*DormTimeChip(
+                    *//*DormTimeChip(
                         selected = true,
                         text = firstPart,
                     )
                     DormTimeChip(
                         selected = false,
                         text = secondPart,
-                    )*/
+                    )*//*
                 }
             }
         }
-    }
+    }*/
 
 
     Column(
@@ -146,7 +146,7 @@ fun StudyRoomListScreen(
 
 
             // Study room time filter
-            Row(
+            /*Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -174,7 +174,7 @@ fun StudyRoomListScreen(
 
             Spacer(
                 modifier = Modifier.height(24.dp),
-            )
+            )*/
 
             // List of study rooms
             LazyColumn(
