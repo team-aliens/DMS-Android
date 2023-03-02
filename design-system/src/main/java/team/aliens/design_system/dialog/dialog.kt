@@ -300,6 +300,67 @@ fun DormDoubleButtonDialog(
     }
 }
 
+@Composable
+fun DormSingleButtonDialog(
+    content: String,
+    mainBtnText: String,
+    onMainBtnClick: () -> Unit,
+    mainBtnTextColor: Color = DormColor.Error,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp)
+            .background(
+                DormColor.Gray100,
+                DormDoubleButtonDialogShape,
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+
+        Spacer(
+            modifier = Modifier.height(50.dp),
+        )
+
+        Body3(
+            text = content,
+        )
+
+        Spacer(
+            modifier = Modifier.height(40.dp),
+        )
+
+        Divider(
+            modifier = Modifier
+                .background(DormColor.Gray400)
+                .height(1.dp),
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(
+                        DormDoubleButtonDialogSubButtonShape,
+                    )
+                    .clickable {
+                        onMainBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body3(
+                    text = mainBtnText,
+                    color = mainBtnTextColor,
+                )
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Preview(
     showSystemUi = true,
