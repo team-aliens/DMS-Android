@@ -86,10 +86,8 @@ fun SignUpPasswordScreen(
                     putInt("number", navController.previousBackStackEntry?.arguments?.getInt("number") ?: 0)
                     putString("accountId", navController.previousBackStackEntry?.arguments?.getString("accountId"))
                     putString("password", password)
-                    putString("profileImageUrl", "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png")
-
                 }
-                navController.navigate(NavigationRoute.SignUpPolicy)
+                navController.navigate(NavigationRoute.SignUpProfile)
             }
         }
     }

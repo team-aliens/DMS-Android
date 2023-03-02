@@ -24,6 +24,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.util.fetchImage
@@ -174,7 +175,14 @@ internal fun ConfirmImageScreen(
                 text = stringResource(R.string.Check),
                 color = DormButtonColor.Blue,
             ) {
-                confirmImageViewModel.editProfileImage()
+                if (isSignUp) {
+                    navController.currentBackStackEntry?.arguments?.putString(
+                        "profileImageUrl", confirmImageState.selectedImage.toString()
+                    )
+                    navController.navigate(NavigationRoute.SignUpPolicy)
+                } else {
+                    confirmImageViewModel.editProfileImage()
+                }
             }
         }
     }

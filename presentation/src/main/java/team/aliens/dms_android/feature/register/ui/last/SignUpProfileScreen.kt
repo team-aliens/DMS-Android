@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.last
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -13,11 +12,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
@@ -25,18 +25,20 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
+import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
 @Composable
 fun SignUpProfileScreen(
     navController: NavController,
+    confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),
 ) {
 
     var profileImageUrl by remember { mutableStateOf("https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png") }
 
     var isSelectedImage by remember { mutableStateOf(false) }
 
-    var setProfileDialogState by remember { mutableStateOf(false)}
+    var setProfileDialogState by remember { mutableStateOf(false) }
 
     if (setProfileDialogState) {
         GettingImageOptionDialog(
@@ -64,7 +66,7 @@ fun SignUpProfileScreen(
                 start = 16.dp,
                 end = 16.dp,
             ),
-        ) {
+    ) {
         AppLogo()
         Spacer(modifier = Modifier.height(8.dp))
         Body2(
@@ -110,7 +112,10 @@ fun SignUpProfileScreen(
                         rippleEnabled = false,
                     ) {
                         navController.run {
-                            currentBackStackEntry?.arguments?.putString("profileImageUrl", profileImageUrl)
+                            currentBackStackEntry?.arguments?.putString(
+                                "profileImageUrl",
+                                profileImageUrl
+                            )
                             navigate(NavigationRoute.SignUpPolicy)
                         }
                     },
