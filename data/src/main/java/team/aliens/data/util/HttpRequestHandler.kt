@@ -36,6 +36,8 @@ suspend fun <T> sendHttpRequest(
     throw TimeoutException()
 } catch (e: NeedLoginException) {
     throw e
+} catch (e: KotlinNullPointerException) {
+    throw e
 } catch (e: Throwable) {
     throw UnknownException()
 }

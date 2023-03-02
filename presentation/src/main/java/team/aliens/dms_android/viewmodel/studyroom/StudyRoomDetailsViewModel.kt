@@ -75,8 +75,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 fetchStudyRoomDetails(
                     studyRoomId = _uiState.value.studyRoomId,
                 )
-            }.onFailure {
-                it.printStackTrace()
+            }.recover {
                 when (it) {
                     is UnauthorizedException -> emitErrorEvent(
                         application.getString(R.string.NotAvailableSeat),
@@ -87,10 +86,14 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     is ConflictException -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
-                    else -> {
-                        emitErrorEventFromThrowable(it)
+                    is KotlinNullPointerException -> { // todo optimize code
+                        fetchStudyRoomDetails(
+                            studyRoomId = _uiState.value.studyRoomId,
+                        )
                     }
                 }
+            }.onFailure {
+                emitErrorEventFromThrowable(it)
             }
         }
     }
