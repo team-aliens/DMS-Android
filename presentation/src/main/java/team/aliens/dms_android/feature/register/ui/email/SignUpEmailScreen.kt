@@ -85,7 +85,7 @@ fun SignUpEmailScreen(
             Body2(
                 text = stringResource(id = R.string.EnterEmailAddress)
             )
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(86.dp))
             DormTextField(
                 value = email,
                 onValueChange = onEmailChange,

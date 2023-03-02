@@ -58,7 +58,7 @@ fun SignUpPasswordScreen(
                 hint = stringResource(id = R.string.EnterPassword),
                 isPassword = true,
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             DormTextField(
                 value = passwordRepeat,
                 onValueChange = onPasswordRepeatChange,
