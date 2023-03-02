@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.auth.login
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,7 +22,6 @@ import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
-import team.aliens.dms_android.feature.RegisterActivity
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
@@ -177,7 +175,7 @@ fun LoginScreen(
             Caption(
                 text = stringResource(id = R.string.DoRegister),
                 onClick = {
-                    navController.navigate(NavigationRoute.SignUpProfile)
+                    navController.navigate(NavigationRoute.VerifySchool)
                 },
                 color = DormColor.Gray500,
             )

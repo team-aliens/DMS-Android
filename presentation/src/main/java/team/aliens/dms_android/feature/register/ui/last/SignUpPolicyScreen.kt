@@ -17,8 +17,11 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormCheckBox
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.dialog.DormBottomAlignedSingleButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
+import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
@@ -34,14 +37,13 @@ import team.aliens.presentation.R
 fun SignUpPolicyScreen(
     navController: NavController,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
-    signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
 
     val context = LocalContext.current
 
     val toast = rememberToast()
 
-    val profileImageUrl by remember { mutableStateOf("https://team-aliens-webview.dsm-dms.com/sign-up-policy") }
+    val profileImageUrl by remember { mutableStateOf("https://webview.aliens-dms.com/policy/privacy") }
 
     var isChecked by remember { mutableStateOf(false) }
 
@@ -55,16 +57,13 @@ fun SignUpPolicyScreen(
         DormCustomDialog(
             onDismissRequest = {},
         ) {
-            DormDoubleButtonDialog(
-                content = stringResource(R.string.AreYouSureYouLogOut),
-                mainBtnText = stringResource(R.string.Check),
-                subBtnText = stringResource(R.string.Cancel),
+            DormSingleButtonDialog(
+                content = stringResource(id = R.string.CompleteRegister),
+                mainBtnText = stringResource(id = R.string.GoLogin),
                 onMainBtnClick = {
-
+                    navController.navigate(NavigationRoute.Login)
                 },
-                onSubBtnClick = {
-                    signUpDialogState = false
-                },
+                mainBtnTextColor = DormColor.DormPrimary,
             )
         }
     }
@@ -74,18 +73,7 @@ fun SignUpPolicyScreen(
             when (it) {
                 is SignUpEvent.SignUpSuccess -> {
                     signUpDialogState = true
-                    navController.previousBackStackEntry?.arguments?.run {
-                        signInViewModel.setId(id = getString("accountId").toString())
-                        signInViewModel.setPassword(password = getString("password").toString())
-                    }
-                    signInViewModel.postSignIn()
-                    signInViewModel.signInViewEffect.collect {
-                        when (it) {
-                            is SignInViewModel.Event.NavigateToHome -> {
-                                navController.navigate(NavigationRoute.Main)
-                            }
-                        }
-                    }
+                    signUpDialogState = true
                 }
                 else -> {
                     toast(

@@ -27,6 +27,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
@@ -95,17 +96,18 @@ fun SignUpIdScreen(
     val toast = rememberToast()
 
     LaunchedEffect(Unit) {
-        //setIdViewModel.schoolId = UUID.fromString(navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+        setIdViewModel.schoolId = UUID.fromString(navController.previousBackStackEntry?.arguments?.getString("schoolId"))
         setIdViewModel.examineGradeEvent.collect {
             when (it) {
                 is SetIdEvent.ExamineGradeName -> {
                     isNameShowed = true
-                    isGradeError = true
+                    isGradeError = false
                     userName = it.examineGradeEntity.name
                 }
                 is SetIdEvent.ExamineGradeNotFoundException -> {
                     isNameShowed = false
                     isGradeError = true
+                    toast(context.getString(R.string.CheckGrade))
                 }
                 is SetIdEvent.DuplicateIdSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
@@ -115,7 +117,7 @@ fun SignUpIdScreen(
                         )
                         putString(
                             "schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolName")
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
                         )
                         putString(
                             "email",
@@ -130,7 +132,7 @@ fun SignUpIdScreen(
                         putInt("number", number.toInt())
                         putString("accountId", userId)
                     }
-                    navController.navigate("")
+                    navController.navigate(NavigationRoute.SignUpPassword)
                 }
                 is SetIdEvent.DuplicateIdConflictException -> {
                     isIdError = true
@@ -206,6 +208,7 @@ fun SignUpIdScreen(
                         ) {
                             isNameChecked = true
                             isNameShowed = false
+                            isGradeError = false
                         },
                         text = stringResource(id = R.string.Check),
                     )
@@ -222,7 +225,6 @@ fun SignUpIdScreen(
                                 number = number,
                                 setIdViewModel = setIdViewModel,
                             )
-                            isNameShowed = true
                         }
                     },
                 value = userId,
@@ -235,7 +237,7 @@ fun SignUpIdScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.Next),
             color = DormButtonColor.Blue,
-            enabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && userId.isNotEmpty() && !isGradeError && !isIdError
+            enabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && userId.isNotEmpty()
         ) {
             setIdViewModel.duplicateId(userId)
         }
@@ -263,9 +265,6 @@ private fun getStringFromEvent(
 ): String = when (event) {
     is SetIdEvent.ExamineGradeBadRequestException -> {
         context.getString(R.string.BadRequest)
-    }
-    is SetIdEvent.ExamineGradeNotFoundException -> {
-        context.getString(R.string.CheckGrade)
     }
     is SetIdEvent.ExamineGradeConflictException -> {
         context.getString(R.string.CheckGrade)

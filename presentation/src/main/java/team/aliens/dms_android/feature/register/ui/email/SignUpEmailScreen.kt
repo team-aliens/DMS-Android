@@ -52,6 +52,7 @@ fun SignUpEmailScreen(
                 is RegisterEmailEvent.SendEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
                         putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
                         putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
                         putString("email", email)
                     }
