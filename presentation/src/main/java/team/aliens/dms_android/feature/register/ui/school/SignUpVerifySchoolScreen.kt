@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -42,16 +44,23 @@ fun SignUpVerifySchoolScreen(
 
     val focusManager = LocalFocusManager.current
 
+    val focusRequester = remember { FocusRequester() }
+
     var verificationCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit){
+        focusRequester.requestFocus()
+    }
 
     val onVerificationCodeChange = { value: String ->
         if (value.length <= 8) {
             verificationCode = value
             if (value.length == 8) {
                 focusManager.clearFocus()
-            } else {}
-        }else{
+            } else {
+            }
+        } else {
             verificationCode = value.take(8)
         }
     }
@@ -104,6 +113,7 @@ fun SignUpVerifySchoolScreen(
         ) {
             BasicTextField(
                 value = verificationCode,
+                modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 decorationBox = {
