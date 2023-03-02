@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetWorkModule {
 
-    private const val BASE_URL = "http://3.39.162.197:8080"
+    private const val BASE_URL = " https://api.aliens-dms.com"
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
