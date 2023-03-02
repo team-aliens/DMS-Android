@@ -6,14 +6,14 @@ sealed class BottomNavigationItem(var route: String, var iconResId: Int, var tit
     object Meal :
         BottomNavigationItem(
             route = NavigationRoute.BottomNavigation.Meal,
-            iconResId = R.drawable.ic_house,
+            iconResId = R.drawable.ic_home,
             title = "Meal",
         )
 
     object Application :
         BottomNavigationItem(
             route = NavigationRoute.BottomNavigation.Application,
-            iconResId = R.drawable.ic_plus,
+            iconResId = R.drawable.ic_application,
             title = "Application",
         )
 
