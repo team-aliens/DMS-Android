@@ -10,6 +10,7 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.notice.NoticeListEntity
 import team.aliens.domain.exception.*
+import team.aliens.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeDetailUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeListUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class NoticeViewModel @Inject constructor(
     private val remoteNoticeListUseCase: RemoteNoticeListUseCase,
     private val remoteNoticeDetailUseCase: RemoteNoticeDetailUseCase,
+    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase,
     val localNoticeListUseCase: LocalNoticeListUseCase,
     val localNoticeDetailUseCase: LocalNoticeDetailUseCase,
 ) : BaseViewModel<NoticeState, NoticeEvent>() {
@@ -76,6 +78,18 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
+    internal fun checkNewNotice(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                remoteCheckNewNoticeBooleanUseCase.execute(Unit)
+            }.onSuccess {
+                sendEvent(NoticeEvent.CheckNewNotice(it))
+            }.onFailure {
+                sendEvent(NoticeEvent.CheckNewNotice(false))
+            }
+        }
+    }
+
     private fun event(event: Event) {
         viewModelScope.launch {
             _noticeViewEffect.emit(event)
@@ -91,7 +105,11 @@ class NoticeViewModel @Inject constructor(
     }
 
     override fun reduceEvent(oldState: NoticeState, event: NoticeEvent) {
-        TODO("Not yet implemented")
+        when(event){
+            is NoticeEvent.CheckNewNotice -> {
+                oldState.copy(hasNewNotice = event.hasNewNotice)
+            }
+        }
     }
 
     sealed class Event {

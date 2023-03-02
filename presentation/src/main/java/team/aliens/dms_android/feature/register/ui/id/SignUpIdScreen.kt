@@ -110,29 +110,32 @@ fun SignUpIdScreen(
                     toast(context.getString(R.string.CheckGrade))
                 }
                 is SetIdEvent.DuplicateIdSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString(
-                            "schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
-                        )
-                        putString(
-                            "schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
-                        )
-                        putString(
-                            "email",
-                            navController.previousBackStackEntry?.arguments?.getString("email")
-                        )
-                        putString(
-                            "authCode",
-                            navController.previousBackStackEntry?.arguments?.getString("authCode")
-                        )
-                        putInt("classRoom", classRoom.toInt())
-                        putInt("grade", grade.toInt())
-                        putInt("number", number.toInt())
-                        putString("accountId", userId)
+                    if(!isNameChecked) toast(context.getString(R.string.CheckGrade))
+                    else {
+                        navController.currentBackStackEntry?.arguments?.run {
+                            putString(
+                                "schoolCode",
+                                navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                            )
+                            putString(
+                                "schoolAnswer",
+                                navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
+                            )
+                            putString(
+                                "email",
+                                navController.previousBackStackEntry?.arguments?.getString("email")
+                            )
+                            putString(
+                                "authCode",
+                                navController.previousBackStackEntry?.arguments?.getString("authCode")
+                            )
+                            putInt("classRoom", classRoom.toInt())
+                            putInt("grade", grade.toInt())
+                            putInt("number", number.toInt())
+                            putString("accountId", userId)
+                        }
+                        navController.navigate(NavigationRoute.SignUpPassword)
                     }
-                    navController.navigate(NavigationRoute.SignUpPassword)
                 }
                 is SetIdEvent.DuplicateIdConflictException -> {
                     isIdError = true
