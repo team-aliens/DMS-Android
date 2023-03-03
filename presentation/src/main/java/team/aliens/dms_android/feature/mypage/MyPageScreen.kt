@@ -128,6 +128,10 @@ fun MyPageScreen(
         mutableStateOf(false)
     }
 
+    val onSetProfileDialogDismiss = {
+        setProfileDialogState = false
+    }
+
     if (setProfileDialogState) {
         GettingImageOptionDialog(
             onCancel = {
@@ -143,6 +147,7 @@ fun MyPageScreen(
                     NavigationRoute.ConfirmImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
+            onDialogDismiss = onSetProfileDialogDismiss,
         )
     }
 

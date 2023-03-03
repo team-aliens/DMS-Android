@@ -22,6 +22,7 @@ internal fun GettingImageOptionDialog(
     onCancel: () -> Unit,
     onTakePhoto: () -> Unit,
     onSelectPhoto: () -> Unit,
+    onDialogDismiss: () -> Unit,
 ) {
 
     val toast = rememberToast()
@@ -37,6 +38,7 @@ internal fun GettingImageOptionDialog(
         DormBottomAlignedSingleButtonDialog(
             btnText = stringResource(R.string.Cancel),
             onBtnClick = onCancel,
+            onBackgroundPress = onDialogDismiss,
         ) {
             Column(
                 modifier = Modifier
