@@ -11,6 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -43,6 +45,12 @@ fun SignUpEmailVerifyScreen(
 
     val focusManager = LocalFocusManager.current
 
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit){
+        focusRequester.requestFocus()
+    }
+
     var verificationCode by remember { mutableStateOf("") }
 
     val toast = rememberToast()
@@ -62,9 +70,18 @@ fun SignUpEmailVerifyScreen(
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
-                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
-                        putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
+                        putString(
+                            "schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
+                        )
+                        putString(
+                            "schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
+                        )
                         putString("email", email)
                         putString("authCode", verificationCode)
                     }
@@ -138,6 +155,7 @@ fun SignUpEmailVerifyScreen(
         ) {
             BasicTextField(
                 value = verificationCode,
+                modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 decorationBox = {

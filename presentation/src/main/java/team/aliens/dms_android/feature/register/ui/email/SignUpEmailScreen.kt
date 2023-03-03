@@ -58,6 +58,16 @@ fun SignUpEmailScreen(
                     }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
                 }
+                is RegisterEmailEvent.TooManyRequestsException -> {
+                    toast(context.getString(R.string.CheckRecentEmailCode))
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+                        putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString("email", email)
+                    }
+                    navController.navigate(NavigationRoute.SignUpEmailVerify)
+                }
                 else -> toast(
                     getStringFromEvent(
                         context = context,

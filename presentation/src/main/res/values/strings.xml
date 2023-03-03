@@ -39,6 +39,7 @@
     <string name="ConflictEmail">이미 존재하는 이메일 입니다.</string>
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
     <string name="VerificationCode">인증코드 입력</string>
+    <string name="CheckRecentEmailCode">가장 최근 인증코드를 입력해주세요.</string>
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
 
     // 아이디 설정
