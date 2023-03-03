@@ -83,6 +83,10 @@ internal fun ConfirmImageScreen(
         mutableStateOf(false)
     }
 
+    val onDialogDismiss = {
+        gettingImageOptionDialogState = false
+    }
+
     if (gettingImageOptionDialogState) {
         GettingImageOptionDialog(
             onCancel = {
@@ -101,6 +105,7 @@ internal fun ConfirmImageScreen(
                     gettingImageOptionDialogState = false
                 }
             },
+            onDialogDismiss = onDialogDismiss,
         )
     }
 
