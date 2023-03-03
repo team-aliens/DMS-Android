@@ -1,11 +1,12 @@
 package team.aliens.dms_android.feature.cafeteria
 
+import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
 import java.time.LocalDate
 
 data class MealState(
     val meal: String,
-    var mealList: MealList = MealList(),
+    var mealList: MutableStateFlow<MealList> = MutableStateFlow(MealList()),
     var selectedDay: LocalDate = LocalDate.now(),
     var hasNewNotice: Boolean = false,
 ) : MviState {

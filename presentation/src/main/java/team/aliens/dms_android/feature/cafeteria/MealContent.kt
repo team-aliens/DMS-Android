@@ -9,8 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +38,16 @@ fun ScrollEffectPager(
     val pagerState = rememberPagerState()
 
     val state = mealViewModel.state.collectAsState().value
+
+    var mealState by remember {
+        mutableStateOf(MealList())
+    }
+
+    LaunchedEffect(state) {
+        state.mealList.collect {
+            mealState = it
+        }
+    }
 
     HorizontalPager(
         state = pagerState,
@@ -97,19 +106,19 @@ fun ScrollEffectPager(
                     0 -> {
                         MenuListLayout(
                             icon = DormIcon.Breakfast,
-                            menus = state.mealList.breakfast,
+                            menus = mealState.breakfast,
                         )
                     }
                     1 -> {
                         MenuListLayout(
                             icon = DormIcon.Lunch,
-                            menus = state.mealList.lunch,
+                            menus = mealState.lunch,
                         )
                     }
                     2 -> {
                         MenuListLayout(
                             icon = DormIcon.Dinner,
-                            menus = state.mealList.dinner,
+                            menus = mealState.dinner,
                         )
                     }
                 }
