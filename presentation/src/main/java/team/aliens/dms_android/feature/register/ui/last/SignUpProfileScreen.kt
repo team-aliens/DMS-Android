@@ -113,9 +113,46 @@ fun SignUpProfileScreen(
                     ) {
                         navController.run {
                             currentBackStackEntry?.arguments?.putString(
-                                "profileImageUrl",
-                                profileImageUrl
+                                "schoolCode",
+                                previousBackStackEntry?.arguments?.getString("schoolCode"),
                             )
+                            currentBackStackEntry?.arguments?.putString(
+                                "schoolAnswer",
+                                previousBackStackEntry?.arguments?.getString("schoolAnswer"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "email",
+                                previousBackStackEntry?.arguments?.getString("email")
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "authCode",
+                                previousBackStackEntry?.arguments?.getString("authCode"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "classRoom",
+                                previousBackStackEntry?.arguments?.getString("classRoom"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "grade",
+                                previousBackStackEntry?.arguments?.getString("grade"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "number",
+                                previousBackStackEntry?.arguments?.getString("number"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "accountId",
+                                previousBackStackEntry?.arguments?.getString("accountId"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "password",
+                                previousBackStackEntry?.arguments?.getString("password"),
+                            )
+                            currentBackStackEntry?.arguments?.putString(
+                                "profileImageUrl",
+                                profileImageUrl,
+                            )
+
                             navigate(NavigationRoute.SignUpPolicy)
                         }
                     },
