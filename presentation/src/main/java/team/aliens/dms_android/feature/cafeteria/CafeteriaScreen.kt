@@ -9,7 +9,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -41,7 +40,6 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun CafeteriaScreen(
     navController: NavHostController,
-    bottomTabSelectedItem: MutableState<String>,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
 
@@ -90,7 +88,6 @@ fun CafeteriaScreen(
                         route = BottomNavigationItem.Notice.route,
                         navController = navController,
                     )
-                    bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
                 },
             )
 

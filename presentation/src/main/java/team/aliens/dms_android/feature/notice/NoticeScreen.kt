@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.notice
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -41,7 +42,7 @@ fun NoticeScreen(
         noticeViewModel.fetchNoticeList()
     }
 
-    var notices = remember {
+    val notices = remember {
         mutableStateListOf(Notice("", "공지사항이", "없습니다."))
     }
 
