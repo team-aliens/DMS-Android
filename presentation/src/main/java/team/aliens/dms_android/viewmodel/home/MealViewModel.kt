@@ -1,10 +1,7 @@
 package team.aliens.dms_android.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.cafeteria.MealEvent
@@ -44,6 +41,8 @@ class MealViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMealUseCase.execute(date)
+            }.onSuccess {
+                fetchMealFromLocal(state.value.selectedDay) // todo separate fetch meals from remote, save meals on local
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(Event.BadRequestException)
@@ -77,15 +76,15 @@ class MealViewModel @Inject constructor(
 
         val breakfast = entity.breakfast.run {
             dropLast(1) to last() // menu list to kcal
-        }.also { Log.e("tag", "setMealState: $it", ) }
+        }
 
         val lunch = entity.lunch.run {
             dropLast(1) to last()
-        }.also { Log.e("tag", "setMealState: $it", ) }
+        }
 
         val dinner = entity.dinner.run {
             dropLast(1) to last()
-        }.also { Log.e("tag", "setMealState: $it", ) }
+        }
 
         viewModelScope.launch {
             state.value.mealList.emit(
