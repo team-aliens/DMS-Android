@@ -1,7 +1,6 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
 
@@ -28,6 +28,7 @@ data class Notice(
 fun NoticeList(
     modifier: Modifier = Modifier,
     notices: List<Notice>,
+    errorMessage: String = "",
     onClick: (String) -> Unit,
 ) {
     LazyColumn(
@@ -41,6 +42,13 @@ fun NoticeList(
 
             if (index != notices.size) {
                 Spacer(modifier = Modifier.height(12.dp))
+            }
+        }
+        if (notices.isEmpty()) {
+            item {
+                Body3(
+                    text = errorMessage,
+                )
             }
         }
     }
@@ -58,7 +66,7 @@ private fun Notice(
             .background(
                 color = DormColor.Gray100,
             )
-            .dormClickable{
+            .dormClickable {
                 onClick(notice.noticeId)
             }
             .dormShadow(

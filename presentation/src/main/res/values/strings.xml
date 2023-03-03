@@ -172,5 +172,6 @@
     <string name="Home">홈</string>
     <string name="Guide">안내</string>
     <string name="MyPage">마이페이지</string>
+    <string name="TheresNoNotices">공지사항이 없습니다.</string>
 
 </resources>
