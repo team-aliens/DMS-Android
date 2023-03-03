@@ -109,7 +109,7 @@ internal fun ConfirmImageScreen(
         )
     }
 
-    val confirmImageState = confirmImageViewModel.state.collectAsState().value
+    val confirmImageState = confirmImageViewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -148,7 +148,7 @@ internal fun ConfirmImageScreen(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     painter = rememberAsyncImagePainter(
-                        model = confirmImageState.selectedImage?.toUri(),
+                        model = confirmImageState.value.selectedImage?.toUri(),
                     ),
                 )
 
