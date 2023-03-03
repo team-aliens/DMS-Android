@@ -62,7 +62,6 @@ fun SignUpEmailScreen(
         isPressedBackButton = true
     }
 
-
     LaunchedEffect(Unit) {
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
@@ -92,7 +91,7 @@ fun SignUpEmailScreen(
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.CheckRecentEmailCode))
+                    toast(context.getString(R.string.ChangeEmail))
                     navController.currentBackStackEntry?.arguments?.run {
                         putString(
                             "schoolCode",
@@ -108,7 +107,6 @@ fun SignUpEmailScreen(
                         )
                         putString("email", email)
                     }
-                    navController.navigate(NavigationRoute.SignUpEmailVerify)
                 }
                 else -> toast(
                     getStringFromEvent(

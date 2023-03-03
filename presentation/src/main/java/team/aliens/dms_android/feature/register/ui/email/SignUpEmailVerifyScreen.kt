@@ -88,8 +88,16 @@ fun SignUpEmailVerifyScreen(
                     navController.navigate(NavigationRoute.SignUpId)
                 }
 
+                is RegisterEmailEvent.SendEmailSuccess -> {
+                    toast(context.getString(R.string.SendSuccess))
+                }
+
                 is RegisterEmailEvent.CheckEmailUnauthorized -> {
                     isError = true
+                }
+                is RegisterEmailEvent.TooManyRequestsException -> {
+                    toast(context.getString(R.string.ChangeEmail))
+                    navController.popBackStack()
                 }
                 else -> toast(
                     getStringFromEvent(
@@ -197,7 +205,7 @@ fun SignUpEmailVerifyScreen(
                         rippleEnabled = false,
                     ) {
                         isRunningTimer = false
-                        registerEmailViewModel.requestEmailCode(email)
+                        registerEmailViewModel.requestEmailCode("jungseunghoon0911@gmail.com")
                     },
                 text = stringResource(id = R.string.ResendVerificationCode),
                 color = DormColor.Gray600,
@@ -229,9 +237,6 @@ private fun getStringFromEvent(
     }
     is RegisterEmailEvent.ConflictException -> {
         context.getString(R.string.ConflictEmail)
-    }
-    is RegisterEmailEvent.TooManyRequestsException -> {
-        context.getString(R.string.EmailTooManyRequest)
     }
     is RegisterEmailEvent.InternalServerException -> {
         context.getString(R.string.ServerException)
