@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.school
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -135,7 +136,11 @@ fun SignUpSchoolQuestionScreen(
                     .dormClickable(
                         rippleEnabled = false,
                     ) {
-                        navController.navigate(NavigationRoute.Login)
+                        navController.navigate(NavigationRoute.Login){
+                            popUpTo(NavigationRoute.Login){
+                                inclusive = true
+                            }
+                        }
                     },
                 text = stringResource(id = R.string.Login),
                 color = DormColor.Gray900,

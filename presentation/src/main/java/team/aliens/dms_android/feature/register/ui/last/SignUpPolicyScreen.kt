@@ -61,7 +61,11 @@ fun SignUpPolicyScreen(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login)
+                    navController.navigate(NavigationRoute.Login){
+                        popUpTo(NavigationRoute.Login){
+                            inclusive = true
+                        }
+                    }
                 },
                 mainBtnTextColor = DormColor.DormPrimary,
             )
