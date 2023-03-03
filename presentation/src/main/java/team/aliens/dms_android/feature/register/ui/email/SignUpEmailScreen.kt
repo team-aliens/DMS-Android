@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.register.ui.email
 
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -11,6 +12,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.dialog.DormDoubleButtonDialog
+import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
@@ -35,9 +39,29 @@ fun SignUpEmailScreen(
     var isError by remember { mutableStateOf(false) }
     var errorDescription by remember { mutableStateOf("") }
 
+    var isPressedBackButton by remember { mutableStateOf(false)}
+
     val onEmailChange = { value: String ->
         email = value
     }
+
+    if(isPressedBackButton){
+        DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
+            DormDoubleButtonDialog(
+                content = stringResource(id = R.string.FinishSignUp),
+                mainBtnText = stringResource(id = R.string.Yes),
+                subBtnText = stringResource(id = R.string.No),
+                onMainBtnClick = { navController.navigate(NavigationRoute.Login) },
+                onSubBtnClick = { isPressedBackButton = false },
+            )
+        }
+    }
+
+
+    BackHandler(enabled = true) {
+        isPressedBackButton = true
+    }
+
 
     LaunchedEffect(Unit) {
         registerEmailViewModel.registerEmailEvent.collect {
@@ -51,9 +75,18 @@ fun SignUpEmailScreen(
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
-                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
-                        putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
+                        putString(
+                            "schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
+                        )
+                        putString(
+                            "schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
+                        )
                         putString("email", email)
                     }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
@@ -61,9 +94,18 @@ fun SignUpEmailScreen(
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.CheckRecentEmailCode))
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
-                        putString("schoolId", navController.previousBackStackEntry?.arguments?.getString("schoolId"))
-                        putString("schoolAnswer", navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
+                        putString(
+                            "schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
+                        )
+                        putString(
+                            "schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
+                        )
                         putString("email", email)
                     }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
@@ -117,7 +159,7 @@ fun SignUpEmailScreen(
 private fun getStringFromEvent(
     context: Context,
     event: RegisterEmailEvent,
-): String = when(event){
+): String = when (event) {
     is RegisterEmailEvent.BadRequestException -> {
         context.getString(R.string.BadRequest)
     }

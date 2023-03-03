@@ -20,6 +20,7 @@
     <string name="GoLogin">로그인 화면으로 가기</string>
     <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
     <string name="AgreeAllPolicy">전체 약관 동의</string>
+    <string name="FinishSignUp">회원가입을 종료하시겠습니까?</string>
 
     // 약관
     <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
@@ -115,7 +116,9 @@
     // 전역
     <string name="Next">다음</string>
     <string name="Check">확인</string>
-    <string name="Cancel">취소</string>
+    <string name="Cancel">취소</string>역
+    <string name="Yes">네</string>
+    <string name="No">아니오</string>
     <string name="AppDescription">더 편한 기숙사 생활을 위해</string>
 
     // 에러 처리
