@@ -46,7 +46,7 @@ fun SignUpSchoolQuestionScreen(
     var schoolId by remember { mutableStateOf(UUID.randomUUID()) }
 
     val onAnswerChange = { value: String ->
-        if(isError && value.length < schoolAnswer.length) isError = false
+        if(isError && value.length != schoolAnswer.length) isError = false
         schoolAnswer = value
     }
 
