@@ -1,7 +1,10 @@
 package team.aliens.dms_android.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.cafeteria.MealEvent
@@ -74,25 +77,25 @@ class MealViewModel @Inject constructor(
 
         val breakfast = entity.breakfast.run {
             dropLast(1) to last() // menu list to kcal
-        }
+        }.also { Log.e("tag", "setMealState: $it", ) }
 
         val lunch = entity.lunch.run {
             dropLast(1) to last()
-        }
+        }.also { Log.e("tag", "setMealState: $it", ) }
 
         val dinner = entity.dinner.run {
             dropLast(1) to last()
-        }
+        }.also { Log.e("tag", "setMealState: $it", ) }
 
-        setState(
-            state = state.value.copy(
-                mealList = MealList(
+        viewModelScope.launch {
+            state.value.mealList.emit(
+                MealList(
                     breakfast = breakfast,
                     lunch = lunch,
                     dinner = dinner,
-                ),
-            ),
-        )
+                )
+            )
+        }
     }
 
     private fun event(event: Event) {
