@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.mypage.Gender
+import team.aliens.dms_android.feature.mypage.MyPageEntity
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
@@ -73,16 +74,18 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteMyPageUseCase.execute(Unit)
             }.onSuccess {
-                state.value.myPageEntity.run {
-                    gcn = it.gcn
-                    bonusPoint = it.bonusPoint
-                    minusPoint = it.minusPoint
-                    name = it.name
-                    phrase = it.phrase
-                    schoolName = it.schoolName
-                    profileImageUrl = it.profileImageUrl
-                    sex = Gender.valueOf(it.sex)
-                }
+                state.value.myPageEntity.emit(
+                    MyPageEntity(
+                        gcn = it.gcn,
+                        bonusPoint = it.bonusPoint,
+                        minusPoint = it.minusPoint,
+                        name = it.name,
+                        phrase = it.phrase,
+                        schoolName = it.schoolName,
+                        profileImageUrl = it.profileImageUrl,
+                        sex = Gender.valueOf(it.sex),
+                    ),
+                )
             }.onFailure {
                 when (it) {
                     is NullPointerException -> emitMyPageViewEffect(Event.NullPointException)
