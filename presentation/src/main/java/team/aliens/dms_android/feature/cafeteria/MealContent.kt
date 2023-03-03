@@ -48,7 +48,6 @@ fun ScrollEffectPager(
     LaunchedEffect(state) {
         state.mealList.collect {
             mealState = it
-            Log.e("sssss", "ScrollEffectPager: $it", )
         }
     }
 
