@@ -121,6 +121,7 @@ fun SignUpEmailVerifyScreen(
     }
 
     val onVerificationCodeChange = { value: String ->
+        if(value.length != verificationCode.length) isError = false
         if (value.length <= 6) {
             verificationCode = value
             if (value.length == 6) {
