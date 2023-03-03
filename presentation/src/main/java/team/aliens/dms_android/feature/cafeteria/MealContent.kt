@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.cafeteria
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,8 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +23,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.flow.collect
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.typography.Body4
@@ -39,6 +40,17 @@ fun ScrollEffectPager(
     val pagerState = rememberPagerState()
 
     val state = mealViewModel.state.collectAsState().value
+
+    var mealState by remember {
+        mutableStateOf(MealList())
+    }
+
+    LaunchedEffect(state) {
+        state.mealList.collect {
+            mealState = it
+            Log.e("sssss", "ScrollEffectPager: $it", )
+        }
+    }
 
     HorizontalPager(
         state = pagerState,
@@ -97,19 +109,19 @@ fun ScrollEffectPager(
                     0 -> {
                         MenuListLayout(
                             icon = DormIcon.Breakfast,
-                            menus = state.mealList.breakfast,
+                            menus = mealState.breakfast,
                         )
                     }
                     1 -> {
                         MenuListLayout(
                             icon = DormIcon.Lunch,
-                            menus = state.mealList.lunch,
+                            menus = mealState.lunch,
                         )
                     }
                     2 -> {
                         MenuListLayout(
                             icon = DormIcon.Dinner,
-                            menus = state.mealList.dinner,
+                            menus = mealState.dinner,
                         )
                     }
                 }
