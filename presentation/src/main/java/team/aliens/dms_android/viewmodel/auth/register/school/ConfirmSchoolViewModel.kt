@@ -24,9 +24,10 @@ class ConfirmSchoolViewModel @Inject constructor(
     private val _confirmSchoolEvent = MutableEventFlow<ConfirmSchoolEvent>()
     val confirmSchoolEvent = _confirmSchoolEvent.asEventFlow()
 
-    var schoolId: UUID = UUID(0, 0)
-
-    fun compareSchoolAnswer(answer: String) {
+    fun compareSchoolAnswer(
+        answer: String,
+        schoolId: UUID,
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteSchoolAnswerUseCase.execute(

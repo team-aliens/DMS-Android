@@ -20,6 +20,7 @@
     <string name="GoLogin">로그인 화면으로 가기</string>
     <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
     <string name="AgreeAllPolicy">전체 약관 동의</string>
+    <string name="FinishSignUp">회원가입을 종료하시겠습니까?</string>
 
     // 약관
     <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
@@ -33,12 +34,16 @@
     // 이메일 인증
     <string name="ResendVerificationCode"><u>인증코드 재발송</u></string>
     <string name="Verification">인증</string>
-    <string name="SendSuccess">성공정으로 이메일을 보냈습니다.</string>
+    <string name="SendSuccess">성공적으로 이메일을 보냈습니다.</string>
     <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
+    <string name="ConflictEmail">이미 존재하는 이메일 입니다.</string>
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
     <string name="VerificationCode">인증코드 입력</string>
+    <string name="ChangeEmail">인증 횟수가 초과되었습니다. 다른 이메일로 다시 시도해주세요.</string>
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
+    <string name="CancelEmailVerify">이메일 입력 화면으로 돌아가시겠습니까?</string>
+    <string name="ResendEmail">이메일이 재전송 되었습니다.</string>
 
     // 아이디 설정
     <string name="SetId">아이디 설정</string>
@@ -60,14 +65,17 @@
     // 학교 인증
     <string name="SchoolVerificationCode">학교 인증코드 입력</string>
     <string name="EmailEightCode">소속된 학교의 인증코드 8자리를 입력해주세요.</string>
-    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
+    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>ㄷ
+    <string name="CheckSchoolCode">학교 인증코드를 확인해주세요.</string>
 
     // 비밀번호 설정
     <string name="SetPassword">비밀번호 설정</string>
     <string name="SetNewPassword">새 비밀번호 설정</string>
     <string name="EnterPassword">비밀번호 입력</string>
     <string name="ReEnterPassword">비밀번호 재입력</string>
+    <string name="NotCorrectPasswordFormat">비밀번호 형식이 올바르지 않습니다.</string>
     <string name="CheckPassword">비밀번호를 확인해주세요.</string>
+    <string name="PasswordWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
 
     // 비밀번호 변경
     <string name="ScanNewPassword">새 비밀번호 입력</string>
@@ -96,6 +104,7 @@
     <string name="AreYouSureYouLogOut">정말 로그아웃 하시겠습니까?</string>
     <string name="TakePhoto">사진 촬영</string>
     <string name="SelectPhoto">사진 선택</string>
+    <string name="SetProfile">프로필 설정</string>
     <string name="EditProfile">프로필 수정</string>
     <string name="Withdrawal">회원 탈퇴</string>
     <string name="AreYouSureYouWithdraw">정말 탈퇴 하시겠습니까?</string>
@@ -111,7 +120,9 @@
     // 전역
     <string name="Next">다음</string>
     <string name="Check">확인</string>
-    <string name="Cancel">취소</string>
+    <string name="Cancel">취소</string>역
+    <string name="Yes">네</string>
+    <string name="No">아니오</string>
     <string name="AppDescription">더 편한 기숙사 생활을 위해</string>
 
     // 에러 처리

@@ -24,12 +24,12 @@ class ConfirmImageViewModel @Inject constructor(
     override val initialState: ConfirmImageState
         get() = ConfirmImageState.getDefaultInstance()
 
-    private lateinit var profileUrl: String
+    internal lateinit var profileUrl: String
 
     private var _confirmImageEvent = MutableEventFlow<Event>()
     internal val confirmImageEvent = _confirmImageEvent.asEventFlow()
 
-    private fun uploadImage() {
+    internal fun uploadImage() {
         runBlocking {
             kotlin.runCatching {
                 remoteUploadFileUseCase.execute(state.value.selectedImage!!) // non-null checked

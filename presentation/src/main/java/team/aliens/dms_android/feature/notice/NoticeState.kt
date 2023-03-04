@@ -8,6 +8,7 @@ data class NoticeState(
     var type: NoticeListSCType = NoticeListSCType.NEW,
     var noticeListEntity: NoticeListEntity? = null,
     var noticeDetail: NoticeDetail = NoticeDetail(),
+    var hasNewNotice: Boolean = false,
 ) : MviState {
     companion object {
         fun initial() = NoticeState(

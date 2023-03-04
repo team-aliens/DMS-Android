@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,6 +33,7 @@ import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
 import team.aliens.dms_android.feature.navigator.navigateBottomNavigation
 import team.aliens.dms_android.viewmodel.home.MealViewModel
+import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.presentation.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -41,9 +43,12 @@ import java.time.format.DateTimeFormatter
 fun CafeteriaScreen(
     navController: NavHostController,
     mealViewModel: MealViewModel = hiltViewModel(),
+    noticeViewModel: NoticeViewModel = hiltViewModel(),
 ) {
 
     val scope = rememberCoroutineScope()
+
+    val state = noticeViewModel.state.collectAsState().value
 
     val calendarBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
@@ -61,6 +66,10 @@ fun CafeteriaScreen(
         )
     }
 
+    LaunchedEffect(Unit){
+        noticeViewModel.checkNewNotice()
+    }
+
     DormCalendar(
         bottomSheetState = calendarBottomSheetState,
         onChangeDate = onCalendarDateChange,
@@ -69,28 +78,27 @@ fun CafeteriaScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(DormColor.Gray100)
-                .paint(painter = painterResource(R.drawable.photo_cafeteria_background),
-                    contentScale = ContentScale.FillBounds),
+                .paint(
+                    painter = painterResource(R.drawable.photo_cafeteria_background),
+                    contentScale = ContentScale.FillBounds
+                ),
         ) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-
             CafeteriaTopBar()
 
-
-            Spacer(modifier = Modifier.height(25.dp))
-
-
-            ImportantNotice(
-                onNoticeIconClick = {
-                    navigateBottomNavigation(
-                        route = BottomNavigationItem.Notice.route,
-                        navController = navController,
-                    )
-                },
-            )
-
+            if(state.hasNewNotice) {
+                Spacer(modifier = Modifier.height(18.dp))
+                ImportantNotice(
+                    onNoticeIconClick = {
+                        navigateBottomNavigation(
+                            route = BottomNavigationItem.Notice.route,
+                            navController = navController,
+                        )
+                    },
+                )
+            }
 
             DateSelector(
                 onCalendarClick = {
@@ -166,7 +174,8 @@ fun DateSelector(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                vertical = 38.dp,
+                top= 38.dp,
+                bottom = 38.dp,
             )
             .wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,

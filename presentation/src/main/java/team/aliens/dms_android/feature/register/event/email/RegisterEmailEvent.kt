@@ -11,4 +11,7 @@ sealed class RegisterEmailEvent : MviEvent {
     object TooManyRequestsException : RegisterEmailEvent()
     object InternalServerException : RegisterEmailEvent()
     object UnKnownException : RegisterEmailEvent()
+
+    object AllowEmail: RegisterEmailEvent()
+    object ConflictException: RegisterEmailEvent()
 }

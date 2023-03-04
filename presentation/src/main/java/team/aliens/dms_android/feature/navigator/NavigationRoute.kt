@@ -19,4 +19,12 @@ object NavigationRoute {
     const val RemainApplication = "remainApplication"
     const val StudyRoomDetail = "studyRoomDetail/{seatId}"
     const val ConfirmImage = "confirmImage"
+    const val VerifySchool = "verifySchool"
+    const val SchoolQuestion = "schoolQuestion"
+    const val SignUpEmail = "signUpEmail"
+    const val SignUpEmailVerify = "signUpEmailVerify"
+    const val SignUpId = "signUpId"
+    const val SignUpPassword = "signUpPassword"
+    const val SignUpProfile = "signUpProfile"
+    const val SignUpPolicy = "signUpPolicy"
 }
