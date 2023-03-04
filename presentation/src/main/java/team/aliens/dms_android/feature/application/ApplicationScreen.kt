@@ -44,9 +44,15 @@ fun ApplicationScreen(
     }*/
 
     LaunchedEffect(Unit) {
-        applicationViewModel.uiState.collect {
-            lastAppliedStudyRoom = it.currentStudyRoomOption
-            lastAppliedRemain = it.currentRemainOption
+        applicationViewModel.run {
+
+            fetchCurrentStudyRoomOption()
+            fetchCurrentRemainOption()
+
+            uiState.collect {
+                lastAppliedStudyRoom = it.currentStudyRoomOption
+                lastAppliedRemain = it.currentRemainOption
+            }
         }
     }
 

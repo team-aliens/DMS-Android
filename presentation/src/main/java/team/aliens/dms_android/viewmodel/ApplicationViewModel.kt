@@ -25,7 +25,7 @@ class ApplicationViewModel @Inject constructor(
         fetchCurrentRemainOption()
     }
 
-    private fun fetchCurrentRemainOption() {
+    internal fun fetchCurrentRemainOption() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchCurrentRemainOptionUseCase.execute(Unit)
@@ -41,7 +41,7 @@ class ApplicationViewModel @Inject constructor(
         }
     }
 
-    private fun fetchCurrentStudyRoomOption() {
+    internal fun fetchCurrentStudyRoomOption() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchCurrentStudyRoomOptionUseCase.execute(Unit)
