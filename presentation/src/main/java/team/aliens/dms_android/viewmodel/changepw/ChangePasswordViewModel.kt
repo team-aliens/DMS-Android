@@ -79,7 +79,7 @@ class ChangePasswordViewModel @Inject constructor(
                     data = state.value.id,
                 )
             }.onSuccess {
-                event(Event.CheckIdSuccess)
+                event(Event.CheckIdSuccess(it.email))
             }.onFailure {
                 event(getEventFromThrowable(it))
             }
@@ -136,7 +136,7 @@ class ChangePasswordViewModel @Inject constructor(
     sealed class Event() {
         object EditPasswordSuccess : Event()
         object ComparePasswordSuccess: Event()
-        object CheckIdSuccess: Event()
+        data class CheckIdSuccess(val email: String): Event()
 
         object BadRequestException : Event()
         object NotFoundException: Event()

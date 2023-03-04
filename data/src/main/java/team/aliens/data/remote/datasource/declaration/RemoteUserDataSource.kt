@@ -3,6 +3,7 @@ package team.aliens.data.remote.datasource.declaration
 import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
+import team.aliens.data.remote.response.user.CheckIdResponse
 import team.aliens.data.remote.response.user.SignInResponse
 import team.aliens.domain.enums.EmailType
 
@@ -33,7 +34,7 @@ interface RemoteUserDataSource {
 
     suspend fun checkId(
         accountId: String,
-    )
+    ): CheckIdResponse
 
     suspend fun editPassword(
         editPasswordRequest: EditPasswordRequest,

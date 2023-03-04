@@ -5,6 +5,7 @@ import team.aliens.data.remote.datasource.declaration.RemoteUserDataSource
 import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
+import team.aliens.data.remote.response.user.CheckIdResponse
 import team.aliens.data.remote.response.user.SignInResponse
 import team.aliens.data.util.HttpHandler
 import team.aliens.data.util.sendHttpRequest
@@ -60,12 +61,12 @@ class RemoteUserDataSourceImpl @Inject constructor(
 
     override suspend fun checkId(
         accountId: String,
-    ) = HttpHandler<Unit>()
-        .httpRequest {
-            userApi.checkId(
-                accountId,
-            )
-        }.sendRequest()
+    ): CheckIdResponse = HttpHandler<CheckIdResponse>()
+            .httpRequest {
+                userApi.checkId(
+                    accountId,
+                )
+            }.sendRequest()
 
     override suspend fun editPassword(
         editPasswordRequest: EditPasswordRequest,
