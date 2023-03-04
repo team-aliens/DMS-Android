@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.studyroom
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -22,10 +23,13 @@ import team.aliens.design_system.component.RoomDetail
 import team.aliens.design_system.component.RoomItem
 import team.aliens.design_system.component.SeatItem
 import team.aliens.design_system.component.SeatType
+import team.aliens.design_system.component.SeatTypeList
+import team.aliens.design_system.component.SeatTypeUiModel
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
+import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
 
@@ -54,6 +58,12 @@ fun StudyRoomDetailScreen(
 
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
     val currentSeat = uiState.currentSeat.collectAsState("").value
+
+    fun SeatTypeEntity.Type.toModel() =
+        SeatTypeUiModel(
+            color = color,
+            text = name,
+        )
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
@@ -123,7 +133,14 @@ fun StudyRoomDetailScreen(
 
 
             Spacer(
-                modifier = Modifier.height(30.dp),
+                modifier = Modifier.height(15.dp),
+            )
+
+            if (uiState.seatBoolean) {
+                SeatTypeList(items = uiState.seatType.types.map { it.toModel() })
+            }
+            Spacer(
+                modifier = Modifier.height(15.dp),
             )
 
 

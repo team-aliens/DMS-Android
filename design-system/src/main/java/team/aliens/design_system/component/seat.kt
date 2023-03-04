@@ -1,5 +1,11 @@
 package team.aliens.design_system.component
 
+import android.annotation.SuppressLint
+import android.graphics.Color.parseColor
+import android.text.TextUtils.replace
+import android.util.Log
+import androidx.annotation.ColorRes
+import androidx.annotation.IntegerRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,9 +20,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColor
+import androidx.core.graphics.toColorInt
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
 import team.aliens.design_system.modifier.dormClickable
@@ -187,17 +196,21 @@ fun RoomDetail(
                 y = constraints.maxHeight - bottomDescriptionPlaceable.height - RoomDescriptionPaddingInt,
             )
 
-            startDescriptionPlaceable.place(x = RoomDescriptionPaddingInt,
+            startDescriptionPlaceable.place(
+                x = RoomDescriptionPaddingInt,
                 y = Alignment.CenterVertically.align(
                     size = startDescriptionPlaceable.width,
                     space = constraints.maxHeight,
-                ))
+                )
+            )
 
-            endDescriptionPlaceable.place(x = constraints.maxWidth - endDescriptionPlaceable.width - RoomDescriptionPaddingInt,
+            endDescriptionPlaceable.place(
+                x = constraints.maxWidth - endDescriptionPlaceable.width - RoomDescriptionPaddingInt,
                 y = Alignment.CenterVertically.align(
                     size = endDescriptionPlaceable.width,
                     space = constraints.maxHeight,
-                ))
+                )
+            )
         }
     }
 }
@@ -398,8 +411,9 @@ fun RoomItem(
     }
 }
 
+
 data class SeatTypeUiModel(
-    val color: Color,
+    var color: String,
     val text: String,
 )
 
@@ -419,6 +433,7 @@ fun SeatTypeList(
     }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 private fun SeatTypeContent(
     item: SeatTypeUiModel,
@@ -434,21 +449,11 @@ private fun SeatTypeContent(
             modifier = Modifier
                 .size(10.dp)
                 .background(
-                    color = item.color,
+                    color = Color(item.color.toColorInt()),
                     shape = CircleShape,
                 )
                 .clip(CircleShape),
         )
         OverLine(text = item.text)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewSeatContent() {
-    Column {
-        SeatTypeList(items = listOf(SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터"),
-            SeatTypeUiModel(DormColor.Gray800, "일반"),
-            SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터")))
     }
 }

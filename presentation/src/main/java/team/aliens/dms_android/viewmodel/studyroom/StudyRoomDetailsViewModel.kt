@@ -15,6 +15,7 @@ import team.aliens.domain.usecase.studyroom.RemoteApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.RemoteCancelApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
 import team.aliens.presentation.R
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private val applySeatUseCase: RemoteApplySeatUseCase,
     private val fetchApplicationTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
     private val cancelApplySeatUseCase: RemoteCancelApplySeatUseCase,
+    private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase
 ) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
     sealed class UiEvent : BaseEvent {
@@ -47,6 +49,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         fetchStudyRoomDetails(studyRoomId)
 
         fetchApplyTime()
+        fetchRoomSeatType()
     }
 
     override fun onEvent(event: UiEvent) {
@@ -147,6 +150,19 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onFailure {
                 emitErrorEventFromThrowable(it)
+            }
+        }
+    }
+
+    private fun fetchRoomSeatType() {
+        viewModelScope.launch(Dispatchers.IO){
+            kotlin.runCatching {
+                fetchSeatTypeUseCase.execute(Unit)
+            }.onSuccess {
+                _uiState.value = _uiState.value.copy(
+                    seatType = it
+                )
+                _uiState.value.seatBoolean = true
             }
         }
     }
