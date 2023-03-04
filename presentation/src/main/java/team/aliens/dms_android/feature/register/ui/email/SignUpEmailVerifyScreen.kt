@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.register.ui.email
 
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -24,6 +25,8 @@ import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
@@ -62,6 +65,28 @@ fun SignUpEmailVerifyScreen(
     var email by remember { mutableStateOf("") }
 
     var isError by remember { mutableStateOf(false) }
+
+    var isPressedBackButton by remember { mutableStateOf(false)}
+
+    BackHandler(enabled = true) {
+        isPressedBackButton = true
+    }
+
+    if(isPressedBackButton){
+        DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
+            DormDoubleButtonDialog(
+                content = stringResource(id = R.string.CancelEmailVerify),
+                mainBtnText = stringResource(id = R.string.Yes),
+                subBtnText = stringResource(id = R.string.No),
+                onMainBtnClick = { navController.navigate(NavigationRoute.SignUpEmail){
+                    popUpTo(NavigationRoute.SignUpEmail){
+                        inclusive = true
+                    }
+                } },
+                onSubBtnClick = { isPressedBackButton = false },
+            )
+        }
+    }
 
     LaunchedEffect(Unit) {
         email =

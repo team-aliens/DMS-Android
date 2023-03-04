@@ -42,6 +42,7 @@
     <string name="VerificationCode">인증코드 입력</string>
     <string name="ChangeEmail">인증 횟수가 초과되었습니다. 다른 이메일로 다시 시도해주세요.</string>
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
+    <string name="CancelEmailVerify">이메일 입력 화면으로 돌아가시겠습니까?</string>
 
     // 아이디 설정
     <string name="SetId">아이디 설정</string>
