@@ -1,35 +1,29 @@
 package team.aliens.dms_android.feature.studyroom
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
-import team.aliens.design_system.dialog.DormBottomAlignedContainedLargeButtonDialog
-import team.aliens.design_system.dialog.DormCustomDialog
-import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
-import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
@@ -229,20 +223,17 @@ fun DormTimeChip(
             else -> Color.Transparent
         },
         shape = DormTimeChipShape,
-        border = BorderStroke(
-            width = 1.dp,
+        border = BorderStroke(width = 1.dp,
             color = if (!selected) DormColor.Gray400 else Color.Transparent
 
         ),
         modifier = Modifier,
     ) {
-        ButtonText(
-            text = text,
+        ButtonText(text = text,
             modifier = Modifier.padding(
                 vertical = 8.dp,
                 horizontal = 10.dp,
             ),
-            color = if (selected) DormColor.Gray100 else DormColor.Gray400
-        )
+            color = if (selected) DormColor.Gray100 else DormColor.Gray400)
     }
 }

@@ -5,8 +5,8 @@ import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 
 data class StudyRoomListUiState(
-    var startAt: String? = null,
-    var endAt: String? = null,
+    var startAt: String = "",
+    var endAt: String = "",
     var studyRooms: List<StudyRoomInformation> = emptyList(),
 ) : BaseUiState
 
