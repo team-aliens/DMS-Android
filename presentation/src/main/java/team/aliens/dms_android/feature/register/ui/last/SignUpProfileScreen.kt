@@ -10,11 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.modifier.dormClickable
@@ -24,18 +28,27 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
+import team.aliens.dms_android.util.fetchImage
+import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
 @Composable
 fun SignUpProfileScreen(
     navController: NavController,
+    confirmImageViewModel: ConfirmImageViewModel = hiltViewModel()
 ) {
 
-    var profileImageUrl by remember { mutableStateOf("https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png") }
+    val context = LocalContext.current
+
+    val profileImageUrl by remember { mutableStateOf("https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png") }
 
     var isSelectedImage by remember { mutableStateOf(false) }
 
     var setProfileDialogState by remember { mutableStateOf(false) }
+
+    val scope = rememberCoroutineScope()
+
+    val state = confirmImageViewModel.state.collectAsState().value
 
     if (setProfileDialogState) {
         GettingImageOptionDialog(
@@ -46,52 +59,13 @@ fun SignUpProfileScreen(
 
             },
             onSelectPhoto = {
-                navController.run {
-                    currentBackStackEntry?.arguments?.putString(
-                        "schoolCode",
-                        previousBackStackEntry?.arguments?.getString("schoolCode"),
-                    )
-                    currentBackStackEntry?.arguments?.putString(
-                        "schoolAnswer",
-                        previousBackStackEntry?.arguments?.getString("schoolAnswer"),
-                    )
-                    currentBackStackEntry?.arguments?.putString(
-                        "email",
-                        previousBackStackEntry?.arguments?.getString("email")
-                    )
-                    currentBackStackEntry?.arguments?.putString(
-                        "authCode",
-                        previousBackStackEntry?.arguments?.getString("authCode"),
-                    )
-                    currentBackStackEntry?.arguments?.putInt(
-                        "classRoom",
-                        previousBackStackEntry?.arguments?.getInt("classRoom")!!,
-                    )
-                    currentBackStackEntry?.arguments?.putInt(
-                        "grade",
-                        previousBackStackEntry?.arguments?.getInt("grade")!!,
-                    )
-                    currentBackStackEntry?.arguments?.putInt(
-                        "number",
-                        previousBackStackEntry?.arguments?.getInt("number")!!,
-                    )
-                    currentBackStackEntry?.arguments?.putString(
-                        "accountId",
-                        previousBackStackEntry?.arguments?.getString("accountId"),
-                    )
-                    currentBackStackEntry?.arguments?.putString(
-                        "password",
-                        previousBackStackEntry?.arguments?.getString("password"),
-                    )
-                    currentBackStackEntry?.arguments?.putString(
-                        "profileImageUrl",
-                        profileImageUrl,
-                    )
-                    currentBackStackEntry?.arguments?.putBoolean("isSignUp", true)
-                    navigate(
-                        NavigationRoute.ConfirmImage +
-                                "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
-                    )
+                scope.launch {
+                    val selectedImage = fetchImage(context)
+                    if(selectedImage.toString().isNotEmpty()){
+                        isSelectedImage = true
+                    }
+                    confirmImageViewModel.setImage(selectedImage ?: return@launch)
+                    setProfileDialogState = false
                 }
             },
             onDialogDismiss = {},
@@ -132,7 +106,7 @@ fun SignUpProfileScreen(
                         .clickable {
                             setProfileDialogState = true
                         },
-                    model = profileImageUrl,
+                    model = state.selectedImage ?: profileImageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                 )
@@ -203,6 +177,7 @@ fun SignUpProfileScreen(
                 color = DormButtonColor.Blue,
                 enabled = isSelectedImage,
             ) {
+                confirmImageViewModel.uploadImage()
                 navController.run {
                     currentBackStackEntry?.arguments?.putString(
                         "schoolCode",
@@ -242,10 +217,7 @@ fun SignUpProfileScreen(
                     )
                     currentBackStackEntry?.arguments?.putString(
                         "profileImageUrl",
-                        profileImageUrl,
-                    )
-                    Log.d("TEST",
-                        navController.currentBackStackEntry?.arguments?.toString().toString()
+                        confirmImageViewModel.profileUrl,
                     )
                     navigate(NavigationRoute.SignUpPolicy)
                 }

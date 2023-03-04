@@ -24,7 +24,6 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.toast.rememberToast
-import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.util.fetchImage
@@ -44,10 +43,7 @@ internal fun ConfirmImageScreen(
 
     val scope = rememberCoroutineScope()
 
-    var isSignUp by remember { mutableStateOf(false) }
-
     LaunchedEffect(Unit) {
-        isSignUp = navController.previousBackStackEntry?.arguments?.getBoolean("isSignUp") ?: false
         confirmImageViewModel.confirmImageEvent.collect {
             when (it) {
                 ConfirmImageViewModel.Event.ProfileEdited -> {
@@ -121,8 +117,7 @@ internal fun ConfirmImageScreen(
     ) {
 
         TopBar(
-            title = if (isSignUp) stringResource(id = R.string.SetProfile)
-            else stringResource(R.string.EditProfile),
+            title = stringResource(R.string.EditProfile),
         ) {
             navController.popBackStack()
         }
@@ -161,10 +156,9 @@ internal fun ConfirmImageScreen(
                 Image(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(
-                        id = if (isSignUp) R.drawable.addplusimage
-                        else R.drawable.ic_mypage_edit,
-                ),
-                contentDescription = null,
+                        id = R.drawable.ic_mypage_edit,
+                    ),
+                    contentDescription = null,
                 )
             }
 
@@ -179,53 +173,7 @@ internal fun ConfirmImageScreen(
                 text = stringResource(R.string.Check),
                 color = DormButtonColor.Blue,
             ) {
-                if (isSignUp) {
-                    navController.run {
-                        currentBackStackEntry?.arguments?.putString(
-                            "schoolCode",
-                            previousBackStackEntry?.arguments?.getString("schoolCode"),
-                        )
-                        currentBackStackEntry?.arguments?.putString(
-                            "schoolAnswer",
-                            previousBackStackEntry?.arguments?.getString("schoolAnswer"),
-                        )
-                        currentBackStackEntry?.arguments?.putString(
-                            "email",
-                            previousBackStackEntry?.arguments?.getString("email")
-                        )
-                        currentBackStackEntry?.arguments?.putString(
-                            "authCode",
-                            previousBackStackEntry?.arguments?.getString("authCode"),
-                        )
-                        currentBackStackEntry?.arguments?.putInt(
-                            "classRoom",
-                            previousBackStackEntry?.arguments?.getInt("classRoom")!!,
-                        )
-                        currentBackStackEntry?.arguments?.putInt(
-                            "grade",
-                            previousBackStackEntry?.arguments?.getInt("grade")!!,
-                        )
-                        currentBackStackEntry?.arguments?.putInt(
-                            "number",
-                            previousBackStackEntry?.arguments?.getInt("number")!!,
-                        )
-                        currentBackStackEntry?.arguments?.putString(
-                            "accountId",
-                            previousBackStackEntry?.arguments?.getString("accountId"),
-                        )
-                        currentBackStackEntry?.arguments?.putString(
-                            "password",
-                            previousBackStackEntry?.arguments?.getString("password"),
-                        )
-                        currentBackStackEntry?.arguments?.putString(
-                            "profileImageUrl",
-                            confirmImageState.selectedImage.toString(),
-                        )
-                        navigate(NavigationRoute.SignUpPolicy)
-                    }
-                } else {
-                    confirmImageViewModel.editProfileImage()
-                }
+                confirmImageViewModel.editProfileImage()
             }
         }
     }

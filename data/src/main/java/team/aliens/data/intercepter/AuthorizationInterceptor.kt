@@ -22,6 +22,7 @@ private val ignorePath = listOf(
     DmsUrl.Students.duplicateCheckId,
     DmsUrl.Students.duplicateCheckEmail,
     DmsUrl.Schools.schoolCode,
+    DmsUrl.uploadFile,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",
 )

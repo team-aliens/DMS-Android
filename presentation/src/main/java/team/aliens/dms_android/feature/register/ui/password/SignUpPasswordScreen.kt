@@ -62,7 +62,7 @@ fun SignUpPasswordScreen(
         )
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.829f)
+                .fillMaxHeight(0.824f)
                 .padding(top = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
