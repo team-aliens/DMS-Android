@@ -41,6 +41,8 @@ class MealViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMealUseCase.execute(date)
+            }.onSuccess {
+                fetchMealFromLocal(state.value.selectedDay) // todo separate fetch meals from remote, save meals on local
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(Event.BadRequestException)
@@ -84,15 +86,15 @@ class MealViewModel @Inject constructor(
             dropLast(1) to last()
         }
 
-        setState(
-            state = state.value.copy(
-                mealList = MealList(
+        viewModelScope.launch {
+            state.value.mealList.emit(
+                MealList(
                     breakfast = breakfast,
                     lunch = lunch,
                     dinner = dinner,
-                ),
-            ),
-        )
+                )
+            )
+        }
     }
 
     private fun event(event: Event) {

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import kotlinx.coroutines.flow.collect
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
@@ -49,7 +50,16 @@ fun MyPageScreen(
 
     val context = LocalContext.current
 
-    val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity
+
+    var myPageState by remember {
+        mutableStateOf(MyPageEntity())
+    }
+
+    LaunchedEffect(Unit) {
+        myPageViewModel.state.value.myPageEntity.collect {
+            myPageState = it
+        }
+    }
 
     var signOutDialogState by remember {
         mutableStateOf(false)
@@ -118,6 +128,10 @@ fun MyPageScreen(
         mutableStateOf(false)
     }
 
+    val onSetProfileDialogDismiss = {
+        setProfileDialogState = false
+    }
+
     if (setProfileDialogState) {
         GettingImageOptionDialog(
             onCancel = {
@@ -133,6 +147,7 @@ fun MyPageScreen(
                     NavigationRoute.ConfirmImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
+            onDialogDismiss = onSetProfileDialogDismiss,
         )
     }
 

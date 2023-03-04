@@ -2,14 +2,18 @@ package team.aliens.dms_android.viewmodel.notice
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.notice.NoticeDetail
 import team.aliens.dms_android.feature.notice.NoticeEvent
 import team.aliens.dms_android.feature.notice.NoticeState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.notice.NoticeListEntity
 import team.aliens.domain.exception.*
+import team.aliens.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeDetailUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeListUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
@@ -20,6 +24,7 @@ import javax.inject.Inject
 class NoticeViewModel @Inject constructor(
     private val remoteNoticeListUseCase: RemoteNoticeListUseCase,
     private val remoteNoticeDetailUseCase: RemoteNoticeDetailUseCase,
+    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase,
     val localNoticeListUseCase: LocalNoticeListUseCase,
     val localNoticeDetailUseCase: LocalNoticeDetailUseCase,
 ) : BaseViewModel<NoticeState, NoticeEvent>() {
@@ -30,8 +35,11 @@ class NoticeViewModel @Inject constructor(
     private val _noticeViewEffect = MutableEventFlow<Event>()
     var noticeViewEffect = _noticeViewEffect.asEventFlow()
 
-    private val _noticeDetailViewEffect = MutableEventFlow<Event>()
-    var noticeDetailViewEffect = _noticeDetailViewEffect.asEventFlow()
+    private val _noticeDetailViewEvent = MutableEventFlow<Event>()
+    var noticeDetailViewEvent = _noticeDetailViewEvent.asEventFlow()
+
+    private val _noticeDetailViewEffect = MutableStateFlow(NoticeDetail())
+    var noticeDetailViewEffect = _noticeDetailViewEffect.asStateFlow()
 
     fun fetchNoticeList() {
         viewModelScope.launch {
@@ -58,10 +66,13 @@ class NoticeViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteNoticeDetailUseCase.execute(noticeId)
             }.onSuccess {
-                event2(Event.FetchNoticeDetail)
-                state.value.noticeDetail.title = it.title
-                state.value.noticeDetail.content = it.content
-                state.value.noticeDetail.createAt = it.createAt
+                emitNoticeDetailState(
+                    NoticeDetail(
+                        title = it.title,
+                        content = it.content,
+                        createAt = it.createAt,
+                    )
+                )
             }.onFailure {
                 when (it) {
                     is NullPointerException -> event2(Event.NullPointException)
@@ -76,6 +87,18 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
+    internal fun checkNewNotice(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                remoteCheckNewNoticeBooleanUseCase.execute(Unit)
+            }.onSuccess {
+                sendEvent(NoticeEvent.CheckNewNotice(it))
+            }.onFailure {
+                sendEvent(NoticeEvent.CheckNewNotice(false))
+            }
+        }
+    }
+
     private fun event(event: Event) {
         viewModelScope.launch {
             _noticeViewEffect.emit(event)
@@ -85,13 +108,26 @@ class NoticeViewModel @Inject constructor(
 
     private fun event2(event: Event) {
         viewModelScope.launch {
-            _noticeDetailViewEffect.emit(event)
-            noticeDetailViewEffect = _noticeDetailViewEffect.asEventFlow()
+            _noticeDetailViewEvent.emit(event)
+        }
+    }
+
+    private fun emitNoticeDetailState(
+        noticeDetail: NoticeDetail,
+    ) {
+        viewModelScope.launch {
+            _noticeDetailViewEffect.emit(
+                noticeDetail,
+            )
         }
     }
 
     override fun reduceEvent(oldState: NoticeState, event: NoticeEvent) {
-        TODO("Not yet implemented")
+        when(event){
+            is NoticeEvent.CheckNewNotice -> {
+                oldState.copy(hasNewNotice = event.hasNewNotice)
+            }
+        }
     }
 
     sealed class Event {

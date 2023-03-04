@@ -11,6 +11,7 @@ import team.aliens.domain.enums.EmailType
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.CheckEmailCodeParam
 import team.aliens.domain.param.RequestEmailCodeParam
+import team.aliens.domain.usecase.students.DuplicateCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteRequestEmailCodeUseCase
 import javax.inject.Inject
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class RegisterEmailViewModel @Inject constructor(
     private val remoteRequestEmailCodeUseCase: RemoteRequestEmailCodeUseCase,
     private val remoteCheckEmailUseCase: RemoteCheckEmailUseCase,
+    private val remoteDuplicateCheckEmailUseCase: DuplicateCheckEmailUseCase,
 ) : ViewModel() {
 
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
@@ -34,6 +36,7 @@ class RegisterEmailViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
+                    is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.UnKnownException)
@@ -57,10 +60,25 @@ class RegisterEmailViewModel @Inject constructor(
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
                     is UnauthorizedException -> event(RegisterEmailEvent.CheckEmailUnauthorized)
                     is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
+                    is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.InternalServerException)
                 }
+            }
+        }
+    }
+
+    internal fun checkEmailDuplicate(
+        email: String,
+    ){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                remoteDuplicateCheckEmailUseCase.execute(email)
+            }.onSuccess {
+                event(RegisterEmailEvent.AllowEmail)
+            }.onFailure {
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -71,3 +89,24 @@ class RegisterEmailViewModel @Inject constructor(
         }
     }
 }
+
+private fun getEventFromThrowable(
+    throwable: Throwable?
+): RegisterEmailEvent =
+    when(throwable){
+        is BadRequestException -> {
+            RegisterEmailEvent.BadRequestException
+        }
+        is ConflictException -> {
+            RegisterEmailEvent.ConflictException
+        }
+        is TooManyRequestException -> {
+            RegisterEmailEvent.TooManyRequestsException
+        }
+        is ServerException -> {
+            RegisterEmailEvent.InternalServerException
+        }
+        else -> {
+            RegisterEmailEvent.UnKnownException
+        }
+    }

@@ -39,4 +39,6 @@ interface UserRepository {
     )
 
     suspend fun signOut()
+
+    suspend fun fetchAutoSignInOption(): Boolean
 }

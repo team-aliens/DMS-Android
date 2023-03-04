@@ -3,6 +3,7 @@ package team.aliens.data.intercepter
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.threeten.bp.LocalDateTime
 import team.aliens.data.remote.url.DmsHttpProperties
 import team.aliens.data.remote.url.DmsUrl
 import team.aliens.data.util.LocalDateTimeEx
@@ -19,7 +20,9 @@ private val ignorePath = listOf(
     DmsUrl.Students.register,
     DmsUrl.Students.examineGrade,
     DmsUrl.Students.duplicateCheckId,
+    DmsUrl.Students.duplicateCheckEmail,
     DmsUrl.Schools.schoolCode,
+    DmsUrl.uploadFile,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",
 )
@@ -36,39 +39,58 @@ class AuthorizationInterceptor @Inject constructor(
 
         if (ignorePath.any { path.contains(it) }) return chain.proceed(request)
 
-        val expiredAt = runBlocking {
-            userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()
+        val expiredAt: LocalDateTime = try {
+            runBlocking {
+                userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()
+            }
+        } catch (e: Exception) { // todo refactor
+            LocalDateTime.of(
+                1970,
+                1,
+                1,
+                0,
+                0,
+            )
         }
 
         val currentTime = LocalDateTimeEx.getNow()
 
         if (currentTime.isAfter(expiredAt)) {
-
-            val refreshToken = userDataStorage.fetchRefreshToken()
-
-            val token = tokenReissueClient(
-                refreshToken = refreshToken,
-            )
-
-            runBlocking {
-                userDataStorage.setPersonalKey(
-                    personalKeyParam = UserPersonalKeyParam(
-                        accessToken = token.accessToken,
-                        refreshToken = token.refreshToken,
-                        accessTokenExpiredAt = token.accessTokenExpiredAt.toLocalDateTime(),
-                        refreshTokenExpiredAt = token.refreshTokenExpiredAt.toLocalDateTime(),
-                    ),
-                )
-            }
+            reissueToken()
         }
 
         val accessToken = userDataStorage.fetchAccessToken()
 
-        return chain.proceed(
+        val response = chain.proceed(
             request.newBuilder().addHeader(
                 DmsHttpProperties.Header.AUTHORIZATION,
                 DmsHttpProperties.Prefix.BEARER + accessToken,
             ).build(),
         )
+
+        val code = response.code
+
+        if (code == 401) reissueToken() // fixme
+
+        return response
+    }
+
+    private fun reissueToken() {
+        val refreshToken = userDataStorage.fetchRefreshToken()
+
+        val token = tokenReissueClient(
+            refreshToken = refreshToken,
+        )
+
+        runBlocking {
+            userDataStorage.setPersonalKey(
+                personalKeyParam = UserPersonalKeyParam(
+                    accessToken = token.accessToken,
+                    refreshToken = token.refreshToken,
+                    accessTokenExpiredAt = token.accessTokenExpiredAt.toLocalDateTime(),
+                    refreshTokenExpiredAt = token.refreshTokenExpiredAt.toLocalDateTime(),
+                ),
+            )
+        }
     }
 }

@@ -10,10 +10,19 @@ import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
+import team.aliens.dms_android.feature.auth.login.SignInViewEffect
 import team.aliens.dms_android.feature.image.ConfirmImageScreen
 import team.aliens.dms_android.feature.mypage.MyPageChangePasswordScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
+import team.aliens.dms_android.feature.register.ui.email.SignUpEmailScreen
+import team.aliens.dms_android.feature.register.ui.email.SignUpEmailVerifyScreen
+import team.aliens.dms_android.feature.register.ui.id.SignUpIdScreen
+import team.aliens.dms_android.feature.register.ui.last.SignUpPolicyScreen
+import team.aliens.dms_android.feature.register.ui.last.SignUpProfileScreen
+import team.aliens.dms_android.feature.register.ui.password.SignUpPasswordScreen
+import team.aliens.dms_android.feature.register.ui.school.SignUpSchoolQuestionScreen
+import team.aliens.dms_android.feature.register.ui.school.SignUpVerifySchoolScreen
 import team.aliens.dms_android.feature.remain.RemainApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
@@ -71,7 +80,7 @@ fun RootDms(
             ChangePasswordScreen()
         }
 
-        composable(NavigationRoute.MyPageChangePassword){
+        composable(NavigationRoute.MyPageChangePassword) {
             MyPageChangePasswordScreen(
                 navController = navController,
             )
@@ -127,6 +136,54 @@ fun RootDms(
             route = NavigationRoute.ComparePassword,
         ){
             ComparePasswordScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.VerifySchool) {
+            SignUpVerifySchoolScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SchoolQuestion) {
+            SignUpSchoolQuestionScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpEmail){
+            SignUpEmailScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpEmailVerify){
+            SignUpEmailVerifyScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpId){
+            SignUpIdScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpPassword){
+            SignUpPasswordScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpProfile){
+            SignUpProfileScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpPolicy){
+            SignUpPolicyScreen(
                 navController = navController,
             )
         }

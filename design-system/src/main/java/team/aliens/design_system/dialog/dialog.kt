@@ -24,6 +24,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
@@ -171,10 +172,15 @@ fun DormBottomAlignedSingleButtonDialog(
     btnText: String,
     onBtnClick: () -> Unit,
     btnTextColor: Color = DormColor.Gray600,
+    onBackgroundPress: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .dormClickable {
+                onBackgroundPress()
+            },
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
@@ -300,6 +306,67 @@ fun DormDoubleButtonDialog(
     }
 }
 
+@Composable
+fun DormSingleButtonDialog(
+    content: String,
+    mainBtnText: String,
+    onMainBtnClick: () -> Unit,
+    mainBtnTextColor: Color = DormColor.Error,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp)
+            .background(
+                DormColor.Gray100,
+                DormDoubleButtonDialogShape,
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+
+        Spacer(
+            modifier = Modifier.height(50.dp),
+        )
+
+        Body3(
+            text = content,
+        )
+
+        Spacer(
+            modifier = Modifier.height(40.dp),
+        )
+
+        Divider(
+            modifier = Modifier
+                .background(DormColor.Gray400)
+                .height(1.dp),
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(
+                        DormDoubleButtonDialogSubButtonShape,
+                    )
+                    .clickable {
+                        onMainBtnClick()
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Body3(
+                    text = mainBtnText,
+                    color = mainBtnTextColor,
+                )
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Preview(
     showSystemUi = true,
@@ -332,6 +399,9 @@ fun PreviewDialog() {
             DormBottomAlignedSingleButtonDialog(
                 btnText = "취소",
                 onBtnClick = { },
+                onBackgroundPress = {
+
+                }
             ) {
 
             }
