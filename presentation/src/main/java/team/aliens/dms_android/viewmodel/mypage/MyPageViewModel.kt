@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.mypage.Gender
+import team.aliens.dms_android.feature.mypage.MyPageEntity
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
@@ -15,6 +16,7 @@ import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
 import team.aliens.domain.usecase.mypage.RemotePointUseCase
+import team.aliens.domain.usecase.students.RemoteStudentWithdrawUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ class MyPageViewModel @Inject constructor(
     private val remoteMyPageUseCase: RemoteMyPageUseCase,
     private val remotePointListUseCase: RemotePointUseCase,
     private val signOutUseCase: SignOutUseCase,
+    private val withdrawUseCase: RemoteStudentWithdrawUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
 
     init {
@@ -41,7 +44,10 @@ class MyPageViewModel @Inject constructor(
     private val _signOutEvent = MutableEventFlow<Event>()
     internal val signOutEvent = _signOutEvent.asEventFlow()
 
-    fun signOut() {
+    private val _withdrawEvent = MutableEventFlow<Event>()
+    internal val withdrawEvent = _withdrawEvent.asEventFlow()
+
+    internal fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 signOutUseCase.execute(Unit)
@@ -53,21 +59,33 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
+    internal fun withdraw() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                withdrawUseCase.execute(Unit)
+            }.onSuccess {
+
+            }
+        }
+    }
+
     internal fun fetchMyPage() {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteMyPageUseCase.execute(Unit)
             }.onSuccess {
-                state.value.myPageEntity.run {
-                    gcn = it.gcn
-                    bonusPoint = it.bonusPoint
-                    minusPoint = it.minusPoint
-                    name = it.name
-                    phrase = it.phrase
-                    schoolName = it.schoolName
-                    profileImageUrl = it.profileImageUrl
-                    sex = Gender.valueOf(it.sex)
-                }
+                state.value.myPageEntity.emit(
+                    MyPageEntity(
+                        gcn = it.gcn,
+                        bonusPoint = it.bonusPoint,
+                        minusPoint = it.minusPoint,
+                        name = it.name,
+                        phrase = it.phrase,
+                        schoolName = it.schoolName,
+                        profileImageUrl = it.profileImageUrl,
+                        sex = Gender.valueOf(it.sex),
+                    ),
+                )
             }.onFailure {
                 when (it) {
                     is NullPointerException -> emitMyPageViewEffect(Event.NullPointException)

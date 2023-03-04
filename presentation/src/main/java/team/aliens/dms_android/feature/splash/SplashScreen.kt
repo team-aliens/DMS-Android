@@ -17,15 +17,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.MainActivity
+import team.aliens.dms_android.viewmodel.root.RootViewModel
 import team.aliens.presentation.R
 
 // todo 스플래시 스크린을 없애는 방법 검토 필요!@!
 @Composable
 fun SplashScreen(
-    splashViewModel: SplashViewModel = hiltViewModel(),
+    rootViewModel: RootViewModel = hiltViewModel(),
 ) {
 
-    splashViewModel.autoLogin()
+    rootViewModel.autoLogin()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -33,14 +34,14 @@ fun SplashScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            splashViewModel.eventFlow.collect {
+            rootViewModel.eventFlow.collect {
                 moveToMainActivity(
                     context,
                     when (it) {
-                        SplashViewModel.Event.AutoLoginSuccess -> {
+                        RootViewModel.Event.AutoLoginSuccess -> {
                             "main"
                         }
-                        SplashViewModel.Event.NeedLogin -> {
+                        RootViewModel.Event.NeedLogin -> {
                             "login"
                         }
                     }

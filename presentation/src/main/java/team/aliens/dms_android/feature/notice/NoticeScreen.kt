@@ -41,8 +41,8 @@ fun NoticeScreen(
         noticeViewModel.fetchNoticeList()
     }
 
-    var notices = remember {
-        mutableStateListOf(Notice("", "공지사항이", "없습니다."))
+    val notices = remember {
+        mutableStateListOf<Notice>()
     }
 
     val toast = rememberToast()
@@ -123,6 +123,7 @@ fun NoticeScreen(
             onClick = { noticeId ->
                 navController.navigate("noticeDetail/${noticeId}")
             },
+            errorMessage = stringResource(R.string.TheresNoNotices),
         )
     }
 }

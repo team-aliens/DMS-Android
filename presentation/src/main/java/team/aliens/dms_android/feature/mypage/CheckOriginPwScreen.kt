@@ -36,7 +36,7 @@ fun CheckPwTitle() {
         modifier = Modifier.padding(start = 24.dp)) {
         Spacer(modifier = Modifier.height(40.dp))
         Image(
-            painter = painterResource(id = R.drawable.temporarylogo),
+            painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = null,
             modifier = Modifier.size(49.dp),
         )

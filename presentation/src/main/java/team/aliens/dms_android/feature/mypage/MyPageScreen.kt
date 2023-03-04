@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.mypage
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import kotlinx.coroutines.flow.collect
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
@@ -50,14 +50,27 @@ fun MyPageScreen(
 
     val context = LocalContext.current
 
-    val myPageState = myPageViewModel.state.collectAsState().value.myPageEntity
+
+    var myPageState by remember {
+        mutableStateOf(MyPageEntity())
+    }
+
+    LaunchedEffect(Unit) {
+        myPageViewModel.state.value.myPageEntity.collect {
+            myPageState = it
+        }
+    }
 
     var signOutDialogState by remember {
         mutableStateOf(false)
     }
 
-    val onSignOutButtonClick = {
-        signOutDialogState = true
+    val onSignOutButtonClick by remember {
+        mutableStateOf(
+            {
+                signOutDialogState = true
+            },
+        )
     }
 
     if (signOutDialogState) {
@@ -80,9 +93,43 @@ fun MyPageScreen(
         }
     }
 
+    var withdrawalDialogState by remember {
+        mutableStateOf(false)
+    }
+
+    val onWithdrawalButtonClick by remember {
+        mutableStateOf(
+            {
+                withdrawalDialogState = true
+            },
+        )
+    }
+
+    if (withdrawalDialogState) {
+        DormCustomDialog(
+            onDismissRequest = { /* explicit blank */ },
+        ) {
+            DormDoubleButtonDialog(
+                content = stringResource(R.string.AreYouSureYouWithdraw),
+                mainBtnText = stringResource(R.string.Check),
+                subBtnText = stringResource(R.string.Cancel),
+                onMainBtnClick = {
+                    myPageViewModel.withdraw()
+                },
+                onSubBtnClick = {
+                    withdrawalDialogState = false
+                },
+            )
+        }
+    }
+
 
     var setProfileDialogState by remember {
         mutableStateOf(false)
+    }
+
+    val onSetProfileDialogDismiss = {
+        setProfileDialogState = false
     }
 
     if (setProfileDialogState) {
@@ -92,16 +139,15 @@ fun MyPageScreen(
             },
             onTakePhoto = {
                 navController.navigate(
-                    NavigationRoute.ConfirmImage +
-                            "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                    NavigationRoute.ConfirmImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
                 )
             },
             onSelectPhoto = {
                 navController.navigate(
-                    NavigationRoute.ConfirmImage +
-                            "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                    NavigationRoute.ConfirmImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
+            onDialogDismiss = onSetProfileDialogDismiss,
         )
     }
 
@@ -119,6 +165,16 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.signOutEvent.collect {
+            navController.navigate(NavigationRoute.Login) {
+                popUpTo(navController.currentDestination?.route!!) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        myPageViewModel.withdrawEvent.collect {
             navController.navigate(NavigationRoute.Login) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
@@ -151,13 +207,16 @@ fun MyPageScreen(
                     Title1(
                         text = "${myPageState.gcn} ${myPageState.name}",
                     )
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(
+                        modifier = Modifier.width(20.dp),
+                    )
+
                     LastAppliedItem(
                         text = myPageState.sex.gender,
-                        backgroundColor = if (myPageState.sex.toString() == "MALE") {
+                        backgroundColor = if (myPageState.sex == Gender.MALE) {
                             DormColor.Lighten200
                         } else DormColor.LightenError,
-                        textColor = if (myPageState.sex.toString() == "MALE") {
+                        textColor = if (myPageState.sex == Gender.MALE) {
                             DormColor.DormPrimary
                         } else DormColor.Error,
                     )
@@ -405,6 +464,37 @@ fun MyPageScreen(
                     Body5(
                         text = stringResource(
                             id = R.string.Logout,
+                        ),
+                        color = DormColor.Error,
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(
+                        RoundedCornerShape(10.dp),
+                    )
+                    .background(DormColor.Gray100),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(DormColor.Gray100)
+                        .clickable {
+                            onWithdrawalButtonClick()
+                        }
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 16.dp,
+                        ),
+                ) {
+
+                    // 회원 탈퇴
+                    Body5(
+                        text = stringResource(
+                            id = R.string.Withdrawal,
                         ),
                         color = DormColor.Error,
                     )

@@ -87,6 +87,10 @@ internal fun ConfirmImageScreen(
         mutableStateOf(false)
     }
 
+    val onDialogDismiss = {
+        gettingImageOptionDialogState = false
+    }
+
     if (gettingImageOptionDialogState) {
         GettingImageOptionDialog(
             onCancel = {
@@ -105,10 +109,11 @@ internal fun ConfirmImageScreen(
                     gettingImageOptionDialogState = false
                 }
             },
+            onDialogDismiss = onDialogDismiss,
         )
     }
 
-    val confirmImageState = confirmImageViewModel.state.collectAsState().value
+    val confirmImageState = confirmImageViewModel.state.collectAsState()
 
     Column(
         modifier = Modifier
@@ -148,7 +153,7 @@ internal fun ConfirmImageScreen(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     painter = rememberAsyncImagePainter(
-                        model = confirmImageState.selectedImage?.toUri(),
+                        model = confirmImageState.value.selectedImage?.toUri(),
                     ),
                 )
 

@@ -2,50 +2,77 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.studyroom.StudyRoomViewModel.Event
-import team.aliens.dms_android.util.MutableEventFlow
-import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
-import team.aliens.domain.entity.studyroom.StudyRoomListEntity
-import team.aliens.domain.exception.*
+import team.aliens.dms_android._base.BaseEvent
+import team.aliens.dms_android._base.BaseViewModel
+import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.usecase.studyroom.*
 import javax.inject.Inject
 
 @HiltViewModel
-class StudyRoomViewModel @Inject constructor(
+class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
-    private val studyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
     private val studyRoomTypeUseCase: RemoteFetchStudyRoomTypeUseCase,
     private val studyApplySeatUseCase: RemoteApplySeatUseCase,
-    private val studyCancelApplySeat: RemoteCancelApplySeat,
-    private val studyRoomApplyTimeUseCase: RemoteFetchApplySeatUseCase,
+    private val studyCancelApplySeat: RemoteCancelApplySeatUseCase,
+    private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
     private val currentStudyRoomOptionUseCase: RemoteFetchCurrentStudyRoomOptionUseCase,
-) : BaseViewModel<StudyRoomState, StudyRoomEvent>() {
+) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
     init {
+        fetchStudyRoomList()
         fetchApplyTime()
     }
 
-    private val _studyRoomEffect = MutableEventFlow<Event>()
-    val studyRoomEffect = _studyRoomEffect.asEventFlow()
+    sealed class UiEvent : BaseEvent {
 
-    private val _studyRoomDetailEffect = MutableEventFlow<Event>()
-    val studyRoomDetailEffect = _studyRoomDetailEffect.asEventFlow()
+        internal object FetchStudyRooms : UiEvent()
 
-    private val _studyRoomApplyEffect = MutableEventFlow<Event>()
-    val studyRoomApplyEffect = _studyRoomApplyEffect.asEventFlow()
+        internal class FilterStudyRoom(
+            studyRoomTime: Any?,
+        ) : UiEvent() // todo implement
+    }
 
-    private val _studyRoomTimeEffect = MutableEventFlow<Event>()
-    val studyRoomTimeEffect = _studyRoomTimeEffect.asEventFlow()
+    override val _uiState = MutableStateFlow(StudyRoomListUiState())
 
-    private val _currentStudyRoomOptionEffect = MutableEventFlow<Event>()
-    val currentStudyRoomOptionEffect = _currentStudyRoomOptionEffect.asEventFlow()
+    override fun onEvent(
+        event: UiEvent,
+    ) {
+        when (event) {
+            is UiEvent.FetchStudyRooms -> {
+                fetchStudyRoomList()
+            }
+            is UiEvent.FilterStudyRoom -> {
+                // todo
+            }
+        }
+    }
 
-    override val initialState: StudyRoomState
-        get() = StudyRoomState.getDefaultInstance()
+    private fun fetchApplyTime() {
+        viewModelScope.launch {
 
+            val result = kotlin.runCatching {
+                studyRoomApplyTimeUseCase.execute(Unit)
+            }
+
+            if (result.isSuccess) {
+
+                //emitStudyRoomTimeEvent(Event.RoomApplyTime)
+
+                val resultEntity = result.getOrThrow()
+
+                _uiState.value = _uiState.value.copy(
+                    startAt = resultEntity.startAt.extractHourFromDate(),
+                    endAt = resultEntity.endAt.extractHourFromDate(),
+                )
+            } else {
+                emitErrorEventFromThrowable(
+                    result.exceptionOrNull(),
+                )
+            }
+        }
+    }
 
     internal fun fetchStudyRoomList() {
         viewModelScope.launch {
@@ -54,55 +81,41 @@ class StudyRoomViewModel @Inject constructor(
                 studyRoomListUseCase.execute(Unit)
             }
 
-            emitStudyRoomEvent(
-                if (result.isSuccess) {
-
-                    val resultEntity = result.getOrThrow()
-
-                    Event.FetchStudyRoomList(resultEntity)
-                } else {
-                    getEventFromThrowable(
-                        result.exceptionOrNull(),
-                    )
-                },
-            )
-        }
-    }
-
-    private fun emitStudyRoomEvent(
-        event: Event,
-    ) {
-        viewModelScope.launch {
-            _studyRoomEffect.emit(event)
-        }
-    }
-
-
-    fun fetchStudyRoomDetail(
-        studyRoomId: String,
-    ) {
-        viewModelScope.launch {
-
-            val result = kotlin.runCatching {
-                studyRoomDetailUseCase.execute(studyRoomId)
-            }
-
             if (result.isSuccess) {
 
                 val resultEntity = result.getOrThrow()
 
-                setState(
-                    state.value.copy(
-                        roomDetail = resultEntity,
-                    ),
+                _uiState.value = _uiState.value.copy(
+                    studyRooms = resultEntity.studyRooms.toInformation(),
                 )
             } else {
-                emitStudyRoomDetailEvent(
-                    getEventFromThrowable(
-                        result.exceptionOrNull(),
-                    )
+                emitErrorEventFromThrowable(
+                    result.exceptionOrNull(),
                 )
             }
+        }
+    }
+
+    //    private val _studyRoomEffect = MutableEventFlow<Event>()
+//    val studyRoomEffect = _studyRoomEffect.asEventFlow()
+//
+//    private val _studyRoomDetailEffect = MutableEventFlow<Event>()
+//    val studyRoomDetailEffect = _studyRoomDetailEffect.asEventFlow()
+//
+//    private val _studyRoomApplyEffect = MutableEventFlow<Event>()
+//    val studyRoomApplyEffect = _studyRoomApplyEffect.asEventFlow()
+//
+//    private val _studyRoomTimeEffect = MutableEventFlow<Event>()
+//    val studyRoomTimeEffect = _studyRoomTimeEffect.asEventFlow()
+//
+//    private val _currentStudyRoomOptionEffect = MutableEventFlow<Event>()
+//    val currentStudyRoomOptionEffect = _currentStudyRoomOptionEffect.asEventFlow()
+
+/*    private fun emitStudyRoomEvent(
+        event: Event,
+    ) {
+        viewModelScope.launch {
+            _studyRoomEffect.emit(event)
         }
     }
 
@@ -112,10 +125,10 @@ class StudyRoomViewModel @Inject constructor(
         viewModelScope.launch {
             _studyRoomDetailEffect.emit(event)
         }
-    }
+    }*/
 
 
-    fun applyStudyRoomSeat(
+    /*fun applyStudyRoomSeat(
         currentSeat: String,
     ) {
         viewModelScope.launch {
@@ -161,48 +174,19 @@ class StudyRoomViewModel @Inject constructor(
         viewModelScope.launch {
             _studyRoomApplyEffect.emit(event)
         }
-    }
+    }*/
 
 
-    fun fetchApplyTime() {
-        viewModelScope.launch {
-
-            val result = kotlin.runCatching {
-                studyRoomApplyTimeUseCase.execute(Unit)
-            }
-
-            if (result.isSuccess) {
-
-                emitStudyRoomTimeEvent(Event.RoomApplyTime)
-
-                val resultEntity = result.getOrThrow()
-
-                setState(
-                    state = state.value.copy(
-                        startAt = resultEntity.startAt.extractHourFromDate(),
-                        endAt = resultEntity.endAt.extractHourFromDate(),
-                    ),
-                )
-            } else {
-                emitStudyRoomApplyEvent(
-                    getEventFromThrowable(
-                        result.exceptionOrNull(),
-                    ),
-                )
-            }
-        }
-    }
-
-    private fun emitStudyRoomTimeEvent(
+/*    private fun emitStudyRoomTimeEvent(
         event: Event,
     ) {
         viewModelScope.launch {
             _studyRoomTimeEffect.emit(event)
         }
-    }
+    }*/
 
 
-    fun updateCurrentSeat(
+/*    fun updateCurrentSeat(
         seatId: String,
     ) {
         setState(
@@ -210,9 +194,9 @@ class StudyRoomViewModel @Inject constructor(
                 currentSeat = seatId,
             ),
         )
-    }
+    }*/
 
-    internal fun fetchCurrentStudyRoomOption() {
+    /*internal fun fetchCurrentStudyRoomOption() {
         viewModelScope.launch {
             val result = kotlin.runCatching {
                 currentStudyRoomOptionUseCase.execute(Unit)
@@ -221,6 +205,8 @@ class StudyRoomViewModel @Inject constructor(
             if (result.isSuccess) {
 
                 val resultEntity = result.getOrThrow()
+
+                _uiState.value.current
 
                 _currentStudyRoomOptionEffect.emit(
                     Event.FetchCurrentStudyRoomOption(
@@ -269,27 +255,14 @@ class StudyRoomViewModel @Inject constructor(
         object ConflictException : Event()
         object InternalServerException : Event()
         object UnknownException : Event()
-    }
-
-    override fun reduceEvent(oldState: StudyRoomState, event: StudyRoomEvent) {}
+    }*/
 }
 
-private fun String.extractHourFromDate(): String {
-    return this.substring(0, 5)
-}
 
-// 추후 BaseViewModel로 Event 위임을 위해 클래스의 외부 함수로 구현
-private fun getEventFromThrowable(
-    throwable: Throwable?,
-): Event {
-    return when (throwable) {
-        is BadRequestException -> Event.BadRequestException
-        is NotFoundException -> Event.NotFoundException
-        is UnauthorizedException -> Event.UnAuthorizedTokenException
-        is ForbiddenException -> Event.CannotConnectException
-        is TooManyRequestException -> Event.TooManyRequestException
-        is NullPointerException -> Event.NullPointException
-        is ServerException -> Event.InternalServerException
-        else -> Event.UnknownException
-    }
-}
+// todo remove ---------
+
+private const val firstPart = "22:00 ~ 22:50"
+private const val secondPart = "23:00 ~ 23:50"
+
+// todo ----------------
+

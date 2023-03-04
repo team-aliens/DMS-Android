@@ -100,6 +100,10 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun signOut() {
         localUserDataSource.signOut()
     }
+
+    override suspend fun fetchAutoSignInOption(): Boolean {
+        return localUserDataSource.fetchAutoSignInOption()
+    }
 }
 
 private fun SignInResponse.toDbEntity(): UserPersonalKeyParam {

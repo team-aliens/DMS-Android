@@ -1,14 +1,14 @@
 package team.aliens.dms_android.feature.mypage
 
+import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
-import java.util.*
 
 data class MyPageState(
     var type: PointType,
     var totalPoint: Int,
-    var myPageEntity: MyPageEntity = MyPageEntity(),
+    var myPageEntity: MutableStateFlow<MyPageEntity> = MutableStateFlow(MyPageEntity()),
     var pointListEntity: PointListEntity,
 ) : MviState {
     companion object {
@@ -44,7 +44,7 @@ data class MyPageEntity(
 
 enum class Gender(
     val gender: String,
-){
+) {
     MALE("남"),
     FEMALE("여")
 }

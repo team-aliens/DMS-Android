@@ -42,4 +42,7 @@ interface StudentsApi {
     suspend fun editProfileImage(
         @Body editProfileImageRequest: EditProfileImageRequest,
     ): Response<Unit>
+
+    @DELETE(DmsUrl.Students.withdraw)
+    suspend fun withdraw()
 }
