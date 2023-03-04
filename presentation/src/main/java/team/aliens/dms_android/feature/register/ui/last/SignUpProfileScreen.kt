@@ -94,6 +94,7 @@ fun SignUpProfileScreen(
                     )
                 }
             },
+            onDialogDismiss = {},
         )
     }
 

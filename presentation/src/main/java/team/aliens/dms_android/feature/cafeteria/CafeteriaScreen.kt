@@ -86,21 +86,16 @@ fun CafeteriaScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-
             CafeteriaTopBar()
 
-
-            Spacer(modifier = Modifier.height(25.dp))
-
             if(state.hasNewNotice) {
-                Spacer(modifier = Modifier.height(38.dp))
+                Spacer(modifier = Modifier.height(18.dp))
                 ImportantNotice(
                     onNoticeIconClick = {
                         navigateBottomNavigation(
                             route = BottomNavigationItem.Notice.route,
                             navController = navController,
                         )
-                        bottomTabSelectedItem.value = BottomNavigationItem.Notice.route
                     },
                 )
             }
@@ -179,6 +174,7 @@ fun DateSelector(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
+                top= 38.dp,
                 bottom = 38.dp,
             )
             .wrapContentHeight(),
