@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -24,6 +23,7 @@ import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
+import java.util.regex.Pattern
 
 @Composable
 fun MyPageChangePasswordScreen(
@@ -36,6 +36,8 @@ fun MyPageChangePasswordScreen(
             .background(DormColor.Gray200),
     ) {
 
+        val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
+
         val focusManager = LocalFocusManager.current
 
         val toast = rememberToast()
@@ -47,21 +49,32 @@ fun MyPageChangePasswordScreen(
 
         val isValueEmpty = (newPassword.isNotBlank() && repeatPassword.isNotBlank())
 
+        var isPasswordMatchError by remember { mutableStateOf(false) }
+        var isPasswordFormatError by remember { mutableStateOf(false) }
+
         val onNewPasswordChange = { value: String ->
+            if (value.length != newPassword.length) isPasswordFormatError = false
             newPassword = value
             changePasswordViewModel.setNewPassword(newPassword)
         }
 
         val onRepeatPasswordChange = { value: String ->
+            if (value.length != repeatPassword.length) isPasswordMatchError = false
             repeatPassword = value
             changePasswordViewModel.setRepeatPassword(repeatPassword)
         }
 
         LaunchedEffect(Unit) {
+            changePasswordViewModel.setCurrentPassword(
+                navController.previousBackStackEntry?.arguments?.getString("currentPassword")
+                    .toString()
+            )
             changePasswordViewModel.editPasswordEffect.collect {
                 when (it) {
                     is ChangePasswordViewModel.Event.EditPasswordSuccess -> {
-                        // TODO navigate
+                        navController.popBackStack()
+                        navController.popBackStack()
+                        toast(context.getString(R.string.SuccessChangePassword))
                     }
                     else -> {
                         toast(
@@ -101,39 +114,53 @@ fun MyPageChangePasswordScreen(
                 contentDescription = null,
             )
             Spacer(modifier = Modifier.height(32.dp))
-            Body2(text = stringResource(R.string.ChangePassword), color = DormColor.Gray600)
+            Body2(
+                text = stringResource(R.string.ChangePassword),
+                color = DormColor.Gray600,
+            )
             Spacer(modifier = Modifier.height(6.dp))
             OverLine(
                 text = stringResource(id = R.string.PwWarning),
                 color = DormColor.Gray500,
             )
-            Spacer(modifier = Modifier.height(60.dp))
-            DormTextField(
-                value = newPassword,
-                onValueChange = onNewPasswordChange,
-                hint = stringResource(R.string.EnterPassword),
-                isPassword = true,
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            DormTextField(
-                value = repeatPassword,
-                onValueChange = onRepeatPasswordChange,
-                hint = stringResource(R.string.ReEnterPassword),
-                isPassword = true,
-                error = (isValueEmpty && newPassword != repeatPassword),
-                errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
-            )
-            Box(
-                contentAlignment = Alignment.BottomCenter,
+
+            Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 60.dp),
+                    .fillMaxHeight(0.835f)
+                    .padding(top = 60.dp)
             ) {
-                DormContainedLargeButton(
-                    text = stringResource(R.string.Check),
-                    color = DormButtonColor.Blue,
-                    enabled = isValueEmpty,
+                Column(
+                    modifier = Modifier.fillMaxHeight(0.2f)
                 ) {
+                    DormTextField(
+                        value = newPassword,
+                        onValueChange = onNewPasswordChange,
+                        hint = stringResource(R.string.EnterPassword),
+                        isPassword = true,
+                        error = isPasswordFormatError,
+                        errorDescription = stringResource(id = R.string.NotCorrectPasswordFormat)
+                    )
+                }
+
+                DormTextField(
+                    value = repeatPassword,
+                    onValueChange = onRepeatPasswordChange,
+                    hint = stringResource(R.string.ReEnterPassword),
+                    isPassword = true,
+                    error = isPasswordMatchError,
+                    errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
+                )
+            }
+            DormContainedLargeButton(
+                text = stringResource(R.string.Check),
+                color = DormButtonColor.Blue,
+                enabled = isValueEmpty,
+            ) {
+                if (newPassword != repeatPassword) {
+                    isPasswordMatchError = true
+                } else if (!Pattern.compile(passwordFormat).matcher(newPassword).find()) {
+                    isPasswordFormatError = true
+                } else {
                     changePasswordViewModel.editPassword()
                 }
             }

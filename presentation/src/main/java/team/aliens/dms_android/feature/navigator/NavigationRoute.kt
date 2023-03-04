@@ -19,6 +19,7 @@ object NavigationRoute {
     const val RemainApplication = "remainApplication"
     const val StudyRoomDetail = "studyRoomDetail/{seatId}"
     const val ConfirmImage = "confirmImage"
+    const val ComparePassword = "comparePassword"
     const val VerifySchool = "verifySchool"
     const val SchoolQuestion = "schoolQuestion"
     const val SignUpEmail = "signUpEmail"

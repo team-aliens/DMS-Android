@@ -51,12 +51,7 @@ class ChangePasswordViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.EditPasswordSuccess)
             }.onFailure {
-                when (it) {
-                    is UnknownException -> {}
-                    else -> {
-                        event(getEventFromThrowable(it))
-                    }
-                }
+                event(getEventFromThrowable(it))
             }
         }
     }
@@ -67,8 +62,11 @@ class ChangePasswordViewModel @Inject constructor(
                 comparePasswordUseCase.execute(
                     data = state.value.currentPassword,
                 )
+            }.onSuccess {
+                event(Event.ComparePasswordSuccess)
+            }.onFailure {
+                event(getEventFromThrowable(it))
             }
-            // TODO 현재 비밀번호 확인 화면에서 사용 예정
         }
     }
 
@@ -112,6 +110,7 @@ class ChangePasswordViewModel @Inject constructor(
 
     sealed class Event() {
         object EditPasswordSuccess : Event()
+        object ComparePasswordSuccess: Event()
 
         object BadRequestException : Event()
         object UnauthorizedException : Event()

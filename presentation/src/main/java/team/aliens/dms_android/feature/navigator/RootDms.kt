@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
+import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.auth.login.SignInViewEffect
 import team.aliens.dms_android.feature.image.ConfirmImageScreen
@@ -127,6 +128,14 @@ fun RootDms(
 
             ConfirmImageScreen(
                 selectImageType = selectImageType,
+                navController = navController,
+            )
+        }
+
+        composable(
+            route = NavigationRoute.ComparePassword,
+        ){
+            ComparePasswordScreen(
                 navController = navController,
             )
         }
