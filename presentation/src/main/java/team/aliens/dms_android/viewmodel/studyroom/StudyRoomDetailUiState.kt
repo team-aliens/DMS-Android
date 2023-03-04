@@ -8,7 +8,7 @@ data class StudyRoomDetailUiState(
     var studyRoomId: String = "",
     var currentSeat: MutableEventFlow<String> = MutableEventFlow(),
     var startAt: String = "",
-    var endAt: String? = null,
+    var endAt: String = "",
     var errorMessage: MutableEventFlow<String> = MutableEventFlow(),
     var studyRoomDetails: StudyRoomDetailEntity = StudyRoomDetailEntity(
         floor = 0,

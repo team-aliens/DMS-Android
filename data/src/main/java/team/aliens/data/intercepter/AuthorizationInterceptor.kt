@@ -54,32 +54,41 @@ class AuthorizationInterceptor @Inject constructor(
         val currentTime = LocalDateTimeEx.getNow()
 
         if (currentTime.isAfter(expiredAt)) {
-
-            val refreshToken = userDataStorage.fetchRefreshToken()
-
-            val token = tokenReissueClient(
-                refreshToken = refreshToken,
-            )
-
-            runBlocking {
-                userDataStorage.setPersonalKey(
-                    personalKeyParam = UserPersonalKeyParam(
-                        accessToken = token.accessToken,
-                        refreshToken = token.refreshToken,
-                        accessTokenExpiredAt = token.accessTokenExpiredAt.toLocalDateTime(),
-                        refreshTokenExpiredAt = token.refreshTokenExpiredAt.toLocalDateTime(),
-                    ),
-                )
-            }
+            reissueToken()
         }
 
         val accessToken = userDataStorage.fetchAccessToken()
 
-        return chain.proceed(
+        val response = chain.proceed(
             request.newBuilder().addHeader(
                 DmsHttpProperties.Header.AUTHORIZATION,
                 DmsHttpProperties.Prefix.BEARER + accessToken,
             ).build(),
         )
+
+        val code = response.code
+
+        if (code == 401) reissueToken() // fixme
+
+        return response
+    }
+
+    private fun reissueToken() {
+        val refreshToken = userDataStorage.fetchRefreshToken()
+
+        val token = tokenReissueClient(
+            refreshToken = refreshToken,
+        )
+
+        runBlocking {
+            userDataStorage.setPersonalKey(
+                personalKeyParam = UserPersonalKeyParam(
+                    accessToken = token.accessToken,
+                    refreshToken = token.refreshToken,
+                    accessTokenExpiredAt = token.accessTokenExpiredAt.toLocalDateTime(),
+                    refreshTokenExpiredAt = token.refreshTokenExpiredAt.toLocalDateTime(),
+                ),
+            )
+        }
     }
 }
