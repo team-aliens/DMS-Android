@@ -77,6 +77,7 @@
     <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="OriginPw">기존 비밀번호</string>
     <string name="SuccessChangePassword">비밀번호가 변경되었습니다.</string>
+    <string name="NotCorrectPasswordFormat">비밀번호 형식이 올바르지 않습니다.</string>
 
     // 급식
     <string name="TodayCafeteria">오늘의 급식</string>

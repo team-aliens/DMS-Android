@@ -47,7 +47,7 @@ interface UserApi {
     @PATCH(DmsUrl.User.editPassword)
     suspend fun editPassword(
         @Body editPasswordRequest: EditPasswordRequest,
-    )
+    ): Response<Void>
 
     @GET(DmsUrl.User.comparePassword)
     suspend fun comparePassword(

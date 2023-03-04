@@ -51,12 +51,7 @@ class ChangePasswordViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.EditPasswordSuccess)
             }.onFailure {
-                when (it) {
-                    is UnknownException -> {}
-                    else -> {
-                        event(getEventFromThrowable(it))
-                    }
-                }
+                event(getEventFromThrowable(it))
             }
         }
     }

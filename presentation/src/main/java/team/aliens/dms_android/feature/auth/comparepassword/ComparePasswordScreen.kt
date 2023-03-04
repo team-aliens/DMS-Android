@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
@@ -77,11 +78,14 @@ fun ComparePasswordScreen(
         ) {
             AppLogo()
             Spacer(modifier = Modifier.height(32.dp))
-            Body2(text = stringResource(id = R.string.OriginPw))
+            Body2(
+                text = stringResource(id = R.string.OriginPw),
+                color = DormColor.Gray600,
+            )
             Column(
                 modifier = Modifier
                     .fillMaxHeight(0.84f)
-                    .padding(top = 78.dp)
+                    .padding(top = 80.dp)
             ) {
                 DormTextField(
                     value = password,
@@ -97,6 +101,10 @@ fun ComparePasswordScreen(
                 color = DormButtonColor.Blue,
                 enabled = (password.isNotEmpty() && !isError),
             ) {
+                navController.currentBackStackEntry?.arguments?.putString(
+                    "currentPassword",
+                    password,
+                )
                 changePasswordViewModel.comparePassword()
             }
         }
