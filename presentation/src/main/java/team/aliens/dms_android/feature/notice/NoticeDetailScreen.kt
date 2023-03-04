@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.notice
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -22,7 +23,6 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
-import team.aliens.domain.util.toDate
 import team.aliens.presentation.R
 
 @SuppressLint("RememberReturnType")
@@ -33,9 +33,10 @@ fun NoticeDetailScreen(
     noticeViewModel: NoticeViewModel = hiltViewModel(),
 ) {
 
-    LaunchedEffect(key1 = noticeViewModel) {
+    LaunchedEffect(Unit) {
         noticeViewModel.fetchNoticeDetail(noticeId)
     }
+
     val toast = rememberToast()
 
     val badRequestComment = stringResource(id = R.string.BadRequest)
@@ -45,38 +46,9 @@ fun NoticeDetailScreen(
     val serverException = stringResource(id = R.string.ServerException)
     val noInternetException = stringResource(id = R.string.NoInternetException)
 
-    val state = noticeViewModel.state.collectAsState().value.noticeDetail
 
-    LaunchedEffect(Unit) {
-        noticeViewModel.noticeDetailViewEffect.collect {
-            when (it) {
-                is NoticeViewModel.Event.FetchNoticeDetail -> {
-                    state.createAt = state.createAt.toDate()
-                }
-                is NoticeViewModel.Event.BadRequestException -> {
-                    toast(badRequestComment)
-                }
-                is NoticeViewModel.Event.UnAuthorizedTokenException -> {
-                    toast(unAuthorizedComment)
-                }
-                is NoticeViewModel.Event.CannotConnectException -> {
-                    toast(forbidden)
-                }
-                is NoticeViewModel.Event.TooManyRequestException -> {
-                    toast(tooManyRequestComment)
-                }
-                is NoticeViewModel.Event.InternalServerException -> {
-                    toast(serverException)
-                }
-                is NoticeViewModel.Event.UnknownException -> {
-                    toast(noInternetException)
-                }
-                else -> {
+    val noticeDetailState = noticeViewModel.noticeDetailViewEffect.collectAsState()
 
-                }
-            }
-        }
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -110,12 +82,12 @@ fun NoticeDetailScreen(
 
                 // title
                 Title3(
-                    text = state.title,
+                    text = noticeDetailState.value.title,
                 )
 
                 // date
                 Caption(
-                    text = state.createAt,
+                    text = noticeDetailState.value.createAt,
                     color = DormColor.Gray500,
                 )
 
@@ -134,7 +106,7 @@ fun NoticeDetailScreen(
                     .padding(
                         top = 8.dp,
                     ),
-                text = state.content,
+                text = noticeDetailState.value.content,
             )
         }
     }
