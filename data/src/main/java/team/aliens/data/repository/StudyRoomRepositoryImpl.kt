@@ -24,7 +24,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun fetchStudyRoomList(): StudyRoomListEntity =
         remoteStudyRoomDataSource.fetchStudyRoomList().toEntity()
 
-    override suspend fun fetchStudyRoomType(): StudyRoomTypeEntity =
+    override suspend fun fetchStudyRoomType(): SeatTypeEntity =
         remoteStudyRoomDataSource.fetchStudyRoomType().toEntity()
 
     override suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity =
@@ -73,9 +73,9 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     private fun StudyRoomTypeResponse.toEntity() =
-        StudyRoomTypeEntity(types = types.map { it.toEntity() })
+        SeatTypeEntity(types = types.map { it.toEntity() })
 
-    private fun StudyRoomTypeResponse.Type.toEntity() = StudyRoomTypeEntity.Type(
+    private fun StudyRoomTypeResponse.Type.toEntity() = SeatTypeEntity.Type(
         color = color,
         id = id,
         name = name,
