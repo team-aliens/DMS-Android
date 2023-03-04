@@ -1,8 +1,10 @@
 package team.aliens.dms_android.feature.splash
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.base.MviEvent
 import team.aliens.dms_android.base.MviState
@@ -10,15 +12,33 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.usecase.user.AutoSignInUseCase
+import team.aliens.domain.usecase.user.FetchAutoSignInOptionUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
+class RootViewModel @Inject constructor(
     private val autoSignInUseCase: AutoSignInUseCase,
+    private val fetchAutoSignInOptionUseCase: FetchAutoSignInOptionUseCase,
 ) : BaseViewModel<SplashState, SplashEvent>() {
+
+    init {
+        fetchAutoSignInOption()
+    }
 
     private val _eventFlow = MutableEventFlow<Event>()
     val eventFlow = _eventFlow.asEventFlow()
+
+    private fun fetchAutoSignInOption() {
+        runBlocking {
+            kotlin.runCatching {
+                fetchAutoSignInOptionUseCase.execute(Unit)
+            }.onSuccess {
+                Log.e("AUTOSIGNIN", "fetchAutoSignInOption: $it")
+            }.onFailure {
+                Log.e("AUTOSIGNIN", "fetchAutoSignInOption: $it")
+            }
+        }
+    }
 
     fun autoLogin() = viewModelScope.launch {
         kotlin.runCatching {
