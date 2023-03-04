@@ -114,7 +114,7 @@ fun SignUpEmailVerifyScreen(
                 }
 
                 is RegisterEmailEvent.SendEmailSuccess -> {
-                    toast(context.getString(R.string.SendSuccess))
+                    toast(context.getString(R.string.ResendEmail))
                 }
 
                 is RegisterEmailEvent.CheckEmailUnauthorized -> {
@@ -230,7 +230,7 @@ fun SignUpEmailVerifyScreen(
                         rippleEnabled = false,
                     ) {
                         isRunningTimer = false
-                        registerEmailViewModel.requestEmailCode("jungseunghoon0911@gmail.com")
+                        registerEmailViewModel.requestEmailCode(email)
                     },
                 text = stringResource(id = R.string.ResendVerificationCode),
                 color = DormColor.Gray600,

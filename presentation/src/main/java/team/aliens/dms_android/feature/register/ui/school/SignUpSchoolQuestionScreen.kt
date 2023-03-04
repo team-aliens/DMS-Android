@@ -112,7 +112,7 @@ fun SignUpSchoolQuestionScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.Check),
             color = DormButtonColor.Blue,
-            enabled = schoolAnswer.isNotEmpty(),
+            enabled = (schoolAnswer.isNotEmpty() && !isError),
         ) {
             confirmSchoolViewModel.compareSchoolAnswer(
                 schoolId = schoolId,

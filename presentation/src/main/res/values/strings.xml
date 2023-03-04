@@ -34,7 +34,7 @@
     // 이메일 인증
     <string name="ResendVerificationCode"><u>인증코드 재발송</u></string>
     <string name="Verification">인증</string>
-    <string name="SendSuccess">성공정으로 이메일을 보냈습니다.</string>
+    <string name="SendSuccess">성공적으로 이메일을 보냈습니다.</string>
     <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
     <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
     <string name="ConflictEmail">이미 존재하는 이메일 입니다.</string>
@@ -43,6 +43,7 @@
     <string name="ChangeEmail">인증 횟수가 초과되었습니다. 다른 이메일로 다시 시도해주세요.</string>
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
     <string name="CancelEmailVerify">이메일 입력 화면으로 돌아가시겠습니까?</string>
+    <string name="ResendEmail">이메일이 재전송 되었습니다.</string>
 
     // 아이디 설정
     <string name="SetId">아이디 설정</string>
