@@ -1,6 +1,10 @@
 package team.aliens.dms_android.feature.cafeteria
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
@@ -35,6 +41,8 @@ fun ScrollEffectPager(
     mealViewModel: MealViewModel,
 ) {
 
+    val haptic = LocalHapticFeedback.current
+
     val pagerState = rememberPagerState()
 
     val state = mealViewModel.state.collectAsState().value
@@ -49,6 +57,23 @@ fun ScrollEffectPager(
         }
     }
 
+    val vib = LocalContext.current.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+    var firstEnter by remember {
+        mutableStateOf(true)
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (firstEnter) {
+            firstEnter = false
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                vib.vibrate(
+                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
+                )
+            }
+        }
+    }
     HorizontalPager(
         state = pagerState,
         modifier = Modifier
@@ -59,6 +84,7 @@ fun ScrollEffectPager(
         ),
         count = 3,
     ) { pageIndex ->
+
         Card(
             modifier = Modifier
                 .fillMaxSize()
