@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.register.ui.email
 
 import android.content.Context
+import android.util.Patterns
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -14,7 +15,6 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
-import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
@@ -39,23 +39,28 @@ fun SignUpEmailScreen(
     var isError by remember { mutableStateOf(false) }
     var errorDescription by remember { mutableStateOf("") }
 
-    var isPressedBackButton by remember { mutableStateOf(false)}
+    var isPressedBackButton by remember { mutableStateOf(false) }
+
+    val pattern = Patterns.EMAIL_ADDRESS
 
     val onEmailChange = { value: String ->
+        if (value.length != email.length) isError = false
         email = value
     }
 
-    if(isPressedBackButton){
+    if (isPressedBackButton) {
         DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
             DormDoubleButtonDialog(
                 content = stringResource(id = R.string.FinishSignUp),
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = { navController.navigate(NavigationRoute.Login){
-                    popUpTo(NavigationRoute.Login){
-                        inclusive = true
+                onMainBtnClick = {
+                    navController.navigate(NavigationRoute.Login) {
+                        popUpTo(NavigationRoute.Login) {
+                            inclusive = true
+                        }
                     }
-                } },
+                },
                 onSubBtnClick = { isPressedBackButton = false },
             )
         }
@@ -151,9 +156,14 @@ fun SignUpEmailScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.SendVerificationCode),
             color = DormButtonColor.Blue,
-            enabled = email.isNotEmpty(),
+            enabled = (email.isNotEmpty() && !isError),
         ) {
-            registerEmailViewModel.checkEmailDuplicate(email)
+            if (pattern.matcher(email).find()) {
+                registerEmailViewModel.checkEmailDuplicate(email)
+            } else {
+                isError = true
+                errorDescription = context.getString(R.string.NotValidEmailFormat)
+            }
         }
     }
 }

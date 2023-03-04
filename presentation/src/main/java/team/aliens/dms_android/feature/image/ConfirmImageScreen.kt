@@ -158,7 +158,7 @@ internal fun ConfirmImageScreen(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(
                         id = if (isSignUp) R.drawable.addplusimage
-                        else R . drawable . ic_mypage_edit,
+                        else R.drawable.ic_mypage_edit,
                 ),
                 contentDescription = null,
                 )
@@ -176,10 +176,49 @@ internal fun ConfirmImageScreen(
                 color = DormButtonColor.Blue,
             ) {
                 if (isSignUp) {
-                    navController.currentBackStackEntry?.arguments?.putString(
-                        "profileImageUrl", confirmImageState.selectedImage.toString()
-                    )
-                    navController.navigate(NavigationRoute.SignUpPolicy)
+                    navController.run {
+                        currentBackStackEntry?.arguments?.putString(
+                            "schoolCode",
+                            previousBackStackEntry?.arguments?.getString("schoolCode"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "schoolAnswer",
+                            previousBackStackEntry?.arguments?.getString("schoolAnswer"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "email",
+                            previousBackStackEntry?.arguments?.getString("email")
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "authCode",
+                            previousBackStackEntry?.arguments?.getString("authCode"),
+                        )
+                        currentBackStackEntry?.arguments?.putInt(
+                            "classRoom",
+                            previousBackStackEntry?.arguments?.getInt("classRoom")!!,
+                        )
+                        currentBackStackEntry?.arguments?.putInt(
+                            "grade",
+                            previousBackStackEntry?.arguments?.getInt("grade")!!,
+                        )
+                        currentBackStackEntry?.arguments?.putInt(
+                            "number",
+                            previousBackStackEntry?.arguments?.getInt("number")!!,
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "accountId",
+                            previousBackStackEntry?.arguments?.getString("accountId"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "password",
+                            previousBackStackEntry?.arguments?.getString("password"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "profileImageUrl",
+                            confirmImageState.selectedImage.toString(),
+                        )
+                        navigate(NavigationRoute.SignUpPolicy)
+                    }
                 } else {
                     confirmImageViewModel.editProfileImage()
                 }

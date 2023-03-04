@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.last
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,8 +13,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import team.aliens.design_system.button.DormButtonColor
@@ -25,13 +24,11 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
-import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
 @Composable
 fun SignUpProfileScreen(
     navController: NavController,
-    confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),
 ) {
 
     var profileImageUrl by remember { mutableStateOf("https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png") }
@@ -49,11 +46,53 @@ fun SignUpProfileScreen(
 
             },
             onSelectPhoto = {
-                navController.currentBackStackEntry?.arguments?.putBoolean("isSignUp", true)
-                navController.navigate(
-                    NavigationRoute.ConfirmImage +
-                            "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
-                )
+                navController.run {
+                    currentBackStackEntry?.arguments?.putString(
+                        "schoolCode",
+                        previousBackStackEntry?.arguments?.getString("schoolCode"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "schoolAnswer",
+                        previousBackStackEntry?.arguments?.getString("schoolAnswer"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "email",
+                        previousBackStackEntry?.arguments?.getString("email")
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "authCode",
+                        previousBackStackEntry?.arguments?.getString("authCode"),
+                    )
+                    currentBackStackEntry?.arguments?.putInt(
+                        "classRoom",
+                        previousBackStackEntry?.arguments?.getInt("classRoom")!!,
+                    )
+                    currentBackStackEntry?.arguments?.putInt(
+                        "grade",
+                        previousBackStackEntry?.arguments?.getInt("grade")!!,
+                    )
+                    currentBackStackEntry?.arguments?.putInt(
+                        "number",
+                        previousBackStackEntry?.arguments?.getInt("number")!!,
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "accountId",
+                        previousBackStackEntry?.arguments?.getString("accountId"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "password",
+                        previousBackStackEntry?.arguments?.getString("password"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "profileImageUrl",
+                        profileImageUrl,
+                    )
+                    currentBackStackEntry?.arguments?.putBoolean("isSignUp", true)
+                    navigate(
+                        NavigationRoute.ConfirmImage +
+                                "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                    )
+                }
             },
         )
     }
@@ -128,17 +167,17 @@ fun SignUpProfileScreen(
                                 "authCode",
                                 previousBackStackEntry?.arguments?.getString("authCode"),
                             )
-                            currentBackStackEntry?.arguments?.putString(
+                            currentBackStackEntry?.arguments?.putInt(
                                 "classRoom",
-                                previousBackStackEntry?.arguments?.getString("classRoom"),
+                                previousBackStackEntry?.arguments?.getInt("classRoom")!!,
                             )
-                            currentBackStackEntry?.arguments?.putString(
+                            currentBackStackEntry?.arguments?.putInt(
                                 "grade",
-                                previousBackStackEntry?.arguments?.getString("grade"),
+                                previousBackStackEntry?.arguments?.getInt("grade")!!,
                             )
-                            currentBackStackEntry?.arguments?.putString(
+                            currentBackStackEntry?.arguments?.putInt(
                                 "number",
-                                previousBackStackEntry?.arguments?.getString("number"),
+                                previousBackStackEntry?.arguments?.getInt("number")!!,
                             )
                             currentBackStackEntry?.arguments?.putString(
                                 "accountId",
@@ -152,7 +191,6 @@ fun SignUpProfileScreen(
                                 "profileImageUrl",
                                 profileImageUrl,
                             )
-
                             navigate(NavigationRoute.SignUpPolicy)
                         }
                     },
@@ -165,7 +203,49 @@ fun SignUpProfileScreen(
                 enabled = isSelectedImage,
             ) {
                 navController.run {
-                    currentBackStackEntry?.arguments?.putString("profileImageUrl", profileImageUrl)
+                    currentBackStackEntry?.arguments?.putString(
+                        "schoolCode",
+                        previousBackStackEntry?.arguments?.getString("schoolCode"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "schoolAnswer",
+                        previousBackStackEntry?.arguments?.getString("schoolAnswer"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "email",
+                        previousBackStackEntry?.arguments?.getString("email")
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "authCode",
+                        previousBackStackEntry?.arguments?.getString("authCode"),
+                    )
+                    currentBackStackEntry?.arguments?.putInt(
+                        "classRoom",
+                        previousBackStackEntry?.arguments?.getInt("classRoom")!!,
+                    )
+                    currentBackStackEntry?.arguments?.putInt(
+                        "grade",
+                        previousBackStackEntry?.arguments?.getInt("grade")!!,
+                    )
+                    currentBackStackEntry?.arguments?.putInt(
+                        "number",
+                        previousBackStackEntry?.arguments?.getInt("number")!!,
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "accountId",
+                        previousBackStackEntry?.arguments?.getString("accountId"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "password",
+                        previousBackStackEntry?.arguments?.getString("password"),
+                    )
+                    currentBackStackEntry?.arguments?.putString(
+                        "profileImageUrl",
+                        profileImageUrl,
+                    )
+                    Log.d("TEST",
+                        navController.currentBackStackEntry?.arguments?.toString().toString()
+                    )
                     navigate(NavigationRoute.SignUpPolicy)
                 }
             }
