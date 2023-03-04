@@ -14,4 +14,6 @@ sealed class ChangePasswordEvent : MviEvent {
     data class SetCurrentPassword(val currentPassword: String): ChangePasswordEvent()
     data class SetRepeatPassword(val repeatPassword: String): ChangePasswordEvent()
     data class SetNewPassword(val newPassword: String): ChangePasswordEvent()
+
+    data class SetId(val id: String): ChangePasswordEvent()
 }

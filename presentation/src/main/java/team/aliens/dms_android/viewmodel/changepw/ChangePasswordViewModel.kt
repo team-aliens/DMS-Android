@@ -13,6 +13,7 @@ import team.aliens.domain.param.EditPasswordParam
 import team.aliens.domain.usecase.students.RemoteResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
+import team.aliens.domain.usecase.user.RemoteCheckIdUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +21,7 @@ class ChangePasswordViewModel @Inject constructor(
     private val changePasswordUseCase: RemoteResetPasswordUseCase,
     private val editPasswordUseCase: EditPasswordUseCase,
     private val comparePasswordUseCase: ComparePasswordUseCase,
+    private val checkIdUseCase: RemoteCheckIdUseCase,
 ) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
@@ -70,6 +72,20 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
+    internal fun checkId(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                checkIdUseCase.execute(
+                    data = state.value.id,
+                )
+            }.onSuccess {
+                event(Event.CheckIdSuccess)
+            }.onFailure {
+                event(getEventFromThrowable(it))
+            }
+        }
+    }
+
     internal fun setCurrentPassword(
         currentPassword: String,
     ) {
@@ -88,6 +104,12 @@ class ChangePasswordViewModel @Inject constructor(
         sendEvent(event = ChangePasswordEvent.SetNewPassword(newPassword))
     }
 
+    internal fun setId(
+        id: String,
+    ){
+        sendEvent(event = ChangePasswordEvent.SetId(id))
+    }
+
     override fun reduceEvent(oldState: ChangePasswordState, event: ChangePasswordEvent) {
         when (event) {
             is ChangePasswordEvent.SetCurrentPassword -> {
@@ -98,6 +120,9 @@ class ChangePasswordViewModel @Inject constructor(
             }
             is ChangePasswordEvent.SetNewPassword -> {
                 setState(state = oldState.copy(newPassword = event.newPassword))
+            }
+            is ChangePasswordEvent.SetId -> {
+                setState(state = oldState.copy(id = event.id))
             }
         }
     }
@@ -111,8 +136,10 @@ class ChangePasswordViewModel @Inject constructor(
     sealed class Event() {
         object EditPasswordSuccess : Event()
         object ComparePasswordSuccess: Event()
+        object CheckIdSuccess: Event()
 
         object BadRequestException : Event()
+        object NotFoundException: Event()
         object UnauthorizedException : Event()
         object ForbiddenException : Event()
         object TooManyRequestException : Event()
@@ -128,6 +155,7 @@ private fun getEventFromThrowable(
 ): ChangePasswordViewModel.Event {
     return when (throwable) {
         is BadRequestException -> ChangePasswordViewModel.Event.BadRequestException
+        is NotFoundException -> ChangePasswordViewModel.Event.NotFoundException
         is UnauthorizedException -> ChangePasswordViewModel.Event.UnauthorizedException
         is ForbiddenException -> ChangePasswordViewModel.Event.ForbiddenException
         is TooManyRequestException -> ChangePasswordViewModel.Event.TooManyRequestException

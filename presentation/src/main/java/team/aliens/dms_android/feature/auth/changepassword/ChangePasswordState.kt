@@ -10,6 +10,7 @@ data class ChangePasswordState(
     val currentPassword: String,
     val repeatPassword: String,
     val newPassword: String,
+    val id: String,
 ) : MviState {
 
     companion object {
@@ -22,6 +23,7 @@ data class ChangePasswordState(
                 currentPassword = "",
                 repeatPassword = "",
                 newPassword = "",
+                id = "",
             )
     }
 }
