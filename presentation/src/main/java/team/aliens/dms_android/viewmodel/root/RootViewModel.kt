@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.splash
+package team.aliens.dms_android.viewmodel.root
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
