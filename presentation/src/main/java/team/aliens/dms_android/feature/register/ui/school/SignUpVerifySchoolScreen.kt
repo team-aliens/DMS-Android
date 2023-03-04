@@ -54,15 +54,12 @@ fun SignUpVerifySchoolScreen(
     }
 
     val onVerificationCodeChange = { value: String ->
-        if (value.length <= 8) {
-            verificationCode = value
-            if (value.length == 8) {
-                focusManager.clearFocus()
-            } else {
-            }
-        } else {
-            verificationCode = value.take(8)
+        if(value.length == 8){
+            focusManager.clearFocus()
+        }else{
+            isError = false
         }
+        verificationCode = value.take(8)
     }
 
     val toast = rememberToast()
@@ -148,7 +145,7 @@ fun SignUpVerifySchoolScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = verificationCode.length == 8,
+                enabled = (verificationCode.length == 8 && !isError),
             ) {
                 examineSchoolCodeViewModel.examineSchoolCode(verificationCode)
             }
