@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.feature.auth.login.SignInEvent
 import team.aliens.dms_android.feature.auth.login.SignInState
@@ -46,6 +47,12 @@ class SignInViewModel @Inject constructor(
     private fun checkSignInAvailable() {
         viewModelScope.launch(Dispatchers.Main) {
             _signInButtonState.emit(idEntered && passwordEntered)
+        }
+    }
+
+    internal fun disableSignInButton() {
+        runBlocking {
+            _signInButtonState.emit(false)
         }
     }
 

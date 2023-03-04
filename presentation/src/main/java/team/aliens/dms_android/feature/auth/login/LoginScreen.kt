@@ -49,6 +49,13 @@ fun LoginScreen(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
+
+    var signInButtonState by remember {
+        mutableStateOf(false)
+    }
+
+    signInButtonState = signInViewModel.signInButtonState.collectAsState().value
+
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
@@ -58,6 +65,7 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
+
                 }
                 else -> {
                     toast(
@@ -70,14 +78,6 @@ fun LoginScreen(
             }
         }
     }
-
-
-    var signInButtonState by remember {
-        mutableStateOf(false)
-    }
-
-    signInButtonState = signInViewModel.signInButtonState.collectAsState(false).value
-
 
     var autoLoginState by remember {
         mutableStateOf(false)
@@ -93,18 +93,26 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
-    val onIdChange = { value: String ->
-        idState = value
-        signInViewModel.setId(value)
+    val onIdChange by remember {
+        mutableStateOf(
+            { value: String ->
+                idState = value
+                signInViewModel.setId(value)
+            },
+        )
     }
 
     var passwordState by remember {
         mutableStateOf("")
     }
 
-    val onPasswordChange = { value: String ->
-        passwordState = value
-        signInViewModel.setPassword(value)
+    val onPasswordChange by remember {
+        mutableStateOf(
+            { value: String ->
+                passwordState = value
+                signInViewModel.setPassword(value)
+            },
+        )
     }
 
 
@@ -268,6 +276,8 @@ fun LoginScreen(
 
                     return@DormContainedLargeButton
                 }
+
+                signInViewModel.disableSignInButton()
 
                 signInViewModel.postSignIn()
             },
