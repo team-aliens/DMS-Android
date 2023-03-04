@@ -5,10 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,21 +16,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.DormTypography
-import team.aliens.design_system.typography.NotoSansFamily
 import team.aliens.design_system.utils.runIf
 
 /**
@@ -51,6 +47,11 @@ fun DormTextField(
     onClick: (() -> Unit)? = null,
     hint: String? = null,
     errorDescription: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = keyboardType,
+        imeAction = imeAction,
+    ),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
@@ -93,20 +94,17 @@ fun DormTextField(
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                BasicTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(textfieldWidth)
-                        .padding(horizontal = 14.dp)
-                        .background(color = Color.Transparent)
-                        .onFocusChanged {
-                            isFocused = it.isFocused
-                        },
+                BasicTextField(modifier = Modifier
+                    .fillMaxWidth(textfieldWidth)
+                    .padding(horizontal = 14.dp)
+                    .background(color = Color.Transparent)
+                    .onFocusChanged {
+                        isFocused = it.isFocused
+                    },
                     value = value,
                     onValueChange = onValueChange,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = keyboardType,
-                        imeAction = imeAction,
-                    ),
+                    keyboardOptions = keyboardOptions,
+                    keyboardActions = keyboardActions,
                     singleLine = true,
                     visualTransformation = if (!passwordVisible && isPassword) PasswordVisualTransformation() else VisualTransformation.None,
                     maxLines = 1,
@@ -120,8 +118,7 @@ fun DormTextField(
                             )
                         }
                         innerTextField()
-                    }
-                )
+                    })
                 if (isPassword) {
                     Image(
                         modifier = Modifier.dormClickable(
@@ -148,10 +145,7 @@ fun DormTextField(
                     top = 6.dp,
                 ),
             ) {
-                Caption(
-                    text = errorDescription ?: "",
-                    color = DormColor.Error
-                )
+                Caption(text = errorDescription ?: "", color = DormColor.Error)
             }
         }
     }
