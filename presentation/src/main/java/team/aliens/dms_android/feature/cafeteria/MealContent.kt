@@ -20,7 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
@@ -40,8 +39,6 @@ import kotlin.math.absoluteValue
 fun ScrollEffectPager(
     mealViewModel: MealViewModel,
 ) {
-
-    val haptic = LocalHapticFeedback.current
 
     val pagerState = rememberPagerState()
 
@@ -69,7 +66,7 @@ fun ScrollEffectPager(
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 vib.vibrate(
-                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
+                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
                 )
             }
         }
