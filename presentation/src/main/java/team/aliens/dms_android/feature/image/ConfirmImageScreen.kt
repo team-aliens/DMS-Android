@@ -46,9 +46,8 @@ internal fun ConfirmImageScreen(
 
     var isSignUp by remember { mutableStateOf(false) }
 
-    isSignUp = navController.previousBackStackEntry?.arguments?.getBoolean("isSignUp") ?: false
-
     LaunchedEffect(Unit) {
+        isSignUp = navController.previousBackStackEntry?.arguments?.getBoolean("isSignUp") ?: false
         confirmImageViewModel.confirmImageEvent.collect {
             when (it) {
                 ConfirmImageViewModel.Event.ProfileEdited -> {
