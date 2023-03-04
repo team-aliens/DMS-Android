@@ -3,6 +3,7 @@ package team.aliens.data.intercepter
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.threeten.bp.LocalDateTime
 import team.aliens.data.remote.url.DmsHttpProperties
 import team.aliens.data.remote.url.DmsUrl
 import team.aliens.data.util.LocalDateTimeEx
@@ -36,8 +37,18 @@ class AuthorizationInterceptor @Inject constructor(
 
         if (ignorePath.any { path.contains(it) }) return chain.proceed(request)
 
-        val expiredAt = runBlocking {
-            userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()
+        val expiredAt: LocalDateTime = try {
+            runBlocking {
+                userDataStorage.fetchAccessTokenExpiredAt().toLocalDateTime()
+            }
+        } catch (e: Exception) { // todo refactor
+            LocalDateTime.of(
+                1970,
+                1,
+                1,
+                0,
+                0,
+            )
         }
 
         val currentTime = LocalDateTimeEx.getNow()
