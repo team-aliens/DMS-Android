@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.application
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,13 +18,13 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
+import team.aliens.dms_android.viewmodel.ApplicationViewModel
 import team.aliens.presentation.R
 
 @Composable
 fun ApplicationScreen(
     navController: NavController,
-    remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
+    applicationViewModel: ApplicationViewModel = hiltViewModel(),
 ) {
 
     var lastAppliedStudyRoom by remember { mutableStateOf("") }
@@ -45,15 +44,9 @@ fun ApplicationScreen(
     }*/
 
     LaunchedEffect(Unit) {
-        with(remainApplicationViewModel) {
-            fetchCurrentRemainOption()
-            remainApplicationEffect.collect {
-                when (it) {
-                    is RemainApplicationViewModel.Event.CurrentRemainOption -> {
-                        lastAppliedRemain = it.title
-                    }
-                }
-            }
+        applicationViewModel.uiState.collect {
+            lastAppliedStudyRoom = it.currentStudyRoomOption
+            lastAppliedRemain = it.currentRemainOption
         }
     }
 
