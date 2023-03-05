@@ -21,6 +21,8 @@
     <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
     <string name="AgreeAllPolicy">전체 약관 동의</string>
     <string name="FinishSignUp">회원가입을 종료하시겠습니까?</string>
+    <string name="CheckName">학번과 이름이 맞는지 확인해주세요.</string>
+    <string name="IdError">아이디는 20자 이내로 입력해주세요</string>
 
     // 약관
     <string name="CheckRegisterPolicy">회원가입 약관 동의</string>

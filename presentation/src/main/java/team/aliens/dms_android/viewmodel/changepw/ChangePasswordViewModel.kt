@@ -73,11 +73,13 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
-    internal fun checkId(){
+    internal fun checkId(
+        accountId: String,
+    ){
         viewModelScope.launch {
             kotlin.runCatching {
                 checkIdUseCase.execute(
-                    data = state.value.accountId,
+                    data = accountId,
                 )
             }.onSuccess {
                 event(Event.CheckIdSuccess(it.email))
@@ -87,7 +89,13 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
-    internal fun resetPassword(){
+    internal fun resetPassword(
+        accountId: String,
+        authCode: String,
+        email: String,
+        name: String,
+        newPassword: String,
+    ){
         viewModelScope.launch {
             kotlin.runCatching {
                 state.value.run {
@@ -107,30 +115,6 @@ class ChangePasswordViewModel @Inject constructor(
                 event(getEventFromThrowable(it))
             }
         }
-    }
-
-    internal fun setId(
-        id: String,
-    ){
-        sendEvent(event = ChangePasswordEvent.SetId(id))
-    }
-
-    internal fun setName(
-        name: String,
-    ){
-        sendEvent(event = ChangePasswordEvent.SetName(name))
-    }
-
-    internal fun setEmail(
-        email: String,
-    ){
-        sendEvent(event = ChangePasswordEvent.SetEmail(email))
-    }
-
-    internal fun setAuthCode(
-        authCode: String,
-    ){
-        sendEvent(event = ChangePasswordEvent.SetAuthCode(authCode))
     }
 
     internal fun setCurrentPassword(
@@ -153,18 +137,6 @@ class ChangePasswordViewModel @Inject constructor(
 
     override fun reduceEvent(oldState: ChangePasswordState, event: ChangePasswordEvent) {
         when (event) {
-            is ChangePasswordEvent.SetId -> {
-                setState(state = oldState.copy(accountId = event.id))
-            }
-            is ChangePasswordEvent.SetName -> {
-                setState(state = oldState.copy(name = event.name))
-            }
-            is ChangePasswordEvent.SetEmail -> {
-                setState(state = oldState.copy(email = event.email))
-            }
-            is ChangePasswordEvent.SetAuthCode -> {
-                setState(state = oldState.copy(authCode = event.authCode))
-            }
             is ChangePasswordEvent.SetCurrentPassword -> {
                 setState(state = oldState.copy(currentPassword = event.currentPassword))
             }
@@ -183,7 +155,7 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
-    sealed class Event() {
+    sealed class Event {
         object EditPasswordSuccess : Event()
         object ComparePasswordSuccess: Event()
         data class CheckIdSuccess(val email: String): Event()
@@ -196,7 +168,6 @@ class ChangePasswordViewModel @Inject constructor(
         object TooManyRequestException : Event()
         object ServerException : Event()
         object UnknownException : Event()
-
     }
 }
 

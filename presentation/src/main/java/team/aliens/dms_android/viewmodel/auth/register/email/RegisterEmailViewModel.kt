@@ -53,13 +53,17 @@ class RegisterEmailViewModel @Inject constructor(
         }
     }
 
-    fun checkEmailCode(email: String, authCode: String) {
+    fun checkEmailCode(
+        email: String,
+        authCode: String,
+        type: EmailType = EmailType.SIGNUP
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteCheckEmailUseCase.execute(
                     CheckEmailCodeParam(
                         email = email,
-                        type = EmailType.SIGNUP,
+                        type = type,
                         authCode = authCode,
                     )
                 )

@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
+import team.aliens.domain.enums.EmailType
 import team.aliens.presentation.R
 
 @Composable
@@ -41,6 +44,8 @@ fun ChangePasswordVerifyEmailScreen(
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     val context = LocalContext.current
 
@@ -60,18 +65,30 @@ fun ChangePasswordVerifyEmailScreen(
 
     val onVerificationCodeChange = { code: String ->
         if(code.length != verificationCode.length) isError = false
-        verificationCode = code
-        changePasswordViewModel.setAuthCode(code)
+        if (code.length <= 6) {
+            verificationCode = code
+            if (code.length == 6) {
+                focusManager.clearFocus()
+            }
+        } else {
+            verificationCode = code.take(8)
+        }
     }
 
     var email by remember { mutableStateOf("")}
 
     LaunchedEffect(Unit){
         focusRequester.requestFocus()
-        email = state.email
+        email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("accountId", navController.previousBackStackEntry?.arguments?.getString("accountId"))
+                        putString("name", navController.previousBackStackEntry?.arguments?.getString("name"))
+                        putString("email", email)
+                        putString("authCode", verificationCode)
+                    }
                     navController.navigate(NavigationRoute.ChangePassword)
                 }
 
@@ -179,7 +196,10 @@ fun ChangePasswordVerifyEmailScreen(
                         rippleEnabled = false,
                     ) {
                         isRunningTimer = false
-                        registerEmailViewModel.requestEmailCode(email)
+                        registerEmailViewModel.requestEmailCode(
+                            email = email,
+                            type = EmailType.PASSWORD,
+                        )
                     },
                 text = stringResource(id = R.string.ResendVerificationCode),
                 color = DormColor.Gray600,
@@ -193,6 +213,7 @@ fun ChangePasswordVerifyEmailScreen(
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = verificationCode,
+                    type = EmailType.PASSWORD,
                 )
             }
         }
