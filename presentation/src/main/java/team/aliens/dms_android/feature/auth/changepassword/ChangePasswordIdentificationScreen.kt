@@ -53,19 +53,16 @@ fun IdentificationScreen(
     val onIdChange = { userId: String ->
         if (userId.length != id.length) isIdError = false
         id = userId
-        changePasswordViewModel.setId(id)
     }
 
     val onNameChange = { userName: String ->
         if (userName.length != name.length) isNameError = false
         name = userName
-        changePasswordViewModel.setName(name)
     }
 
     val onEmailChange = { value: String ->
         if (value.length != userEmail.length) isEmailError = false
         userEmail = value
-        changePasswordViewModel.setEmail(value)
     }
 
     var emailResponse by remember { mutableStateOf("") }
@@ -95,10 +92,15 @@ fun IdentificationScreen(
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.SendEmailSuccess -> {
+                    navController.currentBackStackEntry?.arguments?.run {
+                        putString("accountId", id)
+                        putString("name", name)
+                        putString("email", userEmail)
+                    }
                     navController.navigate(NavigationRoute.ChangePasswordVerifyEmail)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.ChangeEmail))
+                    toast(context.getString(R.string.Retry))
                 }
                 else -> toast(
                     getStringFromEmailEvent(
@@ -212,7 +214,9 @@ fun IdentificationScreen(
                         isEmailError = true
                     }
                 } else {
-                    changePasswordViewModel.checkId()
+                    changePasswordViewModel.checkId(
+                        accountId = id,
+                    )
                     focusManager.clearFocus()
                 }
             }

@@ -50,7 +50,6 @@ fun ChangePasswordScreen(
     val onPasswordChange = { passwordValue: String ->
         if (passwordValue.length != password.length) isPasswordFormatError = false
         password = passwordValue
-        changePasswordViewModel.setNewPassword(password)
     }
 
     val onRepeatPasswordChange = { repeatPasswordValue: String ->
@@ -185,7 +184,15 @@ fun ChangePasswordScreen(
             } else if (!Pattern.compile(passwordFormat).matcher(password).find()) {
                 isPasswordFormatError = true
             } else {
-                changePasswordViewModel.resetPassword()
+                navController.previousBackStackEntry?.arguments?.run {
+                    changePasswordViewModel.resetPassword(
+                        accountId = getString("accountId").toString(),
+                        authCode = getString("authCode").toString(),
+                        email = getString("email").toString(),
+                        name = getString("name").toString(),
+                        newPassword = password,
+                    )
+                }
             }
         }
     }
