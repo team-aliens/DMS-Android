@@ -53,6 +53,9 @@ object DormColor {
     val Gray900 = Color(color = 0xFF000000)
 
     @Stable
+    val Gray1000 = Color(color = 0xFF000000)
+
+    @Stable
     val ViewHide = Color(color = 0xFFD6D6D6)
 
     @Stable
