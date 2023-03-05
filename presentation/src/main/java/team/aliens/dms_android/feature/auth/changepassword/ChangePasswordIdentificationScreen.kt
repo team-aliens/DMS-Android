@@ -199,7 +199,7 @@ fun IdentificationScreen(
                     }
                 }
             }
-            Spacer(modifier = Modifier.fillMaxHeight(if (emailResponse.isEmpty()) 0.05f else 0.6f))
+            Spacer(modifier = Modifier.fillMaxHeight(if (emailResponse.isEmpty()) 0.05f else 0.622f))
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Next),
                 color = DormButtonColor.Blue,
