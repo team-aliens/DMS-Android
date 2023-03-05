@@ -134,17 +134,22 @@ fun SignUpEmailVerifyScreen(
         }
     }
 
+    // FixMe too dirty
     LaunchedEffect(isRunningTimer) {
         run loop@{
+            var totalSecond = 0
+            var minutes = 0
+            var seconds = ""
             repeat(180) {
                 if (!isRunningTimer) {
                     isRunningTimer = true
                     return@loop
                 }
                 delay(1000L)
-                val totalSecond = 179 - it
-                val minutes = totalSecond / 60
-                val seconds = totalSecond % 60
+                totalSecond = 179 - it
+                minutes = totalSecond / 60
+                seconds = (totalSecond % 60).toString()
+                if(seconds.toInt() < 10) seconds = seconds.padStart(2, '0')
                 time = "$minutes : $seconds"
                 if (totalSecond == 0) {
                     toast(context.getString(R.string.AuthenticationTimeout))
@@ -159,10 +164,9 @@ fun SignUpEmailVerifyScreen(
             verificationCode = value
             if (value.length == 6) {
                 focusManager.clearFocus()
-            } else {
             }
         } else {
-            verificationCode = value.take(8)
+            verificationCode = value.take(6)
         }
     }
 
