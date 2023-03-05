@@ -3,9 +3,12 @@ package team.aliens.dms_android.feature.splash
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -16,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.design_system.color.DormColor
 import team.aliens.dms_android.feature.MainActivity
 import team.aliens.dms_android.viewmodel.root.RootViewModel
 import team.aliens.presentation.R
@@ -35,30 +39,40 @@ fun SplashScreen(
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             rootViewModel.eventFlow.collect {
-                moveToMainActivity(
-                    context,
-                    when (it) {
-                        RootViewModel.Event.AutoLoginSuccess -> {
-                            "main"
-                        }
-                        RootViewModel.Event.NeedLogin -> {
-                            "login"
-                        }
+                moveToMainActivity(context, when (it) {
+                    RootViewModel.Event.AutoLoginSuccess -> {
+                        "main"
                     }
-                )
+                    RootViewModel.Event.NeedLogin -> {
+                        "login"
+                    }
+                })
             }
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
     ) {
-        Image(
-            modifier = Modifier.size(180.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = null,
-        )
+
+        Box(
+            modifier = Modifier
+                .background(
+                    // fixme refactor
+                    if (isSystemInDarkTheme()) DormColor.Gray900 else DormColor.Gray200,
+                )
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(
+                modifier = Modifier.size(180.dp),
+                painter = painterResource(
+                    id = R.drawable.ic_logo_image,
+                ),
+                contentDescription = null,
+            )
+        }
     }
 }
 
