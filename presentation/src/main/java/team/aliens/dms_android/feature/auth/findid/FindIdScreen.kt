@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.auth.findid
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,7 +25,6 @@ import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.presentation.R
 import java.util.*
 
@@ -39,6 +38,7 @@ fun FindIdScreen(
     var classRoomState by remember { mutableStateOf("") }
     var numberState by remember { mutableStateOf("") }
     var findIdDialogState by remember { mutableStateOf(false) }
+    var errorState by remember { mutableStateOf(false) }
 
     val toast = rememberToast()
     val context = LocalContext.current
@@ -83,29 +83,7 @@ fun FindIdScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(92.dp))
-        Column(
-            modifier = Modifier
-                .wrapContentWidth()
-                .height(68.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Image(
-                modifier = Modifier
-                    .height(34.dp)
-                    .width(97.dp),
-                painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = null,
-            )
-            Body2(
-                text = stringResource(
-                    id = R.string.FindId,
-                ),
-                color = DormColor.Gray600
-            )
-        }
-
-
+        FindIdHeader()
         Spacer(modifier = Modifier.height(60.dp))
         Column(
             modifier = Modifier
@@ -118,6 +96,7 @@ fun FindIdScreen(
                 value = nameState,
                 onValueChange = { name -> nameState = name },
                 hint = stringResource(id = R.string.Name),
+                imeAction = ImeAction.Next
             )
             Spacer(modifier = Modifier.height(37.dp))
             Row(
@@ -131,21 +110,27 @@ fun FindIdScreen(
                     value = gradeState,
                     onValueChange = { grade -> gradeState = grade },
                     hint = stringResource(id = R.string.Grade),
-                    keyboardType = KeyboardType.NumberPassword
+                    keyboardType = KeyboardType.NumberPassword,
+                    imeAction = ImeAction.Next,
+                    error = errorState
                 )
                 DormTextField(
                     modifier = Modifier.width(100.dp),
                     value = classRoomState,
                     onValueChange = { classRoom -> classRoomState = classRoom },
                     hint = stringResource(id = R.string.ClassRoom),
-                    keyboardType = KeyboardType.Number
+                    error = errorState,
+                    keyboardType = KeyboardType.NumberPassword,
+                    imeAction = ImeAction.Next
                 )
                 DormTextField(
                     modifier = Modifier.width(100.dp),
                     value = numberState,
                     onValueChange = { number -> numberState = number },
                     hint = stringResource(id = R.string.Number),
-                    keyboardType = KeyboardType.Number
+                    keyboardType = KeyboardType.NumberPassword,
+                    imeAction = ImeAction.Done,
+                    error = errorState
                 )
             }
         }
@@ -173,50 +158,76 @@ fun FindIdScreen(
     }
 }
 
+@Composable
+fun FindIdHeader() {
+    Spacer(modifier = Modifier.height(92.dp))
+    Column(
+        modifier = Modifier
+            .wrapContentWidth()
+            .height(68.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Image(
+            modifier = Modifier
+                .height(34.dp)
+                .width(97.dp),
+            painter = painterResource(id = R.drawable.ic_logo),
+            contentDescription = null,
+        )
+        Body2(
+            text = stringResource(
+                id = R.string.FindId,
+            ),
+            color = DormColor.Gray600
+        )
+    }
+}
 
 @Composable
 fun SchoolDropdownMenu() {
-    val schoolList = listOf("대덕소프트웨어마이스터고등학교", "대전동신과학고등학교")
     var isDropdownMenuExpanded by remember { mutableStateOf(false) }
+    val schoolList = listOf("대덕소프트웨어마이스터고등학교")
     var schoolName: String by remember { mutableStateOf(schoolList[0]) }
 
-
-    Row(
-        modifier = Modifier
-            .border(
-                width = 1.dp,
-                shape = MaterialTheme.shapes.small,
-                color = DormColor.Gray500,
-            )
-            .height(46.dp)
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 12.dp)
-            .clickable {
-                isDropdownMenuExpanded = !isDropdownMenuExpanded
-            },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Body2(
-            text = schoolName,
-            color = DormColor.Gray500
-        )
-        Icon(painterResource(id = R.drawable.ic_down), contentDescription = null)
-    }
-
-    DropdownMenu(
-        expanded = isDropdownMenuExpanded,
-        onDismissRequest = { isDropdownMenuExpanded = false }) {
-        schoolList.forEach { item ->
-            DropdownMenuItem(
-                onClick = {
-                    isDropdownMenuExpanded = false
-                    schoolName = item
+    Box() {
+        Row(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    shape = MaterialTheme.shapes.small,
+                    color = DormColor.Gray500,
+                )
+                .clickable {
+                    isDropdownMenuExpanded = !isDropdownMenuExpanded
                 }
-            ) {
-                Text(item)
+                .height(46.dp)
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Body2(
+                text = schoolName,
+                color = DormColor.Gray500
+            )
+            Icon(painterResource(id = R.drawable.ic_down), contentDescription = null)
+        }
+
+        DropdownMenu(
+            expanded = isDropdownMenuExpanded,
+            onDismissRequest = { isDropdownMenuExpanded = false }) {
+            schoolList.forEach { item ->
+                DropdownMenuItem(
+                    onClick = {
+                        isDropdownMenuExpanded = false
+                        schoolName = item
+                    }
+                ) {
+                    Text(item)
+                }
             }
         }
     }
+
 
 }
