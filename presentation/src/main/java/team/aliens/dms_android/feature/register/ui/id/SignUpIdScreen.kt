@@ -32,6 +32,8 @@ import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.presentation.R
 import java.util.*
 
+const val idFormatPattern = "^[a-zA-Z]*$"
+
 @Composable
 fun SignUpIdScreen(
     navController: NavController,
@@ -44,6 +46,16 @@ fun SignUpIdScreen(
     var classRoom by remember { mutableStateOf("") }
     var number by remember { mutableStateOf("") }
     var userId by remember { mutableStateOf("") }
+
+    var userName by remember { mutableStateOf("") }
+    var isNameShowed by remember { mutableStateOf(false) }
+
+    var isGradeError by remember { mutableStateOf(false) }
+    var isIdError by remember { mutableStateOf(false) }
+
+    var isNameChecked by remember { mutableStateOf(false) }
+
+    val toast = rememberToast()
 
     var errorDescription by remember { mutableStateOf("") }
 
@@ -60,6 +72,7 @@ fun SignUpIdScreen(
     }
 
     val onUserIdChange = { value: String ->
+        if(value.length != userId.length) isIdError = false
         userId = value
     }
 
@@ -80,16 +93,6 @@ fun SignUpIdScreen(
             third = stringResource(id = R.string.Number)
         ),
     )
-
-    var userName by remember { mutableStateOf("") }
-    var isNameShowed by remember { mutableStateOf(false) }
-
-    var isGradeError by remember { mutableStateOf(false) }
-    var isIdError by remember { mutableStateOf(false) }
-
-    var isNameChecked by remember { mutableStateOf(false) }
-
-    val toast = rememberToast()
 
     LaunchedEffect(Unit) {
         setIdViewModel.schoolId =
@@ -246,11 +249,9 @@ fun SignUpIdScreen(
             else if(userId.length > 20) {
                 isIdError = true
                 errorDescription = context.getString(R.string.IdError)
+            }else {
+                setIdViewModel.duplicateId(userId)
             }
-            if(userId.length > 20){
-                isIdError = true
-            }
-            setIdViewModel.duplicateId(userId)
         }
     }
 }
