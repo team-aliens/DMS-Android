@@ -54,6 +54,8 @@ fun DmsApp(
         modifier = Modifier.background(
             DormTheme.colors.background,
         ),
+        backgroundColor = DormTheme.colors.background,
+        contentColor = DormTheme.colors.background,
     ) {
         NavHost(
             navController = navHostController,
