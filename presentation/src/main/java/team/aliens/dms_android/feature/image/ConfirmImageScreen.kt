@@ -21,8 +21,8 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
@@ -125,7 +125,9 @@ internal fun ConfirmImageScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DormColor.Gray200)
+                .background(
+                    DormTheme.colors.background,
+                )
                 .padding(
                     horizontal = 16.dp,
                 ),
