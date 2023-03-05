@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
@@ -63,17 +63,17 @@ private fun Notice(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(6.dp))
+            .dormShadow(
+                color = DormTheme.colors.onSurface,
+                offsetX = 1.dp,
+                offsetY = 1.dp,
+            )
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.surface,
             )
             .dormClickable {
                 onClick(notice.noticeId)
-            }
-            .dormShadow(
-                color = DormColor.Gray100,
-                offsetX = 1.dp,
-                offsetY = 1.dp,
-            ),
+            },
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
@@ -82,7 +82,6 @@ private fun Notice(
             Body4(
                 modifier = Modifier.padding(top = 12.dp),
                 text = notice.title,
-                color = DormColor.Gray900,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -90,7 +89,7 @@ private fun Notice(
             OverLine(
                 modifier = Modifier.padding(bottom = 12.dp),
                 text = notice.createAt,
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
         }
     }
