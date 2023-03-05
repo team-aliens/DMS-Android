@@ -20,8 +20,10 @@ import team.aliens.design_system.button.DormTextCheckBox
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
@@ -107,19 +109,13 @@ fun LoginScreen(
             modifier = Modifier.height(92.dp),
         )
 
-        Image(
-            modifier = Modifier
-                .height(34.dp)
-                .width(97.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = null,
-        )
+        AppLogo()
 
         Spacer(
             modifier = Modifier.height(8.dp),
         )
 
-        Body4(
+        Body2(
             text = stringResource(
                 id = R.string.AppDescription,
             ),
@@ -205,7 +201,7 @@ fun LoginScreen(
                     id = R.string.ChangePassword,
                 ),
                 onClick = {
-                    navController.navigate(NavigationRoute.ChangePassword)
+                    navController.navigate(NavigationRoute.Identification)
                 },
                 color = DormColor.Gray500,
             )

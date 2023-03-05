@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
+import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordVerifyEmailScreen
+import team.aliens.dms_android.feature.auth.changepassword.IdentificationScreen
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.auth.login.SignInViewEffect
@@ -184,6 +186,18 @@ fun RootDms(
 
         composable(NavigationRoute.SignUpPolicy){
             SignUpPolicyScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.Identification){
+            IdentificationScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.ChangePasswordVerifyEmail){
+            ChangePasswordVerifyEmailScreen(
                 navController = navController,
             )
         }
