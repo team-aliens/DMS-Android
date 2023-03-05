@@ -23,8 +23,10 @@ private val ignorePath = listOf(
     DmsUrl.Students.duplicateCheckEmail,
     DmsUrl.Schools.schoolCode,
     DmsUrl.uploadFile,
+    DmsUrl.Students.findId,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",
+
 )
 
 class AuthorizationInterceptor @Inject constructor(

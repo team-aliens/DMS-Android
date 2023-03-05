@@ -2,9 +2,12 @@ package team.aliens.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 import team.aliens.domain.entity.user.ExamineGradeEntity
+import team.aliens.domain.entity.user.FindIdEntity
 import team.aliens.domain.param.ExamineGradeParam
+import team.aliens.domain.param.FindIdParam
 import team.aliens.domain.param.RegisterParam
 import team.aliens.domain.param.ResetPasswordParam
+import java.util.UUID
 
 interface StudentsRepository {
 
@@ -33,4 +36,8 @@ interface StudentsRepository {
     )
 
     suspend fun withdraw()
+
+    suspend fun findId(
+        findIdPram : FindIdParam
+    ) : FindIdEntity
 }

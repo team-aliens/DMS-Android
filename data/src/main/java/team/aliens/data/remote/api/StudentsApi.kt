@@ -5,6 +5,7 @@ import retrofit2.http.*
 import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
+import team.aliens.data.remote.response.schools.FindIdResponse
 import team.aliens.data.remote.response.students.ExamineGradeResponse
 import team.aliens.data.remote.url.DmsUrl
 import java.util.*
@@ -45,4 +46,13 @@ interface StudentsApi {
 
     @DELETE(DmsUrl.Students.withdraw)
     suspend fun withdraw()
+
+    @GET(DmsUrl.Students.findId)
+    suspend fun findId(
+        @Path("school-id") schoolId : UUID,
+        @Query("name") name : String,
+        @Query("grade") grade : Int,
+        @Query("class_room") classRoom: Int,
+        @Query("number") number: Int
+    ) : FindIdResponse
 }
