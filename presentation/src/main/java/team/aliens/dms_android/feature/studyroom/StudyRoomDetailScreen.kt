@@ -90,9 +90,6 @@ fun StudyRoomDetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    color = DormTheme.colors.surface,
-                )
                 .padding(
                     horizontal = 16.dp,
                 ),
