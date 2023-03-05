@@ -37,6 +37,7 @@ object DmsUrl {
         const val schoolQuestion = "$schools/question/{school-id}"
         const val schoolAnswer = "$schools/answer/{school-id}"
         const val schoolCode = "$schools/code"
+        const val fetchSchools = schools
     }
 
     object Notice {

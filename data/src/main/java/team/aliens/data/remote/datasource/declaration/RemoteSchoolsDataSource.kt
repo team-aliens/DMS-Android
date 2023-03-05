@@ -2,12 +2,13 @@ package team.aliens.data.remote.datasource.declaration
 
 import team.aliens.data.remote.response.schools.SchoolConfirmQuestionResponse
 import team.aliens.data.remote.response.schools.SchoolIdResponse
-import java.util.UUID
+import team.aliens.domain.entity.schools.SchoolEntity
+import java.util.*
 
 interface RemoteSchoolsDataSource {
 
     suspend fun schoolQuestion(
-        schoolId: UUID
+        schoolId: UUID,
     ): SchoolConfirmQuestionResponse
 
     suspend fun compareSchoolAnswer(
@@ -16,6 +17,8 @@ interface RemoteSchoolsDataSource {
     )
 
     suspend fun examineSchoolCode(
-        schoolCode: String
+        schoolCode: String,
     ): SchoolIdResponse
+
+    suspend fun fetchSchools(): List<SchoolEntity>
 }
