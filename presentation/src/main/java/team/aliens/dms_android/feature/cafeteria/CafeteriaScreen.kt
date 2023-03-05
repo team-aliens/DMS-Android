@@ -33,7 +33,6 @@ import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
-import team.aliens.dms_android.feature.navigator.navigateBottomNavigation
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.presentation.R
@@ -46,6 +45,7 @@ fun CafeteriaScreen(
     navController: NavHostController,
     mealViewModel: MealViewModel = hiltViewModel(),
     noticeViewModel: NoticeViewModel = hiltViewModel(),
+    onMoveToNotice: () -> Unit,
 ) {
 
     val scope = rememberCoroutineScope()
@@ -95,12 +95,7 @@ fun CafeteriaScreen(
             if (state.hasNewNotice) {
                 Spacer(modifier = Modifier.height(18.dp))
                 ImportantNotice(
-                    onNoticeIconClick = {
-                        navigateBottomNavigation(
-                            route = BottomNavigationItem.Notice.route,
-                            navController = navController,
-                        )
-                    },
+                    onNoticeIconClick = onMoveToNotice,
                 )
             }
 
