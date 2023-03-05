@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.auth.login
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -29,6 +30,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
@@ -125,12 +127,8 @@ fun LoginScreen(
             modifier = Modifier.height(92.dp),
         )
 
-        Image(
-            modifier = Modifier
-                .height(34.dp)
-                .width(97.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = null,
+        AppLogo(
+            darkIcon = isSystemInDarkTheme()
         )
 
         Spacer(
