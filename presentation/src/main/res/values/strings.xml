@@ -44,6 +44,7 @@
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
     <string name="CancelEmailVerify">이메일 입력 화면으로 돌아가시겠습니까?</string>
     <string name="ResendEmail">이메일이 재전송 되었습니다.</string>
+    <string name="EmailTimeOut">이메일 인증 코드 유효시간이 초과되었습니다. 다시 시도해주세요.</string>
 
     // 아이디 설정
     <string name="SetId">아이디 설정</string>

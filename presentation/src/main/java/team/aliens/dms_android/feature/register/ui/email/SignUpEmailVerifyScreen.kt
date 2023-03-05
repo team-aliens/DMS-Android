@@ -159,7 +159,10 @@ fun SignUpEmailVerifyScreen(
             verificationCode = value
             if (value.length == 6) {
                 focusManager.clearFocus()
-            } else {
+                registerEmailViewModel.checkEmailCode(
+                    email = email,
+                    authCode = value,
+                )
             }
         } else {
             verificationCode = value.take(8)

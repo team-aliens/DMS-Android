@@ -192,7 +192,7 @@ private fun getStringFromEvent(
         context.getString(R.string.ServerException)
     }
     is SignUpEvent.NotFoundException -> {
-        context.getString(R.string.NotFound)
+        context.getString(R.string.EmailTimeOut)
     }
     is SignUpEvent.TooManyRequestsException -> {
         context.getString(R.string.TooManyRequest)
