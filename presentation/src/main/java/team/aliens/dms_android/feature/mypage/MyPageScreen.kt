@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import kotlinx.coroutines.flow.collect
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
@@ -186,7 +186,9 @@ fun MyPageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200)
+            .background(
+                DormTheme.colors.background,
+            )
             .padding(
                 vertical = 66.dp,
                 horizontal = 16.dp,
@@ -212,6 +214,7 @@ fun MyPageScreen(
                     )
 
                     LastAppliedItem(
+                        // fixme
                         text = myPageState.sex.gender,
                         backgroundColor = if (myPageState.sex == Gender.MALE) {
                             DormColor.Lighten200
@@ -272,7 +275,9 @@ fun MyPageScreen(
                 .clip(
                     RoundedCornerShape(5.dp),
                 )
-                .background(DormColor.Lighten200)
+                .background(
+                    DormTheme.colors.secondary,
+                )
                 .padding(12.dp),
             contentAlignment = Alignment.CenterStart,
         ) {
@@ -280,6 +285,7 @@ fun MyPageScreen(
             // 문구
             Caption(
                 text = myPageState.phrase,
+                color = DormColor.Gray1000,
             )
         }
 
@@ -302,12 +308,12 @@ fun MyPageScreen(
                         RoundedCornerShape(10.dp),
                     )
                     .border(
-                        color = DormColor.DormPrimary,
+                        color = DormTheme.colors.primary,
                         width = 1.dp,
                         shape = RoundedCornerShape(10.dp),
                     )
                     .background(
-                        color = DormColor.Lighten200,
+                        color = DormTheme.colors.surface,
                     )
                     .padding(
                         vertical = 14.dp,
@@ -319,7 +325,7 @@ fun MyPageScreen(
                     text = stringResource(
                         id = R.string.PlusPoint,
                     ),
-                    color = DormColor.Darken200,
+                    color = DormTheme.colors.onSecondary,
                 )
 
                 Box(
@@ -328,7 +334,7 @@ fun MyPageScreen(
                 ) {
                     Headline3(
                         text = myPageState.bonusPoint.toString(),
-                        color = DormColor.Darken200,
+                        color = DormTheme.colors.onSecondary,
                     )
                 }
             }
@@ -341,12 +347,12 @@ fun MyPageScreen(
                         RoundedCornerShape(10.dp),
                     )
                     .border(
-                        color = DormColor.Error,
+                        color = DormTheme.colors.error,
                         width = 1.dp,
                         shape = RoundedCornerShape(10.dp),
                     )
                     .background(
-                        color = DormColor.LightenError,
+                        color = DormTheme.colors.surface, // todo
                     )
                     .padding(
                         vertical = 14.dp,
@@ -387,7 +393,9 @@ fun MyPageScreen(
                     .clip(
                         RoundedCornerShape(10.dp),
                     )
-                    .background(DormColor.Gray100),
+                    .background(
+                        DormTheme.colors.surface,
+                    ),
             ) {
 
                 // 상벌점 내역 확인
@@ -415,7 +423,9 @@ fun MyPageScreen(
                         .padding(
                             horizontal = 10.dp,
                         )
-                        .background(DormColor.Gray100),
+                        .background(
+                            DormTheme.colors.secondaryVariant,
+                        ),
                 )
 
                 // 비밀번호 변경
@@ -445,12 +455,13 @@ fun MyPageScreen(
                     .clip(
                         RoundedCornerShape(10.dp),
                     )
-                    .background(DormColor.Gray100),
+                    .background(
+                        DormTheme.colors.surface,
+                    ),
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(DormColor.Gray100)
                         .clickable {
                             onSignOutButtonClick()
                         }
@@ -476,12 +487,13 @@ fun MyPageScreen(
                     .clip(
                         RoundedCornerShape(10.dp),
                     )
-                    .background(DormColor.Gray100),
+                    .background(
+                        DormTheme.colors.surface,
+                    ),
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(DormColor.Gray100)
                         .clickable {
                             onWithdrawalButtonClick()
                         }
