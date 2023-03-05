@@ -12,7 +12,7 @@ interface StudyRoomRepository {
 
     suspend fun fetchStudyRoomList(): StudyRoomListEntity
 
-    suspend fun fetchStudyRoomType(): StudyRoomTypeEntity
+    suspend fun fetchStudyRoomType(): SeatTypeEntity
 
     suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity
 

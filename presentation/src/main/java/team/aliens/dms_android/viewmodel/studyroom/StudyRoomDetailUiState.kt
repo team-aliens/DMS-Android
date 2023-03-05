@@ -2,6 +2,7 @@ package team.aliens.dms_android.viewmodel.studyroom
 
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.dms_android.util.MutableEventFlow
+import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 
 data class StudyRoomDetailUiState(
@@ -10,6 +11,16 @@ data class StudyRoomDetailUiState(
     var startAt: String = "",
     var endAt: String = "",
     var errorMessage: MutableEventFlow<String> = MutableEventFlow(),
+    var seatType: SeatTypeEntity = SeatTypeEntity(
+        types = listOf(
+            SeatTypeEntity.Type(
+                color = "#FFFFFF",
+                id = "",
+                name = ""
+            )
+        )
+    ),
+    var seatBoolean: Boolean = false,
     var studyRoomDetails: StudyRoomDetailEntity = StudyRoomDetailEntity(
         floor = 0,
         name = "",

@@ -9,10 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.OverLine
@@ -48,14 +47,14 @@ private fun Point(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .dormShadow(
-                color = DormColor.Gray500,
+                color = DormTheme.colors.secondaryVariant,
                 offsetY = 1.dp,
             )
             .clip(
                 RoundedCornerShape(10.dp),
             )
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.surface,
             )
             .fillMaxWidth()
             .height(70.dp),
@@ -69,33 +68,33 @@ private fun Point(
 
             OverLine(
                 text = "${pointDate[1]}월"
-                + " ${pointDate[2]}일",
-                color = DormColor.Gray500,
+                        + " ${pointDate[2]}일",
+                color = DormTheme.colors.primaryVariant,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Body5(
                 text = pointValue.name,
-                color = DormColor.Gray600,
             )
         }
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(end = 15.dp, bottom = 15.dp),
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = 15.dp, bottom = 15.dp),
             contentAlignment = Alignment.BottomEnd,
         ) {
-            when(pointValue.pointType){
+            when (pointValue.pointType) {
                 PointType.BONUS -> {
                     Body4(
                         text = "+${pointValue.score}",
-                        color = DormColor.DormPrimary
+                        color = DormTheme.colors.primary,
                     )
                 }
                 else -> {
                     Body4(
                         text = "-${pointValue.score}",
-                        color = DormColor.Error
+                        color = DormTheme.colors.error,
                     )
                 }
             }

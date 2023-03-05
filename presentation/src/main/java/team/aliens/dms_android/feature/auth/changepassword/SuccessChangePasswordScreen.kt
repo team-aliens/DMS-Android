@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
@@ -22,7 +22,7 @@ fun SuccessChangePasswordScreen(
     navController: NavController,
 ) {
     Column(
-        modifier = Modifier.background(color = DormColor.Gray200)
+        modifier = Modifier.background(color = DormTheme.colors.background)
     ) {
         TopBar(title = stringResource(id = R.string.ChangePassword)) {
             navController.popBackStack()

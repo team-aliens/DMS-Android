@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
@@ -103,7 +104,9 @@ fun StudyRoomListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(
+                DormTheme.colors.background,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -119,7 +122,6 @@ fun StudyRoomListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DormColor.Gray200)
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,11 +24,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.component.LastAppliedItem
@@ -98,7 +98,9 @@ fun RemainApplicationScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormColor.Gray200),
+            .background(
+                DormTheme.colors.background,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -110,9 +112,7 @@ fun RemainApplicationScreen(
             navController.popBackStack()
         }
 
-        Column(
-            modifier = Modifier.padding(horizontal = 20.dp)
-        ) {
+        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -120,9 +120,7 @@ fun RemainApplicationScreen(
                 FloatingNotice(content = noticeContent)
                 Spacer(modifier = Modifier.height(10.dp))
             }
-            Column(
-                modifier = Modifier.fillMaxHeight(0.9f)
-            ) {
+            Column(modifier = Modifier.fillMaxHeight(0.9f)) {
                 LazyColumn {
                     itemsIndexed(
                         items = remainOptions,
@@ -132,18 +130,16 @@ fun RemainApplicationScreen(
                             val isItemSelected = (selectedItem == item.title)
 
                             val borderColor = if (isItemSelected) {
-                                DormColor.DormPrimary
+                                DormTheme.colors.primary
                             } else {
-                                DormColor.Gray100
+                                DormTheme.colors.surface
                             }
 
-                            val rotationState by animateFloatAsState(
-                                targetValue = if (isItemExpanded) {
-                                    90f
-                                } else {
-                                    270f
-                                }
-                            )
+                            val rotationState by animateFloatAsState(targetValue = if (isItemExpanded) {
+                                90f
+                            } else {
+                                270f
+                            })
                             Spacer(modifier = Modifier.height(20.dp))
                             ApplicationCard(
                                 title = item.title,
@@ -212,7 +208,7 @@ fun ApplicationCard(
             .fillMaxWidth()
             .requiredHeightIn(60.dp)
             .dormShadow(
-                color = DormColor.Gray500,
+                color = DormTheme.colors.secondaryVariant,
                 offsetY = 1.dp,
             )
             .clip(RoundedCornerShape(8.dp))
@@ -221,12 +217,12 @@ fun ApplicationCard(
                 color = borderColor,
                 shape = RoundedCornerShape(8.dp),
             )
-            .background(color = DormColor.Gray100)
+            .background(
+                DormTheme.colors.surface,
+            )
             .dormClickable { onSelect() },
     ) {
-        Spacer(
-            modifier = Modifier.height(14.dp)
-        )
+        Spacer(modifier = Modifier.height(14.dp))
         Box(
             modifier = Modifier.height(32.dp),
             contentAlignment = Alignment.CenterEnd,
@@ -258,7 +254,7 @@ fun ApplicationCard(
         AnimatedVisibility(
             visible = isContentVisible,
         ) {
-            Text(
+            Caption(
                 modifier = Modifier.padding(
                     top = 30.dp,
                     start = 24.dp,
@@ -277,24 +273,19 @@ private fun setAvailableRemainTime(
     endDayOfWeek: String,
     endTime: String,
 ): String =
-    "잔류 신청 시간은 $startDayOfWeek" +
-            " ${startTime.split(':')[0]}:${startTime.split(':')[1]} ~" +
-            " $endDayOfWeek" +
-            " ${endTime.split(':')[0]}:${endTime.split(':')[1]}" +
-            " 까지 입니다."
+    "잔류 신청 시간은 $startDayOfWeek" + " ${startTime.split(':')[0]}:${startTime.split(':')[1]} ~" + " $endDayOfWeek" + " ${
+        endTime.split(':')[0]
+    }:${endTime.split(':')[1]}" + " 까지 입니다."
 
 
 private fun getStringFromEvent(
     context: Context,
     event: Event,
-): String =
-    context.getString(
-        when (event) {
-            is Event.BadRequestException -> R.string.BadRequest
-            is Event.UnauthorizedException -> R.string.UnAuthorized
-            is Event.ForbiddenException -> R.string.ForbiddenApplyRemain
-            is Event.TooManyRequestException -> R.string.TooManyRequest
-            is Event.ServerException -> R.string.ServerException
-            else -> R.string.UnKnownException
-        }
-    )
+): String = context.getString(when (event) {
+    is Event.BadRequestException -> R.string.BadRequest
+    is Event.UnauthorizedException -> R.string.UnAuthorized
+    is Event.ForbiddenException -> R.string.ForbiddenApplyRemain
+    is Event.TooManyRequestException -> R.string.TooManyRequest
+    is Event.ServerException -> R.string.ServerException
+    else -> R.string.UnKnownException
+})

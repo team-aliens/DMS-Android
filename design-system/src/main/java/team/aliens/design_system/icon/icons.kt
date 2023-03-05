@@ -28,6 +28,11 @@ value class DormIcon private constructor(
         )
 
         @Stable
+        val Forward = DormIcon(
+            drawableId = R.drawable.ic_forward,
+        )
+
+        @Stable
         val Breakfast = DormIcon(
             drawableId = R.drawable.ic_breakfast,
         )

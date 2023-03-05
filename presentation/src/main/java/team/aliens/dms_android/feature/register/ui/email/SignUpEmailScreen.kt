@@ -3,6 +3,8 @@ package team.aliens.dms_android.feature.register.ui.email
 import android.content.Context
 import android.util.Patterns
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,6 +19,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
@@ -84,18 +87,12 @@ fun SignUpEmailScreen(
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString(
-                            "schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
-                        )
-                        putString(
-                            "schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
-                        )
-                        putString(
-                            "schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
-                        )
+                        putString("schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+                        putString("schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
                         putString("email", email)
                     }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
@@ -103,27 +100,19 @@ fun SignUpEmailScreen(
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.ChangeEmail))
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString(
-                            "schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
-                        )
-                        putString(
-                            "schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
-                        )
-                        putString(
-                            "schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
-                        )
+                        putString("schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+                        putString("schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
                         putString("email", email)
                     }
                 }
-                else -> toast(
-                    getStringFromEvent(
-                        context = context,
-                        event = it,
-                    )
-                )
+                else -> toast(getStringFromEvent(
+                    context = context,
+                    event = it,
+                ))
             }
         }
     }
@@ -131,20 +120,21 @@ fun SignUpEmailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
             ),
     ) {
-        Column(
-            modifier = Modifier.fillMaxHeight(0.843f)
-        ) {
-            AppLogo()
-            Spacer(modifier = Modifier.height(8.dp))
-            Body2(
-                text = stringResource(id = R.string.EnterEmailAddress)
+        Column(modifier = Modifier.fillMaxHeight(0.843f)) {
+            AppLogo(
+                darkIcon = isSystemInDarkTheme(),
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Body2(text = stringResource(id = R.string.EnterEmailAddress))
             Spacer(modifier = Modifier.height(86.dp))
             DormTextField(
                 value = email,

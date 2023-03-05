@@ -2,6 +2,8 @@ package team.aliens.dms_android.feature.auth.changepassword
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -22,6 +24,17 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.typography.Body4
+import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 import java.util.regex.Pattern
@@ -60,6 +73,24 @@ fun ChangePasswordScreen(
     BackHandler(enabled = true) {
         isPressedBackButton = true
     }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = DormTheme.colors.background,
+            ),
+    ) {
+
+        TopBar(
+            title = stringResource(R.string.ChangePassword),
+        ) {
+            navController.popBackStack()
+        }
+
+        MainValue()
+        PasswordTextField()
+        ScanNewPasswordButton(changePasswordViewModel)
+    }
 
     if (isShowDialog) {
         DormCustomDialog(
@@ -76,6 +107,23 @@ fun ChangePasswordScreen(
                     }
                 },
                 mainBtnTextColor = DormColor.DormPrimary,
+            }
+
+            Image(
+                modifier = Modifier
+                    .padding(top = 32.dp, bottom = 7.dp)
+                    .height(85.dp)
+                    .width(85.dp),
+                painter = painterResource(id = R.drawable.ic_information_toast),
+                contentDescription = stringResource(id = R.string.MainLogo),
+            )
+
+            Spacer(
+                modifier = Modifier.height(1.dp),
+            )
+
+            Body4(
+                text = stringResource(id = R.string.SetNewPassword),
             )
         }
     }

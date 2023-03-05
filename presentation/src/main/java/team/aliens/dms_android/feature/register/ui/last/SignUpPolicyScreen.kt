@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,18 +19,15 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormCheckBox
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.dialog.DormBottomAlignedSingleButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
-import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.SignUpEvent
-import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
 import team.aliens.domain.param.RegisterParam
 import team.aliens.presentation.R
@@ -61,13 +60,13 @@ fun SignUpPolicyScreen(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login){
-                        popUpTo(NavigationRoute.Login){
+                    navController.navigate(NavigationRoute.Login) {
+                        popUpTo(NavigationRoute.Login) {
                             inclusive = true
                         }
                     }
                 },
-                mainBtnTextColor = DormColor.DormPrimary,
+                mainBtnTextColor = DormTheme.colors.primary,
             )
         }
     }
@@ -80,12 +79,10 @@ fun SignUpPolicyScreen(
                     signUpDialogState = true
                 }
                 else -> {
-                    toast(
-                        getStringFromEvent(
-                            context = context,
-                            event = it,
-                        )
-                    )
+                    toast(getStringFromEvent(
+                        context = context,
+                        event = it,
+                    ))
                 }
             }
         }
@@ -94,6 +91,9 @@ fun SignUpPolicyScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
@@ -103,24 +103,19 @@ fun SignUpPolicyScreen(
         Column(
             modifier = Modifier.fillMaxHeight(),
         ) {
-            AppLogo()
-            Spacer(modifier = Modifier.height(8.dp))
-            Body2(
-                text = stringResource(
-                    id = R.string.CheckRegisterPolicy
-                )
+            AppLogo(
+                darkIcon = isSystemInDarkTheme(),
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Body2(text = stringResource(id = R.string.CheckRegisterPolicy))
             Spacer(modifier = Modifier.height(36.dp))
-            Column(
-                modifier = Modifier.height(374.dp)
-            ) {
+            Column(modifier = Modifier.height(374.dp)) {
                 AndroidView(
                     factory = {
                         WebView(it).apply {
-                            layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
-                            )
+                            layoutParams =
+                                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT)
                             webViewClient = WebViewClient()
 
                             settings.javaScriptEnabled = true
@@ -155,20 +150,18 @@ fun SignUpPolicyScreen(
                 enabled = isChecked,
             ) {
                 navController.previousBackStackEntry?.arguments?.run {
-                    signUpViewModel.signUp(
-                        registerParam = RegisterParam(
-                            schoolCode = getString("schoolCode").toString(),
-                            schoolAnswer = getString("schoolAnswer").toString(),
-                            email = getString("email").toString(),
-                            authCode = getString("authCode").toString(),
-                            classRoom = getInt("classRoom"),
-                            grade = getInt("grade"),
-                            number = getInt("number"),
-                            accountId = getString("accountId").toString(),
-                            password = getString("password").toString(),
-                            profileImageUrl = getString("profileImageUrl").toString(),
-                        )
-                    )
+                    signUpViewModel.signUp(registerParam = RegisterParam(
+                        schoolCode = getString("schoolCode").toString(),
+                        schoolAnswer = getString("schoolAnswer").toString(),
+                        email = getString("email").toString(),
+                        authCode = getString("authCode").toString(),
+                        classRoom = getInt("classRoom"),
+                        grade = getInt("grade"),
+                        number = getInt("number"),
+                        accountId = getString("accountId").toString(),
+                        password = getString("password").toString(),
+                        profileImageUrl = getString("profileImageUrl").toString(),
+                    ))
                 }
             }
         }
@@ -192,7 +185,7 @@ private fun getStringFromEvent(
         context.getString(R.string.ServerException)
     }
     is SignUpEvent.NotFoundException -> {
-        context.getString(R.string.NotFound)
+        context.getString(R.string.EmailTimeOut)
     }
     is SignUpEvent.TooManyRequestsException -> {
         context.getString(R.string.TooManyRequest)

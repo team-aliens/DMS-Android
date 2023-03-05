@@ -1,24 +1,30 @@
 package team.aliens.dms_android.feature.auth.login
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body4
@@ -29,6 +35,7 @@ import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
 import team.aliens.presentation.R
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -39,6 +46,17 @@ fun LoginScreen(
 
     val context = LocalContext.current
 
+    val focusManager = LocalFocusManager.current
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+
+    var signInButtonState by remember {
+        mutableStateOf(false)
+    }
+
+    signInButtonState = signInViewModel.signInButtonState.collectAsState().value
+
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
@@ -48,6 +66,7 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
+
                 }
                 else -> {
                     toast(
@@ -60,14 +79,6 @@ fun LoginScreen(
             }
         }
     }
-
-
-    var signInButtonState by remember {
-        mutableStateOf(false)
-    }
-
-    signInButtonState = signInViewModel.signInButtonState.collectAsState(false).value
-
 
     var autoLoginState by remember {
         mutableStateOf(false)
@@ -83,33 +94,39 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
-    val onIdChange = { value: String ->
-        idState = value
-        signInViewModel.setId(value)
+    val onIdChange by remember {
+        mutableStateOf(
+            { value: String ->
+                idState = value
+                signInViewModel.setId(value)
+            },
+        )
     }
 
     var passwordState by remember {
         mutableStateOf("")
     }
 
-    val onPasswordChange = { value: String ->
-        passwordState = value
-        signInViewModel.setPassword(value)
+    val onPasswordChange by remember {
+        mutableStateOf(
+            { value: String ->
+                passwordState = value
+                signInViewModel.setPassword(value)
+            },
+        )
     }
 
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DormColor.Gray100)
-            .padding(16.dp)
-    ) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = DormTheme.colors.surface)
+        .padding(16.dp)) {
 
         Spacer(
             modifier = Modifier.height(92.dp),
         )
 
-        AppLogo()
+        AppLogo(darkIcon = isSystemInDarkTheme())
 
         Spacer(
             modifier = Modifier.height(8.dp),
@@ -125,21 +142,35 @@ fun LoginScreen(
             modifier = Modifier.height(60.dp),
         )
 
+        // 아이디
         DormTextField(
             value = idState,
             onValueChange = onIdChange,
             hint = stringResource(id = R.string.ID),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+            ),
+            keyboardActions = KeyboardActions(onNext = {
+                focusManager.moveFocus(FocusDirection.Next)
+            }),
         )
 
         Spacer(
             modifier = Modifier.height(36.dp),
         )
 
+        // 비밀번호
         DormTextField(
             value = passwordState,
             onValueChange = onPasswordChange,
             isPassword = true,
             hint = stringResource(id = R.string.Password),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
         )
 
         Spacer(
@@ -155,9 +186,7 @@ fun LoginScreen(
             onCheckedChange = onAutoLoginStateChange,
         )
 
-        Spacer(
-            modifier = Modifier.height(26.dp)
-        )
+        Spacer(modifier = Modifier.height(26.dp))
 
         Row(
             modifier = Modifier
@@ -173,12 +202,12 @@ fun LoginScreen(
                 onClick = {
                     navController.navigate(NavigationRoute.VerifySchool)
                 },
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
                 text = "|",
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
@@ -188,12 +217,12 @@ fun LoginScreen(
                 onClick = {
                     // todo implement and link find id screen
                 },
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
                 text = "|",
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
@@ -203,7 +232,7 @@ fun LoginScreen(
                 onClick = {
                     navController.navigate(NavigationRoute.Identification)
                 },
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
         }
 
@@ -219,21 +248,19 @@ fun LoginScreen(
 
                 if (signInViewModel.state.value.id.isBlank()) {
 
-                    toast(
-                        message = context.getString(R.string.PleaseEnterId)
-                    )
+                    toast(message = context.getString(R.string.PleaseEnterId))
 
                     return@DormContainedLargeButton
                 }
 
                 if (signInViewModel.state.value.password.isBlank()) {
 
-                    toast(
-                        message = context.getString(R.string.PleaseEnterPassword)
-                    )
+                    toast(message = context.getString(R.string.PleaseEnterPassword))
 
                     return@DormContainedLargeButton
                 }
+
+                signInViewModel.disableSignInButton()
 
                 signInViewModel.postSignIn()
             },
