@@ -32,10 +32,11 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.feature.navigator.BottomNavigationItem
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.presentation.R
+import java.time.DayOfWeek
+import java.time.DayOfWeek.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -82,10 +83,8 @@ fun CafeteriaScreen(
                 .background(
                     DormTheme.colors.background,
                 )
-                .paint(
-                    painter = painterResource(R.drawable.photo_cafeteria_background),
-                    contentScale = ContentScale.FillBounds
-                ),
+                .paint(painter = painterResource(R.drawable.photo_cafeteria_background),
+                    contentScale = ContentScale.FillBounds),
         ) {
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -103,7 +102,7 @@ fun CafeteriaScreen(
                 onCalendarClick = {
                     onCalendarClick()
                 },
-                mealViewModel = hiltViewModel(),
+                mealViewModel = mealViewModel,
             )
 
 
@@ -252,7 +251,7 @@ fun DateSelector(
 
                     // 날짜
                     Body5(
-                        text = state.selectedDay.toString(),
+                        text = "${state.selectedDay}  (${state.selectedDay.dayOfWeek.toKorean()})",
                     )
                 }
 
@@ -298,3 +297,15 @@ fun CafeteriaViewPager(
 private val mealDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
 private fun String.toMealDateFormat(): LocalDate = LocalDate.parse(this, mealDateFormatter)
+
+private fun DayOfWeek.toKorean(): String {
+    return when (this) {
+        MONDAY -> "월"
+        TUESDAY -> "화"
+        WEDNESDAY -> "수"
+        THURSDAY -> "목"
+        FRIDAY -> "금"
+        SATURDAY -> "토"
+        SUNDAY -> "일"
+    }
+}
