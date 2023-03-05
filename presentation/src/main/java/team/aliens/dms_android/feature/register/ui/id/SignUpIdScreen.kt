@@ -241,6 +241,10 @@ fun SignUpIdScreen(
             color = DormButtonColor.Blue,
             enabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && userId.isNotEmpty()
         ) {
+            if(userId.length > 20){
+                isIdError = true
+
+            }
             setIdViewModel.duplicateId(userId)
         }
     }
@@ -254,9 +258,9 @@ private fun callExamineGrade(
 ) {
     if (grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty()) {
         setIdViewModel.examineGrade(
-            grade = grade.toInt(),
-            classRoom = classRoom.toInt(),
-            number = number.toInt(),
+            grade = Integer.parseInt(grade.trim()),
+            classRoom = Integer.parseInt(classRoom.trim()),
+            number = Integer.parseInt(number.trim()),
         )
     }
 }

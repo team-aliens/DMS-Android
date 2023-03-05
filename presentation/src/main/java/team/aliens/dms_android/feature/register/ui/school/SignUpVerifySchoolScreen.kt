@@ -56,6 +56,7 @@ fun SignUpVerifySchoolScreen(
     val onVerificationCodeChange = { value: String ->
         if (value.length == 8) {
             focusManager.clearFocus()
+            examineSchoolCodeViewModel.examineSchoolCode(value)
         } else {
             isError = false
         }
