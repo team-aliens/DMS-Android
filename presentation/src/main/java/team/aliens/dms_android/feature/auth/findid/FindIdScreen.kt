@@ -41,7 +41,6 @@ fun FindIdScreen(
     var classRoomState by remember { mutableStateOf("") }
     var numberState by remember { mutableStateOf("") }
     var findIdDialogState by remember { mutableStateOf(false) }
-    var errorState by remember { mutableStateOf(false) }
 
     val toast = rememberToast()
     val context = LocalContext.current
@@ -73,9 +72,8 @@ fun FindIdScreen(
                 FindIdServerException -> toast(context.getString(R.string.ServerException))
                 FindIdTooManyRequest -> toast(context.getString(R.string.TooManyRequest))
                 FindIdUnknownException -> toast(context.getString(R.string.UnKnownException))
-                FindIdNeedLoginException -> toast(context.getString(R.string.NeedAccount))
                 FindIdBadRequest -> toast(context.getString(R.string.BadRequest))
-                FindIdNotFound -> toast(context.getString(R.string.NotFound))
+                FindIdNotFound -> toast(context.getString(R.string.NotFoundCorrectAccount))
                 FindIdUnauthorized -> toast(context.getString(R.string.MissMatchAccountInfo))
             }
         }
@@ -97,9 +95,9 @@ fun FindIdScreen(
             Spacer(modifier = Modifier.height(37.dp))
             DormTextField(
                 value = nameState,
-                onValueChange = { name -> nameState = name },
+                onValueChange = { name -> nameState = name.take(5) },
                 hint = stringResource(id = R.string.Name),
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
             )
             Spacer(modifier = Modifier.height(37.dp))
             Row(
@@ -111,29 +109,26 @@ fun FindIdScreen(
                 DormTextField(
                     modifier = Modifier.width(100.dp),
                     value = gradeState,
-                    onValueChange = { grade -> gradeState = grade },
+                    onValueChange = { grade -> gradeState = grade.take(2) },
                     hint = stringResource(id = R.string.Grade),
                     keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Next,
-                    error = errorState
                 )
                 DormTextField(
                     modifier = Modifier.width(100.dp),
                     value = classRoomState,
-                    onValueChange = { classRoom -> classRoomState = classRoom },
+                    onValueChange = { classRoom -> classRoomState = classRoom.take(2) },
                     hint = stringResource(id = R.string.ClassRoom),
-                    error = errorState,
                     keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Next
                 )
                 DormTextField(
                     modifier = Modifier.width(100.dp),
                     value = numberState,
-                    onValueChange = { number -> numberState = number },
+                    onValueChange = { number -> numberState = number.take(3) },
                     hint = stringResource(id = R.string.Number),
                     keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Done,
-                    error = errorState
                 )
             }
         }

@@ -41,7 +41,6 @@ class FindIdViewModel @Inject constructor(
                     is NoInternetException -> event(FindIdNoInternetException)
                     is TooManyRequestException -> event(FindIdTooManyRequest)
                     is ServerException -> event(FindIdServerException)
-                    is NeedLoginException -> event(FindIdNeedLoginException)
                     is NotFoundException -> event(FindIdNotFound)
                     is BadRequestException -> event(FindIdBadRequest)
                     is UnauthorizedException -> event(FindIdUnauthorized)

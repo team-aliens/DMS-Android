@@ -18,6 +18,4 @@ object FindIdServerException : FindIdEvent
 
 object FindIdNoInternetException : FindIdEvent
 
-object FindIdNeedLoginException : FindIdEvent
-
 object FindIdUnknownException : FindIdEvent
