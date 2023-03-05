@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DMS_Android"
+rootProject.name = "dms-android"
 
 include(":presentation")
 include(":data")
