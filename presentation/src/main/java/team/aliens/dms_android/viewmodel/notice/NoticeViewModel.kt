@@ -92,7 +92,7 @@ class NoticeViewModel @Inject constructor(
             kotlin.runCatching {
                 remoteCheckNewNoticeBooleanUseCase.execute(Unit)
             }.onSuccess {
-                sendEvent(NoticeEvent.CheckNewNotice(it))
+                sendEvent(NoticeEvent.CheckNewNotice(it.noticeBoolean))
             }.onFailure {
                 sendEvent(NoticeEvent.CheckNewNotice(false))
             }
@@ -125,7 +125,7 @@ class NoticeViewModel @Inject constructor(
     override fun reduceEvent(oldState: NoticeState, event: NoticeEvent) {
         when(event){
             is NoticeEvent.CheckNewNotice -> {
-                oldState.copy(hasNewNotice = event.hasNewNotice)
+                setState(oldState.copy(hasNewNotice = event.hasNewNotice))
             }
         }
     }

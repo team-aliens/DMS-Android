@@ -1,7 +1,9 @@
 package team.aliens.data.repository
 
 import team.aliens.data.remote.datasource.declaration.RemoteNoticeDataSource
+import team.aliens.data.remote.response.notice.NewNoticeBooleanResponse
 import team.aliens.data.remote.response.notice.toEntity
+import team.aliens.domain.entity.notice.NewNoticeBooleanEntity
 import team.aliens.domain.entity.notice.NoticeDetailEntity
 import team.aliens.domain.entity.notice.NoticeListEntity
 import team.aliens.domain.enums.NoticeListSCType
@@ -16,8 +18,8 @@ class NoticeRepositoryImpl @Inject constructor(
     private val localNoticeDataSource: LocalNoticeDataSource,
 ) : NoticeRepository {
 
-    override suspend fun newNoticeBoolean(): Boolean =
-        remoteNoticeDataSource.checkNoticeNewBoolean()
+    override suspend fun newNoticeBoolean(): NewNoticeBooleanEntity =
+        remoteNoticeDataSource.checkNoticeNewBoolean().toEntity()
 
     override suspend fun fetchNoticeList(
         order: NoticeListSCType,
@@ -54,3 +56,7 @@ fun NoticeListRoomEntity.NoticeLocalValue.toDmEntity() = NoticeListEntity.Notice
 )
 
 fun NoticeListRoomEntity.toDmEntity() = NoticeListEntity(notices = notices.map { it.toDmEntity() })
+
+private fun NewNoticeBooleanResponse.toEntity() = NewNoticeBooleanEntity(
+    noticeBoolean = this.newNoticeBoolean,
+)

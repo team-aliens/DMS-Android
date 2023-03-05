@@ -83,8 +83,10 @@ fun CafeteriaScreen(
                 .background(
                     DormTheme.colors.background,
                 )
-                .paint(painter = painterResource(R.drawable.photo_cafeteria_background),
-                    contentScale = ContentScale.FillBounds),
+                .paint(
+                    painter = painterResource(R.drawable.photo_cafeteria_background),
+                    contentScale = ContentScale.FillBounds
+                ),
         ) {
 
             Spacer(modifier = Modifier.height(20.dp))
