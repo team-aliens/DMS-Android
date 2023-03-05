@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,25 +20,19 @@ import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
+import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.textfield.DormTextField
-import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body4
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 import java.util.regex.Pattern
+
+private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
 @Composable
 fun ChangePasswordScreen(
@@ -49,7 +44,6 @@ fun ChangePasswordScreen(
 
     val toast = rememberToast()
 
-    val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
     var password by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
@@ -77,7 +71,7 @@ fun ChangePasswordScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = DormTheme.colors.background,
+                color = DormTheme.colors.surface,
             ),
     ) {
 
@@ -87,26 +81,22 @@ fun ChangePasswordScreen(
             navController.popBackStack()
         }
 
-        MainValue()
-        PasswordTextField()
-        ScanNewPasswordButton(changePasswordViewModel)
-    }
-
-    if (isShowDialog) {
-        DormCustomDialog(
-            onDismissRequest = {},
-        ) {
-            DormSingleButtonDialog(
-                content = stringResource(id = R.string.SuccessChangePassword),
-                mainBtnText = stringResource(id = R.string.GoLogin),
-                onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login) {
-                        popUpTo(NavigationRoute.Login) {
-                            inclusive = true
+        if (isShowDialog) {
+            DormCustomDialog(
+                onDismissRequest = {},
+            ) {
+                DormSingleButtonDialog(
+                    content = stringResource(id = R.string.SuccessChangePassword),
+                    mainBtnText = stringResource(id = R.string.GoLogin),
+                    onMainBtnClick = {
+                        navController.navigate(NavigationRoute.Login) {
+                            popUpTo(NavigationRoute.Login) {
+                                inclusive = true
+                            }
                         }
-                    }
-                },
-                mainBtnTextColor = DormColor.DormPrimary,
+                    },
+                    mainBtnTextColor = DormColor.DormPrimary,
+                )
             }
 
             Image(
@@ -126,120 +116,112 @@ fun ChangePasswordScreen(
                 text = stringResource(id = R.string.SetNewPassword),
             )
         }
-    }
 
-    if (isPressedBackButton) {
-        DormCustomDialog(
-            onDismissRequest = { /*TODO*/ },
-        ) {
-            DormDoubleButtonDialog(
-                content = stringResource(id = R.string.FinishResetPassword),
-                mainBtnText = stringResource(id = R.string.Yes),
-                subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login) {
-                        popUpTo(NavigationRoute.Login) {
-                            inclusive = true
+        if (isPressedBackButton) {
+            DormCustomDialog(
+                onDismissRequest = { /*TODO*/ },
+            ) {
+                DormDoubleButtonDialog(
+                    content = stringResource(id = R.string.FinishResetPassword),
+                    mainBtnText = stringResource(id = R.string.Yes),
+                    subBtnText = stringResource(id = R.string.No),
+                    onMainBtnClick = {
+                        navController.navigate(NavigationRoute.Login) {
+                            popUpTo(NavigationRoute.Login) {
+                                inclusive = true
+                            }
                         }
-                    }
-                },
-                onSubBtnClick = { isPressedBackButton = false },
-            )
+                    },
+                    onSubBtnClick = { isPressedBackButton = false },
+                )
+            }
         }
-    }
 
-    LaunchedEffect(Unit) {
-        changePasswordViewModel.editPasswordEffect.collect {
-            when (it) {
-                is ChangePasswordViewModel.Event.ResetPasswordSuccess -> {
-                    toast(context.getString(R.string.SuccessResetPassword))
-                    navController.navigate(NavigationRoute.Login){
-                        popUpTo(NavigationRoute.Login){
-                            inclusive = true
+        LaunchedEffect(Unit) {
+            changePasswordViewModel.editPasswordEffect.collect {
+                when (it) {
+                    is ChangePasswordViewModel.Event.ResetPasswordSuccess -> {
+                        toast(context.getString(R.string.SuccessResetPassword))
+                        navController.navigate(NavigationRoute.Login) {
+                            popUpTo(NavigationRoute.Login) {
+                                inclusive = true
+                            }
                         }
                     }
-                }
-                else -> {
-                    toast(
-                        getStringFromEvent(
+                    else -> {
+                        toast(getStringFromEvent(
                             context = context,
                             event = it,
-                        )
-                    )
+                        ))
+                    }
                 }
             }
         }
-    }
 
-    Column(
-        modifier = Modifier
+        Column(modifier = Modifier
             .fillMaxSize()
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
+            )) {
+            AppLogo()
+            Spacer(modifier = Modifier.height(8.dp))
+            Body2(
+                text = stringResource(id = R.string.ChangePassword),
             )
-    ) {
-        AppLogo()
-        Spacer(modifier = Modifier.height(8.dp))
-        Body2(
-            text = stringResource(id = R.string.ChangePassword),
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Caption(
-            text = stringResource(id = R.string.PasswordWarning),
-            color = DormColor.Gray500,
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 40.dp),
-        ) {
-            Box(
-                modifier = Modifier.height(76.dp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Caption(
+                text = stringResource(id = R.string.PasswordWarning),
+                color = DormColor.Gray500,
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 40.dp),
             ) {
-                DormTextField(
-                    value = password,
-                    onValueChange = onPasswordChange,
-                    error = isPasswordFormatError,
-                    isPassword = true,
-                    hint = stringResource(id = R.string.ScanNewPassword),
-                    errorDescription = stringResource(id = R.string.NotCorrectPasswordFormat),
-                )
-            }
-            Spacer(modifier = Modifier.height(7.dp))
-            Box(
-                modifier = Modifier.height(76.dp),
-            ) {
-                DormTextField(
-                    value = repeatPassword,
-                    onValueChange = onRepeatPasswordChange,
-                    error = isPasswordMatchError,
-                    isPassword = true,
-                    hint = stringResource(id = R.string.CheckScanNewPassword),
-                    errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
-                )
-            }
-        }
-        Spacer(modifier = Modifier.fillMaxHeight(0.742f))
-        DormContainedLargeButton(
-            text = stringResource(id = R.string.Check),
-            color = DormButtonColor.Blue,
-            enabled = (password.isNotBlank() && repeatPassword.isNotBlank())
-        ) {
-            if (password != repeatPassword) {
-                isPasswordMatchError = true
-            } else if (!Pattern.compile(passwordFormat).matcher(password).find()) {
-                isPasswordFormatError = true
-            } else {
-                navController.previousBackStackEntry?.arguments?.run {
-                    changePasswordViewModel.resetPassword(
-                        accountId = getString("accountId").toString(),
-                        authCode = getString("authCode").toString(),
-                        email = getString("email").toString(),
-                        name = getString("name").toString(),
-                        newPassword = password,
+                Box(modifier = Modifier.height(76.dp)) {
+                    DormTextField(
+                        value = password,
+                        onValueChange = onPasswordChange,
+                        error = isPasswordFormatError,
+                        isPassword = true,
+                        hint = stringResource(id = R.string.ScanNewPassword),
+                        errorDescription = stringResource(id = R.string.NotCorrectPasswordFormat),
                     )
+                }
+                Spacer(modifier = Modifier.height(7.dp))
+                Box(
+                    modifier = Modifier.height(76.dp),
+                ) {
+                    DormTextField(
+                        value = repeatPassword,
+                        onValueChange = onRepeatPasswordChange,
+                        error = isPasswordMatchError,
+                        isPassword = true,
+                        hint = stringResource(id = R.string.CheckScanNewPassword),
+                        errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.fillMaxHeight(0.742f))
+            DormContainedLargeButton(text = stringResource(id = R.string.Check),
+                color = DormButtonColor.Blue,
+                enabled = (password.isNotBlank() && repeatPassword.isNotBlank())) {
+                if (password != repeatPassword) {
+                    isPasswordMatchError = true
+                } else if (!Pattern.compile(passwordFormat).matcher(password).find()) {
+                    isPasswordFormatError = true
+                } else {
+                    navController.previousBackStackEntry?.arguments?.run {
+                        changePasswordViewModel.resetPassword(
+                            accountId = getString("accountId").toString(),
+                            authCode = getString("authCode").toString(),
+                            email = getString("email").toString(),
+                            name = getString("name").toString(),
+                            newPassword = password,
+                        )
+                    }
                 }
             }
         }
@@ -249,7 +231,7 @@ fun ChangePasswordScreen(
 private fun getStringFromEvent(
     context: Context,
     event: ChangePasswordViewModel.Event,
-): String = when(event){
+): String = when (event) {
     is ChangePasswordViewModel.Event.BadRequestException -> {
         context.getString(R.string.BadRequest)
     }

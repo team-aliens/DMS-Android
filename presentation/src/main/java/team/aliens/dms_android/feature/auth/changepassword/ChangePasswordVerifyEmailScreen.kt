@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.auth.changepassword
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +16,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -26,6 +26,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
@@ -64,7 +65,7 @@ fun ChangePasswordVerifyEmailScreen(
     val state = changePasswordViewModel.state.collectAsState().value
 
     val onVerificationCodeChange = { code: String ->
-        if(code.length != verificationCode.length) isError = false
+        if (code.length != verificationCode.length) isError = false
         if (code.length <= 6) {
             verificationCode = code
             if (code.length == 6) {
@@ -75,17 +76,19 @@ fun ChangePasswordVerifyEmailScreen(
         }
     }
 
-    var email by remember { mutableStateOf("")}
+    var email by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("accountId", navController.previousBackStackEntry?.arguments?.getString("accountId"))
-                        putString("name", navController.previousBackStackEntry?.arguments?.getString("name"))
+                        putString("accountId",
+                            navController.previousBackStackEntry?.arguments?.getString("accountId"))
+                        putString("name",
+                            navController.previousBackStackEntry?.arguments?.getString("name"))
                         putString("email", email)
                         putString("authCode", verificationCode)
                     }
@@ -141,11 +144,12 @@ fun ChangePasswordVerifyEmailScreen(
                 end = 16.dp,
             ),
     ) {
-        AppLogo()
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Body2(
             text = stringResource(id = R.string.Identification),
-            color = DormColor.Gray600,
         )
         Column(
             modifier = Modifier
@@ -187,7 +191,7 @@ fun ChangePasswordVerifyEmailScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Body3(
                 text = time,
-                color = DormColor.DormPrimary,
+                color = DormTheme.colors.primary,
             )
             Spacer(modifier = Modifier.fillMaxHeight(0.65f))
             ButtonText(
@@ -202,7 +206,6 @@ fun ChangePasswordVerifyEmailScreen(
                         )
                     },
                 text = stringResource(id = R.string.ResendVerificationCode),
-                color = DormColor.Gray600,
             )
             Spacer(modifier = Modifier.height(26.dp))
             DormContainedLargeButton(
@@ -222,7 +225,7 @@ fun ChangePasswordVerifyEmailScreen(
 
 private fun getStringFromEvent(
     context: Context,
-    event: RegisterEmailEvent
+    event: RegisterEmailEvent,
 ): String = when (event) {
     is RegisterEmailEvent.CheckEmailNotFound -> {
         context.getString(R.string.CertificationInfoNotFound)

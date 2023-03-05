@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Patterns
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,8 +17,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
@@ -116,6 +117,9 @@ fun IdentificationScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .fillMaxHeight(0.8f)
             .padding(
                 top = 108.dp,
@@ -123,11 +127,12 @@ fun IdentificationScreen(
                 end = 16.dp,
             )
     ) {
-        AppLogo()
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Body2(
             text = stringResource(id = R.string.Identification),
-            color = DormColor.Gray600,
         )
         Column(
             modifier = Modifier
@@ -154,7 +159,7 @@ fun IdentificationScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
-                                color = DormColor.Gray200,
+                                DormTheme.colors.background,
                             )
                             .padding(
                                 horizontal = 16.dp,
@@ -169,7 +174,7 @@ fun IdentificationScreen(
                                 top = 8.dp,
                             ),
                             text = emailResponse,
-                            color = DormColor.DormPrimary,
+                            color = DormTheme.colors.primary,
                         )
                     }
                     Box(
