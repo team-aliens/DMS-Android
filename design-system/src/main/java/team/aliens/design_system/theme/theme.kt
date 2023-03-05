@@ -2,10 +2,14 @@ package team.aliens.design_system.theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
 import team.aliens.design_system.color.DormColor
 
 @SuppressLint("ConflictingOnColor")
@@ -46,4 +50,13 @@ fun DormTheme(
         colors = colors,
         content = content,
     )
+}
+
+@Stable
+object DormTheme {
+
+    val colors: Color
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalContentColor.current
 }
