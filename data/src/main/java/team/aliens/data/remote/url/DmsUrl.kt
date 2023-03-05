@@ -30,7 +30,7 @@ object DmsUrl {
         const val examineGrade = "$students/name"
         const val editProfileImage = "$students/profile"
         const val withdraw = students
-        const val findId = "$students/{school-id}"
+        const val findId = "$students/account-id/{school-id}"
     }
 
     object Schools {
