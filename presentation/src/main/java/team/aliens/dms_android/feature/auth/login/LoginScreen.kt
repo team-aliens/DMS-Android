@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.auth.login
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -16,7 +15,6 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -120,16 +118,14 @@ fun LoginScreen(
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(color = DormTheme.colors.background)
+        .background(color = DormTheme.colors.surface)
         .padding(16.dp)) {
 
         Spacer(
             modifier = Modifier.height(92.dp),
         )
 
-        AppLogo(
-            darkIcon = isSystemInDarkTheme()
-        )
+        AppLogo(darkIcon = isSystemInDarkTheme())
 
         Spacer(
             modifier = Modifier.height(8.dp),
