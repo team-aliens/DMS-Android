@@ -59,11 +59,13 @@ fun IdentificationScreen(
     val onNameChange = { userName: String ->
         if (userName.length != name.length) isNameError = false
         name = userName
+        changePasswordViewModel.setName(name)
     }
 
     val onEmailChange = { value: String ->
         if (value.length != userEmail.length) isEmailError = false
         userEmail = value
+        changePasswordViewModel.setEmail(value)
     }
 
     var emailResponse by remember { mutableStateOf("") }
@@ -93,12 +95,7 @@ fun IdentificationScreen(
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.SendEmailSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString("account_id", id)
-                        putString("name", name)
-                        putString("email", userEmail)
-                        navController.navigate(NavigationRoute.ChangePasswordVerifyEmail)
-                    }
+                    navController.navigate(NavigationRoute.ChangePasswordVerifyEmail)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.ChangeEmail))

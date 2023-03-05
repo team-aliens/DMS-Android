@@ -16,4 +16,7 @@ sealed class ChangePasswordEvent : MviEvent {
     data class SetNewPassword(val newPassword: String): ChangePasswordEvent()
 
     data class SetId(val id: String): ChangePasswordEvent()
+    data class SetName(val name: String): ChangePasswordEvent()
+    data class SetEmail(val email: String): ChangePasswordEvent()
+    data class SetAuthCode(val authCode: String): ChangePasswordEvent()
 }

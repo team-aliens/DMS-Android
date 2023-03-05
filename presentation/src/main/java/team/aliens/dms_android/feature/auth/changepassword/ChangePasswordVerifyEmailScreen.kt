@@ -32,12 +32,14 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
+import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 
 @Composable
 fun ChangePasswordVerifyEmailScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
+    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
 
     val context = LocalContext.current
@@ -54,31 +56,22 @@ fun ChangePasswordVerifyEmailScreen(
 
     var time by remember { mutableStateOf("3 : 00") }
 
+    val state = changePasswordViewModel.state.collectAsState().value
+
     val onVerificationCodeChange = { code: String ->
         if(code.length != verificationCode.length) isError = false
         verificationCode = code
+        changePasswordViewModel.setAuthCode(code)
     }
 
     var email by remember { mutableStateOf("")}
 
     LaunchedEffect(Unit){
         focusRequester.requestFocus()
-        email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
+        email = state.email
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString(
-                            "accountId",
-                            navController.previousBackStackEntry?.arguments?.getString("accountId")
-                        )
-                        putString(
-                            "name",
-                            navController.previousBackStackEntry?.arguments?.getString("name")
-                        )
-                        putString("email", email)
-                        putString("authCode", verificationCode)
-                    }
                     navController.navigate(NavigationRoute.ChangePassword)
                 }
 

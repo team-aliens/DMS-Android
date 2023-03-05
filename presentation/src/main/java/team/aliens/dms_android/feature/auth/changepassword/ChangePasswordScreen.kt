@@ -47,6 +47,17 @@ fun ChangePasswordScreen(
     var isShowDialog by remember { mutableStateOf(false) }
     var isPressedBackButton by remember { mutableStateOf(false) }
 
+    val onPasswordChange = { passwordValue: String ->
+        if (passwordValue.length != password.length) isPasswordFormatError = false
+        password = passwordValue
+        changePasswordViewModel.setNewPassword(password)
+    }
+
+    val onRepeatPasswordChange = { repeatPasswordValue: String ->
+        if (repeatPasswordValue.length != repeatPassword.length) isPasswordMatchError = false
+        repeatPassword = repeatPasswordValue
+    }
+
     BackHandler(enabled = true) {
         isPressedBackButton = true
     }
@@ -88,17 +99,6 @@ fun ChangePasswordScreen(
                 onSubBtnClick = { isPressedBackButton = false },
             )
         }
-    }
-
-    val onPasswordChange = { passwordValue: String ->
-        if (passwordValue.length != password.length) isPasswordFormatError = false
-        password = passwordValue
-        changePasswordViewModel.setNewPassword(password)
-    }
-
-    val onRepeatPasswordChange = { repeatPasswordValue: String ->
-        if (repeatPasswordValue.length != repeatPassword.length) isPasswordMatchError = false
-        repeatPassword = repeatPasswordValue
     }
 
     LaunchedEffect(Unit) {

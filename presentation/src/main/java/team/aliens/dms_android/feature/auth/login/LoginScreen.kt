@@ -201,7 +201,7 @@ fun LoginScreen(
                     id = R.string.ChangePassword,
                 ),
                 onClick = {
-                    navController.navigate(NavigationRoute.ChangePassword)
+                    navController.navigate(NavigationRoute.Identification)
                 },
                 color = DormColor.Gray500,
             )
