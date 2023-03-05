@@ -190,7 +190,7 @@ fun LoginScreen(
                     id = R.string.FindId,
                 ),
                 onClick = {
-                    // todo implement and link find id screen
+                    navController.navigate(NavigationRoute.FindId)
                 },
                 color = DormColor.Gray500,
             )
