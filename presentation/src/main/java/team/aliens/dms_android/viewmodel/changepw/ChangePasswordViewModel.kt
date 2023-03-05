@@ -10,6 +10,7 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.EditPasswordParam
+import team.aliens.domain.param.ResetPasswordParam
 import team.aliens.domain.usecase.students.RemoteResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
@@ -86,6 +87,28 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
+    internal fun resetPassword(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                state.value.run {
+                    changePasswordUseCase.execute(
+                        data = ResetPasswordParam(
+                            accountId = id,
+                            authCode = authCode,
+                            email = email,
+                            name = name,
+                            newPassword = newPassword,
+                        )
+                    )
+                }
+            }.onSuccess {
+                event(Event.ResetPasswordSuccess)
+            }.onFailure {
+                event(getEventFromThrowable(it))
+            }
+        }
+    }
+
     internal fun setCurrentPassword(
         currentPassword: String,
     ) {
@@ -137,6 +160,7 @@ class ChangePasswordViewModel @Inject constructor(
         object EditPasswordSuccess : Event()
         object ComparePasswordSuccess: Event()
         data class CheckIdSuccess(val email: String): Event()
+        object ResetPasswordSuccess: Event()
 
         object BadRequestException : Event()
         object NotFoundException: Event()

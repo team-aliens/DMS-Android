@@ -76,12 +76,14 @@
     <string name="ReEnterPassword">비밀번호 재입력</string>
     <string name="NotCorrectPasswordFormat">비밀번호 형식이 올바르지 않습니다.</string>
     <string name="CheckPassword">비밀번호를 확인해주세요.</string>
+    <string name="SuccessResetPassword">비밀번호가 재설정 되었습니다.</string>
     <string name="PasswordWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
+    <string name="FinishResetPassword">비밀번호 재설정을 종료하시겠습니까?</string>
 
     // 비밀번호 변경
     <string name="ScanNewPassword">새 비밀번호 입력</string>
     <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
-    <string name="MismatchRepeatPassword">비밀번호와 비밀번호 확인이 일치하지 않아요</string>
+    <string name="MismatchRepeatPassword">비밀번호와 비밀번호 확인이 일치하지 않습니다</string>
     <string name="ChangePassword">비밀번호 변경</string>
     <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="OriginPw">기존 비밀번호</string>
