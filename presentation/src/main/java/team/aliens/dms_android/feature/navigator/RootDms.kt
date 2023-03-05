@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
+import team.aliens.dms_android.feature.auth.findid.FindIdScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.auth.login.SignInViewEffect
 import team.aliens.dms_android.feature.image.ConfirmImageScreen
@@ -134,7 +135,7 @@ fun RootDms(
 
         composable(
             route = NavigationRoute.ComparePassword,
-        ){
+        ) {
             ComparePasswordScreen(
                 navController = navController,
             )
@@ -152,37 +153,43 @@ fun RootDms(
             )
         }
 
-        composable(NavigationRoute.SignUpEmail){
+        composable(NavigationRoute.SignUpEmail) {
             SignUpEmailScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpEmailVerify){
+        composable(NavigationRoute.FindId) {
+            FindIdScreen(
+                navController = navController,
+            )
+        }
+
+        composable(NavigationRoute.SignUpEmailVerify) {
             SignUpEmailVerifyScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpId){
+        composable(NavigationRoute.SignUpId) {
             SignUpIdScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpPassword){
+        composable(NavigationRoute.SignUpPassword) {
             SignUpPasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpProfile){
+        composable(NavigationRoute.SignUpProfile) {
             SignUpProfileScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpPolicy){
+        composable(NavigationRoute.SignUpPolicy) {
             SignUpPolicyScreen(
                 navController = navController,
             )
