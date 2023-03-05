@@ -24,7 +24,6 @@ private val LightColorPalette = lightColors(
     secondaryVariant = DormColor.Gray300, // line
 )
 
-@SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
     primary = DormColor.DormPrimary,
     onPrimary = DormColor.Gray100,
@@ -33,7 +32,7 @@ private val DarkColorPalette = darkColors(
     onError = DormColor.Gray100,
     background = DormColor.Gray900,
     onBackground = DormColor.Gray100,
-    surface = DormColor.Gray900,
+    surface = DormColor.Gray800,
     onSurface = DormColor.Gray200,
     primaryVariant = DormColor.Gray500, // icon
     secondaryVariant = DormColor.Gray700, // line

@@ -64,7 +64,7 @@ private fun Notice(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(6.dp))
             .dormShadow(
-                color = DormTheme.colors.onSurface,
+                color = DormTheme.colors.secondaryVariant,
                 offsetX = 1.dp,
                 offsetY = 1.dp,
             )

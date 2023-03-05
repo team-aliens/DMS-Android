@@ -107,7 +107,6 @@ fun BottomNavBar(
 
     BottomNavigation(
         backgroundColor = DormTheme.colors.surface,
-        contentColor = DormTheme.colors.onSurface,
         modifier = Modifier.graphicsLayer {
             clip = true
             shape = RoundedCornerShape(
