@@ -7,12 +7,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.R
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 
 @Composable
@@ -25,11 +24,11 @@ fun FloatingNotice(
             .fillMaxWidth()
             .height(50.dp)
             .dormShadow(
-                color = DormColor.Gray500,
+                color = DormTheme.colors.secondaryVariant,
                 offsetY = 1.dp,
             )
             .background(
-                color = Color.White,
+                color = DormTheme.colors.surface,
                 shape = RoundedCornerShape(100),
             )
     ) {
