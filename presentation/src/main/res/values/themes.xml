@@ -12,6 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/gray_200</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/gray_200</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/ic_logo_image</item>
         <!-- Customize your theme here. -->
     </style>
 
