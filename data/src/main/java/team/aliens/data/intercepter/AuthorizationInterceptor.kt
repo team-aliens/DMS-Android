@@ -24,6 +24,7 @@ private val ignorePath = listOf(
     DmsUrl.Schools.schoolCode,
     DmsUrl.uploadFile,
     DmsUrl.User.checkId,
+    DmsUrl.Students.resetPassword,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",
 )
