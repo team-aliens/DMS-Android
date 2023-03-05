@@ -100,7 +100,7 @@ fun ChangePasswordVerifyEmailScreen(
                     isError = true
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.ChangeEmail))
+                    toast(context.getString(R.string.Retry))
                     navController.popBackStack()
                 }
                 else -> toast(
