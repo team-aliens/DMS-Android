@@ -1,15 +1,11 @@
 package team.aliens.design_system.theme
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.LocalContentColor
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.Stable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.*
 import team.aliens.design_system.color.DormColor
 
 @SuppressLint("ConflictingOnColor")
@@ -37,26 +33,31 @@ private val DarkColorPalette = darkColors(
 
 @Composable
 fun DormTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
+
+    val rememberedColors = remember {
+        if (darkTheme) DarkColorPalette else LightColorPalette
     }
 
-    MaterialTheme(
-        colors = colors,
-        content = content,
-    )
+    CompositionLocalProvider(
+        LocalColors provides rememberedColors,
+    ) {
+        MaterialTheme(
+            colors = DormTheme.colors,
+            content = content,
+        )
+    }
 }
 
 @Stable
 object DormTheme {
 
-    val colors: Color
+    val colors: Colors
         @Composable
         @ReadOnlyComposable
-        get() = LocalContentColor.current
+        get() = LocalColors.current
 }
+
+internal val LocalColors = staticCompositionLocalOf { lightColors() }
