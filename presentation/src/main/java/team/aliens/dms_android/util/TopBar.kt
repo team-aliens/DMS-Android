@@ -1,8 +1,8 @@
 package team.aliens.dms_android.util
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -10,12 +10,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
-import team.aliens.design_system.typography.Body3
-import team.aliens.design_system.typography.SubTitle2
 import team.aliens.presentation.R
 
 private val IconSize = DpSize(width = 24.dp, height = 24.dp)
@@ -29,11 +27,11 @@ fun TopBar(
         modifier = Modifier
             .height(70.dp)
             .fillMaxWidth()
-            .background(color = DormColor.Gray100),
+            .background(color = DormTheme.colors.surface),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(modifier = Modifier.padding(start = 24.dp))
-        Image(
+        Icon(
             modifier = Modifier
                 .size(IconSize)
                 .dormClickable(
@@ -45,6 +43,7 @@ fun TopBar(
                 },
             painter = painterResource(id = DormIcon.BackArrow.drawableId),
             contentDescription = stringResource(id = R.string.BackButton),
+            tint = DormTheme.colors.onBackground,
         )
         Spacer(modifier = Modifier.width(32.dp))
         Body1(text = title)
