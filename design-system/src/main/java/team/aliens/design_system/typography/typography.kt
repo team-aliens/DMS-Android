@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import team.aliens.design_system.R
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 
 val NotoSansFamily = FontFamily(
     Font(R.font.noto_sans_kr_black, FontWeight.Black),
@@ -178,7 +179,7 @@ object DormTypography {
 fun Headline1(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -193,7 +194,7 @@ fun Headline1(
 fun Headline2(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color =DormTheme.colors.onBackground,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
@@ -210,7 +211,7 @@ fun Headline2(
 fun Headline3(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -225,7 +226,7 @@ fun Headline3(
 fun Title1(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -240,7 +241,7 @@ fun Title1(
 fun Title2(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -255,7 +256,7 @@ fun Title2(
 fun Title3(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -270,7 +271,7 @@ fun Title3(
 fun SubTitle1(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -285,7 +286,7 @@ fun SubTitle1(
 fun SubTitle2(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -300,7 +301,7 @@ fun SubTitle2(
 fun Body1(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -315,7 +316,7 @@ fun Body1(
 fun Body2(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -330,7 +331,7 @@ fun Body2(
 fun Body3(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -345,7 +346,7 @@ fun Body3(
 fun Body4(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -360,7 +361,7 @@ fun Body4(
 fun Body5(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -376,7 +377,7 @@ fun Body5(
 fun Caption(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
@@ -396,7 +397,7 @@ fun Caption(
 fun OverLine(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -411,7 +412,7 @@ fun OverLine(
 fun ButtonText(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DormColor.Gray900,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,

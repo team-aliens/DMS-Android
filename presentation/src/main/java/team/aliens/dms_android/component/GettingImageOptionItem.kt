@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 
 @Composable
@@ -32,7 +32,7 @@ internal fun GettingImageOptionItem(
             painter = painterResource(
                 id = icon,
             ),
-            tint = DormColor.Gray500,
+            tint = DormTheme.colors.primaryVariant,
             contentDescription = null,
         )
 
@@ -42,7 +42,7 @@ internal fun GettingImageOptionItem(
 
         Body2(
             text = text,
-            color = DormColor.Gray500,
+            color = DormTheme.colors.primaryVariant,
         )
     }
 }

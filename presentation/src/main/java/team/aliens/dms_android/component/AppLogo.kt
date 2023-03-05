@@ -10,16 +10,19 @@ import androidx.compose.ui.unit.dp
 import team.aliens.presentation.R
 
 @Composable
-fun AppLogo() {
+fun AppLogo(
+    darkIcon: Boolean = false,
+) {
     Box(
-        modifier = Modifier
-            .size(
-                width = 96.dp,
-                height = 34.dp,
-            )
+        modifier = Modifier.size(
+            width = 96.dp,
+            height = 34.dp,
+        ),
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_logo),
+            painter = painterResource(
+                id = if (darkIcon) R.drawable.ic_logo_dark else R.drawable.ic_logo,
+            ),
             contentDescription = null,
         )
     }

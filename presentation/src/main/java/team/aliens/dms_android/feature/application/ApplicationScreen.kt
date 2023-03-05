@@ -12,7 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
@@ -59,7 +59,7 @@ fun ApplicationScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormColor.Gray200)
+            .background(color = DormTheme.colors.background)
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -99,7 +99,7 @@ fun ApplicationCard(
     Column(
         modifier = Modifier
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.surface,
                 shape = RoundedCornerShape(10.dp),
             )
             .padding(20.dp),
@@ -109,13 +109,17 @@ fun ApplicationCard(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            SubTitle2(text = title)
+            SubTitle2(
+                text = title,
+            )
             if (lastApplicationText.isNotBlank()) {
                 Spacer(modifier = Modifier.weight(1f))
                 LastAppliedItem(lastApplicationText)
             }
         }
-        Body5(text = content)
+        Body5(
+            text = content,
+        )
         DormContainedLargeButton(
             modifier = Modifier.height(40.dp),
             text = buttonText,

@@ -13,9 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.Notice
 import team.aliens.design_system.component.NoticeList
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.ButtonText
@@ -102,19 +102,32 @@ fun NoticeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200)
+            .background(
+                DormTheme.colors.background,
+            )
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
-        Body1(text = stringResource(id = R.string.Notice))
-        Spacer(modifier = Modifier.height(20.dp))
+
+        Spacer(
+            modifier = Modifier.height(24.dp),
+        )
+
+        Body1(
+            text = stringResource(R.string.Notice),
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp),
+        )
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
         ) {
             OrderButton(noticeViewModel)
         }
+
         NoticeList(
             modifier = Modifier
                 .fillMaxWidth()
@@ -155,9 +168,11 @@ fun OrderButton(
         },
         border = BorderStroke(
             width = 1.dp,
-            color = DormColor.Gray600,
+            color = DormTheme.colors.onBackground,
         ),
-        colors = ButtonDefaults.buttonColors(backgroundColor = DormColor.Gray100),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = DormTheme.colors.background,
+        ),
     ) {
         Row(
             modifier = Modifier
@@ -170,7 +185,6 @@ fun OrderButton(
         ) {
             ButtonText(
                 text = text,
-                color = DormColor.Gray600,
             )
         }
     }

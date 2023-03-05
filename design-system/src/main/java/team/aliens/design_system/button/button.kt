@@ -62,7 +62,6 @@ fun DormContainedLargeButton(
         textColor = color.textColor,
         round = round,
         backgroundColor = color.backgroundColor,
-        disabledColor = color.disabledColor,
         rippleColor = color.rippleColor,
         enabled = enabled,
         onClick = onClick,

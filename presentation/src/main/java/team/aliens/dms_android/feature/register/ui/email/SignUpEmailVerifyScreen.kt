@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.register.ui.email
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -28,6 +29,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
@@ -50,7 +52,7 @@ fun SignUpEmailVerifyScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
 
@@ -66,47 +68,42 @@ fun SignUpEmailVerifyScreen(
 
     var isError by remember { mutableStateOf(false) }
 
-    var isPressedBackButton by remember { mutableStateOf(false)}
+    var isPressedBackButton by remember { mutableStateOf(false) }
 
     BackHandler(enabled = true) {
         isPressedBackButton = true
     }
 
-    if(isPressedBackButton){
+    if (isPressedBackButton) {
         DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
             DormDoubleButtonDialog(
                 content = stringResource(id = R.string.CancelEmailVerify),
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = { navController.navigate(NavigationRoute.SignUpEmail){
-                    popUpTo(NavigationRoute.SignUpEmail){
-                        inclusive = true
+                onMainBtnClick = {
+                    navController.navigate(NavigationRoute.SignUpEmail) {
+                        popUpTo(NavigationRoute.SignUpEmail) {
+                            inclusive = true
+                        }
                     }
-                } },
+                },
                 onSubBtnClick = { isPressedBackButton = false },
             )
         }
     }
 
     LaunchedEffect(Unit) {
-        email =
-            navController.previousBackStackEntry?.arguments?.getString("email").toString()
+        email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString(
-                            "schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
-                        )
-                        putString(
-                            "schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
-                        )
-                        putString(
-                            "schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
-                        )
+                        putString("schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString("schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId"))
+                        putString("schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
                         putString("email", email)
                         putString("authCode", verificationCode)
                     }
@@ -154,7 +151,7 @@ fun SignUpEmailVerifyScreen(
     }
 
     val onVerificationCodeChange = { value: String ->
-        if(value.length != verificationCode.length) isError = false
+        if (value.length != verificationCode.length) isError = false
         if (value.length <= 6) {
             verificationCode = value
             if (value.length == 6) {
@@ -169,13 +166,18 @@ fun SignUpEmailVerifyScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
             ),
     ) {
-        AppLogo()
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Body2(text = stringResource(id = R.string.VerificationCode))
 
@@ -187,15 +189,12 @@ fun SignUpEmailVerifyScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            BasicTextField(
-                value = verificationCode,
+            BasicTextField(value = verificationCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 decorationBox = {
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(24.dp)
-                    ) {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                         items(6) { index ->
                             Box(
                                 modifier = Modifier
@@ -209,8 +208,7 @@ fun SignUpEmailVerifyScreen(
                             )
                         }
                     }
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(40.dp))
             Body3(
                 text = if (isError) stringResource(id = R.string.NoSameCode)
@@ -221,26 +219,22 @@ fun SignUpEmailVerifyScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Body3(
                 text = time,
-                color = DormColor.DormPrimary,
+                color = DormTheme.colors.primary,
             )
             Spacer(modifier = Modifier.fillMaxHeight(0.65f))
             ButtonText(
-                modifier = Modifier
-                    .dormClickable(
-                        rippleEnabled = false,
-                    ) {
-                        isRunningTimer = false
-                        registerEmailViewModel.requestEmailCode(email)
-                    },
+                modifier = Modifier.dormClickable(
+                    rippleEnabled = false,
+                ) {
+                    isRunningTimer = false
+                    registerEmailViewModel.requestEmailCode(email)
+                },
                 text = stringResource(id = R.string.ResendVerificationCode),
-                color = DormColor.Gray600,
             )
             Spacer(modifier = Modifier.height(26.dp))
-            DormContainedLargeButton(
-                text = stringResource(id = R.string.Verification),
+            DormContainedLargeButton(text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = verificationCode.isNotEmpty() && isRunningTimer
-            ) {
+                enabled = verificationCode.isNotEmpty() && isRunningTimer) {
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = verificationCode,
@@ -252,7 +246,7 @@ fun SignUpEmailVerifyScreen(
 
 private fun getStringFromEvent(
     context: Context,
-    event: RegisterEmailEvent
+    event: RegisterEmailEvent,
 ): String = when (event) {
     is RegisterEmailEvent.CheckEmailNotFound -> {
         context.getString(R.string.CertificationInfoNotFound)

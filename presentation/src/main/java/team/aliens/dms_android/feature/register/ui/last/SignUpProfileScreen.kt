@@ -1,8 +1,9 @@
 package team.aliens.dms_android.feature.register.ui.last
 
-import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
@@ -18,16 +19,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
@@ -35,7 +35,7 @@ import team.aliens.presentation.R
 @Composable
 fun SignUpProfileScreen(
     navController: NavController,
-    confirmImageViewModel: ConfirmImageViewModel = hiltViewModel()
+    confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),
 ) {
 
     val context = LocalContext.current
@@ -61,7 +61,7 @@ fun SignUpProfileScreen(
             onSelectPhoto = {
                 scope.launch {
                     val selectedImage = fetchImage(context)
-                    if(selectedImage.toString().isNotEmpty()){
+                    if (selectedImage.toString().isNotEmpty()) {
                         isSelectedImage = true
                     }
                     confirmImageViewModel.setImage(selectedImage ?: return@launch)
@@ -75,17 +75,20 @@ fun SignUpProfileScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
             ),
     ) {
-        AppLogo()
-        Spacer(modifier = Modifier.height(8.dp))
-        Body2(
-            text = stringResource(id = R.string.ProfileImage)
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Body2(text = stringResource(id = R.string.ProfileImage))
         Spacer(modifier = Modifier.height(80.dp))
         Column(
             modifier = Modifier
@@ -121,54 +124,51 @@ fun SignUpProfileScreen(
             }
             Spacer(modifier = Modifier.fillMaxHeight(0.62f))
             ButtonText(
-                modifier = Modifier
-                    .dormClickable(
-                        rippleEnabled = false,
-                    ) {
-                        navController.run {
-                            currentBackStackEntry?.arguments?.putString(
-                                "schoolCode",
-                                previousBackStackEntry?.arguments?.getString("schoolCode"),
-                            )
-                            currentBackStackEntry?.arguments?.putString(
-                                "schoolAnswer",
-                                previousBackStackEntry?.arguments?.getString("schoolAnswer"),
-                            )
-                            currentBackStackEntry?.arguments?.putString(
-                                "email",
-                                previousBackStackEntry?.arguments?.getString("email")
-                            )
-                            currentBackStackEntry?.arguments?.putString(
-                                "authCode",
-                                previousBackStackEntry?.arguments?.getString("authCode"),
-                            )
-                            currentBackStackEntry?.arguments?.putInt(
-                                "classRoom",
-                                previousBackStackEntry?.arguments?.getInt("classRoom")!!,
-                            )
-                            currentBackStackEntry?.arguments?.putInt(
-                                "grade",
-                                previousBackStackEntry?.arguments?.getInt("grade")!!,
-                            )
-                            currentBackStackEntry?.arguments?.putInt(
-                                "number",
-                                previousBackStackEntry?.arguments?.getInt("number")!!,
-                            )
-                            currentBackStackEntry?.arguments?.putString(
-                                "accountId",
-                                previousBackStackEntry?.arguments?.getString("accountId"),
-                            )
-                            currentBackStackEntry?.arguments?.putString(
-                                "password",
-                                previousBackStackEntry?.arguments?.getString("password"),
-                            )
-                            currentBackStackEntry?.arguments?.putString(
-                                "profileImageUrl",
-                                profileImageUrl,
-                            )
-                            navigate(NavigationRoute.SignUpPolicy)
-                        }
-                    },
+                modifier = Modifier.dormClickable(
+                    rippleEnabled = false,
+                ) {
+                    navController.run {
+                        currentBackStackEntry?.arguments?.putString(
+                            "schoolCode",
+                            previousBackStackEntry?.arguments?.getString("schoolCode"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "schoolAnswer",
+                            previousBackStackEntry?.arguments?.getString("schoolAnswer"),
+                        )
+                        currentBackStackEntry?.arguments?.putString("email",
+                            previousBackStackEntry?.arguments?.getString("email"))
+                        currentBackStackEntry?.arguments?.putString(
+                            "authCode",
+                            previousBackStackEntry?.arguments?.getString("authCode"),
+                        )
+                        currentBackStackEntry?.arguments?.putInt(
+                            "classRoom",
+                            previousBackStackEntry?.arguments?.getInt("classRoom")!!,
+                        )
+                        currentBackStackEntry?.arguments?.putInt(
+                            "grade",
+                            previousBackStackEntry?.arguments?.getInt("grade")!!,
+                        )
+                        currentBackStackEntry?.arguments?.putInt(
+                            "number",
+                            previousBackStackEntry?.arguments?.getInt("number")!!,
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "accountId",
+                            previousBackStackEntry?.arguments?.getString("accountId"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "password",
+                            previousBackStackEntry?.arguments?.getString("password"),
+                        )
+                        currentBackStackEntry?.arguments?.putString(
+                            "profileImageUrl",
+                            profileImageUrl,
+                        )
+                        navigate(NavigationRoute.SignUpPolicy)
+                    }
+                },
                 text = stringResource(id = R.string.SettingLater),
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -187,10 +187,8 @@ fun SignUpProfileScreen(
                         "schoolAnswer",
                         previousBackStackEntry?.arguments?.getString("schoolAnswer"),
                     )
-                    currentBackStackEntry?.arguments?.putString(
-                        "email",
-                        previousBackStackEntry?.arguments?.getString("email")
-                    )
+                    currentBackStackEntry?.arguments?.putString("email",
+                        previousBackStackEntry?.arguments?.getString("email"))
                     currentBackStackEntry?.arguments?.putString(
                         "authCode",
                         previousBackStackEntry?.arguments?.getString("authCode"),
