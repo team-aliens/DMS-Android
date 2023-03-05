@@ -11,7 +11,6 @@
     <application
         android:name="team.aliens.dms_android.DMSApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo_image"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.DMS_Android"
