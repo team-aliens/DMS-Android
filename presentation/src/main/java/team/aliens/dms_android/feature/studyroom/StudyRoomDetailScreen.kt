@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -19,12 +18,8 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.RoomDetail
-import team.aliens.design_system.component.RoomItem
-import team.aliens.design_system.component.SeatItem
-import team.aliens.design_system.component.SeatType
-import team.aliens.design_system.component.SeatTypeList
-import team.aliens.design_system.component.SeatTypeUiModel
+import team.aliens.design_system.component.*
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
@@ -59,11 +54,10 @@ fun StudyRoomDetailScreen(
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
     val currentSeat = uiState.currentSeat.collectAsState("").value
 
-    fun SeatTypeEntity.Type.toModel() =
-        SeatTypeUiModel(
-            color = color,
-            text = name,
-        )
+    fun SeatTypeEntity.Type.toModel() = SeatTypeUiModel(
+        color = color,
+        text = name,
+    )
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
@@ -81,7 +75,7 @@ fun StudyRoomDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.background,
             ),
     ) {
 
@@ -97,7 +91,7 @@ fun StudyRoomDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = DormColor.Gray200,
+                    color = DormTheme.colors.surface,
                 )
                 .padding(
                     horizontal = 16.dp,
@@ -202,11 +196,9 @@ fun StudyRoomDetailScreen(
                             )
                         }
 
-                        studyRoomDetailsViewModel.onEvent(
-                            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                                seat = currentSeat,
-                            )
-                        )
+                        studyRoomDetailsViewModel.onEvent(event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                            seat = currentSeat,
+                        ))
                     }
                 }
             }
