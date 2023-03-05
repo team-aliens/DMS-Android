@@ -65,9 +65,11 @@ fun ComparePasswordScreen(
     }
 
     Column(
-        modifier = Modifier.background(
-            DormTheme.colors.background,
-        )
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                DormTheme.colors.background,
+            )
     ) {
 
         TopBar(title = stringResource(id = R.string.ChangePassword)) {
