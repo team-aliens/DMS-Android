@@ -3,13 +3,14 @@ package team.aliens.dms_android.feature.cafeteria
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -23,12 +24,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.DormCalendar
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Title1
+import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
 import team.aliens.dms_android.feature.navigator.navigateBottomNavigation
@@ -66,7 +68,7 @@ fun CafeteriaScreen(
         )
     }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         noticeViewModel.checkNewNotice()
     }
 
@@ -77,7 +79,9 @@ fun CafeteriaScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DormColor.Gray100)
+                .background(
+                    DormTheme.colors.background,
+                )
                 .paint(
                     painter = painterResource(R.drawable.photo_cafeteria_background),
                     contentScale = ContentScale.FillBounds
@@ -88,7 +92,7 @@ fun CafeteriaScreen(
 
             CafeteriaTopBar()
 
-            if(state.hasNewNotice) {
+            if (state.hasNewNotice) {
                 Spacer(modifier = Modifier.height(18.dp))
                 ImportantNotice(
                     onNoticeIconClick = {
@@ -117,19 +121,16 @@ fun CafeteriaScreen(
 private fun CafeteriaTopBar(
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 16.dp,
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
-        Image(
-            modifier = Modifier
-                .padding(16.dp)
-                .height(30.dp)
-                .width(80.dp),
-            painter = painterResource(
-                id = R.drawable.ic_logo,
-            ),
-            contentDescription = null,
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
         )
     }
 }
@@ -174,7 +175,7 @@ fun DateSelector(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top= 38.dp,
+                top = 38.dp,
                 bottom = 38.dp,
             )
             .wrapContentHeight(),
@@ -232,7 +233,7 @@ fun DateSelector(
                     modifier = Modifier
                         .border(
                             width = 1.dp,
-                            color = DormColor.Gray500,
+                            color = DormTheme.colors.primaryVariant,
                             shape = RoundedCornerShape(5.dp),
                         )
                         .clip(
@@ -273,7 +274,7 @@ fun DateSelector(
                             mealViewModel.updateDay(state.selectedDay.plusDays(1))
                         },
                     painter = painterResource(
-                        id = R.drawable.ic_meal_next,
+                        id = DormIcon.Forward.drawableId,
                     ),
                     contentDescription = null,
                 )
