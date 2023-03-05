@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.register.ui.school
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -9,14 +10,12 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -25,6 +24,7 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
@@ -49,15 +49,15 @@ fun SignUpVerifySchoolScreen(
     var verificationCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
 
     val onVerificationCodeChange = { value: String ->
-        if(value.length == 8){
+        if (value.length == 8) {
             focusManager.clearFocus()
             examineSchoolCodeViewModel.examineSchoolCode(value)
-        }else{
+        } else {
             isError = false
         }
         verificationCode = value.take(8)
@@ -93,13 +93,18 @@ fun SignUpVerifySchoolScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
             ),
     ) {
-        AppLogo()
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Body2(
             text = stringResource(id = R.string.SchoolVerificationCode)

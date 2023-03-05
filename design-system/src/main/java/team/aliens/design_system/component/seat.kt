@@ -1,11 +1,6 @@
 package team.aliens.design_system.component
 
 import android.annotation.SuppressLint
-import android.graphics.Color.parseColor
-import android.text.TextUtils.replace
-import android.util.Log
-import androidx.annotation.ColorRes
-import androidx.annotation.IntegerRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,16 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColor
 import androidx.core.graphics.toColorInt
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.innerShadow
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.DormTypography
 import team.aliens.design_system.typography.OverLine
@@ -96,7 +89,7 @@ private fun RoomDescription(
         modifier = modifier,
         text = text,
         style = DormTypography.roomDescription,
-        color = DormColor.Lighten100,
+        color = DormTheme.colors.secondary,
     )
 }
 
@@ -119,7 +112,7 @@ fun RoomDetail(
         )
         .border(
             width = 1.dp,
-            color = DormColor.DormPrimary,
+            color = DormTheme.colors.primary,
             shape = RoomBoxShape,
         ), content = {
         SeatListContent(
@@ -220,7 +213,7 @@ private fun SeatContent(
     seatId: String,
     color: Color,
     text: String,
-    textColor: Color = DormColor.Gray100,
+    textColor: Color = DormTheme.colors.onBackground,
     isSelected: Boolean = false,
     onSelectedChanged: (String) -> Unit,
     clickedEnabled: Boolean = true,
@@ -318,7 +311,7 @@ private fun SeatListContent(
                                 modifier = Modifier
                                     .size(SeatSize)
                                     .clip(CircleShape)
-                                    .background(color = DormColor.Gray400),
+                                    .background(color = DormTheme.colors.secondaryVariant),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 OverLine(
@@ -351,7 +344,7 @@ fun RoomItem(
             )
             .fillMaxWidth()
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.surface,
             ),
     ) {
         Column(
@@ -373,7 +366,7 @@ fun RoomItem(
                 // floor
                 Body5(
                     text = position,
-                    color = DormColor.DormPrimary,
+                    color = DormTheme.colors.primary,
                 )
 
 
@@ -392,7 +385,7 @@ fun RoomItem(
                 // reserved seat
                 Body5(
                     text = "$currentNumber / $maxNumber",
-                    color = DormColor.Gray500,
+                    color = DormTheme.colors.primaryVariant,
                 )
             }
 
@@ -405,7 +398,7 @@ fun RoomItem(
             // available gender
             Body5(
                 text = condition,
-                color = DormColor.DormPrimary,
+                color = DormTheme.colors.primary,
             )
         }
     }

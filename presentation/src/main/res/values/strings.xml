@@ -71,7 +71,7 @@
 
     // 비밀번호 설정
     <string name="SetPassword">비밀번호 설정</string>
-    <string name="SetNewPassword">새 비밀번호 설정</string>
+    <string name="SetNewPassword">비밀번호 설정</string>
     <string name="EnterPassword">비밀번호 입력</string>
     <string name="ReEnterPassword">비밀번호 재입력</string>
     <string name="NotCorrectPasswordFormat">비밀번호 형식이 올바르지 않습니다.</string>

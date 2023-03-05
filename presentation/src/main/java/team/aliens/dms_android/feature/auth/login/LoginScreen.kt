@@ -1,8 +1,8 @@
 package team.aliens.dms_android.feature.auth.login
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -15,7 +15,6 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -24,11 +23,12 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
@@ -116,24 +116,16 @@ fun LoginScreen(
     }
 
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DormColor.Gray100)
-            .padding(16.dp)
-    ) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = DormTheme.colors.surface)
+        .padding(16.dp)) {
 
         Spacer(
             modifier = Modifier.height(92.dp),
         )
 
-        Image(
-            modifier = Modifier
-                .height(34.dp)
-                .width(97.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = null,
-        )
+        AppLogo(darkIcon = isSystemInDarkTheme())
 
         Spacer(
             modifier = Modifier.height(8.dp),
@@ -157,11 +149,9 @@ fun LoginScreen(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
             ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Next)
-                }
-            ),
+            keyboardActions = KeyboardActions(onNext = {
+                focusManager.moveFocus(FocusDirection.Next)
+            }),
         )
 
         Spacer(
@@ -177,11 +167,9 @@ fun LoginScreen(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
             ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                }
-            ),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
         )
 
         Spacer(
@@ -197,9 +185,7 @@ fun LoginScreen(
             onCheckedChange = onAutoLoginStateChange,
         )
 
-        Spacer(
-            modifier = Modifier.height(26.dp)
-        )
+        Spacer(modifier = Modifier.height(26.dp))
 
         Row(
             modifier = Modifier
@@ -215,12 +201,12 @@ fun LoginScreen(
                 onClick = {
                     navController.navigate(NavigationRoute.VerifySchool)
                 },
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
                 text = "|",
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
@@ -230,12 +216,12 @@ fun LoginScreen(
                 onClick = {
                     // todo implement and link find id screen
                 },
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
                 text = "|",
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
 
             Caption(
@@ -245,7 +231,7 @@ fun LoginScreen(
                 onClick = {
                     navController.navigate(NavigationRoute.ChangePassword)
                 },
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
         }
 
@@ -261,18 +247,14 @@ fun LoginScreen(
 
                 if (signInViewModel.state.value.id.isBlank()) {
 
-                    toast(
-                        message = context.getString(R.string.PleaseEnterId)
-                    )
+                    toast(message = context.getString(R.string.PleaseEnterId))
 
                     return@DormContainedLargeButton
                 }
 
                 if (signInViewModel.state.value.password.isBlank()) {
 
-                    toast(
-                        message = context.getString(R.string.PleaseEnterPassword)
-                    )
+                    toast(message = context.getString(R.string.PleaseEnterPassword))
 
                     return@DormContainedLargeButton
                 }

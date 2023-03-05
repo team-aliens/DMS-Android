@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.notice
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
@@ -37,22 +36,14 @@ fun NoticeDetailScreen(
         noticeViewModel.fetchNoticeDetail(noticeId)
     }
 
-    val toast = rememberToast()
-
-    val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.UnAuthorized)
-    val forbidden = stringResource(id = R.string.Forbidden)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val noInternetException = stringResource(id = R.string.NoInternetException)
-
-
     val noticeDetailState = noticeViewModel.noticeDetailViewEffect.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(
+                DormTheme.colors.background,
+            ),
     ) {
 
         TopBar(
@@ -66,7 +57,6 @@ fun NoticeDetailScreen(
 
         Column(
             modifier = Modifier
-                .background(DormColor.Gray200)
                 .padding(
                     top = 40.dp,
                     start = 16.dp,
@@ -88,12 +78,12 @@ fun NoticeDetailScreen(
                 // date
                 Caption(
                     text = noticeDetailState.value.createAt,
-                    color = DormColor.Gray500,
+                    color = DormTheme.colors.primaryVariant,
                 )
 
                 Divider(
                     modifier = Modifier.fillMaxWidth(),
-                    color = DormColor.Gray300,
+                    color = DormTheme.colors.secondaryVariant,
                 )
             }
 

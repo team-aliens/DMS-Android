@@ -2,7 +2,9 @@ package team.aliens.dms_android.feature
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import dagger.hilt.android.AndroidEntryPoint
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.base.BaseActivity
 import team.aliens.dms_android.feature.navigator.RootDms
 import team.aliens.presentation.R
@@ -16,11 +18,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             val secondIntent = intent
             val route = secondIntent.getStringExtra("route")
             if (route != null) {
-                RootDms(route)
+                DormTheme(
+                    darkTheme = isSystemInDarkTheme(),
+                ) {
+                    RootDms(route)
+                }
             }
         }
     }
 
     override fun initView() {
+        /* explicit blank */
     }
 }

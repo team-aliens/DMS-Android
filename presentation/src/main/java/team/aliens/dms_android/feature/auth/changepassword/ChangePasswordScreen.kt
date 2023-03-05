@@ -1,119 +1,47 @@
 package team.aliens.dms_android.feature.auth.changepassword
 
-import android.app.Activity
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
-import team.aliens.dms_android.util.EventFlow
-import team.aliens.dms_android.util.observeWithLifecycle
+import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 
 @Composable
 fun ChangePasswordScreen(
+    navController: NavHostController,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormColor.Gray100),
+            .background(
+                color = DormTheme.colors.background,
+            ),
     ) {
+
+        TopBar(
+            title = stringResource(R.string.ChangePassword),
+        ) {
+            navController.popBackStack()
+        }
+
         MainValue()
         PasswordTextField()
         ScanNewPasswordButton(changePasswordViewModel)
-    }
-}
-
-@Composable
-private fun HandleViewEffect(
-    effect: EventFlow<ChangePasswordEvent>,
-    scaffoldState: ScaffoldState,
-) {
-
-    val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.NoSameCode)
-    val notFoundComment = stringResource(id = R.string.ChangePasswordNotFound)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val unKnownException = stringResource(id = R.string.UnKnownException)
-
-    effect.observeWithLifecycle(action = {
-        when (it) {
-            is ChangePasswordEvent.ChangePasswordSuccess -> {
-                TODO("FeatureNavigator")
-            }
-
-            is ChangePasswordEvent.BadRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = badRequestComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is ChangePasswordEvent.UnAuthorizedException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = unAuthorizedComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is ChangePasswordEvent.NotFoundException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = notFoundComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is ChangePasswordEvent.TooManyRequestException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = tooManyRequestComment,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is ChangePasswordEvent.InternalServerException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = serverException,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            is ChangePasswordEvent.UnKnownException -> {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = unKnownException,
-                    duration = SnackbarDuration.Short
-                )
-            }
-
-            else -> {}
-        }
-    })
-    BackPressHandle()
-}
-
-@Composable
-private fun BackPressHandle() {
-    val backHandlingEnabled by remember { mutableStateOf(true) }
-    val activity = (LocalContext.current as? Activity)
-    BackHandler(backHandlingEnabled) {
-        activity?.finish()
     }
 }
 
@@ -126,14 +54,7 @@ fun MainValue() {
             modifier = Modifier.padding(start = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Image(
-                modifier = Modifier
-                    .padding(top = 16.dp, bottom = 12.dp)
-                    .height(24.dp)
-                    .width(24.dp),
-                painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                contentDescription = stringResource(id = R.string.BackButton),
-            )
+
             Image(
                 modifier = Modifier
                     .padding(top = 32.dp, bottom = 7.dp)
@@ -142,10 +63,13 @@ fun MainValue() {
                 painter = painterResource(id = R.drawable.ic_information_toast),
                 contentDescription = stringResource(id = R.string.MainLogo),
             )
-            Spacer(modifier = Modifier.height(1.dp))
+
+            Spacer(
+                modifier = Modifier.height(1.dp),
+            )
+
             Body4(
                 text = stringResource(id = R.string.SetNewPassword),
-                color = DormColor.Gray600,
             )
         }
     }
@@ -202,13 +126,7 @@ fun ScanNewPasswordButton(
             text = stringResource(id = R.string.Check),
             color = DormButtonColor.Blue,
         ) {
-
+            // todo
         }
     }
-}
-
-@Preview
-@Composable
-fun ChangePasswordScreenPreView() {
-    ChangePasswordScreen()
 }
