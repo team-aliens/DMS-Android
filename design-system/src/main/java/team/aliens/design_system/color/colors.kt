@@ -47,10 +47,10 @@ object DormColor {
     val Gray700 = Color(color = 0xFF343434)
 
     @Stable
-    val Gray800 = Color(color = 0xFF121212)
+    val Gray800 = Color(color = 0xFF202020)
 
     @Stable
-    val Gray900 = Color(color = 0xFF000000)
+    val Gray900 = Color(color = 0xFF121212)
 
     @Stable
     val Gray1000 = Color(color = 0xFF000000)

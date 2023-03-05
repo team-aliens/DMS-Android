@@ -60,12 +60,9 @@ fun DmsApp(
             startDestination = BottomNavigationItem.Meal.route,
         ) {
             composable(BottomNavigationItem.Meal.route) {
-                CafeteriaScreen(
-                    navController = navHostController,
-                    onMoveToNotice = {
-                        navHostController.navigate(NavigationRoute.BottomNavigation.Notice)
-                    }
-                )
+                CafeteriaScreen(navController = navHostController, onMoveToNotice = {
+                    navHostController.navigate(NavigationRoute.BottomNavigation.Notice)
+                })
             }
             composable(BottomNavigationItem.Application.route) {
                 ApplicationScreen(
@@ -109,7 +106,7 @@ fun BottomNavBar(
     val unselectedColor = DormTheme.colors.primaryVariant
 
     BottomNavigation(
-        backgroundColor = DormTheme.colors.background,
+        backgroundColor = DormTheme.colors.surface,
         contentColor = DormTheme.colors.onSurface,
         modifier = Modifier.graphicsLayer {
             clip = true
