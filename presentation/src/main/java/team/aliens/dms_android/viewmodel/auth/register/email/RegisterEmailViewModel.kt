@@ -26,16 +26,24 @@ class RegisterEmailViewModel @Inject constructor(
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
     val registerEmailEvent = _registerEmailEvent.asEventFlow()
 
-    fun requestEmailCode(email: String) {
+    fun requestEmailCode(
+        email: String,
+        type: EmailType = EmailType.SIGNUP,
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteRequestEmailCodeUseCase.execute(RequestEmailCodeParam(email = email,
-                    type = EmailType.SIGNUP))
+                remoteRequestEmailCodeUseCase.execute(
+                    RequestEmailCodeParam(
+                        email = email,
+                        type = type,
+                    ),
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.SendEmailSuccess)
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
+                    is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
                     is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
@@ -45,14 +53,20 @@ class RegisterEmailViewModel @Inject constructor(
         }
     }
 
-    fun checkEmailCode(email: String, authCode: String) {
+    fun checkEmailCode(
+        email: String,
+        authCode: String,
+        type: EmailType = EmailType.SIGNUP
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteCheckEmailUseCase.execute(CheckEmailCodeParam(
-                    email = email,
-                    type = EmailType.SIGNUP,
-                    authCode = authCode,
-                ))
+                remoteCheckEmailUseCase.execute(
+                    CheckEmailCodeParam(
+                        email = email,
+                        type = type,
+                        authCode = authCode,
+                    )
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.CheckEmailSuccess)
             }.onFailure {
@@ -71,7 +85,7 @@ class RegisterEmailViewModel @Inject constructor(
 
     internal fun checkEmailDuplicate(
         email: String,
-    ){
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 remoteDuplicateCheckEmailUseCase.execute(email)
@@ -93,7 +107,7 @@ class RegisterEmailViewModel @Inject constructor(
 private fun getEventFromThrowable(
     throwable: Throwable?
 ): RegisterEmailEvent =
-    when(throwable){
+    when (throwable) {
         is BadRequestException -> {
             RegisterEmailEvent.BadRequestException
         }

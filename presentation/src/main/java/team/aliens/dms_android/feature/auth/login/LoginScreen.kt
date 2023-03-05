@@ -26,6 +26,7 @@ import team.aliens.design_system.button.DormTextCheckBox
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
@@ -131,7 +132,7 @@ fun LoginScreen(
             modifier = Modifier.height(8.dp),
         )
 
-        Body4(
+        Body2(
             text = stringResource(
                 id = R.string.AppDescription,
             ),
@@ -229,7 +230,7 @@ fun LoginScreen(
                     id = R.string.ChangePassword,
                 ),
                 onClick = {
-                    navController.navigate(NavigationRoute.ChangePassword)
+                    navController.navigate(NavigationRoute.Identification)
                 },
                 color = DormTheme.colors.primaryVariant,
             )

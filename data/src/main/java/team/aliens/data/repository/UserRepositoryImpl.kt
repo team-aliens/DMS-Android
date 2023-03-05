@@ -4,7 +4,9 @@ import team.aliens.data.remote.datasource.declaration.RemoteUserDataSource
 import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
+import team.aliens.data.remote.response.user.CheckIdResponse
 import team.aliens.data.remote.response.user.SignInResponse
+import team.aliens.domain.entity.user.CheckIdEntity
 import team.aliens.domain.exception.NeedLoginException
 import team.aliens.domain.param.*
 import team.aliens.domain.repository.UserRepository
@@ -83,7 +85,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun checkId(
         accountId: String,
-    ) = remoteUserDataSource.checkId(accountId)
+    ): CheckIdEntity = remoteUserDataSource.checkId(accountId).toEntity()
 
     override suspend fun editPassword(
         editPasswordParam: EditPasswordParam,
@@ -112,6 +114,12 @@ private fun SignInResponse.toDbEntity(): UserPersonalKeyParam {
         accessTokenExpiredAt = accessTokenExpiredAt.toLocalDateTime(),
         refreshToken = refreshToken,
         refreshTokenExpiredAt = refreshTokenExpiredAt.toLocalDateTime(),
+    )
+}
+
+private fun CheckIdResponse.toEntity(): CheckIdEntity {
+    return CheckIdEntity(
+        email = this.email,
     )
 }
 

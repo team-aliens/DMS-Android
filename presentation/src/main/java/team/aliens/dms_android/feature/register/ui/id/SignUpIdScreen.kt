@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.register.ui.id
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -241,9 +242,13 @@ fun SignUpIdScreen(
             color = DormButtonColor.Blue,
             enabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && userId.isNotEmpty()
         ) {
+            if(!isNameChecked) toast(context.getString(R.string.CheckName))
+            else if(userId.length > 20) {
+                isIdError = true
+                errorDescription = context.getString(R.string.IdError)
+            }
             if(userId.length > 20){
                 isIdError = true
-
             }
             setIdViewModel.duplicateId(userId)
         }

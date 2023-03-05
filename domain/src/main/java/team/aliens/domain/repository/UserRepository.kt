@@ -1,5 +1,6 @@
 package team.aliens.domain.repository
 
+import team.aliens.domain.entity.user.CheckIdEntity
 import team.aliens.domain.param.*
 
 interface UserRepository {
@@ -28,7 +29,7 @@ interface UserRepository {
 
     suspend fun checkId(
         accountId: String,
-    )
+    ): CheckIdEntity
 
     suspend fun editPassword(
         editPasswordParam: EditPasswordParam,

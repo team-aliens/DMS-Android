@@ -21,6 +21,8 @@
     <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
     <string name="AgreeAllPolicy">전체 약관 동의</string>
     <string name="FinishSignUp">회원가입을 종료하시겠습니까?</string>
+    <string name="CheckName">학번과 이름이 맞는지 확인해주세요.</string>
+    <string name="IdError">아이디는 20자 이내로 입력해주세요</string>
 
     // 약관
     <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
@@ -41,6 +43,7 @@
     <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
     <string name="VerificationCode">인증코드 입력</string>
     <string name="ChangeEmail">인증 횟수가 초과되었습니다. 다른 이메일로 다시 시도해주세요.</string>
+    <string name="Retry">인증 횟수가 초과되었습니다. 잠시 후에 다시 시도해주세요.</string>
     <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
     <string name="CancelEmailVerify">이메일 입력 화면으로 돌아가시겠습니까?</string>
     <string name="ResendEmail">이메일이 재전송 되었습니다.</string>
@@ -76,16 +79,22 @@
     <string name="ReEnterPassword">비밀번호 재입력</string>
     <string name="NotCorrectPasswordFormat">비밀번호 형식이 올바르지 않습니다.</string>
     <string name="CheckPassword">비밀번호를 확인해주세요.</string>
+    <string name="SuccessResetPassword">비밀번호가 재설정 되었습니다.</string>
     <string name="PasswordWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
+    <string name="FinishResetPassword">비밀번호 재설정을 종료하시겠습니까?</string>
 
     // 비밀번호 변경
     <string name="ScanNewPassword">새 비밀번호 입력</string>
     <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
-    <string name="MismatchRepeatPassword">비밀번호와 비밀번호 확인이 일치하지 않아요</string>
+    <string name="MismatchRepeatPassword">비밀번호와 비밀번호 확인이 일치하지 않습니다</string>
     <string name="ChangePassword">비밀번호 변경</string>
     <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="OriginPw">기존 비밀번호</string>
+    <string name="Identification">계정 본인인증</string>
     <string name="SuccessChangePassword">비밀번호가 변경되었습니다.</string>
+    <string name="NotExistId">일치하는 아이디가 존재하지 않습니다.</string>
+    <string name="MatchEmailToId">아이디와 일치하는 이메일입니다.</string>
+    <string name="EnterName">이름 입력</string>
 
     // 급식
     <string name="TodayCafeteria">오늘의 급식</string>

@@ -5,6 +5,7 @@ import retrofit2.http.*
 import team.aliens.data.remote.request.user.EditPasswordRequest
 import team.aliens.data.remote.request.user.GetEmailCodeRequest
 import team.aliens.data.remote.request.user.SignInRequest
+import team.aliens.data.remote.response.user.CheckIdResponse
 import team.aliens.data.remote.response.user.SignInResponse
 import team.aliens.data.remote.url.DmsUrl
 import team.aliens.domain.enums.EmailType
@@ -42,7 +43,7 @@ interface UserApi {
     @GET(DmsUrl.User.checkId)
     suspend fun checkId(
         @Query("account_id") accountId: String,
-    )
+    ): CheckIdResponse
 
     @PATCH(DmsUrl.User.editPassword)
     suspend fun editPassword(

@@ -28,7 +28,7 @@ interface StudentsApi {
     @PATCH(DmsUrl.Students.resetPassword)
     suspend fun resetPassword(
         @Body resetPasswordRequest: ResetPasswordRequest,
-    )
+    ): Response<Void>
 
     @GET(DmsUrl.Students.examineGrade)
     suspend fun examineGrade(
