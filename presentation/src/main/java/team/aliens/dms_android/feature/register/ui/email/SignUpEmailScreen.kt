@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -33,6 +35,8 @@ fun SignUpEmailScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     val context = LocalContext.current
 
@@ -87,12 +91,18 @@ fun SignUpEmailScreen(
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
-                        putString("schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId"))
-                        putString("schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
+                        putString(
+                            "schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
+                        )
+                        putString(
+                            "schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
+                        )
                         putString("email", email)
                     }
                     navController.navigate(NavigationRoute.SignUpEmailVerify)
@@ -100,19 +110,27 @@ fun SignUpEmailScreen(
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.ChangeEmail))
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
-                        putString("schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId"))
-                        putString("schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
+                        putString(
+                            "schoolId",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
+                        )
+                        putString(
+                            "schoolAnswer",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
+                        )
                         putString("email", email)
                     }
                 }
-                else -> toast(getStringFromEvent(
-                    context = context,
-                    event = it,
-                ))
+                else -> toast(
+                    getStringFromEvent(
+                        context = context,
+                        event = it,
+                    )
+                )
             }
         }
     }
@@ -127,7 +145,12 @@ fun SignUpEmailScreen(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
-            ),
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
     ) {
         Column(modifier = Modifier.fillMaxHeight(0.843f)) {
             AppLogo(

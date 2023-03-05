@@ -181,7 +181,12 @@ fun SignUpEmailVerifyScreen(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
-            ),
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+              focusManager.clearFocus()
+            },
     ) {
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
@@ -200,7 +205,7 @@ fun SignUpEmailVerifyScreen(
             BasicTextField(value = verificationCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                 decorationBox = {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                         items(6) { index ->

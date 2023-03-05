@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.register.ui.id
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,6 +42,8 @@ fun SignUpIdScreen(
 ) {
 
     val context = LocalContext.current
+
+    val focusManager = LocalFocusManager.current
 
     var grade by remember { mutableStateOf("") }
     var classRoom by remember { mutableStateOf("") }
@@ -72,7 +75,7 @@ fun SignUpIdScreen(
     }
 
     val onUserIdChange = { value: String ->
-        if(value.length != userId.length) isIdError = false
+        if (value.length != userId.length) isIdError = false
         userId = value
     }
 
@@ -163,7 +166,12 @@ fun SignUpIdScreen(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
-            ),
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
     ) {
         AppLogo()
         Spacer(modifier = Modifier.height(8.dp))
@@ -185,8 +193,9 @@ fun SignUpIdScreen(
                         value = valueList[index].first,
                         onValueChange = valueList[index].second,
                         hint = valueList[index].third,
-                        keyboardType = KeyboardType.Number,
+                        keyboardType = KeyboardType.NumberPassword,
                         error = isGradeError,
+                        imeAction = ImeAction.Next,
                     )
                 }
             }
@@ -238,6 +247,7 @@ fun SignUpIdScreen(
                 hint = stringResource(id = R.string.EnterId),
                 error = isIdError,
                 errorDescription = errorDescription,
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(
@@ -245,11 +255,11 @@ fun SignUpIdScreen(
             color = DormButtonColor.Blue,
             enabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && userId.isNotEmpty()
         ) {
-            if(!isNameChecked) toast(context.getString(R.string.CheckName))
-            else if(userId.length > 20) {
+            if (!isNameChecked) toast(context.getString(R.string.CheckName))
+            else if (userId.length > 20) {
                 isIdError = true
                 errorDescription = context.getString(R.string.IdError)
-            }else {
+            } else {
                 setIdViewModel.duplicateId(userId)
             }
         }

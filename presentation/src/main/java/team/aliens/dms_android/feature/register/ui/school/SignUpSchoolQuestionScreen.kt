@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -35,6 +38,8 @@ fun SignUpSchoolQuestionScreen(
     navController: NavController,
     confirmSchoolViewModel: ConfirmSchoolViewModel = hiltViewModel(),
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     var schoolQuestion by remember { mutableStateOf("") }
     var schoolAnswer by remember { mutableStateOf("") }
@@ -69,8 +74,10 @@ fun SignUpSchoolQuestionScreen(
                 is CompareSchoolAnswerSuccess -> {
                     isError = false
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
                         putString("schoolAnswer", schoolAnswer)
                         putString("schoolId", schoolId.toString())
                     }
@@ -93,7 +100,12 @@ fun SignUpSchoolQuestionScreen(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
-            ),
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
     ) {
         Column(modifier = Modifier.fillMaxHeight(0.843f)) {
             AppLogo(
@@ -110,6 +122,7 @@ fun SignUpSchoolQuestionScreen(
                 hint = stringResource(id = R.string.Reply),
                 error = isError,
                 errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(

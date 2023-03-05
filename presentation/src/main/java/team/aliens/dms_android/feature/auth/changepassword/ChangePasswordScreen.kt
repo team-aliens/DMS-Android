@@ -44,7 +44,6 @@ fun ChangePasswordScreen(
 
     val toast = rememberToast()
 
-
     var password by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
 
