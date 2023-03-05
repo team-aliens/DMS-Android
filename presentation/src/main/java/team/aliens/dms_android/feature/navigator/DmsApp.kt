@@ -20,7 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
@@ -46,7 +46,9 @@ fun DmsApp(
                 navBackStackEntry = navBackStackEntry,
             )
         },
-        modifier = Modifier.background(DormColor.Gray900),
+        modifier = Modifier.background(
+            DormTheme.colors.background,
+        ),
     ) {
         NavHost(
             navController = navHostController,
@@ -97,11 +99,12 @@ fun BottomNavBar(
                     topEnd = 28.dp,
                 )
             ),
-        backgroundColor = MaterialTheme.colors.background,
-        contentColor = DormColor.Gray900,
+        backgroundColor = DormTheme.colors.background,
+        contentColor = DormTheme.colors.background,
     ) {
-        val selectedColor = DormColor.Gray900
-        val unselectedColor = DormColor.Gray500
+
+        val selectedColor = DormTheme.colors.onSurface
+        val unselectedColor = DormTheme.colors.primaryVariant
 
         val selected = when (currentDestination) {
             BottomNavigationItem.Meal.route -> 1
@@ -133,7 +136,8 @@ fun BottomNavBar(
                     painter = painterResource(id = BottomNavigationItem.Meal.iconResId),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(24.dp),
+                    tint = if (selected == 1) selectedColor else unselectedColor,
                 )
             },
             selected = selected == 1,
@@ -163,7 +167,8 @@ fun BottomNavBar(
                     painter = painterResource(id = BottomNavigationItem.Application.iconResId),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(24.dp),
+                    tint = if (selected == 2) selectedColor else unselectedColor,
                 )
             },
             selected = selected == 2,
@@ -193,7 +198,8 @@ fun BottomNavBar(
                     painter = painterResource(id = BottomNavigationItem.Notice.iconResId),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(24.dp),
+                    tint = if (selected == 3) selectedColor else unselectedColor,
                 )
             },
             selected = selected == 3,
@@ -223,7 +229,8 @@ fun BottomNavBar(
                     painter = painterResource(id = BottomNavigationItem.MyPage.iconResId),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(24.dp),
+                    tint = if (selected == 4) selectedColor else unselectedColor,
                 )
             },
             selected = selected == 4,
