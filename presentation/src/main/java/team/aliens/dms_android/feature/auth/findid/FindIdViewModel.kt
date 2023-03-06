@@ -3,28 +3,31 @@ package team.aliens.dms_android.feature.auth.findid
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.domain.exception.*
-import team.aliens.domain.exception.NoInternetException
-import team.aliens.domain.exception.ServerException
 import team.aliens.domain.param.FindIdParam
+import team.aliens.domain.usecase.schools.FetchSchoolsUseCase
 import team.aliens.domain.usecase.students.FindIdUseCase
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class FindIdViewModel @Inject constructor(
-    private val findIdUseCase: FindIdUseCase
+    private val findIdUseCase: FindIdUseCase,
+    private val fetchSchoolsUseCase: FetchSchoolsUseCase,
 ) : ViewModel() {
-    private val _findIdEvent = MutableEventFlow<FindIdEvent>()
-    val findIdEvent = _findIdEvent.asEventFlow()
 
-    var email : String = "이메일"
+    init {
+        fetchSchools()
+    }
+
+    private val _findIdEvent = MutableEventFlow<FindIdEvent>()
+    internal val findIdEvent = _findIdEvent.asEventFlow()
+
+    lateinit var email: String
 
     internal fun findId(schoolId: UUID, name: String, grade: Int, classRoom: Int, number: Int) {
         viewModelScope.launch {
@@ -37,23 +40,42 @@ class FindIdViewModel @Inject constructor(
             }.onSuccess {
                 event(SuccessFindId)
             }.onFailure {
-                when(it) {
-                    is NoInternetException -> event(FindIdNoInternetException)
-                    is TooManyRequestException -> event(FindIdTooManyRequest)
-                    is ServerException -> event(FindIdServerException)
-                    is NotFoundException -> event(FindIdNotFound)
-                    is BadRequestException -> event(FindIdBadRequest)
-                    is UnauthorizedException -> event(FindIdUnauthorized)
-                    else -> event(FindIdUnknownException)
-                }
+                event(
+                    getEventFromThrowable(it),
+                )
+            }
+        }
+    }
+
+    private fun fetchSchools() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                fetchSchoolsUseCase.execute(Unit)
+            }.onSuccess {
+                event(FetchSchools(it))
+            }.onFailure {
+
             }
         }
     }
 
 
-    fun event(event : FindIdEvent) {
+    fun event(event: FindIdEvent) {
         viewModelScope.launch {
             _findIdEvent.emit(event)
         }
+    }
+}
+
+private fun getEventFromThrowable(throwable: Throwable): FindIdEvent {
+    return when (throwable) {
+        is NoInternetException -> FindIdNoInternetException
+        is TooManyRequestException -> FindIdTooManyRequest
+        is ServerException -> FindIdServerException
+        is NeedLoginException -> FindIdNeedLoginException
+        is NotFoundException -> FindIdNotFound
+        is BadRequestException -> FindIdBadRequest
+        is UnauthorizedException -> FindIdUnauthorized
+        else -> FindIdUnknownException
     }
 }

@@ -5,7 +5,7 @@ import team.aliens.domain.entity.schools.SchoolEntity
 
 sealed interface FindIdEvent
 
-class FetchSchools(schoolsEntity: List<SchoolEntity>) : FindIdEvent
+class FetchSchools(val schoolsEntity: List<SchoolEntity>) : FindIdEvent
 
 object SuccessFindId : FindIdEvent
 
