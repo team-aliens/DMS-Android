@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.typography.Body4
 
+@Deprecated("no ussage")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CafeteriaMenu(

@@ -20,11 +20,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
-import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.utils.runIf
 
 @Composable
@@ -154,10 +153,10 @@ fun DormCheckBox(
         round = round,
         checked = checked,
         onCheckedChange = onCheckedChange,
-        selectedColor = DormColor.DormPrimary,
-        unSelectedColor = DormColor.Gray300,
-        disabledSelectedColor = DormColor.Lighten100,
-        disabledUnSelectedColor = DormColor.Gray300,
+        selectedColor = DormTheme.colors.primary,
+        unSelectedColor = DormTheme.colors.primaryVariant,
+        disabledSelectedColor = DormTheme.colors.secondary,
+        disabledUnSelectedColor = DormTheme.colors.secondaryVariant,
         enabled = enabled,
         icon = DormIcon.Check
     )
@@ -200,7 +199,7 @@ fun DormTextCheckBox(
         ) {
             Body3(
                 text = text,
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
         }
     }

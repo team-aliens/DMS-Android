@@ -1,7 +1,10 @@
 package team.aliens.dms_android.feature.cafeteria
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
+import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,12 +12,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
@@ -22,8 +27,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import kotlin.math.absoluteValue
@@ -49,6 +54,23 @@ fun ScrollEffectPager(
         }
     }
 
+    val vib = LocalContext.current.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+    var firstEnter by remember {
+        mutableStateOf(true)
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (firstEnter) {
+            firstEnter = false
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                vib.vibrate(
+                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
+                )
+            }
+        }
+    }
     HorizontalPager(
         state = pagerState,
         modifier = Modifier
@@ -59,6 +81,7 @@ fun ScrollEffectPager(
         ),
         count = 3,
     ) { pageIndex ->
+
         Card(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,7 +105,7 @@ fun ScrollEffectPager(
                     )
                 }
                 .background(
-                    color = Color.Transparent,
+                    color = DormTheme.colors.background,
                     shape = RoundedCornerShape(20.dp),
                 )
                 .clip(
@@ -90,7 +113,7 @@ fun ScrollEffectPager(
                 )
                 .border(
                     width = 1.dp,
-                    color = DormColor.DormPrimary,
+                    color = DormTheme.colors.primary,
                     shape = RoundedCornerShape(20.dp),
                 ),
             shape = RoundedCornerShape(20.dp),
@@ -139,11 +162,12 @@ private fun MenuListLayout(
     ) {
 
         item {
-            Image(
+            Icon(
                 painter = painterResource(
                     id = icon.drawableId,
                 ),
                 contentDescription = null,
+                tint = DormTheme.colors.primaryVariant,
             )
         }
 
@@ -152,14 +176,13 @@ private fun MenuListLayout(
         ) { menu ->
             Body4(
                 text = menu,
-                color = DormColor.Gray600,
             )
         }
 
         item {
             Body4(
                 text = menus.second,
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
         }
     }

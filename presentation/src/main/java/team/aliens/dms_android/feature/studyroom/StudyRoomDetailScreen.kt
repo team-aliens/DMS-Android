@@ -18,14 +18,13 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.RoomDetail
-import team.aliens.design_system.component.RoomItem
-import team.aliens.design_system.component.SeatItem
-import team.aliens.design_system.component.SeatType
+import team.aliens.design_system.component.*
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
+import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
 
@@ -55,6 +54,11 @@ fun StudyRoomDetailScreen(
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
     val currentSeat = uiState.currentSeat.collectAsState("").value
 
+    fun SeatTypeEntity.Type.toModel() = SeatTypeUiModel(
+        color = color,
+        text = name,
+    )
+
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
             toast(it)
@@ -71,7 +75,7 @@ fun StudyRoomDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.background,
             ),
     ) {
 
@@ -86,9 +90,6 @@ fun StudyRoomDetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    color = DormColor.Gray200,
-                )
                 .padding(
                     horizontal = 16.dp,
                 ),
@@ -123,7 +124,14 @@ fun StudyRoomDetailScreen(
 
 
             Spacer(
-                modifier = Modifier.height(30.dp),
+                modifier = Modifier.height(15.dp),
+            )
+
+            if (uiState.seatBoolean) {
+                SeatTypeList(items = uiState.seatType.types.map { it.toModel() })
+            }
+            Spacer(
+                modifier = Modifier.height(15.dp),
             )
 
 
@@ -185,11 +193,9 @@ fun StudyRoomDetailScreen(
                             )
                         }
 
-                        studyRoomDetailsViewModel.onEvent(
-                            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                                seat = currentSeat,
-                            )
-                        )
+                        studyRoomDetailsViewModel.onEvent(event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                            seat = currentSeat,
+                        ))
                     }
                 }
             }

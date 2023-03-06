@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormOutlineLargeButton
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Headline2
 import team.aliens.dms_android.util.TopBar
@@ -82,7 +82,9 @@ fun PointListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(
+                DormTheme.colors.background,
+            ),
     ) {
 
         TopBar(
@@ -95,7 +97,7 @@ fun PointListScreen(
 
         // point filter
         DialogBox(myPageViewModel)
-        
+
         // points
         PointListValue(
             totalPoint = totalPoint,

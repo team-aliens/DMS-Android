@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
-    private val studyRoomTypeUseCase: RemoteFetchStudyRoomTypeUseCase,
+    private val studyRoomTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
     private val studyApplySeatUseCase: RemoteApplySeatUseCase,
     private val studyCancelApplySeat: RemoteCancelApplySeatUseCase,
     private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,

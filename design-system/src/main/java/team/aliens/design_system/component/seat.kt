@@ -1,5 +1,6 @@
 package team.aliens.design_system.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,13 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.innerShadow
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.DormTypography
 import team.aliens.design_system.typography.OverLine
@@ -87,7 +89,7 @@ private fun RoomDescription(
         modifier = modifier,
         text = text,
         style = DormTypography.roomDescription,
-        color = DormColor.Lighten100,
+        color = DormTheme.colors.secondary,
     )
 }
 
@@ -110,7 +112,7 @@ fun RoomDetail(
         )
         .border(
             width = 1.dp,
-            color = DormColor.DormPrimary,
+            color = DormTheme.colors.primary,
             shape = RoomBoxShape,
         ), content = {
         SeatListContent(
@@ -187,17 +189,21 @@ fun RoomDetail(
                 y = constraints.maxHeight - bottomDescriptionPlaceable.height - RoomDescriptionPaddingInt,
             )
 
-            startDescriptionPlaceable.place(x = RoomDescriptionPaddingInt,
+            startDescriptionPlaceable.place(
+                x = RoomDescriptionPaddingInt,
                 y = Alignment.CenterVertically.align(
                     size = startDescriptionPlaceable.width,
                     space = constraints.maxHeight,
-                ))
+                )
+            )
 
-            endDescriptionPlaceable.place(x = constraints.maxWidth - endDescriptionPlaceable.width - RoomDescriptionPaddingInt,
+            endDescriptionPlaceable.place(
+                x = constraints.maxWidth - endDescriptionPlaceable.width - RoomDescriptionPaddingInt,
                 y = Alignment.CenterVertically.align(
                     size = endDescriptionPlaceable.width,
                     space = constraints.maxHeight,
-                ))
+                )
+            )
         }
     }
 }
@@ -207,7 +213,7 @@ private fun SeatContent(
     seatId: String,
     color: Color,
     text: String,
-    textColor: Color = DormColor.Gray100,
+    textColor: Color = DormTheme.colors.onBackground,
     isSelected: Boolean = false,
     onSelectedChanged: (String) -> Unit,
     clickedEnabled: Boolean = true,
@@ -305,7 +311,7 @@ private fun SeatListContent(
                                 modifier = Modifier
                                     .size(SeatSize)
                                     .clip(CircleShape)
-                                    .background(color = DormColor.Gray400),
+                                    .background(color = DormTheme.colors.secondaryVariant),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 OverLine(
@@ -338,7 +344,7 @@ fun RoomItem(
             )
             .fillMaxWidth()
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.surface,
             ),
     ) {
         Column(
@@ -360,7 +366,7 @@ fun RoomItem(
                 // floor
                 Body5(
                     text = position,
-                    color = DormColor.DormPrimary,
+                    color = DormTheme.colors.primary,
                 )
 
 
@@ -379,7 +385,7 @@ fun RoomItem(
                 // reserved seat
                 Body5(
                     text = "$currentNumber / $maxNumber",
-                    color = DormColor.Gray500,
+                    color = DormTheme.colors.primaryVariant,
                 )
             }
 
@@ -392,14 +398,15 @@ fun RoomItem(
             // available gender
             Body5(
                 text = condition,
-                color = DormColor.DormPrimary,
+                color = DormTheme.colors.primary,
             )
         }
     }
 }
 
+
 data class SeatTypeUiModel(
-    val color: Color,
+    var color: String,
     val text: String,
 )
 
@@ -419,6 +426,7 @@ fun SeatTypeList(
     }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 private fun SeatTypeContent(
     item: SeatTypeUiModel,
@@ -434,21 +442,11 @@ private fun SeatTypeContent(
             modifier = Modifier
                 .size(10.dp)
                 .background(
-                    color = item.color,
+                    color = Color(item.color.toColorInt()),
                     shape = CircleShape,
                 )
                 .clip(CircleShape),
         )
         OverLine(text = item.text)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewSeatContent() {
-    Column {
-        SeatTypeList(items = listOf(SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터"),
-            SeatTypeUiModel(DormColor.Gray800, "일반"),
-            SeatTypeUiModel(DormColor.DormPrimary, "컴퓨터")))
     }
 }

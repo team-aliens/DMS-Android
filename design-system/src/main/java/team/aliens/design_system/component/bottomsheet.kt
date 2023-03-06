@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body2
 
@@ -57,7 +57,7 @@ private fun DormBottomSheetContent(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = DormColor.Gray100,
+                color = DormTheme.colors.background,
             ),
     ) {
         DormBottomSheetHandle(
@@ -92,12 +92,14 @@ private fun DormBottomSheetHandle(
         contentAlignment = Alignment.Center,
     ) {
         if (useHandle) {
-            Box(modifier = Modifier
-                .size(BottomSheetHandleSize)
-                .clip(BottomSheetHandleShape)
-                .background(
-                    color = DormColor.Gray300,
-                ))
+            Box(
+                modifier = Modifier
+                    .size(BottomSheetHandleSize)
+                    .clip(BottomSheetHandleShape)
+                    .background(
+                        color = DormTheme.colors.primaryVariant,
+                    ),
+            )
         }
     }
 }

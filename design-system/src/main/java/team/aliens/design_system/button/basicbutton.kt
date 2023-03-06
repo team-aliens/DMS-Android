@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -25,12 +26,14 @@ import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.utils.runIf
 
+@Stable
+private val disabledAlpha = 0.5f
+
 @Composable
 private fun BasicButton(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     backgroundColor: Color,
-    disabledCOlor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -41,8 +44,7 @@ private fun BasicButton(
 
     val isPressed = interactionSource.collectIsPressedAsState()
 
-    val btnColor =
-        if (!enabled) disabledCOlor else if (isPressed.value) rippleColor else backgroundColor
+    val btnColor = if (isPressed.value) rippleColor else backgroundColor
 
     Box(
         modifier = modifier
@@ -57,6 +59,9 @@ private fun BasicButton(
                     )
                 }
             }
+            .alpha(
+                if (!enabled) disabledAlpha else 1f
+            )
             .background(
                 color = btnColor,
                 shape = shape,
@@ -74,7 +79,6 @@ private fun BasicContainedButton(
     textColor: Color,
     shape: Shape = RectangleShape,
     backgroundColor: Color,
-    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -84,7 +88,6 @@ private fun BasicContainedButton(
         modifier = modifier,
         shape = shape,
         backgroundColor = backgroundColor,
-        disabledCOlor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -126,7 +129,6 @@ private fun BasicOutlineButton(
             ),
         shape = shape,
         backgroundColor = Color.Transparent,
-        disabledCOlor = Color.Transparent,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -145,7 +147,6 @@ internal fun BasicContainedRoundButton(
     textColor: Color,
     round: Dp = 0.dp,
     backgroundColor: Color,
-    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -156,7 +157,6 @@ internal fun BasicContainedRoundButton(
         textColor = textColor,
         shape = RoundedCornerShape(round),
         backgroundColor = backgroundColor,
-        disabledColor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,
@@ -198,7 +198,6 @@ internal fun BasicContainedRoundLargeButton(
     textColor: Color,
     round: Dp = 0.dp,
     backgroundColor: Color,
-    disabledColor: Color,
     rippleColor: Color,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -211,7 +210,6 @@ internal fun BasicContainedRoundLargeButton(
         textColor = textColor,
         round = round,
         backgroundColor = backgroundColor,
-        disabledColor = disabledColor,
         rippleColor = rippleColor,
         enabled = enabled,
         onClick = onClick,

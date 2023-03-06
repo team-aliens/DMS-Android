@@ -1,14 +1,13 @@
 package team.aliens.dms_android.feature.mypage
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,13 +16,18 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.OverLine
+import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 import java.util.regex.Pattern
+
+const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
 @Composable
 fun MyPageChangePasswordScreen(
@@ -33,10 +37,11 @@ fun MyPageChangePasswordScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DormColor.Gray200),
+            .background(
+                DormTheme.colors.background,
+            ),
     ) {
 
-        val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
         val focusManager = LocalFocusManager.current
 
@@ -72,9 +77,10 @@ fun MyPageChangePasswordScreen(
             changePasswordViewModel.editPasswordEffect.collect {
                 when (it) {
                     is ChangePasswordViewModel.Event.EditPasswordSuccess -> {
-                        navController.popBackStack()
-                        navController.popBackStack()
                         toast(context.getString(R.string.SuccessChangePassword))
+                        navController.navigate(NavigationRoute.Main) {
+                            popUpTo(navController.currentDestination?.id!!)
+                        }
                     }
                     else -> {
                         toast(
@@ -88,7 +94,9 @@ fun MyPageChangePasswordScreen(
             }
         }
 
-        TopBar(title = stringResource(id = R.string.ChangePassword)) {
+        TopBar(
+            title = stringResource(R.string.ChangePassword),
+        ) {
             focusManager.clearFocus()
             navController.popBackStack()
         }
@@ -96,7 +104,6 @@ fun MyPageChangePasswordScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = DormColor.Gray100)
                 .padding(horizontal = 16.dp),
         ) {
             Spacer(
@@ -104,19 +111,12 @@ fun MyPageChangePasswordScreen(
                     46.dp,
                 )
             )
-            Image(
-                modifier = Modifier
-                    .size(
-                        width = 96.dp,
-                        height = 34.dp,
-                    ),
-                painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = null,
+            AppLogo(
+                darkIcon = isSystemInDarkTheme(),
             )
             Spacer(modifier = Modifier.height(32.dp))
             Body2(
                 text = stringResource(R.string.ChangePassword),
-                color = DormColor.Gray600,
             )
             Spacer(modifier = Modifier.height(6.dp))
             OverLine(

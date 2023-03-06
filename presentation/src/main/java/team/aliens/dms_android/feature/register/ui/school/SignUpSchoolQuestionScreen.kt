@@ -1,20 +1,24 @@
 package team.aliens.dms_android.feature.register.ui.school
 
-import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
@@ -35,6 +39,8 @@ fun SignUpSchoolQuestionScreen(
     confirmSchoolViewModel: ConfirmSchoolViewModel = hiltViewModel(),
 ) {
 
+    val focusManager = LocalFocusManager.current
+
     var schoolQuestion by remember { mutableStateOf("") }
     var schoolAnswer by remember { mutableStateOf("") }
 
@@ -47,7 +53,7 @@ fun SignUpSchoolQuestionScreen(
     var schoolId by remember { mutableStateOf(UUID.randomUUID()) }
 
     val onAnswerChange = { value: String ->
-        if(isError && value.length != schoolAnswer.length) isError = false
+        if (isError && value.length != schoolAnswer.length) isError = false
         schoolAnswer = value
     }
 
@@ -68,7 +74,10 @@ fun SignUpSchoolQuestionScreen(
                 is CompareSchoolAnswerSuccess -> {
                     isError = false
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode", navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
+                        putString(
+                            "schoolCode",
+                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
+                        )
                         putString("schoolAnswer", schoolAnswer)
                         putString("schoolId", schoolId.toString())
                     }
@@ -84,20 +93,26 @@ fun SignUpSchoolQuestionScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
-            ),
-    ) {
-        Column(
-            modifier = Modifier.fillMaxHeight(0.843f)
-        ) {
-            AppLogo()
-            Spacer(modifier = Modifier.height(8.dp))
-            Body2(
-                text = stringResource(id = R.string.QuestionConfirmSchool)
             )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
+    ) {
+        Column(modifier = Modifier.fillMaxHeight(0.843f)) {
+            AppLogo(
+                darkIcon = isSystemInDarkTheme(),
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Body2(text = stringResource(id = R.string.QuestionConfirmSchool))
             Spacer(modifier = Modifier.height(60.dp))
             Body2(text = schoolQuestion)
             Spacer(modifier = Modifier.height(10.dp))
@@ -107,6 +122,7 @@ fun SignUpSchoolQuestionScreen(
                 hint = stringResource(id = R.string.Reply),
                 error = isError,
                 errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(
@@ -127,7 +143,7 @@ fun SignUpSchoolQuestionScreen(
         ) {
             Caption(
                 text = stringResource(id = R.string.AlreadyAccount),
-                color = DormColor.Gray500,
+                color = DormTheme.colors.primaryVariant,
             )
             Spacer(modifier = Modifier.width(8.dp))
             ButtonText(
@@ -136,14 +152,13 @@ fun SignUpSchoolQuestionScreen(
                     .dormClickable(
                         rippleEnabled = false,
                     ) {
-                        navController.navigate(NavigationRoute.Login){
-                            popUpTo(NavigationRoute.Login){
+                        navController.navigate(NavigationRoute.Login) {
+                            popUpTo(NavigationRoute.Login) {
                                 inclusive = true
                             }
                         }
                     },
                 text = stringResource(id = R.string.Login),
-                color = DormColor.Gray900,
             )
         }
     }

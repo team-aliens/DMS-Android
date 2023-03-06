@@ -1,16 +1,20 @@
 package team.aliens.dms_android.feature.register.ui.password
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
@@ -22,6 +26,8 @@ import java.util.regex.Pattern
 fun SignUpPasswordScreen(
     navController: NavController,
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     var password by remember { mutableStateOf("") }
     var passwordRepeat by remember { mutableStateOf("") }
@@ -44,21 +50,29 @@ fun SignUpPasswordScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                DormTheme.colors.surface,
+            )
             .padding(
                 top = 108.dp,
                 start = 16.dp,
                 end = 16.dp,
-            ),
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
     ) {
-        AppLogo()
-        Spacer(modifier = Modifier.height(8.dp))
-        Body2(
-            text = stringResource(id = R.string.SetPassword)
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Body2(text = stringResource(id = R.string.SetPassword))
         Spacer(modifier = Modifier.height(4.dp))
         Caption(
             text = stringResource(id = R.string.PasswordWarning),
-            color = DormColor.Gray500,
+            color = DormTheme.colors.primaryVariant,
         )
         Column(
             modifier = Modifier
@@ -67,8 +81,7 @@ fun SignUpPasswordScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxHeight(0.17f),
+                modifier = Modifier.fillMaxHeight(0.17f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 DormTextField(

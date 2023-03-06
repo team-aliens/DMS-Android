@@ -10,9 +10,11 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.EditPasswordParam
+import team.aliens.domain.param.ResetPasswordParam
 import team.aliens.domain.usecase.students.RemoteResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
+import team.aliens.domain.usecase.user.RemoteCheckIdUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +22,7 @@ class ChangePasswordViewModel @Inject constructor(
     private val changePasswordUseCase: RemoteResetPasswordUseCase,
     private val editPasswordUseCase: EditPasswordUseCase,
     private val comparePasswordUseCase: ComparePasswordUseCase,
+    private val checkIdUseCase: RemoteCheckIdUseCase,
 ) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
@@ -70,6 +73,50 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
+    internal fun checkId(
+        accountId: String,
+    ){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                checkIdUseCase.execute(
+                    data = accountId,
+                )
+            }.onSuccess {
+                event(Event.CheckIdSuccess(it.email))
+            }.onFailure {
+                event(getEventFromThrowable(it))
+            }
+        }
+    }
+
+    internal fun resetPassword(
+        accountId: String,
+        authCode: String,
+        email: String,
+        name: String,
+        newPassword: String,
+    ){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                state.value.run {
+                    changePasswordUseCase.execute(
+                        data = ResetPasswordParam(
+                            accountId = accountId,
+                            authCode = authCode,
+                            email = email,
+                            name = name,
+                            newPassword = newPassword,
+                        )
+                    )
+                }
+            }.onSuccess {
+                event(Event.ResetPasswordSuccess)
+            }.onFailure {
+                event(getEventFromThrowable(it))
+            }
+        }
+    }
+
     internal fun setCurrentPassword(
         currentPassword: String,
     ) {
@@ -108,17 +155,19 @@ class ChangePasswordViewModel @Inject constructor(
         }
     }
 
-    sealed class Event() {
+    sealed class Event {
         object EditPasswordSuccess : Event()
         object ComparePasswordSuccess: Event()
+        data class CheckIdSuccess(val email: String): Event()
+        object ResetPasswordSuccess: Event()
 
         object BadRequestException : Event()
+        object NotFoundException: Event()
         object UnauthorizedException : Event()
         object ForbiddenException : Event()
         object TooManyRequestException : Event()
         object ServerException : Event()
         object UnknownException : Event()
-
     }
 }
 
@@ -128,6 +177,7 @@ private fun getEventFromThrowable(
 ): ChangePasswordViewModel.Event {
     return when (throwable) {
         is BadRequestException -> ChangePasswordViewModel.Event.BadRequestException
+        is NotFoundException -> ChangePasswordViewModel.Event.NotFoundException
         is UnauthorizedException -> ChangePasswordViewModel.Event.UnauthorizedException
         is ForbiddenException -> ChangePasswordViewModel.Event.ForbiddenException
         is TooManyRequestException -> ChangePasswordViewModel.Event.TooManyRequestException
