@@ -67,6 +67,9 @@ dependencies {
     implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
     implementation(Dependency.Ui.GLIDE_CORE)
     implementation(Dependency.Ui.FRAGMENT_KTX)
+
+    implementation(Dependency.WorkManager.CORE)
+    implementation(Dependency.WorkManager.KTX)
     kapt(Dependency.Ui.GLIDE_COMPILER)
 
     implementation(Dependency.Compose.COMPOSE_ACTIVITY)
@@ -84,6 +87,7 @@ dependencies {
     implementation(Dependency.Navigation.NAVIGATION_UI)
 
     implementation(Dependency.Hilt.HILT_ANDROID)
+    implementation(Dependency.Hilt.HILT_WORK)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
     implementation(Dependency.Ui.FRAGMENT_KTX_NEW)
