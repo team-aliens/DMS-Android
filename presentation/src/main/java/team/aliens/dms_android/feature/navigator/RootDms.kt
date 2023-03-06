@@ -242,8 +242,7 @@ fun RootDms(
             composable(NavigationRoute.ChangePasswordVerifyEmail){
                 ChangePasswordVerifyEmailScreen(
                     navController = navController,
-                )
-            }
+            )
         }
     }
 }
