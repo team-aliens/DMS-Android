@@ -50,6 +50,8 @@ val RainbowRed = Color(0xFFDA034E)
 val RainbowOrange = Color(0xFFFF9800)
 val RainbowYellow = Color(0xFFFFEB3B)
 val RainbowGreen = Color(0xFF4CAF50)
+val RainbowCyan = Color(0xFF4CA0AF)
+val RainbowLightBlue = Color(0xFF63B5F7)
 
 val Rainbow = listOf(
     RainbowBlue,
@@ -59,6 +61,8 @@ val Rainbow = listOf(
     RainbowOrange,
     RainbowYellow,
     RainbowGreen,
+    RainbowCyan,
+    RainbowLightBlue,
 )
 
 
@@ -79,8 +83,8 @@ fun CafeteriaScreen(
         targetValue = Rainbow.last(),
         animationSpec = infiniteRepeatable(
             animation = keyframes {
-                durationMillis = 10000
-                delayMillis = 0 * interval / 2
+                durationMillis = 20000
+                delayMillis = 10 * interval / 2
                 var i = 0
                 // set the keyframes from the rainbow with code
                 for (color in Rainbow) { // this is the crux  of setting the keyframes
