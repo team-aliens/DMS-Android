@@ -85,7 +85,7 @@ fun RootDms(
                 ChangePasswordScreen(
                     navController = navController,
                 )
-            
+
             }
             composable(NavigationRoute.PointList) {
                 PointListScreen(
@@ -166,7 +166,7 @@ fun RootDms(
                     navController = navController,
                 )
             }
-        
+
             composable(NavigationRoute.SchoolQuestion) {
                 SignUpSchoolQuestionScreen(
                     navController = navController,
@@ -204,9 +204,10 @@ fun RootDms(
             }
 
             composable(NavigationRoute.SignUpPolicy) {
-            SignUpPolicyScreen(
-                navController = navController,
-            )
+                SignUpPolicyScreen(
+                    navController = navController,
+                )
+            }
 
             composable(NavigationRoute.SignUpId) {
                 SignUpIdScreen(
@@ -231,18 +232,19 @@ fun RootDms(
                     navController = navController,
                 )
             }
-        
 
-            composable(NavigationRoute.Identification){
+
+            composable(NavigationRoute.Identification) {
                 IdentificationScreen(
                     navController = navController,
                 )
             }
 
-            composable(NavigationRoute.ChangePasswordVerifyEmail){
+            composable(NavigationRoute.ChangePasswordVerifyEmail) {
                 ChangePasswordVerifyEmailScreen(
                     navController = navController,
-            )
+                )
+            }
         }
     }
 }
