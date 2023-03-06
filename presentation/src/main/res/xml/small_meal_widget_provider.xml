@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/initial_widget_layout"
-    android:minWidth="240dp"
+    android:minWidth="100dp"
     android:minHeight="50dp"
-    android:previewImage="@drawable/image_big_meal_widget"
+    android:previewImage="@drawable/image_small_meal_widget"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen">

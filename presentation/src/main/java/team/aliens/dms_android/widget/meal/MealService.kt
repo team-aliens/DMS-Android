@@ -29,16 +29,25 @@ class MealService : Service(), CoroutineScope by MainScope() {
         launch {
             val appWidgetId = intent.getIntExtra(
                 AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
+                AppWidgetManager.INVALID_APPWIDGET_ID,
             )
+
+            val isSizeBig = intent.getBooleanExtra("isMealSizeBig", true)
 
             val meal = getMealState()
 
-            val remoteViews = RemoteViews(packageName, R.layout.widget_meal).apply {
-                setTextViewText(R.id.str_meal, meal.meal)
-                setTextViewText(R.id.str_kcal, meal.calories)
-                setTextViewText(R.id.str_meal_title, meal.mealType.title)
-                setImageViewResource(R.id.ic_meal, meal.mealType.icon.drawableId)
+            val remoteViews = if (isSizeBig) {
+                RemoteViews(packageName, R.layout.widget_meal).apply {
+                    setTextViewText(R.id.str_meal, meal.meal)
+                    setTextViewText(R.id.str_kcal, meal.calories)
+                    setTextViewText(R.id.str_meal_title, meal.mealType.title)
+                    setImageViewResource(R.id.ic_meal, meal.mealType.icon.drawableId)
+                }
+            } else {
+                RemoteViews(packageName, R.layout.small_widget_meal).apply {
+                    setTextViewText(R.id.small_str_meal, meal.meal)
+                    setImageViewResource(R.id.small_ic_meal, meal.mealType.icon.drawableId)
+                }
             }
 
             val appWidgetManager = AppWidgetManager.getInstance(this@MealService)

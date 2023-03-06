@@ -48,13 +48,26 @@
             android:name="team.aliens.dms_android.widget.meal.MealWidgetProvider"
             android:enabled="true"
             android:exported="true"
-            android:label="DMS 급식 위젯">
+            android:label="DMS 급식">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/meal_widget_provider" />
+        </receiver>
+
+        <receiver
+            android:name="team.aliens.dms_android.widget.meal.SmallMealWidgetProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="DMS 급식">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/small_meal_widget_provider" />
         </receiver>
 
         <service

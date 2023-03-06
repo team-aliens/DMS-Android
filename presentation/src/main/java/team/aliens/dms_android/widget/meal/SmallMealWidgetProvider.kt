@@ -9,7 +9,7 @@ import android.widget.RemoteViews
 import team.aliens.dms_android.feature.splash.SplashActivity
 import team.aliens.presentation.R
 
-class MealWidgetProvider : AppWidgetProvider() {
+class SmallMealWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(
         context: Context,
@@ -39,21 +39,21 @@ class MealWidgetProvider : AppWidgetProvider() {
 
         val serviceIntent = Intent(context, MealService::class.java).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putExtra("isMealSizeBig", true)
+            putExtra("isMealSizeBig", false)
         }
 
         val view = RemoteViews(
             context.packageName,
-            R.layout.widget_meal,
+            R.layout.small_widget_meal,
         ).apply {
-            setOnClickPendingIntent(R.id.widget_meal, pendingIntent)
+            setOnClickPendingIntent(R.id.small_widget_meal, pendingIntent)
         }
 
         context.startService(serviceIntent)
 
         appWidgetManager.apply {
             updateAppWidget(appWidgetId, view)
-            notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_meal)
+            notifyAppWidgetViewDataChanged(appWidgetId, R.id.small_str_meal)
         }
     }
 }
