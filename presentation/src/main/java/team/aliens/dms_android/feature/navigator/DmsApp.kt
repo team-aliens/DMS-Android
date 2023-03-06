@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -62,9 +63,15 @@ fun DmsApp(
             startDestination = BottomNavigationItem.Meal.route,
         ) {
             composable(BottomNavigationItem.Meal.route) {
-                CafeteriaScreen(navController = navHostController, onMoveToNotice = {
-                    navHostController.navigate(NavigationRoute.BottomNavigation.Notice)
-                })
+                CafeteriaScreen(
+                    navController = navHostController,
+                    onMoveToNotice = {
+                        navigateTo(
+                            route = BottomNavigationItem.Notice.route,
+                            navController = navHostController,
+                        )
+                    },
+                )
             }
             composable(BottomNavigationItem.Application.route) {
                 ApplicationScreen(
@@ -126,8 +133,8 @@ fun BottomNavBar(
                 selected = selected,
                 onClick = {
                     navigateTo(
-                        navigationItem.route,
-                        navController,
+                        route = navigationItem.route,
+                        navController = navController,
                     )
                 },
                 label = {
@@ -158,17 +165,13 @@ private fun navigateTo(
     route: String,
     navController: NavHostController,
 ) {
-    navController.navigate(
-        route = route,
-    ) {
-
-        navController.graph.startDestinationRoute?.let {
-            popUpTo(it) {
-                saveState = true
-            }
+    navController.navigate(route) {
+        popUpTo(navController.graph.findStartDestination().id) {
+            saveState = true
         }
 
         launchSingleTop = true
+
         restoreState = true
     }
 }
