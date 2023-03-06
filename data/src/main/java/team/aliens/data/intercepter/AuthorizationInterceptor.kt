@@ -25,6 +25,7 @@ private val ignorePath = listOf(
     DmsUrl.uploadFile,
     DmsUrl.User.checkId,
     DmsUrl.Students.resetPassword,
+    DmsUrl.schools,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",
     "${DmsUrl.students}/account-id"
@@ -39,8 +40,10 @@ class AuthorizationInterceptor @Inject constructor(
         val request = chain.request()
 
         val path = request.url.encodedPath
+        val method = request.method
 
         if (ignorePath.any { path.contains(it) }) return chain.proceed(request)
+
 
         val expiredAt: LocalDateTime = try {
             runBlocking {

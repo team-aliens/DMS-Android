@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.auth.findid
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -22,6 +23,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.textfield.DormTextField
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
@@ -82,7 +84,9 @@ fun FindIdScreen(
         findIdViewModel.findIdEvent.collect { event ->
             when (event) {
                 is FetchSchools -> {
-                    schoolList.addAll(event.schoolsEntity)
+                    schoolList.addAll(event.schoolsEntity.also {
+                        println(it)
+                    })
                 }
                 SuccessFindId -> {
                     findIdDialogState = true
@@ -139,7 +143,7 @@ fun FindIdScreen(
                         .border(
                             width = 1.dp,
                             shape = MaterialTheme.shapes.small,
-                            color = DormColor.Gray500,
+                            color = DormTheme.colors.primaryVariant,
                         )
 
                         .padding(start = 16.dp, end = 12.dp),
@@ -148,9 +152,11 @@ fun FindIdScreen(
                 ) {
                     Body2(
                         text = selectedSchool.name,
-                        color = DormColor.Gray500
+                        color = DormTheme.colors.primaryVariant,
                     )
-                    Icon(painterResource(id = R.drawable.ic_down), contentDescription = null)
+                    Icon(painterResource(
+                        id = R.drawable.ic_down,
+                    ), contentDescription = null)
                 }
 
                 DropdownMenu(
@@ -247,7 +253,9 @@ fun FindIdHeader() {
         verticalArrangement = Arrangement.SpaceBetween
     ) {
 
-        AppLogo() // todo
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
 
         Body2(
             text = stringResource(
