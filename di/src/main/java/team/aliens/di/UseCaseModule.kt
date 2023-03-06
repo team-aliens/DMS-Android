@@ -1,4 +1,4 @@
-package team.aliens.dms_android.widget
+package team.aliens.di
 
 import dagger.Module
 import dagger.Provides

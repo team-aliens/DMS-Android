@@ -1,4 +1,4 @@
-package team.aliens.dms_android.widget
+package team.aliens.dms_android.widget.meal
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -41,20 +41,18 @@ class MealWidgetProvider : AppWidgetProvider() {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
 
-        val servicePendingIntent =
-            PendingIntent.getService(context, 0, serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
         val view = RemoteViews(
             context.packageName,
             R.layout.widget_meal,
         ).apply {
-            setRemoteAdapter(R.id.widget_meal, serviceIntent)
             setOnClickPendingIntent(R.id.widget_meal, pendingIntent)
         }
 
         context.startService(serviceIntent)
 
-        appWidgetManager.updateAppWidget(appWidgetId, view)
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_meal)
+        appWidgetManager.apply {
+            updateAppWidget(appWidgetId, view)
+            notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_meal)
+        }
     }
 }

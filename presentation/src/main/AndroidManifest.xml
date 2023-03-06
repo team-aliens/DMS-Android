@@ -45,7 +45,7 @@
             tools:node="remove" />
 
         <receiver
-            android:name="team.aliens.dms_android.widget.MealWidgetProvider"
+            android:name="team.aliens.dms_android.widget.meal.MealWidgetProvider"
             android:enabled="true"
             android:exported="true"
             android:label="DMS 급식 위젯">
@@ -58,7 +58,7 @@
         </receiver>
 
         <service
-            android:name="team.aliens.dms_android.widget.MealService"
+            android:name="team.aliens.dms_android.widget.meal.MealService"
             android:exported="true"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 

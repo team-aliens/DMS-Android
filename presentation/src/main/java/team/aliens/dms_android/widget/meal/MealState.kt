@@ -1,4 +1,4 @@
-package team.aliens.dms_android.widget
+package team.aliens.dms_android.widget.meal
 
 /**
  * 급식 위젯의 상태를 정의합니다.

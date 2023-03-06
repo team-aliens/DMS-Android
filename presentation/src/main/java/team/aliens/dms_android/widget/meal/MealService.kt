@@ -1,4 +1,4 @@
-package team.aliens.dms_android.widget
+package team.aliens.dms_android.widget.meal
 
 import android.app.Service
 import android.appwidget.AppWidgetManager
@@ -23,10 +23,6 @@ class MealService : Service(), CoroutineScope by MainScope() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    override fun onCreate() {
-        super.onCreate()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

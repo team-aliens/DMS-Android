@@ -1,4 +1,4 @@
-package team.aliens.dms_android.widget
+package team.aliens.dms_android.widget.meal
 
 import team.aliens.design_system.icon.DormIcon
 import java.time.LocalDateTime
@@ -34,10 +34,6 @@ enum class MealType(
                 in lunchStart until eveningStart -> Lunch
                 else -> Breakfast
             }
-        }
-
-        fun toMealType(str: String): MealType {
-            return values().firstOrNull { it.title == str } ?: Breakfast
         }
     }
 }
