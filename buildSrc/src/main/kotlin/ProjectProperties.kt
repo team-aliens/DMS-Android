@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion
 
 object ProjectProperties {
-    const val VERSION_CODE = 4
+    const val VERSION_CODE = 4_0
     const val VERSION_NAME = "1.4"
 
     const val APPLICATION_ID = "team.aliens.dms_android"
