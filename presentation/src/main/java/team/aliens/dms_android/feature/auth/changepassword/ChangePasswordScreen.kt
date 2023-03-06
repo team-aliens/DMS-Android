@@ -186,7 +186,7 @@ fun ChangePasswordScreen(
                         error = isPasswordFormatError,
                         isPassword = true,
                         hint = stringResource(id = R.string.ScanNewPassword),
-                        errorDescription = stringResource(id = R.string.NotCorrectPasswordFormat),
+                        errorDescription = stringResource(id = R.string.CheckPassword),
                     )
                 }
                 Spacer(modifier = Modifier.height(7.dp))
