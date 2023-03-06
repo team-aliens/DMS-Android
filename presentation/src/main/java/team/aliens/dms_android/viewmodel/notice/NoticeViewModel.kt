@@ -70,7 +70,10 @@ class NoticeViewModel @Inject constructor(
                     NoticeDetail(
                         title = it.title,
                         content = it.content,
-                        createAt = it.createAt,
+                        createAt = "${it.createAt.split('.')[0].split('T')[0]} " +
+                                it.createAt.split('.')[0].split('T')[1].split(':')[0] +
+                                ":" +
+                                it.createAt.split('.')[0].split('T')[1].split(':')[1]
                     )
                 )
             }.onFailure {
