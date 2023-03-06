@@ -64,23 +64,29 @@ fun ChangePasswordVerifyEmailScreen(
 
     val state = changePasswordViewModel.state.collectAsState().value
 
+    var email by remember { mutableStateOf("") }
+
+    email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
+
     val onVerificationCodeChange = { code: String ->
         if (code.length != verificationCode.length) isError = false
         if (code.length <= 6) {
             verificationCode = code
             if (code.length == 6) {
                 focusManager.clearFocus()
+                registerEmailViewModel.checkEmailCode(
+                    email = email,
+                    authCode = verificationCode,
+                    type = EmailType.PASSWORD,
+                )
             }
         } else {
             verificationCode = code.take(8)
         }
     }
 
-    var email by remember { mutableStateOf("") }
-
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-        email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
@@ -161,7 +167,7 @@ fun ChangePasswordVerifyEmailScreen(
                 value = verificationCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                 decorationBox = {
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(24.dp)

@@ -214,7 +214,7 @@ fun IdentificationScreen(
                 if (id.isNotBlank() && name.isNotBlank() && userEmail.isNotBlank()) {
                     if (pattern.matcher(userEmail).find()) {
                         registerEmailViewModel.requestEmailCode(
-                            email = userEmail,
+                            email = userEmail.trim(),
                             type = EmailType.PASSWORD,
                         )
                     } else {

@@ -174,7 +174,7 @@ fun SignUpEmailScreen(
             enabled = (email.isNotEmpty() && !isError),
         ) {
             if (pattern.matcher(email).find()) {
-                registerEmailViewModel.checkEmailDuplicate(email)
+                registerEmailViewModel.checkEmailDuplicate(email.trim())
             } else {
                 isError = true
                 errorDescription = context.getString(R.string.NotValidEmailFormat)
