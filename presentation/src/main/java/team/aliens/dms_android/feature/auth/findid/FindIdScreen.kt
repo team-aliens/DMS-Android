@@ -75,7 +75,7 @@ fun FindIdScreen(
                         }
                     }
                 },
-                mainBtnTextColor = DormColor.DormPrimary,
+                mainBtnTextColor = DormTheme.colors.primary,
             )
         }
     }
