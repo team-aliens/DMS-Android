@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -126,6 +127,11 @@ fun IdentificationScreen(
                 start = 16.dp,
                 end = 16.dp,
             )
+            .dormClickable(
+                rippleEnabled = false,
+            ){
+                focusManager.clearFocus()
+            }
     ) {
         AppLogo(
             darkIcon = isSystemInDarkTheme(),

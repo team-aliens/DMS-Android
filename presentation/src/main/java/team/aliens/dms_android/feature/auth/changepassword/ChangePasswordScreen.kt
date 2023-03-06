@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -43,6 +45,8 @@ fun ChangePasswordScreen(
     val context = LocalContext.current
 
     val toast = rememberToast()
+
+    val focusManager = LocalFocusManager.current
 
     var password by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
@@ -71,7 +75,12 @@ fun ChangePasswordScreen(
             .fillMaxSize()
             .background(
                 color = DormTheme.colors.surface,
-            ),
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
     ) {
 
         TopBar(
@@ -148,22 +157,26 @@ fun ChangePasswordScreen(
                         }
                     }
                     else -> {
-                        toast(getStringFromEvent(
-                            context = context,
-                            event = it,
-                        ))
+                        toast(
+                            getStringFromEvent(
+                                context = context,
+                                event = it,
+                            )
+                        )
                     }
                 }
             }
         }
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 108.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = 108.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                )
+        ) {
             AppLogo()
             Spacer(modifier = Modifier.height(8.dp))
             Body2(
@@ -186,7 +199,7 @@ fun ChangePasswordScreen(
                         error = isPasswordFormatError,
                         isPassword = true,
                         hint = stringResource(id = R.string.ScanNewPassword),
-                        errorDescription = stringResource(id = R.string.CheckPassword),
+                        errorDescription = stringResource(id = R.string.PasswordWarning),
                     )
                 }
                 Spacer(modifier = Modifier.height(7.dp))
@@ -204,9 +217,11 @@ fun ChangePasswordScreen(
                 }
             }
             Spacer(modifier = Modifier.fillMaxHeight(0.742f))
-            DormContainedLargeButton(text = stringResource(id = R.string.Check),
+            DormContainedLargeButton(
+                text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,
-                enabled = (password.isNotBlank() && repeatPassword.isNotBlank())) {
+                enabled = (password.isNotBlank() && repeatPassword.isNotBlank())
+            ) {
                 if (password != repeatPassword) {
                     isPasswordMatchError = true
                 } else if (!Pattern.compile(passwordFormat).matcher(password).find()) {
