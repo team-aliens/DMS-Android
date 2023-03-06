@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.cafeteria
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -83,16 +84,22 @@ fun CafeteriaScreen(
                 .background(
                     DormTheme.colors.background,
                 )
-                .paint(painter = painterResource(R.drawable.photo_cafeteria_background),
-                    contentScale = ContentScale.FillBounds),
+                .paint(
+                    painter = painterResource(R.drawable.photo_cafeteria_background),
+                    contentScale = ContentScale.FillBounds
+                ),
         ) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
             CafeteriaTopBar()
 
-            if (state.hasNewNotice) {
-                Spacer(modifier = Modifier.height(18.dp))
+            AnimatedVisibility(
+                modifier = Modifier.padding(
+                    top = 36.dp,
+                ),
+                visible = state.hasNewNotice,
+            ) {
                 ImportantNotice(
                     onNoticeIconClick = onMoveToNotice,
                 )
