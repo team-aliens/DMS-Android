@@ -15,6 +15,7 @@ import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordVerifyEmailScreen
 import team.aliens.dms_android.feature.auth.changepassword.IdentificationScreen
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
+import team.aliens.dms_android.feature.auth.findid.FindIdScreen
 import team.aliens.dms_android.feature.auth.login.LoginScreen
 import team.aliens.dms_android.feature.image.ConfirmImageScreen
 import team.aliens.dms_android.feature.mypage.MyPageChangePasswordScreen
@@ -84,7 +85,7 @@ fun RootDms(
                 ChangePasswordScreen(
                     navController = navController,
                 )
-            
+
             }
             composable(NavigationRoute.PointList) {
                 PointListScreen(
@@ -158,6 +159,14 @@ fun RootDms(
                 )
             }
 
+            composable(
+                route = NavigationRoute.ComparePassword,
+            ) {
+                ComparePasswordScreen(
+                    navController = navController,
+                )
+            }
+
             composable(NavigationRoute.SchoolQuestion) {
                 SignUpSchoolQuestionScreen(
                     navController = navController,
@@ -172,6 +181,30 @@ fun RootDms(
 
             composable(NavigationRoute.SignUpEmailVerify) {
                 SignUpEmailVerifyScreen(
+                    navController = navController,
+                )
+            }
+
+            composable(NavigationRoute.FindId) {
+                FindIdScreen(
+                    navController = navController,
+                )
+            }
+
+            composable(NavigationRoute.SignUpPassword) {
+                SignUpPasswordScreen(
+                    navController = navController,
+                )
+            }
+
+            composable(NavigationRoute.SignUpProfile) {
+                SignUpProfileScreen(
+                    navController = navController,
+                )
+            }
+
+            composable(NavigationRoute.SignUpPolicy) {
+                SignUpPolicyScreen(
                     navController = navController,
                 )
             }
@@ -199,15 +232,15 @@ fun RootDms(
                     navController = navController,
                 )
             }
-        
 
-            composable(NavigationRoute.Identification){
+
+            composable(NavigationRoute.Identification) {
                 IdentificationScreen(
                     navController = navController,
                 )
             }
 
-            composable(NavigationRoute.ChangePasswordVerifyEmail){
+            composable(NavigationRoute.ChangePasswordVerifyEmail) {
                 ChangePasswordVerifyEmailScreen(
                     navController = navController,
                 )

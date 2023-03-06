@@ -5,6 +5,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.data.remote.response.schools.SchoolConfirmQuestionResponse
 import team.aliens.data.remote.response.schools.SchoolIdResponse
+import team.aliens.data.remote.response.students.FetchSchoolsResponse
 import team.aliens.data.remote.url.DmsUrl
 import java.util.*
 
@@ -25,4 +26,7 @@ interface SchoolsApi {
     suspend fun examineSchoolCode(
         @Query("school_code") schoolCode: String,
     ): SchoolIdResponse
+
+    @GET(DmsUrl.Schools.fetchSchools)
+    suspend fun fetchSchools(): FetchSchoolsResponse
 }

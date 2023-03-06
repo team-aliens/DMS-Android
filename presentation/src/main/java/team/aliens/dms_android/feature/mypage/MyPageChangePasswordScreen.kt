@@ -138,7 +138,7 @@ fun MyPageChangePasswordScreen(
                         hint = stringResource(R.string.EnterPassword),
                         isPassword = true,
                         error = isPasswordFormatError,
-                        errorDescription = stringResource(id = R.string.NotCorrectPasswordFormat)
+                        errorDescription = stringResource(id = R.string.CheckPassword)
                     )
                 }
 

@@ -28,6 +28,7 @@ object NavigationRoute {
     const val SignUpPassword = "signUpPassword"
     const val SignUpProfile = "signUpProfile"
     const val SignUpPolicy = "signUpPolicy"
+    const val FindId = "findId"
     const val Identification = "identification"
     const val ChangePasswordVerifyEmail = "changePasswordVerifyEmail"
 }

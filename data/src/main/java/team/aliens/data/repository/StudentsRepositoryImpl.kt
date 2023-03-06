@@ -5,10 +5,13 @@ import team.aliens.data.remote.datasource.declaration.RemoteStudentsDataSource
 import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
+import team.aliens.data.remote.response.schools.FindIdResponse
 import team.aliens.data.remote.response.students.ExamineGradeResponse
 import team.aliens.data.util.OfflineCacheUtil
 import team.aliens.domain.entity.user.ExamineGradeEntity
+import team.aliens.domain.entity.user.FindIdEntity
 import team.aliens.domain.param.ExamineGradeParam
+import team.aliens.domain.param.FindIdParam
 import team.aliens.domain.param.RegisterParam
 import team.aliens.domain.param.ResetPasswordParam
 import team.aliens.domain.repository.StudentsRepository
@@ -57,11 +60,22 @@ class StudentsRepositoryImpl @Inject constructor(
         remoteStudentsDataSource.withdraw()
     }
 
-    private fun ResetPasswordParam.toRequest() = ResetPasswordRequest(accountId = accountId,
+    override suspend fun findId(findIdPram: FindIdParam): FindIdEntity =
+        remoteStudentsDataSource.findId(
+            findIdPram.schoolId,
+            findIdPram.name,
+            findIdPram.grade,
+            findIdPram.classRoom,
+            findIdPram.number,
+        ).toEntity()
+
+    private fun ResetPasswordParam.toRequest() = ResetPasswordRequest(
+        accountId = accountId,
         authCode = authCode,
         email = email,
         name = name,
-        newPassword = newPassword)
+        newPassword = newPassword
+    )
 
     private fun RegisterParam.toRequest() = SignUpRequest(
         schoolCode = schoolCode,
@@ -77,4 +91,8 @@ class StudentsRepositoryImpl @Inject constructor(
     )
 
     private fun ExamineGradeResponse.toEntity() = ExamineGradeEntity(name = name)
+
+    private fun FindIdResponse.toEntity() = FindIdEntity(
+        email = email
+    )
 }

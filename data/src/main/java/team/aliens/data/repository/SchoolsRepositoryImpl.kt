@@ -5,6 +5,7 @@ import team.aliens.data.remote.datasource.declaration.RemoteSchoolsDataSource
 import team.aliens.data.remote.response.schools.SchoolConfirmQuestionResponse
 import team.aliens.data.remote.response.schools.SchoolIdResponse
 import team.aliens.data.util.OfflineCacheUtil
+import team.aliens.domain.entity.schools.SchoolEntity
 import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
 import team.aliens.domain.entity.user.SchoolIdEntity
 import team.aliens.domain.param.SchoolAnswerParam
@@ -30,6 +31,10 @@ class SchoolsRepositoryImpl @Inject constructor(
 
     override suspend fun examineSchoolCode(schoolCode: String) =
         remoteSchoolsDataSource.examineSchoolCode(schoolCode).toEntity()
+
+    override suspend fun fetchSchools(): List<SchoolEntity> {
+        return remoteSchoolsDataSource.fetchSchools()
+    }
 
     private fun SchoolConfirmQuestionResponse.toEntity() =
         SchoolConfirmQuestionEntity(question = question)

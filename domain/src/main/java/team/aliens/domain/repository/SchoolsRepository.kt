@@ -1,6 +1,7 @@
 package team.aliens.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import team.aliens.domain.entity.schools.SchoolEntity
 import team.aliens.domain.entity.user.SchoolConfirmQuestionEntity
 import team.aliens.domain.entity.user.SchoolIdEntity
 import team.aliens.domain.param.SchoolAnswerParam
@@ -19,4 +20,6 @@ interface SchoolsRepository {
     suspend fun examineSchoolCode(
         schoolCode: String,
     ): SchoolIdEntity
+
+    suspend fun fetchSchools(): List<SchoolEntity>
 }

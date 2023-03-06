@@ -5,6 +5,7 @@ import team.aliens.data.remote.datasource.declaration.RemoteStudentsDataSource
 import team.aliens.data.remote.request.students.EditProfileImageRequest
 import team.aliens.data.remote.request.students.ResetPasswordRequest
 import team.aliens.data.remote.request.students.SignUpRequest
+import team.aliens.data.remote.response.schools.FindIdResponse
 import team.aliens.data.remote.response.students.ExamineGradeResponse
 import team.aliens.data.util.HttpHandler
 import team.aliens.data.util.sendHttpRequest
@@ -81,4 +82,23 @@ class RemoteStudentsDataSourceImpl @Inject constructor(
             }
         )
     }
+
+    override suspend fun findId(
+        schoolId: UUID,
+        name: String,
+        grade: Int,
+        classRoom: Int,
+        number: Int
+    ): FindIdResponse =
+        sendHttpRequest(
+            httpRequest = {
+                studentsApi.findId(
+                    schoolId = schoolId,
+                    name = name,
+                    grade = grade,
+                    classRoom = classRoom,
+                    number = number
+                )
+            }
+        )
 }

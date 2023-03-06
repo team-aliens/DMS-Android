@@ -30,12 +30,14 @@ object DmsUrl {
         const val examineGrade = "$students/name"
         const val editProfileImage = "$students/profile"
         const val withdraw = students
+        const val findId = "$students/account-id/{school-id}"
     }
 
     object Schools {
         const val schoolQuestion = "$schools/question/{school-id}"
         const val schoolAnswer = "$schools/answer/{school-id}"
         const val schoolCode = "$schools/code"
+        const val fetchSchools = schools
     }
 
     object Notice {

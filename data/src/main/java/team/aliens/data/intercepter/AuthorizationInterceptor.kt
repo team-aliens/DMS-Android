@@ -27,6 +27,7 @@ private val ignorePath = listOf(
     DmsUrl.Students.resetPassword,
     "${DmsUrl.schools}/question",
     "${DmsUrl.schools}/answer",
+    "${DmsUrl.students}/account-id"
 )
 
 class AuthorizationInterceptor @Inject constructor(
