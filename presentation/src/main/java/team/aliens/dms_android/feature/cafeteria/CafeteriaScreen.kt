@@ -1,22 +1,15 @@
 package team.aliens.dms_android.feature.cafeteria
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -82,7 +75,7 @@ fun CafeteriaScreen(
     onMoveToNotice: () -> Unit,
 ) {
 
-    var backgroundGradient by rememberSaveable() {
+    /*var backgroundGradient by rememberSaveable() {
         mutableStateOf(true)
     }
 
@@ -120,7 +113,7 @@ fun CafeteriaScreen(
         )
     } else {
         null
-    }
+    }*/
 
     val defaultBackgroundBrush: Brush by remember {
         mutableStateOf(
@@ -174,7 +167,7 @@ fun CafeteriaScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .dormGradientBackground(
-                        gradientBackgroundBrush ?: defaultBackgroundBrush,
+                        defaultBackgroundBrush,
                     ),
             ) {
 
@@ -198,7 +191,7 @@ fun CafeteriaScreen(
                         modifier = Modifier.weight(1f),
                     )
 
-                    Icon(
+                    /*Icon(
                         painter = painterResource(
                             DormIcon.Palette.drawableId,
                         ),
@@ -215,7 +208,7 @@ fun CafeteriaScreen(
                         } else {
                             DormTheme.colors.primaryVariant
                         },
-                    )
+                    )*/
                 }
 
                 AnimatedVisibility(
