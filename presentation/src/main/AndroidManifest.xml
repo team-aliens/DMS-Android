@@ -45,7 +45,7 @@
             tools:node="remove" />
 
         <receiver
-            android:name="team.aliens.dms_android.widget.meal.MealWidgetProvider"
+            android:name="team.aliens.dms_android.widget.meal.BigMealWidgetProvider"
             android:enabled="true"
             android:exported="true"
             android:label="DMS 급식">
@@ -54,7 +54,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/meal_widget_provider" />
+                android:resource="@xml/big_meal_widget_provider" />
         </receiver>
 
         <receiver

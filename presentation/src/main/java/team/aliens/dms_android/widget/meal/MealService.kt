@@ -39,7 +39,7 @@ class MealService : Service(), CoroutineScope by MainScope() {
             val meal = getMealState()
 
             val remoteViews = if (isSizeBig) {
-                RemoteViews(packageName, R.layout.widget_meal).apply {
+                RemoteViews(packageName, R.layout.big_widget_meal).apply {
                     setTextViewText(R.id.str_meal, meal.meal)
                     setTextViewText(R.id.str_kcal, meal.calories)
                     setTextViewText(R.id.str_meal_title, meal.mealType.title)

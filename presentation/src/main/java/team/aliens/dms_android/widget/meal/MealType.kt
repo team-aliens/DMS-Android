@@ -3,6 +3,13 @@ package team.aliens.dms_android.widget.meal
 import team.aliens.design_system.icon.DormIcon
 import java.time.LocalDateTime
 
+/**
+ * 급식 타입을 정의합니다.
+ *
+ * [Breakfast] 아침
+ * [Lunch] 점심
+ * [Dinner] 저녁
+ */
 enum class MealType(
     val icon: DormIcon,
     val title: String,
@@ -23,17 +30,15 @@ enum class MealType(
 
     companion object {
         fun getCurrentMealType(localDateTime: LocalDateTime): MealType {
-            val currentHour = localDateTime.hour
-
-            val morningStart = 0
-            val lunchStart = 8
-            val eveningStart = 13
-
-            return when (currentHour) {
-                in morningStart until lunchStart -> Breakfast
-                in lunchStart until eveningStart -> Lunch
+            return when (localDateTime.hour) {
+                in MorningStartTime until LunchStartTime -> Breakfast
+                in LunchStartTime until DinnerStartTime -> Lunch
                 else -> Breakfast
             }
         }
+
+        private const val MorningStartTime: Int = 0
+        private const val LunchStartTime: Int = 8
+        private const val DinnerStartTime: Int = 13
     }
 }
