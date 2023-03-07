@@ -7,7 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -16,6 +15,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.component.DormCalendar
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Title1
@@ -43,17 +44,18 @@ import java.time.DayOfWeek.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-val RainbowBlue = Color(0xFF2196F3)
-val RainbowIndigo = Color(0xFF3F51B5)
-val RainbowViolet = Color(0xFF9C27B0)
-val RainbowRed = Color(0xFFDA034E)
-val RainbowOrange = Color(0xFFFF9800)
-val RainbowYellow = Color(0xFFFFEB3B)
-val RainbowGreen = Color(0xFF4CAF50)
-val RainbowCyan = Color(0xFF4CA0AF)
-val RainbowLightBlue = Color(0xFF63B5F7)
+private val RainbowBlue = Color(0xFF2196F3)
+private val RainbowIndigo = Color(0xFF3F51B5)
+private val RainbowViolet = Color(0xFF9C27B0)
+private val RainbowRed = Color(0xFFDA034E)
+private val RainbowOrange = Color(0xFFFF9800)
+private val RainbowYellow = Color(0xFFFFEB3B)
+private val RainbowGreen = Color(0xFF4CAF50)
+private val RainbowCyan = Color(0xFF4CA0AF)
+private val RainbowLightBlue = Color(0xFF63B5F7)
 
-val Rainbow = listOf(
+@Stable
+private val Rainbow = listOf(
     RainbowBlue,
     RainbowIndigo,
     RainbowViolet,
@@ -65,6 +67,9 @@ val Rainbow = listOf(
     RainbowLightBlue,
 )
 
+@Stable
+private val interval = 20000 / Rainbow.size
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -75,37 +80,45 @@ fun CafeteriaScreen(
     onMoveToNotice: () -> Unit,
 ) {
 
+    val backgroundGradient = rememberSaveable() {
+        mutableStateOf(true)
+    }
 
-    val infiniteTransition = rememberInfiniteTransition()
-    val interval = 20000 / Rainbow.size
-    val color by infiniteTransition.animateColor(
-        initialValue = Rainbow[0],
-        targetValue = Rainbow.last(),
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = 20000
-                delayMillis = 10 * interval / 2
-                var i = 0
-                // set the keyframes from the rainbow with code
-                for (color in Rainbow) { // this is the crux  of setting the keyframes
-                    color at i // at is an infix method in the KeyframesSpec class
-                    i += interval
-                }
-            },
-            repeatMode = RepeatMode.Restart
+    val backgroundBrush: Brush? = if (backgroundGradient.value) {
+
+        val infiniteTransition = rememberInfiniteTransition()
+
+        val color by infiniteTransition.animateColor(
+            initialValue = Rainbow[0],
+            targetValue = Rainbow.last(),
+            animationSpec = infiniteRepeatable(
+                animation = keyframes {
+                    durationMillis = 20000
+                    delayMillis = 10 * interval / 2
+                    var i = 0
+                    // set the keyframes from the rainbow with code
+                    for (color in Rainbow) { // this is the crux  of setting the keyframes
+                        color at i // at is an infix method in the KeyframesSpec class
+                        i += interval
+                    }
+                },
+                repeatMode = RepeatMode.Restart,
+            ),
         )
-    )
 
-    val finalColor = color.copy(
-        color.alpha.minus(0.9f),
-    )
+        val finalColor = color.copy(
+            color.alpha.minus(0.9f),
+        )
 
-    val backgroundBrush = Brush.verticalGradient(
-        listOf(
-            DormTheme.colors.background,
-            finalColor,
-        ),
-    )
+        Brush.verticalGradient(
+            listOf(
+                DormTheme.colors.background,
+                finalColor,
+            ),
+        )
+    } else {
+        null
+    }
 
     val scope = rememberCoroutineScope()
 
@@ -138,14 +151,9 @@ fun CafeteriaScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    //DormTheme.colors.background,
-                    backgroundBrush
-                )
-            /*.paint( // todo
-                painter = painterResource(R.drawable.photo_cafeteria_background),
-                contentScale = ContentScale.FillBounds
-            ),*/
+                .dormGradientBackground(
+                    backgroundBrush ?: DormTheme.colors.primary,
+                ),
         ) {
 
             Spacer(modifier = Modifier.height(20.dp))
