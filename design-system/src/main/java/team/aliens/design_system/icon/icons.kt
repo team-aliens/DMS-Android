@@ -12,6 +12,12 @@ value class DormIcon private constructor(
 ) {
 
     companion object {
+
+        @Stable
+        val Palette = DormIcon(
+            drawableId = R.drawable.ic_palette,
+        )
+
         @Stable
         val Applicate = DormIcon(
             drawableId = R.drawable.ic_applicate,
