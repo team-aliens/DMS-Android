@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.splash.SplashActivity
 import team.aliens.presentation.R
 
@@ -39,7 +40,7 @@ class SmallMealWidgetProvider : AppWidgetProvider() {
 
         val serviceIntent = Intent(context, MealService::class.java).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putExtra("isMealSizeBig", false)
+            putExtra(Extra.isMealSizeBig, false)
         }
 
         val view = RemoteViews(

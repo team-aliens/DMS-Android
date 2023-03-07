@@ -9,6 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.constans.Extra
+import team.aliens.domain.entity.MealEntity
 import team.aliens.domain.usecase.meal.RemoteMealUseCase
 import team.aliens.presentation.R
 import java.time.LocalDate
@@ -32,7 +34,7 @@ class MealService : Service(), CoroutineScope by MainScope() {
                 AppWidgetManager.INVALID_APPWIDGET_ID,
             )
 
-            val isSizeBig = intent.getBooleanExtra("isMealSizeBig", true)
+            val isSizeBig = intent.getBooleanExtra(Extra.isMealSizeBig, true)
 
             val meal = getMealState()
 
@@ -62,22 +64,37 @@ class MealService : Service(), CoroutineScope by MainScope() {
         val nowDate = LocalDate.now()
         val nowDateTime = LocalDateTime.now()
 
-        val result = remoteMealUseCase.execute(nowDate)
-            .meals
-            .first { it.date == LocalDate.now().toString() }
+        var mealEntity = MealEntity.MealsValue(
+            date = LocalDate.now().toString(),
+            breakfast = listOf(applicationContext.getString(R.string.MealNotFound)),
+            lunch = listOf(applicationContext.getString(R.string.MealNotFound)),
+            dinner = listOf(applicationContext.getString(R.string.MealNotFound)),
+        )
+
+        kotlin.runCatching {
+            remoteMealUseCase.execute(nowDate)
+        }.onSuccess { result ->
+            mealEntity = result
+                .meals
+                .first { it.date == LocalDate.now().toString() }
+        }
 
         val currentMealType = MealType.getCurrentMealType(nowDateTime)
 
         val meal = when (currentMealType) {
-            MealType.Breakfast -> result.breakfast
-            MealType.Lunch -> result.lunch
-            MealType.Dinner -> result.dinner
+            MealType.Breakfast -> mealEntity.breakfast
+            MealType.Lunch -> mealEntity.lunch
+            MealType.Dinner -> mealEntity.dinner
         }
+
+        val mealNotFound: Boolean = meal.size > 1
 
         return MealState(
             mealType = currentMealType,
-            meal = meal.dropLast(1).joinToString("\n"),
-            calories = meal.last()
+            meal = if (mealNotFound) meal
+                .dropLast(1)
+                .joinToString("\n") else applicationContext.getString(R.string.MealNotFound),
+            calories = if (mealNotFound) meal.last() else ""
         )
     }
 }
