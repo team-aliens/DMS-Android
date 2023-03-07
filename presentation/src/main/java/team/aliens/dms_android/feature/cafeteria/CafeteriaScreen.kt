@@ -12,6 +12,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.*
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.DormCalendar
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
@@ -80,11 +82,11 @@ fun CafeteriaScreen(
     onMoveToNotice: () -> Unit,
 ) {
 
-    val backgroundGradient = rememberSaveable() {
+    var backgroundGradient by rememberSaveable() {
         mutableStateOf(true)
     }
 
-    val backgroundBrush: Brush? = if (backgroundGradient.value) {
+    val gradientBackgroundBrush: Brush? = if (backgroundGradient) {
 
         val infiniteTransition = rememberInfiniteTransition()
 
@@ -120,6 +122,19 @@ fun CafeteriaScreen(
         null
     }
 
+    val defaultBackgroundBrush: Brush by remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    Color.Transparent,
+                    DormColor.DormPrimary.copy(
+                        alpha = 0.2f,
+                    ),
+                ),
+            ),
+        )
+    }
+
     val scope = rememberCoroutineScope()
 
     val state = noticeViewModel.state.collectAsState().value
@@ -144,61 +159,87 @@ fun CafeteriaScreen(
         noticeViewModel.checkNewNotice()
     }
 
+
     DormCalendar(
         bottomSheetState = calendarBottomSheetState,
         onChangeDate = onCalendarDateChange,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .dormGradientBackground(
-                    backgroundBrush ?: DormTheme.colors.primary,
-                ),
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
         ) {
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            CafeteriaTopBar()
-
-            AnimatedVisibility(
-                modifier = Modifier.padding(
-                    top = 36.dp,
-                ),
-                visible = state.hasNewNotice,
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .dormGradientBackground(
+                        gradientBackgroundBrush ?: defaultBackgroundBrush,
+                    ),
             ) {
-                ImportantNotice(
-                    onNoticeIconClick = onMoveToNotice,
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 16.dp,
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                ) {
+
+                    AppLogo(
+                        darkIcon = isSystemInDarkTheme(),
+                    )
+
+                    Spacer(
+                        modifier = Modifier.weight(1f),
+                    )
+
+                    Icon(
+                        painter = painterResource(
+                            DormIcon.Palette.drawableId,
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(
+                                32.dp,
+                            )
+                            .dormClickable {
+                                backgroundGradient = !backgroundGradient
+                            },
+                        tint = if (backgroundGradient) {
+                            DormTheme.colors.primary
+                        } else {
+                            DormTheme.colors.primaryVariant
+                        },
+                    )
+                }
+
+                AnimatedVisibility(
+                    modifier = Modifier.padding(
+                        top = 36.dp,
+                    ),
+                    visible = state.hasNewNotice,
+                ) {
+                    ImportantNotice(
+                        onNoticeIconClick = onMoveToNotice,
+                    )
+                }
+
+                DateSelector(
+                    onCalendarClick = {
+                        onCalendarClick()
+                    },
+                    mealViewModel = mealViewModel,
                 )
+
+
+                CafeteriaViewPager(mealViewModel)
             }
-
-            DateSelector(
-                onCalendarClick = {
-                    onCalendarClick()
-                },
-                mealViewModel = mealViewModel,
-            )
-
-
-            CafeteriaViewPager(mealViewModel)
         }
-    }
-}
-
-@Composable
-private fun CafeteriaTopBar(
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 16.dp,
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-    ) {
-        AppLogo(
-            darkIcon = isSystemInDarkTheme(),
-        )
     }
 }
 
