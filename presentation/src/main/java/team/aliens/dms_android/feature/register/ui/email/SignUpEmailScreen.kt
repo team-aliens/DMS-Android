@@ -6,11 +6,13 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -165,7 +167,11 @@ fun SignUpEmailScreen(
                 hint = stringResource(id = R.string.EnterEmailAddress),
                 error = isError,
                 keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Done,
                 errorDescription = errorDescription,
+                keyboardActions = KeyboardActions{
+                    focusManager.clearFocus()
+                }
             )
         }
         DormContainedLargeButton(
