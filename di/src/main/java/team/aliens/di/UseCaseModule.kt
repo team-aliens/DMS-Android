@@ -14,7 +14,7 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun bindRemoteMealUseCase(
+    fun provideRemoteMealUseCase(
         mealRepository: MealRepository
     ): RemoteMealUseCase = RemoteMealUseCase(
         mealRepository = mealRepository,
