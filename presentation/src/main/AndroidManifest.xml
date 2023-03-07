@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dms_android">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DMS_Android"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name="team.aliens.dms_android.feature.MainActivity"
             android:exported="false">
@@ -36,6 +38,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
+
+        <receiver
+            android:name="team.aliens.dms_android.widget.meal.BigMealWidgetProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="DMS 급식">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/big_meal_widget_provider" />
+        </receiver>
+
+        <receiver
+            android:name="team.aliens.dms_android.widget.meal.SmallMealWidgetProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="DMS 급식">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/small_meal_widget_provider" />
+        </receiver>
+
+        <service
+            android:name="team.aliens.dms_android.widget.meal.MealService"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>

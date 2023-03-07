@@ -97,6 +97,7 @@
 
     // 급식
     <string name="TodayCafeteria">오늘의 급식</string>
+    <string name="MealNotFound">급식이 없습니다</string>
 
     // 공지
     <string name="Announcement">공지</string>

@@ -12,6 +12,11 @@ object Dependency {
         const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
     }
 
+    object WorkManager {
+        const val CORE = "androidx.work:work-runtime:${Versions.WORK_MANAGER}"
+        const val KTX = "androidx.work:work-runtime-ktx:${Versions.WORK_MANAGER}"
+    }
+
     object Ui {
         const val SPLASH_SCREEN_API = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN_VERSION}"
 
@@ -88,6 +93,7 @@ object Dependency {
     object Hilt {
         const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
         const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+        const val HILT_WORK = "androidx.hilt:hilt-work:${Versions.HILT_WORK}"
         const val INJECT = "javax.inject:javax.inject:1"
     }
 

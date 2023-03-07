@@ -115,5 +115,14 @@ value class DormIcon private constructor(
 
         @Stable
         val Success = DormIcon(drawableId = R.drawable.ic_error_toast)
+
+        @Stable
+        val BlueBreakfast = DormIcon(drawableId = R.drawable.ic_blue_breakfast)
+
+        @Stable
+        val BlueLunch = DormIcon(drawableId = R.drawable.ic_blue_lunch)
+
+        @Stable
+        val BlueDinner = DormIcon(drawableId = R.drawable.ic_blue_dinner)
     }
 }

@@ -1,5 +1,3 @@
-import org.gradle.internal.impldep.com.google.api.services.storage.model.Bucket.Lifecycle
-
 object Versions {
     const val KT_LINT = "10.2.0"
 
@@ -16,6 +14,7 @@ object Versions {
     const val DATASTORE = "1.0.0"
 
     const val HILT = "2.44"
+    const val HILT_WORK = "1.0.0"
     const val HILTVIEWMODEL = "1.0.0-alpha03"
 
     const val VIEWMODEL = "2.4.0-rc01"
@@ -48,6 +47,8 @@ object Versions {
     const val ANI_NAV = "0.24.5-alpha"
     const val LANDSCAPIST = "1.4.7"
     const val HILT_NAV = "1.0.0"
+
+    const val WORK_MANAGER = "2.6.0-alpha01"
 
     const val SPLASH_SCREEN_VERSION = "1.0.0-beta01"
     const val COMPOSE = "1.2.0-alpha07"
