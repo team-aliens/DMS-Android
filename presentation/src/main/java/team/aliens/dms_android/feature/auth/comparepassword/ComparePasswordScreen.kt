@@ -85,6 +85,7 @@ fun ComparePasswordScreen(
     ) {
 
         TopBar(title = stringResource(id = R.string.ChangePassword)) {
+            focusManager.clearFocus()
             navController.popBackStack()
         }
 

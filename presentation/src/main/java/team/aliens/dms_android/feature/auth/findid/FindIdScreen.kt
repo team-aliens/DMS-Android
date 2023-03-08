@@ -127,7 +127,11 @@ fun FindIdScreen(
     Column( // todo refactor
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(
+                top = 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+            )
             .dormClickable(
                 rippleEnabled = false,
             ) {
@@ -235,9 +239,8 @@ fun FindIdScreen(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 57.dp),
-            verticalArrangement = Arrangement.Bottom
+                .fillMaxHeight(0.81f),
+            verticalArrangement = Arrangement.Bottom,
         ) {
             DormContainedLargeButton(
                 text = stringResource(id = R.string.FindId),
@@ -262,7 +265,7 @@ fun FindIdHeader() {
     Column(
         modifier = Modifier
             .wrapContentWidth()
-            .height(68.dp),
+            .height(60.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
 

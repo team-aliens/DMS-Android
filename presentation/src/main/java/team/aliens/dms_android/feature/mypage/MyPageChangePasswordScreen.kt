@@ -6,9 +6,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -32,6 +34,7 @@ import java.util.regex.Pattern
 
 const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MyPageChangePasswordScreen(
     navController: NavController,
@@ -45,6 +48,7 @@ fun MyPageChangePasswordScreen(
             ),
     ) {
 
+        val keyboardController = LocalSoftwareKeyboardController.current
 
         val focusManager = LocalFocusManager.current
 
@@ -100,6 +104,7 @@ fun MyPageChangePasswordScreen(
         TopBar(
             title = stringResource(R.string.ChangePassword),
         ) {
+            keyboardController?.hide()
             focusManager.clearFocus()
             navController.popBackStack()
         }
