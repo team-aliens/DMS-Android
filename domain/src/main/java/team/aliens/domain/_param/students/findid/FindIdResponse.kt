@@ -1,4 +1,4 @@
-package team.aliens.domain._param.auth.findid
+package team.aliens.domain._param.students.findid
 
 /**
  * @author junsuPark

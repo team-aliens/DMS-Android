@@ -1,4 +1,4 @@
-package team.aliens.domain._param.auth.password
+package team.aliens.domain._param.students.resetpassword
 
 /**
  * @author junsuPark

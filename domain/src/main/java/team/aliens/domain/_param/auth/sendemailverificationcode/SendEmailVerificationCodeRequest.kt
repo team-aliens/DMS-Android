@@ -1,4 +1,4 @@
-package team.aliens.domain._param.auth.signup
+package team.aliens.domain._param.auth.sendemailverificationcode
 
 /**
  * @author junsuPark
