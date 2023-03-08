@@ -32,6 +32,9 @@ import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
+@Stable
+val defaultProfileUrl = "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
+
 @Composable
 fun SignUpProfileScreen(
     navController: NavController,
@@ -39,8 +42,7 @@ fun SignUpProfileScreen(
 ) {
 
     val context = LocalContext.current
-
-    val profileImageUrl by remember { mutableStateOf("https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png") }
+    val profileImageUrl by remember { mutableStateOf(null) }
 
     var isSelectedImage by remember { mutableStateOf(false) }
 
@@ -102,6 +104,7 @@ fun SignUpProfileScreen(
             ) {
 
                 // 사용자 프로필
+                // TODO 이미지 관련 로직 리팩토링 하기
                 AsyncImage(
                     modifier = Modifier
                         .size(150.dp)
@@ -109,7 +112,7 @@ fun SignUpProfileScreen(
                         .clickable {
                             setProfileDialogState = true
                         },
-                    model = state.selectedImage ?: profileImageUrl,
+                    model = state.selectedImage ?: defaultProfileUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                 )
