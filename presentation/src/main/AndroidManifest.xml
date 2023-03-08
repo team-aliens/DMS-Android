@@ -17,11 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DMS_Android"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:screenOrientation="portrait" >
+
 
         <activity
             android:name="team.aliens.dms_android.feature.MainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -31,7 +34,8 @@
             android:name="team.aliens.dms_android.feature.splash.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.DMS_Android.NoActionBar">
+            android:theme="@style/Theme.DMS_Android.NoActionBar"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
