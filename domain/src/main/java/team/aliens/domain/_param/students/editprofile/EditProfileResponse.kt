@@ -1,4 +1,4 @@
-package team.aliens.domain._param.user.profile
+package team.aliens.domain._param.students.editprofile
 
 /**
  * @author junsuPark
