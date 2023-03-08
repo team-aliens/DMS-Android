@@ -4,12 +4,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -22,6 +24,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -36,6 +39,8 @@ fun FindIdScreen(
     navController: NavController,
     findIdViewModel: FindIdViewModel = hiltViewModel(),
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     var nameState by remember { mutableStateOf("") }
     var gradeState by remember { mutableStateOf("") }
@@ -122,7 +127,16 @@ fun FindIdScreen(
     Column( // todo refactor
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp) // todo color
+            .padding(
+                top = 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            }
     ) {
         FindIdHeader()
         Spacer(modifier = Modifier.height(60.dp))
@@ -215,16 +229,18 @@ fun FindIdScreen(
                     hint = stringResource(id = R.string.Number),
                     keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Done,
-                    error = errorState
+                    error = errorState,
+                    keyboardActions = KeyboardActions{
+                        focusManager.clearFocus()
+                    }
                 )
             }
         }
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 57.dp),
-            verticalArrangement = Arrangement.Bottom
+                .fillMaxHeight(0.81f),
+            verticalArrangement = Arrangement.Bottom,
         ) {
             DormContainedLargeButton(
                 text = stringResource(id = R.string.FindId),
@@ -249,7 +265,7 @@ fun FindIdHeader() {
     Column(
         modifier = Modifier
             .wrapContentWidth()
-            .height(68.dp),
+            .height(60.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
 

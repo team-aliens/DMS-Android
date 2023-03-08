@@ -6,11 +6,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -96,9 +98,9 @@ fun IdentificationScreen(
             when (it) {
                 is RegisterEmailEvent.SendEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("accountId", id)
-                        putString("name", name)
-                        putString("email", userEmail)
+                        putString("accountId", id.trim())
+                        putString("name", name.trim())
+                        putString("email", userEmail.trim())
                     }
                     navController.navigate(NavigationRoute.ChangePasswordVerifyEmail)
                 }
@@ -153,6 +155,15 @@ fun IdentificationScreen(
                     hint = stringResource(id = R.string.EnterId),
                     error = isIdError,
                     errorDescription = stringResource(id = R.string.NotExistId),
+                    keyboardActions = KeyboardActions{
+                        if(id.isNotBlank()) {
+                            changePasswordViewModel.checkId(
+                                accountId = id,
+                            )
+
+                            focusManager.clearFocus()
+                        }
+                    }
                 )
             }
             AnimatedVisibility(
@@ -191,7 +202,8 @@ fun IdentificationScreen(
                         DormTextField(
                             value = name,
                             onValueChange = onNameChange,
-                            hint = stringResource(id = R.string.EnterName)
+                            hint = stringResource(id = R.string.EnterName),
+                            imeAction = ImeAction.Next,
                         )
                     }
                     Spacer(modifier = Modifier.height(32.dp))
@@ -205,7 +217,10 @@ fun IdentificationScreen(
                             hint = stringResource(id = R.string.EnterEmailAddress),
                             error = isEmailError,
                             keyboardType = KeyboardType.Email,
-                            errorDescription = context.getString(R.string.NotValidEmailFormat)
+                            errorDescription = context.getString(R.string.NotValidEmailFormat),
+                            keyboardActions = KeyboardActions {
+                                focusManager.clearFocus()
+                            }
                         )
                     }
                 }
@@ -228,7 +243,7 @@ fun IdentificationScreen(
                     }
                 } else {
                     changePasswordViewModel.checkId(
-                        accountId = id,
+                        accountId = id.trim(),
                     )
                     focusManager.clearFocus()
                 }

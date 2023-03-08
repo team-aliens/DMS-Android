@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -78,24 +79,6 @@ fun SignUpIdScreen(
         if (value.length != userId.length) isIdError = false
         userId = value
     }
-
-    val valueList = arrayListOf(
-        Triple(
-            first = grade,
-            second = onGradeChange,
-            third = stringResource(id = R.string.Grade),
-        ),
-        Triple(
-            first = classRoom,
-            second = onClassRoomChange,
-            third = stringResource(id = R.string.ClassRoom)
-        ),
-        Triple(
-            first = number,
-            second = onNumberChange,
-            third = stringResource(id = R.string.Number)
-        ),
-    )
 
     LaunchedEffect(Unit) {
         setIdViewModel.schoolId =
@@ -180,24 +163,36 @@ fun SignUpIdScreen(
         )
         Spacer(modifier = Modifier.height(60.dp))
         Column(modifier = Modifier.fillMaxHeight(0.812f)) {
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 21.dp,
-                ),
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-                items(valueList.size) { index ->
-                    DormTextField(
-                        modifier = Modifier.width(112.dp),
-                        value = valueList[index].first,
-                        onValueChange = valueList[index].second,
-                        hint = valueList[index].third,
-                        keyboardType = KeyboardType.NumberPassword,
-                        error = isGradeError,
-                        imeAction = ImeAction.Next,
-                    )
-                }
+                DormTextField(
+                    modifier = Modifier.fillMaxWidth(0.292f),
+                    value = grade,
+                    onValueChange = onGradeChange,
+                    hint = stringResource(id = R.string.Grade),
+                    keyboardType = KeyboardType.NumberPassword,
+                    error = isGradeError,
+                    imeAction = ImeAction.Next,
+                )
+                DormTextField(
+                    modifier = Modifier.fillMaxWidth(0.45f),
+                    value = classRoom,
+                    onValueChange = onClassRoomChange,
+                    hint = stringResource(id = R.string.ClassRoom),
+                    keyboardType = KeyboardType.NumberPassword,
+                    error = isGradeError,
+                    imeAction = ImeAction.Next,
+                )
+                DormTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = number,
+                    onValueChange = onNumberChange,
+                    hint = stringResource(id = R.string.Number),
+                    keyboardType = KeyboardType.NumberPassword,
+                    error = isGradeError,
+                    imeAction = ImeAction.Next,
+                )
             }
             AnimatedVisibility(
                 visible = isNameShowed,
@@ -248,6 +243,9 @@ fun SignUpIdScreen(
                 error = isIdError,
                 errorDescription = errorDescription,
                 imeAction = ImeAction.Done,
+                keyboardActions = KeyboardActions{
+                    focusManager.clearFocus()
+                }
             )
         }
         DormContainedLargeButton(

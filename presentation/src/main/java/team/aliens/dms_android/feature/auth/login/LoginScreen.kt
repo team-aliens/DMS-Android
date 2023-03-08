@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -120,7 +121,13 @@ fun LoginScreen(
     Column(modifier = Modifier
         .fillMaxSize()
         .background(color = DormTheme.colors.surface)
-        .padding(16.dp)) {
+        .padding(16.dp)
+        .dormClickable(
+            rippleEnabled = false,
+        ){
+            focusManager.clearFocus()
+        }
+    ) {
 
         Spacer(
             modifier = Modifier.height(92.dp),

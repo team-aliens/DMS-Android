@@ -3,11 +3,14 @@ package team.aliens.dms_android.feature.register.ui.password
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
@@ -80,9 +83,8 @@ fun SignUpPasswordScreen(
                 .padding(top = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
+            Box(
                 modifier = Modifier.fillMaxHeight(0.17f),
-                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 DormTextField(
                     value = password,
@@ -91,6 +93,7 @@ fun SignUpPasswordScreen(
                     isPassword = true,
                     error = isPasswordFormatError,
                     errorDescription = stringResource(id = R.string.CheckPassword),
+                    imeAction = ImeAction.Next,
                 )
             }
             DormTextField(
@@ -100,6 +103,9 @@ fun SignUpPasswordScreen(
                 isPassword = true,
                 error = isPasswordMatchError,
                 errorDescription = stringResource(id = R.string.CheckPassword),
+                keyboardActions = KeyboardActions{
+                    focusManager.clearFocus()
+                }
             )
         }
         DormContainedLargeButton(

@@ -2,17 +2,22 @@ package team.aliens.dms_android.feature.auth.comparepassword
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -28,6 +33,8 @@ fun ComparePasswordScreen(
     navController: NavController,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     val context = LocalContext.current
 
@@ -70,9 +77,15 @@ fun ComparePasswordScreen(
             .background(
                 DormTheme.colors.background,
             )
+            .dormClickable(
+                rippleEnabled = false,
+            ){
+                focusManager.clearFocus()
+            }
     ) {
 
         TopBar(title = stringResource(id = R.string.ChangePassword)) {
+            focusManager.clearFocus()
             navController.popBackStack()
         }
 
@@ -102,7 +115,10 @@ fun ComparePasswordScreen(
                     isPassword = true,
                     hint = stringResource(id = R.string.Password),
                     errorDescription = stringResource(id = R.string.CheckPassword),
-                    error = isError
+                    error = isError,
+                    keyboardActions = KeyboardActions{
+                        focusManager.clearFocus()
+                    }
                 )
             }
             DormContainedLargeButton(

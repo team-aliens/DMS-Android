@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.register.ui.school
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -123,6 +124,9 @@ fun SignUpSchoolQuestionScreen(
                 error = isError,
                 errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
                 imeAction = ImeAction.Done,
+                keyboardActions = KeyboardActions{
+                    focusManager.clearFocus()
+                }
             )
         }
         DormContainedLargeButton(
