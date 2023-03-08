@@ -4,17 +4,20 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -104,7 +107,12 @@ fun MyPageChangePasswordScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .dormClickable(
+                    rippleEnabled = false,
+                ){
+                 focusManager.clearFocus()
+                },
         ) {
             Spacer(
                 modifier = Modifier.height(
@@ -138,7 +146,8 @@ fun MyPageChangePasswordScreen(
                         hint = stringResource(R.string.EnterPassword),
                         isPassword = true,
                         error = isPasswordFormatError,
-                        errorDescription = stringResource(id = R.string.CheckPassword)
+                        errorDescription = stringResource(id = R.string.CheckPassword),
+                        imeAction = ImeAction.Next,
                     )
                 }
 
@@ -149,6 +158,9 @@ fun MyPageChangePasswordScreen(
                     isPassword = true,
                     error = isPasswordMatchError,
                     errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
+                    keyboardActions = KeyboardActions{
+                        focusManager.clearFocus()
+                    }
                 )
             }
             DormContainedLargeButton(

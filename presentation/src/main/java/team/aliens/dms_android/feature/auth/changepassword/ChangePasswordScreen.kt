@@ -5,12 +5,14 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -172,7 +174,7 @@ fun ChangePasswordScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    top = 108.dp,
+                    top = 38.dp,
                     start = 16.dp,
                     end = 16.dp,
                 )
@@ -200,6 +202,7 @@ fun ChangePasswordScreen(
                         isPassword = true,
                         hint = stringResource(id = R.string.ScanNewPassword),
                         errorDescription = stringResource(id = R.string.PasswordWarning),
+                        imeAction = ImeAction.Next,
                     )
                 }
                 Spacer(modifier = Modifier.height(7.dp))
@@ -213,6 +216,9 @@ fun ChangePasswordScreen(
                         isPassword = true,
                         hint = stringResource(id = R.string.CheckScanNewPassword),
                         errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
+                        keyboardActions = KeyboardActions{
+                            focusManager.clearFocus()
+                        }
                     )
                 }
             }
