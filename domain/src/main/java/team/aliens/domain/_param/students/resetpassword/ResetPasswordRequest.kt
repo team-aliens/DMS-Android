@@ -2,7 +2,7 @@ package team.aliens.domain._param.students.resetpassword
 
 /**
  * @author junsuPark
- * A request for password reset, requires all of account information.
+ * A request for password reset, requires all of account information
  * [accountId] user's id, also used at sign in
  * [name] user's real name
  * [email] user's email

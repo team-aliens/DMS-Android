@@ -2,6 +2,7 @@ package team.aliens.domain._param.students.fetchmypage
 
 /**
  * @author junsuPark
+ * A response of fetching my page
  * [schoolName] the user's school name
  * [name] the user's name
  * [gcn] the user's grade, class and number

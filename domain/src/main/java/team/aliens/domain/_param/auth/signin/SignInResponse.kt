@@ -2,7 +2,7 @@ package team.aliens.domain._param.auth.signin
 
 /**
  * @author junsuPark
- * A response returned when sign in succeed.
+ * A response returned when sign in succeed
  * [accessToken] an access token
  * [accessTokenExpiredAt] access token expiration date
  * [refreshToken] a refresh token

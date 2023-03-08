@@ -2,7 +2,7 @@ package team.aliens.domain._param.students.findid
 
 /**
  * @author junsuPark
- * A response, returned while finding user's id.
+ * A response, returned while finding user's id
  * [email] user's email, which the user's id was sent
  */
 data class FindIdResponse(
