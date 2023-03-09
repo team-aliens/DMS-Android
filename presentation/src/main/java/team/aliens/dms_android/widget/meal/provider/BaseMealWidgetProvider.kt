@@ -33,6 +33,10 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
     @Inject
     lateinit var remoteMealUseCase: RemoteMealUseCase
 
+    /**
+     * [MealType.getCurrentMealType] 를 통해 가져온 급식 타입에 맞는 급식 상태를 가져옵니다.
+     * 급식 불러오기에 실패한다면 "급식이 없는 상태" 를 반환합니다.
+     */
     suspend fun getMealState(
         context: Context,
     ): MealState {
