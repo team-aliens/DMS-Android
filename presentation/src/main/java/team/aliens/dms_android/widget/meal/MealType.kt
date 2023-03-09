@@ -33,7 +33,7 @@ enum class MealType(
             return when (localDateTime.hour) {
                 in MorningStartTime until LunchStartTime -> Breakfast
                 in LunchStartTime until DinnerStartTime -> Lunch
-                else -> Breakfast
+                else -> Dinner
             }
         }
 
