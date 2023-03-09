@@ -242,10 +242,10 @@ fun SignUpIdScreen(
                 hint = stringResource(id = R.string.EnterId),
                 error = isIdError,
                 errorDescription = errorDescription,
-                imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions{
                     focusManager.clearFocus()
-                }
+                },
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(

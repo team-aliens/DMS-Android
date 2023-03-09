@@ -218,7 +218,8 @@ fun ChangePasswordScreen(
                         errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
                         keyboardActions = KeyboardActions{
                             focusManager.clearFocus()
-                        }
+                        },
+                        imeAction = ImeAction.Done,
                     )
                 }
             }

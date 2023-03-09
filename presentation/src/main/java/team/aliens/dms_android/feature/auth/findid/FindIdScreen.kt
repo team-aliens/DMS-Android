@@ -228,11 +228,11 @@ fun FindIdScreen(
                     onValueChange = { number -> numberState = number },
                     hint = stringResource(id = R.string.Number),
                     keyboardType = KeyboardType.NumberPassword,
-                    imeAction = ImeAction.Done,
                     error = errorState,
                     keyboardActions = KeyboardActions{
                         focusManager.clearFocus()
-                    }
+                    },
+                    imeAction = ImeAction.Done,
                 )
             }
         }

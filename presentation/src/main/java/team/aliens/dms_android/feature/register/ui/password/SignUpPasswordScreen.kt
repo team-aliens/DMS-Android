@@ -105,7 +105,8 @@ fun SignUpPasswordScreen(
                 errorDescription = stringResource(id = R.string.CheckPassword),
                 keyboardActions = KeyboardActions{
                     focusManager.clearFocus()
-                }
+                },
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(
