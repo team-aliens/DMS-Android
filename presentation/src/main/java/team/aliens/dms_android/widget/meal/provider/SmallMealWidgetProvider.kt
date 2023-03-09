@@ -1,4 +1,4 @@
-package team.aliens.dms_android.widget.meal
+package team.aliens.dms_android.widget.meal.provider
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -6,27 +6,33 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.splash.SplashActivity
+import team.aliens.dms_android.widget.meal.MealService
 import team.aliens.presentation.R
 
-class BigMealWidgetProvider : AppWidgetProvider() {
+class SmallMealWidgetProvider : BaseMealWidgetProvider(), CoroutineScope by MainScope() {
 
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
     ) {
-        appWidgetIds.forEach { appWidgetId ->
-            updateAppWidget(
-                context = context,
-                appWidgetManager = appWidgetManager,
-                appWidgetId = appWidgetId,
-            )
+        launch {
+            appWidgetIds.forEach { appWidgetId ->
+                updateAppWidget(
+                    context = context,
+                    appWidgetManager = appWidgetManager,
+                    appWidgetId = appWidgetId,
+                )
+            }
         }
     }
 
-    private fun updateAppWidget(
+    private suspend fun updateAppWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
@@ -38,23 +44,20 @@ class BigMealWidgetProvider : AppWidgetProvider() {
             PendingIntent.FLAG_IMMUTABLE,
         )
 
-        val serviceIntent = Intent(context, MealService::class.java).apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putExtra(Extra.isMealSizeBig, true)
-        }
+        val mealState = getMealState(context)
 
         val view = RemoteViews(
             context.packageName,
-            R.layout.big_widget_meal,
+            R.layout.small_widget_meal,
         ).apply {
-            setOnClickPendingIntent(R.id.widget_meal, pendingIntent)
+            setOnClickPendingIntent(R.id.small_widget_meal, pendingIntent)
+            setTextViewText(R.id.small_str_meal, mealState.meal)
+            setImageViewResource(R.id.small_ic_meal, mealState.mealType.icon.drawableId)
         }
-
-        context.startService(serviceIntent)
 
         appWidgetManager.apply {
             updateAppWidget(appWidgetId, view)
-            notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_meal)
+            notifyAppWidgetViewDataChanged(appWidgetId, R.id.small_str_meal)
         }
     }
 }
