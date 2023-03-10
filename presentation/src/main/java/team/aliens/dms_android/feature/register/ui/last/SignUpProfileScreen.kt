@@ -32,8 +32,7 @@ import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
-@Stable
-val defaultProfileUrl = "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
+const val defaultProfileUrl = "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
 
 @Composable
 fun SignUpProfileScreen(
