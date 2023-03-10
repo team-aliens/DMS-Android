@@ -10,7 +10,7 @@ data class StudyRoomListResponse(
         @SerializedName("available_sex") val availableSex: String,
         @SerializedName("floor") val floor: Int,
         @SerializedName("id") val id: String,
-        @SerializedName("in_use_head_count") val inUseHeadcount: Int,
+        @SerializedName("in_use_headcount") val inUseHeadcount: Int,
         @SerializedName("in_mine") val isMine: Boolean,
         @SerializedName("name") val name: String,
         @SerializedName("total_available_seat") val totalAvailableSeat: Int,

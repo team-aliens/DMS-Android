@@ -7,7 +7,7 @@ data class StudyRoomDetailResponse(
     @SerializedName("floor") val floor: Int,
     @SerializedName("name") val name: String,
     @SerializedName("total_available_seat") val totalAvailableSeat: Int,
-    @SerializedName("in_use_head_count") val inUseHeadCount: Int,
+    @SerializedName("in_use_headcount") val inUseHeadCount: Int,
     @SerializedName("available_sex") val availableSex: String,
     @SerializedName("available_grade") val availableGrade: Int,
     @SerializedName("east_description") val eastDescription: String,

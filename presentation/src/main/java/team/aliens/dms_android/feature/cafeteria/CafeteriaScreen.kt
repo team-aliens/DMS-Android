@@ -120,8 +120,9 @@ fun CafeteriaScreen(
             Brush.verticalGradient(
                 colors = listOf(
                     Color.Transparent,
+                    Color.Transparent,
                     DormColor.DormPrimary.copy(
-                        alpha = 0.2f,
+                        alpha = 0.1f,
                     ),
                 ),
             ),
