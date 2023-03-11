@@ -49,7 +49,7 @@
             tools:node="remove" />
 
         <receiver
-            android:name="team.aliens.dms_android.widget.meal.BigMealWidgetProvider"
+            android:name="team.aliens.dms_android.widget.meal.provider.BigMealWidgetProvider"
             android:enabled="true"
             android:exported="true"
             android:label="DMS 급식">
@@ -62,7 +62,7 @@
         </receiver>
 
         <receiver
-            android:name="team.aliens.dms_android.widget.meal.SmallMealWidgetProvider"
+            android:name="team.aliens.dms_android.widget.meal.provider.SmallMealWidgetProvider"
             android:enabled="true"
             android:exported="true"
             android:label="DMS 급식">
