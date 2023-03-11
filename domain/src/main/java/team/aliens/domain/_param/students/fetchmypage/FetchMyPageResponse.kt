@@ -1,5 +1,7 @@
 package team.aliens.domain._param.students.fetchmypage
 
+import team.aliens.domain._param._common.Sex
+
 /**
  * @author junsuPark
  * A response of fetching my page
@@ -21,22 +23,4 @@ data class FetchMyPageResponse(
     val bonusPoint: Int,
     val minusPoint: Int,
     val phrase: String,
-) {
-
-    /**
-     * @author junsuPark
-     * [value] a actual string value of sex
-     */
-    enum class Sex(
-        val value: String,
-    ) {
-        MALE(
-            "MALE",
-        ),
-
-        FEMALE(
-            "FEMALE",
-        ),
-        ;
-    }
-}
+)
