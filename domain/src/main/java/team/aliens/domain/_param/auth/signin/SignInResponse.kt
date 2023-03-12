@@ -3,11 +3,11 @@ package team.aliens.domain._param.auth.signin
 /**
  * @author junsuPark
  * A response returned when sign in succeed
- * [accessToken] an access token
- * [accessTokenExpiredAt] access token expiration date
- * [refreshToken] a refresh token
- * [refreshTokenExpiredAt] refresh token expiration date
- * [features] a data class contains all the features, user's school has set
+ * @property accessToken an access token
+ * @property accessTokenExpiredAt access token expiration date
+ * @property refreshToken a refresh token
+ * @property refreshTokenExpiredAt refresh token expiration date
+ * @property features a data class contains all the features, user's school has set
  */
 data class SignInResponse(
     val accessToken: String,
@@ -20,11 +20,11 @@ data class SignInResponse(
     /**
      * @author junsuPark
      * A set of features, which user's school set
-     * [mealService] feature of meal
-     * [noticeService] feature of notice
-     * [pointService] feature of point
-     * [studyRoomService] feature of study room
-     * [remainService] feature of remain
+     * @property mealService feature of meal
+     * @property noticeService feature of notice
+     * @property pointService feature of point
+     * @property studyRoomService feature of study room
+     * @property remainService feature of remain
      */
     data class Features(
         val mealService: Boolean,

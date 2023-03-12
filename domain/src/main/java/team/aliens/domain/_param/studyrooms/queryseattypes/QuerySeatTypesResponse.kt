@@ -5,7 +5,7 @@ import java.util.*
 /**
  * @author junsuPark
  * A response returned when querying seat types
- * [types] list of seat types
+ * @property types list of seat types
  */
 data class QuerySeatTypesResponse(
     val types: List<SeatTypeInformation>,
@@ -14,9 +14,9 @@ data class QuerySeatTypesResponse(
     /**
      * @author junsuPark
      * A set of seat information
-     * [id] an unique id of the seat
-     * [name] the name of the seat type
-     * [color] color of the seat type
+     * @property id an unique id of the seat
+     * @property name the name of the seat type
+     * @property color color of the seat type
      */
     data class SeatTypeInformation(
         val id: UUID,

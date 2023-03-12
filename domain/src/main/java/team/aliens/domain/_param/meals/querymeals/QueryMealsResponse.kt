@@ -3,7 +3,7 @@ package team.aliens.domain._param.meals.querymeals
 /**
  * @author junsuPark
  * A response returned when querying meals information
- * [meals] list of meals
+ * @property meals list of meals
  */
 data class QueryMealsResponse(
     val meals: List<MealInformation>,
@@ -12,10 +12,10 @@ data class QueryMealsResponse(
     /**
      * @author junsuPark
      * A set of daily meal information
-     * [date] date of the information
-     * [breakfast] list of breakfast dishes
-     * [lunch] list of lunch dishes
-     * [dinner] list of dinner dishes
+     * @property date date of the information
+     * @property breakfast list of breakfast dishes
+     * @property lunch list of lunch dishes
+     * @property dinner list of dinner dishes
      */
     data class MealInformation(
         val date: String,

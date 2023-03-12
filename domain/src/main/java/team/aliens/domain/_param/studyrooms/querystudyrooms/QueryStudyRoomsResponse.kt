@@ -6,7 +6,7 @@ import java.util.*
 /**
  * @author junsuPark
  * A response returned when querying study rooms
- * [studyRooms] list of study rooms
+ * @property studyRooms list of study rooms
  */
 data class QueryStudyRoomsResponse(
     val studyRooms: List<StudyRoomInformation>,
@@ -15,14 +15,14 @@ data class QueryStudyRoomsResponse(
     /**
      * @author junsuPark
      * A set of study room information
-     * [id] unique id of the school
-     * [floor] the floor of the study room
-     * [name] the name of the study room
-     * [availableGrade] the available grade of the study room
-     * [availableSex] the available sex of the study room
-     * [inUseHeadcount] the in-use headcount of the study room
-     * [totalAvailableSeat] the total available seat of the study room
-     * [isMine] the boolean value of whether 'I' applied at this study room
+     * @property id unique id of the school
+     * @property floor the floor of the study room
+     * @property name the name of the study room
+     * @property availableGrade the available grade of the study room
+     * @property availableSex the available sex of the study room
+     * @property inUseHeadcount the in-use headcount of the study room
+     * @property totalAvailableSeat the total available seat of the study room
+     * @property isMine the boolean value of whether 'I' applied at this study room
      */
     data class StudyRoomInformation(
         val id: UUID,

@@ -3,8 +3,8 @@ package team.aliens.domain._param.auth.sendemailverificationcode
 /**
  * @author junsuPark
  * A request when sending email verification code
- * [email] an email which the verification code will be sent
- * [type] a type of verification email
+ * @property email an email which the verification code will be sent
+ * @property type a type of verification email
  */
 data class SendEmailVerificationCodeRequest(
     val email: String,

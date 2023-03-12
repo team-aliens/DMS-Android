@@ -7,17 +7,17 @@ import java.util.*
 /**
  * @author junsuPark
  * A response returned when querying study room detail
- * [floor] floor of the study room
- * [name] name of the study room
- * [totalAvailableSeat] study room's total available seat
- * [inUseHeadcount] study room's total in use headcount
- * [availableSex] available sex of the study room
- * [availableGrade] available grade of the study room
- * [eastDescription] the description of the east side of the study room
- * [westDescription] the description of the west side of the study room
- * [southDescription] the description of the south side of the study room
- * [northDescription] the description of the north side of the study room
- * [seats] the seats of the study room
+ * @property floor floor of the study room
+ * @property name name of the study room
+ * @property totalAvailableSeat study room's total available seat
+ * @property inUseHeadcount study room's total in use headcount
+ * @property availableSex available sex of the study room
+ * @property availableGrade available grade of the study room
+ * @property eastDescription the description of the east side of the study room
+ * @property westDescription the description of the west side of the study room
+ * @property southDescription the description of the south side of the study room
+ * @property northDescription the description of the north side of the study room
+ * @property seats the seats of the study room
  */
 data class QueryStudyRoomDetailResponse(
     val floor: Int,
@@ -36,12 +36,14 @@ data class QueryStudyRoomDetailResponse(
     /**
      * @author junsuPark
      * A set of study room seat information
-     * [id] the unique id of the seat
-     * [widthLocation] X location of the study room chart
-     * [heightLocation] Y location of the study room chart
-     * [number] the number of the seat
-     * [type] the type of the seat
-     * []
+     * @property id the unique id of the seat
+     * @property widthLocation X location of the study room chart
+     * @property heightLocation Y location of the study room chart
+     * @property number the number of the seat
+     * @property type the type of the seat
+     * @property status the status of the seat
+     * @property isMine whether the seat is mine
+     * @property student information of the student using the seat
      */
     data class SeatInformation(
         val id: UUID,
@@ -57,9 +59,9 @@ data class QueryStudyRoomDetailResponse(
         /**
          * @author junsuPark
          * A set of seat information
-         * [id] the unique id of the seat type
-         * [name] the name of the seat type
-         * [color] the color of the seat type
+         * @property id the unique id of the seat type
+         * @property name the name of the seat type
+         * @property color the color of the seat type
          */
         data class SeatType(
             val id: UUID,
@@ -70,10 +72,10 @@ data class QueryStudyRoomDetailResponse(
         /**
          * @author junsuPark
          * A enum class of the seat status
-         * [AVAILABLE] meaning seat is available
-         * [UNAVAILABLE] meaning seat is not available
-         * [IN_USE] meaning seat is in-use
-         * [EMPTY] meaning seat is empty
+         * @property AVAILABLE meaning seat is available
+         * @property UNAVAILABLE meaning seat is not available
+         * @property IN_USE meaning seat is in-use
+         * @property EMPTY meaning seat is empty
          */
         enum class SeatStatus {
             AVAILABLE, UNAVAILABLE, IN_USE, EMPTY,
@@ -83,8 +85,8 @@ data class QueryStudyRoomDetailResponse(
         /**
          * @author junsuPark
          * An in-use student information of the seat
-         * [id] an unique id of the student
-         * [name] the name of the student
+         * @property id an unique id of the student
+         * @property name the name of the student
          */
         data class InUseStudent(
             val id: UUID,

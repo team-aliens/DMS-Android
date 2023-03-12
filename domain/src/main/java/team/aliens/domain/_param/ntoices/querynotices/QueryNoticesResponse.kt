@@ -5,7 +5,7 @@ import java.util.*
 /**
  * @author junsuPark
  * A response returned when querying notices
- * [notices] list of notices of the user
+ * @property notices list of notices of the user
  */
 data class QueryNoticesResponse(
     val notices: List<NoticeInformation>,
@@ -13,9 +13,9 @@ data class QueryNoticesResponse(
 
     /**
      * @author junsuPark
-     * [id] id of unique notice
-     * [title] title of the notice
-     * [createdAt] created time of the notice
+     * @property id id of unique notice
+     * @property title title of the notice
+     * @property createdAt created time of the notice
      */
     data class NoticeInformation(
         val id: UUID,
