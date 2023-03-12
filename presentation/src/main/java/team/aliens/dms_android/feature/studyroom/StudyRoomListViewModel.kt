@@ -261,8 +261,8 @@ class StudyRoomListViewModel @Inject constructor(
 
 // todo remove ---------
 
-private const val firstPart = "22:00 ~ 22:50"
-private const val secondPart = "23:00 ~ 23:50"
+const val firstPart = "22:00 ~ 22:50"
+const val secondPart = "23:00 ~ 23:50"
 
 // todo ----------------
 
