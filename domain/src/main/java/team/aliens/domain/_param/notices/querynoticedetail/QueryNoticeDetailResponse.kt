@@ -1,4 +1,4 @@
-package team.aliens.domain._param.ntoices.querynoticedetail
+package team.aliens.domain._param.notices.querynoticedetail
 
 /**
  * @author junsuPark

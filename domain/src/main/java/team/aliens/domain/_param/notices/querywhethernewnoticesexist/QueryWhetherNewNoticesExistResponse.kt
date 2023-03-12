@@ -1,4 +1,4 @@
-package team.aliens.domain._param.ntoices.querywhethernewnoticesexist
+package team.aliens.domain._param.notices.querywhethernewnoticesexist
 
 /**
  * @author junsuPark

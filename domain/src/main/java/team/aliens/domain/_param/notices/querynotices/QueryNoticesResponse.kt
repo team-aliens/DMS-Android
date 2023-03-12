@@ -1,4 +1,4 @@
-package team.aliens.domain._param.ntoices.querynotices
+package team.aliens.domain._param.notices.querynotices
 
 import java.util.*
 
