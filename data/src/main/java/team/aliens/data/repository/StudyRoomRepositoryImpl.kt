@@ -33,6 +33,10 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionEntity =
         remoteStudyRoomDataSource.fetchCurrentStudyRoomOption().toEntity()
 
+    override suspend fun fetchStudyRoomAvailableTimeList(): StudyRoomAvailableTimeListEntity =
+        remoteStudyRoomDataSource.fetchStudyRoomAvailableTimeList().toEntity()
+
+
     private fun ApplySeatTimeResponse.toEntity() = ApplySeatTimeEntity(
         startAt = startAt,
         endAt = endAt,
@@ -97,14 +101,16 @@ class StudyRoomRepositoryImpl @Inject constructor(
         seats = seats.map { it.toEntity() })
 
     private fun StudyRoomDetailResponse.Seat.toEntity() =
-        StudyRoomDetailEntity.Seat(id = id.toString(),
+        StudyRoomDetailEntity.Seat(
+            id = id.toString(),
             widthLocation = widthLocation,
             heightLocation = heightLocation,
             number = number,
             type = type?.toEntity(),
             status = status,
             isMine = isMine,
-            student = student?.toEntity())
+            student = student?.toEntity()
+        )
 
     private fun StudyRoomDetailResponse.Type.toEntity() = StudyRoomDetailEntity.Type(
         id = id.toString(),
@@ -121,6 +127,17 @@ class StudyRoomRepositoryImpl @Inject constructor(
         CurrentStudyRoomOptionEntity(
             floor = floor,
             name = name,
+        )
+
+    private fun StudyRoomAvailableTimeListResponse.toEntity() =
+        StudyRoomAvailableTimeListEntity(
+            timeSlots = this.timeSlots.map { it.toEntity() }
+        )
+
+    private fun StudyRoomAvailableTimeListResponse.AvailableTime.toEntity() =
+        StudyRoomAvailableTimeListEntity.AvailableTime(
+            id = this.id,
+            name = this.name,
         )
 }
 

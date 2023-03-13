@@ -16,4 +16,6 @@ interface RemoteStudyRoomDataSource {
     suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailResponse
 
     suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionResponse
+
+    suspend fun fetchStudyRoomAvailableTimeList(): StudyRoomAvailableTimeListResponse
 }
