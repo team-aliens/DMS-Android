@@ -3,15 +3,17 @@ package team.aliens.dms_android.feature.studyroom
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
@@ -46,14 +48,23 @@ fun StudyRoomListScreen(
 
     val studyRoomState = studyRoomListViewModel.uiState.collectAsState().value
 
+    val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
+
+    var selectedTime by remember { mutableStateOf(0) }
+
+    val list = arrayListOf(
+        "10시 ~ 11시",
+        "11시 ~ 12시",
+        "12시 ~ 13시 50분",
+        "14시 ~ 15시"
+    ) // TODO remove after complete api document
+
+    var selectedAvailableTime by remember { mutableStateOf(list[0]) }
+
     LaunchedEffect(Unit) {
         studyRoomListViewModel.errorState.collect {
             toast(it)
         }
-    }
-
-    var filterTimeState by remember {
-        mutableStateOf(firstPart)
     }
 
     var showTimeFilterDialogState by remember {
@@ -75,10 +86,8 @@ fun StudyRoomListScreen(
                 ),
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
-
-                    // todo save filter
-
                     showTimeFilterDialogState = false
+                    selectedAvailableTime = list[selectedTime]
                 },
             ) {
 
@@ -90,18 +99,20 @@ fun StudyRoomListScreen(
                     modifier = Modifier.height(24.dp),
                 )
 
-                Row(
+                LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    DormTimeChip(
-                        selected = true,
-                        text = firstPart,
-                    )
-                    DormTimeChip(
-                        selected = false,
-                        text = secondPart,
-                    )
-                }
+                    content = {
+                        items(list.size) {
+                            DormTimeChip(
+                                selected = (selectedTime == it),
+                                text = list[it],
+                                onClick = {
+                                    selectedTime = it
+                                },
+                            )
+                        }
+                    },
+                )
             }
         }
     }
@@ -146,7 +157,6 @@ fun StudyRoomListScreen(
                 modifier = Modifier.height(24.dp),
             )
 
-
             // Study room time filter
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -169,7 +179,7 @@ fun StudyRoomListScreen(
 
                 // available time
                 Body3(
-                    text = "23:30 ~ 00:00", // todo sync with server
+                    text = selectedAvailableTime, // todo sync with server
                     color = DormColor.DormPrimary,
                 )
             }
@@ -224,24 +234,37 @@ private val DormTimeChipShape: Shape = RoundedCornerShape(5.dp)
 fun DormTimeChip(
     selected: Boolean,
     text: String,
+    onClick: () -> Unit,
 ) {
-    Surface(
-        color = when {
-            selected -> DormColor.DormPrimary
-            else -> Color.Transparent
-        },
-        shape = DormTimeChipShape,
-        border = BorderStroke(width = 1.dp,
-            color = if (!selected) DormColor.Gray400 else Color.Transparent
-
-        ),
-        modifier = Modifier,
+    Box(
+        modifier = Modifier
+            .wrapContentWidth()
+            .background(
+                color = when {
+                    selected -> DormColor.DormPrimary
+                    else -> Color.Transparent
+                },
+                shape = DormTimeChipShape,
+            )
+            .clip(
+                shape = DormTimeChipShape,
+            )
+            .border(
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = if (!selected) DormColor.Gray400 else Color.Transparent
+                ),
+                shape = DormTimeChipShape,
+            )
+            .dormClickable {
+                onClick()
+            },
+        contentAlignment = Alignment.Center,
     ) {
-        ButtonText(text = text,
-            modifier = Modifier.padding(
-                vertical = 8.dp,
-                horizontal = 10.dp,
-            ),
-            color = if (selected) DormColor.Gray100 else DormColor.Gray400)
+        ButtonText(
+            text = text,
+            modifier = Modifier.padding(8.dp),
+            color = if (selected) DormColor.Gray100 else DormColor.Gray400
+        )
     }
 }
