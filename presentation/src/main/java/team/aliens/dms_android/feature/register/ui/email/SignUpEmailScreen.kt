@@ -167,11 +167,11 @@ fun SignUpEmailScreen(
                 hint = stringResource(id = R.string.EnterEmailAddress),
                 error = isError,
                 keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Done,
                 errorDescription = errorDescription,
                 keyboardActions = KeyboardActions{
                     focusManager.clearFocus()
-                }
+                },
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(

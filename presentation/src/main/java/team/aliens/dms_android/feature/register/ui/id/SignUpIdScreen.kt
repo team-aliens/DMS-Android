@@ -230,9 +230,9 @@ fun SignUpIdScreen(
                     .onFocusChanged {
                         if (it.isFocused) {
                             callExamineGrade(
-                                grade = grade,
-                                classRoom = classRoom,
-                                number = number,
+                                grade = grade.trim(),
+                                classRoom = classRoom.trim(),
+                                number = number.trim(),
                                 setIdViewModel = setIdViewModel,
                             )
                         }
@@ -242,10 +242,10 @@ fun SignUpIdScreen(
                 hint = stringResource(id = R.string.EnterId),
                 error = isIdError,
                 errorDescription = errorDescription,
-                imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions{
                     focusManager.clearFocus()
-                }
+                },
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(
@@ -272,9 +272,9 @@ private fun callExamineGrade(
 ) {
     if (grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty()) {
         setIdViewModel.examineGrade(
-            grade = Integer.parseInt(grade.trim()),
-            classRoom = Integer.parseInt(classRoom.trim()),
-            number = Integer.parseInt(number.trim()),
+            grade = Integer.parseInt(grade),
+            classRoom = Integer.parseInt(classRoom),
+            number = Integer.parseInt(number),
         )
     }
 }

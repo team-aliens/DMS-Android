@@ -160,7 +160,7 @@ fun SignUpPolicyScreen(
                         number = getInt("number"),
                         accountId = getString("accountId").toString(),
                         password = getString("password").toString(),
-                        profileImageUrl = getString("profileImageUrl").toString(),
+                        profileImageUrl = getString("profileImageUrl", null),
                     ))
                 }
             }

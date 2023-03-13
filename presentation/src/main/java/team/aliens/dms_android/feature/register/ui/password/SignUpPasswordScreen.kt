@@ -92,7 +92,7 @@ fun SignUpPasswordScreen(
                     hint = stringResource(id = R.string.EnterPassword),
                     isPassword = true,
                     error = isPasswordFormatError,
-                    errorDescription = stringResource(id = R.string.CheckPassword),
+                    errorDescription = stringResource(id = R.string.CheckPasswordFormat),
                     imeAction = ImeAction.Next,
                 )
             }
@@ -105,7 +105,8 @@ fun SignUpPasswordScreen(
                 errorDescription = stringResource(id = R.string.CheckPassword),
                 keyboardActions = KeyboardActions{
                     focusManager.clearFocus()
-                }
+                },
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(

@@ -123,10 +123,10 @@ fun SignUpSchoolQuestionScreen(
                 hint = stringResource(id = R.string.Reply),
                 error = isError,
                 errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
-                imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions{
                     focusManager.clearFocus()
-                }
+                },
+                imeAction = ImeAction.Done,
             )
         }
         DormContainedLargeButton(

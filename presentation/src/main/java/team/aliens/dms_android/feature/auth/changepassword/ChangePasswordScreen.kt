@@ -201,7 +201,7 @@ fun ChangePasswordScreen(
                         error = isPasswordFormatError,
                         isPassword = true,
                         hint = stringResource(id = R.string.ScanNewPassword),
-                        errorDescription = stringResource(id = R.string.PasswordWarning),
+                        errorDescription = stringResource(id = R.string.CheckPasswordFormat),
                         imeAction = ImeAction.Next,
                     )
                 }
@@ -218,7 +218,8 @@ fun ChangePasswordScreen(
                         errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
                         keyboardActions = KeyboardActions{
                             focusManager.clearFocus()
-                        }
+                        },
+                        imeAction = ImeAction.Done,
                     )
                 }
             }

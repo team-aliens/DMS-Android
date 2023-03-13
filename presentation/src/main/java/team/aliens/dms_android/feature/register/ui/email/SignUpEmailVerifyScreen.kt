@@ -18,6 +18,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +38,7 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
+import team.aliens.dms_android.util.VerifyTime
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.presentation.R
 
@@ -94,22 +96,36 @@ fun SignUpEmailVerifyScreen(
 
     LaunchedEffect(Unit) {
         email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
-        registerEmailViewModel.registerEmailEvent.collect {
+        registerEmailViewModel.registerEmailEvent.collect { it ->
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode"))
-                        putString("schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId"))
-                        putString("schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer"))
-                        putString("email", email)
-                        putString("authCode", verificationCode)
+                    with(navController) {
+                        currentBackStackEntry?.arguments?.run {
+                            currentBackStackEntry?.arguments?.let {
+                                putString(
+                                    "schoolCode",
+                                    it.getString("schoolCode"),
+                                )
+                                putString(
+                                    "schoolId",
+                                    it.getString("schoolId"),
+                                )
+                                putString(
+                                    "schoolAnswer",
+                                    it.getString("schoolAnswer"),
+                                )
+                                putString(
+                                    "email",
+                                    email,
+                                )
+                                putString(
+                                    "authCode",
+                                    verificationCode,
+                                )
+                            }
+                        }
                     }
-                    navController.navigate(NavigationRoute.SignUpId)
                 }
-
                 is RegisterEmailEvent.SendEmailSuccess -> {
                     toast(context.getString(R.string.ResendEmail))
                 }
@@ -137,16 +153,16 @@ fun SignUpEmailVerifyScreen(
             var totalSecond = 0
             var minutes = 0
             var seconds = ""
-            repeat(180) {
+            repeat(VerifyTime.START_TIME) {
                 if (!isRunningTimer) {
                     isRunningTimer = true
                     return@loop
                 }
                 delay(1000L)
-                totalSecond = 179 - it
-                minutes = totalSecond / 60
-                seconds = (totalSecond % 60).toString()
-                if(seconds.toInt() < 10) seconds = seconds.padStart(2, '0')
+                totalSecond = VerifyTime.START_TIME - 1 - it
+                minutes = totalSecond / VerifyTime.DIVISION_TIME
+                seconds = (totalSecond % VerifyTime.DIVISION_TIME).toString()
+                if (seconds.toInt() < VerifyTime.REMAIN_TIME) seconds = seconds.padStart(2, '0')
                 time = "$minutes : $seconds"
                 if (totalSecond == 0) {
                     toast(context.getString(R.string.AuthenticationTimeout))
@@ -185,7 +201,7 @@ fun SignUpEmailVerifyScreen(
             .dormClickable(
                 rippleEnabled = false,
             ) {
-              focusManager.clearFocus()
+                focusManager.clearFocus()
             },
     ) {
         AppLogo(
@@ -202,10 +218,14 @@ fun SignUpEmailVerifyScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            BasicTextField(value = verificationCode,
+            BasicTextField(
+                value = verificationCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.NumberPassword,
+                    imeAction = ImeAction.Done,
+                ),
                 decorationBox = {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                         items(6) { index ->
@@ -221,7 +241,8 @@ fun SignUpEmailVerifyScreen(
                             )
                         }
                     }
-                })
+                },
+            )
             Spacer(modifier = Modifier.height(40.dp))
             Body3(
                 text = if (isError) stringResource(id = R.string.NoSameCode)
@@ -245,9 +266,11 @@ fun SignUpEmailVerifyScreen(
                 text = stringResource(id = R.string.ResendVerificationCode),
             )
             Spacer(modifier = Modifier.height(26.dp))
-            DormContainedLargeButton(text = stringResource(id = R.string.Verification),
+            DormContainedLargeButton(
+                text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = verificationCode.isNotEmpty() && isRunningTimer) {
+                enabled = verificationCode.isNotEmpty() && isRunningTimer
+            ) {
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = verificationCode,

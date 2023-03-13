@@ -160,10 +160,10 @@ fun IdentificationScreen(
                             changePasswordViewModel.checkId(
                                 accountId = id,
                             )
-
                             focusManager.clearFocus()
                         }
-                    }
+                    },
+                    imeAction = ImeAction.Done,
                 )
             }
             AnimatedVisibility(
@@ -220,7 +220,8 @@ fun IdentificationScreen(
                             errorDescription = context.getString(R.string.NotValidEmailFormat),
                             keyboardActions = KeyboardActions {
                                 focusManager.clearFocus()
-                            }
+                            },
+                            imeAction = ImeAction.Done,
                         )
                     }
                 }

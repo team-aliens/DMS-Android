@@ -81,6 +81,7 @@
     <string name="SuccessResetPassword">비밀번호가 재설정 되었습니다.</string>
     <string name="PasswordWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
     <string name="FinishResetPassword">비밀번호 재설정을 종료하시겠습니까?</string>
+    <string name="CheckPasswordFormat">비밀번호 형식을 확인해주세요</string>
 
     // 비밀번호 변경
     <string name="ScanNewPassword">새 비밀번호 입력</string>
