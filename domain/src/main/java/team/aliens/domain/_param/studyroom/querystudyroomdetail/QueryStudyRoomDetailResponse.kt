@@ -1,6 +1,6 @@
 package team.aliens.domain._param.studyroom.querystudyroomdetail
 
-import team.aliens.domain._param._common.Sex
+import team.aliens.domain._common.Sex
 import team.aliens.domain._param.studyroom.querystudyroomdetail.QueryStudyRoomDetailResponse.SeatInformation.SeatStatus.*
 import java.util.*
 

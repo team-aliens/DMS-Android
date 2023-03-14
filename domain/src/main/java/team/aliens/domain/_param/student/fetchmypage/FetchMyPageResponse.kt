@@ -1,6 +1,6 @@
 package team.aliens.domain._param.student.fetchmypage
 
-import team.aliens.domain._param._common.Sex
+import team.aliens.domain._common.Sex
 
 /**
  * @author junsuPark

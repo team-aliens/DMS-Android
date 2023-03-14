@@ -1,6 +1,6 @@
 package team.aliens.domain._param.studyroom.querystudyrooms
 
-import team.aliens.domain._param._common.Sex
+import team.aliens.domain._common.Sex
 import java.util.*
 
 /**

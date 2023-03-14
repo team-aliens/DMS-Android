@@ -1,5 +1,7 @@
 package team.aliens.domain._param.point.querypoints
 
+import team.aliens.domain._common.PointType
+
 /**
  * @author junsuPark
  * A response returned when querying points
@@ -20,17 +22,5 @@ data class QueryPointsResponse(
     data class PointInformation(
         val date: String,
         val type: PointType,
-    ) {
-
-        /**
-         * @author junsuPark
-         * An enum class of point type
-         * @property BONUS a value of bonus point
-         * @property MINUS a value of minus point
-         */
-        enum class PointType {
-            BONUS, MINUS,
-            ;
-        }
-    }
+    )
 }

@@ -1,4 +1,4 @@
-package team.aliens.domain._param._common
+package team.aliens.domain._common
 
 /**
  * @author junsuPark
