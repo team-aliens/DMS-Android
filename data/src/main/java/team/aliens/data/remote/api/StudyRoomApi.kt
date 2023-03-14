@@ -1,5 +1,6 @@
 package team.aliens.data.remote.api
 
+import java.util.UUID
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -22,7 +23,9 @@ interface StudyRoomApi {
     suspend fun cancelApplySeat(): Response<Unit>
 
     @GET(DmsUrl.StudyRoom.StudyRoomList)
-    suspend fun fetchStudyRoomList(): StudyRoomListResponse
+    suspend fun fetchStudyRoomList(
+        timeSlot: UUID,
+    ): StudyRoomListResponse
 
     @GET(DmsUrl.StudyRoom.StudyRoomType)
     suspend fun fetchStudyRoomType(): StudyRoomTypeResponse

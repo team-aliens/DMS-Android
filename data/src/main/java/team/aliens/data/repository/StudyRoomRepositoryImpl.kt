@@ -1,10 +1,21 @@
 package team.aliens.data.repository
 
-import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
-import team.aliens.data.remote.response.studyroom.*
-import team.aliens.domain.entity.studyroom.*
-import team.aliens.domain.repository.StudyRoomRepository
+import java.util.UUID
 import javax.inject.Inject
+import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
+import team.aliens.data.remote.response.studyroom.ApplySeatTimeResponse
+import team.aliens.data.remote.response.studyroom.CurrentStudyRoomOptionResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomAvailableTimeListResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomDetailResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomListResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomTypeResponse
+import team.aliens.domain.entity.studyroom.ApplySeatTimeEntity
+import team.aliens.domain.entity.studyroom.CurrentStudyRoomOptionEntity
+import team.aliens.domain.entity.studyroom.SeatTypeEntity
+import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
+import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.domain.repository.StudyRoomRepository
 
 class StudyRoomRepositoryImpl @Inject constructor(
     private val remoteStudyRoomDataSource: RemoteStudyRoomDataSource,
@@ -21,8 +32,12 @@ class StudyRoomRepositoryImpl @Inject constructor(
         remoteStudyRoomDataSource.cancelApplySeat()
     }
 
-    override suspend fun fetchStudyRoomList(): StudyRoomListEntity =
-        remoteStudyRoomDataSource.fetchStudyRoomList().toEntity()
+    override suspend fun fetchStudyRoomList(
+        timeSlot: UUID,
+    ): StudyRoomListEntity =
+        remoteStudyRoomDataSource.fetchStudyRoomList(
+            timeSlot = timeSlot,
+        ).toEntity()
 
     override suspend fun fetchStudyRoomType(): SeatTypeEntity =
         remoteStudyRoomDataSource.fetchStudyRoomType().toEntity()

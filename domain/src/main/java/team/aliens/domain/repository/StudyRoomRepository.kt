@@ -1,6 +1,12 @@
 package team.aliens.domain.repository
 
-import team.aliens.domain.entity.studyroom.*
+import java.util.UUID
+import team.aliens.domain.entity.studyroom.ApplySeatTimeEntity
+import team.aliens.domain.entity.studyroom.CurrentStudyRoomOptionEntity
+import team.aliens.domain.entity.studyroom.SeatTypeEntity
+import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
+import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 
 interface StudyRoomRepository {
 
@@ -10,7 +16,9 @@ interface StudyRoomRepository {
 
     suspend fun cancelApplySeat()
 
-    suspend fun fetchStudyRoomList(): StudyRoomListEntity
+    suspend fun fetchStudyRoomList(
+        timeSlot: UUID,
+    ): StudyRoomListEntity
 
     suspend fun fetchStudyRoomType(): SeatTypeEntity
 
