@@ -34,4 +34,7 @@ interface StudyRoomApi {
 
     @GET(DmsUrl.StudyRoom.CurrentStudyRoomOption)
     suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionResponse
+
+    @GET(DmsUrl.StudyRoom.StudyRoomAvailableTimeList)
+    suspend fun fetchStudyRoomAvailableTimeList(): StudyRoomAvailableTimeListResponse
 }

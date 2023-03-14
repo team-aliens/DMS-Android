@@ -2,7 +2,7 @@ package team.aliens.data.remote.datasource.implementation
 
 import team.aliens.data.remote.api.StudyRoomApi
 import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
-import team.aliens.data.remote.response.studyroom.CurrentStudyRoomOptionResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomAvailableTimeListResponse
 import team.aliens.data.util.sendHttpRequest
 import javax.inject.Inject
 
@@ -32,4 +32,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
 
     override suspend fun fetchCurrentStudyRoomOption() =
         sendHttpRequest(httpRequest = suspend { studyRoomApi.fetchCurrentStudyRoomOption() })
+
+    override suspend fun fetchStudyRoomAvailableTimeList(): StudyRoomAvailableTimeListResponse =
+        sendHttpRequest(httpRequest = suspend { studyRoomApi.fetchStudyRoomAvailableTimeList() })
 }

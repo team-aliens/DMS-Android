@@ -17,4 +17,6 @@ interface StudyRoomRepository {
     suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity
 
     suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionEntity
+
+    suspend fun fetchStudyRoomAvailableTimeList(): StudyRoomAvailableTimeListEntity
 }

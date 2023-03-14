@@ -24,8 +24,8 @@ fun FloatingNotice(
             .fillMaxWidth()
             .height(50.dp)
             .dormShadow(
-                color = DormTheme.colors.secondaryVariant,
-                offsetY = 1.dp,
+                color = DormTheme.colors.primaryVariant,
+                offsetY = 8.dp,
             )
             .background(
                 color = DormTheme.colors.surface,
