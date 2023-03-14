@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
@@ -80,7 +81,7 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomListUseCase.execute(Unit)
+                studyRoomListUseCase.execute(_uiState.value.timeSlot!!)
             }
 
             if (result.isSuccess) {
@@ -102,10 +103,8 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             studyRoomAvailableTimeListUseCase()
-                .onSuccess {
-                    val resultEntity = it
-
-                    _uiState.value.copy(
+                .onSuccess { resultEntity ->
+                    _uiState.value = _uiState.value.copy(
                         studyRoomAvailableTime = resultEntity.timeSlots,
                     )
                 }
@@ -116,6 +115,14 @@ class StudyRoomListViewModel @Inject constructor(
                 }
 
         }
+    }
+
+    internal fun setStudyRoomAvailableTime(
+        timeSlot: UUID,
+    ){
+        _uiState.value = _uiState.value.copy(
+            timeSlot = timeSlot,
+        )
     }
 }
 

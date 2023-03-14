@@ -104,6 +104,7 @@ fun StudyRoomListScreen(
                 onBtnClick = {
                     showTimeFilterDialogState = false
                     selectedAvailableTime = studyRoomAvailableTimeList[selectedTime]
+                    //studyRoomListViewModel.setStudyRoomAvailableTime(studyRoomAvailableTimeList[selectedTime].id)
                 },
             ) {
 
