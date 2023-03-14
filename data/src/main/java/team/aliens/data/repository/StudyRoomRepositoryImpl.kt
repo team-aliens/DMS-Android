@@ -131,7 +131,7 @@ class StudyRoomRepositoryImpl @Inject constructor(
 
     private fun StudyRoomAvailableTimeListResponse.toEntity() =
         StudyRoomAvailableTimeListEntity(
-            timeSlots = this.timeSlots.map(StudyRoomAvailableTimeListResponse::toEntity())
+            timeSlots = this.timeSlots.map { it.toEntity() }
         )
 
     private fun StudyRoomAvailableTimeListResponse.AvailableTime.toEntity() =

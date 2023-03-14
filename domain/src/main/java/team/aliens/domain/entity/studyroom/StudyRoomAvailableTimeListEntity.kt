@@ -1,6 +1,6 @@
 package team.aliens.domain.entity.studyroom
 
-import java.util.*
+import java.util.UUID
 
 data class StudyRoomAvailableTimeListEntity(
     val timeSlots: List<AvailableTime>

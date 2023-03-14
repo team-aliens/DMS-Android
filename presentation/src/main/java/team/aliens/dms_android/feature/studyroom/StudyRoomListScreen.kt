@@ -48,18 +48,18 @@ fun StudyRoomListScreen(
 
     val studyRoomState = studyRoomListViewModel.uiState.collectAsState().value
 
-    val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
+    //val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
 
     var selectedTime by remember { mutableStateOf(0) }
 
-    val list = arrayListOf(
+    val studyRoomAvailableTimeList = arrayListOf(
         "10시 ~ 11시",
         "11시 ~ 12시",
         "12시 ~ 13시 50분",
         "14시 ~ 15시"
     ) // TODO remove after complete api document
 
-    var selectedAvailableTime by remember { mutableStateOf(list[0]) }
+    var selectedAvailableTime by remember { mutableStateOf(studyRoomAvailableTimeList[0]) }
 
     LaunchedEffect(Unit) {
         studyRoomListViewModel.errorState.collect {
@@ -87,7 +87,7 @@ fun StudyRoomListScreen(
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
                     showTimeFilterDialogState = false
-                    selectedAvailableTime = list[selectedTime]
+                    selectedAvailableTime = studyRoomAvailableTimeList[selectedTime]
                 },
             ) {
 
@@ -102,10 +102,10 @@ fun StudyRoomListScreen(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     content = {
-                        items(list.size) {
+                        items(studyRoomAvailableTimeList.size) {
                             DormTimeChip(
                                 selected = (selectedTime == it),
-                                text = list[it],
+                                text = studyRoomAvailableTimeList[it],
                                 onClick = {
                                     selectedTime = it
                                 },
