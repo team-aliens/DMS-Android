@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -138,7 +139,7 @@ fun IdentificationScreen(
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Space(space = 8.dp)
         Body2(
             text = stringResource(id = R.string.Identification),
         )
@@ -206,7 +207,7 @@ fun IdentificationScreen(
                             imeAction = ImeAction.Next,
                         )
                     }
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Space(space = 32.dp)
                     Box(
                         modifier = Modifier
                             .height(68.dp)

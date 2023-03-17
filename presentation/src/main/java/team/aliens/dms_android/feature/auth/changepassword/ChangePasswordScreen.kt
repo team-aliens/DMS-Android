@@ -35,6 +35,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 import java.util.regex.Pattern
+import team.aliens.design_system.extension.Space
 
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
@@ -118,9 +119,7 @@ fun ChangePasswordScreen(
                 contentDescription = stringResource(id = R.string.MainLogo),
             )
 
-            Spacer(
-                modifier = Modifier.height(1.dp),
-            )
+            Space(space = 1.dp)
 
             Body4(
                 text = stringResource(id = R.string.SetNewPassword),
@@ -180,11 +179,11 @@ fun ChangePasswordScreen(
                 )
         ) {
             AppLogo()
-            Spacer(modifier = Modifier.height(8.dp))
+            Space(space= 8.dp)
             Body2(
                 text = stringResource(id = R.string.ChangePassword),
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Space(space = 4.dp)
             Caption(
                 text = stringResource(id = R.string.PasswordWarning),
                 color = DormColor.Gray500,
@@ -205,7 +204,7 @@ fun ChangePasswordScreen(
                         imeAction = ImeAction.Next,
                     )
                 }
-                Spacer(modifier = Modifier.height(7.dp))
+                Space(space = 7.dp)
                 Box(
                     modifier = Modifier.height(76.dp),
                 ) {

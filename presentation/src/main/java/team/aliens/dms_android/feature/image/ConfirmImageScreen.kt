@@ -21,6 +21,7 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -165,9 +166,7 @@ internal fun ConfirmImageScreen(
             }
 
 
-            Spacer(
-                modifier = Modifier.height(80.dp),
-            )
+            Space(space = 80.dp)
 
 
             // 확인 버튼

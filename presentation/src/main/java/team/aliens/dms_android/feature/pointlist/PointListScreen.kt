@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormOutlineLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Headline2
@@ -190,10 +191,10 @@ fun PointListValue(
                 .fillMaxWidth()
                 .padding(start = 24.dp)
         ) {
-            Spacer(modifier = Modifier.height(44.dp))
+            Space(space = 44.dp)
             Headline2(text = " ${totalPoint}점")
         }
-        Spacer(modifier = Modifier.height(40.dp))
+        Space(space = 40.dp)
         PointList(points = point)
     }
 }

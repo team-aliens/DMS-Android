@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.auth.findid
 
+import android.widget.Space
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -24,6 +25,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -138,8 +140,9 @@ fun FindIdScreen(
                 focusManager.clearFocus()
             }
     ) {
+        Space(space = 92.dp)
         FindIdHeader()
-        Spacer(modifier = Modifier.height(60.dp))
+        Space(space = 60.dp)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -190,14 +193,14 @@ fun FindIdScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(37.dp))
+            Space(space = 37.dp)
             DormTextField(
                 value = nameState,
                 onValueChange = { name -> nameState = name },
                 hint = stringResource(id = R.string.Name),
                 imeAction = ImeAction.Next
             )
-            Spacer(modifier = Modifier.height(37.dp))
+            Space(space = 37.dp)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -261,7 +264,6 @@ fun FindIdScreen(
 
 @Composable
 fun FindIdHeader() {
-    Spacer(modifier = Modifier.height(92.dp))
     Column(
         modifier = Modifier
             .wrapContentWidth()

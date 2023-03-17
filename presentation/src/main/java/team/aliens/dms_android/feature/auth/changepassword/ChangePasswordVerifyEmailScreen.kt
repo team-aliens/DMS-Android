@@ -26,6 +26,7 @@ import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -154,7 +155,7 @@ fun ChangePasswordVerifyEmailScreen(
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Space(space = 8.dp)
         Body2(
             text = stringResource(id = R.string.Identification),
         )
@@ -191,14 +192,14 @@ fun ChangePasswordVerifyEmailScreen(
                     }
                 }
             )
-            Spacer(modifier = Modifier.height(40.dp))
+            Space(space = 40.dp)
             Body3(
                 text = if (isError) stringResource(id = R.string.NoSameCode)
                 else stringResource(id = R.string.EmailSixCode),
                 color = if (isError) DormColor.Error
                 else DormColor.Gray500,
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Space(space = 10.dp)
             Body3(
                 text = time,
                 color = DormTheme.colors.primary,
@@ -217,7 +218,7 @@ fun ChangePasswordVerifyEmailScreen(
                     },
                 text = stringResource(id = R.string.ResendVerificationCode),
             )
-            Spacer(modifier = Modifier.height(26.dp))
+            Space(space = 26.dp)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,

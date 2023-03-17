@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
@@ -31,7 +32,7 @@ fun PointList(
         )
     ) {
         itemsIndexed(items = points) { index, point ->
-            Spacer(modifier = Modifier.height(12.dp))
+            this@LazyColumn.Space(space = 12.dp)
             Point(
                 pointValue = point,
             )
@@ -72,7 +73,7 @@ private fun Point(
                 color = DormTheme.colors.primaryVariant,
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Space(space = 4.dp)
 
             Body5(
                 text = pointValue.name,

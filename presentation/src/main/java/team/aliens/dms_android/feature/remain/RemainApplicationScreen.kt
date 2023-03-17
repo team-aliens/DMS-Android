@@ -6,11 +6,25 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
@@ -114,11 +129,11 @@ fun RemainApplicationScreen(
 
         Column(modifier = Modifier.padding(horizontal = 20.dp)) {
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Space(space = 8.dp)
 
             if (noticeContent.isNotBlank()) {
                 FloatingNotice(content = noticeContent)
-                Spacer(modifier = Modifier.height(10.dp))
+                Space(space = 10.dp)
             }
             Column(modifier = Modifier.fillMaxHeight(0.9f)) {
                 LazyColumn {
@@ -135,12 +150,14 @@ fun RemainApplicationScreen(
                                 DormTheme.colors.surface
                             }
 
-                            val rotationState by animateFloatAsState(targetValue = if (isItemExpanded) {
-                                90f
-                            } else {
-                                270f
-                            })
-                            Spacer(modifier = Modifier.height(20.dp))
+                            val rotationState by animateFloatAsState(
+                                targetValue = if (isItemExpanded) {
+                                    90f
+                                } else {
+                                    270f
+                                }
+                            )
+                            this@LazyColumn.Space(space = 20.dp)
                             ApplicationCard(
                                 title = item.title,
                                 content = item.description,
@@ -164,7 +181,7 @@ fun RemainApplicationScreen(
                                 hasLastApplied = (lastAppliedItem == item.title),
                             )
                             if (remainOptions.size == index + 1) {
-                                Spacer(modifier = Modifier.height(30.dp))
+                                this@LazyColumn.Space(space = 30.dp)
                             }
                         }
                     }
@@ -222,7 +239,7 @@ fun ApplicationCard(
             )
             .dormClickable { onSelect() },
     ) {
-        Spacer(modifier = Modifier.height(14.dp))
+        Space(space = 14.dp)
         Box(
             modifier = Modifier.height(32.dp),
             contentAlignment = Alignment.CenterEnd,
@@ -235,7 +252,7 @@ fun ApplicationCard(
             ) {
                 SubTitle2(text = title)
                 if (hasLastApplied) {
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Space(space = 20.dp)
                     LastAppliedItem(stringResource(id = R.string.CompleteApplication))
                 }
             }
@@ -281,11 +298,13 @@ private fun setAvailableRemainTime(
 private fun getStringFromEvent(
     context: Context,
     event: Event,
-): String = context.getString(when (event) {
-    is Event.BadRequestException -> R.string.BadRequest
-    is Event.UnauthorizedException -> R.string.UnAuthorized
-    is Event.ForbiddenException -> R.string.ForbiddenApplyRemain
-    is Event.TooManyRequestException -> R.string.TooManyRequest
-    is Event.ServerException -> R.string.ServerException
-    else -> R.string.UnKnownException
-})
+): String = context.getString(
+    when (event) {
+        is Event.BadRequestException -> R.string.BadRequest
+        is Event.UnauthorizedException -> R.string.UnAuthorized
+        is Event.ForbiddenException -> R.string.ForbiddenApplyRemain
+        is Event.TooManyRequestException -> R.string.TooManyRequest
+        is Event.ServerException -> R.string.ServerException
+        else -> R.string.UnKnownException
+    }
+)

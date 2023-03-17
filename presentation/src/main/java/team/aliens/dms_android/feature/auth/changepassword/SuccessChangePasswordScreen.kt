@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.util.TopBar
@@ -35,12 +36,12 @@ fun SuccessChangePasswordScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(modifier = Modifier.height(200.dp))
+            Space(space = 200.dp)
             Image(
                 painter = painterResource(id = R.drawable.ic_success_change_password),
                 contentDescription = null,
             )
-            Spacer(modifier = Modifier.height(40.dp))
+            Space(space = 40.dp)
             Body2(text = stringResource(id = R.string.SuccessChangePassword))
             Spacer(modifier = Modifier.fillMaxHeight(0.8f))
             DormContainedLargeButton(

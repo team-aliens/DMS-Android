@@ -4,9 +4,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +34,7 @@ import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
@@ -32,7 +46,8 @@ import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
-const val defaultProfileUrl = "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
+const val defaultProfileUrl =
+    "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
 
 @Composable
 fun SignUpProfileScreen(
@@ -88,9 +103,9 @@ fun SignUpProfileScreen(
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Space(space = 8.dp)
         Body2(text = stringResource(id = R.string.ProfileImage))
-        Spacer(modifier = Modifier.height(80.dp))
+        Space(space = 80.dp)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -138,8 +153,10 @@ fun SignUpProfileScreen(
                             "schoolAnswer",
                             previousBackStackEntry?.arguments?.getString("schoolAnswer"),
                         )
-                        currentBackStackEntry?.arguments?.putString("email",
-                            previousBackStackEntry?.arguments?.getString("email"))
+                        currentBackStackEntry?.arguments?.putString(
+                            "email",
+                            previousBackStackEntry?.arguments?.getString("email")
+                        )
                         currentBackStackEntry?.arguments?.putString(
                             "authCode",
                             previousBackStackEntry?.arguments?.getString("authCode"),
@@ -173,7 +190,7 @@ fun SignUpProfileScreen(
                 },
                 text = stringResource(id = R.string.SettingLater),
             )
-            Spacer(modifier = Modifier.height(30.dp))
+            Space(space = 30.dp)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Next),
                 color = DormButtonColor.Blue,
@@ -189,8 +206,10 @@ fun SignUpProfileScreen(
                         "schoolAnswer",
                         previousBackStackEntry?.arguments?.getString("schoolAnswer"),
                     )
-                    currentBackStackEntry?.arguments?.putString("email",
-                        previousBackStackEntry?.arguments?.getString("email"))
+                    currentBackStackEntry?.arguments?.putString(
+                        "email",
+                        previousBackStackEntry?.arguments?.getString("email")
+                    )
                     currentBackStackEntry?.arguments?.putString(
                         "authCode",
                         previousBackStackEntry?.arguments?.getString("authCode"),

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import team.aliens.design_system.extension.Space
 
 const val OTP_VIEW_TYPE_NONE = 0
 const val OTP_VIEW_TYPE_UNDERLINE = 1
@@ -104,7 +105,7 @@ private fun CharView(
             textAlign = TextAlign.Center,
         )
         if (type == OTP_VIEW_TYPE_UNDERLINE) {
-            Spacer(modifier = Modifier.height(2.dp))
+            Space(space = 2.dp)
             Box(modifier = Modifier
                 .background(charColor)
                 .height(1.dp)

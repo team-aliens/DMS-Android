@@ -3,10 +3,22 @@ package team.aliens.dms_android.feature.register.ui.id
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -18,8 +30,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.*
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -32,7 +46,6 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.presentation.R
-import java.util.*
 
 const val idFormatPattern = "^[a-zA-Z]*$"
 
@@ -157,11 +170,11 @@ fun SignUpIdScreen(
             },
     ) {
         AppLogo()
-        Spacer(modifier = Modifier.height(8.dp))
+        Space(space = 8.dp)
         Body2(
             text = stringResource(id = R.string.SetId)
         )
-        Spacer(modifier = Modifier.height(60.dp))
+        Space(space = 60.dp)
         Column(modifier = Modifier.fillMaxHeight(0.812f)) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(22.dp)
@@ -209,7 +222,7 @@ fun SignUpIdScreen(
                         ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Space(space = 16.dp)
                     Body3(text = "${userName}님이 맞으신가요?")
                     Spacer(modifier = Modifier.fillMaxWidth(0.8f))
                     ButtonText(
@@ -224,7 +237,7 @@ fun SignUpIdScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Space(space = 26.dp)
             DormTextField(
                 modifier = Modifier
                     .onFocusChanged {
@@ -242,7 +255,7 @@ fun SignUpIdScreen(
                 hint = stringResource(id = R.string.EnterId),
                 error = isIdError,
                 errorDescription = errorDescription,
-                keyboardActions = KeyboardActions{
+                keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
                 },
                 imeAction = ImeAction.Done,

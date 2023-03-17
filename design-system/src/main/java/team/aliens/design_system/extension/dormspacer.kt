@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun ColumnScope.Space(
+fun ColumnScope.Space(
     space: Dp = 0.dp,
     ratio: Float? = null,
 ) {
@@ -23,7 +23,7 @@ internal fun ColumnScope.Space(
 }
 
 @Composable
-internal fun RowScope.Space(
+fun RowScope.Space(
     space: Dp = 0.dp,
     ratio: Float? = null,
 ) {
@@ -34,7 +34,7 @@ internal fun RowScope.Space(
 }
 
 @Composable
-internal fun LazyListScope.Space(
+fun LazyListScope.Space(
     space: Dp = 0.dp,
     ratio: Float? = null,
 ) {
