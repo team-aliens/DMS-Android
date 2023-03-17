@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.utils.runIf
@@ -111,7 +112,7 @@ fun DormTextRadioButton(
             enabled = enabled,
         )
 
-        Spacer(modifier = Modifier.width(15.dp))
+        Space(space = 15.dp)
 
         Box(
             modifier = Modifier.offset(

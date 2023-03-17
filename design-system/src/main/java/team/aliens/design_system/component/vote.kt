@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.button.*
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Caption
@@ -60,7 +61,7 @@ fun Vote(
                 color = DormColor.Gray700,
             )
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Space(space = 36.dp)
 
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(36.dp)
@@ -78,7 +79,7 @@ fun Vote(
                         )
 
                         if (vote.number != null) {
-                            Spacer(modifier = Modifier.weight(1f))
+                            this@LazyColumn.Space(ratio = 1f)
 
                             Caption(
                                 text = "${vote.number}명",
@@ -89,7 +90,7 @@ fun Vote(
                 }
             }
 
-            Spacer(modifier = Modifier.height(62.dp))
+            Space(space = 62.dp)
 
             if (!isFinished) {
                 DormContainedLargeButton(
@@ -156,7 +157,7 @@ fun OverlapVote(
                 color = DormColor.Gray700,
             )
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Space(space = 36.dp)
 
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(36.dp)
@@ -190,7 +191,7 @@ fun OverlapVote(
                 }
             }
 
-            Spacer(modifier = Modifier.height(62.dp))
+            Space(space = 62.dp)
 
             if (!isFinished) {
                 DormContainedLargeButton(

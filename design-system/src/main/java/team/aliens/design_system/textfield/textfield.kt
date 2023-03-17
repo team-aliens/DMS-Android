@@ -30,6 +30,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.utils.runIf
+import team.aliens.design_system.extension.Space
 
 /**
  * [TODO]
@@ -174,11 +175,7 @@ fun PreviewDormTextField() {
             onValueChange = { value = it },
         )
 
-        Spacer(
-            modifier = Modifier.height(
-                height = 15.dp,
-            ),
-        )
+        Space(space = 15.dp)
 
         // password text field
         DormTextField(
@@ -187,11 +184,7 @@ fun PreviewDormTextField() {
             isPassword = true,
         )
 
-        Spacer(
-            modifier = Modifier.height(
-                height = 15.dp,
-            ),
-        )
+        Space(space = 15.dp)
 
         // error text field
         DormTextField(
@@ -200,11 +193,7 @@ fun PreviewDormTextField() {
             errorDescription = "특수문자는 사용할 수 없습니다!",
         )
 
-        Spacer(
-            modifier = Modifier.height(
-                height = 15.dp,
-            ),
-        )
+        Space(space = 15.dp)
 
         // description text field
         DormTextField(

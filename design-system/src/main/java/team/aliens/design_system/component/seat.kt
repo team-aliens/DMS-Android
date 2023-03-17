@@ -20,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.innerShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.DormTypography
 import team.aliens.design_system.typography.OverLine
+import team.aliens.design_system.extension.Space
 
 private val SeatSize: DpSize = DpSize(
     width = 40.dp,
@@ -370,7 +372,7 @@ fun RoomItem(
                 )
 
 
-                Spacer(modifier = Modifier.width(14.dp))
+                Space(14.dp)
 
 
                 // title
@@ -378,8 +380,8 @@ fun RoomItem(
                     text = title,
                 )
 
-
-                Spacer(modifier = Modifier.weight(1f))
+                // TODO refactoring spacer
+                Space(ratio = 1f)
 
 
                 // reserved seat
@@ -390,9 +392,7 @@ fun RoomItem(
             }
 
 
-            Spacer(
-                modifier = Modifier.height(14.dp),
-            )
+            Space(space = 14.dp)
 
 
             // available gender
