@@ -2,7 +2,9 @@ package team.aliens.dms_android.feature.auth.changepassword
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
@@ -43,7 +46,7 @@ fun SuccessChangePasswordScreen(
             )
             Space(space = 40.dp)
             Body2(text = stringResource(id = R.string.SuccessChangePassword))
-            Spacer(modifier = Modifier.fillMaxHeight(0.8f))
+            RatioSpace(height = 0.8f)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,

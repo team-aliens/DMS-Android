@@ -21,6 +21,7 @@ import team.aliens.design_system.button.DormCheckBox
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -129,7 +130,7 @@ fun SignUpPolicyScreen(
                     },
                 )
             }
-            Spacer(modifier = Modifier.fillMaxHeight(0.39f))
+            RatioSpace(height = 0.39f)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,

@@ -112,6 +112,7 @@ fun StudyRoomListScreen(
                     text = stringResource(R.string.Time),
                 )
 
+                // TODO refactor this spacer
                 Spacer(
                     modifier = Modifier.height(24.dp),
                 )

@@ -46,7 +46,7 @@ fun OtpView(
     }, enabled = enabled, keyboardOptions = keyboardOptions, decorationBox = {
         Row(horizontalArrangement = Arrangement.SpaceAround) {
             repeat(otpCount) { index ->
-                Spacer(modifier = Modifier.width(4.dp))
+                Space(space = 4.dp)
                 CharView(
                     index = index,
                     text = otpText,
@@ -58,7 +58,7 @@ fun OtpView(
                     password = password,
                     passwordChar = passwordChar,
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Space(space = 4.dp)
             }
         }
     })

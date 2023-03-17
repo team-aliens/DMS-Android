@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +32,7 @@ import androidx.navigation.NavController
 import java.util.*
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
@@ -224,7 +224,7 @@ fun SignUpIdScreen(
                 ) {
                     Space(space = 16.dp)
                     Body3(text = "${userName}님이 맞으신가요?")
-                    Spacer(modifier = Modifier.fillMaxWidth(0.8f))
+                    RatioSpace(width = 0.8f)
                     ButtonText(
                         modifier = Modifier.dormClickable(
                             rippleEnabled = false,

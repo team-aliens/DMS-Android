@@ -79,7 +79,7 @@ fun Vote(
                         )
 
                         if (vote.number != null) {
-                            this@LazyColumn.Space(ratio = 1f)
+                            this@Row.Space(ratio = 1f)
 
                             Caption(
                                 text = "${vote.number}명",
@@ -180,7 +180,7 @@ fun OverlapVote(
                         )
 
                         if (vote.number != null) {
-                            Spacer(modifier = Modifier.weight(1f))
+                            Space(ratio = 1f)
 
                             Caption(
                                 text = "${vote.number}명",

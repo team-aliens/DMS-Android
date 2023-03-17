@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature.application.ApplicationScreen
@@ -43,9 +43,7 @@ fun DmsApp(
         scaffoldState = scaffoldState,
         bottomBar = {
             Column(verticalArrangement = Arrangement.Bottom) {
-                Spacer(modifier = Modifier
-                    .height(40.dp)
-                    .background(Color.Cyan))
+                Space(space = 40.dp)
                 BottomNavBar(
                     navController = navHostController,
                     navBackStackEntry = navBackStackEntry,

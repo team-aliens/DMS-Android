@@ -3,6 +3,8 @@ package team.aliens.design_system.extension
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
@@ -36,10 +38,19 @@ fun RowScope.Space(
 @Composable
 fun LazyListScope.Space(
     space: Dp = 0.dp,
-    ratio: Float? = null,
 ) {
-    ratio?.run {
-        Spacer(modifier = Modifier)
+    Spacer(modifier = Modifier.width(space))
+}
+
+@Composable
+fun RatioSpace(
+    width: Float? = null,
+    height: Float? = null,
+){
+    width?.run {
+        Spacer(modifier = Modifier.fillMaxWidth(width))
     }
-    Spacer(modifier = Modifier.height(space))
+    height?.run {
+        Spacer(modifier = Modifier.fillMaxHeight(height))
+    }
 }

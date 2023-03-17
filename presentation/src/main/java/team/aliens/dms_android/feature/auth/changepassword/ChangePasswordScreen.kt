@@ -35,6 +35,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 import java.util.regex.Pattern
+import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
@@ -222,7 +223,7 @@ fun ChangePasswordScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.fillMaxHeight(0.742f))
+            RatioSpace(height = 0.742f)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,
