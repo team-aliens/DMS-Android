@@ -39,7 +39,7 @@ fun RowScope.Space(
 fun LazyListScope.Space(
     space: Dp = 0.dp,
 ) {
-    Spacer(modifier = Modifier.width(space))
+    Spacer(modifier = Modifier.height(space))
 }
 
 @Composable
