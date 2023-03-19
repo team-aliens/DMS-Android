@@ -18,10 +18,11 @@ fun ColumnScope.Space(
     space: Dp = 0.dp,
     ratio: Float? = null,
 ) {
-    ratio?.run {
+    if(ratio != null){
         Spacer(modifier = Modifier.weight(ratio))
+    }else {
+        Spacer(modifier = Modifier.height(space))
     }
-    Spacer(modifier = Modifier.height(space))
 }
 
 @Composable
@@ -29,10 +30,11 @@ fun RowScope.Space(
     space: Dp = 0.dp,
     ratio: Float? = null,
 ) {
-    ratio?.run {
+    if(ratio != null){
         Spacer(modifier = Modifier.weight(ratio))
+    }else {
+        Spacer(modifier = Modifier.width(space))
     }
-    Spacer(modifier = Modifier.width(space))
 }
 
 @Composable
@@ -47,10 +49,9 @@ fun RatioSpace(
     width: Float? = null,
     height: Float? = null,
 ){
-    width?.run {
+    if(width != null){
         Spacer(modifier = Modifier.fillMaxWidth(width))
-    }
-    height?.run {
-        Spacer(modifier = Modifier.fillMaxHeight(height))
+    }else{
+        Spacer(modifier = Modifier.fillMaxHeight(height!!))
     }
 }
