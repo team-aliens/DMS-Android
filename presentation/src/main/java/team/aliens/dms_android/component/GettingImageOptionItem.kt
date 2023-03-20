@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 
@@ -36,9 +37,7 @@ internal fun GettingImageOptionItem(
             contentDescription = null,
         )
 
-        Spacer(
-            modifier = Modifier.width(16.dp),
-        )
+        Space(space = 16.dp)
 
         Body2(
             text = text,

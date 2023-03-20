@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import team.aliens.design_system.extension.Space
 
 const val OTP_VIEW_TYPE_NONE = 0
 const val OTP_VIEW_TYPE_UNDERLINE = 1
@@ -45,7 +46,7 @@ fun OtpView(
     }, enabled = enabled, keyboardOptions = keyboardOptions, decorationBox = {
         Row(horizontalArrangement = Arrangement.SpaceAround) {
             repeat(otpCount) { index ->
-                Spacer(modifier = Modifier.width(4.dp))
+                Space(space = 4.dp)
                 CharView(
                     index = index,
                     text = otpText,
@@ -57,7 +58,7 @@ fun OtpView(
                     password = password,
                     passwordChar = passwordChar,
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Space(space = 4.dp)
             }
         }
     })
@@ -104,7 +105,7 @@ private fun CharView(
             textAlign = TextAlign.Center,
         )
         if (type == OTP_VIEW_TYPE_UNDERLINE) {
-            Spacer(modifier = Modifier.height(2.dp))
+            Space(space = 2.dp)
             Box(modifier = Modifier
                 .background(charColor)
                 .height(1.dp)

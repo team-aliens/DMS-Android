@@ -23,12 +23,12 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
-import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
@@ -129,15 +129,11 @@ fun LoginScreen(
         }
     ) {
 
-        Spacer(
-            modifier = Modifier.height(92.dp),
-        )
+        Space(space = 92.dp)
 
         AppLogo(darkIcon = isSystemInDarkTheme())
 
-        Spacer(
-            modifier = Modifier.height(8.dp),
-        )
+        Space(space = 8.dp)
 
         Body2(
             text = stringResource(
@@ -145,9 +141,7 @@ fun LoginScreen(
             ),
         )
 
-        Spacer(
-            modifier = Modifier.height(60.dp),
-        )
+        Space(space = 60.dp)
 
         // 아이디
         DormTextField(
@@ -162,9 +156,7 @@ fun LoginScreen(
             }),
         )
 
-        Spacer(
-            modifier = Modifier.height(36.dp),
-        )
+        Space(space = 36.dp)
 
         // 비밀번호
         DormTextField(
@@ -180,9 +172,7 @@ fun LoginScreen(
             }),
         )
 
-        Spacer(
-            modifier = Modifier.height(30.dp),
-        )
+        Space(space = 30.dp)
 
         DormTextCheckBox(
             modifier = Modifier.padding(
@@ -193,7 +183,7 @@ fun LoginScreen(
             onCheckedChange = onAutoLoginStateChange,
         )
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Space(space = 26.dp)
 
         Row(
             modifier = Modifier
@@ -243,9 +233,7 @@ fun LoginScreen(
             )
         }
 
-        Spacer(
-            modifier = Modifier.weight(1f),
-        )
+        Space(ratio = 1f)
 
         DormContainedLargeButton(
             text = stringResource(id = R.string.Login),
@@ -273,9 +261,7 @@ fun LoginScreen(
             },
         )
 
-        Spacer(
-            modifier = Modifier.height(57.dp),
-        )
+        Space(space = 57.dp)
     }
 }
 

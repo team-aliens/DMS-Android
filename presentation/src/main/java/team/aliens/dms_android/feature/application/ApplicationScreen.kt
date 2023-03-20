@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
@@ -63,9 +64,9 @@ fun ApplicationScreen(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        Space(space = 24.dp)
         Body1(text = stringResource(id = R.string.Application))
-        Spacer(modifier = Modifier.height(40.dp))
+        Space(space = 40.dp)
         ApplicationCard(
             title = stringResource(id = R.string.StudyRoom),
             content = stringResource(id = R.string.StudyRoomApplyDescription),
@@ -75,7 +76,7 @@ fun ApplicationScreen(
             },
             lastApplicationText = lastAppliedStudyRoom,
         )
-        Spacer(modifier = Modifier.height(30.dp))
+        Space(space = 30.dp)
         ApplicationCard(
             title = stringResource(id = R.string.Stay),
             content = stringResource(id = R.string.RemainApplyDescription),
@@ -113,7 +114,7 @@ fun ApplicationCard(
                 text = title,
             )
             if (lastApplicationText.isNotBlank()) {
-                Spacer(modifier = Modifier.weight(1f))
+                Space(ratio = 1f)
                 LastAppliedItem(lastApplicationText)
             }
         }

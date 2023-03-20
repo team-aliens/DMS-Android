@@ -17,6 +17,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
+import team.aliens.design_system.extension.Space
 
 data class Notice(
     var noticeId: String,
@@ -41,7 +42,7 @@ fun NoticeList(
             )
 
             if (index != notices.size) {
-                Spacer(modifier = Modifier.height(12.dp))
+                this@LazyColumn.Space(space = 12.dp)
             }
         }
         if (notices.isEmpty()) {
@@ -84,7 +85,7 @@ private fun Notice(
                 text = notice.title,
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Space(space = 4.dp)
 
             OverLine(
                 modifier = Modifier.padding(bottom = 12.dp),

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.R
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
@@ -44,7 +45,7 @@ fun FloatingNotice(
                 painter = painterResource(id = R.drawable.coloricnotice),
                 contentDescription = "NoticeIcon",
             )
-            Spacer(modifier = Modifier.width(13.dp))
+            Space(space = 13.dp)
             Body5(text = content)
         }
     }
