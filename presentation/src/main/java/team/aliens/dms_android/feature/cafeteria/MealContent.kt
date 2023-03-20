@@ -43,6 +43,7 @@ import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.dms_android.viewmodel.home.MealViewModel
+import team.aliens.dms_android.widget.meal.MealType
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
@@ -53,12 +54,11 @@ fun ScrollEffectPager(
 
     var currentPageIndex by remember { mutableStateOf(0) }
 
-    currentPageIndex =
-        when (LocalDateTime.now().hour) {
-            in 0..8 -> 0
-            in 9..13 -> 1
-            else -> 2
-        }
+    currentPageIndex = when(MealType.getCurrentMealType(LocalDateTime.now())){
+        MealType.Breakfast -> 0
+        MealType.Lunch -> 1
+        else -> 2
+    }
 
     val pagerState = rememberPagerState(currentPageIndex)
 
