@@ -54,7 +54,8 @@ fun ScrollEffectPager(
 
     var currentPageIndex by remember { mutableStateOf(0) }
 
-    currentPageIndex = when(MealType.getCurrentMealType(LocalDateTime.now())){
+    val currentMealType = MealType.getCurrentMealType(LocalDateTime.now())
+    currentPageIndex = when(currentMealType) {
         MealType.Breakfast -> 0
         MealType.Lunch -> 1
         else -> 2
