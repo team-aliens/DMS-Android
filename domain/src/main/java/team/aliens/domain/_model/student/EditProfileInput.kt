@@ -2,9 +2,9 @@ package team.aliens.domain._model.student
 
 /**
  * @author junsuPark
- * An response returned when editing profile
+ * An request inputted when editing profile
  * @property profileImageUrl an url expresses user's profile image url
  */
-data class EditProfileResult(
+data class EditProfileInput(
     val profileImageUrl: String,
 )
