@@ -2,7 +2,7 @@ package team.aliens.domain._model.user
 
 /**
  * @author junsuPark
- * A request sent when changing password without verification
+ * A request sent when editing password, requires authentication
  * @property currentPassword a password user using it now
  * @property newPassword a password to be set
  */
