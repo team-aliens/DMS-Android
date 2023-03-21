@@ -6,7 +6,7 @@ import team.aliens.domain._model.school.QuerySchoolVerificationQuestionResult
 import team.aliens.domain._model.school.QuerySchoolsResult
 import java.util.*
 
-interface SchoolsRepository {
+interface SchoolRepository {
 
     suspend fun querySchools(): QuerySchoolsResult
 
