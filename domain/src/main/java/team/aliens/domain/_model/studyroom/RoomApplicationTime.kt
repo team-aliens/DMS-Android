@@ -3,7 +3,6 @@ package team.aliens.domain._model.studyroom
 import java.util.*
 
 /**
- * @author junsuPark
  * A set of room time information
  * @property id unique id of study room
  * @property startTime the start time of room application

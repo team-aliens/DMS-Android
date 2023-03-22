@@ -3,7 +3,6 @@ package team.aliens.domain._model.remain
 import java.util.*
 
 /**
- * @author junsuPark
  * An information set of remain option
  * @property id the unique id of remain option
  * @property title title of the remain option

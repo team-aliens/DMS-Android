@@ -4,7 +4,6 @@ import team.aliens.domain._model._common.Sex
 import java.util.*
 
 /**
- * @author junsuPark
  * A response returned when querying study rooms
  * @property studyRooms list of study rooms
  */
@@ -13,7 +12,6 @@ data class QueryStudyRoomsResult(
 ) {
 
     /**
-     * @author junsuPark
      * A set of study room information
      * @property id unique id of the school
      * @property floor the floor of the study room

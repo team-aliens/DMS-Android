@@ -1,7 +1,6 @@
 package team.aliens.domain._model.studyroom
 
 /**
- * @author junsuPark
  * A response returned when querying
  * @property floor the floor of the applied study room
  * @property name the name of the applied study room

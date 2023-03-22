@@ -1,18 +1,17 @@
 package team.aliens.domain._model.student
 
 /**
- * @author junsuPark
  * A request of sign up
- * [schoolCode] a verification code of user's school
- * [schoolAnswer] an answer of user's school question
- * [email] an email of user
- * [authCode] a verification code, sent to user's email
- * [grade] a grade of user
- * [classRoom] a class of user
- * [number] a number of user
- * [accountId] an id of user
- * [password] a password of user
- * [profileImageUrl] an url of profile image, can be null
+ * @property schoolCode a verification code of user's school
+ * @property schoolAnswer an answer of user's school question
+ * @property email an email of user
+ * @property authCode a verification code, sent to user's email
+ * @property grade a grade of user
+ * @property classRoom a class of user
+ * @property number a number of user
+ * @property accountId an id of user
+ * @property password a password of user
+ * @property profileImageUrl an url of profile image, can be null
  */
 data class SignUpInput(
     val schoolCode: String,

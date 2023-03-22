@@ -1,7 +1,6 @@
 package team.aliens.domain._model.auth
 
 /**
- * @author junsuPark
  * A response returned when authentication succeed
  * @property accessToken an access token
  * @property accessTokenExpiredAt access token expiration date
@@ -18,7 +17,6 @@ data class TokenResult(
 ) {
 
     /**
-     * @author junsuPark
      * A set of features, which user's school set
      * @property mealService feature of meal
      * @property noticeService feature of notice

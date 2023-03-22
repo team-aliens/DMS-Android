@@ -3,7 +3,6 @@ package team.aliens.domain._model.student
 import team.aliens.domain._model._common.Sex
 
 /**
- * @author junsuPark
  * A response of fetching my page
  * @property schoolName the user's school name
  * @property name the user's name

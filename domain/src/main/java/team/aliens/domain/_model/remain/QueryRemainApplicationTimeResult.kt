@@ -3,7 +3,6 @@ package team.aliens.domain._model.remain
 import java.time.DayOfWeek
 
 /**
- * @author junsuPark
  * A response returned when querying remain application time
  * @property startDayOfWeek the day when remain application starts up
  * @property startTime the start time of the day when remain application starts

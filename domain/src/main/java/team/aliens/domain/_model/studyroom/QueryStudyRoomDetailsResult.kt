@@ -5,7 +5,6 @@ import team.aliens.domain._model.studyroom.QueryStudyRoomDetailsResult.SeatInfor
 import java.util.*
 
 /**
- * @author junsuPark
  * A response returned when querying study room details
  * @property floor floor of the study room
  * @property name name of the study room
@@ -34,7 +33,6 @@ data class QueryStudyRoomDetailsResult(
 ) {
 
     /**
-     * @author junsuPark
      * A set of study room seat information
      * @property id the unique id of the seat
      * @property widthLocation X location of the study room chart
@@ -57,7 +55,6 @@ data class QueryStudyRoomDetailsResult(
     ) {
 
         /**
-         * @author junsuPark
          * A set of seat information
          * @property id the unique id of the seat type
          * @property name the name of the seat type
@@ -70,7 +67,6 @@ data class QueryStudyRoomDetailsResult(
         )
 
         /**
-         * @author junsuPark
          * A enum class of the seat status
          * @property AVAILABLE meaning seat is available
          * @property UNAVAILABLE meaning seat is not available
@@ -83,7 +79,6 @@ data class QueryStudyRoomDetailsResult(
         }
 
         /**
-         * @author junsuPark
          * An in-use student information of the seat
          * @property id an unique id of the student
          * @property name the name of the student

@@ -1,7 +1,6 @@
 package team.aliens.domain._model.meal
 
 /**
- * @author junsuPark
  * A meal information entity contains meal's date, breakfasts, lunches, and dinners
  * @property date meal's date
  * @property breakfast breakfast dishes of date

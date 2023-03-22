@@ -1,7 +1,6 @@
 package team.aliens.domain._model.auth
 
 /**
- * @author junsuPark
  * A token entity contains access and refresh tokens, and their expiration
  * @property accessToken an access token
  * @property accessTokenExpiredAt an expiration time of access token

@@ -3,7 +3,6 @@ package team.aliens.domain._model.remain
 import java.util.*
 
 /**
- * @author junsuPark
  * A response returned when querying remain options
  * @property remainOptions list of remain options
  */
@@ -12,7 +11,6 @@ data class QueryRemainOptionsResult(
 ) {
 
     /**
-     * @author junsuPark
      * A set of information about remain option
      * @property id the unique id of the remain option
      * @property title the title of the remain option

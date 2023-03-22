@@ -3,7 +3,6 @@ package team.aliens.domain._model.studyroom
 import java.util.*
 
 /**
- * @author junsuPark
  * A response returned when querying seat types
  * @property types list of seat types
  */
@@ -12,7 +11,6 @@ data class QuerySeatTypesResult(
 ) {
 
     /**
-     * @author junsuPark
      * A set of seat information
      * @property id an unique id of the seat
      * @property name the name of the seat type

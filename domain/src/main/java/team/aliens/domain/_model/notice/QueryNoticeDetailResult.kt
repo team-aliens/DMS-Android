@@ -1,7 +1,6 @@
 package team.aliens.domain._model.notice
 
 /**
- * @author junsuPark
  * A response returned when querying notice detail
  * @property title the detail's title
  * @property content the detail's content

@@ -4,7 +4,6 @@ import team.aliens.domain._model._common.Sex
 import java.util.*
 
 /**
- * @author junsuPark
  * A set of study room information, contains study room id, name and etc
  * @property id the unique id of study room
  * @property floor floor of the study room

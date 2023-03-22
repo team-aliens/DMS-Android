@@ -3,7 +3,6 @@ package team.aliens.domain._model.mypage
 import team.aliens.domain._model._common.Sex
 
 /**
- * @author junsuPark
  * An entity contains my page information
  * @property schoolName user's school name
  * @property name user's name

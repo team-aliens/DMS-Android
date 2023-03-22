@@ -1,7 +1,6 @@
 package team.aliens.domain._model.school
 
 /**
- * @author junsuPark
  * A response returned when querying available user features
  * @property mealService a boolean value of whether meal service enabled
  * @property noticeService a boolean value of whether notice service enabled

@@ -3,7 +3,6 @@ package team.aliens.domain._model.studyroom
 import java.util.*
 
 /**
- * @author junsuPark
  * A set of seat information
  * @property id unique id of the seat
  * @property name name of the seat

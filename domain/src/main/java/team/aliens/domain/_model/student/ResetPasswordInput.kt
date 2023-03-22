@@ -1,7 +1,6 @@
 package team.aliens.domain._model.student
 
 /**
- * @author junsuPark
  * A request for password reset, requires all of account information
  * @property accountId user's id, also used at sign in
  * @property name user's real name

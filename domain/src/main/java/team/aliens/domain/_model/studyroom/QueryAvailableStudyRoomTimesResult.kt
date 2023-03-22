@@ -3,7 +3,6 @@ package team.aliens.domain._model.studyroom
 import java.util.*
 
 /**
- * @author junsuPark
  * A response returned when querying available study room time
  * @property timeSlots list of available study room times
  */
@@ -12,7 +11,6 @@ data class QueryAvailableStudyRoomTimesResult(
 ) {
 
     /**
-     * @author junsuPark
      * A set of available time slot information
      * @property id the time slot's unique id
      * @property name the name of the time slot
