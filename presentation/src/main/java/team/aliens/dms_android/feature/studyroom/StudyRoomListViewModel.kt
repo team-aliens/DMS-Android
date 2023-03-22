@@ -2,14 +2,20 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
+import java.util.UUID
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
-import team.aliens.domain.usecase.studyroom.*
-import javax.inject.Inject
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
+import team.aliens.domain.usecase.studyroom.RemoteApplySeatUseCase
+import team.aliens.domain.usecase.studyroom.RemoteCancelApplySeatUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchCurrentStudyRoomOptionUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomAvailableTimeListUseCase
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
@@ -23,14 +29,18 @@ class StudyRoomListViewModel @Inject constructor(
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
     init {
-        //fetchStudyRoomList()
-        //fetchApplyTime()
-        fetchStudyRoomAvailableTimeList()
+        fetchApplyTime()
     }
 
     sealed class UiEvent : BaseEvent {
 
         internal object FetchStudyRooms : UiEvent()
+
+        internal object FetchStudyRoomAvailableTimes : UiEvent()
+
+        internal data class SetStudyRoomAvailableTime(
+            val timeSlot: UUID,
+        ): UiEvent()
 
         internal class FilterStudyRoom(
             studyRoomTime: Any?,
@@ -46,6 +56,14 @@ class StudyRoomListViewModel @Inject constructor(
             is UiEvent.FetchStudyRooms -> {
                 fetchStudyRoomList()
             }
+            is UiEvent.FetchStudyRoomAvailableTimes -> {
+                fetchStudyRoomAvailableTimeList()
+            }
+            is UiEvent.SetStudyRoomAvailableTime -> {
+                setStudyRoomAvailableTime(
+                    timeSlot = event.timeSlot,
+                )
+            }
             is UiEvent.FilterStudyRoom -> {
                 // todo
             }
@@ -60,8 +78,6 @@ class StudyRoomListViewModel @Inject constructor(
             }
 
             if (result.isSuccess) {
-
-                //emitStudyRoomTimeEvent(Event.RoomApplyTime)
 
                 val resultEntity = result.getOrThrow()
 
@@ -99,14 +115,14 @@ class StudyRoomListViewModel @Inject constructor(
         }
     }
 
-    private fun fetchStudyRoomAvailableTimeList() {
+    internal fun fetchStudyRoomAvailableTimeList() {
         viewModelScope.launch {
-
             studyRoomAvailableTimeListUseCase()
                 .onSuccess { resultEntity ->
                     _uiState.value = _uiState.value.copy(
                         studyRoomAvailableTime = resultEntity.timeSlots,
                     )
+                    fetchStudyRoomList()
                 }
                 .onFailure {
                     emitErrorEventFromThrowable(
@@ -117,9 +133,9 @@ class StudyRoomListViewModel @Inject constructor(
         }
     }
 
-    internal fun setStudyRoomAvailableTime(
+    private fun setStudyRoomAvailableTime(
         timeSlot: UUID,
-    ){
+    ) {
         _uiState.value = _uiState.value.copy(
             timeSlot = timeSlot,
         )

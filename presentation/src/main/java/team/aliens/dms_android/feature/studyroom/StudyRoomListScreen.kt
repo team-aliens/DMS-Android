@@ -4,27 +4,29 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -34,7 +36,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -67,19 +68,30 @@ fun StudyRoomListScreen(
 
     val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
 
-    var selectedTime by remember { mutableStateOf(0) }
+    var selectedIndex by remember { mutableStateOf(0) }
 
     var selectedAvailableTime by remember { mutableStateOf("") }
 
-    LaunchedEffect(studyRoomAvailableTimeList) {
-        if (studyRoomAvailableTimeList.isNotEmpty()) {
-            selectedAvailableTime = setAvailableTime(studyRoomAvailableTimeList.first())
+    LaunchedEffect(Unit) {
+        with(studyRoomListViewModel) {
+            onEvent(event = StudyRoomListViewModel.UiEvent.FetchStudyRoomAvailableTimes)
+            errorState.collect {
+                toast(it)
+            }
         }
     }
 
-    LaunchedEffect(Unit) {
-        studyRoomListViewModel.errorState.collect {
-            toast(it)
+    LaunchedEffect(studyRoomAvailableTimeList) {
+        if (studyRoomAvailableTimeList.isNotEmpty()) {
+
+            val studyRoomFirstEntity = studyRoomAvailableTimeList.first()
+
+            selectedAvailableTime = setAvailableTime(studyRoomFirstEntity)
+            studyRoomListViewModel.onEvent(
+                event = StudyRoomListViewModel.UiEvent.SetStudyRoomAvailableTime(
+                    timeSlot = studyRoomFirstEntity.id,
+                )
+            )
         }
     }
 
@@ -102,10 +114,17 @@ fun StudyRoomListScreen(
                 ),
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
-                    showTimeFilterDialogState = false
-                    selectedAvailableTime =
-                        setAvailableTime(studyRoomAvailableTimeList[selectedTime])
-                    studyRoomListViewModel.setStudyRoomAvailableTime(studyRoomAvailableTimeList[selectedTime].id)
+                    with(studyRoomListViewModel) {
+                        showTimeFilterDialogState = false
+                        selectedAvailableTime =
+                            setAvailableTime(studyRoomAvailableTimeList[selectedIndex])
+                        onEvent(
+                            event = StudyRoomListViewModel.UiEvent.SetStudyRoomAvailableTime(
+                                timeSlot = studyRoomAvailableTimeList[selectedIndex].id,
+                            )
+                        )
+                        fetchStudyRoomAvailableTimeList()
+                    }
                 },
             ) {
 
@@ -120,14 +139,21 @@ fun StudyRoomListScreen(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     content = {
-                        items(studyRoomAvailableTimeList.size) {
+                        itemsIndexed(
+                            items = studyRoomAvailableTimeList,
+                        ) { index, items ->
                             DormTimeChip(
-                                selected = (selectedTime == it),
+                                selected = (selectedIndex == index),
                                 text = setAvailableTime(
-                                    studyRoomAvailableTimeList[it],
+                                    studyRoomAvailableTimeList[index],
                                 ),
                                 onClick = {
-                                    selectedTime = it
+                                    selectedIndex = index
+                                    studyRoomListViewModel.onEvent(
+                                        event = StudyRoomListViewModel.UiEvent.SetStudyRoomAvailableTime(
+                                            timeSlot = items.id,
+                                        )
+                                    )
                                 },
                             )
                         }
