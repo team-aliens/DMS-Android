@@ -1,8 +1,8 @@
 package team.aliens.domain._repository
 
-import team.aliens.domain._model.remain.QueryCurrentAppliedRemainOptionResult
-import team.aliens.domain._model.remain.QueryRemainOptionsResult
-import team.aliens.domain._model.remain.QueryRemainApplicationTimeResult
+import team.aliens.domain._model.remains.QueryCurrentAppliedRemainsOptionResult
+import team.aliens.domain._model.remains.QueryRemainsOptionsResult
+import team.aliens.domain._model.remains.QueryRemainsApplicationTimeResult
 import java.util.*
 
 interface RemainRepository {
@@ -11,9 +11,9 @@ interface RemainRepository {
         remainOptionId: UUID,
     )
 
-    suspend fun queryCurrentAppliedRemainOption(): QueryCurrentAppliedRemainOptionResult
+    suspend fun queryCurrentAppliedRemainOption(): QueryCurrentAppliedRemainsOptionResult
 
-    suspend fun queryRemainApplicationTime(): QueryRemainApplicationTimeResult
+    suspend fun queryRemainApplicationTime(): QueryRemainsApplicationTimeResult
 
-    suspend fun queryRemainOptions(): QueryRemainOptionsResult
+    suspend fun queryRemainOptions(): QueryRemainsOptionsResult
 }
