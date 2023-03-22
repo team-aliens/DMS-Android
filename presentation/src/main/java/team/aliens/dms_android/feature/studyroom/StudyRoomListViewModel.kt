@@ -23,8 +23,8 @@ class StudyRoomListViewModel @Inject constructor(
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
     init {
-        fetchStudyRoomList()
-        fetchApplyTime()
+        //fetchStudyRoomList()
+        //fetchApplyTime()
         fetchStudyRoomAvailableTimeList()
     }
 

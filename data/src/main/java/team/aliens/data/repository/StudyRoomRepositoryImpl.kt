@@ -152,7 +152,8 @@ class StudyRoomRepositoryImpl @Inject constructor(
     private fun StudyRoomAvailableTimeListResponse.AvailableTime.toEntity() =
         StudyRoomAvailableTimeListEntity.AvailableTime(
             id = this.id,
-            name = this.name,
+            startTime = this.startTime,
+            endTime = this.endTime,
         )
 }
 

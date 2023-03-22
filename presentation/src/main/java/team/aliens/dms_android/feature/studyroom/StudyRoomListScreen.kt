@@ -5,27 +5,26 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -35,6 +34,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -51,6 +51,7 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
+import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -64,18 +65,17 @@ fun StudyRoomListScreen(
 
     val studyRoomState = studyRoomListViewModel.uiState.collectAsState().value
 
-    //val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
+    val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
 
     var selectedTime by remember { mutableStateOf(0) }
 
-    val studyRoomAvailableTimeList = arrayListOf(
-        "10시 ~ 11시",
-        "11시 ~ 12시",
-        "12시 ~ 13시 50분",
-        "14시 ~ 15시"
-    ) // TODO remove after complete api document
+    var selectedAvailableTime by remember { mutableStateOf("") }
 
-    var selectedAvailableTime by remember { mutableStateOf(studyRoomAvailableTimeList[0]) }
+    LaunchedEffect(studyRoomAvailableTimeList) {
+        if (studyRoomAvailableTimeList.isNotEmpty()) {
+            selectedAvailableTime = setAvailableTime(studyRoomAvailableTimeList.first())
+        }
+    }
 
     LaunchedEffect(Unit) {
         studyRoomListViewModel.errorState.collect {
@@ -103,8 +103,9 @@ fun StudyRoomListScreen(
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
                     showTimeFilterDialogState = false
-                    selectedAvailableTime = studyRoomAvailableTimeList[selectedTime]
-                    //studyRoomListViewModel.setStudyRoomAvailableTime(studyRoomAvailableTimeList[selectedTime].id)
+                    selectedAvailableTime =
+                        setAvailableTime(studyRoomAvailableTimeList[selectedTime])
+                    studyRoomListViewModel.setStudyRoomAvailableTime(studyRoomAvailableTimeList[selectedTime].id)
                 },
             ) {
 
@@ -122,7 +123,9 @@ fun StudyRoomListScreen(
                         items(studyRoomAvailableTimeList.size) {
                             DormTimeChip(
                                 selected = (selectedTime == it),
-                                text = studyRoomAvailableTimeList[it],
+                                text = setAvailableTime(
+                                    studyRoomAvailableTimeList[it],
+                                ),
                                 onClick = {
                                     selectedTime = it
                                 },
@@ -133,7 +136,6 @@ fun StudyRoomListScreen(
             }
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -163,7 +165,6 @@ fun StudyRoomListScreen(
             Spacer(
                 modifier = Modifier.height(17.dp),
             )
-
 
             // Available study room application time
             FloatingNotice(
@@ -196,7 +197,7 @@ fun StudyRoomListScreen(
 
                 // available time
                 Body3(
-                    text = selectedAvailableTime, // todo sync with server
+                    text = selectedAvailableTime,
                     color = DormColor.DormPrimary,
                 )
             }
@@ -234,7 +235,6 @@ fun StudyRoomListScreen(
                     }
                 }
             }
-
 
             Spacer(
                 modifier = Modifier.height(24.dp),
@@ -285,3 +285,7 @@ fun DormTimeChip(
         )
     }
 }
+
+private fun setAvailableTime(
+    studyRoomAvailableTimeList: StudyRoomAvailableTimeListEntity.AvailableTime,
+): String = "${studyRoomAvailableTimeList.startTime} ~ ${studyRoomAvailableTimeList.endTime}"
