@@ -303,8 +303,6 @@
     <string name="sign_up_finish_reset_password">비밀번호 재설정을 종료하시겠습니까?</string>
     <string name="sign_up_check_password_format">비밀번호 형식을 확인해주세요</string>
 
-    <!-- TODO continue lines below here -->
-
     <!--change password-->
     <string name="change_password_scan_new_password">새 비밀번호 입력</string>
     <string name="change_password_re_check_new_password">새 비밀번호 재 확인</string>
@@ -351,7 +349,7 @@
     <!--un authorized-->
     <string name="un_authorized_login_unauthorized">인증에 실패하였습니다.</string>
     <string name="un_authorized_compare_school_not_found">학교를 찾을 수 없습니다.</string>
-    <string name="un_authorized_certification_info_not_found">인증 정보를 찾을 수 없습니다.</string>
+    <string name="un_authorized_certification_info_not_found">인증 정보를 찾을 수 없습니다</string>
     <string name="un_authorized_id_not_found">해당 아이디는 존재하지 않는 아이디입니다</string>
     <string name="un_authorized_user_not_found">해당 사용자를 찾을 수 없습니다</string>
 
@@ -391,7 +389,7 @@
     <string name="find_id_select_school">학교를 선택해주세요</string>
     <string name="find_id_go_login_screen">로그인 화면으로</string>
     <string name="find_id_send_id_to_email">%s 으로 아이디가 전송되었어요</string>
-    <string name="find_id_no_account_above_information">위 정보로 가입된 계정이 없습니다.</string>
+    <string name="find_id_no_account_above_information">위 정보로 가입된 계정이 없습니다</string>
 
 
 </resources>
