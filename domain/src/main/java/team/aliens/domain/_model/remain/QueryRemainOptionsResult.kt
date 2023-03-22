@@ -4,10 +4,10 @@ import java.util.*
 
 /**
  * @author junsuPark
- * A response returned when querying remain application options
+ * A response returned when querying remain options
  * @property remainOptions list of remain options
  */
-data class QueryRemainApplicationOptionsResult(
+data class QueryRemainOptionsResult(
     val remainOptions: List<RemainOptionInformation>,
 ) {
 
