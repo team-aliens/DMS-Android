@@ -2,11 +2,11 @@ package team.aliens.domain._model.studyroom
 
 /**
  * @author junsuPark
- * A response returned when querying study room apply time
+ * A response returned when querying study room application time
  * @property startAt the start time of applying study room
  * @property endAt the end time of applying study room
  */
-data class QueryStudyRoomApplyTimeResult(
+data class QueryStudyRoomApplicationTimeResult(
     val startAt: String,
     val endAt: String,
 )
