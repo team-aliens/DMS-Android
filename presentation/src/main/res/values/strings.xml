@@ -361,7 +361,7 @@
     <string name="my_page_check_point">상벌점 확인</string>
     
     <string name="my_page_are_you_sure_you_sign_out">정말 로그아웃 하시겠습니까?</string>
-    <string name="my_page_are_you_sure_withdraw">정말 탈퇴 하시겠습니까?</string>
+    <string name="my_page_are_you_sure_you_withdraw">정말 탈퇴 하시겠습니까?</string>
 
     <!--application-->
     <string name="application">신청</string>
