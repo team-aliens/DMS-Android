@@ -7,7 +7,7 @@ import java.util.*
 
 interface NoticeRepository {
 
-    suspend fun queryWhetherNewNoticesExists(): QueryWhetherNewNoticesExistResult
+    suspend fun queryWhetherNewNoticesExist(): QueryWhetherNewNoticesExistResult
 
     suspend fun queryNotices(): QueryNoticesResult
 
