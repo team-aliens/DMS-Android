@@ -1,4 +1,4 @@
-package team.aliens.remote.api.path
+package team.aliens.remote.common
 
 internal sealed class DormHttpPath(
     val path: String,
@@ -18,7 +18,7 @@ internal sealed class DormHttpPath(
     }
 
     object Auth : DormHttpPath(
-        path = DormHttpPath.Auth,
+        path = Companion.Auth,
     ) {
         const val SignIn = "/${Companion.Auth}/tokens"
         const val SendEmailVerificationCode = "/${Companion.Auth}/code"
@@ -31,15 +31,15 @@ internal sealed class DormHttpPath(
     object Student : DormHttpPath(
         path = "students",
     ) {
-        const val SignUp = "/${Companion.Students}/signup"
-        const val CheckStudentNumber = "/${Companion.Students}/name"
-        const val FindId = "/${Companion.Students}/account-id/{school-id}"
-        const val ResetPassword = "/${Companion.Students}/password/initialization"
-        const val CheckIdDuplication = "/${Companion.Students}/account-id/duplication"
-        const val CheckEmailDuplication = "/${Companion.Students}/email/duplication"
-        const val FetchMyPage = "/${Companion.Students}/profile"
-        const val EditProfile = "/${Companion.Students}/profile"
-        const val Withdraw = "/${Companion.Students}"
+        const val SignUp = "/$Students/signup"
+        const val CheckStudentNumber = "/$Students/name"
+        const val FindId = "/$Students/account-id/{school-id}"
+        const val ResetPassword = "/$Students/password/initialization"
+        const val CheckIdDuplication = "/$Students/account-id/duplication"
+        const val CheckEmailDuplication = "/$Students/email/duplication"
+        const val FetchMyPage = "/$Students/profile"
+        const val EditProfile = "/$Students/profile"
+        const val Withdraw = "/$Students"
     }
 
     object Users : DormHttpPath(
