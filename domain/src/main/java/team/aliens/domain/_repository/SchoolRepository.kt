@@ -8,9 +8,9 @@ import java.util.*
 
 interface SchoolRepository {
 
-    suspend fun querySchools(): FetchSchoolsOutput
+    suspend fun fetchSchools(): FetchSchoolsOutput
 
-    suspend fun querySchoolVerificationQuestion(): FetchSchoolVerificationQuestionOutput
+    suspend fun fetchSchoolVerificationQuestion(): FetchSchoolVerificationQuestionOutput
 
     suspend fun examineSchoolVerificationQuestion(
         schoolId: UUID,
@@ -21,5 +21,5 @@ interface SchoolRepository {
         schoolCode: String,
     ): ExamineSchoolVerificationCodeOutput
 
-    suspend fun queryAvailableFeatures(): FetchAvailableFeaturesOutput
+    suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput
 }

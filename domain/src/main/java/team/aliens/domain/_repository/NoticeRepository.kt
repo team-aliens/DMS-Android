@@ -7,11 +7,11 @@ import java.util.*
 
 interface NoticeRepository {
 
-    suspend fun queryWhetherNewNoticesExist(): FetchWhetherNewNoticesExistOutput
+    suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistOutput
 
-    suspend fun queryNotices(): FetchNoticesOutput
+    suspend fun fetchNotices(): FetchNoticesOutput
 
-    suspend fun queryNoticeDetail(
+    suspend fun fetchNoticeDetail(
         noticeId: UUID,
     ): FetchNoticeDetailOutput
 }

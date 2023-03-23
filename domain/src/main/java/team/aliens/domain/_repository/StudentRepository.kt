@@ -37,7 +37,7 @@ interface StudentRepository {
         email: String,
     )
 
-    suspend fun queryMyPage(): FetchMyPageOutput
+    suspend fun fetchMyPage(): FetchMyPageOutput
 
     suspend fun editProfile(
         input: EditProfileInput,

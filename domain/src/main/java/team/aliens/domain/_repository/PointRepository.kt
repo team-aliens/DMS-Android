@@ -4,5 +4,5 @@ import team.aliens.domain._model.point.FetchPointsOutput
 
 interface PointRepository {
 
-    suspend fun queryPoints(): FetchPointsOutput
+    suspend fun fetchPoints(): FetchPointsOutput
 }
