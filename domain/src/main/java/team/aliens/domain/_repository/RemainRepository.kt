@@ -5,15 +5,15 @@ import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import java.util.*
 
-interface RemainsRepository {
+interface RemainRepository {
 
-    suspend fun updateRemainsOption(
+    suspend fun updateRemainOption(
         remainOptionId: UUID,
     )
 
-    suspend fun fetchCurrentAppliedRemainsOption(): FetchCurrentAppliedRemainsOptionOutput
+    suspend fun fetchCurrentAppliedRemainOption(): FetchCurrentAppliedRemainsOptionOutput
 
-    suspend fun fetchRemainsApplicationTime(): FetchRemainsApplicationTimeOutput
+    suspend fun fetchRemainApplicationTime(): FetchRemainsApplicationTimeOutput
 
-    suspend fun fetchRemainsOptions(): FetchRemainsOptionsOutput
+    suspend fun fetchRemainOptions(): FetchRemainsOptionsOutput
 }
