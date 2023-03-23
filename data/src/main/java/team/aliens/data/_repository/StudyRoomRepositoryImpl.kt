@@ -24,7 +24,6 @@ class StudyRoomRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    //test
     override suspend fun cancelSeat(
         timeSlot: UUID?,
     ) {
