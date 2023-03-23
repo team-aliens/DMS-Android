@@ -3,10 +3,10 @@ package team.aliens.domain._model.notice
 import java.util.*
 
 /**
- * A response returned when querying notices
+ * A response returned when fetching notices
  * @property notices list of notices of the user
  */
-data class QueryNoticesResult(
+data class FetchNoticesOutput(
     val notices: List<NoticeInformation>,
 ) {
 

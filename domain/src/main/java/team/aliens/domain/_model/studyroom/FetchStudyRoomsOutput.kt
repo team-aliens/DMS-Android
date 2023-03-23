@@ -4,10 +4,10 @@ import team.aliens.domain._model._common.Sex
 import java.util.*
 
 /**
- * A response returned when querying study rooms
+ * A response returned when fetching study rooms
  * @property studyRooms list of study rooms
  */
-data class QueryStudyRoomsResult(
+data class FetchStudyRoomsOutput(
     val studyRooms: List<StudyRoomInformation>,
 ) {
 

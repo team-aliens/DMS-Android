@@ -1,10 +1,10 @@
 package team.aliens.domain._model.meal
 
 /**
- * A response returned when querying meals information
+ * A response returned when fetching meals information
  * @property meals list of meals
  */
-data class QueryMealsResult(
+data class FetchMealsOutput(
     val meals: List<MealInformation>,
 ) {
 

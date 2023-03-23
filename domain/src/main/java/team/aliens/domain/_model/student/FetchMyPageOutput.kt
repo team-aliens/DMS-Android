@@ -13,7 +13,7 @@ import team.aliens.domain._model._common.Sex
  * @property minusPoint the user's total minus point
  * @property phrase the phrase of user's school
  */
-data class QueryMyPageResult(
+data class FetchMyPageOutput(
     val schoolName: String,
     val name: String,
     val gcn: String,

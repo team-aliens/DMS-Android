@@ -8,7 +8,7 @@ package team.aliens.domain._model.auth
  * @property refreshTokenExpiredAt refresh token expiration date
  * @property features a data class contains all the features, user's school has set
  */
-data class TokenResult(
+data class AuthenticationOutput(
     val accessToken: String,
     val accessTokenExpiredAt: String,
     val refreshToken: String,

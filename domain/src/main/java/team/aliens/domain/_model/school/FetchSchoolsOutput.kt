@@ -3,10 +3,10 @@ package team.aliens.domain._model.school
 import java.util.*
 
 /**
- * A response returned when querying list of schools
+ * A response returned when fetching list of schools
  * @property schools list of schools
  */
-data class QuerySchoolsResult(
+data class FetchSchoolsOutput(
     val schools: List<SchoolInformation>,
 ) {
 

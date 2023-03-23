@@ -3,10 +3,10 @@ package team.aliens.domain._model.remains
 import java.util.*
 
 /**
- * A response returned when querying remains options
+ * A response returned when fetching remains options
  * @property remainOptions list of remain options
  */
-data class QueryRemainsOptionsResult(
+data class FetchRemainsOptionsOutput(
     val remainOptions: List<RemainsOptionInformation>,
 ) {
 

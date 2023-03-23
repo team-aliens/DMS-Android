@@ -1,9 +1,9 @@
 package team.aliens.domain._model.school
 
 /**
- * A response when querying school verification question
+ * A response when fetching school verification question
  * @property question school verification question
  */
-data class QuerySchoolVerificationQuestionResult(
+data class FetchSchoolVerificationQuestionOutput(
     val question: String,
 )

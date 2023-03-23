@@ -5,7 +5,7 @@ import java.util.*
 
 interface StudyRoomRepository {
 
-    suspend fun queryStudyRoomApplicationTime(): QueryStudyRoomApplicationTimeResult
+    suspend fun queryStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeOutput
 
     suspend fun applySeat(
         seatId: UUID,
@@ -18,16 +18,16 @@ interface StudyRoomRepository {
 
     suspend fun queryStudyRooms(
         timeSlot: UUID,
-    ): QueryStudyRoomsResult
+    ): FetchStudyRoomsOutput
 
     suspend fun queryStudyRoomDetails(
         studyRoomId: UUID,
         timeSlot: UUID,
-    ): QueryStudyRoomDetailsResult
+    ): FetchStudyRoomDetailsOutput
 
-    suspend fun queryCurrentAppliedStudyRoom(): QueryCurrentAppliedStudyRoomResult
+    suspend fun queryCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput
 
-    suspend fun querySeatTypes(): QuerySeatTypesResult
+    suspend fun querySeatTypes(): FetchSeatTypesOutput
 
-    suspend fun queryAvailableStudyRoomTimes(): QueryAvailableStudyRoomTimesResult
+    suspend fun queryAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput
 }

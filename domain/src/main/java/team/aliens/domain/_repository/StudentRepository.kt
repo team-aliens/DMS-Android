@@ -1,6 +1,6 @@
 package team.aliens.domain._repository
 
-import team.aliens.domain._model.auth.TokenResult
+import team.aliens.domain._model.auth.AuthenticationOutput
 import team.aliens.domain._model.student.*
 import java.util.*
 
@@ -8,7 +8,7 @@ interface StudentRepository {
 
     suspend fun signUp(
         input: SignUpInput,
-    ): TokenResult
+    ): AuthenticationOutput
 
     suspend fun verifyStudentNumber(
         schoolId: UUID,
@@ -23,7 +23,7 @@ interface StudentRepository {
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): FindIdResult
+    ): FindIdOutput
 
     suspend fun resetPassword(
         input: ResetPasswordInput,
@@ -37,7 +37,7 @@ interface StudentRepository {
         email: String,
     )
 
-    suspend fun queryMyPage(): QueryMyPageResult
+    suspend fun queryMyPage(): FetchMyPageOutput
 
     suspend fun editProfile(
         input: EditProfileInput,

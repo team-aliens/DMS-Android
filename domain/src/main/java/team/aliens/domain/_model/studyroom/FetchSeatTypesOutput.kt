@@ -3,10 +3,10 @@ package team.aliens.domain._model.studyroom
 import java.util.*
 
 /**
- * A response returned when querying seat types
+ * A response returned when fetching seat types
  * @property types list of seat types
  */
-data class QuerySeatTypesResult(
+data class FetchSeatTypesOutput(
     val types: List<SeatTypeInformation>,
 ) {
 

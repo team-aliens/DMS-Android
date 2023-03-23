@@ -3,10 +3,10 @@ package team.aliens.domain._model.studyroom
 import java.util.*
 
 /**
- * A response returned when querying available study room time
+ * A response returned when fetching available study room time
  * @property timeSlots list of available study room times
  */
-data class QueryAvailableStudyRoomTimesResult(
+data class FetchAvailableStudyRoomTimesOutput(
     val timeSlots: List<TimeSlotInformation>,
 ) {
 

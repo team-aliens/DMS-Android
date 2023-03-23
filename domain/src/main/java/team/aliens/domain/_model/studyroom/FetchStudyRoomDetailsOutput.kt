@@ -1,11 +1,11 @@
 package team.aliens.domain._model.studyroom
 
 import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.studyroom.QueryStudyRoomDetailsResult.SeatInformation.SeatStatus.*
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.*
 import java.util.*
 
 /**
- * A response returned when querying study room details
+ * A response returned when fetching study room details
  * @property floor floor of the study room
  * @property name name of the study room
  * @property totalAvailableSeat study room's total available seat
@@ -18,7 +18,7 @@ import java.util.*
  * @property northDescription the description of the north side of the study room
  * @property seats the seats of the study room
  */
-data class QueryStudyRoomDetailsResult(
+data class FetchStudyRoomDetailsOutput(
     val floor: Int,
     val name: String,
     val totalAvailableSeat: Int,

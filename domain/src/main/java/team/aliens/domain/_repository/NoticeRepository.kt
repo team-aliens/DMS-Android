@@ -1,17 +1,17 @@
 package team.aliens.domain._repository
 
-import team.aliens.domain._model.notice.QueryNoticeDetailResult
-import team.aliens.domain._model.notice.QueryNoticesResult
-import team.aliens.domain._model.notice.QueryWhetherNewNoticesExistResult
+import team.aliens.domain._model.notice.FetchNoticeDetailOutput
+import team.aliens.domain._model.notice.FetchNoticesOutput
+import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import java.util.*
 
 interface NoticeRepository {
 
-    suspend fun queryWhetherNewNoticesExist(): QueryWhetherNewNoticesExistResult
+    suspend fun queryWhetherNewNoticesExist(): FetchWhetherNewNoticesExistOutput
 
-    suspend fun queryNotices(): QueryNoticesResult
+    suspend fun queryNotices(): FetchNoticesOutput
 
     suspend fun queryNoticeDetail(
         noticeId: UUID,
-    ): QueryNoticeDetailResult
+    ): FetchNoticeDetailOutput
 }

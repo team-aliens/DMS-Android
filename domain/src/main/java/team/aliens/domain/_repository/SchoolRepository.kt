@@ -1,16 +1,16 @@
 package team.aliens.domain._repository
 
-import team.aliens.domain._model.school.ExamineSchoolVerificationCodeResult
-import team.aliens.domain._model.school.QueryAvailableFeaturesResult
-import team.aliens.domain._model.school.QuerySchoolVerificationQuestionResult
-import team.aliens.domain._model.school.QuerySchoolsResult
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
+import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
+import team.aliens.domain._model.school.FetchSchoolsOutput
 import java.util.*
 
 interface SchoolRepository {
 
-    suspend fun querySchools(): QuerySchoolsResult
+    suspend fun querySchools(): FetchSchoolsOutput
 
-    suspend fun querySchoolVerificationQuestion(): QuerySchoolVerificationQuestionResult
+    suspend fun querySchoolVerificationQuestion(): FetchSchoolVerificationQuestionOutput
 
     suspend fun examineSchoolVerificationQuestion(
         schoolId: UUID,
@@ -19,7 +19,7 @@ interface SchoolRepository {
 
     suspend fun examineSchoolVerificationCode(
         schoolCode: String,
-    ): ExamineSchoolVerificationCodeResult
+    ): ExamineSchoolVerificationCodeOutput
 
-    suspend fun queryAvailableFeatures(): QueryAvailableFeaturesResult
+    suspend fun queryAvailableFeatures(): FetchAvailableFeaturesOutput
 }
