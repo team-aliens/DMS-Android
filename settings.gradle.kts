@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -15,10 +17,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "dms-android"
 
-include(":presentation")
-include(":data")
 include(":domain")
+include(":data")
+include(":remote")
+include(":presentation")
+include(":di")
+
 include(":design-system")
+
 include(":local_database")
 include(":local_domain")
-include(":di")
