@@ -1,6 +1,6 @@
 package team.aliens.data._datasource.remote
 
-import team.aliens.domain._model.auth.AuthenticationOutput
+import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.student.EditProfileInput
 import team.aliens.domain._model.student.FetchMyPageOutput
 import team.aliens.domain._model.student.FindIdOutput

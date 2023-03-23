@@ -1,4 +1,4 @@
-package team.aliens.domain._model.auth
+package team.aliens.domain._model._common
 
 /**
  * A response returned when authentication succeed

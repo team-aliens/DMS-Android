@@ -4,7 +4,7 @@ import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
-import team.aliens.domain._model.auth.AuthenticationOutput
+import team.aliens.domain._model._common.AuthenticationOutput
 
 interface AuthRepository {
 

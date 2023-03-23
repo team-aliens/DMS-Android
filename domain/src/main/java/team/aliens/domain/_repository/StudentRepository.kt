@@ -1,6 +1,6 @@
 package team.aliens.domain._repository
 
-import team.aliens.domain._model.auth.AuthenticationOutput
+import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.student.*
 import java.util.*
 
