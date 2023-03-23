@@ -1,6 +1,6 @@
 package team.aliens.data._repository
 
-import team.aliens.domain._model.notice.FetchNoticeDetailOutput
+import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import team.aliens.domain._repository.NoticeRepository
@@ -18,9 +18,9 @@ class NoticeRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchNoticeDetail(
+    override suspend fun fetchNoticeDetails(
         noticeId: UUID,
-    ): FetchNoticeDetailOutput {
+    ): FetchNoticeDetailsOutput {
         TODO("Not yet implemented")
     }
 }

@@ -1,6 +1,6 @@
 package team.aliens.data._datasource.remote
 
-import team.aliens.domain._model.notice.FetchNoticeDetailOutput
+import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import java.util.*
@@ -11,7 +11,7 @@ interface RemoteNoticeDataSource {
 
     suspend fun fetchNotices(): FetchNoticesOutput
 
-    suspend fun fetchNoticeDetail(
+    suspend fun fetchNoticeDetails(
         noticeId: UUID,
-    ): FetchNoticeDetailOutput
+    ): FetchNoticeDetailsOutput
 }

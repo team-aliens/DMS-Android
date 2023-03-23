@@ -10,7 +10,7 @@ interface StudentRepository {
         input: SignUpInput,
     ): AuthenticationOutput
 
-    suspend fun verifyStudentNumber(
+    suspend fun checkStudentNumber(
         schoolId: UUID,
         grade: Int,
         classRoom: Int,
