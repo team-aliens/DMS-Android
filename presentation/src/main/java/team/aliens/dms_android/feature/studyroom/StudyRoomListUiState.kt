@@ -12,6 +12,7 @@ data class StudyRoomListUiState(
     var studyRooms: List<StudyRoomInformation> = emptyList(),
     var studyRoomAvailableTime: List<StudyRoomAvailableTimeListEntity.AvailableTime> = emptyList(),
     var timeSlot: UUID? = null,
+    var hasApplyTime: Boolean = false,
 ) : BaseUiState
 
 data class StudyRoomDetailsUiState(

@@ -2,20 +2,16 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
-import team.aliens.domain.usecase.studyroom.RemoteApplySeatUseCase
-import team.aliens.domain.usecase.studyroom.RemoteCancelApplySeatUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchCurrentStudyRoomOptionUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomAvailableTimeListUseCase
+import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.usecase.studyroom.*
+import java.lang.NullPointerException
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
@@ -40,7 +36,7 @@ class StudyRoomListViewModel @Inject constructor(
 
         internal data class SetStudyRoomAvailableTime(
             val timeSlot: UUID,
-        ): UiEvent()
+        ) : UiEvent()
 
         internal class FilterStudyRoom(
             studyRoomTime: Any?,
@@ -84,11 +80,15 @@ class StudyRoomListViewModel @Inject constructor(
                 _uiState.value = _uiState.value.copy(
                     startAt = resultEntity.startAt.extractHourFromDate(),
                     endAt = resultEntity.endAt.extractHourFromDate(),
+                    hasApplyTime = true,
                 )
             } else {
-                emitErrorEventFromThrowable(
-                    result.exceptionOrNull(),
-                )
+
+                val exception = result.exceptionOrNull()
+
+                if (exception != NotFoundException()) {
+                    emitErrorEventFromThrowable(exception)
+                }
             }
         }
     }
@@ -108,9 +108,9 @@ class StudyRoomListViewModel @Inject constructor(
                     studyRooms = resultEntity.studyRooms.toInformation(),
                 )
             } else {
-                emitErrorEventFromThrowable(
-                    result.exceptionOrNull(),
-                )
+                if (result.exceptionOrNull() != NullPointerException()) {
+                    emitErrorEventFromThrowable(result.exceptionOrNull())
+                }
             }
         }
     }
@@ -129,7 +129,6 @@ class StudyRoomListViewModel @Inject constructor(
                         throwable = it
                     )
                 }
-
         }
     }
 
