@@ -101,17 +101,12 @@ fun StudyRoomListScreen(
                 ),
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
-                    with(studyRoomListViewModel) {
-                        showTimeFilterDialogState = false
-                        selectedAvailableTime =
-                            setAvailableTime(studyRoomAvailableTimeList[selectedIndex])
-                        onEvent(
-                            event = StudyRoomListViewModel.UiEvent.SetStudyRoomAvailableTime(
-                                timeSlot = studyRoomAvailableTimeList[selectedIndex].id,
-                            )
-                        )
-                        fetchStudyRoomAvailableTimeList()
-                    }
+                    showTimeFilterDialogState = false
+                    selectedAvailableTime =
+                        setAvailableTime(studyRoomAvailableTimeList[selectedIndex])
+                    studyRoomListViewModel.onEvent(
+                        event = StudyRoomListViewModel.UiEvent.FetchStudyRooms,
+                    )
                 },
             ) {
 

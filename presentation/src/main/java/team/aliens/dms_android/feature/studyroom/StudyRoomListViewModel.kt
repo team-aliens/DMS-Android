@@ -11,7 +11,6 @@ import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.usecase.studyroom.*
-import java.lang.NullPointerException
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
@@ -108,9 +107,7 @@ class StudyRoomListViewModel @Inject constructor(
                     studyRooms = resultEntity.studyRooms.toInformation(),
                 )
             } else {
-                if (result.exceptionOrNull() != NullPointerException()) {
-                    emitErrorEventFromThrowable(result.exceptionOrNull())
-                }
+                emitErrorEventFromThrowable(result.exceptionOrNull())
             }
         }
     }
@@ -122,7 +119,6 @@ class StudyRoomListViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(
                         studyRoomAvailableTime = resultEntity.timeSlots,
                     )
-                    fetchStudyRoomList()
                 }
                 .onFailure {
                     emitErrorEventFromThrowable(
