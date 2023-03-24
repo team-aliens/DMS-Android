@@ -1,5 +1,6 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
+import java.util.*
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.domain.entity.studyroom.SeatTypeEntity
@@ -7,6 +8,7 @@ import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 
 data class StudyRoomDetailUiState(
     var studyRoomId: String = "",
+    var timeSlot: UUID? = null,
     var currentSeat: MutableEventFlow<String> = MutableEventFlow(),
     var startAt: String = "",
     var endAt: String = "",

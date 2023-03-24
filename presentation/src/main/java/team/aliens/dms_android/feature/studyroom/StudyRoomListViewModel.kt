@@ -112,7 +112,7 @@ class StudyRoomListViewModel @Inject constructor(
         }
     }
 
-    internal fun fetchStudyRoomAvailableTimeList() {
+    private fun fetchStudyRoomAvailableTimeList() {
         viewModelScope.launch {
             studyRoomAvailableTimeListUseCase()
                 .onSuccess { resultEntity ->
