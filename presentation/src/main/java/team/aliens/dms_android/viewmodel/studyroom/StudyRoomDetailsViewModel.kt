@@ -1,5 +1,6 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -122,7 +123,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun cancelSeat() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                cancelApplySeatUseCase.execute(Unit)
+                cancelApplySeatUseCase.execute(
+                    data = _uiState.value.timeSlot
+                )
             }.onSuccess {
                 fetchStudyRoomDetails(
                     roomId = _uiState.value.studyRoomId,

@@ -27,11 +27,13 @@ interface StudyRoomApi {
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse
 
     @DELETE(DmsUrl.StudyRoom.CancelApply)
-    suspend fun cancelApplySeat(): Response<Unit>
+    suspend fun cancelApplySeat(
+        @Query("time_slot") timeSlot: UUID?,
+    ): Response<Unit>
 
     @GET(DmsUrl.StudyRoom.StudyRoomList)
     suspend fun fetchStudyRoomList(
-        @Query("time_slot") timeSlot: UUID,
+        @Query("time_slot") timeSlot: UUID?,
     ): StudyRoomListResponse
 
     @GET(DmsUrl.StudyRoom.StudyRoomType)

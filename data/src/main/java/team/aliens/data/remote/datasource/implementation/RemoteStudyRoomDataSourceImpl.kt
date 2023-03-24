@@ -28,12 +28,20 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     override suspend fun fetchApplySeatTime() =
         sendHttpRequest(httpRequest = suspend { studyRoomApi.fetchApplySeatTime() })
 
-    override suspend fun cancelApplySeat() {
-        sendHttpRequest(httpRequest = suspend { studyRoomApi.cancelApplySeat() })
+    override suspend fun cancelApplySeat(
+        timeSlot: UUID?,
+    ) {
+        sendHttpRequest(
+            httpRequest = suspend {
+                studyRoomApi.cancelApplySeat(
+                    timeSlot = timeSlot,
+                )
+            },
+        )
     }
 
     override suspend fun fetchStudyRoomList(
-        timeSlot: UUID,
+        timeSlot: UUID?,
     ) = sendHttpRequest(
         httpRequest = suspend {
             studyRoomApi.fetchStudyRoomList(

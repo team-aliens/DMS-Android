@@ -16,10 +16,12 @@ interface StudyRoomRepository {
 
     suspend fun fetchApplySeatTime(): ApplySeatTimeEntity
 
-    suspend fun cancelApplySeat()
+    suspend fun cancelApplySeat(
+        timeSlot: UUID?,
+    )
 
     suspend fun fetchStudyRoomList(
-        timeSlot: UUID,
+        timeSlot: UUID?,
     ): StudyRoomListEntity
 
     suspend fun fetchStudyRoomType(): SeatTypeEntity

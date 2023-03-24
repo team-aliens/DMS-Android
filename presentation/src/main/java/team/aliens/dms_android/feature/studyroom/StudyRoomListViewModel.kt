@@ -96,7 +96,7 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomListUseCase.execute(_uiState.value.timeSlot!!)
+                studyRoomListUseCase.execute(_uiState.value.timeSlot)
             }
 
             if (result.isSuccess) {

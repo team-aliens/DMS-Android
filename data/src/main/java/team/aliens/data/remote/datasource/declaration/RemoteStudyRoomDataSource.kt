@@ -16,10 +16,12 @@ interface RemoteStudyRoomDataSource {
 
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse
 
-    suspend fun cancelApplySeat()
+    suspend fun cancelApplySeat(
+        timeSlot: UUID?,
+    )
 
     suspend fun fetchStudyRoomList(
-        timeSlot: UUID,
+        timeSlot: UUID?,
     ): StudyRoomListResponse
 
     suspend fun fetchStudyRoomType(): StudyRoomTypeResponse
