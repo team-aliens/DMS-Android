@@ -56,6 +56,14 @@ fun StudyRoomListScreen(
 
     var selectedAvailableTime by remember { mutableStateOf("") }
 
+    var showTimeFilterDialogState by remember {
+        mutableStateOf(false)
+    }
+
+    val onStudyRoomFilterDialogDismiss = {
+        showTimeFilterDialogState = false
+    }
+
     LaunchedEffect(Unit) {
         with(studyRoomListViewModel) {
             onEvent(event = StudyRoomListViewModel.UiEvent.FetchStudyRoomAvailableTimes)
@@ -82,10 +90,6 @@ fun StudyRoomListScreen(
         }
     }
 
-    var showTimeFilterDialogState by remember {
-        mutableStateOf(false)
-    }
-
     if (showTimeFilterDialogState) {
         DormCustomDialog(
             onDismissRequest = {
@@ -108,6 +112,7 @@ fun StudyRoomListScreen(
                         event = StudyRoomListViewModel.UiEvent.FetchStudyRooms,
                     )
                 },
+                onDismissRequest = onStudyRoomFilterDialogDismiss,
             ) {
 
                 Title3(
@@ -186,35 +191,38 @@ fun StudyRoomListScreen(
             )
 
             // Study room time filter
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
+            if (studyRoomAvailableTimeList.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
 
-                // slider icon
-                Image(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .dormClickable {
-                            showTimeFilterDialogState = true
-                        },
-                    painter = painterResource(
-                        id = R.drawable.ic_slider,
-                    ),
-                    contentDescription = null,
+                    // slider icon
+                    Image(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .dormClickable {
+                                showTimeFilterDialogState = true
+                            },
+                        painter = painterResource(
+                            id = R.drawable.ic_slider,
+                        ),
+                        contentDescription = null,
+                    )
+
+                    // available time
+                    Body3(
+                        text = selectedAvailableTime,
+                        color = DormColor.DormPrimary,
+                    )
+                }
+
+                Spacer(
+                    modifier = Modifier.height(24.dp),
                 )
 
-                // available time
-                Body3(
-                    text = selectedAvailableTime,
-                    color = DormColor.DormPrimary,
-                )
             }
-
-            Spacer(
-                modifier = Modifier.height(24.dp),
-            )
 
             // List of study rooms
             LazyColumn(
