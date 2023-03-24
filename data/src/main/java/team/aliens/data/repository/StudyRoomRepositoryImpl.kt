@@ -15,14 +15,21 @@ import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.domain.param.ApplyStudyRoomParam
+import team.aliens.domain.param.StudyRoomDetailParam
 import team.aliens.domain.repository.StudyRoomRepository
 
 class StudyRoomRepositoryImpl @Inject constructor(
     private val remoteStudyRoomDataSource: RemoteStudyRoomDataSource,
 ) : StudyRoomRepository {
 
-    override suspend fun applySeat(data: String) {
-        remoteStudyRoomDataSource.applySeat(data)
+    override suspend fun applySeat(
+        applyStudyRoomParam: ApplyStudyRoomParam,
+    ) {
+        remoteStudyRoomDataSource.applySeat(
+            seatId = applyStudyRoomParam.seatId,
+            timeSlot = applyStudyRoomParam.timeSlot,
+        )
     }
 
     override suspend fun fetchApplySeatTime(): ApplySeatTimeEntity =
@@ -42,8 +49,14 @@ class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun fetchStudyRoomType(): SeatTypeEntity =
         remoteStudyRoomDataSource.fetchStudyRoomType().toEntity()
 
-    override suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity =
-        remoteStudyRoomDataSource.fetchStudyRoomDetail(roomId).toEntity()
+    override suspend fun fetchStudyRoomDetail(
+        studyRoomDetailParam: StudyRoomDetailParam,
+    ): StudyRoomDetailEntity {
+        return remoteStudyRoomDataSource.fetchStudyRoomDetail(
+            roomId = studyRoomDetailParam.roomId,
+            timeSlot = studyRoomDetailParam.timeSlot,
+        ).toEntity()
+    }
 
     override suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionEntity =
         remoteStudyRoomDataSource.fetchCurrentStudyRoomOption().toEntity()

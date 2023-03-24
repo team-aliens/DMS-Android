@@ -19,7 +19,8 @@ interface StudyRoomApi {
 
     @PUT(DmsUrl.StudyRoom.Apply)
     suspend fun applySeat(
-        @Path("seat-id") data: String,
+        @Path("seat-id") seatId: String,
+        @Query("time_slot") timeSlot: UUID?,
     )
 
     @GET(DmsUrl.StudyRoom.fetchApplyTime)
@@ -39,6 +40,7 @@ interface StudyRoomApi {
     @GET(DmsUrl.StudyRoom.StudyRoomDetail)
     suspend fun fetchStudyRoomDetail(
         @Path("study-room-id") roomId: String,
+        @Query("time_slot") timeSlot: UUID?,
     ): StudyRoomDetailResponse
 
     @GET(DmsUrl.StudyRoom.CurrentStudyRoomOption)
