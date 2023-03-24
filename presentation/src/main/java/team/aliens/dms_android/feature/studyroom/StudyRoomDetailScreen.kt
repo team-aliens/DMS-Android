@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.*
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -38,12 +39,14 @@ import team.aliens.presentation.R
 fun StudyRoomDetailScreen(
     navController: NavController,
     roomId: String,
+    timeSlot: UUID?,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.initStudyRoom(
-            studyRoomId = roomId,
+            roomId = roomId,
+            timeSlot = timeSlot,
         )
     }
 
@@ -192,10 +195,12 @@ fun StudyRoomDetailScreen(
                                 context.getString(R.string.PleaseSelectSeatFirst),
                             )
                         }
-
-                        studyRoomDetailsViewModel.onEvent(event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                            seat = currentSeat,
-                        ))
+                        studyRoomDetailsViewModel.onEvent(
+                            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                                seat = currentSeat,
+                                timeSlot = timeSlot,
+                            )
+                        )
                     }
                 }
             }
@@ -231,13 +236,15 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
         val height = seat.heightLocation - 1
         val color = seat.type?.color
 
-        defaultSeats[height][width] = SeatItem(id = seat.id,
+        defaultSeats[height][width] = SeatItem(
+            id = seat.id,
             number = seat.number,
             name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status))
+            type = SeatType.toSeatType(seat.status)
+        )
     }
 
     return defaultSeats
