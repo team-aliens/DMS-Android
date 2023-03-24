@@ -21,7 +21,7 @@ interface StudyRoomApi {
     suspend fun applySeat(
         @Path("seat-id") seatId: String,
         @Query("time_slot") timeSlot: UUID?,
-    )
+    ): Response<Void>
 
     @GET(DmsUrl.StudyRoom.fetchApplyTime)
     suspend fun fetchApplySeatTime(): ApplySeatTimeResponse
