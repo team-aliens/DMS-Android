@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -84,10 +85,10 @@ class StudyRoomListViewModel @Inject constructor(
                     hasApplyTime = true,
                 )
             } else {
-
                 val exception = result.exceptionOrNull()
 
-                if (exception is NotFoundException) {
+                if (exception !is NotFoundException) {
+
                     emitErrorEventFromThrowable(exception)
                 }
             }
@@ -111,7 +112,9 @@ class StudyRoomListViewModel @Inject constructor(
                     studyRooms = resultEntity.studyRooms.toInformation(),
                 )
             } else {
-                emitErrorEventFromThrowable(result.exceptionOrNull())
+                if (result.exceptionOrNull() !is NullPointerException) {
+                    emitErrorEventFromThrowable(result.exceptionOrNull())
+                }
             }
         }
     }

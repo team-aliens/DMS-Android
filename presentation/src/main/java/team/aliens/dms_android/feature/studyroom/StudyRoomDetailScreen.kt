@@ -191,6 +191,7 @@ fun StudyRoomDetailScreen(
                             event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
                                 seat = currentSeat,
                                 timeSlot = timeSlot,
+                            ),
                         )
                     }
                 }
