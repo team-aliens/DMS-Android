@@ -4,7 +4,7 @@ internal sealed class DormHttpPath(
     val path: String,
 ) {
 
-    companion object {
+    private companion object {
         const val Auth = "auth"
         const val Students = "students"
         const val Users = "users"
@@ -18,7 +18,7 @@ internal sealed class DormHttpPath(
     }
 
     object Auth : DormHttpPath(
-        path = Companion.Auth,
+        path = this.Auth,
     ) {
         const val SignIn = "/${Companion.Auth}/tokens"
         const val SendEmailVerificationCode = "/${Companion.Auth}/code"
@@ -29,28 +29,28 @@ internal sealed class DormHttpPath(
     }
 
     object Student : DormHttpPath(
-        path = "students",
+        path = this.Students,
     ) {
-        const val SignUp = "/$Students/signup"
-        const val CheckStudentNumber = "/$Students/name"
-        const val FindId = "/$Students/account-id/{school-id}"
-        const val ResetPassword = "/$Students/password/initialization"
-        const val CheckIdDuplication = "/$Students/account-id/duplication"
-        const val CheckEmailDuplication = "/$Students/email/duplication"
-        const val FetchMyPage = "/$Students/profile"
-        const val EditProfile = "/$Students/profile"
-        const val Withdraw = "/$Students"
+        const val SignUp = "/${Companion.Students}/signup"
+        const val CheckStudentNumber = "/${Companion.Students}/name"
+        const val FindId = "/${Companion.Students}/account-id/{school-id}"
+        const val ResetPassword = "/${Companion.Students}/password/initialization"
+        const val CheckIdDuplication = "/${Companion.Students}/account-id/duplication"
+        const val CheckEmailDuplication = "/${Companion.Students}/email/duplication"
+        const val FetchMyPage = "/${Companion.Students}/profile"
+        const val EditProfile = "/${Companion.Students}/profile"
+        const val Withdraw = "/${Companion.Students}"
     }
 
     object Users : DormHttpPath(
-        path = "users",
+        path = this.Users,
     ) {
         const val EditPassword = "/${Companion.Users}/password"
         const val ComparePassword = "/${Companion.Users}/password"
     }
 
     object Schools : DormHttpPath(
-        path = "schools",
+        path = this.Schools,
     ) {
         const val FetchSchools = "/${Companion.Schools}"
         const val FetchSchoolVerificationQuestion = "/${Companion.Schools}/question/{school-id}"
@@ -60,19 +60,19 @@ internal sealed class DormHttpPath(
     }
 
     object Files : DormHttpPath(
-        path = "files",
+        path = this.Files,
     ) {
         const val UploadFile = "/${Companion.Files}"
     }
 
     object Meals : DormHttpPath(
-        path = "meals",
+        path = this.Meals,
     ) {
         const val FetchMeals = "/${Companion.Meals}/{date}"
     }
 
     object Notices : DormHttpPath(
-        path = "notices",
+        path = this.Notices,
     ) {
         const val FetchWhetherNewNoticeExists = "/${Companion.Notices}/status"
         const val FetchNoticeDetails = "/${Companion.Notices}/{notice-id}"
@@ -80,13 +80,13 @@ internal sealed class DormHttpPath(
     }
 
     object Points : DormHttpPath(
-        path = "points",
+        path = this.Points,
     ) {
         const val FetchPoints = "/${Companion.Points}"
     }
 
     object StudyRooms : DormHttpPath(
-        path = "study-rooms",
+        path = this.StudyRooms,
     ) {
 
         private const val Seats = "seats"
@@ -103,7 +103,7 @@ internal sealed class DormHttpPath(
     }
 
     object Remains : DormHttpPath(
-        path = "remains",
+        path = this.Remains,
     ) {
         const val UpdateRemainsOption = "/${Companion.Remains}/{remain-option-id}"
         const val FetchCurrentAppliedRemainsOption = "/${Companion.Remains}/my"
