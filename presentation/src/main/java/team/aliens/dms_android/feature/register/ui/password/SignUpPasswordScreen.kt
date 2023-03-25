@@ -2,10 +2,17 @@ package team.aliens.dms_android.feature.register.ui.password
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -13,8 +20,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import java.util.regex.Pattern
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -23,7 +32,6 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.presentation.R
-import java.util.regex.Pattern
 
 @Composable
 fun SignUpPasswordScreen(
@@ -70,9 +78,9 @@ fun SignUpPasswordScreen(
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Space(space = 8.dp)
         Body2(text = stringResource(id = R.string.SetPassword))
-        Spacer(modifier = Modifier.height(4.dp))
+        Space(space = 4.dp)
         Caption(
             text = stringResource(id = R.string.PasswordWarning),
             color = DormTheme.colors.primaryVariant,
@@ -103,7 +111,7 @@ fun SignUpPasswordScreen(
                 isPassword = true,
                 error = isPasswordMatchError,
                 errorDescription = stringResource(id = R.string.CheckPassword),
-                keyboardActions = KeyboardActions{
+                keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
                 },
                 imeAction = ImeAction.Done,

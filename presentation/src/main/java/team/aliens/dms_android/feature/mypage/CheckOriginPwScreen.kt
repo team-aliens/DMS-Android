@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
@@ -30,6 +31,7 @@ fun CheckOriginPwScreen() {
             title = stringResource(R.string.ChangePassword),
         )
         CheckPwTitle()
+        Space(space = 110.dp)
         CheckPwValue()
     }
 }
@@ -42,15 +44,13 @@ fun CheckPwTitle() {
         modifier = Modifier.padding(start = 24.dp),
     ) {
 
-        Spacer(
-            modifier = Modifier.height(40.dp),
-        )
+        Space(space = 40.dp)
 
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Space(space = 20.dp)
 
         Body4(
             text = stringResource(R.string.OriginPw),
@@ -62,10 +62,6 @@ fun CheckPwTitle() {
 fun CheckPwValue() {
 
     var passwordValue by remember { mutableStateOf("") }
-
-    Spacer(
-        modifier = Modifier.height(110.dp),
-    )
 
     DormTextField(
         modifier = Modifier.padding(

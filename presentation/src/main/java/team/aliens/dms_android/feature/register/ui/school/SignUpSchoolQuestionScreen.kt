@@ -2,12 +2,22 @@ package team.aliens.dms_android.feature.register.ui.school
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -15,8 +25,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.*
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -32,7 +44,6 @@ import team.aliens.dms_android.feature.register.event.school.MissMatchCompareSch
 import team.aliens.dms_android.feature.register.event.school.NotFoundCompareSchool
 import team.aliens.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import team.aliens.presentation.R
-import java.util.*
 
 @Composable
 fun SignUpSchoolQuestionScreen(
@@ -112,18 +123,18 @@ fun SignUpSchoolQuestionScreen(
             AppLogo(
                 darkIcon = isSystemInDarkTheme(),
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Space(space = 8.dp)
             Body2(text = stringResource(id = R.string.QuestionConfirmSchool))
-            Spacer(modifier = Modifier.height(60.dp))
+            Space(space = 60.dp)
             Body2(text = schoolQuestion)
-            Spacer(modifier = Modifier.height(10.dp))
+            Space(space = 10.dp)
             DormTextField(
                 value = schoolAnswer,
                 onValueChange = onAnswerChange,
                 hint = stringResource(id = R.string.Reply),
                 error = isError,
                 errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
-                keyboardActions = KeyboardActions{
+                keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
                 },
                 imeAction = ImeAction.Done,
@@ -139,7 +150,7 @@ fun SignUpSchoolQuestionScreen(
                 answer = schoolAnswer,
             )
         }
-        Spacer(modifier = Modifier.height(12.dp))
+        Space(space = 12.dp)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -149,7 +160,7 @@ fun SignUpSchoolQuestionScreen(
                 text = stringResource(id = R.string.AlreadyAccount),
                 color = DormTheme.colors.primaryVariant,
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Space(space = 8.dp)
             ButtonText(
                 modifier = Modifier
                     .padding(top = 1.dp)

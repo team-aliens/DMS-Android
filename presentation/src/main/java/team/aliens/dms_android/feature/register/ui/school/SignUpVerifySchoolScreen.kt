@@ -3,13 +3,24 @@ package team.aliens.dms_android.feature.register.ui.school
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +37,8 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.RatioSpace
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -113,11 +126,11 @@ fun SignUpVerifySchoolScreen(
         AppLogo(
             darkIcon = isSystemInDarkTheme(),
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Space(space = 8.dp)
         Body2(
             text = stringResource(id = R.string.SchoolVerificationCode)
         )
-        Spacer(modifier = Modifier.height(100.dp))
+        Space(space = 100.dp)
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -130,8 +143,8 @@ fun SignUpVerifySchoolScreen(
                     keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Done,
                 ),
-                keyboardActions = KeyboardActions{
-                     focusManager.clearFocus()
+                keyboardActions = KeyboardActions {
+                    focusManager.clearFocus()
                 },
                 decorationBox = {
                     LazyRow(
@@ -152,7 +165,7 @@ fun SignUpVerifySchoolScreen(
                     }
                 }
             )
-            Spacer(modifier = Modifier.height(40.dp))
+            Space(space = 40.dp)
             Body3(
                 text = if (isError) {
                     stringResource(id = R.string.NoSameCode)
@@ -161,7 +174,7 @@ fun SignUpVerifySchoolScreen(
                     DormColor.Error
                 } else DormColor.Gray500,
             )
-            Spacer(modifier = Modifier.fillMaxHeight(0.767f))
+            RatioSpace(height = 0.767f)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,

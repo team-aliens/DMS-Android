@@ -28,6 +28,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
 import team.aliens.design_system.dialog.DormBottomAlignedContainedLargeButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -119,6 +120,7 @@ fun StudyRoomListScreen(
                     text = stringResource(R.string.Time),
                 )
 
+                // TODO refactor this spacer
                 Spacer(
                     modifier = Modifier.height(24.dp),
                 )
@@ -175,9 +177,7 @@ fun StudyRoomListScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Spacer(
-                modifier = Modifier.height(17.dp),
-            )
+            Space(space = 17.dp)
 
             // Available study room application time
             if (studyRoomState.hasApplyTime) {
@@ -189,9 +189,7 @@ fun StudyRoomListScreen(
                 )
             }
 
-            Spacer(
-                modifier = Modifier.height(24.dp),
-            )
+            Space(space = 24.dp)
 
             // Study room time filter
             if (studyRoomAvailableTimeList.isNotEmpty()) {
@@ -227,6 +225,8 @@ fun StudyRoomListScreen(
 
             }
 
+            Space(space = 24.dp)
+
             // List of study rooms
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -256,10 +256,7 @@ fun StudyRoomListScreen(
                     }
                 }
             }
-
-            Spacer(
-                modifier = Modifier.height(24.dp),
-            )
+            Space(space = 24.dp)
         }
     }
 }

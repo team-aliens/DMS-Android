@@ -20,6 +20,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.*
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
@@ -98,9 +99,7 @@ fun StudyRoomDetailScreen(
                 ),
         ) {
 
-            Spacer(
-                modifier = Modifier.height(17.dp),
-            )
+            Space(space = 17.dp)
 
 
             FloatingNotice(
@@ -108,9 +107,7 @@ fun StudyRoomDetailScreen(
             )
 
 
-            Spacer(
-                modifier = Modifier.height(24.dp),
-            )
+            Space(space = 24.dp)
 
 
             RoomItem(
@@ -126,16 +123,13 @@ fun StudyRoomDetailScreen(
             )
 
 
-            Spacer(
-                modifier = Modifier.height(15.dp),
-            )
+            Space(space = 15.dp)
 
             if (uiState.seatBoolean) {
                 SeatTypeList(items = uiState.seatType.types.map { it.toModel() })
             }
-            Spacer(
-                modifier = Modifier.height(15.dp),
-            )
+
+            Space(space = 15.dp)
 
 
             RoomDetail(
@@ -154,7 +148,7 @@ fun StudyRoomDetailScreen(
             }
 
 
-            Spacer(modifier = Modifier.weight(1f))
+            Space(ratio = 1f)
 
 
             Row(
@@ -176,9 +170,7 @@ fun StudyRoomDetailScreen(
                 }
 
 
-                Spacer(
-                    modifier = Modifier.width(10.dp),
-                )
+                Space(space = 10.dp)
 
 
                 // Apply button
@@ -199,16 +191,13 @@ fun StudyRoomDetailScreen(
                             event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
                                 seat = currentSeat,
                                 timeSlot = timeSlot,
-                            )
                         )
                     }
                 }
             }
 
 
-            Spacer(
-                modifier = Modifier.height(54.dp),
-            )
+            Space(space = 54.dp)
         }
     }
 }

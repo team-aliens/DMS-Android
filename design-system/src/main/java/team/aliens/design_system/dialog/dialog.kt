@@ -23,6 +23,7 @@ import androidx.compose.ui.window.DialogProperties
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
@@ -103,7 +104,7 @@ fun DormSurveyDialog(
                     contentDescription = iconDescription,
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Space(space = 16.dp)
 
                 Body5(
                     text = title,
@@ -111,14 +112,14 @@ fun DormSurveyDialog(
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Space(space = 20.dp)
 
             Body5(
                 text = content,
                 color = DormColor.Gray700,
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Space(space = 32.dp)
 
             DormContainedLargeButton(
                 text = btnText,
@@ -160,9 +161,7 @@ fun DormBottomAlignedContainedLargeButtonDialog(
 
             content()
 
-            Spacer(
-                modifier = Modifier.height(50.dp),
-            )
+            Space(space = 50.dp)
 
             DormContainedLargeButton(
                 text = btnText,
@@ -244,17 +243,13 @@ fun DormDoubleButtonDialog(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        Spacer(
-            modifier = Modifier.height(50.dp),
-        )
+        Space(space = 50.dp)
 
         Body3(
             text = content,
         )
 
-        Spacer(
-            modifier = Modifier.height(40.dp),
-        )
+        Space(space = 40.dp)
 
         Divider(
             modifier = Modifier
@@ -334,17 +329,13 @@ fun DormSingleButtonDialog(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        Spacer(
-            modifier = Modifier.height(50.dp),
-        )
+        Space(space = 50.dp)
 
         Body3(
             text = content,
         )
 
-        Spacer(
-            modifier = Modifier.height(40.dp),
-        )
+        Space(space = 40.dp)
 
         Divider(
             modifier = Modifier

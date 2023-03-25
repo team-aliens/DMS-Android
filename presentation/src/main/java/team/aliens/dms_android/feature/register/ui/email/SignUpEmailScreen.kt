@@ -21,6 +21,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -158,9 +159,9 @@ fun SignUpEmailScreen(
             AppLogo(
                 darkIcon = isSystemInDarkTheme(),
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Space(space = 8.dp)
             Body2(text = stringResource(id = R.string.EnterEmailAddress))
-            Spacer(modifier = Modifier.height(86.dp))
+            Space(space = 86.dp)
             DormTextField(
                 value = email,
                 onValueChange = onEmailChange,

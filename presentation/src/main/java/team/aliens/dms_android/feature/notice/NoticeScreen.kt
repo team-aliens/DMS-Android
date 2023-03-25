@@ -2,10 +2,22 @@ package team.aliens.dms_android.feature.notice
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.component.Notice
 import team.aliens.design_system.component.NoticeList
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body1
@@ -109,17 +122,13 @@ fun NoticeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        Spacer(
-            modifier = Modifier.height(24.dp),
-        )
+        Space(space = 24.dp)
 
         Body1(
             text = stringResource(R.string.Notice),
         )
 
-        Spacer(
-            modifier = Modifier.height(20.dp),
-        )
+        Space(space = 20.dp)
 
         Row(
             modifier = Modifier.fillMaxWidth(),

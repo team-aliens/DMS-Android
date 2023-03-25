@@ -21,6 +21,8 @@ import team.aliens.design_system.button.DormCheckBox
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.extension.RatioSpace
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
@@ -106,9 +108,9 @@ fun SignUpPolicyScreen(
             AppLogo(
                 darkIcon = isSystemInDarkTheme(),
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Space(space = 8.dp)
             Body2(text = stringResource(id = R.string.CheckRegisterPolicy))
-            Spacer(modifier = Modifier.height(36.dp))
+            Space(space = 36.dp)
             Column(modifier = Modifier.height(374.dp)) {
                 AndroidView(
                     factory = {
@@ -128,7 +130,7 @@ fun SignUpPolicyScreen(
                     },
                 )
             }
-            Spacer(modifier = Modifier.fillMaxHeight(0.39f))
+            RatioSpace(height = 0.39f)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -137,13 +139,13 @@ fun SignUpPolicyScreen(
                     checked = isChecked,
                     onCheckedChange = onCheckedChange,
                 )
-                Spacer(modifier = Modifier.width(14.dp))
+                Space(space = 14.dp)
                 Caption(
                     modifier = Modifier.padding(bottom = 1.dp),
                     text = stringResource(id = R.string.CheckAllPolicy),
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Space(space = 16.dp)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,

@@ -38,6 +38,7 @@ import java.time.DayOfWeek
 import java.time.DayOfWeek.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import team.aliens.design_system.extension.Space
 
 private val RainbowBlue = Color(0xFF2196F3)
 private val RainbowIndigo = Color(0xFF3F51B5)
@@ -172,7 +173,7 @@ fun CafeteriaScreen(
                     ),
             ) {
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Space(space = 20.dp)
 
                 Row(
                     modifier = Modifier
@@ -188,9 +189,7 @@ fun CafeteriaScreen(
                         darkIcon = isSystemInDarkTheme(),
                     )
 
-                    Spacer(
-                        modifier = Modifier.weight(1f),
-                    )
+                    Space(ratio = 1f)
 
                     /*Icon(
                         painter = painterResource(
@@ -295,9 +294,7 @@ fun DateSelector(
             )
 
 
-            Spacer(
-                modifier = Modifier.height(46.dp),
-            )
+            Space(space = 46.dp)
 
 
             // 날짜

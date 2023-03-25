@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.Body3
@@ -47,7 +48,7 @@ fun SurveyList(
             )
 
             if (index != surveys.size) {
-                Spacer(modifier = Modifier.height(12.dp))
+                this@LazyColumn.Space(space = 12.dp)
             }
         }
     }
@@ -90,14 +91,14 @@ private fun Survey(
                 color = DormColor.Gray800,
             )
 
-            Spacer(modifier = Modifier.height(18.dp))
+            Space(space = 18.dp)
 
             Body5(
                 text = survey.createAt,
                 color = DormColor.Gray500,
             )
 
-            Spacer(modifier = Modifier.height(11.dp))
+            Space(space = 11.dp)
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -111,14 +112,14 @@ private fun Survey(
                         ),
                 )
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Space(space = 10.dp)
 
                 Body5(
                     text = survey.state.name,
                     color = DormColor.Gray700,
                 )
 
-                Spacer(modifier = Modifier.width(20.dp))
+                Space(space = 20.dp)
 
                 Body3(
                     text = "${survey.startAt} ~ ${survey.finishAt}",

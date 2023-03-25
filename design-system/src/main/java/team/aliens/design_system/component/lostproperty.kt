@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.typography.Body5
@@ -102,7 +103,7 @@ private fun LostProperty(
                 imageModel = property.propertyImage,
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Space(space = 16.dp)
 
             Column {
                 Body5(
@@ -110,7 +111,7 @@ private fun LostProperty(
                     color = DormColor.Gray700,
                 )
 
-                Spacer(modifier = Modifier.height(23.dp))
+                Space(space = 23.dp)
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -124,7 +125,7 @@ private fun LostProperty(
                         contentScale = ContentScale.Crop,
                     )
 
-                    Spacer(modifier = Modifier.width(10.dp))
+                    Space(space = 10.dp)
 
                     Caption(
                         text = property.userName,
@@ -132,7 +133,7 @@ private fun LostProperty(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(7.dp))
+                Space(space = 7.dp)
 
                 Caption(
                     text = property.createAt,

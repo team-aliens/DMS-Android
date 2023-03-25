@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
@@ -30,7 +31,7 @@ fun TopBar(
             .background(color = DormTheme.colors.surface),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Spacer(modifier = Modifier.padding(start = 24.dp))
+        Space(space = 24.dp)
         Icon(
             modifier = Modifier
                 .size(IconSize)
@@ -45,7 +46,7 @@ fun TopBar(
             contentDescription = stringResource(id = R.string.BackButton),
             tint = DormTheme.colors.onBackground,
         )
-        Spacer(modifier = Modifier.width(32.dp))
+        Space(space = 32.dp)
         Body1(text = title)
     }
 }
