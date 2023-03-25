@@ -41,14 +41,17 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(StudyRoomDetailUiState())
 
+    private var roomId = _uiState.value.studyRoomId
+    private var timeSlot = _uiState.value.timeSlot
+
     internal fun initStudyRoom(
         roomId: String,
         timeSlot: UUID?,
     ) {
         require(roomId.isNotBlank())
 
-        _uiState.value.studyRoomId = roomId
-        _uiState.value.timeSlot = timeSlot
+        this.roomId = roomId
+        this.timeSlot = timeSlot
 
         fetchStudyRoomDetails(
             roomId = roomId,
@@ -92,8 +95,8 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
-                    roomId = _uiState.value.studyRoomId,
-                    timeSlot = _uiState.value.timeSlot!!,
+                    roomId = roomId,
+                    timeSlot = timeSlot,
                 )
             }.onFailure {
                 when (it) {
@@ -108,8 +111,8 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     )
                     is KotlinNullPointerException -> { // todo optimize code
                         fetchStudyRoomDetails(
-                            roomId = _uiState.value.studyRoomId,
-                            timeSlot = _uiState.value.timeSlot!!,
+                            roomId = roomId,
+                            timeSlot = timeSlot,
                         )
                     }
                 }
@@ -123,12 +126,12 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 cancelApplySeatUseCase.execute(
-                    data = _uiState.value.timeSlot!!
+                    data = timeSlot!!
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
-                    roomId = _uiState.value.studyRoomId,
-                    timeSlot = _uiState.value.timeSlot!!,
+                    roomId = roomId,
+                    timeSlot = timeSlot!!,
                 )
             }.onFailure {
                 emitErrorEventFromThrowable(it)

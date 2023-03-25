@@ -52,7 +52,7 @@ fun StudyRoomListScreen(
 
     val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
 
-    var selectedIndex by remember { mutableStateOf(0) }
+    var selectedAvailableTimeItemIndex by remember { mutableStateOf(0) }
 
     var selectedAvailableTime by remember { mutableStateOf("") }
 
@@ -107,7 +107,7 @@ fun StudyRoomListScreen(
                 onBtnClick = {
                     showTimeFilterDialogState = false
                     selectedAvailableTime =
-                        setAvailableTime(studyRoomAvailableTimeList[selectedIndex])
+                        setAvailableTime(studyRoomAvailableTimeList[selectedAvailableTimeItemIndex])
                     studyRoomListViewModel.onEvent(
                         event = StudyRoomListViewModel.UiEvent.FetchStudyRooms,
                     )
@@ -130,12 +130,12 @@ fun StudyRoomListScreen(
                             items = studyRoomAvailableTimeList,
                         ) { index, items ->
                             DormTimeChip(
-                                selected = (selectedIndex == index),
+                                selected = (selectedAvailableTimeItemIndex == index),
                                 text = setAvailableTime(
                                     studyRoomAvailableTimeList[index],
                                 ),
                                 onClick = {
-                                    selectedIndex = index
+                                    selectedAvailableTimeItemIndex = index
                                     studyRoomListViewModel.onEvent(
                                         event = StudyRoomListViewModel.UiEvent.SetStudyRoomAvailableTime(
                                             timeSlot = items.id,
@@ -182,7 +182,10 @@ fun StudyRoomListScreen(
             // Available study room application time
             if (studyRoomState.hasApplyTime) {
                 FloatingNotice(
-                    content = "자습실 신청 가능 시간 : ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
+                    content = stringResource(
+                        id = R.string.study_room_apply_time,
+                        "${studyRoomState.startAt} ~ ${studyRoomState.endAt}"
+                    )
                 )
             }
 
@@ -214,7 +217,7 @@ fun StudyRoomListScreen(
                     // available time
                     Body3(
                         text = selectedAvailableTime,
-                        color = DormColor.DormPrimary,
+                        color = DormTheme.colors.primary,
                     )
                 }
 
@@ -241,7 +244,7 @@ fun StudyRoomListScreen(
                             maxNumber = point.maxNumber,
                             condition = point.condition,
                             onClick = { seatId ->
-                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedIndex].id}")
+                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
                             },
                         )
                     }

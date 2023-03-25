@@ -243,7 +243,7 @@ private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status)
+            type = SeatType.toSeatType(seat.status),
         )
     }
 

@@ -44,6 +44,8 @@ class StudyRoomListViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(StudyRoomListUiState())
 
+    private var timeSlot = _uiState.value.timeSlot
+
     override fun onEvent(
         event: UiEvent,
     ) {
@@ -85,7 +87,7 @@ class StudyRoomListViewModel @Inject constructor(
 
                 val exception = result.exceptionOrNull()
 
-                if (exception != NotFoundException()) {
+                if (exception is NotFoundException) {
                     emitErrorEventFromThrowable(exception)
                 }
             }
@@ -97,7 +99,8 @@ class StudyRoomListViewModel @Inject constructor(
 
             val result = kotlin.runCatching {
                 studyRoomListUseCase.execute(
-                    _uiState.value.timeSlot!!)
+                    data = timeSlot!!,
+                )
             }
 
             if (result.isSuccess) {
