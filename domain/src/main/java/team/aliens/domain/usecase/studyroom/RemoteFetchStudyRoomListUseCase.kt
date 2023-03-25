@@ -8,8 +8,8 @@ import team.aliens.domain.usecase.UseCase
 
 class RemoteFetchStudyRoomListUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-) : UseCase<UUID?, StudyRoomListEntity>() {
-    override suspend fun execute(data: UUID?): StudyRoomListEntity =
+) : UseCase<UUID, StudyRoomListEntity>() {
+    override suspend fun execute(data: UUID): StudyRoomListEntity =
         studyRoomRepository.fetchStudyRoomList(
             timeSlot = data,
         )

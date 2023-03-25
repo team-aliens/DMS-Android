@@ -4,5 +4,5 @@ import java.util.UUID
 
 data class ApplyStudyRoomParam(
     val seatId: String,
-    val timeSlot: UUID?,
+    val timeSlot: UUID,
 )

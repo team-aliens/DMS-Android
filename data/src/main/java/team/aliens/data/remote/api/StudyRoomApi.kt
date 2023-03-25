@@ -20,7 +20,7 @@ interface StudyRoomApi {
     @PUT(DmsUrl.StudyRoom.Apply)
     suspend fun applySeat(
         @Path("seat-id") seatId: String,
-        @Query("time_slot") timeSlot: UUID?,
+        @Query("time_slot") timeSlot: UUID,
     ): Response<Void>
 
     @GET(DmsUrl.StudyRoom.fetchApplyTime)
@@ -28,12 +28,12 @@ interface StudyRoomApi {
 
     @DELETE(DmsUrl.StudyRoom.CancelApply)
     suspend fun cancelApplySeat(
-        @Query("time_slot") timeSlot: UUID?,
+        @Query("time_slot") timeSlot: UUID,
     ): Response<Unit>
 
     @GET(DmsUrl.StudyRoom.StudyRoomList)
     suspend fun fetchStudyRoomList(
-        @Query("time_slot") timeSlot: UUID?,
+        @Query("time_slot") timeSlot: UUID,
     ): StudyRoomListResponse
 
     @GET(DmsUrl.StudyRoom.StudyRoomType)
@@ -42,7 +42,7 @@ interface StudyRoomApi {
     @GET(DmsUrl.StudyRoom.StudyRoomDetail)
     suspend fun fetchStudyRoomDetail(
         @Path("study-room-id") roomId: String,
-        @Query("time_slot") timeSlot: UUID?,
+        @Query("time_slot") timeSlot: UUID,
     ): StudyRoomDetailResponse
 
     @GET(DmsUrl.StudyRoom.CurrentStudyRoomOption)

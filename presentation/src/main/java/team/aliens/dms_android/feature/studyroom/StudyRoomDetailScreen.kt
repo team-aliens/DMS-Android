@@ -39,7 +39,7 @@ import team.aliens.presentation.R
 fun StudyRoomDetailScreen(
     navController: NavController,
     roomId: String,
-    timeSlot: UUID?,
+    timeSlot: UUID,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 

@@ -32,7 +32,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
         class ApplySeat(
             val seat: String,
-            val timeSlot: UUID?,
+            val timeSlot: UUID,
         ) : UiEvent()
 
         object CancelApplySeat : UiEvent()
@@ -53,7 +53,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
         fetchStudyRoomDetails(
             roomId = roomId,
-            timeSlot = timeSlot,
+            timeSlot = timeSlot!!,
         )
 
         fetchApplyTime()
@@ -81,7 +81,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
     private fun applySeat(
         seatId: String,
-        timeSlot: UUID?,
+        timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -94,7 +94,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
             }.onSuccess {
                 fetchStudyRoomDetails(
                     roomId = _uiState.value.studyRoomId,
-                    timeSlot = _uiState.value.timeSlot,
+                    timeSlot = _uiState.value.timeSlot!!,
                 )
             }.onFailure {
                 when (it) {
@@ -110,7 +110,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     is KotlinNullPointerException -> { // todo optimize code
                         fetchStudyRoomDetails(
                             roomId = _uiState.value.studyRoomId,
-                            timeSlot = _uiState.value.timeSlot,
+                            timeSlot = _uiState.value.timeSlot!!,
                         )
                     }
                 }
@@ -124,12 +124,12 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 cancelApplySeatUseCase.execute(
-                    data = _uiState.value.timeSlot
+                    data = _uiState.value.timeSlot!!
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
                     roomId = _uiState.value.studyRoomId,
-                    timeSlot = _uiState.value.timeSlot,
+                    timeSlot = _uiState.value.timeSlot!!,
                 )
             }.onFailure {
                 emitErrorEventFromThrowable(it)
@@ -162,7 +162,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
     private fun fetchStudyRoomDetails(
         roomId: String,
-        timeSlot: UUID?,
+        timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {

@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class RemoteCancelApplySeatUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
-) : UseCase<UUID?, Unit>() {
-    override suspend fun execute(data: UUID?) {
+) : UseCase<UUID, Unit>() {
+    override suspend fun execute(data: UUID) {
         studyRoomRepository.cancelApplySeat(
             timeSlot = data,
         )
