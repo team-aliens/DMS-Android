@@ -19,7 +19,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
             httpRequest = suspend {
                 studyRoomApi.applySeat(
                     seatId = seatId,
-                    timeSlot = timeSlot
+                    timeSlot = timeSlot,
                 )
             },
         )
