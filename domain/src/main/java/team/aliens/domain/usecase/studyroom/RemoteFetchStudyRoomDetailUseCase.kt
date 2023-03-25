@@ -9,8 +9,8 @@ import team.aliens.domain.usecase.UseCase
 class RemoteFetchStudyRoomDetailUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
 ) : UseCase<StudyRoomDetailParam, StudyRoomDetailEntity>() {
-    override suspend fun execute(data: StudyRoomDetailParam): StudyRoomDetailEntity =
+    override suspend fun execute(studyRoomDetailParam: StudyRoomDetailParam): StudyRoomDetailEntity =
         studyRoomRepository.fetchStudyRoomDetail(
-            studyRoomDetailParam = data,
+            studyRoomDetailParam = studyRoomDetailParam,
         )
 }

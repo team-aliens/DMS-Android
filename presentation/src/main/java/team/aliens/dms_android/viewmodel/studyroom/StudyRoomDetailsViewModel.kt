@@ -1,6 +1,5 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -167,7 +166,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchStudyRoomDetailUseCase.execute(
-                    data = StudyRoomDetailParam(
+                    studyRoomDetailParam = StudyRoomDetailParam(
                         roomId = roomId,
                         timeSlot = timeSlot,
                     ),

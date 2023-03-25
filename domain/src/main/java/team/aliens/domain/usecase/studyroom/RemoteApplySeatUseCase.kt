@@ -8,9 +8,9 @@ import team.aliens.domain.param.ApplyStudyRoomParam
 class RemoteApplySeatUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
 ) : UseCase<ApplyStudyRoomParam, Unit>() {
-    override suspend fun execute(data: ApplyStudyRoomParam) {
+    override suspend fun execute(applyStudyRoomParam: ApplyStudyRoomParam) {
         studyRoomRepository.applySeat(
-            applyStudyRoomParam = data,
+            applyStudyRoomParam = applyStudyRoomParam,
         )
     }
 }
