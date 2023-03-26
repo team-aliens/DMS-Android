@@ -63,6 +63,7 @@ internal sealed class DormHttpPath(
         path = this.Files,
     ) {
         const val UploadFile = "/${Companion.Files}"
+        const val FetchPreSignedUrl = "/${Companion.Files}/url"
     }
 
     object Meals : DormHttpPath(
