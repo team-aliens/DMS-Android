@@ -75,7 +75,7 @@ internal sealed class DormHttpPath(
     object Notices : DormHttpPath(
         path = this.Notices,
     ) {
-        const val FetchWhetherNewNoticeExists = "/${Companion.Notices}/status"
+        const val FetchWhetherNewNoticesExist = "/${Companion.Notices}/status"
         const val FetchNoticeDetails = "/${Companion.Notices}/{notice-id}"
         const val FetchNotices = "/${Companion.Notices}"
     }
