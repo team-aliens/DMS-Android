@@ -17,6 +17,7 @@ import team.aliens.remote.common.DormHttpPath.StudyRooms.FetchStudyRooms
 import team.aliens.remote.common.HttpProperty.PathVariable.SeatId
 import team.aliens.remote.common.HttpProperty.PathVariable.StudyRoomId
 import team.aliens.remote.common.HttpProperty.QueryString.TimeSlot
+import team.aliens.remote.model.studyroom.FetchAvailableStudyRoomTimesResponse
 import team.aliens.remote.model.studyroom.FetchCurrentAppliedStudyRoomResponse
 import team.aliens.remote.model.studyroom.FetchSeatTypesResponse
 import team.aliens.remote.model.studyroom.FetchStudyRoomApplicationTimeResponse
