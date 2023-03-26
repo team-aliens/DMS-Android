@@ -9,7 +9,7 @@ data class FetchPointsResponse(
     data class Point(
         @SerializedName("date") val date: String,
         @SerializedName("type") val type: String,
-        @SerializedName("name") val pointName: String,
+        @SerializedName("name") val name: String,
         @SerializedName("score") val score: Int,
     )
 }
