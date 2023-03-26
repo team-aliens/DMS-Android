@@ -14,7 +14,7 @@ interface RemoteStudentDataSource {
         input: SignUpInput,
     ): AuthenticationOutput
 
-    suspend fun checkStudentNumber(
+    suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
         classRoom: Int,

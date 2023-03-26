@@ -19,7 +19,7 @@ class StudentRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun checkStudentNumber(
+    override suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
         classRoom: Int,

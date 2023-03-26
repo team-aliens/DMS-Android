@@ -32,7 +32,7 @@ internal sealed class DormHttpPath(
         path = this.Students,
     ) {
         const val SignUp = "/${Companion.Students}/signup"
-        const val CheckStudentNumber = "/${Companion.Students}/name"
+        const val ExamineStudentNumber = "/${Companion.Students}/name"
         const val FindId = "/${Companion.Students}/account-id/{school-id}"
         const val ResetPassword = "/${Companion.Students}/password/initialization"
         const val CheckIdDuplication = "/${Companion.Students}/account-id/duplication"
