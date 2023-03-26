@@ -1,9 +1,8 @@
 package team.aliens.remote.model.auth
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.auth.SendEmailVerificationCodeInput.SendEmailVerificationCodeType
 
 data class SendEmailVerificationCodeRequest(
     @SerializedName("name") val name: String,
-    @SerializedName("type") val type: SendEmailVerificationCodeType,
+    @SerializedName("type") val type: String,
 )
