@@ -7,6 +7,7 @@ object HttpProperty {
     }
 
     object PathVariable {
+        const val Date = "date"
         const val SchoolId = "school-id"
         const val NoticeId = "notice-id"
         const val StudyRoomId = "study-room-id"
