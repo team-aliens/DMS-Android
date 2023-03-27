@@ -4,7 +4,9 @@ package team.aliens.design_system.color
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import team.aliens.design_system.annotation.DormDeprecated
 
+@DormDeprecated
 object DormColor {
 
     @Stable

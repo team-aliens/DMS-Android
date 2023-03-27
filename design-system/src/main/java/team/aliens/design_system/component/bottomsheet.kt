@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body2
@@ -24,6 +25,7 @@ private val BottomSheetShape = RoundedCornerShape(
     topEnd = 16.dp,
 )
 
+@DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormBottomSheetDialog(
@@ -48,6 +50,7 @@ fun DormBottomSheetDialog(
     }
 }
 
+@DormDeprecated
 @Composable
 private fun DormBottomSheetContent(
     useHandle: Boolean,
@@ -81,6 +84,7 @@ private val BottomSheetHandleShape = RoundedCornerShape(
     size = 2.dp,
 )
 
+@DormDeprecated
 @Composable
 private fun DormBottomSheetHandle(
     useHandle: Boolean,
@@ -105,6 +109,7 @@ private fun DormBottomSheetHandle(
 }
 
 
+@DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormBottomSheetDialogWithButtonLayout(
@@ -161,7 +166,7 @@ fun DormBottomSheetDialogWithButtonLayout(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-@Preview()
+@Preview
 @Composable
 private fun DormCancellableBottomSheetDialogPreview() {
 

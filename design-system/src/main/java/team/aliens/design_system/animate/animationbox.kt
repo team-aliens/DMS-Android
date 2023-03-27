@@ -4,7 +4,9 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import team.aliens.design_system.annotation.DormDeprecated
 
+@DormDeprecated
 @Composable
 fun <T> T.HorizontalAnimationBox(
     enter: EnterTransition = expandHorizontally() + fadeIn(),
@@ -26,6 +28,7 @@ fun <T> T.HorizontalAnimationBox(
     }
 }
 
+@DormDeprecated
 @Composable
 fun <T> T.VerticalAnimationBox(
     enter: EnterTransition = expandHorizontally() + fadeIn(),

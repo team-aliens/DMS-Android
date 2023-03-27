@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.*
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 
 @SuppressLint("ConflictingOnColor")
@@ -38,6 +39,7 @@ private val DarkColorPalette = darkColors(
     secondaryVariant = DormColor.Gray700, // line
 )
 
+@DormDeprecated
 @Composable
 fun DormTheme(
     darkTheme: Boolean,

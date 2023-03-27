@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
@@ -33,6 +34,7 @@ data class Property(
     val createAt: String,
 )
 
+@DormDeprecated
 @Composable
 fun DormLostPropertyList(
     modifier: Modifier = Modifier,
@@ -65,6 +67,7 @@ private val LostPropertyImageSize: Dp = 100.dp
 @Stable
 private val LostPropertyProfileSize: Dp = 24.dp
 
+@DormDeprecated
 @Composable
 private fun LostProperty(
     property: Property,

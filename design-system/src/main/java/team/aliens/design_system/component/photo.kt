@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.R
 import team.aliens.design_system.animate.HorizontalAnimationBox
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
@@ -34,6 +35,7 @@ val DefaultPhotoSize: Dp = 100.dp
 @Stable
 val PhotoShape: Shape = RoundedCornerShape(6.dp)
 
+@DormDeprecated
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhotoList(
