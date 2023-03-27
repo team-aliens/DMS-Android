@@ -62,7 +62,7 @@ fun StudyRoomListScreen(
 
     LaunchedEffect(studyRoomAvailableTimeList) {
         if (studyRoomAvailableTimeList.isNotEmpty()) {
-            selectedAvailableTime = setAvailableTime(studyRoomAvailableTimeList.first())
+            selectedAvailableTime = makeTimeRange(studyRoomAvailableTimeList.first())
         }
     }
 
@@ -84,7 +84,7 @@ fun StudyRoomListScreen(
 
             val studyRoomFirstEntity = studyRoomAvailableTimeList.first()
 
-            selectedAvailableTime = setAvailableTime(studyRoomFirstEntity)
+            selectedAvailableTime = makeTimeRange(studyRoomFirstEntity)
 
             studyRoomListViewModel.onEvent(
                 event = StudyRoomListViewModel.UiEvent.FetchStudyRooms(
@@ -111,7 +111,7 @@ fun StudyRoomListScreen(
                 onBtnClick = {
                     showTimeFilterDialogState = false
                     selectedAvailableTime =
-                        setAvailableTime(studyRoomAvailableTimeList[selectedAvailableTimeItemIndex])
+                        makeTimeRange(studyRoomAvailableTimeList[selectedAvailableTimeItemIndex])
                     studyRoomListViewModel.onEvent(
                         event = StudyRoomListViewModel.UiEvent.FetchStudyRooms(
                             timeSlot = studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
@@ -138,7 +138,7 @@ fun StudyRoomListScreen(
                         ) { index, items ->
                             DormTimeChip(
                                 selected = (selectedAvailableTimeItemIndex == index),
-                                text = setAvailableTime(
+                                text = makeTimeRange(
                                     studyRoomAvailableTimeList = items,
                                 ),
                                 onClick = {
@@ -273,7 +273,7 @@ fun DormTimeChip(
             .wrapContentWidth()
             .background(
                 color = when {
-                    selected -> DormColor.DormPrimary
+                    selected -> DormTheme.colors.primary
                     else -> Color.Transparent
                 },
                 shape = DormTimeChipShape,
@@ -296,11 +296,11 @@ fun DormTimeChip(
         ButtonText(
             text = text,
             modifier = Modifier.padding(8.dp),
-            color = if (selected) DormColor.Gray100 else DormColor.Gray400
+            color = if (selected) DormTheme.colors.onPrimary else DormColor.Gray400
         )
     }
 }
 
-private fun setAvailableTime(
+private fun makeTimeRange(
     studyRoomAvailableTimeList: StudyRoomAvailableTimeListEntity.AvailableTime,
 ): String = "${studyRoomAvailableTimeList.startTime} ~ ${studyRoomAvailableTimeList.endTime}"

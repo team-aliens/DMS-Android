@@ -46,7 +46,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
     internal fun initStudyRoom(
         roomId: String,
-        timeSlot: UUID?,
+        timeSlot: UUID,
     ) {
         require(roomId.isNotBlank())
 
@@ -55,7 +55,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
         fetchStudyRoomDetails(
             roomId = roomId,
-            timeSlot = timeSlot!!,
+            timeSlot = timeSlot,
         )
 
         fetchApplyTime()
