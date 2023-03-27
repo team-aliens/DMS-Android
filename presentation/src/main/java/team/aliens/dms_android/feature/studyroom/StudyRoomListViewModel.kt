@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.studyroom
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -30,13 +29,11 @@ class StudyRoomListViewModel @Inject constructor(
 
     sealed class UiEvent : BaseEvent {
 
-        internal object FetchStudyRooms : UiEvent()
-
-        internal object FetchStudyRoomAvailableTimes : UiEvent()
-
-        internal data class SetStudyRoomAvailableTime(
+        data class FetchStudyRooms(
             val timeSlot: UUID,
         ) : UiEvent()
+
+        internal object FetchStudyRoomAvailableTimes : UiEvent()
 
         internal class FilterStudyRoom(
             studyRoomTime: Any?,
@@ -45,22 +42,17 @@ class StudyRoomListViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(StudyRoomListUiState())
 
-    private var timeSlot = _uiState.value.timeSlot
-
     override fun onEvent(
         event: UiEvent,
     ) {
         when (event) {
             is UiEvent.FetchStudyRooms -> {
-                fetchStudyRoomList()
+                fetchStudyRoomList(
+                    timeSlot = event.timeSlot,
+                )
             }
             is UiEvent.FetchStudyRoomAvailableTimes -> {
                 fetchStudyRoomAvailableTimeList()
-            }
-            is UiEvent.SetStudyRoomAvailableTime -> {
-                setStudyRoomAvailableTime(
-                    timeSlot = event.timeSlot,
-                )
             }
             is UiEvent.FilterStudyRoom -> {
                 // todo
@@ -95,12 +87,14 @@ class StudyRoomListViewModel @Inject constructor(
         }
     }
 
-    private fun fetchStudyRoomList() {
+    private fun fetchStudyRoomList(
+        timeSlot: UUID,
+    ) {
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
                 studyRoomListUseCase.execute(
-                    data = timeSlot!!,
+                    data = timeSlot,
                 )
             }
 
@@ -133,14 +127,6 @@ class StudyRoomListViewModel @Inject constructor(
                     )
                 }
         }
-    }
-
-    private fun setStudyRoomAvailableTime(
-        timeSlot: UUID,
-    ) {
-        _uiState.value = _uiState.value.copy(
-            timeSlot = timeSlot,
-        )
     }
 }
 
