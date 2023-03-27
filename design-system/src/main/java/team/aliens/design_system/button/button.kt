@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.toast.rememberToast
 
@@ -47,6 +48,7 @@ enum class DormButtonColor(
 @Stable
 private val DefaultButtonRound = 5.dp
 
+@DormDeprecated
 @Composable
 fun DormContainedLargeButton(
     modifier: Modifier = Modifier,
@@ -68,6 +70,7 @@ fun DormContainedLargeButton(
     )
 }
 
+@DormDeprecated
 @Composable
 fun DormOutlineLargeButton(
     modifier: Modifier = Modifier,

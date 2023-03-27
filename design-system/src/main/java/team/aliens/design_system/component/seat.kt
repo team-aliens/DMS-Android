@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
 import team.aliens.design_system.extension.Space
@@ -82,6 +83,7 @@ data class SeatItem(
     val type: SeatType = SeatType.EMPTY,
 )
 
+@DormDeprecated
 @Composable
 private fun RoomDescription(
     modifier: Modifier = Modifier,
@@ -95,6 +97,7 @@ private fun RoomDescription(
     )
 }
 
+@DormDeprecated
 @Composable
 fun RoomDetail(
     topDescription: String,
@@ -210,6 +213,7 @@ fun RoomDetail(
     }
 }
 
+@DormDeprecated
 @Composable
 private fun SeatContent(
     seatId: String,
@@ -264,6 +268,7 @@ private fun SeatContent(
     }
 }
 
+@DormDeprecated
 @Composable
 private fun SeatListContent(
     modifier: Modifier = Modifier,
@@ -329,6 +334,7 @@ private fun SeatListContent(
     }
 }
 
+@DormDeprecated
 @Composable
 fun RoomItem(
     roomId: String,
@@ -410,6 +416,7 @@ data class SeatTypeUiModel(
     val text: String,
 )
 
+@DormDeprecated
 @Composable
 fun SeatTypeList(
     items: List<SeatTypeUiModel>,

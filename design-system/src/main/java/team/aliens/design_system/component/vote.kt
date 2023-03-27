@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.button.*
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
@@ -27,6 +28,7 @@ data class VoteItem(
 @Stable
 private val DefaultVoteSelected = -1
 
+@DormDeprecated
 @Composable
 fun Vote(
     modifier: Modifier = Modifier,
@@ -119,6 +121,7 @@ data class CheckBoxState(
     val selected: Boolean = false,
 )
 
+@DormDeprecated
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun OverlapVote(

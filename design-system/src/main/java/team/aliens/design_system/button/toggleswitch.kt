@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
@@ -23,6 +24,7 @@ private val ToggleSwitchWidth = 38.dp
 @Stable
 private val ToggleSwitchHeight = 20.dp
 
+@DormDeprecated
 @Composable
 fun ToggleSwitch(
     modifier: Modifier = Modifier,

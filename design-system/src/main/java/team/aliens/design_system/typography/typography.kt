@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import team.aliens.design_system.R
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 
@@ -173,6 +174,7 @@ object DormTypography {
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Headline1(
@@ -188,6 +190,7 @@ fun Headline1(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Headline2(
@@ -205,6 +208,7 @@ fun Headline2(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Headline3(
@@ -220,6 +224,7 @@ fun Headline3(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Title1(
@@ -235,6 +240,7 @@ fun Title1(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Title2(
@@ -250,6 +256,7 @@ fun Title2(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Title3(
@@ -265,6 +272,7 @@ fun Title3(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun SubTitle1(
@@ -280,6 +288,7 @@ fun SubTitle1(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun SubTitle2(
@@ -295,6 +304,7 @@ fun SubTitle2(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Body1(
@@ -310,6 +320,7 @@ fun Body1(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Body2(
@@ -325,6 +336,7 @@ fun Body2(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Body3(
@@ -339,7 +351,9 @@ fun Body3(
         color = color,
     )
 }
+
 // TODO body 4 && body 5 -> 대체
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Body4(
@@ -355,6 +369,7 @@ fun Body4(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Body5(
@@ -370,7 +385,9 @@ fun Body5(
         lineHeight = 24.sp,
     )
 }
+
 // TODO onClick 삭제하고 loginScreen 에서 modifier 통해 클릭 이벤트 넣어주기
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun Caption(
@@ -391,6 +408,7 @@ fun Caption(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun OverLine(
@@ -406,6 +424,7 @@ fun OverLine(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun ButtonText(
@@ -421,6 +440,7 @@ fun ButtonText(
     )
 }
 
+@DormDeprecated
 @Composable
 @NonRestartableComposable
 fun BottomNavItemLabel(

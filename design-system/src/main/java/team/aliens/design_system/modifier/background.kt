@@ -5,7 +5,9 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import team.aliens.design_system.annotation.DormDeprecated
 
+@DormDeprecated
 @Stable
 fun Modifier.dormGradientBackground(
     backgroundColor: Any,
