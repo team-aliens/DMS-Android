@@ -1,6 +1,6 @@
 package team.aliens.local_database.storage.declaration
 
-import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserVisibleParam
 import team.aliens.local_database.param.UserPersonalKeyParam
 
 interface UserDataStorage {
@@ -14,11 +14,13 @@ interface UserDataStorage {
 
     fun clearToken()
 
-    fun setUserVisible(featuresParam: FeaturesParam)
+    fun setUserVisible(userVisibleParam: UserVisibleParam)
 
     fun fetchMealServiceBoolean(): Boolean
     fun fetchNoticeServiceBoolean(): Boolean
     fun fetchPointServiceBoolean(): Boolean
+    fun fetchStudyRoomServiceBoolean(): Boolean
+    fun fetchRemainServiceBoolean(): Boolean
 
     fun setAutoSignInOption(autoSignInEnabled: Boolean)
     fun fetchAutoSignInOption(): Boolean

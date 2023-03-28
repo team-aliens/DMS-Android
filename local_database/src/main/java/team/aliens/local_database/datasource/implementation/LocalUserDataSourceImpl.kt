@@ -2,7 +2,7 @@ package team.aliens.local_database.datasource.implementation
 
 import team.aliens.local_database.datasource.declaration.LocalUserDataSource
 import team.aliens.local_database.localutil.toLocalDateTime
-import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserVisibleParam
 import team.aliens.local_database.param.UserPersonalKeyParam
 import team.aliens.local_database.storage.declaration.UserDataStorage
 import javax.inject.Inject
@@ -26,16 +26,18 @@ class LocalUserDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun setUserVisibleInform(featuresParam: FeaturesParam) {
-        userDataStorage.setUserVisible(featuresParam)
+    override suspend fun setUserVisibleInform(userVisibleParam: UserVisibleParam) {
+        userDataStorage.setUserVisible(userVisibleParam)
     }
 
-    override suspend fun fetchUserVisibleInform(): FeaturesParam {
+    override suspend fun fetchUserVisibleInform(): UserVisibleParam {
         userDataStorage.apply {
-            return FeaturesParam(
+            return UserVisibleParam(
                 fetchMealServiceBoolean(),
                 fetchNoticeServiceBoolean(),
                 fetchPointServiceBoolean(),
+                fetchStudyRoomServiceBoolean(),
+                fetchRemainServiceBoolean(),
             )
         }
     }
