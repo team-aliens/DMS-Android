@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.DormHttpPath.StudyRooms.ApplySeat
 import team.aliens.remote.common.DormHttpPath.StudyRooms.CancelSeat
 import team.aliens.remote.common.DormHttpPath.StudyRooms.FetchAvailableStudyRoomTimes
@@ -27,36 +28,44 @@ import java.util.*
 interface StudyRoomService {
 
     @GET(FetchStudyRoomApplicationTime)
+    @RequiresAccessToken
     suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeResponse
 
     @PUT(ApplySeat)
+    @RequiresAccessToken
     suspend fun applySeat(
         @Path(SeatId) seatId: UUID,
         @Query(TimeSlot) timeSlot: UUID,
     )
 
     @DELETE(CancelSeat)
+    @RequiresAccessToken
     suspend fun cancelSeat(
         @Query(TimeSlot) timeSlot: UUID,
     )
 
     @GET(FetchStudyRooms)
+    @RequiresAccessToken
     suspend fun fetchStudyRooms(
         @Query(TimeSlot) timeSlot: UUID,
     ): FetchStudyRoomsResponse
 
     @GET(FetchStudyRoomDetails)
+    @RequiresAccessToken
     suspend fun fetchStudyRoomDetails(
         @Path(StudyRoomId) studyRoomId: UUID,
         @Query(TimeSlot) timeSlot: UUID,
     ): FetchStudyRoomDetailsResponse
 
     @GET(FetchCurrentAppliedStudyRoom)
+    @RequiresAccessToken
     suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomResponse
 
     @GET(FetchSeatTypes)
+    @RequiresAccessToken
     suspend fun fetchSeatTypes(): FetchSeatTypesResponse
 
     @GET(FetchAvailableStudyRoomTimes)
+    @RequiresAccessToken
     suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesResponse
 }

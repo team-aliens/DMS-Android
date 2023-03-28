@@ -7,6 +7,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.DormHttpPath.Student.CheckIdDuplication
 import team.aliens.remote.common.DormHttpPath.Student.EditProfile
 import team.aliens.remote.common.DormHttpPath.Student.ExamineStudentNumber
@@ -66,13 +67,16 @@ interface StudentService {
     )
 
     @GET(FetchMyPage)
+    @RequiresAccessToken
     suspend fun fetchMyPage(): FetchMyPageResponse
 
     @PATCH(EditProfile)
+    @RequiresAccessToken
     suspend fun editProfile(
         @Body request: EditProfileRequest,
     )
 
     @DELETE(Withdraw)
+    @RequiresAccessToken
     suspend fun withdraw()
 }

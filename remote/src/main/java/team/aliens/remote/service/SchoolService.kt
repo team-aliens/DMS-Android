@@ -4,6 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.data.remote.response.students.FetchSchoolsResponse
+import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.DormHttpPath.Schools.ExamineSchoolVerificationCode
 import team.aliens.remote.common.DormHttpPath.Schools.ExamineSchoolVerificationQuestion
 import team.aliens.remote.common.DormHttpPath.Schools.FetchAvailableFeatures
@@ -38,5 +39,6 @@ interface SchoolService {
     ): ExamineSchoolVerificationCodeResponse
 
     @GET(FetchAvailableFeatures)
+    @RequiresAccessToken
     suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesResponse
 }

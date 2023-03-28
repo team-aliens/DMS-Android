@@ -7,6 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput.SendEmailVerificationCodeType
+import team.aliens.remote.annotation.RequiresRefreshToken
 import team.aliens.remote.common.DormHttpPath.Auth.CheckEmailVerificationCode
 import team.aliens.remote.common.DormHttpPath.Auth.ReissueToken
 import team.aliens.remote.common.DormHttpPath.Auth.SendEmailVerificationCode
@@ -42,6 +43,7 @@ interface AuthService {
     )
 
     @PUT(ReissueToken)
+    @RequiresRefreshToken
     suspend fun reissueToken(
         @Header(RefreshToken) refreshToken: String,
     ): AuthenticationResponse

@@ -3,6 +3,7 @@ package team.aliens.remote.service
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.DormHttpPath.Notices.FetchNoticeDetails
 import team.aliens.remote.common.DormHttpPath.Notices.FetchNotices
 import team.aliens.remote.common.DormHttpPath.Notices.FetchWhetherNewNoticesExist
@@ -16,14 +17,17 @@ import java.util.*
 interface NoticeService {
 
     @GET(FetchWhetherNewNoticesExist)
+    @RequiresAccessToken
     suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse
 
     @GET(FetchNoticeDetails)
+    @RequiresAccessToken
     suspend fun fetchNoticeDetails(
         @Path(NoticeId) noticeId: UUID,
     ): FetchNoticeDetailsResponse
 
     @GET(FetchNotices)
+    @RequiresAccessToken
     suspend fun fetchNotices(
         @Query(Order) order: String,
     ): FetchNoticesResponse

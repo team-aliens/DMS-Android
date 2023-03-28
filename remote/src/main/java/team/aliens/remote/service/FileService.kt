@@ -6,6 +6,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
+import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.DormHttpPath.Files.FetchPreSignedUrl
 import team.aliens.remote.common.DormHttpPath.Files.UploadFile
 import team.aliens.remote.common.HttpProperty.QueryString.FileName
@@ -21,6 +22,7 @@ interface FileService {
     ): FileResponse
 
     @GET(FetchPreSignedUrl)
+    @RequiresAccessToken
     suspend fun fetchPreSignedUrl(
         @Query(FileName) fileName: String,
     ): FetchPreSignedUrlResponse
