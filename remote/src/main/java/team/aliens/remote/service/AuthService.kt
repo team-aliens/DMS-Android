@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,7 +22,7 @@ import team.aliens.remote.model.auth.SendEmailVerificationCodeRequest
 import team.aliens.remote.model.auth.SignInRequest
 import team.aliens.remote.model.auth.VerifyEmailResponse
 
-interface AuthApi {
+interface AuthService {
 
     @POST(SignIn)
     suspend fun signIn(

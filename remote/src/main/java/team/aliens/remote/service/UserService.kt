@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -9,7 +9,7 @@ import team.aliens.remote.common.DormHttpPath.Users.EditPassword
 import team.aliens.remote.common.HttpProperty.QueryString.Password
 import team.aliens.remote.model.user.EditPasswordRequest
 
-interface UserApi {
+interface UserService {
 
     @PATCH(EditPassword)
     suspend fun editPassword(

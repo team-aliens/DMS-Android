@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,7 +13,7 @@ import team.aliens.remote.model.notice.FetchNoticesResponse
 import team.aliens.remote.model.notice.FetchWhetherNewNoticesExistResponse
 import java.util.*
 
-interface NoticeApi {
+interface NoticeService {
 
     @GET(FetchWhetherNewNoticesExist)
     suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse

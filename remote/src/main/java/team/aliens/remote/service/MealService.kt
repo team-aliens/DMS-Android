@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -6,7 +6,7 @@ import team.aliens.remote.common.DormHttpPath.Meals.FetchMeals
 import team.aliens.remote.common.HttpProperty.PathVariable.Date
 import team.aliens.remote.model.meal.FetchMealsResponse
 
-interface MealApi {
+interface MealService {
 
     @GET(FetchMeals)
     suspend fun fetchMeals(

@@ -1,6 +1,5 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
-import android.view.ViewDebug.FlagToString
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -25,7 +24,7 @@ import team.aliens.remote.model.studyroom.FetchStudyRoomDetailsResponse
 import team.aliens.remote.model.studyroom.FetchStudyRoomsResponse
 import java.util.*
 
-interface StudyRoomApi {
+interface StudyRoomService {
 
     @GET(FetchStudyRoomApplicationTime)
     suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeResponse

@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,7 +17,7 @@ import team.aliens.remote.model.school.FetchAvailableFeaturesResponse
 import team.aliens.remote.model.school.FetchSchoolVerificationQuestionResponse
 import java.util.*
 
-interface SchoolApi {
+interface SchoolService {
 
     @GET(FetchSchools)
     suspend fun fetchSchools(): FetchSchoolsResponse

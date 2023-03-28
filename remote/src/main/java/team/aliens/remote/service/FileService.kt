@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import okhttp3.MultipartBody
 import retrofit2.http.GET
@@ -12,7 +12,7 @@ import team.aliens.remote.common.HttpProperty.QueryString.FileName
 import team.aliens.remote.model.file.FetchPreSignedUrlResponse
 import team.aliens.remote.model.file.FileResponse
 
-interface FileApi {
+interface FileService {
 
     @POST(UploadFile)
     @Multipart

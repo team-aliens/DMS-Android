@@ -1,4 +1,4 @@
-package team.aliens.remote.api
+package team.aliens.remote.service
 
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -13,7 +13,7 @@ import team.aliens.remote.model.remains.FetchRemainsApplicationTimeResponse
 import team.aliens.remote.model.remains.FetchRemainsOptionsResponse
 import java.util.*
 
-interface RemainsApi {
+interface RemainsService {
 
     @PUT(UpdateRemainsOption)
     suspend fun updateRemainsOption(
