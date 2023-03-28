@@ -14,55 +14,55 @@ abstract class RemoteDataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteAuthDataSource(
+    abstract fun bindRemoteAuthDataSource(
         impl: RemoteAuthDataSourceImpl,
     ): RemoteAuthDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteFileDataSource(
+    abstract fun bindRemoteFileDataSource(
         impl: RemoteFileDataSourceImpl,
     ): RemoteFileDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteMealDataSource(
+    abstract fun bindRemoteMealDataSource(
         impl: RemoteMealDataSourceImpl,
     ): RemoteMealDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteNoticeDataSource(
+    abstract fun bindRemoteNoticeDataSource(
         impl: RemoteNoticeDataSourceImpl,
     ): RemoteNoticeDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemotePointDataSource(
+    abstract fun bindRemotePointDataSource(
         impl: RemotePointDataSourceImpl,
     ): RemotePointDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteRemainDataSource(
+    abstract fun bindRemoteRemainDataSource(
         impl: RemoteRemainsDataSourceImpl,
     ): RemoteRemainsDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteSchoolDataSource(
+    abstract fun bindRemoteSchoolDataSource(
         impl: RemoteSchoolDataSourceImpl,
     ): RemoteSchoolDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteStudentDataSource(
+    abstract fun bindRemoteStudentDataSource(
         impl: RemoteSchoolDataSourceImpl,
     ): RemoteSchoolDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsRemoteStudyRoomDataSource(
+    abstract fun bindRemoteStudyRoomDataSource(
         impl: RemoteStudyRoomDataSourceImpl,
     ): RemoteStudyRoomDataSource
 }
