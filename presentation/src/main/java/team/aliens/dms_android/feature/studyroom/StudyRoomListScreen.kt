@@ -1,31 +1,17 @@
 package team.aliens.dms_android.feature.studyroom
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -52,6 +38,7 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
+import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -65,27 +52,46 @@ fun StudyRoomListScreen(
 
     val studyRoomState = studyRoomListViewModel.uiState.collectAsState().value
 
-    //val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
+    val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
 
-    var selectedTime by remember { mutableStateOf(0) }
+    var selectedAvailableTimeItemIndex by remember { mutableStateOf(0) }
 
-    val studyRoomAvailableTimeList = arrayListOf(
-        "10시 ~ 11시",
-        "11시 ~ 12시",
-        "12시 ~ 13시 50분",
-        "14시 ~ 15시"
-    ) // TODO remove after complete api document
+    var selectedAvailableTime by remember { mutableStateOf("") }
 
-    var selectedAvailableTime by remember { mutableStateOf(studyRoomAvailableTimeList[0]) }
+    var showTimeFilterDialogState by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        studyRoomListViewModel.errorState.collect {
-            toast(it)
+    LaunchedEffect(studyRoomAvailableTimeList) {
+        if (studyRoomAvailableTimeList.isNotEmpty()) {
+            selectedAvailableTime = makeTimeRange(studyRoomAvailableTimeList.first())
         }
     }
 
-    var showTimeFilterDialogState by remember {
-        mutableStateOf(false)
+    val onStudyRoomFilterDialogDismiss = {
+        showTimeFilterDialogState = false
+    }
+
+    LaunchedEffect(Unit) {
+        with(studyRoomListViewModel) {
+            onEvent(event = StudyRoomListViewModel.UiEvent.FetchStudyRoomAvailableTimes)
+            errorState.collect {
+                toast(it)
+            }
+        }
+    }
+
+    LaunchedEffect(studyRoomAvailableTimeList) {
+        if (studyRoomAvailableTimeList.isNotEmpty()) {
+
+            val studyRoomFirstEntity = studyRoomAvailableTimeList.first()
+
+            selectedAvailableTime = makeTimeRange(studyRoomFirstEntity)
+
+            studyRoomListViewModel.onEvent(
+                event = StudyRoomListViewModel.UiEvent.FetchStudyRooms(
+                    timeSlot = studyRoomAvailableTimeList.first().id,
+                )
+            )
+        }
     }
 
     if (showTimeFilterDialogState) {
@@ -104,8 +110,15 @@ fun StudyRoomListScreen(
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
                     showTimeFilterDialogState = false
-                    selectedAvailableTime = studyRoomAvailableTimeList[selectedTime]
+                    selectedAvailableTime =
+                        makeTimeRange(studyRoomAvailableTimeList[selectedAvailableTimeItemIndex])
+                    studyRoomListViewModel.onEvent(
+                        event = StudyRoomListViewModel.UiEvent.FetchStudyRooms(
+                            timeSlot = studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
+                        ),
+                    )
                 },
+                onDismissRequest = onStudyRoomFilterDialogDismiss,
             ) {
 
                 Title3(
@@ -120,12 +133,16 @@ fun StudyRoomListScreen(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     content = {
-                        items(studyRoomAvailableTimeList.size) {
+                        itemsIndexed(
+                            items = studyRoomAvailableTimeList,
+                        ) { index, items ->
                             DormTimeChip(
-                                selected = (selectedTime == it),
-                                text = studyRoomAvailableTimeList[it],
+                                selected = (selectedAvailableTimeItemIndex == index),
+                                text = makeTimeRange(
+                                    studyRoomAvailableTimeList = items,
+                                ),
                                 onClick = {
-                                    selectedTime = it
+                                    selectedAvailableTimeItemIndex = index
                                 },
                             )
                         }
@@ -134,7 +151,6 @@ fun StudyRoomListScreen(
             }
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -163,39 +179,47 @@ fun StudyRoomListScreen(
 
             Space(space = 17.dp)
 
-
             // Available study room application time
-            FloatingNotice(
-                content = "자습실 신청 가능 시간 : ${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
-            )
+            AnimatedVisibility(
+                visible = studyRoomState.hasApplyTime,
+            ) {
+                FloatingNotice(
+                    content = stringResource(
+                        id = R.string.study_room_apply_time,
+                        "${studyRoomState.startAt} ~ ${studyRoomState.endAt}"
+                    )
+                )
+            }
 
             Space(space = 24.dp)
 
             // Study room time filter
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
+            if (studyRoomAvailableTimeList.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
 
-                // slider icon
-                Image(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .dormClickable {
-                            showTimeFilterDialogState = true
-                        },
-                    painter = painterResource(
-                        id = R.drawable.ic_slider,
-                    ),
-                    contentDescription = null,
-                )
+                    // slider icon
+                    Image(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .dormClickable {
+                                showTimeFilterDialogState = true
+                            },
+                        painter = painterResource(
+                            id = R.drawable.ic_slider,
+                        ),
+                        contentDescription = null,
+                    )
 
-                // available time
-                Body3(
-                    text = selectedAvailableTime, // todo sync with server
-                    color = DormColor.DormPrimary,
-                )
+                    // available time
+                    Body3(
+                        text = selectedAvailableTime,
+                        color = DormTheme.colors.primary,
+                    )
+                }
             }
 
             Space(space = 24.dp)
@@ -217,7 +241,7 @@ fun StudyRoomListScreen(
                             maxNumber = point.maxNumber,
                             condition = point.condition,
                             onClick = { seatId ->
-                                navController.navigate("studyRoomDetail/${seatId}")
+                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
                             },
                         )
                     }
@@ -229,8 +253,6 @@ fun StudyRoomListScreen(
                     }
                 }
             }
-
-
             Space(space = 24.dp)
         }
     }
@@ -251,7 +273,7 @@ fun DormTimeChip(
             .wrapContentWidth()
             .background(
                 color = when {
-                    selected -> DormColor.DormPrimary
+                    selected -> DormTheme.colors.primary
                     else -> Color.Transparent
                 },
                 shape = DormTimeChipShape,
@@ -274,7 +296,11 @@ fun DormTimeChip(
         ButtonText(
             text = text,
             modifier = Modifier.padding(8.dp),
-            color = if (selected) DormColor.Gray100 else DormColor.Gray400
+            color = if (selected) DormTheme.colors.onPrimary else DormColor.Gray400
         )
     }
 }
+
+private fun makeTimeRange(
+    studyRoomAvailableTimeList: StudyRoomAvailableTimeListEntity.AvailableTime,
+): String = "${studyRoomAvailableTimeList.startTime} ~ ${studyRoomAvailableTimeList.endTime}"

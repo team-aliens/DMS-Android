@@ -2,13 +2,15 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.*
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
+import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.usecase.studyroom.*
-import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
@@ -22,14 +24,16 @@ class StudyRoomListViewModel @Inject constructor(
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
     init {
-        fetchStudyRoomList()
         fetchApplyTime()
-        fetchStudyRoomAvailableTimeList()
     }
 
     sealed class UiEvent : BaseEvent {
 
-        internal object FetchStudyRooms : UiEvent()
+        data class FetchStudyRooms(
+            val timeSlot: UUID,
+        ) : UiEvent()
+
+        internal object FetchStudyRoomAvailableTimes : UiEvent()
 
         internal class FilterStudyRoom(
             studyRoomTime: Any?,
@@ -43,7 +47,12 @@ class StudyRoomListViewModel @Inject constructor(
     ) {
         when (event) {
             is UiEvent.FetchStudyRooms -> {
-                fetchStudyRoomList()
+                fetchStudyRoomList(
+                    timeSlot = event.timeSlot,
+                )
+            }
+            is UiEvent.FetchStudyRoomAvailableTimes -> {
+                fetchStudyRoomAvailableTimeList()
             }
             is UiEvent.FilterStudyRoom -> {
                 // todo
@@ -60,27 +69,33 @@ class StudyRoomListViewModel @Inject constructor(
 
             if (result.isSuccess) {
 
-                //emitStudyRoomTimeEvent(Event.RoomApplyTime)
-
                 val resultEntity = result.getOrThrow()
 
                 _uiState.value = _uiState.value.copy(
                     startAt = resultEntity.startAt.extractHourFromDate(),
                     endAt = resultEntity.endAt.extractHourFromDate(),
+                    hasApplyTime = true,
                 )
             } else {
-                emitErrorEventFromThrowable(
-                    result.exceptionOrNull(),
-                )
+                val exception = result.exceptionOrNull()
+
+                if (exception !is NotFoundException) {
+
+                    emitErrorEventFromThrowable(exception)
+                }
             }
         }
     }
 
-    private fun fetchStudyRoomList() {
+    private fun fetchStudyRoomList(
+        timeSlot: UUID,
+    ) {
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomListUseCase.execute(Unit)
+                studyRoomListUseCase.execute(
+                    data = timeSlot,
+                )
             }
 
             if (result.isSuccess) {
@@ -91,21 +106,18 @@ class StudyRoomListViewModel @Inject constructor(
                     studyRooms = resultEntity.studyRooms.toInformation(),
                 )
             } else {
-                emitErrorEventFromThrowable(
-                    result.exceptionOrNull(),
-                )
+                if (result.exceptionOrNull() !is NullPointerException) {
+                    emitErrorEventFromThrowable(result.exceptionOrNull())
+                }
             }
         }
     }
 
     private fun fetchStudyRoomAvailableTimeList() {
         viewModelScope.launch {
-
             studyRoomAvailableTimeListUseCase()
-                .onSuccess {
-                    val resultEntity = it
-
-                    _uiState.value.copy(
+                .onSuccess { resultEntity ->
+                    _uiState.value = _uiState.value.copy(
                         studyRoomAvailableTime = resultEntity.timeSlots,
                     )
                 }
@@ -114,7 +126,6 @@ class StudyRoomListViewModel @Inject constructor(
                         throwable = it
                     )
                 }
-
         }
     }
 }

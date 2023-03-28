@@ -137,10 +137,15 @@ fun DormBottomAlignedContainedLargeButtonDialog(
     btnText: String,
     btnColor: DormButtonColor,
     onBtnClick: () -> Unit,
+    onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .dormClickable {
+                onDismissRequest()
+            },
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(

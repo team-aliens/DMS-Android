@@ -7,6 +7,7 @@ data class StudyRoomAvailableTimeListEntity(
 ){
     data class AvailableTime(
         val id: UUID,
-        val name: String,
+        val startTime: String,
+        val endTime: String,
     )
 }

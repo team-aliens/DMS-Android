@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import java.util.*
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordVerifyEmailScreen
@@ -103,13 +104,16 @@ fun RootDms(
                 route = NavigationRoute.StudyRoomDetail,
                 arguments = listOf(
                     navArgument("seatId") { type = NavType.StringType },
+                    navArgument("timeSlot") { type = NavType.StringType },
                 ),
             ) {
                 val roomId = it.arguments!!.getString("seatId")
+                val timeSlot = it.arguments!!.getString("timeSlot")
                 if (roomId != null) {
                     StudyRoomDetailScreen(
                         navController = navController,
                         roomId = roomId,
+                        timeSlot = UUID.fromString(timeSlot),
                     )
                 }
             }
