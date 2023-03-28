@@ -36,9 +36,12 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
-    implementation(project(":domain"))
+    implementation(project(":presentation"))
+
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
 
