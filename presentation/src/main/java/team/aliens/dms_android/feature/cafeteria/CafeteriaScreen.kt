@@ -74,6 +74,7 @@ fun CafeteriaScreen(
     mealViewModel: MealViewModel = hiltViewModel(),
     noticeViewModel: NoticeViewModel = hiltViewModel(),
     onMoveToNotice: () -> Unit,
+    enableMealService: Boolean,
 ) {
 
     /*var backgroundGradient by rememberSaveable() {

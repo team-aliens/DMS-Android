@@ -56,6 +56,7 @@ fun MyPageScreen(
     navController: NavController,
     scaffoldState: ScaffoldState,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
+    enablePointService: Boolean,
 ) {
 
     LaunchedEffect(navController.currentDestination) {
@@ -275,112 +276,114 @@ fun MyPageScreen(
 
         Space(space = 60.dp)
 
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(44.dp)
-                .clip(
-                    RoundedCornerShape(5.dp),
-                )
-                .background(
-                    DormTheme.colors.secondary,
-                )
-                .padding(12.dp),
-            contentAlignment = Alignment.CenterStart,
-        ) {
-
-            // 문구
-            Caption(
-                text = myPageState.phrase,
-                color = DormColor.Gray1000,
-            )
-        }
-
-
-        Space(space = 10.dp)
-
-
-        Row(
-            modifier = Modifier.height(90.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-
-            // 상점
-            Column(
+        if (enablePointService) {
+            Box(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .height(44.dp)
                     .clip(
-                        RoundedCornerShape(10.dp),
-                    )
-                    .border(
-                        color = DormTheme.colors.primary,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(10.dp),
+                        RoundedCornerShape(5.dp),
                     )
                     .background(
-                        color = DormTheme.colors.surface,
+                        DormTheme.colors.secondary,
                     )
-                    .padding(
-                        vertical = 14.dp,
-                        horizontal = 20.dp,
-                    ),
+                    .padding(12.dp),
+                contentAlignment = Alignment.CenterStart,
             ) {
 
+                // 문구
                 Caption(
-                    text = stringResource(
-                        id = R.string.PlusPoint,
-                    ),
-                    color = DormTheme.colors.onSecondary,
+                    text = myPageState.phrase,
+                    color = DormColor.Gray1000,
                 )
-
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    Headline3(
-                        text = myPageState.bonusPoint.toString(),
-                        color = DormTheme.colors.onSecondary,
-                    )
-                }
             }
 
-            // 벌점
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(
-                        RoundedCornerShape(10.dp),
-                    )
-                    .border(
-                        color = DormTheme.colors.error,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(10.dp),
-                    )
-                    .background(
-                        color = DormTheme.colors.surface, // todo
-                    )
-                    .padding(
-                        vertical = 14.dp,
-                        horizontal = 20.dp,
-                    ),
+
+            Space(space = 10.dp)
+
+
+
+            Row(
+                modifier = Modifier.height(90.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
 
-                Caption(
-                    text = stringResource(
-                        id = R.string.MinusPoint,
-                    ),
-                    color = DormColor.Error,
-                )
-
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier.fillMaxSize(),
+                // 상점
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(
+                            RoundedCornerShape(10.dp),
+                        )
+                        .border(
+                            color = DormTheme.colors.primary,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(10.dp),
+                        )
+                        .background(
+                            color = DormTheme.colors.surface,
+                        )
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 20.dp,
+                        ),
                 ) {
-                    Headline3(
-                        text = myPageState.minusPoint.toString(),
+
+                    Caption(
+                        text = stringResource(
+                            id = R.string.PlusPoint,
+                        ),
+                        color = DormTheme.colors.onSecondary,
+                    )
+
+                    Box(
+                        contentAlignment = Alignment.BottomEnd,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        Headline3(
+                            text = myPageState.bonusPoint.toString(),
+                            color = DormTheme.colors.onSecondary,
+                        )
+                    }
+                }
+
+                // 벌점
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(
+                            RoundedCornerShape(10.dp),
+                        )
+                        .border(
+                            color = DormTheme.colors.error,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(10.dp),
+                        )
+                        .background(
+                            color = DormTheme.colors.surface, // todo
+                        )
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 20.dp,
+                        ),
+                ) {
+
+                    Caption(
+                        text = stringResource(
+                            id = R.string.MinusPoint,
+                        ),
                         color = DormColor.Error,
                     )
+
+                    Box(
+                        contentAlignment = Alignment.BottomEnd,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        Headline3(
+                            text = myPageState.minusPoint.toString(),
+                            color = DormColor.Error,
+                        )
+                    }
                 }
             }
         }

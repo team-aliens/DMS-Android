@@ -28,12 +28,20 @@ import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.notice.NoticeScreen
+import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DmsApp(
     navController: NavController,
     scaffoldState: ScaffoldState,
+    userVisibleInformEntity: UserVisibleInformEntity = UserVisibleInformEntity(
+        mealService = false,
+        noticeService = false,
+        remainService = false,
+        studyRoomService = false,
+        pointService = false,
+    ),
 ) {
     val navHostController = rememberNavController()
 
@@ -69,22 +77,27 @@ fun DmsApp(
                             navController = navHostController,
                         )
                     },
+                    enableMealService = userVisibleInformEntity.mealService,
                 )
             }
             composable(BottomNavigationItem.Application.route) {
                 ApplicationScreen(
                     navController = navController,
+                    enableStudyRoomService = userVisibleInformEntity.studyRoomService,
+                    enableRemainService = userVisibleInformEntity.remainService,
                 )
             }
             composable(BottomNavigationItem.Notice.route) {
                 NoticeScreen(
                     navController = navController,
+                    enableNoticeService = userVisibleInformEntity.noticeService,
                 )
             }
             composable(BottomNavigationItem.MyPage.route) {
                 MyPageScreen(
                     navController = navController,
                     scaffoldState = scaffoldState,
+                    enablePointService = userVisibleInformEntity.pointService,
                 )
             }
         }

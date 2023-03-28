@@ -6,7 +6,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.base.BaseActivity
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.RootDms
+import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.ActivityMainBinding
 
@@ -21,7 +23,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 DormTheme(
                     darkTheme = isSystemInDarkTheme(),
                 ) {
-                    RootDms(route)
+                    intent.run {
+                        RootDms(
+                            route = route,
+                            userVisibleInformEntity = UserVisibleInformEntity(
+                                mealService = getBooleanExtra(Extra.isEnableMealService, false),
+                                noticeService = getBooleanExtra(Extra.isEnableNoticeService, false),
+                                pointService = getBooleanExtra(Extra.isEnablePointService, false),
+                                studyRoomService = getBooleanExtra(Extra.isEnableStudyRoomService, false),
+                                remainService = getBooleanExtra(Extra.isEnableRemainService, false),
+                            )
+                        )
+                    }
                 }
             }
         }

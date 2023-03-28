@@ -48,6 +48,7 @@ fun NoticeListEntity.NoticeValue.toNotice() = Notice(
 fun NoticeScreen(
     navController: NavController,
     noticeViewModel: NoticeViewModel = hiltViewModel(),
+    enableNoticeService: Boolean,
 ) {
 
     LaunchedEffect(Unit) {

@@ -26,23 +26,12 @@ import team.aliens.presentation.R
 fun ApplicationScreen(
     navController: NavController,
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
+    enableStudyRoomService: Boolean,
+    enableRemainService: Boolean,
 ) {
 
     var lastAppliedStudyRoom by remember { mutableStateOf("") }
     var lastAppliedRemain by remember { mutableStateOf("") }
-
-    /*LaunchedEffect(Unit) {
-        with(studyRoomViewModel) {
-            fetchCurrentStudyRoomOption()
-            currentStudyRoomOptionEffect.collect{
-                when(it){
-                    is StudyRoomViewModel.Event.FetchCurrentStudyRoomOption -> {
-                        lastAppliedStudyRoom = "${it.floor}층 ${it.name}"
-                    }
-                }
-            }
-        }
-    }*/
 
     LaunchedEffect(Unit) {
         applicationViewModel.run {
@@ -67,25 +56,29 @@ fun ApplicationScreen(
         Space(space = 24.dp)
         Body1(text = stringResource(id = R.string.Application))
         Space(space = 40.dp)
-        ApplicationCard(
-            title = stringResource(id = R.string.StudyRoom),
-            content = stringResource(id = R.string.StudyRoomApplyDescription),
-            buttonText = stringResource(id = R.string.DoApplyStudyRoom),
-            onButtonClick = {
-                navController.navigate(NavigationRoute.StudyRoom)
-            },
-            lastApplicationText = lastAppliedStudyRoom,
-        )
-        Space(space = 30.dp)
-        ApplicationCard(
-            title = stringResource(id = R.string.Stay),
-            content = stringResource(id = R.string.RemainApplyDescription),
-            buttonText = stringResource(id = R.string.DoApplyRemain),
-            onButtonClick = {
-                navController.navigate(NavigationRoute.RemainApplication)
-            },
-            lastApplicationText = lastAppliedRemain,
-        )
+        if (enableStudyRoomService) {
+            ApplicationCard(
+                title = stringResource(id = R.string.StudyRoom),
+                content = stringResource(id = R.string.StudyRoomApplyDescription),
+                buttonText = stringResource(id = R.string.DoApplyStudyRoom),
+                onButtonClick = {
+                    navController.navigate(NavigationRoute.StudyRoom)
+                },
+                lastApplicationText = lastAppliedStudyRoom,
+            )
+            Space(space = 30.dp)
+        }
+        if (enableRemainService) {
+            ApplicationCard(
+                title = stringResource(id = R.string.Stay),
+                content = stringResource(id = R.string.RemainApplyDescription),
+                buttonText = stringResource(id = R.string.DoApplyRemain),
+                onButtonClick = {
+                    navController.navigate(NavigationRoute.RemainApplication)
+                },
+                lastApplicationText = lastAppliedRemain,
+            )
+        }
     }
 }
 

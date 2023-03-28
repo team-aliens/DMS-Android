@@ -20,8 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.MainActivity
 import team.aliens.dms_android.viewmodel.root.RootViewModel
+import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
 // todo 스플래시 스크린을 없애는 방법 검토 필요!@!
@@ -38,15 +40,22 @@ fun SplashScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            rootViewModel.eventFlow.collect {
-                moveToMainActivity(context, when (it) {
-                    RootViewModel.Event.AutoLoginSuccess -> {
-                        "main"
+            rootViewModel.eventFlow.collect{ event ->
+                when(event){
+                    is RootViewModel.Event.AutoLoginSuccess -> {
+                        moveToMainActivity(
+                            context = context,
+                            route = "main",
+                            userVisibleInformEntity = event.userVisibleInformEntity,
+                        )
                     }
-                    RootViewModel.Event.NeedLogin -> {
-                        "login"
+                    is RootViewModel.Event.NeedLogin -> {
+                        moveToMainActivity(
+                            context = context,
+                            route = "login",
+                        )
                     }
-                })
+                }
             }
         }
     }
@@ -79,6 +88,7 @@ fun SplashScreen(
 private fun moveToMainActivity(
     context: Context,
     route: String,
+    userVisibleInformEntity: UserVisibleInformEntity? = null,
 ) {
 
     val intent = Intent(
@@ -87,6 +97,13 @@ private fun moveToMainActivity(
     )
 
     intent.putExtra("route", route)
+    userVisibleInformEntity?.run {
+        intent.putExtra(Extra.isEnableMealService, mealService)
+        intent.putExtra(Extra.isEnableNoticeService, noticeService)
+        intent.putExtra(Extra.isEnablePointService, pointService)
+        intent.putExtra(Extra.isEnableStudyRoomService, studyRoomService)
+        intent.putExtra(Extra.isEnableRemainService, remainService)
+    }
 
     context.startActivity(intent)
     (context as SplashActivity).finish()

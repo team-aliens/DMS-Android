@@ -31,6 +31,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
@@ -51,7 +52,6 @@ fun LoginScreen(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-
     var signInButtonState by remember {
         mutableStateOf(false)
     }
@@ -61,7 +61,29 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
-                Event.NavigateToHome -> {
+                is Event.NavigateToHome -> {
+                    navController.currentBackStackEntry?.arguments?.apply {
+                        putBoolean(
+                            Extra.isEnableMealService,
+                            event.userVisibleInformEntity.mealService
+                        )
+                        putBoolean(
+                            Extra.isEnableNoticeService,
+                            event.userVisibleInformEntity.noticeService
+                        )
+                        putBoolean(
+                            Extra.isEnablePointService,
+                            event.userVisibleInformEntity.pointService
+                        )
+                        putBoolean(
+                            Extra.isEnableStudyRoomService,
+                            event.userVisibleInformEntity.studyRoomService
+                        )
+                        putBoolean(
+                            Extra.isEnableRemainService,
+                            event.userVisibleInformEntity.remainService
+                        )
+                    }
                     navController.navigate(NavigationRoute.Main) {
                         popUpTo(NavigationRoute.Login) {
                             inclusive = true
@@ -124,7 +146,7 @@ fun LoginScreen(
         .padding(16.dp)
         .dormClickable(
             rippleEnabled = false,
-        ){
+        ) {
             focusManager.clearFocus()
         }
     ) {
