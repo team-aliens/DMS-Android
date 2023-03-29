@@ -1,4 +1,4 @@
-package team.aliens.remote.extension
+package team.aliens.remote.util
 
 import team.aliens.remote.common.HttpMethod
 
