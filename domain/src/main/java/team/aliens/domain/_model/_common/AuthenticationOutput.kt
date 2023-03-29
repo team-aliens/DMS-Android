@@ -22,13 +22,13 @@ data class AuthenticationOutput(
      * @property noticeService feature of notice
      * @property pointService feature of point
      * @property studyRoomService feature of study room
-     * @property remainService feature of remain
+     * @property remainsService feature of remain
      */
     data class Features(
         val mealService: Boolean,
         val noticeService: Boolean,
         val pointService: Boolean,
         val studyRoomService: Boolean,
-        val remainService: Boolean,
+        val remainsService: Boolean,
     )
 }
