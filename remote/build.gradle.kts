@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
@@ -15,6 +17,18 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            type = "String",
+            name = "PROD_BASE_URL",
+            value = fetchProperty("PROD_BASE_URL"),
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "DEV_BASE_URL",
+            value = fetchProperty("DEV_BASE_URL"),
+        )
     }
 
     buildTypes {
@@ -48,4 +62,10 @@ dependencies {
 
     implementation(Dependency.Kotlin.COROUTINES_CORE)
     implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+}
+
+fun fetchProperty(
+    key: String,
+): String {
+    return gradleLocalProperties(rootDir).getProperty(key)
 }

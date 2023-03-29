@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RemoteDataSourceModule {
-
+/*
     @Binds
     @Singleton
     abstract fun bindRemoteAuthDataSource(
@@ -64,5 +64,5 @@ abstract class RemoteDataSourceModule {
     @Singleton
     abstract fun bindRemoteStudyRoomDataSource(
         impl: RemoteStudyRoomDataSourceImpl,
-    ): RemoteStudyRoomDataSource
+    ): RemoteStudyRoomDataSource*/
 }

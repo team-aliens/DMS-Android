@@ -40,10 +40,10 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
-    implementation(project(":presentation"))
 
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
+
 
     implementation(Dependency.Ui.LOCALDATETIME)
 

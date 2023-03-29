@@ -3,6 +3,8 @@ package team.aliens.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.repository.*
 import team.aliens.domain.repository.*

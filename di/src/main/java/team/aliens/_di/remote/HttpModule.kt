@@ -1,5 +1,6 @@
 package team.aliens._di.remote
 
+/*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,23 +10,21 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import team.aliens.data.intercepter.DefaultOkHttpClient
-import team.aliens.presentation.BuildConfig
 import team.aliens.remote.interceptor.AuthInterceptor
 import team.aliens.remote.util.Retrofit
 import javax.inject.Singleton
+import team.aliens.presentation.BuildConfig as PresentationBuildConfig
+
 
 @Module
 @InstallIn(SingletonComponent::class)
 object HttpModule {
 
-    @Deprecated("use BuildConfig.BASE_URL field instead")
-    const val DUMMY_BASE_URL = ""
-
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(
-            if (BuildConfig.DEBUG) {
+            if (PresentationBuildConfig.DEBUG) {
                 Level.BODY
             } else {
                 Level.NONE
@@ -65,8 +64,9 @@ object HttpModule {
             clients = arrayOf(
                 okHttpClient,
             ),
-            baseUrl = DUMMY_BASE_URL,
+            baseUrl = "",
             gsonConverterFactory = true,
         )
     }
 }
+*/
