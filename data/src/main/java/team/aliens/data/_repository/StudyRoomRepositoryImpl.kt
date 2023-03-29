@@ -1,11 +1,6 @@
 package team.aliens.data._repository
 
-import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
-import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
+import team.aliens.domain._model.studyroom.*
 import team.aliens.domain._repository.StudyRoomRepository
 import java.util.*
 
@@ -19,13 +14,13 @@ class StudyRoomRepositoryImpl(
 
     override suspend fun applySeat(
         seatId: UUID,
-        timeSlot: UUID?,
+        timeSlot: UUID,
     ) {
         TODO("Not yet implemented")
     }
 
     override suspend fun cancelSeat(
-        timeSlot: UUID?,
+        timeSlot: UUID,
     ) {
         TODO("Not yet implemented")
     }

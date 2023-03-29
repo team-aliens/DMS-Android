@@ -1,66 +1,50 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteStudentDataSource
-import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.student.*
+import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
+import team.aliens.domain._model.studyroom.*
 import java.util.*
 
-class RemoteStudyRoomDataSourceImpl : RemoteStudentDataSource {
+class RemoteStudyRoomDataSourceImpl : RemoteStudyRoomDataSource {
 
-    override suspend fun signUp(
-        input: SignUpInput,
-    ): AuthenticationOutput {
+    override suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeOutput {
         TODO("Not yet implemented")
     }
 
-    override suspend fun examineStudentNumber(
-        schoolId: UUID,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+    override suspend fun applySeat(
+        seatId: UUID,
+        timeSlot: UUID,
     ) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun findId(
-        schoolId: UUID,
-        name: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
-    ): FindIdOutput {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun resetPassword(
-        input: ResetPasswordInput,
+    override suspend fun cancelSeat(
+        timeSlot: UUID,
     ) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun checkIdDuplication(
-        accountId: String,
-    ) {
+    override suspend fun fetchStudyRooms(
+        timeSlot: UUID,
+    ): FetchStudyRoomsOutput {
         TODO("Not yet implemented")
     }
 
-    override suspend fun checkEmailDuplication(
-        email: String,
-    ) {
+    override suspend fun fetchStudyRoomDetails(
+        studyRoomId: UUID,
+        timeSlot: UUID,
+    ): FetchStudyRoomDetailsOutput {
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchMyPage(): FetchMyPageOutput {
+    override suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput {
         TODO("Not yet implemented")
     }
 
-    override suspend fun editProfile(
-        input: EditProfileInput,
-    ) {
+    override suspend fun fetchSeatTypes(): FetchSeatTypesOutput {
         TODO("Not yet implemented")
     }
 
-    override suspend fun withdraw() {
+    override suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput {
         TODO("Not yet implemented")
     }
 }
