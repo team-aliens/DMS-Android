@@ -1,14 +1,9 @@
 package team.aliens.remote.service
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
-import team.aliens.domain._model.auth.SendEmailVerificationCodeInput.SendEmailVerificationCodeType
+import retrofit2.http.*
 import team.aliens.remote.annotation.RequiresRefreshToken
 import team.aliens.remote.common.DormHttpPath.Auth.CheckEmailVerificationCode
+import team.aliens.remote.common.DormHttpPath.Auth.CheckIdExists
 import team.aliens.remote.common.DormHttpPath.Auth.ReissueToken
 import team.aliens.remote.common.DormHttpPath.Auth.SendEmailVerificationCode
 import team.aliens.remote.common.DormHttpPath.Auth.SignIn
@@ -19,6 +14,7 @@ import team.aliens.remote.common.HttpProperty.QueryString.AuthCode
 import team.aliens.remote.common.HttpProperty.QueryString.Email
 import team.aliens.remote.common.HttpProperty.QueryString.Type
 import team.aliens.remote.model._common.AuthenticationResponse
+import team.aliens.remote.model.auth.CheckIdExistsResponse
 import team.aliens.remote.model.auth.SendEmailVerificationCodeRequest
 import team.aliens.remote.model.auth.SignInRequest
 import team.aliens.remote.model.auth.VerifyEmailResponse
@@ -38,8 +34,8 @@ interface AuthService {
     @GET(CheckEmailVerificationCode)
     suspend fun checkEmailVerificationCode(
         @Query(Email) email: String,
-        @Query(AuthCode) code: String,
-        @Query(Type) type: SendEmailVerificationCodeType,
+        @Query(AuthCode) authCode: String,
+        @Query(Type) type: String,
     )
 
     @PUT(ReissueToken)
@@ -53,4 +49,9 @@ interface AuthService {
         @Query(AccountId) accountId: String,
         @Query(Email) email: String,
     ): VerifyEmailResponse
+
+    @GET(CheckIdExists)
+    suspend fun checkIdExists(
+        @Query(AccountId) accountId: String,
+    ): CheckIdExistsResponse
 }

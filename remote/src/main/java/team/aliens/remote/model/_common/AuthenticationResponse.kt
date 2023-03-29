@@ -1,6 +1,7 @@
 package team.aliens.remote.model._common
 
 import com.google.gson.annotations.SerializedName
+import team.aliens.domain._model._common.AuthenticationOutput
 
 data class AuthenticationResponse(
     @SerializedName("access_token") val accessToken: String,
@@ -9,3 +10,19 @@ data class AuthenticationResponse(
     @SerializedName("refresh_token_expired_at") val refreshTokenExpiredAt: String,
     @SerializedName("features") val features: FeaturesResponse,
 )
+
+internal fun AuthenticationResponse.toDomain(): AuthenticationOutput {
+    return AuthenticationOutput(
+        accessToken = accessToken,
+        accessTokenExpiredAt = accessTokenExpiredAt,
+        refreshToken = refreshToken,
+        refreshTokenExpiredAt = refreshTokenExpiredAt,
+        features = AuthenticationOutput.Features(
+            mealService = features.mealService,
+            noticeService = features.noticeService,
+            pointService = features.pointService,
+            studyRoomService = features.studyRoomService,
+            remainsService = features.remainsService
+        ),
+    )
+}
