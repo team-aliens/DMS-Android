@@ -41,6 +41,13 @@ fun DmsApp(
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
 
+    val isEnableApplicationService =
+        !LocalAvailableFeatures.current[Extra.isEnableStudyRoomService]!! && !LocalAvailableFeatures.current[Extra.isEnableRemainService]!!
+
+    if (isEnableApplicationService) {
+        NavigationItemsWrapper.navigationItems.removeAt(1)
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
@@ -71,27 +78,24 @@ fun DmsApp(
                             navController = navHostController,
                         )
                     },
-                    enableMealService = LocalAvailableFeatures.current[Extra.isEnableMealService]!!
                 )
             }
-            composable(BottomNavigationItem.Application.route) {
-                ApplicationScreen(
-                    navController = navController,
-                    enableStudyRoomService = LocalAvailableFeatures.current[Extra.isEnableStudyRoomService]!!,
-                    enableRemainService = LocalAvailableFeatures.current[Extra.isEnableRemainService]!!,
-                )
+            if (!isEnableApplicationService) {
+                composable(BottomNavigationItem.Application.route) {
+                    ApplicationScreen(
+                        navController = navController,
+                    )
+                }
             }
             composable(BottomNavigationItem.Notice.route) {
                 NoticeScreen(
                     navController = navController,
-                    enableNoticeService = LocalAvailableFeatures.current[Extra.isEnableNoticeService]!!,
                 )
             }
             composable(BottomNavigationItem.MyPage.route) {
                 MyPageScreen(
                     navController = navController,
                     scaffoldState = scaffoldState,
-                    enablePointService = LocalAvailableFeatures.current[Extra.isEnablePointService]!!,
                 )
             }
         }
@@ -100,7 +104,7 @@ fun DmsApp(
 
 @Immutable
 private object NavigationItemsWrapper {
-    val navigationItems: List<BottomNavigationItem> = listOf(
+    val navigationItems: MutableList<BottomNavigationItem> = mutableListOf(
         BottomNavigationItem.Meal,
         BottomNavigationItem.Application,
         BottomNavigationItem.Notice,

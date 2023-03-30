@@ -17,7 +17,9 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
+import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.LastAppliedItem
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.ApplicationViewModel
 import team.aliens.presentation.R
@@ -26,12 +28,13 @@ import team.aliens.presentation.R
 fun ApplicationScreen(
     navController: NavController,
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
-    enableStudyRoomService: Boolean,
-    enableRemainService: Boolean,
 ) {
 
     var lastAppliedStudyRoom by remember { mutableStateOf("") }
     var lastAppliedRemain by remember { mutableStateOf("") }
+
+    val enableStudyRoomService = LocalAvailableFeatures.current[Extra.isEnableStudyRoomService]
+    val enableRemainService = LocalAvailableFeatures.current[Extra.isEnableRemainService]
 
     LaunchedEffect(Unit) {
         applicationViewModel.run {
@@ -56,7 +59,7 @@ fun ApplicationScreen(
         Space(space = 24.dp)
         Body1(text = stringResource(id = R.string.Application))
         Space(space = 40.dp)
-        if (enableStudyRoomService) {
+        if (enableStudyRoomService!!) {
             ApplicationCard(
                 title = stringResource(id = R.string.StudyRoom),
                 content = stringResource(id = R.string.StudyRoomApplyDescription),
@@ -68,7 +71,7 @@ fun ApplicationScreen(
             )
             Space(space = 30.dp)
         }
-        if (enableRemainService) {
+        if (enableRemainService!!) {
             ApplicationCard(
                 title = stringResource(id = R.string.Stay),
                 content = stringResource(id = R.string.RemainApplyDescription),

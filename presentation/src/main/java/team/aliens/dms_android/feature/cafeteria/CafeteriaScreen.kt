@@ -39,6 +39,8 @@ import java.time.DayOfWeek.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import team.aliens.design_system.extension.Space
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.constans.Extra
 
 private val RainbowBlue = Color(0xFF2196F3)
 private val RainbowIndigo = Color(0xFF3F51B5)
@@ -74,7 +76,6 @@ fun CafeteriaScreen(
     mealViewModel: MealViewModel = hiltViewModel(),
     noticeViewModel: NoticeViewModel = hiltViewModel(),
     onMoveToNotice: () -> Unit,
-    enableMealService: Boolean,
 ) {
 
     /*var backgroundGradient by rememberSaveable() {
@@ -116,6 +117,8 @@ fun CafeteriaScreen(
     } else {
         null
     }*/
+
+    val enableMealService = LocalAvailableFeatures.current[Extra.isEnableMealService]
 
     val defaultBackgroundBrush: Brush by remember {
         mutableStateOf(

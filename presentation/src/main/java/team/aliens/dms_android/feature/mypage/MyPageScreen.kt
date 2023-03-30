@@ -44,7 +44,9 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
+import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.LastAppliedItem
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
@@ -56,7 +58,6 @@ fun MyPageScreen(
     navController: NavController,
     scaffoldState: ScaffoldState,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
-    enablePointService: Boolean,
 ) {
 
     LaunchedEffect(navController.currentDestination) {
@@ -65,6 +66,7 @@ fun MyPageScreen(
 
     val context = LocalContext.current
 
+    val enablePointService = LocalAvailableFeatures.current[Extra.isEnablePointService]
 
     var myPageState by remember {
         mutableStateOf(MyPageEntity())
@@ -276,7 +278,7 @@ fun MyPageScreen(
 
         Space(space = 60.dp)
 
-        if (enablePointService) {
+        if (enablePointService!!) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -300,7 +302,6 @@ fun MyPageScreen(
 
 
             Space(space = 10.dp)
-
 
 
             Row(
@@ -394,65 +395,99 @@ fun MyPageScreen(
 
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(10.dp),
-                    )
-                    .background(
-                        DormTheme.colors.surface,
-                    ),
-            ) {
-
-                // 상벌점 내역 확인
-                Row(
+            if (enablePointService) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(NavigationRoute.PointList)
-                        }
-                        .padding(
-                            vertical = 14.dp,
-                            horizontal = 16.dp,
-                        ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Body5(
-                        text = stringResource(
-                            id = R.string.CheckPointList,
-                        ),
-                    )
-                }
-
-                Divider(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 10.dp,
+                        .clip(
+                            RoundedCornerShape(10.dp),
                         )
                         .background(
-                            DormTheme.colors.secondaryVariant,
+                            DormTheme.colors.surface,
                         ),
-                )
+                ) {
 
-                // 비밀번호 변경
-                Row(
+                    // 상벌점 내역 확인
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(NavigationRoute.PointList)
+                            }
+                            .padding(
+                                vertical = 14.dp,
+                                horizontal = 16.dp,
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Body5(
+                            text = stringResource(
+                                id = R.string.CheckPointList,
+                            ),
+                        )
+                    }
+
+                    Divider(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 10.dp,
+                            )
+                            .background(
+                                DormTheme.colors.secondaryVariant,
+                            ),
+                    )
+
+                    // 비밀번호 변경
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(NavigationRoute.ComparePassword)
+                            }
+                            .padding(
+                                vertical = 14.dp,
+                                horizontal = 16.dp,
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Body5(
+                            text = stringResource(
+                                id = R.string.ChangePassword,
+                            ),
+                        )
+                    }
+                }
+            } else {
+
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(NavigationRoute.ComparePassword)
-                        }
-                        .padding(
-                            vertical = 14.dp,
-                            horizontal = 16.dp,
+                        .clip(
+                            RoundedCornerShape(10.dp),
+                        )
+                        .background(
+                            DormTheme.colors.surface,
                         ),
-                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Body5(
-                        text = stringResource(
-                            id = R.string.ChangePassword,
-                        ),
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onSignOutButtonClick()
+                            }
+                            .padding(
+                                vertical = 14.dp,
+                                horizontal = 16.dp,
+                            ),
+                    ) {
+
+                        // 비밀번호 변경
+                        Body5(
+                            text = stringResource(
+                                id = R.string.change_password,
+                            ),
+                        )
+                    }
                 }
             }
 
@@ -483,7 +518,7 @@ fun MyPageScreen(
                         text = stringResource(
                             id = R.string.Logout,
                         ),
-                        color = DormColor.Error,
+                        color = DormTheme.colors.error,
                     )
                 }
             }

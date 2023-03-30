@@ -30,7 +30,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 DormTheme(
                     darkTheme = isSystemInDarkTheme(),
                 ) {
-
                     availableFeatures = staticCompositionLocalOf {
                         mapOf(
                             Extra.isEnableMealService to intent.getBooleanExtra(
@@ -47,7 +46,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                             ),
                             Extra.isEnableRemainService to intent.getBooleanExtra(
                                 Extra.isEnableRemainService, false,
-                            )
+                            ),
                         )
                     }
 
