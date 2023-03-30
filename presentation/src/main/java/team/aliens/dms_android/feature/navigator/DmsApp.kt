@@ -24,24 +24,18 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.notice.NoticeScreen
-import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DmsApp(
     navController: NavController,
     scaffoldState: ScaffoldState,
-    userVisibleInformEntity: UserVisibleInformEntity = UserVisibleInformEntity(
-        mealService = false,
-        noticeService = false,
-        remainService = false,
-        studyRoomService = false,
-        pointService = false,
-    ),
 ) {
     val navHostController = rememberNavController()
 
@@ -77,27 +71,27 @@ fun DmsApp(
                             navController = navHostController,
                         )
                     },
-                    enableMealService = userVisibleInformEntity.mealService,
+                    enableMealService = LocalAvailableFeatures.current[Extra.isEnableMealService]!!
                 )
             }
             composable(BottomNavigationItem.Application.route) {
                 ApplicationScreen(
                     navController = navController,
-                    enableStudyRoomService = userVisibleInformEntity.studyRoomService,
-                    enableRemainService = userVisibleInformEntity.remainService,
+                    enableStudyRoomService = LocalAvailableFeatures.current[Extra.isEnableStudyRoomService]!!,
+                    enableRemainService = LocalAvailableFeatures.current[Extra.isEnableRemainService]!!,
                 )
             }
             composable(BottomNavigationItem.Notice.route) {
                 NoticeScreen(
                     navController = navController,
-                    enableNoticeService = userVisibleInformEntity.noticeService,
+                    enableNoticeService = LocalAvailableFeatures.current[Extra.isEnableNoticeService]!!,
                 )
             }
             composable(BottomNavigationItem.MyPage.route) {
                 MyPageScreen(
                     navController = navController,
                     scaffoldState = scaffoldState,
-                    enablePointService = userVisibleInformEntity.pointService,
+                    enablePointService = LocalAvailableFeatures.current[Extra.isEnablePointService]!!,
                 )
             }
         }

@@ -33,12 +33,10 @@ import team.aliens.dms_android.feature.remain.RemainApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
 import team.aliens.dms_android.util.SelectImageType
-import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 
 @Composable
 fun RootDms(
     route: String,
-    userVisibleInformEntity: UserVisibleInformEntity,
 ) {
 
     val navController = rememberNavController()
@@ -65,7 +63,6 @@ fun RootDms(
                 DmsApp(
                     navController = navController,
                     scaffoldState = scaffoldState,
-                    userVisibleInformEntity = userVisibleInformEntity,
                 )
             }
 
