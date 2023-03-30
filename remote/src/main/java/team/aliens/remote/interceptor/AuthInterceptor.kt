@@ -2,7 +2,7 @@ package team.aliens.remote.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import team.aliens.remote.util.toHttpMethod
+import team.aliens.remote.common.toHttpMethod
 
 class AuthInterceptor(
     // TODO local storage source injection
