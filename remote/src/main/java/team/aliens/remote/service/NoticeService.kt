@@ -20,15 +20,15 @@ interface NoticeService {
     @RequiresAccessToken
     suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse
 
-    @GET(FetchNoticeDetails)
-    @RequiresAccessToken
-    suspend fun fetchNoticeDetails(
-        @Path(NoticeId) noticeId: UUID,
-    ): FetchNoticeDetailsResponse
-
     @GET(FetchNotices)
     @RequiresAccessToken
     suspend fun fetchNotices(
         @Query(Order) order: String,
     ): FetchNoticesResponse
+
+    @GET(FetchNoticeDetails)
+    @RequiresAccessToken
+    suspend fun fetchNoticeDetails(
+        @Path(NoticeId) noticeId: UUID,
+    ): FetchNoticeDetailsResponse
 }
