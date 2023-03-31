@@ -20,14 +20,14 @@ internal fun FetchNoticesResponse.toDomain(): FetchNoticesOutput {
     )
 }
 
+internal fun List<FetchNoticesResponse.NoticeResponse>.toDomain(): List<FetchNoticesOutput.NoticeInformation> {
+    return this.map(FetchNoticesResponse.NoticeResponse::toDomain)
+}
+
 internal fun FetchNoticesResponse.NoticeResponse.toDomain(): FetchNoticesOutput.NoticeInformation {
     return FetchNoticesOutput.NoticeInformation(
         id = this.id,
         title = this.title,
         createdAt = this.createdAt,
     )
-}
-
-internal fun List<FetchNoticesResponse.NoticeResponse>.toDomain(): List<FetchNoticesOutput.NoticeInformation> {
-    return this.map(FetchNoticesResponse.NoticeResponse::toDomain)
 }
