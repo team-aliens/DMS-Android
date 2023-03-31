@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 // 참고 자료 : https://kyucumber.github.io/posts/book/effective-kotlin/effective-kotlin-item-33
 // pr 확인하시고 주석 지워주세요!
 /**
- * 기존 Retrofit의 Builder 객체를 대체할 수 있는 가짜 생성자입니다.
+ * 기존 Retrofit의 Builder 객체를 대체할 수 있는 팩토리 메서드입니다.
  */
 fun Retrofit(
     vararg clients: OkHttpClient,
@@ -36,7 +36,7 @@ fun Retrofit(
 }
 
 /**
- * 기존 OkHttpClient의 빌더 패턴을 대체할 수 있는 가짜 생성자입니다.
+ * 기존 OkHttpClient의 빌더 패턴을 대체할 수 있는 팩토리 메서드입니다.
  */
 fun OkHttpClient(
     vararg interceptors: Interceptor,

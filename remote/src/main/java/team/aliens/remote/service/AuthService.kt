@@ -2,12 +2,12 @@ package team.aliens.remote.service
 
 import retrofit2.http.*
 import team.aliens.remote.annotation.RequiresRefreshToken
-import team.aliens.remote.common.DormHttpPath.Auth.CheckEmailVerificationCode
-import team.aliens.remote.common.DormHttpPath.Auth.CheckIdExists
-import team.aliens.remote.common.DormHttpPath.Auth.ReissueToken
-import team.aliens.remote.common.DormHttpPath.Auth.SendEmailVerificationCode
-import team.aliens.remote.common.DormHttpPath.Auth.SignIn
-import team.aliens.remote.common.DormHttpPath.Auth.VerifyEmail
+import team.aliens.remote.common.HttpPath.Auth.CheckEmailVerificationCode
+import team.aliens.remote.common.HttpPath.Auth.CheckIdExists
+import team.aliens.remote.common.HttpPath.Auth.ReissueToken
+import team.aliens.remote.common.HttpPath.Auth.SendEmailVerificationCode
+import team.aliens.remote.common.HttpPath.Auth.SignIn
+import team.aliens.remote.common.HttpPath.Auth.VerifyEmail
 import team.aliens.remote.common.HttpProperty.Header.RefreshToken
 import team.aliens.remote.common.HttpProperty.QueryString.AccountId
 import team.aliens.remote.common.HttpProperty.QueryString.AuthCode

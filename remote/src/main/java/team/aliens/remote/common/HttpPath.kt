@@ -1,6 +1,6 @@
 package team.aliens.remote.common
 
-internal sealed class DormHttpPath(
+internal sealed class HttpPath(
     val path: String,
 ) {
 
@@ -17,7 +17,7 @@ internal sealed class DormHttpPath(
         const val Remains = "remains"
     }
 
-    object Auth : DormHttpPath(
+    object Auth : HttpPath(
         path = this.Auth,
     ) {
         const val SignIn = "/${Companion.Auth}/tokens"
@@ -28,7 +28,7 @@ internal sealed class DormHttpPath(
         const val CheckIdExists = "/${Companion.Auth}/account-id"
     }
 
-    object Student : DormHttpPath(
+    object Student : HttpPath(
         path = this.Students,
     ) {
         const val SignUp = "/${Companion.Students}/signup"
@@ -42,14 +42,14 @@ internal sealed class DormHttpPath(
         const val Withdraw = "/${Companion.Students}"
     }
 
-    object Users : DormHttpPath(
+    object Users : HttpPath(
         path = this.Users,
     ) {
         const val EditPassword = "/${Companion.Users}/password"
         const val ComparePassword = "/${Companion.Users}/password"
     }
 
-    object Schools : DormHttpPath(
+    object Schools : HttpPath(
         path = this.Schools,
     ) {
         const val FetchSchools = "/${Companion.Schools}"
@@ -59,20 +59,20 @@ internal sealed class DormHttpPath(
         const val FetchAvailableFeatures = "/${Companion.Schools}/available-features"
     }
 
-    object Files : DormHttpPath(
+    object Files : HttpPath(
         path = this.Files,
     ) {
         const val UploadFile = "/${Companion.Files}"
         const val FetchPreSignedUrl = "/${Companion.Files}/url"
     }
 
-    object Meals : DormHttpPath(
+    object Meals : HttpPath(
         path = this.Meals,
     ) {
         const val FetchMeals = "/${Companion.Meals}/{date}"
     }
 
-    object Notices : DormHttpPath(
+    object Notices : HttpPath(
         path = this.Notices,
     ) {
         const val FetchWhetherNewNoticesExist = "/${Companion.Notices}/status"
@@ -80,13 +80,13 @@ internal sealed class DormHttpPath(
         const val FetchNotices = "/${Companion.Notices}"
     }
 
-    object Points : DormHttpPath(
+    object Points : HttpPath(
         path = this.Points,
     ) {
         const val FetchPoints = "/${Companion.Points}"
     }
 
-    object StudyRooms : DormHttpPath(
+    object StudyRooms : HttpPath(
         path = this.StudyRooms,
     ) {
 
@@ -103,7 +103,7 @@ internal sealed class DormHttpPath(
         const val FetchAvailableStudyRoomTimes = "/${Companion.StudyRooms}/time-slots"
     }
 
-    object Remains : DormHttpPath(
+    object Remains : HttpPath(
         path = this.Remains,
     ) {
         const val UpdateRemainsOption = "/${Companion.Remains}/{remain-option-id}"

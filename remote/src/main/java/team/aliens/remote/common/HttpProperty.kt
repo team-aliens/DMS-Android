@@ -1,9 +1,21 @@
 package team.aliens.remote.common
 
-object HttpProperty {
+internal object HttpProperty {
 
     object Header {
+
         const val RefreshToken = "refresh-token"
+
+        object ContentType {
+
+            object Application {
+                const val Json = "application/json"
+            }
+
+            object Multipart {
+                const val FormData = "multipart/form-data"
+            }
+        }
     }
 
     object PathVariable {
@@ -35,5 +47,9 @@ object HttpProperty {
         const val Page = "page"
         const val Size = "size"
         const val TimeSlot = "time_slot"
+    }
+
+    object Body {
+        const val File = "file"
     }
 }
