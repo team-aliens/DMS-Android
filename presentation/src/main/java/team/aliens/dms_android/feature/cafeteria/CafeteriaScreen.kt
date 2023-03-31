@@ -118,7 +118,7 @@ fun CafeteriaScreen(
         null
     }*/
 
-    val enableMealService = LocalAvailableFeatures.current[Extra.isEnableMealService]
+    val isMealServiceEnabled = LocalAvailableFeatures.current[Extra.isMealServiceEnabled]
 
     val defaultBackgroundBrush: Brush by remember {
         mutableStateOf(

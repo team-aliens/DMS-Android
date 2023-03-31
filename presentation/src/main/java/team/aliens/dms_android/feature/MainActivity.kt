@@ -32,20 +32,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 ) {
                     availableFeatures = staticCompositionLocalOf {
                         mapOf(
-                            Extra.isEnableMealService to intent.getBooleanExtra(
-                                Extra.isEnableMealService, false,
+                            Extra.isMealServiceEnabled to intent.getBooleanExtra(
+                                Extra.isMealServiceEnabled, false,
                             ),
-                            Extra.isEnableNoticeService to intent.getBooleanExtra(
-                                Extra.isEnableNoticeService, false,
+                            Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
+                                Extra.isNoticeServiceEnabled, false,
                             ),
-                            Extra.isEnablePointService to intent.getBooleanExtra(
-                                Extra.isEnablePointService, false,
+                            Extra.isPointServiceEnabled to intent.getBooleanExtra(
+                                Extra.isPointServiceEnabled, false,
                             ),
-                            Extra.isEnableStudyRoomService to intent.getBooleanExtra(
-                                Extra.isEnableStudyRoomService, false,
+                            Extra.isStudyRoomEnabled to intent.getBooleanExtra(
+                                Extra.isStudyRoomEnabled, false,
                             ),
-                            Extra.isEnableRemainService to intent.getBooleanExtra(
-                                Extra.isEnableRemainService, false,
+                            Extra.isRemainServiceEnabled to intent.getBooleanExtra(
+                                Extra.isRemainServiceEnabled, false,
                             ),
                         )
                     }

@@ -66,7 +66,7 @@ fun MyPageScreen(
 
     val context = LocalContext.current
 
-    val enablePointService = LocalAvailableFeatures.current[Extra.isEnablePointService]
+    val isPointServiceEnabled = LocalAvailableFeatures.current[Extra.isPointServiceEnabled]
 
     var myPageState by remember {
         mutableStateOf(MyPageEntity())
@@ -278,7 +278,7 @@ fun MyPageScreen(
 
         Space(space = 60.dp)
 
-        if (enablePointService!!) {
+        if (isPointServiceEnabled!!) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -395,7 +395,7 @@ fun MyPageScreen(
 
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-            if (enablePointService) {
+            if (isPointServiceEnabled) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

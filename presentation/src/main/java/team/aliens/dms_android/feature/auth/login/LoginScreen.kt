@@ -64,23 +64,23 @@ fun LoginScreen(
                 is Event.NavigateToHome -> {
                     navController.currentBackStackEntry?.arguments?.apply {
                         putBoolean(
-                            Extra.isEnableMealService,
+                            Extra.isMealServiceEnabled,
                             event.userVisibleInformEntity.mealService
                         )
                         putBoolean(
-                            Extra.isEnableNoticeService,
+                            Extra.isNoticeServiceEnabled,
                             event.userVisibleInformEntity.noticeService
                         )
                         putBoolean(
-                            Extra.isEnablePointService,
+                            Extra.isPointServiceEnabled,
                             event.userVisibleInformEntity.pointService
                         )
                         putBoolean(
-                            Extra.isEnableStudyRoomService,
+                            Extra.isStudyRoomEnabled,
                             event.userVisibleInformEntity.studyRoomService
                         )
                         putBoolean(
-                            Extra.isEnableRemainService,
+                            Extra.isRemainServiceEnabled,
                             event.userVisibleInformEntity.remainService
                         )
                     }

@@ -69,7 +69,7 @@ fun NoticeScreen(
     val serverException = stringResource(id = R.string.ServerException)
     val noInternetException = stringResource(id = R.string.NoInternetException)
 
-    val enableNoticeService = LocalAvailableFeatures.current[Extra.isEnableNoticeService]
+    val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
     LaunchedEffect(Unit) {
         noticeViewModel.noticeViewEffect.collect {

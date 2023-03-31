@@ -42,7 +42,7 @@ fun DmsApp(
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
 
     val isEnableApplicationService =
-        !LocalAvailableFeatures.current[Extra.isEnableStudyRoomService]!! && !LocalAvailableFeatures.current[Extra.isEnableRemainService]!!
+        !LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! && !LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
 
     if (isEnableApplicationService) {
         NavigationItemsWrapper.navigationItems.removeAt(1)

@@ -33,8 +33,8 @@ fun ApplicationScreen(
     var lastAppliedStudyRoom by remember { mutableStateOf("") }
     var lastAppliedRemain by remember { mutableStateOf("") }
 
-    val enableStudyRoomService = LocalAvailableFeatures.current[Extra.isEnableStudyRoomService]
-    val enableRemainService = LocalAvailableFeatures.current[Extra.isEnableRemainService]
+    val isStudyRoomServiceEnabled = LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]
+    val isRemainServiceEnabled = LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]
 
     LaunchedEffect(Unit) {
         applicationViewModel.run {
@@ -59,7 +59,7 @@ fun ApplicationScreen(
         Space(space = 24.dp)
         Body1(text = stringResource(id = R.string.Application))
         Space(space = 40.dp)
-        if (enableStudyRoomService!!) {
+        if (isStudyRoomServiceEnabled!!) {
             ApplicationCard(
                 title = stringResource(id = R.string.StudyRoom),
                 content = stringResource(id = R.string.StudyRoomApplyDescription),
@@ -71,7 +71,7 @@ fun ApplicationScreen(
             )
             Space(space = 30.dp)
         }
-        if (enableRemainService!!) {
+        if (isRemainServiceEnabled!!) {
             ApplicationCard(
                 title = stringResource(id = R.string.Stay),
                 content = stringResource(id = R.string.RemainApplyDescription),

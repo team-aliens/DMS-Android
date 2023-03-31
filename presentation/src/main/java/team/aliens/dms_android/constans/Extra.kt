@@ -3,9 +3,9 @@ package team.aliens.dms_android.constans
 object Extra {
 
     const val isMealSizeBig = "isMealSizeBig"
-    const val isEnableMealService = "isEnableMealService"
-    const val isEnableNoticeService = "isEnableNoticeService"
-    const val isEnablePointService = "isEnablePointService"
-    const val isEnableStudyRoomService = "isEnableStudyRoomService"
-    const val isEnableRemainService = "isEnableRemainService"
+    const val isMealServiceEnabled = "isMealServiceEnabled"
+    const val isNoticeServiceEnabled = "isNoticeServiceEnabled"
+    const val isPointServiceEnabled = "isPointServiceEnabled"
+    const val isStudyRoomEnabled = "isStudyRoomEnabled"
+    const val isRemainServiceEnabled = "isRemainServiceEnabled"
 }

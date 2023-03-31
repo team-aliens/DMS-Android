@@ -98,11 +98,11 @@ private fun moveToMainActivity(
 
     intent.putExtra("route", route)
     userVisibleInformEntity?.run {
-        intent.putExtra(Extra.isEnableMealService, mealService)
-        intent.putExtra(Extra.isEnableNoticeService, noticeService)
-        intent.putExtra(Extra.isEnablePointService, pointService)
-        intent.putExtra(Extra.isEnableStudyRoomService, studyRoomService)
-        intent.putExtra(Extra.isEnableRemainService, remainService)
+        intent.putExtra(Extra.isMealServiceEnabled, mealService)
+        intent.putExtra(Extra.isNoticeServiceEnabled, noticeService)
+        intent.putExtra(Extra.isPointServiceEnabled, pointService)
+        intent.putExtra(Extra.isStudyRoomEnabled, studyRoomService)
+        intent.putExtra(Extra.isRemainServiceEnabled, remainService)
     }
 
     context.startActivity(intent)
