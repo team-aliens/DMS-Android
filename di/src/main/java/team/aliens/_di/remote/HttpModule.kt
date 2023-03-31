@@ -10,11 +10,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import team.aliens.data.intercepter.DefaultOkHttpClient
-import team.aliens.remote.interceptor.AuthInterceptor
+import team.aliens.remote.interceptor.AuthorizationInterceptor
+import team.aliens.remote.util.OkHttpClient
 import team.aliens.remote.util.Retrofit
 import javax.inject.Singleton
-import team.aliens.presentation.BuildConfig as PresentationBuildConfig
-
+import team.aliens.remote.BuildConfig as RemoteBuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -24,7 +24,7 @@ object HttpModule {
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(
-            if (PresentationBuildConfig.DEBUG) {
+            if (RemoteBuildConfig.DEBUG) {
                 Level.BODY
             } else {
                 Level.NONE
@@ -36,8 +36,8 @@ object HttpModule {
     @Singleton
     fun provideAuthInterceptor(
         // TODO add arguments
-    ): AuthInterceptor {
-        return AuthInterceptor(
+    ): AuthorizationInterceptor {
+        return AuthorizationInterceptor(
             // TODO add arguments
         )
     }
@@ -46,13 +46,17 @@ object HttpModule {
     @Singleton
     fun provideDefaultOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor,
+        authorizationInterceptor: AuthorizationInterceptor,
     ): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(
+
+        val interceptors = arrayOf(
             httpLoggingInterceptor,
-        ).addInterceptor(
-            authInterceptor,
-        ).build()
+            authorizationInterceptor,
+        )
+
+        return OkHttpClient(
+            interceptors = interceptors,
+        )
     }
 
     @Provides
@@ -60,11 +64,14 @@ object HttpModule {
     fun provideRetrofit(
         @DefaultOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit {
+
+        val clients = arrayOf(
+            okHttpClient,
+        )
+
         return Retrofit(
-            clients = arrayOf(
-                okHttpClient,
-            ),
-            baseUrl = "",
+            clients = clients,
+            baseUrl = "", // todo
             gsonConverterFactory = true,
         )
     }

@@ -13,4 +13,8 @@ interface RemoteFileDataSource {
     suspend fun fetchPreSignedUrl(
         fileName: String,
     ): FetchPreSignedUrlOutput
+
+    suspend fun uploadFileToPreSignedUrl(
+        fileUploadUrl: String,
+    )
 }

@@ -4,7 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.remote.common.toHttpMethod
 
-class AuthInterceptor(
+class AuthorizationInterceptor(
     // TODO local storage source injection
     // TODO token reissue client injection
 ) : Interceptor {

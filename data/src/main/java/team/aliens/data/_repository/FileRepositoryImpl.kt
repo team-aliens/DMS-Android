@@ -20,4 +20,10 @@ class FileRepositoryImpl(
     ): FetchPreSignedUrlOutput {
         TODO("Not yet implemented")
     }
+
+    override suspend fun uploadFileToPreSignedUrl(
+        fileUploadUrl: String,
+    ) {
+        TODO("Not yet implemented")
+    }
 }
