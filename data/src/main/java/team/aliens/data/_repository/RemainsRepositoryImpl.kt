@@ -11,7 +11,7 @@ class RemainsRepositoryImpl(
 ) : RemainsRepository {
 
     override suspend fun updateRemainsOption(
-        remainOptionId: UUID,
+        remainsOptionId: UUID,
     ) {
         TODO("Not yet implemented")
     }

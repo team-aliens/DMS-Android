@@ -8,7 +8,7 @@ import java.util.*
 interface RemoteRemainsDataSource {
 
     suspend fun updateRemainsOption(
-        remainOptionId: UUID,
+        remainsOptionId: UUID,
     )
 
     suspend fun fetchCurrentAppliedRemainsOption(): FetchCurrentAppliedRemainsOptionOutput
