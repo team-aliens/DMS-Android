@@ -15,7 +15,7 @@ interface PointService {
     @RequiresAccessToken
     suspend fun fetchPoints(
         @Query(Type) type: String,
-        @Query(Page) page: String?,
-        @Query(Size) size: String?,
+        @Query(Page) page: Long?,
+        @Query(Size) size: Long?,
     ): FetchPointsResponse
 }

@@ -20,17 +20,17 @@ internal fun FetchMealsResponse.toDomain(): FetchMealsOutput {
     )
 }
 
-internal fun List<FetchMealsResponse.Meal>.toDomain(): List<FetchMealsOutput.MealInformation> {
-    return this.map(
-        FetchMealsResponse.Meal::toDomain,
-    )
-}
-
 internal fun FetchMealsResponse.Meal.toDomain(): FetchMealsOutput.MealInformation {
     return FetchMealsOutput.MealInformation(
         date = this.date,
         breakfast = this.breakfast,
         lunch = this.lunch,
         dinner = this.dinner,
+    )
+}
+
+internal fun List<FetchMealsResponse.Meal>.toDomain(): List<FetchMealsOutput.MealInformation> {
+    return this.map(
+        FetchMealsResponse.Meal::toDomain,
     )
 }
