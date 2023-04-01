@@ -1,5 +1,4 @@
 package team.aliens._di.remote
-
 /*
 import dagger.Module
 import dagger.Provides
@@ -10,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import team.aliens.data.intercepter.DefaultOkHttpClient
+import team.aliens.remote.annotation.GlobalOkHttpClient
 import team.aliens.remote.interceptor.AuthorizationInterceptor
 import team.aliens.remote.util.OkHttpClient
 import team.aliens.remote.util.Retrofit
@@ -44,7 +44,8 @@ object HttpModule {
 
     @Provides
     @Singleton
-    fun provideDefaultOkHttpClient(
+    @GlobalOkHttpClient
+    fun provideGlobalOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authorizationInterceptor: AuthorizationInterceptor,
     ): OkHttpClient {
