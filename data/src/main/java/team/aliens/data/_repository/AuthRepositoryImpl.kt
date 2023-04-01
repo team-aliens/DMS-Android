@@ -1,26 +1,32 @@
 package team.aliens.data._repository
 
-import team.aliens.domain._model._common.EmailVerificationType
+import team.aliens.data._datasource.remote.RemoteAuthDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
+import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
 import team.aliens.domain._repository.AuthRepository
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
-    // private val remoteAuthDataSource: RemoteAuthDataSource,
+class AuthRepositoryImpl @Inject constructor(
+    private val remoteAuthDataSource: RemoteAuthDataSource,
 ) : AuthRepository {
 
     override suspend fun signIn(
         input: SignInInput,
     ): AuthenticationOutput {
-        TODO("Not yet implemented")
+        return remoteAuthDataSource.signIn(
+            input = input
+        )
     }
 
     override suspend fun sendEmailVerificationCode(
         input: SendEmailVerificationCodeInput,
     ) {
-        TODO("Not yet implemented")
+        return remoteAuthDataSource.sendEmailVerificationCode(
+            input = input,
+        )
     }
 
     override suspend fun checkEmailVerificationCode(
@@ -28,23 +34,32 @@ class AuthRepositoryImpl(
         authCode: String,
         type: EmailVerificationType,
     ) {
-        TODO("Not yet implemented")
+        return remoteAuthDataSource.checkEmailVerificationCode(
+            email = email,
+            authCode = authCode,
+            type = type,
+        )
     }
 
     override suspend fun reissueToken(): AuthenticationOutput {
-        TODO("Not yet implemented")
+        return remoteAuthDataSource.reissueToken()
     }
 
     override suspend fun verifyEmail(
         accountId: String,
         email: String,
     ) {
-        TODO("Not yet implemented")
+        return remoteAuthDataSource.verifyEmail(
+            accountId = accountId,
+            email = email,
+        )
     }
 
     override suspend fun checkIdExists(
         accountId: String,
     ): CheckIdExistsOutput {
-        TODO("Not yet implemented")
+        return checkIdExists(
+            accountId = accountId,
+        )
     }
 }
