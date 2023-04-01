@@ -41,8 +41,13 @@ dependencies {
     implementation(Dependency.Hilt.INJECT)
     kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependency.Moshi.MOSHI)
+    kapt(Dependency.Moshi.MOSHI_COMPILER)
+
+    implementation(Dependency.DataStore.DATASTORE_PREF)
+
+    implementation(Dependency.Room.ROOM_KTX)
+    kapt(Dependency.Room.ROOM_COMPILER)
 
     testImplementation(Dependency.UnitTest.JUNIT)
 
