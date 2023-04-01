@@ -20,6 +20,7 @@ rootProject.name = "dms-android"
 include(":domain")
 include(":data")
 include(":remote")
+include(":local")
 include(":presentation")
 include(":di")
 
