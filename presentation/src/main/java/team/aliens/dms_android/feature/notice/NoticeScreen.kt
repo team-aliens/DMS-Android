@@ -32,6 +32,8 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.ButtonText
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.domain.entity.notice.NoticeListEntity
 import team.aliens.domain.enums.NoticeListSCType
@@ -66,6 +68,8 @@ fun NoticeScreen(
     val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
     val serverException = stringResource(id = R.string.ServerException)
     val noInternetException = stringResource(id = R.string.NoInternetException)
+
+    val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
     LaunchedEffect(Unit) {
         noticeViewModel.noticeViewEffect.collect {

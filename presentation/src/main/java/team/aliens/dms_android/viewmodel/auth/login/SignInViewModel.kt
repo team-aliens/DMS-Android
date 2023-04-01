@@ -16,10 +16,13 @@ import team.aliens.domain.exception.*
 import team.aliens.domain.param.LoginParam
 import team.aliens.domain.usecase.user.RemoteSignInUseCase
 import javax.inject.Inject
+import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
+import team.aliens.local_domain.usecase.uservisible.LocalUserVisibleInformUseCase
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val remoteSignInUseCase: RemoteSignInUseCase,
+    private val localUserVisibleInformUseCase: LocalUserVisibleInformUseCase,
 ) : BaseViewModel<SignInState, SignInEvent>() {
 
     override val initialState: SignInState
@@ -30,7 +33,6 @@ class SignInViewModel @Inject constructor(
 
     private val _signInButtonState = MutableStateFlow(false)
     internal val signInButtonState = _signInButtonState.asStateFlow()
-
 
     private var idEntered: Boolean = false
         set(value) {
@@ -88,15 +90,17 @@ class SignInViewModel @Inject constructor(
                 )
             }
 
-            emitSignInViewEvent(
-                if (result.isSuccess) {
-                    Event.NavigateToHome
-                } else {
-                    getEventFromThrowable(
-                        result.exceptionOrNull(),
-                    )
-                },
-            )
+            if (result.isSuccess) {
+                emitSignInViewEvent(
+                    Event.NavigateToHome(
+                        localUserVisibleInformUseCase.execute(Unit),
+                    ),
+                )
+            } else {
+                emitSignInViewEvent(
+                    event = getEventFromThrowable(result.exceptionOrNull())
+                )
+            }
         }
     }
 
@@ -142,7 +146,10 @@ class SignInViewModel @Inject constructor(
     }
 
     sealed class Event {
-        object NavigateToHome : Event()
+        data class NavigateToHome(
+            val userVisibleInformEntity: UserVisibleInformEntity,
+        ) : Event()
+
         object WrongRequest : Event()
         object NotCorrectPassword : Event()
         object UserNotFound : Event()

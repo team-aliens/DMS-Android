@@ -1,7 +1,7 @@
 package team.aliens.local_database.param
 
 import org.threeten.bp.LocalDateTime
-import team.aliens.local_domain.entity.UserVisibleLocalEntity
+import team.aliens.local_domain.entity.UserKeyLocalEntity
 
 data class UserPersonalKeyParam(
     val accessToken: String,
@@ -10,7 +10,7 @@ data class UserPersonalKeyParam(
     val refreshTokenExpiredAt: LocalDateTime,
 )
 
-fun UserPersonalKeyParam.toDbEntity() = UserVisibleLocalEntity(
+fun UserPersonalKeyParam.toDbEntity() = UserKeyLocalEntity(
     accessToken = accessToken,
     accessTokenExpiredAt = accessTokenExpiredAt,
     refreshToken = refreshToken,

@@ -24,6 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
@@ -38,6 +40,13 @@ fun DmsApp(
     val navHostController = rememberNavController()
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+
+    val isEnableApplicationService =
+        !LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! && !LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
+
+    if (isEnableApplicationService) {
+        NavigationItemsWrapper.navigationItems.removeAt(1)
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -71,10 +80,12 @@ fun DmsApp(
                     },
                 )
             }
-            composable(BottomNavigationItem.Application.route) {
-                ApplicationScreen(
-                    navController = navController,
-                )
+            if (!isEnableApplicationService) {
+                composable(BottomNavigationItem.Application.route) {
+                    ApplicationScreen(
+                        navController = navController,
+                    )
+                }
             }
             composable(BottomNavigationItem.Notice.route) {
                 NoticeScreen(
@@ -93,7 +104,7 @@ fun DmsApp(
 
 @Immutable
 private object NavigationItemsWrapper {
-    val navigationItems: List<BottomNavigationItem> = listOf(
+    val navigationItems: MutableList<BottomNavigationItem> = mutableListOf(
         BottomNavigationItem.Meal,
         BottomNavigationItem.Application,
         BottomNavigationItem.Notice,

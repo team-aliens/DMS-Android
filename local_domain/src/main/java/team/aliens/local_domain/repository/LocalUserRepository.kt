@@ -1,9 +1,8 @@
 package team.aliens.local_domain.repository
 
-import team.aliens.local_domain.param.FeaturesVisibleParam
+import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 
 interface LocalUserRepository {
 
-    suspend fun setUserVisible(featuresParam: FeaturesVisibleParam)
-    suspend fun fetchUserVisible(): FeaturesVisibleParam
+    suspend fun fetchUserVisible(): UserVisibleInformEntity
 }

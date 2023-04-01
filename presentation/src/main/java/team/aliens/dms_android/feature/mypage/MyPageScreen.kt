@@ -44,7 +44,9 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
+import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.LastAppliedItem
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
@@ -64,6 +66,7 @@ fun MyPageScreen(
 
     val context = LocalContext.current
 
+    val isPointServiceEnabled = LocalAvailableFeatures.current[Extra.isPointServiceEnabled]
 
     var myPageState by remember {
         mutableStateOf(MyPageEntity())
@@ -275,112 +278,113 @@ fun MyPageScreen(
 
         Space(space = 60.dp)
 
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(44.dp)
-                .clip(
-                    RoundedCornerShape(5.dp),
-                )
-                .background(
-                    DormTheme.colors.secondary,
-                )
-                .padding(12.dp),
-            contentAlignment = Alignment.CenterStart,
-        ) {
-
-            // 문구
-            Caption(
-                text = myPageState.phrase,
-                color = DormColor.Gray1000,
-            )
-        }
-
-
-        Space(space = 10.dp)
-
-
-        Row(
-            modifier = Modifier.height(90.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-
-            // 상점
-            Column(
+        if (isPointServiceEnabled!!) {
+            Box(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .height(44.dp)
                     .clip(
-                        RoundedCornerShape(10.dp),
-                    )
-                    .border(
-                        color = DormTheme.colors.primary,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(10.dp),
+                        RoundedCornerShape(5.dp),
                     )
                     .background(
-                        color = DormTheme.colors.surface,
+                        DormTheme.colors.secondary,
                     )
-                    .padding(
-                        vertical = 14.dp,
-                        horizontal = 20.dp,
-                    ),
+                    .padding(12.dp),
+                contentAlignment = Alignment.CenterStart,
             ) {
 
+                // 문구
                 Caption(
-                    text = stringResource(
-                        id = R.string.PlusPoint,
-                    ),
-                    color = DormTheme.colors.onSecondary,
+                    text = myPageState.phrase,
+                    color = DormColor.Gray1000,
                 )
-
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    Headline3(
-                        text = myPageState.bonusPoint.toString(),
-                        color = DormTheme.colors.onSecondary,
-                    )
-                }
             }
 
-            // 벌점
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(
-                        RoundedCornerShape(10.dp),
-                    )
-                    .border(
-                        color = DormTheme.colors.error,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(10.dp),
-                    )
-                    .background(
-                        color = DormTheme.colors.surface, // todo
-                    )
-                    .padding(
-                        vertical = 14.dp,
-                        horizontal = 20.dp,
-                    ),
+
+            Space(space = 10.dp)
+
+
+            Row(
+                modifier = Modifier.height(90.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
 
-                Caption(
-                    text = stringResource(
-                        id = R.string.MinusPoint,
-                    ),
-                    color = DormColor.Error,
-                )
-
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier.fillMaxSize(),
+                // 상점
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(
+                            RoundedCornerShape(10.dp),
+                        )
+                        .border(
+                            color = DormTheme.colors.primary,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(10.dp),
+                        )
+                        .background(
+                            color = DormTheme.colors.surface,
+                        )
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 20.dp,
+                        ),
                 ) {
-                    Headline3(
-                        text = myPageState.minusPoint.toString(),
+
+                    Caption(
+                        text = stringResource(
+                            id = R.string.PlusPoint,
+                        ),
+                        color = DormTheme.colors.onSecondary,
+                    )
+
+                    Box(
+                        contentAlignment = Alignment.BottomEnd,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        Headline3(
+                            text = myPageState.bonusPoint.toString(),
+                            color = DormTheme.colors.onSecondary,
+                        )
+                    }
+                }
+
+                // 벌점
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(
+                            RoundedCornerShape(10.dp),
+                        )
+                        .border(
+                            color = DormTheme.colors.error,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(10.dp),
+                        )
+                        .background(
+                            color = DormTheme.colors.surface, // todo
+                        )
+                        .padding(
+                            vertical = 14.dp,
+                            horizontal = 20.dp,
+                        ),
+                ) {
+
+                    Caption(
+                        text = stringResource(
+                            id = R.string.MinusPoint,
+                        ),
                         color = DormColor.Error,
                     )
+
+                    Box(
+                        contentAlignment = Alignment.BottomEnd,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        Headline3(
+                            text = myPageState.minusPoint.toString(),
+                            color = DormColor.Error,
+                        )
+                    }
                 }
             }
         }
@@ -391,65 +395,99 @@ fun MyPageScreen(
 
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(10.dp),
-                    )
-                    .background(
-                        DormTheme.colors.surface,
-                    ),
-            ) {
-
-                // 상벌점 내역 확인
-                Row(
+            if (isPointServiceEnabled) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(NavigationRoute.PointList)
-                        }
-                        .padding(
-                            vertical = 14.dp,
-                            horizontal = 16.dp,
-                        ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Body5(
-                        text = stringResource(
-                            id = R.string.CheckPointList,
-                        ),
-                    )
-                }
-
-                Divider(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 10.dp,
+                        .clip(
+                            RoundedCornerShape(10.dp),
                         )
                         .background(
-                            DormTheme.colors.secondaryVariant,
+                            DormTheme.colors.surface,
                         ),
-                )
+                ) {
 
-                // 비밀번호 변경
-                Row(
+                    // 상벌점 내역 확인
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(NavigationRoute.PointList)
+                            }
+                            .padding(
+                                vertical = 14.dp,
+                                horizontal = 16.dp,
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Body5(
+                            text = stringResource(
+                                id = R.string.CheckPointList,
+                            ),
+                        )
+                    }
+
+                    Divider(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 10.dp,
+                            )
+                            .background(
+                                DormTheme.colors.secondaryVariant,
+                            ),
+                    )
+
+                    // 비밀번호 변경
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(NavigationRoute.ComparePassword)
+                            }
+                            .padding(
+                                vertical = 14.dp,
+                                horizontal = 16.dp,
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Body5(
+                            text = stringResource(
+                                id = R.string.ChangePassword,
+                            ),
+                        )
+                    }
+                }
+            } else {
+
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(NavigationRoute.ComparePassword)
-                        }
-                        .padding(
-                            vertical = 14.dp,
-                            horizontal = 16.dp,
+                        .clip(
+                            RoundedCornerShape(10.dp),
+                        )
+                        .background(
+                            DormTheme.colors.surface,
                         ),
-                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Body5(
-                        text = stringResource(
-                            id = R.string.ChangePassword,
-                        ),
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onSignOutButtonClick()
+                            }
+                            .padding(
+                                vertical = 14.dp,
+                                horizontal = 16.dp,
+                            ),
+                    ) {
+
+                        // 비밀번호 변경
+                        Body5(
+                            text = stringResource(
+                                id = R.string.change_password,
+                            ),
+                        )
+                    }
                 }
             }
 
@@ -480,7 +518,7 @@ fun MyPageScreen(
                         text = stringResource(
                             id = R.string.Logout,
                         ),
-                        color = DormColor.Error,
+                        color = DormTheme.colors.error,
                     )
                 }
             }

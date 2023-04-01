@@ -3,7 +3,7 @@ package team.aliens.local_database.storage.implementation
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
-import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserVisibleParam
 import team.aliens.local_database.param.UserPersonalKeyParam
 import team.aliens.local_database.storage.declaration.UserDataStorage
 import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserInfo.AUTO_SIGN_IN
@@ -15,12 +15,14 @@ import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Com
 import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.NOTICE
 import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.POINT
 import javax.inject.Inject
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.REMAIN
+import team.aliens.local_database.storage.implementation.UserDataStorageImpl.Companion.UserVisible.STUDYROOM
 
 class UserDataStorageImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : UserDataStorage {
 
-    private companion object {
+   private companion object {
 
         const val USER_DATA_STORAGE_KEY = "user_data_storage"
 
@@ -41,6 +43,8 @@ class UserDataStorageImpl @Inject constructor(
             const val MEAL = "MEAL"
             const val NOTICE = "NOTICE"
             const val POINT = "POINT"
+            const val STUDYROOM = "STUDYROOM"
+            const val REMAIN = "REMAIN"
         }
     }
 
@@ -80,11 +84,13 @@ class UserDataStorageImpl @Inject constructor(
         editor.clear().apply()
     }
 
-    override fun setUserVisible(featuresParam: FeaturesParam) {
+    override fun setUserVisible(userVisibleParam: UserVisibleParam) {
         editor.run {
-            putBoolean(MEAL, featuresParam.mealService)
-            putBoolean(NOTICE, featuresParam.noticeService)
-            putBoolean(POINT, featuresParam.pointService)
+            putBoolean(MEAL, userVisibleParam.mealService)
+            putBoolean(NOTICE, userVisibleParam.noticeService)
+            putBoolean(POINT, userVisibleParam.pointService)
+            putBoolean(STUDYROOM, userVisibleParam.studyRoomService)
+            putBoolean(REMAIN, userVisibleParam.remainService)
         }.apply()
     }
 
@@ -98,6 +104,14 @@ class UserDataStorageImpl @Inject constructor(
 
     override fun fetchPointServiceBoolean(): Boolean {
         return prefs.getBoolean(POINT, false)
+    }
+
+    override fun fetchStudyRoomServiceBoolean(): Boolean {
+        return prefs.getBoolean(STUDYROOM, false)
+    }
+
+    override fun fetchRemainServiceBoolean(): Boolean {
+        return prefs.getBoolean(REMAIN, false)
     }
 
     override fun setAutoSignInOption(autoSignInEnabled: Boolean) {
