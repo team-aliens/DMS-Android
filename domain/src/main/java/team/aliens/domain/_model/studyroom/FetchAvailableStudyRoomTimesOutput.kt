@@ -13,10 +13,12 @@ data class FetchAvailableStudyRoomTimesOutput(
     /**
      * A set of available time slot information
      * @property id the time slot's unique id
-     * @property name the name of the time slot
+     * @property startTime the available start time of slot
+     * @property endTime the available end time of slot
      */
     data class TimeSlotInformation(
         val id: UUID,
-        val name: String,
+        val startTime: String,
+        val endTime: String,
     )
 }
