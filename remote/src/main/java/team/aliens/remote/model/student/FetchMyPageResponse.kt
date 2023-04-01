@@ -1,6 +1,8 @@
 package team.aliens.remote.model.student
 
 import com.google.gson.annotations.SerializedName
+import team.aliens.domain._model._common.Sex
+import team.aliens.domain._model.student.FetchMyPageOutput
 
 data class FetchMyPageResponse(
     @SerializedName("school_name") val schoolName: String,
@@ -12,3 +14,16 @@ data class FetchMyPageResponse(
     @SerializedName("minus_point") val minusPoint: Int,
     @SerializedName("phrase") val phrase: String,
 )
+
+internal fun FetchMyPageResponse.toDomain(): FetchMyPageOutput {
+    return FetchMyPageOutput(
+        schoolName = this.schoolName,
+        studentName = this.studentName,
+        gradeClassNumber = this.gradeClassNumber,
+        profileImageUrl = this.profileImageUrl,
+        sex = Sex.valueOf(this.sex),
+        bonusPoint = this.bonusPoint,
+        minusPoint = this.minusPoint,
+        phrase = this.phrase,
+    )
+}

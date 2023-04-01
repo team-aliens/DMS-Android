@@ -1,11 +1,7 @@
 package team.aliens.data._datasource.remote
 
 import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.student.EditProfileInput
-import team.aliens.domain._model.student.FetchMyPageOutput
-import team.aliens.domain._model.student.FindIdOutput
-import team.aliens.domain._model.student.ResetPasswordInput
-import team.aliens.domain._model.student.SignUpInput
+import team.aliens.domain._model.student.*
 import java.util.*
 
 interface RemoteStudentDataSource {
@@ -19,11 +15,11 @@ interface RemoteStudentDataSource {
         grade: Int,
         classRoom: Int,
         number: Int,
-    )
+    ): ExamineStudentNumberOutput
 
     suspend fun findId(
         schoolId: UUID,
-        name: String,
+        studentName: String,
         grade: Int,
         classRoom: Int,
         number: Int,

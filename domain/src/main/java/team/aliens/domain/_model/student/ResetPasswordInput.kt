@@ -3,15 +3,15 @@ package team.aliens.domain._model.student
 /**
  * A request for password reset, requires all of account information
  * @property accountId user's id, also used at sign in
- * @property name user's real name
+ * @property studentName user's real name
  * @property email user's email
- * @property authCode an verification code sent to user's email
+ * @property emailVerificationCode an verification code sent to user's email
  * @property newPassword a password to be changed as
  */
 data class ResetPasswordInput(
     val accountId: String,
-    val name: String,
+    val studentName: String,
     val email: String,
-    val authCode: String,
+    val emailVerificationCode: String,
     val newPassword: String,
 )
