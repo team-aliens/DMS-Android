@@ -1,18 +1,22 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.remote.RemoteStudentDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.student.*
 import team.aliens.domain._repository.StudentRepository
 import java.util.*
+import javax.inject.Inject
 
-class StudentRepositoryImpl(
-    // private val remoteStudentDataSource: RemoteStudentDataSource,
+class StudentRepositoryImpl @Inject constructor(
+    private val remoteStudentDataSource: RemoteStudentDataSource,
 ) : StudentRepository {
 
     override suspend fun signUp(
         input: SignUpInput,
     ): AuthenticationOutput {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.signUp(
+            input = input,
+        )
     }
 
     override suspend fun examineStudentNumber(
@@ -21,7 +25,12 @@ class StudentRepositoryImpl(
         classRoom: Int,
         number: Int,
     ): ExamineStudentNumberOutput {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.examineStudentNumber(
+            schoolId = schoolId,
+            grade = grade,
+            classRoom = classRoom,
+            number = number,
+        )
     }
 
     override suspend fun findId(
@@ -31,38 +40,52 @@ class StudentRepositoryImpl(
         classRoom: Int,
         number: Int,
     ): FindIdOutput {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.findId(
+            schoolId = schoolId,
+            studentName = studentName,
+            grade = grade,
+            classRoom = classRoom,
+            number = number,
+        )
     }
 
     override suspend fun resetPassword(
         input: ResetPasswordInput,
     ) {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.resetPassword(
+            input = input,
+        )
     }
 
     override suspend fun checkIdDuplication(
         accountId: String,
     ) {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.checkIdDuplication(
+            accountId = accountId,
+        )
     }
 
     override suspend fun checkEmailDuplication(
         email: String,
     ) {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.checkEmailDuplication(
+            email = email,
+        )
     }
 
     override suspend fun fetchMyPage(): FetchMyPageOutput {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.fetchMyPage()
     }
 
     override suspend fun editProfile(
         input: EditProfileInput,
     ) {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.editProfile(
+            input = input,
+        )
     }
 
     override suspend fun withdraw() {
-        TODO("Not yet implemented")
+        return remoteStudentDataSource.withdraw()
     }
 }
