@@ -29,7 +29,14 @@ internal interface MealDao {
     @Insert(
         onConflict = REPLACE,
     )
-    fun save(
+    fun saveOne(
         mealEntity: MealEntity,
+    )
+
+    @Insert(
+        onConflict = REPLACE,
+    )
+    fun saveAll(
+        vararg meals: MealEntity,
     )
 }
