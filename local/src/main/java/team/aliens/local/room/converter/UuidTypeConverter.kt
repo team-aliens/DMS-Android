@@ -5,7 +5,7 @@ import androidx.room.TypeConverter
 import java.util.*
 
 @ProvidedTypeConverter
-internal class UuidTypeConverter {
+class UuidTypeConverter {
 
     @TypeConverter
     fun fromUuid(

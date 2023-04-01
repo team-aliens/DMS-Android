@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
 
 @ProvidedTypeConverter
-internal class StringListTypeConverter @Inject constructor(
+class StringListTypeConverter @Inject constructor(
     moshi: Moshi,
 ) {
 

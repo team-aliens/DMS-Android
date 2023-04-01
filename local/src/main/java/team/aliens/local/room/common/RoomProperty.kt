@@ -1,9 +1,10 @@
 package team.aliens.local.room.common
 
-internal object RoomProperty {
+object RoomProperty {
 
-    object DataBase {
+    object Database {
         const val DbVersion = 1
+        const val DbName = "dorm-database"
     }
 
     object TableName {

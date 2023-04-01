@@ -16,7 +16,7 @@ import team.aliens.local.room.entity.NoticeEntity
         MealEntity::class,
         NoticeEntity::class,
     ],
-    version = RoomProperty.DataBase.DbVersion,
+    version = RoomProperty.Database.DbVersion,
     exportSchema = false,
 )
 @TypeConverters(
@@ -25,7 +25,7 @@ import team.aliens.local.room.entity.NoticeEntity
         UuidTypeConverter::class,
     ],
 )
-abstract class DormDataBase : RoomDatabase() {
+abstract class DormDatabase : RoomDatabase() {
 
     abstract fun mealDao(): MealDao
 
