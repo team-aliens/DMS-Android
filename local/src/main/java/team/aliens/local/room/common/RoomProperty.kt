@@ -10,14 +10,13 @@ internal object RoomProperty {
     object ColumnName {
 
         object Meal {
-            const val Id = "id"
             const val Date = "date"
             const val Breakfast = "breakfast"
             const val Lunch = "lunch"
             const val Dinner = "dinner"
         }
 
-        object Notices {
+        object Notice {
             const val Id = "id"
             const val Title = "title"
             const val Content = "content"

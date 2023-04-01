@@ -13,18 +13,18 @@ import java.util.*
 data class NoticeEntity(
 
     @PrimaryKey @ColumnInfo(
-        name = ColumnName.Notices.Id,
+        name = ColumnName.Notice.Id,
     ) val id: UUID,
 
     @ColumnInfo(
-        name = ColumnName.Notices.Title,
+        name = ColumnName.Notice.Title,
     ) val title: String,
 
     @ColumnInfo(
-        name = ColumnName.Notices.Content,
-    ) val content: String,
+        name = ColumnName.Notice.Content,
+    ) val content: String?,
 
     @ColumnInfo(
-        name = ColumnName.Notices.CreatedAt,
+        name = ColumnName.Notice.CreatedAt,
     ) val createdAt: String,
 )
