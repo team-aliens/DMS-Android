@@ -8,7 +8,7 @@ import team.aliens.local.room.common.RoomProperty
 import team.aliens.local.room.entity.MealEntity
 
 @Dao
-internal interface MealDao {
+interface MealDao {
 
     companion object {
         const val TBL_NAME = RoomProperty.TableName.Meal

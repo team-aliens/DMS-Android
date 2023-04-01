@@ -8,7 +8,7 @@ import team.aliens.local.room.entity.NoticeEntity
 import java.util.*
 
 @Dao
-internal interface NoticeDao {
+interface NoticeDao {
 
     companion object {
         const val TBL_NAME = RoomProperty.TableName.Notice
@@ -25,7 +25,7 @@ internal interface NoticeDao {
 
     @Query(
         """
-            SELECT $C_ID
+            SELECT *
             FROM $TBL_NAME
             WHERE $C_ID = :id;
         """

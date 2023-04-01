@@ -2,6 +2,10 @@ package team.aliens.local.room.common
 
 internal object RoomProperty {
 
+    object DataBase {
+        const val DbVersion = 1
+    }
+
     object TableName {
         const val Meal = "tbl_meals"
         const val Notice = "tbl_notices"

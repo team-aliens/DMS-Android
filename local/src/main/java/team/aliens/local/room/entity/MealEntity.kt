@@ -9,7 +9,7 @@ import team.aliens.local.room.common.RoomProperty.TableName
 @Entity(
     tableName = TableName.Meal,
 )
-internal data class MealEntity(
+data class MealEntity(
 
     @PrimaryKey
     @ColumnInfo(
