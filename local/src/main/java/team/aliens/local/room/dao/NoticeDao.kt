@@ -8,7 +8,7 @@ import team.aliens.local.room.entity.NoticeEntity
 import java.util.*
 
 @Dao
-interface NoticeDao {
+internal interface NoticeDao {
 
     companion object {
         const val TBL_NAME = RoomProperty.TableName.Notice
