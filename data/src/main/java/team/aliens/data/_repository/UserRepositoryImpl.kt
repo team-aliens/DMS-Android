@@ -1,21 +1,27 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.remote.RemoteUserDataSource
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.domain._repository.UserRepository
+import javax.inject.Inject
 
-class UserRepositoryImpl(
-    // private val remoteUserDataSource: RemoteUserDataSource,
+class UserRepositoryImpl @Inject constructor(
+    private val remoteUserDataSource: RemoteUserDataSource,
 ) : UserRepository {
 
     override suspend fun editPassword(
         input: EditPasswordInput,
     ) {
-        TODO("Not yet implemented")
+        return remoteUserDataSource.editPassword(
+            input = input,
+        )
     }
 
     override suspend fun comparePassword(
         password: String,
     ) {
-        TODO("Not yet implemented")
+        return remoteUserDataSource.comparePassword(
+            password = password,
+        )
     }
 }
