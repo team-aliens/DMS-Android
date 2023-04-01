@@ -3,8 +3,8 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
     id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
     id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.DAGGER_HILT_PLUGIN)
 }
 
 android {
