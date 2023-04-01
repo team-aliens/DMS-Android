@@ -3,7 +3,6 @@ package team.aliens.remote.service
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import team.aliens.data.remote.response.students.FetchSchoolsResponse
 import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.HttpPath.Schools.ExamineSchoolVerificationCode
 import team.aliens.remote.common.HttpPath.Schools.ExamineSchoolVerificationQuestion
@@ -16,6 +15,7 @@ import team.aliens.remote.common.HttpProperty.QueryString.SchoolCode
 import team.aliens.remote.model.school.ExamineSchoolVerificationCodeResponse
 import team.aliens.remote.model.school.FetchAvailableFeaturesResponse
 import team.aliens.remote.model.school.FetchSchoolVerificationQuestionResponse
+import team.aliens.remote.model.school.FetchSchoolsResponse
 import java.util.*
 
 interface SchoolService {
@@ -30,6 +30,7 @@ interface SchoolService {
 
     @GET(ExamineSchoolVerificationQuestion)
     suspend fun examineSchoolVerificationQuestion(
+        @Path(SchoolId) schoolId: UUID,
         @Query(Answer) answer: String,
     )
 

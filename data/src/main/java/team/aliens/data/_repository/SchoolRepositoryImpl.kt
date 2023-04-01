@@ -15,7 +15,9 @@ class SchoolRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchSchoolVerificationQuestion(): FetchSchoolVerificationQuestionOutput {
+    override suspend fun fetchSchoolVerificationQuestion(
+        schoolId: UUID,
+    ): FetchSchoolVerificationQuestionOutput {
         TODO("Not yet implemented")
     }
 

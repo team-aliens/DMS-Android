@@ -10,7 +10,9 @@ interface RemoteSchoolDataSource {
 
     suspend fun fetchSchools(): FetchSchoolsOutput
 
-    suspend fun fetchSchoolVerificationQuestion(): FetchSchoolVerificationQuestionOutput
+    suspend fun fetchSchoolVerificationQuestion(
+        schoolId: UUID,
+    ): FetchSchoolVerificationQuestionOutput
 
     suspend fun examineSchoolVerificationQuestion(
         schoolId: UUID,
