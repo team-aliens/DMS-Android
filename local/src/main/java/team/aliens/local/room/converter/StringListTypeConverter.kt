@@ -38,8 +38,8 @@ internal class StringListTypeConverter @Inject constructor(
         value: List<String>,
     ): String {
 
-        val decodedValue = stringListAdapter.toJson(value)
+        val encodedValue = stringListAdapter.toJson(value)
 
-        return decodedValue ?: throw IOException()
+        return encodedValue ?: throw IOException()
     }
 }
