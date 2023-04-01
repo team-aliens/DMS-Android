@@ -11,7 +11,6 @@ import team.aliens.local.room.common.RoomProperty.TableName
 )
 internal data class MealEntity(
 
-    @PrimaryKey
     @ColumnInfo(
         name = ColumnName.Meal.Date,
     ) val date: String,
@@ -27,4 +26,13 @@ internal data class MealEntity(
     @ColumnInfo(
         name = ColumnName.Meal.Dinner,
     ) val dinner: List<String>,
-)
+) {
+
+    @PrimaryKey(
+        autoGenerate = true,
+    )
+    @ColumnInfo(
+        name = ColumnName.Meal.Id
+    )
+    val id: Long = 0L
+}
