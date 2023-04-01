@@ -1,52 +1,64 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
 import team.aliens.domain._model.studyroom.*
 import team.aliens.domain._repository.StudyRoomRepository
 import java.util.*
+import javax.inject.Inject
 
-class StudyRoomRepositoryImpl(
-    // private val remoteStudyRoomDataSource: RemoteStudyRoomDataSource,
+class StudyRoomRepositoryImpl @Inject constructor(
+    private val remoteStudyRoomDataSource: RemoteStudyRoomDataSource,
 ) : StudyRoomRepository {
 
     override suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeOutput {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.fetchStudyRoomApplicationTime()
     }
 
     override suspend fun applySeat(
         seatId: UUID,
         timeSlot: UUID,
     ) {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.applySeat(
+            seatId = seatId,
+            timeSlot = timeSlot,
+        )
     }
 
     override suspend fun cancelSeat(
         timeSlot: UUID,
     ) {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.cancelSeat(
+            timeSlot = timeSlot,
+        )
     }
 
     override suspend fun fetchStudyRooms(
         timeSlot: UUID,
     ): FetchStudyRoomsOutput {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.fetchStudyRooms(
+            timeSlot = timeSlot,
+        )
     }
 
     override suspend fun fetchStudyRoomDetails(
         studyRoomId: UUID,
         timeSlot: UUID,
     ): FetchStudyRoomDetailsOutput {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.fetchStudyRoomDetails(
+            studyRoomId = studyRoomId,
+            timeSlot = timeSlot,
+        )
     }
 
     override suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.fetchCurrentAppliedStudyRoom()
     }
 
     override suspend fun fetchSeatTypes(): FetchSeatTypesOutput {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.fetchSeatTypes()
     }
 
     override suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput {
-        TODO("Not yet implemented")
+        return remoteStudyRoomDataSource.fetchAvailableStudyRoomTimes()
     }
 }
