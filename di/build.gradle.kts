@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
+    implementation(project(":local"))
 
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
