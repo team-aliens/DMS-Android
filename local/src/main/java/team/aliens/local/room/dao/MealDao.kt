@@ -22,7 +22,7 @@ internal interface MealDao {
             WHERE $C_DATE = :date; 
         """,
     )
-    fun findMealsByDate(
+    fun findByDate(
         date: String,
     ): MealEntity
 
