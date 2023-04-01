@@ -1,11 +1,13 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.remote.RemotePointDataSource
 import team.aliens.domain._model._common.PointType
 import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.domain._repository.PointRepository
+import javax.inject.Inject
 
-class PointRepositoryImpl(
-    // private val remotePointDataSource: RemotePointDataSource
+class PointRepositoryImpl @Inject constructor(
+    private val remotePointDataSource: RemotePointDataSource,
 ) : PointRepository {
 
     override suspend fun fetchPoints(
@@ -13,6 +15,10 @@ class PointRepositoryImpl(
         page: Long?,
         size: Long?,
     ): FetchPointsOutput {
-        TODO("Not yet implemented")
+        return remotePointDataSource.fetchPoints(
+            type = type,
+            page = page,
+            size = size,
+        )
     }
 }
