@@ -1,29 +1,37 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.remote.RemoteFileDataSource
 import team.aliens.domain._model.file.FetchPreSignedUrlOutput
 import team.aliens.domain._model.file.UploadFileOutput
 import team.aliens.domain._repository.FileRepository
 import java.io.File
+import javax.inject.Inject
 
-class FileRepositoryImpl(
-    // private val remoteFileDataSource: RemoteFileDataSource,
+class FileRepositoryImpl @Inject constructor(
+    private val remoteFileDataSource: RemoteFileDataSource,
 ) : FileRepository {
 
     override suspend fun uploadFile(
         file: File,
     ): UploadFileOutput {
-        TODO("Not yet implemented")
+        return remoteFileDataSource.uploadFile(
+            file = file,
+        )
     }
 
     override suspend fun fetchPreSignedUrl(
         fileName: String,
     ): FetchPreSignedUrlOutput {
-        TODO("Not yet implemented")
+        return remoteFileDataSource.fetchPreSignedUrl(
+            fileName = fileName,
+        )
     }
 
     override suspend fun uploadFileToPreSignedUrl(
         fileUploadUrl: String,
     ) {
-        TODO("Not yet implemented")
+        return remoteFileDataSource.uploadFileToPreSignedUrl(
+            fileUploadUrl = fileUploadUrl,
+        )
     }
 }
