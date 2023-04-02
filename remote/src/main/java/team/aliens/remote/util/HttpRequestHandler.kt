@@ -4,7 +4,7 @@ import team.aliens.domain._exception.CommonException
 import team.aliens.domain._exception.HttpException
 
 @Suppress("UNREACHABLE_CODE")
-suspend fun <T> sendHttpRequest(
+suspend inline fun <T> sendHttpRequest(
     onBadRequest: (message: String) -> Nothing = { throw HttpException.BadRequest },
     onUnauthorized: (message: String) -> Nothing = { throw HttpException.Unauthorized },
     onForbidden: (message: String) -> Nothing = { throw HttpException.Forbidden },
@@ -14,8 +14,7 @@ suspend fun <T> sendHttpRequest(
     onTooManyRequest: (message: String) -> Nothing = { throw HttpException.TooManyRequests },
     onInternalServerError: (message: String) -> Nothing = { throw HttpException.InternalServerError },
     onUnknownException: (message: String) -> Nothing = { throw CommonException.Unknown },
-    handleByHttpStatusCode: ((code: Int) -> Any)? = null,
-    httpRequest: suspend () -> T,
+    crossinline httpRequest: suspend () -> T,
 ): T {
     return try {
         httpRequest()
@@ -27,9 +26,6 @@ suspend fun <T> sendHttpRequest(
         val message = httpException.message()
 
         require(httpStatusCode in 400 until 600)
-
-        if (handleByHttpStatusCode != null)
-            handleByHttpStatusCode(httpStatusCode)
 
         throw when (httpStatusCode) {
             400 -> onBadRequest(message)
