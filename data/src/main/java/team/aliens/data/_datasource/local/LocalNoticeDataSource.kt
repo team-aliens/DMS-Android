@@ -1,12 +1,16 @@
 package team.aliens.data._datasource.local
 
 import team.aliens.domain._model.notice.Notice
+import java.util.*
 
 interface LocalNoticeDataSource {
 
-    fun fetchNotices(): List<Notice>
 
-    fun fetchNotice(): Notice
+    fun fetchNotice(
+        id: UUID,
+    ): Notice
+
+    fun fetchNotices(): List<Notice>
 
     fun saveNotice(
         notice: Notice,
