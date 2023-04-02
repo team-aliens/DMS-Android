@@ -9,7 +9,7 @@ interface LocalMealDataSource {
     ): Meal
 
     suspend fun saveMeal(
-        meals: Meal,
+        meal: Meal,
     )
 
     suspend fun saveMeals(

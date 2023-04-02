@@ -37,6 +37,6 @@ interface MealDao {
         onConflict = REPLACE,
     )
     fun saveAll(
-        vararg meals: MealEntity,
+        vararg mealEntities: MealEntity,
     )
 }
