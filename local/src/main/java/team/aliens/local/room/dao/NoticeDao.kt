@@ -35,7 +35,7 @@ interface NoticeDao {
     ): NoticeEntity
 
     @Insert
-    fun save(
+    fun saveOne(
         noticeEntity: NoticeEntity,
     )
 }
