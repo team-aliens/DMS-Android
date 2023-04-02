@@ -41,11 +41,13 @@ fun DmsApp(
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
 
-    val isEnableApplicationService =
+    val isDisableApplicationService =
         !LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! && !LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
 
-    if (isEnableApplicationService) {
-        NavigationItemsWrapper.navigationItems.removeAt(1)
+    if (isDisableApplicationService) {
+        with(NavigationItemsWrapper.navigationItems){
+            removeAt(indexOf(BottomNavigationItem.Application))
+        }
     }
 
     Scaffold(
@@ -80,7 +82,7 @@ fun DmsApp(
                     },
                 )
             }
-            if (!isEnableApplicationService) {
+            if (!isDisableApplicationService) {
                 composable(BottomNavigationItem.Application.route) {
                     ApplicationScreen(
                         navController = navController,

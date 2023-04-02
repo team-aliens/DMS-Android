@@ -24,7 +24,9 @@ interface StudyRoomRepository {
         timeSlot: UUID,
     ): StudyRoomListEntity
 
-    suspend fun fetchStudyRoomType(): SeatTypeEntity
+    suspend fun fetchStudyRoomType(
+        studyRoomId: UUID,
+    ): SeatTypeEntity
 
     suspend fun fetchStudyRoomDetail(
         studyRoomDetailParam: StudyRoomDetailParam,

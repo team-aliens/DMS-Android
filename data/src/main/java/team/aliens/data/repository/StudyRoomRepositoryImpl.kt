@@ -50,8 +50,12 @@ class StudyRoomRepositoryImpl @Inject constructor(
             timeSlot = timeSlot,
         ).toEntity()
 
-    override suspend fun fetchStudyRoomType(): SeatTypeEntity =
-        remoteStudyRoomDataSource.fetchStudyRoomType().toEntity()
+    override suspend fun fetchStudyRoomType(
+        studyRoomId: UUID,
+    ): SeatTypeEntity =
+        remoteStudyRoomDataSource.fetchStudyRoomType(
+            studyRoomId = studyRoomId,
+        ).toEntity()
 
     override suspend fun fetchStudyRoomDetail(
         studyRoomDetailParam: StudyRoomDetailParam,

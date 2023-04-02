@@ -24,7 +24,9 @@ interface RemoteStudyRoomDataSource {
         timeSlot: UUID,
     ): StudyRoomListResponse
 
-    suspend fun fetchStudyRoomType(): StudyRoomTypeResponse
+    suspend fun fetchStudyRoomType(
+        studyRoomId: UUID,
+    ): StudyRoomTypeResponse
 
     suspend fun fetchStudyRoomDetail(
         roomId: String,
