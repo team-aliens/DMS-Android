@@ -1,18 +1,18 @@
 package team.aliens.remote.util
 
 import team.aliens.domain._exception.CommonException
-import team.aliens.domain._exception.HttpException
+import team.aliens.domain._exception.RemoteException
 
 @Suppress("UNREACHABLE_CODE")
 suspend inline fun <T> sendHttpRequest(
-    onBadRequest: (message: String) -> Nothing = { throw HttpException.BadRequest },
-    onUnauthorized: (message: String) -> Nothing = { throw HttpException.Unauthorized },
-    onForbidden: (message: String) -> Nothing = { throw HttpException.Forbidden },
-    onNotFound: (message: String) -> Nothing = { throw HttpException.NotFound },
-    onTimeout: (message: String) -> Nothing = { throw HttpException.Timeout },
-    onConflict: (message: String) -> Nothing = { throw HttpException.Conflict },
-    onTooManyRequest: (message: String) -> Nothing = { throw HttpException.TooManyRequests },
-    onInternalServerError: (message: String) -> Nothing = { throw HttpException.InternalServerError },
+    onBadRequest: (message: String) -> Nothing = { throw RemoteException.BadRequest },
+    onUnauthorized: (message: String) -> Nothing = { throw RemoteException.Unauthorized },
+    onForbidden: (message: String) -> Nothing = { throw RemoteException.Forbidden },
+    onNotFound: (message: String) -> Nothing = { throw RemoteException.NotFound },
+    onTimeout: (message: String) -> Nothing = { throw RemoteException.Timeout },
+    onConflict: (message: String) -> Nothing = { throw RemoteException.Conflict },
+    onTooManyRequest: (message: String) -> Nothing = { throw RemoteException.TooManyRequests },
+    onInternalServerError: (message: String) -> Nothing = { throw RemoteException.InternalServerError },
     onUnknownException: (message: String) -> Nothing = { throw CommonException.Unknown },
     crossinline httpRequest: suspend () -> T,
 ): T {

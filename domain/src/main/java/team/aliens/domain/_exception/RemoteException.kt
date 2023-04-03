@@ -1,48 +1,48 @@
 package team.aliens.domain._exception
 
-sealed class HttpException(
+sealed class RemoteException(
     message: String,
     val code: Int,
 ) : RuntimeException(
     message,
 ) {
 
-    object BadRequest : HttpException(
+    object BadRequest : RemoteException(
         message = "Bad request",
         code = 400,
     )
 
-    object Unauthorized : HttpException(
+    object Unauthorized : RemoteException(
         message = "Unauthorized",
         code = 401,
     )
 
-    object Forbidden : HttpException(
+    object Forbidden : RemoteException(
         message = "Forbidden",
         code = 403,
     )
 
-    object NotFound : HttpException(
+    object NotFound : RemoteException(
         message = "Not found",
         code = 404,
     )
 
-    object Timeout : HttpException(
+    object Timeout : RemoteException(
         message = "Timeout",
         code = 408,
     )
 
-    object Conflict : HttpException(
+    object Conflict : RemoteException(
         message = "Conflict",
         code = 409,
     )
 
-    object TooManyRequests : HttpException(
+    object TooManyRequests : RemoteException(
         message = "Too many requests",
         code = 429,
     )
 
-    object InternalServerError : HttpException(
+    object InternalServerError : RemoteException(
         message = "Internal server error",
         code = 500,
     )
