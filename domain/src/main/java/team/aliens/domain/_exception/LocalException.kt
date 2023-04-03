@@ -7,18 +7,18 @@ sealed class LocalException(
 ) {
 
     object AccessTokenNotFound : LocalException(
-        message = "Access Token Not Found",
+        message = "Access token not found",
     )
 
     object AccessTokenExpiredNotFound : LocalException(
-        message = "Access Token Expired At Not Found",
+        message = "Access token expired at not found",
     )
 
     object RefreshTokenNotFound : LocalException(
-        message = "Refresh Token Not Found",
+        message = "Refresh token not found",
     )
 
     object RefreshTokenExpiredAtNotFound : LocalException(
-        message = "Refresh Token Expired At Not Found",
+        message = "Refresh token expired at not found",
     )
 }

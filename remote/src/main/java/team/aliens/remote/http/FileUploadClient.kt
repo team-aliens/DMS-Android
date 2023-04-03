@@ -13,12 +13,12 @@ class FileUploadClient : OkHttpClient() {
         fileUploadUrl: String,
     ) {
 
-        val fileUploadRequest = buildFileUploadRequest(
+        val request = buildFileUploadRequest(
             file = file,
             fileUploadUrl = fileUploadUrl,
         )
 
-        val response = newCall(fileUploadRequest).execute()
+        val response = newCall(request).execute()
 
         if (response.isSuccessful) {
             checkNotNull(response.body)
