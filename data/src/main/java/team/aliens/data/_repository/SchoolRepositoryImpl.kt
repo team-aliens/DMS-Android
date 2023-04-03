@@ -1,5 +1,6 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.local.LocalSchoolDataSource
 import team.aliens.data._datasource.remote.RemoteSchoolDataSource
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
@@ -11,6 +12,7 @@ import java.util.*
 import javax.inject.Inject
 
 class SchoolRepositoryImpl @Inject constructor(
+    private val localSchoolDataSource: LocalSchoolDataSource,
     private val remoteSchoolDataSource: RemoteSchoolDataSource,
 ) : SchoolRepository {
 
@@ -49,32 +51,34 @@ class SchoolRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findFeature(): Feature {
-        TODO("Not yet implemented")
+        return localSchoolDataSource.findFeature()
     }
 
     override suspend fun findMealFeatureEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return localSchoolDataSource.findMealFeatureEnabled()
     }
 
     override suspend fun findNoticeFeatureEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return localSchoolDataSource.findNoticeFeatureEnabled()
     }
 
     override suspend fun findPointServiceEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return localSchoolDataSource.findPointServiceEnabled()
     }
 
     override suspend fun findStudyRoomServiceEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return localSchoolDataSource.findStudyRoomServiceEnabled()
     }
 
     override suspend fun findRemainsServiceEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return localSchoolDataSource.findRemainsServiceEnabled()
     }
 
     override suspend fun saveFeature(
         feature: Feature,
     ) {
-        TODO("Not yet implemented")
+        localSchoolDataSource.saveFeature(
+            feature = feature,
+        )
     }
 }

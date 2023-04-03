@@ -25,13 +25,15 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAutoSignInOption(): Boolean {
-        TODO("Not yet implemented")
+        return localAuthDataSource.findAutoSignInOption()
     }
 
     override suspend fun updateAutoSignInOption(
         autoSignIn: Boolean,
     ) {
-        TODO("Not yet implemented")
+        return localAuthDataSource.updateAutoSignInOption(
+            autoSignIn = autoSignIn,
+        )
     }
 
     override suspend fun sendEmailVerificationCode(
@@ -77,32 +79,34 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findToken(): Token {
-        TODO("Not yet implemented")
+        return localAuthDataSource.findToken()
     }
 
     override suspend fun findAccessToken(): String {
-        TODO("Not yet implemented")
+        return localAuthDataSource.findAccessToken()
     }
 
     override suspend fun findAccessTokenExpiredAt(): String {
-        TODO("Not yet implemented")
+        return localAuthDataSource.findAccessTokenExpiredAt()
     }
 
     override suspend fun findRefreshToken(): String {
-        TODO("Not yet implemented")
+        return localAuthDataSource.findRefreshToken()
     }
 
     override suspend fun findRefreshTokenExpiredAt(): String {
-        TODO("Not yet implemented")
+        return localAuthDataSource.findRefreshTokenExpiredAt()
     }
 
     override suspend fun saveToken(
         token: Token,
     ) {
-        TODO("Not yet implemented")
+        localAuthDataSource.saveToken(
+            token = token,
+        )
     }
 
     override suspend fun clearToken() {
-        TODO("Not yet implemented")
+        localAuthDataSource.clearToken()
     }
 }

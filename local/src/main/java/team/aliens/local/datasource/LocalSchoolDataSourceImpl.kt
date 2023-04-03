@@ -1,42 +1,43 @@
 package team.aliens.local.datasource
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import team.aliens.data._datasource.local.LocalSchoolDataSource
 import team.aliens.domain._model.student.Feature
+import team.aliens.local.datastore.storage.SchoolDataStorage
 import javax.inject.Inject
 
 class LocalSchoolDataSourceImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
+    private val schoolDataStorage: SchoolDataStorage,
 ) : LocalSchoolDataSource {
 
     override suspend fun findFeature(): Feature {
-        TODO("Not yet implemented")
+        return schoolDataStorage.findFeature()
     }
 
     override suspend fun findMealFeatureEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return schoolDataStorage.findMealFeatureEnabled()
     }
 
     override suspend fun findNoticeFeatureEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return schoolDataStorage.findNoticeFeatureEnabled()
     }
 
     override suspend fun findPointServiceEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return schoolDataStorage.findPointServiceEnabled()
     }
 
     override suspend fun findStudyRoomServiceEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return schoolDataStorage.findStudyRoomServiceEnabled()
     }
 
     override suspend fun findRemainsServiceEnabled(): Boolean {
-        TODO("Not yet implemented")
+        return schoolDataStorage.findRemainsServiceEnabled()
     }
 
     override suspend fun saveFeature(
         feature: Feature,
     ) {
-        TODO("Not yet implemented")
+        schoolDataStorage.saveFeature(
+            feature = feature,
+        )
     }
 }
