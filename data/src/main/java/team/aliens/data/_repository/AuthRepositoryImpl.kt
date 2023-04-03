@@ -10,6 +10,7 @@ import team.aliens.domain._repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
+    private val localAuthDataSource,
     private val remoteAuthDataSource: RemoteAuthDataSource,
 ) : AuthRepository {
 

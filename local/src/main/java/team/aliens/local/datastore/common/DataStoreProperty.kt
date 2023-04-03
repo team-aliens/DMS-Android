@@ -18,14 +18,15 @@ object DataStoreProperty {
             val RefreshToken = stringPreferencesKey("refresh_token")
             val RefreshTokenExpiredAt = stringPreferencesKey("refresh_token_expired_at")
             val AutoSignIn = booleanPreferencesKey("auto_sign_in")
+        }
 
-            object Feature {
-                val MealService = booleanPreferencesKey("meal_service")
-                val NoticeService = booleanPreferencesKey("notice_service")
-                val PointService = booleanPreferencesKey("point_service")
-                val StudyRoomService = booleanPreferencesKey("study_room_service")
-                val RemainsService = booleanPreferencesKey("remains_service")
-            }
+        object Student {
+
+            val MealService = booleanPreferencesKey("meal_service")
+            val NoticeService = booleanPreferencesKey("notice_service")
+            val PointService = booleanPreferencesKey("point_service")
+            val StudyRoomService = booleanPreferencesKey("study_room_service")
+            val RemainsService = booleanPreferencesKey("remains_service")
         }
     }
 }
