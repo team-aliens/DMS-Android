@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.local.datastore.storage.AuthDataStorage
 import team.aliens.local.datastore.storage.AuthDataStorageImpl
-import team.aliens.local.datastore.storage.StudentDataStorage
-import team.aliens.local.datastore.storage.StudentDataStorageImpl
+import team.aliens.local.datastore.storage.SchoolDataStorage
+import team.aliens.local.datastore.storage.SchoolDataStorageImpl
 import javax.inject.Singleton
 
 @Module
@@ -23,6 +23,6 @@ abstract class DataStorageModule {
     @Binds
     @Singleton
     abstract fun provideStudentDataStorage(
-        impl: StudentDataStorageImpl,
-    ): StudentDataStorage
+        impl: SchoolDataStorageImpl,
+    ): SchoolDataStorage
 }

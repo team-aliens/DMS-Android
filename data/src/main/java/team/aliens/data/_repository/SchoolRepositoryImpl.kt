@@ -5,6 +5,7 @@ import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
+import team.aliens.domain._model.student.Feature
 import team.aliens.domain._repository.SchoolRepository
 import java.util.*
 import javax.inject.Inject
@@ -45,5 +46,35 @@ class SchoolRepositoryImpl @Inject constructor(
 
     override suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput {
         return remoteSchoolDataSource.fetchAvailableFeatures()
+    }
+
+    override suspend fun findFeature(): Feature {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findMealFeatureEnabled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findNoticeFeatureEnabled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findPointServiceEnabled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findStudyRoomServiceEnabled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findRemainsServiceEnabled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun saveFeature(
+        feature: Feature,
+    ) {
+        TODO("Not yet implemented")
     }
 }

@@ -7,6 +7,7 @@ import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
+import team.aliens.domain._model.auth.Token
 import team.aliens.domain._repository.AuthRepository
 import javax.inject.Inject
 
@@ -21,6 +22,16 @@ class AuthRepositoryImpl @Inject constructor(
         return remoteAuthDataSource.signIn(
             input = input
         )
+    }
+
+    override suspend fun findAutoSignInOption(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateAutoSignInOption(
+        autoSignIn: Boolean,
+    ) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun sendEmailVerificationCode(
@@ -63,5 +74,35 @@ class AuthRepositoryImpl @Inject constructor(
         return checkIdExists(
             accountId = accountId,
         )
+    }
+
+    override suspend fun findToken(): Token {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findAccessToken(): String {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findAccessTokenExpiredAt(): String {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findRefreshToken(): String {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findRefreshTokenExpiredAt(): String {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun saveToken(
+        token: Token,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun clearToken() {
+        TODO("Not yet implemented")
     }
 }

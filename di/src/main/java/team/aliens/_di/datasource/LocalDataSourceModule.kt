@@ -29,4 +29,10 @@ abstract class LocalDataSourceModule {
     abstract fun bindLocalNoticeDataSource(
         impl: LocalNoticeDataSourceImpl,
     ): LocalNoticeDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindLocalSchoolDataSource(
+        impl: LocalSchoolDataSourceImpl,
+    ): LocalSchoolDataSource
 }

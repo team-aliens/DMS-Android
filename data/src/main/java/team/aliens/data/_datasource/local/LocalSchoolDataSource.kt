@@ -1,8 +1,8 @@
-package team.aliens.local.datastore.storage
+package team.aliens.data._datasource.local
 
 import team.aliens.domain._model.student.Feature
 
-interface StudentDataStorage {
+interface LocalSchoolDataSource {
 
     suspend fun findFeature(): Feature
 

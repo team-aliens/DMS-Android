@@ -12,9 +12,9 @@ import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.RemainsS
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.StudyRoomService
 import javax.inject.Inject
 
-class StudentDataStorageImpl @Inject constructor(
+class SchoolDataStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-) : StudentDataStorage {
+) : SchoolDataStorage {
 
     override suspend fun findFeature(): Feature {
 
