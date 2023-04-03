@@ -1,5 +1,6 @@
 package team.aliens.data._repository
 
+import team.aliens.data._datasource.local.LocalAuthDataSource
 import team.aliens.data._datasource.remote.RemoteAuthDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model._common.EmailVerificationType
@@ -10,7 +11,7 @@ import team.aliens.domain._repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val localAuthDataSource,
+    private val localAuthDataSource: LocalAuthDataSource,
     private val remoteAuthDataSource: RemoteAuthDataSource,
 ) : AuthRepository {
 

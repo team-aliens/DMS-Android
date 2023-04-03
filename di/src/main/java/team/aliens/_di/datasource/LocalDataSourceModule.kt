@@ -14,6 +14,12 @@ abstract class LocalDataSourceModule {
 
     @Binds
     @Singleton
+    abstract fun bindLocalAuthDataSource(
+        impl: LocalAuthDataSourceImpl,
+    ): LocalAuthDataSource
+
+    @Binds
+    @Singleton
     abstract fun bindLocalMealDataSource(
         impl: LocalMealDataSourceImpl,
     ): LocalMealDataSource
