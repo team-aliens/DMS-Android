@@ -5,9 +5,8 @@ import java.util.*
 
 interface LocalNoticeDataSource {
 
-
     fun fetchNotice(
-        id: UUID,
+        noticeId: UUID,
     ): Notice
 
     fun fetchNotices(): List<Notice>

@@ -13,10 +13,10 @@ class LocalNoticeDataSourceImpl @Inject constructor(
 ) : LocalNoticeDataSource {
 
     override fun fetchNotice(
-        id: UUID,
+        noticeId: UUID,
     ): Notice {
         return noticeDao.findOne(
-            id = id,
+            id = noticeId,
         ).toDomain()
     }
 

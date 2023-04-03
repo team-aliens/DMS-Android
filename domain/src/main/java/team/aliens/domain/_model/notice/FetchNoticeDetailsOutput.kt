@@ -1,5 +1,7 @@
 package team.aliens.domain._model.notice
 
+import java.util.*
+
 /**
  * A response returned when fetching notice details
  * @property title the detail's title
@@ -7,7 +9,17 @@ package team.aliens.domain._model.notice
  * @property createdAt when the detail was created at
  */
 data class FetchNoticeDetailsOutput(
+    val id: UUID,
     val title: String,
     val content: String,
     val createdAt: String,
 )
+
+fun FetchNoticeDetailsOutput.toModel(): Notice {
+    return Notice(
+        id = this.id,
+        title = this.title,
+        content = this.content,
+        createdAt = this.createdAt,
+    )
+}
