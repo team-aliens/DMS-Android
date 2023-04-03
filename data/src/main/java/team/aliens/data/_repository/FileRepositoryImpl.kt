@@ -28,9 +28,11 @@ class FileRepositoryImpl @Inject constructor(
     }
 
     override suspend fun uploadFileToPreSignedUrl(
+        file: File,
         fileUploadUrl: String,
     ) {
         return remoteFileDataSource.uploadFileToPreSignedUrl(
+            file = file,
             fileUploadUrl = fileUploadUrl,
         )
     }

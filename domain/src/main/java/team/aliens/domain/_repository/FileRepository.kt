@@ -15,6 +15,7 @@ interface FileRepository {
     ): FetchPreSignedUrlOutput
 
     suspend fun uploadFileToPreSignedUrl(
+        file: File,
         fileUploadUrl: String,
     )
 }

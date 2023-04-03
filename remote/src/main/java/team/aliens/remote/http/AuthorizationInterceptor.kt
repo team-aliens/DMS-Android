@@ -1,4 +1,4 @@
-package team.aliens.remote.interceptor
+package team.aliens.remote.http
 
 import okhttp3.Interceptor
 import okhttp3.Response

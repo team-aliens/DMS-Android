@@ -10,6 +10,7 @@ internal object HttpProperty {
 
             object Application {
                 const val Json = "application/json"
+                const val OctetStream ="application/octet-stream"
             }
 
             object Multipart {
