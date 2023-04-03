@@ -11,6 +11,7 @@ import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.domain.usecase.remain.RemoteFetchCurrentRemainOptionsUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchCurrentStudyRoomOptionUseCase
 import javax.inject.Inject
+import team.aliens.domain.exception.NotFoundException
 
 @HiltViewModel
 class ApplicationViewModel @Inject constructor(
@@ -36,7 +37,15 @@ class ApplicationViewModel @Inject constructor(
                     ),
                 )
             }.onFailure {
-                /* explicit blank */
+                when(it){
+                    is NotFoundException -> {
+                        _uiState.emit(
+                            _uiState.value.copy(
+                                currentStudyRoomOption = ""
+                            )
+                        )
+                    }
+                }
             }
         }
     }
@@ -51,6 +60,16 @@ class ApplicationViewModel @Inject constructor(
                         currentStudyRoomOption = it.floor floorAnd it.name
                     ),
                 )
+            }.onFailure {
+                when(it){
+                    is NotFoundException -> {
+                        _uiState.emit(
+                            _uiState.value.copy(
+                                currentStudyRoomOption = ""
+                            )
+                        )
+                    }
+                }
             }
         }
     }

@@ -302,7 +302,7 @@ private fun SeatListContent(
                                 seatId = seat.id ?: "",
                                 color = seat.color,
                                 isSelected = selected == seat.id,
-                                text = seat.number.toString(),
+                                text = seat.name ?: seat.number.toString(),
                                 onSelectedChanged = { seatId ->
                                     onSelectedChanged(seatId)
                                 },
