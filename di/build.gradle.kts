@@ -64,4 +64,6 @@ dependencies {
     implementation(Dependency.Room.ROOM_KTX)
     implementation(Dependency.Room.ROOM_RUNTIME)
     kapt(Dependency.Room.ROOM_COMPILER)
+
+    implementation(Dependency.DataStore.DATASTORE_PREF)
 }
