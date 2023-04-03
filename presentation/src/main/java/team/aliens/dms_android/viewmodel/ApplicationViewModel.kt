@@ -2,16 +2,16 @@ package team.aliens.dms_android.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.dms_android._base.BaseViewModel
+import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.usecase.remain.RemoteFetchCurrentRemainOptionsUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchCurrentStudyRoomOptionUseCase
-import javax.inject.Inject
-import team.aliens.domain.exception.NotFoundException
 
 @HiltViewModel
 class ApplicationViewModel @Inject constructor(
@@ -20,11 +20,6 @@ class ApplicationViewModel @Inject constructor(
 ) : BaseViewModel<ApplicationState, BaseEvent>() {
 
     override val _uiState: MutableStateFlow<ApplicationState> = MutableStateFlow(ApplicationState())
-
-    init {
-        fetchCurrentStudyRoomOption()
-        fetchCurrentRemainOption()
-    }
 
     internal fun fetchCurrentRemainOption() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -41,7 +36,7 @@ class ApplicationViewModel @Inject constructor(
                     is NotFoundException -> {
                         _uiState.emit(
                             _uiState.value.copy(
-                                currentStudyRoomOption = ""
+                                currentRemainOption = ""
                             )
                         )
                     }

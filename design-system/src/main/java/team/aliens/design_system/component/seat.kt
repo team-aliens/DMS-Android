@@ -215,7 +215,7 @@ private fun SeatContent(
     seatId: String,
     color: Color,
     text: String,
-    textColor: Color = DormTheme.colors.onBackground,
+    textColor: Color = DormColor.Gray100,
     isSelected: Boolean = false,
     onSelectedChanged: (String) -> Unit,
     clickedEnabled: Boolean = true,
