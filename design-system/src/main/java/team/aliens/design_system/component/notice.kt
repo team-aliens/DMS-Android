@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
@@ -25,6 +26,7 @@ data class Notice(
     var createAt: String,
 )
 
+@DormDeprecated
 @Composable
 fun NoticeList(
     modifier: Modifier = Modifier,

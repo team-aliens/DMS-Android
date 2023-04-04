@@ -17,11 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.launch
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.modifier.dormClickable
 
 /**
  * TODO(limsaehyun): CalendarView가 아닌 직접 구현한 DormCalenderView 사용 필요
  */
+@DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormCalendar(

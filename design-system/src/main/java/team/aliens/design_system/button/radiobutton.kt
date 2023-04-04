@@ -14,12 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.utils.runIf
 
+@DormDeprecated
 @Composable
 fun BasicRadioButton(
     modifier: Modifier = Modifier,
