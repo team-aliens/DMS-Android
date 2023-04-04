@@ -37,7 +37,9 @@ interface StudyRoomApi {
     ): StudyRoomListResponse
 
     @GET(DmsUrl.StudyRoom.StudyRoomType)
-    suspend fun fetchStudyRoomType(): StudyRoomTypeResponse
+    suspend fun fetchStudyRoomType(
+        @Query("study_room_id") studyRoomId: UUID,
+    ): StudyRoomTypeResponse
 
     @GET(DmsUrl.StudyRoom.StudyRoomDetail)
     suspend fun fetchStudyRoomDetail(

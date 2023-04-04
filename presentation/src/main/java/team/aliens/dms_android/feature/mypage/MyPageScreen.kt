@@ -431,10 +431,8 @@ fun MyPageScreen(
                         modifier = Modifier
                             .padding(
                                 horizontal = 10.dp,
-                            )
-                            .background(
-                                DormTheme.colors.secondaryVariant,
                             ),
+                        color = DormTheme.colors.secondaryVariant,
                     )
 
                     // 비밀번호 변경

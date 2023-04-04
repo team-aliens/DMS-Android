@@ -187,7 +187,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun fetchRoomSeatType() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchSeatTypeUseCase.execute(Unit)
+                fetchSeatTypeUseCase.execute(
+                    studyRoomId = UUID.fromString(roomId),
+                )
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(
                     seatType = it

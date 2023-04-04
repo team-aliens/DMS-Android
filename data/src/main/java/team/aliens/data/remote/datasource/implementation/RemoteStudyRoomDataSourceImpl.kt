@@ -50,8 +50,15 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         },
     )
 
-    override suspend fun fetchStudyRoomType() =
-        sendHttpRequest(httpRequest = suspend { studyRoomApi.fetchStudyRoomType() })
+    override suspend fun fetchStudyRoomType(
+        studyRoomId: UUID,
+    ) = sendHttpRequest(
+        httpRequest = suspend {
+            studyRoomApi.fetchStudyRoomType(
+                studyRoomId = studyRoomId,
+            )
+        },
+    )
 
     override suspend fun fetchStudyRoomDetail(
         roomId: String,
