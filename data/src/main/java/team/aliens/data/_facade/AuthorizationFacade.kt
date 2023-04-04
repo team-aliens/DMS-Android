@@ -1,6 +1,7 @@
 package team.aliens.data._facade
 
 import team.aliens.data._datasource.local.LocalAuthDataSource
+import team.aliens.domain._model.auth.Token
 import javax.inject.Inject
 
 class AuthorizationFacade @Inject constructor(
@@ -21,5 +22,13 @@ class AuthorizationFacade @Inject constructor(
 
     suspend fun refreshTokenExpiredAt(): String {
         return localAuthDataSource.findRefreshTokenExpiredAt()
+    }
+
+    suspend fun saveToken(
+        token: Token,
+    ) {
+        return localAuthDataSource.saveToken(
+            token = token,
+        )
     }
 }

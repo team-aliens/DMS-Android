@@ -4,7 +4,7 @@ import team.aliens.remote.common.HttpMethod
 import team.aliens.remote.common.HttpPath
 
 data class IgnoreRequestWrapper(
-    val ignoreRequest: ArrayList<Request> = arrayListOf(
+    val ignoreRequests: ArrayList<Request> = arrayListOf(
 
         // Auth
         Request(

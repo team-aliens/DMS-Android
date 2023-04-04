@@ -1,9 +1,13 @@
 package team.aliens.remote.http
 
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.data._facade.AuthorizationFacade
 import team.aliens.remote.common.toHttpMethod
+import team.aliens.remote.util.toDate
+import team.aliens.remote.util.tokenDateFormat
+import java.util.*
 
 class AuthorizationInterceptor(
     private val authorizationFacade: AuthorizationFacade,
@@ -15,42 +19,61 @@ class AuthorizationInterceptor(
         chain: Interceptor.Chain,
     ): Response {
 
-        val interceptedRequest = chain.request()
+        val interceptedRequest: okhttp3.Request = chain.request()
 
         val request = Request(
             method = interceptedRequest.method.toHttpMethod(),
             path = interceptedRequest.url.encodedPath,
         )
 
+        val requestShouldBeIgnored: Boolean = checkRequestShouldBeIgnored(
+            request = request,
+        )
 
-        /*try { TODO implement ignore path handling
-            handleIgnorePath(
-                method = method,
-                path = path,
-            )
-        } catch (e: Exception) {
-            chain.proceed(request)
-        }*/
+        if (requestShouldBeIgnored) chain.proceed(interceptedRequest)
 
-        /*val response = try {
+        val accessTokenAvailable: Boolean = runBlocking { // thread safe한 방식으로 구현 필요
+            checkAccessTokenAvailable()
+        }
 
-        }*/
+        if (accessTokenAvailable.not()) {
+            runBlocking {
+                reissueAndSaveToken()
+            }
+        }
 
-        return chain.proceed(interceptedRequest)
+        return chain.proceed(
+            interceptedRequest,
+        )
     }
 
-    /*private fun handleIgnorePath(
-        method: HttpMethod,
-        path: String,
-    ): Nothing? {
-        return run {
-            if () throw
-            else
-        }
-    }*/
+    private fun checkRequestShouldBeIgnored(
+        request: Request,
+    ): Boolean {
+        return ignoreRequestWrapper.ignoreRequests.any { it == request }
+    }
 
-    /*private fun reissueTokenOrNull() : Response? {
-        // TODO reissue token, or return null
-        return TODO()
-    }*/
+    private suspend fun checkAccessTokenAvailable(): Boolean {
+
+        val accessTokenExpiredAt = authorizationFacade.accessTokenExpiredAt().toDate(
+            tokenDateFormat,
+        )
+
+        val currentTime = Date()
+
+        return accessTokenExpiredAt.before(currentTime)
+    }
+
+    private suspend fun reissueAndSaveToken() {
+
+        val refreshToken = authorizationFacade.refreshToken()
+
+        val reissuedToken = tokenReissueClient(
+            refreshToken = refreshToken,
+        )
+
+        authorizationFacade.saveToken(
+            token = reissuedToken,
+        )
+    }
 }
