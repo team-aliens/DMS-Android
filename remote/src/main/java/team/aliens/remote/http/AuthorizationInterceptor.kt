@@ -2,21 +2,26 @@ package team.aliens.remote.http
 
 import okhttp3.Interceptor
 import okhttp3.Response
+import team.aliens.data._facade.AuthorizationFacade
 import team.aliens.remote.common.toHttpMethod
 
 class AuthorizationInterceptor(
-    // TODO local storage source injection
-    // TODO token reissue client injection
+    private val authorizationFacade: AuthorizationFacade,
+    private val tokenReissueClient: TokenReissueClient,
+    private val ignoreRequestWrapper: IgnoreRequestWrapper,
 ) : Interceptor {
 
     override fun intercept(
         chain: Interceptor.Chain,
     ): Response {
 
-        val request = chain.request()
+        val interceptedRequest = chain.request()
 
-        val method = request.method.toHttpMethod()
-        val path = request.url.encodedPath
+        val request = Request(
+            method = interceptedRequest.method.toHttpMethod(),
+            path = interceptedRequest.url.encodedPath,
+        )
+
 
         /*try { TODO implement ignore path handling
             handleIgnorePath(
@@ -31,7 +36,7 @@ class AuthorizationInterceptor(
 
         }*/
 
-        return chain.proceed(request)
+        return chain.proceed(interceptedRequest)
     }
 
     /*private fun handleIgnorePath(

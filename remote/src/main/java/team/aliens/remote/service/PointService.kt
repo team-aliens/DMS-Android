@@ -3,7 +3,7 @@ package team.aliens.remote.service
 import retrofit2.http.GET
 import retrofit2.http.Query
 import team.aliens.remote.annotation.RequiresAccessToken
-import team.aliens.remote.common.HttpPath.Points.FetchPoints
+import team.aliens.remote.common.HttpPath.Point.FetchPoints
 import team.aliens.remote.common.HttpProperty.QueryString.Page
 import team.aliens.remote.common.HttpProperty.QueryString.Size
 import team.aliens.remote.common.HttpProperty.QueryString.Type

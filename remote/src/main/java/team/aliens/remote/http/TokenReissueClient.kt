@@ -6,8 +6,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import team.aliens.domain._exception.CommonException
+import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.remote.common.HttpProperty
-import team.aliens.remote.model._common.AuthenticationResponse
 
 class TokenReissueClient(
     private val reissueUrl: String,
@@ -15,7 +15,7 @@ class TokenReissueClient(
 
     internal operator fun invoke(
         refreshToken: String,
-    ): AuthenticationResponse {
+    ): AuthenticationOutput {
 
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
 
@@ -26,7 +26,7 @@ class TokenReissueClient(
 
             Gson().fromJson(
                 response.body!!.string(),
-                AuthenticationResponse::class.java,
+                AuthenticationOutput::class.java,
             )
         } else {
             throw CommonException.SignInRequired

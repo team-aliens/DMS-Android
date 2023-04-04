@@ -42,14 +42,14 @@ internal sealed class HttpPath(
         const val Withdraw = "/${Companion.Students}"
     }
 
-    object Users : HttpPath(
+    object User : HttpPath(
         path = this.Users,
     ) {
         const val EditPassword = "/${Companion.Users}/password"
         const val ComparePassword = "/${Companion.Users}/password"
     }
 
-    object Schools : HttpPath(
+    object School : HttpPath(
         path = this.Schools,
     ) {
         const val FetchSchools = "/${Companion.Schools}"
@@ -59,20 +59,20 @@ internal sealed class HttpPath(
         const val FetchAvailableFeatures = "/${Companion.Schools}/available-features"
     }
 
-    object Files : HttpPath(
+    object File : HttpPath(
         path = this.Files,
     ) {
         const val UploadFile = "/${Companion.Files}"
         const val FetchPreSignedUrl = "/${Companion.Files}/url"
     }
 
-    object Meals : HttpPath(
+    object Meal : HttpPath(
         path = this.Meals,
     ) {
         const val FetchMeals = "/${Companion.Meals}/{date}"
     }
 
-    object Notices : HttpPath(
+    object Notice : HttpPath(
         path = this.Notices,
     ) {
         const val FetchWhetherNewNoticesExist = "/${Companion.Notices}/status"
@@ -80,13 +80,13 @@ internal sealed class HttpPath(
         const val FetchNotices = "/${Companion.Notices}"
     }
 
-    object Points : HttpPath(
+    object Point : HttpPath(
         path = this.Points,
     ) {
         const val FetchPoints = "/${Companion.Points}"
     }
 
-    object StudyRooms : HttpPath(
+    object StudyRoom : HttpPath(
         path = this.StudyRooms,
     ) {
 

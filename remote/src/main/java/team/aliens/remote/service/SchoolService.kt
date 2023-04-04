@@ -4,11 +4,11 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.remote.annotation.RequiresAccessToken
-import team.aliens.remote.common.HttpPath.Schools.ExamineSchoolVerificationCode
-import team.aliens.remote.common.HttpPath.Schools.ExamineSchoolVerificationQuestion
-import team.aliens.remote.common.HttpPath.Schools.FetchAvailableFeatures
-import team.aliens.remote.common.HttpPath.Schools.FetchSchoolVerificationQuestion
-import team.aliens.remote.common.HttpPath.Schools.FetchSchools
+import team.aliens.remote.common.HttpPath.School.ExamineSchoolVerificationCode
+import team.aliens.remote.common.HttpPath.School.ExamineSchoolVerificationQuestion
+import team.aliens.remote.common.HttpPath.School.FetchAvailableFeatures
+import team.aliens.remote.common.HttpPath.School.FetchSchoolVerificationQuestion
+import team.aliens.remote.common.HttpPath.School.FetchSchools
 import team.aliens.remote.common.HttpProperty.PathVariable.SchoolId
 import team.aliens.remote.common.HttpProperty.QueryString.Answer
 import team.aliens.remote.common.HttpProperty.QueryString.SchoolCode

@@ -4,9 +4,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.remote.annotation.RequiresAccessToken
-import team.aliens.remote.common.HttpPath.Notices.FetchNoticeDetails
-import team.aliens.remote.common.HttpPath.Notices.FetchNotices
-import team.aliens.remote.common.HttpPath.Notices.FetchWhetherNewNoticesExist
+import team.aliens.remote.common.HttpPath.Notice.FetchNoticeDetails
+import team.aliens.remote.common.HttpPath.Notice.FetchNotices
+import team.aliens.remote.common.HttpPath.Notice.FetchWhetherNewNoticesExist
 import team.aliens.remote.common.HttpProperty.PathVariable.NoticeId
 import team.aliens.remote.common.HttpProperty.QueryString.Order
 import team.aliens.remote.model.notice.FetchNoticeDetailsResponse

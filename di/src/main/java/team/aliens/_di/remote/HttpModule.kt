@@ -1,18 +1,21 @@
 package team.aliens._di.remote
-/*
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level
-import retrofit2.Retrofit
-import team.aliens.data.intercepter.DefaultOkHttpClient
+import team.aliens.data._facade.AuthorizationFacade
+import team.aliens.di.BuildConfig
+import team.aliens.remote.annotation.BaseUrl
 import team.aliens.remote.annotation.GlobalOkHttpClient
-import team.aliens.remote.interceptor.AuthorizationInterceptor
+import team.aliens.remote.annotation.TokenReissueOkHttpClient
+import team.aliens.remote.annotation.TokenReissueUrl
+import team.aliens.remote.http.AuthorizationInterceptor
+import team.aliens.remote.http.IgnoreRequestWrapper
+import team.aliens.remote.http.TokenReissueClient
 import team.aliens.remote.util.OkHttpClient
-import team.aliens.remote.util.Retrofit
 import javax.inject.Singleton
 import team.aliens.remote.BuildConfig as RemoteBuildConfig
 
@@ -22,23 +25,38 @@ object HttpModule {
 
     @Provides
     @Singleton
+    @BaseUrl
+    fun provideBaseUrl(): String {
+        return if (BuildConfig.DEBUG) {
+            RemoteBuildConfig.DEV_BASE_URL
+        } else {
+            RemoteBuildConfig.PROD_BASE_URL
+        }
+    }
+
+/*    @Provides
+    @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(
-            if (RemoteBuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 Level.BODY
             } else {
                 Level.NONE
             }
         )
-    }
+    }*/
 
     @Provides
     @Singleton
     fun provideAuthInterceptor(
-        // TODO add arguments
+        authorizationFacade: AuthorizationFacade,
+        tokenReissueClient: TokenReissueClient,
+        ignoreRequestWrapper: IgnoreRequestWrapper,
     ): AuthorizationInterceptor {
         return AuthorizationInterceptor(
-            // TODO add arguments
+            authorizationFacade = authorizationFacade,
+            tokenReissueClient = tokenReissueClient,
+            ignoreRequestWrapper = ignoreRequestWrapper,
         )
     }
 
@@ -62,19 +80,36 @@ object HttpModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(
-        @DefaultOkHttpClient okHttpClient: OkHttpClient,
-    ): Retrofit {
-
-        val clients = arrayOf(
-            okHttpClient,
-        )
-
-        return Retrofit(
-            clients = clients,
-            baseUrl = "", // todo
-            gsonConverterFactory = true,
+    @TokenReissueOkHttpClient
+    fun provideTokenReissueOkHttpClient(
+        @TokenReissueUrl tokenReissueUrl: String,
+    ): TokenReissueClient {
+        return TokenReissueClient(
+            reissueUrl = tokenReissueUrl,
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideIgnoreRequestWrapper(): IgnoreRequestWrapper {
+        return IgnoreRequestWrapper()
+    }
+
+    /* @Provides
+     @Singleton
+     fun provideRetrofit(
+         @GlobalOkHttpClient okHttpClient: OkHttpClient,
+         @BaseUrl baseUrl: String,
+     ): Retrofit {
+
+         val clients = arrayOf(
+             okHttpClient,
+         )
+
+         return Retrofit(
+             clients = clients,
+             baseUrl = baseUrl,
+             gsonConverterFactory = true,
+         )
+     }*/
 }
-*/
