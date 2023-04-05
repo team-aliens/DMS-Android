@@ -187,7 +187,8 @@
     <string name="NoAvailableStudyRoom">신청 가능한 자습실이 없습니다.</string>
     <string name="SeatAlreadyBeenUsed">이미 사용중인 자리입니다.</string>
     <string name="NotAvailableSeat">신청할 수 없는 자리입니다.</string>
-    <string name="NotStudyRoomApplicateTime">현재 자습실 신청 시간이 아닙니다.</string>
+    <string name="NotStudyRoomApplicateTime">현재 자습실 신청 시간이 아닙니다.</string>실
+    <string name="NotFoundStudyRoomSeat">존재하지 않는 자리입니다.</string>
 
     // 바텀 내비게이션
     <string name="Home">홈</string>

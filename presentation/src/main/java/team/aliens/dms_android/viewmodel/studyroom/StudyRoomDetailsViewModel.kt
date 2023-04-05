@@ -12,6 +12,7 @@ import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.param.ApplyStudyRoomParam
 import team.aliens.domain.param.StudyRoomDetailParam
@@ -109,15 +110,19 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     is ConflictException -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
+                    is NotFoundException -> emitErrorEvent(
+                        errorMessage = application.getString(R.string.NotFoundStudyRoomSeat)
+                    )
                     is KotlinNullPointerException -> { // todo optimize code
                         fetchStudyRoomDetails(
                             roomId = roomId,
                             timeSlot = timeSlot,
                         )
                     }
+                    else -> {
+                        emitErrorEventFromThrowable(it)
+                    }
                 }
-            }.onFailure {
-                emitErrorEventFromThrowable(it)
             }
         }
     }
@@ -156,8 +161,6 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     startAt = it.startAt.extractHourFromDate(),
                     endAt = it.endAt.extractHourFromDate(),
                 )
-            }.onFailure {
-                emitErrorEventFromThrowable(it)
             }
         }
     }
