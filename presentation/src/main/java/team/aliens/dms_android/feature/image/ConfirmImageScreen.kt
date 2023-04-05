@@ -44,6 +44,12 @@ internal fun ConfirmImageScreen(
 
     val scope = rememberCoroutineScope()
 
+    var confirmButtonState by remember {
+        mutableStateOf(false)
+    }
+
+    confirmButtonState = confirmImageViewModel.confirmImageButtonState.collectAsState().value
+
     LaunchedEffect(Unit) {
         confirmImageViewModel.confirmImageEvent.collect {
             when (it) {
@@ -102,6 +108,7 @@ internal fun ConfirmImageScreen(
                     val selectedImage = fetchImage(context) ?: return@launch
 
                     confirmImageViewModel.setImage(selectedImage)
+                    confirmImageViewModel.setConfirmButtonState(true)
 
                     gettingImageOptionDialogState = false
                 }
@@ -173,6 +180,7 @@ internal fun ConfirmImageScreen(
             DormContainedLargeButton(
                 text = stringResource(R.string.Check),
                 color = DormButtonColor.Blue,
+                enabled = confirmButtonState,
             ) {
                 confirmImageViewModel.editProfileImage()
             }

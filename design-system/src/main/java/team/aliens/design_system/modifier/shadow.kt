@@ -13,7 +13,9 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 
+@DormDeprecated
 fun Modifier.dormShadow(
     color: Color,
     alpha: Float = 0.2f,
@@ -46,6 +48,7 @@ fun Modifier.dormShadow(
     }
 }
 
+@DormDeprecated
 fun Modifier.innerShadow(
     color: Color = Color.Black,
     cornersRadius: Dp = 0.dp,

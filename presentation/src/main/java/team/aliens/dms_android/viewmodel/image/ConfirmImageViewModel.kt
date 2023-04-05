@@ -14,6 +14,9 @@ import team.aliens.domain.usecase.file.RemoteUploadFileUseCase
 import team.aliens.domain.usecase.students.RemoteEditProfileImageUseCase
 import java.io.File
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class ConfirmImageViewModel @Inject constructor(
@@ -28,6 +31,9 @@ class ConfirmImageViewModel @Inject constructor(
 
     private var _confirmImageEvent = MutableEventFlow<Event>()
     internal val confirmImageEvent = _confirmImageEvent.asEventFlow()
+
+    private var _confirmImageButtonState = MutableStateFlow(true)
+    internal val confirmImageButtonState = _confirmImageButtonState.asStateFlow()
 
     internal fun uploadImage() {
         runBlocking {
@@ -45,6 +51,7 @@ class ConfirmImageViewModel @Inject constructor(
 
 
     internal fun editProfileImage() {
+        setConfirmButtonState(false)
         viewModelScope.launch {
             kotlin.runCatching {
 
@@ -86,6 +93,14 @@ class ConfirmImageViewModel @Inject constructor(
         oldState: ConfirmImageState,
         event: ConfirmImageEvent,
     ) {
+    }
+
+    internal fun setConfirmButtonState(
+        confirmButtonState: Boolean,
+    ){
+        viewModelScope.launch(Dispatchers.Main) {
+            _confirmImageButtonState.emit(confirmButtonState)
+        }
     }
 
     sealed class Event {

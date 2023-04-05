@@ -4,7 +4,9 @@ import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import team.aliens.design_system.R
+import team.aliens.design_system.annotation.DormDeprecated
 
+@DormDeprecated
 @Immutable
 @JvmInline
 value class DormIcon private constructor(

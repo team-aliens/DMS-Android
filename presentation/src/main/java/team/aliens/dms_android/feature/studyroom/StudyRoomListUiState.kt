@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
+import java.util.UUID
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
@@ -10,6 +11,8 @@ data class StudyRoomListUiState(
     var endAt: String = "",
     var studyRooms: List<StudyRoomInformation> = emptyList(),
     var studyRoomAvailableTime: List<StudyRoomAvailableTimeListEntity.AvailableTime> = emptyList(),
+    var timeSlot: UUID? = null,
+    var hasApplyTime: Boolean = false,
 ) : BaseUiState
 
 data class StudyRoomDetailsUiState(

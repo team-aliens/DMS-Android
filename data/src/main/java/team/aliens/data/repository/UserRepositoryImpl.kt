@@ -12,7 +12,7 @@ import team.aliens.domain.param.*
 import team.aliens.domain.repository.UserRepository
 import team.aliens.local_database.datasource.declaration.LocalUserDataSource
 import team.aliens.local_database.localutil.toLocalDateTime
-import team.aliens.local_database.param.FeaturesParam
+import team.aliens.local_database.param.UserVisibleParam
 import team.aliens.local_database.param.UserPersonalKeyParam
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class UserRepositoryImpl @Inject constructor(
         // 발생할 경우를 대비해서 방어적으로 코드를 작성하였습니다
         localUserDataSource.setAutoSignInOption(loginParam.autoLogin)
 
-        localUserDataSource.setUserVisibleInform(response.features.toDbEntity())
+        localUserDataSource.setUserVisibleInform(response.features.toParam())
 
         localUserDataSource.setPersonalKey(response.toDbEntity())
     }
@@ -46,7 +46,7 @@ class UserRepositoryImpl @Inject constructor(
                 refreshToken = refreshToken,
             )
 
-            val enabledFeatures = response.features.toDbEntity()
+            val enabledFeatures = response.features.toParam()
 
             localUserDataSource.setUserVisibleInform(enabledFeatures)
             localUserDataSource.setPersonalKey(response.toDbEntity())
@@ -123,11 +123,13 @@ private fun CheckIdResponse.toEntity(): CheckIdEntity {
     )
 }
 
-private fun SignInResponse.Features.toDbEntity(): FeaturesParam {
-    return FeaturesParam(
+private fun SignInResponse.Features.toParam(): UserVisibleParam {
+    return UserVisibleParam(
         mealService = mealService,
         noticeService = noticeService,
         pointService = pointService,
+        studyRoomService = studyRoomService,
+        remainService = remainService,
     )
 }
 

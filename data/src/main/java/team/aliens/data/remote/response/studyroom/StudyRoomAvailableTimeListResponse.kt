@@ -5,9 +5,10 @@ import java.util.*
 
 data class StudyRoomAvailableTimeListResponse(
     @SerializedName("time_slots") val timeSlots: List<AvailableTime>,
-){
+) {
     data class AvailableTime(
         @SerializedName("id") val id: UUID,
-        @SerializedName("name") val name: String,
+        @SerializedName("start_time") val startTime: String,
+        @SerializedName("end_time") val endTime: String,
     )
 }

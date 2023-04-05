@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
@@ -31,6 +32,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body5
 
+@DormDeprecated
 @Composable
 fun DormCustomDialog(
     onDismissRequest: () -> Unit,
@@ -67,6 +69,7 @@ private val DormDoubleButtonDialogMainButtonShape: Shape = RoundedCornerShape(
 @Stable
 private val DormSurveyDialogShape: Shape = RoundedCornerShape(6.dp)
 
+@DormDeprecated
 @Composable
 fun DormSurveyDialog(
     icon: DormIcon,
@@ -132,15 +135,21 @@ fun DormSurveyDialog(
     }
 }
 
+@DormDeprecated
 @Composable
 fun DormBottomAlignedContainedLargeButtonDialog(
     btnText: String,
     btnColor: DormButtonColor,
     onBtnClick: () -> Unit,
+    onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .dormClickable {
+                onDismissRequest()
+            },
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
@@ -167,6 +176,7 @@ fun DormBottomAlignedContainedLargeButtonDialog(
     }
 }
 
+@DormDeprecated
 @Composable
 fun DormBottomAlignedSingleButtonDialog(
     btnText: String,
@@ -217,6 +227,7 @@ fun DormBottomAlignedSingleButtonDialog(
     }
 }
 
+@DormDeprecated
 @Composable
 fun DormDoubleButtonDialog(
     content: String,
@@ -306,6 +317,7 @@ fun DormDoubleButtonDialog(
     }
 }
 
+@DormDeprecated
 @Composable
 fun DormSingleButtonDialog(
     content: String,

@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
@@ -31,6 +32,7 @@ enum class SurveyState(name: String) {
     ToDo("진행중"), InProgress("시작전"), Done("종료"),
 }
 
+@DormDeprecated
 @Composable
 fun SurveyList(
     modifier: Modifier = Modifier,

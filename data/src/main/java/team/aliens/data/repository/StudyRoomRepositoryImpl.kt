@@ -1,34 +1,70 @@
 package team.aliens.data.repository
 
-import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
-import team.aliens.data.remote.response.studyroom.*
-import team.aliens.domain.entity.studyroom.*
-import team.aliens.domain.repository.StudyRoomRepository
+import java.util.UUID
 import javax.inject.Inject
+import team.aliens.data.remote.datasource.declaration.RemoteStudyRoomDataSource
+import team.aliens.data.remote.response.studyroom.ApplySeatTimeResponse
+import team.aliens.data.remote.response.studyroom.CurrentStudyRoomOptionResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomAvailableTimeListResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomDetailResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomListResponse
+import team.aliens.data.remote.response.studyroom.StudyRoomTypeResponse
+import team.aliens.domain.entity.studyroom.ApplySeatTimeEntity
+import team.aliens.domain.entity.studyroom.CurrentStudyRoomOptionEntity
+import team.aliens.domain.entity.studyroom.SeatTypeEntity
+import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
+import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain.entity.studyroom.StudyRoomListEntity
+import team.aliens.domain.param.ApplyStudyRoomParam
+import team.aliens.domain.param.StudyRoomDetailParam
+import team.aliens.domain.repository.StudyRoomRepository
 
 class StudyRoomRepositoryImpl @Inject constructor(
     private val remoteStudyRoomDataSource: RemoteStudyRoomDataSource,
 ) : StudyRoomRepository {
 
-    override suspend fun applySeat(data: String) {
-        remoteStudyRoomDataSource.applySeat(data)
+    override suspend fun applySeat(
+        applyStudyRoomParam: ApplyStudyRoomParam,
+    ) {
+        remoteStudyRoomDataSource.applySeat(
+            seatId = applyStudyRoomParam.seatId,
+            timeSlot = applyStudyRoomParam.timeSlot,
+        )
     }
 
     override suspend fun fetchApplySeatTime(): ApplySeatTimeEntity =
         remoteStudyRoomDataSource.fetchApplySeatTime().toEntity()
 
-    override suspend fun cancelApplySeat() {
-        remoteStudyRoomDataSource.cancelApplySeat()
+    override suspend fun cancelApplySeat(
+        timeSlot: UUID,
+    ) {
+        remoteStudyRoomDataSource.cancelApplySeat(
+            timeSlot = timeSlot,
+        )
     }
 
-    override suspend fun fetchStudyRoomList(): StudyRoomListEntity =
-        remoteStudyRoomDataSource.fetchStudyRoomList().toEntity()
+    override suspend fun fetchStudyRoomList(
+        timeSlot: UUID,
+    ): StudyRoomListEntity =
+        remoteStudyRoomDataSource.fetchStudyRoomList(
+            timeSlot = timeSlot,
+        ).toEntity()
 
-    override suspend fun fetchStudyRoomType(): SeatTypeEntity =
-        remoteStudyRoomDataSource.fetchStudyRoomType().toEntity()
+    override suspend fun fetchStudyRoomType(
+        studyRoomId: UUID,
+    ): SeatTypeEntity =
+        remoteStudyRoomDataSource.fetchStudyRoomType(
+            studyRoomId = studyRoomId,
+        ).toEntity()
 
-    override suspend fun fetchStudyRoomDetail(roomId: String): StudyRoomDetailEntity =
-        remoteStudyRoomDataSource.fetchStudyRoomDetail(roomId).toEntity()
+    override suspend fun fetchStudyRoomDetail(
+        studyRoomDetailParam: StudyRoomDetailParam,
+    ): StudyRoomDetailEntity {
+        return remoteStudyRoomDataSource.fetchStudyRoomDetail(
+            roomId = studyRoomDetailParam.roomId,
+            timeSlot = studyRoomDetailParam.timeSlot,
+        ).toEntity()
+    }
 
     override suspend fun fetchCurrentStudyRoomOption(): CurrentStudyRoomOptionEntity =
         remoteStudyRoomDataSource.fetchCurrentStudyRoomOption().toEntity()
@@ -137,7 +173,8 @@ class StudyRoomRepositoryImpl @Inject constructor(
     private fun StudyRoomAvailableTimeListResponse.AvailableTime.toEntity() =
         StudyRoomAvailableTimeListEntity.AvailableTime(
             id = this.id,
-            name = this.name,
+            startTime = this.startTime,
+            endTime = this.endTime,
         )
 }
 

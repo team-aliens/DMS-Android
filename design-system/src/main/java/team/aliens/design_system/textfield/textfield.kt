@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
@@ -37,6 +38,7 @@ import team.aliens.design_system.extension.Space
  * 기본적으로 로직이 깔끔하지 못해
  * 추후에 개선이 필요함.
  */
+@DormDeprecated
 @Composable
 fun DormTextField(
     modifier: Modifier = Modifier,
