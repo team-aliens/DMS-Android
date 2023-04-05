@@ -103,7 +103,7 @@ fun StudyRoomDetailScreen(
 
             if(uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
                 FloatingNotice(
-                    content = "자습실 신청 가능 시간 : ${uiState.startAt} ~ ${uiState.endAt}",
+                    content = stringResource(id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"),
                 )
             }
 

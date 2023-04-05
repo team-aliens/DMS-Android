@@ -111,7 +111,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
                     is NotFoundException -> emitErrorEvent(
-                        errorMessage = application.getString(R.string.NotFoundStudyRoomSeat)
+                        errorMessage = application.getString(R.string.study_room_seat_not_found),
                     )
                     is KotlinNullPointerException -> { // todo optimize code
                         fetchStudyRoomDetails(
