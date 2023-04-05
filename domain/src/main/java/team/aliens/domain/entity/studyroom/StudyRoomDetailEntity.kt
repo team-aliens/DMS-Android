@@ -3,6 +3,8 @@ package team.aliens.domain.entity.studyroom
 data class StudyRoomDetailEntity(
     var floor: Int,
     var name: String,
+    var startTime: String,
+    var endTime: String,
     var totalAvailableSeat: Int,
     var inUseHeadCount: Int,
     var availableSex: String,

@@ -44,6 +44,8 @@ fun StudyRoomDetailScreen(
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
+    val availableTime =
+
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.initStudyRoom(
             roomId = roomId,
@@ -84,9 +86,10 @@ fun StudyRoomDetailScreen(
     ) {
 
         TopBar(
-            title = stringResource(
-                id = R.string.ApplicateStudyRoom,
-            ),
+//            title = stringResource(
+//                id = R.string.ApplicateStudyRoom,
+//            ),
+            title = "${uiState.studyRoomDetails.startTime} ~ ${uiState.studyRoomDetails.endTime}"
         ) {
             navController.popBackStack()
         }
@@ -106,7 +109,6 @@ fun StudyRoomDetailScreen(
                     content = stringResource(id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"),
                 )
             }
-
 
             Space(space = 24.dp)
 
