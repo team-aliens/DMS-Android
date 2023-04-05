@@ -6,6 +6,8 @@ import java.util.*
 data class StudyRoomDetailResponse(
     @SerializedName("floor") val floor: Int,
     @SerializedName("name") val name: String,
+    @SerializedName("start_time") val startTime: String,
+    @SerializedName("end_time") val endTime: String,
     @SerializedName("total_available_seat") val totalAvailableSeat: Int,
     @SerializedName("in_use_headcount") val inUseHeadCount: Int,
     @SerializedName("available_sex") val availableSex: String,

@@ -26,6 +26,8 @@ data class StudyRoomDetailUiState(
     var studyRoomDetails: StudyRoomDetailEntity = StudyRoomDetailEntity(
         floor = 0,
         name = "",
+        startTime = "",
+        endTime = "",
         totalAvailableSeat = 0,
         inUseHeadCount = 0,
         availableSex = "",

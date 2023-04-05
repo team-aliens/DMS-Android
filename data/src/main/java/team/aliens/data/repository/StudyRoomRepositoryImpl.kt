@@ -124,6 +124,8 @@ class StudyRoomRepositoryImpl @Inject constructor(
     private fun StudyRoomDetailResponse.toEntity() = StudyRoomDetailEntity(floor = floor,
         name = name,
         totalAvailableSeat = totalAvailableSeat,
+        startTime = startTime,
+        endTime = endTime,
         inUseHeadCount = inUseHeadCount,
         availableSex = availableSex,
         availableGrade = availableGrade.toString().toInt2(),
