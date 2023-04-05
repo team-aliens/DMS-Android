@@ -189,6 +189,7 @@
     <string name="NotAvailableSeat">신청할 수 없는 자리입니다.</string>
     <string name="NotStudyRoomApplicateTime">현재 자습실 신청 시간이 아닙니다.</string>
 
+
     // 바텀 내비게이션
     <string name="Home">홈</string>
     <string name="Guide">안내</string>
@@ -384,6 +385,7 @@
     <string name="study_room_error_seat_already_in_use">이미 사용중인 자리입니다</string>
     <string name="study_room_error_seat_not_available">사용할 수 없는 자리입니다</string>
     <string name="study_room_error_not_study_room_application_time">현재 자습실 신청 시간이 아닙니다</string>
+    <string name="study_room_seat_not_found">존재하지 않는 자리입니다.</string>
 
     <!--remain-->
     <string name="remain_stay">잔류</string>
