@@ -44,9 +44,9 @@ fun DmsApp(
     val applicationServiceEnabled =
         LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! || LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
 
-    if (!applicationServiceEnabled) {
-        with(NavigationItemsWrapper.navigationItems){
-            removeAt(indexOf(BottomNavigationItem.Application))
+    val navigationItems = NavigationItemsWrapper.navigationItems.also {
+        if (!applicationServiceEnabled) {
+            it.remove(BottomNavigationItem.Application)
         }
     }
 
@@ -58,6 +58,7 @@ fun DmsApp(
                 BottomNavBar(
                     navController = navHostController,
                     navBackStackEntry = navBackStackEntry,
+                    navigationItems = navigationItems,
                 )
             }
         },
@@ -115,9 +116,10 @@ private object NavigationItemsWrapper {
 }
 
 @Composable
-fun BottomNavBar(
+private fun BottomNavBar(
     navController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
+    navigationItems: List<BottomNavigationItem>,
 ) {
 
     val currentDestination = navBackStackEntry?.destination?.route
@@ -136,7 +138,7 @@ fun BottomNavBar(
             shadowElevation = 20f
         },
     ) {
-        NavigationItemsWrapper.navigationItems.forEach { navigationItem ->
+        navigationItems.forEach { navigationItem ->
 
             val selected = navigationItem.route == currentDestination
 
