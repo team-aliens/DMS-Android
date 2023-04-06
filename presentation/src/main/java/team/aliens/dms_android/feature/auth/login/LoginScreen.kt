@@ -65,19 +65,24 @@ fun LoginScreen(
     val onSignInSuccess = { visibleEntity: UserVisibleInformEntity ->
         feature.run {
             set(
-                Extra.isMealServiceEnabled, visibleEntity.mealService,
+                Extra.isMealServiceEnabled,
+                visibleEntity.mealService,
             )
             set(
-                Extra.isNoticeServiceEnabled, visibleEntity.noticeService
+                Extra.isNoticeServiceEnabled,
+                visibleEntity.noticeService,
             )
             set(
-                Extra.isPointServiceEnabled, visibleEntity.pointService
+                Extra.isPointServiceEnabled,
+                visibleEntity.pointService,
             )
             set(
-                Extra.isStudyRoomEnabled, visibleEntity.studyRoomService
+                Extra.isStudyRoomEnabled,
+                visibleEntity.studyRoomService,
             )
             set(
-                Extra.isRemainServiceEnabled, visibleEntity.remainService
+                Extra.isRemainServiceEnabled,
+                visibleEntity.remainService,
             )
         }
     }
