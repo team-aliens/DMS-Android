@@ -30,11 +30,13 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
+import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -58,32 +60,38 @@ fun LoginScreen(
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
 
+    val feature = LocalAvailableFeatures.current
+
+    val onSignInSuccess = { visibleEntity: UserVisibleInformEntity ->
+        feature.run {
+            set(
+                Extra.isMealServiceEnabled,
+                visibleEntity.mealService,
+            )
+            set(
+                Extra.isNoticeServiceEnabled,
+                visibleEntity.noticeService,
+            )
+            set(
+                Extra.isPointServiceEnabled,
+                visibleEntity.pointService,
+            )
+            set(
+                Extra.isStudyRoomEnabled,
+                visibleEntity.studyRoomService,
+            )
+            set(
+                Extra.isRemainServiceEnabled,
+                visibleEntity.remainService,
+            )
+        }
+    }
+
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
                 is Event.NavigateToHome -> {
-                    navController.currentBackStackEntry?.arguments?.apply {
-                        putBoolean(
-                            Extra.isMealServiceEnabled,
-                            event.userVisibleInformEntity.mealService
-                        )
-                        putBoolean(
-                            Extra.isNoticeServiceEnabled,
-                            event.userVisibleInformEntity.noticeService
-                        )
-                        putBoolean(
-                            Extra.isPointServiceEnabled,
-                            event.userVisibleInformEntity.pointService
-                        )
-                        putBoolean(
-                            Extra.isStudyRoomEnabled,
-                            event.userVisibleInformEntity.studyRoomService
-                        )
-                        putBoolean(
-                            Extra.isRemainServiceEnabled,
-                            event.userVisibleInformEntity.remainService
-                        )
-                    }
+                    onSignInSuccess(event.userVisibleInformEntity)
                     navController.navigate(NavigationRoute.Main) {
                         popUpTo(NavigationRoute.Login) {
                             inclusive = true
@@ -148,8 +156,7 @@ fun LoginScreen(
             rippleEnabled = false,
         ) {
             focusManager.clearFocus()
-        }
-    ) {
+        }) {
 
         Space(space = 92.dp)
 
