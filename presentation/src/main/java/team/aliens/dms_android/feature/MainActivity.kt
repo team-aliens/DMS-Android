@@ -22,16 +22,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             val secondIntent = intent
             val route = secondIntent.getStringExtra("route")
 
-            var availableFeatures = staticCompositionLocalOf {
-                emptyMap<String, Boolean>()
-            }
-
             if (route != null) {
                 DormTheme(
                     darkTheme = isSystemInDarkTheme(),
                 ) {
-                    availableFeatures = staticCompositionLocalOf {
-                        mapOf(
+                    val availableFeatures = staticCompositionLocalOf {
+                        mutableMapOf(
                             Extra.isMealServiceEnabled to intent.getBooleanExtra(
                                 Extra.isMealServiceEnabled, false,
                             ),
