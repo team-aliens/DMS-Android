@@ -53,7 +53,7 @@ fun MyPageScreen(
 
     val context = LocalContext.current
 
-    val isPointServiceEnabled = false//LocalAvailableFeatures.current[Extra.isPointServiceEnabled]
+    val isPointServiceEnabled = false
 
     var myPageState by remember {
         mutableStateOf(MyPageEntity())
