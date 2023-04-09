@@ -241,7 +241,7 @@ fun StudyRoomListScreen(
                             maxNumber = point.maxNumber,
                             condition = point.condition,
                             onClick = { seatId ->
-                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}/${point.isMine}")
+                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
                             },
                             isMine = point.isMine,
                         )

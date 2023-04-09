@@ -105,18 +105,15 @@ fun RootDms(
                 arguments = listOf(
                     navArgument("seatId") { type = NavType.StringType },
                     navArgument("timeSlot") { type = NavType.StringType },
-                    navArgument("isMine") { type = NavType.BoolType },
                 ),
             ) {
                 val roomId = it.arguments!!.getString("seatId")
                 val timeSlot = it.arguments!!.getString("timeSlot")
-                val isMine = it.arguments!!.getBoolean("isMine")
                 if (roomId != null) {
                     StudyRoomDetailScreen(
                         navController = navController,
                         roomId = roomId,
                         timeSlot = UUID.fromString(timeSlot),
-                        isMine = isMine,
                     )
                 }
             }

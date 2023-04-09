@@ -41,7 +41,6 @@ fun StudyRoomDetailScreen(
     navController: NavController,
     roomId: String,
     timeSlot: UUID,
-    isMine: Boolean,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
@@ -123,7 +122,7 @@ fun StudyRoomDetailScreen(
                 condition = uiState.studyRoomDetails.availableGrade + stringResource(
                     id = R.string.Grade,
                 ) + " ${uiState.studyRoomDetails.studyRoomSex}",
-                isMine = isMine,
+                isMine = false,
                 onClick = { },
             )
 
