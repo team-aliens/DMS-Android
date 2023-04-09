@@ -12,13 +12,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
+import team.aliens.design_system.component.DefaultAppliedTagSize
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.component.LastAppliedItem
+import team.aliens.design_system.component.LastAppliedItem
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.viewmodel.ApplicationViewModel
@@ -111,7 +112,10 @@ fun ApplicationCard(
             )
             if (lastApplicationText.isNotBlank()) {
                 Space(ratio = 1f)
-                LastAppliedItem(lastApplicationText)
+                LastAppliedItem(
+                    modifier = DefaultAppliedTagSize,
+                    text = lastApplicationText,
+                )
             }
         }
         Body5(

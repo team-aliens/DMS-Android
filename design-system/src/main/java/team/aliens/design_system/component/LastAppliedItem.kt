@@ -1,4 +1,4 @@
-package team.aliens.dms_android.component
+package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,25 +7,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.ButtonText
-import team.aliens.presentation.R
+
+val DefaultAppliedTagSize = Modifier.defaultMinSize(
+    minWidth = 60.dp,
+    minHeight = 30.dp,
+)
+
+val StudyRoomAppliedTagSize = Modifier.defaultMinSize(
+    minWidth = 50.dp,
+    minHeight = 26.dp,
+)
 
 @Composable
 fun LastAppliedItem(
+    modifier: Modifier = Modifier,
     text: String,
     backgroundColor: Color = DormTheme.colors.secondary,
     textColor: Color = DormTheme.colors.primary,
 ) {
     Box(
-        modifier = Modifier
-            .defaultMinSize(
-                minWidth = 60.dp,
-                minHeight = 30.dp,
-            )
-            .height(34.dp)
+        modifier = modifier
             .background(
                 color = backgroundColor,
                 shape = CircleShape,
@@ -36,7 +40,7 @@ fun LastAppliedItem(
         contentAlignment = Alignment.Center,
     ) {
         ButtonText(
-            text = text.ifBlank { stringResource(id = R.string.CompleteApplication) },
+            text = text,
             color = textColor,
         )
     }
