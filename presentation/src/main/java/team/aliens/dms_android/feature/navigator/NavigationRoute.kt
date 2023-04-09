@@ -17,7 +17,7 @@ object NavigationRoute {
     const val PointList = "pointList"
     const val StudyRoom = "studyRoom"
     const val RemainApplication = "remainApplication"
-    const val StudyRoomDetail = "studyRoomDetail/{seatId}/{timeSlot}"
+    const val StudyRoomDetail = "studyRoomDetail/{seatId}/{timeSlot}/{isMine}"
     const val ConfirmImage = "confirmImage"
     const val ComparePassword = "comparePassword"
     const val VerifySchool = "verifySchool"
