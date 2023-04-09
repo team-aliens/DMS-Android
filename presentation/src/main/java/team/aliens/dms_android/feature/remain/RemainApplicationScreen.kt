@@ -242,7 +242,7 @@ fun ApplicationCard(
                     Space(space = 20.dp)
                     LastAppliedItem(
                         modifier = DefaultAppliedTagSize,
-                        text = stringResource(id = R.string.CompleteApplication),
+                        text = stringResource(id = R.string.application_completed),
                     )
                 }
             }
