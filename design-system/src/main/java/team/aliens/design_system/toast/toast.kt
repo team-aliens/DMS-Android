@@ -2,10 +2,25 @@ package team.aliens.design_system.toast
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import java.lang.ref.WeakReference
+import team.aliens.design_system.extension.Space
+import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.typography.Body3
 
 class ToastWrapper(context: Context) {
     private val contextWrapper = WeakReference(context)
@@ -32,5 +47,56 @@ fun rememberToast(): ToastWrapper {
         ToastWrapper(
             context = context,
         )
+    }
+}
+
+@Composable
+fun DormToast(
+    message: String,
+    textColor: Color,
+    isShowToast: Boolean,
+    drawable: Int,
+) {
+
+    Column {
+        AnimatedVisibility(
+            visible = isShowToast,
+        ) {
+
+            this@Column.Space(space = 50.dp)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .dormShadow(
+                        color = DormTheme.colors.primaryVariant,
+                    )
+                    .clip(
+                        shape = RoundedCornerShape(4.dp),
+                    )
+                    .background(
+                        color = DormTheme.colors.onError,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+                Space(space = 14.dp)
+
+                Image(
+                    modifier = Modifier.size(22.dp),
+                    painter = painterResource(drawable),
+                    contentDescription = null,
+                )
+
+                Space(space = 8.dp)
+
+                Body3(
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    text = message,
+                    color = textColor,
+                )
+            }
+        }
     }
 }
