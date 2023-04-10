@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.component.DefaultAppliedTagSize
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.extension.Space
@@ -32,7 +33,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.component.LastAppliedItem
+import team.aliens.design_system.component.LastAppliedItem
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
@@ -220,6 +221,7 @@ fun MyPageScreen(
                     Space(space = 20.dp)
 
                     LastAppliedItem(
+                        modifier = DefaultAppliedTagSize,
                         // fixme
                         text = myPageState.sex.gender,
                         backgroundColor = if (myPageState.sex == Gender.MALE) {

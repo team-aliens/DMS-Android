@@ -243,6 +243,7 @@ fun StudyRoomListScreen(
                             onClick = { seatId ->
                                 navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
                             },
+                            isMine = point.isMine,
                         )
                     }
                 } else {

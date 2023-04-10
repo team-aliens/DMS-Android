@@ -122,6 +122,7 @@ fun StudyRoomDetailScreen(
                 condition = uiState.studyRoomDetails.availableGrade + stringResource(
                     id = R.string.Grade,
                 ) + " ${uiState.studyRoomDetails.studyRoomSex}",
+                isMine = false,
                 onClick = { },
             )
 

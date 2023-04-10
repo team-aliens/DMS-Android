@@ -343,6 +343,7 @@ fun RoomItem(
     currentNumber: Int,
     maxNumber: Int,
     condition: String,
+    isMine: Boolean,
     onClick: (String) -> Unit,
 ) {
     Box(
@@ -400,12 +401,26 @@ fun RoomItem(
 
             Space(space = 14.dp)
 
+            Row {
+                // available gender
+                Body5(
+                    text = condition,
+                    color = DormTheme.colors.primary,
+                )
 
-            // available gender
-            Body5(
-                text = condition,
-                color = DormTheme.colors.primary,
-            )
+                Space(
+                    ratio = 1f,
+                )
+
+                if(isMine) {
+                    LastAppliedItem(
+                        text = "신청함",
+                        modifier = StudyRoomAppliedTagSize,
+                        backgroundColor = DormTheme.colors.primary,
+                        textColor = DormTheme.colors.onError,
+                    )
+                }
+            }
         }
     }
 }

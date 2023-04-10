@@ -366,7 +366,7 @@
     <!--application-->
     <string name="application">신청</string>
     <string name="application_do_apply">신청하기</string>
-    <string name="application_applied">신청 완료</string>
+    <string name="application_completed">신청 완료</string>
     
     <string name="application_success">신청이 완료되었습니다</string>
 
