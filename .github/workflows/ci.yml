@@ -25,9 +25,11 @@ jobs:
       - name: Generate local.properties
         run: |
           echo $PROD_BASE_URL >> ./local.properties
-          cat 
+          echo $DEV_BASE_URL >> ./local.properties
+          cat
         env:
             PROD_BASE_URL: ${{secrets.PROD_BASE_URL}}
+            DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
       - name: Build with Gradle
         run: ./gradlew build
       - name: Run test
