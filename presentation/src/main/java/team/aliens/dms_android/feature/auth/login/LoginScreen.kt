@@ -20,19 +20,23 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
+import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.toast.DormToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.util.compose.DormToastWrapper
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
 import team.aliens.presentation.R
@@ -44,7 +48,7 @@ fun LoginScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
 
-    val toast = rememberToast()
+//    val toast = rememberToast()
 
     val context = LocalContext.current
 
@@ -56,7 +60,17 @@ fun LoginScreen(
         mutableStateOf(false)
     }
 
+    var isShowToast by remember { mutableStateOf(false) }
+    var toastMessage by remember { mutableStateOf("") }
+
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
+
+    LaunchedEffect(isShowToast) {
+        if (isShowToast) {
+            delay(3000)
+            isShowToast = false
+        }
+    }
 
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
@@ -89,14 +103,12 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
-
                 }
                 else -> {
-                    toast(
-                        getStringFromEvent(
-                            context = context,
-                            event = event,
-                        ),
+                    isShowToast = true
+                    toastMessage = getStringFromEvent(
+                        context = context,
+                        event = event,
                     )
                 }
             }
@@ -139,151 +151,161 @@ fun LoginScreen(
         )
     }
 
-
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = DormTheme.colors.surface)
-        .padding(16.dp)
-        .dormClickable(
-            rippleEnabled = false,
-        ) {
-            focusManager.clearFocus()
-        }
-    ) {
-
-        Space(space = 92.dp)
-
-        AppLogo(darkIcon = isSystemInDarkTheme())
-
-        Space(space = 8.dp)
-
-        Body2(
-            text = stringResource(
-                id = R.string.AppDescription,
-            ),
-        )
-
-        Space(space = 60.dp)
-
-        // 아이디
-        DormTextField(
-            value = idState,
-            onValueChange = onIdChange,
-            hint = stringResource(id = R.string.ID),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-            ),
-            keyboardActions = KeyboardActions(onNext = {
-                focusManager.moveFocus(FocusDirection.Next)
-            }),
-        )
-
-        Space(space = 36.dp)
-
-        // 비밀번호
-        DormTextField(
-            value = passwordState,
-            onValueChange = onPasswordChange,
-            isPassword = true,
-            hint = stringResource(id = R.string.Password),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-            ),
-            keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()
-            }),
-        )
-
-        Space(space = 30.dp)
-
-        DormTextCheckBox(
-            modifier = Modifier.padding(
-                start = 6.dp,
-            ),
-            text = stringResource(id = R.string.AutoLogin),
-            checked = autoLoginState,
-            onCheckedChange = onAutoLoginStateChange,
-        )
-
-        Space(space = 26.dp)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(CenterHorizontally)
-                .padding(horizontal = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
+    Box {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(color = DormTheme.colors.surface)
+            .padding(16.dp)
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            }
         ) {
 
-            Caption(
-                text = stringResource(id = R.string.DoRegister),
-                onClick = {
-                    navController.navigate(NavigationRoute.VerifySchool)
-                },
-                color = DormTheme.colors.primaryVariant,
-            )
+            Space(space = 92.dp)
 
-            Caption(
-                text = "|",
-                color = DormTheme.colors.primaryVariant,
-            )
+            AppLogo(darkIcon = isSystemInDarkTheme())
 
-            Caption(
+            Space(space = 8.dp)
+
+            Body2(
                 text = stringResource(
-                    id = R.string.FindId,
+                    id = R.string.AppDescription,
                 ),
-                onClick = {
-                    navController.navigate(NavigationRoute.FindId)
-                },
-                color = DormTheme.colors.primaryVariant,
             )
 
-            Caption(
-                text = "|",
-                color = DormTheme.colors.primaryVariant,
+            Space(space = 60.dp)
+
+            // 아이디
+            DormTextField(
+                value = idState,
+                onValueChange = onIdChange,
+                hint = stringResource(id = R.string.ID),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                ),
+                keyboardActions = KeyboardActions(onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                }),
             )
 
-            Caption(
-                text = stringResource(
-                    id = R.string.ChangePassword,
+            Space(space = 36.dp)
+
+            // 비밀번호
+            DormTextField(
+                value = passwordState,
+                onValueChange = onPasswordChange,
+                isPassword = true,
+                hint = stringResource(id = R.string.Password),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
                 ),
-                onClick = {
-                    navController.navigate(NavigationRoute.Identification)
-                },
-                color = DormTheme.colors.primaryVariant,
+                keyboardActions = KeyboardActions(onDone = {
+                    keyboardController?.hide()
+                }),
             )
+
+            Space(space = 30.dp)
+
+            DormTextCheckBox(
+                modifier = Modifier.padding(
+                    start = 6.dp,
+                ),
+                text = stringResource(id = R.string.AutoLogin),
+                checked = autoLoginState,
+                onCheckedChange = onAutoLoginStateChange,
+            )
+
+            Space(space = 26.dp)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(CenterHorizontally)
+                    .padding(horizontal = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+                Caption(
+                    text = stringResource(id = R.string.DoRegister),
+                    onClick = {
+                        navController.navigate(NavigationRoute.VerifySchool)
+                    },
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = "|",
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = stringResource(
+                        id = R.string.FindId,
+                    ),
+                    onClick = {
+                        navController.navigate(NavigationRoute.FindId)
+                    },
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = "|",
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = stringResource(
+                        id = R.string.ChangePassword,
+                    ),
+                    onClick = {
+                        navController.navigate(NavigationRoute.Identification)
+                    },
+                    color = DormTheme.colors.primaryVariant,
+                )
+            }
+
+            Space(ratio = 1f)
+
+            DormContainedLargeButton(
+                text = stringResource(id = R.string.Login),
+                color = DormButtonColor.Blue,
+                enabled = signInButtonState,
+                onClick = {
+
+//                    if (signInViewModel.state.value.id.isBlank()) {
+//
+//                        toast(message = context.getString(R.string.PleaseEnterId))
+//
+//                        return@DormContainedLargeButton
+//                    }
+//
+//                    if (signInViewModel.state.value.password.isBlank()) {
+//
+//                        toast(message = context.getString(R.string.PleaseEnterPassword))
+//
+//                        return@DormContainedLargeButton
+//                    }
+
+                    signInViewModel.disableSignInButton()
+
+                    signInViewModel.postSignIn()
+                },
+            )
+
+            Space(space = 57.dp)
         }
 
-        Space(ratio = 1f)
-
-        DormContainedLargeButton(
-            text = stringResource(id = R.string.Login),
-            color = DormButtonColor.Blue,
-            enabled = signInButtonState,
-            onClick = {
-
-                if (signInViewModel.state.value.id.isBlank()) {
-
-                    toast(message = context.getString(R.string.PleaseEnterId))
-
-                    return@DormContainedLargeButton
-                }
-
-                if (signInViewModel.state.value.password.isBlank()) {
-
-                    toast(message = context.getString(R.string.PleaseEnterPassword))
-
-                    return@DormContainedLargeButton
-                }
-
-                signInViewModel.disableSignInButton()
-
-                signInViewModel.postSignIn()
-            },
-        )
-
-        Space(space = 57.dp)
+        DormToastWrapper {
+            DormToast(
+                message = toastMessage,
+                textColor = DormColor.Error,
+                isShowToast = isShowToast,
+                drawable = DormIcon.Error.drawableId,
+            )
+        }
     }
 }
 
