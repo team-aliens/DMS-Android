@@ -16,13 +16,13 @@ abstract class DataStorageModule {
 
     @Binds
     @Singleton
-    abstract fun provideAuthDataStorage(
+    abstract fun bindAuthDataStorage(
         impl: AuthDataStorageImpl,
     ): AuthDataStorage
 
     @Binds
     @Singleton
-    abstract fun provideStudentDataStorage(
+    abstract fun bindStudentDataStorage(
         impl: SchoolDataStorageImpl,
     ): SchoolDataStorage
 }
