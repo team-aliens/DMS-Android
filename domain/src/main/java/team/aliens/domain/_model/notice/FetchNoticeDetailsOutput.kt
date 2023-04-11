@@ -4,6 +4,7 @@ import java.util.*
 
 /**
  * A response returned when fetching notice details
+ * @property id the notice's id
  * @property title the detail's title
  * @property content the detail's content
  * @property createdAt when the detail was created at
