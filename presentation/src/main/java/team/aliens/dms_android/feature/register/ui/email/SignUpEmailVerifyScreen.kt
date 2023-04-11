@@ -137,6 +137,7 @@ fun SignUpEmailVerifyScreen(
                                 )
                             }
                         }
+                        navigate(NavigationRoute.SignUpId)
                     }
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
