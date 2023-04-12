@@ -114,7 +114,7 @@ fun SignUpEmailVerifyScreen(
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     with(navController) {
                         currentBackStackEntry?.arguments?.run {
-                            currentBackStackEntry?.arguments?.let {
+                            previousBackStackEntry?.arguments?.let {
                                 putString(
                                     "schoolCode",
                                     it.getString("schoolCode"),
