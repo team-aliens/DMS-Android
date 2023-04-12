@@ -114,7 +114,7 @@ fun SignUpEmailVerifyScreen(
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     with(navController) {
                         currentBackStackEntry?.arguments?.run {
-                            currentBackStackEntry?.arguments?.let {
+                            previousBackStackEntry?.arguments?.let {
                                 putString(
                                     "schoolCode",
                                     it.getString("schoolCode"),
@@ -137,6 +137,7 @@ fun SignUpEmailVerifyScreen(
                                 )
                             }
                         }
+                        navigate(NavigationRoute.SignUpId)
                     }
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {
@@ -268,7 +269,7 @@ fun SignUpEmailVerifyScreen(
                 text = time,
                 color = DormTheme.colors.primary,
             )
-            RatioSpace(height = 0.85f)
+            RatioSpace(height = 0.649f)
             ButtonText(
                 modifier = Modifier.dormClickable(
                     rippleEnabled = false,

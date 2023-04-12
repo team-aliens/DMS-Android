@@ -14,5 +14,7 @@ sealed class ErrorEvent {
 
     object InternalServerError : ErrorEvent()
 
+    object TimeOut : ErrorEvent()
+
     object Unknown : ErrorEvent()
 }
