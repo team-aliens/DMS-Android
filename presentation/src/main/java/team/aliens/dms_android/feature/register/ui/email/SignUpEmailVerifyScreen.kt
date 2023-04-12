@@ -269,7 +269,7 @@ fun SignUpEmailVerifyScreen(
                 text = time,
                 color = DormTheme.colors.primary,
             )
-            RatioSpace(height = 0.85f)
+            RatioSpace(height = 0.649f)
             ButtonText(
                 modifier = Modifier.dormClickable(
                     rippleEnabled = false,
