@@ -16,6 +16,7 @@ import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.domain.param.ApplyStudyRoomParam
+import team.aliens.domain.param.CancelStudyRoomParam
 import team.aliens.domain.param.StudyRoomDetailParam
 import team.aliens.domain.repository.StudyRoomRepository
 
@@ -36,10 +37,11 @@ class StudyRoomRepositoryImpl @Inject constructor(
         remoteStudyRoomDataSource.fetchApplySeatTime().toEntity()
 
     override suspend fun cancelApplySeat(
-        timeSlot: UUID,
+        cancelStudyRoomParam: CancelStudyRoomParam,
     ) {
         remoteStudyRoomDataSource.cancelApplySeat(
-            timeSlot = timeSlot,
+            seatId = cancelStudyRoomParam.seatId,
+            timeSlot = cancelStudyRoomParam.timeSlot,
         )
     }
 

@@ -15,6 +15,7 @@ import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.param.ApplyStudyRoomParam
+import team.aliens.domain.param.CancelStudyRoomParam
 import team.aliens.domain.param.StudyRoomDetailParam
 import team.aliens.domain.usecase.studyroom.*
 import team.aliens.presentation.R
@@ -35,7 +36,10 @@ class StudyRoomDetailsViewModel @Inject constructor(
             val timeSlot: UUID,
         ) : UiEvent()
 
-        object CancelApplySeat : UiEvent()
+        class CancelApplySeat(
+            val seatId: String,
+            val timeSlot: UUID,
+        ) : UiEvent()
 
         class ChangeSelectedSeat(val seat: String) : UiEvent()
     }
@@ -72,7 +76,10 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }
             is UiEvent.CancelApplySeat -> {
-                cancelSeat()
+                cancelSeat(
+                    seatId = event.seatId,
+                    timeSlot = event.timeSlot,
+                )
             }
             is UiEvent.ChangeSelectedSeat -> {
                 changeSelectedSeat(
@@ -127,16 +134,22 @@ class StudyRoomDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun cancelSeat() {
+    private fun cancelSeat(
+        seatId: String,
+        timeSlot: UUID,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 cancelApplySeatUseCase.execute(
-                    data = timeSlot!!
+                    CancelStudyRoomParam(
+                        seatId = seatId,
+                        timeSlot = timeSlot,
+                    ),
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
                     roomId = roomId,
-                    timeSlot = timeSlot!!,
+                    timeSlot = timeSlot,
                 )
             }.onFailure {
                 emitErrorEventFromThrowable(it)

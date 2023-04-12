@@ -28,6 +28,7 @@ interface StudyRoomApi {
 
     @DELETE(DmsUrl.StudyRoom.CancelApply)
     suspend fun cancelApplySeat(
+        @Path("seat-id") seatId: String,
         @Query("time_slot") timeSlot: UUID,
     ): Response<Unit>
 

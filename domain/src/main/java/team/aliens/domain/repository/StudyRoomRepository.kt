@@ -8,16 +8,19 @@ import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import team.aliens.domain.param.ApplyStudyRoomParam
+import team.aliens.domain.param.CancelStudyRoomParam
 import team.aliens.domain.param.StudyRoomDetailParam
 
 interface StudyRoomRepository {
 
-    suspend fun applySeat(applyStudyRoomParam: ApplyStudyRoomParam)
+    suspend fun applySeat(
+        applyStudyRoomParam: ApplyStudyRoomParam,
+    )
 
     suspend fun fetchApplySeatTime(): ApplySeatTimeEntity
 
     suspend fun cancelApplySeat(
-        timeSlot: UUID,
+        cancelStudyRoomParam: CancelStudyRoomParam,
     )
 
     suspend fun fetchStudyRoomList(
