@@ -17,6 +17,7 @@ interface StudyRoomRepository {
     suspend fun fetchApplySeatTime(): ApplySeatTimeEntity
 
     suspend fun cancelApplySeat(
+        seatId: String,
         timeSlot: UUID,
     )
 

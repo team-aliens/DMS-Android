@@ -36,9 +36,11 @@ class StudyRoomRepositoryImpl @Inject constructor(
         remoteStudyRoomDataSource.fetchApplySeatTime().toEntity()
 
     override suspend fun cancelApplySeat(
+        seatId: String,
         timeSlot: UUID,
     ) {
         remoteStudyRoomDataSource.cancelApplySeat(
+            seatId = seatId,
             timeSlot = timeSlot,
         )
     }
