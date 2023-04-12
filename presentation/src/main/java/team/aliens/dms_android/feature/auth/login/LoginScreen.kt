@@ -48,8 +48,6 @@ fun LoginScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
 
-//    val toast = rememberToast()
-
     val context = LocalContext.current
 
     val focusManager = LocalFocusManager.current
@@ -62,6 +60,17 @@ fun LoginScreen(
 
     var isShowToast by remember { mutableStateOf(false) }
     var toastMessage by remember { mutableStateOf("") }
+
+    var isIdError by remember { mutableStateOf(false) }
+    var isPasswordError by remember { mutableStateOf(false) }
+
+    val setToastStates = { event: Event ->
+        isShowToast = true
+        toastMessage = getStringFromEvent(
+            context = context,
+            event = event
+        )
+    }
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
 
@@ -104,12 +113,19 @@ fun LoginScreen(
                         }
                     }
                 }
+
+                is Event.UserNotFound -> {
+                    isIdError = true
+                    setToastStates(event)
+                }
+
+                is Event.NotCorrectPassword -> {
+                    isPasswordError = true
+                    setToastStates(event)
+                }
+
                 else -> {
-                    isShowToast = true
-                    toastMessage = getStringFromEvent(
-                        context = context,
-                        event = event,
-                    )
+                    setToastStates(event)
                 }
             }
         }
@@ -132,6 +148,9 @@ fun LoginScreen(
     val onIdChange by remember {
         mutableStateOf(
             { value: String ->
+                if (value.length != idState.length) {
+                    isIdError = false
+                }
                 idState = value
                 signInViewModel.setId(value)
             },
@@ -145,6 +164,9 @@ fun LoginScreen(
     val onPasswordChange by remember {
         mutableStateOf(
             { value: String ->
+                if (value.length != passwordState.length) {
+                    isPasswordError = false
+                }
                 passwordState = value
                 signInViewModel.setPassword(value)
             },
@@ -188,6 +210,7 @@ fun LoginScreen(
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
+                error = isIdError,
             )
 
             Space(space = 36.dp)
@@ -204,6 +227,7 @@ fun LoginScreen(
                 keyboardActions = KeyboardActions(onDone = {
                     keyboardController?.hide()
                 }),
+                error = isPasswordError,
             )
 
             Space(space = 30.dp)
@@ -274,20 +298,6 @@ fun LoginScreen(
                 color = DormButtonColor.Blue,
                 enabled = signInButtonState,
                 onClick = {
-
-//                    if (signInViewModel.state.value.id.isBlank()) {
-//
-//                        toast(message = context.getString(R.string.PleaseEnterId))
-//
-//                        return@DormContainedLargeButton
-//                    }
-//
-//                    if (signInViewModel.state.value.password.isBlank()) {
-//
-//                        toast(message = context.getString(R.string.PleaseEnterPassword))
-//
-//                        return@DormContainedLargeButton
-//                    }
 
                     signInViewModel.disableSignInButton()
 
