@@ -169,7 +169,10 @@ fun StudyRoomDetailScreen(
                     color = DormButtonColor.Gray,
                 ) {
                     studyRoomDetailsViewModel.onEvent(
-                        event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat,
+                        event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
+                            seatId = currentSeat,
+                            timeSlot = timeSlot,
+                        ),
                     )
                 }
 
