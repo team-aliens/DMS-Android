@@ -62,6 +62,7 @@ abstract class BaseViewModel<S : BaseUiState, E : BaseEvent> : ViewModel() {
             is UnauthorizedException -> ErrorEvent.Unauthorized
             is NoInternetException -> ErrorEvent.NoInternet
             is TooManyRequestException -> ErrorEvent.TooManyRequests
+            is TimeoutException -> ErrorEvent.TimeOut
             is ServerException -> ErrorEvent.InternalServerError
             else -> ErrorEvent.Unknown
         }
@@ -79,6 +80,7 @@ abstract class BaseViewModel<S : BaseUiState, E : BaseEvent> : ViewModel() {
                 ErrorEvent.TooManyRequests -> R.string.TooManyRequest
                 ErrorEvent.Unauthorized -> R.string.UnAuthorized
                 ErrorEvent.Unknown -> R.string.UnKnownException
+                ErrorEvent.TimeOut -> R.string.error_timeout
             },
         )
     }

@@ -3,6 +3,7 @@ package team.aliens.dms_android.viewmodel.auth.register.email
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.MutableEventFlow
@@ -14,7 +15,6 @@ import team.aliens.domain.param.RequestEmailCodeParam
 import team.aliens.domain.usecase.students.DuplicateCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteRequestEmailCodeUseCase
-import javax.inject.Inject
 
 @HiltViewModel
 class RegisterEmailViewModel @Inject constructor(
@@ -44,7 +44,6 @@ class RegisterEmailViewModel @Inject constructor(
                 when (it) {
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
                     is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
-                    is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.UnKnownException)
@@ -74,7 +73,6 @@ class RegisterEmailViewModel @Inject constructor(
                     is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
                     is UnauthorizedException -> event(RegisterEmailEvent.CheckEmailUnauthorized)
                     is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
-                    is ConflictException -> event(RegisterEmailEvent.ConflictException)
                     is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
                     is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.InternalServerException)
