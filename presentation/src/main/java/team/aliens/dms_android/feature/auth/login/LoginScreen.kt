@@ -20,11 +20,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
@@ -36,7 +34,6 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.util.compose.DormToastWrapper
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
 import team.aliens.presentation.R
@@ -58,28 +55,21 @@ fun LoginScreen(
         mutableStateOf(false)
     }
 
-    var isShowToast by remember { mutableStateOf(false) }
+    val isShowToast = remember { mutableStateOf(false) }
     var toastMessage by remember { mutableStateOf("") }
 
     var isIdError by remember { mutableStateOf(false) }
     var isPasswordError by remember { mutableStateOf(false) }
 
     val setToastStates = { event: Event ->
-        isShowToast = true
+        isShowToast.value = true
         toastMessage = getStringFromEvent(
             context = context,
-            event = event
+            event = event,
         )
     }
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
-
-    LaunchedEffect(isShowToast) {
-        if (isShowToast) {
-            delay(3000)
-            isShowToast = false
-        }
-    }
 
     LaunchedEffect(Unit) {
         signInViewModel.signInViewEffect.collect { event ->
@@ -308,14 +298,12 @@ fun LoginScreen(
             Space(space = 57.dp)
         }
 
-        DormToastWrapper {
-            DormToast(
-                message = toastMessage,
-                textColor = DormColor.Error,
-                isShowToast = isShowToast,
-                drawable = DormIcon.Error.drawableId,
-            )
-        }
+        DormToast(
+            message = toastMessage,
+            textColor = DormTheme.colors.error,
+            drawable = DormIcon.Error.drawableId,
+            isShowToast = isShowToast,
+        )
     }
 }
 
