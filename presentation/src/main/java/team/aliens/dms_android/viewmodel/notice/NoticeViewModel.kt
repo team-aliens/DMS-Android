@@ -1,7 +1,9 @@
 package team.aliens.dms_android.viewmodel.notice
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -17,17 +19,18 @@ import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
-import team.aliens.domain.usecase.notice.RemoteNoticeDetailUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeListUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeListUseCase
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val remoteNoticeListUseCase: RemoteNoticeListUseCase,
-    private val remoteNoticeDetailUseCase: RemoteNoticeDetailUseCase,
+    private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
     val localNoticeListUseCase: LocalNoticeListUseCase,
     val localNoticeDetailUseCase: LocalNoticeDetailUseCase,
@@ -65,22 +68,25 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
-    fun fetchNoticeDetail(noticeId: String) {
-        viewModelScope.launch {
+    fun fetchNoticeDetail(
+        noticeId: UUID,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                remoteNoticeDetailUseCase.execute(noticeId)
+                fetchNoticeDetailsUseCase(noticeId)
             }.onSuccess {
                 emitNoticeDetailState(
                     NoticeDetail(
                         title = it.title,
                         content = it.content,
-                        createAt = "${it.createAt.split('.')[0].split('T')[0]} " +
-                                it.createAt.split('.')[0].split('T')[1].split(':')[0] +
+                        createAt = "${it.createdAt.split('.')[0].split('T')[0]} " +
+                                it.createdAt.split('.')[0].split('T')[1].split(':')[0] +
                                 ":" +
-                                it.createAt.split('.')[0].split('T')[1].split(':')[1]
+                                it.createdAt.split('.')[0].split('T')[1].split(':')[1]
                     )
                 )
             }.onFailure {
+                Log.e("LOG", "fetchNoticeDetail: $it")
                 when (it) {
                     is NullPointerException -> event2(Event.NullPointException)
                     is BadRequestException -> event2(Event.BadRequestException)
