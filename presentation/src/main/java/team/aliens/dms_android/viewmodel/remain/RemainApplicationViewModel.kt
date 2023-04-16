@@ -13,7 +13,7 @@ import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain.entity.remain.RemainOptionsEntity
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
-import team.aliens.domain.usecase.remain.RemoteFetchCurrentRemainOptionsUseCase
+import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.remain.RemoteFetchRemainOptionsUseCase
 import team.aliens.domain.usecase.remain.RemoteUpdateRemainOptionUseCase
 import java.util.*
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RemainApplicationViewModel @Inject constructor(
     private val updateRemainOptionUseCase: RemoteUpdateRemainOptionUseCase,
-    private val fetchCurrentRemainOptionsUseCase: RemoteFetchCurrentRemainOptionsUseCase,
+    private val fetchCurrentRemainOptionsUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val fetchAvailableRemainTimeUseCase: FetchRemainsApplicationTimeUseCase,
     private val fetchRemainOptionsUseCase: RemoteFetchRemainOptionsUseCase,
 ) : BaseViewModel<RemainApplicationState, RemainApplicationEvent>() {
@@ -48,7 +48,7 @@ class RemainApplicationViewModel @Inject constructor(
     internal fun fetchCurrentRemainOption() {
         viewModelScope.launch {
             kotlin.runCatching {
-                fetchCurrentRemainOptionsUseCase.execute(Unit)
+                fetchCurrentRemainOptionsUseCase()
             }.onSuccess {
                 event(Event.CurrentRemainOption(it.title))
             }.onFailure {
