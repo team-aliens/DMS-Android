@@ -10,7 +10,7 @@ import team.aliens.dms_android.feature.image.ConfirmImageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.file.RemoteUploadFileUseCase
+import team.aliens.domain.usecase.file.UploadFileUseCase
 import team.aliens.domain.usecase.students.RemoteEditProfileImageUseCase
 import java.io.File
 import javax.inject.Inject
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class ConfirmImageViewModel @Inject constructor(
-    private val remoteUploadFileUseCase: RemoteUploadFileUseCase,
+    private val uploadFileUseCase: UploadFileUseCase,
     private val remoteEditProfileImageUseCase: RemoteEditProfileImageUseCase,
 ) : BaseViewModel<ConfirmImageState, ConfirmImageEvent>() {
 
@@ -38,7 +38,7 @@ class ConfirmImageViewModel @Inject constructor(
     internal fun uploadImage() {
         runBlocking {
             kotlin.runCatching {
-                remoteUploadFileUseCase.execute(state.value.selectedImage!!) // non-null checked
+                uploadFileUseCase(state.value.selectedImage!!) // non-null checked
             }.onSuccess {
                 profileUrl = it.fileUrl
             }.onFailure {
