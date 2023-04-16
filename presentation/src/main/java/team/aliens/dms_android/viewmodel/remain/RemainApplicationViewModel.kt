@@ -9,10 +9,10 @@ import team.aliens.dms_android.feature.remain.RemainApplicationState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
-import team.aliens.domain.entity.remain.AvailableRemainTimeEntity
+import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain.entity.remain.RemainOptionsEntity
 import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.remain.RemoteFetchAvailableRemainTimeUseCase
+import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
 import team.aliens.domain.usecase.remain.RemoteFetchCurrentRemainOptionsUseCase
 import team.aliens.domain.usecase.remain.RemoteFetchRemainOptionsUseCase
 import team.aliens.domain.usecase.remain.RemoteUpdateRemainOptionUseCase
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class RemainApplicationViewModel @Inject constructor(
     private val updateRemainOptionUseCase: RemoteUpdateRemainOptionUseCase,
     private val fetchCurrentRemainOptionsUseCase: RemoteFetchCurrentRemainOptionsUseCase,
-    private val fetchAvailableRemainTimeUseCase: RemoteFetchAvailableRemainTimeUseCase,
+    private val fetchAvailableRemainTimeUseCase: FetchRemainsApplicationTimeUseCase,
     private val fetchRemainOptionsUseCase: RemoteFetchRemainOptionsUseCase,
 ) : BaseViewModel<RemainApplicationState, RemainApplicationEvent>() {
 
@@ -60,7 +60,7 @@ class RemainApplicationViewModel @Inject constructor(
     internal fun fetchAvailableRemainTime() {
         viewModelScope.launch {
             kotlin.runCatching {
-                fetchAvailableRemainTimeUseCase.execute(Unit)
+                fetchAvailableRemainTimeUseCase()
             }.onSuccess {
                 event(Event.AvailableRemainTime(it))
             }.onFailure {
@@ -103,7 +103,7 @@ class RemainApplicationViewModel @Inject constructor(
 
     sealed class Event {
         object UpdateRemainOption : Event()
-        data class AvailableRemainTime(val availableRemainTimeEntity: AvailableRemainTimeEntity) :
+        data class AvailableRemainTime(val fetchRemainsApplicationTimeOutput: FetchRemainsApplicationTimeOutput) :
             Event()
 
         data class CurrentRemainOption(val title: String) : Event()
