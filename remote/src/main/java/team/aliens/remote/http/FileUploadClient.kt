@@ -5,8 +5,9 @@ import okhttp3.Request
 import team.aliens.remote.util.toOctetStreamRequestBody
 import java.io.File
 import java.io.IOException
+import javax.inject.Inject
 
-class FileUploadClient : OkHttpClient() {
+class FileUploadClient @Inject constructor() : OkHttpClient() {
 
     operator fun invoke(
         file: File,
