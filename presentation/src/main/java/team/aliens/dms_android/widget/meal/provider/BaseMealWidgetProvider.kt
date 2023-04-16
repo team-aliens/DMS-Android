@@ -3,13 +3,10 @@ package team.aliens.dms_android.widget.meal.provider
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import team.aliens.dms_android.widget.meal.MealState
 import team.aliens.dms_android.widget.meal.MealType
-import team.aliens.domain.entity.MealEntity
-import team.aliens.domain.usecase.meal.RemoteMealUseCase
+import team.aliens.domain._model.meal.FetchMealsOutput
+import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.presentation.R
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -31,7 +28,7 @@ import javax.inject.Inject
 abstract class BaseMealWidgetProvider : AppWidgetProvider() {
 
     @Inject
-    lateinit var remoteMealUseCase: RemoteMealUseCase
+    lateinit var fetchMealsUseCase: FetchMealsUseCase
 
     /**
      * [MealType.getCurrentMealType] 를 통해 가져온 급식 타입에 맞는 급식 상태를 가져옵니다.
@@ -40,10 +37,10 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
     suspend fun getMealState(
         context: Context,
     ): MealState {
-        val nowDate = LocalDate.now()
+        val nowDate = LocalDate.now().toString()
         val nowDateTime = LocalDateTime.now()
 
-        var mealEntity = MealEntity.MealsValue(
+        var mealEntity = FetchMealsOutput.MealInformation(
             date = LocalDate.now().toString(),
             breakfast = listOf(context.getString(R.string.MealNotFound)),
             lunch = listOf(context.getString(R.string.MealNotFound)),
@@ -51,11 +48,11 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
         )
 
         kotlin.runCatching {
-            remoteMealUseCase.execute(nowDate)
+            fetchMealsUseCase(nowDate)
         }.onSuccess { result ->
             mealEntity = result
                 .meals
-                .first { it.date == LocalDate.now().toString() }
+                .first { it.date == nowDateTime.toString() }
         }
 
         val currentMealType = MealType.getCurrentMealType(nowDateTime)

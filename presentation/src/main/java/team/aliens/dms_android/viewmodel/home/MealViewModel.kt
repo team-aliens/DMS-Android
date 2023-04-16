@@ -9,8 +9,12 @@ import team.aliens.dms_android.feature.cafeteria.MealList
 import team.aliens.dms_android.feature.cafeteria.MealState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.meal.RemoteMealUseCase
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.local_domain.entity.meal.MealEntity
 import team.aliens.local_domain.usecase.meal.LocalMealUseCase
 import java.time.LocalDate
@@ -19,12 +23,12 @@ import javax.inject.Inject
 @HiltViewModel
 class MealViewModel @Inject constructor(
     private val localMealUseCase: LocalMealUseCase,
-    private val remoteMealUseCase: RemoteMealUseCase,
+    private val fetchMealsUseCase: FetchMealsUseCase,
 ) : BaseViewModel<MealState, MealEvent>() {
 
     init {
         state.value.selectedDay.run {
-            fetchMealFromRemote(this)
+            fetchMealFromRemote(this.toString())
             updateDay(this)
         }
     }
@@ -36,11 +40,11 @@ class MealViewModel @Inject constructor(
     val mealEvent = _mealEvent.asEventFlow()
 
     private fun fetchMealFromRemote(
-        date: LocalDate,
+        date: String,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteMealUseCase.execute(date)
+                fetchMealsUseCase(date)
             }.onSuccess {
                 fetchMealFromLocal(state.value.selectedDay) // todo separate fetch meals from remote, save meals on local
             }.onFailure {
@@ -108,7 +112,7 @@ class MealViewModel @Inject constructor(
     internal fun updateDay(day: LocalDate) {
 
         if (day.month != state.value.selectedDay.month) {
-            fetchMealFromRemote(day)
+            fetchMealFromRemote(day.toString())
         }
 
         setState(

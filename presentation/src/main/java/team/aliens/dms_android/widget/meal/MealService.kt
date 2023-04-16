@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.constans.Extra
-import team.aliens.domain.entity.MealEntity
-import team.aliens.domain.usecase.meal.RemoteMealUseCase
+import team.aliens.domain._model.meal.FetchMealsOutput
+import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.presentation.R
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class MealService : Service(), CoroutineScope by MainScope() {
 
     @Inject
-    lateinit var remoteMealUseCase: RemoteMealUseCase
+    lateinit var fetchMealsUseCase: FetchMealsUseCase
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -67,10 +67,10 @@ class MealService : Service(), CoroutineScope by MainScope() {
     }
 
     private suspend fun getMealState(): MealState {
-        val nowDate = LocalDate.now()
+        val nowDate = LocalDate.now().toString()
         val nowDateTime = LocalDateTime.now()
 
-        var mealEntity = MealEntity.MealsValue(
+        var mealEntity = FetchMealsOutput.MealInformation(
             date = LocalDate.now().toString(),
             breakfast = listOf(applicationContext.getString(R.string.MealNotFound)),
             lunch = listOf(applicationContext.getString(R.string.MealNotFound)),
@@ -78,11 +78,10 @@ class MealService : Service(), CoroutineScope by MainScope() {
         )
 
         kotlin.runCatching {
-            remoteMealUseCase.execute(nowDate)
+            fetchMealsUseCase(nowDate)
         }.onSuccess { result ->
-            mealEntity = result
-                .meals
-                .first { it.date == LocalDate.now().toString() }
+            mealEntity = result.meals.first { it.date == nowDateTime.toString() }
+            //.first { it.date == LocalDate.now().toString() }
         }
 
         val currentMealType = MealType.getCurrentMealType(nowDateTime)
