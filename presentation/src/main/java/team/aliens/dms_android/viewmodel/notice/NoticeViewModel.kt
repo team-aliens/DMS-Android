@@ -13,15 +13,15 @@ import team.aliens.dms_android.feature.notice.NoticeEvent
 import team.aliens.dms_android.feature.notice.NoticeState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.entity.notice.NoticeListEntity
+import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
+import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
-import team.aliens.domain.usecase.notice.RemoteNoticeListUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeListUseCase
 import java.util.UUID
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
-    private val remoteNoticeListUseCase: RemoteNoticeListUseCase,
+    private val fetchNoticesUseCase: FetchNoticesUseCase,
     private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
     val localNoticeListUseCase: LocalNoticeListUseCase,
@@ -49,12 +49,13 @@ class NoticeViewModel @Inject constructor(
     var noticeDetailViewEffect = _noticeDetailViewEffect.asStateFlow()
 
     fun fetchNoticeList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                remoteNoticeListUseCase.execute(state.value.type)
+                fetchNoticesUseCase(state.value.type)
             }.onSuccess {
                 event(Event.FetchNoticeList(it))
             }.onFailure {
+                Log.e("LOG", "fetchNotices: $it")
                 when (it) {
                     is NullPointerException -> event(Event.NullPointException)
                     is BadRequestException -> event(Event.BadRequestException)
@@ -79,10 +80,11 @@ class NoticeViewModel @Inject constructor(
                     NoticeDetail(
                         title = it.title,
                         content = it.content,
-                        createAt = "${it.createdAt.split('.')[0].split('T')[0]} " +
-                                it.createdAt.split('.')[0].split('T')[1].split(':')[0] +
-                                ":" +
-                                it.createdAt.split('.')[0].split('T')[1].split(':')[1]
+                        createAt = "${it.createdAt.split('.')[0].split('T')[0]} " + it.createdAt.split(
+                            '.'
+                        )[0].split('T')[1].split(':')[0] + ":" + it.createdAt.split('.')[0].split(
+                            'T'
+                        )[1].split(':')[1]
                     )
                 )
             }.onFailure {
@@ -144,7 +146,7 @@ class NoticeViewModel @Inject constructor(
     }
 
     sealed class Event {
-        data class FetchNoticeList(val noticeListEntity: NoticeListEntity) : Event()
+        data class FetchNoticeList(val fetchNoticesOutput: FetchNoticesOutput) : Event()
         object FetchNoticeDetail : Event()
         object NullPointException : Event()
         object BadRequestException : Event()

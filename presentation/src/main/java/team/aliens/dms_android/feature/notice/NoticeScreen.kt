@@ -35,15 +35,16 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
-import team.aliens.domain.entity.notice.NoticeListEntity
+import team.aliens.domain._model._common.Order
+import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain.enums.NoticeListSCType
 import team.aliens.domain.util.toDate
 import team.aliens.presentation.R
 
-fun NoticeListEntity.NoticeValue.toNotice() = Notice(
+fun FetchNoticesOutput.NoticeInformation.toNotice() = Notice(
     noticeId = this.id.toString(),
     title = this.title,
-    createAt = this.createAt,
+    createdAt = this.createdAt,
 )
 
 @Composable
@@ -76,12 +77,12 @@ fun NoticeScreen(
             when (it) {
                 is NoticeViewModel.Event.FetchNoticeList -> {
                     notices.clear()
-                    val mappingNotice = it.noticeListEntity.notices.map { item ->
+                    val mappingNotice = it.fetchNoticesOutput.notices.map { item ->
                         item.toNotice()
                     }
-                    for (i in 1..it.noticeListEntity.notices.size) {
-                        mappingNotice[i - 1].createAt =
-                            it.noticeListEntity.notices[i - 1].createAt.toDate()
+                    for (i in 1..it.fetchNoticesOutput.notices.size) {
+                        mappingNotice[i - 1].createdAt =
+                            it.fetchNoticesOutput.notices[i - 1].createdAt.toDate()
                     }
                     notices.addAll(mappingNotice.toMutableStateList())
                 }
@@ -169,12 +170,12 @@ fun OrderButton(
 
     Button(
         onClick = {
-            if (noticeViewModel.state.value.type == NoticeListSCType.NEW) {
-                noticeViewModel.state.value.type = NoticeListSCType.OLD
+            if (noticeViewModel.state.value.type == Order.NEW) {
+                noticeViewModel.state.value.type = Order.OLD
                 text = context.getString(R.string.OldestOrder)
                 noticeViewModel.fetchNoticeList()
             } else {
-                noticeViewModel.state.value.type = NoticeListSCType.NEW
+                noticeViewModel.state.value.type = Order.NEW
                 text = context.getString(R.string.LatestOrder)
                 noticeViewModel.fetchNoticeList()
             }
