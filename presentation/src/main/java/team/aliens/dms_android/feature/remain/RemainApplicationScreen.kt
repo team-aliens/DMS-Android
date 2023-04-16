@@ -51,7 +51,7 @@ import team.aliens.dms_android.component.LastAppliedItem
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
-import team.aliens.domain.entity.remain.RemainOptionsEntity
+import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import team.aliens.presentation.R
 import java.time.DayOfWeek
 import java.time.format.TextStyle
@@ -67,7 +67,8 @@ fun RemainApplicationScreen(
     var lastAppliedItem by remember { mutableStateOf("") }
     var noticeContent by remember { mutableStateOf("") }
 
-    val remainOptions = remember { mutableStateListOf<RemainOptionsEntity.RemainOptionEntity>() }
+    val remainOptions =
+        remember { mutableStateListOf<FetchRemainsOptionsOutput.RemainsOptionInformation>() }
 
     val toast = rememberToast()
 
@@ -96,7 +97,7 @@ fun RemainApplicationScreen(
                         }
                     }
                     is Event.RemainOptions -> {
-                        remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
+                        remainOptions.addAll(it.fetchRemainsOptionsOutput.remainOptions)
                     }
                     is Event.NotFoundException -> {}
                     else -> {

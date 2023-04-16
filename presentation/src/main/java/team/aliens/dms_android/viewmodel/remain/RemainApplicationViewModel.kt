@@ -10,13 +10,18 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
 import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain.entity.remain.RemainOptionsEntity
-import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
+import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
-import team.aliens.domain.usecase.remain.RemoteFetchRemainOptionsUseCase
+import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
+import team.aliens.domain.usecase.remain.FetchRemainsOptionsUseCase
 import team.aliens.domain.usecase.remain.RemoteUpdateRemainOptionUseCase
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +29,7 @@ class RemainApplicationViewModel @Inject constructor(
     private val updateRemainOptionUseCase: RemoteUpdateRemainOptionUseCase,
     private val fetchCurrentRemainOptionsUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val fetchAvailableRemainTimeUseCase: FetchRemainsApplicationTimeUseCase,
-    private val fetchRemainOptionsUseCase: RemoteFetchRemainOptionsUseCase,
+    private val fetchRemainOptionsUseCase: FetchRemainsOptionsUseCase,
 ) : BaseViewModel<RemainApplicationState, RemainApplicationEvent>() {
 
     override val initialState: RemainApplicationState
@@ -72,7 +77,7 @@ class RemainApplicationViewModel @Inject constructor(
     internal fun fetchRemainOptions() {
         viewModelScope.launch {
             kotlin.runCatching {
-                fetchRemainOptionsUseCase.execute(Unit)
+                fetchRemainOptionsUseCase()
             }.onSuccess {
                 event(Event.RemainOptions(it))
             }.onFailure {
@@ -107,16 +112,16 @@ class RemainApplicationViewModel @Inject constructor(
             Event()
 
         data class CurrentRemainOption(val title: String) : Event()
-        data class RemainOptions(val remainOptionsEntity: RemainOptionsEntity) : Event()
+        data class RemainOptions(val fetchRemainsOptionsOutput: FetchRemainsOptionsOutput) : Event()
 
         object BadRequestException : Event()
-        object NotFoundException: Event()
+        object NotFoundException : Event()
         object UnauthorizedException : Event()
         object ForbiddenException : Event()
         object TooManyRequestException : Event()
         object ServerException : Event()
-        object NullPointException: Event()
-        object UnknownException: Event()
+        object NullPointException : Event()
+        object UnknownException : Event()
     }
 }
 
@@ -124,7 +129,7 @@ class RemainApplicationViewModel @Inject constructor(
 private fun getEventFromThrowable(
     throwable: Throwable?,
 ): Event {
-    return when(throwable){
+    return when (throwable) {
         is BadRequestException -> Event.BadRequestException
         is NotFoundException -> Event.NotFoundException
         is UnauthorizedException -> Event.UnauthorizedException
