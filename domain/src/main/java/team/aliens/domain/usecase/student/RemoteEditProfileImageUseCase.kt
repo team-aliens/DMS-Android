@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.students
+package team.aliens.domain.usecase.student
 
 import team.aliens.domain.repository.StudentsRepository
 import team.aliens.domain.usecase.UseCase

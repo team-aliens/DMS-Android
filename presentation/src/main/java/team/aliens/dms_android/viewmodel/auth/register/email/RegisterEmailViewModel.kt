@@ -11,7 +11,7 @@ import team.aliens.domain.enums.EmailType
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.CheckEmailCodeParam
 import team.aliens.domain.param.RequestEmailCodeParam
-import team.aliens.domain.usecase.students.DuplicateCheckEmailUseCase
+import team.aliens.domain.usecase.student.DuplicateCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteCheckEmailUseCase
 import team.aliens.domain.usecase.user.RemoteRequestEmailCodeUseCase
 import javax.inject.Inject

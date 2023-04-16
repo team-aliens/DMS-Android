@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.students
+package team.aliens.domain.usecase.student
 
 import kotlinx.coroutines.flow.Flow
 import team.aliens.domain.entity.user.ExamineGradeEntity

@@ -1,13 +1,13 @@
-package team.aliens.domain.usecase.students
+package team.aliens.domain.usecase.student
 
 import team.aliens.domain.repository.StudentsRepository
 import team.aliens.domain.usecase.UseCase
 import javax.inject.Inject
 
-class DuplicateCheckIdUseCase @Inject constructor(
+class DuplicateCheckEmailUseCase @Inject constructor(
     private val studentsRepository: StudentsRepository,
 ) : UseCase<String, Unit>() {
     override suspend fun execute(data: String) {
-        studentsRepository.duplicateCheckId(data)
+        studentsRepository.duplicateCheckEmail(data)
     }
 }

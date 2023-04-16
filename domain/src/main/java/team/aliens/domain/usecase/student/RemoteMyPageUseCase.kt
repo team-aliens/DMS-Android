@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.mypage
+package team.aliens.domain.usecase.student
 
 import team.aliens.domain.entity.mypage.MyPageEntity
 import team.aliens.domain.repository.MyPageRepository

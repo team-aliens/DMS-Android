@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.mypage
+package team.aliens.domain.usecase.student
 
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType

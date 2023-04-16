@@ -11,7 +11,7 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.EditPasswordParam
 import team.aliens.domain.param.ResetPasswordParam
-import team.aliens.domain.usecase.students.RemoteResetPasswordUseCase
+import team.aliens.domain.usecase.student.RemoteResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
 import team.aliens.domain.usecase.user.RemoteCheckIdUseCase

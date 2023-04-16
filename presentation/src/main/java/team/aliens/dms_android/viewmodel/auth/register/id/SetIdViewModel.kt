@@ -10,8 +10,8 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.user.ExamineGradeEntity
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.ExamineGradeParam
-import team.aliens.domain.usecase.students.DuplicateCheckIdUseCase
-import team.aliens.domain.usecase.students.ExamineGradeUseCase
+import team.aliens.domain.usecase.student.DuplicateCheckIdUseCase
+import team.aliens.domain.usecase.student.ExamineGradeUseCase
 import java.util.*
 import javax.inject.Inject
 

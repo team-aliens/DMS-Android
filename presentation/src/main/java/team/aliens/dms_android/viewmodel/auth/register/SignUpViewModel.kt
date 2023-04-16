@@ -9,7 +9,7 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.RegisterParam
-import team.aliens.domain.usecase.students.RemoteSignUpUseCase
+import team.aliens.domain.usecase.student.RemoteSignUpUseCase
 import javax.inject.Inject
 
 @HiltViewModel

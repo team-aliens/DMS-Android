@@ -14,9 +14,9 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
 import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.mypage.RemoteMyPageUseCase
-import team.aliens.domain.usecase.mypage.RemotePointUseCase
-import team.aliens.domain.usecase.students.RemoteStudentWithdrawUseCase
+import team.aliens.domain.usecase.student.RemoteMyPageUseCase
+import team.aliens.domain.usecase.student.RemotePointUseCase
+import team.aliens.domain.usecase.student.RemoteStudentWithdrawUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
 import javax.inject.Inject
 

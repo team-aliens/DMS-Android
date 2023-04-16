@@ -11,7 +11,7 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
 import team.aliens.domain.usecase.file.UploadFileUseCase
-import team.aliens.domain.usecase.students.RemoteEditProfileImageUseCase
+import team.aliens.domain.usecase.student.RemoteEditProfileImageUseCase
 import java.io.File
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

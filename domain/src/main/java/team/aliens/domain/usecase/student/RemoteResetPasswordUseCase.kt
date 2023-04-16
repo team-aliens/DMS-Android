@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.students
+package team.aliens.domain.usecase.student
 
 import team.aliens.domain.param.ResetPasswordParam
 import team.aliens.domain.repository.StudentsRepository
