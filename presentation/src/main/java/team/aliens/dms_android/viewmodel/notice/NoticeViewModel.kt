@@ -12,8 +12,12 @@ import team.aliens.dms_android.feature.notice.NoticeState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.notice.NoticeListEntity
-import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.notice.RemoteCheckNewNoticeBooleanUseCase
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeDetailUseCase
 import team.aliens.domain.usecase.notice.RemoteNoticeListUseCase
 import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
@@ -24,7 +28,7 @@ import javax.inject.Inject
 class NoticeViewModel @Inject constructor(
     private val remoteNoticeListUseCase: RemoteNoticeListUseCase,
     private val remoteNoticeDetailUseCase: RemoteNoticeDetailUseCase,
-    private val remoteCheckNewNoticeBooleanUseCase: RemoteCheckNewNoticeBooleanUseCase,
+    private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
     val localNoticeListUseCase: LocalNoticeListUseCase,
     val localNoticeDetailUseCase: LocalNoticeDetailUseCase,
 ) : BaseViewModel<NoticeState, NoticeEvent>() {
@@ -90,12 +94,12 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
-    internal fun checkNewNotice(){
+    internal fun checkNewNotice() {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteCheckNewNoticeBooleanUseCase.execute(Unit)
+                fetchWhetherNewNoticesExistUseCase()
             }.onSuccess {
-                sendEvent(NoticeEvent.CheckNewNotice(it.noticeBoolean))
+                sendEvent(NoticeEvent.CheckNewNotice(it.newNotices))
             }.onFailure {
                 sendEvent(NoticeEvent.CheckNewNotice(false))
             }
@@ -126,7 +130,7 @@ class NoticeViewModel @Inject constructor(
     }
 
     override fun reduceEvent(oldState: NoticeState, event: NoticeEvent) {
-        when(event){
+        when (event) {
             is NoticeEvent.CheckNewNotice -> {
                 setState(oldState.copy(hasNewNotice = event.hasNewNotice))
             }
