@@ -75,9 +75,13 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         }.toDomain()
     }
 
-    override suspend fun fetchSeatTypes(): FetchSeatTypesOutput {
+    override suspend fun fetchSeatTypes(
+        studyRoomId: UUID,
+    ): FetchSeatTypesOutput {
         return sendHttpRequest {
-            studyRoomService.fetchSeatTypes()
+            studyRoomService.fetchSeatTypes(
+                studyRoomId = studyRoomId,
+            )
         }.toDomain()
     }
 

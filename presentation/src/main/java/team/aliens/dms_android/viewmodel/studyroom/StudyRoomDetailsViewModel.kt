@@ -16,7 +16,7 @@ import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
+import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.presentation.R
 import java.util.UUID
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private val applySeatUseCase: ApplySeatUseCase,
     private val fetchApplicationTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
     private val cancelApplySeatUseCase: CancelSeatUseCase,
-    private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
+    private val fetchSeatTypeUseCase: FetchSeatTypesUseCase,
 ) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
     sealed class UiEvent : BaseEvent {
@@ -200,7 +200,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun fetchRoomSeatType() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchSeatTypeUseCase.execute(
+                fetchSeatTypeUseCase(
                     studyRoomId = UUID.fromString(roomId),
                 )
             }.onSuccess {

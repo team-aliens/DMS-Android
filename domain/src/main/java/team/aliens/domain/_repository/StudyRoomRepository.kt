@@ -33,7 +33,9 @@ interface StudyRoomRepository {
 
     suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput
 
-    suspend fun fetchSeatTypes(): FetchSeatTypesOutput
+    suspend fun fetchSeatTypes(
+        studyRoomId: UUID,
+    ): FetchSeatTypesOutput
 
     suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput
 }

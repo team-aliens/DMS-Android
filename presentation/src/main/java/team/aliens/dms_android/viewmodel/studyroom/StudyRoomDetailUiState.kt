@@ -3,8 +3,8 @@ package team.aliens.dms_android.viewmodel.studyroom
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.domain._model._common.Sex
+import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import java.util.UUID
 
 data class StudyRoomDetailUiState(
@@ -14,13 +14,7 @@ data class StudyRoomDetailUiState(
     var startAt: String = "",
     var endAt: String = "",
     var errorMessage: MutableEventFlow<String> = MutableEventFlow(),
-    var seatType: SeatTypeEntity = SeatTypeEntity(
-        types = listOf(
-            SeatTypeEntity.Type(
-                color = "#FFFFFF", id = "", name = ""
-            )
-        )
-    ),
+    var seatType: FetchSeatTypesOutput = FetchSeatTypesOutput(listOf()),
     var seatBoolean: Boolean = false,
     var studyRoomDetails: FetchStudyRoomDetailsOutput = FetchStudyRoomDetailsOutput(
         floor = 0,

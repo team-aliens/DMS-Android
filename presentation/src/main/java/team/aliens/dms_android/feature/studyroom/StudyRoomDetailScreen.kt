@@ -25,8 +25,8 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
+import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
 import java.util.*
@@ -58,11 +58,6 @@ fun StudyRoomDetailScreen(
 
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
     val currentSeat = uiState.currentSeat.collectAsState("").value
-
-    fun SeatTypeEntity.Type.toModel() = SeatTypeUiModel(
-        color = color,
-        text = name,
-    )
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
@@ -211,6 +206,11 @@ fun StudyRoomDetailScreen(
         }
     }
 }
+
+fun FetchSeatTypesOutput.SeatTypeInformation.toModel() = SeatTypeUiModel(
+    color = this.color,
+    text = this.name,
+)
 
 /**
  * [StudyRoomDetailEntity] 를 디자인 시스템인 [RoomDetail] 에서 사용하기 위해

@@ -32,6 +32,7 @@ internal object HttpProperty {
         const val Name = "name"
         const val AccountId = "account_id"
         const val SchoolId = "school_id"
+        const val StudyRoomId = "study_room_id"
         const val Email = "email"
         const val Password = "password"
         const val AuthCode = "auth_code"

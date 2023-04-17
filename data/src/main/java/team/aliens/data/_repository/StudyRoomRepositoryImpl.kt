@@ -61,8 +61,12 @@ class StudyRoomRepositoryImpl @Inject constructor(
         return remoteStudyRoomDataSource.fetchCurrentAppliedStudyRoom()
     }
 
-    override suspend fun fetchSeatTypes(): FetchSeatTypesOutput {
-        return remoteStudyRoomDataSource.fetchSeatTypes()
+    override suspend fun fetchSeatTypes(
+        studyRoomId: UUID,
+    ): FetchSeatTypesOutput {
+        return remoteStudyRoomDataSource.fetchSeatTypes(
+            studyRoomId = studyRoomId,
+        )
     }
 
     override suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput {

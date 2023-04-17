@@ -17,6 +17,7 @@ import team.aliens.remote.common.HttpPath.StudyRoom.FetchStudyRoomDetails
 import team.aliens.remote.common.HttpPath.StudyRoom.FetchStudyRooms
 import team.aliens.remote.common.HttpProperty.PathVariable.SeatId
 import team.aliens.remote.common.HttpProperty.PathVariable.StudyRoomId
+import team.aliens.remote.common.HttpProperty.QueryString
 import team.aliens.remote.common.HttpProperty.QueryString.TimeSlot
 import team.aliens.remote.model.studyroom.FetchAvailableStudyRoomTimesResponse
 import team.aliens.remote.model.studyroom.FetchCurrentAppliedStudyRoomResponse
@@ -65,7 +66,9 @@ interface StudyRoomService {
 
     @GET(FetchSeatTypes)
     @RequiresAccessToken
-    suspend fun fetchSeatTypes(): FetchSeatTypesResponse
+    suspend fun fetchSeatTypes(
+        @Query(QueryString.StudyRoomId) studyRoomId: UUID,
+    ): FetchSeatTypesResponse
 
     @GET(FetchAvailableStudyRoomTimes)
     @RequiresAccessToken
