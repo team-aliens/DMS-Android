@@ -38,7 +38,7 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
-import team.aliens.domain.entity.studyroom.StudyRoomAvailableTimeListEntity
+import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -302,5 +302,5 @@ fun DormTimeChip(
 }
 
 private fun makeTimeRange(
-    studyRoomAvailableTimeList: StudyRoomAvailableTimeListEntity.AvailableTime,
+    studyRoomAvailableTimeList: FetchAvailableStudyRoomTimesOutput.TimeSlotInformation,
 ): String = "${studyRoomAvailableTimeList.startTime} ~ ${studyRoomAvailableTimeList.endTime}"

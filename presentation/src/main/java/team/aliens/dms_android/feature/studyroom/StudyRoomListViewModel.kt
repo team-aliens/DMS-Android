@@ -8,8 +8,8 @@ import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomAvailableTimeListUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
 import java.util.UUID
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
     private val studyRoomApplyTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
-    private val studyRoomAvailableTimeListUseCase: RemoteFetchStudyRoomAvailableTimeListUseCase,
+    private val studyRoomAvailableTimeListUseCase: FetchAvailableStudyRoomTimesUseCase,
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
     init {
@@ -113,17 +113,17 @@ class StudyRoomListViewModel @Inject constructor(
 
     private fun fetchStudyRoomAvailableTimeList() {
         viewModelScope.launch {
-            studyRoomAvailableTimeListUseCase()
-                .onSuccess { resultEntity ->
-                    _uiState.value = _uiState.value.copy(
-                        studyRoomAvailableTime = resultEntity.timeSlots,
-                    )
-                }
-                .onFailure {
-                    emitErrorEventFromThrowable(
-                        throwable = it
-                    )
-                }
+            kotlin.runCatching {
+                studyRoomAvailableTimeListUseCase()
+            }.onSuccess { resultEntity ->
+                _uiState.value = _uiState.value.copy(
+                    studyRoomAvailableTime = resultEntity.timeSlots,
+                )
+            }.onFailure {
+                emitErrorEventFromThrowable(
+                    throwable = it
+                )
+            }
         }
     }
 }
