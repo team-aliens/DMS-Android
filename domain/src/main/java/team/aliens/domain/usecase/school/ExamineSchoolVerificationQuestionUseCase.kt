@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.schools
+package team.aliens.domain.usecase.school
 
 import team.aliens.domain._repository.SchoolRepository
 import java.util.UUID

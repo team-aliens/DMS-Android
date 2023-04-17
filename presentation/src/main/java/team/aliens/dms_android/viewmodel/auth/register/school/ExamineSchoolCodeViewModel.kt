@@ -10,7 +10,7 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.usecase.schools.ExamineSchoolVerificationCodeUseCase
+import team.aliens.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
 import java.util.*
 import javax.inject.Inject
 

@@ -9,7 +9,7 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.*
 import team.aliens.domain.param.FindIdParam
-import team.aliens.domain.usecase.schools.FetchSchoolsUseCase
+import team.aliens.domain.usecase.school.FetchSchoolsUseCase
 import team.aliens.domain.usecase.student.FindIdUseCase
 import java.util.*
 import javax.inject.Inject

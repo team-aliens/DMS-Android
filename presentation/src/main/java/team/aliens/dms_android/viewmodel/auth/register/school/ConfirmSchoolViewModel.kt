@@ -14,8 +14,8 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.usecase.schools.ExamineSchoolVerificationQuestionUseCase
-import team.aliens.domain.usecase.schools.FetchSchoolQuestionUseCase
+import team.aliens.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
+import team.aliens.domain.usecase.school.FetchSchoolQuestionUseCase
 import java.util.UUID
 import javax.inject.Inject
 
