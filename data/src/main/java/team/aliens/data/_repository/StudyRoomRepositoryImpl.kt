@@ -1,9 +1,14 @@
 package team.aliens.data._repository
 
 import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
-import team.aliens.domain._model.studyroom.*
+import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.domain._repository.StudyRoomRepository
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class StudyRoomRepositoryImpl @Inject constructor(
@@ -25,9 +30,11 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     override suspend fun cancelSeat(
+        seatId: UUID,
         timeSlot: UUID,
     ) {
         return remoteStudyRoomDataSource.cancelSeat(
+            seatId = seatId,
             timeSlot = timeSlot,
         )
     }

@@ -1,5 +1,6 @@
 package team.aliens.remote.service
 
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -41,8 +42,9 @@ interface StudyRoomService {
     @DELETE(CancelSeat)
     @RequiresAccessToken
     suspend fun cancelSeat(
+        @Path(SeatId) seatId: UUID,
         @Query(TimeSlot) timeSlot: UUID,
-    )
+    ): Response<Unit>
 
     @GET(FetchStudyRooms)
     @RequiresAccessToken

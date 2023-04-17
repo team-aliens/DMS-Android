@@ -38,7 +38,10 @@ class StudyRoomDetailsViewModel @Inject constructor(
             val timeSlot: UUID,
         ) : UiEvent()
 
-        object CancelApplySeat : UiEvent()
+        class CancelApplySeat(
+            val seatId: UUID,
+            val timeSlot: UUID,
+        ) : UiEvent()
 
         class ChangeSelectedSeat(val seat: String) : UiEvent()
     }
@@ -46,6 +49,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(StudyRoomDetailUiState())
 
     private var roomId = _uiState.value.studyRoomId
+
     private var timeSlot = _uiState.value.timeSlot
 
     internal fun initStudyRoom(
@@ -75,7 +79,10 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }
             is UiEvent.CancelApplySeat -> {
-                cancelSeat()
+                cancelSeat(
+                    seatId = event.seatId,
+                    timeSlot = event.timeSlot,
+                )
             }
             is UiEvent.ChangeSelectedSeat -> {
                 changeSelectedSeat(
@@ -128,16 +135,20 @@ class StudyRoomDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun cancelSeat() {
+    private fun cancelSeat(
+        seatId: UUID,
+        timeSlot: UUID,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 cancelApplySeatUseCase(
-                    timeSlot = timeSlot!!
+                    seatId = UUID.fromString(seatId.toString()),
+                    timeSlot = timeSlot,
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
                     roomId = roomId,
-                    timeSlot = timeSlot!!,
+                    timeSlot = timeSlot,
                 )
             }.onFailure {
                 it.printStackTrace()

@@ -15,11 +15,7 @@ import team.aliens.domain.usecase.studyroom.*
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
-    private val studyRoomTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
-    private val studyApplySeatUseCase: ApplySeatUseCase,
-    private val studyCancelApplySeat: CancelSeatUseCase,
     private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
-    private val currentStudyRoomOptionUseCase: FetchCurrentAppliedStudyRoomUseCase,
     private val studyRoomAvailableTimeListUseCase: RemoteFetchStudyRoomAvailableTimeListUseCase,
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 

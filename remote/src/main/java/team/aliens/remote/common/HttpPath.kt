@@ -95,7 +95,7 @@ internal sealed class HttpPath(
 
         const val FetchStudyRoomApplicationTime = "/${Companion.StudyRooms}/available-time"
         const val ApplySeat = "/${Companion.StudyRooms}/$Seats/{seat-id}"
-        const val CancelSeat = "/${Companion.StudyRooms}/$Seats"
+        const val CancelSeat = "/${Companion.StudyRooms}/$Seats/{seat-id}"
         const val FetchStudyRooms = "/${Companion.StudyRooms}/list/$Students"
         const val FetchStudyRoomDetails = "/${Companion.StudyRooms}/{study-room-id}/$Students"
         const val FetchCurrentAppliedStudyRoom = "/${Companion.StudyRooms}/my"

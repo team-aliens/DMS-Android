@@ -8,9 +8,11 @@ class CancelSeatUseCase @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
 ) {
     suspend operator fun invoke(
+        seatId: UUID,
         timeSlot: UUID,
     ) {
         studyRoomRepository.cancelSeat(
+            seatId = seatId,
             timeSlot = timeSlot,
         )
     }

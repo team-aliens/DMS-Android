@@ -6,7 +6,7 @@ import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
-import java.util.*
+import java.util.UUID
 
 interface RemoteStudyRoomDataSource {
 
@@ -18,6 +18,7 @@ interface RemoteStudyRoomDataSource {
     )
 
     suspend fun cancelSeat(
+        seatId: UUID,
         timeSlot: UUID,
     )
 

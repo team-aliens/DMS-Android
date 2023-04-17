@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.util.*
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -29,6 +28,7 @@ import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
 import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
+import java.util.*
 
 /**
  * 자습실 상세보기 screen
@@ -101,9 +101,12 @@ fun StudyRoomDetailScreen(
 
             Space(space = 17.dp)
 
-            if(uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
+            if (uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
                 FloatingNotice(
-                    content = stringResource(id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"),
+                    content = stringResource(
+                        id = R.string.study_room_apply_time,
+                        "${uiState.startAt} ~ ${uiState.endAt}"
+                    ),
                 )
             }
 
@@ -166,7 +169,10 @@ fun StudyRoomDetailScreen(
                     color = DormButtonColor.Gray,
                 ) {
                     studyRoomDetailsViewModel.onEvent(
-                        event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat,
+                        event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
+                            seatId = UUID.fromString(currentSeat),
+                            timeSlot = timeSlot,
+                        ),
                     )
                 }
 
