@@ -1,14 +1,13 @@
 package team.aliens.domain.usecase.schools
 
-import team.aliens.domain.entity.schools.SchoolEntity
-import team.aliens.domain.repository.SchoolsRepository
-import team.aliens.domain.usecase.UseCase
+import team.aliens.domain._model.school.FetchSchoolsOutput
+import team.aliens.domain._repository.SchoolRepository
 import javax.inject.Inject
 
 class FetchSchoolsUseCase @Inject constructor(
-    private val schoolsRepository: SchoolsRepository,
-) : UseCase<Unit, List<SchoolEntity>>() {
-    override suspend fun execute(data: Unit): List<SchoolEntity> {
-        return schoolsRepository.fetchSchools()
+    private val schoolRepository: SchoolRepository,
+) {
+    suspend operator fun invoke(): FetchSchoolsOutput {
+        return schoolRepository.fetchSchools()
     }
 }

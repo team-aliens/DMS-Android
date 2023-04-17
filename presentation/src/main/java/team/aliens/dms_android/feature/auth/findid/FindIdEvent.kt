@@ -1,11 +1,11 @@
 package team.aliens.dms_android.feature.auth.findid
 
-import team.aliens.domain.entity.schools.SchoolEntity
+import team.aliens.domain._model.school.FetchSchoolsOutput
 
 
 sealed interface FindIdEvent
 
-class FetchSchools(val schoolsEntity: List<SchoolEntity>) : FindIdEvent
+class FetchSchools(val fetchSchoolsOutput: FetchSchoolsOutput) : FindIdEvent
 
 object SuccessFindId : FindIdEvent
 

@@ -1,13 +1,33 @@
 package team.aliens.dms_android.feature.auth.findid
 
-import android.widget.Space
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +42,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.extension.Space
@@ -33,7 +52,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.domain.entity.schools.SchoolEntity
+import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.presentation.R
 
 @Composable
@@ -53,12 +72,12 @@ fun FindIdScreen(
 
     var isDropdownMenuExpanded by remember { mutableStateOf(false) }
     var schoolList = remember {
-        mutableStateListOf<SchoolEntity>()
+        mutableStateListOf<FetchSchoolsOutput.SchoolInformation>()
     }
 
     var selectedSchool by remember {
         mutableStateOf(
-            SchoolEntity(
+            FetchSchoolsOutput.SchoolInformation(
                 name = "",
                 address = "",
             ),
@@ -91,9 +110,7 @@ fun FindIdScreen(
         findIdViewModel.findIdEvent.collect { event ->
             when (event) {
                 is FetchSchools -> {
-                    schoolList.addAll(event.schoolsEntity.also {
-                        println(it)
-                    })
+                    schoolList.addAll(event.fetchSchoolsOutput.schools)
                 }
                 SuccessFindId -> {
                     findIdDialogState = true
@@ -171,9 +188,11 @@ fun FindIdScreen(
                         text = selectedSchool.name,
                         color = DormTheme.colors.primaryVariant,
                     )
-                    Icon(painterResource(
-                        id = R.drawable.ic_down,
-                    ), contentDescription = null)
+                    Icon(
+                        painterResource(
+                            id = R.drawable.ic_down,
+                        ), contentDescription = null
+                    )
                 }
 
                 DropdownMenu(
@@ -232,7 +251,7 @@ fun FindIdScreen(
                     hint = stringResource(id = R.string.Number),
                     keyboardType = KeyboardType.NumberPassword,
                     error = errorState,
-                    keyboardActions = KeyboardActions{
+                    keyboardActions = KeyboardActions {
                         focusManager.clearFocus()
                     },
                     imeAction = ImeAction.Done,

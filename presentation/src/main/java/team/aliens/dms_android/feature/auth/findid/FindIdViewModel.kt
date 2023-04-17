@@ -50,7 +50,7 @@ class FindIdViewModel @Inject constructor(
     private fun fetchSchools() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchSchoolsUseCase.execute(Unit)
+                fetchSchoolsUseCase()
             }.onSuccess {
                 event(FetchSchools(it))
             }.onFailure {
