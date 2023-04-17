@@ -15,7 +15,7 @@ import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.param.StudyRoomDetailParam
 import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
 import team.aliens.presentation.R
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class StudyRoomDetailsViewModel @Inject constructor(
     private val fetchStudyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
     private val applySeatUseCase: ApplySeatUseCase,
-    private val fetchApplicationTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
+    private val fetchApplicationTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
     private val cancelApplySeatUseCase: CancelSeatUseCase,
     private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
 ) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
@@ -168,7 +168,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun fetchApplyTime() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchApplicationTimeUseCase.execute(Unit)
+                fetchApplicationTimeUseCase()
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(
                     startAt = it.startAt.extractHourFromDate(),

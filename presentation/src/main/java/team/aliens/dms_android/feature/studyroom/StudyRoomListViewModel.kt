@@ -2,20 +2,22 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.usecase.studyroom.*
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomAvailableTimeListUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
+import java.util.UUID
+import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
-    private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
+    private val studyRoomApplyTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
     private val studyRoomAvailableTimeListUseCase: RemoteFetchStudyRoomAvailableTimeListUseCase,
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
@@ -60,7 +62,7 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomApplyTimeUseCase.execute(Unit)
+                studyRoomApplyTimeUseCase()
             }
 
             if (result.isSuccess) {
@@ -125,4 +127,3 @@ class StudyRoomListViewModel @Inject constructor(
         }
     }
 }
-
