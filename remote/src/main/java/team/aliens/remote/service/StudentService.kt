@@ -1,6 +1,13 @@
 package team.aliens.remote.service
 
-import retrofit2.http.*
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 import team.aliens.remote.annotation.RequiresAccessToken
 import team.aliens.remote.common.HttpPath.Student.CheckEmailDuplication
 import team.aliens.remote.common.HttpPath.Student.CheckIdDuplication
@@ -20,7 +27,12 @@ import team.aliens.remote.common.HttpProperty.QueryString.Name
 import team.aliens.remote.common.HttpProperty.QueryString.Number
 import team.aliens.remote.common.HttpProperty.QueryString.SchoolId
 import team.aliens.remote.model._common.AuthenticationResponse
-import team.aliens.remote.model.student.*
+import team.aliens.remote.model.student.EditProfileRequest
+import team.aliens.remote.model.student.ExamineStudentNumberResponse
+import team.aliens.remote.model.student.FetchMyPageResponse
+import team.aliens.remote.model.student.FindIdResponse
+import team.aliens.remote.model.student.ResetPasswordRequest
+import team.aliens.remote.model.student.SignUpRequest
 import java.util.*
 
 interface StudentService {
@@ -70,7 +82,7 @@ interface StudentService {
     @RequiresAccessToken
     suspend fun editProfile(
         @Body request: EditProfileRequest,
-    )
+    ): Response<Unit>
 
     @DELETE(Withdraw)
     @RequiresAccessToken
