@@ -1,4 +1,4 @@
-package team.aliens.domain.usecase.student
+package team.aliens.domain.usecase.point
 
 import team.aliens.domain._model._common.PointType
 import team.aliens.domain._model.point.FetchPointsOutput

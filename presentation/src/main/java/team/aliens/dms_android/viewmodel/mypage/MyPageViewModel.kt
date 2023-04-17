@@ -18,7 +18,7 @@ import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.student.FetchMyPageUseCase
-import team.aliens.domain.usecase.student.FetchPointsUseCase
+import team.aliens.domain.usecase.point.FetchPointsUseCase
 import team.aliens.domain.usecase.student.RemoteStudentWithdrawUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
 import javax.inject.Inject

@@ -8,10 +8,15 @@ import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordEvent
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.*
+import team.aliens.domain._model.student.ResetPasswordInput
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.param.EditPasswordParam
-import team.aliens.domain.param.ResetPasswordParam
-import team.aliens.domain.usecase.student.RemoteResetPasswordUseCase
+import team.aliens.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
 import team.aliens.domain.usecase.user.RemoteCheckIdUseCase
@@ -19,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
-    private val changePasswordUseCase: RemoteResetPasswordUseCase,
+    private val changePasswordUseCase: ResetPasswordUseCase,
     private val editPasswordUseCase: EditPasswordUseCase,
     private val comparePasswordUseCase: ComparePasswordUseCase,
     private val checkIdUseCase: RemoteCheckIdUseCase,
@@ -75,7 +80,7 @@ class ChangePasswordViewModel @Inject constructor(
 
     internal fun checkId(
         accountId: String,
-    ){
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 checkIdUseCase.execute(
@@ -91,22 +96,22 @@ class ChangePasswordViewModel @Inject constructor(
 
     internal fun resetPassword(
         accountId: String,
-        authCode: String,
         email: String,
-        name: String,
+        emailVerificationCode: String,
+        studentName: String,
         newPassword: String,
-    ){
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
                 state.value.run {
-                    changePasswordUseCase.execute(
-                        data = ResetPasswordParam(
+                    changePasswordUseCase(
+                        resetPasswordInput = ResetPasswordInput(
                             accountId = accountId,
-                            authCode = authCode,
+                            studentName = studentName,
                             email = email,
-                            name = name,
+                            emailVerificationCode = emailVerificationCode,
                             newPassword = newPassword,
-                        )
+                        ),
                     )
                 }
             }.onSuccess {
@@ -157,12 +162,12 @@ class ChangePasswordViewModel @Inject constructor(
 
     sealed class Event {
         object EditPasswordSuccess : Event()
-        object ComparePasswordSuccess: Event()
-        data class CheckIdSuccess(val email: String): Event()
-        object ResetPasswordSuccess: Event()
+        object ComparePasswordSuccess : Event()
+        data class CheckIdSuccess(val email: String) : Event()
+        object ResetPasswordSuccess : Event()
 
         object BadRequestException : Event()
-        object NotFoundException: Event()
+        object NotFoundException : Event()
         object UnauthorizedException : Event()
         object ForbiddenException : Event()
         object TooManyRequestException : Event()
