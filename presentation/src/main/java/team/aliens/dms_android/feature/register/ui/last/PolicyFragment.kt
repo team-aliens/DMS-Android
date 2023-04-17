@@ -13,7 +13,7 @@ import team.aliens.dms_android.feature.register.event.SignUpEvent
 import team.aliens.dms_android.feature.register.ui.last.dialog.SignUpSuccessDialog
 import team.aliens.dms_android.util.repeatOnStarted
 import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
-import team.aliens.domain.param.RegisterParam
+import team.aliens.domain._model.student.SignUpInput
 import team.aliens.presentation.R
 import team.aliens.presentation.databinding.FragmentSignUpPolicyBinding
 
@@ -91,18 +91,20 @@ class PolicyFragment : BaseFragment<FragmentSignUpPolicyBinding>(R.layout.fragme
         }
 
         binding.btnVerificationCode.setOnClickListener {
-            signUpViewModel.signUp(RegisterParam(
-                schoolCode = schoolCode,
-                schoolAnswer = answer,
-                email = email,
-                authCode = authCode,
-                grade = grade,
-                classRoom = classRoom,
-                number = number,
-                accountId = id,
-                password = pwd,
-                profileImageUrl = profileImageUrl,
-            ))
+            signUpViewModel.signUp(
+                SignUpInput(
+                    schoolVerificationCode = schoolCode,
+                    schoolVerificationAnswer = answer,
+                    email = email,
+                    emailVerificationCode = authCode,
+                    grade = grade,
+                    classRoom = classRoom,
+                    number = number,
+                    accountId = id,
+                    password = pwd,
+                    profileImageUrl = profileImageUrl,
+                ),
+            )
         }
 
         binding.ivBack.setOnClickListener {

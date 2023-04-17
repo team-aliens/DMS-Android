@@ -7,22 +7,27 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.SignUpEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.*
-import team.aliens.domain.param.RegisterParam
-import team.aliens.domain.usecase.student.RemoteSignUpUseCase
+import team.aliens.domain._model.student.SignUpInput
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ConflictException
+import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.student.SignUpUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val remoteSignUpUseCase: RemoteSignUpUseCase,
+    private val signUpUseCase: SignUpUseCase,
 ) : ViewModel() {
     private val _signUpEvent = MutableEventFlow<SignUpEvent>()
     val signUpViewEvent = _signUpEvent.asEventFlow()
 
-    fun signUp(registerParam: RegisterParam) {
+    fun signUp(signUpInput: SignUpInput) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteSignUpUseCase.execute(registerParam)
+                signUpUseCase(signUpInput)
             }.onSuccess {
                 event(SignUpEvent.SignUpSuccess)
             }.onFailure {

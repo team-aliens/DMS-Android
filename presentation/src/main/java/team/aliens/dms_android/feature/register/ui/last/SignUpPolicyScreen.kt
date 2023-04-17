@@ -6,8 +6,19 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,7 +42,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.SignUpEvent
 import team.aliens.dms_android.viewmodel.auth.register.SignUpViewModel
-import team.aliens.domain.param.RegisterParam
+import team.aliens.domain._model.student.SignUpInput
 import team.aliens.presentation.R
 
 @Composable
@@ -81,10 +92,12 @@ fun SignUpPolicyScreen(
                     signUpDialogState = true
                 }
                 else -> {
-                    toast(getStringFromEvent(
-                        context = context,
-                        event = it,
-                    ))
+                    toast(
+                        getStringFromEvent(
+                            context = context,
+                            event = it,
+                        )
+                    )
                 }
             }
         }
@@ -115,9 +128,10 @@ fun SignUpPolicyScreen(
                 AndroidView(
                     factory = {
                         WebView(it).apply {
-                            layoutParams =
-                                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.MATCH_PARENT)
+                            layoutParams = ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT
+                            )
                             webViewClient = WebViewClient()
 
                             settings.javaScriptEnabled = true
@@ -152,18 +166,20 @@ fun SignUpPolicyScreen(
                 enabled = isChecked,
             ) {
                 navController.previousBackStackEntry?.arguments?.run {
-                    signUpViewModel.signUp(registerParam = RegisterParam(
-                        schoolCode = getString("schoolCode").toString(),
-                        schoolAnswer = getString("schoolAnswer").toString(),
-                        email = getString("email").toString(),
-                        authCode = getString("authCode").toString(),
-                        classRoom = getInt("classRoom"),
-                        grade = getInt("grade"),
-                        number = getInt("number"),
-                        accountId = getString("accountId").toString(),
-                        password = getString("password").toString(),
-                        profileImageUrl = getString("profileImageUrl", null),
-                    ))
+                    signUpViewModel.signUp(
+                        signUpInput = SignUpInput(
+                            schoolVerificationCode = getString("schoolCode").toString(),
+                            schoolVerificationAnswer = getString("schoolAnswer").toString(),
+                            email = getString("email").toString(),
+                            emailVerificationCode = getString("authCode").toString(),
+                            classRoom = getInt("classRoom"),
+                            grade = getInt("grade"),
+                            number = getInt("number"),
+                            accountId = getString("accountId").toString(),
+                            password = getString("password").toString(),
+                            profileImageUrl = getString("profileImageUrl", null),
+                        ),
+                    )
                 }
             }
         }
