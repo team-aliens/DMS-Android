@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.mypage.Gender
 import team.aliens.dms_android.feature.mypage.MyPageEntity
 import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
@@ -13,8 +12,12 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
-import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.student.RemoteMyPageUseCase
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.student.FetchMyPageUseCase
 import team.aliens.domain.usecase.student.RemotePointUseCase
 import team.aliens.domain.usecase.student.RemoteStudentWithdrawUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
@@ -22,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val remoteMyPageUseCase: RemoteMyPageUseCase,
+    private val fetchMyPageUseCase: FetchMyPageUseCase,
     private val remotePointListUseCase: RemotePointUseCase,
     private val signOutUseCase: SignOutUseCase,
     private val withdrawUseCase: RemoteStudentWithdrawUseCase,
@@ -72,18 +75,18 @@ class MyPageViewModel @Inject constructor(
     internal fun fetchMyPage() {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteMyPageUseCase.execute(Unit)
+                fetchMyPageUseCase()
             }.onSuccess {
                 state.value.myPageEntity.emit(
                     MyPageEntity(
-                        gcn = it.gcn,
+                        gcn = it.gradeClassNumber,
                         bonusPoint = it.bonusPoint,
                         minusPoint = it.minusPoint,
-                        name = it.name,
+                        name = it.studentName,
                         phrase = it.phrase,
                         schoolName = it.schoolName,
                         profileImageUrl = it.profileImageUrl,
-                        sex = Gender.valueOf(it.sex),
+                        sex = it.sex,
                     ),
                 )
             }.onFailure {

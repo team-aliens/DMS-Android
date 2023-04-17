@@ -62,7 +62,7 @@ interface StudentService {
     @PATCH(ResetPassword)
     suspend fun resetPassword(
         @Body request: ResetPasswordRequest,
-    )
+    ): Response<Unit>
 
     @GET(CheckIdDuplication)
     suspend fun checkIdDuplication(
