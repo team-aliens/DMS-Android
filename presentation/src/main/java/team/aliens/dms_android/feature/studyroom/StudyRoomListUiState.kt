@@ -2,8 +2,8 @@ package team.aliens.dms_android.feature.studyroom
 
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
-import team.aliens.domain.entity.studyroom.StudyRoomListEntity
 import java.util.UUID
 
 data class StudyRoomListUiState(
@@ -20,7 +20,7 @@ data class StudyRoomDetailsUiState(
 )
 
 data class StudyRoomInformation(
-    val roomId: String,
+    val roomId: UUID,
     val position: String,
     val title: String,
     val currentNumber: Int,
@@ -29,8 +29,10 @@ data class StudyRoomInformation(
     val condition: String,
 )
 
-internal fun StudyRoomListEntity.StudyRoom?.toInformation(): StudyRoomInformation {
+internal fun FetchStudyRoomsOutput.StudyRoomInformation?.toInformation(): StudyRoomInformation {
     requireNotNull(this)
+
+    val grade = if (availableGrade == 0) "모든" else availableGrade
 
     return StudyRoomInformation(
         roomId = id,
@@ -39,11 +41,11 @@ internal fun StudyRoomListEntity.StudyRoom?.toInformation(): StudyRoomInformatio
         currentNumber = inUseHeadcount,
         isMine = isMine,
         maxNumber = totalAvailableSeat,
-        condition = "${availableGrade}학년 $studyRoomSex",
+        condition = "${grade}학년 ${availableSex.koreanValue}",
     )
 }
 
-internal fun List<StudyRoomListEntity.StudyRoom?>.toInformation(): List<StudyRoomInformation> {
+internal fun List<FetchStudyRoomsOutput.StudyRoomInformation?>.toInformation(): List<StudyRoomInformation> {
     return if (this.isNotEmpty()) {
         this.map { it.toInformation() }
     } else {

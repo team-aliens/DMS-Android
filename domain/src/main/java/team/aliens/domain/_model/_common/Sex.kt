@@ -9,6 +9,6 @@ package team.aliens.domain._model._common
 enum class Sex(
     val koreanValue: String,
 ) {
-    MALE("남"), FEMALE("여"), ALL("?"),
+    MALE("남"), FEMALE("여"), ALL("남녀"),
     ;
 }

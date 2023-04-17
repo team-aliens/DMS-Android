@@ -10,13 +10,13 @@ import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomListUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomsUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
-    private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
+    private val studyRoomListUseCase: FetchStudyRoomsUseCase,
     private val studyRoomApplyTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
     private val studyRoomAvailableTimeListUseCase: FetchAvailableStudyRoomTimesUseCase,
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
@@ -91,8 +91,8 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomListUseCase.execute(
-                    data = timeSlot,
+                studyRoomListUseCase(
+                    timeSlot = timeSlot,
                 )
             }
 

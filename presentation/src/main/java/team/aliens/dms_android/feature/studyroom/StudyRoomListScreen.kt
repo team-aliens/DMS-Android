@@ -234,7 +234,7 @@ fun StudyRoomListScreen(
                         items = studyRoomState.studyRooms,
                     ) { point ->
                         RoomItem(
-                            roomId = point.roomId,
+                            roomId = point.roomId.toString(),
                             position = point.position,
                             title = point.title,
                             currentNumber = point.currentNumber,
