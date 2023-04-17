@@ -10,13 +10,13 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.usecase.schools.RemoteSchoolCodeUseCase
+import team.aliens.domain.usecase.schools.ExamineSchoolVerificationCodeUseCase
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
-    private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase,
+    private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
 ) : ViewModel() {
 
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
@@ -27,7 +27,7 @@ class ExamineSchoolCodeViewModel @Inject constructor(
     internal fun examineSchoolCode(schoolCode: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
+                schoolId = examineSchoolVerificationCodeUseCase(schoolCode).schoolId
             }.onSuccess {
                 event(ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess)
             }.onFailure {
