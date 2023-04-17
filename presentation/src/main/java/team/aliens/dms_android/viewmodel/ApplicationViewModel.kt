@@ -10,12 +10,12 @@ import team.aliens.dms_android._base.BaseUiState
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchCurrentStudyRoomOptionUseCase
+import team.aliens.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ApplicationViewModel @Inject constructor(
-    private val fetchCurrentStudyRoomOptionUseCase: RemoteFetchCurrentStudyRoomOptionUseCase,
+    private val fetchCurrentStudyRoomOptionUseCase: FetchCurrentAppliedStudyRoomUseCase,
     private val fetchCurrentRemainOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
 ) : BaseViewModel<ApplicationState, BaseEvent>() {
 
@@ -48,7 +48,7 @@ class ApplicationViewModel @Inject constructor(
     internal fun fetchCurrentStudyRoomOption() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchCurrentStudyRoomOptionUseCase.execute(Unit)
+                fetchCurrentStudyRoomOptionUseCase()
             }.onSuccess {
                 _uiState.emit(
                     _uiState.value.copy(
@@ -74,7 +74,7 @@ class ApplicationViewModel @Inject constructor(
     }
 }
 
-private infix fun Long.floorAnd(other: String): String {
+private infix fun Int.floorAnd(other: String): String {
     return "${this}층 $other"
 }
 
