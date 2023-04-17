@@ -25,6 +25,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain.entity.studyroom.SeatTypeEntity
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
@@ -104,8 +105,7 @@ fun StudyRoomDetailScreen(
             if (uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
                 FloatingNotice(
                     content = stringResource(
-                        id = R.string.study_room_apply_time,
-                        "${uiState.startAt} ~ ${uiState.endAt}"
+                        id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"
                     ),
                 )
             }
@@ -118,11 +118,11 @@ fun StudyRoomDetailScreen(
                 roomId = "",
                 position = "${uiState.studyRoomDetails.floor}층",
                 title = uiState.studyRoomDetails.name,
-                currentNumber = uiState.studyRoomDetails.inUseHeadCount,
+                currentNumber = uiState.studyRoomDetails.inUseHeadcount,
                 maxNumber = uiState.studyRoomDetails.totalAvailableSeat,
-                condition = uiState.studyRoomDetails.availableGrade + stringResource(
+                condition = uiState.studyRoomDetails.availableGrade.toString() + stringResource(
                     id = R.string.Grade,
-                ) + " ${uiState.studyRoomDetails.studyRoomSex}",
+                ) + " ${uiState.studyRoomDetails.availableSex}",
                 onClick = { },
             )
 
@@ -216,31 +216,33 @@ fun StudyRoomDetailScreen(
  *
  * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
  */
-private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
-    val defaultSeats: MutableList<MutableList<SeatItem>> =
-        List(size = this.totalHeightSize, init = {
-            List(size = this.totalWidthSize, init = {
+private fun FetchStudyRoomDetailsOutput.toDesignSystemModel(): List<List<SeatItem>> {
+    val defaultSeats: MutableList<MutableList<SeatItem>> = List(size = this.totalWidthSize, init = {
+        List(
+            size = this.totalHeightSize,
+            init = {
                 SeatItem()
-            }).toMutableList()
-        }).toMutableList()
+            },
+        ).toMutableList()
+    }).toMutableList()
 
     fun getColor(colorString: String): Color {
         return Color(android.graphics.Color.parseColor(colorString))
     }
 
     this.seats.map { seat ->
-        val width = seat.widthLocation - 1
-        val height = seat.heightLocation - 1
+        val width = seat.column - 1
+        val height = seat.row - 1
         val color = seat.type?.color
 
         defaultSeats[height][width] = SeatItem(
-            id = seat.id,
+            id = seat.id.toString(),
             number = seat.number,
             name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status),
+            type = SeatType.toSeatType(seat.status.toString()),
         )
     }
 

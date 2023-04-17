@@ -19,6 +19,8 @@ data class FetchStudyRoomDetailsResponse(
     @SerializedName("west_description") val westDescription: String,
     @SerializedName("south_description") val southDescription: String,
     @SerializedName("north_description") val northDescription: String,
+    @SerializedName("total_width_size") val totalWidthSize: Int,
+    @SerializedName("total_height_size") val totalHeightSize: Int,
     @SerializedName("seats") val seats: List<SeatResponse>,
 ) {
     data class SeatResponse(
@@ -59,6 +61,8 @@ internal fun FetchStudyRoomDetailsResponse.toDomain(): FetchStudyRoomDetailsOutp
         westDescription = this.westDescription,
         southDescription = this.southDescription,
         northDescription = this.northDescription,
+        totalWidthSize = this.totalWidthSize,
+        totalHeightSize = this.totalHeightSize,
         seats = this.seats.toDomain(),
     )
 }

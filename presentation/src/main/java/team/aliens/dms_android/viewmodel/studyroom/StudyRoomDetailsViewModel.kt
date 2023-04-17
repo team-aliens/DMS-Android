@@ -12,11 +12,10 @@ import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.param.StudyRoomDetailParam
 import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
 import team.aliens.presentation.R
 import java.util.UUID
@@ -24,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomDetailsViewModel @Inject constructor(
-    private val fetchStudyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
+    private val fetchStudyRoomDetailUseCase: FetchStudyRoomDetailsUseCase,
     private val applySeatUseCase: ApplySeatUseCase,
     private val fetchApplicationTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
     private val cancelApplySeatUseCase: CancelSeatUseCase,
@@ -184,11 +183,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchStudyRoomDetailUseCase.execute(
-                    studyRoomDetailParam = StudyRoomDetailParam(
-                        roomId = roomId,
-                        timeSlot = timeSlot,
-                    ),
+                fetchStudyRoomDetailUseCase(
+                    studyRoomId = UUID.fromString(roomId),
+                    timeSlot = timeSlot,
                 )
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(
