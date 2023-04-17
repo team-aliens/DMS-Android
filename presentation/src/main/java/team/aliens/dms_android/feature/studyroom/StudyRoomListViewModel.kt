@@ -16,7 +16,7 @@ import team.aliens.domain.usecase.studyroom.*
 class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
     private val studyRoomTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
-    private val studyApplySeatUseCase: RemoteApplySeatUseCase,
+    private val studyApplySeatUseCase: ApplySeatUseCase,
     private val studyCancelApplySeat: RemoteCancelApplySeatUseCase,
     private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
     private val currentStudyRoomOptionUseCase: RemoteFetchCurrentStudyRoomOptionUseCase,

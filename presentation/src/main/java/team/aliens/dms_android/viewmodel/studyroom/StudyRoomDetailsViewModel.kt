@@ -2,8 +2,6 @@ package team.aliens.dms_android.viewmodel.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -14,18 +12,23 @@ import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.param.ApplyStudyRoomParam
 import team.aliens.domain.param.StudyRoomDetailParam
-import team.aliens.domain.usecase.studyroom.*
+import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
+import team.aliens.domain.usecase.studyroom.RemoteCancelApplySeatUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
+import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
 import team.aliens.presentation.R
+import java.util.UUID
+import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomDetailsViewModel @Inject constructor(
     private val fetchStudyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
-    private val applySeatUseCase: RemoteApplySeatUseCase,
+    private val applySeatUseCase: ApplySeatUseCase,
     private val fetchApplicationTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
     private val cancelApplySeatUseCase: RemoteCancelApplySeatUseCase,
-    private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase
+    private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
 ) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
     sealed class UiEvent : BaseEvent {
@@ -88,11 +91,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                applySeatUseCase.execute(
-                    ApplyStudyRoomParam(
-                        seatId = seatId,
-                        timeSlot = timeSlot,
-                    )
+                applySeatUseCase(
+                    seatId = UUID.fromString(seatId),
+                    timeSlot = timeSlot,
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
