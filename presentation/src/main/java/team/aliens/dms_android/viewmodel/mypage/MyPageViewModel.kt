@@ -10,15 +10,15 @@ import team.aliens.dms_android.feature.mypage.MyPageEvent
 import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.entity.mypage.PointListEntity
-import team.aliens.domain.enums.PointType
+import team.aliens.domain._model._common.PointType
+import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.student.FetchMyPageUseCase
-import team.aliens.domain.usecase.student.RemotePointUseCase
+import team.aliens.domain.usecase.student.FetchPointsUseCase
 import team.aliens.domain.usecase.student.RemoteStudentWithdrawUseCase
 import team.aliens.domain.usecase.user.SignOutUseCase
 import javax.inject.Inject
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val fetchMyPageUseCase: FetchMyPageUseCase,
-    private val remotePointListUseCase: RemotePointUseCase,
+    private val remotePointListUseCase: FetchPointsUseCase,
     private val signOutUseCase: SignOutUseCase,
     private val withdrawUseCase: RemoteStudentWithdrawUseCase,
 ) : BaseViewModel<MyPageState, MyPageEvent>() {
@@ -102,10 +102,12 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun fetchPointList(pointType: PointType) {
-        viewModelScope.launch {
+    fun fetchPointList(
+        pointType: PointType,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                remotePointListUseCase.execute(pointType)
+                remotePointListUseCase(pointType)
             }.onSuccess {
                 emitPointViewEffect(Event.FetchPointList(it))
             }.onFailure {
@@ -146,7 +148,10 @@ class MyPageViewModel @Inject constructor(
 
     sealed class Event {
         object SignedOut : Event()
-        data class FetchPointList(val pointListEntity: PointListEntity) : Event()
+        data class FetchPointList(
+            val fetchPointsOutput: FetchPointsOutput,
+        ) : Event()
+
         object BadRequestException : Event()
         object NullPointException : Event()
         object UnAuthorizedTokenException : Event()

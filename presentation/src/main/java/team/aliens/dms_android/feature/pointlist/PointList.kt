@@ -1,7 +1,14 @@
 package team.aliens.dms_android.feature.pointlist
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,17 +23,16 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.OverLine
-import team.aliens.domain.entity.mypage.PointListEntity
-import team.aliens.domain.enums.PointType
+import team.aliens.domain._model._common.PointType
+import team.aliens.domain._model.point.FetchPointsOutput
 
 @Composable
 fun PointList(
     modifier: Modifier = Modifier,
-    points: List<PointListEntity.PointValue>,
+    points: List<FetchPointsOutput.PointInformation>,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxHeight(),
-        contentPadding = PaddingValues(
+        modifier = modifier.fillMaxHeight(), contentPadding = PaddingValues(
             top = 20.dp,
             bottom = 10.dp,
         )
@@ -42,7 +48,7 @@ fun PointList(
 
 @Composable
 private fun Point(
-    pointValue: PointListEntity.PointValue,
+    pointValue: FetchPointsOutput.PointInformation,
 ) {
     Box(
         modifier = Modifier
@@ -68,8 +74,7 @@ private fun Point(
             val pointDate = pointValue.date.split("-")
 
             OverLine(
-                text = "${pointDate[1]}월"
-                        + " ${pointDate[2]}일",
+                text = "${pointDate[1]}월" + " ${pointDate[2]}일",
                 color = DormTheme.colors.primaryVariant,
             )
 
@@ -85,7 +90,7 @@ private fun Point(
                 .padding(end = 15.dp, bottom = 15.dp),
             contentAlignment = Alignment.BottomEnd,
         ) {
-            when (pointValue.pointType) {
+            when (pointValue.type) {
                 PointType.BONUS -> {
                     Body4(
                         text = "+${pointValue.score}",
