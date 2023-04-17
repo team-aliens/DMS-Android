@@ -26,7 +26,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.lang.ref.WeakReference
 import kotlinx.coroutines.delay
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.extension.Space
+import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
@@ -63,8 +65,7 @@ fun rememberToast(): ToastWrapper {
 @Composable
 fun DormToast(
     message: String,
-    textColor: Color,
-    @DrawableRes drawable: Int,
+    toastType: ToastType,
     isShowToast: MutableState<Boolean>,
 ) {
     LaunchedEffect(isShowToast.value) {
@@ -72,7 +73,9 @@ fun DormToast(
         isShowToast.value = false
     }
 
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+    ) {
         Space(14.dp)
         AnimatedVisibility(
             visible = isShowToast.value,
@@ -95,16 +98,36 @@ fun DormToast(
                 Space(space = 14.dp)
                 Image(
                     modifier = Modifier.size(22.dp),
-                    painter = painterResource(drawable),
+                    painter = painterResource(toastType.drawable),
                     contentDescription = null,
                 )
                 Space(space = 8.dp)
                 Body3(
                     modifier = Modifier.padding(bottom = 2.dp),
                     text = message,
-                    color = textColor,
+                    color = toastType.textColor,
                 )
             }
         }
     }
+}
+
+enum class ToastType(
+    val textColor: Color,
+    @DrawableRes val drawable: Int,
+) {
+    INFO(
+        textColor = DormColor.Gray900,
+        drawable = DormIcon.Information.drawableId,
+    ),
+
+    ERROR(
+        textColor = DormColor.Error,
+        drawable = DormIcon.Error.drawableId,
+    ),
+
+    SUCCESS(
+        textColor = DormColor.DormPrimary,
+        drawable = DormIcon.Success.drawableId,
+    )
 }

@@ -24,11 +24,11 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
 import team.aliens.design_system.extension.Space
-import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToast
+import team.aliens.design_system.toast.ToastType
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
@@ -300,8 +300,7 @@ fun LoginScreen(
 
         DormToast(
             message = toastMessage,
-            textColor = DormTheme.colors.error,
-            drawable = DormIcon.Error.drawableId,
+            toastType = ToastType.ERROR,
             isShowToast = isShowToast,
         )
     }
