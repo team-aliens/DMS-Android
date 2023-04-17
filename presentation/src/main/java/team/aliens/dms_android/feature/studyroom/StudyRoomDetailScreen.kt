@@ -113,6 +113,8 @@ fun StudyRoomDetailScreen(
 
             Space(space = 24.dp)
 
+            val grade =
+                if (uiState.studyRoomDetails.availableGrade == 0) "모든" else uiState.studyRoomDetails.availableGrade.toString()
 
             RoomItem(
                 roomId = "",
@@ -120,9 +122,9 @@ fun StudyRoomDetailScreen(
                 title = uiState.studyRoomDetails.name,
                 currentNumber = uiState.studyRoomDetails.inUseHeadcount,
                 maxNumber = uiState.studyRoomDetails.totalAvailableSeat,
-                condition = uiState.studyRoomDetails.availableGrade.toString() + stringResource(
+                condition = grade + stringResource(
                     id = R.string.Grade,
-                ) + " ${uiState.studyRoomDetails.availableSex}",
+                ) + " ${uiState.studyRoomDetails.availableSex.koreanValue}",
                 onClick = { },
             )
 
@@ -217,14 +219,17 @@ fun StudyRoomDetailScreen(
  * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
  */
 private fun FetchStudyRoomDetailsOutput.toDesignSystemModel(): List<List<SeatItem>> {
-    val defaultSeats: MutableList<MutableList<SeatItem>> = List(size = this.totalWidthSize, init = {
-        List(
-            size = this.totalHeightSize,
-            init = {
-                SeatItem()
-            },
-        ).toMutableList()
-    }).toMutableList()
+    val defaultSeats: MutableList<MutableList<SeatItem>> = List(
+        size = this.totalWidthSize,
+        init = {
+            List(
+                size = this.totalHeightSize,
+                init = {
+                    SeatItem()
+                },
+            ).toMutableList()
+        },
+    ).toMutableList()
 
     fun getColor(colorString: String): Color {
         return Color(android.graphics.Color.parseColor(colorString))
