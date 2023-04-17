@@ -1,10 +1,13 @@
 package team.aliens.dms_android.feature.register.event.id
 
 import team.aliens.dms_android.base.MviEvent
-import team.aliens.domain.entity.user.ExamineGradeEntity
+import team.aliens.domain._model.student.ExamineStudentNumberOutput
 
 sealed class SetIdEvent : MviEvent {
-    data class ExamineGradeName(val examineGradeEntity: ExamineGradeEntity) : SetIdEvent()
+    data class ExamineGradeName(
+        val examineStudentNumberOutput: ExamineStudentNumberOutput,
+    ) : SetIdEvent()
+
     object DuplicateIdSuccess : SetIdEvent()
     object ExamineGradeBadRequestException : SetIdEvent()
     object ExamineGradeNotFoundException : SetIdEvent()

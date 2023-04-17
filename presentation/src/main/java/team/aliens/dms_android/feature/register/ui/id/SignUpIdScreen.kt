@@ -29,7 +29,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.util.*
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.extension.RatioSpace
@@ -46,6 +45,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.presentation.R
+import java.util.UUID
 
 const val idFormatPattern = "^[a-zA-Z]*$"
 
@@ -101,7 +101,7 @@ fun SignUpIdScreen(
                 is SetIdEvent.ExamineGradeName -> {
                     isNameShowed = true
                     isGradeError = false
-                    userName = it.examineGradeEntity.name
+                    userName = it.examineStudentNumberOutput.name
                 }
                 is SetIdEvent.ExamineGradeNotFoundException -> {
                     isNameShowed = false

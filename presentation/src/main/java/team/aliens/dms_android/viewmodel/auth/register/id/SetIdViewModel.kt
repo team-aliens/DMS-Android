@@ -13,15 +13,14 @@ import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.param.ExamineGradeParam
 import team.aliens.domain.usecase.student.CheckIdDuplicationUseCase
-import team.aliens.domain.usecase.student.ExamineGradeUseCase
+import team.aliens.domain.usecase.student.ExamineStudentNumberUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class SetIdViewModel @Inject constructor(
-    private val examineGradeUseCase: ExamineGradeUseCase,
+    private val examineStudentNumberUseCase: ExamineStudentNumberUseCase,
     private val checkIdDuplicationUseCase: CheckIdDuplicationUseCase,
 ) : ViewModel() {
 
@@ -34,13 +33,14 @@ class SetIdViewModel @Inject constructor(
     fun examineGrade(grade: Int, classRoom: Int, number: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                examineGradeUseCase.execute(
-                    ExamineGradeParam(
-                        grade = grade, classRoom = classRoom, number = number, schoolId = schoolId
-                    )
-                ).collect {
-                    event(SetIdEvent.ExamineGradeName(it.toData()))
-                }
+                examineStudentNumberUseCase(
+                    grade = grade,
+                    classRoom = classRoom,
+                    number = number,
+                    schoolId = schoolId,
+                )
+            }.onSuccess {
+                event(SetIdEvent.ExamineGradeName(it))
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(SetIdEvent.ExamineGradeBadRequestException)
