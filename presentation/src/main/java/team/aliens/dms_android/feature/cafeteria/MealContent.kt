@@ -9,21 +9,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,13 +37,13 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
-import java.time.LocalDateTime
-import kotlin.math.absoluteValue
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.dms_android.widget.meal.MealType
+import java.time.LocalDateTime
+import kotlin.math.absoluteValue
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
@@ -55,7 +55,7 @@ fun ScrollEffectPager(
     var currentPageIndex by remember { mutableStateOf(0) }
 
     val currentMealType = MealType.getCurrentMealType(LocalDateTime.now())
-    currentPageIndex = when(currentMealType) {
+    currentPageIndex = when (currentMealType) {
         MealType.Breakfast -> 0
         MealType.Lunch -> 1
         else -> 2
@@ -66,11 +66,11 @@ fun ScrollEffectPager(
     val state = mealViewModel.state.collectAsState().value
 
     var mealState by remember {
-        mutableStateOf(MealList())
+        mutableStateOf(state.meals.value)
     }
 
     LaunchedEffect(state) {
-        state.mealList.collect {
+        state.meals.collect {
             mealState = it
         }
     }
