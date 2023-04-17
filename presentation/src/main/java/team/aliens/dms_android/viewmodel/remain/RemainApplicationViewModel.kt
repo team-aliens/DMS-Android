@@ -20,13 +20,13 @@ import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsOptionsUseCase
-import team.aliens.domain.usecase.remain.RemoteUpdateRemainOptionUseCase
+import team.aliens.domain.usecase.remain.UpdateRemainsOptionUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class RemainApplicationViewModel @Inject constructor(
-    private val updateRemainOptionUseCase: RemoteUpdateRemainOptionUseCase,
+    private val updateRemainOptionUseCase: UpdateRemainsOptionUseCase,
     private val fetchCurrentRemainOptionsUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val fetchAvailableRemainTimeUseCase: FetchRemainsApplicationTimeUseCase,
     private val fetchRemainOptionsUseCase: FetchRemainsOptionsUseCase,
@@ -41,7 +41,7 @@ class RemainApplicationViewModel @Inject constructor(
     internal fun updateRemainOption() {
         viewModelScope.launch {
             kotlin.runCatching {
-                updateRemainOptionUseCase.execute(state.value.remainOptionId)
+                updateRemainOptionUseCase(state.value.remainOptionId)
             }.onSuccess {
                 event(Event.UpdateRemainOption)
             }.onFailure {
