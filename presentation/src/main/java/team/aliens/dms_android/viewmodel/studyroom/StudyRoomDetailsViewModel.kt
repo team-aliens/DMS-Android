@@ -14,7 +14,7 @@ import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.param.StudyRoomDetailParam
 import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
-import team.aliens.domain.usecase.studyroom.RemoteCancelApplySeatUseCase
+import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomDetailUseCase
 import team.aliens.domain.usecase.studyroom.RemoteFetchStudyRoomSeatTypeUseCase
@@ -27,7 +27,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private val fetchStudyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
     private val applySeatUseCase: ApplySeatUseCase,
     private val fetchApplicationTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
-    private val cancelApplySeatUseCase: RemoteCancelApplySeatUseCase,
+    private val cancelApplySeatUseCase: CancelSeatUseCase,
     private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
 ) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
@@ -131,8 +131,8 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun cancelSeat() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                cancelApplySeatUseCase.execute(
-                    data = timeSlot!!
+                cancelApplySeatUseCase(
+                    timeSlot = timeSlot!!
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
@@ -140,6 +140,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     timeSlot = timeSlot!!,
                 )
             }.onFailure {
+                it.printStackTrace()
                 emitErrorEventFromThrowable(it)
             }
         }

@@ -17,7 +17,7 @@ class StudyRoomListViewModel @Inject constructor(
     private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
     private val studyRoomTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
     private val studyApplySeatUseCase: ApplySeatUseCase,
-    private val studyCancelApplySeat: RemoteCancelApplySeatUseCase,
+    private val studyCancelApplySeat: CancelSeatUseCase,
     private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
     private val currentStudyRoomOptionUseCase: RemoteFetchCurrentStudyRoomOptionUseCase,
     private val studyRoomAvailableTimeListUseCase: RemoteFetchStudyRoomAvailableTimeListUseCase,
