@@ -11,7 +11,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.usecase.auth.AutoSignInUseCase
-import team.aliens.domain.usecase.user.FetchAutoSignInOptionUseCase
+import team.aliens.domain.usecase.auth.FetchAutoSignInOptionUseCase
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.local_domain.usecase.uservisible.LocalUserVisibleInformUseCase
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class RootViewModel @Inject constructor(
     private fun fetchAutoSignInOption() {
         runBlocking {
             kotlin.runCatching {
-                fetchAutoSignInOptionUseCase.execute(Unit)
+                fetchAutoSignInOptionUseCase()
             }
         }
     }
