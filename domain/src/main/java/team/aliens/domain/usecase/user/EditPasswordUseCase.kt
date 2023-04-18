@@ -1,16 +1,17 @@
 package team.aliens.domain.usecase.user
 
-import team.aliens.domain.param.EditPasswordParam
-import team.aliens.domain.repository.UserRepository
-import team.aliens.domain.usecase.UseCase
+import team.aliens.domain._model.user.EditPasswordInput
+import team.aliens.domain._repository.UserRepository
 import javax.inject.Inject
 
 class EditPasswordUseCase @Inject constructor(
     private val userRepository: UserRepository,
-): UseCase<EditPasswordParam, Unit>() {
-    override suspend fun execute(data: EditPasswordParam) {
+) {
+    suspend operator fun invoke(
+        editPasswordInput: EditPasswordInput,
+    ) {
         userRepository.editPassword(
-            editPasswordParam = data,
+            input = editPasswordInput,
         )
     }
 }

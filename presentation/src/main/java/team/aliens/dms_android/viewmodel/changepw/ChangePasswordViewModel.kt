@@ -9,13 +9,13 @@ import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.student.ResetPasswordInput
+import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.param.EditPasswordParam
 import team.aliens.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
@@ -48,8 +48,8 @@ class ChangePasswordViewModel @Inject constructor(
             kotlin.runCatching {
                 with(state.value) {
                     if (newPassword == repeatPassword) {
-                        editPasswordUseCase.execute(
-                            data = EditPasswordParam(
+                        editPasswordUseCase(
+                            editPasswordInput = EditPasswordInput(
                                 currentPassword = currentPassword,
                                 newPassword = newPassword,
                             )
