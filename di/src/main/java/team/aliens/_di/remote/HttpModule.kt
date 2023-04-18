@@ -27,7 +27,7 @@ object HttpModule {
     @Singleton
     @BaseUrl
     fun provideBaseUrl(): String {
-        return if (!BuildConfig.DEBUG) {
+        return if (BuildConfig.DEBUG) {
             RemoteBuildConfig.DEV_BASE_URL
         } else {
             RemoteBuildConfig.PROD_BASE_URL
