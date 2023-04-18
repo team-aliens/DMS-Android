@@ -189,9 +189,8 @@ fun FindIdScreen(
                         color = DormTheme.colors.primaryVariant,
                     )
                     Icon(
-                        painterResource(
-                            id = R.drawable.ic_down,
-                        ), contentDescription = null
+                        painterResource(id = R.drawable.ic_down), 
+                        contentDescription = null,
                     )
                 }
 
