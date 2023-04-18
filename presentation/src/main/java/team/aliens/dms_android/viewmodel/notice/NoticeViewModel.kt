@@ -51,7 +51,6 @@ class NoticeViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.FetchNoticeList(it))
             }.onFailure {
-                Log.e("LOG", "fetchNotices: $it")
                 when (it) {
                     is NullPointerException -> event(Event.NullPointException)
                     is BadRequestException -> event(Event.BadRequestException)
@@ -84,7 +83,6 @@ class NoticeViewModel @Inject constructor(
                     )
                 )
             }.onFailure {
-                Log.e("LOG", "fetchNoticeDetail: $it")
                 when (it) {
                     is NullPointerException -> event2(Event.NullPointException)
                     is BadRequestException -> event2(Event.BadRequestException)
