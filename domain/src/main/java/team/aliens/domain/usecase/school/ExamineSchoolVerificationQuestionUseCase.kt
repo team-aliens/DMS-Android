@@ -12,8 +12,8 @@ class ExamineSchoolVerificationQuestionUseCase @Inject constructor(
         answer: String,
     ) {
         schoolRepository.examineSchoolVerificationQuestion(
-            schoolId,
-            answer,
+            schoolId = schoolId,
+            answer = answer,
         )
     }
 }
