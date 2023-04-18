@@ -22,8 +22,6 @@ import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
-import team.aliens.local_domain.usecase.notice.LocalNoticeDetailUseCase
-import team.aliens.local_domain.usecase.notice.LocalNoticeListUseCase
 import java.util.UUID
 import javax.inject.Inject
 
@@ -32,8 +30,6 @@ class NoticeViewModel @Inject constructor(
     private val fetchNoticesUseCase: FetchNoticesUseCase,
     private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
-    val localNoticeListUseCase: LocalNoticeListUseCase,
-    val localNoticeDetailUseCase: LocalNoticeDetailUseCase,
 ) : BaseViewModel<NoticeState, NoticeEvent>() {
 
     override val initialState: NoticeState

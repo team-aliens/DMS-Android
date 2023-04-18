@@ -18,13 +18,11 @@ import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.meal.FetchMealUseCase
 import team.aliens.local_domain.entity.meal.MealEntity
-import team.aliens.local_domain.usecase.meal.LocalMealUseCase
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class MealViewModel @Inject constructor(
-    private val localMealUseCase: LocalMealUseCase,
     private val fetchMealUseCase: FetchMealUseCase,
 ) : BaseViewModel<MealState, MealEvent>() {
 
@@ -115,7 +113,7 @@ class MealViewModel @Inject constructor(
     internal fun updateDay(day: LocalDate) {
 
         //if (day.month != state.value.selectedDay.month) {
-            fetchMeal(day.toString())
+        fetchMeal(day.toString())
         //}
 
         setState(
