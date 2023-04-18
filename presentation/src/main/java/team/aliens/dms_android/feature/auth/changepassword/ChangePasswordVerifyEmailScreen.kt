@@ -51,6 +51,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
+import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain.enums.EmailType
 import team.aliens.presentation.R
 
@@ -92,7 +93,7 @@ fun ChangePasswordVerifyEmailScreen(
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = verificationCode,
-                    type = EmailType.PASSWORD,
+                    type = EmailVerificationType.PASSWORD,
                 )
             }
         } else {
@@ -106,10 +107,14 @@ fun ChangePasswordVerifyEmailScreen(
             when (it) {
                 is RegisterEmailEvent.CheckEmailSuccess -> {
                     navController.currentBackStackEntry?.arguments?.run {
-                        putString("accountId",
-                            navController.previousBackStackEntry?.arguments?.getString("accountId"))
-                        putString("name",
-                            navController.previousBackStackEntry?.arguments?.getString("name"))
+                        putString(
+                            "accountId",
+                            navController.previousBackStackEntry?.arguments?.getString("accountId")
+                        )
+                        putString(
+                            "name",
+                            navController.previousBackStackEntry?.arguments?.getString("name")
+                        )
                         putString("email", email)
                         putString("authCode", verificationCode)
                     }
@@ -240,7 +245,7 @@ fun ChangePasswordVerifyEmailScreen(
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = verificationCode,
-                    type = EmailType.PASSWORD,
+                    type = EmailVerificationType.PASSWORD,
                 )
             }
         }

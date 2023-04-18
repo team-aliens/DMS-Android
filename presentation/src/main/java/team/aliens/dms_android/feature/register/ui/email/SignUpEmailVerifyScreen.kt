@@ -53,6 +53,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.VerifyTime
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
+import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
@@ -193,6 +194,7 @@ fun SignUpEmailVerifyScreen(
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = value,
+                    type = EmailVerificationType.SIGNUP,
                 )
             }
         } else {
@@ -287,6 +289,7 @@ fun SignUpEmailVerifyScreen(
                 registerEmailViewModel.checkEmailCode(
                     email = email,
                     authCode = verificationCode,
+                    type = EmailVerificationType.SIGNUP,
                 )
             }
         }

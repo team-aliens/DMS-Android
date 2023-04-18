@@ -11,8 +11,9 @@ import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AccessToken
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AutoSignIn
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.RefreshToken
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.RefreshTokenExpiredAt
+import javax.inject.Inject
 
-class AuthDataStorageImpl(
+class AuthDataStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : AuthDataStorage {
 
