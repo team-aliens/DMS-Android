@@ -16,10 +16,10 @@ import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.auth.CheckIdExistsUseCase
 import team.aliens.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.domain.usecase.user.EditPasswordUseCase
-import team.aliens.domain.usecase.user.RemoteCheckIdUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +27,7 @@ class ChangePasswordViewModel @Inject constructor(
     private val changePasswordUseCase: ResetPasswordUseCase,
     private val editPasswordUseCase: EditPasswordUseCase,
     private val comparePasswordUseCase: ComparePasswordUseCase,
-    private val checkIdUseCase: RemoteCheckIdUseCase,
+    private val checkIdUseCase: CheckIdExistsUseCase,
 ) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
@@ -83,8 +83,8 @@ class ChangePasswordViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                checkIdUseCase.execute(
-                    data = accountId,
+                checkIdUseCase(
+                    accountId = accountId,
                 )
             }.onSuccess {
                 event(Event.CheckIdSuccess(it.email))
