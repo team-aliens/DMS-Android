@@ -67,9 +67,10 @@ fun DormToast(
     message: String,
     toastType: ToastType,
     isShowToast: MutableState<Boolean>,
+    duration: Long = 3000,
 ) {
     LaunchedEffect(isShowToast.value) {
-        delay(3000)
+        delay(duration)
         isShowToast.value = false
     }
 
