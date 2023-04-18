@@ -67,8 +67,8 @@ class ChangePasswordViewModel @Inject constructor(
     internal fun comparePassword() {
         viewModelScope.launch {
             kotlin.runCatching {
-                comparePasswordUseCase.execute(
-                    data = state.value.currentPassword,
+                comparePasswordUseCase(
+                    password = state.value.currentPassword,
                 )
             }.onSuccess {
                 event(Event.ComparePasswordSuccess)
