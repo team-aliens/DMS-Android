@@ -8,6 +8,7 @@ import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.EmailVerificationType
+import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain.enums.EmailType
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ConflictException
@@ -15,15 +16,14 @@ import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.param.RequestEmailCodeParam
-import team.aliens.domain.usecase.student.CheckEmailDuplicationUseCase
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
-import team.aliens.domain.usecase.user.RemoteRequestEmailCodeUseCase
+import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
+import team.aliens.domain.usecase.student.CheckEmailDuplicationUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterEmailViewModel @Inject constructor(
-    private val remoteRequestEmailCodeUseCase: RemoteRequestEmailCodeUseCase,
+    private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
     private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
     private val remoteCheckEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
 ) : ViewModel() {
@@ -33,12 +33,12 @@ class RegisterEmailViewModel @Inject constructor(
 
     fun requestEmailCode(
         email: String,
-        type: EmailType = EmailType.SIGNUP,
+        type: SendEmailVerificationCodeInput.SendEmailVerificationCodeType,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteRequestEmailCodeUseCase.execute(
-                    RequestEmailCodeParam(
+                sendEmailVerificationCodeUseCase(
+                    SendEmailVerificationCodeInput(
                         email = email,
                         type = type,
                     ),

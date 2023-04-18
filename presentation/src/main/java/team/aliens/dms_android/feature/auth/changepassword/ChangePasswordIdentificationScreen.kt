@@ -42,6 +42,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
+import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain.enums.EmailType
 import team.aliens.presentation.R
 
@@ -252,7 +253,7 @@ fun IdentificationScreen(
                     if (pattern.matcher(userEmail).find()) {
                         registerEmailViewModel.requestEmailCode(
                             email = userEmail.trim(),
-                            type = EmailType.PASSWORD,
+                            type = SendEmailVerificationCodeInput.SendEmailVerificationCodeType.PASSWORD,
                         )
                     } else {
                         isEmailError = true
