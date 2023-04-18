@@ -150,7 +150,6 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     timeSlot = timeSlot,
                 )
             }.onFailure {
-                it.printStackTrace()
                 emitErrorEventFromThrowable(it)
             }
         }
