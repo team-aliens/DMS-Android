@@ -126,7 +126,6 @@ class ConfirmImageViewModel @Inject constructor(
 private fun getEventFromThrowable(
     throwable: Throwable,
 ): ConfirmImageViewModel.Event {
-    throwable.printStackTrace()
     return when (throwable) {
         is BadRequestException -> ConfirmImageViewModel.Event.BadRequestException
         is UnauthorizedException -> ConfirmImageViewModel.Event.UnAuthorizedTokenException
