@@ -12,16 +12,21 @@ import team.aliens.dms_android.feature.auth.login.SignInEvent
 import team.aliens.dms_android.feature.auth.login.SignInState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.*
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.NoInternetException
+import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.param.LoginParam
-import team.aliens.domain.usecase.user.RemoteSignInUseCase
-import javax.inject.Inject
+import team.aliens.domain.usecase.auth.SignInUseCase
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.local_domain.usecase.uservisible.LocalUserVisibleInformUseCase
+import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val remoteSignInUseCase: RemoteSignInUseCase,
+    private val signInUseCase: SignInUseCase,
     private val localUserVisibleInformUseCase: LocalUserVisibleInformUseCase,
 ) : BaseViewModel<SignInState, SignInEvent>() {
 
@@ -85,7 +90,7 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                remoteSignInUseCase.execute(
+                signInUseCase(
                     getLoginParamFromCurrentState(),
                 )
             }
