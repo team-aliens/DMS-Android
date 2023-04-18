@@ -9,8 +9,10 @@ class FetchPointsUseCase @Inject constructor(
     private val pointRepository: PointRepository,
 ) {
     suspend operator fun invoke(
-        data: PointType,
+        type: PointType,
     ): FetchPointsOutput {
-        return pointRepository.fetchPoints(data)
+        return pointRepository.fetchPoints(
+            type = type,
+        )
     }
 }
