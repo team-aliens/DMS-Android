@@ -20,7 +20,7 @@ import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.student.FetchMyPageUseCase
 import team.aliens.domain.usecase.point.FetchPointsUseCase
 import team.aliens.domain.usecase.student.WithdrawUseCase
-import team.aliens.domain.usecase.user.SignOutUseCase
+import team.aliens.domain.usecase.auth.SignOutUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,7 +53,7 @@ class MyPageViewModel @Inject constructor(
     internal fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                signOutUseCase.execute(Unit)
+                signOutUseCase()
             }.onSuccess {
                 emitSignOutEvent(
                     Event.SignedOut,
