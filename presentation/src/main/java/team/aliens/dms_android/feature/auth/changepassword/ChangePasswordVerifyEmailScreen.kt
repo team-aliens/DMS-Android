@@ -52,7 +52,6 @@ import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.domain._model._common.EmailVerificationType
-import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.presentation.R
 
 @Composable
@@ -231,7 +230,7 @@ fun ChangePasswordVerifyEmailScreen(
                         isRunningTimer = false
                         registerEmailViewModel.requestEmailCode(
                             email = email,
-                            type = SendEmailVerificationCodeInput.SendEmailVerificationCodeType.PASSWORD,
+                            type = EmailVerificationType.PASSWORD,
                         )
                     },
                 text = stringResource(id = R.string.ResendVerificationCode),

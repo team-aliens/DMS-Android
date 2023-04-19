@@ -9,7 +9,6 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.enums.EmailType
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.NotFoundException
@@ -33,7 +32,7 @@ class RegisterEmailViewModel @Inject constructor(
 
     fun requestEmailCode(
         email: String,
-        type: SendEmailVerificationCodeInput.SendEmailVerificationCodeType,
+        type: EmailVerificationType,
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
