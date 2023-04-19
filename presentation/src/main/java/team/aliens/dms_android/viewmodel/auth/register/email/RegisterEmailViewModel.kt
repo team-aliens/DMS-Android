@@ -8,6 +8,7 @@ import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.EmailVerificationType
+import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ConflictException
@@ -65,9 +66,11 @@ class RegisterEmailViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 checkEmailVerificationCodeUseCase(
-                    email = email,
-                    type = type,
-                    authCode = authCode,
+                    CheckEmailVerificationCodeInput(
+                        email = email,
+                        type = type,
+                        authCode = authCode,
+                    ),
                 )
             }.onSuccess {
                 event(RegisterEmailEvent.CheckEmailSuccess)
