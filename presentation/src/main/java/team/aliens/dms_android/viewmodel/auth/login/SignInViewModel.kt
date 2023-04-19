@@ -91,7 +91,7 @@ class SignInViewModel @Inject constructor(
 
             val result = kotlin.runCatching {
                 signInUseCase(
-                    getLoginParamFromCurrentState(),
+                    signInInput = getLoginParamFromCurrentState(),
                 )
             }
 
