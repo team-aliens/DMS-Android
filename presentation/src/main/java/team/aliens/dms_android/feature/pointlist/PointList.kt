@@ -32,10 +32,11 @@ fun PointList(
     points: List<FetchPointsOutput.PointInformation>,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxHeight(), contentPadding = PaddingValues(
+        modifier = modifier.fillMaxHeight(),
+        contentPadding = PaddingValues(
             top = 20.dp,
             bottom = 10.dp,
-        )
+        ),
     ) {
         itemsIndexed(items = points) { index, point ->
             this@LazyColumn.Space(space = 12.dp)
