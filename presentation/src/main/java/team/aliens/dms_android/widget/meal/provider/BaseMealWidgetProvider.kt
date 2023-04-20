@@ -5,6 +5,7 @@ import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.widget.meal.MealState
 import team.aliens.dms_android.widget.meal.MealType
+import team.aliens.domain._model.meal.FetchMealsInput
 import team.aliens.domain._model.meal.FetchMealsOutput
 import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.presentation.R
@@ -48,11 +49,11 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
         )
 
         kotlin.runCatching {
-            fetchMealsUseCase(nowDate)
+            fetchMealsUseCase(
+                FetchMealsInput(nowDate),
+            )
         }.onSuccess { result ->
-            mealEntity = result
-                .meals
-                .first { it.date == nowDateTime.toString() }
+            mealEntity = result.meals.first { it.date == nowDateTime.toString() }
         }
 
         val currentMealType = MealType.getCurrentMealType(nowDateTime)
@@ -67,8 +68,7 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
 
         return MealState(
             mealType = currentMealType,
-            meal = if (mealNotFound) meal
-                .dropLast(1)
+            meal = if (mealNotFound) meal.dropLast(1)
                 .joinToString("\n") else context.getString(R.string.MealNotFound),
             calories = if (mealNotFound) meal.last() else ""
         )

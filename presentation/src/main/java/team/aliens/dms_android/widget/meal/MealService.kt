@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.constans.Extra
+import team.aliens.domain._model.meal.FetchMealsInput
 import team.aliens.domain._model.meal.FetchMealsOutput
 import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.presentation.R
@@ -78,7 +79,9 @@ class MealService : Service(), CoroutineScope by MainScope() {
         )
 
         kotlin.runCatching {
-            fetchMealsUseCase(nowDate)
+            fetchMealsUseCase(
+                FetchMealsInput(nowDate),
+            )
         }.onSuccess { result ->
             mealEntity = result.meals.first { it.date == nowDateTime.toString() }
             //.first { it.date == LocalDate.now().toString() }
@@ -96,8 +99,7 @@ class MealService : Service(), CoroutineScope by MainScope() {
 
         return MealState(
             mealType = currentMealType,
-            meal = if (mealNotFound) meal
-                .dropLast(1)
+            meal = if (mealNotFound) meal.dropLast(1)
                 .joinToString("\n") else applicationContext.getString(R.string.MealNotFound),
             calories = if (mealNotFound) meal.last() else ""
         )

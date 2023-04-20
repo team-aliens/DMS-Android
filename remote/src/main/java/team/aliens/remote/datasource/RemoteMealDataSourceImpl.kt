@@ -1,6 +1,7 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteMealDataSource
+import team.aliens.domain._model.meal.FetchMealsInput
 import team.aliens.domain._model.meal.FetchMealsOutput
 import team.aliens.remote.model.meal.toDomain
 import team.aliens.remote.service.MealService
@@ -12,11 +13,11 @@ class RemoteMealDataSourceImpl @Inject constructor(
 ) : RemoteMealDataSource {
 
     override suspend fun fetchMeals(
-        date: String,
+        input: FetchMealsInput,
     ): FetchMealsOutput {
         return sendHttpRequest {
             mealService.fetchMeals(
-                date = date,
+                date = input.date,
             )
         }.toDomain()
     }
