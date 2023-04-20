@@ -1,9 +1,9 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteNoticeDataSource
-import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
+import team.aliens.domain._model.notice.FetchNoticesInput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import team.aliens.remote.model.notice.toDomain
@@ -22,11 +22,11 @@ class RemoteNoticeDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchNotices(
-        order: Order,
+        input: FetchNoticesInput,
     ): FetchNoticesOutput {
         return sendHttpRequest {
             noticeService.fetchNotices(
-                order = order.name,
+                order = input.order.name,
             )
         }.toDomain()
     }

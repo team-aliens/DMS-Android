@@ -13,6 +13,7 @@ import team.aliens.dms_android.feature.notice.NoticeState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
+import team.aliens.domain._model.notice.FetchNoticesInput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
@@ -47,7 +48,11 @@ class NoticeViewModel @Inject constructor(
     fun fetchNoticeList() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchNoticesUseCase(state.value.type)
+                fetchNoticesUseCase(
+                    FetchNoticesInput(
+                        state.value.type,
+                    ),
+                )
             }.onSuccess {
                 event(Event.FetchNoticeList(it))
             }.onFailure {

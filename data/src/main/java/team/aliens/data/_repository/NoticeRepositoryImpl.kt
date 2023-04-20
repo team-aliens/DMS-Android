@@ -28,13 +28,17 @@ class NoticeRepositoryImpl @Inject constructor(
             )
 
             if (fetchedNotice.content == null)
-                this.fetchNotice(
-                    noticeId = noticeId,
+                this.fetchNotices(
+                    input = FetchNoticesInput(
+                        order = Order.NEW,
+                    ),
                 )
 
         } catch (e: Exception) {
             this.fetchNotices(
-                order = Order.NEW,
+                input = FetchNoticesInput(
+                    order = Order.NEW,
+                ),
             )
         }
 
@@ -44,10 +48,12 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchNotices(
-        order: Order,
+        input: FetchNoticesInput,
     ): FetchNoticesOutput {
         return remoteNoticeDataSource.fetchNotices(
-            order = order,
+            input = FetchNoticesInput(
+                order = Order.NEW,
+            )
         ).also {
             this.saveNotices(
                 notices = it.notices.toTypedArray(),
