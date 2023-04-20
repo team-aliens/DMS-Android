@@ -11,16 +11,17 @@ import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.PointType
+import team.aliens.domain._model.point.FetchPointsInput
 import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.usecase.student.FetchMyPageUseCase
-import team.aliens.domain.usecase.point.FetchPointsUseCase
-import team.aliens.domain.usecase.student.WithdrawUseCase
 import team.aliens.domain.usecase.auth.SignOutUseCase
+import team.aliens.domain.usecase.point.FetchPointsUseCase
+import team.aliens.domain.usecase.student.FetchMyPageUseCase
+import team.aliens.domain.usecase.student.WithdrawUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -105,7 +106,9 @@ class MyPageViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                remotePointListUseCase(pointType)
+                remotePointListUseCase(
+                    FetchPointsInput(type = pointType),
+                )
             }.onSuccess {
                 emitPointViewEffect(Event.FetchPointList(it))
             }.onFailure {

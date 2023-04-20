@@ -1,7 +1,7 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemotePointDataSource
-import team.aliens.domain._model._common.PointType
+import team.aliens.domain._model.point.FetchPointsInput
 import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.remote.model.point.toDomain
 import team.aliens.remote.service.PointService
@@ -12,15 +12,13 @@ class RemotePointDataSourceImpl @Inject constructor(
     private val pointService: PointService,
 ) : RemotePointDataSource {
     override suspend fun fetchPoints(
-        type: PointType,
-        page: Long?,
-        size: Long?,
+        input: FetchPointsInput,
     ): FetchPointsOutput {
         return sendHttpRequest {
             pointService.fetchPoints(
-                type = type.name,
-                page = page,
-                size = size,
+                type = input.type.name,
+                page = input.page,
+                size = input.size,
             )
         }.toDomain()
     }
