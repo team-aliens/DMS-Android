@@ -12,6 +12,7 @@ import team.aliens.dms_android.feature.image.ConfirmImageEvent
 import team.aliens.dms_android.feature.image.ConfirmImageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.file.UploadFileInput
 import team.aliens.domain._model.student.EditProfileInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.NoInternetException
@@ -43,7 +44,11 @@ class ConfirmImageViewModel @Inject constructor(
     internal fun uploadImage() {
         runBlocking {
             kotlin.runCatching {
-                uploadFileUseCase(state.value.selectedImage!!) // non-null checked
+                uploadFileUseCase(
+                    UploadFileInput(
+                        state.value.selectedImage!!,
+                    ), // non-null checked
+                )
             }.onSuccess {
                 profileImageUrl = it.fileUrl
             }.onFailure {

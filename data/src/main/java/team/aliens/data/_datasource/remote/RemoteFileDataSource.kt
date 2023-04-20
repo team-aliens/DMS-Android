@@ -1,13 +1,14 @@
 package team.aliens.data._datasource.remote
 
 import team.aliens.domain._model.file.FetchPreSignedUrlOutput
+import team.aliens.domain._model.file.UploadFileInput
 import team.aliens.domain._model.file.UploadFileOutput
 import java.io.File
 
 interface RemoteFileDataSource {
 
     suspend fun uploadFile(
-        file: File,
+        input: UploadFileInput,
     ): UploadFileOutput
 
     suspend fun fetchPreSignedUrl(
