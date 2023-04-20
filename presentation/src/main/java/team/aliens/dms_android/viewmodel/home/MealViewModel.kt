@@ -10,6 +10,7 @@ import team.aliens.dms_android.feature.cafeteria.MealEvent
 import team.aliens.dms_android.feature.cafeteria.MealState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.meal.FetchMealInput
 import team.aliens.domain._model.meal.Meal
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
@@ -44,7 +45,11 @@ class MealViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchMealUseCase(date)
+                fetchMealUseCase(
+                    FetchMealInput(
+                        date = date,
+                    ),
+                )
             }.onSuccess {
                 setMealState(it)
             }.onFailure {
@@ -90,15 +95,13 @@ class MealViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            state.value.meals.emit(
-                FormedMeal(
-                    breakfast = breakfast,
-                    lunch = lunch,
-                    dinner = dinner,
-                ).also {
-                    println("TESTTEST UPDATE $it")
-                }
-            )
+            state.value.meals.emit(FormedMeal(
+                breakfast = breakfast,
+                lunch = lunch,
+                dinner = dinner,
+            ).also {
+                println("TESTTEST UPDATE $it")
+            })
         }
     }
 

@@ -1,5 +1,6 @@
 package team.aliens.domain._repository
 
+import team.aliens.domain._model.meal.FetchMealInput
 import team.aliens.domain._model.meal.FetchMealsInput
 import team.aliens.domain._model.meal.FetchMealsOutput
 import team.aliens.domain._model.meal.Meal
@@ -7,7 +8,7 @@ import team.aliens.domain._model.meal.Meal
 interface MealRepository {
 
     suspend fun fetchMeal(
-        date: String,
+        input: FetchMealInput,
     ): Meal
 
     suspend fun fetchMeals(

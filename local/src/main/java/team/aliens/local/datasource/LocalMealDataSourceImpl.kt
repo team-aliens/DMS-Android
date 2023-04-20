@@ -1,6 +1,7 @@
 package team.aliens.local.datasource
 
 import team.aliens.data._datasource.local.LocalMealDataSource
+import team.aliens.domain._model.meal.FetchMealInput
 import team.aliens.domain._model.meal.Meal
 import team.aliens.local.room.dao.MealDao
 import team.aliens.local.room.entity.toData
@@ -12,8 +13,10 @@ class LocalMealDataSourceImpl @Inject constructor(
 ) : LocalMealDataSource {
 
     override suspend fun fetchMeal(
-        date: String,
+        input: FetchMealInput,
     ): Meal {
+        val date = input.date
+
         return mealDao.findByDate(
             date = date,
         ).toDomain()
