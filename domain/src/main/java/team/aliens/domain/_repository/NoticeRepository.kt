@@ -1,11 +1,12 @@
 package team.aliens.domain._repository
 
 import team.aliens.domain._model._common.Order
+import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import team.aliens.domain._model.notice.Notice
-import java.util.*
+import java.util.UUID
 
 interface NoticeRepository {
 
@@ -16,7 +17,7 @@ interface NoticeRepository {
     ): Notice
 
     suspend fun fetchNoticeDetails(
-        noticeId: UUID,
+        input: FetchNoticeDetailsInput,
     ): FetchNoticeDetailsOutput
 
     suspend fun fetchNotices(

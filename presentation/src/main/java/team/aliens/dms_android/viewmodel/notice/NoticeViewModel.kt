@@ -1,6 +1,5 @@
 package team.aliens.dms_android.viewmodel.notice
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,6 +12,7 @@ import team.aliens.dms_android.feature.notice.NoticeEvent
 import team.aliens.dms_android.feature.notice.NoticeState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
@@ -69,7 +69,9 @@ class NoticeViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchNoticeDetailsUseCase(noticeId)
+                fetchNoticeDetailsUseCase(
+                    FetchNoticeDetailsInput(noticeId),
+                )
             }.onSuccess {
                 emitNoticeDetailState(
                     NoticeDetail(

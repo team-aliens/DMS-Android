@@ -72,10 +72,10 @@ class NoticeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchNoticeDetails(
-        noticeId: UUID,
+        input: FetchNoticeDetailsInput,
     ): FetchNoticeDetailsOutput {
         return remoteNoticeDataSource.fetchNoticeDetails(
-            noticeId = noticeId,
+            input = input,
         ).also {
             this.saveNotice(
                 notice = it.toModel(),
