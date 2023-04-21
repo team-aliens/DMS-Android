@@ -5,6 +5,7 @@ import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
@@ -76,11 +77,11 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchSeatTypes(
-        studyRoomId: UUID,
+        input: FetchSeatTypesInput,
     ): FetchSeatTypesOutput {
         return sendHttpRequest {
             studyRoomService.fetchSeatTypes(
-                studyRoomId = studyRoomId,
+                studyRoomId = input.studyRoomId,
             )
         }.toDomain()
     }

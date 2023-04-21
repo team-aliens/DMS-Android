@@ -10,6 +10,7 @@ import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.CancelSeatInput
+import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
@@ -206,7 +207,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchSeatTypeUseCase(
-                    studyRoomId = UUID.fromString(roomId),
+                    FetchSeatTypesInput(
+                        studyRoomId = UUID.fromString(roomId),
+                    ),
                 )
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(

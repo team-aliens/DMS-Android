@@ -4,6 +4,7 @@ import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
@@ -34,7 +35,7 @@ interface RemoteStudyRoomDataSource {
     suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput
 
     suspend fun fetchSeatTypes(
-        studyRoomId: UUID,
+        input: FetchSeatTypesInput,
     ): FetchSeatTypesOutput
 
     suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput
