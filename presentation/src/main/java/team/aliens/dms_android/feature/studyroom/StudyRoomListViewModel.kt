@@ -93,7 +93,7 @@ class StudyRoomListViewModel @Inject constructor(
 
             val result = kotlin.runCatching {
                 fetchStudyRoomsUseCase(
-                    FetchStudyRoomsInput(
+                    fetchStudyRoomsInput = FetchStudyRoomsInput(
                         timeSlot = timeSlot,
                     ),
                 )
