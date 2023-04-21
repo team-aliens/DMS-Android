@@ -64,8 +64,8 @@ class SetIdViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 checkIdDuplicationUseCase(
-                    CheckIdDuplicationInput(
-                        accountId = accountId
+                    checkIdDuplicationInput = CheckIdDuplicationInput(
+                        accountId = accountId,
                     ),
                 )
             }.onSuccess {
