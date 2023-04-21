@@ -102,7 +102,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 applySeatUseCase(
-                    ApplySeatInput(
+                    applySeatInput = ApplySeatInput(
                         seatId = UUID.fromString(seatId),
                         timeSlot = timeSlot,
                     ),
