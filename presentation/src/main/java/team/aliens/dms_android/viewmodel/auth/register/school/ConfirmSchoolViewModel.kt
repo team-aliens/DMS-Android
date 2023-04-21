@@ -37,7 +37,7 @@ class ConfirmSchoolViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 examineSchoolVerificationQuestionUseCase(
-                    ExamineSchoolVerificationQuestionInput(
+                    examineSchoolVerificationQuestionInput = ExamineSchoolVerificationQuestionInput(
                         schoolId = schoolId,
                         answer = answer,
                     ),
