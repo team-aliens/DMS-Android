@@ -50,7 +50,9 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
 
         kotlin.runCatching {
             fetchMealsUseCase(
-                FetchMealsInput(nowDate),
+                fetchMealsInput = FetchMealsInput(
+                    date = nowDate,
+                ),
             )
         }.onSuccess { result ->
             mealEntity = result.meals.first { it.date == nowDateTime.toString() }
