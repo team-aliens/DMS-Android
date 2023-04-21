@@ -2,6 +2,7 @@ package team.aliens.data._repository
 
 import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
 import team.aliens.domain._model.studyroom.ApplySeatInput
+import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
@@ -29,12 +30,10 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     override suspend fun cancelSeat(
-        seatId: UUID,
-        timeSlot: UUID,
+        input: CancelSeatInput,
     ) {
         return remoteStudyRoomDataSource.cancelSeat(
-            seatId = seatId,
-            timeSlot = timeSlot,
+            input = input,
         )
     }
 
