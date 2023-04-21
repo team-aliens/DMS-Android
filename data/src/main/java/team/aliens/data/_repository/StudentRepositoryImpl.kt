@@ -66,10 +66,10 @@ class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkEmailDuplication(
-        email: String,
+        input: CheckEmailDuplicationInput,
     ) {
         return remoteStudentDataSource.checkEmailDuplication(
-            email = email,
+            input = input,
         )
     }
 

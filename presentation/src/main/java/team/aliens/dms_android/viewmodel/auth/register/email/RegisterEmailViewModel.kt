@@ -10,6 +10,7 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
+import team.aliens.domain._model.student.CheckEmailDuplicationInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.NotFoundException
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class RegisterEmailViewModel @Inject constructor(
     private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
     private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
-    private val remoteCheckEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
+    private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
 ) : ViewModel() {
 
     private val _registerEmailEvent = MutableEventFlow<RegisterEmailEvent>()
@@ -93,7 +94,11 @@ class RegisterEmailViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                remoteCheckEmailDuplicationUseCase(email)
+                checkEmailDuplicationUseCase(
+                    CheckEmailDuplicationInput(
+                        email,
+                    ),
+                )
             }.onSuccess {
                 event(RegisterEmailEvent.AllowEmail)
             }.onFailure {

@@ -1,8 +1,14 @@
 package team.aliens.data._datasource.remote
 
 import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.student.*
-import java.util.*
+import team.aliens.domain._model.student.CheckEmailDuplicationInput
+import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain._model.student.ExamineStudentNumberOutput
+import team.aliens.domain._model.student.FetchMyPageOutput
+import team.aliens.domain._model.student.FindIdOutput
+import team.aliens.domain._model.student.ResetPasswordInput
+import team.aliens.domain._model.student.SignUpInput
+import java.util.UUID
 
 interface RemoteStudentDataSource {
 
@@ -34,7 +40,7 @@ interface RemoteStudentDataSource {
     )
 
     suspend fun checkEmailDuplication(
-        email: String,
+        input: CheckEmailDuplicationInput,
     )
 
     suspend fun fetchMyPage(): FetchMyPageOutput
