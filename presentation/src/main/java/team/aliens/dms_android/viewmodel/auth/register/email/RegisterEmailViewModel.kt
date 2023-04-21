@@ -67,7 +67,7 @@ class RegisterEmailViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 checkEmailVerificationCodeUseCase(
-                    CheckEmailVerificationCodeInput(
+                    checkEmailVerificationCodeInput = CheckEmailVerificationCodeInput(
                         email = email,
                         type = type,
                         authCode = authCode,
