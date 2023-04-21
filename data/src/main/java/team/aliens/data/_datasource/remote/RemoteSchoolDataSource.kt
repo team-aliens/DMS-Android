@@ -1,10 +1,11 @@
 package team.aliens.data._datasource.remote
 
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
-import java.util.*
+import java.util.UUID
 
 interface RemoteSchoolDataSource {
 
@@ -20,7 +21,7 @@ interface RemoteSchoolDataSource {
     )
 
     suspend fun examineSchoolVerificationCode(
-        schoolCode: String,
+        input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput
 
     suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput

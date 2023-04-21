@@ -1,6 +1,7 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteSchoolDataSource
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
@@ -8,7 +9,7 @@ import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.remote.model.school.toDomain
 import team.aliens.remote.service.SchoolService
 import team.aliens.remote.util.sendHttpRequest
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class RemoteSchoolDataSourceImpl @Inject constructor(
@@ -44,11 +45,11 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
     }
 
     override suspend fun examineSchoolVerificationCode(
-        schoolCode: String,
+        input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput {
         return sendHttpRequest {
             schoolService.examineSchoolVerificationCode(
-                schoolCode = schoolCode,
+                schoolCode = input.schoolCode,
             )
         }.toDomain()
     }

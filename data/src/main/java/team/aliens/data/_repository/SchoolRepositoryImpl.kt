@@ -2,6 +2,7 @@ package team.aliens.data._repository
 
 import team.aliens.data._datasource.local.LocalSchoolDataSource
 import team.aliens.data._datasource.remote.RemoteSchoolDataSource
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
@@ -39,10 +40,10 @@ class SchoolRepositoryImpl @Inject constructor(
     }
 
     override suspend fun examineSchoolVerificationCode(
-        schoolCode: String,
+        input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput {
         return remoteSchoolDataSource.examineSchoolVerificationCode(
-            schoolCode = schoolCode,
+            input = input,
         )
     }
 

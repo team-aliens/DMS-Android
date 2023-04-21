@@ -1,11 +1,12 @@
 package team.aliens.domain._repository
 
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.domain._model.student.Feature
-import java.util.*
+import java.util.UUID
 
 interface SchoolRepository {
 
@@ -21,7 +22,7 @@ interface SchoolRepository {
     )
 
     suspend fun examineSchoolVerificationCode(
-        schoolCode: String,
+        input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput
 
     suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput
