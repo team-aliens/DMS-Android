@@ -60,7 +60,9 @@ class ConfirmSchoolViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchSchoolVerificationQuestionUseCase(
-                    FetchSchoolVerificationQuestionInput(schoolId),
+                    fetchSchoolVerificationQuestionInput = FetchSchoolVerificationQuestionInput(
+                        schoolId = schoolId,
+                    ),
                 )
             }.onSuccess {
                 event(FetchSchoolQuestion(it))
