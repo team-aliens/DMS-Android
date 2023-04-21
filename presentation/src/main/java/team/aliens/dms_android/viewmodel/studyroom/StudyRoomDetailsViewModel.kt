@@ -210,7 +210,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchSeatTypeUseCase(
-                    FetchSeatTypesInput(
+                    fetchSeatTypesInput = FetchSeatTypesInput(
                         studyRoomId = UUID.fromString(roomId),
                     ),
                 )
