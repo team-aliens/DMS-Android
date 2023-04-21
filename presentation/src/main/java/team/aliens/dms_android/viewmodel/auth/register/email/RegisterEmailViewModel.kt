@@ -39,7 +39,7 @@ class RegisterEmailViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 sendEmailVerificationCodeUseCase(
-                    SendEmailVerificationCodeInput(
+                    sendEmailVerificationCodeInput = SendEmailVerificationCodeInput(
                         email = email,
                         type = type,
                     ),
