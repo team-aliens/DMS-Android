@@ -70,7 +70,7 @@ class ConfirmImageViewModel @Inject constructor(
                 check(this@ConfirmImageViewModel::profileImageUrl.isInitialized)
 
                 editProfileUseCase(
-                    EditProfileInput(
+                    editProfileInput = EditProfileInput(
                         profileImageUrl = profileImageUrl,
                     ),
                 )
