@@ -7,10 +7,10 @@ import team.aliens.domain._model.student.EditProfileInput
 import team.aliens.domain._model.student.ExamineStudentNumberInput
 import team.aliens.domain._model.student.ExamineStudentNumberOutput
 import team.aliens.domain._model.student.FetchMyPageOutput
+import team.aliens.domain._model.student.FindIdInput
 import team.aliens.domain._model.student.FindIdOutput
 import team.aliens.domain._model.student.ResetPasswordInput
 import team.aliens.domain._model.student.SignUpInput
-import java.util.UUID
 
 interface StudentRepository {
 
@@ -23,11 +23,7 @@ interface StudentRepository {
     ): ExamineStudentNumberOutput
 
     suspend fun findId(
-        schoolId: UUID,
-        studentName: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: FindIdInput,
     ): FindIdOutput
 
     suspend fun resetPassword(

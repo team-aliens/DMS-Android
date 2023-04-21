@@ -28,18 +28,10 @@ class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findId(
-        schoolId: UUID,
-        studentName: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: FindIdInput,
     ): FindIdOutput {
         return remoteStudentDataSource.findId(
-            schoolId = schoolId,
-            studentName = studentName,
-            grade = grade,
-            classRoom = classRoom,
-            number = number,
+            input = input,
         )
     }
 

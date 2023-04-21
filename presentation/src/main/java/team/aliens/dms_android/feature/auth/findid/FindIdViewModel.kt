@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.student.FindIdInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.NeedLoginException
 import team.aliens.domain.exception.NoInternetException
@@ -38,11 +39,13 @@ class FindIdViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 email = findIdUseCase(
-                    schoolId = schoolId,
-                    studentName = name,
-                    grade = grade,
-                    classRoom = classRoom,
-                    number = number,
+                    FindIdInput(
+                        schoolId = schoolId,
+                        studentName = name,
+                        grade = grade,
+                        classRoom = classRoom,
+                        number = number,
+                    ),
                 ).email
             }.onSuccess {
                 event(SuccessFindId)
