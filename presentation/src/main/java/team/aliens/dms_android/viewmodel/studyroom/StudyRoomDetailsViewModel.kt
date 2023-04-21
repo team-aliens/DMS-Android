@@ -147,7 +147,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 cancelSeatUseCase(
-                    CancelSeatInput(
+                    cancelSeatInput = CancelSeatInput(
                         seatId = UUID.fromString(seatId.toString()),
                         timeSlot = timeSlot,
                     ),
