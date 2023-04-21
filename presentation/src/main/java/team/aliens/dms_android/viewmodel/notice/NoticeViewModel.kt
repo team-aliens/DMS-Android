@@ -49,8 +49,8 @@ class NoticeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchNoticesUseCase(
-                    FetchNoticesInput(
-                        state.value.type,
+                    fetchNoticesInput = FetchNoticesInput(
+                        order = state.value.type,
                     ),
                 )
             }.onSuccess {
