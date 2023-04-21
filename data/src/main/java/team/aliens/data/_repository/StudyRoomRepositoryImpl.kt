@@ -10,9 +10,9 @@ import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.domain._repository.StudyRoomRepository
-import java.util.UUID
 import javax.inject.Inject
 
 class StudyRoomRepositoryImpl @Inject constructor(
@@ -40,10 +40,10 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchStudyRooms(
-        timeSlot: UUID,
+        input: FetchStudyRoomsInput,
     ): FetchStudyRoomsOutput {
         return remoteStudyRoomDataSource.fetchStudyRooms(
-            timeSlot = timeSlot,
+            input = input,
         )
     }
 

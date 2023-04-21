@@ -10,11 +10,11 @@ import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.remote.model.studyroom.toDomain
 import team.aliens.remote.service.StudyRoomService
 import team.aliens.remote.util.sendHttpRequest
-import java.util.UUID
 import javax.inject.Inject
 
 class RemoteStudyRoomDataSourceImpl @Inject constructor(
@@ -50,11 +50,11 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchStudyRooms(
-        timeSlot: UUID,
+        input: FetchStudyRoomsInput,
     ): FetchStudyRoomsOutput {
         return sendHttpRequest {
             studyRoomService.fetchStudyRooms(
-                timeSlot = timeSlot,
+                timeSlot = input.timeSlot,
             )
         }.toDomain()
     }
