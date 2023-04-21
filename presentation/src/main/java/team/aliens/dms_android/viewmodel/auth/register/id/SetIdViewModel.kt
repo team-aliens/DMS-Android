@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.student.CheckIdDuplicationInput
 import team.aliens.domain.entity.user.ExamineGradeEntity
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ConflictException
@@ -54,10 +55,16 @@ class SetIdViewModel @Inject constructor(
         }
     }
 
-    fun duplicateId(id: String) {
+    fun duplicateId(
+        accountId: String,
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                checkIdDuplicationUseCase(id)
+                checkIdDuplicationUseCase(
+                    CheckIdDuplicationInput(
+                        accountId = accountId
+                    ),
+                )
             }.onSuccess {
                 event(SetIdEvent.DuplicateIdSuccess)
             }.onFailure {

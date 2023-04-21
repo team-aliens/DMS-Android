@@ -3,6 +3,7 @@ package team.aliens.remote.datasource
 import team.aliens.data._datasource.remote.RemoteStudentDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.student.CheckEmailDuplicationInput
+import team.aliens.domain._model.student.CheckIdDuplicationInput
 import team.aliens.domain._model.student.EditProfileInput
 import team.aliens.domain._model.student.ExamineStudentNumberOutput
 import team.aliens.domain._model.student.FetchMyPageOutput
@@ -76,11 +77,11 @@ class RemoteStudentDataSourceImpl @Inject constructor(
     }
 
     override suspend fun checkIdDuplication(
-        accountId: String,
+        input: CheckIdDuplicationInput,
     ) {
         return sendHttpRequest {
             studentService.checkIdDuplication(
-                accountId = accountId,
+                accountId = input.accountId,
             )
         }
     }

@@ -58,10 +58,10 @@ class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkIdDuplication(
-        accountId: String,
+        input: CheckIdDuplicationInput,
     ) {
         return remoteStudentDataSource.checkIdDuplication(
-            accountId = accountId,
+            input = input,
         )
     }
 
