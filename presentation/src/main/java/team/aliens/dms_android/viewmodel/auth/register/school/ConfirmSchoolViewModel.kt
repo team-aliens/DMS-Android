@@ -13,17 +13,18 @@ import team.aliens.dms_android.feature.register.event.school.NotFoundCompareScho
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
+import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
-import team.aliens.domain.usecase.school.FetchSchoolQuestionUseCase
+import team.aliens.domain.usecase.school.FetchSchoolVerificationQuestionUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmSchoolViewModel @Inject constructor(
     private val examineSchoolVerificationQuestionUseCase: ExamineSchoolVerificationQuestionUseCase,
-    private val fetchSchoolQuestionUseCase: FetchSchoolQuestionUseCase,
+    private val fetchSchoolVerificationQuestionUseCase: FetchSchoolVerificationQuestionUseCase,
 ) : ViewModel() {
 
     private val _confirmSchoolEvent = MutableEventFlow<ConfirmSchoolEvent>()
@@ -58,7 +59,9 @@ class ConfirmSchoolViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchSchoolQuestionUseCase(schoolId)
+                fetchSchoolVerificationQuestionUseCase(
+                    FetchSchoolVerificationQuestionInput(schoolId),
+                )
             }.onSuccess {
                 event(FetchSchoolQuestion(it))
             }

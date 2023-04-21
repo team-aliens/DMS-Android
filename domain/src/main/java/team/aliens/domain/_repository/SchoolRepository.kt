@@ -4,17 +4,17 @@ import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
+import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.domain._model.student.Feature
-import java.util.UUID
 
 interface SchoolRepository {
 
     suspend fun fetchSchools(): FetchSchoolsOutput
 
     suspend fun fetchSchoolVerificationQuestion(
-        schoolId: UUID,
+        input: FetchSchoolVerificationQuestionInput,
     ): FetchSchoolVerificationQuestionOutput
 
     suspend fun examineSchoolVerificationQuestion(

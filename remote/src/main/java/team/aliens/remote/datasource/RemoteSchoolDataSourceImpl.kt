@@ -5,12 +5,12 @@ import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
+import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.remote.model.school.toDomain
 import team.aliens.remote.service.SchoolService
 import team.aliens.remote.util.sendHttpRequest
-import java.util.UUID
 import javax.inject.Inject
 
 class RemoteSchoolDataSourceImpl @Inject constructor(
@@ -24,11 +24,11 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchSchoolVerificationQuestion(
-        schoolId: UUID,
+        input: FetchSchoolVerificationQuestionInput,
     ): FetchSchoolVerificationQuestionOutput {
         return sendHttpRequest {
             schoolService.fetchSchoolVerificationQuestion(
-                schoolId = schoolId,
+                schoolId = input.schoolId,
             )
         }.toDomain()
     }
