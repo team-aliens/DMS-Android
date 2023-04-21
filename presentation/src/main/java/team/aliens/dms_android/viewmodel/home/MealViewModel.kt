@@ -46,7 +46,7 @@ class MealViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchMealUseCase(
-                    FetchMealInput(
+                    fetchMealInput = FetchMealInput(
                         date = date,
                     ),
                 )
