@@ -88,7 +88,7 @@ class ChangePasswordViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 checkIdUseCase(
-                    CheckIdExistsInput(
+                    checkIdExistsInput = CheckIdExistsInput(
                         accountId = accountId,
                     ),
                 )
