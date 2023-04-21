@@ -75,7 +75,9 @@ class NoticeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchNoticeDetailsUseCase(
-                    FetchNoticeDetailsInput(noticeId),
+                    fetchNoticeDetailsInput = FetchNoticeDetailsInput(
+                        noticeId = noticeId,
+                    ),
                 )
             }.onSuccess {
                 emitNoticeDetailState(
