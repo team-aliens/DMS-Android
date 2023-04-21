@@ -36,7 +36,7 @@ class SetIdViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 examineStudentNumberUseCase(
-                    ExamineStudentNumberInput(
+                    examineStudentNumberInput = ExamineStudentNumberInput(
                         grade = grade,
                         classRoom = classRoom,
                         number = number,
