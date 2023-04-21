@@ -43,7 +43,9 @@ class RemainApplicationViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 updateRemainOptionUseCase(
-                    UpdateRemainsOptionInput(state.value.remainOptionId),
+                    updateRemainsOptionInput = UpdateRemainsOptionInput(
+                        remainsOptionId = state.value.remainOptionId,
+                    ),
                 )
             }.onSuccess {
                 event(Event.UpdateRemainOption)
