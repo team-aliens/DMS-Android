@@ -191,7 +191,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchStudyRoomDetailUseCase(
-                    FetchStudyRoomDetailsInput(
+                    fetchStudyRoomDetailsInput = FetchStudyRoomDetailsInput(
                         studyRoomId = UUID.fromString(roomId),
                         timeSlot = timeSlot,
                     ),
