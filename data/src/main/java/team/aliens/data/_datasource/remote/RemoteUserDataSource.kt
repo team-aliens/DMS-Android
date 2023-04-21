@@ -1,5 +1,6 @@
 package team.aliens.data._datasource.remote
 
+import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 
 interface RemoteUserDataSource {
@@ -9,6 +10,6 @@ interface RemoteUserDataSource {
     )
 
     suspend fun comparePassword(
-        password: String,
+        input: ComparePasswordInput,
     )
 }

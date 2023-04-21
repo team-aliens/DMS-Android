@@ -10,6 +10,7 @@ import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.auth.CheckIdExistsInput
 import team.aliens.domain._model.student.ResetPasswordInput
+import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
@@ -69,7 +70,9 @@ class ChangePasswordViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 comparePasswordUseCase(
-                    password = state.value.currentPassword,
+                    ComparePasswordInput(
+                        password = state.value.currentPassword,
+                    ),
                 )
             }.onSuccess {
                 event(Event.ComparePasswordSuccess)

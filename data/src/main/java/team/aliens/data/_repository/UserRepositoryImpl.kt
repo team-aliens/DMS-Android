@@ -1,6 +1,7 @@
 package team.aliens.data._repository
 
 import team.aliens.data._datasource.remote.RemoteUserDataSource
+import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.domain._repository.UserRepository
 import javax.inject.Inject
@@ -18,10 +19,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun comparePassword(
-        password: String,
+        input: ComparePasswordInput,
     ) {
         return remoteUserDataSource.comparePassword(
-            password = password,
+            input = input,
         )
     }
 }
