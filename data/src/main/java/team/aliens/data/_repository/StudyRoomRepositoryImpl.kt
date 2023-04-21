@@ -1,6 +1,7 @@
 package team.aliens.data._repository
 
 import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
+import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
@@ -20,12 +21,10 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     override suspend fun applySeat(
-        seatId: UUID,
-        timeSlot: UUID,
+        input: ApplySeatInput,
     ) {
         return remoteStudyRoomDataSource.applySeat(
-            seatId = seatId,
-            timeSlot = timeSlot,
+            input = input,
         )
     }
 

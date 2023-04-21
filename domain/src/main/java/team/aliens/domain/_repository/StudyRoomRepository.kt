@@ -1,5 +1,6 @@
 package team.aliens.domain._repository
 
+import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
@@ -13,8 +14,7 @@ interface StudyRoomRepository {
     suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeOutput
 
     suspend fun applySeat(
-        seatId: UUID,
-        timeSlot: UUID,
+        input: ApplySeatInput,
     )
 
     suspend fun cancelSeat(

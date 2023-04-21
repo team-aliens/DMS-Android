@@ -8,15 +8,16 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
+import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
+import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
-import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.presentation.R
 import java.util.UUID
 import javax.inject.Inject
@@ -98,8 +99,10 @@ class StudyRoomDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 applySeatUseCase(
-                    seatId = UUID.fromString(seatId),
-                    timeSlot = timeSlot,
+                    ApplySeatInput(
+                        seatId = UUID.fromString(seatId),
+                        timeSlot = timeSlot,
+                    ),
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
