@@ -80,7 +80,9 @@ class MealService : Service(), CoroutineScope by MainScope() {
 
         kotlin.runCatching {
             fetchMealsUseCase(
-                FetchMealsInput(nowDate),
+                fetchMealsInput = FetchMealsInput(
+                    date = nowDate,
+                ),
             )
         }.onSuccess { result ->
             mealEntity = result.meals.first { it.date == nowDateTime.toString() }
