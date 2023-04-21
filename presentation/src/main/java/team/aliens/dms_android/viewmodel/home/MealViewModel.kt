@@ -95,13 +95,13 @@ class MealViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            state.value.meals.emit(FormedMeal(
-                breakfast = breakfast,
-                lunch = lunch,
-                dinner = dinner,
-            ).also {
-                println("TESTTEST UPDATE $it")
-            })
+            state.value.meals.emit(
+                FormedMeal(
+                    breakfast = breakfast,
+                    lunch = lunch,
+                    dinner = dinner,
+                ),
+            )
         }
     }
 
