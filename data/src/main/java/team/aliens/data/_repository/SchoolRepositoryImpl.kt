@@ -4,6 +4,7 @@ import team.aliens.data._datasource.local.LocalSchoolDataSource
 import team.aliens.data._datasource.remote.RemoteSchoolDataSource
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
@@ -30,12 +31,10 @@ class SchoolRepositoryImpl @Inject constructor(
     }
 
     override suspend fun examineSchoolVerificationQuestion(
-        schoolId: UUID,
-        answer: String,
+        input: ExamineSchoolVerificationQuestionInput,
     ) {
         return remoteSchoolDataSource.examineSchoolVerificationQuestion(
-            schoolId = schoolId,
-            answer = answer,
+            input = input,
         )
     }
 

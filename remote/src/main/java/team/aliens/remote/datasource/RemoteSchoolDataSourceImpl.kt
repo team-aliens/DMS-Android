@@ -3,6 +3,7 @@ package team.aliens.remote.datasource
 import team.aliens.data._datasource.remote.RemoteSchoolDataSource
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
@@ -33,13 +34,12 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
     }
 
     override suspend fun examineSchoolVerificationQuestion(
-        schoolId: UUID,
-        answer: String,
+        input: ExamineSchoolVerificationQuestionInput,
     ) {
         return sendHttpRequest {
             schoolService.examineSchoolVerificationQuestion(
-                schoolId = schoolId,
-                answer = answer,
+                schoolId = input.schoolId,
+                answer = input.answer,
             )
         }
     }

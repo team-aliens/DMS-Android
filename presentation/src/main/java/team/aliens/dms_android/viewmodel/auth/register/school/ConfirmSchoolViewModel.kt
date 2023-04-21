@@ -12,6 +12,7 @@ import team.aliens.dms_android.feature.register.event.school.MissMatchCompareSch
 import team.aliens.dms_android.feature.register.event.school.NotFoundCompareSchool
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
@@ -35,8 +36,10 @@ class ConfirmSchoolViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 examineSchoolVerificationQuestionUseCase(
-                    schoolId = schoolId,
-                    answer = answer,
+                    ExamineSchoolVerificationQuestionInput(
+                        schoolId = schoolId,
+                        answer = answer,
+                    ),
                 )
             }.onSuccess {
                 event(CompareSchoolAnswerSuccess)
