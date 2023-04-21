@@ -45,7 +45,7 @@ class ConfirmImageViewModel @Inject constructor(
         runBlocking {
             kotlin.runCatching {
                 uploadFileUseCase(
-                    UploadFileInput(
+                    uploadFileInput = UploadFileInput(
                         state.value.selectedImage!!,
                     ), // non-null checked
                 )
