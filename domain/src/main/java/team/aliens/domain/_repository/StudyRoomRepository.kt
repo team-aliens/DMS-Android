@@ -7,6 +7,7 @@ import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
 import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import java.util.UUID
@@ -28,8 +29,7 @@ interface StudyRoomRepository {
     ): FetchStudyRoomsOutput
 
     suspend fun fetchStudyRoomDetails(
-        studyRoomId: UUID,
-        timeSlot: UUID,
+        input: FetchStudyRoomDetailsInput,
     ): FetchStudyRoomDetailsOutput
 
     suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput

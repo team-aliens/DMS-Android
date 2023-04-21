@@ -8,6 +8,7 @@ import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
 import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.domain._repository.StudyRoomRepository
@@ -47,12 +48,10 @@ class StudyRoomRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchStudyRoomDetails(
-        studyRoomId: UUID,
-        timeSlot: UUID,
+        input: FetchStudyRoomDetailsInput,
     ): FetchStudyRoomDetailsOutput {
         return remoteStudyRoomDataSource.fetchStudyRoomDetails(
-            studyRoomId = studyRoomId,
-            timeSlot = timeSlot,
+            input = input,
         )
     }
 

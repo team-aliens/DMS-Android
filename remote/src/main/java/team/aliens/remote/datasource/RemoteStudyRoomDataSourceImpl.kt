@@ -8,6 +8,7 @@ import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
 import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.remote.model.studyroom.toDomain
@@ -59,13 +60,12 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchStudyRoomDetails(
-        studyRoomId: UUID,
-        timeSlot: UUID,
+        input: FetchStudyRoomDetailsInput,
     ): FetchStudyRoomDetailsOutput {
         return sendHttpRequest {
             studyRoomService.fetchStudyRoomDetails(
-                studyRoomId = studyRoomId,
-                timeSlot = timeSlot,
+                studyRoomId = input.studyRoomId,
+                timeSlot = input.timeSlot,
             )
         }.toDomain()
     }
