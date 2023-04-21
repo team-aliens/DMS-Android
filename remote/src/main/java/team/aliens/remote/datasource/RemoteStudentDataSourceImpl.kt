@@ -5,6 +5,7 @@ import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.student.CheckEmailDuplicationInput
 import team.aliens.domain._model.student.CheckIdDuplicationInput
 import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain._model.student.ExamineStudentNumberInput
 import team.aliens.domain._model.student.ExamineStudentNumberOutput
 import team.aliens.domain._model.student.FetchMyPageOutput
 import team.aliens.domain._model.student.FindIdOutput
@@ -33,17 +34,14 @@ class RemoteStudentDataSourceImpl @Inject constructor(
     }
 
     override suspend fun examineStudentNumber(
-        schoolId: UUID,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: ExamineStudentNumberInput,
     ): ExamineStudentNumberOutput {
         return sendHttpRequest {
             studentService.examineStudentNumber(
-                schoolId = schoolId,
-                grade = grade,
-                classRoom = classRoom,
-                number = number,
+                schoolId = input.schoolId,
+                grade = input.grade,
+                classRoom = input.classRoom,
+                number = input.number,
             )
         }.toDomain()
     }

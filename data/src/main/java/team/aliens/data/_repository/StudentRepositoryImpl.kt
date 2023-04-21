@@ -20,16 +20,10 @@ class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun examineStudentNumber(
-        schoolId: UUID,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: ExamineStudentNumberInput,
     ): ExamineStudentNumberOutput {
         return remoteStudentDataSource.examineStudentNumber(
-            schoolId = schoolId,
-            grade = grade,
-            classRoom = classRoom,
-            number = number,
+            input = input,
         )
     }
 

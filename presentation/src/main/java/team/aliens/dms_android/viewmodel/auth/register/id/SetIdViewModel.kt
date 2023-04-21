@@ -8,6 +8,7 @@ import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.student.CheckIdDuplicationInput
+import team.aliens.domain._model.student.ExamineStudentNumberInput
 import team.aliens.domain.entity.user.ExamineGradeEntity
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ConflictException
@@ -35,10 +36,12 @@ class SetIdViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 examineStudentNumberUseCase(
-                    grade = grade,
-                    classRoom = classRoom,
-                    number = number,
-                    schoolId = schoolId,
+                    ExamineStudentNumberInput(
+                        grade = grade,
+                        classRoom = classRoom,
+                        number = number,
+                        schoolId = schoolId,
+                    ),
                 )
             }.onSuccess {
                 event(SetIdEvent.ExamineGradeName(it))
