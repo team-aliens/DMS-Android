@@ -107,7 +107,9 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 remotePointListUseCase(
-                    FetchPointsInput(type = pointType),
+                    fetchPointsInput = FetchPointsInput(
+                        type = pointType,
+                    ),
                 )
             }.onSuccess {
                 emitPointViewEffect(Event.FetchPointList(it))
