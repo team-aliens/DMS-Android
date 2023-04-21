@@ -95,8 +95,8 @@ class RegisterEmailViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 checkEmailDuplicationUseCase(
-                    CheckEmailDuplicationInput(
-                        email,
+                    checkEmailDuplicationInput = CheckEmailDuplicationInput(
+                        email = email,
                     ),
                 )
             }.onSuccess {
