@@ -11,6 +11,7 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
 import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain._model.remains.UpdateRemainsOptionInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
@@ -41,7 +42,9 @@ class RemainApplicationViewModel @Inject constructor(
     internal fun updateRemainOption() {
         viewModelScope.launch {
             kotlin.runCatching {
-                updateRemainOptionUseCase(state.value.remainOptionId)
+                updateRemainOptionUseCase(
+                    UpdateRemainsOptionInput(state.value.remainOptionId),
+                )
             }.onSuccess {
                 event(Event.UpdateRemainOption)
             }.onFailure {
