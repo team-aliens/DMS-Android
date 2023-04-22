@@ -7,7 +7,7 @@ import team.aliens.domain._model.notice.FetchNoticesInput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import team.aliens.remote.model.notice.toDomain
-import team.aliens.remote.service.NoticeService
+import team.aliens.remote.apiservice.NoticeService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 

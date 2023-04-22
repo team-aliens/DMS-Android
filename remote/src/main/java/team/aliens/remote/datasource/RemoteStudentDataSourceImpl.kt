@@ -15,7 +15,7 @@ import team.aliens.domain._model.student.SignUpInput
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.student.toData
 import team.aliens.remote.model.student.toDomain
-import team.aliens.remote.service.StudentService
+import team.aliens.remote.apiservice.StudentService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 

@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import team.aliens.remote.service.*
+import team.aliens.remote.apiservice.*
 import javax.inject.Singleton
 
 @Module

@@ -4,7 +4,7 @@ import team.aliens.data._datasource.remote.RemoteUserDataSource
 import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.remote.model.user.toData
-import team.aliens.remote.service.UserService
+import team.aliens.remote.apiservice.UserService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 

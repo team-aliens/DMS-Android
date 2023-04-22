@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import okhttp3.MultipartBody
 import retrofit2.http.*

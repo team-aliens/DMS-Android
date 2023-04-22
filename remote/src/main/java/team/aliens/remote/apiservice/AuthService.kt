@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.*
 import team.aliens.remote.annotation.RequiresRefreshToken

@@ -13,7 +13,7 @@ import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.remote.model.studyroom.toDomain
-import team.aliens.remote.service.StudyRoomService
+import team.aliens.remote.apiservice.StudyRoomService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 

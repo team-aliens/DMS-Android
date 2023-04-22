@@ -8,7 +8,7 @@ import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.HttpProperty.Header.ContentType
 import team.aliens.remote.http.FileUploadClient
 import team.aliens.remote.model.file.toDomain
-import team.aliens.remote.service.FileService
+import team.aliens.remote.apiservice.FileService
 import team.aliens.remote.util.sendHttpRequest
 import team.aliens.remote.util.toMultipart
 import java.io.File

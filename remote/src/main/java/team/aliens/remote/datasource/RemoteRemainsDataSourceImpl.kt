@@ -6,7 +6,7 @@ import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import team.aliens.domain._model.remains.UpdateRemainsOptionInput
 import team.aliens.remote.model.remains.toDomain
-import team.aliens.remote.service.RemainsService
+import team.aliens.remote.apiservice.RemainsService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 

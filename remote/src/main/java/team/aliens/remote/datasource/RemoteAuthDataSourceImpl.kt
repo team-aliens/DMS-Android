@@ -10,7 +10,7 @@ import team.aliens.domain._model.auth.SignInInput
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.auth.toData
 import team.aliens.remote.model.auth.toDomain
-import team.aliens.remote.service.AuthService
+import team.aliens.remote.apiservice.AuthService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
