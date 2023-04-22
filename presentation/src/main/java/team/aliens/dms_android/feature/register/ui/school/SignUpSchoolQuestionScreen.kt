@@ -77,7 +77,7 @@ fun SignUpSchoolQuestionScreen(
         confirmSchoolViewModel.confirmSchoolEvent.collect {
             when (it) {
                 is FetchSchoolQuestion -> {
-                    schoolQuestion = it.schoolConfirmQuestionEntity.question
+                    schoolQuestion = it.fetchSchoolVerificationQuestionOutput.question
                 }
                 is NotFoundCompareSchool -> {
                     isError = true

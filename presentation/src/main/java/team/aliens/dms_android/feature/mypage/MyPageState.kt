@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.mypage
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
+import team.aliens.domain._model._common.Sex
 import team.aliens.domain.entity.mypage.PointListEntity
 import team.aliens.domain.enums.PointType
 
@@ -36,15 +37,8 @@ data class MyPageEntity(
     var name: String = "",
     var gcn: String = "",
     var profileImageUrl: String = "",
-    var sex: Gender = Gender.MALE,
+    var sex: Sex = Sex.ALL,
     var bonusPoint: Int = 0,
     var minusPoint: Int = 0,
     var phrase: String = "",
 )
-
-enum class Gender(
-    val gender: String,
-) {
-    MALE("남"),
-    FEMALE("여")
-}

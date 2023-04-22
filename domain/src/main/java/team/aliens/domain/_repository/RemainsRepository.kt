@@ -3,12 +3,12 @@ package team.aliens.domain._repository
 import team.aliens.domain._model.remains.FetchCurrentAppliedRemainsOptionOutput
 import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
-import java.util.*
+import team.aliens.domain._model.remains.UpdateRemainsOptionInput
 
 interface RemainsRepository {
 
     suspend fun updateRemainsOption(
-        remainsOptionId: UUID,
+        input: UpdateRemainsOptionInput,
     )
 
     suspend fun fetchCurrentAppliedRemainsOption(): FetchCurrentAppliedRemainsOptionOutput

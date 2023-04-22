@@ -22,7 +22,7 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindFileRepository(
         impl: FileRepositoryImpl,
-    ): FileRepositoryImpl
+    ): FileRepository
 
     @Binds
     @Singleton

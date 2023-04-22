@@ -1,5 +1,6 @@
 package team.aliens.remote.service
 
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -16,6 +17,7 @@ import team.aliens.remote.common.HttpPath.StudyRoom.FetchStudyRoomDetails
 import team.aliens.remote.common.HttpPath.StudyRoom.FetchStudyRooms
 import team.aliens.remote.common.HttpProperty.PathVariable.SeatId
 import team.aliens.remote.common.HttpProperty.PathVariable.StudyRoomId
+import team.aliens.remote.common.HttpProperty.QueryString
 import team.aliens.remote.common.HttpProperty.QueryString.TimeSlot
 import team.aliens.remote.model.studyroom.FetchAvailableStudyRoomTimesResponse
 import team.aliens.remote.model.studyroom.FetchCurrentAppliedStudyRoomResponse
@@ -41,8 +43,9 @@ interface StudyRoomService {
     @DELETE(CancelSeat)
     @RequiresAccessToken
     suspend fun cancelSeat(
+        @Path(SeatId) seatId: UUID,
         @Query(TimeSlot) timeSlot: UUID,
-    )
+    ): Response<Unit>
 
     @GET(FetchStudyRooms)
     @RequiresAccessToken
@@ -63,7 +66,9 @@ interface StudyRoomService {
 
     @GET(FetchSeatTypes)
     @RequiresAccessToken
-    suspend fun fetchSeatTypes(): FetchSeatTypesResponse
+    suspend fun fetchSeatTypes(
+        @Query(QueryString.StudyRoomId) studyRoomId: UUID,
+    ): FetchSeatTypesResponse
 
     @GET(FetchAvailableStudyRoomTimes)
     @RequiresAccessToken

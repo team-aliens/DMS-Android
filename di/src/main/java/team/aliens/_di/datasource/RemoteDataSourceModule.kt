@@ -57,12 +57,18 @@ abstract class RemoteDataSourceModule {
     @Binds
     @Singleton
     abstract fun bindRemoteStudentDataSource(
-        impl: RemoteSchoolDataSourceImpl,
-    ): RemoteSchoolDataSource
+        impl: RemoteStudentDataSourceImpl,
+    ): RemoteStudentDataSource
 
     @Binds
     @Singleton
     abstract fun bindRemoteStudyRoomDataSource(
         impl: RemoteStudyRoomDataSourceImpl,
     ): RemoteStudyRoomDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindRemoteUserDataSource(
+        impl: RemoteUserDataSourceImpl,
+    ): RemoteUserDataSource
 }

@@ -1,7 +1,8 @@
 package team.aliens.domain._repository
 
 import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model._common.EmailVerificationType
+import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
+import team.aliens.domain._model.auth.CheckIdExistsInput
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
@@ -24,9 +25,7 @@ interface AuthRepository {
     )
 
     suspend fun checkEmailVerificationCode(
-        email: String,
-        authCode: String,
-        type: EmailVerificationType,
+        input: CheckEmailVerificationCodeInput,
     )
 
     suspend fun reissueToken(): AuthenticationOutput
@@ -37,7 +36,7 @@ interface AuthRepository {
     )
 
     suspend fun checkIdExists(
-        accountId: String,
+        input: CheckIdExistsInput,
     ): CheckIdExistsOutput
 
     suspend fun findToken(): Token

@@ -1,8 +1,16 @@
 package team.aliens.domain._repository
 
 import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.student.*
-import java.util.*
+import team.aliens.domain._model.student.CheckEmailDuplicationInput
+import team.aliens.domain._model.student.CheckIdDuplicationInput
+import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain._model.student.ExamineStudentNumberInput
+import team.aliens.domain._model.student.ExamineStudentNumberOutput
+import team.aliens.domain._model.student.FetchMyPageOutput
+import team.aliens.domain._model.student.FindIdInput
+import team.aliens.domain._model.student.FindIdOutput
+import team.aliens.domain._model.student.ResetPasswordInput
+import team.aliens.domain._model.student.SignUpInput
 
 interface StudentRepository {
 
@@ -11,18 +19,11 @@ interface StudentRepository {
     ): AuthenticationOutput
 
     suspend fun examineStudentNumber(
-        schoolId: UUID,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: ExamineStudentNumberInput,
     ): ExamineStudentNumberOutput
 
     suspend fun findId(
-        schoolId: UUID,
-        studentName: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: FindIdInput,
     ): FindIdOutput
 
     suspend fun resetPassword(
@@ -30,11 +31,11 @@ interface StudentRepository {
     )
 
     suspend fun checkIdDuplication(
-        accountId: String,
+        input: CheckIdDuplicationInput,
     )
 
     suspend fun checkEmailDuplication(
-        email: String,
+        input: CheckEmailDuplicationInput,
     )
 
     suspend fun fetchMyPage(): FetchMyPageOutput

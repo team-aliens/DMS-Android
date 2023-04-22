@@ -2,13 +2,21 @@ package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteStudentDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.student.*
+import team.aliens.domain._model.student.CheckEmailDuplicationInput
+import team.aliens.domain._model.student.CheckIdDuplicationInput
+import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain._model.student.ExamineStudentNumberInput
+import team.aliens.domain._model.student.ExamineStudentNumberOutput
+import team.aliens.domain._model.student.FetchMyPageOutput
+import team.aliens.domain._model.student.FindIdInput
+import team.aliens.domain._model.student.FindIdOutput
+import team.aliens.domain._model.student.ResetPasswordInput
+import team.aliens.domain._model.student.SignUpInput
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.student.toData
 import team.aliens.remote.model.student.toDomain
 import team.aliens.remote.service.StudentService
 import team.aliens.remote.util.sendHttpRequest
-import java.util.*
 import javax.inject.Inject
 
 class RemoteStudentDataSourceImpl @Inject constructor(
@@ -26,35 +34,28 @@ class RemoteStudentDataSourceImpl @Inject constructor(
     }
 
     override suspend fun examineStudentNumber(
-        schoolId: UUID,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: ExamineStudentNumberInput,
     ): ExamineStudentNumberOutput {
         return sendHttpRequest {
             studentService.examineStudentNumber(
-                schoolId = schoolId,
-                grade = grade,
-                classRoom = classRoom,
-                number = number,
+                schoolId = input.schoolId,
+                grade = input.grade,
+                classRoom = input.classRoom,
+                number = input.number,
             )
         }.toDomain()
     }
 
     override suspend fun findId(
-        schoolId: UUID,
-        studentName: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: FindIdInput,
     ): FindIdOutput {
         return sendHttpRequest {
             studentService.findId(
-                schoolId = schoolId,
-                studentName = studentName,
-                grade = grade,
-                classRoom = classRoom,
-                number = number,
+                schoolId = input.schoolId,
+                studentName = input.studentName,
+                grade = input.grade,
+                classRoom = input.classRoom,
+                number = input.number,
             )
         }.toDomain()
     }
@@ -70,21 +71,21 @@ class RemoteStudentDataSourceImpl @Inject constructor(
     }
 
     override suspend fun checkIdDuplication(
-        accountId: String,
+        input: CheckIdDuplicationInput,
     ) {
         return sendHttpRequest {
             studentService.checkIdDuplication(
-                accountId = accountId,
+                accountId = input.accountId,
             )
         }
     }
 
     override suspend fun checkEmailDuplication(
-        email: String,
+        input: CheckEmailDuplicationInput,
     ) {
         return sendHttpRequest {
             studentService.checkEmailDuplication(
-                email = email,
+                email = input.email,
             )
         }
     }

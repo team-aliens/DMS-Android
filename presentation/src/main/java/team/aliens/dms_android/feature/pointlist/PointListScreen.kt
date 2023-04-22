@@ -2,8 +2,21 @@ package team.aliens.dms_android.feature.pointlist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
@@ -19,8 +32,8 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Headline2
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
-import team.aliens.domain.entity.mypage.PointListEntity
-import team.aliens.domain.enums.PointType
+import team.aliens.domain._model._common.PointType
+import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.presentation.R
 
 @Composable
@@ -33,7 +46,7 @@ fun PointListScreen(
         myPageViewModel.fetchPointList(PointType.ALL)
     }
 
-    val point = remember { mutableStateListOf<PointListEntity.PointValue>() }
+    val point = remember { mutableStateListOf<FetchPointsOutput.PointInformation>() }
 
     var totalPoint by remember { mutableStateOf(0) }
 
@@ -50,8 +63,8 @@ fun PointListScreen(
             when (it) {
                 is MyPageViewModel.Event.FetchPointList -> {
                     point.clear()
-                    point.addAll(it.pointListEntity.pointValue)
-                    totalPoint = it.pointListEntity.totalPoint
+                    point.addAll(it.fetchPointsOutput.points)
+                    totalPoint = it.fetchPointsOutput.totalPoint
                 }
                 is MyPageViewModel.Event.BadRequestException -> {
                     toast(badRequestComment)
@@ -183,7 +196,7 @@ private fun PointTypeButton(
 @Composable
 fun PointListValue(
     totalPoint: Int,
-    point: List<PointListEntity.PointValue>,
+    point: List<FetchPointsOutput.PointInformation>,
 ) {
     Column {
         Column(

@@ -1,38 +1,42 @@
 package team.aliens.domain._repository
 
+import team.aliens.domain._model.studyroom.ApplySeatInput
+import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
-import java.util.*
 
 interface StudyRoomRepository {
 
     suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeOutput
 
     suspend fun applySeat(
-        seatId: UUID,
-        timeSlot: UUID,
+        input: ApplySeatInput,
     )
 
     suspend fun cancelSeat(
-        timeSlot: UUID,
+        input: CancelSeatInput,
     )
 
     suspend fun fetchStudyRooms(
-        timeSlot: UUID,
+        input: FetchStudyRoomsInput,
     ): FetchStudyRoomsOutput
 
     suspend fun fetchStudyRoomDetails(
-        studyRoomId: UUID,
-        timeSlot: UUID,
+        input: FetchStudyRoomDetailsInput,
     ): FetchStudyRoomDetailsOutput
 
     suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput
 
-    suspend fun fetchSeatTypes(): FetchSeatTypesOutput
+    suspend fun fetchSeatTypes(
+        input: FetchSeatTypesInput,
+    ): FetchSeatTypesOutput
 
     suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput
 }

@@ -92,7 +92,7 @@ object HttpModule {
     @Provides
     @Singleton
     fun provideIgnoreRequestWrapper(): IgnoreRequestWrapper {
-        return IgnoreRequestWrapper()
+        return IgnoreRequestWrapper
     }
 
     /* @Provides

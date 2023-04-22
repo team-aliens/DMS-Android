@@ -4,6 +4,7 @@ import team.aliens.data._datasource.remote.RemoteRemainsDataSource
 import team.aliens.domain._model.remains.FetchCurrentAppliedRemainsOptionOutput
 import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain._model.remains.UpdateRemainsOptionInput
 import team.aliens.domain._repository.RemainsRepository
 import java.util.*
 import javax.inject.Inject
@@ -13,10 +14,10 @@ class RemainsRepositoryImpl @Inject constructor(
 ) : RemainsRepository {
 
     override suspend fun updateRemainsOption(
-        remainsOptionId: UUID,
+        input: UpdateRemainsOptionInput,
     ) {
         return remoteRemainsDataSource.updateRemainsOption(
-            remainsOptionId = remainsOptionId,
+            input = input,
         )
     }
 

@@ -2,6 +2,7 @@ package team.aliens.data._repository
 
 import team.aliens.data._datasource.remote.RemoteFileDataSource
 import team.aliens.domain._model.file.FetchPreSignedUrlOutput
+import team.aliens.domain._model.file.UploadFileInput
 import team.aliens.domain._model.file.UploadFileOutput
 import team.aliens.domain._repository.FileRepository
 import java.io.File
@@ -12,10 +13,10 @@ class FileRepositoryImpl @Inject constructor(
 ) : FileRepository {
 
     override suspend fun uploadFile(
-        file: File,
+        input: UploadFileInput,
     ): UploadFileOutput {
         return remoteFileDataSource.uploadFile(
-            file = file,
+            input = input,
         )
     }
 

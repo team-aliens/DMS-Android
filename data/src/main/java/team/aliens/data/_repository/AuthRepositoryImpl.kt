@@ -3,7 +3,8 @@ package team.aliens.data._repository
 import team.aliens.data._datasource.local.LocalAuthDataSource
 import team.aliens.data._datasource.remote.RemoteAuthDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model._common.EmailVerificationType
+import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
+import team.aliens.domain._model.auth.CheckIdExistsInput
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
@@ -45,14 +46,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkEmailVerificationCode(
-        email: String,
-        authCode: String,
-        type: EmailVerificationType,
+        input: CheckEmailVerificationCodeInput,
     ) {
         return remoteAuthDataSource.checkEmailVerificationCode(
-            email = email,
-            authCode = authCode,
-            type = type,
+            email = input.email,
+            authCode = input.authCode,
+            type = input.type,
         )
     }
 
@@ -71,10 +70,10 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkIdExists(
-        accountId: String,
+        input: CheckIdExistsInput,
     ): CheckIdExistsOutput {
-        return checkIdExists(
-            accountId = accountId,
+        return remoteAuthDataSource.checkIdExists(
+            input = input,
         )
     }
 

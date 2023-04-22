@@ -1,27 +1,28 @@
 package team.aliens.domain._repository
 
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
+import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.domain._model.student.Feature
-import java.util.*
 
 interface SchoolRepository {
 
     suspend fun fetchSchools(): FetchSchoolsOutput
 
     suspend fun fetchSchoolVerificationQuestion(
-        schoolId: UUID,
+        input: FetchSchoolVerificationQuestionInput,
     ): FetchSchoolVerificationQuestionOutput
 
     suspend fun examineSchoolVerificationQuestion(
-        schoolId: UUID,
-        answer: String,
+        input: ExamineSchoolVerificationQuestionInput,
     )
 
     suspend fun examineSchoolVerificationCode(
-        schoolCode: String,
+        input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput
 
     suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput

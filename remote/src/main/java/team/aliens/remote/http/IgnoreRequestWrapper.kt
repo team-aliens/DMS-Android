@@ -3,7 +3,7 @@ package team.aliens.remote.http
 import team.aliens.remote.common.HttpMethod
 import team.aliens.remote.common.HttpPath
 
-data class IgnoreRequestWrapper(
+object IgnoreRequestWrapper {
     val ignoreRequests: ArrayList<Request> = arrayListOf(
 
         // Auth
@@ -73,5 +73,5 @@ data class IgnoreRequestWrapper(
             method = HttpMethod.POST,
             path = HttpPath.File.UploadFile,
         ),
-    ),
-)
+    )
+}

@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.domain.repository.MealRepository
-import team.aliens.domain.usecase.meal.RemoteMealUseCase
+import team.aliens.domain._repository.MealRepository
+import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +16,7 @@ object UseCaseModule {
     @Provides
     fun provideRemoteMealUseCase(
         mealRepository: MealRepository
-    ): RemoteMealUseCase = RemoteMealUseCase(
+    ): FetchMealsUseCase = FetchMealsUseCase(
         mealRepository = mealRepository,
     )
 }

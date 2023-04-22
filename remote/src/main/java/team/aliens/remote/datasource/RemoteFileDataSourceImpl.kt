@@ -2,6 +2,7 @@ package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteFileDataSource
 import team.aliens.domain._model.file.FetchPreSignedUrlOutput
+import team.aliens.domain._model.file.UploadFileInput
 import team.aliens.domain._model.file.UploadFileOutput
 import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.HttpProperty.Header.ContentType
@@ -19,8 +20,10 @@ class RemoteFileDataSourceImpl @Inject constructor(
 ) : RemoteFileDataSource {
 
     override suspend fun uploadFile(
-        file: File,
+        input: UploadFileInput,
     ): UploadFileOutput {
+        val file = input.file
+
         return sendHttpRequest {
             fileService.uploadFile(
                 file = file.toMultipart(

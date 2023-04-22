@@ -1,14 +1,16 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteSchoolDataSource
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
+import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.remote.model.school.toDomain
 import team.aliens.remote.service.SchoolService
 import team.aliens.remote.util.sendHttpRequest
-import java.util.*
 import javax.inject.Inject
 
 class RemoteSchoolDataSourceImpl @Inject constructor(
@@ -22,33 +24,32 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchSchoolVerificationQuestion(
-        schoolId: UUID,
+        input: FetchSchoolVerificationQuestionInput,
     ): FetchSchoolVerificationQuestionOutput {
         return sendHttpRequest {
             schoolService.fetchSchoolVerificationQuestion(
-                schoolId = schoolId,
+                schoolId = input.schoolId,
             )
         }.toDomain()
     }
 
     override suspend fun examineSchoolVerificationQuestion(
-        schoolId: UUID,
-        answer: String,
+        input: ExamineSchoolVerificationQuestionInput,
     ) {
         return sendHttpRequest {
             schoolService.examineSchoolVerificationQuestion(
-                schoolId = schoolId,
-                answer = answer,
+                schoolId = input.schoolId,
+                answer = input.answer,
             )
         }
     }
 
     override suspend fun examineSchoolVerificationCode(
-        schoolCode: String,
+        input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput {
         return sendHttpRequest {
             schoolService.examineSchoolVerificationCode(
-                schoolCode = schoolCode,
+                schoolCode = input.schoolCode,
             )
         }.toDomain()
     }

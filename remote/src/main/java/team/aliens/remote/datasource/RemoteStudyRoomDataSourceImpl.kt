@@ -1,11 +1,20 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
-import team.aliens.domain._model.studyroom.*
+import team.aliens.domain._model.studyroom.ApplySeatInput
+import team.aliens.domain._model.studyroom.CancelSeatInput
+import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.domain._model.studyroom.FetchSeatTypesInput
+import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
+import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.remote.model.studyroom.toDomain
 import team.aliens.remote.service.StudyRoomService
 import team.aliens.remote.util.sendHttpRequest
-import java.util.*
 import javax.inject.Inject
 
 class RemoteStudyRoomDataSourceImpl @Inject constructor(
@@ -19,45 +28,44 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
     }
 
     override suspend fun applySeat(
-        seatId: UUID,
-        timeSlot: UUID,
+        input: ApplySeatInput,
     ) {
         return sendHttpRequest {
             studyRoomService.applySeat(
-                seatId = seatId,
-                timeSlot = timeSlot,
+                seatId = input.seatId,
+                timeSlot = input.timeSlot,
             )
         }
     }
 
     override suspend fun cancelSeat(
-        timeSlot: UUID,
+        input: CancelSeatInput,
     ) {
         return sendHttpRequest {
             studyRoomService.cancelSeat(
-                timeSlot = timeSlot,
+                seatId = input.seatId,
+                timeSlot = input.timeSlot,
             )
         }
     }
 
     override suspend fun fetchStudyRooms(
-        timeSlot: UUID,
+        input: FetchStudyRoomsInput,
     ): FetchStudyRoomsOutput {
         return sendHttpRequest {
             studyRoomService.fetchStudyRooms(
-                timeSlot = timeSlot,
+                timeSlot = input.timeSlot,
             )
         }.toDomain()
     }
 
     override suspend fun fetchStudyRoomDetails(
-        studyRoomId: UUID,
-        timeSlot: UUID,
+        input: FetchStudyRoomDetailsInput,
     ): FetchStudyRoomDetailsOutput {
         return sendHttpRequest {
             studyRoomService.fetchStudyRoomDetails(
-                studyRoomId = studyRoomId,
-                timeSlot = timeSlot,
+                studyRoomId = input.studyRoomId,
+                timeSlot = input.timeSlot,
             )
         }.toDomain()
     }
@@ -68,9 +76,13 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         }.toDomain()
     }
 
-    override suspend fun fetchSeatTypes(): FetchSeatTypesOutput {
+    override suspend fun fetchSeatTypes(
+        input: FetchSeatTypesInput,
+    ): FetchSeatTypesOutput {
         return sendHttpRequest {
-            studyRoomService.fetchSeatTypes()
+            studyRoomService.fetchSeatTypes(
+                studyRoomId = input.studyRoomId,
+            )
         }.toDomain()
     }
 

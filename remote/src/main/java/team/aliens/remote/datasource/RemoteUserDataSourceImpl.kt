@@ -1,6 +1,7 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data._datasource.remote.RemoteUserDataSource
+import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.remote.model.user.toData
 import team.aliens.remote.service.UserService
@@ -22,11 +23,11 @@ class RemoteUserDataSourceImpl @Inject constructor(
     }
 
     override suspend fun comparePassword(
-        password: String,
+        input: ComparePasswordInput,
     ) {
         return sendHttpRequest {
             userService.comparePassword(
-                password = password,
+                password = input.password,
             )
         }
     }

@@ -3,6 +3,7 @@ package team.aliens.remote.datasource
 import team.aliens.data._datasource.remote.RemoteAuthDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model._common.EmailVerificationType
+import team.aliens.domain._model.auth.CheckIdExistsInput
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
@@ -70,11 +71,11 @@ class RemoteAuthDataSourceImpl @Inject constructor(
     }
 
     override suspend fun checkIdExists(
-        accountId: String,
+        input: CheckIdExistsInput,
     ): CheckIdExistsOutput {
         return sendHttpRequest {
             authService.checkIdExists(
-                accountId = accountId,
+                accountId = input.accountId,
             )
         }.toDomain()
     }

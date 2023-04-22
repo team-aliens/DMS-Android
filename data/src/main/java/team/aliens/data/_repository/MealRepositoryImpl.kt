@@ -2,6 +2,8 @@ package team.aliens.data._repository
 
 import team.aliens.data._datasource.local.LocalMealDataSource
 import team.aliens.data._datasource.remote.RemoteMealDataSource
+import team.aliens.domain._model.meal.FetchMealInput
+import team.aliens.domain._model.meal.FetchMealsInput
 import team.aliens.domain._model.meal.FetchMealsOutput
 import team.aliens.domain._model.meal.Meal
 import team.aliens.domain._model.meal.toTypedArray
@@ -14,29 +16,32 @@ class MealRepositoryImpl @Inject constructor(
 ) : MealRepository {
 
     override suspend fun fetchMeal(
-        date: String,
+        input: FetchMealInput,
     ): Meal {
-
         try {
             return localMealDataSource.fetchMeal(
-                date = date,
+                input = input,
             )
         } catch (e: Exception) {
+            val fetchMealsInput = FetchMealsInput(
+                date = input.date,
+            )
+
             this.fetchMeals(
-                date = date,
+                input = fetchMealsInput,
             )
         }
 
         return localMealDataSource.fetchMeal(
-            date = date,
+            input = input,
         )
     }
 
     override suspend fun fetchMeals(
-        date: String,
+        input: FetchMealsInput,
     ): FetchMealsOutput {
         return remoteMealDataSource.fetchMeals(
-            date = date,
+            input = input,
         ).also {
             this.saveMeals(
                 meals = it.meals.toTypedArray(),

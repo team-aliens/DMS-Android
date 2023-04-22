@@ -48,12 +48,14 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.component.LastAppliedItem
-import team.aliens.dms_android.util.DayOfWeek
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
-import team.aliens.domain.entity.remain.RemainOptionsEntity
+import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import team.aliens.presentation.R
+import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun RemainApplicationScreen(
@@ -65,7 +67,8 @@ fun RemainApplicationScreen(
     var lastAppliedItem by remember { mutableStateOf("") }
     var noticeContent by remember { mutableStateOf("") }
 
-    val remainOptions = remember { mutableStateListOf<RemainOptionsEntity.RemainOptionEntity>() }
+    val remainOptions =
+        remember { mutableStateListOf<FetchRemainsOptionsOutput.RemainsOptionInformation>() }
 
     val toast = rememberToast()
 
@@ -84,17 +87,17 @@ fun RemainApplicationScreen(
                         lastAppliedItem = it.title
                     }
                     is Event.AvailableRemainTime -> {
-                        with(it.availableRemainTimeEntity) {
+                        with(it.fetchRemainsApplicationTimeOutput) {
                             noticeContent = setAvailableRemainTime(
-                                startDayOfWeek = DayOfWeek.valueOf(startDayOfWeek.toString()).day,
+                                startDayOfWeek = startDayOfWeek,
                                 startTime = startTime,
-                                endDayOfWeek = DayOfWeek.valueOf(endDayOfWeek.toString()).day,
+                                endDayOfWeek = endDayOfWeek,
                                 endTime = endTime,
                             )
                         }
                     }
                     is Event.RemainOptions -> {
-                        remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
+                        remainOptions.addAll(it.fetchRemainsOptionsOutput.remainOptions)
                     }
                     is Event.NotFoundException -> {}
                     else -> {
@@ -285,15 +288,23 @@ fun ApplicationCard(
 }
 
 private fun setAvailableRemainTime(
-    startDayOfWeek: String,
+    startDayOfWeek: DayOfWeek,
     startTime: String,
-    endDayOfWeek: String,
+    endDayOfWeek: DayOfWeek,
     endTime: String,
-): String =
-    "잔류 신청 시간은 $startDayOfWeek" + " ${startTime.split(':')[0]}:${startTime.split(':')[1]} ~" + " $endDayOfWeek" + " ${
-        endTime.split(':')[0]
-    }:${endTime.split(':')[1]}" + " 까지 입니다."
-
+): String {
+    return "잔류 신청 시간은 ${
+        startDayOfWeek.getDisplayName(
+            TextStyle.FULL,
+            Locale.KOREA,
+        )
+    } $startTime ~ ${
+        endDayOfWeek.getDisplayName(
+            TextStyle.FULL,
+            Locale.KOREA,
+        )
+    } $endTime 까지 입니다."
+}
 
 private fun getStringFromEvent(
     context: Context,

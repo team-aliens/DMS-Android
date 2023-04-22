@@ -2,7 +2,12 @@ package team.aliens.dms_android.feature.notice
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -15,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
@@ -23,6 +27,7 @@ import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.presentation.R
+import java.util.UUID
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -33,7 +38,7 @@ fun NoticeDetailScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        noticeViewModel.fetchNoticeDetail(noticeId)
+        noticeViewModel.fetchNoticeDetail(UUID.fromString(noticeId))
     }
 
     val noticeDetailState = noticeViewModel.noticeDetailViewEffect.collectAsState()

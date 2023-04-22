@@ -2,25 +2,24 @@ package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
+import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
 import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.usecase.studyroom.*
+import team.aliens.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomsUseCase
+import java.util.UUID
+import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomListViewModel @Inject constructor(
-    private val studyRoomListUseCase: RemoteFetchStudyRoomListUseCase,
-    private val studyRoomTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase,
-    private val studyApplySeatUseCase: RemoteApplySeatUseCase,
-    private val studyCancelApplySeat: RemoteCancelApplySeatUseCase,
-    private val studyRoomApplyTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
-    private val currentStudyRoomOptionUseCase: RemoteFetchCurrentStudyRoomOptionUseCase,
-    private val studyRoomAvailableTimeListUseCase: RemoteFetchStudyRoomAvailableTimeListUseCase,
+    private val fetchStudyRoomsUseCase: FetchStudyRoomsUseCase,
+    private val studyRoomApplyTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
+    private val studyRoomAvailableTimeListUseCase: FetchAvailableStudyRoomTimesUseCase,
 ) : BaseViewModel<StudyRoomListUiState, StudyRoomListViewModel.UiEvent>() {
 
     init {
@@ -64,7 +63,7 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomApplyTimeUseCase.execute(Unit)
+                studyRoomApplyTimeUseCase()
             }
 
             if (result.isSuccess) {
@@ -93,8 +92,10 @@ class StudyRoomListViewModel @Inject constructor(
         viewModelScope.launch {
 
             val result = kotlin.runCatching {
-                studyRoomListUseCase.execute(
-                    data = timeSlot,
+                fetchStudyRoomsUseCase(
+                    fetchStudyRoomsInput = FetchStudyRoomsInput(
+                        timeSlot = timeSlot,
+                    ),
                 )
             }
 
@@ -115,18 +116,17 @@ class StudyRoomListViewModel @Inject constructor(
 
     private fun fetchStudyRoomAvailableTimeList() {
         viewModelScope.launch {
-            studyRoomAvailableTimeListUseCase()
-                .onSuccess { resultEntity ->
-                    _uiState.value = _uiState.value.copy(
-                        studyRoomAvailableTime = resultEntity.timeSlots,
-                    )
-                }
-                .onFailure {
-                    emitErrorEventFromThrowable(
-                        throwable = it
-                    )
-                }
+            kotlin.runCatching {
+                studyRoomAvailableTimeListUseCase()
+            }.onSuccess { resultEntity ->
+                _uiState.value = _uiState.value.copy(
+                    studyRoomAvailableTime = resultEntity.timeSlots,
+                )
+            }.onFailure {
+                emitErrorEventFromThrowable(
+                    throwable = it
+                )
+            }
         }
     }
 }
-

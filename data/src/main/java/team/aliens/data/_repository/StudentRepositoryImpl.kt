@@ -20,32 +20,18 @@ class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun examineStudentNumber(
-        schoolId: UUID,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: ExamineStudentNumberInput,
     ): ExamineStudentNumberOutput {
         return remoteStudentDataSource.examineStudentNumber(
-            schoolId = schoolId,
-            grade = grade,
-            classRoom = classRoom,
-            number = number,
+            input = input,
         )
     }
 
     override suspend fun findId(
-        schoolId: UUID,
-        studentName: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
+        input: FindIdInput,
     ): FindIdOutput {
         return remoteStudentDataSource.findId(
-            schoolId = schoolId,
-            studentName = studentName,
-            grade = grade,
-            classRoom = classRoom,
-            number = number,
+            input = input,
         )
     }
 
@@ -58,18 +44,18 @@ class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkIdDuplication(
-        accountId: String,
+        input: CheckIdDuplicationInput,
     ) {
         return remoteStudentDataSource.checkIdDuplication(
-            accountId = accountId,
+            input = input,
         )
     }
 
     override suspend fun checkEmailDuplication(
-        email: String,
+        input: CheckEmailDuplicationInput,
     ) {
         return remoteStudentDataSource.checkEmailDuplication(
-            email = email,
+            input = input,
         )
     }
 

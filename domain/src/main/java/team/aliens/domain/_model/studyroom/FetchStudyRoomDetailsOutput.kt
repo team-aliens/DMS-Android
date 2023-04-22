@@ -1,8 +1,11 @@
 package team.aliens.domain._model.studyroom
 
 import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.*
-import java.util.*
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.AVAILABLE
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.EMPTY
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.IN_USE
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.UNAVAILABLE
+import java.util.UUID
 
 /**
  * A response returned when fetching study room details
@@ -16,6 +19,8 @@ import java.util.*
  * @property westDescription the description of the west side of the study room
  * @property southDescription the description of the south side of the study room
  * @property northDescription the description of the north side of the study room
+ * @property totalWidthSize the total width size of the study room
+ * @property totalHeightSize the total height size of the study room
  * @property seats the seats of the study room
  */
 data class FetchStudyRoomDetailsOutput(
@@ -31,6 +36,8 @@ data class FetchStudyRoomDetailsOutput(
     val westDescription: String,
     val southDescription: String,
     val northDescription: String,
+    val totalWidthSize: Int,
+    val totalHeightSize: Int,
     val seats: List<SeatInformation>,
 ) {
 
