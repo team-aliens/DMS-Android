@@ -18,7 +18,7 @@ import team.aliens.remote.model.school.FetchSchoolVerificationQuestionResponse
 import team.aliens.remote.model.school.FetchSchoolsResponse
 import java.util.*
 
-interface SchoolService {
+interface SchoolApiService {
 
     @GET(FetchSchools)
     suspend fun fetchSchools(): FetchSchoolsResponse

@@ -27,7 +27,7 @@ import team.aliens.remote.model.studyroom.FetchStudyRoomDetailsResponse
 import team.aliens.remote.model.studyroom.FetchStudyRoomsResponse
 import java.util.*
 
-interface StudyRoomService {
+interface StudyRoomApiService {
 
     @GET(FetchStudyRoomApplicationTime)
     @RequiresAccessToken

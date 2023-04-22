@@ -14,7 +14,7 @@ import team.aliens.remote.model.notice.FetchNoticesResponse
 import team.aliens.remote.model.notice.FetchWhetherNewNoticesExistResponse
 import java.util.*
 
-interface NoticeService {
+interface NoticeApiService {
 
     @GET(FetchWhetherNewNoticesExist)
     @RequiresAccessToken

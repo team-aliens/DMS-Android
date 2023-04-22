@@ -16,79 +16,79 @@ object ServiceModule {
     @Singleton
     fun provideAuthService(
         retrofit: Retrofit,
-    ): AuthService {
-        return retrofit.create(AuthService::class.java)
+    ): AuthApiService {
+        return retrofit.create(AuthApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideFileService(
         retrofit: Retrofit,
-    ): FileService {
-        return retrofit.create(FileService::class.java)
+    ): FileApiService {
+        return retrofit.create(FileApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideMealService(
         retrofit: Retrofit,
-    ): MealService {
-        return retrofit.create(MealService::class.java)
+    ): MealApiService {
+        return retrofit.create(MealApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideNoticeService(
         retrofit: Retrofit,
-    ): NoticeService {
-        return retrofit.create(NoticeService::class.java)
+    ): NoticeApiService {
+        return retrofit.create(NoticeApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun providePointService(
         retrofit: Retrofit,
-    ): PointService {
-        return retrofit.create(PointService::class.java)
+    ): PointApiService {
+        return retrofit.create(PointApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideRemainsService(
         retrofit: Retrofit,
-    ): RemainsService {
-        return retrofit.create(RemainsService::class.java)
+    ): RemainsApiService {
+        return retrofit.create(RemainsApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideSchoolService(
         retrofit: Retrofit,
-    ): SchoolService {
-        return retrofit.create(SchoolService::class.java)
+    ): SchoolApiService {
+        return retrofit.create(SchoolApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideStudentService(
         retrofit: Retrofit,
-    ): StudentService {
-        return retrofit.create(StudentService::class.java)
+    ): StudentApiService {
+        return retrofit.create(StudentApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideStudyRoomService(
         retrofit: Retrofit,
-    ): StudyRoomService {
-        return retrofit.create(StudyRoomService::class.java)
+    ): StudyRoomApiService {
+        return retrofit.create(StudyRoomApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideUserService(
         retrofit: Retrofit,
-    ): UserService {
-        return retrofit.create(UserService::class.java)
+    ): UserApiService {
+        return retrofit.create(UserApiService::class.java)
     }
 }

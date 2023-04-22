@@ -9,7 +9,7 @@ import team.aliens.remote.common.HttpProperty.QueryString.FileName
 import team.aliens.remote.model.file.FetchPreSignedUrlResponse
 import team.aliens.remote.model.file.UploadFileResponse
 
-interface FileService {
+interface FileApiService {
 
     @POST(UploadFile)
     @Multipart

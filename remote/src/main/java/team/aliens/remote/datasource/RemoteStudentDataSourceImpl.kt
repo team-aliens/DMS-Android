@@ -15,19 +15,19 @@ import team.aliens.domain._model.student.SignUpInput
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.student.toData
 import team.aliens.remote.model.student.toDomain
-import team.aliens.remote.apiservice.StudentService
+import team.aliens.remote.apiservice.StudentApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteStudentDataSourceImpl @Inject constructor(
-    private val studentService: StudentService,
+    private val studentApiService: StudentApiService,
 ) : RemoteStudentDataSource {
 
     override suspend fun signUp(
         input: SignUpInput,
     ): AuthenticationOutput {
         return sendHttpRequest {
-            studentService.signUp(
+            studentApiService.signUp(
                 request = input.toData(),
             )
         }.toDomain()
@@ -37,7 +37,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
         input: ExamineStudentNumberInput,
     ): ExamineStudentNumberOutput {
         return sendHttpRequest {
-            studentService.examineStudentNumber(
+            studentApiService.examineStudentNumber(
                 schoolId = input.schoolId,
                 grade = input.grade,
                 classRoom = input.classRoom,
@@ -50,7 +50,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
         input: FindIdInput,
     ): FindIdOutput {
         return sendHttpRequest {
-            studentService.findId(
+            studentApiService.findId(
                 schoolId = input.schoolId,
                 studentName = input.studentName,
                 grade = input.grade,
@@ -64,7 +64,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
         input: ResetPasswordInput,
     ) {
         return sendHttpRequest {
-            studentService.resetPassword(
+            studentApiService.resetPassword(
                 request = input.toData(),
             )
         }
@@ -74,7 +74,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
         input: CheckIdDuplicationInput,
     ) {
         return sendHttpRequest {
-            studentService.checkIdDuplication(
+            studentApiService.checkIdDuplication(
                 accountId = input.accountId,
             )
         }
@@ -84,7 +84,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
         input: CheckEmailDuplicationInput,
     ) {
         return sendHttpRequest {
-            studentService.checkEmailDuplication(
+            studentApiService.checkEmailDuplication(
                 email = input.email,
             )
         }
@@ -92,7 +92,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
 
     override suspend fun fetchMyPage(): FetchMyPageOutput {
         return sendHttpRequest {
-            studentService.fetchMyPage()
+            studentApiService.fetchMyPage()
         }.toDomain()
     }
 
@@ -100,7 +100,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
         input: EditProfileInput,
     ) {
         return sendHttpRequest {
-            studentService.editProfile(
+            studentApiService.editProfile(
                 request = input.toData(),
             )
         }
@@ -108,7 +108,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
 
     override suspend fun withdraw() {
         return sendHttpRequest {
-            studentService.withdraw()
+            studentApiService.withdraw()
         }
     }
 }

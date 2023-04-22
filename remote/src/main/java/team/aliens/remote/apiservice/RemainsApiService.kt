@@ -14,7 +14,7 @@ import team.aliens.remote.model.remains.FetchRemainsApplicationTimeResponse
 import team.aliens.remote.model.remains.FetchRemainsOptionsResponse
 import java.util.*
 
-interface RemainsService {
+interface RemainsApiService {
 
     @PUT(UpdateRemainsOption)
     @RequiresAccessToken

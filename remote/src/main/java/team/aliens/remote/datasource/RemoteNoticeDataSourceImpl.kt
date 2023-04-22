@@ -7,17 +7,17 @@ import team.aliens.domain._model.notice.FetchNoticesInput
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
 import team.aliens.remote.model.notice.toDomain
-import team.aliens.remote.apiservice.NoticeService
+import team.aliens.remote.apiservice.NoticeApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteNoticeDataSourceImpl @Inject constructor(
-    private val noticeService: NoticeService,
+    private val noticeApiService: NoticeApiService,
 ) : RemoteNoticeDataSource {
 
     override suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistOutput {
         return sendHttpRequest {
-            noticeService.fetchWhetherNewNoticesExist()
+            noticeApiService.fetchWhetherNewNoticesExist()
         }.toDomain()
     }
 
@@ -25,7 +25,7 @@ class RemoteNoticeDataSourceImpl @Inject constructor(
         input: FetchNoticesInput,
     ): FetchNoticesOutput {
         return sendHttpRequest {
-            noticeService.fetchNotices(
+            noticeApiService.fetchNotices(
                 order = input.order.name,
             )
         }.toDomain()
@@ -35,7 +35,7 @@ class RemoteNoticeDataSourceImpl @Inject constructor(
         input: FetchNoticeDetailsInput,
     ): FetchNoticeDetailsOutput {
         return sendHttpRequest {
-            noticeService.fetchNoticeDetails(
+            noticeApiService.fetchNoticeDetails(
                 noticeId = input.noticeId,
             )
         }.toDomain()

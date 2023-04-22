@@ -9,17 +9,17 @@ import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.remote.model.school.toDomain
-import team.aliens.remote.apiservice.SchoolService
+import team.aliens.remote.apiservice.SchoolApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteSchoolDataSourceImpl @Inject constructor(
-    private val schoolService: SchoolService,
+    private val schoolApiService: SchoolApiService,
 ) : RemoteSchoolDataSource {
 
     override suspend fun fetchSchools(): FetchSchoolsOutput {
         return sendHttpRequest {
-            schoolService.fetchSchools()
+            schoolApiService.fetchSchools()
         }.toDomain()
     }
 
@@ -27,7 +27,7 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
         input: FetchSchoolVerificationQuestionInput,
     ): FetchSchoolVerificationQuestionOutput {
         return sendHttpRequest {
-            schoolService.fetchSchoolVerificationQuestion(
+            schoolApiService.fetchSchoolVerificationQuestion(
                 schoolId = input.schoolId,
             )
         }.toDomain()
@@ -37,7 +37,7 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
         input: ExamineSchoolVerificationQuestionInput,
     ) {
         return sendHttpRequest {
-            schoolService.examineSchoolVerificationQuestion(
+            schoolApiService.examineSchoolVerificationQuestion(
                 schoolId = input.schoolId,
                 answer = input.answer,
             )
@@ -48,7 +48,7 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
         input: ExamineSchoolVerificationCodeInput,
     ): ExamineSchoolVerificationCodeOutput {
         return sendHttpRequest {
-            schoolService.examineSchoolVerificationCode(
+            schoolApiService.examineSchoolVerificationCode(
                 schoolCode = input.schoolCode,
             )
         }.toDomain()
@@ -56,7 +56,7 @@ class RemoteSchoolDataSourceImpl @Inject constructor(
 
     override suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput {
         return sendHttpRequest {
-            schoolService.fetchAvailableFeatures()
+            schoolApiService.fetchAvailableFeatures()
         }.toDomain()
     }
 }

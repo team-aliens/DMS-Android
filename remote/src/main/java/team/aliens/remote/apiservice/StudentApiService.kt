@@ -35,7 +35,7 @@ import team.aliens.remote.model.student.ResetPasswordRequest
 import team.aliens.remote.model.student.SignUpRequest
 import java.util.*
 
-interface StudentService {
+interface StudentApiService {
 
     @POST(SignUp)
     suspend fun signUp(

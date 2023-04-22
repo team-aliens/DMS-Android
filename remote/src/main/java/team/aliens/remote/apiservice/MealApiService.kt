@@ -7,7 +7,7 @@ import team.aliens.remote.common.HttpPath.Meal.FetchMeals
 import team.aliens.remote.common.HttpProperty.PathVariable.Date
 import team.aliens.remote.model.meal.FetchMealsResponse
 
-interface MealService {
+interface MealApiService {
 
     @GET(FetchMeals)
     @RequiresAccessToken

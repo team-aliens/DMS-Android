@@ -13,17 +13,17 @@ import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.remote.model.studyroom.toDomain
-import team.aliens.remote.apiservice.StudyRoomService
+import team.aliens.remote.apiservice.StudyRoomApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteStudyRoomDataSourceImpl @Inject constructor(
-    private val studyRoomService: StudyRoomService,
+    private val studyRoomApiService: StudyRoomApiService,
 ) : RemoteStudyRoomDataSource {
 
     override suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeOutput {
         return sendHttpRequest {
-            studyRoomService.fetchStudyRoomApplicationTime()
+            studyRoomApiService.fetchStudyRoomApplicationTime()
         }.toDomain()
     }
 
@@ -31,7 +31,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         input: ApplySeatInput,
     ) {
         return sendHttpRequest {
-            studyRoomService.applySeat(
+            studyRoomApiService.applySeat(
                 seatId = input.seatId,
                 timeSlot = input.timeSlot,
             )
@@ -42,7 +42,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         input: CancelSeatInput,
     ) {
         return sendHttpRequest {
-            studyRoomService.cancelSeat(
+            studyRoomApiService.cancelSeat(
                 seatId = input.seatId,
                 timeSlot = input.timeSlot,
             )
@@ -53,7 +53,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         input: FetchStudyRoomsInput,
     ): FetchStudyRoomsOutput {
         return sendHttpRequest {
-            studyRoomService.fetchStudyRooms(
+            studyRoomApiService.fetchStudyRooms(
                 timeSlot = input.timeSlot,
             )
         }.toDomain()
@@ -63,7 +63,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         input: FetchStudyRoomDetailsInput,
     ): FetchStudyRoomDetailsOutput {
         return sendHttpRequest {
-            studyRoomService.fetchStudyRoomDetails(
+            studyRoomApiService.fetchStudyRoomDetails(
                 studyRoomId = input.studyRoomId,
                 timeSlot = input.timeSlot,
             )
@@ -72,7 +72,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
 
     override suspend fun fetchCurrentAppliedStudyRoom(): FetchCurrentAppliedStudyRoomOutput {
         return sendHttpRequest {
-            studyRoomService.fetchCurrentAppliedStudyRoom()
+            studyRoomApiService.fetchCurrentAppliedStudyRoom()
         }.toDomain()
     }
 
@@ -80,7 +80,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
         input: FetchSeatTypesInput,
     ): FetchSeatTypesOutput {
         return sendHttpRequest {
-            studyRoomService.fetchSeatTypes(
+            studyRoomApiService.fetchSeatTypes(
                 studyRoomId = input.studyRoomId,
             )
         }.toDomain()
@@ -88,7 +88,7 @@ class RemoteStudyRoomDataSourceImpl @Inject constructor(
 
     override suspend fun fetchAvailableStudyRoomTimes(): FetchAvailableStudyRoomTimesOutput {
         return sendHttpRequest {
-            studyRoomService.fetchAvailableStudyRoomTimes()
+            studyRoomApiService.fetchAvailableStudyRoomTimes()
         }.toDomain()
     }
 }

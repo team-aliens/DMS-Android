@@ -10,19 +10,19 @@ import team.aliens.domain._model.auth.SignInInput
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.auth.toData
 import team.aliens.remote.model.auth.toDomain
-import team.aliens.remote.apiservice.AuthService
+import team.aliens.remote.apiservice.AuthApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(
-    private val authService: AuthService,
+    private val authApiService: AuthApiService,
 ) : RemoteAuthDataSource {
 
     override suspend fun signIn(
         input: SignInInput,
     ): AuthenticationOutput {
         return sendHttpRequest {
-            authService.signIn(
+            authApiService.signIn(
                 request = input.toData()
             )
         }.toDomain()
@@ -32,7 +32,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         input: SendEmailVerificationCodeInput,
     ) {
         return sendHttpRequest {
-            authService.sendEmailVerificationCode(
+            authApiService.sendEmailVerificationCode(
                 request = input.toData()
             )
         }
@@ -44,7 +44,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         type: EmailVerificationType,
     ) {
         return sendHttpRequest {
-            authService.checkEmailVerificationCode(
+            authApiService.checkEmailVerificationCode(
                 email = email,
                 authCode = authCode,
                 type = type.name,
@@ -63,7 +63,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         email: String,
     ) {
         return sendHttpRequest {
-            authService.verifyEmail(
+            authApiService.verifyEmail(
                 accountId = accountId,
                 email = email,
             )
@@ -74,7 +74,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         input: CheckIdExistsInput,
     ): CheckIdExistsOutput {
         return sendHttpRequest {
-            authService.checkIdExists(
+            authApiService.checkIdExists(
                 accountId = input.accountId,
             )
         }.toDomain()
