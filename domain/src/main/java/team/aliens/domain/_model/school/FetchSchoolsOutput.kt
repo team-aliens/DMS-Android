@@ -17,7 +17,7 @@ data class FetchSchoolsOutput(
      * @property address the school's address
      */
     data class SchoolInformation(
-        val id: UUID,
+        val id: UUID? = null,
         val name: String,
         val address: String,
     )

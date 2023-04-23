@@ -1,10 +1,11 @@
 package team.aliens.dms_android.viewmodel.studyroom
 
-import java.util.*
 import team.aliens.dms_android._base.BaseUiState
 import team.aliens.dms_android.util.MutableEventFlow
-import team.aliens.domain.entity.studyroom.SeatTypeEntity
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain._model._common.Sex
+import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import java.util.UUID
 
 data class StudyRoomDetailUiState(
     var studyRoomId: String = "",
@@ -13,50 +14,23 @@ data class StudyRoomDetailUiState(
     var startAt: String = "",
     var endAt: String = "",
     var errorMessage: MutableEventFlow<String> = MutableEventFlow(),
-    var seatType: SeatTypeEntity = SeatTypeEntity(
-        types = listOf(
-            SeatTypeEntity.Type(
-                color = "#FFFFFF",
-                id = "",
-                name = ""
-            )
-        )
-    ),
+    var seatType: FetchSeatTypesOutput = FetchSeatTypesOutput(listOf()),
     var seatBoolean: Boolean = false,
-    var studyRoomDetails: StudyRoomDetailEntity = StudyRoomDetailEntity(
+    var studyRoomDetails: FetchStudyRoomDetailsOutput = FetchStudyRoomDetailsOutput(
         floor = 0,
         name = "",
         startTime = "",
         endTime = "",
         totalAvailableSeat = 0,
-        inUseHeadCount = 0,
-        availableSex = "",
-        availableGrade = "",
+        inUseHeadcount = 0,
+        availableSex = Sex.ALL,
+        availableGrade = 0,
         eastDescription = "",
         westDescription = "",
         southDescription = "",
         northDescription = "",
-        totalWidthSize = 2,
-        totalHeightSize = 2,
-        studyRoomSex = "",
-        seats = listOf(
-            StudyRoomDetailEntity.Seat(
-                id = "",
-                widthLocation = 1,
-                heightLocation = 1,
-                number = 0,
-                type = StudyRoomDetailEntity.Type(
-                    id = "",
-                    name = "",
-                    color = "#FFFFFF",
-                ),
-                status = "",
-                isMine = false,
-                student = StudyRoomDetailEntity.Student(
-                    id = "",
-                    name = "",
-                ),
-            ),
-        ),
+        totalWidthSize = 0,
+        totalHeightSize = 0,
+        seats = listOf(),
     ),
 ) : BaseUiState

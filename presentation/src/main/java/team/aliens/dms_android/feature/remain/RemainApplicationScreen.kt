@@ -6,11 +6,25 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +39,7 @@ import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.DefaultAppliedTagSize
+import team.aliens.design_system.component.LastAppliedItem
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
@@ -34,13 +49,14 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.design_system.component.LastAppliedItem
-import team.aliens.dms_android.util.DayOfWeek
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel
 import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
-import team.aliens.domain.entity.remain.RemainOptionsEntity
+import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import team.aliens.presentation.R
+import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun RemainApplicationScreen(
@@ -52,7 +68,8 @@ fun RemainApplicationScreen(
     var lastAppliedItem by remember { mutableStateOf("") }
     var noticeContent by remember { mutableStateOf("") }
 
-    val remainOptions = remember { mutableStateListOf<RemainOptionsEntity.RemainOptionEntity>() }
+    val remainOptions =
+        remember { mutableStateListOf<FetchRemainsOptionsOutput.RemainsOptionInformation>() }
 
     val toast = rememberToast()
 
@@ -67,22 +84,26 @@ fun RemainApplicationScreen(
                         toast(message = context.getString(R.string.CompleteApply))
                         fetchCurrentRemainOption()
                     }
+
                     is Event.CurrentRemainOption -> {
                         lastAppliedItem = it.title
                     }
+
                     is Event.AvailableRemainTime -> {
-                        with(it.availableRemainTimeEntity) {
+                        with(it.fetchRemainsApplicationTimeOutput) {
                             noticeContent = setAvailableRemainTime(
-                                startDayOfWeek = DayOfWeek.valueOf(startDayOfWeek.toString()).day,
+                                startDayOfWeek = startDayOfWeek,
                                 startTime = startTime,
-                                endDayOfWeek = DayOfWeek.valueOf(endDayOfWeek.toString()).day,
+                                endDayOfWeek = endDayOfWeek,
                                 endTime = endTime,
                             )
                         }
                     }
+
                     is Event.RemainOptions -> {
-                        remainOptions.addAll(it.remainOptionsEntity.remainOptionEntities)
+                        remainOptions.addAll(it.fetchRemainsOptionsOutput.remainOptions)
                     }
+
                     is Event.NotFoundException -> {}
                     else -> {
                         toast(
@@ -275,15 +296,23 @@ fun ApplicationCard(
 }
 
 private fun setAvailableRemainTime(
-    startDayOfWeek: String,
+    startDayOfWeek: DayOfWeek,
     startTime: String,
-    endDayOfWeek: String,
+    endDayOfWeek: DayOfWeek,
     endTime: String,
-): String =
-    "잔류 신청 시간은 $startDayOfWeek" + " ${startTime.split(':')[0]}:${startTime.split(':')[1]} ~" + " $endDayOfWeek" + " ${
-        endTime.split(':')[0]
-    }:${endTime.split(':')[1]}" + " 까지 입니다."
-
+): String {
+    return "잔류 신청 시간은 ${
+        startDayOfWeek.getDisplayName(
+            TextStyle.FULL,
+            Locale.KOREA,
+        )
+    } $startTime ~ ${
+        endDayOfWeek.getDisplayName(
+            TextStyle.FULL,
+            Locale.KOREA,
+        )
+    } $endTime 까지 입니다."
+}
 
 private fun getStringFromEvent(
     context: Context,

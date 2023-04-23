@@ -237,9 +237,9 @@ fun ChangePasswordScreen(
                     navController.previousBackStackEntry?.arguments?.run {
                         changePasswordViewModel.resetPassword(
                             accountId = getString("accountId").toString(),
-                            authCode = getString("authCode").toString(),
+                            emailVerificationCode = getString("authCode").toString(),
                             email = getString("email").toString(),
-                            name = getString("name").toString(),
+                            studentName = getString("name").toString(),
                             newPassword = password,
                         )
                     }

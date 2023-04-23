@@ -23,7 +23,7 @@ import team.aliens.design_system.extension.Space
 data class Notice(
     var noticeId: String,
     var title: String,
-    var createAt: String,
+    var createdAt: String,
 )
 
 @DormDeprecated
@@ -91,7 +91,7 @@ private fun Notice(
 
             OverLine(
                 modifier = Modifier.padding(bottom = 12.dp),
-                text = notice.createAt,
+                text = notice.createdAt,
                 color = DormTheme.colors.primaryVariant,
             )
         }
@@ -105,12 +105,12 @@ fun PreviewNotice() {
         Notice(
             noticeId = "asd",
             title = "방 좀 치우고 살아주세요 ㅎㅎ",
-            createAt = "2022.10.14 PM 08:33",
+            createdAt = "2022.10.14 PM 08:33",
         ),
         Notice(
             noticeId = "asd",
             title = "방에서도 마스크를 착용해주세요",
-            createAt = "2022.10.15 PM 08:33",
+            createdAt = "2022.10.15 PM 08:33",
         ),
     )
 

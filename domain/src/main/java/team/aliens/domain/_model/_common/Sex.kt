@@ -6,7 +6,9 @@ package team.aliens.domain._model._common
  * @property FEMALE female
  * @property ALL all sexes
  */
-enum class Sex {
-    MALE, FEMALE, ALL,
+enum class Sex(
+    val koreanValue: String,
+) {
+    MALE("남"), FEMALE("여"), ALL("남녀"),
     ;
 }

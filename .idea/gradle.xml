@@ -16,9 +16,11 @@
             <option value="$PROJECT_DIR$/design-system" />
             <option value="$PROJECT_DIR$/di" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/local" />
             <option value="$PROJECT_DIR$/local_database" />
             <option value="$PROJECT_DIR$/local_domain" />
             <option value="$PROJECT_DIR$/presentation" />
+            <option value="$PROJECT_DIR$/remote" />
           </set>
         </option>
       </GradleProjectSettings>

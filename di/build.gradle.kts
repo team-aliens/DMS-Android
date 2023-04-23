@@ -36,10 +36,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":data"))
+
     implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":remote"))
+    implementation(project(":local"))
+
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
+
 
     implementation(Dependency.Ui.LOCALDATETIME)
 
@@ -59,4 +64,6 @@ dependencies {
     implementation(Dependency.Room.ROOM_KTX)
     implementation(Dependency.Room.ROOM_RUNTIME)
     kapt(Dependency.Room.ROOM_COMPILER)
+
+    implementation(Dependency.DataStore.DATASTORE_PREF)
 }

@@ -22,3 +22,20 @@ data class FetchMealsOutput(
         val dinner: List<String>,
     )
 }
+
+fun FetchMealsOutput.MealInformation.toModel(): Meal {
+    return Meal(
+        date = this.date,
+        breakfast = this.breakfast,
+        lunch = this.lunch,
+        dinner = this.dinner,
+    )
+}
+
+fun List<FetchMealsOutput.MealInformation>.toModel(): List<Meal> {
+    return this.map(FetchMealsOutput.MealInformation::toModel)
+}
+
+fun List<FetchMealsOutput.MealInformation>.toTypedArray(): Array<Meal> {
+    return this.toModel().toTypedArray()
+}

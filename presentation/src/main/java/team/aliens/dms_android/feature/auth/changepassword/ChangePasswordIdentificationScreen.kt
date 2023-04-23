@@ -42,7 +42,7 @@ import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
-import team.aliens.domain.enums.EmailType
+import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
@@ -240,7 +240,7 @@ fun IdentificationScreen(
                 }
             }
 
-            RatioSpace(height = if(emailResponse.isEmpty()) 0.05f else 0.622f)
+            RatioSpace(height = if (emailResponse.isEmpty()) 0.05f else 0.622f)
 
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Next),
@@ -252,7 +252,7 @@ fun IdentificationScreen(
                     if (pattern.matcher(userEmail).find()) {
                         registerEmailViewModel.requestEmailCode(
                             email = userEmail.trim(),
-                            type = EmailType.PASSWORD,
+                            type = EmailVerificationType.PASSWORD,
                         )
                     } else {
                         isEmailError = true

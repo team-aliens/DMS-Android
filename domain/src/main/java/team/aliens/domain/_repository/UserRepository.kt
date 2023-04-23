@@ -1,5 +1,6 @@
 package team.aliens.domain._repository
 
+import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 
 interface UserRepository {
@@ -9,6 +10,6 @@ interface UserRepository {
     )
 
     suspend fun comparePassword(
-        password: String,
+        input: ComparePasswordInput,
     )
 }

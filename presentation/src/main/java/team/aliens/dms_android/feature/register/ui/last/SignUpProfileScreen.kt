@@ -236,7 +236,7 @@ fun SignUpProfileScreen(
                     )
                     currentBackStackEntry?.arguments?.putString(
                         "profileImageUrl",
-                        confirmImageViewModel.profileUrl,
+                        confirmImageViewModel.profileImageUrl,
                     )
                     navigate(NavigationRoute.SignUpPolicy)
                 }

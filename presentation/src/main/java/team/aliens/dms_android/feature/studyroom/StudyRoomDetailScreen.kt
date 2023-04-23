@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import java.util.*
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -26,9 +25,11 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.viewmodel.studyroom.StudyRoomDetailsViewModel
-import team.aliens.domain.entity.studyroom.SeatTypeEntity
+import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
+import java.util.*
 
 /**
  * 자습실 상세보기 screen
@@ -46,12 +47,12 @@ fun StudyRoomDetailScreen(
 
     val availableTime =
 
-    LaunchedEffect(Unit) {
-        studyRoomDetailsViewModel.initStudyRoom(
-            roomId = roomId,
-            timeSlot = timeSlot,
-        )
-    }
+        LaunchedEffect(Unit) {
+            studyRoomDetailsViewModel.initStudyRoom(
+                roomId = roomId,
+                timeSlot = timeSlot,
+            )
+        }
 
     val context = LocalContext.current
     val toast = rememberToast()
@@ -59,11 +60,6 @@ fun StudyRoomDetailScreen(
 
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
     val currentSeat = uiState.currentSeat.collectAsState("").value
-
-    fun SeatTypeEntity.Type.toModel() = SeatTypeUiModel(
-        color = color,
-        text = name,
-    )
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
@@ -104,24 +100,28 @@ fun StudyRoomDetailScreen(
 
             Space(space = 17.dp)
 
-            if(uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
+            if (uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
                 FloatingNotice(
-                    content = stringResource(id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"),
+                    content = stringResource(
+                        id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"
+                    ),
                 )
             }
 
             Space(space = 24.dp)
 
+            val grade =
+                if (uiState.studyRoomDetails.availableGrade == 0) "모든" else uiState.studyRoomDetails.availableGrade.toString()
 
             RoomItem(
                 roomId = "",
                 position = "${uiState.studyRoomDetails.floor}층",
                 title = uiState.studyRoomDetails.name,
-                currentNumber = uiState.studyRoomDetails.inUseHeadCount,
+                currentNumber = uiState.studyRoomDetails.inUseHeadcount,
                 maxNumber = uiState.studyRoomDetails.totalAvailableSeat,
-                condition = uiState.studyRoomDetails.availableGrade + stringResource(
+                condition = grade + stringResource(
                     id = R.string.Grade,
-                ) + " ${uiState.studyRoomDetails.studyRoomSex}",
+                ) + " ${uiState.studyRoomDetails.availableSex.koreanValue}",
                 isMine = false,
                 onClick = { },
             )
@@ -170,7 +170,7 @@ fun StudyRoomDetailScreen(
                 ) {
                     studyRoomDetailsViewModel.onEvent(
                         event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
-                            seatId = currentSeat,
+                            seatId = UUID.fromString(currentSeat),
                             timeSlot = timeSlot,
                         ),
                     )
@@ -210,37 +210,47 @@ fun StudyRoomDetailScreen(
     }
 }
 
+fun FetchSeatTypesOutput.SeatTypeInformation.toModel() = SeatTypeUiModel(
+    color = this.color,
+    text = this.name,
+)
+
 /**
  * [StudyRoomDetailEntity] 를 디자인 시스템인 [RoomDetail] 에서 사용하기 위해
  * List<List<SeatItem>> 형식으로 Mapping 에주는 extension
  *
  * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
  */
-private fun StudyRoomDetailEntity.toDesignSystemModel(): List<List<SeatItem>> {
-    val defaultSeats: MutableList<MutableList<SeatItem>> =
-        List(size = this.totalHeightSize, init = {
-            List(size = this.totalWidthSize, init = {
-                SeatItem()
-            }).toMutableList()
-        }).toMutableList()
+private fun FetchStudyRoomDetailsOutput.toDesignSystemModel(): List<List<SeatItem>> {
+    val defaultSeats: MutableList<MutableList<SeatItem>> = List(
+        size = this.totalWidthSize,
+        init = {
+            List(
+                size = this.totalHeightSize,
+                init = {
+                    SeatItem()
+                },
+            ).toMutableList()
+        },
+    ).toMutableList()
 
     fun getColor(colorString: String): Color {
         return Color(android.graphics.Color.parseColor(colorString))
     }
 
     this.seats.map { seat ->
-        val width = seat.widthLocation - 1
-        val height = seat.heightLocation - 1
+        val width = seat.column - 1
+        val height = seat.row - 1
         val color = seat.type?.color
 
         defaultSeats[height][width] = SeatItem(
-            id = seat.id,
+            id = seat.id.toString(),
             number = seat.number,
             name = seat.student?.name,
             color = if (color != null) {
                 getColor(color)
             } else DormColor.DormPrimary,
-            type = SeatType.toSeatType(seat.status),
+            type = SeatType.toSeatType(seat.status.toString()),
         )
     }
 

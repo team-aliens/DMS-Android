@@ -7,18 +7,23 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.student.CheckIdDuplicationInput
+import team.aliens.domain._model.student.ExamineStudentNumberInput
 import team.aliens.domain.entity.user.ExamineGradeEntity
-import team.aliens.domain.exception.*
-import team.aliens.domain.param.ExamineGradeParam
-import team.aliens.domain.usecase.students.DuplicateCheckIdUseCase
-import team.aliens.domain.usecase.students.ExamineGradeUseCase
-import java.util.*
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ConflictException
+import team.aliens.domain.exception.NotFoundException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.usecase.student.CheckIdDuplicationUseCase
+import team.aliens.domain.usecase.student.ExamineStudentNumberUseCase
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class SetIdViewModel @Inject constructor(
-    private val examineGradeUseCase: ExamineGradeUseCase,
-    private val duplicateCheckIdUseCase: DuplicateCheckIdUseCase,
+    private val examineStudentNumberUseCase: ExamineStudentNumberUseCase,
+    private val checkIdDuplicationUseCase: CheckIdDuplicationUseCase,
 ) : ViewModel() {
 
     private val _examineGradeEvent = MutableEventFlow<SetIdEvent>()
@@ -30,12 +35,16 @@ class SetIdViewModel @Inject constructor(
     fun examineGrade(grade: Int, classRoom: Int, number: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                examineGradeUseCase.execute(ExamineGradeParam(grade = grade,
-                    classRoom = classRoom,
-                    number = number,
-                    schoolId = schoolId)).collect {
-                    event(SetIdEvent.ExamineGradeName(it.toData()))
-                }
+                examineStudentNumberUseCase(
+                    examineStudentNumberInput = ExamineStudentNumberInput(
+                        grade = grade,
+                        classRoom = classRoom,
+                        number = number,
+                        schoolId = schoolId,
+                    ),
+                )
+            }.onSuccess {
+                event(SetIdEvent.ExamineGradeName(it))
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(SetIdEvent.ExamineGradeBadRequestException)
@@ -49,10 +58,16 @@ class SetIdViewModel @Inject constructor(
         }
     }
 
-    fun duplicateId(id: String) {
+    fun duplicateId(
+        accountId: String,
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                duplicateCheckIdUseCase.execute(id)
+                checkIdDuplicationUseCase(
+                    checkIdDuplicationInput = CheckIdDuplicationInput(
+                        accountId = accountId,
+                    ),
+                )
             }.onSuccess {
                 event(SetIdEvent.DuplicateIdSuccess)
             }.onFailure {

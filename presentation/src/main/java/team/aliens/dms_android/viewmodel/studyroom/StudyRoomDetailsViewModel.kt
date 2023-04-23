@@ -2,31 +2,36 @@ package team.aliens.dms_android.viewmodel.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseEvent
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
+import team.aliens.domain._model.studyroom.ApplySeatInput
+import team.aliens.domain._model.studyroom.CancelSeatInput
+import team.aliens.domain._model.studyroom.FetchSeatTypesInput
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
 import team.aliens.domain.exception.ConflictException
 import team.aliens.domain.exception.ForbiddenException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.param.ApplyStudyRoomParam
-import team.aliens.domain.param.CancelStudyRoomParam
-import team.aliens.domain.param.StudyRoomDetailParam
-import team.aliens.domain.usecase.studyroom.*
+import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
+import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
+import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
+import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.presentation.R
+import java.util.UUID
+import javax.inject.Inject
 
 @HiltViewModel
 class StudyRoomDetailsViewModel @Inject constructor(
-    private val fetchStudyRoomDetailUseCase: RemoteFetchStudyRoomDetailUseCase,
-    private val applySeatUseCase: RemoteApplySeatUseCase,
-    private val fetchApplicationTimeUseCase: RemoteFetchStudyRoomApplicationTimeUseCase,
-    private val cancelApplySeatUseCase: RemoteCancelApplySeatUseCase,
-    private val fetchSeatTypeUseCase: RemoteFetchStudyRoomSeatTypeUseCase
+    private val fetchStudyRoomDetailUseCase: FetchStudyRoomDetailsUseCase,
+    private val applySeatUseCase: ApplySeatUseCase,
+    private val fetchApplicationTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
+    private val cancelSeatUseCase: CancelSeatUseCase,
+    private val fetchSeatTypeUseCase: FetchSeatTypesUseCase,
 ) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
     sealed class UiEvent : BaseEvent {
@@ -37,7 +42,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         ) : UiEvent()
 
         class CancelApplySeat(
-            val seatId: String,
+            val seatId: UUID,
             val timeSlot: UUID,
         ) : UiEvent()
 
@@ -47,6 +52,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(StudyRoomDetailUiState())
 
     private var roomId = _uiState.value.studyRoomId
+
     private var timeSlot = _uiState.value.timeSlot
 
     internal fun initStudyRoom(
@@ -75,12 +81,14 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     event.timeSlot,
                 )
             }
+
             is UiEvent.CancelApplySeat -> {
                 cancelSeat(
                     seatId = event.seatId,
                     timeSlot = event.timeSlot,
                 )
             }
+
             is UiEvent.ChangeSelectedSeat -> {
                 changeSelectedSeat(
                     seat = event.seat,
@@ -95,11 +103,11 @@ class StudyRoomDetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                applySeatUseCase.execute(
-                    ApplyStudyRoomParam(
-                        seatId = seatId,
+                applySeatUseCase(
+                    applySeatInput = ApplySeatInput(
+                        seatId = UUID.fromString(seatId),
                         timeSlot = timeSlot,
-                    )
+                    ),
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
@@ -111,21 +119,26 @@ class StudyRoomDetailsViewModel @Inject constructor(
                     is UnauthorizedException -> emitErrorEvent(
                         application.getString(R.string.NotAvailableSeat),
                     )
+
                     is ForbiddenException -> emitErrorEvent(
                         application.getString(R.string.NotStudyRoomApplicateTime),
                     )
+
                     is ConflictException -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
+
                     is NotFoundException -> emitErrorEvent(
                         errorMessage = application.getString(R.string.study_room_seat_not_found),
                     )
+
                     is KotlinNullPointerException -> { // todo optimize code
                         fetchStudyRoomDetails(
                             roomId = roomId,
                             timeSlot = timeSlot,
                         )
                     }
+
                     else -> {
                         emitErrorEventFromThrowable(it)
                     }
@@ -135,14 +148,14 @@ class StudyRoomDetailsViewModel @Inject constructor(
     }
 
     private fun cancelSeat(
-        seatId: String,
+        seatId: UUID,
         timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                cancelApplySeatUseCase.execute(
-                    CancelStudyRoomParam(
-                        seatId = seatId,
+                cancelSeatUseCase(
+                    cancelSeatInput = CancelSeatInput(
+                        seatId = UUID.fromString(seatId.toString()),
                         timeSlot = timeSlot,
                     ),
                 )
@@ -168,7 +181,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun fetchApplyTime() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchApplicationTimeUseCase.execute(Unit)
+                fetchApplicationTimeUseCase()
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(
                     startAt = it.startAt.extractHourFromDate(),
@@ -184,9 +197,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchStudyRoomDetailUseCase.execute(
-                    studyRoomDetailParam = StudyRoomDetailParam(
-                        roomId = roomId,
+                fetchStudyRoomDetailUseCase(
+                    fetchStudyRoomDetailsInput = FetchStudyRoomDetailsInput(
+                        studyRoomId = UUID.fromString(roomId),
                         timeSlot = timeSlot,
                     ),
                 )
@@ -203,8 +216,10 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private fun fetchRoomSeatType() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchSeatTypeUseCase.execute(
-                    studyRoomId = UUID.fromString(roomId),
+                fetchSeatTypeUseCase(
+                    fetchSeatTypesInput = FetchSeatTypesInput(
+                        studyRoomId = UUID.fromString(roomId),
+                    ),
                 )
             }.onSuccess {
                 _uiState.value = _uiState.value.copy(
