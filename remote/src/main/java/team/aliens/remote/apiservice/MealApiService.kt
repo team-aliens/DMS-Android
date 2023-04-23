@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -7,7 +7,7 @@ import team.aliens.remote.common.HttpPath.Meal.FetchMeals
 import team.aliens.remote.common.HttpProperty.PathVariable.Date
 import team.aliens.remote.model.meal.FetchMealsResponse
 
-interface MealService {
+interface MealApiService {
 
     @GET(FetchMeals)
     @RequiresAccessToken

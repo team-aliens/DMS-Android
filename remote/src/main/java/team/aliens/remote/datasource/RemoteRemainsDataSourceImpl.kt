@@ -6,18 +6,18 @@ import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import team.aliens.domain._model.remains.UpdateRemainsOptionInput
 import team.aliens.remote.model.remains.toDomain
-import team.aliens.remote.service.RemainsService
+import team.aliens.remote.apiservice.RemainsApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteRemainsDataSourceImpl @Inject constructor(
-    private val remainsService: RemainsService,
+    private val remainsApiService: RemainsApiService,
 ) : RemoteRemainsDataSource {
     override suspend fun updateRemainsOption(
         input: UpdateRemainsOptionInput,
     ) {
         sendHttpRequest {
-            remainsService.updateRemainsOption(
+            remainsApiService.updateRemainsOption(
                 remainsOptionId = input.remainsOptionId,
             )
         }
@@ -25,19 +25,19 @@ class RemoteRemainsDataSourceImpl @Inject constructor(
 
     override suspend fun fetchCurrentAppliedRemainsOption(): FetchCurrentAppliedRemainsOptionOutput {
         return sendHttpRequest {
-            remainsService.fetchCurrentAppliedRemainsOption()
+            remainsApiService.fetchCurrentAppliedRemainsOption()
         }.toDomain()
     }
 
     override suspend fun fetchRemainsApplicationTime(): FetchRemainsApplicationTimeOutput {
         return sendHttpRequest {
-            remainsService.fetchRemainsApplicationTime()
+            remainsApiService.fetchRemainsApplicationTime()
         }.toDomain()
     }
 
     override suspend fun fetchRemainsOptions(): FetchRemainsOptionsOutput {
         return sendHttpRequest {
-            remainsService.fetchRemainsOptions()
+            remainsApiService.fetchRemainsOptions()
         }.toDomain()
     }
 }

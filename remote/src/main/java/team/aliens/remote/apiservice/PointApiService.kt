@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,7 +9,7 @@ import team.aliens.remote.common.HttpProperty.QueryString.Size
 import team.aliens.remote.common.HttpProperty.QueryString.Type
 import team.aliens.remote.model.point.FetchPointsResponse
 
-interface PointService {
+interface PointApiService {
 
     @GET(FetchPoints)
     @RequiresAccessToken

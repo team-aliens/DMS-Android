@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.Response
 import retrofit2.http.Body
@@ -35,7 +35,7 @@ import team.aliens.remote.model.student.ResetPasswordRequest
 import team.aliens.remote.model.student.SignUpRequest
 import java.util.*
 
-interface StudentService {
+interface StudentApiService {
 
     @POST(SignUp)
     suspend fun signUp(

@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -14,7 +14,7 @@ import team.aliens.remote.model.remains.FetchRemainsApplicationTimeResponse
 import team.aliens.remote.model.remains.FetchRemainsOptionsResponse
 import java.util.*
 
-interface RemainsService {
+interface RemainsApiService {
 
     @PUT(UpdateRemainsOption)
     @RequiresAccessToken

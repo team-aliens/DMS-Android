@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.*
 import team.aliens.remote.annotation.RequiresRefreshToken
@@ -19,7 +19,7 @@ import team.aliens.remote.model.auth.SendEmailVerificationCodeRequest
 import team.aliens.remote.model.auth.SignInRequest
 import team.aliens.remote.model.auth.VerifyEmailResponse
 
-interface AuthService {
+interface AuthApiService {
 
     @POST(SignIn)
     suspend fun signIn(

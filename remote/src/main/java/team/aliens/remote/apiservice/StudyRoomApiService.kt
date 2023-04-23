@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -27,7 +27,7 @@ import team.aliens.remote.model.studyroom.FetchStudyRoomDetailsResponse
 import team.aliens.remote.model.studyroom.FetchStudyRoomsResponse
 import java.util.*
 
-interface StudyRoomService {
+interface StudyRoomApiService {
 
     @GET(FetchStudyRoomApplicationTime)
     @RequiresAccessToken

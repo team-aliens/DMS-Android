@@ -8,14 +8,14 @@ import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.HttpProperty.Header.ContentType
 import team.aliens.remote.http.FileUploadClient
 import team.aliens.remote.model.file.toDomain
-import team.aliens.remote.service.FileService
+import team.aliens.remote.apiservice.FileApiService
 import team.aliens.remote.util.sendHttpRequest
 import team.aliens.remote.util.toMultipart
 import java.io.File
 import javax.inject.Inject
 
 class RemoteFileDataSourceImpl @Inject constructor(
-    private val fileService: FileService,
+    private val fileApiService: FileApiService,
     private val fileUploadClient: FileUploadClient,
 ) : RemoteFileDataSource {
 
@@ -25,7 +25,7 @@ class RemoteFileDataSourceImpl @Inject constructor(
         val file = input.file
 
         return sendHttpRequest {
-            fileService.uploadFile(
+            fileApiService.uploadFile(
                 file = file.toMultipart(
                     name = HttpProperty.Body.File,
                     mediaType = ContentType.Multipart.FormData,
@@ -38,7 +38,7 @@ class RemoteFileDataSourceImpl @Inject constructor(
         fileName: String,
     ): FetchPreSignedUrlOutput {
         return sendHttpRequest {
-            fileService.fetchPreSignedUrl(
+            fileApiService.fetchPreSignedUrl(
                 fileName = fileName,
             )
         }.toDomain()

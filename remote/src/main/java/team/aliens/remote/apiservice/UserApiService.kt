@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -10,7 +10,7 @@ import team.aliens.remote.common.HttpPath.User.EditPassword
 import team.aliens.remote.common.HttpProperty.QueryString.Password
 import team.aliens.remote.model.user.EditPasswordRequest
 
-interface UserService {
+interface UserApiService {
 
     @PATCH(EditPassword)
     @RequiresAccessToken

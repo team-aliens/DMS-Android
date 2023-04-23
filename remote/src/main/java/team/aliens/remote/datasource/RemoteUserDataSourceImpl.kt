@@ -4,19 +4,19 @@ import team.aliens.data._datasource.remote.RemoteUserDataSource
 import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.remote.model.user.toData
-import team.aliens.remote.service.UserService
+import team.aliens.remote.apiservice.UserApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteUserDataSourceImpl @Inject constructor(
-    private val userService: UserService,
+    private val userApiService: UserApiService,
 ) : RemoteUserDataSource {
 
     override suspend fun editPassword(
         input: EditPasswordInput,
     ) {
         return sendHttpRequest {
-            userService.editPassword(
+            userApiService.editPassword(
                 request = input.toData()
             )
         }
@@ -26,7 +26,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
         input: ComparePasswordInput,
     ) {
         return sendHttpRequest {
-            userService.comparePassword(
+            userApiService.comparePassword(
                 password = input.password,
             )
         }

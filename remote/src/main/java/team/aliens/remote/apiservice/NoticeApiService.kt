@@ -1,4 +1,4 @@
-package team.aliens.remote.service
+package team.aliens.remote.apiservice
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,7 +14,7 @@ import team.aliens.remote.model.notice.FetchNoticesResponse
 import team.aliens.remote.model.notice.FetchWhetherNewNoticesExistResponse
 import java.util.*
 
-interface NoticeService {
+interface NoticeApiService {
 
     @GET(FetchWhetherNewNoticesExist)
     @RequiresAccessToken
