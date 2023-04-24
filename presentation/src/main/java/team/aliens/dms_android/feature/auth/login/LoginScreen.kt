@@ -172,8 +172,7 @@ fun LoginScreen(
                 rippleEnabled = false,
             ) {
                 focusManager.clearFocus()
-            }
-        ) {
+            }) {
 
             Space(space = 92.dp)
 
