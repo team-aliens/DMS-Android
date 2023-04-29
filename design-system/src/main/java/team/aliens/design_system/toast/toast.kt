@@ -26,9 +26,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.lang.ref.WeakReference
 import kotlinx.coroutines.delay
-import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.R
 import team.aliens.design_system.extension.Space
-import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
@@ -61,11 +60,11 @@ fun rememberToast(): ToastWrapper {
     }
 }
 
-
 @Composable
-fun DormToast(
+private fun DormToast(
     message: String,
-    toastType: ToastType,
+    messageColor: Color,
+    @DrawableRes drawable: Int,
     isShowToast: MutableState<Boolean>,
     duration: Long = 3000,
 ) {
@@ -101,36 +100,65 @@ fun DormToast(
                 Space(space = 14.dp)
                 Image(
                     modifier = Modifier.size(22.dp),
-                    painter = painterResource(toastType.drawable),
+                    painter = painterResource(id = drawable),
                     contentDescription = null,
                 )
                 Space(space = 8.dp)
                 Body3(
                     modifier = Modifier.padding(bottom = 2.dp),
                     text = message,
-                    color = toastType.textColor,
+                    color = messageColor,
                 )
             }
         }
     }
 }
 
-enum class ToastType(
-    val textColor: Color,
-    @DrawableRes val drawable: Int,
+@Composable
+fun DormInfoToast(
+    message: String,
+    isShowToast: MutableState<Boolean>,
+    duration: Long = 3000L,
 ) {
-    INFO(
-        textColor = DormColor.Gray900,
-        drawable = DormIcon.Information.drawableId,
-    ),
-
-    ERROR(
-        textColor = DormColor.Error,
-        drawable = DormIcon.Error.drawableId,
-    ),
-
-    SUCCESS(
-        textColor = DormColor.DormPrimary,
-        drawable = DormIcon.Success.drawableId,
+    DormToast(
+        message = message,
+        messageColor = DormTheme.colors.onSurface,
+        drawable = R.drawable.ic_information_toast,
+        isShowToast = isShowToast,
+        duration = duration,
     )
+}
+
+@Composable
+fun DormErrorToast(
+    message: String,
+    isShowToast: MutableState<Boolean>,
+    duration: Long = 3000L,
+) {
+    DormToast(
+        message = message,
+        messageColor = DormTheme.colors.error,
+        drawable = R.drawable.ic_error_toast,
+        isShowToast = isShowToast,
+        duration = duration,
+    )
+}
+
+@Composable
+fun DormSuccessToast(
+    message: String,
+    isShowToast: MutableState<Boolean>,
+    duration: Long = 3000L,
+) {
+    DormToast(
+        message = message,
+        messageColor = DormTheme.colors.primary,
+        drawable = R.drawable.ic_success_toast,
+        isShowToast = isShowToast,
+        duration = duration,
+    )
+}
+
+enum class ToastType {
+    INFO, ERROR, SUCCESS
 }
