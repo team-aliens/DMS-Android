@@ -1,17 +1,29 @@
 package team.aliens.dms_android.feature.navigator
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import java.util.*
+import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.DormErrorToast
+import team.aliens.design_system.toast.DormInfoToast
+import team.aliens.design_system.toast.DormSuccessToast
+import team.aliens.design_system.toast.ToastType
+import team.aliens.dms_android.common.LocalToast
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordVerifyEmailScreen
 import team.aliens.dms_android.feature.auth.changepassword.IdentificationScreen
@@ -44,210 +56,252 @@ fun RootDms(
 
     val scaffoldState = rememberScaffoldState()
 
+    var toastType by remember { mutableStateOf(-1) }
+
+    val isShowToast = remember { mutableStateOf(false) }
+
+    var toastMessage by remember { mutableStateOf("") }
+
+    val showToast = compositionLocalOf {
+        { message: String, type: ToastType ->
+            toastMessage = message
+            isShowToast.value = true
+            toastType = type.ordinal
+        }
+    }
+
     Surface(
         modifier = Modifier.background(
             DormTheme.colors.background,
         )
     ) {
-        NavHost(
-            navController = navController,
-            startDestination = route,
-        ) {
-
-            composable(NavigationRoute.Login) {
-                LoginScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.Main) {
-                DmsApp(
-                    navController = navController,
-                    scaffoldState = scaffoldState,
-                )
-            }
-
-            composable(
-                route = NavigationRoute.NoticeDetail,
-                arguments = listOf(
-                    navArgument("noticeId") { type = NavType.StringType },
-                ),
+        Box {
+            CompositionLocalProvider(
+                LocalToast provides showToast.current,
             ) {
-                val noticeId = it.arguments!!.getString("noticeId")
-                if (noticeId != null) {
-                    NoticeDetailScreen(
-                        navController = navController,
-                        noticeId = noticeId,
-                    )
+                NavHost(
+                    navController = navController,
+                    startDestination = route,
+                ) {
+
+                    composable(NavigationRoute.Login) {
+                        LoginScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.Main) {
+                        DmsApp(
+                            navController = navController,
+                            scaffoldState = scaffoldState,
+                        )
+                    }
+
+                    composable(
+                        route = NavigationRoute.NoticeDetail,
+                        arguments = listOf(
+                            navArgument("noticeId") { type = NavType.StringType },
+                        ),
+                    ) {
+                        val noticeId = it.arguments!!.getString("noticeId")
+                        if (noticeId != null) {
+                            NoticeDetailScreen(
+                                navController = navController,
+                                noticeId = noticeId,
+                            )
+                        }
+                    }
+
+                    composable(NavigationRoute.ChangePassword) {
+                        ChangePasswordScreen(
+                            navController = navController,
+                        )
+
+                    }
+                    composable(NavigationRoute.PointList) {
+                        PointListScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.MyPageChangePassword) {
+                        MyPageChangePasswordScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(
+                        route = NavigationRoute.StudyRoomDetail,
+                        arguments = listOf(
+                            navArgument("seatId") { type = NavType.StringType },
+                            navArgument("timeSlot") { type = NavType.StringType },
+                        ),
+                    ) {
+                        val roomId = it.arguments!!.getString("seatId")
+                        val timeSlot = it.arguments!!.getString("timeSlot")
+                        if (roomId != null) {
+                            StudyRoomDetailScreen(
+                                navController = navController,
+                                roomId = roomId,
+                                timeSlot = UUID.fromString(timeSlot),
+                            )
+                        }
+                    }
+
+                    composable(NavigationRoute.StudyRoom) {
+                        StudyRoomListScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.RemainApplication) {
+                        RemainApplicationScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(
+                        route = NavigationRoute.ConfirmImage + "/{selectImageType}",
+                        arguments = listOf(
+                            navArgument("selectImageType") {
+                                defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
+                                type = NavType.IntType
+                            },
+                        ),
+                    ) { navBackStackEntry ->
+
+                        val selectImageType = navBackStackEntry.arguments?.getInt("selectImageType")
+                            ?: SelectImageType.SELECT_FROM_GALLERY.ordinal
+
+                        ConfirmImageScreen(
+                            selectImageType = selectImageType,
+                            navController = navController,
+                        )
+                    }
+
+                    composable(
+                        route = NavigationRoute.ComparePassword,
+                    ) {
+                        ComparePasswordScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.VerifySchool) {
+                        SignUpVerifySchoolScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(
+                        route = NavigationRoute.ComparePassword,
+                    ) {
+                        ComparePasswordScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SchoolQuestion) {
+                        SignUpSchoolQuestionScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpEmail) {
+                        SignUpEmailScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpEmailVerify) {
+                        SignUpEmailVerifyScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.FindId) {
+                        FindIdScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpPassword) {
+                        SignUpPasswordScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpProfile) {
+                        SignUpProfileScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpPolicy) {
+                        SignUpPolicyScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpId) {
+                        SignUpIdScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpPassword) {
+                        SignUpPasswordScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpProfile) {
+                        SignUpProfileScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.SignUpPolicy) {
+                        SignUpPolicyScreen(
+                            navController = navController,
+                        )
+                    }
+
+
+                    composable(NavigationRoute.Identification) {
+                        IdentificationScreen(
+                            navController = navController,
+                        )
+                    }
+
+                    composable(NavigationRoute.ChangePasswordVerifyEmail) {
+                        ChangePasswordVerifyEmailScreen(
+                            navController = navController,
+                        )
+                    }
                 }
             }
-
-            composable(NavigationRoute.ChangePassword) {
-                ChangePasswordScreen(
-                    navController = navController,
-                )
-
-            }
-            composable(NavigationRoute.PointList) {
-                PointListScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.MyPageChangePassword) {
-                MyPageChangePasswordScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(
-                route = NavigationRoute.StudyRoomDetail,
-                arguments = listOf(
-                    navArgument("seatId") { type = NavType.StringType },
-                    navArgument("timeSlot") { type = NavType.StringType },
-                ),
-            ) {
-                val roomId = it.arguments!!.getString("seatId")
-                val timeSlot = it.arguments!!.getString("timeSlot")
-                if (roomId != null) {
-                    StudyRoomDetailScreen(
-                        navController = navController,
-                        roomId = roomId,
-                        timeSlot = UUID.fromString(timeSlot),
+            when (toastType) {
+                0 -> {
+                    DormInfoToast(
+                        message = toastMessage,
+                        isShowToast = isShowToast,
                     )
                 }
-            }
 
-            composable(NavigationRoute.StudyRoom) {
-                StudyRoomListScreen(
-                    navController = navController,
-                )
-            }
+                1 -> {
+                    DormErrorToast(
+                        message = toastMessage,
+                        isShowToast = isShowToast,
+                    )
+                }
 
-            composable(NavigationRoute.RemainApplication) {
-                RemainApplicationScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(
-                route = NavigationRoute.ConfirmImage + "/{selectImageType}",
-                arguments = listOf(
-                    navArgument("selectImageType") {
-                        defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
-                        type = NavType.IntType
-                    },
-                ),
-            ) { navBackStackEntry ->
-
-                val selectImageType = navBackStackEntry.arguments?.getInt("selectImageType")
-                    ?: SelectImageType.SELECT_FROM_GALLERY.ordinal
-
-                ConfirmImageScreen(
-                    selectImageType = selectImageType,
-                    navController = navController,
-                )
-            }
-
-            composable(
-                route = NavigationRoute.ComparePassword,
-            ) {
-                ComparePasswordScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.VerifySchool) {
-                SignUpVerifySchoolScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(
-                route = NavigationRoute.ComparePassword,
-            ) {
-                ComparePasswordScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SchoolQuestion) {
-                SignUpSchoolQuestionScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpEmail) {
-                SignUpEmailScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpEmailVerify) {
-                SignUpEmailVerifyScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.FindId) {
-                FindIdScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpPassword) {
-                SignUpPasswordScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpProfile) {
-                SignUpProfileScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpPolicy) {
-                SignUpPolicyScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpId) {
-                SignUpIdScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpPassword) {
-                SignUpPasswordScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpProfile) {
-                SignUpProfileScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.SignUpPolicy) {
-                SignUpPolicyScreen(
-                    navController = navController,
-                )
-            }
-
-
-            composable(NavigationRoute.Identification) {
-                IdentificationScreen(
-                    navController = navController,
-                )
-            }
-
-            composable(NavigationRoute.ChangePasswordVerifyEmail) {
-                ChangePasswordVerifyEmailScreen(
-                    navController = navController,
-                )
+                2 -> {
+                    DormSuccessToast(
+                        message = toastMessage,
+                        isShowToast = isShowToast,
+                    )
+                }
             }
         }
     }
