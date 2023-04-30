@@ -27,13 +27,13 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.DormToast
 import team.aliens.design_system.toast.ToastType
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.util.compose.ShowToast
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
 import team.aliens.presentation.R
@@ -55,19 +55,12 @@ fun LoginScreen(
         mutableStateOf(false)
     }
 
-    val isShowToast = remember { mutableStateOf(false) }
     var toastMessage by remember { mutableStateOf("") }
 
-    var isIdError by remember { mutableStateOf(false) }
-    var isPasswordError by remember { mutableStateOf(false) }
-
-    val setToastStates = { event: Event ->
-        isShowToast.value = true
-        toastMessage = getStringFromEvent(
-            context = context,
-            event = event,
-        )
-    }
+    ShowToast(
+        message = toastMessage,
+        toastType = ToastType.ERROR,
+    )
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
 
@@ -104,18 +97,11 @@ fun LoginScreen(
                     }
                 }
 
-                is Event.UserNotFound -> {
-                    isIdError = true
-                    setToastStates(event)
-                }
-
-                is Event.NotCorrectPassword -> {
-                    isPasswordError = true
-                    setToastStates(event)
-                }
-
                 else -> {
-                    setToastStates(event)
+                    toastMessage = getStringFromEvent(
+                        context = context,
+                        event = event,
+                    )
                 }
             }
         }
@@ -130,7 +116,6 @@ fun LoginScreen(
         signInViewModel.state.value.autoLogin = value
     }
 
-
     var idState by remember {
         mutableStateOf("")
     }
@@ -138,9 +123,6 @@ fun LoginScreen(
     val onIdChange by remember {
         mutableStateOf(
             { value: String ->
-                if (value.length != idState.length) {
-                    isIdError = false
-                }
                 idState = value
                 signInViewModel.setId(value)
             },
@@ -154,9 +136,6 @@ fun LoginScreen(
     val onPasswordChange by remember {
         mutableStateOf(
             { value: String ->
-                if (value.length != passwordState.length) {
-                    isPasswordError = false
-                }
                 passwordState = value
                 signInViewModel.setPassword(value)
             },
@@ -199,7 +178,6 @@ fun LoginScreen(
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
-                error = isIdError,
             )
 
             Space(space = 36.dp)
@@ -216,7 +194,6 @@ fun LoginScreen(
                 keyboardActions = KeyboardActions(onDone = {
                     keyboardController?.hide()
                 }),
-                error = isPasswordError,
             )
 
             Space(space = 30.dp)
@@ -296,12 +273,6 @@ fun LoginScreen(
 
             Space(space = 57.dp)
         }
-
-        DormToast(
-            message = toastMessage,
-            toastType = ToastType.ERROR,
-            isShowToast = isShowToast,
-        )
     }
 }
 

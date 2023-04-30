@@ -5,11 +5,13 @@ import team.aliens.design_system.toast.ToastType
 import team.aliens.dms_android.common.LocalToast
 
 @Composable
-fun showToast(
+fun ShowToast(
     message: String,
     toastType: ToastType,
 ) {
-    LocalToast.current(
-        message, toastType,
-    )
+    if(message.isNotEmpty()) {
+        LocalToast.current(
+            message, toastType,
+        )
+    }
 }

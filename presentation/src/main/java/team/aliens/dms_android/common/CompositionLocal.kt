@@ -9,5 +9,5 @@ val LocalAvailableFeatures = staticCompositionLocalOf {
 }
 
 val LocalToast = compositionLocalOf {
-    { _: String, _: ToastType -> Unit }
+    { toastMessage: String, toastType: ToastType -> Unit }
 }
