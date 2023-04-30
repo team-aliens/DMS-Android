@@ -66,7 +66,7 @@ private fun DormToast(
     messageColor: Color,
     @DrawableRes drawable: Int,
     isShowToast: MutableState<Boolean>,
-    duration: Long = 3000,
+    duration: Long,
 ) {
     LaunchedEffect(isShowToast.value) {
         delay(duration)
