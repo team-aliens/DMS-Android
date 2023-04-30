@@ -65,12 +65,12 @@ private fun DormToast(
     message: String,
     messageColor: Color,
     @DrawableRes drawable: Int,
-    isShowToast: MutableState<Boolean>,
+    shouldShowToast: MutableState<Boolean>,
     duration: Long,
 ) {
-    LaunchedEffect(isShowToast.value) {
+    LaunchedEffect(shouldShowToast.value) {
         delay(duration)
-        isShowToast.value = false
+        shouldShowToast.value = false
     }
 
     Column(
@@ -78,7 +78,7 @@ private fun DormToast(
     ) {
         Space(14.dp)
         AnimatedVisibility(
-            visible = isShowToast.value,
+            visible = shouldShowToast.value,
         ) {
             Row(
                 modifier = Modifier
@@ -117,14 +117,14 @@ private fun DormToast(
 @Composable
 fun DormInfoToast(
     message: String,
-    isShowToast: MutableState<Boolean>,
+    shouldShowToast: MutableState<Boolean>,
     duration: Long = 3000L,
 ) {
     DormToast(
         message = message,
         messageColor = DormTheme.colors.onSurface,
         drawable = R.drawable.ic_information_toast,
-        isShowToast = isShowToast,
+        shouldShowToast = shouldShowToast,
         duration = duration,
     )
 }
@@ -132,14 +132,14 @@ fun DormInfoToast(
 @Composable
 fun DormErrorToast(
     message: String,
-    isShowToast: MutableState<Boolean>,
+    shouldShowToast: MutableState<Boolean>,
     duration: Long = 3000L,
 ) {
     DormToast(
         message = message,
         messageColor = DormTheme.colors.error,
         drawable = R.drawable.ic_error_toast,
-        isShowToast = isShowToast,
+        shouldShowToast = shouldShowToast,
         duration = duration,
     )
 }
@@ -154,7 +154,7 @@ fun DormSuccessToast(
         message = message,
         messageColor = DormTheme.colors.primary,
         drawable = R.drawable.ic_success_toast,
-        isShowToast = isShowToast,
+        shouldShowToast = isShowToast,
         duration = duration,
     )
 }

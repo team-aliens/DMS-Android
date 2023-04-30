@@ -285,14 +285,14 @@ fun RootDms(
                 0 -> {
                     DormInfoToast(
                         message = toastMessage,
-                        isShowToast = isShowToast,
+                        shouldShowToast = isShowToast,
                     )
                 }
 
                 1 -> {
                     DormErrorToast(
                         message = toastMessage,
-                        isShowToast = isShowToast,
+                        shouldShowToast = isShowToast,
                     )
                 }
 

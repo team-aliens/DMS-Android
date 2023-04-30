@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.auth.login
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -12,7 +11,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -27,13 +25,11 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.ToastType
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.util.compose.ShowToast
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
 import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
 import team.aliens.presentation.R
@@ -45,8 +41,6 @@ fun LoginScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
 
-    val context = LocalContext.current
-
     val focusManager = LocalFocusManager.current
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -54,13 +48,6 @@ fun LoginScreen(
     var signInButtonState by remember {
         mutableStateOf(false)
     }
-
-    var toastMessage by remember { mutableStateOf("") }
-
-    ShowToast(
-        message = toastMessage,
-        toastType = ToastType.ERROR,
-    )
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
 
@@ -95,13 +82,6 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
-                }
-
-                else -> {
-                    toastMessage = getStringFromEvent(
-                        context = context,
-                        event = event,
-                    )
                 }
             }
         }
@@ -274,22 +254,4 @@ fun LoginScreen(
             Space(space = 57.dp)
         }
     }
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: Event,
-): String {
-    return context.getString(
-        when (event) {
-            Event.WrongRequest -> R.string.BadRequest
-            Event.NotCorrectPassword -> R.string.CheckPassword
-            Event.UserNotFound -> R.string.LoginNotFound
-            Event.TooManyRequest -> R.string.TooManyRequest
-            Event.ServerException -> R.string.ServerException
-            Event.NoInternetException -> R.string.NoInternetException
-            Event.UnKnownException -> R.string.UnKnownException
-            else -> throw IllegalArgumentException()
-        },
-    )
 }
