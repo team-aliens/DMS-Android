@@ -63,33 +63,27 @@ dependencies {
     implementation(Dependencies.Android.Core)
     implementation(Dependencies.Android.Activity)
     implementation(Dependencies.Android.AppCompat)
-
-    implementation(Dependencies.Ui.Material)
-
     implementation(Dependencies.Android.Work)
 
-    implementation(Dependencies.Compose.COMPOSE_ACTIVITY)
-    implementation(Dependencies.Compose.COMPOSE_MATERIAL)
-    implementation(Dependencies.Compose.COMPOSE_PREVIEW)
-    implementation(Dependencies.Compose.COMPOSE_UI)
-    implementation(Dependencies.Compose.COMPOSE_NAV)
-    implementation(Dependencies.Compose.COMPOSE_ANI_NAV)
-    implementation(Dependencies.Compose.COMPOSE_LANDSCAPIST)
-    implementation(Dependencies.Compose.COMPOSE_HILT_NAV)
-    implementation(Dependencies.Compose.COMPOSE_VIEWBINDING)
-    implementation(Dependencies.Compose.COMPOSE_UI_UTIL)
+    implementation(Dependencies.Ui.Material)
+    implementation(Dependencies.Ui.Compose)
+    implementation(Dependencies.Ui.ComposeMaterial)
+    implementation(Dependencies.Ui.ComposePreview)
+    implementation(Dependencies.Ui.ComposeActiviy)
+    implementation(Dependencies.Ui.ComposeNavigation)
+    implementation(Dependencies.Ui.ComposeNavigationAnimation)
+    implementation(Dependencies.Ui.ComposeGlide)
+    implementation(Dependencies.Ui.ComposeHiltNavigation)
+    implementation(Dependencies.Ui.ComposeUiUtil)
+    implementation(Dependencies.Ui.ViewPager)
+    implementation(Dependencies.Ui.ViewPagerIndicator)
+    implementation(Dependencies.Ui.TedImagePicker)
+    implementation(Dependencies.Ui.Coil)
 
     implementation(Dependencies.Di.Hilt)
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Lifecycle.ViewModel)
-    //implementation(Dependencies.Lifecycle.Runtime)
 
-    implementation(Dependencies.Ui.TedImagePicker)
-
-    implementation(Dependencies.UnitTest.JUNIT)
-
-    implementation(Dependencies.Compose.VIEWPAGER)
-    implementation(Dependencies.Compose.VIEWPAGERINDICATE)
-    implementation(Dependencies.Ui.Coil)
+    implementation(Dependencies.UnitTest.JUnit)
 }

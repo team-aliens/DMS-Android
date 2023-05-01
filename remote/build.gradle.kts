@@ -58,7 +58,7 @@ dependencies {
 
     implementation(Dependencies.Serialization.GsonConverter)
 
-    testImplementation(Dependencies.UnitTest.JUNIT)
+    testImplementation(Dependencies.UnitTest.JUnit)
 
     implementation(Dependencies.Kotlin.Coroutines)
 }

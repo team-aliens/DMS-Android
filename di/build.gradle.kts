@@ -46,9 +46,9 @@ dependencies {
     implementation(Dependencies.Util.LocalDateTime)
 
     implementation(Dependencies.Remote.Retrofit)
-    implementation(Dependencies.Remote.OKHTTP_LOGGING)
-    implementation(Dependencies.Remote.OKHTTP_LOGGING)
-    implementation(Dependencies.Remote.LOGINTERCEPTER)
+    implementation(Dependencies.Remote.OkHttp)
+    implementation(Dependencies.Remote.OkHttp)
+    implementation(Dependencies.Remote.OkHttpLoggingInterceptor)
 
     implementation(Dependencies.Di.Hilt)
     kapt(Dependencies.Di.HiltCompiler)

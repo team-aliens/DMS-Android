@@ -51,14 +51,14 @@ dependencies {
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Remote.Retrofit)
-    implementation(Dependencies.Remote.OKHTTP_LOGGING)
+    implementation(Dependencies.Remote.OkHttp)
 
     implementation(Dependencies.Kotlin.Coroutines)
 
-    testImplementation(Dependencies.UnitTest.JUNIT)
-    testImplementation(Dependencies.UnitTest.MOCKITO)
-    testImplementation(Dependencies.UnitTest.MOCKITO_KOTLIN)
-    testImplementation(Dependencies.UnitTest.MOCKITO_INLINE)
+    testImplementation(Dependencies.UnitTest.JUnit)
+    testImplementation(Dependencies.UnitTest.Mockito)
+    testImplementation(Dependencies.UnitTest.MockitoKotlin)
+    testImplementation(Dependencies.UnitTest.MockitoInline)
 
     testImplementation(Dependencies.Kotlin.CoroutinesTest)
 }

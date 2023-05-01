@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.UnitTest.JUNIT)
+    implementation(Dependencies.UnitTest.JUnit)
 
     implementation(Dependencies.Util.LocalDateTime)
 

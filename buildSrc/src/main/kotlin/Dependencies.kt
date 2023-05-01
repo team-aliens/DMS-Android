@@ -15,6 +15,23 @@ object Dependencies {
     }
 
     object Ui {
+        const val ComposeMaterial = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val Compose = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+        const val ComposePreview = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
+        const val ComposeActiviy = "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
+        const val ComposeTest = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
+        const val ComposeUiTooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+        const val ComposeUiUtil = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
+        const val ComposeNavigation = "androidx.navigation:navigation-compose:${Versions.NAV}"
+        const val ComposeNavigationAnimation =
+            "com.google.accompanist:accompanist-navigation-animation:${Versions.ANI_NAV}"
+        const val ComposeGlide = "com.github.skydoves:landscapist-glide:${Versions.LANDSCAPIST}"
+        const val ComposeHiltNavigation =
+            "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAV}"
+        const val ViewPager = "com.google.accompanist:accompanist-pager:${Versions.VIEWPAGER}"
+        const val ViewPagerIndicator =
+            "com.google.accompanist:accompanist-pager-indicators:${Versions.VIEWPAGER}"
+
         const val Material = "com.google.android.material:material:${Versions.MATERIAL}"
         const val Coil = "io.coil-kt:coil-compose:${Versions.COIL}"
         const val TedImagePicker =
@@ -36,7 +53,7 @@ object Dependencies {
     }
 
     object Util {
-        const val LocalDateTime =//todo 분리
+        const val LocalDateTime =// todo 분리
             "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
     }
 
@@ -55,36 +72,16 @@ object Dependencies {
 
     object Remote {
         const val Retrofit = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-        const val OKHTTP_LOGGING = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
-        const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
-    }
-
-    object Compose {
-        const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
-        const val COMPOSE_MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
-        const val COMPOSE_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
-        const val COMPOSE_ACTIVITY =
-            "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
-        const val COMPOSE_TEST = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
-        const val COMPOSE_UI_TOOL = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
-        const val COMPOSE_NAV = "androidx.navigation:navigation-compose:${Versions.NAV}"
-        const val COMPOSE_ANI_NAV =
-            "com.google.accompanist:accompanist-navigation-animation:${Versions.ANI_NAV}"
-        const val COMPOSE_LANDSCAPIST =
-            "com.github.skydoves:landscapist-glide:${Versions.LANDSCAPIST}"
-        const val COMPOSE_HILT_NAV = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAV}"
-        const val VIEWPAGER = "com.google.accompanist:accompanist-pager:${Versions.VIEWPAGER}"
-        const val VIEWPAGERINDICATE =
-            "com.google.accompanist:accompanist-pager-indicators:${Versions.VIEWPAGER}"
-        const val COMPOSE_VIEWBINDING = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
-        const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
+        const val OkHttp = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
+        const val OkHttpLoggingInterceptor =
+            "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }
 
     object UnitTest {
-        const val JUNIT = "junit:junit:${Versions.JUNIT}"
-        const val MOCKITO = "org.mockito:mockito-core:${Versions.MOCKITO}"
-        const val MOCKITO_KOTLIN =
+        const val JUnit = "junit:junit:${Versions.JUNIT}"
+        const val Mockito = "org.mockito:mockito-core:${Versions.MOCKITO}"
+        const val MockitoKotlin =
             "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
-        const val MOCKITO_INLINE = "org.mockito:mockito-inline:${Versions.MOCKITO_INLINE}"
+        const val MockitoInline = "org.mockito:mockito-inline:${Versions.MOCKITO_INLINE}"
     }
 }

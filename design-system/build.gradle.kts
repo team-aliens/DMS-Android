@@ -46,17 +46,16 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.Compose.COMPOSE_ACTIVITY)
-    implementation(Dependencies.Compose.COMPOSE_MATERIAL)
-    implementation(Dependencies.Compose.COMPOSE_PREVIEW)
-    implementation(Dependencies.Compose.COMPOSE_UI)
-    implementation(Dependencies.Compose.COMPOSE_NAV)
-    implementation(Dependencies.Compose.COMPOSE_ANI_NAV)
-    implementation(Dependencies.Compose.COMPOSE_UI_TOOL)
-    implementation(Dependencies.Compose.COMPOSE_LANDSCAPIST)
+    implementation(Dependencies.Ui.Compose)
+    implementation(Dependencies.Ui.ComposeMaterial)
+    implementation(Dependencies.Ui.ComposePreview)
+    implementation(Dependencies.Ui.ComposeActiviy)
+    implementation(Dependencies.Ui.ComposeNavigation)
+    implementation(Dependencies.Ui.ComposeNavigationAnimation)
+    implementation(Dependencies.Ui.ComposeUiTooling)
+    implementation(Dependencies.Ui.ComposeGlide)
+    androidTestImplementation(Dependencies.Ui.ComposeTest)
+    debugImplementation(Dependencies.Ui.ComposeUiTooling)
 
-    androidTestImplementation(Dependencies.Compose.COMPOSE_TEST)
-    debugImplementation(Dependencies.Compose.COMPOSE_UI_TOOL)
-
-    implementation(Dependencies.UnitTest.JUNIT)
+    implementation(Dependencies.UnitTest.JUnit)
 }

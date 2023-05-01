@@ -50,7 +50,7 @@ dependencies {
     implementation(Dependencies.Local.RoomRuntime)
     kapt(Dependencies.Local.RoomCompiler)
 
-    testImplementation(Dependencies.UnitTest.JUNIT)
+    testImplementation(Dependencies.UnitTest.JUnit)
 
     implementation(Dependencies.Kotlin.Coroutines)
 }
