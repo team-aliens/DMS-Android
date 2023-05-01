@@ -46,24 +46,24 @@ dependencies {
     implementation(project(":local_domain"))
 
 
-    implementation(Dependency.Ui.LOCALDATETIME)
+    implementation(Dependencies.Ui.LOCALDATETIME)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
-    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Retrofit.RETROFIT)
+    implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Hilt.HILT_ANDROID)
+    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Moshi.MOSHI)
+    kapt(Dependencies.Moshi.MOSHI_COMPILER)
 
-    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
-    implementation(Dependency.Retrofit.LOGINTERCEPTER)
+    implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Retrofit.LOGINTERCEPTER)
 
-    implementation(Dependency.Room.ROOM_KTX)
-    implementation(Dependency.Room.ROOM_RUNTIME)
-    kapt(Dependency.Room.ROOM_COMPILER)
+    implementation(Dependencies.Room.ROOM_KTX)
+    implementation(Dependencies.Room.ROOM_RUNTIME)
+    kapt(Dependencies.Room.ROOM_COMPILER)
 
-    implementation(Dependency.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.DataStore.DATASTORE_PREF)
 }

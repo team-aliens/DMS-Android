@@ -38,19 +38,19 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
-    implementation(Dependency.GSON.GSON)
+    implementation(Dependencies.GSON.GSON)
 
-    implementation(Dependency.Ui.LOCALDATETIME)
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Ui.LOCALDATETIME)
+    implementation(Dependencies.Moshi.MOSHI)
+    kapt(Dependencies.Moshi.MOSHI_COMPILER)
 
-    implementation(Dependency.DataStore.DATASTORE_PREF)
-    implementation(Dependency.DataStore.DATASTORE_PREF_CORE)
+    implementation(Dependencies.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.DataStore.DATASTORE_PREF_CORE)
 
-    implementation(Dependency.Room.ROOM_KTX)
-    kapt(Dependency.Room.ROOM_COMPILER)
+    implementation(Dependencies.Room.ROOM_KTX)
+    kapt(Dependencies.Room.ROOM_COMPILER)
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Hilt.HILT_ANDROID)
+    implementation(Dependencies.Hilt.INJECT)
+    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 }

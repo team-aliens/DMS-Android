@@ -5,9 +5,9 @@ buildscript {
     }
 
     dependencies {
-        classpath(Dependency.GradlePlugin.GRADLE_ANDROID)
-        classpath(Dependency.GradlePlugin.GRADLE_KOTLIN)
-        classpath(Dependency.GradlePlugin.GRADLE_HILT)
+        classpath(Dependencies.GradlePlugin.GRADLE_ANDROID)
+        classpath(Dependencies.GradlePlugin.GRADLE_KOTLIN)
+        classpath(Dependencies.GradlePlugin.GRADLE_HILT)
     }
 }
 

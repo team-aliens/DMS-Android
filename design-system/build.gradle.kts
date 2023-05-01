@@ -46,24 +46,24 @@ android {
 }
 
 dependencies {
-    implementation(Dependency.Compose.COMPOSE_ACTIVITY)
-    implementation(Dependency.Compose.COMPOSE_MATERIAL)
-    implementation(Dependency.Compose.COMPOSE_PREVIEW)
-    implementation(Dependency.Compose.COMPOSE_UI)
-    implementation(Dependency.Compose.COMPOSE_NAV)
-    implementation(Dependency.Compose.COMPOSE_ANI_NAV)
-    implementation(Dependency.Compose.COMPOSE_UI_TOOL)
-    implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
+    implementation(Dependencies.Compose.COMPOSE_ACTIVITY)
+    implementation(Dependencies.Compose.COMPOSE_MATERIAL)
+    implementation(Dependencies.Compose.COMPOSE_PREVIEW)
+    implementation(Dependencies.Compose.COMPOSE_UI)
+    implementation(Dependencies.Compose.COMPOSE_NAV)
+    implementation(Dependencies.Compose.COMPOSE_ANI_NAV)
+    implementation(Dependencies.Compose.COMPOSE_UI_TOOL)
+    implementation(Dependencies.Compose.COMPOSE_LANDSCAPIST)
 
-    androidTestImplementation(Dependency.Compose.COMPOSE_TEST)
-    debugImplementation(Dependency.Compose.COMPOSE_UI_TOOL)
+    androidTestImplementation(Dependencies.Compose.COMPOSE_TEST)
+    debugImplementation(Dependencies.Compose.COMPOSE_UI_TOOL)
 
-    implementation(Dependency.Ui.APP_COMPAT)
-    implementation(Dependency.Ui.CORE_KTX)
-    implementation(Dependency.Ui.FRAGMENT_KTX)
-    implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
-    implementation(Dependency.Ui.MATERIAL)
-    implementation(Dependency.Ui.CORE_KTX)
+    implementation(Dependencies.Ui.APP_COMPAT)
+    implementation(Dependencies.Ui.CORE_KTX)
+    implementation(Dependencies.Ui.FRAGMENT_KTX)
+    implementation(Dependencies.Ui.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.Ui.MATERIAL)
+    implementation(Dependencies.Ui.CORE_KTX)
 
-    implementation(Dependency.UnitTest.JUNIT)
+    implementation(Dependencies.UnitTest.JUNIT)
 }

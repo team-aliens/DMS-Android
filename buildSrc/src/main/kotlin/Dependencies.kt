@@ -1,4 +1,4 @@
-object Dependency {
+object Dependencies {
 
     object GradlePlugin {
         const val GRADLE_ANDROID = "com.android.tools.build:gradle:${ProjectProperties.GRADLE_ANDROID}"

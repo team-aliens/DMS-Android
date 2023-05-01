@@ -51,17 +51,17 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Hilt.HILT_ANDROID)
+    implementation(Dependencies.Hilt.INJECT)
+    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Retrofit.RETROFIT)
+    implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
 
-    testImplementation(Dependency.UnitTest.JUNIT)
+    testImplementation(Dependencies.UnitTest.JUNIT)
 
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES_CORE)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
 }
 
 fun fetchProperty(

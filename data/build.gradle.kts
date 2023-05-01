@@ -39,27 +39,27 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":local_database"))
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Moshi.MOSHI)
+    kapt(Dependencies.Moshi.MOSHI_COMPILER)
 
-    implementation(Dependency.Ui.LOCALDATETIME)
+    implementation(Dependencies.Ui.LOCALDATETIME)
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Hilt.HILT_ANDROID)
+    implementation(Dependencies.Hilt.INJECT)
+    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Retrofit.RETROFIT)
+    implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
 
-    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
 
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES_CORE)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
 
-    testImplementation(Dependency.UnitTest.JUNIT)
-    testImplementation(Dependency.UnitTest.MOCKITO)
-    testImplementation(Dependency.UnitTest.MOCKITO_KOTLIN)
-    testImplementation(Dependency.UnitTest.MOCKITO_INLINE)
+    testImplementation(Dependencies.UnitTest.JUNIT)
+    testImplementation(Dependencies.UnitTest.MOCKITO)
+    testImplementation(Dependencies.UnitTest.MOCKITO_KOTLIN)
+    testImplementation(Dependencies.UnitTest.MOCKITO_INLINE)
 
-    testImplementation(Dependency.CoroutineTest.COROUTINES_TEST)
+    testImplementation(Dependencies.CoroutineTest.COROUTINES_TEST)
 }

@@ -37,20 +37,20 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Hilt.HILT_ANDROID)
+    implementation(Dependencies.Hilt.INJECT)
+    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Moshi.MOSHI)
+    kapt(Dependencies.Moshi.MOSHI_COMPILER)
 
-    implementation(Dependency.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.DataStore.DATASTORE_PREF)
 
-    implementation(Dependency.Room.ROOM_KTX)
-    kapt(Dependency.Room.ROOM_COMPILER)
+    implementation(Dependencies.Room.ROOM_KTX)
+    kapt(Dependencies.Room.ROOM_COMPILER)
 
-    testImplementation(Dependency.UnitTest.JUNIT)
+    testImplementation(Dependencies.UnitTest.JUNIT)
 
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.COROUTINES_CORE)
+    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
 }
