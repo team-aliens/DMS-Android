@@ -43,23 +43,23 @@ dependencies {
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
 
-    implementation(Dependencies.Util.LOCALDATETIME)
+    implementation(Dependencies.Util.LocalDateTime)
 
-    implementation(Dependencies.Remote.RETROFIT)
-    implementation(Dependencies.Remote.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Remote.Retrofit)
     implementation(Dependencies.Remote.OKHTTP_LOGGING)
     implementation(Dependencies.Remote.OKHTTP_LOGGING)
     implementation(Dependencies.Remote.LOGINTERCEPTER)
 
-    implementation(Dependencies.Di.HILT_ANDROID)
-    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependencies.Serialization.MOSHI)
-    kapt(Dependencies.Serialization.MOSHI_COMPILER)
+    implementation(Dependencies.Serialization.Moshi)
+    kapt(Dependencies.Serialization.MoshiCompiler)
+    implementation(Dependencies.Serialization.GsonConverter)
 
-    implementation(Dependencies.Local.ROOM_KTX)
-    implementation(Dependencies.Local.ROOM_RUNTIME)
-    kapt(Dependencies.Local.ROOM_COMPILER)
+    implementation(Dependencies.Local.Room)
+    implementation(Dependencies.Local.RoomRuntime)
+    kapt(Dependencies.Local.RoomCompiler)
 
-    implementation(Dependencies.Local.DATASTORE_PREF)
+    implementation(Dependencies.Local.DataStorePreferences)
 }

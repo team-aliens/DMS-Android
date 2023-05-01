@@ -50,12 +50,13 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependencies.Di.HILT_ANDROID)
-    implementation(Dependencies.Di.INJECT)
-    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    implementation(Dependencies.Di.Inject)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependencies.Remote.RETROFIT)
-    implementation(Dependencies.Remote.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Remote.Retrofit)
+
+    implementation(Dependencies.Serialization.GsonConverter)
 
     testImplementation(Dependencies.UnitTest.JUNIT)
 

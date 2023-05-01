@@ -10,52 +10,51 @@ object Dependencies {
     object Kotlin {
         const val Coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
-        const val COROUTINES_TEST =
+        const val CoroutinesTest =
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
     }
 
     object Ui {
         const val Material = "com.google.android.material:material:${Versions.MATERIAL}"
-        const val CIRCLECOMPOSEIMAGE = "io.coil-kt:coil-compose:${Versions.COIL}"
-        const val TEDIMAGEPICKER =
+        const val Coil = "io.coil-kt:coil-compose:${Versions.COIL}"
+        const val TedImagePicker =
             "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
     object Di {
-        const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
-        const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
-        const val HILT_WORK = "androidx.hilt:hilt-work:${Versions.HILT_WORK}"
-        const val INJECT = "javax.inject:javax.inject:1"
+        const val Hilt = "com.google.dagger:hilt-android:${Versions.HILT}"
+        const val HiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+        const val Inject = "javax.inject:javax.inject:1"
     }
 
     object Serialization {
-        const val GSON = "com.google.code.gson:gson:${Versions.GSON}" // todo should remove
-        const val MOSHI = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
-        const val MOSHI_COMPILER = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
+        const val Gson = "com.google.code.gson:gson:${Versions.GSON}" // todo should remove
+        const val GsonConverter = // todo should remove
+            "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
+        const val Moshi = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
+        const val MoshiCompiler = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
     }
 
     object Util {
-        const val LOCALDATETIME =//todo 분리
+        const val LocalDateTime =//todo 분리
             "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
     }
 
     object Lifecycle {
-        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
-        const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
-        const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
+        const val ViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
+        const val Runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
     }
 
     object Local {
-        const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
-        const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
-        const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
-        const val DATASTORE_PREF = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
+        const val Room = "androidx.room:room-ktx:${Versions.ROOM}"
+        const val RoomCompiler = "androidx.room:room-compiler:${Versions.ROOM}"
+        const val RoomRuntime = "androidx.room:room-runtime:${Versions.ROOM}"
+        const val DataStorePreferences =
+            "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
     }
 
     object Remote {
-        const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-        const val RETROFIT_CONVERTER_GSON =
-            "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
+        const val Retrofit = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
         const val OKHTTP_LOGGING = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
         const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }

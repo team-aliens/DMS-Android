@@ -36,11 +36,11 @@ android {
 dependencies {
     implementation(Dependencies.UnitTest.JUNIT)
 
-    implementation(Dependencies.Util.LOCALDATETIME)
+    implementation(Dependencies.Util.LocalDateTime)
 
-    implementation(Dependencies.Di.HILT_ANDROID)
-    implementation(Dependencies.Di.INJECT)
-    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    implementation(Dependencies.Di.Inject)
+    kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Kotlin.Coroutines)
 }

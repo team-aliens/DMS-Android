@@ -79,18 +79,17 @@ dependencies {
     implementation(Dependencies.Compose.COMPOSE_VIEWBINDING)
     implementation(Dependencies.Compose.COMPOSE_UI_UTIL)
 
-    implementation(Dependencies.Di.HILT_ANDROID)
-    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependencies.Lifecycle.LIVEDATA)
-    implementation(Dependencies.Lifecycle.VIEWMODEL)
-    implementation(Dependencies.Lifecycle.RUNTIME)
+    implementation(Dependencies.Lifecycle.ViewModel)
+    //implementation(Dependencies.Lifecycle.Runtime)
 
-    implementation(Dependencies.Ui.TEDIMAGEPICKER)
+    implementation(Dependencies.Ui.TedImagePicker)
 
     implementation(Dependencies.UnitTest.JUNIT)
 
     implementation(Dependencies.Compose.VIEWPAGER)
     implementation(Dependencies.Compose.VIEWPAGERINDICATE)
-    implementation(Dependencies.Ui.CIRCLECOMPOSEIMAGE)
+    implementation(Dependencies.Ui.Coil)
 }
