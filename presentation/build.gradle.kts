@@ -64,13 +64,10 @@ dependencies {
     implementation(Dependencies.Ui.APP_COMPAT)
     implementation(Dependencies.Ui.MATERIAL)
     implementation(Dependencies.Ui.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.Ui.CIRCLE_IMAGE_VIEW)
-    implementation(Dependencies.Ui.GLIDE_CORE)
     implementation(Dependencies.Ui.FRAGMENT_KTX)
 
     implementation(Dependencies.WorkManager.CORE)
     implementation(Dependencies.WorkManager.KTX)
-    kapt(Dependencies.Ui.GLIDE_COMPILER)
 
     implementation(Dependencies.Compose.COMPOSE_ACTIVITY)
     implementation(Dependencies.Compose.COMPOSE_MATERIAL)
