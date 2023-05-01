@@ -1,7 +1,10 @@
 object Plugins {
 
-    object Build {
-
+    object Gradle {
+        const val Android = "com.android.tools.build:gradle:${ProjectProperties.GRADLE_ANDROID}"
+        const val Kotlin =
+            "org.jetbrains.kotlin:kotlin-gradle-plugin:${ProjectProperties.GRADLE_KOTLIN}"
+        const val Hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}"
     }
 
     object Module {
