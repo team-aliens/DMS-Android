@@ -19,6 +19,13 @@ object Dependencies {
             "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
+    object Di {
+        const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
+        const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+        const val HILT_WORK = "androidx.hilt:hilt-work:${Versions.HILT_WORK}"
+        const val INJECT = "javax.inject:javax.inject:1"
+    }
+
     object Serialization {
         const val GSON = "com.google.code.gson:gson:${Versions.GSON}" // todo should remove
         const val MOSHI = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
@@ -40,16 +47,11 @@ object Dependencies {
         const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
         const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
         const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
+        const val DATASTORE_PREF = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
     }
 
     object Remote {
 
-    }
-
-    object DataStore {
-        const val DATASTORE_PREF = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
-        const val DATASTORE_PREF_CORE =
-            "androidx.datastore:datastore-preferences-core:${Versions.DATASTORE}"
     }
 
     object Compose {
@@ -71,13 +73,6 @@ object Dependencies {
             "com.google.accompanist:accompanist-pager-indicators:${Versions.VIEWPAGER}"
         const val COMPOSE_VIEWBINDING = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
         const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
-    }
-
-    object Hilt {
-        const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
-        const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
-        const val HILT_WORK = "androidx.hilt:hilt-work:${Versions.HILT_WORK}"
-        const val INJECT = "javax.inject:javax.inject:1"
     }
 
     object Retrofit {

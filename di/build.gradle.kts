@@ -36,15 +36,12 @@ android {
 }
 
 dependencies {
-
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
     implementation(project(":local"))
-
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
-
 
     implementation(Dependencies.Util.LOCALDATETIME)
 
@@ -52,8 +49,8 @@ dependencies {
     implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
     implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
 
-    implementation(Dependencies.Hilt.HILT_ANDROID)
-    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.HILT_ANDROID)
+    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
     implementation(Dependencies.Serialization.MOSHI)
     kapt(Dependencies.Serialization.MOSHI_COMPILER)
@@ -65,5 +62,5 @@ dependencies {
     implementation(Dependencies.Local.ROOM_RUNTIME)
     kapt(Dependencies.Local.ROOM_COMPILER)
 
-    implementation(Dependencies.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.Local.DATASTORE_PREF)
 }

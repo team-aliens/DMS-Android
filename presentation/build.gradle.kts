@@ -81,9 +81,8 @@ dependencies {
     implementation(Dependencies.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dependencies.Navigation.NAVIGATION_UI)
 
-    implementation(Dependencies.Hilt.HILT_ANDROID)
-    implementation(Dependencies.Hilt.HILT_WORK)
-    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.HILT_ANDROID)
+    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
     implementation(Dependencies.Lifecycle.LIVEDATA)
     implementation(Dependencies.Lifecycle.VIEWMODEL)

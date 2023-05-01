@@ -44,9 +44,9 @@ dependencies {
 
     implementation(Dependencies.Util.LOCALDATETIME)
 
-    implementation(Dependencies.Hilt.HILT_ANDROID)
-    implementation(Dependencies.Hilt.INJECT)
-    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.HILT_ANDROID)
+    implementation(Dependencies.Di.INJECT)
+    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
     implementation(Dependencies.Retrofit.RETROFIT)
     implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)

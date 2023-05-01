@@ -37,14 +37,14 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependencies.Hilt.HILT_ANDROID)
-    implementation(Dependencies.Hilt.INJECT)
-    kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.HILT_ANDROID)
+    implementation(Dependencies.Di.INJECT)
+    kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
     implementation(Dependencies.Serialization.MOSHI)
     kapt(Dependencies.Serialization.MOSHI_COMPILER)
 
-    implementation(Dependencies.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.Local.DATASTORE_PREF)
 
     implementation(Dependencies.Local.ROOM_KTX)
     implementation(Dependencies.Local.ROOM_RUNTIME)
