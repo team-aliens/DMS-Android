@@ -1,8 +1,8 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.AndroidLibrary)
+    id(BuildPlugins.KotlinAndroid)
+    id(BuildPlugins.Hilt)
+    id(BuildPlugins.KotlinKapt)
 }
 
 android {
