@@ -1,10 +1,9 @@
 object Dependencies {
 
     object Android {
-        const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
-        const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
-        const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
-        const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
+        const val Core = "androidx.core:core-ktx:${Versions.CORE_KTX}"
+        const val Activity = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
+        const val AppCompat = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
         const val Work = "androidx.work:work-runtime-ktx:${Versions.WORK_MANAGER}"
     }
 
@@ -16,6 +15,7 @@ object Dependencies {
     }
 
     object Ui {
+        const val Material = "com.google.android.material:material:${Versions.MATERIAL}"
         const val CIRCLECOMPOSEIMAGE = "io.coil-kt:coil-compose:${Versions.COIL}"
         const val TEDIMAGEPICKER =
             "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
