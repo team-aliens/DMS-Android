@@ -60,10 +60,10 @@ dependencies {
     implementation(project(":di"))
     implementation(project(":design-system"))
 
-    implementation(Dependencies.Ui.CORE_KTX)
-    implementation(Dependencies.Ui.ACTIVITY_KTX)
-    implementation(Dependencies.Ui.APP_COMPAT)
-    implementation(Dependencies.Ui.MATERIAL)
+    implementation(Dependencies.Android.CORE_KTX)
+    implementation(Dependencies.Android.ACTIVITY_KTX)
+    implementation(Dependencies.Android.APP_COMPAT)
+    implementation(Dependencies.Android.MATERIAL)
 
     implementation(Dependencies.WorkManager.CORE)
     implementation(Dependencies.WorkManager.KTX)

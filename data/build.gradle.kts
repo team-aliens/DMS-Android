@@ -42,7 +42,7 @@ dependencies {
     implementation(Dependencies.Moshi.MOSHI)
     kapt(Dependencies.Moshi.MOSHI_COMPILER)
 
-    implementation(Dependencies.Ui.LOCALDATETIME)
+    implementation(Dependencies.Util.LOCALDATETIME)
 
     implementation(Dependencies.Hilt.HILT_ANDROID)
     implementation(Dependencies.Hilt.INJECT)

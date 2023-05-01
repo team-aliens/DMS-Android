@@ -46,7 +46,7 @@ dependencies {
     implementation(project(":local_domain"))
 
 
-    implementation(Dependencies.Ui.LOCALDATETIME)
+    implementation(Dependencies.Util.LOCALDATETIME)
 
     implementation(Dependencies.Retrofit.RETROFIT)
     implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)

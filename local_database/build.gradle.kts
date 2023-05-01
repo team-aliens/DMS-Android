@@ -38,9 +38,9 @@ android {
 dependencies {
     implementation(project(":local_domain"))
 
-    implementation(Dependencies.GSON.GSON)
+    implementation(Dependencies.Serialization.GSON)
 
-    implementation(Dependencies.Ui.LOCALDATETIME)
+    implementation(Dependencies.Util.LOCALDATETIME)
     implementation(Dependencies.Moshi.MOSHI)
     kapt(Dependencies.Moshi.MOSHI_COMPILER)
 

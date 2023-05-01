@@ -36,7 +36,7 @@ android {
 dependencies {
     implementation(Dependencies.UnitTest.JUNIT)
 
-    implementation(Dependencies.Ui.LOCALDATETIME)
+    implementation(Dependencies.Util.LOCALDATETIME)
 
     implementation(Dependencies.Hilt.HILT_ANDROID)
     implementation(Dependencies.Hilt.INJECT)

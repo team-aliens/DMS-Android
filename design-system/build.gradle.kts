@@ -58,10 +58,5 @@ dependencies {
     androidTestImplementation(Dependencies.Compose.COMPOSE_TEST)
     debugImplementation(Dependencies.Compose.COMPOSE_UI_TOOL)
 
-    implementation(Dependencies.Ui.APP_COMPAT)
-    implementation(Dependencies.Ui.CORE_KTX)
-    implementation(Dependencies.Ui.MATERIAL)
-    implementation(Dependencies.Ui.CORE_KTX)
-
     implementation(Dependencies.UnitTest.JUNIT)
 }

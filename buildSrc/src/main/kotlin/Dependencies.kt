@@ -1,5 +1,12 @@
 object Dependencies {
 
+    object Android {
+        const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
+        const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
+        const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
+        const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
+    }
+
     object Kotlin {
         const val Coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
@@ -11,18 +18,16 @@ object Dependencies {
     }
 
     object Ui {
-        const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
-        const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
-        const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
-        const val FRAGMENT_KTX_NEW = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX_NEW}"
-        const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
-        const val LOCALDATETIME =
-            "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
         const val CIRCLECOMPOSEIMAGE = "io.coil-kt:coil-compose:${Versions.COIL}"
     }
 
-    object GSON {
-        const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
+    object Serialization {
+        const val GSON = "com.google.code.gson:gson:${Versions.GSON}" // todo should remove
+    }
+
+    object Util {
+        const val LOCALDATETIME =//todo 분리
+            "com.jakewharton.threetenabp:threetenabp:${Versions.LOCALDATETIME}"
     }
 
     object Lifecycle {
