@@ -61,9 +61,9 @@ dependencies {
     implementation(project(":design-system"))
 
     implementation(Dependencies.Ui.CORE_KTX)
+    implementation(Dependencies.Ui.ACTIVITY_KTX)
     implementation(Dependencies.Ui.APP_COMPAT)
     implementation(Dependencies.Ui.MATERIAL)
-    implementation(Dependencies.Ui.CONSTRAINT_LAYOUT)
 
     implementation(Dependencies.WorkManager.CORE)
     implementation(Dependencies.WorkManager.KTX)
@@ -86,7 +86,7 @@ dependencies {
     implementation(Dependencies.Hilt.HILT_WORK)
     kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependencies.Ui.FRAGMENT_KTX_NEW)
+    //implementation(Dependencies.Ui.FRAGMENT_KTX_NEW)
 
     implementation(Dependencies.Lifecycle.LIVEDATA)
     implementation(Dependencies.Lifecycle.VIEWMODEL)

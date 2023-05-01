@@ -1,9 +1,5 @@
 object Dependencies {
 
-    object Android {
-        const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
-    }
-
     object Kotlin {
         const val Coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
@@ -15,12 +11,9 @@ object Dependencies {
     }
 
     object Ui {
-        const val CONSTRAINT_LAYOUT =
-            "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
         const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
         const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
         const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
-        const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX}"
         const val FRAGMENT_KTX_NEW = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX_NEW}"
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
         const val LOCALDATETIME =

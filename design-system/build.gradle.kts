@@ -60,7 +60,6 @@ dependencies {
 
     implementation(Dependencies.Ui.APP_COMPAT)
     implementation(Dependencies.Ui.CORE_KTX)
-    implementation(Dependencies.Ui.CONSTRAINT_LAYOUT)
     implementation(Dependencies.Ui.MATERIAL)
     implementation(Dependencies.Ui.CORE_KTX)
 
