@@ -65,8 +65,7 @@ dependencies {
     implementation(Dependencies.Android.APP_COMPAT)
     implementation(Dependencies.Android.MATERIAL)
 
-    implementation(Dependencies.WorkManager.CORE)
-    implementation(Dependencies.WorkManager.KTX)
+    implementation(Dependencies.Android.Work)
 
     implementation(Dependencies.Compose.COMPOSE_ACTIVITY)
     implementation(Dependencies.Compose.COMPOSE_MATERIAL)

@@ -5,6 +5,7 @@ object Dependencies {
         const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
         const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
+        const val Work = "androidx.work:work-runtime-ktx:${Versions.WORK_MANAGER}"
     }
 
     object Kotlin {
@@ -39,11 +40,6 @@ object Dependencies {
     object ViewModel {
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.VIEWMODEL}"
         const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
-    }
-
-    object Coroutine {
-        const val CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}"
-        const val ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
     }
 
     object Room {
