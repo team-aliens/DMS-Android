@@ -11,6 +11,8 @@ object Dependencies {
     object Kotlin {
         const val Coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
+        const val COROUTINES_TEST =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
     }
 
     object Ui {
@@ -51,7 +53,11 @@ object Dependencies {
     }
 
     object Remote {
-
+        const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
+        const val RETROFIT_CONVERTER_GSON =
+            "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
+        const val OKHTTP_LOGGING = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
+        const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
     }
 
     object Compose {
@@ -73,31 +79,6 @@ object Dependencies {
             "com.google.accompanist:accompanist-pager-indicators:${Versions.VIEWPAGER}"
         const val COMPOSE_VIEWBINDING = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
         const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util:${Versions.COMPOSE}"
-    }
-
-    object Retrofit {
-        const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-        const val RETROFIT_CONVERTER_GSON =
-            "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
-        const val OKHTTP_LOGGING = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
-        const val LOGINTERCEPTER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
-    }
-
-    object Navigation {
-        const val NAVIGATION_FRAGMENT =
-            "androidx.navigation:navigation-fragment-ktx:${Versions.NAV}"
-        const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAV}"
-    }
-
-    object CoroutineTest {
-        const val COROUTINES_TEST =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
-    }
-
-    //TODO: 추후에 커스텀으로 만들 예정입니다.
-    object PinEntryEditText {
-        const val PINENTRYEDITTEXT =
-            "com.alimuzaffar.lib:pinentryedittext:${Versions.PINENTRYEDITTEXT}"
     }
 
     object UnitTest {

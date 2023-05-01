@@ -47,7 +47,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":data"))
     implementation(project(":domain"))
 
@@ -55,8 +54,8 @@ dependencies {
     implementation(Dependencies.Di.INJECT)
     kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
-    implementation(Dependencies.Retrofit.RETROFIT)
-    implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Remote.RETROFIT)
+    implementation(Dependencies.Remote.RETROFIT_CONVERTER_GSON)
 
     testImplementation(Dependencies.UnitTest.JUNIT)
 

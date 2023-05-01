@@ -78,9 +78,6 @@ dependencies {
     implementation(Dependencies.Compose.COMPOSE_VIEWBINDING)
     implementation(Dependencies.Compose.COMPOSE_UI_UTIL)
 
-    implementation(Dependencies.Navigation.NAVIGATION_FRAGMENT)
-    implementation(Dependencies.Navigation.NAVIGATION_UI)
-
     implementation(Dependencies.Di.HILT_ANDROID)
     kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
@@ -89,9 +86,6 @@ dependencies {
     implementation(Dependencies.Lifecycle.RUNTIME)
 
     implementation(Dependencies.Ui.TEDIMAGEPICKER)
-
-    //TODO: 추후에 커스텀으로 만들 예정입니다.
-    implementation(Dependencies.PinEntryEditText.PINENTRYEDITTEXT)
 
     implementation(Dependencies.UnitTest.JUNIT)
 

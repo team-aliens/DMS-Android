@@ -45,18 +45,17 @@ dependencies {
 
     implementation(Dependencies.Util.LOCALDATETIME)
 
-    implementation(Dependencies.Retrofit.RETROFIT)
-    implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
-    implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Remote.RETROFIT)
+    implementation(Dependencies.Remote.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Remote.OKHTTP_LOGGING)
+    implementation(Dependencies.Remote.OKHTTP_LOGGING)
+    implementation(Dependencies.Remote.LOGINTERCEPTER)
 
     implementation(Dependencies.Di.HILT_ANDROID)
     kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
     implementation(Dependencies.Serialization.MOSHI)
     kapt(Dependencies.Serialization.MOSHI_COMPILER)
-
-    implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
-    implementation(Dependencies.Retrofit.LOGINTERCEPTER)
 
     implementation(Dependencies.Local.ROOM_KTX)
     implementation(Dependencies.Local.ROOM_RUNTIME)

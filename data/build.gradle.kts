@@ -48,10 +48,9 @@ dependencies {
     implementation(Dependencies.Di.INJECT)
     kapt(Dependencies.Di.HILT_ANDROID_COMPILER)
 
-    implementation(Dependencies.Retrofit.RETROFIT)
-    implementation(Dependencies.Retrofit.RETROFIT_CONVERTER_GSON)
-
-    implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Remote.RETROFIT)
+    implementation(Dependencies.Remote.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Remote.OKHTTP_LOGGING)
 
     implementation(Dependencies.Kotlin.Coroutines)
 
@@ -60,5 +59,5 @@ dependencies {
     testImplementation(Dependencies.UnitTest.MOCKITO_KOTLIN)
     testImplementation(Dependencies.UnitTest.MOCKITO_INLINE)
 
-    testImplementation(Dependencies.CoroutineTest.COROUTINES_TEST)
+    testImplementation(Dependencies.Kotlin.COROUTINES_TEST)
 }
