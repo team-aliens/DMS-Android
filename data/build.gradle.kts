@@ -39,8 +39,8 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":local_database"))
-    implementation(Dependencies.Moshi.MOSHI)
-    kapt(Dependencies.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Serialization.MOSHI)
+    kapt(Dependencies.Serialization.MOSHI_COMPILER)
 
     implementation(Dependencies.Util.LOCALDATETIME)
 

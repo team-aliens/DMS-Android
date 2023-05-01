@@ -55,8 +55,8 @@ dependencies {
     implementation(Dependencies.Hilt.HILT_ANDROID)
     kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependencies.Moshi.MOSHI)
-    kapt(Dependencies.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Serialization.MOSHI)
+    kapt(Dependencies.Serialization.MOSHI_COMPILER)
 
     implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
     implementation(Dependencies.Retrofit.LOGINTERCEPTER)

@@ -85,19 +85,14 @@ dependencies {
     implementation(Dependencies.Hilt.HILT_WORK)
     kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    //implementation(Dependencies.Ui.FRAGMENT_KTX_NEW)
-
     implementation(Dependencies.Lifecycle.LIVEDATA)
     implementation(Dependencies.Lifecycle.VIEWMODEL)
     implementation(Dependencies.Lifecycle.RUNTIME)
 
-    implementation(Dependencies.TedImagePicker.TEDIMAGEPICKER)
+    implementation(Dependencies.Ui.TEDIMAGEPICKER)
 
     //TODO: 추후에 커스텀으로 만들 예정입니다.
     implementation(Dependencies.PinEntryEditText.PINENTRYEDITTEXT)
-
-    implementation(Dependencies.ViewModel.VIEWMODEL)
-    implementation(Dependencies.ViewModel.LIVEDATA)
 
     implementation(Dependencies.UnitTest.JUNIT)
 

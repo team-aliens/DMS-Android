@@ -41,8 +41,8 @@ dependencies {
     implementation(Dependencies.Hilt.INJECT)
     kapt(Dependencies.Hilt.HILT_ANDROID_COMPILER)
 
-    implementation(Dependencies.Moshi.MOSHI)
-    kapt(Dependencies.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Serialization.MOSHI)
+    kapt(Dependencies.Serialization.MOSHI_COMPILER)
 
     implementation(Dependencies.DataStore.DATASTORE_PREF)
 

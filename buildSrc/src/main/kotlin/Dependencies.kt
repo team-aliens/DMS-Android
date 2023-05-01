@@ -13,17 +13,16 @@ object Dependencies {
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
     }
 
-    object WorkManager {
-        const val CORE = "androidx.work:work-runtime:${Versions.WORK_MANAGER}"
-        const val KTX = "androidx.work:work-runtime-ktx:${Versions.WORK_MANAGER}"
-    }
-
     object Ui {
         const val CIRCLECOMPOSEIMAGE = "io.coil-kt:coil-compose:${Versions.COIL}"
+        const val TEDIMAGEPICKER =
+            "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
     object Serialization {
         const val GSON = "com.google.code.gson:gson:${Versions.GSON}" // todo should remove
+        const val MOSHI = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
+        const val MOSHI_COMPILER = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
     }
 
     object Util {
@@ -35,11 +34,6 @@ object Dependencies {
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
         const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
         const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
-    }
-
-    object ViewModel {
-        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.VIEWMODEL}"
-        const val LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
     }
 
     object Room {
@@ -83,11 +77,6 @@ object Dependencies {
         const val INJECT = "javax.inject:javax.inject:1"
     }
 
-    object Moshi {
-        const val MOSHI = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}"
-        const val MOSHI_COMPILER = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
-    }
-
     object Retrofit {
         const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
         const val RETROFIT_CONVERTER_GSON =
@@ -105,11 +94,6 @@ object Dependencies {
     object CoroutineTest {
         const val COROUTINES_TEST =
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES_TEST}"
-    }
-
-    object TedImagePicker {
-        const val TEDIMAGEPICKER =
-            "io.github.ParkSangGwon:tedimagepicker:${Versions.TEDIMAGEPICKER}"
     }
 
     //TODO: 추후에 커스텀으로 만들 예정입니다.
