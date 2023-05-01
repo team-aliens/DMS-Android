@@ -53,8 +53,7 @@ dependencies {
 
     implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
 
-    implementation(Dependencies.Kotlin.COROUTINES_CORE)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.Coroutines)
 
     testImplementation(Dependencies.UnitTest.JUNIT)
     testImplementation(Dependencies.UnitTest.MOCKITO)

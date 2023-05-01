@@ -51,6 +51,5 @@ dependencies {
 
     testImplementation(Dependencies.UnitTest.JUNIT)
 
-    implementation(Dependencies.Kotlin.COROUTINES_CORE)
-    implementation(Dependencies.Kotlin.COROUTINES_ANDROID)
+    implementation(Dependencies.Kotlin.Coroutines)
 }

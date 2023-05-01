@@ -1,11 +1,7 @@
 object Dependencies {
 
     object Kotlin {
-        const val KOTLIN_STDLIB =
-            "org.jetbrains.kotlin:kotlin-stdlib:${ProjectProperties.KOTLIN_VERSION}"
-        const val COROUTINES_CORE =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${ProjectProperties.KOTLINX_COROUTINES}"
-        const val COROUTINES_ANDROID =
+        const val Coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
     }
 
