@@ -36,11 +36,14 @@ object Dependencies {
         const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
     }
 
-    object Room {
+    object Local {
         const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
         const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
         const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
-        const val ROOM = "androidx.room:room-common:${Versions.ROOM}"
+    }
+
+    object Remote {
+
     }
 
     object DataStore {

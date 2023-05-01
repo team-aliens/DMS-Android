@@ -61,9 +61,9 @@ dependencies {
     implementation(Dependencies.Retrofit.OKHTTP_LOGGING)
     implementation(Dependencies.Retrofit.LOGINTERCEPTER)
 
-    implementation(Dependencies.Room.ROOM_KTX)
-    implementation(Dependencies.Room.ROOM_RUNTIME)
-    kapt(Dependencies.Room.ROOM_COMPILER)
+    implementation(Dependencies.Local.ROOM_KTX)
+    implementation(Dependencies.Local.ROOM_RUNTIME)
+    kapt(Dependencies.Local.ROOM_COMPILER)
 
     implementation(Dependencies.DataStore.DATASTORE_PREF)
 }

@@ -47,8 +47,9 @@ dependencies {
     implementation(Dependencies.DataStore.DATASTORE_PREF)
     implementation(Dependencies.DataStore.DATASTORE_PREF_CORE)
 
-    implementation(Dependencies.Room.ROOM_KTX)
-    kapt(Dependencies.Room.ROOM_COMPILER)
+    implementation(Dependencies.Local.ROOM_KTX)
+    implementation(Dependencies.Local.ROOM_RUNTIME)
+    kapt(Dependencies.Local.ROOM_COMPILER)
 
     implementation(Dependencies.Hilt.HILT_ANDROID)
     implementation(Dependencies.Hilt.INJECT)
