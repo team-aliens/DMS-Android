@@ -1,7 +1,7 @@
 plugins {
-    id(BuildPlugins.AndroidLibrary)
-    id(BuildPlugins.KotlinAndroid)
-    id(BuildPlugins.KotlinKapt)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.KotlinKapt)
 }
 
 android {
