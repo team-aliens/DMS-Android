@@ -1,5 +1,9 @@
 object Dependencies {
 
+    object Android {
+        const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
+    }
+
     object Kotlin {
         const val Coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
