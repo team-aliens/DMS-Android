@@ -41,8 +41,8 @@ object Versions {
     }
 
     object Serialization {
-        const val Gson = "2.9.0"
-        const val Moshi = "1.13.0"
+        const val Gson = "2.10.1"
+        const val Moshi = "1.14.0"
     }
 
     object Util {
