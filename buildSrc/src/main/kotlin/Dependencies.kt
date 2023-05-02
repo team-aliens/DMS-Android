@@ -53,7 +53,7 @@ object Dependencies {
 
     object Util {
         const val LocalDateTime =// todo 분리
-            "com.jakewharton.threetenabp:threetenabp:${Versions.Util.LocalDateTime}"
+            "org.threeten:threetenbp:${Versions.Util.LocalDateTime}"
     }
 
     object Local {

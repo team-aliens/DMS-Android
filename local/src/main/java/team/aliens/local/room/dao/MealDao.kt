@@ -2,7 +2,7 @@ package team.aliens.local.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import team.aliens.local.room.common.RoomProperty
 import team.aliens.local.room.entity.MealEntity
@@ -27,14 +27,14 @@ interface MealDao {
     ): MealEntity
 
     @Insert(
-        onConflict = REPLACE,
+        onConflict = OnConflictStrategy.REPLACE,
     )
     fun saveOne(
         mealEntity: MealEntity,
     )
 
     @Insert(
-        onConflict = REPLACE,
+        onConflict = OnConflictStrategy.REPLACE,
     )
     fun saveAll(
         vararg mealEntities: MealEntity,

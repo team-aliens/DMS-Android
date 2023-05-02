@@ -50,7 +50,7 @@ object Versions {
     }
 
     object Local {
-        const val Room = "2.4.3"
+        const val Room = "2.5.1"
         const val DataStore = "1.0.0"
     }
 
