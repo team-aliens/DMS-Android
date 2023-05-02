@@ -10,17 +10,17 @@ object Versions {
     }
 
     object Local {
-        const val ROOM = "2.4.3"
-        const val DATASTORE = "1.0.0"
+        const val Room = "2.4.3"
+        const val DataStore = "1.0.0"
     }
 
     object Serialization {
-        const val GSON = "2.9.0"
-        const val MOSHI = "1.13.0"
+        const val Gson = "2.9.0"
+        const val Moshi = "1.13.0"
     }
 
     object Di {
-        const val HILT = "2.44"
+        const val Hilt = "2.44"
         const val JavaInject = "1"
     }
 
@@ -43,30 +43,30 @@ object Versions {
     }
 
     object Ui {
-        const val TEDIMAGEPICKER = "1.2.7"
-        const val COIL = "2.0.0-rc01"
-        const val MATERIAL = "1.3.0"
-        const val NAV = "2.5.1"
-        const val ANI_NAV = "0.24.5-alpha"
-        const val LANDSCAPIST = "1.4.7"
-        const val HILT_NAV = "1.0.0"
-        const val VIEWPAGER = "0.23.1"
-        const val COMPOSE = "1.2.0-alpha07"
-        const val ACTIVITY_COMPOSE = "1.4.0"
+        const val TedImagePicker = "1.2.7"
+        const val Coil = "2.0.0-rc01"
+        const val Material = "1.3.0"
+        const val Navigation = "2.5.1"
+        const val NavigationAnimation = "0.24.5-alpha"
+        const val ComposeGlide = "1.4.7"
+        const val ComposeHiltNavigation = "1.0.0"
+        const val Compose = "1.2.0-alpha07"
+        const val ComposeActivity = "1.4.0"
+        const val ViewPager = "0.23.1"
     }
 
     object Remote {
-        const val RETROFIT = "2.7.1"
-        const val OKHTTP = "4.9.3"
+        const val Retrofit = "2.7.1"
+        const val OkHttp = "4.9.3"
     }
 
     object Test {
-        const val JUNIT = "4.13.2"
-        const val MOCKITO = "4.2.0"
-        const val COROUTINES_TEST = "1.6.4"
+        const val JUnit = "4.13.2"
+        const val Mockito = "4.2.0"
+        const val CoroutinesTest = "1.6.4"
     }
 
     object Util {
-        const val LOCALDATETIME = "1.3.1"
+        const val LocalDateTime = "1.3.1"
     }
 }

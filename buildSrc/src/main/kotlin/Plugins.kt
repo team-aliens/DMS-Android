@@ -4,7 +4,7 @@ object Plugins {
         const val Android = "com.android.tools.build:gradle:${Versions.Gradle.Android}"
         const val Kotlin =
             "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Gradle.Kotlin}"
-        const val Hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.Di.HILT}"
+        const val Hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.Di.Hilt}"
     }
 
     object Module {
