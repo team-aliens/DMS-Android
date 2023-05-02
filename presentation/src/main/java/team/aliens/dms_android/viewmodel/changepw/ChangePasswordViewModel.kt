@@ -157,6 +157,8 @@ class ChangePasswordViewModel @Inject constructor(
             is ChangePasswordEvent.SetNewPassword -> {
                 setState(state = oldState.copy(newPassword = event.newPassword))
             }
+
+            else -> {}
         }
     }
 

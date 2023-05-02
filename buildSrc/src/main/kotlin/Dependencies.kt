@@ -7,11 +7,6 @@ object Dependencies {
         const val Work = "androidx.work:work-runtime-ktx:${Versions.Android.Work}"
     }
 
-    object Kotlin {
-        const val Coroutines =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.Coroutines}"
-    }
-
     object Ui {
         const val ComposeMaterial = "androidx.compose.material:material:${Versions.Ui.Compose}"
         const val Compose = "androidx.compose.ui:ui:${Versions.Ui.Compose}"
@@ -21,7 +16,8 @@ object Dependencies {
         const val ComposeTest = "androidx.compose.ui:ui-test-junit4:${Versions.Ui.Compose}"
         const val ComposeUiTooling = "androidx.compose.ui:ui-tooling:${Versions.Ui.Compose}"
         const val ComposeUiUtil = "androidx.compose.ui:ui-util:${Versions.Ui.Compose}"
-        const val ComposeNavigation = "androidx.navigation:navigation-compose:${Versions.Ui.Navigation}"
+        const val ComposeNavigation =
+            "androidx.navigation:navigation-compose:${Versions.Ui.Navigation}"
         const val ComposeNavigationAnimation =
             "com.google.accompanist:accompanist-navigation-animation:${Versions.Ui.NavigationAnimation}"
         const val ComposeGlide = "com.github.skydoves:landscapist-glide:${Versions.Ui.ComposeGlide}"

@@ -10,8 +10,7 @@ object Versions {
     }
 
     object Kotlin {
-        const val Kotlin = "1.6.0"
-        const val Coroutines = "1.6.0"
+        const val Kotlin = "1.8.10"
     }
 
     object Java {
@@ -20,11 +19,11 @@ object Versions {
 
     object Gradle {
         const val Android = "7.4.2"
-        const val Kotlin = "1.6.10"
+        const val Kotlin = "1.8.10"
     }
 
     object Ui {
-        const val Compose = "1.2.0-alpha07"
+        const val Compose = "1.4.2"
         const val ComposeActivity = "1.4.0"
         const val ComposeGlide = "1.4.7"
         const val ComposeHiltNavigation = "1.0.0"
