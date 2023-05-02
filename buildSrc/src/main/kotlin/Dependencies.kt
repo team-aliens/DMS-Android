@@ -25,8 +25,8 @@ object Dependencies {
         const val ComposeGlide = "com.github.skydoves:landscapist-glide:${Versions.Ui.ComposeGlide}"
         const val ComposeHiltNavigation =
             "androidx.hilt:hilt-navigation-compose:${Versions.Ui.ComposeHiltNavigation}"
-        const val ViewPager = "com.google.accompanist:accompanist-pager:${Versions.Ui.ViewPager}"
-        const val ViewPagerIndicator =
+        const val Pager = "com.google.accompanist:accompanist-pager:${Versions.Ui.ViewPager}"
+        const val PagerIndicator =
             "com.google.accompanist:accompanist-pager-indicators:${Versions.Ui.ViewPager}"
 
         const val Material = "com.google.android.material:material:${Versions.Ui.Material}"
