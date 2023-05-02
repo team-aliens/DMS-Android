@@ -55,13 +55,13 @@ object Versions {
     }
 
     object Remote {
-        const val Retrofit = "2.7.1"
-        const val OkHttp = "4.9.3"
+        const val Retrofit = "2.9.0"
+        const val OkHttp = "4.11.0"
     }
 
     object Test {
         const val JUnit = "4.13.2"
-        const val Mockito = "4.2.0"
+        const val Mockito = "5.3.1"
         const val CoroutinesTest = "1.6.4"
     }
 }
