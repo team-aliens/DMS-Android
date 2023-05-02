@@ -1,17 +1,17 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.KotlinKapt)
 }
 
 android {
 
     namespace = "team.aliens.design_system"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,39 +31,31 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-        kotlinCompilerVersion = ProjectProperties.KOTLIN_VERSION
+        kotlinCompilerExtensionVersion = Versions.Ui.Compose
+        kotlinCompilerVersion = Versions.Kotlin.Kotlin
     }
 
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
 
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
 dependencies {
-    implementation(Dependency.Compose.COMPOSE_ACTIVITY)
-    implementation(Dependency.Compose.COMPOSE_MATERIAL)
-    implementation(Dependency.Compose.COMPOSE_PREVIEW)
-    implementation(Dependency.Compose.COMPOSE_UI)
-    implementation(Dependency.Compose.COMPOSE_NAV)
-    implementation(Dependency.Compose.COMPOSE_ANI_NAV)
-    implementation(Dependency.Compose.COMPOSE_UI_TOOL)
-    implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
+    implementation(Dependencies.Ui.Compose)
+    implementation(Dependencies.Ui.ComposeMaterial)
+    implementation(Dependencies.Ui.ComposePreview)
+    implementation(Dependencies.Ui.ComposeActiviy)
+    implementation(Dependencies.Ui.ComposeNavigation)
+    implementation(Dependencies.Ui.ComposeNavigationAnimation)
+    implementation(Dependencies.Ui.ComposeUiTooling)
+    implementation(Dependencies.Ui.ComposeGlide)
+    androidTestImplementation(Dependencies.Ui.ComposeTest)
+    debugImplementation(Dependencies.Ui.ComposeUiTooling)
 
-    androidTestImplementation(Dependency.Compose.COMPOSE_TEST)
-    debugImplementation(Dependency.Compose.COMPOSE_UI_TOOL)
-
-    implementation(Dependency.Ui.APP_COMPAT)
-    implementation(Dependency.Ui.CORE_KTX)
-    implementation(Dependency.Ui.FRAGMENT_KTX)
-    implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
-    implementation(Dependency.Ui.MATERIAL)
-    implementation(Dependency.Ui.CORE_KTX)
-
-    implementation(Dependency.UnitTest.JUNIT)
+    implementation(Dependencies.Test.JUnit)
 }

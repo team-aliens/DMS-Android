@@ -1,17 +1,17 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.KotlinKapt)
+    id(Plugins.Module.Hilt)
 }
 
 android {
     namespace = "team.aliens.local"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -27,8 +27,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
+    }
+
+    kotlinOptions {
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
@@ -37,20 +41,18 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    implementation(Dependencies.Di.JavaInject)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Serialization.Moshi)
+    kapt(Dependencies.Serialization.MoshiCompiler)
 
-    implementation(Dependency.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.Local.DataStorePreferences)
 
-    implementation(Dependency.Room.ROOM_KTX)
-    kapt(Dependency.Room.ROOM_COMPILER)
+    implementation(Dependencies.Local.Room)
+    implementation(Dependencies.Local.RoomRuntime)
+    kapt(Dependencies.Local.RoomCompiler)
 
-    testImplementation(Dependency.UnitTest.JUNIT)
-
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+    testImplementation(Dependencies.Test.JUnit)
 }

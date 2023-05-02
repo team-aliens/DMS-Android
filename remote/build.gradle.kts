@@ -1,19 +1,19 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.KotlinKapt)
+    id(Plugins.Module.Hilt)
 }
 
 android {
     namespace = "team.aliens.remote"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -41,27 +41,28 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
+    }
+
+    kotlinOptions {
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
 dependencies {
-
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    implementation(Dependencies.Di.JavaInject)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Remote.Retrofit)
 
-    testImplementation(Dependency.UnitTest.JUNIT)
+    implementation(Dependencies.Serialization.GsonConverter)
 
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+    testImplementation(Dependencies.Test.JUnit)
 }
 
 fun fetchProperty(

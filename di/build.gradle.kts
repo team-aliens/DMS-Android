@@ -1,17 +1,17 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.Hilt)
+    id(Plugins.Module.KotlinKapt)
 }
 
 android {
     namespace = "team.aliens.di"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -27,43 +27,39 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
 dependencies {
-
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":remote"))
     implementation(project(":local"))
-
     implementation(project(":local_database"))
     implementation(project(":local_domain"))
 
+    implementation(Dependencies.Util.LocalDateTime)
 
-    implementation(Dependency.Ui.LOCALDATETIME)
+    implementation(Dependencies.Remote.Retrofit)
+    implementation(Dependencies.Remote.OkHttp)
+    implementation(Dependencies.Remote.OkHttp)
+    implementation(Dependencies.Remote.OkHttpLoggingInterceptor)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
-    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Di.Hilt)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Serialization.Moshi)
+    kapt(Dependencies.Serialization.MoshiCompiler)
+    implementation(Dependencies.Serialization.GsonConverter)
 
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
+    implementation(Dependencies.Local.Room)
+    implementation(Dependencies.Local.RoomRuntime)
+    kapt(Dependencies.Local.RoomCompiler)
 
-    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
-    implementation(Dependency.Retrofit.LOGINTERCEPTER)
-
-    implementation(Dependency.Room.ROOM_KTX)
-    implementation(Dependency.Room.ROOM_RUNTIME)
-    kapt(Dependency.Room.ROOM_COMPILER)
-
-    implementation(Dependency.DataStore.DATASTORE_PREF)
+    implementation(Dependencies.Local.DataStorePreferences)
 }

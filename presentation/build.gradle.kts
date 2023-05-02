@@ -1,21 +1,21 @@
 plugins {
-    id(BuildPlugins.ANDROID_APPLICATION_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(Plugins.Module.AndroidApplication)
+    id(Plugins.Module.Hilt)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.KotlinKapt)
 }
 
 android {
 
     namespace = "team.aliens.presentation"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        applicationId = ProjectProperties.APPLICATION_ID
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
-        versionCode = ProjectProperties.VERSION_CODE
-        versionName = ProjectProperties.VERSION_NAME
+        applicationId = ProjectProperties.ApplicationId
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
+        versionCode = ProjectProperties.VersionCode
+        versionName = ProjectProperties.VersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,20 +37,20 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-        kotlinCompilerVersion = ProjectProperties.KOTLIN_VERSION
+        kotlinCompilerExtensionVersion = Versions.Ui.Compose
+        kotlinCompilerVersion = Versions.Kotlin.Kotlin
     }
 
     packagingOptions {
         exclude("META-INF/gradle/incremental.annotation.processors")
     }
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
@@ -60,53 +60,29 @@ dependencies {
     implementation(project(":di"))
     implementation(project(":design-system"))
 
-    implementation(Dependency.Ui.CORE_KTX)
-    implementation(Dependency.Ui.APP_COMPAT)
-    implementation(Dependency.Ui.MATERIAL)
-    implementation(Dependency.Ui.CONSTRAINT_LAYOUT)
-    implementation(Dependency.Ui.CIRCLE_IMAGE_VIEW)
-    implementation(Dependency.Ui.GLIDE_CORE)
-    implementation(Dependency.Ui.FRAGMENT_KTX)
+    implementation(Dependencies.Android.CoreX)
+    implementation(Dependencies.Android.ActivityX)
+    implementation(Dependencies.Android.AppCompat)
+    implementation(Dependencies.Android.WorkX)
+    implementation(Dependencies.Android.LifeCycleViewModelX)
 
-    implementation(Dependency.WorkManager.CORE)
-    implementation(Dependency.WorkManager.KTX)
-    kapt(Dependency.Ui.GLIDE_COMPILER)
+    implementation(Dependencies.Ui.Material)
+    implementation(Dependencies.Ui.Compose)
+    implementation(Dependencies.Ui.ComposeMaterial)
+    implementation(Dependencies.Ui.ComposePreview)
+    implementation(Dependencies.Ui.ComposeActiviy)
+    implementation(Dependencies.Ui.ComposeNavigation)
+    implementation(Dependencies.Ui.ComposeNavigationAnimation)
+    implementation(Dependencies.Ui.ComposeGlide)
+    implementation(Dependencies.Ui.ComposeHiltNavigation)
+    implementation(Dependencies.Ui.ComposeUiUtil)
+    implementation(Dependencies.Ui.Pager)
+    implementation(Dependencies.Ui.PagerIndicator)
+    implementation(Dependencies.Ui.TedImagePicker)
+    implementation(Dependencies.Ui.Coil)
 
-    implementation(Dependency.Compose.COMPOSE_ACTIVITY)
-    implementation(Dependency.Compose.COMPOSE_MATERIAL)
-    implementation(Dependency.Compose.COMPOSE_PREVIEW)
-    implementation(Dependency.Compose.COMPOSE_UI)
-    implementation(Dependency.Compose.COMPOSE_NAV)
-    implementation(Dependency.Compose.COMPOSE_ANI_NAV)
-    implementation(Dependency.Compose.COMPOSE_LANDSCAPIST)
-    implementation(Dependency.Compose.COMPOSE_HILT_NAV)
-    implementation(Dependency.Compose.COMPOSE_VIEWBINDING)
-    implementation(Dependency.Compose.COMPOSE_UI_UTIL)
+    implementation(Dependencies.Di.Hilt)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependency.Navigation.NAVIGATION_FRAGMENT)
-    implementation(Dependency.Navigation.NAVIGATION_UI)
-
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.HILT_WORK)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
-
-    implementation(Dependency.Ui.FRAGMENT_KTX_NEW)
-
-    implementation(Dependency.Lifecycle.LIVEDATA)
-    implementation(Dependency.Lifecycle.VIEWMODEL)
-    implementation(Dependency.Lifecycle.RUNTIME)
-
-    implementation(Dependency.TedImagePicker.TEDIMAGEPICKER)
-
-    //TODO: 추후에 커스텀으로 만들 예정입니다.
-    implementation(Dependency.PinEntryEditText.PINENTRYEDITTEXT)
-
-    implementation(Dependency.ViewModel.VIEWMODEL)
-    implementation(Dependency.ViewModel.LIVEDATA)
-
-    implementation(Dependency.UnitTest.JUNIT)
-
-    implementation(Dependency.Compose.VIEWPAGER)
-    implementation(Dependency.Compose.VIEWPAGERINDICATE)
-    implementation(Dependency.Ui.CIRCLECOMPOSEIMAGE)
+    implementation(Dependencies.Test.JUnit)
 }
