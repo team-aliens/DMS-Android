@@ -1,10 +1,12 @@
 object Dependencies {
 
     object Android {
-        const val Core = "androidx.core:core-ktx:${Versions.Android.Core}"
-        const val Activity = "androidx.activity:activity-ktx:${Versions.Android.Activity}"
+        const val CoreX = "androidx.core:core-ktx:${Versions.Android.CoreX}"
+        const val ActivityX = "androidx.activity:activity-ktx:${Versions.Android.ActivityX}"
         const val AppCompat = "androidx.appcompat:appcompat:${Versions.Android.AppCompat}"
-        const val Work = "androidx.work:work-runtime-ktx:${Versions.Android.Work}"
+        const val WorkX = "androidx.work:work-runtime-ktx:${Versions.Android.WorkRuntime}"
+        const val LifeCycleViewModelX =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.Android.LifeCycleRunTime}"
     }
 
     object Ui {
@@ -52,11 +54,6 @@ object Dependencies {
     object Util {
         const val LocalDateTime =// todo 분리
             "com.jakewharton.threetenabp:threetenabp:${Versions.Util.LocalDateTime}"
-    }
-
-    object Lifecycle {
-        const val ViewModel =
-            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LifeCycle.LifeCycle}"
     }
 
     object Local {

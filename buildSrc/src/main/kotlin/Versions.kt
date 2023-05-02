@@ -3,10 +3,11 @@ import org.gradle.api.JavaVersion
 object Versions {
 
     object Android {
-        const val Core = "1.5.0"
-        const val Activity = "1.2.3"
-        const val AppCompat = "1.3.0"
-        const val Work = "2.6.0-alpha01"
+        const val CoreX = "1.10.0"
+        const val ActivityX = "1.7.1"
+        const val AppCompat = "1.6.1"
+        const val WorkRuntime = "2.8.1"
+        const val LifeCycleRunTime = "2.6.1"
     }
 
     object Kotlin {
@@ -47,10 +48,6 @@ object Versions {
 
     object Util {
         const val LocalDateTime = "1.3.1"
-    }
-
-    object LifeCycle {
-        const val LifeCycle = "2.4.1"
     }
 
     object Local {

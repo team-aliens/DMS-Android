@@ -60,10 +60,11 @@ dependencies {
     implementation(project(":di"))
     implementation(project(":design-system"))
 
-    implementation(Dependencies.Android.Core)
-    implementation(Dependencies.Android.Activity)
+    implementation(Dependencies.Android.CoreX)
+    implementation(Dependencies.Android.ActivityX)
     implementation(Dependencies.Android.AppCompat)
-    implementation(Dependencies.Android.Work)
+    implementation(Dependencies.Android.WorkX)
+    implementation(Dependencies.Android.LifeCycleViewModelX)
 
     implementation(Dependencies.Ui.Material)
     implementation(Dependencies.Ui.Compose)
@@ -82,8 +83,6 @@ dependencies {
 
     implementation(Dependencies.Di.Hilt)
     kapt(Dependencies.Di.HiltCompiler)
-
-    implementation(Dependencies.Lifecycle.ViewModel)
 
     implementation(Dependencies.Test.JUnit)
 }
