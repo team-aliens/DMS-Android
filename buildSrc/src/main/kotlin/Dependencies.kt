@@ -60,7 +60,7 @@ object Dependencies {
 
     object Lifecycle {
         const val ViewModel =
-            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LifeCycle.LIFECYCLE}"
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LifeCycle.LifeCycle}"
     }
 
     object Local {

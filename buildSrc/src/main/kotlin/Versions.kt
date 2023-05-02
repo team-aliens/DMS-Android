@@ -39,19 +39,19 @@ object Versions {
     }
 
     object LifeCycle {
-        const val LIFECYCLE = "2.4.1"
+        const val LifeCycle = "2.4.1"
     }
 
     object Ui {
-        const val TedImagePicker = "1.2.7"
-        const val Coil = "2.0.0-rc01"
-        const val Material = "1.3.0"
-        const val Navigation = "2.5.1"
-        const val NavigationAnimation = "0.24.5-alpha"
         const val ComposeGlide = "1.4.7"
         const val ComposeHiltNavigation = "1.0.0"
         const val Compose = "1.2.0-alpha07"
         const val ComposeActivity = "1.4.0"
+        const val Coil = "2.0.0-rc01"
+        const val Material = "1.3.0"
+        const val Navigation = "2.5.1"
+        const val NavigationAnimation = "0.24.5-alpha"
+        const val TedImagePicker = "1.2.7"
         const val ViewPager = "0.23.1"
     }
 
