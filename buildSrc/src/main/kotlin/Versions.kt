@@ -1,10 +1,12 @@
+import org.gradle.api.JavaVersion
+
 object Versions {
 
     object Android {
-        const val CORE_KTX = "1.5.0"
-        const val ACTIVITY_KTX = "1.2.3"
-        const val APP_COMPAT = "1.3.0"
-        const val WORK_MANAGER = "2.6.0-alpha01"
+        const val Core = "1.5.0"
+        const val Activity = "1.2.3"
+        const val AppCompat = "1.3.0"
+        const val Work = "2.6.0-alpha01"
     }
 
     object Local {
@@ -19,9 +21,21 @@ object Versions {
 
     object Di {
         const val HILT = "2.44"
-        const val HILT_WORK = "1.0.0"
-        const val HILTVIEWMODEL = "1.0.0-alpha03"
         const val JavaInject = "1"
+    }
+
+    object Java {
+        val Java = JavaVersion.VERSION_11
+    }
+
+    object Gradle {
+        const val Android = "7.2.1"
+        const val Kotlin = "1.6.10"
+    }
+
+    object Kotlin {
+        const val Kotlin = "1.6.0"
+        const val Coroutines = "1.6.0"
     }
 
     object LifeCycle {

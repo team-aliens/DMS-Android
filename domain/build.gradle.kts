@@ -29,7 +29,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget =Versions.Java.Java.toString()
     }
 }
 
@@ -42,5 +42,5 @@ dependencies {
     implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependencies.Kotlin.Coroutines)
+    //implementation(Dependencies.Kotlin.Coroutines)
 }

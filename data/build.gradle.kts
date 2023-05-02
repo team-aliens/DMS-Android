@@ -27,12 +27,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
 
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
@@ -52,8 +52,6 @@ dependencies {
 
     implementation(Dependencies.Remote.Retrofit)
     implementation(Dependencies.Remote.OkHttp)
-
-    implementation(Dependencies.Kotlin.Coroutines)
 
     testImplementation(Dependencies.Test.JUnit)
     testImplementation(Dependencies.Test.Mockito)

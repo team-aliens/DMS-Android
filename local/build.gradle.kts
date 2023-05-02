@@ -27,8 +27,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
+    }
+
+    kotlinOptions {
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
@@ -51,6 +55,4 @@ dependencies {
     kapt(Dependencies.Local.RoomCompiler)
 
     testImplementation(Dependencies.Test.JUnit)
-
-    implementation(Dependencies.Kotlin.Coroutines)
 }

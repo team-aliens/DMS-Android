@@ -32,16 +32,16 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.Ui.COMPOSE
-        kotlinCompilerVersion = ProjectProperties.KOTLIN_VERSION
+        kotlinCompilerVersion = Versions.Kotlin.Kotlin
     }
 
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
 
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 

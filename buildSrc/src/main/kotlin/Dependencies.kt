@@ -1,15 +1,15 @@
 object Dependencies {
 
     object Android {
-        const val Core = "androidx.core:core-ktx:${Versions.Android.CORE_KTX}"
-        const val Activity = "androidx.activity:activity-ktx:${Versions.Android.ACTIVITY_KTX}"
-        const val AppCompat = "androidx.appcompat:appcompat:${Versions.Android.APP_COMPAT}"
-        const val Work = "androidx.work:work-runtime-ktx:${Versions.Android.WORK_MANAGER}"
+        const val Core = "androidx.core:core-ktx:${Versions.Android.Core}"
+        const val Activity = "androidx.activity:activity-ktx:${Versions.Android.Activity}"
+        const val AppCompat = "androidx.appcompat:appcompat:${Versions.Android.AppCompat}"
+        const val Work = "androidx.work:work-runtime-ktx:${Versions.Android.Work}"
     }
 
     object Kotlin {
         const val Coroutines =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${ProjectProperties.KOTLINX_COROUTINES}"
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.Coroutines}"
     }
 
     object Ui {

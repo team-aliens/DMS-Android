@@ -37,20 +37,20 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.Ui.COMPOSE
-        kotlinCompilerVersion = ProjectProperties.KOTLIN_VERSION
+        kotlinCompilerVersion = Versions.Kotlin.Kotlin
     }
 
     packagingOptions {
         exclude("META-INF/gradle/incremental.annotation.processors")
     }
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
