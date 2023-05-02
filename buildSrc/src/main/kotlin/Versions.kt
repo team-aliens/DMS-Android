@@ -19,7 +19,7 @@ object Versions {
     }
 
     object Gradle {
-        const val Android = "7.2.1"
+        const val Android = "7.4.2"
         const val Kotlin = "1.6.10"
     }
 
