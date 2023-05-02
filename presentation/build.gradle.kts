@@ -8,14 +8,14 @@ plugins {
 android {
 
     namespace = "team.aliens.presentation"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        applicationId = ProjectProperties.APPLICATION_ID
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
-        versionCode = ProjectProperties.VERSION_CODE
-        versionName = ProjectProperties.VERSION_NAME
+        applicationId = ProjectProperties.ApplicationId
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
+        versionCode = ProjectProperties.VersionCode
+        versionName = ProjectProperties.VersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
