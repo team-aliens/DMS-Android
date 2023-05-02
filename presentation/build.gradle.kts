@@ -42,7 +42,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = Versions.Ui.COMPOSE
         kotlinCompilerVersion = ProjectProperties.KOTLIN_VERSION
     }
 
@@ -85,5 +85,5 @@ dependencies {
 
     implementation(Dependencies.Lifecycle.ViewModel)
 
-    implementation(Dependencies.UnitTest.JUnit)
+    implementation(Dependencies.Test.JUnit)
 }

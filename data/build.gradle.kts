@@ -47,7 +47,7 @@ dependencies {
     implementation(Dependencies.Util.LocalDateTime)
 
     implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.Inject)
+    implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Remote.Retrofit)
@@ -55,10 +55,7 @@ dependencies {
 
     implementation(Dependencies.Kotlin.Coroutines)
 
-    testImplementation(Dependencies.UnitTest.JUnit)
-    testImplementation(Dependencies.UnitTest.Mockito)
-    testImplementation(Dependencies.UnitTest.MockitoKotlin)
-    testImplementation(Dependencies.UnitTest.MockitoInline)
-
-    testImplementation(Dependencies.Kotlin.CoroutinesTest)
+    testImplementation(Dependencies.Test.JUnit)
+    testImplementation(Dependencies.Test.Mockito)
+    testImplementation(Dependencies.Test.CoroutinesTest)
 }

@@ -38,7 +38,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.Inject)
+    implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Serialization.Moshi)
@@ -50,7 +50,7 @@ dependencies {
     implementation(Dependencies.Local.RoomRuntime)
     kapt(Dependencies.Local.RoomCompiler)
 
-    testImplementation(Dependencies.UnitTest.JUnit)
+    testImplementation(Dependencies.Test.JUnit)
 
     implementation(Dependencies.Kotlin.Coroutines)
 }

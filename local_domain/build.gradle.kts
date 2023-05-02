@@ -37,11 +37,11 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.UnitTest.JUnit)
+    implementation(Dependencies.Test.JUnit)
 
     implementation(Dependencies.Util.LocalDateTime)
 
     implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.Inject)
+    implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
 }

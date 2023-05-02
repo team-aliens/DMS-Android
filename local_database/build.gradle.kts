@@ -51,6 +51,6 @@ dependencies {
     kapt(Dependencies.Local.RoomCompiler)
 
     implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.Inject)
+    implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
 }

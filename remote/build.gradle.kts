@@ -51,14 +51,14 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.Inject)
+    implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Remote.Retrofit)
 
     implementation(Dependencies.Serialization.GsonConverter)
 
-    testImplementation(Dependencies.UnitTest.JUnit)
+    testImplementation(Dependencies.Test.JUnit)
 
     implementation(Dependencies.Kotlin.Coroutines)
 }
