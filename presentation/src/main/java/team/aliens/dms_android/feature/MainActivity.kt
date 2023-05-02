@@ -1,12 +1,16 @@
 package team.aliens.dms_android.feature
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.DormToastHost
 import team.aliens.dms_android.base.BaseActivity
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
@@ -16,42 +20,54 @@ import team.aliens.presentation.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val secondIntent = intent
             val route = secondIntent.getStringExtra("route")
 
+            val scaffoldState = rememberScaffoldState()
+
             if (route != null) {
                 DormTheme(
                     darkTheme = isSystemInDarkTheme(),
                 ) {
-                    val availableFeatures = staticCompositionLocalOf {
-                        mutableMapOf(
-                            Extra.isMealServiceEnabled to intent.getBooleanExtra(
-                                Extra.isMealServiceEnabled, false,
-                            ),
-                            Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
-                                Extra.isNoticeServiceEnabled, false,
-                            ),
-                            Extra.isPointServiceEnabled to intent.getBooleanExtra(
-                                Extra.isPointServiceEnabled, false,
-                            ),
-                            Extra.isStudyRoomEnabled to intent.getBooleanExtra(
-                                Extra.isStudyRoomEnabled, false,
-                            ),
-                            Extra.isRemainServiceEnabled to intent.getBooleanExtra(
-                                Extra.isRemainServiceEnabled, false,
-                            ),
-                        )
-                    }
-
-                    CompositionLocalProvider(
-                        values = arrayOf(LocalAvailableFeatures provides availableFeatures.current),
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        snackbarHost = { hostState ->
+                            DormToastHost(
+                                hostState = hostState,
+                            )
+                        },
                     ) {
-                        RootDms(
-                            route = route,
-                        )
+                        val availableFeatures = staticCompositionLocalOf {
+                            mutableMapOf(
+                                Extra.isMealServiceEnabled to intent.getBooleanExtra(
+                                    Extra.isMealServiceEnabled, false,
+                                ),
+                                Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
+                                    Extra.isNoticeServiceEnabled, false,
+                                ),
+                                Extra.isPointServiceEnabled to intent.getBooleanExtra(
+                                    Extra.isPointServiceEnabled, false,
+                                ),
+                                Extra.isStudyRoomEnabled to intent.getBooleanExtra(
+                                    Extra.isStudyRoomEnabled, false,
+                                ),
+                                Extra.isRemainServiceEnabled to intent.getBooleanExtra(
+                                    Extra.isRemainServiceEnabled, false,
+                                ),
+                            )
+                        }
+
+                        CompositionLocalProvider(
+                            values = arrayOf(LocalAvailableFeatures provides availableFeatures.current),
+                        ) {
+                            RootDms(
+                                route = route,
+                            )
+                        }
                     }
                 }
             }

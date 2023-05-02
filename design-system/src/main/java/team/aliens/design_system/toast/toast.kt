@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +24,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.lang.ref.WeakReference
-import team.aliens.design_system.animate.VerticalAnimationBox
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
@@ -61,10 +59,11 @@ fun rememberToast(): ToastWrapper {
 @Composable
 fun DormToastHost(
     hostState: SnackbarHostState,
-) = SnackbarHost(
-    hostState = hostState,
-    snackbar = { snackbarData ->
-        snackbarData.VerticalAnimationBox {
+) {
+    SnackbarHost(
+        modifier = Modifier.fillMaxSize(),
+        hostState = hostState,
+        snackbar = { snackbarData ->
             when (ToastType.valueOf(snackbarData.actionLabel.toString())) {
                 ToastType.INFO -> {
                     DormInfoToast(
@@ -85,8 +84,8 @@ fun DormToastHost(
                 }
             }
         }
-    }
-)
+    )
+}
 
 @Composable
 private fun DormToast(
@@ -96,11 +95,9 @@ private fun DormToast(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .padding(
                 top = 14.dp,
-            ),
-        verticalArrangement = Arrangement.Top,
+            )
     ) {
         Snackbar(
             modifier = Modifier
