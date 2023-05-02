@@ -46,7 +46,7 @@ object Versions {
     }
 
     object Util {
-        const val LocalDateTime = "1.3.1"
+        const val LocalDateTime = "1.6.8"
     }
 
     object Local {
