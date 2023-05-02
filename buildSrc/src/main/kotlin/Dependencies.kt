@@ -1,8 +1,8 @@
 object Dependencies {
 
     object Android {
-        const val CoreX = "androidx.core:core-ktx:${Versions.Android.CoreX}"
-        const val ActivityX = "androidx.activity:activity-ktx:${Versions.Android.ActivityX}"
+        const val CoreX = "androidx.core:core-ktx:${Versions.Android.Core}"
+        const val ActivityX = "androidx.activity:activity-ktx:${Versions.Android.Activity}"
         const val AppCompat = "androidx.appcompat:appcompat:${Versions.Android.AppCompat}"
         const val WorkX = "androidx.work:work-runtime-ktx:${Versions.Android.WorkRuntime}"
         const val LifeCycleViewModelX =
@@ -14,7 +14,7 @@ object Dependencies {
         const val Compose = "androidx.compose.ui:ui:${Versions.Ui.Compose}"
         const val ComposePreview = "androidx.compose.ui:ui-tooling-preview:${Versions.Ui.Compose}"
         const val ComposeActiviy =
-            "androidx.activity:activity-compose:${Versions.Ui.ComposeActivity}"
+            "androidx.activity:activity-compose:${Versions.Android.Activity}"
         const val ComposeTest = "androidx.compose.ui:ui-test-junit4:${Versions.Ui.Compose}"
         const val ComposeUiTooling = "androidx.compose.ui:ui-tooling:${Versions.Ui.Compose}"
         const val ComposeUiUtil = "androidx.compose.ui:ui-util:${Versions.Ui.Compose}"
