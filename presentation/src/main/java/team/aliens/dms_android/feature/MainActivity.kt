@@ -16,7 +16,6 @@ import team.aliens.presentation.R
 import team.aliens.presentation.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
