@@ -3,31 +3,29 @@ package team.aliens.design_system.toast
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.lang.ref.WeakReference
-import kotlinx.coroutines.delay
-import team.aliens.design_system.R
-import team.aliens.design_system.extension.Space
+import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
@@ -61,55 +59,82 @@ fun rememberToast(): ToastWrapper {
 }
 
 @Composable
+fun DormToastHost(
+    hostState: SnackbarHostState,
+) {
+    SnackbarHost(
+        modifier = Modifier.fillMaxSize(),
+        hostState = hostState,
+        snackbar = {
+            when (ToastType.valueOf(it.actionLabel.toString())) {
+                ToastType.INFORMATION -> {
+                    DormInfoToast(
+                        message = it.message,
+                    )
+                }
+
+                ToastType.ERROR -> {
+                    DormErrorToast(
+                        message = it.message,
+                    )
+                }
+
+                ToastType.SUCCESS -> {
+                    DormSuccessToast(
+                        message = it.message,
+                    )
+                }
+
+                else -> {
+                    throw IllegalArgumentException()
+                }
+            }
+        }
+    )
+}
+
+@Composable
 private fun DormToast(
     message: String,
-    messageColor: Color,
     @DrawableRes drawable: Int,
-    shouldShowToast: MutableState<Boolean>,
-    duration: Long,
+    messageColor: Color,
 ) {
-    LaunchedEffect(shouldShowToast.value) {
-        delay(duration)
-        shouldShowToast.value = false
-    }
-
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+    Box(
+        modifier = Modifier.padding(
+            start = 16.dp,
+            end = 16.dp,
+            top = 14.dp,
+        ),
     ) {
-        Space(14.dp)
-        AnimatedVisibility(
-            visible = shouldShowToast.value,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .dormShadow(
+                    color = DormTheme.colors.primaryVariant,
+                    alpha = 0.3f,
+                )
+                .background(
+                    color = DormTheme.colors.surface,
+                    shape = RoundedCornerShape(
+                        size = 4.dp,
+                    )
+                )
+                .padding(
+                    horizontal = 14.dp,
+                    vertical = 12.dp,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .defaultMinSize(
-                        minHeight = 48.dp,
-                    )
-                    .dormShadow(
-                        color = DormTheme.colors.primaryVariant,
-                    )
-                    .clip(
-                        shape = RoundedCornerShape(4.dp),
-                    )
-                    .background(
-                        color = DormTheme.colors.onError,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Space(space = 14.dp)
-                Image(
-                    modifier = Modifier.size(22.dp),
-                    painter = painterResource(id = drawable),
-                    contentDescription = null,
-                )
-                Space(space = 8.dp)
-                Body3(
-                    modifier = Modifier.padding(bottom = 2.dp),
-                    text = message,
-                    color = messageColor,
-                )
-            }
+            Image(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(id = drawable),
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Body3(
+                text = message,
+                color = messageColor,
+            )
         }
     }
 }
@@ -117,48 +142,36 @@ private fun DormToast(
 @Composable
 fun DormInfoToast(
     message: String,
-    shouldShowToast: MutableState<Boolean>,
-    duration: Long = 3000L,
 ) {
     DormToast(
         message = message,
+        drawable = DormIcon.Information.drawableId,
         messageColor = DormTheme.colors.onSurface,
-        drawable = R.drawable.ic_information_toast,
-        shouldShowToast = shouldShowToast,
-        duration = duration,
     )
 }
 
 @Composable
 fun DormErrorToast(
     message: String,
-    shouldShowToast: MutableState<Boolean>,
-    duration: Long = 3000L,
 ) {
     DormToast(
         message = message,
+        drawable = DormIcon.Error.drawableId,
         messageColor = DormTheme.colors.error,
-        drawable = R.drawable.ic_error_toast,
-        shouldShowToast = shouldShowToast,
-        duration = duration,
     )
 }
 
 @Composable
 fun DormSuccessToast(
     message: String,
-    isShowToast: MutableState<Boolean>,
-    duration: Long = 3000L,
 ) {
     DormToast(
         message = message,
+        drawable = DormIcon.Success.drawableId,
         messageColor = DormTheme.colors.primary,
-        drawable = R.drawable.ic_success_toast,
-        shouldShowToast = isShowToast,
-        duration = duration,
     )
 }
 
 enum class ToastType {
-    INFO, ERROR, SUCCESS
+    INFORMATION, ERROR, SUCCESS
 }
