@@ -4,7 +4,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Snackbar
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.lang.ref.WeakReference
 import team.aliens.design_system.icon.DormIcon
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 
@@ -63,24 +65,28 @@ fun DormToastHost(
     SnackbarHost(
         modifier = Modifier.fillMaxSize(),
         hostState = hostState,
-        snackbar = { snackbarData ->
-            when (ToastType.valueOf(snackbarData.actionLabel.toString())) {
+        snackbar = {
+            when (ToastType.valueOf(it.actionLabel.toString())) {
                 ToastType.INFORMATION -> {
                     DormInfoToast(
-                        message = snackbarData.message,
+                        message = it.message,
                     )
                 }
 
                 ToastType.ERROR -> {
                     DormErrorToast(
-                        message = snackbarData.message,
+                        message = it.message,
+                    )
+                }
+
+                ToastType.SUCCESS -> {
+                    DormSuccessToast(
+                        message = it.message,
                     )
                 }
 
                 else -> {
-                    DormSuccessToast(
-                        message = snackbarData.message,
-                    )
+                    throw IllegalArgumentException()
                 }
             }
         }
@@ -93,38 +99,45 @@ private fun DormToast(
     @DrawableRes drawable: Int,
     messageColor: Color,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(
-                top = 14.dp,
-            )
+    Box(
+        modifier = Modifier.padding(
+            start = 16.dp,
+            end = 16.dp,
+            top = 14.dp,
+        ),
     ) {
-        Snackbar(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .dormShadow(
+                    color = DormTheme.colors.primaryVariant,
+                    alpha = 0.3f,
+                )
+                .background(
+                    color = DormTheme.colors.surface,
+                    shape = RoundedCornerShape(
+                        size = 4.dp,
+                    )
+                )
                 .padding(
-                    horizontal = 16.dp,
+                    horizontal = 14.dp,
+                    vertical = 12.dp,
                 ),
-            backgroundColor = DormTheme.colors.surface,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = drawable),
-                    contentDescription = null,
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Body3(
-                    text = message,
-                    color = messageColor,
-                )
-            }
+            Image(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(id = drawable),
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Body3(
+                text = message,
+                color = messageColor,
+            )
         }
     }
 }
-
 
 @Composable
 fun DormInfoToast(

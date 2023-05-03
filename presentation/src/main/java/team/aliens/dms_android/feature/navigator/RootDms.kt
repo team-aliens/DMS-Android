@@ -48,18 +48,18 @@ fun RootDms(
 
     val scaffoldState = rememberScaffoldState()
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = { hostState ->
-            DormToastHost(
-                hostState = hostState,
-            )
-        },
+    Surface(
+        modifier = Modifier.background(
+            DormTheme.colors.background,
+        )
     ) {
-        Surface(
-            modifier = Modifier.background(
-                DormTheme.colors.background,
-            )
+        Scaffold(
+            scaffoldState = scaffoldState,
+            snackbarHost = { hostState ->
+                DormToastHost(
+                    hostState = hostState,
+                )
+            },
         ) {
             NavHost(
                 navController = navController,
