@@ -65,7 +65,7 @@ fun DormToastHost(
         hostState = hostState,
         snackbar = { snackbarData ->
             when (ToastType.valueOf(snackbarData.actionLabel.toString())) {
-                ToastType.INFO -> {
+                ToastType.INFORMATION -> {
                     DormInfoToast(
                         message = snackbarData.message,
                     )
@@ -160,5 +160,5 @@ fun DormSuccessToast(
 }
 
 enum class ToastType {
-    INFO, ERROR, SUCCESS
+    INFORMATION, ERROR, SUCCESS
 }
