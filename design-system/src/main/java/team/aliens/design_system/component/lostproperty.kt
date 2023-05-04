@@ -1,7 +1,14 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -17,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
@@ -103,7 +111,7 @@ private fun LostProperty(
                         color = Color.Transparent,
                         shape = LostPropertyShape,
                     ),
-                imageModel = property.propertyImage,
+                imageModel = { property.propertyImage },
             )
 
             Space(space = 16.dp)
@@ -124,8 +132,10 @@ private fun LostProperty(
                             .size(LostPropertyProfileSize)
                             .background(color = Color.Transparent)
                             .clip(CircleShape),
-                        imageModel = property.profileImage,
-                        contentScale = ContentScale.Crop,
+                        imageModel = { property.profileImage },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                        )
                     )
 
                     Space(space = 10.dp)

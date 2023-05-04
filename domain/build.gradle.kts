@@ -1,18 +1,18 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.Hilt)
+    id(Plugins.Module.KotlinKapt)
 }
 
 android {
 
     namespace = "team.aliens.domain"
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -29,19 +29,18 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget =Versions.Java.Java.toString()
     }
 }
 
 dependencies {
-    implementation(Dependency.UnitTest.JUNIT)
+    implementation(Dependencies.Test.JUnit)
 
-    implementation(Dependency.Ui.LOCALDATETIME)
+    implementation(Dependencies.Util.LocalDateTime)
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Di.Hilt)
+    implementation(Dependencies.Di.JavaInject)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
+    //implementation(Dependencies.Kotlin.Coroutines)
 }

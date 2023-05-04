@@ -8,6 +8,10 @@ sealed class CommonException(
         message = "No internet",
     )
 
+    object SignInRequired: CommonException(
+        message = "Sign in required"
+    )
+
     object Unknown : CommonException(
         message = "Unknown",
     )

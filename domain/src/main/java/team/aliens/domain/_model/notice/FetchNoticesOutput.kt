@@ -21,3 +21,19 @@ data class FetchNoticesOutput(
         val createdAt: String,
     )
 }
+
+fun FetchNoticesOutput.NoticeInformation.toModel(): Notice {
+    return Notice(
+        id = this.id,
+        title = this.title,
+        createdAt = this.createdAt,
+    )
+}
+
+fun List<FetchNoticesOutput.NoticeInformation>.toModel(): List<Notice> {
+    return this.map(FetchNoticesOutput.NoticeInformation::toModel)
+}
+
+fun List<FetchNoticesOutput.NoticeInformation>.toTypedArray(): Array<Notice> {
+    return this.toModel().toTypedArray()
+}

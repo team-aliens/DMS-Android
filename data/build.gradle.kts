@@ -1,16 +1,16 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id(Plugins.Module.AndroidLibrary)
+    id(Plugins.Module.KotlinAndroid)
+    id(Plugins.Module.Hilt)
+    id(Plugins.Module.KotlinKapt)
 }
 
 android {
-    compileSdk = ProjectProperties.COMPILE_SDK_VERSION
+    compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
-        minSdk = ProjectProperties.MIN_SDK_VERSION
-        targetSdk = ProjectProperties.TARGET_SDK_VERSION
+        minSdk = ProjectProperties.MinSdkVersion
+        targetSdk = ProjectProperties.TargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -27,39 +27,33 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = ProjectProperties.JAVA_VERSION
-        targetCompatibility = ProjectProperties.JAVA_VERSION
+        sourceCompatibility = Versions.Java.Java
+        targetCompatibility = Versions.Java.Java
     }
 
     kotlinOptions {
-        jvmTarget = ProjectProperties.JAVA_VERSION.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
 }
 
 dependencies {
     implementation(project(":domain"))
     implementation(project(":local_database"))
-    implementation(Dependency.Moshi.MOSHI)
-    kapt(Dependency.Moshi.MOSHI_COMPILER)
 
-    implementation(Dependency.Ui.LOCALDATETIME)
+    implementation(Dependencies.Serialization.Moshi)
+    kapt(Dependencies.Serialization.MoshiCompiler)
+    implementation(Dependencies.Serialization.GsonConverter)
 
-    implementation(Dependency.Hilt.HILT_ANDROID)
-    implementation(Dependency.Hilt.INJECT)
-    kapt(Dependency.Hilt.HILT_ANDROID_COMPILER)
+    implementation(Dependencies.Util.LocalDateTime)
 
-    implementation(Dependency.Retrofit.RETROFIT)
-    implementation(Dependency.Retrofit.RETROFIT_CONVERTER_GSON)
+    implementation(Dependencies.Di.Hilt)
+    implementation(Dependencies.Di.JavaInject)
+    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependency.Retrofit.OKHTTP_LOGGING)
+    implementation(Dependencies.Remote.Retrofit)
+    implementation(Dependencies.Remote.OkHttp)
 
-    implementation(Dependency.Kotlin.COROUTINES_CORE)
-    implementation(Dependency.Kotlin.COROUTINES_ANDROID)
-
-    testImplementation(Dependency.UnitTest.JUNIT)
-    testImplementation(Dependency.UnitTest.MOCKITO)
-    testImplementation(Dependency.UnitTest.MOCKITO_KOTLIN)
-    testImplementation(Dependency.UnitTest.MOCKITO_INLINE)
-
-    testImplementation(Dependency.CoroutineTest.COROUTINES_TEST)
+    testImplementation(Dependencies.Test.JUnit)
+    testImplementation(Dependencies.Test.Mockito)
+    testImplementation(Dependencies.Test.CoroutinesTest)
 }

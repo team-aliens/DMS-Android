@@ -2,6 +2,9 @@ package team.aliens.dms_android.viewmodel.image
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
@@ -9,25 +12,28 @@ import team.aliens.dms_android.feature.image.ConfirmImageEvent
 import team.aliens.dms_android.feature.image.ConfirmImageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.file.RemoteUploadFileUseCase
-import team.aliens.domain.usecase.students.RemoteEditProfileImageUseCase
+import team.aliens.domain._model.file.UploadFileInput
+import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.NoInternetException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.file.UploadFileUseCase
+import team.aliens.domain.usecase.student.EditProfileUseCase
 import java.io.File
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class ConfirmImageViewModel @Inject constructor(
-    private val remoteUploadFileUseCase: RemoteUploadFileUseCase,
-    private val remoteEditProfileImageUseCase: RemoteEditProfileImageUseCase,
+    private val uploadFileUseCase: UploadFileUseCase,
+    private val editProfileUseCase: EditProfileUseCase,
 ) : BaseViewModel<ConfirmImageState, ConfirmImageEvent>() {
 
     override val initialState: ConfirmImageState
         get() = ConfirmImageState.getDefaultInstance()
 
-    internal lateinit var profileUrl: String
+    internal lateinit var profileImageUrl: String
 
     private var _confirmImageEvent = MutableEventFlow<Event>()
     internal val confirmImageEvent = _confirmImageEvent.asEventFlow()
@@ -38,9 +44,13 @@ class ConfirmImageViewModel @Inject constructor(
     internal fun uploadImage() {
         runBlocking {
             kotlin.runCatching {
-                remoteUploadFileUseCase.execute(state.value.selectedImage!!) // non-null checked
+                uploadFileUseCase(
+                    uploadFileInput = UploadFileInput(
+                        state.value.selectedImage!!,
+                    ), // non-null checked
+                )
             }.onSuccess {
-                profileUrl = it.fileUrl
+                profileImageUrl = it.fileUrl
             }.onFailure {
                 emitEvent(
                     getEventFromThrowable(it),
@@ -57,9 +67,13 @@ class ConfirmImageViewModel @Inject constructor(
 
                 uploadImage()
 
-                check(this@ConfirmImageViewModel::profileUrl.isInitialized)
+                check(this@ConfirmImageViewModel::profileImageUrl.isInitialized)
 
-                remoteEditProfileImageUseCase.execute(profileUrl)
+                editProfileUseCase(
+                    editProfileInput = EditProfileInput(
+                        profileImageUrl = profileImageUrl,
+                    ),
+                )
             }.onSuccess {
                 emitEvent(
                     Event.ProfileEdited,
@@ -97,7 +111,7 @@ class ConfirmImageViewModel @Inject constructor(
 
     internal fun setConfirmButtonState(
         confirmButtonState: Boolean,
-    ){
+    ) {
         viewModelScope.launch(Dispatchers.Main) {
             _confirmImageButtonState.emit(confirmButtonState)
         }

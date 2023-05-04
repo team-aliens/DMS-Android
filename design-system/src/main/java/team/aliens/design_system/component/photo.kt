@@ -97,7 +97,7 @@ private fun Photo(
                 .clip(
                     PhotoShape,
                 ),
-            imageModel = photoUrl,
+            imageModel = { photoUrl },
         )
 
         Image(

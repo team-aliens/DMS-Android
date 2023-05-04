@@ -7,16 +7,18 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.usecase.schools.RemoteSchoolCodeUseCase
-import java.util.*
+import team.aliens.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
+import java.util.TooManyListenersException
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ExamineSchoolCodeViewModel @Inject constructor(
-    private val remoteSchoolCodeUseCase: RemoteSchoolCodeUseCase,
+    private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
 ) : ViewModel() {
 
     private val _examineSchoolCodeEvent = MutableEventFlow<ExamineSchoolCodeEvent>()
@@ -24,10 +26,14 @@ class ExamineSchoolCodeViewModel @Inject constructor(
 
     var schoolId: UUID = UUID(0, 0)
 
-    internal fun examineSchoolCode(schoolCode: String) {
+    internal fun examineSchoolCode(
+        schoolCode: String,
+    ) {
         viewModelScope.launch {
             kotlin.runCatching {
-                schoolId = remoteSchoolCodeUseCase.execute(schoolCode).schoolId
+                schoolId = examineSchoolVerificationCodeUseCase(
+                    ExamineSchoolVerificationCodeInput(schoolCode),
+                ).schoolId
             }.onSuccess {
                 event(ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess)
             }.onFailure {
@@ -46,7 +52,7 @@ class ExamineSchoolCodeViewModel @Inject constructor(
 private fun getEventFromThrowable(
     throwable: Throwable?,
 ): ExamineSchoolCodeEvent =
-    when(throwable) {
+    when (throwable) {
         is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
         is UnauthorizedException -> ExamineSchoolCodeEvent.MissMatchSchoolCode
         is TooManyListenersException -> ExamineSchoolCodeEvent.TooManyRequestException

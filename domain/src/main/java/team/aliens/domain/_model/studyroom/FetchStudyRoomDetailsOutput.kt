@@ -1,8 +1,11 @@
 package team.aliens.domain._model.studyroom
 
 import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.*
-import java.util.*
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.AVAILABLE
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.EMPTY
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.IN_USE
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.UNAVAILABLE
+import java.util.UUID
 
 /**
  * A response returned when fetching study room details
@@ -16,11 +19,15 @@ import java.util.*
  * @property westDescription the description of the west side of the study room
  * @property southDescription the description of the south side of the study room
  * @property northDescription the description of the north side of the study room
+ * @property totalWidthSize the total width size of the study room
+ * @property totalHeightSize the total height size of the study room
  * @property seats the seats of the study room
  */
 data class FetchStudyRoomDetailsOutput(
     val floor: Int,
     val name: String,
+    val startTime: String,
+    val endTime: String,
     val totalAvailableSeat: Int,
     val inUseHeadcount: Int,
     val availableSex: Sex,
@@ -29,14 +36,16 @@ data class FetchStudyRoomDetailsOutput(
     val westDescription: String,
     val southDescription: String,
     val northDescription: String,
+    val totalWidthSize: Int,
+    val totalHeightSize: Int,
     val seats: List<SeatInformation>,
 ) {
 
     /**
      * A set of study room seat information
      * @property id the unique id of the seat
-     * @property widthLocation X location of the study room chart
-     * @property heightLocation Y location of the study room chart
+     * @property row X location of the study room chart
+     * @property column Y location of the study room chart
      * @property number the number of the seat
      * @property type the type of the seat
      * @property status the status of the seat
@@ -45,13 +54,13 @@ data class FetchStudyRoomDetailsOutput(
      */
     data class SeatInformation(
         val id: UUID,
-        val widthLocation: Int,
-        val heightLocation: Int,
+        val row: Int,
+        val column: Int,
         val number: Int?,
         val type: SeatType?,
         val status: SeatStatus,
         val isMine: Boolean?,
-        val student: InUseStudent?,
+        val student: StudentInformation?,
     ) {
 
         /**
@@ -83,7 +92,7 @@ data class FetchStudyRoomDetailsOutput(
          * @property id an unique id of the student
          * @property name the name of the student
          */
-        data class InUseStudent(
+        data class StudentInformation(
             val id: UUID,
             val name: String,
         )

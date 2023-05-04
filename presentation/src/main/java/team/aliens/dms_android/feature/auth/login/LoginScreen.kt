@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.auth.login
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -12,7 +11,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -27,7 +25,6 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
@@ -45,10 +42,6 @@ fun LoginScreen(
     navController: NavController,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
-
-    val toast = rememberToast()
-
-    val context = LocalContext.current
 
     val focusManager = LocalFocusManager.current
 
@@ -97,16 +90,9 @@ fun LoginScreen(
                             inclusive = true
                         }
                     }
+                }
 
-                }
-                else -> {
-                    toast(
-                        getStringFromEvent(
-                            context = context,
-                            event = event,
-                        ),
-                    )
-                }
+                else -> {}
             }
         }
     }
@@ -119,7 +105,6 @@ fun LoginScreen(
         autoLoginState = value
         signInViewModel.state.value.autoLogin = value
     }
-
 
     var idState by remember {
         mutableStateOf("")
@@ -147,167 +132,136 @@ fun LoginScreen(
         )
     }
 
+    Box {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(color = DormTheme.colors.surface)
+            .padding(16.dp)
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            }) {
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(color = DormTheme.colors.surface)
-        .padding(16.dp)
-        .dormClickable(
-            rippleEnabled = false,
-        ) {
-            focusManager.clearFocus()
-        }) {
+            Space(space = 92.dp)
 
-        Space(space = 92.dp)
+            AppLogo(darkIcon = isSystemInDarkTheme())
 
-        AppLogo(darkIcon = isSystemInDarkTheme())
+            Space(space = 8.dp)
 
-        Space(space = 8.dp)
-
-        Body2(
-            text = stringResource(
-                id = R.string.AppDescription,
-            ),
-        )
-
-        Space(space = 60.dp)
-
-        // 아이디
-        DormTextField(
-            value = idState,
-            onValueChange = onIdChange,
-            hint = stringResource(id = R.string.ID),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-            ),
-            keyboardActions = KeyboardActions(onNext = {
-                focusManager.moveFocus(FocusDirection.Next)
-            }),
-        )
-
-        Space(space = 36.dp)
-
-        // 비밀번호
-        DormTextField(
-            value = passwordState,
-            onValueChange = onPasswordChange,
-            isPassword = true,
-            hint = stringResource(id = R.string.Password),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-            ),
-            keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()
-            }),
-        )
-
-        Space(space = 30.dp)
-
-        DormTextCheckBox(
-            modifier = Modifier.padding(
-                start = 6.dp,
-            ),
-            text = stringResource(id = R.string.AutoLogin),
-            checked = autoLoginState,
-            onCheckedChange = onAutoLoginStateChange,
-        )
-
-        Space(space = 26.dp)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(CenterHorizontally)
-                .padding(horizontal = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-
-            Caption(
-                text = stringResource(id = R.string.DoRegister),
-                onClick = {
-                    navController.navigate(NavigationRoute.VerifySchool)
-                },
-                color = DormTheme.colors.primaryVariant,
-            )
-
-            Caption(
-                text = "|",
-                color = DormTheme.colors.primaryVariant,
-            )
-
-            Caption(
+            Body2(
                 text = stringResource(
-                    id = R.string.FindId,
+                    id = R.string.AppDescription,
                 ),
-                onClick = {
-                    navController.navigate(NavigationRoute.FindId)
-                },
-                color = DormTheme.colors.primaryVariant,
             )
 
-            Caption(
-                text = "|",
-                color = DormTheme.colors.primaryVariant,
+            Space(space = 60.dp)
+
+            // 아이디
+            DormTextField(
+                value = idState,
+                onValueChange = onIdChange,
+                hint = stringResource(id = R.string.ID),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                ),
+                keyboardActions = KeyboardActions(onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                }),
             )
 
-            Caption(
-                text = stringResource(
-                    id = R.string.ChangePassword,
+            Space(space = 36.dp)
+
+            // 비밀번호
+            DormTextField(
+                value = passwordState,
+                onValueChange = onPasswordChange,
+                isPassword = true,
+                hint = stringResource(id = R.string.Password),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
                 ),
-                onClick = {
-                    navController.navigate(NavigationRoute.Identification)
-                },
-                color = DormTheme.colors.primaryVariant,
+                keyboardActions = KeyboardActions(onDone = {
+                    keyboardController?.hide()
+                }),
             )
+
+            Space(space = 30.dp)
+
+            DormTextCheckBox(
+                modifier = Modifier.padding(
+                    start = 6.dp,
+                ),
+                text = stringResource(id = R.string.AutoLogin),
+                checked = autoLoginState,
+                onCheckedChange = onAutoLoginStateChange,
+            )
+
+            Space(space = 26.dp)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(CenterHorizontally)
+                    .padding(horizontal = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+                Caption(
+                    text = stringResource(id = R.string.DoRegister),
+                    onClick = {
+                        navController.navigate(NavigationRoute.VerifySchool)
+                    },
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = "|",
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = stringResource(
+                        id = R.string.FindId,
+                    ),
+                    onClick = {
+                        navController.navigate(NavigationRoute.FindId)
+                    },
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = "|",
+                    color = DormTheme.colors.primaryVariant,
+                )
+
+                Caption(
+                    text = stringResource(
+                        id = R.string.ChangePassword,
+                    ),
+                    onClick = {
+                        navController.navigate(NavigationRoute.Identification)
+                    },
+                    color = DormTheme.colors.primaryVariant,
+                )
+            }
+
+            Space(ratio = 1f)
+
+            DormContainedLargeButton(
+                text = stringResource(id = R.string.Login),
+                color = DormButtonColor.Blue,
+                enabled = signInButtonState,
+                onClick = {
+
+                    signInViewModel.disableSignInButton()
+
+                    signInViewModel.postSignIn()
+                },
+            )
+
+            Space(space = 57.dp)
         }
-
-        Space(ratio = 1f)
-
-        DormContainedLargeButton(
-            text = stringResource(id = R.string.Login),
-            color = DormButtonColor.Blue,
-            enabled = signInButtonState,
-            onClick = {
-
-                if (signInViewModel.state.value.id.isBlank()) {
-
-                    toast(message = context.getString(R.string.PleaseEnterId))
-
-                    return@DormContainedLargeButton
-                }
-
-                if (signInViewModel.state.value.password.isBlank()) {
-
-                    toast(message = context.getString(R.string.PleaseEnterPassword))
-
-                    return@DormContainedLargeButton
-                }
-
-                signInViewModel.disableSignInButton()
-
-                signInViewModel.postSignIn()
-            },
-        )
-
-        Space(space = 57.dp)
     }
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: Event,
-): String {
-    return context.getString(
-        when (event) {
-            Event.WrongRequest -> R.string.BadRequest
-            Event.NotCorrectPassword -> R.string.CheckPassword
-            Event.UserNotFound -> R.string.LoginNotFound
-            Event.TooManyRequest -> R.string.TooManyRequest
-            Event.ServerException -> R.string.ServerException
-            Event.NoInternetException -> R.string.NoInternetException
-            Event.UnKnownException -> R.string.UnKnownException
-            else -> throw IllegalArgumentException()
-        },
-    )
 }

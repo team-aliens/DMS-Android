@@ -2,29 +2,34 @@ package team.aliens.dms_android.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.feature.cafeteria.FormedMeal
 import team.aliens.dms_android.feature.cafeteria.MealEvent
-import team.aliens.dms_android.feature.cafeteria.MealList
 import team.aliens.dms_android.feature.cafeteria.MealState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.*
-import team.aliens.domain.usecase.meal.RemoteMealUseCase
+import team.aliens.domain._model.meal.FetchMealInput
+import team.aliens.domain._model.meal.Meal
+import team.aliens.domain.exception.BadRequestException
+import team.aliens.domain.exception.ForbiddenException
+import team.aliens.domain.exception.ServerException
+import team.aliens.domain.exception.TooManyRequestException
+import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.usecase.meal.FetchMealUseCase
 import team.aliens.local_domain.entity.meal.MealEntity
-import team.aliens.local_domain.usecase.meal.LocalMealUseCase
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class MealViewModel @Inject constructor(
-    private val localMealUseCase: LocalMealUseCase,
-    private val remoteMealUseCase: RemoteMealUseCase,
+    private val fetchMealUseCase: FetchMealUseCase,
 ) : BaseViewModel<MealState, MealEvent>() {
 
     init {
         state.value.selectedDay.run {
-            fetchMealFromRemote(this)
+            fetchMeal(this.toString())
             updateDay(this)
         }
     }
@@ -35,14 +40,18 @@ class MealViewModel @Inject constructor(
     private val _mealEvent = MutableEventFlow<Event>()
     val mealEvent = _mealEvent.asEventFlow()
 
-    private fun fetchMealFromRemote(
-        date: LocalDate,
+    private fun fetchMeal(
+        date: String,
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                remoteMealUseCase.execute(date)
+                fetchMealUseCase(
+                    fetchMealInput = FetchMealInput(
+                        date = date,
+                    ),
+                )
             }.onSuccess {
-                fetchMealFromLocal(state.value.selectedDay) // todo separate fetch meals from remote, save meals on local
+                setMealState(it)
             }.onFailure {
                 when (it) {
                     is BadRequestException -> event(Event.BadRequestException)
@@ -56,7 +65,7 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    private fun fetchMealFromLocal(
+    /*private fun fetchMealFromLocal(
         date: LocalDate,
     ) {
         viewModelScope.launch {
@@ -68,31 +77,30 @@ class MealViewModel @Inject constructor(
                 event(Event.UnknownException)
             }
         }
-    }
-
+    }*/
     private fun setMealState(
-        entity: MealEntity,
+        meal: Meal,
     ) {
 
-        val breakfast = entity.breakfast.run {
+        val breakfast = meal.breakfast.run {
             dropLast(1) to last() // menu list to kcal
         }
 
-        val lunch = entity.lunch.run {
+        val lunch = meal.lunch.run {
             dropLast(1) to last()
         }
 
-        val dinner = entity.dinner.run {
+        val dinner = meal.dinner.run {
             dropLast(1) to last()
         }
 
         viewModelScope.launch {
-            state.value.mealList.emit(
-                MealList(
+            state.value.meals.emit(
+                FormedMeal(
                     breakfast = breakfast,
                     lunch = lunch,
                     dinner = dinner,
-                )
+                ),
             )
         }
     }
@@ -107,17 +115,15 @@ class MealViewModel @Inject constructor(
 
     internal fun updateDay(day: LocalDate) {
 
-        if (day.month != state.value.selectedDay.month) {
-            fetchMealFromRemote(day)
-        }
+        //if (day.month != state.value.selectedDay.month) {
+        fetchMeal(day.toString())
+        //}
 
         setState(
             state = state.value.copy(
                 selectedDay = day,
             ),
         )
-
-        fetchMealFromLocal(day)
     }
 
     sealed class Event {
