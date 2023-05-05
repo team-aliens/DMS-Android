@@ -1,4 +1,4 @@
-package team.aliens.dms_android.viewmodel.studyroom
+package team.aliens.dms_android.feature.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

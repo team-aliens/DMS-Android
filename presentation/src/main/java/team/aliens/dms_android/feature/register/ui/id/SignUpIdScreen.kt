@@ -43,7 +43,6 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
-import team.aliens.dms_android.viewmodel.auth.register.id.SetIdViewModel
 import team.aliens.presentation.R
 import java.util.UUID
 

@@ -1,13 +1,10 @@
-package team.aliens.dms_android.viewmodel.mypage
+package team.aliens.dms_android.feature.mypage
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.mypage.MyPageEntity
-import team.aliens.dms_android.feature.mypage.MyPageEvent
-import team.aliens.dms_android.feature.mypage.MyPageState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.PointType

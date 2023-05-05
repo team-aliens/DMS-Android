@@ -1,11 +1,9 @@
-package team.aliens.dms_android.viewmodel.changepw
+package team.aliens.dms_android.feature.auth.changepassword
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordEvent
-import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.auth.CheckIdExistsInput

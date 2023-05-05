@@ -28,7 +28,6 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.util.fetchImage
-import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
 @Composable

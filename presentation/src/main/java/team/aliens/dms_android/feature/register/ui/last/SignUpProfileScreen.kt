@@ -43,7 +43,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.fetchImage
-import team.aliens.dms_android.viewmodel.image.ConfirmImageViewModel
+import team.aliens.dms_android.feature.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
 const val defaultProfileUrl =

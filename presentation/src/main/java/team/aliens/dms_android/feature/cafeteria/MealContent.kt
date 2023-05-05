@@ -40,7 +40,6 @@ import com.google.accompanist.pager.rememberPagerState
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
-import team.aliens.dms_android.viewmodel.home.MealViewModel
 import team.aliens.dms_android.widget.meal.MealType
 import java.time.LocalDateTime
 import kotlin.math.absoluteValue

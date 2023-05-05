@@ -31,7 +31,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Headline2
 import team.aliens.dms_android.util.TopBar
-import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
+import team.aliens.dms_android.feature.mypage.MyPageViewModel
 import team.aliens.domain._model._common.PointType
 import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.presentation.R

@@ -31,8 +31,7 @@ import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.NavigationRoute
-import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel
-import team.aliens.dms_android.viewmodel.auth.login.SignInViewModel.Event
+import team.aliens.dms_android.feature.auth.login.SignInViewModel.Event
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
