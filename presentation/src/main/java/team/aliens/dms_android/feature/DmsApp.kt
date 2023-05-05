@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android.feature
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

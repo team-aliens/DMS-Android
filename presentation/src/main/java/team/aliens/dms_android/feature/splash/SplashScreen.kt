@@ -22,15 +22,14 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.MainActivity
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.navigator.RootViewModel
+import team.aliens.dms_android.feature._RootViewModel
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
 // todo 스플래시 스크린을 없애는 방법 검토 필요!@!
 @Composable
 fun SplashScreen(
-    rootViewModel: RootViewModel = hiltViewModel(),
+    rootViewModel: _RootViewModel = hiltViewModel(),
 ) {
 
     rootViewModel.autoLogin()
@@ -41,17 +40,16 @@ fun SplashScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            rootViewModel.eventFlow.collect { event ->
-                when (event) {
-                    is RootViewModel.Event.AutoLoginSuccess -> {
+            rootViewModel.eventFlow.collect{ event ->
+                when(event){
+                    is _RootViewModel.Event.AutoLoginSuccess -> {
                         moveToMainActivity(
                             context = context,
                             route = DmsRoute.Home.route,
                             userVisibleInformEntity = event.userVisibleInformEntity,
                         )
                     }
-
-                    is RootViewModel.Event.NeedLogin -> {
+                    is _RootViewModel.Event.NeedLogin -> {
                         moveToMainActivity(
                             context = context,
                             route = DmsRoute.Auth.route,
