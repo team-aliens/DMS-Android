@@ -38,7 +38,6 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
-import team.aliens.dms_android.viewmodel.auth.register.email.RegisterEmailViewModel
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 

@@ -1,13 +1,10 @@
-package team.aliens.dms_android.viewmodel.home
+package team.aliens.dms_android.feature.cafeteria
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.cafeteria.FormedMeal
-import team.aliens.dms_android.feature.cafeteria.MealEvent
-import team.aliens.dms_android.feature.cafeteria.MealState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.meal.FetchMealInput

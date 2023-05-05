@@ -25,7 +25,6 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.util.TopBar
-import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.presentation.R
 import java.util.UUID
 

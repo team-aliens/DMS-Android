@@ -1,4 +1,4 @@
-package team.aliens.dms_android.viewmodel.auth.register.school
+package team.aliens.dms_android.feature.register.ui.school
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

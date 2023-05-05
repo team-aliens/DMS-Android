@@ -1,4 +1,4 @@
-package team.aliens.dms_android.viewmodel.auth.login
+package team.aliens.dms_android.feature.auth.login
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,8 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.auth.login.SignInEvent
-import team.aliens.dms_android.feature.auth.login.SignInState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.exception.BadRequestException

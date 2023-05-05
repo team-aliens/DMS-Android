@@ -31,8 +31,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.viewmodel.home.MealViewModel
-import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
+import team.aliens.dms_android.feature.notice.NoticeViewModel
 import team.aliens.presentation.R
 import java.time.DayOfWeek
 import java.time.DayOfWeek.*

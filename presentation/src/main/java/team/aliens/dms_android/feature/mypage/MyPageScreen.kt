@@ -38,7 +38,6 @@ import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.SelectImageType
-import team.aliens.dms_android.viewmodel.mypage.MyPageViewModel
 import team.aliens.domain._model._common.Sex
 import team.aliens.presentation.R
 

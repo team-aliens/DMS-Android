@@ -47,7 +47,6 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
-import team.aliens.dms_android.viewmodel.auth.register.school.ExamineSchoolCodeViewModel
 import team.aliens.presentation.R
 
 @Composable

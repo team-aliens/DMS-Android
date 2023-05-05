@@ -1,4 +1,4 @@
-package team.aliens.dms_android.viewmodel.auth.register.email
+package team.aliens.dms_android.feature.register.ui.email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

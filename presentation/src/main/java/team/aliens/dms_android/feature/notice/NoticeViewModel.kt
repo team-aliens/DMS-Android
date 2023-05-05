@@ -1,4 +1,4 @@
-package team.aliens.dms_android.viewmodel.notice
+package team.aliens.dms_android.feature.notice
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,9 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.notice.NoticeDetail
-import team.aliens.dms_android.feature.notice.NoticeEvent
-import team.aliens.dms_android.feature.notice.NoticeState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput

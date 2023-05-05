@@ -34,10 +34,8 @@ import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.viewmodel.notice.NoticeViewModel
 import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticesOutput
-import team.aliens.domain.enums.NoticeListSCType
 import team.aliens.domain.util.toDate
 import team.aliens.presentation.R
 

@@ -42,7 +42,6 @@ import team.aliens.dms_android.feature.register.event.school.CompareSchoolAnswer
 import team.aliens.dms_android.feature.register.event.school.FetchSchoolQuestion
 import team.aliens.dms_android.feature.register.event.school.MissMatchCompareSchool
 import team.aliens.dms_android.feature.register.event.school.NotFoundCompareSchool
-import team.aliens.dms_android.viewmodel.auth.register.school.ConfirmSchoolViewModel
 import team.aliens.presentation.R
 
 @Composable

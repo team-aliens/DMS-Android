@@ -32,7 +32,6 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.TopBar
-import team.aliens.dms_android.viewmodel.changepw.ChangePasswordViewModel
 import team.aliens.presentation.R
 import java.util.regex.Pattern
 import team.aliens.design_system.extension.RatioSpace

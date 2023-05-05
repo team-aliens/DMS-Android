@@ -1,14 +1,12 @@
-package team.aliens.dms_android.viewmodel.remain
+package team.aliens.dms_android.feature.remain
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.feature.remain.RemainApplicationEvent
-import team.aliens.dms_android.feature.remain.RemainApplicationState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.dms_android.viewmodel.remain.RemainApplicationViewModel.Event
+import team.aliens.dms_android.feature.remain.RemainApplicationViewModel.Event
 import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
 import team.aliens.domain._model.remains.UpdateRemainsOptionInput
