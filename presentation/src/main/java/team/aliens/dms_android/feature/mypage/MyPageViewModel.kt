@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.mypage
 
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,6 +48,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _withdrawEvent = MutableEventFlow<Event>()
     internal val withdrawEvent = _withdrawEvent.asEventFlow()
+
+    private val _pointTypeEvent = MutableEventFlow<Event>()
+    internal val pointTypeEvent = _pointTypeEvent.asEventFlow()
 
     internal fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -105,10 +109,11 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 remotePointListUseCase(
                     fetchPointsInput = FetchPointsInput(
-                        type = pointType,
-                    ),
+                    type = pointType,
+                ),
                 )
             }.onSuccess {
+                emitPointTypeEvent(Event.PointTypeEvent(pointType))
                 emitPointViewEffect(Event.FetchPointList(it))
             }.onFailure {
                 when (it) {
@@ -144,12 +149,24 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
+    private fun emitPointTypeEvent(
+        event: Event,
+    ) {
+        viewModelScope.launch {
+            _pointTypeEvent.emit(event)
+        }
+    }
+
     override fun reduceEvent(oldState: MyPageState, event: MyPageEvent) {}
 
     sealed class Event {
         object SignedOut : Event()
-        data class FetchPointList(
+        class FetchPointList(
             val fetchPointsOutput: FetchPointsOutput,
+        ) : Event()
+
+        class PointTypeEvent(
+            val pointType: PointType,
         ) : Event()
 
         object BadRequestException : Event()
