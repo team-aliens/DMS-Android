@@ -1,6 +1,7 @@
 package team.aliens.domain._model.point
 
 import team.aliens.domain._model._common.PointType
+import java.util.UUID
 
 /**
  * A response returned when fetching points
@@ -14,12 +15,14 @@ data class FetchPointsOutput(
 
     /**
      * A set of point information
+     * @property id the point's unique id
      * @property date date of the specific point
      * @property type the type of point
      * @property name the name of point
      * @property score the score of point
      */
     data class PointInformation(
+        val id: UUID,
         val date: String,
         val type: PointType,
         val name: String,
