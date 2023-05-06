@@ -29,6 +29,7 @@ import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
+import team.aliens.dms_android.feature.navigator.BottomNavigationItem
 import team.aliens.dms_android.feature.notice.NoticeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
