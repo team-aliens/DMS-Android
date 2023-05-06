@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.ConfirmImageScreen
 import team.aliens.dms_android.feature.pointlist.PointListScreen
 import team.aliens.dms_android.util.SelectImageType
@@ -24,16 +25,16 @@ fun NavGraphBuilder.myPageNavigation(
         }
 
         composable(
-            route = NavigationRoute.MyPage.ConfirmImage + "/{selectImageType}",
+            route = NavigationRoute.MyPage.ConfirmImage + "/{${Extra.selectedImageType}}",
             arguments = listOf(
-                navArgument("selectImageType") {
+                navArgument(Extra.selectedImageType) {
                     defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
                     type = NavType.IntType
                 },
             ),
         ) { navBackStackEntry ->
 
-            val selectImageType = navBackStackEntry.arguments?.getInt("selectImageType")
+            val selectImageType = navBackStackEntry.arguments?.getInt(Extra.selectedImageType)
                 ?: SelectImageType.SELECT_FROM_GALLERY.ordinal
 
             ConfirmImageScreen(

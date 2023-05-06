@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import java.util.UUID
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.remain.RemainApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
@@ -21,12 +22,12 @@ fun NavGraphBuilder.applicationNavigation(
         composable(
             route = NavigationRoute.Application.StudyRoomDetail,
             arguments = listOf(
-                navArgument("seatId") { type = NavType.StringType },
-                navArgument("timeSlot") { type = NavType.StringType },
+                navArgument(Extra.seatId) { type = NavType.StringType },
+                navArgument(Extra.timeSlot) { type = NavType.StringType },
             ),
         ) {
-            val roomId = it.arguments!!.getString("seatId")
-            val timeSlot = it.arguments!!.getString("timeSlot")
+            val roomId = it.arguments!!.getString(Extra.seatId)
+            val timeSlot = it.arguments!!.getString(Extra.timeSlot)
             if (roomId != null) {
                 StudyRoomDetailScreen(
                     navController = navController,
