@@ -116,7 +116,7 @@ fun ChangePasswordVerifyEmailScreen(
                         putString("email", email)
                         putString("authCode", verificationCode)
                     }
-                    navController.navigate(NavigationRoute.ChangePassword)
+                    navController.navigate(NavigationRoute.Auth.ChangePassword)
                 }
 
                 is RegisterEmailEvent.SendEmailSuccess -> {

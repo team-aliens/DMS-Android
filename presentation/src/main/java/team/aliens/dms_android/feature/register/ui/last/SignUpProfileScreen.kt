@@ -185,7 +185,7 @@ fun SignUpProfileScreen(
                             "profileImageUrl",
                             profileImageUrl,
                         )
-                        navigate(NavigationRoute.SignUpPolicy)
+                        navigate(NavigationRoute.SignUp.SignUpPolicy)
                     }
                 },
                 text = stringResource(id = R.string.SettingLater),
@@ -238,7 +238,7 @@ fun SignUpProfileScreen(
                         "profileImageUrl",
                         confirmImageViewModel.profileImageUrl,
                     )
-                    navigate(NavigationRoute.SignUpPolicy)
+                    navigate(NavigationRoute.SignUp.SignUpPolicy)
                 }
             }
         }

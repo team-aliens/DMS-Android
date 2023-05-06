@@ -17,52 +17,52 @@ fun NavGraphBuilder.signUpNavigation(
     navController: NavController,
 ){
     navigation(
-        startDestination = NavigationRoute.VerifySchool,
-        route = NavigationRoute.SignUp,
+        startDestination = NavigationRoute.SignUp.VerifySchool,
+        route = NavigationRoute.SignUp.name,
     ){
-        composable(NavigationRoute.VerifySchool) {
+        composable(NavigationRoute.SignUp.VerifySchool) {
             SignUpVerifySchoolScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SchoolQuestion) {
+        composable(NavigationRoute.SignUp.SchoolQuestion) {
             SignUpSchoolQuestionScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpEmail) {
+        composable(NavigationRoute.SignUp.SignUpEmail) {
             SignUpEmailScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpEmailVerify) {
+        composable(NavigationRoute.SignUp.SignUpEmailVerify) {
             SignUpEmailVerifyScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpId) {
+        composable(NavigationRoute.SignUp.SignUpId) {
             SignUpIdScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpPassword) {
+        composable(NavigationRoute.SignUp.SignUpPassword) {
             SignUpPasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpProfile) {
+        composable(NavigationRoute.SignUp.SignUpProfile) {
             SignUpProfileScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUpPolicy) {
+        composable(NavigationRoute.SignUp.SignUpPolicy) {
             SignUpPolicyScreen(
                 navController = navController,
             )

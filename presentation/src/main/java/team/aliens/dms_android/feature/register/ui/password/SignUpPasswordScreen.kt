@@ -163,7 +163,7 @@ fun SignUpPasswordScreen(
                     )
                     putString("password", password)
                 }
-                navController.navigate(NavigationRoute.SignUpProfile)
+                navController.navigate(NavigationRoute.SignUp.SignUpProfile)
             }
         }
     }

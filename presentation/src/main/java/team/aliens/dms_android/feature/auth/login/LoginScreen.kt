@@ -84,8 +84,8 @@ fun LoginScreen(
             when (event) {
                 is Event.NavigateToHome -> {
                     onSignInSuccess(event.userVisibleInformEntity)
-                    navController.navigate(NavigationRoute.Main) {
-                        popUpTo(NavigationRoute.Login) {
+                    navController.navigate(NavigationRoute.Main.Main) {
+                        popUpTo(NavigationRoute.Auth.Login) {
                             inclusive = true
                         }
                     }
@@ -210,7 +210,7 @@ fun LoginScreen(
                 Caption(
                     text = stringResource(id = R.string.DoRegister),
                     onClick = {
-                        navController.navigate(NavigationRoute.VerifySchool)
+                        navController.navigate(NavigationRoute.SignUp.VerifySchool)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -225,7 +225,7 @@ fun LoginScreen(
                         id = R.string.FindId,
                     ),
                     onClick = {
-                        navController.navigate(NavigationRoute.FindId)
+                        navController.navigate(NavigationRoute.Auth.FindId)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -240,7 +240,7 @@ fun LoginScreen(
                         id = R.string.ChangePassword,
                     ),
                     onClick = {
-                        navController.navigate(NavigationRoute.Identification)
+                        navController.navigate(NavigationRoute.Auth.Identification)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )

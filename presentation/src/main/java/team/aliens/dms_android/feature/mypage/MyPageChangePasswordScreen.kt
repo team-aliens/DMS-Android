@@ -86,7 +86,7 @@ fun MyPageChangePasswordScreen(
                 when (it) {
                     is ChangePasswordViewModel.Event.EditPasswordSuccess -> {
                         toast(context.getString(R.string.SuccessChangePassword))
-                        navController.navigate(NavigationRoute.Main) {
+                        navController.navigate(NavigationRoute.Main.Main) {
                             popUpTo(navController.currentDestination?.id!!)
                         }
                     }

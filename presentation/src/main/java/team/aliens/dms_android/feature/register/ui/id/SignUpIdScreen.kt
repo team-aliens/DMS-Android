@@ -132,7 +132,7 @@ fun SignUpIdScreen(
                             putInt("number", number.toInt())
                             putString("accountId", userId)
                         }
-                        navController.navigate(NavigationRoute.SignUpPassword)
+                        navController.navigate(NavigationRoute.SignUp.SignUpPassword)
                     }
                 }
                 is SetIdEvent.DuplicateIdConflictException -> {

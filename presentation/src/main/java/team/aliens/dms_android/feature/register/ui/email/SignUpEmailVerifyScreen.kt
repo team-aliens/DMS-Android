@@ -96,8 +96,8 @@ fun SignUpEmailVerifyScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.SignUpEmail) {
-                        popUpTo(NavigationRoute.SignUpEmail) {
+                    navController.navigate(NavigationRoute.SignUp.SignUpEmail) {
+                        popUpTo(NavigationRoute.SignUp.SignUpEmail) {
                             inclusive = true
                         }
                     }
@@ -137,7 +137,7 @@ fun SignUpEmailVerifyScreen(
                                 )
                             }
                         }
-                        navigate(NavigationRoute.SignUpId)
+                        navigate(NavigationRoute.SignUp.SignUpId)
                     }
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {

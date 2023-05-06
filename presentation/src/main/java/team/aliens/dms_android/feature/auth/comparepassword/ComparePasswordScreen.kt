@@ -61,7 +61,7 @@ fun ComparePasswordScreen(
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
                 is ChangePasswordViewModel.Event.ComparePasswordSuccess -> {
-                    navController.navigate(NavigationRoute.MyPageChangePassword)
+                    navController.navigate(NavigationRoute.Auth.MyPageChangePassword)
                 }
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true

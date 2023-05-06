@@ -15,11 +15,11 @@ fun NavGraphBuilder.applicationNavigation(
     navController: NavController,
 ){
     navigation(
-        startDestination = NavigationRoute.StudyRoom,
-        route = NavigationRoute.Application,
+        startDestination = NavigationRoute.Application.StudyRoom,
+        route = NavigationRoute.Application.name,
     ){
         composable(
-            route = NavigationRoute.StudyRoomDetail,
+            route = NavigationRoute.Application.StudyRoomDetail,
             arguments = listOf(
                 navArgument("seatId") { type = NavType.StringType },
                 navArgument("timeSlot") { type = NavType.StringType },
@@ -36,13 +36,13 @@ fun NavGraphBuilder.applicationNavigation(
             }
         }
 
-        composable(NavigationRoute.StudyRoom) {
+        composable(NavigationRoute.Application.StudyRoom) {
             StudyRoomListScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.RemainApplication) {
+        composable(NavigationRoute.Application.RemainApplication) {
             RemainApplicationScreen(
                 navController = navController,
             )

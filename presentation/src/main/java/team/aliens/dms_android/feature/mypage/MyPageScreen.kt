@@ -138,7 +138,7 @@ fun MyPageScreen(
     }
 
     val onPasswordChangeClicked = {
-        navController.navigate(NavigationRoute.ComparePassword)
+        navController.navigate(NavigationRoute.Auth.ComparePassword)
     }
 
     if (setProfileDialogState) {
@@ -148,12 +148,12 @@ fun MyPageScreen(
             },
             onTakePhoto = {
                 navController.navigate(
-                    NavigationRoute.ConfirmImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                    NavigationRoute.MyPage.ConfirmImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
                 )
             },
             onSelectPhoto = {
                 navController.navigate(
-                    NavigationRoute.ConfirmImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                    NavigationRoute.MyPage.ConfirmImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
             onDialogDismiss = onSetProfileDialogDismiss,
@@ -174,7 +174,7 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.signOutEvent.collect {
-            navController.navigate(NavigationRoute.Login) {
+            navController.navigate(NavigationRoute.Auth.Login) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
                 }
@@ -184,7 +184,7 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.withdrawEvent.collect {
-            navController.navigate(NavigationRoute.Login) {
+            navController.navigate(NavigationRoute.Auth.Login) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
                 }
@@ -405,7 +405,7 @@ fun MyPageScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                navController.navigate(NavigationRoute.PointList)
+                                navController.navigate(NavigationRoute.MyPage.PointList)
                             }
                             .padding(
                                 vertical = 14.dp,

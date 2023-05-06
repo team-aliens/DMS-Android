@@ -74,8 +74,8 @@ fun SignUpEmailScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login) {
-                        popUpTo(NavigationRoute.Login) {
+                    navController.navigate(NavigationRoute.Auth.Login) {
+                        popUpTo(NavigationRoute.Auth.Login) {
                             inclusive = true
                         }
                     }
@@ -119,7 +119,7 @@ fun SignUpEmailScreen(
                         )
                         putString("email", email)
                     }
-                    navController.navigate(NavigationRoute.SignUpEmailVerify)
+                    navController.navigate(NavigationRoute.SignUp.SignUpEmailVerify)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.ChangeEmail))

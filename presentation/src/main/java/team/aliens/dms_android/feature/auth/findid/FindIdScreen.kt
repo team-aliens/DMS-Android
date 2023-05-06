@@ -95,8 +95,8 @@ fun FindIdScreen(
                 content = stringResource(id = R.string.SendIdToEmail, findIdViewModel.email),
                 mainBtnText = stringResource(id = R.string.GoLoginScreen),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login) {
-                        popUpTo(NavigationRoute.Login) {
+                    navController.navigate(NavigationRoute.Auth.Login) {
+                        popUpTo(NavigationRoute.Auth.Login) {
                             inclusive = true
                         }
                     }

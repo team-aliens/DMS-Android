@@ -14,17 +14,17 @@ fun NavGraphBuilder.myPageNavigation(
     navController: NavController,
 ){
     navigation(
-        startDestination = NavigationRoute.PointList,
-        route = NavigationRoute.MyPage,
+        startDestination = NavigationRoute.MyPage.PointList,
+        route = NavigationRoute.MyPage.name,
     ){
-        composable(NavigationRoute.PointList) {
+        composable(NavigationRoute.MyPage.PointList) {
             PointListScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = NavigationRoute.ConfirmImage + "/{selectImageType}",
+            route = NavigationRoute.MyPage.ConfirmImage + "/{selectImageType}",
             arguments = listOf(
                 navArgument("selectImageType") {
                     defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal

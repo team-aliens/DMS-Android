@@ -12,11 +12,11 @@ fun NavGraphBuilder.noticeNavigation(
     navController: NavController,
 ){
     navigation(
-        startDestination = NavigationRoute.NoticeDetail,
-        route = NavigationRoute.Notice,
+        startDestination = NavigationRoute.Notice.NoticeDetail,
+        route = NavigationRoute.Notice.name,
     ){
         composable(
-            route = NavigationRoute.NoticeDetail,
+            route = NavigationRoute.Notice.NoticeDetail,
             arguments = listOf(
                 navArgument("noticeId") { type = NavType.StringType },
             ),

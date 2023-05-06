@@ -114,7 +114,7 @@ fun IdentificationScreen(
                         putString("name", name.trim())
                         putString("email", userEmail.trim())
                     }
-                    navController.navigate(NavigationRoute.ChangePasswordVerifyEmail)
+                    navController.navigate(NavigationRoute.Auth.ChangePasswordVerifyEmail)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.Retry))

@@ -16,48 +16,48 @@ fun NavGraphBuilder.authNavigation(
     navController: NavController,
 ){
     navigation(
-        startDestination = NavigationRoute.Login,
-        route = NavigationRoute.Auth,
+        startDestination = NavigationRoute.Auth.Login,
+        route = NavigationRoute.Auth.name,
     ){
-        composable(NavigationRoute.Login) {
+        composable(NavigationRoute.Auth.Login) {
             LoginScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.ChangePassword) {
+        composable(NavigationRoute.Auth.ChangePassword) {
             ChangePasswordScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = NavigationRoute.ComparePassword,
+            route = NavigationRoute.Auth.ComparePassword,
         ) {
             ComparePasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.FindId) {
+        composable(NavigationRoute.Auth.FindId) {
             FindIdScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Identification) {
+        composable(NavigationRoute.Auth.Identification) {
             IdentificationScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.ChangePasswordVerifyEmail) {
+        composable(NavigationRoute.Auth.ChangePasswordVerifyEmail) {
             ChangePasswordVerifyEmailScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.MyPageChangePassword) {
+        composable(NavigationRoute.Auth.MyPageChangePassword) {
             MyPageChangePasswordScreen(
                 navController = navController,
             )

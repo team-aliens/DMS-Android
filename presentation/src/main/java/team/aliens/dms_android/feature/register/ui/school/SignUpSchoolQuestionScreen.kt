@@ -92,7 +92,7 @@ fun SignUpSchoolQuestionScreen(
                         putString("schoolAnswer", schoolAnswer)
                         putString("schoolId", schoolId.toString())
                     }
-                    navController.navigate(NavigationRoute.SignUpEmail)
+                    navController.navigate(NavigationRoute.SignUp.SignUpEmail)
                 }
                 is MissMatchCompareSchool -> {
                     isError = true
@@ -166,8 +166,8 @@ fun SignUpSchoolQuestionScreen(
                     .dormClickable(
                         rippleEnabled = false,
                     ) {
-                        navController.navigate(NavigationRoute.Login) {
-                            popUpTo(NavigationRoute.Login) {
+                        navController.navigate(NavigationRoute.Auth.Login) {
+                            popUpTo(NavigationRoute.Auth.Login) {
                                 inclusive = true
                             }
                         }

@@ -47,7 +47,7 @@ class RootViewModel @Inject constructor(
                     localUserVisibleInformUseCase.execute(Unit),
                 ),
             )
-            setState(state.value.copy(route = NavigationRoute.Main))
+            setState(state.value.copy(route = NavigationRoute.Main.Main))
         }.onFailure {
             emitEvent(Event.NeedLogin)
         }
@@ -78,7 +78,7 @@ data class SplashState(
 ) : MviState {
     companion object {
         fun initial() = SplashState(
-            route = NavigationRoute.Login,
+            route = NavigationRoute.Auth.Login,
             userVisibleInformEntity = UserVisibleInformEntity(
                 mealService = false,
                 noticeService = false,
