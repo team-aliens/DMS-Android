@@ -49,7 +49,7 @@ fun PointListScreen(
     var selectedType by remember {
         mutableStateOf(PointType.ALL)
     }
-    
+
     LaunchedEffect(Unit) {
         myPageViewModel.pointTypeEvent.collect {
             if (it is MyPageViewModel.Event.PointTypeEvent) {
