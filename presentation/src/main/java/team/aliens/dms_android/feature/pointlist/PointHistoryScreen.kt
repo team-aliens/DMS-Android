@@ -187,9 +187,7 @@ private fun PointTypeButtonGroup(
             DormContainedLargeButton(
                 modifier = Modifier
                     .size(PointTypeButtonSize),
-                text = stringResource(
-                    id = repeatButtonText(button.type)
-                ),
+                text = repeatButtonText(button.type).toString(),
                 color = DormButtonColor.Blue,
             ) {
                 myPageViewModel.fetchPointList(button.type)
@@ -198,9 +196,7 @@ private fun PointTypeButtonGroup(
             DormOutlineLargeButton(
                 modifier = Modifier
                     .size(PointTypeButtonSize),
-                text = stringResource(
-                    id = repeatButtonText(button.type)
-                ),
+                text = repeatButtonText(button.type).toString(),
                 color = DormButtonColor.Gray,
             ) {
                 myPageViewModel.fetchPointList(button.type)
@@ -209,12 +205,16 @@ private fun PointTypeButtonGroup(
     }
 }
 
-fun repeatButtonText(pointType: PointType): Int {
-    when (pointType) {
-        PointType.ALL -> R.string.all_point
-        PointType.BONUS -> R.string.bonus_point
-        PointType.MINUS -> R.string.minus_point
-    }
+@Composable
+fun repeatButtonText(pointType: PointType) {
+    stringResource(
+        id = when (pointType) {
+            PointType.ALL -> R.string.all_point
+            PointType.BONUS -> R.string.bonus_point
+            PointType.MINUS -> R.string.minus_point
+        }
+    )
+
 }
 
 @Composable
