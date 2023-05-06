@@ -28,12 +28,24 @@ abstract class BaseViewModel<S : UiState, E : UiEvent> : ViewModel() {
     val uiState: StateFlow<S>
         get() = _uiState.asStateFlow()
 
-    abstract fun onEvent(
+    protected fun setState(
+        reducer: S.() -> S,
+    ) {
+        val newState = _uiState.value.reducer()
+        _uiState.value = newState
+    }
+
+    open fun onEvent(
         event: E,
-    )
+    ) {
+        /* explicit blank */
+    }
 
     // represents error state
+    @Deprecated(level = DeprecationLevel.WARNING, message = "deprecated by refactoring")
     private val _errorState = MutableEventFlow<String>()
+
+    @Deprecated(level = DeprecationLevel.WARNING, message = "deprecated by refactoring")
     val errorState = _errorState.asEventFlow()
 
     @Deprecated(level = DeprecationLevel.WARNING, message = "deprecated by refactoring")
