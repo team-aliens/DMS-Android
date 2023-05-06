@@ -188,11 +188,7 @@ private fun PointTypeButtonGroup(
                 modifier = Modifier
                     .size(PointTypeButtonSize),
                 text = stringResource(
-                    id = when (button.type) {
-                        PointType.ALL -> R.string.all_point
-                        PointType.BONUS -> R.string.bonus_point
-                        PointType.MINUS -> R.string.minus_point
-                    }
+                    id = repeatButtonText(button.type)
                 ),
                 color = DormButtonColor.Blue,
             ) {
@@ -203,17 +199,21 @@ private fun PointTypeButtonGroup(
                 modifier = Modifier
                     .size(PointTypeButtonSize),
                 text = stringResource(
-                    id = when (button.type) {
-                        PointType.ALL -> R.string.all_point
-                        PointType.BONUS -> R.string.bonus_point
-                        PointType.MINUS -> R.string.minus_point
-                    }
+                    id = repeatButtonText(button.type)
                 ),
                 color = DormButtonColor.Gray,
             ) {
                 myPageViewModel.fetchPointList(button.type)
             }
         }
+    }
+}
+
+fun repeatButtonText(pointType: PointType): Int {
+    when (pointType) {
+        PointType.ALL -> R.string.all_point
+        PointType.BONUS -> R.string.bonus_point
+        PointType.MINUS -> R.string.minus_point
     }
 }
 
