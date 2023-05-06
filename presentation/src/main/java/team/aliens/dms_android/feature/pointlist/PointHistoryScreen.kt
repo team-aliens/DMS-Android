@@ -54,7 +54,6 @@ fun PointHistoryScreen(
         myPageViewModel.pointTypeEvent.collect {
             if (it is MyPageViewModel.Event.PointTypeEvent) {
                 selectedType = it.pointType
-                println(selectedType)
             }
         }
     }
@@ -147,7 +146,7 @@ class PointButton(
 )
 
 @Stable
-val pointListButtons = arrayListOf(
+private val pointListButtons = arrayListOf(
     PointButton(PointType.ALL),
     PointButton(PointType.BONUS),
     PointButton(PointType.MINUS),
@@ -188,57 +187,31 @@ private fun PointTypeButtonGroup(
             DormContainedLargeButton(
                 modifier = Modifier
                     .size(PointTypeButtonSize),
-                text = when (button.type) {
-                    PointType.ALL -> stringResource(id = R.string.all_point)
-                    PointType.BONUS -> stringResource(id = R.string.bonus_point)
-                    PointType.MINUS -> stringResource(id = R.string.minus_point)
-                    else -> {
-                        ""
+                text = stringResource(
+                    id = when (button.type) {
+                        PointType.ALL -> R.string.all_point
+                        PointType.BONUS -> R.string.bonus_point
+                        PointType.MINUS -> R.string.minus_point
                     }
-                },
+                ),
                 color = DormButtonColor.Blue,
             ) {
-                when (button.type) {
-                    PointType.ALL -> {
-                        myPageViewModel.fetchPointList(PointType.ALL)
-                    }
-
-                    PointType.BONUS -> {
-                        myPageViewModel.fetchPointList(PointType.BONUS)
-                    }
-
-                    PointType.MINUS -> {
-                        myPageViewModel.fetchPointList(PointType.MINUS)
-                    }
-                }
+                myPageViewModel.fetchPointList(button.type)
             }
         } else {
             DormOutlineLargeButton(
                 modifier = Modifier
                     .size(PointTypeButtonSize),
-                text = when (button.type) {
-                    PointType.ALL -> stringResource(id = R.string.all_point)
-                    PointType.BONUS -> stringResource(id = R.string.bonus_point)
-                    PointType.MINUS -> stringResource(id = R.string.minus_point)
-                    else -> {
-                        ""
+                text = stringResource(
+                    id = when (button.type) {
+                        PointType.ALL -> R.string.all_point
+                        PointType.BONUS -> R.string.bonus_point
+                        PointType.MINUS -> R.string.minus_point
                     }
-                },
+                ),
                 color = DormButtonColor.Gray,
             ) {
-                when (button.type) {
-                    PointType.ALL -> {
-                        myPageViewModel.fetchPointList(PointType.ALL)
-                    }
-
-                    PointType.BONUS -> {
-                        myPageViewModel.fetchPointList(PointType.BONUS)
-                    }
-
-                    PointType.MINUS -> {
-                        myPageViewModel.fetchPointList(PointType.MINUS)
-                    }
-                }
+                myPageViewModel.fetchPointList(button.type)
             }
         }
     }
