@@ -2,31 +2,23 @@ package team.aliens.dms_android.feature.mypage
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
+import team.aliens.domain._model._common.PointType
 import team.aliens.domain._model._common.Sex
-import team.aliens.domain.entity.mypage.PointListEntity
-import team.aliens.domain.enums.PointType
+import team.aliens.domain._model.point.FetchPointsOutput
 
 data class MyPageState(
-    var type: PointType,
+    var type: MutableStateFlow<PointType>,
     var totalPoint: Int,
     var myPageEntity: MutableStateFlow<MyPageEntity> = MutableStateFlow(MyPageEntity()),
-    var pointListEntity: PointListEntity,
+    var fetchPointsOutput: FetchPointsOutput,
 ) : MviState {
     companion object {
         fun getDefaultInstance() = MyPageState(
-            type = PointType.ALL,
+            type = MutableStateFlow(PointType.ALL),
             totalPoint = 0,
-            pointListEntity = PointListEntity(
+            fetchPointsOutput = FetchPointsOutput(
                 totalPoint = 0,
-                pointValue = listOf(
-                    PointListEntity.PointValue(
-                        pointId = null,
-                        date = "",
-                        pointType = PointType.ALL,
-                        name = "",
-                        score = 0
-                    ),
-                ),
+                points = emptyList(),
             ),
         )
     }
