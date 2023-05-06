@@ -52,7 +52,7 @@ fun SplashScreen(
                     is RootViewModel.Event.NeedLogin -> {
                         moveToMainActivity(
                             context = context,
-                            route = "login",
+                            route = "auth",
                         )
                     }
                 }
