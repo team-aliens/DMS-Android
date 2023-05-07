@@ -131,7 +131,10 @@ fun PointListScreen(
         }
 
         // point filter
-        PointRadioButton(myPageViewModel, selectedType)
+        PointRadioButton(
+            myPageViewModel = myPageViewModel,
+            selectedType = selectedType,
+        )
 
         // points
         PointListValue(
@@ -163,11 +166,11 @@ private val PointTypeButtonSize = DpSize(
 @Composable
 fun PointRadioButton(
     myPageViewModel: MyPageViewModel,
-    selectedType: PointType
+    selectedType: PointType,
 ) {
     Row(
-        Modifier.padding(start = 24.dp, top = 50.dp),
-        horizontalArrangement = Arrangement.spacedBy(15.dp)
+        modifier = Modifier.padding(start = 24.dp, top = 50.dp),
+        horizontalArrangement = Arrangement.spacedBy(15.dp),
     ) {
         PointTypeButtonGroup(
             myPageViewModel = myPageViewModel,
@@ -216,6 +219,7 @@ private fun PointTypeButtonGroup(
         }
     }
 }
+
 
 @Composable
 fun PointListValue(
