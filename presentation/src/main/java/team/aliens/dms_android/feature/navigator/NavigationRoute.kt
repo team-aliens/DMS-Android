@@ -1,21 +1,13 @@
 package team.aliens.dms_android.feature.navigator
 
 sealed class NavigationRoute(
-    val name: String,
-){
-
-    object BottomNavigation: NavigationRoute("Navigation"){
-        const val Meal = "meal"
-        const val Application = "application"
-        const val Notice = "notice"
-        const val MyPage = "mypage"
-    }
-
-    object Main: NavigationRoute("Main"){
+    val route: String,
+) {
+    object Main : NavigationRoute("Main") {
         const val Main = "main"
     }
 
-    object SignUp: NavigationRoute("SignUp"){
+    object SignUp : NavigationRoute("SignUp") {
         const val VerifySchool = "verifySchool"
         const val SchoolQuestion = "schoolQuestion"
         const val SignUpEmail = "signUpEmail"
@@ -26,7 +18,7 @@ sealed class NavigationRoute(
         const val SignUpPolicy = "signUpPolicy"
     }
 
-    object Auth: NavigationRoute("Auth"){
+    object Auth : NavigationRoute("Auth") {
         const val Login = "login"
         const val ChangePassword = "changePassword"
         const val ComparePassword = "comparePassword"
@@ -36,18 +28,18 @@ sealed class NavigationRoute(
         const val MyPageChangePassword = "myPageChangePassword"
     }
 
-    object MyPage: NavigationRoute("MyPage"){
+    object MyPage : NavigationRoute("MyPage") {
         const val PointList = "pointList"
         const val ConfirmImage = "confirmImage"
     }
 
-    object Application: NavigationRoute("Application"){
+    object Application : NavigationRoute("Application") {
         const val StudyRoom = "studyRoom"
         const val StudyRoomDetail = "studyRoomDetail/{seatId}/{timeSlot}"
         const val RemainApplication = "remainApplication"
     }
 
-    object Notice: NavigationRoute("Notice"){
+    object Notice : NavigationRoute("Notice") {
         const val NoticeDetail = "noticeDetail/{noticeId}"
     }
 }
