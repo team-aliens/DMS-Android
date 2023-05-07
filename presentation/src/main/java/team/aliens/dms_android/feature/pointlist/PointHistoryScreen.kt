@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -132,7 +134,7 @@ fun PointHistoryScreen(
 
         // point filter
         PointRadioButton(
-            myPageViewModel = myPageViewModel,
+            myPageViewModel = myPageViewModel, 
             selectedType = selectedType,
         )
 
@@ -155,13 +157,6 @@ private val pointListButtons = arrayListOf(
     PointButton(PointType.MINUS),
 )
 
-
-@Stable
-private val PointTypeButtonSize = DpSize(
-    width = 80.dp,
-    height = 44.dp,
-)
-
 @SuppressLint("RememberReturnType")
 @Composable
 fun PointRadioButton(
@@ -169,10 +164,11 @@ fun PointRadioButton(
     selectedType: PointType,
 ) {
     Row(
-        modifier = Modifier.padding(start = 24.dp, top = 50.dp),
+        modifier = Modifier
+            .padding(start = 24.dp, top = 50.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp),
     ) {
-        PointTypeButtonGroup(
+        PointTypeRadioGroup(
             myPageViewModel = myPageViewModel,
             selectedType = selectedType,
         )
@@ -181,7 +177,7 @@ fun PointRadioButton(
 
 
 @Composable
-private fun PointTypeButtonGroup(
+private fun PointTypeRadioGroup(
     myPageViewModel: MyPageViewModel,
     selectedType: PointType,
 ) {
@@ -189,7 +185,8 @@ private fun PointTypeButtonGroup(
         if (selectedType == button.type) {
             DormContainedLargeButton(
                 modifier = Modifier
-                    .size(PointTypeButtonSize),
+                    .width(80.dp)
+                    .height(40.dp),
                 text = stringResource(
                     id = when (button.type) {
                         PointType.ALL -> R.string.all_point
@@ -204,7 +201,8 @@ private fun PointTypeButtonGroup(
         } else {
             DormOutlineLargeButton(
                 modifier = Modifier
-                    .size(PointTypeButtonSize),
+                    .width(80.dp)
+                    .height(40.dp),
                 text = stringResource(
                     id = when (button.type) {
                         PointType.ALL -> R.string.all_point
