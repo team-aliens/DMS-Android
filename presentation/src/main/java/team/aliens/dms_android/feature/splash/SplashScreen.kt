@@ -22,7 +22,8 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.MainActivity
-import team.aliens.dms_android.viewmodel.root.RootViewModel
+import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.RootViewModel
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
@@ -40,19 +41,20 @@ fun SplashScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            rootViewModel.eventFlow.collect{ event ->
-                when(event){
+            rootViewModel.eventFlow.collect { event ->
+                when (event) {
                     is RootViewModel.Event.AutoLoginSuccess -> {
                         moveToMainActivity(
                             context = context,
-                            route = "main",
+                            route = NavigationRoute.Home.route,
                             userVisibleInformEntity = event.userVisibleInformEntity,
                         )
                     }
+
                     is RootViewModel.Event.NeedLogin -> {
                         moveToMainActivity(
                             context = context,
-                            route = "auth",
+                            route = NavigationRoute.Auth.route,
                         )
                     }
                 }

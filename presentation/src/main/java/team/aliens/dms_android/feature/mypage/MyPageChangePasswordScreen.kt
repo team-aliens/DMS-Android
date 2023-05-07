@@ -16,9 +16,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.regex.Pattern
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -26,12 +28,10 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
 import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.TopBar
-import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
 import team.aliens.presentation.R
-import java.util.regex.Pattern
-import team.aliens.design_system.extension.Space
 
 const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
@@ -86,10 +86,11 @@ fun MyPageChangePasswordScreen(
                 when (it) {
                     is ChangePasswordViewModel.Event.EditPasswordSuccess -> {
                         toast(context.getString(R.string.SuccessChangePassword))
-                        navController.navigate(NavigationRoute.Main.Main) {
+                        navController.navigate(NavigationRoute.Home.Main) {
                             popUpTo(navController.currentDestination?.id!!)
                         }
                     }
+
                     else -> {
                         toast(
                             getStringFromEvent(
@@ -116,8 +117,8 @@ fun MyPageChangePasswordScreen(
                 .padding(horizontal = 16.dp)
                 .dormClickable(
                     rippleEnabled = false,
-                ){
-                 focusManager.clearFocus()
+                ) {
+                    focusManager.clearFocus()
                 },
         ) {
             Space(space = 46.dp)
@@ -160,7 +161,7 @@ fun MyPageChangePasswordScreen(
                     isPassword = true,
                     error = isPasswordMatchError,
                     errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
-                    keyboardActions = KeyboardActions{
+                    keyboardActions = KeyboardActions {
                         focusManager.clearFocus()
                     }
                 )

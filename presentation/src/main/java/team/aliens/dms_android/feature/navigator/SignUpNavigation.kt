@@ -15,11 +15,11 @@ import team.aliens.dms_android.feature.register.ui.school.SignUpVerifySchoolScre
 
 fun NavGraphBuilder.signUpNavigation(
     navController: NavController,
-){
+) {
     navigation(
         startDestination = NavigationRoute.SignUp.VerifySchool,
-        route = NavigationRoute.SignUp.name,
-    ){
+        route = NavigationRoute.SignUp.route,
+    ) {
         composable(NavigationRoute.SignUp.VerifySchool) {
             SignUpVerifySchoolScreen(
                 navController = navController,

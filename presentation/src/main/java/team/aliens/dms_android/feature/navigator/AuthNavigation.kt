@@ -17,7 +17,7 @@ fun NavGraphBuilder.authNavigation(
 ){
     navigation(
         startDestination = NavigationRoute.Auth.Login,
-        route = NavigationRoute.Auth.name,
+        route = NavigationRoute.Auth.route,
     ){
         composable(NavigationRoute.Auth.Login) {
             LoginScreen(

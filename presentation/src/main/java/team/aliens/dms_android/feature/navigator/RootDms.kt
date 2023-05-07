@@ -8,7 +8,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastHost
@@ -40,31 +39,16 @@ fun RootDms(
                 navController = navController,
                 startDestination = route,
             ) {
-
-                composable(NavigationRoute.Main.Main) {
-                    DmsApp(
-                        navController = navController,
-                        scaffoldState = scaffoldState,
-                    )
-                }
+                homeNavigation(
+                    navController = navController,
+                    scaffoldState = scaffoldState,
+                )
 
                 signUpNavigation(
                     navController = navController,
                 )
 
                 authNavigation(
-                    navController = navController,
-                )
-
-                myPageNavigation(
-                    navController = navController,
-                )
-
-                applicationNavigation(
-                    navController = navController,
-                )
-
-                noticeNavigation(
                     navController = navController,
                 )
             }

@@ -30,8 +30,8 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.auth.login.SignInViewModel.Event
+import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
@@ -84,7 +84,7 @@ fun LoginScreen(
             when (event) {
                 is Event.NavigateToHome -> {
                     onSignInSuccess(event.userVisibleInformEntity)
-                    navController.navigate(NavigationRoute.Main.Main) {
+                    navController.navigate(NavigationRoute.Home.Main) {
                         popUpTo(NavigationRoute.Auth.Login) {
                             inclusive = true
                         }
