@@ -30,7 +30,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 import java.util.regex.Pattern
@@ -40,7 +40,7 @@ import team.aliens.design_system.extension.Space
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
 @Composable
-fun ChangePasswordScreen(
+fun EditPasswordScreen(
     navController: NavController,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
@@ -100,8 +100,8 @@ fun ChangePasswordScreen(
                     content = stringResource(id = R.string.SuccessChangePassword),
                     mainBtnText = stringResource(id = R.string.GoLogin),
                     onMainBtnClick = {
-                        navController.navigate(NavigationRoute.Auth.SignIn) {
-                            popUpTo(NavigationRoute.Auth.SignIn) {
+                        navController.navigate(DmsRoute.Auth.SignIn) {
+                            popUpTo(DmsRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }
@@ -135,8 +135,8 @@ fun ChangePasswordScreen(
                     mainBtnText = stringResource(id = R.string.Yes),
                     subBtnText = stringResource(id = R.string.No),
                     onMainBtnClick = {
-                        navController.navigate(NavigationRoute.Auth.SignIn) {
-                            popUpTo(NavigationRoute.Auth.SignIn) {
+                        navController.navigate(DmsRoute.Auth.SignIn) {
+                            popUpTo(DmsRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }
@@ -151,8 +151,8 @@ fun ChangePasswordScreen(
                 when (it) {
                     is ChangePasswordViewModel.Event.ResetPasswordSuccess -> {
                         toast(context.getString(R.string.SuccessResetPassword))
-                        navController.navigate(NavigationRoute.Auth.SignIn) {
-                            popUpTo(NavigationRoute.Auth.SignIn) {
+                        navController.navigate(DmsRoute.Auth.SignIn) {
+                            popUpTo(DmsRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }

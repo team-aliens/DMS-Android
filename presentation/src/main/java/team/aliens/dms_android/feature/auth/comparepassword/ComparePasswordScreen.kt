@@ -30,7 +30,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
 import team.aliens.presentation.R
@@ -61,7 +61,7 @@ fun ComparePasswordScreen(
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
                 is ChangePasswordViewModel.Event.ComparePasswordSuccess -> {
-                    navController.navigate(NavigationRoute.Auth.MyPageChangePassword)
+                    navController.navigate(DmsRoute.Home.MyPageChangePassword)
                 }
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true

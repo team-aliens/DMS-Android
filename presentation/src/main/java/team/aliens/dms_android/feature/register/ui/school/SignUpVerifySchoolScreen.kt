@@ -45,7 +45,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import team.aliens.presentation.R
 
@@ -88,7 +88,7 @@ fun SignUpVerifySchoolScreen(
                         putString("schoolCode", verificationCode)
                         putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
                     }
-                    navController.navigate(NavigationRoute.SignUp.SchoolQuestion)
+                    navController.navigate(DmsRoute.SignUp.SchoolQuestion)
                 }
                 is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {
                     isError = true

@@ -32,7 +32,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.presentation.R
 
 @Composable
@@ -76,7 +76,7 @@ fun ApplicationScreen(
                 content = stringResource(id = R.string.StudyRoomApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyStudyRoom),
                 onButtonClick = {
-                    navController.navigate(NavigationRoute.Home.StudyRoomList)
+                    navController.navigate(DmsRoute.Home.StudyRoomList)
                 },
                 lastApplicationText = lastAppliedStudyRoom,
             )
@@ -88,7 +88,7 @@ fun ApplicationScreen(
                 content = stringResource(id = R.string.RemainApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyRemain),
                 onButtonClick = {
-                    navController.navigate(NavigationRoute.Home.RemainApplication)
+                    navController.navigate(DmsRoute.Home.RemainApplication)
                 },
                 lastApplicationText = lastAppliedRemain,
             )

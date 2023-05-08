@@ -36,7 +36,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
@@ -74,8 +74,8 @@ fun SignUpEmailScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Auth.SignIn) {
-                        popUpTo(NavigationRoute.Auth.SignIn) {
+                    navController.navigate(DmsRoute.Auth.SignIn) {
+                        popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }
@@ -119,7 +119,7 @@ fun SignUpEmailScreen(
                         )
                         putString("email", email)
                     }
-                    navController.navigate(NavigationRoute.SignUp.SignUpEmailVerify)
+                    navController.navigate(DmsRoute.SignUp.SignUpEmailVerify)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.ChangeEmail))

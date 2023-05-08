@@ -17,52 +17,52 @@ fun NavGraphBuilder.signUpNavigation(
     navController: NavController,
 ) {
     navigation(
-        startDestination = NavigationRoute.SignUp.ExamineSchoolCode,
-        route = NavigationRoute.SignUp.route,
+        startDestination = DmsRoute.SignUp.ExamineSchoolCode,
+        route = DmsRoute.SignUp.route,
     ) {
-        composable(NavigationRoute.SignUp.ExamineSchoolCode) {
+        composable(DmsRoute.SignUp.ExamineSchoolCode) {
             SignUpVerifySchoolScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SchoolQuestion) {
+        composable(DmsRoute.SignUp.SchoolQuestion) {
             SignUpSchoolQuestionScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SignUpEmail) {
+        composable(DmsRoute.SignUp.SignUpEmail) {
             SignUpEmailScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SignUpEmailVerify) {
+        composable(DmsRoute.SignUp.SignUpEmailVerify) {
             SignUpEmailVerifyScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SignUpId) {
+        composable(DmsRoute.SignUp.SignUpId) {
             SignUpIdScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SignUpPassword) {
+        composable(DmsRoute.SignUp.SignUpPassword) {
             SignUpPasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SignUpProfile) {
+        composable(DmsRoute.SignUp.SignUpProfile) {
             SignUpProfileScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.SignUp.SignUpPolicy) {
+        composable(DmsRoute.SignUp.SignUpPolicy) {
             SignUpPolicyScreen(
                 navController = navController,
             )

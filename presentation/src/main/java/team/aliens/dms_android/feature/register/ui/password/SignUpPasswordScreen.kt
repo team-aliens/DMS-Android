@@ -30,7 +30,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.presentation.R
 
 @Composable
@@ -163,7 +163,7 @@ fun SignUpPasswordScreen(
                     )
                     putString("password", password)
                 }
-                navController.navigate(NavigationRoute.SignUp.SignUpProfile)
+                navController.navigate(DmsRoute.SignUp.SignUpProfile)
             }
         }
     }

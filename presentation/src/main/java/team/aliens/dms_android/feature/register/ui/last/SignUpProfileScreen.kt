@@ -41,7 +41,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.feature.image.ConfirmImageViewModel
 import team.aliens.presentation.R
@@ -185,7 +185,7 @@ fun SignUpProfileScreen(
                             "profileImageUrl",
                             profileImageUrl,
                         )
-                        navigate(NavigationRoute.SignUp.SignUpPolicy)
+                        navigate(DmsRoute.SignUp.SignUpPolicy)
                     }
                 },
                 text = stringResource(id = R.string.SettingLater),
@@ -238,7 +238,7 @@ fun SignUpProfileScreen(
                         "profileImageUrl",
                         confirmImageViewModel.profileImageUrl,
                     )
-                    navigate(NavigationRoute.SignUp.SignUpPolicy)
+                    navigate(DmsRoute.SignUp.SignUpPolicy)
                 }
             }
         }

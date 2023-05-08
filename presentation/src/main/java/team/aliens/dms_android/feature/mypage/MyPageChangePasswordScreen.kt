@@ -29,10 +29,11 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 
+@Stable
 const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -86,7 +87,7 @@ fun MyPageChangePasswordScreen(
                 when (it) {
                     is ChangePasswordViewModel.Event.EditPasswordSuccess -> {
                         toast(context.getString(R.string.SuccessChangePassword))
-                        navController.navigate(NavigationRoute.Home.Main) {
+                        navController.navigate(DmsRoute.Home.route) {
                             popUpTo(navController.currentDestination?.id!!)
                         }
                     }

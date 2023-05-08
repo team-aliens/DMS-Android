@@ -37,7 +37,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.school.CompareSchoolAnswerSuccess
 import team.aliens.dms_android.feature.register.event.school.FetchSchoolQuestion
 import team.aliens.dms_android.feature.register.event.school.MissMatchCompareSchool
@@ -92,7 +92,7 @@ fun SignUpSchoolQuestionScreen(
                         putString("schoolAnswer", schoolAnswer)
                         putString("schoolId", schoolId.toString())
                     }
-                    navController.navigate(NavigationRoute.SignUp.SignUpEmail)
+                    navController.navigate(DmsRoute.SignUp.SignUpEmail)
                 }
                 is MissMatchCompareSchool -> {
                     isError = true
@@ -166,8 +166,8 @@ fun SignUpSchoolQuestionScreen(
                     .dormClickable(
                         rippleEnabled = false,
                     ) {
-                        navController.navigate(NavigationRoute.Auth.SignIn) {
-                            popUpTo(NavigationRoute.Auth.SignIn) {
+                        navController.navigate(DmsRoute.Auth.SignIn) {
+                            popUpTo(DmsRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }

@@ -22,24 +22,24 @@ fun NavGraphBuilder.homeNavigation(
     scaffoldState: ScaffoldState,
 ) {
     navigation(
-        startDestination = NavigationRoute.Home.Main,
-        route = NavigationRoute.Home.route,
+        startDestination = DmsRoute.Home.Main,
+        route = DmsRoute.Home.route,
     ) {
-        composable(NavigationRoute.Home.Main) {
+        composable(DmsRoute.Home.Main) {
             DmsApp(
                 navController = navController,
                 scaffoldState = scaffoldState,
             )
         }
 
-        composable(NavigationRoute.Home.PointList) {
+        composable(DmsRoute.Home.PointList) {
             PointListScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = NavigationRoute.Home.UploadImage + "/{${Extra.selectedImageType}}",
+            route = DmsRoute.Home.UploadImage + "/{${Extra.selectedImageType}}",
             arguments = listOf(
                 navArgument(Extra.selectedImageType) {
                     defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
@@ -58,7 +58,7 @@ fun NavGraphBuilder.homeNavigation(
         }
 
         composable(
-            route = NavigationRoute.Home.StudyRoomDetail,
+            route = DmsRoute.Home.StudyRoomDetail,
             arguments = listOf(
                 navArgument(Extra.seatId) { type = NavType.StringType },
                 navArgument(Extra.timeSlot) { type = NavType.StringType },
@@ -75,20 +75,20 @@ fun NavGraphBuilder.homeNavigation(
             }
         }
 
-        composable(NavigationRoute.Home.StudyRoomList) {
+        composable(DmsRoute.Home.StudyRoomList) {
             StudyRoomListScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Home.RemainApplication) {
+        composable(DmsRoute.Home.RemainApplication) {
             RemainApplicationScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = NavigationRoute.Home.NoticeDetail,
+            route = DmsRoute.Home.NoticeDetail,
             arguments = listOf(
                 navArgument(Extra.noticeId) { type = NavType.StringType },
             ),

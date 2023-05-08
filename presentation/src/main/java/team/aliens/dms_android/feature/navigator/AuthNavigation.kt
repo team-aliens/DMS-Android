@@ -4,8 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordScreen
-import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordVerifyEmailScreen
+import team.aliens.dms_android.feature.auth.changepassword.EditPasswordScreen
+import team.aliens.dms_android.feature.auth.changepassword.ResetPasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.IdentificationScreen
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
@@ -16,48 +16,48 @@ fun NavGraphBuilder.authNavigation(
     navController: NavController,
 ){
     navigation(
-        startDestination = NavigationRoute.Auth.SignIn,
-        route = NavigationRoute.Auth.route,
+        startDestination = DmsRoute.Auth.SignIn,
+        route = DmsRoute.Auth.route,
     ){
-        composable(NavigationRoute.Auth.SignIn) {
+        composable(DmsRoute.Auth.SignIn) {
             LoginScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Auth.ChangePassword) {
-            ChangePasswordScreen(
+        composable(DmsRoute.Auth.EditPassword) {
+            EditPasswordScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = NavigationRoute.Auth.ComparePassword,
+            route = DmsRoute.Auth.ComparePassword,
         ) {
             ComparePasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Auth.FindId) {
+        composable(DmsRoute.Auth.FindId) {
             FindIdScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Auth.Identification) {
+        composable(DmsRoute.Auth.Identification) {
             IdentificationScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Auth.ChangePasswordVerifyEmail) {
-            ChangePasswordVerifyEmailScreen(
+        composable(DmsRoute.Auth.ResetPassword) {
+            ResetPasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(NavigationRoute.Auth.MyPageChangePassword) {
+        composable(DmsRoute.Home.MyPageChangePassword) {
             MyPageChangePasswordScreen(
                 navController = navController,
             )

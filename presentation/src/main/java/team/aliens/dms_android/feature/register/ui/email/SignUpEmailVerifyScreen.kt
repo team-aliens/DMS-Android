@@ -49,7 +49,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.VerifyTime
 import team.aliens.domain._model._common.EmailVerificationType
@@ -96,8 +96,8 @@ fun SignUpEmailVerifyScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.SignUp.SignUpEmail) {
-                        popUpTo(NavigationRoute.SignUp.SignUpEmail) {
+                    navController.navigate(DmsRoute.SignUp.SignUpEmail) {
+                        popUpTo(DmsRoute.SignUp.SignUpEmail) {
                             inclusive = true
                         }
                     }
@@ -137,7 +137,7 @@ fun SignUpEmailVerifyScreen(
                                 )
                             }
                         }
-                        navigate(NavigationRoute.SignUp.SignUpId)
+                        navigate(DmsRoute.SignUp.SignUpId)
                     }
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {

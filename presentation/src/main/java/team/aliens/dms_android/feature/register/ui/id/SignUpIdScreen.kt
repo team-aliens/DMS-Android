@@ -41,7 +41,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.presentation.R
 import java.util.UUID
@@ -132,7 +132,7 @@ fun SignUpIdScreen(
                             putInt("number", number.toInt())
                             putString("accountId", userId)
                         }
-                        navController.navigate(NavigationRoute.SignUp.SignUpPassword)
+                        navController.navigate(DmsRoute.SignUp.SignUpPassword)
                     }
                 }
                 is SetIdEvent.DuplicateIdConflictException -> {

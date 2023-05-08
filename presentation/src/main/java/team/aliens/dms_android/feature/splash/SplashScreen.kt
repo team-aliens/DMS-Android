@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.MainActivity
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.navigator.RootViewModel
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
@@ -46,7 +46,7 @@ fun SplashScreen(
                     is RootViewModel.Event.AutoLoginSuccess -> {
                         moveToMainActivity(
                             context = context,
-                            route = NavigationRoute.Home.route,
+                            route = DmsRoute.Home.route,
                             userVisibleInformEntity = event.userVisibleInformEntity,
                         )
                     }
@@ -54,7 +54,7 @@ fun SplashScreen(
                     is RootViewModel.Event.NeedLogin -> {
                         moveToMainActivity(
                             context = context,
-                            route = NavigationRoute.Auth.route,
+                            route = DmsRoute.Auth.route,
                         )
                     }
                 }

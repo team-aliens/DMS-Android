@@ -39,7 +39,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.SignUpEvent
 import team.aliens.domain._model.student.SignUpInput
 import team.aliens.presentation.R
@@ -72,8 +72,8 @@ fun SignUpPolicyScreen(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Auth.SignIn) {
-                        popUpTo(NavigationRoute.Auth.SignIn) {
+                    navController.navigate(DmsRoute.Auth.SignIn) {
+                        popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }

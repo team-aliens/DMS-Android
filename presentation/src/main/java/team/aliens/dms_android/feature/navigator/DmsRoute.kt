@@ -1,9 +1,12 @@
 package team.aliens.dms_android.feature.navigator
 
-sealed class NavigationRoute(
+sealed class DmsRoute(
     val route: String,
 ) {
-    object Home : NavigationRoute("home") {
+    object Home : DmsRoute(
+        route = "home",
+    ) {
+        @Deprecated("제거 필요") // fixme 제거
         const val Main = "main"
         const val PointList = "pointList"
         const val UploadImage = "uploadImage"
@@ -11,9 +14,12 @@ sealed class NavigationRoute(
         const val StudyRoomDetail = "studyRoomDetail/{seatId}/{timeSlot}"
         const val RemainApplication = "remainApplication"
         const val NoticeDetail = "noticeDetail/{noticeId}"
+        const val MyPageChangePassword = "myPageChangePassword"
     }
 
-    object SignUp : NavigationRoute("signUp") {
+    object SignUp : DmsRoute(
+        route = "signUp",
+    ) {
         const val ExamineSchoolCode = "examineSchoolCode"
         const val SchoolQuestion = "schoolQuestion"
         const val SignUpEmail = "signUpEmail"
@@ -24,13 +30,14 @@ sealed class NavigationRoute(
         const val SignUpPolicy = "signUpPolicy"
     }
 
-    object Auth : NavigationRoute("auth") {
+    object Auth : DmsRoute(
+        route = "auth",
+    ) {
         const val SignIn = "signIn"
-        const val ChangePassword = "changePassword"
+        const val EditPassword = "editPassword"
         const val ComparePassword = "comparePassword"
         const val FindId = "findId"
         const val Identification = "identification"
-        const val ChangePasswordVerifyEmail = "changePasswordVerifyEmail"
-        const val MyPageChangePassword = "myPageChangePassword"
+        const val ResetPassword = "resetPassword"
     }
 }

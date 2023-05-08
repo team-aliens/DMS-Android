@@ -49,7 +49,7 @@ import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.domain._model._common.Sex
 import team.aliens.presentation.R
@@ -151,7 +151,7 @@ fun MyPageScreen(
     }
 
     val onPasswordChangeClicked = {
-        navController.navigate(NavigationRoute.Auth.ComparePassword)
+        navController.navigate(DmsRoute.Auth.ComparePassword)
     }
 
     if (setProfileDialogState) {
@@ -161,12 +161,12 @@ fun MyPageScreen(
             },
             onTakePhoto = {
                 navController.navigate(
-                    NavigationRoute.Home.UploadImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                    DmsRoute.Home.UploadImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
                 )
             },
             onSelectPhoto = {
                 navController.navigate(
-                    NavigationRoute.Home.UploadImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                    DmsRoute.Home.UploadImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
             onDialogDismiss = onSetProfileDialogDismiss,
@@ -187,7 +187,7 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.signOutEvent.collect {
-            navController.navigate(NavigationRoute.Auth.SignIn) {
+            navController.navigate(DmsRoute.Auth.SignIn) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
                 }
@@ -197,7 +197,7 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.withdrawEvent.collect {
-            navController.navigate(NavigationRoute.Auth.SignIn) {
+            navController.navigate(DmsRoute.Auth.SignIn) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
                 }
@@ -418,7 +418,7 @@ fun MyPageScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                navController.navigate(NavigationRoute.Home.PointList)
+                                navController.navigate(DmsRoute.Home.PointList)
                             }
                             .padding(
                                 vertical = 14.dp,

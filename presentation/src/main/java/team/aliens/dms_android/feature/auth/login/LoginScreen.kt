@@ -31,7 +31,7 @@ import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.auth.login.SignInViewModel.Event
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
@@ -84,8 +84,8 @@ fun LoginScreen(
             when (event) {
                 is Event.NavigateToHome -> {
                     onSignInSuccess(event.userVisibleInformEntity)
-                    navController.navigate(NavigationRoute.Home.Main) {
-                        popUpTo(NavigationRoute.Auth.SignIn) {
+                    navController.navigate(DmsRoute.Home.route) {
+                        popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }
@@ -210,7 +210,7 @@ fun LoginScreen(
                 Caption(
                     text = stringResource(id = R.string.DoRegister),
                     onClick = {
-                        navController.navigate(NavigationRoute.SignUp.ExamineSchoolCode)
+                        navController.navigate(DmsRoute.SignUp.ExamineSchoolCode)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -225,7 +225,7 @@ fun LoginScreen(
                         id = R.string.FindId,
                     ),
                     onClick = {
-                        navController.navigate(NavigationRoute.Auth.FindId)
+                        navController.navigate(DmsRoute.Auth.FindId)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -240,7 +240,7 @@ fun LoginScreen(
                         id = R.string.ChangePassword,
                     ),
                     onClick = {
-                        navController.navigate(NavigationRoute.Auth.Identification)
+                        navController.navigate(DmsRoute.Auth.Identification)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
