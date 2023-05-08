@@ -6,15 +6,15 @@ sealed class NavigationRoute(
     object Home : NavigationRoute("home") {
         const val Main = "main"
         const val PointList = "pointList"
-        const val ConfirmImage = "confirmImage"
-        const val StudyRoom = "studyRoom"
+        const val UploadImage = "uploadImage"
+        const val StudyRoomList = "studyRoomList"
         const val StudyRoomDetail = "studyRoomDetail/{seatId}/{timeSlot}"
         const val RemainApplication = "remainApplication"
         const val NoticeDetail = "noticeDetail/{noticeId}"
     }
 
     object SignUp : NavigationRoute("signUp") {
-        const val VerifySchool = "verifySchool"
+        const val ExamineSchoolCode = "examineSchoolCode"
         const val SchoolQuestion = "schoolQuestion"
         const val SignUpEmail = "signUpEmail"
         const val SignUpEmailVerify = "signUpEmailVerify"
@@ -25,7 +25,7 @@ sealed class NavigationRoute(
     }
 
     object Auth : NavigationRoute("auth") {
-        const val Login = "login"
+        const val SignIn = "signIn"
         const val ChangePassword = "changePassword"
         const val ComparePassword = "comparePassword"
         const val FindId = "findId"

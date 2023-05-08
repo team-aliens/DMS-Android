@@ -166,8 +166,8 @@ fun SignUpSchoolQuestionScreen(
                     .dormClickable(
                         rippleEnabled = false,
                     ) {
-                        navController.navigate(NavigationRoute.Auth.Login) {
-                            popUpTo(NavigationRoute.Auth.Login) {
+                        navController.navigate(NavigationRoute.Auth.SignIn) {
+                            popUpTo(NavigationRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }

@@ -72,8 +72,8 @@ fun SignUpPolicyScreen(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Auth.Login) {
-                        popUpTo(NavigationRoute.Auth.Login) {
+                    navController.navigate(NavigationRoute.Auth.SignIn) {
+                        popUpTo(NavigationRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }

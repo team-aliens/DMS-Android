@@ -100,8 +100,8 @@ fun ChangePasswordScreen(
                     content = stringResource(id = R.string.SuccessChangePassword),
                     mainBtnText = stringResource(id = R.string.GoLogin),
                     onMainBtnClick = {
-                        navController.navigate(NavigationRoute.Auth.Login) {
-                            popUpTo(NavigationRoute.Auth.Login) {
+                        navController.navigate(NavigationRoute.Auth.SignIn) {
+                            popUpTo(NavigationRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }
@@ -135,8 +135,8 @@ fun ChangePasswordScreen(
                     mainBtnText = stringResource(id = R.string.Yes),
                     subBtnText = stringResource(id = R.string.No),
                     onMainBtnClick = {
-                        navController.navigate(NavigationRoute.Auth.Login) {
-                            popUpTo(NavigationRoute.Auth.Login) {
+                        navController.navigate(NavigationRoute.Auth.SignIn) {
+                            popUpTo(NavigationRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }
@@ -151,8 +151,8 @@ fun ChangePasswordScreen(
                 when (it) {
                     is ChangePasswordViewModel.Event.ResetPasswordSuccess -> {
                         toast(context.getString(R.string.SuccessResetPassword))
-                        navController.navigate(NavigationRoute.Auth.Login) {
-                            popUpTo(NavigationRoute.Auth.Login) {
+                        navController.navigate(NavigationRoute.Auth.SignIn) {
+                            popUpTo(NavigationRoute.Auth.SignIn) {
                                 inclusive = true
                             }
                         }

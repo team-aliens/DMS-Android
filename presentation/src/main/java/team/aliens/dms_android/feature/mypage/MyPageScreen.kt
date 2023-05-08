@@ -161,12 +161,12 @@ fun MyPageScreen(
             },
             onTakePhoto = {
                 navController.navigate(
-                    NavigationRoute.Home.ConfirmImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                    NavigationRoute.Home.UploadImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
                 )
             },
             onSelectPhoto = {
                 navController.navigate(
-                    NavigationRoute.Home.ConfirmImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                    NavigationRoute.Home.UploadImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
             onDialogDismiss = onSetProfileDialogDismiss,
@@ -187,7 +187,7 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.signOutEvent.collect {
-            navController.navigate(NavigationRoute.Auth.Login) {
+            navController.navigate(NavigationRoute.Auth.SignIn) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
                 }
@@ -197,7 +197,7 @@ fun MyPageScreen(
 
     LaunchedEffect(Unit) {
         myPageViewModel.withdrawEvent.collect {
-            navController.navigate(NavigationRoute.Auth.Login) {
+            navController.navigate(NavigationRoute.Auth.SignIn) {
                 popUpTo(navController.currentDestination?.route!!) {
                     inclusive = true
                 }

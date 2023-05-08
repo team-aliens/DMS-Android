@@ -39,7 +39,7 @@ fun NavGraphBuilder.homeNavigation(
         }
 
         composable(
-            route = NavigationRoute.Home.ConfirmImage + "/{${Extra.selectedImageType}}",
+            route = NavigationRoute.Home.UploadImage + "/{${Extra.selectedImageType}}",
             arguments = listOf(
                 navArgument(Extra.selectedImageType) {
                     defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
@@ -75,7 +75,7 @@ fun NavGraphBuilder.homeNavigation(
             }
         }
 
-        composable(NavigationRoute.Home.StudyRoom) {
+        composable(NavigationRoute.Home.StudyRoomList) {
             StudyRoomListScreen(
                 navController = navController,
             )

@@ -76,7 +76,7 @@ fun ApplicationScreen(
                 content = stringResource(id = R.string.StudyRoomApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyStudyRoom),
                 onButtonClick = {
-                    navController.navigate(NavigationRoute.Home.StudyRoom)
+                    navController.navigate(NavigationRoute.Home.StudyRoomList)
                 },
                 lastApplicationText = lastAppliedStudyRoom,
             )

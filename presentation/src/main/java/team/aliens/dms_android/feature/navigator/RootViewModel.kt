@@ -77,7 +77,7 @@ data class SplashState(
 ) : MviState {
     companion object {
         fun initial() = SplashState(
-            route = NavigationRoute.Auth.Login,
+            route = NavigationRoute.Auth.SignIn,
             userVisibleInformEntity = UserVisibleInformEntity(
                 mealService = false,
                 noticeService = false,

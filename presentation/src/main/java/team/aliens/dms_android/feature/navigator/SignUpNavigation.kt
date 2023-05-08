@@ -17,10 +17,10 @@ fun NavGraphBuilder.signUpNavigation(
     navController: NavController,
 ) {
     navigation(
-        startDestination = NavigationRoute.SignUp.VerifySchool,
+        startDestination = NavigationRoute.SignUp.ExamineSchoolCode,
         route = NavigationRoute.SignUp.route,
     ) {
-        composable(NavigationRoute.SignUp.VerifySchool) {
+        composable(NavigationRoute.SignUp.ExamineSchoolCode) {
             SignUpVerifySchoolScreen(
                 navController = navController,
             )

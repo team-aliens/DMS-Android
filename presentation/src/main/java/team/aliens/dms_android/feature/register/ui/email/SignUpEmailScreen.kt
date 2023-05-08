@@ -74,8 +74,8 @@ fun SignUpEmailScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Auth.Login) {
-                        popUpTo(NavigationRoute.Auth.Login) {
+                    navController.navigate(NavigationRoute.Auth.SignIn) {
+                        popUpTo(NavigationRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }
