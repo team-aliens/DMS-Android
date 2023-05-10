@@ -37,7 +37,7 @@ import java.util.*
  */
 @SuppressLint("ResourceType")
 @Composable
-fun StudyRoomDetailScreen(
+fun StudyRoomDetailsScreen(
     navController: NavController,
     roomId: String,
     timeSlot: UUID,

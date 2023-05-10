@@ -161,12 +161,12 @@ fun MyPageScreen(
             },
             onTakePhoto = {
                 navController.navigate(
-                    DmsRoute.Home.UploadImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                    DmsRoute.Home.UploadProfileImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
                 )
             },
             onSelectPhoto = {
                 navController.navigate(
-                    DmsRoute.Home.UploadImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                    DmsRoute.Home.UploadProfileImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
                 )
             },
             onDialogDismiss = onSetProfileDialogDismiss,
@@ -418,7 +418,7 @@ fun MyPageScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                navController.navigate(DmsRoute.Home.PointList)
+                                navController.navigate(DmsRoute.Home.PointHistory)
                             }
                             .padding(
                                 vertical = 14.dp,

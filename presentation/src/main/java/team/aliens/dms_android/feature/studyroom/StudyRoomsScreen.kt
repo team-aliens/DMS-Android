@@ -43,7 +43,7 @@ import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun StudyRoomListScreen(
+fun StudyRoomsScreen(
     navController: NavController,
     studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {

@@ -45,7 +45,7 @@ import team.aliens.dms_android.feature.register.event.school.NotFoundCompareScho
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpSchoolQuestionScreen(
+fun SignUpSchoolVerificationQuestionScreen(
     navController: NavController,
     confirmSchoolViewModel: ConfirmSchoolViewModel = hiltViewModel(),
 ) {
@@ -92,7 +92,7 @@ fun SignUpSchoolQuestionScreen(
                         putString("schoolAnswer", schoolAnswer)
                         putString("schoolId", schoolId.toString())
                     }
-                    navController.navigate(DmsRoute.SignUp.SignUpEmail)
+                    navController.navigate(DmsRoute.SignUp.SendVerificationEmail)
                 }
                 is MissMatchCompareSchool -> {
                     isError = true

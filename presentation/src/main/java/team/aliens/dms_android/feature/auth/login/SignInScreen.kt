@@ -37,7 +37,7 @@ import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen(
+fun SignInScreen(
     navController: NavController,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
@@ -210,7 +210,7 @@ fun LoginScreen(
                 Caption(
                     text = stringResource(id = R.string.DoRegister),
                     onClick = {
-                        navController.navigate(DmsRoute.SignUp.ExamineSchoolCode)
+                        navController.navigate(DmsRoute.SignUp.VerifySchool)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -240,7 +240,7 @@ fun LoginScreen(
                         id = R.string.ChangePassword,
                     ),
                     onClick = {
-                        navController.navigate(DmsRoute.Auth.Identification)
+                        navController.navigate(DmsRoute.Auth.UserVerification)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )

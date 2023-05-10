@@ -49,7 +49,7 @@ import java.util.UUID
 const val idFormatPattern = "^[a-zA-Z]*$"
 
 @Composable
-fun SignUpIdScreen(
+fun SignUpSetIdScreen(
     navController: NavController,
     setIdViewModel: SetIdViewModel = hiltViewModel(),
 ) {
@@ -132,7 +132,7 @@ fun SignUpIdScreen(
                             putInt("number", number.toInt())
                             putString("accountId", userId)
                         }
-                        navController.navigate(DmsRoute.SignUp.SignUpPassword)
+                        navController.navigate(DmsRoute.SignUp.SetPassword)
                     }
                 }
                 is SetIdEvent.DuplicateIdConflictException -> {

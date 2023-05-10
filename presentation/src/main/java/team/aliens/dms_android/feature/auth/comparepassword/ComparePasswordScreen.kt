@@ -61,11 +61,13 @@ fun ComparePasswordScreen(
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
                 is ChangePasswordViewModel.Event.ComparePasswordSuccess -> {
-                    navController.navigate(DmsRoute.Home.MyPageChangePassword)
+                    navController.navigate(DmsRoute.Auth.EditPassword)
                 }
+
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true
                 }
+
                 else -> {
                     toast(
                         getStringFromEvent(
@@ -86,7 +88,7 @@ fun ComparePasswordScreen(
             )
             .dormClickable(
                 rippleEnabled = false,
-            ){
+            ) {
                 focusManager.clearFocus()
             }
     ) {
@@ -123,7 +125,7 @@ fun ComparePasswordScreen(
                     hint = stringResource(id = R.string.Password),
                     errorDescription = stringResource(id = R.string.CheckPassword),
                     error = isError,
-                    keyboardActions = KeyboardActions{
+                    keyboardActions = KeyboardActions {
                         focusManager.clearFocus()
                     }
                 )
@@ -150,14 +152,18 @@ private fun getStringFromEvent(
     is ChangePasswordViewModel.Event.BadRequestException -> {
         context.getString(R.string.BadRequest)
     }
+
     is ChangePasswordViewModel.Event.ForbiddenException -> {
         context.getString(R.string.Forbidden)
     }
+
     is ChangePasswordViewModel.Event.TooManyRequestException -> {
         context.getString(R.string.TooManyRequest)
     }
+
     is ChangePasswordViewModel.Event.ServerException -> {
         context.getString(R.string.ServerException)
     }
+
     else -> context.getString(R.string.UnKnownException)
 }

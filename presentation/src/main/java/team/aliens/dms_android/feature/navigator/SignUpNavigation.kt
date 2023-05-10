@@ -4,65 +4,65 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.register.ui.email.SignUpEmailScreen
-import team.aliens.dms_android.feature.register.ui.email.SignUpEmailVerifyScreen
-import team.aliens.dms_android.feature.register.ui.id.SignUpIdScreen
+import team.aliens.dms_android.feature.register.ui.email.SignUpSendVerificationEmailScreen
+import team.aliens.dms_android.feature.register.ui.email.SignUpEmailVerificationCodeScreen
+import team.aliens.dms_android.feature.register.ui.id.SignUpSetIdScreen
 import team.aliens.dms_android.feature.register.ui.last.SignUpPolicyScreen
-import team.aliens.dms_android.feature.register.ui.last.SignUpProfileScreen
-import team.aliens.dms_android.feature.register.ui.password.SignUpPasswordScreen
-import team.aliens.dms_android.feature.register.ui.school.SignUpSchoolQuestionScreen
+import team.aliens.dms_android.feature.register.ui.last.SignUpSetProfileImageScreen
+import team.aliens.dms_android.feature.register.ui.password.SignUpSetPasswordScreen
+import team.aliens.dms_android.feature.register.ui.school.SignUpSchoolVerificationQuestionScreen
 import team.aliens.dms_android.feature.register.ui.school.SignUpVerifySchoolScreen
 
 fun NavGraphBuilder.signUpNavigation(
     navController: NavController,
 ) {
     navigation(
-        startDestination = DmsRoute.SignUp.ExamineSchoolCode,
+        startDestination = DmsRoute.SignUp.VerifySchool,
         route = DmsRoute.SignUp.route,
     ) {
-        composable(DmsRoute.SignUp.ExamineSchoolCode) {
+        composable(DmsRoute.SignUp.VerifySchool) {
             SignUpVerifySchoolScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SchoolQuestion) {
-            SignUpSchoolQuestionScreen(
+        composable(DmsRoute.SignUp.SchoolVerificationQuestion) {
+            SignUpSchoolVerificationQuestionScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SignUpEmail) {
-            SignUpEmailScreen(
+        composable(DmsRoute.SignUp.SendVerificationEmail) {
+            SignUpSendVerificationEmailScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SignUpEmailVerify) {
-            SignUpEmailVerifyScreen(
+        composable(DmsRoute.SignUp.CheckEmailVerificationCode) {
+            SignUpEmailVerificationCodeScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SignUpId) {
-            SignUpIdScreen(
+        composable(DmsRoute.SignUp.SetId) {
+            SignUpSetIdScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SignUpPassword) {
-            SignUpPasswordScreen(
+        composable(DmsRoute.SignUp.SetPassword) {
+            SignUpSetPasswordScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SignUpProfile) {
-            SignUpProfileScreen(
+        composable(DmsRoute.SignUp.SetProfileImage) {
+            SignUpSetProfileImageScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.SignUp.SignUpPolicy) {
+        composable(DmsRoute.SignUp.Policy) {
             SignUpPolicyScreen(
                 navController = navController,
             )

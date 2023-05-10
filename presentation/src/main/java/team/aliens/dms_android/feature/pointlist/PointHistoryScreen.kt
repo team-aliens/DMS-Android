@@ -37,7 +37,7 @@ import team.aliens.domain._model.point.FetchPointsOutput
 import team.aliens.presentation.R
 
 @Composable
-fun PointListScreen(
+fun PointHistoryScreen(
     navController: NavController,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {

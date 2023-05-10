@@ -34,7 +34,7 @@ import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpPasswordScreen(
+fun SignUpSetPasswordScreen(
     navController: NavController,
 ) {
 
@@ -163,7 +163,7 @@ fun SignUpPasswordScreen(
                     )
                     putString("password", password)
                 }
-                navController.navigate(DmsRoute.SignUp.SignUpProfile)
+                navController.navigate(DmsRoute.SignUp.SetProfileImage)
             }
         }
     }

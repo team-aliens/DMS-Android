@@ -88,7 +88,7 @@ fun SignUpVerifySchoolScreen(
                         putString("schoolCode", verificationCode)
                         putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
                     }
-                    navController.navigate(DmsRoute.SignUp.SchoolQuestion)
+                    navController.navigate(DmsRoute.SignUp.SchoolVerificationQuestion)
                 }
                 is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {
                     isError = true

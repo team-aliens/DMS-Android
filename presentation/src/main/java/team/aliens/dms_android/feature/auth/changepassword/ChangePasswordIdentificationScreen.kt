@@ -45,7 +45,7 @@ import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun IdentificationScreen(
+fun UserVerification(
     navController: NavController,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),

@@ -76,7 +76,7 @@ fun ApplicationScreen(
                 content = stringResource(id = R.string.StudyRoomApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyStudyRoom),
                 onButtonClick = {
-                    navController.navigate(DmsRoute.Home.StudyRoomList)
+                    navController.navigate(DmsRoute.Home.StudyRooms)
                 },
                 lastApplicationText = lastAppliedStudyRoom,
             )
@@ -88,7 +88,7 @@ fun ApplicationScreen(
                 content = stringResource(id = R.string.RemainApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyRemain),
                 onButtonClick = {
-                    navController.navigate(DmsRoute.Home.RemainApplication)
+                    navController.navigate(DmsRoute.Home.RemainsApplication)
                 },
                 lastApplicationText = lastAppliedRemain,
             )

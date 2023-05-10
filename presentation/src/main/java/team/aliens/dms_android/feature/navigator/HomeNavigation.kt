@@ -9,12 +9,12 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import java.util.UUID
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.image.ConfirmImageScreen
-import team.aliens.dms_android.feature.notice.NoticeDetailScreen
-import team.aliens.dms_android.feature.pointlist.PointListScreen
-import team.aliens.dms_android.feature.remain.RemainApplicationScreen
-import team.aliens.dms_android.feature.studyroom.StudyRoomDetailScreen
-import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
+import team.aliens.dms_android.feature.image.UploadProfileImageScreen
+import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
+import team.aliens.dms_android.feature.pointlist.PointHistoryScreen
+import team.aliens.dms_android.feature.remain.RemainsApplicationScreen
+import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
+import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
 import team.aliens.dms_android.util.SelectImageType
 
 fun NavGraphBuilder.homeNavigation(
@@ -32,14 +32,14 @@ fun NavGraphBuilder.homeNavigation(
             )
         }
 
-        composable(DmsRoute.Home.PointList) {
-            PointListScreen(
+        composable(DmsRoute.Home.PointHistory) {
+            PointHistoryScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = DmsRoute.Home.UploadImage + "/{${Extra.selectedImageType}}",
+            route = DmsRoute.Home.UploadProfileImage + "/{${Extra.selectedImageType}}",
             arguments = listOf(
                 navArgument(Extra.selectedImageType) {
                     defaultValue = SelectImageType.SELECT_FROM_GALLERY.ordinal
@@ -51,14 +51,14 @@ fun NavGraphBuilder.homeNavigation(
             val selectImageType = navBackStackEntry.arguments?.getInt(Extra.selectedImageType)
                 ?: SelectImageType.SELECT_FROM_GALLERY.ordinal
 
-            ConfirmImageScreen(
+            UploadProfileImageScreen(
                 selectImageType = selectImageType,
                 navController = navController,
             )
         }
 
         composable(
-            route = DmsRoute.Home.StudyRoomDetail,
+            route = DmsRoute.Home.StudyRoomDetails,
             arguments = listOf(
                 navArgument(Extra.seatId) { type = NavType.StringType },
                 navArgument(Extra.timeSlot) { type = NavType.StringType },
@@ -67,7 +67,7 @@ fun NavGraphBuilder.homeNavigation(
             val roomId = it.arguments!!.getString(Extra.seatId)
             val timeSlot = it.arguments!!.getString(Extra.timeSlot)
             if (roomId != null) {
-                StudyRoomDetailScreen(
+                StudyRoomDetailsScreen(
                     navController = navController,
                     roomId = roomId,
                     timeSlot = UUID.fromString(timeSlot),
@@ -75,27 +75,27 @@ fun NavGraphBuilder.homeNavigation(
             }
         }
 
-        composable(DmsRoute.Home.StudyRoomList) {
-            StudyRoomListScreen(
+        composable(DmsRoute.Home.StudyRooms) {
+            StudyRoomsScreen(
                 navController = navController,
             )
         }
 
-        composable(DmsRoute.Home.RemainApplication) {
-            RemainApplicationScreen(
+        composable(DmsRoute.Home.RemainsApplication) {
+            RemainsApplicationScreen(
                 navController = navController,
             )
         }
 
         composable(
-            route = DmsRoute.Home.NoticeDetail,
+            route = DmsRoute.Home.NoticeDetails,
             arguments = listOf(
                 navArgument(Extra.noticeId) { type = NavType.StringType },
             ),
         ) {
             val noticeId = it.arguments!!.getString(Extra.noticeId)
             if (noticeId != null) {
-                NoticeDetailScreen(
+                NoticeDetailsScreen(
                     navController = navController,
                     noticeId = noticeId,
                 )

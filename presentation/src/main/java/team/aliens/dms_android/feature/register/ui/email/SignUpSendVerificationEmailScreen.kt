@@ -42,7 +42,7 @@ import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpEmailScreen(
+fun SignUpSendVerificationEmailScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
 ) {
@@ -119,7 +119,7 @@ fun SignUpEmailScreen(
                         )
                         putString("email", email)
                     }
-                    navController.navigate(DmsRoute.SignUp.SignUpEmailVerify)
+                    navController.navigate(DmsRoute.SignUp.CheckEmailVerificationCode)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.ChangeEmail))

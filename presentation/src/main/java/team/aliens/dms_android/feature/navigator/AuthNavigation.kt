@@ -6,10 +6,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import team.aliens.dms_android.feature.auth.changepassword.EditPasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.ResetPasswordScreen
-import team.aliens.dms_android.feature.auth.changepassword.IdentificationScreen
+import team.aliens.dms_android.feature.auth.changepassword.UserVerification
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
-import team.aliens.dms_android.feature.auth.login.LoginScreen
+import team.aliens.dms_android.feature.auth.login.SignInScreen
 import team.aliens.dms_android.feature.mypage.MyPageChangePasswordScreen
 
 fun NavGraphBuilder.authNavigation(
@@ -20,7 +20,7 @@ fun NavGraphBuilder.authNavigation(
         route = DmsRoute.Auth.route,
     ){
         composable(DmsRoute.Auth.SignIn) {
-            LoginScreen(
+            SignInScreen(
                 navController = navController,
             )
         }
@@ -45,8 +45,8 @@ fun NavGraphBuilder.authNavigation(
             )
         }
 
-        composable(DmsRoute.Auth.Identification) {
-            IdentificationScreen(
+        composable(DmsRoute.Auth.UserVerification) {
+            UserVerification(
                 navController = navController,
             )
         }

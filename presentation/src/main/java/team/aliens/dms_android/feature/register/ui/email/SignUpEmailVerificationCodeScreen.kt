@@ -56,7 +56,7 @@ import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpEmailVerifyScreen(
+fun SignUpEmailVerificationCodeScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
 ) {
@@ -96,8 +96,8 @@ fun SignUpEmailVerifyScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(DmsRoute.SignUp.SignUpEmail) {
-                        popUpTo(DmsRoute.SignUp.SignUpEmail) {
+                    navController.navigate(DmsRoute.SignUp.SendVerificationEmail) {
+                        popUpTo(DmsRoute.SignUp.SendVerificationEmail) {
                             inclusive = true
                         }
                     }
@@ -137,7 +137,7 @@ fun SignUpEmailVerifyScreen(
                                 )
                             }
                         }
-                        navigate(DmsRoute.SignUp.SignUpId)
+                        navigate(DmsRoute.SignUp.SetId)
                     }
                 }
                 is RegisterEmailEvent.SendEmailSuccess -> {

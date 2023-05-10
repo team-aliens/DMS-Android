@@ -8,26 +8,26 @@ sealed class DmsRoute(
     ) {
         @Deprecated("제거 필요") // fixme 제거
         const val Main = "main"
-        const val PointList = "pointList"
-        const val UploadImage = "uploadImage"
-        const val StudyRoomList = "studyRoomList"
-        const val StudyRoomDetail = "studyRoomDetail/{seatId}/{timeSlot}"
-        const val RemainApplication = "remainApplication"
-        const val NoticeDetail = "noticeDetail/{noticeId}"
+        const val PointHistory = "pointHistory"
+        const val UploadProfileImage = "uploadProfileImage"
+        const val StudyRooms = "studyRooms"
+        const val StudyRoomDetails = "studyRoomDetails/{seatId}/{timeSlot}"
+        const val RemainsApplication = "remainsApplication"
+        const val NoticeDetails = "noticeDetails/{noticeId}"
         const val MyPageChangePassword = "myPageChangePassword"
     }
 
     object SignUp : DmsRoute(
         route = "signUp",
     ) {
-        const val ExamineSchoolCode = "examineSchoolCode"
-        const val SchoolQuestion = "schoolQuestion"
-        const val SignUpEmail = "signUpEmail"
-        const val SignUpEmailVerify = "signUpEmailVerify"
-        const val SignUpId = "signUpId"
-        const val SignUpPassword = "signUpPassword"
-        const val SignUpProfile = "signUpProfile"
-        const val SignUpPolicy = "signUpPolicy"
+        const val VerifySchool = "verifySchool"
+        const val SchoolVerificationQuestion = "schoolVerificationQuestion"
+        const val SendVerificationEmail = "sendVerificationEmail"
+        const val CheckEmailVerificationCode = "checkEmailVerificationCode"
+        const val SetId = "setId"
+        const val SetPassword = "setPassword"
+        const val SetProfileImage = "setProfileImage"
+        const val Policy = "policy"
     }
 
     object Auth : DmsRoute(
@@ -36,8 +36,8 @@ sealed class DmsRoute(
         const val SignIn = "signIn"
         const val EditPassword = "editPassword"
         const val ComparePassword = "comparePassword"
-        const val FindId = "findId"
-        const val Identification = "identification"
         const val ResetPassword = "resetPassword"
+        const val FindId = "findId"
+        const val UserVerification = "userVerification"
     }
 }
