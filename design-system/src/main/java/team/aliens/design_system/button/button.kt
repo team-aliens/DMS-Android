@@ -80,11 +80,56 @@ fun DormOutlineLargeButton(
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-    BasicOutlineRoundLargeButton(
+    BasicOutlinedRoundLargeButton(
         modifier = modifier,
         text = text,
         textColor = color.backgroundColor,
         round = round,
+        backgroundColor = color.backgroundColor,
+        disabledColor = color.disabledColor,
+        rippleColor = color.rippleColor,
+        enabled = enabled,
+        onClick = onClick,
+    )
+}
+
+@DormDeprecated
+@Composable
+fun DormContainedDefaultButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    round: Dp = DefaultButtonRound,
+    color: DormButtonColor,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    BasicContainedRoundButton(
+        modifier = modifier,
+        text = text,
+        textColor = color.textColor,
+        round = round,
+        backgroundColor = color.backgroundColor,
+        rippleColor = color.rippleColor,
+        enabled = enabled,
+        onClick = onClick,
+    )
+}
+
+@DormDeprecated
+@Composable
+fun DormOutlinedDefaultButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    round: Dp = DefaultButtonRound,
+    color: DormButtonColor,
+    enabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    BasicOutlinedRoundButton(
+        modifier = modifier,
+        text = text,
+        round = round,
+        textColor = color.backgroundColor,
         backgroundColor = color.backgroundColor,
         disabledColor = color.disabledColor,
         rippleColor = color.rippleColor,
