@@ -6,8 +6,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -93,6 +95,10 @@ private fun BasicContainedButton(
         onClick = onClick,
     ) {
         ButtonText(
+            modifier = Modifier.padding(
+                vertical = 9.dp,
+                horizontal = 20.dp,
+            ),
             text = text,
             color = textColor,
         )
@@ -100,7 +106,7 @@ private fun BasicContainedButton(
 }
 
 @Composable
-private fun BasicOutlineButton(
+private fun BasicOutlinedButton(
     modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
@@ -134,6 +140,10 @@ private fun BasicOutlineButton(
         onClick = onClick,
     ) {
         ButtonText(
+            modifier = Modifier.padding(
+                vertical = 9.dp,
+                horizontal = 20.dp,
+            ),
             text = text,
             color = outlineTextColor,
         )
@@ -164,7 +174,7 @@ internal fun BasicContainedRoundButton(
 }
 
 @Composable
-internal fun BasicOutlineRoundButton(
+internal fun BasicOutlinedRoundButton(
     modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
@@ -175,7 +185,7 @@ internal fun BasicOutlineRoundButton(
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-    BasicOutlineButton(
+    BasicOutlinedButton(
         modifier = modifier,
         text = text,
         textColor = textColor,
@@ -188,12 +198,15 @@ internal fun BasicOutlineRoundButton(
     )
 }
 
-@Stable
-private val BasicLargeButtonHeight = 40.dp
+//@Stable
+//private val BasicLargeButtonHeight = 40.dp
 
 @Composable
 internal fun BasicContainedRoundLargeButton(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
+        .padding(
+            vertical = 9.dp,
+        ),
     text: String,
     textColor: Color,
     round: Dp = 0.dp,
@@ -204,8 +217,7 @@ internal fun BasicContainedRoundLargeButton(
 ) {
     BasicContainedRoundButton(
         modifier = modifier
-            .fillMaxWidth()
-            .height(BasicLargeButtonHeight),
+            .fillMaxWidth(),
         text = text,
         textColor = textColor,
         round = round,
@@ -217,8 +229,11 @@ internal fun BasicContainedRoundLargeButton(
 }
 
 @Composable
-internal fun BasicOutlineRoundLargeButton(
-    modifier: Modifier = Modifier,
+internal fun BasicOutlinedRoundLargeButton(
+    modifier: Modifier = Modifier
+        .padding(
+            vertical = 9.dp
+        ),
     text: String,
     textColor: Color,
     round: Dp = 0.dp,
@@ -228,10 +243,9 @@ internal fun BasicOutlineRoundLargeButton(
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-    BasicOutlineRoundButton(
+    BasicOutlinedRoundButton(
         modifier = modifier
-            .fillMaxWidth()
-            .height(BasicLargeButtonHeight),
+            .fillMaxWidth(),
         text = text,
         textColor = textColor,
         round = round,
