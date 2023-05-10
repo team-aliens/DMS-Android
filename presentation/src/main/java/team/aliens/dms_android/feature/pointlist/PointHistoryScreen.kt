@@ -5,12 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -21,13 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.button.DormOutlineLargeButton
+import team.aliens.design_system.button.DormContainedDefaultButton
+import team.aliens.design_system.button.DormOutlinedDefaultButton
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -133,8 +131,8 @@ fun PointHistoryScreen(
         }
 
         // point filter
-        PointRadioButton(
-            myPageViewModel = myPageViewModel, 
+        RadioButton(
+            myPageViewModel = myPageViewModel,
             selectedType = selectedType,
         )
 
@@ -159,7 +157,7 @@ private val pointListButtons = arrayListOf(
 
 @SuppressLint("RememberReturnType")
 @Composable
-fun PointRadioButton(
+fun RadioButton(
     myPageViewModel: MyPageViewModel,
     selectedType: PointType,
 ) {
@@ -183,33 +181,17 @@ private fun PointTypeRadioGroup(
 ) {
     pointListButtons.forEach { button ->
         if (selectedType == button.type) {
-            DormContainedLargeButton(
-                modifier = Modifier
-                    .width(80.dp)
-                    .height(40.dp),
-                text = stringResource(
-                    id = when (button.type) {
-                        PointType.ALL -> R.string.all_point
-                        PointType.BONUS -> R.string.bonus_point
-                        PointType.MINUS -> R.string.minus_point
-                    }
-                ),
+            DormContainedDefaultButton(
+                modifier = Modifier,
+                text = stringResource(repeatedPointButtonText(button.type)),
                 color = DormButtonColor.Blue,
             ) {
                 myPageViewModel.fetchPointList(button.type)
             }
         } else {
-            DormOutlineLargeButton(
-                modifier = Modifier
-                    .width(80.dp)
-                    .height(40.dp),
-                text = stringResource(
-                    id = when (button.type) {
-                        PointType.ALL -> R.string.all_point
-                        PointType.BONUS -> R.string.bonus_point
-                        PointType.MINUS -> R.string.minus_point
-                    }
-                ),
+            DormOutlinedDefaultButton(
+                modifier = Modifier,
+                text = stringResource(repeatedPointButtonText(button.type)),
                 color = DormButtonColor.Gray,
             ) {
                 myPageViewModel.fetchPointList(button.type)
@@ -218,6 +200,14 @@ private fun PointTypeRadioGroup(
     }
 }
 
+
+fun repeatedPointButtonText(buttonType: PointType): Int {
+    return when (buttonType) {
+        PointType.ALL -> R.string.all_point
+        PointType.BONUS -> R.string.bonus_point
+        PointType.MINUS -> R.string.minus_point
+    }
+}
 
 @Composable
 fun PointListValue(
