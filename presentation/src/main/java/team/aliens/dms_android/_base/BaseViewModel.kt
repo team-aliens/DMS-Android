@@ -13,7 +13,7 @@ import team.aliens.domain.exception.*
 import team.aliens.presentation.R
 import javax.inject.Inject
 
-abstract class BaseViewModel<S : UiState, E : Event> : ViewModel() {
+abstract class BaseViewModel<S : UiState, E : UiEvent> : ViewModel() {
 
     @Inject
     lateinit var application: Application

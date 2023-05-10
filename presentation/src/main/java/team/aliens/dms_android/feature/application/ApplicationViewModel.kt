@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android._base.Event
+import team.aliens.dms_android._base.UiEvent
 import team.aliens.dms_android._base.UiState
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.domain.exception.NotFoundException
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ApplicationViewModel @Inject constructor(
     private val fetchCurrentStudyRoomOptionUseCase: FetchCurrentAppliedStudyRoomUseCase,
     private val fetchCurrentRemainOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
-) : BaseViewModel<ApplicationState, Event>() {
+) : BaseViewModel<ApplicationState, UiEvent>() {
 
     override val _uiState: MutableStateFlow<ApplicationState> = MutableStateFlow(ApplicationState())
 
@@ -69,7 +69,7 @@ class ApplicationViewModel @Inject constructor(
         }
     }
 
-    override fun onEvent(event: Event) {
+    override fun onEvent(uiEvent: UiEvent) {
         /* explicit blank */
     }
 }
