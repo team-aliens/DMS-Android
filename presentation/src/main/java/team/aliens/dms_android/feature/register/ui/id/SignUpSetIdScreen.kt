@@ -41,7 +41,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.presentation.R
 import java.util.UUID
@@ -49,7 +49,7 @@ import java.util.UUID
 const val idFormatPattern = "^[a-zA-Z]*$"
 
 @Composable
-fun SignUpIdScreen(
+fun SignUpSetIdScreen(
     navController: NavController,
     setIdViewModel: SetIdViewModel = hiltViewModel(),
 ) {
@@ -132,7 +132,7 @@ fun SignUpIdScreen(
                             putInt("number", number.toInt())
                             putString("accountId", userId)
                         }
-                        navController.navigate(NavigationRoute.SignUpPassword)
+                        navController.navigate(DmsRoute.SignUp.SetPassword)
                     }
                 }
                 is SetIdEvent.DuplicateIdConflictException -> {

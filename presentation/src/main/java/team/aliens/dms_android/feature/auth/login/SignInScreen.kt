@@ -30,14 +30,14 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.feature.auth.login.SignInViewModel.Event
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen(
+fun SignInScreen(
     navController: NavController,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
@@ -84,8 +84,8 @@ fun LoginScreen(
             when (event) {
                 is Event.NavigateToHome -> {
                     onSignInSuccess(event.userVisibleInformEntity)
-                    navController.navigate(NavigationRoute.Main) {
-                        popUpTo(NavigationRoute.Login) {
+                    navController.navigate(DmsRoute.Home.route) {
+                        popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }
@@ -210,7 +210,7 @@ fun LoginScreen(
                 Caption(
                     text = stringResource(id = R.string.DoRegister),
                     onClick = {
-                        navController.navigate(NavigationRoute.VerifySchool)
+                        navController.navigate(DmsRoute.SignUp.VerifySchool)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -225,7 +225,7 @@ fun LoginScreen(
                         id = R.string.FindId,
                     ),
                     onClick = {
-                        navController.navigate(NavigationRoute.FindId)
+                        navController.navigate(DmsRoute.Auth.FindId)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )
@@ -240,7 +240,7 @@ fun LoginScreen(
                         id = R.string.ChangePassword,
                     ),
                     onClick = {
-                        navController.navigate(NavigationRoute.Identification)
+                        navController.navigate(DmsRoute.Auth.UserVerification)
                     },
                     color = DormTheme.colors.primaryVariant,
                 )

@@ -7,28 +7,26 @@ sealed class BottomNavigationItem(
     val iconResId: Int,
     val titleResId: Int,
 ) {
-    object Meal :
-        BottomNavigationItem(
-            route = NavigationRoute.BottomNavigation.Meal,
-            iconResId = R.drawable.ic_home,
-            titleResId = R.string.Home,
-        )
+    object Meal : BottomNavigationItem(
+        route = "meal",
+        iconResId = R.drawable.ic_home,
+        titleResId = R.string.Home,
+    )
 
-    object Application :
-        BottomNavigationItem(
-            route = NavigationRoute.BottomNavigation.Application,
-            iconResId = R.drawable.ic_application,
-            titleResId = R.string.Application,
-        )
+    object Application : BottomNavigationItem(
+        route = "application",
+        iconResId = R.drawable.ic_application,
+        titleResId = R.string.Application,
+    )
 
     object Notice : BottomNavigationItem(
-        route = NavigationRoute.BottomNavigation.Notice,
+        route = "notice",
         iconResId = R.drawable.ic_notice,
         titleResId = R.string.Notice,
     )
 
     object MyPage : BottomNavigationItem(
-        route = NavigationRoute.BottomNavigation.MyPage,
+        route = "mypage",
         iconResId = R.drawable.ic_mypage,
         titleResId = R.string.MyPage,
     )

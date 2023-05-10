@@ -58,7 +58,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
-fun RemainApplicationScreen(
+fun RemainsApplicationScreen(
     navController: NavController,
     remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
 ) {

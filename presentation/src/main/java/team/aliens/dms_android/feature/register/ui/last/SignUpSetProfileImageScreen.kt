@@ -41,7 +41,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.feature.image.ConfirmImageViewModel
 import team.aliens.presentation.R
@@ -50,7 +50,7 @@ const val defaultProfileUrl =
     "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
 
 @Composable
-fun SignUpProfileScreen(
+fun SignUpSetProfileImageScreen(
     navController: NavController,
     confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),
 ) {
@@ -185,7 +185,7 @@ fun SignUpProfileScreen(
                             "profileImageUrl",
                             profileImageUrl,
                         )
-                        navigate(NavigationRoute.SignUpPolicy)
+                        navigate(DmsRoute.SignUp.Policy)
                     }
                 },
                 text = stringResource(id = R.string.SettingLater),
@@ -238,7 +238,7 @@ fun SignUpProfileScreen(
                         "profileImageUrl",
                         confirmImageViewModel.profileImageUrl,
                     )
-                    navigate(NavigationRoute.SignUpPolicy)
+                    navigate(DmsRoute.SignUp.Policy)
                 }
             }
         }

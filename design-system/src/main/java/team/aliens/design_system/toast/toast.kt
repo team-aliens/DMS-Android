@@ -73,22 +73,22 @@ fun DormToastHost(
                     )
                 }
 
-                ToastType.ERROR -> {
-                    DormErrorToast(
-                        message = it.message,
-                    )
-                }
+                    ToastType.ERROR -> {
+                        DormErrorToast(
+                            message = it.message,
+                        )
+                    }
 
-                ToastType.SUCCESS -> {
-                    DormSuccessToast(
-                        message = it.message,
-                    )
-                }
+                    ToastType.SUCCESS -> {
+                        DormSuccessToast(
+                            message = it.message,
+                        )
+                    }
 
-                else -> {
-                    throw IllegalArgumentException()
+                    else -> {
+                        throw IllegalArgumentException()
+                    }
                 }
-            }
         }
     )
 }

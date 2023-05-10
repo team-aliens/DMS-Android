@@ -38,14 +38,14 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.feature.register.ui.email.RegisterEmailViewModel
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun IdentificationScreen(
+fun UserVerification(
     navController: NavController,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
@@ -114,7 +114,7 @@ fun IdentificationScreen(
                         putString("name", name.trim())
                         putString("email", userEmail.trim())
                     }
-                    navController.navigate(NavigationRoute.ChangePasswordVerifyEmail)
+                    navController.navigate(DmsRoute.Auth.ResetPassword)
                 }
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.Retry))

@@ -47,14 +47,14 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.feature.register.ui.email.RegisterEmailViewModel
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun ChangePasswordVerifyEmailScreen(
+fun ResetPasswordScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
@@ -116,7 +116,7 @@ fun ChangePasswordVerifyEmailScreen(
                         putString("email", email)
                         putString("authCode", verificationCode)
                     }
-                    navController.navigate(NavigationRoute.ChangePassword)
+                    navController.navigate(DmsRoute.Auth.EditPassword)
                 }
 
                 is RegisterEmailEvent.SendEmailSuccess -> {

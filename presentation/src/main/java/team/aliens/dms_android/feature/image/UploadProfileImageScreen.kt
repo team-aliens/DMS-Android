@@ -31,7 +31,7 @@ import team.aliens.dms_android.util.fetchImage
 import team.aliens.presentation.R
 
 @Composable
-internal fun ConfirmImageScreen(
+internal fun UploadProfileImageScreen(
     selectImageType: Int,
     navController: NavController,
     confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),

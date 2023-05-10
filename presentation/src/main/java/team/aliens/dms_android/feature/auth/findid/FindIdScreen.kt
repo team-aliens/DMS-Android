@@ -51,7 +51,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.NavigationRoute
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.presentation.R
 
@@ -95,8 +95,8 @@ fun FindIdScreen(
                 content = stringResource(id = R.string.SendIdToEmail, findIdViewModel.email),
                 mainBtnText = stringResource(id = R.string.GoLoginScreen),
                 onMainBtnClick = {
-                    navController.navigate(NavigationRoute.Login) {
-                        popUpTo(NavigationRoute.Login) {
+                    navController.navigate(DmsRoute.Auth.SignIn) {
+                        popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
                         }
                     }
