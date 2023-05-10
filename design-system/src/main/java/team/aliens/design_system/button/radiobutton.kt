@@ -68,7 +68,7 @@ fun BasicRadioButton(
 private val DefaultRadioButtonSize: Dp = 20.dp
 
 @Composable
-fun DormRadioButton(
+fun DormBasicRadioButton(
     modifier: Modifier = Modifier,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -107,7 +107,7 @@ fun DormTextRadioButton(
         },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        DormRadioButton(
+        DormBasicRadioButton(
             modifier = modifier,
             checked = checked,
             onCheckedChange = onCheckedChange,
@@ -136,7 +136,7 @@ fun PreviewRadioButton() {
     var checked by remember { mutableStateOf(false) }
     var checked2 by remember { mutableStateOf(false) }
 
-    DormRadioButton(
+    DormBasicRadioButton(
         checked = checked,
         onCheckedChange = { checked = !checked },
     )
