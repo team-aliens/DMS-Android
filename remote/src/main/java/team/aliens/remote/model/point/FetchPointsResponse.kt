@@ -3,12 +3,14 @@ package team.aliens.remote.model.point
 import com.google.gson.annotations.SerializedName
 import team.aliens.domain._model._common.PointType
 import team.aliens.domain._model.point.FetchPointsOutput
+import java.util.UUID
 
 data class FetchPointsResponse(
     @SerializedName("total_point") val totalPoint: Int,
     @SerializedName("points") val pointResponses: List<PointResponse>,
 ) {
     data class PointResponse(
+        @SerializedName("point_history_id") val id: UUID,
         @SerializedName("date") val date: String,
         @SerializedName("type") val type: String,
         @SerializedName("name") val name: String,
@@ -25,6 +27,7 @@ internal fun FetchPointsResponse.toDomain(): FetchPointsOutput {
 
 internal fun FetchPointsResponse.PointResponse.toDomain(): FetchPointsOutput.PointInformation {
     return FetchPointsOutput.PointInformation(
+        id = this.id,
         date = this.date,
         type = PointType.valueOf(this.type),
         name = this.name,

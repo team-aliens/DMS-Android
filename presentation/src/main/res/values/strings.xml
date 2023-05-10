@@ -356,8 +356,9 @@
     <!--my page-->
     <string name="my_page_sign_out">로그아웃</string>
     <string name="my_page_withdrawal">회원 탈퇴</string>
-    <string name="plus_point">상점</string>
+    <string name="bonus_point">상점</string>
     <string name="minus_point">벌점</string>
+    <string name="all_point">전체</string>
     <string name="my_page_set_profile">프로필 설정</string>
     <string name="my_page_edit_profile">프로필 수정</string>
     <string name="my_page_check_point_history">상벌점 내역 확인</string>
