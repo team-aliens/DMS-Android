@@ -39,7 +39,9 @@ internal abstract class MviViewModel<S : UiState, in E : UiEvent>(
     }
 
     // 발생한 이벤트에 따라 수행할 작업을 처리하는 함수
-    protected open fun updateState(event: E) {}
+    protected open fun updateState(event: E) {
+        /* explicit blank */
+    }
 
     protected fun setState(newState: S) {
         _uiState.tryEmit(newState)
