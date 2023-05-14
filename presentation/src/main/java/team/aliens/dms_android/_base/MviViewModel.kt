@@ -31,18 +31,26 @@ internal abstract class MviViewModel<S : UiState, in E : UiEvent>(
             .launchIn(viewModelScope)
     }
 
-    // 이벤트 발생 시 채널에 데이터 전송
+    /*
+    View에서 이벤트가 발생했을 때 호출되는 함수입니다
+     */
     fun onEvent(event: E) {
         viewModelScope.launch {
             events.send(event)
         }
     }
 
-    // 발생한 이벤트에 따라 수행할 작업을 처리하는 함수
+    /*
+    ViewModel 안의 Channel 객체의 콜백으로 등록되고 호출되며, 각 이벤트에 대한 실질적인 작업을 정의합니다
+     */
     protected open fun updateState(event: E) {
         /* explicit blank */
     }
 
+    /*
+    ViewModel에 정의된 State를 지정합니다
+    - 새로운 state를 받아 기존 state 대신 emit합니다
+     */
     protected fun setState(newState: S) {
         _uiState.tryEmit(newState)
     }
