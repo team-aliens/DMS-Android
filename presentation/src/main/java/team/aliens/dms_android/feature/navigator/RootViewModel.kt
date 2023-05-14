@@ -1,5 +1,12 @@
 package team.aliens.dms_android.feature.navigator
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms_android._base.MviViewModel
+import team.aliens.dms_android._base.UiEvent
+import team.aliens.dms_android._base.UiState
+import javax.inject.Inject
+
+/*
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -89,4 +96,24 @@ data class SplashState(
     }
 }
 
-sealed class SplashEvent : MviEvent
+sealed class SplashEvent : MviEvent*/
+
+@HiltViewModel
+internal class RootViewModel @Inject constructor(
+) : MviViewModel<RootState, RootEvent>(
+    initialState = RootState.initial()
+) {
+    
+}
+
+internal data class RootState(
+    val route: String,
+) : UiState {
+    companion object {
+        fun initial() = RootState(
+            route = DmsRoute.Home.Main,
+        )
+    }
+}
+
+internal sealed class RootEvent : UiEvent
