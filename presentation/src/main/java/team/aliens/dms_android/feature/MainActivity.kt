@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme

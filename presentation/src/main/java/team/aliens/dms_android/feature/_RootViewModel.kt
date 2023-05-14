@@ -7,7 +7,6 @@ import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.base.MviEvent
 import team.aliens.dms_android.base.MviState
-import team.aliens.dms_android.feature.navigator.NavigationRoute
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.usecase.auth.AutoSignInUseCase
@@ -47,7 +46,7 @@ class _RootViewModel @Inject constructor(
                     localUserVisibleInformUseCase.execute(Unit),
                 ),
             )
-            setState(state.value.copy(route = NavigationRoute.Main))
+            setState(state.value.copy(route = "DUMMY"))
         }.onFailure {
             emitEvent(Event.NeedLogin)
         }
@@ -78,7 +77,7 @@ data class SplashState(
 ) : MviState {
     companion object {
         fun initial() = SplashState(
-            route = NavigationRoute.Login,
+            route = "LOGIN",
             userVisibleInformEntity = UserVisibleInformEntity(
                 mealService = false,
                 noticeService = false,
