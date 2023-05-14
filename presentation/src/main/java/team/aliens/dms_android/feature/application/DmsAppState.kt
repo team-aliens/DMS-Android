@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import team.aliens.design_system.toast.ToastType
 
 @Composable
-fun rememberDmsAppState(
+internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
@@ -27,7 +27,7 @@ fun rememberDmsAppState(
     )
 }
 
-class DmsAppState(
+internal class DmsAppState(
     private val snackbarHostState: SnackbarHostState,
     private val navController: NavController,
     private val coroutineScope: CoroutineScope,
