@@ -54,4 +54,9 @@ internal abstract class MviViewModel<S : UiState, in E : UiEvent>(
     protected fun setState(newState: S) {
         _uiState.tryEmit(newState)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        events.close()
+    }
 }
