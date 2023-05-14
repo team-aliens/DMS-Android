@@ -4,7 +4,8 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
@@ -32,10 +33,17 @@ class DmsAppState(
     private val coroutineScope: CoroutineScope,
 ) {
 
+    @Stable
+    val dialogState
+        @Composable get() = remember { mutableStateOf(false) }
+
+    @Stable
+    val currentDestination = navController.currentDestination?.route
+
     internal fun showToast(
         message: String,
         toastType: ToastType,
-    ){
+    ) {
         coroutineScope.launch {
             snackbarHostState.showSnackbar(
                 message = message,
@@ -48,5 +56,12 @@ class DmsAppState(
         route: String,
     ) {
         navController.navigate(route)
+    }
+
+    @Composable
+    internal fun setDialogState(
+        dialogState: Boolean,
+    ) {
+        this.dialogState.value = dialogState
     }
 }
