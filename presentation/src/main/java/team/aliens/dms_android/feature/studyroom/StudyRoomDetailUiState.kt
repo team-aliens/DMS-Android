@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
-import team.aliens.dms_android._base.BaseUiState
+import team.aliens.dms_android._base.UiState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.domain._model._common.Sex
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
@@ -33,4 +33,4 @@ data class StudyRoomDetailUiState(
         totalHeightSize = 0,
         seats = listOf(),
     ),
-) : BaseUiState
+) : UiState

@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
-import team.aliens.dms_android._base.BaseUiState
+import team.aliens.dms_android._base.UiState
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
@@ -13,7 +13,7 @@ data class StudyRoomListUiState(
     var studyRoomAvailableTime: List<FetchAvailableStudyRoomTimesOutput.TimeSlotInformation> = emptyList(),
     var timeSlot: UUID? = null,
     var hasApplyTime: Boolean = false,
-) : BaseUiState
+) : UiState
 
 data class StudyRoomDetailsUiState(
     var studyRoomDetailsEntity: StudyRoomDetailEntity? = null,
