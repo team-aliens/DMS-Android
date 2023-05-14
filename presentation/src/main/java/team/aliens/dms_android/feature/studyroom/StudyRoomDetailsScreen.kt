@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.studyroom
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.feature.mypage.MyPageViewModel
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
@@ -45,7 +47,6 @@ fun StudyRoomDetailsScreen(
 ) {
 
     val availableTime =
-
         LaunchedEffect(Unit) {
             studyRoomDetailsViewModel.initStudyRoom(
                 roomId = roomId,
@@ -71,6 +72,8 @@ fun StudyRoomDetailsScreen(
             toast(it)
         }
     }
+
+
 
     Column(
         modifier = Modifier
@@ -109,23 +112,15 @@ fun StudyRoomDetailsScreen(
 
             Space(space = 24.dp)
 
-            val grade =
-                if (uiState.studyRoomDetails.availableGrade == 0) "모든" else uiState.studyRoomDetails.availableGrade.toString()
-
-            RoomItem(
-                roomId = "",
-                position = "${uiState.studyRoomDetails.floor}층",
-                title = uiState.studyRoomDetails.name,
-                currentNumber = uiState.studyRoomDetails.inUseHeadcount,
-                maxNumber = uiState.studyRoomDetails.totalAvailableSeat,
-                condition = grade + stringResource(
-                    id = R.string.Grade,
-                ) + " ${uiState.studyRoomDetails.availableSex.koreanValue}",
-                isMine = false,
-                onClick = { },
+            // study room item
+            StudyRoomItemBox(
+                availableGrade = uiState.studyRoomDetails.availableGrade,
+                floor = uiState.studyRoomDetails.floor,
+                studyRoomName = uiState.studyRoomDetails.name,
+                inUseHeadCount = uiState.studyRoomDetails.inUseHeadcount,
+                totalAvailableSeat = uiState.studyRoomDetails.totalAvailableSeat,
+                koreanValue = uiState.studyRoomDetails.availableSex.koreanValue
             )
-
-
             Space(space = 15.dp)
 
             if (uiState.seatBoolean) {
@@ -153,7 +148,6 @@ fun StudyRoomDetailsScreen(
 
             Space(ratio = 1f)
 
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -175,9 +169,7 @@ fun StudyRoomDetailsScreen(
                     )
                 }
 
-
                 Space(space = 10.dp)
-
 
                 // Apply button
                 DormContainedLargeButton(
@@ -203,11 +195,39 @@ fun StudyRoomDetailsScreen(
                 }
             }
 
-
             Space(space = 54.dp)
         }
     }
 }
+
+
+@Composable
+private fun StudyRoomItemBox(
+    availableGrade: Int,
+    floor: Int,
+    studyRoomName: String,
+    inUseHeadCount: Int,
+    totalAvailableSeat: Int,
+    koreanValue: String,
+) {
+    val grade =
+        if (availableGrade == 0) "모든" else availableGrade.toString()
+
+    RoomItem(
+        roomId = "",
+        position = "${floor}층",
+        title = studyRoomName,
+        currentNumber = inUseHeadCount,
+        maxNumber = totalAvailableSeat,
+        condition = grade + stringResource(
+            id = R.string.Grade,
+        ) + " $koreanValue",
+        isMine = false,
+        onClick = { },
+    )
+}
+
+
 
 fun FetchSeatTypesOutput.SeatTypeInformation.toModel() = SeatTypeUiModel(
     color = this.color,
