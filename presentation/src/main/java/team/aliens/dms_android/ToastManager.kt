@@ -12,15 +12,15 @@ data class ToastMessage(
 )
 
 object ToastManager {
-    private val _message: MutableStateFlow<ToastMessage> = MutableStateFlow(ToastMessage())
-    val message: StateFlow<ToastMessage> = _message.asStateFlow()
+    private val _message: MutableStateFlow<List<ToastMessage>> = MutableStateFlow(emptyList())
+    val message: StateFlow<List<ToastMessage>> = _message.asStateFlow()
 
     fun setMessage(
         message: String,
         toastType: ToastType,
     ) {
-        _message.update {
-            ToastMessage(
+        _message.update { toastMessage ->
+            toastMessage + ToastMessage(
                 message = message,
                 toastType = toastType,
             )

@@ -40,10 +40,12 @@ internal class DmsAppState(
     init {
         coroutineScope.launch {
             toastManager.message.collect { toastMessage ->
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = toastMessage.message,
-                    actionLabel = toastMessage.toastType.toString(),
-                )
+                if (toastMessage.isNotEmpty()) {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = toastMessage[0].message,
+                        actionLabel = toastMessage[0].toastType.toString(),
+                    )
+                }
             }
         }
     }
