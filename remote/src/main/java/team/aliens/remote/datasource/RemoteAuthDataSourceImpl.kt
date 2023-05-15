@@ -7,10 +7,10 @@ import team.aliens.domain._model.auth.CheckIdExistsInput
 import team.aliens.domain._model.auth.CheckIdExistsOutput
 import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain._model.auth.SignInInput
+import team.aliens.remote.apiservice.AuthApiService
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.auth.toData
 import team.aliens.remote.model.auth.toDomain
-import team.aliens.remote.apiservice.AuthApiService
 import team.aliens.remote.util.sendHttpRequest
 import javax.inject.Inject
 
@@ -52,10 +52,14 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         }
     }
 
-    // FIXME remove
-    @Deprecated("can be removed in the future")
-    override suspend fun reissueToken(): AuthenticationOutput {
-        throw IllegalAccessException("stub!")
+    override suspend fun reissueToken(
+        refreshToken: String,
+    ): AuthenticationOutput {
+        return sendHttpRequest {
+            authApiService.reissueToken(
+                refreshToken = refreshToken,
+            )
+        }.toDomain()
     }
 
     override suspend fun verifyEmail(

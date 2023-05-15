@@ -56,7 +56,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun reissueToken(): AuthenticationOutput {
-        return remoteAuthDataSource.reissueToken()
+        val refreshToken = this.findRefreshToken()
+
+        return remoteAuthDataSource.reissueToken(
+            refreshToken = refreshToken,
+        )
     }
 
     override suspend fun verifyEmail(

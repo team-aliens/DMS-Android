@@ -23,7 +23,9 @@ interface RemoteAuthDataSource {
         type: EmailVerificationType,
     )
 
-    suspend fun reissueToken(): AuthenticationOutput
+    suspend fun reissueToken(
+        refreshToken: String,
+    ): AuthenticationOutput
 
     suspend fun verifyEmail(
         accountId: String,

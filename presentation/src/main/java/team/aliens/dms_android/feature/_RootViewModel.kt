@@ -9,7 +9,6 @@ import team.aliens.dms_android.base.MviEvent
 import team.aliens.dms_android.base.MviState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.usecase.auth.AutoSignInUseCase
 import team.aliens.domain.usecase.auth.FetchAutoSignInOptionUseCase
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.local_domain.usecase.uservisible.LocalUserVisibleInformUseCase
