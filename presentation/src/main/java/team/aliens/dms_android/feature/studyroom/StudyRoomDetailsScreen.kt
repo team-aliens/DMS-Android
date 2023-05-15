@@ -73,8 +73,6 @@ fun StudyRoomDetailsScreen(
         }
     }
 
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -154,45 +152,20 @@ fun StudyRoomDetailsScreen(
             ) {
 
                 // Cancel button
-                DormContainedLargeButton(
-                    modifier = Modifier.fillMaxWidth(0.5f),
-                    text = stringResource(
-                        id = R.string.Cancel,
-                    ),
-                    color = DormButtonColor.Gray,
-                ) {
-                    studyRoomDetailsViewModel.onEvent(
-                        event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
-                            seatId = UUID.fromString(currentSeat),
-                            timeSlot = timeSlot,
-                        ),
-                    )
-                }
+                CancelButton(
+                    studyRoomDetailsViewModel = studyRoomDetailsViewModel,
+                    currentSeat = currentSeat,
+                    timeSlot = timeSlot,
+                )
 
                 Space(space = 10.dp)
 
                 // Apply button
-                DormContainedLargeButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(
-                        id = R.string.Application,
-                    ),
-                    color = DormButtonColor.Blue,
-                ) {
-                    scope.launch {
-                        if (currentSeat.isEmpty()) {
-                            return@launch toast(
-                                context.getString(R.string.PleaseSelectSeatFirst),
-                            )
-                        }
-                        studyRoomDetailsViewModel.onEvent(
-                            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                                seat = currentSeat,
-                                timeSlot = timeSlot,
-                            ),
-                        )
-                    }
-                }
+                ApplicationButton(
+                    studyRoomDetailsViewModel = studyRoomDetailsViewModel,
+                    currentSeat = currentSeat,
+                    timeSlot = timeSlot,
+                )
             }
 
             Space(space = 54.dp)
@@ -200,6 +173,60 @@ fun StudyRoomDetailsScreen(
     }
 }
 
+@Composable
+private fun CancelButton(
+    studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
+    currentSeat: String,
+    timeSlot: UUID,
+) {
+    DormContainedLargeButton(
+        modifier = Modifier.fillMaxWidth(0.5f),
+        text = stringResource(
+            id = R.string.cancel,
+        ),
+        color = DormButtonColor.Gray,
+    ) {
+        studyRoomDetailsViewModel.onEvent(
+            event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
+                seatId = UUID.fromString(currentSeat),
+                timeSlot = timeSlot,
+            ),
+        )
+    }
+}
+
+@Composable
+private fun ApplicationButton(
+    studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
+    currentSeat: String,
+    timeSlot: UUID,
+) {
+    val context = LocalContext.current
+    val toast = rememberToast()
+    val scope = rememberCoroutineScope()
+    
+    DormContainedLargeButton(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(
+            id = R.string.Application,
+        ),
+        color = DormButtonColor.Blue,
+    ) {
+        scope.launch {
+            if (currentSeat.isEmpty()) {
+                return@launch toast(
+                    context.getString(R.string.PleaseSelectSeatFirst),
+                )
+            }
+            studyRoomDetailsViewModel.onEvent(
+                event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                    seat = currentSeat,
+                    timeSlot = timeSlot,
+                ),
+            )
+        }
+    }
+}
 
 @Composable
 private fun StudyRoomItemBox(
@@ -226,6 +253,7 @@ private fun StudyRoomItemBox(
         onClick = { },
     )
 }
+
 
 
 
