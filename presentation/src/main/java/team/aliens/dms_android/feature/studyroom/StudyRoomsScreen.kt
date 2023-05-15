@@ -105,7 +105,7 @@ fun StudyRoomsScreen(
         ) {
             DormBottomAlignedContainedLargeButtonDialog(
                 btnText = stringResource(
-                    id = R.string.Check,
+                    id = R.string.accept,
                 ),
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
@@ -122,7 +122,7 @@ fun StudyRoomsScreen(
             ) {
 
                 Title3(
-                    text = stringResource(R.string.Time),
+                    text = stringResource(R.string.study_room_time),
                 )
 
                 // TODO refactor this spacer
@@ -241,7 +241,7 @@ fun StudyRoomsScreen(
                             maxNumber = point.maxNumber,
                             condition = point.condition,
                             onClick = { seatId ->
-                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
+                                navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
                             },
                             isMine = point.isMine,
                         )
@@ -249,7 +249,7 @@ fun StudyRoomsScreen(
                 } else {
                     item {
                         Body3(
-                            text = stringResource(R.string.NoAvailableStudyRoom),
+                            text = stringResource(R.string.study_room_error_no_available_study_room),
                         )
                     }
                 }
@@ -258,6 +258,7 @@ fun StudyRoomsScreen(
         }
     }
 }
+
 
 // todo move to design-system layer
 private val DormTimeChipShape: Shape = RoundedCornerShape(5.dp)
