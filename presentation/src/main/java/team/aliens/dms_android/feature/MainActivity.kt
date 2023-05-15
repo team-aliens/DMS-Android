@@ -5,11 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.CompositionLocalProvider
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.DmsApp
 import javax.inject.Inject
 
@@ -35,7 +32,9 @@ class MainActivity @Inject constructor() : ComponentActivity() {
                 darkTheme = isSystemInDarkTheme(),
             ) {
 
-                // fixme refactor
+                DmsApp()
+
+                /*// fixme refactor
                 val availableFeatures = mutableMapOf(
                     Extra.isMealServiceEnabled to intent.getBooleanExtra(
                         Extra.isMealServiceEnabled, false,
@@ -58,7 +57,7 @@ class MainActivity @Inject constructor() : ComponentActivity() {
                     values = arrayOf(LocalAvailableFeatures provides availableFeatures),
                 ) {
                     DmsApp()
-                }
+                }*/
             }
         }
     }
