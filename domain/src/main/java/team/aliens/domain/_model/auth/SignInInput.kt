@@ -7,4 +7,5 @@ package team.aliens.domain._model.auth
 data class SignInInput(
     val accountId: String,
     val password: String,
+    val autoSignIn: Boolean,
 )

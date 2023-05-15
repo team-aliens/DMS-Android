@@ -1,16 +1,17 @@
 package team.aliens.domain.usecase.auth
 
-import team.aliens.domain.param.LoginParam
-import team.aliens.domain.repository.UserRepository
+import team.aliens.domain._model.auth.SignInInput
+import team.aliens.domain._repository.AuthRepository
 import javax.inject.Inject
 
-// FIXME: 새로운 domain repository로 이전 필요
 class SignInUseCase @Inject constructor(
-    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(
-        signInInput: LoginParam,
+        signInInput: SignInInput,
     ) {
-        userRepository.userSignIn(signInInput)
+        authRepository.signIn(
+            input = signInInput,
+        )
     }
 }

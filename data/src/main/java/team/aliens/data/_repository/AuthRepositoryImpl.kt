@@ -23,7 +23,19 @@ class AuthRepositoryImpl @Inject constructor(
     ): AuthenticationOutput {
         return remoteAuthDataSource.signIn(
             input = input
-        )
+        ).also {
+            this.saveToken(
+                Token(
+                    accessToken = it.accessToken,
+                    accessTokenExpiredAt = it.accessTokenExpiredAt,
+                    refreshToken = it.refreshToken,
+                    refreshTokenExpiredAt = it.refreshTokenExpiredAt,
+                ),
+            )
+            this.updateAutoSignInOption(
+                autoSignIn = input.autoSignIn,
+            )
+        }
     }
 
     override suspend fun autoSignIn() {

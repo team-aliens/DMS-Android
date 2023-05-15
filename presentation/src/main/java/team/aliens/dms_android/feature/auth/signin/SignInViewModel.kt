@@ -10,6 +10,7 @@ import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model.auth.SignInInput
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.NoInternetException
 import team.aliens.domain.exception.NotFoundException
@@ -89,7 +90,7 @@ class SignInViewModel @Inject constructor(
 
             val result = kotlin.runCatching {
                 signInUseCase(
-                    signInInput = getLoginParamFromCurrentState(),
+                    signInInput = getSignInInputFromCurrentState(),
                 )
             }
 
@@ -140,11 +141,11 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun getLoginParamFromCurrentState(): LoginParam {
-        return LoginParam(
-            id = state.value.id,
+    private fun getSignInInputFromCurrentState(): SignInInput {
+        return SignInInput(
+            accountId = state.value.id,
             password = state.value.password,
-            autoLogin = state.value.autoLogin,
+            autoSignIn = state.value.autoLogin,
         )
     }
 
