@@ -11,17 +11,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import team.aliens.dms_android.ToastManager
 
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavController = rememberNavController(),
+    toastManager: ToastManager = ToastManager,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
 ) = remember {
     DmsAppState(
         scaffoldState = scaffoldState,
         navController = navController,
+        toastManager = toastManager,
         coroutineScope = coroutineScope,
     )
 }
@@ -29,8 +33,20 @@ internal fun rememberDmsAppState(
 internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavController,
+    val toastManager: ToastManager,
     coroutineScope: CoroutineScope,
 ) {
+
+    init {
+        coroutineScope.launch {
+            toastManager.message.collect { toastMessage ->
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = toastMessage.message,
+                    actionLabel = toastMessage.toastType.toString(),
+                )
+            }
+        }
+    }
 
     @Stable
     val currentDestination = navController.currentDestination?.route
