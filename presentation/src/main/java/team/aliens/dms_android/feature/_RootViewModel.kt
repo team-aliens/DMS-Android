@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class _RootViewModel @Inject constructor(
-    private val autoSignInUseCase: AutoSignInUseCase,
     private val fetchAutoSignInOptionUseCase: FetchAutoSignInOptionUseCase,
     private val localUserVisibleInformUseCase: LocalUserVisibleInformUseCase,
 ) : BaseViewModel<SplashState, SplashEvent>() {
@@ -35,6 +34,7 @@ class _RootViewModel @Inject constructor(
             }
         }
     }
+/*
 
     fun autoLogin() = viewModelScope.launch {
         kotlin.runCatching {
@@ -50,6 +50,7 @@ class _RootViewModel @Inject constructor(
             emitEvent(Event.NeedLogin)
         }
     }
+*/
 
     private suspend fun emitEvent(event: Event) {
         _eventFlow.emit(event)

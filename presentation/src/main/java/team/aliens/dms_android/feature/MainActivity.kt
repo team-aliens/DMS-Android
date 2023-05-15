@@ -1,64 +1,65 @@
 package team.aliens.dms_android.feature
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.dms_android.base.BaseActivity
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.navigator.RootDms
-import team.aliens.presentation.R
-import team.aliens.presentation.databinding.ActivityMainBinding
+import team.aliens.dms_android.feature.navigator.DmsApp
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity @Inject constructor() : ComponentActivity() {
+    /*private fun initExceptionHandler(
+        navController: NavHostController,
+    ) {
+        Thread.setDefaultUncaughtExceptionHandler(
+            DmsExceptionHandler(
+                navController = navController,
+            )
+        )
+    }*/
+
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            val secondIntent = intent
-            val route = secondIntent.getStringExtra("route")
+            DormTheme(
+                darkTheme = isSystemInDarkTheme(),
+            ) {
 
-            if (route != null) {
-                DormTheme(
-                    darkTheme = isSystemInDarkTheme(),
+                // fixme refactor
+                val availableFeatures = mutableMapOf(
+                    Extra.isMealServiceEnabled to intent.getBooleanExtra(
+                        Extra.isMealServiceEnabled, false,
+                    ),
+                    Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
+                        Extra.isNoticeServiceEnabled, false,
+                    ),
+                    Extra.isPointServiceEnabled to intent.getBooleanExtra(
+                        Extra.isPointServiceEnabled, false,
+                    ),
+                    Extra.isStudyRoomEnabled to intent.getBooleanExtra(
+                        Extra.isStudyRoomEnabled, false,
+                    ),
+                    Extra.isRemainServiceEnabled to intent.getBooleanExtra(
+                        Extra.isRemainServiceEnabled, false,
+                    ),
+                )
+
+                CompositionLocalProvider(
+                    values = arrayOf(LocalAvailableFeatures provides availableFeatures),
                 ) {
-                    val availableFeatures = staticCompositionLocalOf {
-                        mutableMapOf(
-                            Extra.isMealServiceEnabled to intent.getBooleanExtra(
-                                Extra.isMealServiceEnabled, false,
-                            ),
-                            Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
-                                Extra.isNoticeServiceEnabled, false,
-                            ),
-                            Extra.isPointServiceEnabled to intent.getBooleanExtra(
-                                Extra.isPointServiceEnabled, false,
-                            ),
-                            Extra.isStudyRoomEnabled to intent.getBooleanExtra(
-                                Extra.isStudyRoomEnabled, false,
-                            ),
-                            Extra.isRemainServiceEnabled to intent.getBooleanExtra(
-                                Extra.isRemainServiceEnabled, false,
-                            ),
-                        )
-                    }
-
-                    CompositionLocalProvider(
-                        values = arrayOf(LocalAvailableFeatures provides availableFeatures.current),
-                    ) {
-                        RootDms(
-                            route = route,
-                        )
-                    }
+                    DmsApp()
                 }
             }
         }
-    }
-
-    override fun initView() {
-        /* explicit blank */
     }
 }

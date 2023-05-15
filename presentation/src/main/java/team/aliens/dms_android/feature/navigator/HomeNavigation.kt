@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.DmsApp
+import team.aliens.dms_android.feature.Home
 import team.aliens.dms_android.feature.image.UploadProfileImageScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
 import team.aliens.dms_android.feature.pointlist.PointHistoryScreen
@@ -27,7 +27,7 @@ fun NavGraphBuilder.homeNavigation(
         route = DmsRoute.Home.route,
     ) {
         composable(DmsRoute.Home.Main) {
-            DmsApp(
+            Home(
                 navController = navController,
                 scaffoldState = scaffoldState,
             )

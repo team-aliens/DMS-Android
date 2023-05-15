@@ -1,25 +1,16 @@
 package team.aliens.dms_android.feature.navigator
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.DormToastHost
+import team.aliens.dms_android.feature.application.DmsAppState
+import team.aliens.dms_android.feature.application.rememberDmsAppState
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RootDms(
-    route: String,
-) {
-
+internal fun DmsApp(
+    dmsAppState: DmsAppState = rememberDmsAppState(),
+) {/*
+    // todo remove
     val navController = rememberNavController()
-
+    // todo remove
     val scaffoldState = rememberScaffoldState()
 
     Surface(
@@ -53,5 +44,5 @@ fun RootDms(
                 )
             }
         }
-    }
+    }*/
 }

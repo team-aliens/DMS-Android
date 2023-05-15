@@ -34,7 +34,7 @@ import team.aliens.dms_android.feature.notice.NoticeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DmsApp(
+fun Home(
     navController: NavController,
     scaffoldState: ScaffoldState,
 ) {
