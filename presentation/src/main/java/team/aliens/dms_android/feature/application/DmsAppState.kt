@@ -11,6 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
+import team.aliens.dms_android.feature.navigator.DmsRoute
 
 @Composable
 internal fun rememberDmsAppState(
@@ -56,4 +57,12 @@ internal class DmsAppState(
     ) {
         navController.navigate(route)
     }
+}
+
+internal fun DmsAppState.navigateToSignIn() {
+    this.navController.navigate(DmsRoute.Auth.SignIn)
+}
+
+internal fun DmsAppState.navigateToHome() {
+    this.navController.navigate(DmsRoute.Home.route)
 }
