@@ -7,6 +7,8 @@ object Dependencies {
         const val WorkX = "androidx.work:work-runtime-ktx:${Versions.Android.WorkRuntime}"
         const val LifeCycleViewModelX =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.Android.LifeCycleRunTime}"
+        const val LifeCycleCompose =
+            "androidx.lifecycle:lifecycle-runtime-compose:${Versions.Android.LifeCycleRunTime}"
     }
 
     object Ui {
