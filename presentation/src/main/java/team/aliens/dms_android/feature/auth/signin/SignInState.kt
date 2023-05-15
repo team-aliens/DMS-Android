@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.login
+package team.aliens.dms_android.feature.auth.signin
 
 import team.aliens.dms_android.base.MviState
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity

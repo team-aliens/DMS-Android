@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.login
+package team.aliens.dms_android.feature.auth.signin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -30,7 +30,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.auth.login.SignInViewModel.Event
+import team.aliens.dms_android.feature.auth.signin.SignInViewModel.Event
 import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.presentation.R

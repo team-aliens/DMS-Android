@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.login
+package team.aliens.dms_android.feature.auth.signin
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
