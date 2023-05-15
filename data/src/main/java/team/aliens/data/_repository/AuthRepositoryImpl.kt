@@ -2,6 +2,7 @@ package team.aliens.data._repository
 
 import team.aliens.data._datasource.local.LocalAuthDataSource
 import team.aliens.data._datasource.remote.RemoteAuthDataSource
+import team.aliens.domain._exception.CommonException
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain._model.auth.CheckIdExistsInput
@@ -23,6 +24,14 @@ class AuthRepositoryImpl @Inject constructor(
         return remoteAuthDataSource.signIn(
             input = input
         )
+    }
+
+    override suspend fun autoSignIn() {
+        val autoSignInEnabled = localAuthDataSource.findAutoSignInOption()
+
+        if (autoSignInEnabled) {
+            this.reissueToken()
+        } else throw CommonException.SignInRequired
     }
 
     override suspend fun findAutoSignInOption(): Boolean {
