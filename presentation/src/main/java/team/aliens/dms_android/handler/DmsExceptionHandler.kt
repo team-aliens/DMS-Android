@@ -6,10 +6,12 @@ import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.domain._exception.CommonException
 import javax.inject.Inject
 
-internal class DmsExceptionHandler @Inject constructor(
-    private val context: Context,
+class DmsExceptionHandler @Inject constructor(
     private val navController: NavHostController,
 ) : Thread.UncaughtExceptionHandler {
+
+    @Inject
+    lateinit var context: Context
 
     override fun uncaughtException(
         thread: Thread,
