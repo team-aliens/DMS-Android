@@ -8,7 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import team.aliens.dms_android.feature.navigator.DmsRoute
@@ -16,7 +16,7 @@ import team.aliens.dms_android.feature.navigator.DmsRoute
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navController: NavController = rememberNavController(),
+    navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
 ) = remember {
@@ -29,7 +29,7 @@ internal fun rememberDmsAppState(
 
 internal class DmsAppState(
     val scaffoldState: ScaffoldState,
-    val navController: NavController,
+    val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {
 
