@@ -3,6 +3,7 @@ object Dependencies {
     object Android {
         const val CoreX = "androidx.core:core-ktx:${Versions.Android.Core}"
         const val ActivityX = "androidx.activity:activity-ktx:${Versions.Android.Activity}"
+        const val FragmentX = "androidx.fragment:fragment-ktx:${Versions.Android.Fragment}"
         const val AppCompat = "androidx.appcompat:appcompat:${Versions.Android.AppCompat}"
         const val WorkX = "androidx.work:work-runtime-ktx:${Versions.Android.WorkRuntime}"
         const val LifeCycleViewModelX =
