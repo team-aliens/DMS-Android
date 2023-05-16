@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.ToastManager
+import team.aliens.dms_android.util.manager.ToastManager
 
 @Composable
 internal fun rememberDmsAppState(
