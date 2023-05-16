@@ -22,9 +22,9 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.*
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.ToastWrapper
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.feature.mypage.MyPageViewModel
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
@@ -146,27 +146,13 @@ fun StudyRoomDetailsScreen(
 
             Space(ratio = 1f)
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-
-                // Cancel button
-                CancelButton(
-                    studyRoomDetailsViewModel = studyRoomDetailsViewModel,
-                    currentSeat = currentSeat,
-                    timeSlot = timeSlot,
-                )
-
-                Space(space = 10.dp)
-
-                // Apply button
-                ApplicationButton(
-                    studyRoomDetailsViewModel = studyRoomDetailsViewModel,
-                    currentSeat = currentSeat,
-                    timeSlot = timeSlot,
-                )
-            }
+            ApplicationAndCancelButtons(
+                studyRoomDetailsViewModel = studyRoomDetailsViewModel,
+                currentSeat = currentSeat,
+                timeSlot = timeSlot,
+                context = context,
+                toast = toast,
+            )
 
             Space(space = 54.dp)
         }
@@ -200,11 +186,11 @@ private fun ApplicationButton(
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
     currentSeat: String,
     timeSlot: UUID,
+    context: Context,
+    toast: ToastWrapper,
 ) {
-    val context = LocalContext.current
-    val toast = rememberToast()
     val scope = rememberCoroutineScope()
-    
+
     DormContainedLargeButton(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(
@@ -225,6 +211,39 @@ private fun ApplicationButton(
                 ),
             )
         }
+    }
+}
+
+@Composable
+private fun ApplicationAndCancelButtons(
+    studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
+    currentSeat: String,
+    timeSlot: UUID,
+    context: Context,
+    toast: ToastWrapper,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+
+        // Cancel button
+        CancelButton(
+            studyRoomDetailsViewModel = studyRoomDetailsViewModel,
+            currentSeat = currentSeat,
+            timeSlot = timeSlot,
+        )
+
+        Space(space = 10.dp)
+
+        // Apply button
+        ApplicationButton(
+            studyRoomDetailsViewModel = studyRoomDetailsViewModel,
+            currentSeat = currentSeat,
+            timeSlot = timeSlot,
+            context = context,
+            toast = toast,
+        )
     }
 }
 
