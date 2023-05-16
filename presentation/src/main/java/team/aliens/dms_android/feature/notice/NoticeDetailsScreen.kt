@@ -33,14 +33,14 @@ import java.util.UUID
 fun NoticeDetailsScreen(
     navController: NavController,
     noticeId: String,
-    noticeViewModel: NoticeViewModel = hiltViewModel(),
+    noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
-        noticeViewModel.fetchNoticeDetail(UUID.fromString(noticeId))
+        noticesViewModel.fetchNoticeDetail(UUID.fromString(noticeId))
     }
 
-    val noticeDetailState = noticeViewModel.noticeDetailViewEffect.collectAsState()
+    val noticeDetailState = noticesViewModel.noticeDetailViewEffect.collectAsState()
 
     Column(
         modifier = Modifier

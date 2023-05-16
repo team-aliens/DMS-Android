@@ -31,7 +31,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.feature.notice.NoticeViewModel
+import team.aliens.dms_android.feature.notice.NoticesViewModel
 import team.aliens.presentation.R
 import java.time.DayOfWeek
 import java.time.DayOfWeek.*
@@ -73,7 +73,7 @@ private val interval = 20000 / Rainbow.size
 fun CafeteriaScreen(
     navController: NavHostController,
     mealViewModel: MealViewModel = hiltViewModel(),
-    noticeViewModel: NoticeViewModel = hiltViewModel(),
+    noticesViewModel: NoticesViewModel = hiltViewModel(),
     onMoveToNotice: () -> Unit,
 ) {
 
@@ -135,7 +135,7 @@ fun CafeteriaScreen(
 
     val scope = rememberCoroutineScope()
 
-    val state = noticeViewModel.state.collectAsState().value
+    val state = noticesViewModel.state.collectAsState().value
 
     val calendarBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
@@ -154,7 +154,7 @@ fun CafeteriaScreen(
     }
 
     LaunchedEffect(Unit) {
-        noticeViewModel.checkNewNotice()
+        noticesViewModel.checkNewNotice()
     }
 
 
