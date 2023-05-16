@@ -14,7 +14,7 @@ interface AuthRepository {
         input: SignInInput,
     ): AuthenticationOutput
 
-    suspend fun autoSignIn()
+    suspend fun autoSignIn(): AuthenticationOutput
 
     suspend fun findAutoSignInOption(): Boolean
 

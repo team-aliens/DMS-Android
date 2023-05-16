@@ -38,14 +38,9 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun autoSignIn() {
+    override suspend fun autoSignIn(): AuthenticationOutput {
         val autoSignInEnabled = this.findAutoSignInOption()
-
-        if (autoSignInEnabled) {
-            this.reissueToken()
-            return
-        }
-
+        if (autoSignInEnabled) return this.reissueToken()
         throw CommonException.SignInRequired
     }
 
