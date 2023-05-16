@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 import team.aliens.data._facade.AuthorizationFacade
 import team.aliens.di.BuildConfig
 import team.aliens.remote.annotation.BaseUrl
@@ -16,6 +17,7 @@ import team.aliens.remote.http.AuthorizationInterceptor
 import team.aliens.remote.http.IgnoreRequestWrapper
 import team.aliens.remote.http.TokenReissueClient
 import team.aliens.remote.util.OkHttpClient
+import team.aliens.remote.util.Retrofit
 import javax.inject.Singleton
 import team.aliens.remote.BuildConfig as RemoteBuildConfig
 
@@ -34,17 +36,26 @@ object HttpModule {
         }
     }
 
-/*    @Provides
+    @Provides
+    @Singleton
+    @TokenReissueUrl
+    fun provideTokenReissueUrl(
+        @BaseUrl baseUrl: String,
+    ): String {
+        return "$baseUrl/auth/reissue"
+    }
+
+    @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(
             if (BuildConfig.DEBUG) {
-                Level.BODY
+                HttpLoggingInterceptor.Level.BODY
             } else {
-                Level.NONE
+                HttpLoggingInterceptor.Level.NONE
             }
         )
-    }*/
+    }
 
     @Provides
     @Singleton
@@ -95,21 +106,21 @@ object HttpModule {
         return IgnoreRequestWrapper
     }
 
-    /* @Provides
-     @Singleton
-     fun provideRetrofit(
-         @GlobalOkHttpClient okHttpClient: OkHttpClient,
-         @BaseUrl baseUrl: String,
-     ): Retrofit {
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        @GlobalOkHttpClient okHttpClient: OkHttpClient,
+        @BaseUrl baseUrl: String,
+    ): Retrofit {
 
-         val clients = arrayOf(
-             okHttpClient,
-         )
+        val clients = arrayOf(
+            okHttpClient,
+        )
 
-         return Retrofit(
-             clients = clients,
-             baseUrl = baseUrl,
-             gsonConverterFactory = true,
-         )
-     }*/
+        return Retrofit(
+            clients = clients,
+            baseUrl = baseUrl,
+            gsonConverterFactory = true,
+        )
+    }
 }
