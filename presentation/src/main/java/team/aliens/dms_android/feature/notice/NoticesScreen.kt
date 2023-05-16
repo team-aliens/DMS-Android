@@ -48,11 +48,11 @@ fun FetchNoticesOutput.NoticeInformation.toNotice() = Notice(
 @Composable
 fun NoticeScreen(
     navController: NavController,
-    noticeViewModel: NoticeViewModel = hiltViewModel(),
+    noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(Unit) {
-        noticeViewModel.fetchNoticeList()
+        noticesViewModel.fetchNoticeList()
     }
 
     val notices = remember {
@@ -71,9 +71,9 @@ fun NoticeScreen(
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
     LaunchedEffect(Unit) {
-        noticeViewModel.noticeViewEffect.collect {
+        noticesViewModel.noticeViewEffect.collect {
             when (it) {
-                is NoticeViewModel.Event.FetchNoticeList -> {
+                is NoticesViewModel.Event.FetchNoticeList -> {
                     notices.clear()
                     val mappingNotice = it.fetchNoticesOutput.notices.map { item ->
                         item.toNotice()
@@ -84,28 +84,28 @@ fun NoticeScreen(
                     }
                     notices.addAll(mappingNotice.toMutableStateList())
                 }
-                is NoticeViewModel.Event.BadRequestException -> {
+                is NoticesViewModel.Event.BadRequestException -> {
                     toast(badRequestComment)
                 }
-                is NoticeViewModel.Event.UnAuthorizedTokenException -> {
+                is NoticesViewModel.Event.UnAuthorizedTokenException -> {
                     toast(unAuthorizedComment)
                 }
-                is NoticeViewModel.Event.CannotConnectException -> {
+                is NoticesViewModel.Event.CannotConnectException -> {
                     toast(forbidden)
                 }
-                is NoticeViewModel.Event.TooManyRequestException -> {
+                is NoticesViewModel.Event.TooManyRequestException -> {
                     toast(tooManyRequestComment)
                 }
-                is NoticeViewModel.Event.InternalServerException -> {
+                is NoticesViewModel.Event.InternalServerException -> {
                     toast(serverException)
                 }
-                is NoticeViewModel.Event.UnknownException -> {
+                is NoticesViewModel.Event.UnknownException -> {
                     toast(noInternetException)
                 }
-                is NoticeViewModel.Event.FetchNoticeDetail -> {
+                is NoticesViewModel.Event.FetchNoticeDetail -> {
 
                 }
-                is NoticeViewModel.Event.NullPointException -> {
+                is NoticesViewModel.Event.NullPointException -> {
                     toast("null")
                 }
                 else -> {
@@ -137,7 +137,7 @@ fun NoticeScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
         ) {
-            OrderButton(noticeViewModel)
+            OrderButton(noticesViewModel)
         }
 
         NoticeList(
@@ -155,7 +155,7 @@ fun NoticeScreen(
 
 @Composable
 fun OrderButton(
-    noticeViewModel: NoticeViewModel,
+    noticesViewModel: NoticesViewModel,
 ) {
 
     val context = LocalContext.current
@@ -168,14 +168,14 @@ fun OrderButton(
 
     Button(
         onClick = {
-            if (noticeViewModel.state.value.type == Order.NEW) {
-                noticeViewModel.state.value.type = Order.OLD
+            if (noticesViewModel.state.value.type == Order.NEW) {
+                noticesViewModel.state.value.type = Order.OLD
                 text = context.getString(R.string.OldestOrder)
-                noticeViewModel.fetchNoticeList()
+                noticesViewModel.fetchNoticeList()
             } else {
-                noticeViewModel.state.value.type = Order.NEW
+                noticesViewModel.state.value.type = Order.NEW
                 text = context.getString(R.string.LatestOrder)
-                noticeViewModel.fetchNoticeList()
+                noticesViewModel.fetchNoticeList()
             }
         },
         border = BorderStroke(
@@ -201,3 +201,4 @@ fun OrderButton(
         }
     }
 }
+
