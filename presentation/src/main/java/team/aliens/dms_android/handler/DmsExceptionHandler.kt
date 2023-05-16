@@ -1,17 +1,16 @@
 package team.aliens.dms_android.handler
 
 import android.content.Context
-import androidx.navigation.NavHostController
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.application.DmsAppState
+import team.aliens.dms_android.feature.application.navigateToSignIn
 import team.aliens.domain._exception.CommonException
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
-class DmsExceptionHandler @Inject constructor(
-    private val navController: NavHostController,
+internal class DmsExceptionHandler @Inject constructor(
+    private val context: Context,
+    private val appState: DmsAppState,
 ) : Thread.UncaughtExceptionHandler {
-
-    @Inject
-    lateinit var context: Context
 
     override fun uncaughtException(
         thread: Thread,
@@ -19,13 +18,11 @@ class DmsExceptionHandler @Inject constructor(
     ) {
         when (exception) {
             is CommonException.SignInRequired -> signInRequired()
+            else -> exitProcess(2)
         }
     }
 
     private fun signInRequired() {
-        // todo add toast code here
-        navController.navigateToSignInScreen()
+        appState::navigateToSignIn
     }
 }
-
-private fun NavHostController.navigateToSignInScreen() = this.navigate(DmsRoute.Auth.SignIn)
