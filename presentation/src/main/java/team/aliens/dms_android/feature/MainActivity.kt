@@ -5,22 +5,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.dms_android.feature.application.rememberDmsAppState
 import team.aliens.dms_android.feature.navigator.DmsApp
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity @Inject constructor() : ComponentActivity() {
-    /*private fun initExceptionHandler(
-        navController: NavHostController,
-    ) {
-        Thread.setDefaultUncaughtExceptionHandler(
-            DmsExceptionHandler(
-                navController = navController,
+    /*
+        private fun initExceptionHandler(
+            appState: DmsAppState,
+        ) {
+            Thread.setDefaultUncaughtExceptionHandler(
+                DmsExceptionHandler(
+                    context = this,
+                    appState = appState,
+                )
             )
-        )
-    }*/
+        }
+    */
 
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -32,7 +37,15 @@ class MainActivity @Inject constructor() : ComponentActivity() {
                 darkTheme = isSystemInDarkTheme(),
             ) {
 
-                DmsApp()
+                val dmsAppState = rememberDmsAppState()
+
+                val autoSignIn = mainViewModel.isSignInSuccess.collectAsStateWithLifecycle()
+
+                if (autoSignIn.value);
+
+                DmsApp(
+                    dmsAppState = dmsAppState,
+                )
 
                 /*// fixme refactor
                 val availableFeatures = mutableMapOf(
