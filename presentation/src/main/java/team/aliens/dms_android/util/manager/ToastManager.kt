@@ -1,4 +1,4 @@
-package team.aliens.dms_android
+package team.aliens.dms_android.util.manager
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import team.aliens.design_system.toast.ToastType
 
-data class ToastMessage(
-    val message: String = "",
-    val toastType: ToastType = ToastType.SUCCESS,
+internal data class ToastMessage(
+    val message: String,
+    val toastType: ToastType,
 )
 
-object ToastManager {
+internal object ToastManager {
     private val _message: MutableStateFlow<List<ToastMessage>> = MutableStateFlow(emptyList())
     val message: StateFlow<List<ToastMessage>> = _message.asStateFlow()
 
