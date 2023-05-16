@@ -1,13 +1,16 @@
 package team.aliens.dms_android.feature.studyroom
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -15,14 +18,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.*
+import team.aliens.design_system.component.RoomDetail
+import team.aliens.design_system.component.RoomItem
+import team.aliens.design_system.component.SeatItem
+import team.aliens.design_system.component.SeatType
+import team.aliens.design_system.component.SeatTypeList
+import team.aliens.design_system.component.SeatTypeUiModel
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.ToastWrapper
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
@@ -30,7 +36,7 @@ import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import team.aliens.presentation.R
-import java.util.*
+import java.util.UUID
 
 /**
  * 자습실 상세보기 screen
@@ -40,26 +46,47 @@ import java.util.*
 @SuppressLint("ResourceType")
 @Composable
 fun StudyRoomDetailsScreen(
-    navController: NavController,
+    navController: NavController, // todo refactor to NavHostController
     roomId: String,
     timeSlot: UUID,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
-    val availableTime =
-        LaunchedEffect(Unit) {
-            studyRoomDetailsViewModel.initStudyRoom(
-                roomId = roomId,
-                timeSlot = timeSlot,
-            )
-        }
+    val availableTime = LaunchedEffect(Unit) {
+        studyRoomDetailsViewModel.initStudyRoom(
+            roomId = roomId, // todo refactor
+            timeSlot = timeSlot,
+        )
+    }
 
     val context = LocalContext.current
     val toast = rememberToast()
-    val scope = rememberCoroutineScope()
 
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
-    val currentSeat = uiState.currentSeat.collectAsState("").value
+    val currentSeat = uiState.currentSeat.collectAsState("")
+
+    val onCancel: () -> Unit = {
+        studyRoomDetailsViewModel.onEvent(
+            event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
+                seatId = UUID.fromString(currentSeat.value),
+                timeSlot = timeSlot,
+            )
+        )
+    }
+
+    val onApply: () -> Unit = {
+        if (currentSeat.value.isEmpty()) {
+            toast(
+                context.getString(R.string.PleaseSelectSeatFirst),
+            )
+        }
+        studyRoomDetailsViewModel.onEvent(
+            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                seat = currentSeat.value,
+                timeSlot = timeSlot,
+            ),
+        )
+    }
 
     LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.errorState.collect {
@@ -82,10 +109,7 @@ fun StudyRoomDetailsScreen(
     ) {
 
         TopBar(
-//            title = stringResource(
-//                id = R.string.ApplicateStudyRoom,
-//            ),
-            title = "${uiState.studyRoomDetails.startTime} ~ ${uiState.studyRoomDetails.endTime}"
+            title = "${uiState.studyRoomDetails.startTime} ~ ${uiState.studyRoomDetails.endTime}",
         ) {
             navController.popBackStack()
         }
@@ -98,35 +122,44 @@ fun StudyRoomDetailsScreen(
                 ),
         ) {
 
-            Space(space = 17.dp)
+            Space(
+                space = 17.dp,
+            )
 
-            if (uiState.startAt.isNotEmpty() && uiState.endAt.isNotEmpty()) {
-                FloatingNotice(
-                    content = stringResource(
-                        id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"
-                    ),
-                )
-            }
+            FloatingNotice(
+                content = stringResource(
+                    id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"
+                ),
+            )
 
-            Space(space = 24.dp)
+            Space(
+                space = 24.dp,
+            )
 
-            // study room item
-            StudyRoomItemBox(
+            StudyRoomInformationBox(
                 availableGrade = uiState.studyRoomDetails.availableGrade,
                 floor = uiState.studyRoomDetails.floor,
                 studyRoomName = uiState.studyRoomDetails.name,
                 inUseHeadCount = uiState.studyRoomDetails.inUseHeadcount,
                 totalAvailableSeat = uiState.studyRoomDetails.totalAvailableSeat,
-                koreanValue = uiState.studyRoomDetails.availableSex.koreanValue
+                koreanValue = uiState.studyRoomDetails.availableSex.koreanValue,
             )
-            Space(space = 15.dp)
 
-            if (uiState.seatBoolean) {
-                SeatTypeList(items = uiState.seatType.types.map { it.toModel() })
+            Space(
+                space = 15.dp,
+            )
+
+            if (uiState.seatBoolean) { // fixme 의미 파악
+                SeatTypeList(
+                    items = uiState.seatType.types.map {
+                        it.toModel()
+                    },
+                )
             }
 
-            Space(space = 15.dp)
-
+            Space(
+                space = 15.dp,
+            )
 
             RoomDetail(
                 topDescription = uiState.studyRoomDetails.northDescription,
@@ -134,7 +167,7 @@ fun StudyRoomDetailsScreen(
                 startDescription = uiState.studyRoomDetails.westDescription,
                 endDescription = uiState.studyRoomDetails.eastDescription,
                 seats = uiState.studyRoomDetails.toDesignSystemModel(),
-                selected = currentSeat,
+                selected = currentSeat.value,
             ) { seat ->
                 studyRoomDetailsViewModel.onEvent(
                     event = StudyRoomDetailsViewModel.UiEvent.ChangeSelectedSeat(
@@ -143,84 +176,26 @@ fun StudyRoomDetailsScreen(
                 )
             }
 
-
-            Space(ratio = 1f)
-
-            ApplicationAndCancelButtons(
-                studyRoomDetailsViewModel = studyRoomDetailsViewModel,
-                currentSeat = currentSeat,
-                timeSlot = timeSlot,
-                context = context,
-                toast = toast,
+            Space(
+                ratio = 1f,
             )
 
-            Space(space = 54.dp)
-        }
-    }
-}
+            ActionButtons(
+                onCancel = onCancel,
+                onApply = onApply,
+            )
 
-@Composable
-private fun CancelButton(
-    studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
-    currentSeat: String,
-    timeSlot: UUID,
-) {
-    DormContainedLargeButton(
-        modifier = Modifier.fillMaxWidth(0.5f),
-        text = stringResource(
-            id = R.string.cancel,
-        ),
-        color = DormButtonColor.Gray,
-    ) {
-        studyRoomDetailsViewModel.onEvent(
-            event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
-                seatId = UUID.fromString(currentSeat),
-                timeSlot = timeSlot,
-            ),
-        )
-    }
-}
-
-@Composable
-private fun ApplicationButton(
-    studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
-    currentSeat: String,
-    timeSlot: UUID,
-    context: Context,
-    toast: ToastWrapper,
-) {
-    val scope = rememberCoroutineScope()
-
-    DormContainedLargeButton(
-        modifier = Modifier.fillMaxWidth(),
-        text = stringResource(
-            id = R.string.Application,
-        ),
-        color = DormButtonColor.Blue,
-    ) {
-        scope.launch {
-            if (currentSeat.isEmpty()) {
-                return@launch toast(
-                    context.getString(R.string.PleaseSelectSeatFirst),
-                )
-            }
-            studyRoomDetailsViewModel.onEvent(
-                event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                    seat = currentSeat,
-                    timeSlot = timeSlot,
-                ),
+            Space(
+                space = 54.dp,
             )
         }
     }
 }
 
 @Composable
-private fun ApplicationAndCancelButtons(
-    studyRoomDetailsViewModel: StudyRoomDetailsViewModel,
-    currentSeat: String,
-    timeSlot: UUID,
-    context: Context,
-    toast: ToastWrapper,
+private fun ActionButtons(
+    onCancel: () -> Unit,
+    onApply: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -228,27 +203,33 @@ private fun ApplicationAndCancelButtons(
     ) {
 
         // Cancel button
-        CancelButton(
-            studyRoomDetailsViewModel = studyRoomDetailsViewModel,
-            currentSeat = currentSeat,
-            timeSlot = timeSlot,
-        )
+        DormContainedLargeButton(
+            modifier = Modifier.fillMaxWidth(0.5f),
+            text = stringResource(
+                id = R.string.cancel,
+            ),
+            color = DormButtonColor.Gray,
+        ) {
+            onCancel
+        }
 
         Space(space = 10.dp)
 
         // Apply button
-        ApplicationButton(
-            studyRoomDetailsViewModel = studyRoomDetailsViewModel,
-            currentSeat = currentSeat,
-            timeSlot = timeSlot,
-            context = context,
-            toast = toast,
-        )
+        DormContainedLargeButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(
+                id = R.string.Application,
+            ),
+            color = DormButtonColor.Blue,
+        ) {
+            onApply
+        }
     }
 }
 
 @Composable
-private fun StudyRoomItemBox(
+private fun StudyRoomInformationBox(
     availableGrade: Int,
     floor: Int,
     studyRoomName: String,
@@ -256,8 +237,7 @@ private fun StudyRoomItemBox(
     totalAvailableSeat: Int,
     koreanValue: String,
 ) {
-    val grade =
-        if (availableGrade == 0) "모든" else availableGrade.toString()
+    val grade = if (availableGrade == 0) "모든" else availableGrade.toString()
 
     RoomItem(
         roomId = "",
@@ -272,8 +252,6 @@ private fun StudyRoomItemBox(
         onClick = { },
     )
 }
-
-
 
 
 fun FetchSeatTypesOutput.SeatTypeInformation.toModel() = SeatTypeUiModel(
