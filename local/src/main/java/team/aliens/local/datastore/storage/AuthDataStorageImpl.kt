@@ -3,7 +3,7 @@ package team.aliens.local.datastore.storage
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.first
 import team.aliens.domain._exception.LocalException
 import team.aliens.domain._model.auth.Token
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AccessToken
@@ -33,20 +33,20 @@ class AuthDataStorageImpl @Inject constructor(
     }
 
     override suspend fun findAccessToken(): String {
-        return dataStore.data.last()[AccessToken] ?: throw LocalException.AccessTokenNotFound
+        return dataStore.data.first()[AccessToken] ?: throw LocalException.AccessTokenNotFound
     }
 
     override suspend fun findAccessTokenExpiredAt(): String {
-        return dataStore.data.last()[AccessTokenExpiredAt]
+        return dataStore.data.first()[AccessTokenExpiredAt]
             ?: throw LocalException.AccessTokenExpiredNotFound
     }
 
     override suspend fun findRefreshToken(): String {
-        return dataStore.data.last()[RefreshToken] ?: throw LocalException.RefreshTokenNotFound
+        return dataStore.data.first()[RefreshToken] ?: throw LocalException.RefreshTokenNotFound
     }
 
     override suspend fun findRefreshTokenExpiredAt(): String {
-        return dataStore.data.last()[RefreshTokenExpiredAt]
+        return dataStore.data.first()[RefreshTokenExpiredAt]
             ?: throw LocalException.RefreshTokenExpiredAtNotFound
     }
 
@@ -70,7 +70,7 @@ class AuthDataStorageImpl @Inject constructor(
     }
 
     override suspend fun findAutoSignInOption(): Boolean {
-        return dataStore.data.last()[AutoSignIn] ?: false
+        return dataStore.data.first()[AutoSignIn] ?: false
     }
 
     override suspend fun updateAutoSignInOption(
