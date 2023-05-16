@@ -13,6 +13,7 @@ import team.aliens.dms_android.feature.application.DmsAppState
 
 @Composable
 internal fun DmsApp(
+    initialRoute: String,
     dmsAppState: DmsAppState,
 ) {
     Surface(
@@ -38,7 +39,7 @@ internal fun DmsApp(
                     paddingValues = paddingValues,
                 ),
                 navController = navController,
-                startDestination = DmsRoute.Auth.route, // fixme change to DmsRoute.Home.route
+                startDestination = initialRoute,
             ) {
                 homeNavigation(
                     navController = navController,

@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.feature.application.rememberDmsAppState
 import team.aliens.dms_android.feature.navigator.DmsApp
+import team.aliens.dms_android.feature.navigator.DmsRoute
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,9 +42,14 @@ class MainActivity @Inject constructor() : ComponentActivity() {
 
                 val autoSignIn = mainViewModel.isSignInSuccess.collectAsStateWithLifecycle()
 
-                if (autoSignIn.value);
+                val startDestination = if (autoSignIn.value) {
+                    DmsRoute.Home.route
+                } else {
+                    DmsRoute.Auth.route
+                }
 
                 DmsApp(
+                    initialRoute = startDestination,
                     dmsAppState = dmsAppState,
                 )
 
