@@ -12,7 +12,6 @@ import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
@@ -39,7 +38,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         ) : UiEvent()
 
         class CancelApplySeat(
-            val seatId: UUID,
+            val seatId: String,
             val timeSlot: UUID,
         ) : UiEvent()
 
@@ -145,7 +144,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     }
 
     private fun cancelSeat(
-        seatId: UUID,
+        seatId: String,
         timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
