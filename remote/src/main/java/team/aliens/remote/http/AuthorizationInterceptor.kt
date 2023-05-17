@@ -1,20 +1,20 @@
 package team.aliens.remote.http
 
+import java.util.Date
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.data._facade.AuthorizationFacade
+import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.toHttpMethod
 import team.aliens.remote.util.toDate
 import team.aliens.remote.util.tokenDateFormat
-import java.util.*
 
 class AuthorizationInterceptor(
     private val authorizationFacade: AuthorizationFacade,
     private val tokenReissueClient: TokenReissueClient,
     private val ignoreRequestWrapper: IgnoreRequestWrapper,
 ) : Interceptor {
-
     override fun intercept(
         chain: Interceptor.Chain,
     ): Response {
@@ -30,7 +30,7 @@ class AuthorizationInterceptor(
             request = request,
         )
 
-        if (requestShouldBeIgnored) chain.proceed(interceptedRequest)
+        if (requestShouldBeIgnored) return chain.proceed(interceptedRequest)
 
         val accessTokenAvailable: Boolean = runBlocking { // thread safe한 방식으로 구현 필요
             checkAccessTokenAvailable()
@@ -42,8 +42,16 @@ class AuthorizationInterceptor(
             }
         }
 
+        // todo accesstoken 캐싱 필요
+        val accessToken = runBlocking {
+            authorizationFacade.accessToken()
+        }
+
         return chain.proceed(
-            interceptedRequest,
+            interceptedRequest.newBuilder().addHeader(
+                HttpProperty.Header.Authorization,
+                HttpProperty.Header.Prefix.Bearer + accessToken,
+            ).build(),
         )
     }
 
@@ -54,14 +62,13 @@ class AuthorizationInterceptor(
     }
 
     private suspend fun checkAccessTokenAvailable(): Boolean {
-
         val accessTokenExpiredAt = authorizationFacade.accessTokenExpiredAt().toDate(
             tokenDateFormat,
         )
 
         val currentTime = Date()
 
-        return accessTokenExpiredAt.before(currentTime)
+        return currentTime.before(accessTokenExpiredAt)
     }
 
     private suspend fun reissueAndSaveToken() {

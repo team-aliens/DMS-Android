@@ -8,6 +8,6 @@ class AutoSignInUseCase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(): AuthenticationOutput {
-        authRepository.autoSignIn()
+        return authRepository.autoSignIn()
     }
 }
