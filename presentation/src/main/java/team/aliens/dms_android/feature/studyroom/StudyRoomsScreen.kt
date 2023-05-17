@@ -37,9 +37,11 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.constans.Extra.seatId
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.presentation.R
+import java.util.UUID
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -225,7 +227,13 @@ fun StudyRoomsScreen(
             Space(space = 24.dp)
 
             // List of study rooms
-            LazyColumn(
+            ListStudyRooms(
+                studyRooms = studyRoomState.studyRooms,
+                onClick = { seatId: UUID ->
+                    navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
+                }
+            )
+            /*LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
 
@@ -252,13 +260,46 @@ fun StudyRoomsScreen(
                             text = stringResource(R.string.study_room_error_no_available_study_room),
                         )
                     }
-                }
-            }
-            Space(space = 24.dp)
+                }*/
         }
+        Space(space = 24.dp)
     }
 }
 
+@Composable
+private fun ListStudyRooms(
+    studyRooms: List<StudyRoomInformation>,
+    onClick: (UUID) -> Unit,
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+
+        if (studyRooms.isNotEmpty()) {
+            items(
+                items = studyRooms,
+            ) { studyRoom ->
+                RoomItem(
+                    roomId = studyRoom.roomId.toString(),
+                    position = studyRoom.position,
+                    title = studyRoom.title,
+                    currentNumber = studyRoom.currentNumber,
+                    maxNumber = studyRoom.maxNumber,
+                    condition = studyRoom.condition,
+                    isMine = studyRoom.isMine,
+                ) {
+                    onClick(studyRoom.roomId)
+                }
+            }
+        } else {
+            item {
+                Body3(
+                    text = stringResource(R.string.study_room_error_no_available_study_room),
+                )
+            }
+        }
+    }
+}
 
 // todo move to design-system layer
 private val DormTimeChipShape: Shape = RoundedCornerShape(5.dp)
