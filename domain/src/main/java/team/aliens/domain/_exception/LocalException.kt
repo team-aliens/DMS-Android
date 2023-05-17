@@ -10,7 +10,7 @@ sealed class LocalException(
         message = "Access token not found",
     )
 
-    object AccessTokenExpiredNotFound : LocalException(
+    object AccessTokenExpiredAtNotFound : LocalException(
         message = "Access token expired at not found",
     )
 

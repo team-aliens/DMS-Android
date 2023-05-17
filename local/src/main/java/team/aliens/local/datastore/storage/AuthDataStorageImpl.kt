@@ -38,7 +38,7 @@ class AuthDataStorageImpl @Inject constructor(
 
     override suspend fun findAccessTokenExpiredAt(): String {
         return dataStore.data.first()[AccessTokenExpiredAt]
-            ?: throw LocalException.AccessTokenExpiredNotFound
+            ?: throw LocalException.AccessTokenExpiredAtNotFound
     }
 
     override suspend fun findRefreshToken(): String {
