@@ -62,7 +62,7 @@ fun MyPageScreen(
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
-    LaunchedEffect(navController.currentDestination) {
+    LaunchedEffect(Unit) {
         myPageViewModel.fetchMyPage()
     }
 
