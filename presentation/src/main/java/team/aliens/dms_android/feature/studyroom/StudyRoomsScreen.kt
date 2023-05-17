@@ -290,7 +290,9 @@ fun DormTimeChip(
             )
             .border(
                 border = BorderStroke(
-                    width = 1.dp, color = if (!selected) DormColor.Gray400 else Color.Transparent
+                    width = 1.dp,
+                    color = if (!selected) DormColor.Gray400
+                    else Color.Transparent
                 ),
                 shape = DormTimeChipShape,
             )
