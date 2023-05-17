@@ -42,6 +42,7 @@ import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
@@ -123,6 +124,8 @@ fun MyPageScreen(
         )
     }
 
+    val toast = rememberToast()
+
     if (withdrawalDialogState) {
         DormCustomDialog(
             onDismissRequest = { /* explicit blank */ },
@@ -132,7 +135,8 @@ fun MyPageScreen(
                 mainBtnText = stringResource(R.string.Check),
                 subBtnText = stringResource(R.string.Cancel),
                 onMainBtnClick = {
-                    myPageViewModel.withdraw()
+                    // myPageViewModel.withdraw()
+                    toast("회원 탈퇴를 진행할 수 없습니다")
                 },
                 onSubBtnClick = {
                     withdrawalDialogState = false
@@ -434,10 +438,9 @@ fun MyPageScreen(
                     }
 
                     Divider(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = 10.dp,
-                            ),
+                        modifier = Modifier.padding(
+                            horizontal = 10.dp,
+                        ),
                         color = DormTheme.colors.secondaryVariant,
                     )
 
