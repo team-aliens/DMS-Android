@@ -21,6 +21,8 @@ interface AuthDataStorage {
 
     suspend fun clearToken()
 
+    suspend fun signOut()
+
     suspend fun findAutoSignInOption(): Boolean
 
     suspend fun updateAutoSignInOption(

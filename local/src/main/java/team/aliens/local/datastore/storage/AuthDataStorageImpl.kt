@@ -69,6 +69,10 @@ class AuthDataStorageImpl @Inject constructor(
         }
     }
 
+    override suspend fun signOut() {
+        dataStore.edit { it.clear() }
+    }
+
     override suspend fun findAutoSignInOption(): Boolean {
         return dataStore.data.first()[AutoSignIn] ?: false
     }

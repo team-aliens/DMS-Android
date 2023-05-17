@@ -20,6 +20,8 @@ interface LocalAuthDataSource {
 
     suspend fun clearToken()
 
+    suspend fun signOut()
+
     suspend fun findAutoSignInOption(): Boolean
 
     suspend fun updateAutoSignInOption(
