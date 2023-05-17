@@ -7,14 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.BaseViewModel
 import team.aliens.dms_android.util.extractHourFromDate
+import team.aliens.domain._exception.RemoteException
 import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchSeatTypesInput
 import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.domain.exception.ConflictException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
@@ -41,7 +38,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         ) : UiEvent()
 
         class CancelApplySeat(
-            val seatId: UUID,
+            val seatId: String,
             val timeSlot: UUID,
         ) : UiEvent()
 
@@ -115,19 +112,19 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
-                    is UnauthorizedException -> emitErrorEvent(
+                    is RemoteException.Unauthorized -> emitErrorEvent(
                         application.getString(R.string.NotAvailableSeat),
                     )
 
-                    is ForbiddenException -> emitErrorEvent(
+                    is RemoteException.Forbidden -> emitErrorEvent(
                         application.getString(R.string.NotStudyRoomApplicateTime),
                     )
 
-                    is ConflictException -> emitErrorEvent(
+                    is RemoteException.Conflict -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
 
-                    is NotFoundException -> emitErrorEvent(
+                    is RemoteException.NotFound -> emitErrorEvent(
                         errorMessage = application.getString(R.string.study_room_seat_not_found),
                     )
 
@@ -147,7 +144,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     }
 
     private fun cancelSeat(
-        seatId: UUID,
+        seatId: String,
         timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {

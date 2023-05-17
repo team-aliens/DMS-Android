@@ -37,9 +37,11 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.constans.Extra.seatId
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.presentation.R
+import java.util.UUID
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -105,7 +107,7 @@ fun StudyRoomsScreen(
         ) {
             DormBottomAlignedContainedLargeButtonDialog(
                 btnText = stringResource(
-                    id = R.string.Check,
+                    id = R.string.accept,
                 ),
                 btnColor = DormButtonColor.Blue,
                 onBtnClick = {
@@ -122,7 +124,7 @@ fun StudyRoomsScreen(
             ) {
 
                 Title3(
-                    text = stringResource(R.string.Time),
+                    text = stringResource(R.string.study_room_time),
                 )
 
                 // TODO refactor this spacer
@@ -179,7 +181,6 @@ fun StudyRoomsScreen(
 
             Space(space = 17.dp)
 
-            // Available study room application time
             AnimatedVisibility(
                 visible = studyRoomState.hasApplyTime,
             ) {
@@ -193,7 +194,6 @@ fun StudyRoomsScreen(
 
             Space(space = 24.dp)
 
-            // Study room time filter
             if (studyRoomAvailableTimeList.isNotEmpty()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -201,7 +201,6 @@ fun StudyRoomsScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
 
-                    // slider icon
                     Image(
                         modifier = Modifier
                             .size(24.dp)
@@ -214,7 +213,6 @@ fun StudyRoomsScreen(
                         contentDescription = null,
                     )
 
-                    // available time
                     Body3(
                         text = selectedAvailableTime,
                         color = DormTheme.colors.primary,
@@ -224,37 +222,45 @@ fun StudyRoomsScreen(
 
             Space(space = 24.dp)
 
-            // List of study rooms
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
+            ListStudyRooms(studyRooms = studyRoomState.studyRooms, onClick = { seatId: UUID ->
+                navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
+            })
+        }
+        Space(space = 24.dp)
+    }
+}
 
-                if (studyRoomState.studyRooms.isNotEmpty()) {
-                    items(
-                        items = studyRoomState.studyRooms,
-                    ) { point ->
-                        RoomItem(
-                            roomId = point.roomId.toString(),
-                            position = point.position,
-                            title = point.title,
-                            currentNumber = point.currentNumber,
-                            maxNumber = point.maxNumber,
-                            condition = point.condition,
-                            onClick = { seatId ->
-                                navController.navigate("studyRoomDetail/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
-                            },
-                            isMine = point.isMine,
-                        )
-                    }
-                } else {
-                    item {
-                        Body3(
-                            text = stringResource(R.string.NoAvailableStudyRoom),
-                        )
-                    }
+@Composable
+private fun ListStudyRooms(
+    studyRooms: List<StudyRoomInformation>,
+    onClick: (UUID) -> Unit,
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+
+        if (studyRooms.isNotEmpty()) {
+            items(
+                items = studyRooms,
+            ) { studyRoom ->
+                RoomItem(
+                    roomId = studyRoom.roomId.toString(),
+                    position = studyRoom.position,
+                    title = studyRoom.title,
+                    currentNumber = studyRoom.currentNumber,
+                    maxNumber = studyRoom.maxNumber,
+                    condition = studyRoom.condition,
+                    isMine = studyRoom.isMine,
+                ) {
+                    onClick(studyRoom.roomId)
                 }
             }
-            Space(space = 24.dp)
+        } else {
+            item {
+                Body3(
+                    text = stringResource(R.string.study_room_error_no_available_study_room),
+                )
+            }
         }
     }
 }
@@ -285,7 +291,8 @@ fun DormTimeChip(
             .border(
                 border = BorderStroke(
                     width = 1.dp,
-                    color = if (!selected) DormColor.Gray400 else Color.Transparent
+                    color = if (!selected) DormColor.Gray400
+                    else Color.Transparent
                 ),
                 shape = DormTimeChipShape,
             )
