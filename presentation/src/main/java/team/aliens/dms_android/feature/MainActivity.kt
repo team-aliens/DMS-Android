@@ -5,29 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.dms_android.feature.application.rememberDmsAppState
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.navigator.DmsApp
 import team.aliens.dms_android.feature.navigator.DmsRoute
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity @Inject constructor() : ComponentActivity() {
-    /*
-        private fun initExceptionHandler(
-            appState: DmsAppState,
-        ) {
-            Thread.setDefaultUncaughtExceptionHandler(
-                DmsExceptionHandler(
-                    context = this,
-                    appState = appState,
-                )
-            )
-        }
-    */
-
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,46 +27,31 @@ class MainActivity @Inject constructor() : ComponentActivity() {
             DormTheme(
                 darkTheme = isSystemInDarkTheme(),
             ) {
+                val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-                val dmsAppState = rememberDmsAppState()
-
-                val autoSignIn = mainViewModel.isSignInSuccess.collectAsStateWithLifecycle()
-
-                val startDestination = if (autoSignIn.value) {
+                val startDestination = if (uiState.autoSignInSuccess) {
                     DmsRoute.Home.route
                 } else {
                     DmsRoute.Auth.route
                 }
 
-                DmsApp(
-                    initialRoute = startDestination,
-                    dmsAppState = dmsAppState,
-                )
-
-                /*// fixme refactor
-                val availableFeatures = mutableMapOf(
-                    Extra.isMealServiceEnabled to intent.getBooleanExtra(
-                        Extra.isMealServiceEnabled, false,
-                    ),
-                    Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
-                        Extra.isNoticeServiceEnabled, false,
-                    ),
-                    Extra.isPointServiceEnabled to intent.getBooleanExtra(
-                        Extra.isPointServiceEnabled, false,
-                    ),
-                    Extra.isStudyRoomEnabled to intent.getBooleanExtra(
-                        Extra.isStudyRoomEnabled, false,
-                    ),
-                    Extra.isRemainServiceEnabled to intent.getBooleanExtra(
-                        Extra.isRemainServiceEnabled, false,
-                    ),
-                )
+                val availableFeatures = uiState.feature.run {
+                    mutableMapOf(
+                        Extra.isMealServiceEnabled to mealService,
+                        Extra.isNoticeServiceEnabled to noticeService,
+                        Extra.isPointServiceEnabled to pointService,
+                        Extra.isStudyRoomEnabled to studyRoomService,
+                        Extra.isRemainServiceEnabled to remainsService,
+                    )
+                }
 
                 CompositionLocalProvider(
                     values = arrayOf(LocalAvailableFeatures provides availableFeatures),
                 ) {
-                    DmsApp()
-                }*/
+                    DmsApp(
+                        initialRoute = startDestination,
+                    )
+                }
             }
         }
     }
