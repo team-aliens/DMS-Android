@@ -200,7 +200,7 @@ fun StudyRoomsScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-]
+
                     Image(
                         modifier = Modifier
                             .size(24.dp)
