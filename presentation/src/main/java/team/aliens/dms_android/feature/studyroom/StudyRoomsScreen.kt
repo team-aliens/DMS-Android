@@ -181,7 +181,6 @@ fun StudyRoomsScreen(
 
             Space(space = 17.dp)
 
-            // Available study room application time
             AnimatedVisibility(
                 visible = studyRoomState.hasApplyTime,
             ) {
@@ -195,15 +194,13 @@ fun StudyRoomsScreen(
 
             Space(space = 24.dp)
 
-            // Study room time filter
             if (studyRoomAvailableTimeList.isNotEmpty()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-
-                    // slider icon
+]
                     Image(
                         modifier = Modifier
                             .size(24.dp)
@@ -216,7 +213,6 @@ fun StudyRoomsScreen(
                         contentDescription = null,
                     )
 
-                    // available time
                     Body3(
                         text = selectedAvailableTime,
                         color = DormTheme.colors.primary,
@@ -226,41 +222,9 @@ fun StudyRoomsScreen(
 
             Space(space = 24.dp)
 
-            // List of study rooms
-            ListStudyRooms(
-                studyRooms = studyRoomState.studyRooms,
-                onClick = { seatId: UUID ->
-                    navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
-                }
-            )
-            /*LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-
-                if (studyRoomState.studyRooms.isNotEmpty()) {
-                    items(
-                        items = studyRoomState.studyRooms,
-                    ) { point ->
-                        RoomItem(
-                            roomId = point.roomId.toString(),
-                            position = point.position,
-                            title = point.title,
-                            currentNumber = point.currentNumber,
-                            maxNumber = point.maxNumber,
-                            condition = point.condition,
-                            onClick = { seatId ->
-                                navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
-                            },
-                            isMine = point.isMine,
-                        )
-                    }
-                } else {
-                    item {
-                        Body3(
-                            text = stringResource(R.string.study_room_error_no_available_study_room),
-                        )
-                    }
-                }*/
+            ListStudyRooms(studyRooms = studyRoomState.studyRooms, onClick = { seatId: UUID ->
+                navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
+            })
         }
         Space(space = 24.dp)
     }
@@ -326,8 +290,7 @@ fun DormTimeChip(
             )
             .border(
                 border = BorderStroke(
-                    width = 1.dp,
-                    color = if (!selected) DormColor.Gray400 else Color.Transparent
+                    width = 1.dp, color = if (!selected) DormColor.Gray400 else Color.Transparent
                 ),
                 shape = DormTimeChipShape,
             )
