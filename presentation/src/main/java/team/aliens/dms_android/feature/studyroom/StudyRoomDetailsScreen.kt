@@ -68,7 +68,7 @@ fun StudyRoomDetailsScreen(
     val onCancel: () -> Unit = {
         studyRoomDetailsViewModel.onEvent(
             event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
-                seatId = UUID.fromString(currentSeat.value),
+                seatId = currentSeat.value,
                 timeSlot = timeSlot,
             )
         )
@@ -77,7 +77,7 @@ fun StudyRoomDetailsScreen(
     val onApply: () -> Unit = {
         if (currentSeat.value.isEmpty()) {
             toast(
-                context.getString(R.string.PleaseSelectSeatFirst),
+                context.getString(R.string.study_room_please_first_select),
             )
         }
         studyRoomDetailsViewModel.onEvent(
@@ -210,7 +210,7 @@ private fun ActionButtons(
             ),
             color = DormButtonColor.Gray,
         ) {
-            onCancel
+            onCancel()
         }
 
         Space(space = 10.dp)
@@ -223,7 +223,7 @@ private fun ActionButtons(
             ),
             color = DormButtonColor.Blue,
         ) {
-            onApply
+            onApply()
         }
     }
 }
