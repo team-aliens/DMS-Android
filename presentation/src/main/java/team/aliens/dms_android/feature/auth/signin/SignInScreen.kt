@@ -32,7 +32,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.auth.signin.SignInViewModel.Event
 import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
+import team.aliens.domain._model.student.Feature
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -54,27 +54,27 @@ fun SignInScreen(
 
     val feature = LocalAvailableFeatures.current
 
-    val onSignInSuccess = { visibleEntity: UserVisibleInformEntity ->
+    val onSignInSuccess = { features: Feature ->
         feature.run {
             set(
                 Extra.isMealServiceEnabled,
-                visibleEntity.mealService,
+                features.mealService,
             )
             set(
                 Extra.isNoticeServiceEnabled,
-                visibleEntity.noticeService,
+                features.noticeService,
             )
             set(
                 Extra.isPointServiceEnabled,
-                visibleEntity.pointService,
+                features.pointService,
             )
             set(
                 Extra.isStudyRoomEnabled,
-                visibleEntity.studyRoomService,
+                features.studyRoomService,
             )
             set(
                 Extra.isRemainServiceEnabled,
-                visibleEntity.remainService,
+                features.remainsService,
             )
         }
     }
@@ -83,7 +83,7 @@ fun SignInScreen(
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
                 is Event.NavigateToHome -> {
-                    onSignInSuccess(event.userVisibleInformEntity)
+                    onSignInSuccess(event.features)
                     navController.navigate(DmsRoute.Home.route) {
                         popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
