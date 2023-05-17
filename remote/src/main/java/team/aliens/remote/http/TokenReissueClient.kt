@@ -8,10 +8,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import team.aliens.domain._exception.CommonException
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.auth.Token
+import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.common.HttpProperty
+import javax.inject.Inject
 
-class TokenReissueClient(
-    private val reissueUrl: String,
+class TokenReissueClient @Inject constructor(
+    @TokenReissueUrl private val reissueUrl: String,
 ) : OkHttpClient() {
 
     internal operator fun invoke(
