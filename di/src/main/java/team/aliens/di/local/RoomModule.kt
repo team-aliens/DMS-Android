@@ -1,4 +1,4 @@
-package team.aliens._di.local
+package team.aliens.di.local
 
 import android.content.Context
 import androidx.room.Room

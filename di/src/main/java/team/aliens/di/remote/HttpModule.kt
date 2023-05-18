@@ -1,4 +1,4 @@
-package team.aliens._di.remote
+package team.aliens.di.remote
 
 import dagger.Module
 import dagger.Provides
