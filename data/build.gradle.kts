@@ -38,7 +38,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":local_database"))
 
     implementation(Dependencies.Serialization.Moshi)
     kapt(Dependencies.Serialization.MoshiCompiler)

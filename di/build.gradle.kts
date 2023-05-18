@@ -40,7 +40,6 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":remote"))
     implementation(project(":local"))
-    implementation(project(":local_database"))
 
     implementation(Dependencies.Util.LocalDateTime)
 

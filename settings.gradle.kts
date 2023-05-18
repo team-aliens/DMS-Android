@@ -26,4 +26,3 @@ include(":di")
 
 include(":design-system")
 
-include(":local_database")
