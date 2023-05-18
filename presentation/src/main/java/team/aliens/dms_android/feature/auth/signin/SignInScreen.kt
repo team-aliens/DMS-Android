@@ -246,22 +246,19 @@ fun SignInScreen(
                 )
             }
 
-            // Spacer(modifier = Modifier.fillMaxHeight())
+            Spacer(modifier = Modifier.weight(1f))
 
             DormContainedLargeButton(
-                // TODO 버튼 높이 수정
                 text = stringResource(id = R.string.Login),
                 color = DormButtonColor.Blue,
                 enabled = signInButtonState,
                 onClick = {
-
                     signInViewModel.disableSignInButton()
-
                     signInViewModel.postSignIn()
                 },
             )
 
-            // Space(space = 57.dp)
+            Space(space = 57.dp)
         }
     }
 }
