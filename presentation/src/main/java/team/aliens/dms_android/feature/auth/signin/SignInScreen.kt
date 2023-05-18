@@ -52,10 +52,10 @@ fun SignInScreen(
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
 
-    val feature = LocalAvailableFeatures.current
+    val localFeatures = LocalAvailableFeatures.current
 
     val onSignInSuccess = { features: Feature ->
-        feature.run {
+        localFeatures.run {
             set(
                 Extra.isMealServiceEnabled,
                 features.mealService,
