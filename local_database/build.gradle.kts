@@ -36,8 +36,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":local_domain"))
-
     implementation(Dependencies.Serialization.Gson)
 
     implementation(Dependencies.Util.LocalDateTime)

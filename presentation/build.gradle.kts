@@ -56,7 +56,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":local_domain"))
     implementation(project(":di"))
     implementation(project(":design-system"))
 

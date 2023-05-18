@@ -41,7 +41,6 @@ dependencies {
     implementation(project(":remote"))
     implementation(project(":local"))
     implementation(project(":local_database"))
-    implementation(project(":local_domain"))
 
     implementation(Dependencies.Util.LocalDateTime)
 

@@ -27,4 +27,3 @@ include(":di")
 include(":design-system")
 
 include(":local_database")
-include(":local_domain")
