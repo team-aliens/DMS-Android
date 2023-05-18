@@ -11,45 +11,48 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import team.aliens.dms_android.util.manager.ToastManager
 
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavController = rememberNavController(),
+    toastManager: ToastManager = ToastManager,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
 ) = remember {
     DmsAppState(
         scaffoldState = scaffoldState,
         navController = navController,
+        toastManager = toastManager,
         coroutineScope = coroutineScope,
     )
 }
 
+// TODO dialog State 관리 로직 추가하기
 internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavController,
+    val toastManager: ToastManager,
     coroutineScope: CoroutineScope,
 ) {
 
-    @Stable
-    val currentDestination = navController.currentDestination?.route
-
-    /*init{
+    init {
         coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = toastType.toString(),
-            )
+            toastManager.message.collect { toastMessage ->
+                if (toastMessage.isNotEmpty()) {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = toastMessage[0].message,
+                        actionLabel = toastMessage[0].toastType.toString(),
+                    )
+                }
+            }
         }
     }
 
-    fun showToast(
-        message: String,
-        toastType: ToastType,
-    ) {
-
-    }*/
+    @Stable
+    val currentDestination = navController.currentDestination?.route
 
     fun navigateToRoute(
         route: String,
