@@ -1,9 +1,7 @@
 package team.aliens.dms_android.feature
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android._base.MviViewModel
 import team.aliens.dms_android._base.UiEvent
 import team.aliens.dms_android._base.UiState
@@ -23,7 +21,7 @@ internal class MainViewModel @Inject constructor(
     }
 
     private fun autoSignIn() {
-        viewModelScope.launch(Dispatchers.IO) {
+        runBlocking { // fixme 로직 생각해보기
             kotlin.runCatching {
                 autoSignInUseCase()
             }.onSuccess {
@@ -52,11 +50,11 @@ internal data class MainUiState(
         fun initial() = MainUiState(
             autoSignInSuccess = false,
             feature = Feature(
-                mealService = true,
-                noticeService = true,
-                pointService = true,
-                studyRoomService = true,
-                remainsService = true,
+                mealService = false,
+                noticeService = false,
+                pointService = false,
+                studyRoomService = false,
+                remainsService = false,
             ),
         )
     }
