@@ -1,6 +1,6 @@
-package team.aliens.data._repository
+package team.aliens.data.repository
 
-import team.aliens.data._datasource.remote.RemoteFileDataSource
+import team.aliens.data.datasource.remote.RemoteFileDataSource
 import team.aliens.domain._model.file.FetchPreSignedUrlOutput
 import team.aliens.domain._model.file.UploadFileInput
 import team.aliens.domain._model.file.UploadFileOutput

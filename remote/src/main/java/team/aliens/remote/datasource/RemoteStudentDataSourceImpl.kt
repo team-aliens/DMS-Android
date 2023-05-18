@@ -1,6 +1,6 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteStudentDataSource
+import team.aliens.data.datasource.remote.RemoteStudentDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.student.CheckEmailDuplicationInput
 import team.aliens.domain._model.student.CheckIdDuplicationInput

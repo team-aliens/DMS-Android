@@ -1,4 +1,4 @@
-package team.aliens.data._datasource.remote
+package team.aliens.data.datasource.remote
 
 import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput

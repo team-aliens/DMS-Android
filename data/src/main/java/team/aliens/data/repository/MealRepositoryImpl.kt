@@ -1,7 +1,7 @@
-package team.aliens.data._repository
+package team.aliens.data.repository
 
-import team.aliens.data._datasource.local.LocalMealDataSource
-import team.aliens.data._datasource.remote.RemoteMealDataSource
+import team.aliens.data.datasource.local.LocalMealDataSource
+import team.aliens.data.datasource.remote.RemoteMealDataSource
 import team.aliens.domain._model.meal.FetchMealInput
 import team.aliens.domain._model.meal.FetchMealsInput
 import team.aliens.domain._model.meal.FetchMealsOutput

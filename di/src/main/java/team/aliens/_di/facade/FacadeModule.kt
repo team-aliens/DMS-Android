@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data._datasource.local.LocalAuthDataSource
-import team.aliens.data._facade.AuthorizationFacade
+import team.aliens.data.datasource.local.LocalAuthDataSource
+import team.aliens.data.facade.AuthorizationFacade
 import javax.inject.Singleton
 
 @Module

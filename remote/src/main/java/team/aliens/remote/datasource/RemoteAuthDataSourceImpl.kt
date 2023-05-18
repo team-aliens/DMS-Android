@@ -1,6 +1,6 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteAuthDataSource
+import team.aliens.data.datasource.remote.RemoteAuthDataSource
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model._common.EmailVerificationType
 import team.aliens.domain._model.auth.CheckIdExistsInput

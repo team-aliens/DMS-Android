@@ -1,4 +1,4 @@
-package team.aliens.data._datasource.local
+package team.aliens.data.datasource.local
 
 import team.aliens.domain._model.meal.FetchMealInput
 import team.aliens.domain._model.meal.Meal

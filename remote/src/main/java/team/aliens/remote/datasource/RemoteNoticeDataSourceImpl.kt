@@ -1,6 +1,6 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteNoticeDataSource
+import team.aliens.data.datasource.remote.RemoteNoticeDataSource
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
 import team.aliens.domain._model.notice.FetchNoticesInput

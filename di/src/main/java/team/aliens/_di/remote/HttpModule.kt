@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import team.aliens.data._facade.AuthorizationFacade
+import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.di.BuildConfig
 import team.aliens.remote.annotation.BaseUrl
 import team.aliens.remote.annotation.GlobalOkHttpClient

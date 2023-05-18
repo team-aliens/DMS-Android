@@ -1,6 +1,6 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteSchoolDataSource
+import team.aliens.data.datasource.remote.RemoteSchoolDataSource
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput

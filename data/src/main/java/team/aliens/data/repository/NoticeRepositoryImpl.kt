@@ -1,7 +1,7 @@
-package team.aliens.data._repository
+package team.aliens.data.repository
 
-import team.aliens.data._datasource.local.LocalNoticeDataSource
-import team.aliens.data._datasource.remote.RemoteNoticeDataSource
+import team.aliens.data.datasource.local.LocalNoticeDataSource
+import team.aliens.data.datasource.remote.RemoteNoticeDataSource
 import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.*
 import team.aliens.domain._repository.NoticeRepository

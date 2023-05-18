@@ -1,6 +1,6 @@
-package team.aliens.data._repository
+package team.aliens.data.repository
 
-import team.aliens.data._datasource.remote.RemoteUserDataSource
+import team.aliens.data.datasource.remote.RemoteUserDataSource
 import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
 import team.aliens.domain._repository.UserRepository

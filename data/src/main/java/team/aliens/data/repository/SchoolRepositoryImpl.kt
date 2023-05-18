@@ -1,7 +1,7 @@
-package team.aliens.data._repository
+package team.aliens.data.repository
 
-import team.aliens.data._datasource.local.LocalSchoolDataSource
-import team.aliens.data._datasource.remote.RemoteSchoolDataSource
+import team.aliens.data.datasource.local.LocalSchoolDataSource
+import team.aliens.data.datasource.remote.RemoteSchoolDataSource
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
@@ -11,7 +11,6 @@ import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain._model.school.FetchSchoolsOutput
 import team.aliens.domain._model.student.Feature
 import team.aliens.domain._repository.SchoolRepository
-import java.util.*
 import javax.inject.Inject
 
 class SchoolRepositoryImpl @Inject constructor(

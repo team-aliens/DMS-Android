@@ -1,6 +1,6 @@
-package team.aliens.data._facade
+package team.aliens.data.facade
 
-import team.aliens.data._datasource.local.LocalAuthDataSource
+import team.aliens.data.datasource.local.LocalAuthDataSource
 import team.aliens.domain._model.auth.Token
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteStudyRoomDataSource
+import team.aliens.data.datasource.remote.RemoteStudyRoomDataSource
 import team.aliens.domain._model.studyroom.ApplySeatInput
 import team.aliens.domain._model.studyroom.CancelSeatInput
 import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput

@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data._datasource.local.*
+import team.aliens.data.datasource.local.*
 import team.aliens.local.datasource.*
 import javax.inject.Singleton
 

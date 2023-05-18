@@ -1,7 +1,7 @@
-package team.aliens.data._repository
+package team.aliens.data.repository
 
-import team.aliens.data._datasource.local.LocalAuthDataSource
-import team.aliens.data._datasource.remote.RemoteAuthDataSource
+import team.aliens.data.datasource.local.LocalAuthDataSource
+import team.aliens.data.datasource.remote.RemoteAuthDataSource
 import team.aliens.domain._exception.CommonException
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput

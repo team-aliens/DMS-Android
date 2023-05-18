@@ -1,6 +1,6 @@
 package team.aliens.local.datasource
 
-import team.aliens.data._datasource.local.LocalMealDataSource
+import team.aliens.data.datasource.local.LocalMealDataSource
 import team.aliens.domain._model.meal.FetchMealInput
 import team.aliens.domain._model.meal.Meal
 import team.aliens.local.room.dao.MealDao
