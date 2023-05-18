@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-// TODO 추후 추가적인 내부 로직 작성이 필요합니다
+// TODO Dialog 관리 로직 추가
 
 internal data class DialogState(
     val content: String,

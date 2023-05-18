@@ -30,6 +30,7 @@ internal fun rememberDmsAppState(
     )
 }
 
+// TODO dialog State 관리 로직 추가하기
 internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavController,
@@ -52,22 +53,6 @@ internal class DmsAppState(
 
     @Stable
     val currentDestination = navController.currentDestination?.route
-
-    /*init{
-        coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = toastType.toString(),
-            )
-        }
-    }
-
-    fun showToast(
-        message: String,
-        toastType: ToastType,
-    ) {
-
-    }*/
 
     fun navigateToRoute(
         route: String,
