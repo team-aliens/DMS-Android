@@ -8,16 +8,19 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.manager.ToastManager
+import team.aliens.dms_android.feature.navigator.DmsRoute
 
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navController: NavController = rememberNavController(),
+    navController: NavHostController = rememberNavController(),
     toastManager: ToastManager = ToastManager,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
@@ -33,7 +36,7 @@ internal fun rememberDmsAppState(
 // TODO dialog State 관리 로직 추가하기
 internal class DmsAppState(
     val scaffoldState: ScaffoldState,
-    val navController: NavController,
+    val navController: NavHostController,
     val toastManager: ToastManager,
     coroutineScope: CoroutineScope,
 ) {
@@ -59,4 +62,12 @@ internal class DmsAppState(
     ) {
         navController.navigate(route)
     }
+}
+
+internal fun DmsAppState.navigateToSignIn() {
+    this.navController.navigate(DmsRoute.Auth.SignIn)
+}
+
+internal fun DmsAppState.navigateToHome() {
+    this.navController.navigate(DmsRoute.Home.route)
 }

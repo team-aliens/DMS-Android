@@ -62,9 +62,11 @@ dependencies {
 
     implementation(Dependencies.Android.CoreX)
     implementation(Dependencies.Android.ActivityX)
+    implementation(Dependencies.Android.FragmentX)
     implementation(Dependencies.Android.AppCompat)
     implementation(Dependencies.Android.WorkX)
     implementation(Dependencies.Android.LifeCycleViewModelX)
+    implementation(Dependencies.Android.LifeCycleCompose)
 
     implementation(Dependencies.Ui.Material)
     implementation(Dependencies.Ui.Compose)

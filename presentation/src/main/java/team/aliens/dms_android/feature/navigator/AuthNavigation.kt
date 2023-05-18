@@ -9,7 +9,7 @@ import team.aliens.dms_android.feature.auth.changepassword.ResetPasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.UserVerification
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
-import team.aliens.dms_android.feature.auth.login.SignInScreen
+import team.aliens.dms_android.feature.auth.signin.SignInScreen
 import team.aliens.dms_android.feature.mypage.MyPageChangePasswordScreen
 
 fun NavGraphBuilder.authNavigation(

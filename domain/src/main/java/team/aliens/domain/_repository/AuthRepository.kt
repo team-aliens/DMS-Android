@@ -14,6 +14,8 @@ interface AuthRepository {
         input: SignInInput,
     ): AuthenticationOutput
 
+    suspend fun autoSignIn(): AuthenticationOutput
+
     suspend fun findAutoSignInOption(): Boolean
 
     suspend fun updateAutoSignInOption(
@@ -54,4 +56,6 @@ interface AuthRepository {
     )
 
     suspend fun clearToken()
+
+    suspend fun signOut()
 }

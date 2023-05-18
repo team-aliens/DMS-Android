@@ -1,15 +1,7 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android.feature
 
-import dagger.hilt.android.lifecycle.HiltViewModel
-import team.aliens.dms_android._base.MviViewModel
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
-import javax.inject.Inject
-
-/*
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
@@ -17,14 +9,13 @@ import team.aliens.dms_android.base.MviEvent
 import team.aliens.dms_android.base.MviState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.usecase.auth.AutoSignInUseCase
 import team.aliens.domain.usecase.auth.FetchAutoSignInOptionUseCase
 import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
 import team.aliens.local_domain.usecase.uservisible.LocalUserVisibleInformUseCase
+import javax.inject.Inject
 
 @HiltViewModel
-class RootViewModel @Inject constructor(
-    private val autoSignInUseCase: AutoSignInUseCase,
+class _RootViewModel @Inject constructor(
     private val fetchAutoSignInOptionUseCase: FetchAutoSignInOptionUseCase,
     private val localUserVisibleInformUseCase: LocalUserVisibleInformUseCase,
 ) : BaseViewModel<SplashState, SplashEvent>() {
@@ -43,6 +34,7 @@ class RootViewModel @Inject constructor(
             }
         }
     }
+/*
 
     fun autoLogin() = viewModelScope.launch {
         kotlin.runCatching {
@@ -53,11 +45,12 @@ class RootViewModel @Inject constructor(
                     localUserVisibleInformUseCase.execute(Unit),
                 ),
             )
-            setState(state.value.copy(route = DmsRoute.Home.route))
+            setState(state.value.copy(route = "DUMMY"))
         }.onFailure {
             emitEvent(Event.NeedLogin)
         }
     }
+*/
 
     private suspend fun emitEvent(event: Event) {
         _eventFlow.emit(event)
@@ -84,7 +77,7 @@ data class SplashState(
 ) : MviState {
     companion object {
         fun initial() = SplashState(
-            route = DmsRoute.Auth.SignIn,
+            route = "LOGIN",
             userVisibleInformEntity = UserVisibleInformEntity(
                 mealService = false,
                 noticeService = false,
@@ -96,24 +89,4 @@ data class SplashState(
     }
 }
 
-sealed class SplashEvent : MviEvent*/
-
-@HiltViewModel
-internal class RootViewModel @Inject constructor(
-) : MviViewModel<RootState, RootEvent>(
-    initialState = RootState.initial()
-) {
-    
-}
-
-internal data class RootState(
-    val route: String,
-) : UiState {
-    companion object {
-        fun initial() = RootState(
-            route = DmsRoute.Home.Main,
-        )
-    }
-}
-
-internal sealed class RootEvent : UiEvent
+sealed class SplashEvent : MviEvent

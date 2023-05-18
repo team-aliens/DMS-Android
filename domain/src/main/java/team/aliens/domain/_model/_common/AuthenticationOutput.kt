@@ -1,5 +1,7 @@
 package team.aliens.domain._model._common
 
+import team.aliens.domain._model.student.Feature
+
 /**
  * A response returned when authentication succeed
  * @property accessToken an access token
@@ -30,5 +32,15 @@ data class AuthenticationOutput(
         val pointService: Boolean,
         val studyRoomService: Boolean,
         val remainsService: Boolean,
+    )
+}
+
+fun AuthenticationOutput.Features.toModel(): Feature {
+    return Feature(
+        mealService = this.mealService,
+        noticeService = this.noticeService,
+        pointService = this.pointService,
+        studyRoomService = this.studyRoomService,
+        remainsService = this.remainsService,
     )
 }

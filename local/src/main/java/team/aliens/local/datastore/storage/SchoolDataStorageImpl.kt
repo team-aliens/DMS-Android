@@ -3,7 +3,7 @@ package team.aliens.local.datastore.storage
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.first
 import team.aliens.domain._model.student.Feature
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.MealService
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.NoticeService
@@ -34,23 +34,23 @@ class SchoolDataStorageImpl @Inject constructor(
     }
 
     override suspend fun findMealFeatureEnabled(): Boolean {
-        return dataStore.data.last()[MealService] ?: false
+        return dataStore.data.first()[MealService] ?: false
     }
 
     override suspend fun findNoticeFeatureEnabled(): Boolean {
-        return dataStore.data.last()[NoticeService] ?: false
+        return dataStore.data.first()[NoticeService] ?: false
     }
 
     override suspend fun findPointServiceEnabled(): Boolean {
-        return dataStore.data.last()[PointService] ?: false
+        return dataStore.data.first()[PointService] ?: false
     }
 
     override suspend fun findStudyRoomServiceEnabled(): Boolean {
-        return dataStore.data.last()[StudyRoomService] ?: false
+        return dataStore.data.first()[StudyRoomService] ?: false
     }
 
     override suspend fun findRemainsServiceEnabled(): Boolean {
-        return dataStore.data.last()[RemainsService] ?: false
+        return dataStore.data.first()[RemainsService] ?: false
     }
 
     override suspend fun saveFeature(

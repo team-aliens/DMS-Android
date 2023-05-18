@@ -1,5 +1,5 @@
 package team.aliens.dms_android.widget.meal.provider
-
+/*
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -63,4 +63,4 @@ class BigMealWidgetProvider : BaseMealWidgetProvider(), CoroutineScope by MainSc
             notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_meal)
         }
     }
-}
+}*/

@@ -1,13 +1,13 @@
 package team.aliens.domain.usecase.auth
 
-import team.aliens.domain.repository.UserRepository
+import team.aliens.domain._model._common.AuthenticationOutput
+import team.aliens.domain._repository.AuthRepository
 import javax.inject.Inject
 
-// FIXME: 새로운 domain repository로 이전 필요
 class AutoSignInUseCase @Inject constructor(
-    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
 ) {
-    suspend operator fun invoke() {
-        userRepository.autoSignIn()
+    suspend operator fun invoke(): AuthenticationOutput {
+        return authRepository.autoSignIn()
     }
 }

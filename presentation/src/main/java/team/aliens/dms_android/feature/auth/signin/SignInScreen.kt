@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.login
+package team.aliens.dms_android.feature.auth.signin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -30,9 +30,9 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.auth.login.SignInViewModel.Event
+import team.aliens.dms_android.feature.auth.signin.SignInViewModel.Event
 import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
+import team.aliens.domain._model.student.Feature
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -52,29 +52,29 @@ fun SignInScreen(
 
     signInButtonState = signInViewModel.signInButtonState.collectAsState().value
 
-    val feature = LocalAvailableFeatures.current
+    val localFeatures = LocalAvailableFeatures.current
 
-    val onSignInSuccess = { visibleEntity: UserVisibleInformEntity ->
-        feature.run {
+    val onSignInSuccess = { features: Feature ->
+        localFeatures.run {
             set(
                 Extra.isMealServiceEnabled,
-                visibleEntity.mealService,
+                features.mealService,
             )
             set(
                 Extra.isNoticeServiceEnabled,
-                visibleEntity.noticeService,
+                features.noticeService,
             )
             set(
                 Extra.isPointServiceEnabled,
-                visibleEntity.pointService,
+                features.pointService,
             )
             set(
                 Extra.isStudyRoomEnabled,
-                visibleEntity.studyRoomService,
+                features.studyRoomService,
             )
             set(
                 Extra.isRemainServiceEnabled,
-                visibleEntity.remainService,
+                features.remainsService,
             )
         }
     }
@@ -83,7 +83,7 @@ fun SignInScreen(
         signInViewModel.signInViewEffect.collect { event ->
             when (event) {
                 is Event.NavigateToHome -> {
-                    onSignInSuccess(event.userVisibleInformEntity)
+                    onSignInSuccess(event.features)
                     navController.navigate(DmsRoute.Home.route) {
                         popUpTo(DmsRoute.Auth.SignIn) {
                             inclusive = true
@@ -246,22 +246,19 @@ fun SignInScreen(
                 )
             }
 
-            // Spacer(modifier = Modifier.fillMaxHeight())
+            Spacer(modifier = Modifier.weight(1f))
 
             DormContainedLargeButton(
-                // TODO 버튼 높이 수정
                 text = stringResource(id = R.string.Login),
                 color = DormButtonColor.Blue,
                 enabled = signInButtonState,
                 onClick = {
-
                     signInViewModel.disableSignInButton()
-
                     signInViewModel.postSignIn()
                 },
             )
 
-            // Space(space = 57.dp)
+            Space(space = 57.dp)
         }
     }
 }

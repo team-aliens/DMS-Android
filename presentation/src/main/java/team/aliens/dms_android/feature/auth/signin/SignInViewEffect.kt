@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.login
+package team.aliens.dms_android.feature.auth.signin
 
 sealed class SignInViewEffect {
     object NavigateToHome : SignInEvent()

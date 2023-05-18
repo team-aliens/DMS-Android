@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.login
+package team.aliens.dms_android.feature.auth.signin
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,22 +10,21 @@ import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
+import team.aliens.domain._model._common.toModel
+import team.aliens.domain._model.auth.SignInInput
+import team.aliens.domain._model.student.Feature
 import team.aliens.domain.exception.BadRequestException
 import team.aliens.domain.exception.NoInternetException
 import team.aliens.domain.exception.NotFoundException
 import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
-import team.aliens.domain.param.LoginParam
 import team.aliens.domain.usecase.auth.SignInUseCase
-import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
-import team.aliens.local_domain.usecase.uservisible.LocalUserVisibleInformUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-    private val localUserVisibleInformUseCase: LocalUserVisibleInformUseCase,
 ) : BaseViewModel<SignInState, SignInEvent>() {
 
     override val initialState: SignInState
@@ -89,14 +88,14 @@ class SignInViewModel @Inject constructor(
 
             val result = kotlin.runCatching {
                 signInUseCase(
-                    signInInput = getLoginParamFromCurrentState(),
+                    signInInput = getSignInInputFromCurrentState(),
                 )
             }
 
             if (result.isSuccess) {
                 emitSignInViewEvent(
                     Event.NavigateToHome(
-                        localUserVisibleInformUseCase.execute(Unit),
+                        features = result.getOrThrow().features.toModel() //fixme refactor
                     ),
                 )
             } else {
@@ -127,6 +126,7 @@ class SignInViewModel @Inject constructor(
                     ),
                 )
             }
+
             is SignInEvent.InputPassword -> {
                 setState(
                     oldState.copy(
@@ -134,23 +134,24 @@ class SignInViewModel @Inject constructor(
                     ),
                 )
             }
+
             else -> {
                 /* explicit blank */
             }
         }
     }
 
-    private fun getLoginParamFromCurrentState(): LoginParam {
-        return LoginParam(
-            id = state.value.id,
+    private fun getSignInInputFromCurrentState(): SignInInput {
+        return SignInInput(
+            accountId = state.value.id,
             password = state.value.password,
-            autoLogin = state.value.autoLogin,
+            autoSignIn = state.value.autoLogin,
         )
     }
 
     sealed class Event {
         data class NavigateToHome(
-            val userVisibleInformEntity: UserVisibleInformEntity,
+            val features: Feature,
         ) : Event()
 
         object WrongRequest : Event()

@@ -1,65 +1,57 @@
 package team.aliens.dms_android.feature
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.dms_android.base.BaseActivity
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.navigator.RootDms
-import team.aliens.presentation.R
-import team.aliens.presentation.databinding.ActivityMainBinding
+import team.aliens.dms_android.feature.navigator.DmsApp
+import team.aliens.dms_android.feature.navigator.DmsRoute
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity : ComponentActivity() {
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            val secondIntent = intent
-            val route = secondIntent.getStringExtra("route")
+            DormTheme(
+                darkTheme = isSystemInDarkTheme(),
+            ) {
+                val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-            if (route != null) {
-                DormTheme(
-                    darkTheme = isSystemInDarkTheme(),
+                val startDestination = if (uiState.autoSignInSuccess) {
+                    DmsRoute.Home.route
+                } else {
+                    DmsRoute.Auth.route
+                }
+
+                val availableFeatures = uiState.feature.run {
+                    mutableMapOf(
+                        Extra.isMealServiceEnabled to mealService,
+                        Extra.isNoticeServiceEnabled to noticeService,
+                        Extra.isPointServiceEnabled to pointService,
+                        Extra.isStudyRoomEnabled to studyRoomService,
+                        Extra.isRemainServiceEnabled to remainsService,
+                    )
+                }
+
+                CompositionLocalProvider(
+                    values = arrayOf(LocalAvailableFeatures provides availableFeatures),
                 ) {
-                    val availableFeatures = staticCompositionLocalOf {
-                        mutableMapOf(
-                            Extra.isMealServiceEnabled to intent.getBooleanExtra(
-                                Extra.isMealServiceEnabled, false,
-                            ),
-                            Extra.isNoticeServiceEnabled to intent.getBooleanExtra(
-                                Extra.isNoticeServiceEnabled, false,
-                            ),
-                            Extra.isPointServiceEnabled to intent.getBooleanExtra(
-                                Extra.isPointServiceEnabled, false,
-                            ),
-                            Extra.isStudyRoomEnabled to intent.getBooleanExtra(
-                                Extra.isStudyRoomEnabled, false,
-                            ),
-                            Extra.isRemainServiceEnabled to intent.getBooleanExtra(
-                                Extra.isRemainServiceEnabled, false,
-                            ),
-                        )
-                    }
-
-                    CompositionLocalProvider(
-                        values = arrayOf(LocalAvailableFeatures provides availableFeatures.current),
-                    ) {
-                        RootDms(
-                            route = route,
-                        )
-                    }
+                    DmsApp(
+                        initialRoute = startDestination,
+                    )
                 }
             }
         }
-    }
-
-    override fun initView() {
-        /* explicit blank */
     }
 }

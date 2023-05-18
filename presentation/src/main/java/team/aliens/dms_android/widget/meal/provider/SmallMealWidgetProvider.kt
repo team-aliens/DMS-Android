@@ -1,4 +1,5 @@
 package team.aliens.dms_android.widget.meal.provider
+/*
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -60,4 +61,4 @@ class SmallMealWidgetProvider : BaseMealWidgetProvider(), CoroutineScope by Main
             notifyAppWidgetViewDataChanged(appWidgetId, R.id.small_str_meal)
         }
     }
-}
+}*/

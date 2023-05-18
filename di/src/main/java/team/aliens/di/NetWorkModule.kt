@@ -23,7 +23,7 @@ object NetWorkModule {
 
     private const val BASE_URL = " https://api.aliens-dms.com"
 
-    @Provides
+/*    @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().setLevel(
             if (BuildConfig.DEBUG) {
@@ -31,7 +31,7 @@ object NetWorkModule {
             } else {
                 HttpLoggingInterceptor.Level.NONE
             },
-        )
+        )*/
 
     @Provides
     @Singleton
@@ -59,11 +59,11 @@ object NetWorkModule {
     fun providesTokenReissueOkHttpClient(): TokenReissueClient =
         TokenReissueClient(BASE_URL + DmsUrl.User.reissueToken)
 
-    @Provides
+/*    @Provides
     fun provideRetrofit(
         @DefaultOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit = Retrofit.Builder().baseUrl(BASE_URL).client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create()).build()
+        .addConverterFactory(GsonConverterFactory.create()).build()*/
 
     @Provides
     fun provideStudentsApi(retrofit: Retrofit): StudentsApi =

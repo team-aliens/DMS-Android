@@ -3,14 +3,18 @@ package team.aliens.remote.common
 internal object HttpProperty {
 
     object Header {
-
+        const val Authorization = "Authorization"
         const val RefreshToken = "refresh-token"
+
+        object Prefix {
+            const val Bearer = "Bearer" + " "
+        }
 
         object ContentType {
 
             object Application {
                 const val Json = "application/json"
-                const val OctetStream ="application/octet-stream"
+                const val OctetStream = "application/octet-stream"
             }
 
             object Multipart {

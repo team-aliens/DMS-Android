@@ -2,6 +2,7 @@ package team.aliens.data._repository
 
 import team.aliens.data._datasource.local.LocalAuthDataSource
 import team.aliens.data._datasource.remote.RemoteAuthDataSource
+import team.aliens.domain._exception.CommonException
 import team.aliens.domain._model._common.AuthenticationOutput
 import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain._model.auth.CheckIdExistsInput
@@ -22,7 +23,25 @@ class AuthRepositoryImpl @Inject constructor(
     ): AuthenticationOutput {
         return remoteAuthDataSource.signIn(
             input = input
-        )
+        ).also {
+            this.saveToken(
+                Token(
+                    accessToken = it.accessToken,
+                    accessTokenExpiredAt = it.accessTokenExpiredAt,
+                    refreshToken = it.refreshToken,
+                    refreshTokenExpiredAt = it.refreshTokenExpiredAt,
+                ),
+            )
+            this.updateAutoSignInOption(
+                autoSignIn = input.autoSignIn,
+            )
+        }
+    }
+
+    override suspend fun autoSignIn(): AuthenticationOutput {
+        val autoSignInEnabled = this.findAutoSignInOption()
+        if (autoSignInEnabled) return this.reissueToken()
+        throw CommonException.SignInRequired
     }
 
     override suspend fun findAutoSignInOption(): Boolean {
@@ -56,7 +75,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun reissueToken(): AuthenticationOutput {
-        return remoteAuthDataSource.reissueToken()
+        val refreshToken = this.findRefreshToken()
+
+        return remoteAuthDataSource.reissueToken(
+            refreshToken = refreshToken,
+        )
     }
 
     override suspend fun verifyEmail(
@@ -107,5 +130,9 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun clearToken() {
         localAuthDataSource.clearToken()
+    }
+
+    override suspend fun signOut() {
+        localAuthDataSource.signOut()
     }
 }
