@@ -2,8 +2,8 @@ package team.aliens.dms_android.feature.studyroom
 
 import java.util.UUID
 import team.aliens.dms_android._base.UiState
-import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
+import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain.model.studyroom.FetchStudyRoomsOutput
 
 data class StudyRoomListUiState(
     var startAt: String = "",

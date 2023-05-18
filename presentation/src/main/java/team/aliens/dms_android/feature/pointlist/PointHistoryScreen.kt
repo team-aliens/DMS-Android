@@ -5,11 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -32,8 +30,8 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Headline2
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.feature.mypage.MyPageViewModel
-import team.aliens.domain._model._common.PointType
-import team.aliens.domain._model.point.FetchPointsOutput
+import team.aliens.domain.model._common.PointType
+import team.aliens.domain.model.point.FetchPointsOutput
 import team.aliens.presentation.R
 
 @Composable

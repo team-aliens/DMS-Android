@@ -1,11 +1,11 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data.datasource.remote.RemoteNoticeDataSource
-import team.aliens.domain._model.notice.FetchNoticeDetailsInput
-import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
-import team.aliens.domain._model.notice.FetchNoticesInput
-import team.aliens.domain._model.notice.FetchNoticesOutput
-import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
+import team.aliens.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.domain.model.notice.FetchNoticeDetailsOutput
+import team.aliens.domain.model.notice.FetchNoticesInput
+import team.aliens.domain.model.notice.FetchNoticesOutput
+import team.aliens.domain.model.notice.FetchWhetherNewNoticesExistOutput
 import team.aliens.remote.model.notice.toDomain
 import team.aliens.remote.apiservice.NoticeApiService
 import team.aliens.remote.util.sendHttpRequest

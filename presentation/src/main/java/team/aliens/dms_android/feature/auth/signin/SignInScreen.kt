@@ -32,7 +32,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.auth.signin.SignInViewModel.Event
 import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model.student.Feature
 import team.aliens.presentation.R
 
 @OptIn(ExperimentalComposeUiApi::class)

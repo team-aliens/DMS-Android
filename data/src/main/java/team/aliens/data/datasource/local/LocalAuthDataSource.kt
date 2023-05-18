@@ -1,6 +1,6 @@
 package team.aliens.data.datasource.local
 
-import team.aliens.domain._model.auth.Token
+import team.aliens.domain.model.auth.Token
 
 interface LocalAuthDataSource {
 

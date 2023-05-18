@@ -1,4 +1,4 @@
-package team.aliens._di.facade
+package team.aliens.di.facade
 
 import dagger.Module
 import dagger.Provides

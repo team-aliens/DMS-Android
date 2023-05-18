@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.SignUpEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.student.SignUpInput
+import team.aliens.domain.model.student.SignUpInput
 import team.aliens.domain.usecase.student.SignUpUseCase
 import javax.inject.Inject
 

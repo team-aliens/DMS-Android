@@ -7,10 +7,10 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model._common.EmailVerificationType
-import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
-import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain._model.student.CheckEmailDuplicationInput
+import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.student.CheckEmailDuplicationUseCase

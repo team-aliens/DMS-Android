@@ -23,8 +23,8 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.OverLine
-import team.aliens.domain._model._common.PointType
-import team.aliens.domain._model.point.FetchPointsOutput
+import team.aliens.domain.model._common.PointType
+import team.aliens.domain.model.point.FetchPointsOutput
 
 @Composable
 fun PointList(

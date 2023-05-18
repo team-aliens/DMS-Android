@@ -1,7 +1,7 @@
 package team.aliens.remote.util
 
-import team.aliens.domain._exception.CommonException
-import team.aliens.domain._exception.RemoteException
+import team.aliens.domain.exception.CommonException
+import team.aliens.domain.exception.RemoteException
 
 @Suppress("UNREACHABLE_CODE")
 suspend inline fun <T> sendHttpRequest(

@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature.auth.signin
 
 import team.aliens.dms_android.base.MviState
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model.student.Feature
 
 data class SignInState(
     val id: String,

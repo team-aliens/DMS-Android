@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.id.SetIdEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.student.CheckIdDuplicationInput
-import team.aliens.domain._model.student.ExamineStudentNumberInput
+import team.aliens.domain.model.student.CheckIdDuplicationInput
+import team.aliens.domain.model.student.ExamineStudentNumberInput
 import team.aliens.domain.usecase.student.CheckIdDuplicationUseCase
 import team.aliens.domain.usecase.student.ExamineStudentNumberUseCase
 import javax.inject.Inject

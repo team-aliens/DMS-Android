@@ -1,7 +1,7 @@
 package team.aliens.remote.model.school
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.school.FetchAvailableFeaturesOutput
+import team.aliens.domain.model.school.FetchAvailableFeaturesOutput
 
 data class FetchAvailableFeaturesResponse(
     @SerializedName("meal_service") val mealService: Boolean,

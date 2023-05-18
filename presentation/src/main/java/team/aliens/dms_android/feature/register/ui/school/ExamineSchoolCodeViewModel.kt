@@ -7,9 +7,8 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
-import java.util.TooManyListenersException
 import java.util.UUID
 import javax.inject.Inject
 

@@ -37,9 +37,8 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.constans.Extra.seatId
 import team.aliens.dms_android.util.TopBar
-import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.presentation.R
 import java.util.UUID
 

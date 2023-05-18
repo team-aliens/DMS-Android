@@ -1,8 +1,8 @@
 package team.aliens.remote.model.studyroom
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
+import team.aliens.domain.model._common.Sex
+import team.aliens.domain.model.studyroom.FetchStudyRoomsOutput
 import java.util.*
 
 data class FetchStudyRoomsResponse(

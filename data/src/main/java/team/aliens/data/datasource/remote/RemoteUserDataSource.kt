@@ -1,7 +1,7 @@
 package team.aliens.data.datasource.remote
 
-import team.aliens.domain._model.user.ComparePasswordInput
-import team.aliens.domain._model.user.EditPasswordInput
+import team.aliens.domain.model.user.ComparePasswordInput
+import team.aliens.domain.model.user.EditPasswordInput
 
 interface RemoteUserDataSource {
 

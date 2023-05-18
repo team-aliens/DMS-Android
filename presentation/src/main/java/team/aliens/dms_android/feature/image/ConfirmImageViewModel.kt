@@ -11,8 +11,8 @@ import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.file.UploadFileInput
-import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain.model.file.UploadFileInput
+import team.aliens.domain.model.student.EditProfileInput
 import team.aliens.domain.usecase.file.UploadFileUseCase
 import team.aliens.domain.usecase.student.EditProfileUseCase
 import javax.inject.Inject

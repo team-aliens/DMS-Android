@@ -1,11 +1,11 @@
-package team.aliens._di.repository
+package team.aliens.di.repository
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.repository.*
-import team.aliens.domain._repository.*
+import team.aliens.domain.repository.*
 import javax.inject.Singleton
 
 @Module

@@ -6,10 +6,10 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.auth.CheckIdExistsInput
-import team.aliens.domain._model.student.ResetPasswordInput
-import team.aliens.domain._model.user.ComparePasswordInput
-import team.aliens.domain._model.user.EditPasswordInput
+import team.aliens.domain.model.auth.CheckIdExistsInput
+import team.aliens.domain.model.student.ResetPasswordInput
+import team.aliens.domain.model.user.ComparePasswordInput
+import team.aliens.domain.model.user.EditPasswordInput
 import team.aliens.domain.usecase.auth.CheckIdExistsUseCase
 import team.aliens.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase

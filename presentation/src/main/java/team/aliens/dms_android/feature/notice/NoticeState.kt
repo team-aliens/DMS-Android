@@ -1,8 +1,8 @@
 package team.aliens.dms_android.feature.notice
 
 import team.aliens.dms_android.base.MviState
-import team.aliens.domain._model._common.Order
-import team.aliens.domain._model.notice.FetchNoticesOutput
+import team.aliens.domain.model._common.Order
+import team.aliens.domain.model.notice.FetchNoticesOutput
 
 data class NoticeState(
     var type: Order = Order.NEW,

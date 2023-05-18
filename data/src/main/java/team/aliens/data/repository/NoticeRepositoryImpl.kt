@@ -2,9 +2,9 @@ package team.aliens.data.repository
 
 import team.aliens.data.datasource.local.LocalNoticeDataSource
 import team.aliens.data.datasource.remote.RemoteNoticeDataSource
-import team.aliens.domain._model._common.Order
-import team.aliens.domain._model.notice.*
-import team.aliens.domain._repository.NoticeRepository
+import team.aliens.domain.model._common.Order
+import team.aliens.domain.model.notice.*
+import team.aliens.domain.repository.NoticeRepository
 import java.util.*
 import javax.inject.Inject
 

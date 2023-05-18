@@ -1,7 +1,7 @@
 package team.aliens.remote.model.remains
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
 import java.util.*
 
 data class FetchRemainsOptionsResponse(

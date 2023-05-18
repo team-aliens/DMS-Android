@@ -1,7 +1,7 @@
 package team.aliens.remote.model.school
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.school.FetchSchoolsOutput
+import team.aliens.domain.model.school.FetchSchoolsOutput
 import java.util.*
 
 data class FetchSchoolsResponse(

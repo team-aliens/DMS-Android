@@ -1,7 +1,7 @@
 package team.aliens.remote.model.remains
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
 import java.time.DayOfWeek
 
 data class FetchRemainsApplicationTimeResponse(

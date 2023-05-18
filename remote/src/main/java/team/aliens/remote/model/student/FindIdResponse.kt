@@ -1,7 +1,7 @@
 package team.aliens.remote.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.student.FindIdOutput
+import team.aliens.domain.model.student.FindIdOutput
 
 data class FindIdResponse(
     @SerializedName("email") val email: String,

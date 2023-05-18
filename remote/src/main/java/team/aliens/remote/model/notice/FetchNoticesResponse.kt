@@ -1,7 +1,7 @@
 package team.aliens.remote.model.notice
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.notice.FetchNoticesOutput
+import team.aliens.domain.model.notice.FetchNoticesOutput
 import java.util.*
 
 data class FetchNoticesResponse(

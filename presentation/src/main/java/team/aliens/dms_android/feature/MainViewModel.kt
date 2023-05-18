@@ -5,8 +5,8 @@ import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android._base.MviViewModel
 import team.aliens.dms_android._base.UiEvent
 import team.aliens.dms_android._base.UiState
-import team.aliens.domain._model._common.toModel
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model._common.toModel
+import team.aliens.domain.model.student.Feature
 import team.aliens.domain.usecase.auth.AutoSignInUseCase
 import javax.inject.Inject
 

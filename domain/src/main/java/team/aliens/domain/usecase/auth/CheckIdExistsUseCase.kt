@@ -1,8 +1,8 @@
 package team.aliens.domain.usecase.auth
 
-import team.aliens.domain._model.auth.CheckIdExistsInput
-import team.aliens.domain._model.auth.CheckIdExistsOutput
-import team.aliens.domain._repository.AuthRepository
+import team.aliens.domain.model.auth.CheckIdExistsInput
+import team.aliens.domain.model.auth.CheckIdExistsOutput
+import team.aliens.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class CheckIdExistsUseCase @Inject constructor(

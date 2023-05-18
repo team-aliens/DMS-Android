@@ -1,6 +1,6 @@
 package team.aliens.data.datasource.local
 
-import team.aliens.domain._model.notice.Notice
+import team.aliens.domain.model.notice.Notice
 import java.util.*
 
 interface LocalNoticeDataSource {

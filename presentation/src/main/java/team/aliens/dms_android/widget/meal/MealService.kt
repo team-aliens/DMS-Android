@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.constans.Extra
-import team.aliens.domain._model.meal.FetchMealsInput
-import team.aliens.domain._model.meal.FetchMealsOutput
+import team.aliens.domain.model.meal.FetchMealsInput
+import team.aliens.domain.model.meal.FetchMealsOutput
 import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.presentation.R
 import java.time.LocalDate

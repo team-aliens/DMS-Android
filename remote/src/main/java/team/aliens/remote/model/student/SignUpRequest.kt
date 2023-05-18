@@ -1,7 +1,7 @@
 package team.aliens.remote.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.student.SignUpInput
+import team.aliens.domain.model.student.SignUpInput
 
 data class SignUpRequest(
     @SerializedName("school_code") val schoolVerificationCode: String,

@@ -1,6 +1,6 @@
 package team.aliens.data.datasource.local
 
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model.student.Feature
 
 interface LocalSchoolDataSource {
 

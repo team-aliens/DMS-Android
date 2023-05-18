@@ -1,11 +1,11 @@
 package team.aliens.data.repository
 
 import team.aliens.data.datasource.remote.RemoteRemainsDataSource
-import team.aliens.domain._model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
-import team.aliens.domain._model.remains.UpdateRemainsOptionInput
-import team.aliens.domain._repository.RemainsRepository
+import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class RemainsRepositoryImpl @Inject constructor(

@@ -7,9 +7,9 @@ import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.dms_android.feature.remain.RemainApplicationViewModel.Event
-import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
-import team.aliens.domain._model.remains.UpdateRemainsOptionInput
+import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.model.remains.UpdateRemainsOptionInput
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsOptionsUseCase

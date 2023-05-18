@@ -1,8 +1,8 @@
 package team.aliens.dms_android.feature.studyroom
 
 import team.aliens.dms_android.base.MviState
-import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain.model._common.Sex
+import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
 
 data class StudyRoomState(
     val currentSeat: String?,

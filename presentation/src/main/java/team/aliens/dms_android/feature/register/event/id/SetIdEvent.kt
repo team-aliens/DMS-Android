@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature.register.event.id
 
 import team.aliens.dms_android.base.MviEvent
-import team.aliens.domain._model.student.ExamineStudentNumberOutput
+import team.aliens.domain.model.student.ExamineStudentNumberOutput
 
 sealed class SetIdEvent : MviEvent {
     data class ExamineGradeName(

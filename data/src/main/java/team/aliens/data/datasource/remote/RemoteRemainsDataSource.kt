@@ -1,9 +1,9 @@
 package team.aliens.data.datasource.remote
 
-import team.aliens.domain._model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
-import team.aliens.domain._model.remains.UpdateRemainsOptionInput
+import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.model.remains.UpdateRemainsOptionInput
 
 interface RemoteRemainsDataSource {
 

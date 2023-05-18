@@ -1,4 +1,4 @@
-package team.aliens._di.datasource
+package team.aliens.di.datasource
 
 import dagger.Binds
 import dagger.Module

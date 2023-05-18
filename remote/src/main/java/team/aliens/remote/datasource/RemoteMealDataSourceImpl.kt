@@ -1,8 +1,8 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data.datasource.remote.RemoteMealDataSource
-import team.aliens.domain._model.meal.FetchMealsInput
-import team.aliens.domain._model.meal.FetchMealsOutput
+import team.aliens.domain.model.meal.FetchMealsInput
+import team.aliens.domain.model.meal.FetchMealsOutput
 import team.aliens.remote.model.meal.toDomain
 import team.aliens.remote.apiservice.MealApiService
 import team.aliens.remote.util.sendHttpRequest

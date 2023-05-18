@@ -1,18 +1,18 @@
 package team.aliens.data.repository
 
 import team.aliens.data.datasource.remote.RemoteStudentDataSource
-import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.student.CheckEmailDuplicationInput
-import team.aliens.domain._model.student.CheckIdDuplicationInput
-import team.aliens.domain._model.student.EditProfileInput
-import team.aliens.domain._model.student.ExamineStudentNumberInput
-import team.aliens.domain._model.student.ExamineStudentNumberOutput
-import team.aliens.domain._model.student.FetchMyPageOutput
-import team.aliens.domain._model.student.FindIdInput
-import team.aliens.domain._model.student.FindIdOutput
-import team.aliens.domain._model.student.ResetPasswordInput
-import team.aliens.domain._model.student.SignUpInput
-import team.aliens.domain._repository.StudentRepository
+import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.domain.model.student.CheckIdDuplicationInput
+import team.aliens.domain.model.student.EditProfileInput
+import team.aliens.domain.model.student.ExamineStudentNumberInput
+import team.aliens.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.domain.model.student.FetchMyPageOutput
+import team.aliens.domain.model.student.FindIdInput
+import team.aliens.domain.model.student.FindIdOutput
+import team.aliens.domain.model.student.ResetPasswordInput
+import team.aliens.domain.model.student.SignUpInput
+import team.aliens.domain.repository.StudentRepository
 import javax.inject.Inject
 
 class StudentRepositoryImpl @Inject constructor(

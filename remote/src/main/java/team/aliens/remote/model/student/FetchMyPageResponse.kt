@@ -1,8 +1,8 @@
 package team.aliens.remote.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.student.FetchMyPageOutput
+import team.aliens.domain.model._common.Sex
+import team.aliens.domain.model.student.FetchMyPageOutput
 
 data class FetchMyPageResponse(
     @SerializedName("school_name") val schoolName: String,

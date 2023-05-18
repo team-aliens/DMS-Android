@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.meal.FetchMealInput
-import team.aliens.domain._model.meal.Meal
+import team.aliens.domain.model.meal.FetchMealInput
+import team.aliens.domain.model.meal.Meal
 import team.aliens.domain.usecase.meal.FetchMealUseCase
 import javax.inject.Inject
 

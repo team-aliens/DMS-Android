@@ -1,4 +1,4 @@
-package team.aliens._di.local
+package team.aliens.di.local
 
 import dagger.Binds
 import dagger.Module

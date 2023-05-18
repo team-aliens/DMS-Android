@@ -10,9 +10,9 @@ import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model._common.toModel
-import team.aliens.domain._model.auth.SignInInput
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model._common.toModel
+import team.aliens.domain.model.auth.SignInInput
+import team.aliens.domain.model.student.Feature
 import team.aliens.domain.usecase.auth.SignInUseCase
 import javax.inject.Inject
 

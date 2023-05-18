@@ -1,12 +1,12 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data.datasource.remote.RemoteAuthDataSource
-import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model._common.EmailVerificationType
-import team.aliens.domain._model.auth.CheckIdExistsInput
-import team.aliens.domain._model.auth.CheckIdExistsOutput
-import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain._model.auth.SignInInput
+import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.domain.model.auth.CheckIdExistsInput
+import team.aliens.domain.model.auth.CheckIdExistsOutput
+import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.domain.model.auth.SignInInput
 import team.aliens.remote.apiservice.AuthApiService
 import team.aliens.remote.model._common.toDomain
 import team.aliens.remote.model.auth.toData

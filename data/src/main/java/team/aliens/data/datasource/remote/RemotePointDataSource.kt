@@ -1,7 +1,7 @@
 package team.aliens.data.datasource.remote
 
-import team.aliens.domain._model.point.FetchPointsInput
-import team.aliens.domain._model.point.FetchPointsOutput
+import team.aliens.domain.model.point.FetchPointsInput
+import team.aliens.domain.model.point.FetchPointsOutput
 
 interface RemotePointDataSource {
 

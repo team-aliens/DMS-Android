@@ -7,9 +7,9 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model._common.PointType
-import team.aliens.domain._model.point.FetchPointsInput
-import team.aliens.domain._model.point.FetchPointsOutput
+import team.aliens.domain.model._common.PointType
+import team.aliens.domain.model.point.FetchPointsInput
+import team.aliens.domain.model.point.FetchPointsOutput
 import team.aliens.domain.usecase.auth.SignOutUseCase
 import team.aliens.domain.usecase.point.FetchPointsUseCase
 import team.aliens.domain.usecase.student.FetchMyPageUseCase

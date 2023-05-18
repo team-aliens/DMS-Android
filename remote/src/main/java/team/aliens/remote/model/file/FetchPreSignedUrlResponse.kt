@@ -1,7 +1,7 @@
 package team.aliens.remote.model.file
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.file.FetchPreSignedUrlOutput
+import team.aliens.domain.model.file.FetchPreSignedUrlOutput
 
 data class FetchPreSignedUrlResponse(
     @SerializedName("file_upload_url") val fileUploadUrl: String,

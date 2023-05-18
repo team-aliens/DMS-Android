@@ -1,8 +1,8 @@
 package team.aliens.domain.usecase.student
 
-import team.aliens.domain._model.student.FindIdInput
-import team.aliens.domain._model.student.FindIdOutput
-import team.aliens.domain._repository.StudentRepository
+import team.aliens.domain.model.student.FindIdInput
+import team.aliens.domain.model.student.FindIdOutput
+import team.aliens.domain.repository.StudentRepository
 import javax.inject.Inject
 
 class FindIdUseCase @Inject constructor(

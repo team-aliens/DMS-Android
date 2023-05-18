@@ -1,9 +1,9 @@
 package team.aliens.data.repository
 
 import team.aliens.data.datasource.remote.RemotePointDataSource
-import team.aliens.domain._model.point.FetchPointsInput
-import team.aliens.domain._model.point.FetchPointsOutput
-import team.aliens.domain._repository.PointRepository
+import team.aliens.domain.model.point.FetchPointsInput
+import team.aliens.domain.model.point.FetchPointsOutput
+import team.aliens.domain.repository.PointRepository
 import javax.inject.Inject
 
 class PointRepositoryImpl @Inject constructor(

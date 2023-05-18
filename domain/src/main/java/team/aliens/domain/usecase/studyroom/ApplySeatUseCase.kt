@@ -1,7 +1,7 @@
 package team.aliens.domain.usecase.studyroom
 
-import team.aliens.domain._model.studyroom.ApplySeatInput
-import team.aliens.domain._repository.StudyRoomRepository
+import team.aliens.domain.model.studyroom.ApplySeatInput
+import team.aliens.domain.repository.StudyRoomRepository
 import javax.inject.Inject
 
 class ApplySeatUseCase @Inject constructor(

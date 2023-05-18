@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.notice.FetchNoticeDetailsInput
-import team.aliens.domain._model.notice.FetchNoticesInput
-import team.aliens.domain._model.notice.FetchNoticesOutput
+import team.aliens.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.domain.model.notice.FetchNoticesInput
+import team.aliens.domain.model.notice.FetchNoticesOutput
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase

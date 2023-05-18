@@ -5,8 +5,8 @@ import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms_android.widget.meal.MealState
 import team.aliens.dms_android.widget.meal.MealType
-import team.aliens.domain._model.meal.FetchMealsInput
-import team.aliens.domain._model.meal.FetchMealsOutput
+import team.aliens.domain.model.meal.FetchMealsInput
+import team.aliens.domain.model.meal.FetchMealsOutput
 import team.aliens.domain.usecase.meal.FetchMealsUseCase
 import team.aliens.presentation.R
 import java.time.LocalDate

@@ -1,4 +1,4 @@
-package team.aliens._di.serialization
+package team.aliens.di.serialization
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.student.FindIdInput
+import team.aliens.domain.model.student.FindIdInput
 import team.aliens.domain.usecase.school.FetchSchoolsUseCase
 import team.aliens.domain.usecase.student.FindIdUseCase
 import javax.inject.Inject
