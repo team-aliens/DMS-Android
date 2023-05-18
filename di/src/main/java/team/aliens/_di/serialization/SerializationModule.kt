@@ -1,5 +1,5 @@
 package team.aliens._di.serialization
-/*
+
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -18,4 +18,3 @@ object SerializationModule {
         return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     }
 }
-*/
