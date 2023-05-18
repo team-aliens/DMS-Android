@@ -1,51 +1,36 @@
 package team.aliens.dms_android.feature.studyroom
 
 import team.aliens.dms_android.base.MviState
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain._model._common.Sex
+import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
 
 data class StudyRoomState(
     val currentSeat: String?,
     var startAt: String,
     var endAt: String,
-    val roomDetail: StudyRoomDetailEntity,
+    val roomDetail: FetchStudyRoomDetailsOutput,
 ) : MviState {
     companion object {
         fun getDefaultInstance() = StudyRoomState(
             startAt = "",
             endAt = "",
             currentSeat = null,
-            roomDetail = StudyRoomDetailEntity(
+            roomDetail = FetchStudyRoomDetailsOutput(
                 floor = 0,
                 name = "",
                 startTime = "",
                 endTime = "",
                 totalAvailableSeat = 0,
-                inUseHeadCount = 0,
-                availableSex = "",
-                availableGrade = "",
+                inUseHeadcount = 0,
+                availableSex = Sex.ALL,
+                availableGrade = 0,
                 eastDescription = "",
                 westDescription = "",
                 southDescription = "",
                 northDescription = "",
                 totalWidthSize = 2,
                 totalHeightSize = 2,
-                studyRoomSex = "",
-                seats = listOf(
-                    StudyRoomDetailEntity.Seat(
-                        id = "",
-                        widthLocation = 1,
-                        heightLocation = 1,
-                        number = 0,
-                        type = StudyRoomDetailEntity.Type(
-                            id = "",
-                            name = "",
-                            color = "#FFFFFF",
-                        ),
-                        status = "",
-                        isMine = false,
-                        student = StudyRoomDetailEntity.Student(id = "", name = ""),
-                    ),
-                ),
+                seats = emptyList(),
             ),
         )
     }

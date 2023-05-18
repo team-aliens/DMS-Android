@@ -10,12 +10,6 @@ import team.aliens.domain._model.auth.CheckIdExistsInput
 import team.aliens.domain._model.student.ResetPasswordInput
 import team.aliens.domain._model.user.ComparePasswordInput
 import team.aliens.domain._model.user.EditPasswordInput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.auth.CheckIdExistsUseCase
 import team.aliens.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
@@ -149,9 +143,11 @@ class ChangePasswordViewModel @Inject constructor(
             is ChangePasswordEvent.SetCurrentPassword -> {
                 setState(state = oldState.copy(currentPassword = event.currentPassword))
             }
+
             is ChangePasswordEvent.SetRepeatPassword -> {
                 setState(state = oldState.copy(repeatPassword = event.repeatPassword))
             }
+
             is ChangePasswordEvent.SetNewPassword -> {
                 setState(state = oldState.copy(newPassword = event.newPassword))
             }
@@ -187,12 +183,6 @@ private fun getEventFromThrowable(
     throwable: Throwable?,
 ): ChangePasswordViewModel.Event {
     return when (throwable) {
-        is BadRequestException -> ChangePasswordViewModel.Event.BadRequestException
-        is NotFoundException -> ChangePasswordViewModel.Event.NotFoundException
-        is UnauthorizedException -> ChangePasswordViewModel.Event.UnauthorizedException
-        is ForbiddenException -> ChangePasswordViewModel.Event.ForbiddenException
-        is TooManyRequestException -> ChangePasswordViewModel.Event.TooManyRequestException
-        is ServerException -> ChangePasswordViewModel.Event.ServerException
         else -> ChangePasswordViewModel.Event.UnknownException
     }
 }

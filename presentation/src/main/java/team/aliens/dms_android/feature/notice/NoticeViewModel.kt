@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.notice
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,15 +13,9 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticesInput
 import team.aliens.domain._model.notice.FetchNoticesOutput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,13 +48,8 @@ class NoticeViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.FetchNoticeList(it))
             }.onFailure {
-                when (it) {
+                when (it) { // fixme 추후에 리팩토링 필요
                     is NullPointerException -> event(Event.NullPointException)
-                    is BadRequestException -> event(Event.BadRequestException)
-                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event(Event.CannotConnectException)
-                    is TooManyRequestException -> event(Event.TooManyRequestException)
-                    is ServerException -> event(Event.InternalServerException)
                     else -> event(Event.UnknownException)
                 }
             }
@@ -90,12 +80,8 @@ class NoticeViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
+                    // fixme 추후에 리팩토링 필요
                     is NullPointerException -> event2(Event.NullPointException)
-                    is BadRequestException -> event2(Event.BadRequestException)
-                    is UnauthorizedException -> event2(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event2(Event.CannotConnectException)
-                    is TooManyRequestException -> event2(Event.TooManyRequestException)
-                    is ServerException -> event2(Event.InternalServerException)
                     else -> event2(Event.UnknownException)
                 }
             }

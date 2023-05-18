@@ -36,7 +36,6 @@ import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticesOutput
-import team.aliens.domain.util.toDate
 import team.aliens.presentation.R
 
 fun FetchNoticesOutput.NoticeInformation.toNotice() = Notice(
@@ -80,7 +79,7 @@ fun NoticeScreen(
                     }
                     for (i in 1..it.fetchNoticesOutput.notices.size) {
                         mappingNotice[i - 1].createdAt =
-                            it.fetchNoticesOutput.notices[i - 1].createdAt.toDate()
+                            it.fetchNoticesOutput.notices[i - 1].createdAt //.toDate() fixme 리팩토링
                     }
                     notices.addAll(mappingNotice.toMutableStateList())
                 }

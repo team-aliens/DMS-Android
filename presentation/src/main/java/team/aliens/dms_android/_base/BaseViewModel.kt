@@ -9,12 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.NoInternetException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TimeoutException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.presentation.R
 import javax.inject.Inject
 
@@ -77,13 +71,6 @@ abstract class BaseViewModel<S : UiState, E : UiEvent> : ViewModel() {
         throwable: Throwable?,
     ): ErrorEvent {
         return when (throwable) {
-            is BadRequestException -> ErrorEvent.BadRequest
-            is NullPointerException -> ErrorEvent.NullPointer
-            is UnauthorizedException -> ErrorEvent.Unauthorized
-            is NoInternetException -> ErrorEvent.NoInternet
-            is TooManyRequestException -> ErrorEvent.TooManyRequests
-            is TimeoutException -> ErrorEvent.TimeOut
-            is ServerException -> ErrorEvent.InternalServerError
             else -> ErrorEvent.Unknown
         }
     }

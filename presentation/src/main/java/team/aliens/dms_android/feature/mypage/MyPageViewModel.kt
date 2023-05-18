@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.mypage
 
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,11 +10,6 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model._common.PointType
 import team.aliens.domain._model.point.FetchPointsInput
 import team.aliens.domain._model.point.FetchPointsOutput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.auth.SignOutUseCase
 import team.aliens.domain.usecase.point.FetchPointsUseCase
 import team.aliens.domain.usecase.student.FetchMyPageUseCase
@@ -92,10 +86,6 @@ class MyPageViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is NullPointerException -> emitMyPageViewEffect(Event.NullPointException)
-                    is UnauthorizedException -> emitMyPageViewEffect(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> emitMyPageViewEffect(Event.CannotConnectException)
-                    is TooManyRequestException -> emitMyPageViewEffect(Event.TooManyRequestException)
-                    is ServerException -> emitMyPageViewEffect(Event.InternalServerException)
                     else -> emitMyPageViewEffect(Event.UnknownException)
                 }
             }
@@ -109,8 +99,8 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 remotePointListUseCase(
                     fetchPointsInput = FetchPointsInput(
-                    type = pointType,
-                ),
+                        type = pointType,
+                    ),
                 )
             }.onSuccess {
                 emitPointTypeEvent(Event.PointTypeEvent(pointType))
@@ -118,11 +108,6 @@ class MyPageViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is NullPointerException -> emitPointViewEffect(Event.NullPointException)
-                    is BadRequestException -> emitPointViewEffect(Event.BadRequestException)
-                    is UnauthorizedException -> emitPointViewEffect(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> emitPointViewEffect(Event.CannotConnectException)
-                    is TooManyRequestException -> emitPointViewEffect(Event.TooManyRequestException)
-                    is ServerException -> emitPointViewEffect(Event.InternalServerException)
                     else -> emitPointViewEffect(Event.UnknownException)
                 }
             }

@@ -8,9 +8,6 @@ import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEv
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
 import java.util.TooManyListenersException
 import java.util.UUID
@@ -53,9 +50,6 @@ private fun getEventFromThrowable(
     throwable: Throwable?,
 ): ExamineSchoolCodeEvent =
     when (throwable) {
-        is BadRequestException -> ExamineSchoolCodeEvent.BadRequestException
-        is UnauthorizedException -> ExamineSchoolCodeEvent.MissMatchSchoolCode
-        is TooManyListenersException -> ExamineSchoolCodeEvent.TooManyRequestException
-        is ServerException -> ExamineSchoolCodeEvent.ServerException
+        // fixme 추후에 리팩토링 필요
         else -> ExamineSchoolCodeEvent.UnknownException
     }
