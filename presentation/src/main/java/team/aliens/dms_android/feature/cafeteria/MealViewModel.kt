@@ -15,7 +15,6 @@ import team.aliens.domain.exception.ServerException
 import team.aliens.domain.exception.TooManyRequestException
 import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.meal.FetchMealUseCase
-import team.aliens.local_domain.entity.meal.MealEntity
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -124,7 +123,6 @@ class MealViewModel @Inject constructor(
     }
 
     sealed class Event {
-        data class FetchMealSuccess(val mealEntity: MealEntity) : Event()
         object BadRequestException : Event()
         object UnAuthorizedTokenException : Event()
         object CannotConnectException : Event()
