@@ -61,6 +61,7 @@ internal fun NoticeScreen(
 
     val toast = rememberToast()
 
+    // TODO 제거
     val badRequestComment = stringResource(id = R.string.BadRequest)
     val unAuthorizedComment = stringResource(id = R.string.UnAuthorized)
     val forbidden = stringResource(id = R.string.Forbidden)
@@ -70,6 +71,7 @@ internal fun NoticeScreen(
 
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
+    // TODO 새 뷰모델 이벤트로 리팩토링 하기
     LaunchedEffect(Unit) {
         noticesViewModel.noticeViewEffect.collect {
             when (it) {
@@ -166,6 +168,7 @@ private fun OrderButton(
         )
     }
 
+    // TODO 새 뷰모델 state 로 리팩토링하기
     Button(
         onClick = {
             if (noticesViewModel.uiState.value.type == Order.NEW) {
