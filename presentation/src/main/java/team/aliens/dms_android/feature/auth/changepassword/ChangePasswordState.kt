@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.auth.changepassword
 
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android._base.MviState
 
 data class ChangePasswordState(
     val currentPassword: String,

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.base
+package team.aliens.dms_android._base
 
 // todo remove
 @Deprecated("legacy")

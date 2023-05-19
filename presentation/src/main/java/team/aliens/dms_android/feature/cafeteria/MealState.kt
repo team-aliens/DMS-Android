@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature.cafeteria
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android._base.MviState
 import java.time.LocalDate
 
 data class MealState(

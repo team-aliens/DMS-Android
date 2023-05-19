@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.notice
 
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android._base.MviState
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.FetchNoticesOutput
 

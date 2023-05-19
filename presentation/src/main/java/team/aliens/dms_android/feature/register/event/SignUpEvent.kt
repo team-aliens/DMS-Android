@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.register.event
 
-import team.aliens.dms_android.base.MviEvent
+import team.aliens.dms_android._base.MviEvent
 
 sealed class SignUpEvent : MviEvent {
     object SignUpSuccess : SignUpEvent()

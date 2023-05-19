@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.register.event.email
 
-import team.aliens.dms_android.base.MviEvent
+import team.aliens.dms_android._base.MviEvent
 
 sealed class RegisterEmailEvent : MviEvent {
     object SendEmailSuccess : RegisterEmailEvent()

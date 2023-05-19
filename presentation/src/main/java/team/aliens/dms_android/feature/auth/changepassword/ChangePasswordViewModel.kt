@@ -3,7 +3,7 @@ package team.aliens.dms_android.feature.auth.changepassword
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android._base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.model.auth.CheckIdExistsInput
@@ -22,7 +22,7 @@ class ChangePasswordViewModel @Inject constructor(
     private val editPasswordUseCase: EditPasswordUseCase,
     private val comparePasswordUseCase: ComparePasswordUseCase,
     private val checkIdUseCase: CheckIdExistsUseCase,
-) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
+) : BaseViewModel1<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
         디자인에서 처음 본인인증할때 아이디만을 사용해서 "아이디 존재 여부(비밀번호 재설정)"이라는 Api로 이에 해당하는 Email를 받습니다.

@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android._base.BaseViewModel
+import team.aliens.dms_android._base.BaseViewModel2
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model.studyroom.ApplySeatInput
@@ -28,7 +28,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private val fetchApplicationTimeUseCase: FetchStudyRoomApplicationTimeUseCase,
     private val cancelSeatUseCase: CancelSeatUseCase,
     private val fetchSeatTypeUseCase: FetchSeatTypesUseCase,
-) : BaseViewModel<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
+) : BaseViewModel2<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
     sealed class UiEvent : team.aliens.dms_android._base.UiEvent {
 

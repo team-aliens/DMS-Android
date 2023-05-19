@@ -13,8 +13,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.base.MviEvent
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android._base.MviEvent
+import team.aliens.dms_android._base.MviState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.usecase.auth.AutoSignInUseCase

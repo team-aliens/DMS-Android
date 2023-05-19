@@ -13,7 +13,7 @@ import team.aliens.presentation.R
 import javax.inject.Inject
 
 @Deprecated("legacy")
-abstract class BaseViewModel<S : UiState, E : UiEvent> : ViewModel() {
+abstract class BaseViewModel2<S : UiState, E : UiEvent> : ViewModel() {
 
     @Inject
     lateinit var application: Application

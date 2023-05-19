@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.image
 
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android._base.MviState
 import java.io.File
 
 data class ConfirmImageState(

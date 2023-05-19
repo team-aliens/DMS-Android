@@ -3,7 +3,7 @@ package team.aliens.dms_android.feature.remain
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android._base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.dms_android.feature.remain.RemainApplicationViewModel.Event
@@ -23,7 +23,7 @@ class RemainApplicationViewModel @Inject constructor(
     private val fetchCurrentRemainOptionsUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val fetchAvailableRemainTimeUseCase: FetchRemainsApplicationTimeUseCase,
     private val fetchRemainOptionsUseCase: FetchRemainsOptionsUseCase,
-) : BaseViewModel<RemainApplicationState, RemainApplicationEvent>() {
+) : BaseViewModel1<RemainApplicationState, RemainApplicationEvent>() {
 
     override val initialState: RemainApplicationState
         get() = RemainApplicationState.getDefaultInstance()

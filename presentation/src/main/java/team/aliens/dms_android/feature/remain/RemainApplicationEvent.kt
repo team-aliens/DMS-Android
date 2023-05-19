@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.remain
 
-import team.aliens.dms_android.base.MviEvent
+import team.aliens.dms_android._base.MviEvent
 import java.util.*
 
 sealed class RemainApplicationEvent : MviEvent {
