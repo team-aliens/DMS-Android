@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.notice
 
+import team.aliens.dms_android._base.UiState
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain._model._common.Order
 import team.aliens.domain.entity.notice.NoticeListEntity
@@ -10,7 +11,7 @@ data class NoticeState(
     var noticeListEntity: NoticeListEntity? = null,
     var noticeDetail: NoticeDetail = NoticeDetail(),
     var hasNewNotice: Boolean = false,
-) : MviState {
+) : UiState {
     companion object {
         fun initial() = NoticeState(
             type = Order.NEW,
