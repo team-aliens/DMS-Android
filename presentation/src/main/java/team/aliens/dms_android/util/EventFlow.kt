@@ -1,5 +1,7 @@
 package team.aliens.dms_android.util
 
+// todo 추후에 삭제
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner

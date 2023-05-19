@@ -1,6 +1,6 @@
 package team.aliens.dms_android.constans
 
-object Extra {
+object Extra { // todo 이름 변경 필요
     const val isMealSizeBig = "isMealSizeBig"
     const val isMealServiceEnabled = "isMealServiceEnabled"
     const val isNoticeServiceEnabled = "isNoticeServiceEnabled"
