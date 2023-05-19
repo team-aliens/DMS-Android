@@ -2,10 +2,13 @@ package team.aliens.dms_android.feature.notice
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import team.aliens.dms_android._base.MviViewModel
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
@@ -19,9 +22,6 @@ import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
-import java.util.UUID
-import javax.inject.Inject
-import team.aliens.dms_android._base.MviViewModel
 
 @HiltViewModel
 internal class NoticesViewModel @Inject constructor(
@@ -146,3 +146,137 @@ internal class NoticesViewModel @Inject constructor(
         object UnknownException : Event()
     }
 }
+
+/*@HiltViewModel
+internal class _NoticesViewModel @Inject constructor(
+    private val fetchNoticesUseCase: FetchNoticesUseCase,
+    private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
+    private val fetchHasNewNoticesUseCase: FetchWhetherNewNoticesExistUseCase,
+) : MviViewModel<NoticesUiState, NoticesUiEvent>(NoticesUiState.initial()) {
+
+    override fun updateState(event: NoticesUiEvent) {
+        when (event) {
+            is NoticesUiEvent.FetchNoticesUi -> {
+                setState(
+                    newState = uiState.value.copy(
+                        order = event.order,
+                    )
+                )
+                fetchNotices()
+            }
+
+            is NoticesUiEvent.FetchNoticeDetails -> {
+                setState(
+                    newState = uiState.value.copy(
+                        noticeId = event.noticeId,
+                    )
+                )
+                fetchNoticeDetails()
+            }
+
+            is NoticesUiEvent.CheckHasNewNotice -> {
+                checkHasNewNotice()
+            }
+        }
+    }
+
+
+    private fun fetchNotices() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                fetchNoticesUseCase(
+                    fetchNoticesInput = FetchNoticesInput(
+                        order = uiState.value.order,
+                    )
+                )
+            }.onSuccess {
+                setState(
+                    newState = uiState.value.copy(
+                        notices = it.notices,
+                    )
+                )
+            }.onFailure {
+
+            }
+        }
+    }
+
+    private fun fetchNoticeDetails() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                fetchNoticeDetailsUseCase(
+                    fetchNoticeDetailsInput = FetchNoticeDetailsInput(
+                        noticeId = uiState.value.noticeId!!,
+                    )
+                )
+            }.onSuccess {
+                setState(
+                    newState = uiState.value.copy(
+                        notice = Notice(
+                            id = it.id,
+                            title = it.title,
+                            content = it.content,
+                            createdAt = it.createdAt,
+                        ),
+                    )
+                )
+            }.onFailure {
+
+            }
+        }
+    }
+
+    private fun checkHasNewNotice() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                fetchHasNewNoticesUseCase()
+            }.onSuccess {
+                setState(
+                    newState = uiState.value.copy(
+                        hasNewNotice = it.newNotices,
+                    )
+                )
+            }.onFailure {
+
+            }
+        }
+    }
+
+}
+
+internal data class NoticesUiState(
+    val type: Order,
+    val notices: List<FetchNoticesOutput.NoticeInformation>,
+    val notice: Notice,
+    val hasNewNotice: Boolean = false,
+    val order: Order,
+    val noticeId: UUID?,
+) : UiState {
+    companion object {
+        fun initial() = NoticesUiState(
+            type = Order.NEW,
+            notices = emptyList(),
+            notice = Notice(
+                id = UUID.randomUUID(),
+                title = "",
+                content = "",
+                createdAt = "",
+            ),
+            hasNewNotice = false,
+            order = Order.NEW,
+            noticeId = null,
+        )
+    }
+}
+
+internal sealed class NoticesUiEvent : UiEvent {
+    class FetchNoticesUi(
+        val order: Order,
+    ) : NoticesUiEvent()
+
+    class FetchNoticeDetails(
+        val noticeId: UUID,
+    ) : NoticesUiEvent()
+
+    object CheckHasNewNotice : NoticesUiEvent()
+}*/

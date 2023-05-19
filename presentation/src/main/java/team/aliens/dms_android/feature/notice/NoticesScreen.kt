@@ -46,7 +46,7 @@ fun FetchNoticesOutput.NoticeInformation.toNotice() = Notice(
 )
 
 @Composable
-fun NoticeScreen(
+internal fun NoticeScreen(
     navController: NavController,
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
@@ -154,7 +154,7 @@ fun NoticeScreen(
 }
 
 @Composable
-fun OrderButton(
+private fun OrderButton(
     noticesViewModel: NoticesViewModel,
 ) {
 
@@ -168,12 +168,12 @@ fun OrderButton(
 
     Button(
         onClick = {
-            if (noticesViewModel.state.value.type == Order.NEW) {
-                noticesViewModel.state.value.type = Order.OLD
+            if (noticesViewModel.uiState.value.type == Order.NEW) {
+                noticesViewModel.uiState.value.type = Order.OLD
                 text = context.getString(R.string.OldestOrder)
                 noticesViewModel.fetchNoticeList()
             } else {
-                noticesViewModel.state.value.type = Order.NEW
+                noticesViewModel.uiState .value.type = Order.NEW
                 text = context.getString(R.string.LatestOrder)
                 noticesViewModel.fetchNoticeList()
             }
