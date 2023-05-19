@@ -7,25 +7,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model._common.toModel
-import team.aliens.domain._model.auth.SignInInput
-import team.aliens.domain._model.student.Feature
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.NoInternetException
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model._common.toModel
+import team.aliens.domain.model.auth.SignInInput
+import team.aliens.domain.model.student.Feature
 import team.aliens.domain.usecase.auth.SignInUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-) : BaseViewModel<SignInState, SignInEvent>() {
+) : BaseViewModel1<SignInState, SignInEvent>() {
 
     override val initialState: SignInState
         get() = SignInState.getDefaultInstance()
@@ -164,16 +158,11 @@ class SignInViewModel @Inject constructor(
     }
 }
 
+// todo 추후에 리팩토링 필요
 private fun getEventFromThrowable(
     throwable: Throwable?,
 ): SignInViewModel.Event {
     return when (throwable) {
-        is BadRequestException -> SignInViewModel.Event.WrongRequest
-        is UnauthorizedException -> SignInViewModel.Event.NotCorrectPassword
-        is NotFoundException -> SignInViewModel.Event.UserNotFound
-        is TooManyRequestException -> SignInViewModel.Event.TooManyRequest
-        is NoInternetException -> SignInViewModel.Event.NoInternetException
-        is ServerException -> SignInViewModel.Event.ServerException
         else -> SignInViewModel.Event.UnKnownException
     }
 }

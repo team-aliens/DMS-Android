@@ -5,10 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
-import team.aliens.dms_android._base.BaseViewModel
-import team.aliens.domain.exception.NotFoundException
+import team.aliens.dms_android.base.BaseViewModel2
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
 import javax.inject.Inject
@@ -17,7 +16,7 @@ import javax.inject.Inject
 class ApplicationViewModel @Inject constructor(
     private val fetchCurrentStudyRoomOptionUseCase: FetchCurrentAppliedStudyRoomUseCase,
     private val fetchCurrentRemainOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
-) : BaseViewModel<ApplicationState, UiEvent>() {
+) : BaseViewModel2<ApplicationState, UiEvent>() {
 
     override val _uiState: MutableStateFlow<ApplicationState> = MutableStateFlow(ApplicationState())
 
@@ -33,7 +32,7 @@ class ApplicationViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
-                    is NotFoundException -> {
+                    is RuntimeException -> { // fixme 리팩토링 필요
                         _uiState.emit(
                             _uiState.value.copy(
                                 currentRemainOption = ""
@@ -57,7 +56,7 @@ class ApplicationViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
-                    is NotFoundException -> {
+                    is RuntimeException -> { // fixme 리팩토링 필요
                         _uiState.emit(
                             _uiState.value.copy(
                                 currentStudyRoomOption = ""

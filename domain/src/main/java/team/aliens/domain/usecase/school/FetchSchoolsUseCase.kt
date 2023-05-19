@@ -1,7 +1,7 @@
 package team.aliens.domain.usecase.school
 
-import team.aliens.domain._model.school.FetchSchoolsOutput
-import team.aliens.domain._repository.SchoolRepository
+import team.aliens.domain.model.school.FetchSchoolsOutput
+import team.aliens.domain.repository.SchoolRepository
 import javax.inject.Inject
 
 class FetchSchoolsUseCase @Inject constructor(

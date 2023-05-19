@@ -51,7 +51,7 @@ import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.feature.remain.RemainApplicationViewModel.Event
-import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
 import team.aliens.presentation.R
 import java.time.DayOfWeek
 import java.time.format.TextStyle

@@ -1,25 +1,25 @@
 package team.aliens.dms_android.feature.auth.signin
 
 import team.aliens.dms_android.base.MviState
-import team.aliens.local_domain.entity.notice.UserVisibleInformEntity
+import team.aliens.domain.model.student.Feature
 
 data class SignInState(
     val id: String,
     val password: String,
     var autoLogin: Boolean,
-    var userVisibleInformEntity: UserVisibleInformEntity,
+    var userVisibleInformEntity: Feature,
 ) : MviState {
     companion object {
         fun getDefaultInstance() = SignInState(
             id = "",
             password = "",
             autoLogin = false,
-            userVisibleInformEntity = UserVisibleInformEntity(
+            userVisibleInformEntity = Feature(
                 mealService = false,
                 noticeService = false,
                 pointService = false,
                 studyRoomService = false,
-                remainService = false,
+                remainsService = false,
             ),
         )
     }

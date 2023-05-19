@@ -1,7 +1,7 @@
 package team.aliens.remote.model.studyroom
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import java.util.*
 
 data class FetchAvailableStudyRoomTimesResponse(

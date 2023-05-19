@@ -1,7 +1,7 @@
 package team.aliens.remote.model._common
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model._common.AuthenticationOutput
+import team.aliens.domain.model._common.AuthenticationOutput
 
 data class AuthenticationResponse(
     @SerializedName("access_token") val accessToken: String,

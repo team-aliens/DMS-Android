@@ -2,9 +2,9 @@ package team.aliens.dms_android.feature.mypage
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
-import team.aliens.domain._model._common.PointType
-import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.point.FetchPointsOutput
+import team.aliens.domain.model._common.PointType
+import team.aliens.domain.model._common.Sex
+import team.aliens.domain.model.point.FetchPointsOutput
 
 data class MyPageState(
     var type: MutableStateFlow<PointType>,

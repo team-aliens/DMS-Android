@@ -1,7 +1,7 @@
 package team.aliens.local.datasource
 
-import team.aliens.data._datasource.local.LocalSchoolDataSource
-import team.aliens.domain._model.student.Feature
+import team.aliens.data.datasource.local.LocalSchoolDataSource
+import team.aliens.domain.model.student.Feature
 import team.aliens.local.datastore.storage.SchoolDataStorage
 import javax.inject.Inject
 

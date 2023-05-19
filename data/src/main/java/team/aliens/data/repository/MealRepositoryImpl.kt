@@ -1,29 +1,67 @@
 package team.aliens.data.repository
 
-import team.aliens.data.remote.datasource.declaration.RemoteMealDataSource
-import team.aliens.data.remote.response.meal.toEntity
-import team.aliens.domain.entity.MealEntity
+import team.aliens.data.datasource.local.LocalMealDataSource
+import team.aliens.data.datasource.remote.RemoteMealDataSource
+import team.aliens.domain.model.meal.FetchMealInput
+import team.aliens.domain.model.meal.FetchMealsInput
+import team.aliens.domain.model.meal.FetchMealsOutput
+import team.aliens.domain.model.meal.Meal
+import team.aliens.domain.model.meal.toTypedArray
 import team.aliens.domain.repository.MealRepository
-import team.aliens.local_database.datasource.declaration.LocalMealDataSource
-import team.aliens.local_database.entity.meal.MealRoomEntity
-import java.time.LocalDate
 import javax.inject.Inject
 
 class MealRepositoryImpl @Inject constructor(
-    private val remoteMealDataSource: RemoteMealDataSource,
     private val localMealDataSource: LocalMealDataSource,
+    private val remoteMealDataSource: RemoteMealDataSource,
 ) : MealRepository {
 
-    override suspend fun fetchMealValue(date: LocalDate): MealEntity {
-        val response = remoteMealDataSource.getMealValue(date).toEntity()
-        localMealDataSource.setMeal(response.meals.map { it.toDbEntity() })
-        return response
+    override suspend fun fetchMeal(
+        input: FetchMealInput,
+    ): Meal {
+        try {
+            return localMealDataSource.fetchMeal(
+                input = input,
+            )
+        } catch (e: Exception) {
+            val fetchMealsInput = FetchMealsInput(
+                date = input.date,
+            )
+
+            this.fetchMeals(
+                input = fetchMealsInput,
+            )
+        }
+
+        return localMealDataSource.fetchMeal(
+            input = input,
+        )
+    }
+
+    override suspend fun fetchMeals(
+        input: FetchMealsInput,
+    ): FetchMealsOutput {
+        return remoteMealDataSource.fetchMeals(
+            input = input,
+        ).also {
+            this.saveMeals(
+                meals = it.meals.toTypedArray(),
+            )
+        }
+    }
+
+    override suspend fun saveMeal(
+        meal: Meal,
+    ) {
+        localMealDataSource.saveMeal(
+            meal = meal,
+        )
+    }
+
+    override suspend fun saveMeals(
+        vararg meals: Meal,
+    ) {
+        localMealDataSource.saveMeals(
+            meals = meals,
+        )
     }
 }
-
-fun MealEntity.MealsValue.toDbEntity() = MealRoomEntity(
-    date = date,
-    breakfast = breakfast,
-    lunch = lunch,
-    dinner = dinner,
-)

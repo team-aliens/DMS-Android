@@ -1,6 +1,6 @@
 package team.aliens.local.datastore.storage
 
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model.student.Feature
 
 interface SchoolDataStorage {
 

@@ -1,7 +1,7 @@
 package team.aliens.remote.model.studyroom
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
 
 data class FetchStudyRoomApplicationTimeResponse(
     @SerializedName("start_at") val startAt: String,

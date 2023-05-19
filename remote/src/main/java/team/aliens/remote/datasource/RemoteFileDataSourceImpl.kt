@@ -1,9 +1,9 @@
 package team.aliens.remote.datasource
 
-import team.aliens.data._datasource.remote.RemoteFileDataSource
-import team.aliens.domain._model.file.FetchPreSignedUrlOutput
-import team.aliens.domain._model.file.UploadFileInput
-import team.aliens.domain._model.file.UploadFileOutput
+import team.aliens.data.datasource.remote.RemoteFileDataSource
+import team.aliens.domain.model.file.FetchPreSignedUrlOutput
+import team.aliens.domain.model.file.UploadFileInput
+import team.aliens.domain.model.file.UploadFileOutput
 import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.HttpProperty.Header.ContentType
 import team.aliens.remote.http.FileUploadClient

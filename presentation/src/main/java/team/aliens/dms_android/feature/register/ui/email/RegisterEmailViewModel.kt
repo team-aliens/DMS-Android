@@ -7,16 +7,10 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model._common.EmailVerificationType
-import team.aliens.domain._model.auth.CheckEmailVerificationCodeInput
-import team.aliens.domain._model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain._model.student.CheckEmailDuplicationInput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ConflictException
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.student.CheckEmailDuplicationUseCase
@@ -47,11 +41,8 @@ class RegisterEmailViewModel @Inject constructor(
             }.onSuccess {
                 event(RegisterEmailEvent.SendEmailSuccess)
             }.onFailure {
+                // fixme 추후에 리팩토링 필요
                 when (it) {
-                    is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
-                    is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
-                    is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
-                    is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.UnKnownException)
                 }
             }
@@ -75,12 +66,8 @@ class RegisterEmailViewModel @Inject constructor(
             }.onSuccess {
                 event(RegisterEmailEvent.CheckEmailSuccess)
             }.onFailure {
+                // fixme 추후에 리팩토링 필요
                 when (it) {
-                    is BadRequestException -> event(RegisterEmailEvent.BadRequestException)
-                    is UnauthorizedException -> event(RegisterEmailEvent.CheckEmailUnauthorized)
-                    is NotFoundException -> event(RegisterEmailEvent.CheckEmailNotFound)
-                    is TooManyRequestException -> event(RegisterEmailEvent.TooManyRequestsException)
-                    is ServerException -> event(RegisterEmailEvent.InternalServerException)
                     else -> event(RegisterEmailEvent.InternalServerException)
                 }
             }
@@ -112,26 +99,11 @@ class RegisterEmailViewModel @Inject constructor(
     }
 }
 
+// fixme 추후에 리팩토링 필요
 private fun getEventFromThrowable(
     throwable: Throwable?,
 ): RegisterEmailEvent =
     when (throwable) {
-        is BadRequestException -> {
-            RegisterEmailEvent.BadRequestException
-        }
-
-        is ConflictException -> {
-            RegisterEmailEvent.ConflictException
-        }
-
-        is TooManyRequestException -> {
-            RegisterEmailEvent.TooManyRequestsException
-        }
-
-        is ServerException -> {
-            RegisterEmailEvent.InternalServerException
-        }
-
         else -> {
             RegisterEmailEvent.UnKnownException
         }

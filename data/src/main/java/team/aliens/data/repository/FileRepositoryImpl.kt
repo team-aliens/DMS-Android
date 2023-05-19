@@ -1,9 +1,9 @@
 package team.aliens.data.repository
 
-import android.util.Log
-import team.aliens.data.remote.datasource.declaration.RemoteFileDataSource
-import team.aliens.data.remote.response.file.toEntity
-import team.aliens.domain.entity.file.FileEntity
+import team.aliens.data.datasource.remote.RemoteFileDataSource
+import team.aliens.domain.model.file.FetchPreSignedUrlOutput
+import team.aliens.domain.model.file.UploadFileInput
+import team.aliens.domain.model.file.UploadFileOutput
 import team.aliens.domain.repository.FileRepository
 import java.io.File
 import javax.inject.Inject
@@ -13,9 +13,28 @@ class FileRepositoryImpl @Inject constructor(
 ) : FileRepository {
 
     override suspend fun uploadFile(
+        input: UploadFileInput,
+    ): UploadFileOutput {
+        return remoteFileDataSource.uploadFile(
+            input = input,
+        )
+    }
+
+    override suspend fun fetchPreSignedUrl(
+        fileName: String,
+    ): FetchPreSignedUrlOutput {
+        return remoteFileDataSource.fetchPreSignedUrl(
+            fileName = fileName,
+        )
+    }
+
+    override suspend fun uploadFileToPreSignedUrl(
         file: File,
-    ): FileEntity {
-        Log.e("FILE", "uploadFile: $file", ) // TODO remove log
-        return remoteFileDataSource.uploadFile(file).toEntity()
+        fileUploadUrl: String,
+    ) {
+        return remoteFileDataSource.uploadFileToPreSignedUrl(
+            file = file,
+            fileUploadUrl = fileUploadUrl,
+        )
     }
 }

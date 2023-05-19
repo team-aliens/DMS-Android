@@ -3,6 +3,8 @@ package team.aliens.dms_android.base
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+// todo remove
+@Deprecated("legacy")
 abstract class Reducer<S : MviState, E : MviEvent>(initial: S) {
 
     private val _state = MutableStateFlow(initial)

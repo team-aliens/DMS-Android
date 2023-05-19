@@ -1,13 +1,12 @@
 package team.aliens.dms_android.feature.notice
 
 import team.aliens.dms_android.base.MviState
-import team.aliens.domain._model._common.Order
-import team.aliens.domain.entity.notice.NoticeListEntity
-import team.aliens.domain.enums.NoticeListSCType
+import team.aliens.domain.model._common.Order
+import team.aliens.domain.model.notice.FetchNoticesOutput
 
 data class NoticeState(
     var type: Order = Order.NEW,
-    var noticeListEntity: NoticeListEntity? = null,
+    var noticeListEntity: FetchNoticesOutput? = null,
     var noticeDetail: NoticeDetail = NoticeDetail(),
     var hasNewNotice: Boolean = false,
 ) : MviState {

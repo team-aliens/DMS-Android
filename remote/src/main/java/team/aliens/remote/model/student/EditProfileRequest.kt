@@ -1,7 +1,7 @@
 package team.aliens.remote.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.student.EditProfileInput
+import team.aliens.domain.model.student.EditProfileInput
 
 data class EditProfileRequest(
     @SerializedName("profile_image_url") val profileImageUrl: String,

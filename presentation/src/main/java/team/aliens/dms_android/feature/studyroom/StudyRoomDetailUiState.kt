@@ -1,10 +1,10 @@
 package team.aliens.dms_android.feature.studyroom
 
-import team.aliens.dms_android._base.UiState
+import team.aliens.dms_android.base.UiState
 import team.aliens.dms_android.util.MutableEventFlow
-import team.aliens.domain._model._common.Sex
-import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.domain.model._common.Sex
+import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
 import java.util.UUID
 
 data class StudyRoomDetailUiState(

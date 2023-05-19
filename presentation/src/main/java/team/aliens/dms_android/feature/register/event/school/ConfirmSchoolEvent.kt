@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.register.event.school
 
-import team.aliens.domain._model.school.FetchSchoolVerificationQuestionOutput
+import team.aliens.domain.model.school.FetchSchoolVerificationQuestionOutput
 
 sealed interface ConfirmSchoolEvent
 data class FetchSchoolQuestion(

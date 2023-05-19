@@ -5,9 +5,9 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import team.aliens.domain._exception.CommonException
-import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._model.auth.Token
+import team.aliens.domain.exception.CommonException
+import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.domain.model.auth.Token
 import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.common.HttpProperty
 import javax.inject.Inject

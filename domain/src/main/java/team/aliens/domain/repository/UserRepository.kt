@@ -1,45 +1,15 @@
 package team.aliens.domain.repository
 
-import team.aliens.domain.entity.user.CheckIdEntity
-import team.aliens.domain.param.*
+import team.aliens.domain.model.user.ComparePasswordInput
+import team.aliens.domain.model.user.EditPasswordInput
 
 interface UserRepository {
 
-    suspend fun userSignIn(
-        loginParam: LoginParam,
-    )
-
-    suspend fun autoSignIn()
-
-    suspend fun requestEmailCode(
-        requestEmailCodeParam: RequestEmailCodeParam,
-    )
-
-    suspend fun checkEmailCode(
-        checkEmailCodeParam: CheckEmailCodeParam,
-    )
-
-    suspend fun reissueToken(
-        refreshToken: String,
-    )
-
-    suspend fun compareEmail(
-        compareEmailParam: CompareEmailParam,
-    )
-
-    suspend fun checkId(
-        accountId: String,
-    ): CheckIdEntity
-
     suspend fun editPassword(
-        editPasswordParam: EditPasswordParam,
+        input: EditPasswordInput,
     )
 
     suspend fun comparePassword(
-        password: String,
+        input: ComparePasswordInput,
     )
-
-    suspend fun signOut()
-
-    suspend fun fetchAutoSignInOption(): Boolean
 }

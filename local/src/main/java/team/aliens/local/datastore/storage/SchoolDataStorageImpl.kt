@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.first
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model.student.Feature
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.MealService
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.NoticeService
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.PointService

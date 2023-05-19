@@ -8,14 +8,10 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.register.event.school.CompareSchoolAnswerSuccess
 import team.aliens.dms_android.feature.register.event.school.ConfirmSchoolEvent
 import team.aliens.dms_android.feature.register.event.school.FetchSchoolQuestion
-import team.aliens.dms_android.feature.register.event.school.MissMatchCompareSchool
-import team.aliens.dms_android.feature.register.event.school.NotFoundCompareSchool
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.school.ExamineSchoolVerificationQuestionInput
-import team.aliens.domain._model.school.FetchSchoolVerificationQuestionInput
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
+import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
 import team.aliens.domain.usecase.school.FetchSchoolVerificationQuestionUseCase
 import java.util.UUID
@@ -45,9 +41,8 @@ class ConfirmSchoolViewModel @Inject constructor(
             }.onSuccess {
                 event(CompareSchoolAnswerSuccess)
             }.onFailure {
+                // fixme 추후에 리팩토링 필요
                 when (it) {
-                    is UnauthorizedException -> event(MissMatchCompareSchool)
-                    is NotFoundException -> event(NotFoundCompareSchool)
                 }
             }
         }

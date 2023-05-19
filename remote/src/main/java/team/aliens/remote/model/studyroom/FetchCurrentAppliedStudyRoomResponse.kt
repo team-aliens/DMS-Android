@@ -1,7 +1,7 @@
 package team.aliens.remote.model.studyroom
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
 
 data class FetchCurrentAppliedStudyRoomResponse(
     @SerializedName("floor") val floor: Int,

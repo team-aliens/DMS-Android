@@ -1,5 +1,7 @@
 package team.aliens.dms_android.util
 
+// todo 적절한 장소로 이동
+
 object VerifyTime {
 
     const val START_TIME = 180

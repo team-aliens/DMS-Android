@@ -1,7 +1,7 @@
 package team.aliens.remote.model.user
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.user.EditPasswordInput
+import team.aliens.domain.model.user.EditPasswordInput
 
 data class EditPasswordRequest(
     @SerializedName("current_password") val currentPassword: String,

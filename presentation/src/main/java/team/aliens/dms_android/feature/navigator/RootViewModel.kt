@@ -1,9 +1,9 @@
 package team.aliens.dms_android.feature.navigator
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import team.aliens.dms_android._base.MviViewModel
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
+import team.aliens.dms_android.base.MviViewModel
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
 import javax.inject.Inject
 
 /*
@@ -13,8 +13,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseViewModel
-import team.aliens.dms_android.base.MviEvent
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android._base.MviEvent
+import team.aliens.dms_android._base.MviState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.usecase.auth.AutoSignInUseCase

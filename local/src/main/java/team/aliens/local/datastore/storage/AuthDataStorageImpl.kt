@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.first
-import team.aliens.domain._exception.LocalException
-import team.aliens.domain._model.auth.Token
+import team.aliens.domain.exception.LocalException
+import team.aliens.domain.model.auth.Token
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AccessToken
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AccessTokenExpiredAt
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AutoSignIn

@@ -1,7 +1,7 @@
 package team.aliens.remote.model.meal
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain._model.meal.FetchMealsOutput
+import team.aliens.domain.model.meal.FetchMealsOutput
 
 data class FetchMealsResponse(
     @SerializedName("meals") val meals: List<Meal>,

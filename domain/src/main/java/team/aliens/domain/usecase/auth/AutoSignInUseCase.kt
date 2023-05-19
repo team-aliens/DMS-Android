@@ -1,7 +1,7 @@
 package team.aliens.domain.usecase.auth
 
-import team.aliens.domain._model._common.AuthenticationOutput
-import team.aliens.domain._repository.AuthRepository
+import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AutoSignInUseCase @Inject constructor(

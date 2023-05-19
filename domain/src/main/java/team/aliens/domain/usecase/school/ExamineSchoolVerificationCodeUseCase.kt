@@ -1,8 +1,8 @@
 package team.aliens.domain.usecase.school
 
-import team.aliens.domain._model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.domain._model.school.ExamineSchoolVerificationCodeOutput
-import team.aliens.domain._repository.SchoolRepository
+import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.domain.model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.domain.repository.SchoolRepository
 import javax.inject.Inject
 
 class ExamineSchoolVerificationCodeUseCase @Inject constructor(

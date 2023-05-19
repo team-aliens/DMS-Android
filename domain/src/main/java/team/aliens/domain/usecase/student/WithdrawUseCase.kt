@@ -1,6 +1,6 @@
 package team.aliens.domain.usecase.student
 
-import team.aliens.domain._repository.StudentRepository
+import team.aliens.domain.repository.StudentRepository
 import javax.inject.Inject
 
 class WithdrawUseCase @Inject constructor(

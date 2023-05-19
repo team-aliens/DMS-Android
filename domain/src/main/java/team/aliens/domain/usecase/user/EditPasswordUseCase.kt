@@ -1,7 +1,7 @@
 package team.aliens.domain.usecase.user
 
-import team.aliens.domain._model.user.EditPasswordInput
-import team.aliens.domain._repository.UserRepository
+import team.aliens.domain.model.user.EditPasswordInput
+import team.aliens.domain.repository.UserRepository
 import javax.inject.Inject
 
 class EditPasswordUseCase @Inject constructor(

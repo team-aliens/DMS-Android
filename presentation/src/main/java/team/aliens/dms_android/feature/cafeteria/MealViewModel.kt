@@ -2,27 +2,21 @@ package team.aliens.dms_android.feature.cafeteria
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.meal.FetchMealInput
-import team.aliens.domain._model.meal.Meal
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model.meal.FetchMealInput
+import team.aliens.domain.model.meal.Meal
 import team.aliens.domain.usecase.meal.FetchMealUseCase
-import team.aliens.local_domain.entity.meal.MealEntity
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class MealViewModel @Inject constructor(
     private val fetchMealUseCase: FetchMealUseCase,
-) : BaseViewModel<MealState, MealEvent>() {
+) : BaseViewModel1<MealState, MealEvent>() {
 
     init {
         state.value.selectedDay.run {
@@ -51,11 +45,6 @@ class MealViewModel @Inject constructor(
                 setMealState(it)
             }.onFailure {
                 when (it) {
-                    is BadRequestException -> event(Event.BadRequestException)
-                    is UnauthorizedException -> event(Event.UnAuthorizedTokenException)
-                    is ForbiddenException -> event(Event.CannotConnectException)
-                    is TooManyRequestException -> event(Event.TooManyRequestException)
-                    is ServerException -> event(Event.InternalServerException)
                     else -> event(Event.UnknownException)
                 }
             }
@@ -124,7 +113,6 @@ class MealViewModel @Inject constructor(
     }
 
     sealed class Event {
-        data class FetchMealSuccess(val mealEntity: MealEntity) : Event()
         object BadRequestException : Event()
         object UnAuthorizedTokenException : Event()
         object CannotConnectException : Event()

@@ -1,7 +1,6 @@
 package team.aliens.local.datastore.storage
 
-import team.aliens.domain._model.auth.Token
-import team.aliens.domain._model.student.Feature
+import team.aliens.domain.model.auth.Token
 
 interface AuthDataStorage {
 

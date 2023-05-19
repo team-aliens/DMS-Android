@@ -41,7 +41,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.feature.register.event.SignUpEvent
-import team.aliens.domain._model.student.SignUpInput
+import team.aliens.domain.model.student.SignUpInput
 import team.aliens.presentation.R
 
 @Composable

@@ -1,7 +1,7 @@
 package team.aliens.local.datasource
 
-import team.aliens.data._datasource.local.LocalAuthDataSource
-import team.aliens.domain._model.auth.Token
+import team.aliens.data.datasource.local.LocalAuthDataSource
+import team.aliens.domain.model.auth.Token
 import team.aliens.local.datastore.storage.AuthDataStorage
 import javax.inject.Inject
 

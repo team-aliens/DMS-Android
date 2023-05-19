@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
@@ -32,11 +33,9 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
-import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
+import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.presentation.R
-import java.util.UUID
 
 /**
  * 자습실 상세보기 screen

@@ -1,15 +1,34 @@
 package team.aliens.domain.repository
 
-import team.aliens.domain.entity.notice.NewNoticeBooleanEntity
-import team.aliens.domain.entity.notice.NoticeDetailEntity
-import team.aliens.domain.entity.notice.NoticeListEntity
-import team.aliens.domain.enums.NoticeListSCType
+import team.aliens.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.domain.model.notice.FetchNoticeDetailsOutput
+import team.aliens.domain.model.notice.FetchNoticesInput
+import team.aliens.domain.model.notice.FetchNoticesOutput
+import team.aliens.domain.model.notice.FetchWhetherNewNoticesExistOutput
+import team.aliens.domain.model.notice.Notice
+import java.util.UUID
 
 interface NoticeRepository {
 
-    suspend fun newNoticeBoolean(): NewNoticeBooleanEntity
+    suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistOutput
 
-    suspend fun fetchNoticeList(order: NoticeListSCType): NoticeListEntity
+    suspend fun fetchNotice(
+        noticeId: UUID,
+    ): Notice
 
-    suspend fun fetchNoticeDetail(notice_id: String): NoticeDetailEntity
+    suspend fun fetchNoticeDetails(
+        input: FetchNoticeDetailsInput,
+    ): FetchNoticeDetailsOutput
+
+    suspend fun fetchNotices(
+        input: FetchNoticesInput,
+    ): FetchNoticesOutput
+
+    suspend fun saveNotice(
+        notice: Notice,
+    )
+
+    suspend fun saveNotices(
+        vararg notices: Notice,
+    )
 }

@@ -1,8 +1,8 @@
 package team.aliens.domain.usecase.studyroom
 
-import team.aliens.domain._model.studyroom.FetchSeatTypesInput
-import team.aliens.domain._model.studyroom.FetchSeatTypesOutput
-import team.aliens.domain._repository.StudyRoomRepository
+import team.aliens.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.domain.repository.StudyRoomRepository
 import javax.inject.Inject
 
 class FetchSeatTypesUseCase @Inject constructor(

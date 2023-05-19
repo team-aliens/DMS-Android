@@ -1,10 +1,9 @@
 package team.aliens.dms_android.feature.studyroom
 
-import team.aliens.dms_android._base.UiState
-import team.aliens.domain._model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.domain._model.studyroom.FetchStudyRoomsOutput
-import team.aliens.domain.entity.studyroom.StudyRoomDetailEntity
 import java.util.UUID
+import team.aliens.dms_android.base.UiState
+import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.domain.model.studyroom.FetchStudyRoomsOutput
 
 data class StudyRoomListUiState(
     var startAt: String = "",
@@ -14,10 +13,6 @@ data class StudyRoomListUiState(
     var timeSlot: UUID? = null,
     var hasApplyTime: Boolean = false,
 ) : UiState
-
-data class StudyRoomDetailsUiState(
-    var studyRoomDetailsEntity: StudyRoomDetailEntity? = null,
-)
 
 data class StudyRoomInformation(
     val roomId: UUID,

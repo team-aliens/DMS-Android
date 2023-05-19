@@ -3,19 +3,13 @@ package team.aliens.dms_android.feature.remain
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.dms_android.feature.remain.RemainApplicationViewModel.Event
-import team.aliens.domain._model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain._model.remains.FetchRemainsOptionsOutput
-import team.aliens.domain._model.remains.UpdateRemainsOptionInput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.domain.model.remains.UpdateRemainsOptionInput
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsOptionsUseCase
@@ -29,7 +23,7 @@ class RemainApplicationViewModel @Inject constructor(
     private val fetchCurrentRemainOptionsUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val fetchAvailableRemainTimeUseCase: FetchRemainsApplicationTimeUseCase,
     private val fetchRemainOptionsUseCase: FetchRemainsOptionsUseCase,
-) : BaseViewModel<RemainApplicationState, RemainApplicationEvent>() {
+) : BaseViewModel1<RemainApplicationState, RemainApplicationEvent>() {
 
     override val initialState: RemainApplicationState
         get() = RemainApplicationState.getDefaultInstance()
@@ -132,13 +126,8 @@ class RemainApplicationViewModel @Inject constructor(
 private fun getEventFromThrowable(
     throwable: Throwable?,
 ): Event {
+    // fixme 추후에 리팩토링 필요
     return when (throwable) {
-        is BadRequestException -> Event.BadRequestException
-        is NotFoundException -> Event.NotFoundException
-        is UnauthorizedException -> Event.UnauthorizedException
-        is ForbiddenException -> Event.ForbiddenException
-        is TooManyRequestException -> Event.TooManyRequestException
-        is ServerException -> Event.ServerException
         is NullPointerException -> Event.NullPointException
         else -> Event.UnknownException
     }

@@ -1,7 +1,7 @@
 package team.aliens.local.datasource
 
-import team.aliens.data._datasource.local.LocalNoticeDataSource
-import team.aliens.domain._model.notice.Notice
+import team.aliens.data.datasource.local.LocalNoticeDataSource
+import team.aliens.domain.model.notice.Notice
 import team.aliens.local.room.dao.NoticeDao
 import team.aliens.local.room.entity.toData
 import team.aliens.local.room.entity.toDomain

@@ -2,31 +2,26 @@ package team.aliens.dms_android.feature.image
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.file.UploadFileInput
-import team.aliens.domain._model.student.EditProfileInput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.NoInternetException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model.file.UploadFileInput
+import team.aliens.domain.model.student.EditProfileInput
 import team.aliens.domain.usecase.file.UploadFileUseCase
 import team.aliens.domain.usecase.student.EditProfileUseCase
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmImageViewModel @Inject constructor(
     private val uploadFileUseCase: UploadFileUseCase,
     private val editProfileUseCase: EditProfileUseCase,
-) : BaseViewModel<ConfirmImageState, ConfirmImageEvent>() {
+) : BaseViewModel1<ConfirmImageState, ConfirmImageEvent>() {
 
     override val initialState: ConfirmImageState
         get() = ConfirmImageState.getDefaultInstance()
@@ -126,15 +121,11 @@ class ConfirmImageViewModel @Inject constructor(
     }
 }
 
+// todo 추후에 리팩토링 필요
 private fun getEventFromThrowable(
     throwable: Throwable,
 ): ConfirmImageViewModel.Event {
     return when (throwable) {
-        is BadRequestException -> ConfirmImageViewModel.Event.BadRequestException
-        is UnauthorizedException -> ConfirmImageViewModel.Event.UnAuthorizedTokenException
-        is NoInternetException -> ConfirmImageViewModel.Event.CannotConnectException
-        is TooManyRequestException -> ConfirmImageViewModel.Event.TooManyRequestException
-        is ServerException -> ConfirmImageViewModel.Event.InternalServerException
         else -> ConfirmImageViewModel.Event.UnknownException
     }
 }

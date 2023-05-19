@@ -1,7 +1,7 @@
 package team.aliens.domain.usecase.remain
 
-import team.aliens.domain._model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.domain._repository.RemainsRepository
+import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class FetchCurrentAppliedRemainsOptionUseCase @Inject constructor(

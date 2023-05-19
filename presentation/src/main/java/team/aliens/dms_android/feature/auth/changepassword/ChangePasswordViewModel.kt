@@ -3,19 +3,13 @@ package team.aliens.dms_android.feature.auth.changepassword
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel
+import team.aliens.dms_android.base.BaseViewModel1
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.domain._model.auth.CheckIdExistsInput
-import team.aliens.domain._model.student.ResetPasswordInput
-import team.aliens.domain._model.user.ComparePasswordInput
-import team.aliens.domain._model.user.EditPasswordInput
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.NotFoundException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
+import team.aliens.domain.model.auth.CheckIdExistsInput
+import team.aliens.domain.model.student.ResetPasswordInput
+import team.aliens.domain.model.user.ComparePasswordInput
+import team.aliens.domain.model.user.EditPasswordInput
 import team.aliens.domain.usecase.auth.CheckIdExistsUseCase
 import team.aliens.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.domain.usecase.user.ComparePasswordUseCase
@@ -28,7 +22,7 @@ class ChangePasswordViewModel @Inject constructor(
     private val editPasswordUseCase: EditPasswordUseCase,
     private val comparePasswordUseCase: ComparePasswordUseCase,
     private val checkIdUseCase: CheckIdExistsUseCase,
-) : BaseViewModel<ChangePasswordState, ChangePasswordEvent>() {
+) : BaseViewModel1<ChangePasswordState, ChangePasswordEvent>() {
 
     /*
         디자인에서 처음 본인인증할때 아이디만을 사용해서 "아이디 존재 여부(비밀번호 재설정)"이라는 Api로 이에 해당하는 Email를 받습니다.
@@ -149,9 +143,11 @@ class ChangePasswordViewModel @Inject constructor(
             is ChangePasswordEvent.SetCurrentPassword -> {
                 setState(state = oldState.copy(currentPassword = event.currentPassword))
             }
+
             is ChangePasswordEvent.SetRepeatPassword -> {
                 setState(state = oldState.copy(repeatPassword = event.repeatPassword))
             }
+
             is ChangePasswordEvent.SetNewPassword -> {
                 setState(state = oldState.copy(newPassword = event.newPassword))
             }
@@ -187,12 +183,6 @@ private fun getEventFromThrowable(
     throwable: Throwable?,
 ): ChangePasswordViewModel.Event {
     return when (throwable) {
-        is BadRequestException -> ChangePasswordViewModel.Event.BadRequestException
-        is NotFoundException -> ChangePasswordViewModel.Event.NotFoundException
-        is UnauthorizedException -> ChangePasswordViewModel.Event.UnauthorizedException
-        is ForbiddenException -> ChangePasswordViewModel.Event.ForbiddenException
-        is TooManyRequestException -> ChangePasswordViewModel.Event.TooManyRequestException
-        is ServerException -> ChangePasswordViewModel.Event.ServerException
         else -> ChangePasswordViewModel.Event.UnknownException
     }
 }

@@ -1,62 +1,91 @@
 package team.aliens.data.repository
 
-import team.aliens.data.remote.datasource.declaration.RemoteNoticeDataSource
-import team.aliens.data.remote.response.notice.NewNoticeBooleanResponse
-import team.aliens.data.remote.response.notice.toEntity
-import team.aliens.domain.entity.notice.NewNoticeBooleanEntity
-import team.aliens.domain.entity.notice.NoticeDetailEntity
-import team.aliens.domain.entity.notice.NoticeListEntity
-import team.aliens.domain.enums.NoticeListSCType
+import team.aliens.data.datasource.local.LocalNoticeDataSource
+import team.aliens.data.datasource.remote.RemoteNoticeDataSource
+import team.aliens.domain.model._common.Order
+import team.aliens.domain.model.notice.*
 import team.aliens.domain.repository.NoticeRepository
-import team.aliens.local_database.datasource.declaration.LocalNoticeDataSource
-import team.aliens.local_database.entity.notice.NoticeDetailRoomEntity
-import team.aliens.local_database.entity.notice.NoticeListRoomEntity
+import java.util.*
 import javax.inject.Inject
 
 class NoticeRepositoryImpl @Inject constructor(
-    private val remoteNoticeDataSource: RemoteNoticeDataSource,
     private val localNoticeDataSource: LocalNoticeDataSource,
+    private val remoteNoticeDataSource: RemoteNoticeDataSource,
 ) : NoticeRepository {
 
-    override suspend fun newNoticeBoolean(): NewNoticeBooleanEntity =
-        remoteNoticeDataSource.checkNoticeNewBoolean().toEntity()
+    override suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistOutput {
+        return remoteNoticeDataSource.fetchWhetherNewNoticesExist()
+    }
 
-    override suspend fun fetchNoticeList(
-        order: NoticeListSCType,
-    ): NoticeListEntity = remoteNoticeDataSource.fetchNoticeList(order).toEntity()
+    override suspend fun fetchNotice(
+        noticeId: UUID,
+    ): Notice {
 
-    override suspend fun fetchNoticeDetail(
-        notice_id: String,
-    ): NoticeDetailEntity = remoteNoticeDataSource.fetchNoticeDetail(notice_id).toEntity()
+        try {
+
+            val fetchedNotice = localNoticeDataSource.fetchNotice(
+                noticeId = noticeId,
+            )
+
+            if (fetchedNotice.content == null)
+                this.fetchNotices(
+                    input = FetchNoticesInput(
+                        order = Order.NEW,
+                    ),
+                )
+
+        } catch (e: Exception) {
+            this.fetchNotices(
+                input = FetchNoticesInput(
+                    order = Order.NEW,
+                ),
+            )
+        }
+
+        return localNoticeDataSource.fetchNotice(
+            noticeId = noticeId,
+        )
+    }
+
+    override suspend fun fetchNotices(
+        input: FetchNoticesInput,
+    ): FetchNoticesOutput {
+        return remoteNoticeDataSource.fetchNotices(
+            input = FetchNoticesInput(
+                order = Order.NEW,
+            )
+        ).also {
+            this.saveNotices(
+                notices = it.notices.toTypedArray(),
+            )
+        }
+    }
+
+    override suspend fun saveNotice(
+        notice: Notice,
+    ) {
+        return localNoticeDataSource.saveNotice(
+            notice = notice,
+        )
+    }
+
+    override suspend fun saveNotices(
+        vararg notices: Notice,
+    ) {
+        return localNoticeDataSource.saveNotices(
+            notices = notices,
+        )
+    }
+
+    override suspend fun fetchNoticeDetails(
+        input: FetchNoticeDetailsInput,
+    ): FetchNoticeDetailsOutput {
+        return remoteNoticeDataSource.fetchNoticeDetails(
+            input = input,
+        ).also {
+            this.saveNotice(
+                notice = it.toModel(),
+            )
+        }
+    }
 }
-
-fun NoticeListEntity.NoticeValue.toDbEntity() = NoticeListRoomEntity.NoticeLocalValue(
-    id = id,
-    title = title,
-    createAt = createAt,
-)
-
-fun NoticeListEntity.toDbEntity() = NoticeListRoomEntity(
-    notices = notices.map { it.toDbEntity() },
-)
-
-fun NoticeDetailEntity.toDbEntity() = noticeId?.let {
-    NoticeDetailRoomEntity(
-        noticeId = it,
-        title = title,
-        content = content,
-        createAt = createAt,
-    )
-}
-
-fun NoticeListRoomEntity.NoticeLocalValue.toDmEntity() = NoticeListEntity.NoticeValue(
-    id = id,
-    title = title,
-    createAt = createAt,
-)
-
-fun NoticeListRoomEntity.toDmEntity() = NoticeListEntity(notices = notices.map { it.toDmEntity() })
-
-private fun NewNoticeBooleanResponse.toEntity() = NewNoticeBooleanEntity(
-    noticeBoolean = this.newNoticeBoolean,
-)
