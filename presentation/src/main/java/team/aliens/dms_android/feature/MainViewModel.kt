@@ -2,9 +2,9 @@ package team.aliens.dms_android.feature
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android._base.MviViewModel
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
+import team.aliens.dms_android.base.MviViewModel
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.student.Feature
 import team.aliens.domain.usecase.auth.AutoSignInUseCase

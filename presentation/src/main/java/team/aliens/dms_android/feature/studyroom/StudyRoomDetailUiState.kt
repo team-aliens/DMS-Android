@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
-import team.aliens.dms_android._base.UiState
+import team.aliens.dms_android.base.UiState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.domain.model._common.Sex
 import team.aliens.domain.model.studyroom.FetchSeatTypesOutput

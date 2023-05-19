@@ -1,4 +1,4 @@
-package team.aliens.dms_android._base
+package team.aliens.dms_android.base
 
 @Deprecated("legacy")
 sealed class ErrorEvent {

@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.remain
 
-import team.aliens.dms_android._base.MviState
+import team.aliens.dms_android.base.MviState
 import java.util.*
 
 data class RemainApplicationState(

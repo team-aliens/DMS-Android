@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android._base.BaseViewModel2
+import team.aliens.dms_android.base.BaseViewModel2
 import team.aliens.dms_android.util.extractHourFromDate
 import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model.studyroom.FetchStudyRoomsInput
@@ -25,7 +25,7 @@ class StudyRoomListViewModel @Inject constructor(
         fetchApplyTime()
     }
 
-    sealed class UiEvent : team.aliens.dms_android._base.UiEvent {
+    sealed class UiEvent : team.aliens.dms_android.base.UiEvent {
 
         data class FetchStudyRooms(
             val timeSlot: UUID,

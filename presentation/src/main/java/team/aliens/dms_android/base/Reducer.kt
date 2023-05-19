@@ -1,4 +1,4 @@
-package team.aliens.dms_android._base
+package team.aliens.dms_android.base
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

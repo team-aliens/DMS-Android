@@ -1,9 +1,9 @@
 package team.aliens.dms_android.feature.navigator
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import team.aliens.dms_android._base.MviViewModel
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
+import team.aliens.dms_android.base.MviViewModel
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
 import javax.inject.Inject
 
 /*

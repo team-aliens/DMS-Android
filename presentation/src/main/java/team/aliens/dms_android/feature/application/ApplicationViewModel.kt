@@ -5,9 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android._base.BaseViewModel2
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
+import team.aliens.dms_android.base.BaseViewModel2
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
 import javax.inject.Inject
