@@ -1,5 +1,6 @@
 package team.aliens.dms_android._base
 
+@Deprecated("legacy")
 sealed class ErrorEvent {
 
     object BadRequest : ErrorEvent()

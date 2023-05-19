@@ -3,6 +3,7 @@ package team.aliens.dms_android.base
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.StateFlow
 
+// todo remove
 @Deprecated("This base ViewModel has been deprecated, because of complex state control, etc.")
 abstract class BaseViewModel<S : MviState, E : MviEvent> : ViewModel() {
 

@@ -12,6 +12,7 @@ import team.aliens.dms_android.util.asEventFlow
 import team.aliens.presentation.R
 import javax.inject.Inject
 
+@Deprecated("legacy")
 abstract class BaseViewModel<S : UiState, E : UiEvent> : ViewModel() {
 
     @Inject
