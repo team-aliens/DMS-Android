@@ -96,7 +96,7 @@ private fun BasicContainedButton(
     ) {
         ButtonText(
             modifier = Modifier.padding(
-                vertical = 9.dp,
+                vertical = 12.dp,
                 horizontal = 20.dp,
             ),
             text = text,
@@ -141,7 +141,7 @@ private fun BasicOutlinedButton(
     ) {
         ButtonText(
             modifier = Modifier.padding(
-                vertical = 9.dp,
+                vertical = 12.dp,
                 horizontal = 20.dp,
             ),
             text = text,
