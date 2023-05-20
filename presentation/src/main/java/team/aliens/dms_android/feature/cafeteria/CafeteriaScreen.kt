@@ -70,7 +70,7 @@ private val interval = 20000 / Rainbow.size
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CafeteriaScreen(
+internal fun CafeteriaScreen(
     navController: NavHostController,
     mealViewModel: MealViewModel = hiltViewModel(),
     noticesViewModel: NoticesViewModel = hiltViewModel(),
@@ -135,7 +135,7 @@ fun CafeteriaScreen(
 
     val scope = rememberCoroutineScope()
 
-    val state = noticesViewModel.state.collectAsState().value
+    val state = noticesViewModel.uiState.collectAsState().value
 
     val calendarBottomSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,

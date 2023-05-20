@@ -30,7 +30,7 @@ import java.util.UUID
 
 @SuppressLint("RememberReturnType")
 @Composable
-fun NoticeDetailsScreen(
+internal fun NoticeDetailsScreen(
     navController: NavController,
     noticeId: String,
     noticesViewModel: NoticesViewModel = hiltViewModel(),
