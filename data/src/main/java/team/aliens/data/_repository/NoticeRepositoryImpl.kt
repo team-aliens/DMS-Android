@@ -1,12 +1,19 @@
 package team.aliens.data._repository
 
+import java.util.UUID
+import javax.inject.Inject
 import team.aliens.data._datasource.local.LocalNoticeDataSource
 import team.aliens.data._datasource.remote.RemoteNoticeDataSource
 import team.aliens.domain._model._common.Order
-import team.aliens.domain._model.notice.*
+import team.aliens.domain._model.notice.FetchNoticeDetailsInput
+import team.aliens.domain._model.notice.FetchNoticeDetailsOutput
+import team.aliens.domain._model.notice.FetchNoticesInput
+import team.aliens.domain._model.notice.FetchNoticesOutput
+import team.aliens.domain._model.notice.FetchWhetherNewNoticesExistOutput
+import team.aliens.domain._model.notice.Notice
+import team.aliens.domain._model.notice.toModel
+import team.aliens.domain._model.notice.toTypedArray
 import team.aliens.domain._repository.NoticeRepository
-import java.util.*
-import javax.inject.Inject
 
 class NoticeRepositoryImpl @Inject constructor(
     private val localNoticeDataSource: LocalNoticeDataSource,
@@ -51,9 +58,7 @@ class NoticeRepositoryImpl @Inject constructor(
         input: FetchNoticesInput,
     ): FetchNoticesOutput {
         return remoteNoticeDataSource.fetchNotices(
-            input = FetchNoticesInput(
-                order = Order.NEW,
-            )
+            input = input,
         ).also {
             this.saveNotices(
                 notices = it.notices.toTypedArray(),
