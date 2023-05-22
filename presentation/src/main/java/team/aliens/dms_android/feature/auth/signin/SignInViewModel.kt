@@ -1,5 +1,144 @@
 package team.aliens.dms_android.feature.auth.signin
 
+import androidx.compose.runtime.Stable
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.MviViewModel
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
+import team.aliens.domain.model.auth.SignInInput
+import team.aliens.domain.usecase.auth.SignInUseCase
+import javax.inject.Inject
+
+@HiltViewModel
+internal class SignInViewModel @Inject constructor(
+    private val signInUseCase: SignInUseCase,
+) : MviViewModel<SignInUiState, SignInUiEvent>(
+    initialState = SignInUiState.initial(),
+) {
+    private val idEntered: Boolean
+        get() = uiState.value.accountId.isNotBlank()
+    private val passwordEntered: Boolean
+        get() = uiState.value.password.isNotBlank()
+
+    override fun updateState(event: SignInUiEvent) {
+        when (event) {
+            SignInUiEvent.SignIn -> this.signIn()
+            is SignInUiEvent.UpdateAutoSignInOption -> this.updateAutoSignInOption(
+                newAutoSignInOption = event.newAutoSignInOption,
+            )
+
+            is SignInUiEvent.UpdateAccountId -> this.updateId(
+                newId = event.newAccountId,
+            )
+
+            is SignInUiEvent.UpdatePassword -> this.updatePassword(
+                newPassword = event.newPassword,
+            )
+        }
+    }
+
+    private fun signIn() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val currentUserInformation = this@SignInViewModel.uiState.value
+
+                signInUseCase(
+                    signInInput = SignInInput(
+                        accountId = currentUserInformation.accountId,
+                        password = currentUserInformation.password,
+                        autoSignIn = currentUserInformation.autoSignIn,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun trySignInOrElseErrorMessage() {
+        if (idEntered.not()) // todo make as a function
+
+        if (idEntered && passwordEntered)
+            signIn()
+    }
+
+    private fun updateAutoSignInOption(
+        newAutoSignInOption: Boolean,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                autoSignIn = newAutoSignInOption,
+            ),
+        )
+    }
+
+    private fun updateId(
+        newId: String,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                accountId = newId,
+            ),
+        )
+    }
+
+    private fun updatePassword(
+        newPassword: String,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                password = newPassword,
+            ),
+        )
+    }
+
+    private fun checkSignInAvailable() {
+
+    }
+}
+
+@Stable
+internal data class SignInUiState(
+    val signInSuccess: Boolean,
+    val accountId: String,
+    val password: String,
+    val autoSignIn: Boolean,
+    val signInButtonEnabled: Boolean,
+    val idError: Boolean,
+    val passwordError: Boolean,
+) : UiState {
+    companion object {
+        fun initial() = SignInUiState(
+            signInSuccess = false,
+            accountId = "",
+            password = "",
+            autoSignIn = false,
+            signInButtonEnabled = false,
+            idError = false,
+            passwordError = false,
+        )
+    }
+}
+
+internal sealed interface SignInUiEvent : UiEvent {
+    class UpdateAccountId(
+        val newAccountId: String,
+    ) : SignInUiEvent
+
+    class UpdatePassword(
+        val newPassword: String,
+    ) : SignInUiEvent
+
+    class UpdateAutoSignInOption(
+        val newAutoSignInOption: Boolean,
+    ) : SignInUiEvent
+
+    object SignIn : SignInUiEvent
+}
+
+/*
+
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -130,7 +269,8 @@ class SignInViewModel @Inject constructor(
             }
 
             else -> {
-                /* explicit blank */
+                *//* explicit blank *//*
+
             }
         }
     }
@@ -166,3 +306,4 @@ private fun getEventFromThrowable(
         else -> SignInViewModel.Event.UnKnownException
     }
 }
+*/
