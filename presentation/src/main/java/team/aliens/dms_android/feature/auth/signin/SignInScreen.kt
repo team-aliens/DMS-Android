@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -274,8 +273,8 @@ internal fun SignInScreen(
     val signInButtonEnabled = uiState.value.signInButtonEnabled
     val navController = appState.navController
 
-    val onIdChange = { newId: String ->
-        signInViewModel.onEvent(SignInUiEvent.UpdateId(newId))
+    val onAccountIdChange = { newAccountId: String ->
+        signInViewModel.onEvent(SignInUiEvent.UpdateAccountId(newAccountId))
     }
     val onPasswordChange = { newPassword: String ->
         signInViewModel.onEvent(SignInUiEvent.UpdatePassword(newPassword))
@@ -298,12 +297,6 @@ internal fun SignInScreen(
         signInViewModel.onEvent(SignInUiEvent.SignIn)
     }
 
-    LaunchedEffect(Unit) {
-        signInViewModel.signInSuccess.collect {
-            if (it) navController.navigate(DmsRoute.Home.route)
-        }
-    }
-
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -311,10 +304,10 @@ internal fun SignInScreen(
         Banner()
         Spacer(Modifier.height(60.dp))
         UserInformationInputs(
-            idValue = uiState.value.id,
+            accountIdValue = uiState.value.accountId,
             passwordValue = uiState.value.password,
             autoSignInValue = uiState.value.autoSignIn,
-            onIdChange = onIdChange, // 사용자의 행위에 대한 자동 콜백 = 능동형
+            onAccountIdChange = onAccountIdChange, // 사용자의 행위에 대한 자동 콜백 = 능동형
             onPasswordChange = onPasswordChange,
             onAutoSignInOptionChanged = onAutoSignInOptionChanged, // 사용자의 행위 = 수동형(~ed)
         )
@@ -358,10 +351,10 @@ private fun Banner() {
 
 @Composable
 private fun UserInformationInputs(
-    idValue: String,
+    accountIdValue: String,
     passwordValue: String,
     autoSignInValue: Boolean,
-    onIdChange: (String) -> Unit,
+    onAccountIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onAutoSignInOptionChanged: (Boolean) -> Unit,
 ) {
@@ -372,8 +365,8 @@ private fun UserInformationInputs(
         modifier = Modifier.padding(
             horizontal = 16.dp
         ),
-        value = idValue,
-        onValueChange = onIdChange,
+        value = accountIdValue,
+        onValueChange = onAccountIdChange,
         hint = stringResource(R.string.id),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
