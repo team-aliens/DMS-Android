@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.notice
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,21 +13,27 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.UUID
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.drop
+import team.aliens.design_system.component.toNoticeDate
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
-import java.util.UUID
 
-@SuppressLint("RememberReturnType")
 @Composable
 internal fun NoticeDetailsScreen(
     navController: NavController,
@@ -36,12 +41,21 @@ internal fun NoticeDetailsScreen(
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
+    var createdAt by remember {
+        mutableStateOf("")
+    }
+
     LaunchedEffect(Unit) {
-        noticesViewModel.onEvent(
-            event = NoticesUiEvent.FetchNoticeDetails(
-                noticeId = UUID.fromString(noticeId)
+        with(noticesViewModel) {
+            onEvent(
+                event = NoticesUiEvent.FetchNoticeDetails(
+                    noticeId = UUID.fromString(noticeId)
+                )
             )
-        )
+            uiState.drop(1).collectLatest {
+                createdAt = it.notice.createdAt.toNoticeDate()
+            }
+        }
     }
 
     val noticeDetailState = noticesViewModel.uiState.collectAsState().value.notice
@@ -61,8 +75,7 @@ internal fun NoticeDetailsScreen(
         ) {
             navController.popBackStack()
         }
-
-
+        
         Column(
             modifier = Modifier
                 .padding(
@@ -85,7 +98,7 @@ internal fun NoticeDetailsScreen(
 
                 // date
                 Caption(
-                    text = noticeDetailState.createdAt,
+                    text = createdAt,
                     color = DormTheme.colors.primaryVariant,
                 )
 

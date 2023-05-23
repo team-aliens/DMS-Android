@@ -94,17 +94,17 @@ private fun Notice(
 
             OverLine(
                 modifier = Modifier.padding(bottom = 12.dp),
-                text = notice.createdAt.toDate(),
+                text = notice.createdAt.toNoticeDate(),
                 color = DormTheme.colors.primaryVariant,
             )
         }
     }
 }
 
-private fun String.toDate() = StringBuilder().apply {
-    append(this@toDate.split('T')[0])
+fun String.toNoticeDate() = StringBuilder().apply {
+    append(this@toNoticeDate.split('T')[0])
     append(" ")
-    append(this@toDate.split('T')[1].split(':')[0])
+    append(this@toNoticeDate.split('T')[1].split(':')[0])
     append(":")
-    append(this@toDate.split('T')[1].split(':')[1])
+    append(this@toNoticeDate.split('T')[1].split(':')[1])
 }.toString()
