@@ -91,12 +91,20 @@ private fun Notice(
 
             OverLine(
                 modifier = Modifier.padding(bottom = 12.dp),
-                text = notice.createdAt,
+                text = notice.createdAt.toDate(),
                 color = DormTheme.colors.primaryVariant,
             )
         }
     }
 }
+
+private fun String.toDate() = StringBuilder().apply {
+    append(this@toDate.split('T')[0])
+    append(" ")
+    append(this@toDate.split('T')[1].split(':')[0])
+    append(":")
+    append(this@toDate.split('T')[1].split(':')[1])
+}.toString()
 
 @Preview
 @Composable
