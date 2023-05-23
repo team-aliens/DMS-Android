@@ -2,9 +2,8 @@ package team.aliens.dms_android.feature.notice
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -51,14 +50,6 @@ internal fun NoticeScreen(
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
-    LaunchedEffect(Unit) {
-        noticesViewModel.onEvent(
-            event = NoticesUiEvent.FetchNotices(
-                order = Order.NEW,
-            ),
-        )
-    }
-
     val appState = rememberDmsAppState()
 
     val notices = remember {
@@ -68,23 +59,23 @@ internal fun NoticeScreen(
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
     LaunchedEffect(Unit) {
-        noticesViewModel.onEvent(
-            event = NoticesUiEvent.FetchNotices(
-                order = noticesViewModel.uiState.value.order,
+        with(noticesViewModel) {
+            onEvent(
+                event = NoticesUiEvent.FetchNotices(
+                    order = Order.NEW,
+                )
             )
-        )
-    }
 
-    LaunchedEffect(Unit) {
-        noticesViewModel.uiState.collectLatest { it ->
-            notices.clear()
-            notices.addAll(it.notices.map { it.toNotice() })
+            uiState.collectLatest { it ->
+                notices.clear()
+                notices.addAll(it.notices.map { it.toNotice() })
 
-            // TODO DmsAppState 에서 showToast 함수 구현하기
-            appState.scaffoldState.snackbarHostState.showSnackbar(
-                message = it.noticeErrorMessage,
-                actionLabel = ToastType.ERROR.toString(),
-            )
+                // TODO DmsAppState toastManager setMessage 함수 사용하기
+                appState.scaffoldState.snackbarHostState.showSnackbar(
+                    message = it.noticeErrorMessage,
+                    actionLabel = ToastType.ERROR.toString(),
+                )
+            }
         }
     }
 
@@ -94,25 +85,22 @@ internal fun NoticeScreen(
             .background(
                 DormTheme.colors.background,
             )
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .padding(
+                top = 24.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
+        horizontalAlignment = Alignment.Start,
     ) {
-
-        Space(space = 24.dp)
-
         Body1(
+            modifier = Modifier.align(
+                alignment = Alignment.CenterHorizontally,
+            ),
             text = stringResource(R.string.Notice),
         )
-
         Space(space = 20.dp)
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            OrderButton(noticesViewModel)
-        }
-
+        OrderButton(noticesViewModel)
+        Space(space = 8.dp)
         NoticeList(
             modifier = Modifier
                 .fillMaxWidth()
@@ -139,7 +127,6 @@ private fun OrderButton(
         )
     }
 
-    // TODO 새 뷰모델 state 로 리팩토링하기
     Button(
         onClick = {
             when (noticesViewModel.uiState.value.order) {
@@ -170,14 +157,9 @@ private fun OrderButton(
             backgroundColor = DormTheme.colors.background,
         ),
     ) {
-        Row(
-            modifier = Modifier
-                .padding(
-                    horizontal = 8.dp,
-                    vertical = 4.dp,
-                ),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
+            modifier = Modifier.padding(4.dp),
+            contentAlignment = Alignment.Center,
         ) {
             ButtonText(
                 text = text,

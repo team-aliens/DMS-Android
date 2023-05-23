@@ -1,7 +1,10 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,16 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.annotation.DormDeprecated
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
-import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
-import team.aliens.design_system.extension.Space
 
 data class Notice(
     var noticeId: String,
@@ -34,18 +36,16 @@ fun NoticeList(
     errorMessage: String = "",
     onClick: (String) -> Unit,
 ) {
-    LazyColumn(
-        modifier = modifier,
-    ) {
-        itemsIndexed(items = notices) { index, notice ->
+    LazyColumn {
+        itemsIndexed(
+            items = notices,
+        ) { index, notice ->
+            if (index == 0) this@LazyColumn.Space(space = 16.dp)
             Notice(
                 notice = notice,
                 onClick = onClick,
             )
-
-            if (index != notices.size) {
-                this@LazyColumn.Space(space = 12.dp)
-            }
+            this@LazyColumn.Space(space = 8.dp)
         }
         if (notices.isEmpty()) {
             item {
@@ -65,22 +65,25 @@ private fun Notice(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(6.dp))
-            .dormShadow(
-                color = DormTheme.colors.secondaryVariant,
-                offsetX = 1.dp,
-                offsetY = 1.dp,
+            .shadow(
+                shape = RoundedCornerShape(
+                    size = 6.dp,
+                ),
+                elevation = 4.dp,
             )
+            .clip(shape = RoundedCornerShape(6.dp))
             .background(
                 color = DormTheme.colors.surface,
             )
-            .dormClickable {
+            .dormClickable(
+                rippleEnabled = true,
+            ) {
                 onClick(notice.noticeId)
             },
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
-            Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             Body4(
                 modifier = Modifier.padding(top = 12.dp),
@@ -105,27 +108,3 @@ private fun String.toDate() = StringBuilder().apply {
     append(":")
     append(this@toDate.split('T')[1].split(':')[1])
 }.toString()
-
-@Preview
-@Composable
-fun PreviewNotice() {
-    val notices = listOf(
-        Notice(
-            noticeId = "asd",
-            title = "방 좀 치우고 살아주세요 ㅎㅎ",
-            createdAt = "2022.10.14 PM 08:33",
-        ),
-        Notice(
-            noticeId = "asd",
-            title = "방에서도 마스크를 착용해주세요",
-            createdAt = "2022.10.15 PM 08:33",
-        ),
-    )
-
-    NoticeList(
-        notices = notices,
-        onClick = { noticeId ->
-            print(noticeId)
-        },
-    )
-}
