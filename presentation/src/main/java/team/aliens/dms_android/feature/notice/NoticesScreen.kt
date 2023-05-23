@@ -65,7 +65,7 @@ internal fun NoticeScreen(
                     order = Order.NEW,
                 )
             )
-
+            // TODO refactor collect 로직
             uiState.collectLatest { it ->
                 notices.clear()
                 notices.addAll(it.notices.map { it.toNotice() })

@@ -69,7 +69,7 @@ private fun Notice(
                 shape = RoundedCornerShape(
                     size = 6.dp,
                 ),
-                elevation = 4.dp,
+                elevation = 6.dp,
             )
             .clip(shape = RoundedCornerShape(6.dp))
             .background(

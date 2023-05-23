@@ -52,6 +52,7 @@ internal fun NoticeDetailsScreen(
                     noticeId = UUID.fromString(noticeId)
                 )
             )
+            // TODO refactor collect 로직
             uiState.drop(1).collectLatest {
                 createdAt = it.notice.createdAt.toNoticeDate()
             }
