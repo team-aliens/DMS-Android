@@ -37,10 +37,14 @@ internal fun NoticeDetailsScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        noticesViewModel.fetchNoticeDetail(UUID.fromString(noticeId))
+        noticesViewModel.onEvent(
+            event = NoticesUiEvent.FetchNoticeDetails(
+                noticeId = UUID.fromString(noticeId)
+            )
+        )
     }
 
-    val noticeDetailState = noticesViewModel.noticeDetailViewEffect.collectAsState()
+    val noticeDetailState = noticesViewModel.uiState.collectAsState().value.notice
 
     Column(
         modifier = Modifier
@@ -76,12 +80,12 @@ internal fun NoticeDetailsScreen(
 
                 // title
                 Title3(
-                    text = noticeDetailState.value.title,
+                    text = noticeDetailState.title,
                 )
 
                 // date
                 Caption(
-                    text = noticeDetailState.value.createAt,
+                    text = noticeDetailState.createdAt,
                     color = DormTheme.colors.primaryVariant,
                 )
 
@@ -100,7 +104,7 @@ internal fun NoticeDetailsScreen(
                     .padding(
                         top = 8.dp,
                     ),
-                text = noticeDetailState.value.content,
+                text = noticeDetailState.content!!,
             )
         }
     }

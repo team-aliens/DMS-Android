@@ -40,6 +40,7 @@ import java.time.format.DateTimeFormatter
 import team.aliens.design_system.extension.Space
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
+import team.aliens.dms_android.feature.notice.NoticesUiEvent
 
 private val RainbowBlue = Color(0xFF2196F3)
 private val RainbowIndigo = Color(0xFF3F51B5)
@@ -154,7 +155,9 @@ internal fun CafeteriaScreen(
     }
 
     LaunchedEffect(Unit) {
-        noticesViewModel.checkNewNotice()
+        noticesViewModel.onEvent(
+            event = NoticesUiEvent.CheckHasNewNotice,
+        )
     }
 
 
