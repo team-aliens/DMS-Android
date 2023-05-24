@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.auth.signin
 
+/*
 sealed class SignInViewEffect {
     object NavigateToHome : SignInEvent()
     object BadRequestException : SignInEvent()
@@ -9,3 +10,4 @@ sealed class SignInViewEffect {
     object InternalServerException : SignInEvent()
     object UnKnownException : SignInEvent()
 }
+*/
