@@ -59,8 +59,8 @@ internal class SignInViewModel @Inject constructor(
     private fun trySignInOrElseErrorMessage() {
         if (idEntered.not()) // todo make as a function
 
-        if (idEntered && passwordEntered)
-            signIn()
+            if (idEntered && passwordEntered)
+                signIn()
     }
 
     private fun updateAutoSignInOption(
@@ -81,6 +81,8 @@ internal class SignInViewModel @Inject constructor(
                 accountId = newId,
             ),
         )
+
+        updateSignInButtonState()
     }
 
     private fun updatePassword(
@@ -91,10 +93,17 @@ internal class SignInViewModel @Inject constructor(
                 password = newPassword,
             ),
         )
+
+        updateSignInButtonState()
     }
 
-    private fun checkSignInAvailable() {
-
+    // 그렇게 좋은 코드는 아닌 듯
+    private fun updateSignInButtonState() {
+        setState(
+            newState = uiState.value.copy(
+                signInButtonEnabled = idEntered && passwordEntered,
+            ),
+        )
     }
 }
 
