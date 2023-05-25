@@ -71,5 +71,10 @@ internal fun DmsAppState.navigateToSignIn() {
 }
 
 internal fun DmsAppState.navigateToHome() {
-    this.navController.navigate(DmsRoute.Home.route)
+    this.navController.navigate(DmsRoute.Home.route) {
+        launchSingleTop = true
+        popUpTo(this@navigateToHome.navController.graph.startDestinationId) {
+            saveState = true
+        }
+    }
 }
