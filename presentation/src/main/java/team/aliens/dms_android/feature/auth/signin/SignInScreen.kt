@@ -324,7 +324,7 @@ internal fun SignInScreen(
             ),
             text = stringResource(R.string.sign_in),
             color = DormButtonColor.Blue,
-            enabled = uiState.value.signInButtonEnabled,
+            enabled = signInButtonEnabled,
             onClick = onSignInButtonClicked,
         )
         Spacer(Modifier.height(57.dp))
