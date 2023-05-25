@@ -385,6 +385,7 @@ private fun UserInformationInputs(
         ),
         value = passwordValue,
         onValueChange = onPasswordChange,
+        isPassword = true,
         hint = stringResource(R.string.password),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
