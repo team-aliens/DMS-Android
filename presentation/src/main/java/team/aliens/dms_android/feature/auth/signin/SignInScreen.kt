@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -31,6 +33,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.application.DmsAppState
+import team.aliens.dms_android.feature.application.navigateToHome
 import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.presentation.R
 
@@ -269,8 +272,9 @@ internal fun SignInScreen(
     appState: DmsAppState,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val uiState = signInViewModel.uiState.collectAsStateWithLifecycle()
-    val signInButtonEnabled = uiState.value.signInButtonEnabled
+    val uiState by signInViewModel.uiState.collectAsStateWithLifecycle()
+    val signInButtonEnabled = uiState.signInButtonEnabled
+    val signInSuccess = uiState.signInSuccess
     val navController = appState.navController
 
     val onAccountIdChange = { newAccountId: String ->
@@ -297,6 +301,10 @@ internal fun SignInScreen(
         signInViewModel.onEvent(SignInUiEvent.SignIn)
     }
 
+    LaunchedEffect(uiState) {
+        if (signInSuccess) appState.navigateToHome()
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -304,9 +312,9 @@ internal fun SignInScreen(
         Banner()
         Spacer(Modifier.height(60.dp))
         UserInformationInputs(
-            accountIdValue = uiState.value.accountId,
-            passwordValue = uiState.value.password,
-            autoSignInValue = uiState.value.autoSignIn,
+            accountIdValue = uiState.accountId,
+            passwordValue = uiState.password,
+            autoSignInValue = uiState.autoSignIn,
             onAccountIdChange = onAccountIdChange, // 사용자의 행위에 대한 자동 콜백 = 능동형
             onPasswordChange = onPasswordChange,
             onAutoSignInOptionChanged = onAutoSignInOptionChanged, // 사용자의 행위 = 수동형(~ed)
