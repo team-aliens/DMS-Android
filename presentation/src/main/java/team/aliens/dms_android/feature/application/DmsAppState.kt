@@ -15,12 +15,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.navigator.DmsRoute
 import team.aliens.dms_android.util.manager.ToastManager
+import team.aliens.domain.model.student.Feature
 
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavHostController = rememberNavController(),
     toastManager: ToastManager = ToastManager,
+    features: Feature = Feature.falseInitialized(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
@@ -30,6 +32,7 @@ internal fun rememberDmsAppState(
         navController = navController,
         toastManager = toastManager,
         darkTheme = darkTheme,
+        features = features,
         coroutineScope = coroutineScope,
     )
 }
@@ -39,6 +42,7 @@ internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
     val toastManager: ToastManager,
+    val features: Feature,
     val darkTheme: Boolean,
     coroutineScope: CoroutineScope,
 ) {
