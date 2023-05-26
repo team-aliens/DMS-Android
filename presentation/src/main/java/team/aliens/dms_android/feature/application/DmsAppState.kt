@@ -22,7 +22,7 @@ internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavHostController = rememberNavController(),
     toastManager: ToastManager = ToastManager,
-    features: Feature = Feature.falseInitialized(),
+    availableFeatures: Feature = Feature.falseInitialized(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
@@ -32,7 +32,7 @@ internal fun rememberDmsAppState(
         navController = navController,
         toastManager = toastManager,
         darkTheme = darkTheme,
-        features = features,
+        availableFeatures = availableFeatures,
         coroutineScope = coroutineScope,
     )
 }
@@ -42,7 +42,7 @@ internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
     val toastManager: ToastManager,
-    val features: Feature,
+    val availableFeatures: Feature,
     val darkTheme: Boolean,
     coroutineScope: CoroutineScope,
 ) {
