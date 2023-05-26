@@ -8,7 +8,10 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.MviViewModel
 import team.aliens.dms_android.base.UiEvent
 import team.aliens.dms_android.base.UiState
+import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
+import team.aliens.domain.model.student.Feature
 import team.aliens.domain.usecase.auth.SignInUseCase
 import javax.inject.Inject
 
@@ -25,7 +28,7 @@ internal class SignInViewModel @Inject constructor(
 
     override fun updateState(event: SignInUiEvent) {
         when (event) {
-            SignInUiEvent.SignIn -> this.signIn()
+            SignInUiEvent.SignIn -> this.signInWithUpdatingState()
             is SignInUiEvent.UpdateAutoSignInOption -> this.updateAutoSignInOption(
                 newAutoSignInOption = event.newAutoSignInOption,
             )
@@ -40,27 +43,31 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun signIn() {
+    private fun signInWithUpdatingState() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                val currentUserInformation = this@SignInViewModel.uiState.value
+            val result = this@SignInViewModel.signIn()
 
-                signInUseCase(
-                    signInInput = SignInInput(
-                        accountId = currentUserInformation.accountId,
-                        password = currentUserInformation.password,
-                        autoSignIn = currentUserInformation.autoSignIn,
-                    ),
-                )
-            }
+            this@SignInViewModel.setState(
+                newState = uiState.value.copy(
+                    signInSuccess = result.isSuccess,
+                    features = result.getOrThrow().features.toModel(),
+                ),
+            )
         }
     }
 
-    private fun trySignInOrElseErrorMessage() {
-        if (idEntered.not()) // todo make as a function
+    private suspend fun signIn(): Result<AuthenticationOutput> {
+        return kotlin.runCatching {
+            val currentUserInformation = this@SignInViewModel.uiState.value
 
-            if (idEntered && passwordEntered)
-                signIn()
+            signInUseCase(
+                signInInput = SignInInput(
+                    accountId = currentUserInformation.accountId,
+                    password = currentUserInformation.password,
+                    autoSignIn = currentUserInformation.autoSignIn,
+                ),
+            )
+        }
     }
 
     private fun updateAutoSignInOption(
@@ -116,6 +123,7 @@ internal data class SignInUiState(
     val signInButtonEnabled: Boolean,
     val idError: Boolean,
     val passwordError: Boolean,
+    val features: Feature,
 ) : UiState {
     companion object {
         fun initial() = SignInUiState(
@@ -126,6 +134,7 @@ internal data class SignInUiState(
             signInButtonEnabled = false,
             idError = false,
             passwordError = false,
+            features = Feature.falseInitialized(),
         )
     }
 }
