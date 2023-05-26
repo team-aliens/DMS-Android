@@ -31,6 +31,8 @@ import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.common.initLocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.feature.application.navigateToHome
@@ -276,6 +278,7 @@ internal fun SignInScreen(
     val signInButtonEnabled = uiState.signInButtonEnabled
     val signInSuccess = uiState.signInSuccess
     val navController = appState.navController
+    val localAvailableFeatures = LocalAvailableFeatures.current
 
     val onAccountIdChange = { newAccountId: String ->
         signInViewModel.onEvent(SignInUiEvent.UpdateAccountId(newAccountId))
@@ -302,7 +305,18 @@ internal fun SignInScreen(
     }
 
     LaunchedEffect(uiState) {
-        if (signInSuccess) appState.navigateToHome()
+        if (signInSuccess) {
+            initLocalAvailableFeatures(
+                container = localAvailableFeatures,
+                mealService = uiState.features.mealService,
+                noticeService = uiState.features.noticeService,
+                pointService = uiState.features.pointService,
+                studyRoomService = uiState.features.studyRoomService,
+                remainsService = uiState.features.remainsService,
+            )
+
+            appState.navigateToHome()
+        }
     }
 
     Column(
