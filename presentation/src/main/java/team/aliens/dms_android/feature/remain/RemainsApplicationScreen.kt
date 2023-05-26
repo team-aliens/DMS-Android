@@ -65,7 +65,7 @@ val ApplicationCardRadius = RoundedCornerShape(
 @Composable
 internal fun RemainsApplicationScreen(
     navController: NavController,
-    remainsApplicationViewModel: _RemainsApplicationViewModel = hiltViewModel(),
+    remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
 ) {
 
     val appState = rememberDmsAppState()
@@ -91,13 +91,13 @@ internal fun RemainsApplicationScreen(
     LaunchedEffect(Unit) {
         with(remainsApplicationViewModel) {
             onEvent(
-                event = _RemainsApplicationEvent.FetchRemainsOptions,
+                event = RemainsApplicationEvent.FetchRemainsOptions,
             )
             onEvent(
-                event = _RemainsApplicationEvent.FetchAvailableRemainsTime,
+                event = RemainsApplicationEvent.FetchAvailableRemainsTime,
             )
             onEvent(
-                event = _RemainsApplicationEvent.FetchCurrentAppliedRemainsOption,
+                event = RemainsApplicationEvent.FetchCurrentAppliedRemainsOption,
             )
 
             uiState.collect {
@@ -186,7 +186,7 @@ internal fun RemainsApplicationScreen(
                     enabled = buttonEnabled
                 ) {
                     remainsApplicationViewModel.onEvent(
-                        event = _RemainsApplicationEvent.UpdateRemainsOption(
+                        event = RemainsApplicationEvent.UpdateRemainsOption(
                             remainsOptionId = UUID.fromString(selectedItemId),
                         )
                     )
@@ -226,18 +226,18 @@ private fun ApplicationCard(
             .defaultMinSize(
                 minHeight = 60.dp,
             )
-            .clip(
-                shape = ApplicationCardRadius,
-            )
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
-                offsetX = 8.dp,
                 offsetY = 8.dp,
+            )
+            .clip(
+                shape = ApplicationCardRadius,
             )
             .background(
                 color = DormTheme.colors.surface,
                 shape = ApplicationCardRadius,
             )
+
             .dormClickable {
                 onSelect()
             }
@@ -255,6 +255,7 @@ private fun ApplicationCard(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -325,9 +326,11 @@ private fun setButtonTextByRemainsState(
     lastAppliedItemTitle: String,
     currentSelectedItemTitle: String,
     context: Context,
-): String = if (!buttonEnabled) context.getString(R.string.application_completed)
-else if (lastAppliedItemTitle != currentSelectedItemTitle) context.getString(
-    R.string.remain_change_to,
-    currentSelectedItemTitle
-)
-else context.getString(R.string.remain_do_apply, currentSelectedItemTitle)
+): String {
+    return if (!buttonEnabled) context.getString(R.string.application_completed)
+    else if (lastAppliedItemTitle != currentSelectedItemTitle) context.getString(
+        R.string.remain_change_to,
+        currentSelectedItemTitle,
+    )
+    else context.getString(R.string.remain_do_apply, currentSelectedItemTitle)
+}
