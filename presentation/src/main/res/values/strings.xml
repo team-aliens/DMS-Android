@@ -411,6 +411,8 @@
 
     <string name="remain_remain_description">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요</string>
 
+    <string name="remain_time_application_available">잔류 신청 시간은 %s 까지 입니다.</string>
+
     <string name="remain_error_not_remain_application_time">잔류 신청 시간이 아닙니다</string>
 
     <!--bottom nav-->

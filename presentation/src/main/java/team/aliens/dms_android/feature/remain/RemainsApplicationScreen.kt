@@ -6,22 +6,24 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,187 +31,165 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.Locale
+import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.component.DefaultAppliedTagSize
 import team.aliens.design_system.component.LastAppliedItem
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.toast.ToastType
 import team.aliens.design_system.typography.Caption
-import team.aliens.design_system.typography.SubTitle2
+import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.feature.application.rememberDmsAppState
 import team.aliens.dms_android.util.TopBar
-import team.aliens.dms_android.feature.remain.RemainApplicationViewModel.Event
-import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
 import team.aliens.presentation.R
-import java.time.DayOfWeek
-import java.time.format.TextStyle
-import java.util.Locale
+
+@Stable
+val ApplicationCardRadius = RoundedCornerShape(
+    size = 10.dp,
+)
 
 @Composable
-fun RemainsApplicationScreen(
+internal fun RemainsApplicationScreen(
     navController: NavController,
-    remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel(),
+    remainsApplicationViewModel: _RemainsApplicationViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
 
-    var lastAppliedItem by remember { mutableStateOf("") }
-    var noticeContent by remember { mutableStateOf("") }
+    val appState = rememberDmsAppState()
 
-    val remainOptions =
-        remember { mutableStateListOf<FetchRemainsOptionsOutput.RemainsOptionInformation>() }
+    val state = remainsApplicationViewModel.uiState.collectAsState().value
 
-    val toast = rememberToast()
+    val lastAppliedItemTitle = state.currentAppliedRemainsOption
+
+    var selectedItemId by remember {
+        mutableStateOf("")
+    }
+
+    var currentSelectedItemTitle by remember {
+        mutableStateOf("")
+    }
+
+    var buttonEnabled by remember {
+        mutableStateOf(false)
+    }
+
+    buttonEnabled = currentSelectedItemTitle != lastAppliedItemTitle
 
     LaunchedEffect(Unit) {
-        with(remainApplicationViewModel) {
-            fetchCurrentRemainOption()
-            fetchAvailableRemainTime()
-            fetchRemainOptions()
-            remainApplicationEffect.collect {
-                when (it) {
-                    is Event.UpdateRemainOption -> {
-                        toast(message = context.getString(R.string.CompleteApply))
-                        fetchCurrentRemainOption()
-                    }
+        with(remainsApplicationViewModel) {
+            onEvent(
+                event = _RemainsApplicationEvent.FetchRemainsOptions,
+            )
+            onEvent(
+                event = _RemainsApplicationEvent.FetchAvailableRemainsTime,
+            )
+            onEvent(
+                event = _RemainsApplicationEvent.FetchCurrentAppliedRemainsOption,
+            )
 
-                    is Event.CurrentRemainOption -> {
-                        lastAppliedItem = it.title
-                    }
+            uiState.collect {
 
-                    is Event.AvailableRemainTime -> {
-                        with(it.fetchRemainsApplicationTimeOutput) {
-                            noticeContent = setAvailableRemainTime(
-                                startDayOfWeek = startDayOfWeek,
-                                startTime = startTime,
-                                endDayOfWeek = endDayOfWeek,
-                                endTime = endTime,
-                            )
-                        }
-                    }
+                val errorMessage = it.remainsApplicationErrorMessage
 
-                    is Event.RemainOptions -> {
-                        remainOptions.addAll(it.fetchRemainsOptionsOutput.remainOptions)
-                    }
-
-                    is Event.NotFoundException -> {}
-                    else -> {
-                        toast(
-                            getStringFromEvent(
-                                context = context,
-                                event = it,
-                            ),
-                        )
-                    }
+                if (errorMessage.isNotEmpty()) {
+                    appState.toastManager.setMessage(
+                        message = errorMessage,
+                        ToastType.ERROR,
+                    )
                 }
             }
         }
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                DormTheme.colors.background,
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(),
     ) {
+        TopBar(
+            title = stringResource(id = R.string.remain_apply),
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxHeight(0.95f)
+                .padding(
+                    top = 12.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                ),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
 
-        var selectedItem by remember { mutableStateOf(lastAppliedItem) }
-        var expandedItem by remember { mutableStateOf("") }
-        var isButtonVisible by remember { mutableStateOf(false) }
+            val context = LocalContext.current
 
-        TopBar(title = stringResource(id = R.string.RemainApplication)) {
-            navController.popBackStack()
-        }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+            ) {
 
-        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                val remainApplicationTime = state.remainsApplicationTimeOutput
 
-            Space(space = 8.dp)
-
-            if (noticeContent.isNotBlank()) {
-                FloatingNotice(content = noticeContent)
-                Space(space = 10.dp)
-            }
-            Column(modifier = Modifier.fillMaxHeight(0.9f)) {
-                LazyColumn {
+                if (remainApplicationTime.startTime.isNotBlank()) {
+                    FloatingNotice(
+                        content = setRemainApplicationAvailableTime(
+                            startDayOfWeek = remainApplicationTime.startDayOfWeek,
+                            startTime = remainApplicationTime.startTime,
+                            endDayOfWeek = remainApplicationTime.endDayOfWeek,
+                            endTime = remainApplicationTime.endTime,
+                            context = context,
+                        ),
+                    )
+                }
+                Space(space = 12.dp)
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(
+                        bottom = 48.dp,
+                    )
+                ) {
                     itemsIndexed(
-                        items = remainOptions,
-                    ) { index, item ->
-                        item.run {
-                            val isItemExpanded = (expandedItem == item.title)
-                            val isItemSelected = (selectedItem == item.title)
-
-                            val borderColor = if (isItemSelected) {
-                                DormTheme.colors.primary
-                            } else {
-                                DormTheme.colors.surface
-                            }
-
-                            val rotationState by animateFloatAsState(
-                                targetValue = if (isItemExpanded) {
-                                    90f
-                                } else {
-                                    270f
-                                }
-                            )
-                            this@LazyColumn.Space(space = 20.dp)
-                            ApplicationCard(
-                                title = item.title,
-                                content = item.description,
-                                borderColor = borderColor,
-                                rotationState = rotationState,
-                                onSelect = {
-                                    selectedItem = item.title
-                                    remainApplicationViewModel.setRemainOption(
-                                        remainOptionId = item.id,
-                                    )
-                                    isButtonVisible = true
-                                },
-                                onUnfold = {
-                                    expandedItem = if (isItemExpanded) {
-                                        ""
-                                    } else {
-                                        item.title
-                                    }
-                                },
-                                isContentVisible = isItemExpanded,
-                                hasLastApplied = (lastAppliedItem == item.title),
-                            )
-                            if (remainOptions.size == index + 1) {
-                                this@LazyColumn.Space(space = 30.dp)
-                            }
-                        }
+                        items = state.remainsOptionsOutput.remainOptions,
+                    ) { _, item ->
+                        ApplicationCard(
+                            text = item.title,
+                            content = item.description,
+                            isSelected = selectedItemId == item.id.toString(),
+                            onSelect = {
+                                selectedItemId = item.id.toString()
+                                currentSelectedItemTitle = item.title
+                            },
+                            isLastApplied = lastAppliedItemTitle == item.title,
+                        )
                     }
                 }
             }
 
-            val buttonText = if (selectedItem == lastAppliedItem) {
-                stringResource(id = R.string.CompleteApplication)
-            } else if (lastAppliedItem.isBlank()) {
-                "$selectedItem ${stringResource(id = R.string.DoApply)}"
-            } else {
-                "${selectedItem}${stringResource(id = R.string.ChangeTo)}"
-            }
-
-            if (isButtonVisible) {
+            if (selectedItemId.isNotEmpty()) {
                 DormContainedLargeButton(
-                    text = buttonText,
+                    text = setButtonTextByRemainsState(
+                        buttonEnabled = buttonEnabled,
+                        lastAppliedItemTitle = lastAppliedItemTitle,
+                        currentSelectedItemTitle = currentSelectedItemTitle,
+                        context = context,
+                    ),
                     color = DormButtonColor.Blue,
-                    enabled = (selectedItem != lastAppliedItem),
+                    enabled = buttonEnabled
                 ) {
-                    remainApplicationViewModel.updateRemainOption()
+                    remainsApplicationViewModel.onEvent(
+                        event = _RemainsApplicationEvent.UpdateRemainsOption(
+                            remainsOptionId = UUID.fromString(selectedItemId),
+                        )
+                    )
                 }
             }
         }
@@ -217,76 +197,99 @@ fun RemainsApplicationScreen(
 }
 
 @Composable
-fun ApplicationCard(
-    title: String,
+private fun ApplicationCard(
+    text: String,
     content: String,
-    borderColor: Color,
-    rotationState: Float,
+    isSelected: Boolean,
     onSelect: () -> Unit,
-    onUnfold: () -> Unit,
-    isContentVisible: Boolean,
-    hasLastApplied: Boolean,
+    isLastApplied: Boolean,
 ) {
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
+    val rotate by animateFloatAsState(
+        targetValue = if (expanded) 90f
+        else 270f
+    )
+
+    val borderColor = if (isSelected) DormTheme.colors.primary
+    else DormTheme.colors.surface
+
+    val textColor = if (isSelected) DormTheme.colors.primary
+    else DormTheme.colors.onSurface
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .requiredHeightIn(60.dp)
-            .dormShadow(
-                color = DormTheme.colors.secondaryVariant,
-                offsetY = 1.dp,
+            .defaultMinSize(
+                minHeight = 60.dp,
             )
-            .clip(RoundedCornerShape(8.dp))
+            .clip(
+                shape = ApplicationCardRadius,
+            )
+            .dormShadow(
+                color = DormTheme.colors.primaryVariant,
+                offsetX = 8.dp,
+                offsetY = 8.dp,
+            )
+            .background(
+                color = DormTheme.colors.surface,
+                shape = ApplicationCardRadius,
+            )
+            .dormClickable {
+                onSelect()
+            }
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(8.dp),
+                shape = ApplicationCardRadius,
             )
-            .background(
-                DormTheme.colors.surface,
-            )
-            .dormClickable { onSelect() },
+            .padding(
+                vertical = 16.dp,
+                horizontal = 20.dp,
+            ),
+        horizontalAlignment = Alignment.Start,
     ) {
-        Space(space = 14.dp)
-        Box(
-            modifier = Modifier.height(32.dp),
-            contentAlignment = Alignment.CenterEnd,
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(0.96f)
-                    .padding(start = 24.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                SubTitle2(text = title)
-                if (hasLastApplied) {
-                    Space(space = 20.dp)
+                Title3(
+                    text = text,
+                    color = textColor,
+                )
+                Space(space = 20.dp)
+                if (isLastApplied) {
                     LastAppliedItem(
-                        modifier = DefaultAppliedTagSize,
                         text = stringResource(id = R.string.application_completed),
                     )
                 }
             }
             Image(
-                painterResource(id = DormIcon.Backward.drawableId),
-                contentDescription = null,
                 modifier = Modifier
+                    .rotate(
+                        degrees = rotate,
+                    )
                     .dormClickable(
                         rippleEnabled = false,
                     ) {
-                        onUnfold()
-                    }
-                    .rotate(rotationState),
+                        expanded = !expanded
+                    },
+                painter = painterResource(id = DormIcon.Backward.drawableId),
+                contentDescription = null,
             )
         }
         AnimatedVisibility(
-            visible = isContentVisible,
+            visible = expanded,
         ) {
             Caption(
                 modifier = Modifier.padding(
-                    top = 30.dp,
-                    start = 24.dp,
-                    end = 24.dp,
-                    bottom = 20.dp,
+                    top = 24.dp,
                 ),
                 text = content,
             )
@@ -294,35 +297,37 @@ fun ApplicationCard(
     }
 }
 
-private fun setAvailableRemainTime(
+private fun setRemainApplicationAvailableTime(
     startDayOfWeek: DayOfWeek,
     startTime: String,
     endDayOfWeek: DayOfWeek,
     endTime: String,
+    context: Context,
 ): String {
-    return "잔류 신청 시간은 ${
-        startDayOfWeek.getDisplayName(
-            TextStyle.FULL,
-            Locale.KOREA,
-        )
-    } $startTime ~ ${
-        endDayOfWeek.getDisplayName(
-            TextStyle.FULL,
-            Locale.KOREA,
-        )
-    } $endTime 까지 입니다."
+    return context.getString(
+        R.string.remain_time_application_available,
+        "${
+            startDayOfWeek.getDisplayName(
+                TextStyle.SHORT,
+                Locale.KOREA,
+            )
+        } $startTime ~ ${
+            endDayOfWeek.getDisplayName(
+                TextStyle.SHORT,
+                Locale.KOREA,
+            )
+        } $endTime"
+    )
 }
 
-private fun getStringFromEvent(
+private fun setButtonTextByRemainsState(
+    buttonEnabled: Boolean,
+    lastAppliedItemTitle: String,
+    currentSelectedItemTitle: String,
     context: Context,
-    event: Event,
-): String = context.getString(
-    when (event) {
-        is Event.BadRequestException -> R.string.BadRequest
-        is Event.UnauthorizedException -> R.string.UnAuthorized
-        is Event.ForbiddenException -> R.string.ForbiddenApplyRemain
-        is Event.TooManyRequestException -> R.string.TooManyRequest
-        is Event.ServerException -> R.string.ServerException
-        else -> R.string.UnKnownException
-    }
+): String = if (!buttonEnabled) context.getString(R.string.application_completed)
+else if (lastAppliedItemTitle != currentSelectedItemTitle) context.getString(
+    R.string.remain_change_to,
+    currentSelectedItemTitle
 )
+else context.getString(R.string.remain_do_apply, currentSelectedItemTitle)
