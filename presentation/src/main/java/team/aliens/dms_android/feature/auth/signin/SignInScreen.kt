@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +30,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
@@ -37,6 +39,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.feature.application.navigateToHome
 import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.domain.exception.RemoteException
 import team.aliens.presentation.R
 
 @Composable
@@ -47,6 +50,7 @@ internal fun SignInScreen(
     val uiState by signInViewModel.uiState.collectAsStateWithLifecycle()
     val signInButtonEnabled = uiState.signInButtonEnabled
     val signInSuccess = uiState.signInSuccess
+    val error = uiState.error
     val navController = appState.navController
     val localAvailableFeatures = LocalAvailableFeatures.current
 
@@ -74,6 +78,8 @@ internal fun SignInScreen(
         signInViewModel.onEvent(SignInUiEvent.SignIn)
     }
 
+
+
     LaunchedEffect(uiState) {
         if (signInSuccess) {
             initLocalAvailableFeatures(
@@ -86,6 +92,29 @@ internal fun SignInScreen(
             )
 
             appState.navigateToHome()
+        }
+    }
+
+    // fixme replace with new toast
+    val toast = rememberToast()
+    // todo discuss about this code
+    val context = LocalContext.current
+    LaunchedEffect(error) {
+        // todo discuss 'bout this code
+        if (error != null) {
+            // todo toast
+            toast(
+                message = context.getString(
+                    when (error) {
+                        is RemoteException.BadRequest -> R.string.error_bad_request
+                        is RemoteException.Unauthorized -> R.string.sign_in_error_unauthorized
+                        is RemoteException.NotFound -> R.string.sign_in_error_not_found
+                        is RemoteException.TooManyRequests -> R.string.error_too_many_request
+                        is RemoteException.InternalServerError -> R.string.error_internal_server
+                        else -> R.string.error_unknown
+                    },
+                ),
+            )
         }
     }
 

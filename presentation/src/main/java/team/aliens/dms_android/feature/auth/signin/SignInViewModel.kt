@@ -61,6 +61,12 @@ internal class SignInViewModel @Inject constructor(
                         features = it.features.toModel(),
                     ),
                 )
+            }.onFailure {
+                setState(
+                    newState = uiState.value.copy(
+                        error = it,
+                    ),
+                )
             }
         }
     }
@@ -119,6 +125,7 @@ internal data class SignInUiState(
     val idError: Boolean,
     val passwordError: Boolean,
     val features: Feature,
+    val error: Throwable?, // todo 상의 필요
 ) : UiState {
     companion object {
         fun initial() = SignInUiState(
@@ -130,6 +137,7 @@ internal data class SignInUiState(
             idError = false,
             passwordError = false,
             features = Feature.falseInitialized(),
+            error = null,
         )
     }
 }
