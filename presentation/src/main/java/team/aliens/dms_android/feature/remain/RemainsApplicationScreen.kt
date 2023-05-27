@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -101,7 +100,6 @@ internal fun RemainsApplicationScreen(
             )
 
             uiState.collect {
-
                 val errorMessage = it.remainsApplicationErrorMessage
 
                 if (errorMessage.isNotEmpty()) {
@@ -223,9 +221,6 @@ private fun ApplicationCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .defaultMinSize(
-                minHeight = 60.dp,
-            )
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
                 offsetY = 8.dp,
@@ -237,7 +232,6 @@ private fun ApplicationCard(
                 color = DormTheme.colors.surface,
                 shape = ApplicationCardRadius,
             )
-
             .dormClickable {
                 onSelect()
             }
@@ -248,19 +242,23 @@ private fun ApplicationCard(
             )
             .padding(
                 vertical = 16.dp,
-                horizontal = 20.dp,
+                horizontal = 24.dp,
             ),
         horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center,
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Title3(
+                    modifier = Modifier.padding(
+                        vertical = 2.dp,
+                    ),
                     text = text,
                     color = textColor,
                 )
