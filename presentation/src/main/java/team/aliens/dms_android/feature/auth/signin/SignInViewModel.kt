@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.MviViewModel
 import team.aliens.dms_android.base.UiEvent
 import team.aliens.dms_android.base.UiState
-import team.aliens.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
 import team.aliens.domain.model.student.Feature
@@ -28,7 +27,7 @@ internal class SignInViewModel @Inject constructor(
 
     override fun updateState(event: SignInUiEvent) {
         when (event) {
-            SignInUiEvent.SignIn -> this.signInWithSettingState()
+            SignInUiEvent.SignIn -> this.signIn()
             is SignInUiEvent.UpdateAutoSignInOption -> this.setAutoSignInOption(
                 newAutoSignInOption = event.newAutoSignInOption,
             )
@@ -43,30 +42,26 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun signInWithSettingState() {
+    private fun signIn() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = this@SignInViewModel.signIn()
+            kotlin.runCatching {
+                val currentUserInformation = this@SignInViewModel.uiState.value
 
-            this@SignInViewModel.setState(
-                newState = uiState.value.copy(
-                    signInSuccess = result.isSuccess,
-                    features = result.getOrThrow().features.toModel(),
-                ),
-            )
-        }
-    }
-
-    private suspend fun signIn(): Result<AuthenticationOutput> {
-        return kotlin.runCatching {
-            val currentUserInformation = this@SignInViewModel.uiState.value
-
-            signInUseCase(
-                signInInput = SignInInput(
-                    accountId = currentUserInformation.accountId,
-                    password = currentUserInformation.password,
-                    autoSignIn = currentUserInformation.autoSignIn,
-                ),
-            )
+                signInUseCase(
+                    signInInput = SignInInput(
+                        accountId = currentUserInformation.accountId,
+                        password = currentUserInformation.password,
+                        autoSignIn = currentUserInformation.autoSignIn,
+                    ),
+                )
+            }.onSuccess {
+                this@SignInViewModel.setState(
+                    newState = uiState.value.copy(
+                        signInSuccess = true,
+                        features = it.features.toModel(),
+                    ),
+                )
+            }
         }
     }
 
