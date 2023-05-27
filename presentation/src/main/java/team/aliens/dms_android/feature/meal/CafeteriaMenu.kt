@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.cafeteria
+package team.aliens.dms_android.feature.meal
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*

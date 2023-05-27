@@ -27,7 +27,7 @@ import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.application.ApplicationScreen
-import team.aliens.dms_android.feature.cafeteria.CafeteriaScreen
+import team.aliens.dms_android.feature.meal.CafeteriaScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
 import team.aliens.dms_android.feature.notice.NoticeScreen

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.cafeteria
+package team.aliens.dms_android.feature.meal
 
 import team.aliens.dms_android.base.MviEvent
 

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.cafeteria
+package team.aliens.dms_android.feature.meal
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
