@@ -78,8 +78,6 @@ internal fun SignInScreen(
         signInViewModel.onEvent(SignInUiEvent.SignIn)
     }
 
-
-
     LaunchedEffect(uiState) {
         if (signInSuccess) {
             initLocalAvailableFeatures(
@@ -131,6 +129,7 @@ internal fun SignInScreen(
             onAccountIdChange = onAccountIdChange, // 사용자의 행위에 대한 자동 콜백 = 능동형
             onPasswordChange = onPasswordChange,
             onAutoSignInOptionChanged = onAutoSignInOptionChanged, // 사용자의 행위 = 수동형(~ed)
+            error = error,
         )
         Spacer(Modifier.height(12.dp))
         AuthActions(
@@ -178,8 +177,13 @@ private fun UserInformationInputs(
     onAccountIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onAutoSignInOptionChanged: (Boolean) -> Unit,
+    error: Throwable?,
 ) {
     val focusManager = LocalFocusManager.current
+    val idErrorMessage = when (error) {
+        is RemoteException.NotFound -> stringResource(R.string.sign_in_error_not_found)
+        else -> null
+    }
 
     // 아이디
     DormTextField(
@@ -197,6 +201,8 @@ private fun UserInformationInputs(
                 focusManager.moveFocus(FocusDirection.Next)
             },
         ),
+        error = idErrorMessage != null,
+        errorDescription = idErrorMessage,
     )
     Spacer(Modifier.height(32.dp))
     // 비밀번호
