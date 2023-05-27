@@ -28,22 +28,22 @@ internal class SignInViewModel @Inject constructor(
 
     override fun updateState(event: SignInUiEvent) {
         when (event) {
-            SignInUiEvent.SignIn -> this.signInWithUpdatingState()
-            is SignInUiEvent.UpdateAutoSignInOption -> this.updateAutoSignInOption(
+            SignInUiEvent.SignIn -> this.signInWithSettingState()
+            is SignInUiEvent.UpdateAutoSignInOption -> this.setAutoSignInOption(
                 newAutoSignInOption = event.newAutoSignInOption,
             )
 
-            is SignInUiEvent.UpdateAccountId -> this.updateId(
+            is SignInUiEvent.UpdateAccountId -> this.setId(
                 newId = event.newAccountId,
             )
 
-            is SignInUiEvent.UpdatePassword -> this.updatePassword(
+            is SignInUiEvent.UpdatePassword -> this.setPassword(
                 newPassword = event.newPassword,
             )
         }
     }
 
-    private fun signInWithUpdatingState() {
+    private fun signInWithSettingState() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = this@SignInViewModel.signIn()
 
@@ -70,7 +70,7 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun updateAutoSignInOption(
+    private fun setAutoSignInOption(
         newAutoSignInOption: Boolean,
     ) {
         setState(
@@ -80,7 +80,7 @@ internal class SignInViewModel @Inject constructor(
         )
     }
 
-    private fun updateId(
+    private fun setId(
         newId: String,
     ) {
         setState(
@@ -89,10 +89,10 @@ internal class SignInViewModel @Inject constructor(
             ),
         )
 
-        updateSignInButtonState()
+        setSignInButtonState()
     }
 
-    private fun updatePassword(
+    private fun setPassword(
         newPassword: String,
     ) {
         setState(
@@ -101,11 +101,11 @@ internal class SignInViewModel @Inject constructor(
             ),
         )
 
-        updateSignInButtonState()
+        setSignInButtonState()
     }
 
     // 그렇게 좋은 코드는 아닌 듯
-    private fun updateSignInButtonState() {
+    private fun setSignInButtonState() {
         setState(
             newState = uiState.value.copy(
                 signInButtonEnabled = idEntered && passwordEntered,
