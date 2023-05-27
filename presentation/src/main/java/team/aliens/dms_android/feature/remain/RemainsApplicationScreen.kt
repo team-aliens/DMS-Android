@@ -326,9 +326,9 @@ private fun setButtonTextByRemainsState(
     context: Context,
 ): String {
     return if (!buttonEnabled) context.getString(R.string.application_completed)
-    else if (lastAppliedItemTitle != currentSelectedItemTitle) context.getString(
+    else if(lastAppliedItemTitle.isBlank()) context.getString(R.string.remain_do_apply, currentSelectedItemTitle)
+    else  context.getString(
         R.string.remain_change_to,
         currentSelectedItemTitle,
     )
-    else context.getString(R.string.remain_do_apply, currentSelectedItemTitle)
 }

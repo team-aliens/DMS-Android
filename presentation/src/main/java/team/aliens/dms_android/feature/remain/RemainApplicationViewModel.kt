@@ -97,9 +97,11 @@ internal class RemainsApplicationViewModel @Inject constructor(
                     )
                 )
             }.onFailure {
-                onErrorEvent(
-                    throwable = it,
-                )
+                if (it !is RemoteException.NotFound) {
+                    onErrorEvent(
+                        throwable = it,
+                    )
+                }
             }
         }
     }
