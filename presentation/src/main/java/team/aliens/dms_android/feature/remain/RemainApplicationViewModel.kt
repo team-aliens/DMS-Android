@@ -109,11 +109,15 @@ internal class RemainsApplicationViewModel @Inject constructor(
     private fun updateRemainOption() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                updateRemainOptionUseCase(
-                    updateRemainsOptionInput = UpdateRemainsOptionInput(
-                        remainsOptionId = uiState.value.remainsOptionId!!,
+                val remainsOptionId = uiState.value.remainsOptionId
+
+                if(remainsOptionId != null) {
+                    updateRemainOptionUseCase(
+                        updateRemainsOptionInput = UpdateRemainsOptionInput(
+                            remainsOptionId = remainsOptionId,
+                        )
                     )
-                )
+                }
             }.onSuccess {
                 fetchCurrentAppliedRemainsOption()
             }.onFailure {

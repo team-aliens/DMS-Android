@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.remain
 
-import java.time.DayOfWeek
 import java.util.UUID
 import team.aliens.dms_android.base.UiState
 import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
@@ -16,10 +15,10 @@ data class RemainsApplicationUiState(
     companion object {
         fun initial() = RemainsApplicationUiState(
             remainsApplicationTimeOutput = FetchRemainsApplicationTimeOutput(
-                startDayOfWeek = DayOfWeek.MONDAY,
-                startTime = "",
-                endDayOfWeek = DayOfWeek.SUNDAY,
-                endTime = "",
+                startDayOfWeek = null,
+                startTime = null,
+                endDayOfWeek = null,
+                endTime = null,
             ),
             remainsOptionsOutput = FetchRemainsOptionsOutput(
                 remainOptions = emptyList(),
