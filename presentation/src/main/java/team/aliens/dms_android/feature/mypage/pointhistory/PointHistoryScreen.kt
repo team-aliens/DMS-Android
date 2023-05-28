@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.pointlist
+package team.aliens.dms_android.feature.mypage.pointhistory
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

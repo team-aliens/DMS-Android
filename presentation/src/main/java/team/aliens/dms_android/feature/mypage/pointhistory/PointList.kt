@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.pointlist
+package team.aliens.dms_android.feature.mypage.pointhistory
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

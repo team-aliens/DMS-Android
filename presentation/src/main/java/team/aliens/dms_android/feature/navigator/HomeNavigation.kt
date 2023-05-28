@@ -11,7 +11,7 @@ import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.Home
 import team.aliens.dms_android.feature.image.UploadProfileImageScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
-import team.aliens.dms_android.feature.pointlist.PointHistoryScreen
+import team.aliens.dms_android.feature.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.remain.RemainsApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
