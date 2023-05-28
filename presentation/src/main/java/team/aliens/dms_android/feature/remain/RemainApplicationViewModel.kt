@@ -55,8 +55,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
 
             is RemainsApplicationUiEvent.SetSelectedRemainsOption -> {
                 setSelectedRemainsOption(
-                    remainsOptionTitle = event.remainsOptionTitle,
-                    remainsOptionId = event.remainsOptionId,
+                    remainsOptionItemIndex = event.remainsOptionItemIndex,
                 )
             }
 
@@ -94,7 +93,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
             }.onSuccess {
                 setState(
                     newState = uiState.value.copy(
-                        remainsOptionsOutput = it,
+                        remainsOptions = it.remainOptions.map { it.toRemainsOption() }
                     )
                 )
             }.onFailure {
@@ -128,19 +127,19 @@ internal class RemainsApplicationViewModel @Inject constructor(
     private fun updateRemainOption() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                val remainsOptionId = uiState.value.selectedRemainsOption.second
+                val remainsOptionId = uiState.value.remainsOptionId
 
                 if (remainsOptionId != null) {
                     updateRemainOptionUseCase(
                         updateRemainsOptionInput = UpdateRemainsOptionInput(
-                            remainsOptionId = remainsOptionId,
+                            remainsOptionId = UUID.fromString("remainsOptionId"),
                         )
                     )
                 }
             }.onSuccess {
                 fetchCurrentAppliedRemainsOption()
                 setRemainApplicationButtonState(
-                    buttonEnabled = uiState.value.currentAppliedRemainsOption == uiState.value.selectedRemainsOption.first,
+                    buttonEnabled = uiState.value.currentAppliedRemainsOption == uiState.value.remainsOptionTitle,
                 )
             }.onFailure {
                 onErrorEvent(
@@ -151,16 +150,19 @@ internal class RemainsApplicationViewModel @Inject constructor(
     }
 
     private fun setSelectedRemainsOption(
-        remainsOptionTitle: String,
-        remainsOptionId: UUID,
+        remainsOptionItemIndex: Int,
     ) {
+
+        val remainsOption = uiState.value.remainsOptions[remainsOptionItemIndex]
+
         setState(
             newState = uiState.value.copy(
-                selectedRemainsOption = remainsOptionTitle to remainsOptionId,
+                remainsOptionTitle = remainsOption.title,
+                remainsOptionId = remainsOption.id,
             )
         )
         setRemainApplicationButtonState(
-            buttonEnabled = remainsOptionTitle != uiState.value.currentAppliedRemainsOption,
+            buttonEnabled = remainsOption.title != uiState.value.currentAppliedRemainsOption,
         )
     }
 
@@ -176,7 +178,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
 
     internal fun getRemainsOptionItemState(
         remainsOptionId: UUID,
-    ): Boolean = uiState.value.selectedRemainsOption.second == remainsOptionId
+    ): Boolean = uiState.value.remainsOptionId == remainsOptionId
 
     // TODO BaseViewModel (MviViewModel) 에서 처리할 수 있는 방법 생각해보기
     private fun onErrorEvent(
@@ -190,7 +192,8 @@ internal class RemainsApplicationViewModel @Inject constructor(
                     is RemoteException.Forbidden -> R.string.error_forbidden
                     is RemoteException.NotFound -> R.string.error_not_found
                     is RemoteException.TooManyRequests -> R.string.error_too_many_request
-                    else -> R.string.error_internal_server
+                    is RemoteException.InternalServerError -> R.string.error_internal_server
+                    else -> R.string.error_unknown
                 }
             )
         )
@@ -207,26 +210,21 @@ internal class RemainsApplicationViewModel @Inject constructor(
     }
 }
 
-data class RemainsApplicationUiState(
-    val remainsApplicationTimeOutput: FetchRemainsApplicationTimeOutput,
-    val remainsOptionsOutput: FetchRemainsOptionsOutput,
+internal data class RemainsApplicationUiState(
+    val remainsApplicationTimeOutput: FetchRemainsApplicationTimeOutput?,
+    val remainsOptions: List<RemainsOption>,
     val currentAppliedRemainsOption: String,
-    val selectedRemainsOption: Pair<String, UUID?>,
+    val remainsOptionTitle: String,
+    val remainsOptionId: UUID?,
     val remainsApplicationErrorMessage: String,
     val remainsApplicationButtonEnabled: Boolean,
 ) : UiState {
     companion object {
         fun initial() = RemainsApplicationUiState(
-            remainsApplicationTimeOutput = FetchRemainsApplicationTimeOutput(
-                startDayOfWeek = null,
-                startTime = null,
-                endDayOfWeek = null,
-                endTime = null,
-            ),
-            remainsOptionsOutput = FetchRemainsOptionsOutput(
-                remainOptions = emptyList(),
-            ),
-            selectedRemainsOption = "" to null,
+            remainsApplicationTimeOutput = null,
+            remainsOptions = emptyList(),
+            remainsOptionTitle = "",
+            remainsOptionId = null,
             currentAppliedRemainsOption = "",
             remainsApplicationErrorMessage = "",
             remainsApplicationButtonEnabled = false,
@@ -235,16 +233,30 @@ data class RemainsApplicationUiState(
 }
 
 
-sealed class RemainsApplicationUiEvent : UiEvent {
+internal sealed class RemainsApplicationUiEvent : UiEvent {
     object FetchAvailableRemainsTime : RemainsApplicationUiEvent()
     object FetchRemainsOptions : RemainsApplicationUiEvent()
     object FetchCurrentAppliedRemainsOption : RemainsApplicationUiEvent()
     object UpdateUiRemainsOption : RemainsApplicationUiEvent()
     class SetSelectedRemainsOption(
-        val remainsOptionTitle: String,
-        val remainsOptionId: UUID,
+        val remainsOptionItemIndex: Int,
     ) : RemainsApplicationUiEvent()
+
     class SetRemainsApplicationButtonState(
         val buttonEnabled: Boolean,
-    ): RemainsApplicationUiEvent()
+    ) : RemainsApplicationUiEvent()
 }
+
+internal data class RemainsOption(
+    val id: UUID,
+    val title: String,
+    val description: String,
+    val isApplied: Boolean,
+)
+
+private fun FetchRemainsOptionsOutput.RemainsOptionInformation.toRemainsOption() = RemainsOption(
+    id = this.id,
+    title = this.title,
+    description = this.description,
+    isApplied = this.isApplied,
+)

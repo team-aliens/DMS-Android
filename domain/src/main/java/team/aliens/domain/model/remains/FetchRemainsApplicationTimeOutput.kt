@@ -10,8 +10,8 @@ import java.time.DayOfWeek
  * @property endTime the end time of the day when remains application ends
  */
 data class FetchRemainsApplicationTimeOutput(
-    val startDayOfWeek: DayOfWeek?,
-    val startTime: String?,
-    val endDayOfWeek: DayOfWeek?,
-    val endTime: String?,
+    val startDayOfWeek: DayOfWeek,
+    val startTime: String,
+    val endDayOfWeek: DayOfWeek,
+    val endTime: String,
 )

@@ -1,6 +1,7 @@
 package team.aliens.dms_android.feature.remain
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -55,7 +56,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 
 @Stable
-val ApplicationCardRadius = RoundedCornerShape(
+private val ApplicationCardRadius = RoundedCornerShape(
     size = 10.dp,
 )
 
@@ -70,7 +71,7 @@ internal fun RemainsApplicationScreen(
 
     val lastAppliedItemTitle = state.value.currentAppliedRemainsOption
 
-    val currentSelectedItemTitle = state.value.selectedRemainsOption.first
+    val currentSelectedItemTitle = state.value.remainsOptionTitle
 
     val onRemainsApplicationClicked = {
         remainsApplicationViewModel.onEvent(
@@ -81,7 +82,7 @@ internal fun RemainsApplicationScreen(
     LaunchedEffect(Unit) {
         remainsApplicationViewModel.uiState.collect {
             val errorMessage = it.remainsApplicationErrorMessage
-
+            Log.d("TEST", errorMessage)
             if (errorMessage.isNotEmpty()) {
                 appState.toastManager.setMessage(
                     message = errorMessage,
@@ -116,13 +117,13 @@ internal fun RemainsApplicationScreen(
 
                 val remainApplicationTime = state.value.remainsApplicationTimeOutput
 
-                if (remainApplicationTime.startDayOfWeek != null) {
+                if (remainApplicationTime.startTime.isNotEmpty()) {
                     FloatingNotice(
                         content = setRemainApplicationAvailableTime(
-                            startDayOfWeek = remainApplicationTime.startDayOfWeek!!,
-                            startTime = remainApplicationTime.startTime!!,
-                            endDayOfWeek = remainApplicationTime.endDayOfWeek!!,
-                            endTime = remainApplicationTime.endTime!!,
+                            startDayOfWeek = remainApplicationTime.startDayOfWeek,
+                            startTime = remainApplicationTime.startTime,
+                            endDayOfWeek = remainApplicationTime.endDayOfWeek,
+                            endTime = remainApplicationTime.endTime,
                             context = context,
                         ),
                     )
@@ -152,8 +153,7 @@ internal fun RemainsApplicationScreen(
                             onSelect = {
                                 remainsApplicationViewModel.onEvent(
                                     event = RemainsApplicationUiEvent.SetSelectedRemainsOption(
-                                        remainsOptionTitle = item.title,
-                                        remainsOptionId = item.id,
+                                        remainsOptionItemIndex = index,
                                     )
                                 )
                             },
@@ -165,7 +165,7 @@ internal fun RemainsApplicationScreen(
 
             val buttonEnabled = state.value.remainsApplicationButtonEnabled
 
-            if (state.value.selectedRemainsOption.second != null) {
+            if (state.value.remainsOptionId != null) {
                 DormContainedLargeButton(
                     text = setButtonTextByRemainsState(
                         buttonEnabled = buttonEnabled,
@@ -292,7 +292,7 @@ private fun setRemainApplicationAvailableTime(
     context: Context,
 ): String {
     return context.getString(
-        R.string.remains_time_application_available,
+        R.string.remains_available_remains_application_time_is,
         "${
             startDayOfWeek.getDisplayName(
                 TextStyle.SHORT,
