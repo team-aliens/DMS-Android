@@ -126,7 +126,7 @@ class MealViewModel @Inject constructor(
 
 private const val OneDay = 1000 * 60 * 60 * 24
 private const val MealDateFormat = "yyyy-MM-dd"
-private fun Date.toMealFormattedString(
+internal fun Date.toMealFormattedString(
     locale: Locale = Locale.getDefault(),
 ): String = SimpleDateFormat(MealDateFormat, locale).format(this)
 

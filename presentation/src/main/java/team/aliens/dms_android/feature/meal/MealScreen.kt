@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import java.util.Calendar
 import java.util.Date
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
@@ -624,9 +625,33 @@ private fun DateTextButton(
             contentDescription = null,
         )
         Body5(
-            text = selectedDate.toString(),//todo
+            text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",//todo
         )
     }
+}
+
+@Composable
+private fun Date.getDayOfWeek(): String {
+    val digit = this.getDigitOfDayOfWeek()
+    return stringResource(
+        when (digit) {
+            Calendar.SUNDAY -> R.string.sunday_abb
+            Calendar.MONDAY -> R.string.monday_abb
+            Calendar.TUESDAY -> R.string.tuesday_abb
+            Calendar.WEDNESDAY -> R.string.wednesday_abb
+            Calendar.THURSDAY -> R.string.thursday_abb
+            Calendar.FRIDAY -> R.string.friday_abb
+            Calendar.SATURDAY -> R.string.saturday_abb
+            else -> throw IllegalArgumentException()
+        },
+    )
+}
+
+private fun Date.getDigitOfDayOfWeek(): Int {
+    val calendar = Calendar.getInstance().apply {
+        time = this@getDigitOfDayOfWeek
+    }
+    return calendar.get(Calendar.DAY_OF_WEEK)
 }
 
 @Stable
