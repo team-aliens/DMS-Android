@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class FetchPointsResponse(
     @SerializedName("total_point") val totalPoint: Int,
-    @SerializedName("points") val pointResponses: List<PointResponse>,
+    @SerializedName("point_histories") val pointResponses: List<PointResponse>,
 ) {
     data class PointResponse(
         @SerializedName("point_history_id") val id: UUID,
