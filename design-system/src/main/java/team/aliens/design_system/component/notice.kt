@@ -1,8 +1,10 @@
 package team.aliens.design_system.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,16 +38,20 @@ fun NoticeList(
     errorMessage: String = "",
     onClick: (String) -> Unit,
 ) {
-    LazyColumn {
-        itemsIndexed(
-            items = notices,
-        ) { index, notice ->
-            if (index == 0) this@LazyColumn.Space(space = 16.dp)
+    LazyColumn(
+        contentPadding = PaddingValues(
+            top = 16.dp,
+            bottom = 64.dp,
+        ),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(
+            count = notices.size,
+        ) { index ->
             Notice(
-                notice = notice,
+                notice = notices[index],
                 onClick = onClick,
             )
-            this@LazyColumn.Space(space = 8.dp)
         }
         if (notices.isEmpty()) {
             item {

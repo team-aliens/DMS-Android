@@ -102,9 +102,6 @@ internal fun NoticeScreen(
         OrderButton(noticesViewModel)
         Space(space = 8.dp)
         NoticeList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
             notices = notices,
             onClick = { noticeId ->
                 navController.navigate("noticeDetails/${noticeId}")
