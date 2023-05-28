@@ -491,7 +491,6 @@ internal fun MealScreen(
         }
     }
 
-
     DormCalendar(
         bottomSheetState = calendarSheetState,
         onDateChange = onCalendarDateChange,
@@ -651,7 +650,7 @@ private fun DateTextButton(
             contentDescription = null,
         )
         Body5(
-            text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",//todo
+            text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
         )
     }
 }
@@ -701,7 +700,9 @@ private fun ColumnScope.MealCard(
     dinner: List<String>,
     kcalOfDinner: String,
 ) {
-    val pagerState = rememberPagerState() // todo add logic getting default page
+    val pagerState = rememberPagerState(
+        initialPage = getProperMeal(),
+    )
     HorizontalPager(
         modifier = Modifier.weight(1f),
         pageCount = 3,
@@ -806,5 +807,21 @@ private fun DishInformation(
                 color = DormTheme.colors.primaryVariant,
             )
         }
+    }
+}
+
+private const val BreakfastStartTime: Int = 9
+private const val LunchStartTime: Int = 13
+private const val DinnerStartTime: Int = 19
+
+@Suppress("KotlinConstantConditions")
+private fun getProperMeal(): Int {
+    val calendar = Calendar.getInstance().apply {
+        time = Date()
+    }
+    return when (calendar.get(Calendar.HOUR)) {
+        in BreakfastStartTime until LunchStartTime -> Lunch
+        in LunchStartTime until DinnerStartTime -> Dinner
+        else -> Breakfast
     }
 }
