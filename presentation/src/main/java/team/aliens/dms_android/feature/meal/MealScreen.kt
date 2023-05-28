@@ -47,8 +47,9 @@ import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body4
+import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
@@ -767,12 +768,12 @@ private fun DishInformation(
         items(
             dishes,
         ) { menu ->
-            Body4(
+            Body2(
                 text = menu,
             )
         }
         item {
-            Body4(
+            Caption(
                 text = kcal,
                 color = DormTheme.colors.primaryVariant,
             )
