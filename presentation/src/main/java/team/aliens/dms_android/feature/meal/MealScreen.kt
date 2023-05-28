@@ -1,3 +1,5 @@
+@file:Suppress("ConstPropertyName")
+
 package team.aliens.dms_android.feature.meal
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -15,10 +17,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,9 +41,11 @@ import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.color.DormColor
+import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
@@ -469,7 +476,14 @@ internal fun MealScreen(
         )
         Spacer(Modifier.height(46.dp))
         DateCard()
-        MealCard()
+        MealCard(
+            breakfast = uiState.breakfast,
+            kcalOfBreakfast = uiState.kcalOfBreakfast ?: stringResource(R.string.meal_not_exists),
+            lunch = uiState.lunch,
+            kcalOfLunch = uiState.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
+            dinner = uiState.dinner,
+            kcalOfDinner = uiState.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
+        )
         Spacer(Modifier.height(120.dp))
     }
 }
@@ -523,9 +537,20 @@ private fun DateCard() {
 
 }
 
+private const val Breakfast = 0
+private const val Lunch = 1
+private const val Dinner = 2
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ColumnScope.MealCard() {
+private fun ColumnScope.MealCard(
+    breakfast: List<String>,
+    kcalOfBreakfast: String,
+    lunch: List<String>,
+    kcalOfLunch: String,
+    dinner: List<String>,
+    kcalOfDinner: String,
+) {
     val pagerState = rememberPagerState() // todo add logic getting default page
     HorizontalPager(
         modifier = Modifier.weight(1f),
@@ -543,9 +568,7 @@ private fun ColumnScope.MealCard() {
                         ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
                     lerp(
-                        start = 0.875f,
-                        stop = 1f,
-                        fraction = 1f - pagerOffset.coerceIn(0f, 1f)
+                        start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
                     ).also { scale ->
                         scaleX = scale
                         scaleY = scale
@@ -572,16 +595,64 @@ private fun ColumnScope.MealCard() {
         ) {
             Box(
                 modifier = Modifier
-                    .padding(16.dp)
-                    .background(color = Color.Black)
+                    .padding(16.dp),
             ) {
+                when (page) {
+                    Breakfast -> DishInformation(
+                        icon = DormIcon.Breakfast,
+                        dishes = breakfast,
+                        kcal = kcalOfBreakfast,
+                    )
 
+                    Lunch -> DishInformation(
+                        icon = DormIcon.Lunch,
+                        dishes = lunch,
+                        kcal = kcalOfLunch,
+                    )
+
+                    Dinner -> DishInformation(
+                        icon = DormIcon.Dinner,
+                        dishes = dinner,
+                        kcal = kcalOfDinner,
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun DishInformation() {
-
+private fun DishInformation(
+    icon: DormIcon,
+    dishes: List<String>,
+    kcal: String,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        item {
+            Icon(
+                painter = painterResource(
+                    id = icon.drawableId,
+                ),
+                contentDescription = null,
+                tint = DormTheme.colors.primaryVariant,
+            )
+        }
+        items(
+            dishes,
+        ) { menu ->
+            Body4(
+                text = menu,
+            )
+        }
+        item {
+            Body4(
+                text = kcal,
+                color = DormTheme.colors.primaryVariant,
+            )
+        }
+    }
 }
