@@ -300,157 +300,6 @@ fun CafeteriaScreen(
             }
         }
     }
-}
-
-@Composable
-fun DateSelector(
-    onCalendarClick: () -> Unit,
-    mealViewModel: MealViewModel,
-) {
-
-    val state = mealViewModel.state.collectAsState().value
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                top = 38.dp,
-                bottom = 38.dp,
-            )
-            .wrapContentHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-
-            // 오늘의 급식
-            Title1(
-                text = stringResource(
-                    id = R.string.TodayCafeteria,
-                ),
-            )
-
-
-            Space(space = 46.dp)
-
-
-            // 날짜
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 12.dp,
-                    alignment = Alignment.CenterHorizontally,
-                ),
-            ) {
-
-                // left arrow
-                Image(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(24.dp)
-                        .clip(
-                            RoundedCornerShape(8.dp),
-                        )
-                        .dormClickable {
-                            mealViewModel.updateDay(
-                                state.selectedDay.minusDays(1),
-                            )
-                        },
-                    painter = painterResource(
-                        id = DormIcon.Backward.drawableId,
-                    ),
-                    contentDescription = null,
-                )
-
-
-                // 날짜 선택
-                Row(
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = DormTheme.colors.primaryVariant,
-                            shape = RoundedCornerShape(5.dp),
-                        )
-                        .clip(
-                            shape = RoundedCornerShape(5.dp),
-                        )
-                        .dormClickable {
-                            onCalendarClick()
-                        }
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-
-                    // 캘린더 아이콘
-                    Image(
-                        painter = painterResource(
-                            id = R.drawable.ic_calendar,
-                        ),
-                        contentDescription = null,
-                    )
-
-                    // 날짜
-                    Body5(
-                        text = "${state.selectedDay}  (${state.selectedDay.dayOfWeek.toKorean()})",
-                    )
-                }
-
-
-                // right arrow
-                Image(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(24.dp)
-                        .clip(
-                            RoundedCornerShape(8.dp),
-                        )
-                        .dormClickable {
-                            mealViewModel.updateDay(state.selectedDay.plusDays(1))
-                        },
-                    painter = painterResource(
-                        id = DormIcon.Forward.drawableId,
-                    ),
-                    contentDescription = null,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CafeteriaViewPager(
-    mealViewModel: MealViewModel,
-) {
-    Row(
-        modifier = Modifier
-            .padding(
-                bottom = 100.dp,
-            )
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        ScrollEffectPager(mealViewModel)
-    }
-}
-
-private val mealDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
-private fun String.toMealDateFormat(): LocalDate = LocalDate.parse(this, mealDateFormatter)
-
-private fun DayOfWeek.toKorean(): String {
-    return when (this) {
-        MONDAY -> "월"
-        TUESDAY -> "화"
-        WEDNESDAY -> "수"
-        THURSDAY -> "목"
-        FRIDAY -> "금"
-        SATURDAY -> "토"
-        SUNDAY -> "일"
-    }
 }*/
 
 private val defaultBackgroundBrush = Brush.verticalGradient(
@@ -502,9 +351,10 @@ internal fun MealScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             MealScreenAppLogo()
-            NoticeCard(
-                onIconClicked = onNavigateToNoticeScreen,
-            )
+            if (uiState.newNotices)
+                NoticeCard(
+                    onIconClicked = onNavigateToNoticeScreen,
+                )
             Spacer(Modifier.height(38.dp))
             Title1(
                 text = stringResource(R.string.meal_todays_meal),

@@ -13,6 +13,7 @@ import team.aliens.dms_android.base.UiState
 import team.aliens.domain.model.meal.FetchMealInput
 import team.aliens.domain.model.meal.Meal
 import team.aliens.domain.usecase.meal.FetchMealUseCase
+import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
 import javax.inject.Inject
 
 /*@HiltViewModel
@@ -126,17 +127,20 @@ class MealViewModel @Inject constructor(
 
 private const val OneDay = 1000 * 60 * 60 * 24
 private const val MealDateFormat = "yyyy-MM-dd"
+
 internal fun Date.toMealFormattedString(
     locale: Locale = Locale.getDefault(),
 ): String = SimpleDateFormat(MealDateFormat, locale).format(this)
 
 @HiltViewModel
 internal class MealViewModel @Inject constructor(
+    private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
     private val fetchMealUseCase: FetchMealUseCase,
 ) : MviViewModel<MealUiState, MealUiEvent>(
     initialState = MealUiState.initial(),
 ) {
     init {
+        fetchWhetherNewNoticesExist()
         fetchMeal()
     }
 
@@ -161,6 +165,22 @@ internal class MealViewModel @Inject constructor(
         this.setDate(Date(date))
     }
 
+    private fun fetchWhetherNewNoticesExist() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                fetchWhetherNewNoticesExistUseCase()
+            }.onSuccess {
+                if (it.newNotices) {
+                    setState(
+                        newState = uiState.value.copy(
+                            newNotices = true,
+                        ),
+                    )
+                }
+            }
+        }
+    }
+
     private fun fetchMeal() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -173,8 +193,6 @@ internal class MealViewModel @Inject constructor(
                 this@MealViewModel.setMeal(
                     meal = it,
                 )
-            }.onFailure {
-                // todo onFailure
             }
         }
     }
@@ -211,6 +229,7 @@ internal class MealViewModel @Inject constructor(
 }
 
 internal data class MealUiState(
+    val newNotices: Boolean,
     val selectedDate: Date,
     val breakfast: List<String>,
     val kcalOfBreakfast: String?,
@@ -221,6 +240,7 @@ internal data class MealUiState(
 ) : UiState {
     companion object {
         fun initial() = MealUiState(
+            newNotices = false,
             selectedDate = Date(),
             breakfast = emptyList(),
             kcalOfBreakfast = null,
