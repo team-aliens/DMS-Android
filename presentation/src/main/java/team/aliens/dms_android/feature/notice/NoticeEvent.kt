@@ -8,4 +8,5 @@ internal sealed class NoticesUiEvent : UiEvent {
     class FetchNotices(val order: Order) : NoticesUiEvent()
     class FetchNoticeDetails(val noticeId: UUID) : NoticesUiEvent()
     object CheckHasNewNotice : NoticesUiEvent()
+    object SetNoticeOrder: NoticesUiEvent()
 }

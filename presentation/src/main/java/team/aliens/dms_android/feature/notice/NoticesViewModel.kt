@@ -3,27 +3,15 @@ package team.aliens.dms_android.feature.notice
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.UUID
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.MviViewModel
-import team.aliens.dms_android._base.UiEvent
-import team.aliens.dms_android._base.UiState
-import team.aliens.dms_android.util.MutableEventFlow
-import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain._exception.RemoteException
 import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticesInput
-import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.Notice
-import team.aliens.domain.exception.BadRequestException
-import team.aliens.domain.exception.ForbiddenException
-import team.aliens.domain.exception.ServerException
-import team.aliens.domain.exception.TooManyRequestException
-import team.aliens.domain.exception.UnauthorizedException
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
@@ -36,6 +24,10 @@ internal class NoticesViewModel @Inject constructor(
     private val fetchHasNewNoticesUseCase: FetchWhetherNewNoticesExistUseCase,
     private val application: Application = Application(),
 ) : MviViewModel<NoticesUiState, NoticesUiEvent>(NoticesUiState.initial()) {
+
+    init {
+        setNoticeOrder()
+    }
 
     override fun updateState(event: NoticesUiEvent) {
         when (event) {
@@ -59,6 +51,10 @@ internal class NoticesViewModel @Inject constructor(
 
             is NoticesUiEvent.CheckHasNewNotice -> {
                 checkHasNewNotice()
+            }
+
+            is NoticesUiEvent.SetNoticeOrder -> {
+                setNoticeOrder()
             }
         }
     }
@@ -129,6 +125,23 @@ internal class NoticesViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun setNoticeOrder() {
+
+        val order = when (uiState.value.order) {
+            Order.NEW -> Order.OLD to R.string.oldest_order
+            else -> Order.NEW to R.string.latest_order
+        }
+
+        setState(
+            newState = uiState.value.copy(
+                order = order.first,
+                orderText = application.getString(order.second)
+            )
+        )
+
+        fetchNotices()
     }
 
     private fun onErrorEvent(

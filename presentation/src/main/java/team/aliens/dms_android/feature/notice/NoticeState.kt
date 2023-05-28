@@ -2,12 +2,9 @@ package team.aliens.dms_android.feature.notice
 
 import java.util.UUID
 import team.aliens.dms_android._base.UiState
-import team.aliens.dms_android.base.MviState
 import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.Notice
-import team.aliens.domain.entity.notice.NoticeListEntity
-import team.aliens.domain.enums.NoticeListSCType
 
 internal data class NoticesUiState(
     val type: Order,
@@ -15,6 +12,7 @@ internal data class NoticesUiState(
     val notice: Notice,
     val hasNewNotice: Boolean = false,
     val order: Order,
+    val orderText: String,
     val noticeId: UUID?,
     val noticeErrorMessage: String,
 ) : UiState {
@@ -29,7 +27,8 @@ internal data class NoticesUiState(
                 createdAt = "",
             ),
             hasNewNotice = false,
-            order = Order.NEW,
+            order = Order.OLD,
+            orderText = "",
             noticeId = null,
             noticeErrorMessage = "",
         )

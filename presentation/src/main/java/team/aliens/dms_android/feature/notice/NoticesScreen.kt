@@ -5,25 +5,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.collectLatest
 import team.aliens.design_system.component.Notice
 import team.aliens.design_system.component.NoticeList
 import team.aliens.design_system.extension.Space
@@ -34,7 +27,6 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.application.rememberDmsAppState
-import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.presentation.R
 
@@ -49,34 +41,21 @@ internal fun NoticeScreen(
     navController: NavController,
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
-
+    // TODO 인자로 전달받기
     val appState = rememberDmsAppState()
 
-    val notices = remember {
-        mutableStateListOf<Notice>()
-    }
+    val state = noticesViewModel.uiState.collectAsState()
+
+    val notices = state.value.notices
 
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
     LaunchedEffect(Unit) {
-        with(noticesViewModel) {
-            onEvent(
-                event = NoticesUiEvent.FetchNotices(
-                    order = Order.NEW,
-                )
-            )
-            // TODO refactor collect 로직
-            uiState.collectLatest { it ->
-                notices.clear()
-                notices.addAll(it.notices.map { it.toNotice() })
-
-                // TODO DmsAppState toastManager setMessage 함수 사용하기
-                appState.scaffoldState.snackbarHostState.showSnackbar(
-                    message = it.noticeErrorMessage,
-                    actionLabel = ToastType.ERROR.toString(),
-                )
-            }
-        }
+        // TODO DmsAppState toastManager setMessage 함수 사용하기
+        appState.scaffoldState.snackbarHostState.showSnackbar(
+            message = state.value.noticeErrorMessage,
+            actionLabel = ToastType.ERROR.toString(),
+        )
     }
 
     Column(
@@ -99,10 +78,13 @@ internal fun NoticeScreen(
             text = stringResource(R.string.Notice),
         )
         Space(space = 20.dp)
-        OrderButton(noticesViewModel)
+        OrderButton(
+            noticesViewModel = noticesViewModel,
+            orderText = state.value.orderText,
+        )
         Space(space = 8.dp)
         NoticeList(
-            notices = notices,
+            notices = notices.map { it.toNotice() },
             onClick = { noticeId ->
                 navController.navigate("noticeDetails/${noticeId}")
             },
@@ -114,37 +96,13 @@ internal fun NoticeScreen(
 @Composable
 private fun OrderButton(
     noticesViewModel: NoticesViewModel,
+    orderText: String,
 ) {
-
-    val context = LocalContext.current
-
-    var text by remember {
-        mutableStateOf(
-            context.getString(R.string.LatestOrder),
-        )
-    }
-
     Button(
         onClick = {
-            when (noticesViewModel.uiState.value.order) {
-                Order.NEW -> {
-                    noticesViewModel.onEvent(
-                        event = NoticesUiEvent.FetchNotices(
-                            order = Order.OLD,
-                        )
-                    )
-                    text = context.getString(R.string.oldest_order)
-                }
-
-                Order.OLD -> {
-                    noticesViewModel.onEvent(
-                        event = NoticesUiEvent.FetchNotices(
-                            order = Order.NEW,
-                        )
-                    )
-                    text = context.getString(R.string.latest_order)
-                }
-            }
+            noticesViewModel.onEvent(
+                event = NoticesUiEvent.SetNoticeOrder,
+            )
         },
         border = BorderStroke(
             width = 1.dp,
@@ -159,7 +117,7 @@ private fun OrderButton(
             contentAlignment = Alignment.Center,
         ) {
             ButtonText(
-                text = text,
+                text = orderText,
             )
         }
     }
