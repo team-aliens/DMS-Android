@@ -143,8 +143,8 @@ internal class MealViewModel @Inject constructor(
     override fun updateState(event: MealUiEvent) {
         when (event) {
             is MealUiEvent.UpdateDate -> this.setDate(event.date)
-            MealUiEvent.UpdateDateToNextDay -> this.plusOneDay()
-            MealUiEvent.UpdateDateToPreviousDay -> this.minusOneDay()
+            MealUiEvent.UpdateDateToNextDay -> this.setDateToNextDay()
+            MealUiEvent.UpdateDateToPreviousDay -> this.setDateToPreviousDay()
         }
     }
 
@@ -155,6 +155,10 @@ internal class MealViewModel @Inject constructor(
             )
         )
         fetchMeal()
+    }
+
+    private fun setDate(date: Long) {
+        this.setDate(Date(date))
     }
 
     private fun fetchMeal() {
@@ -197,24 +201,12 @@ internal class MealViewModel @Inject constructor(
         )
     }
 
-    private fun plusOneDay() {
-        setState(
-            newState = uiState.value.copy(
-                selectedDate = Date(
-                    uiState.value.selectedDate.time.plus(OneDay),
-                ),
-            )
-        )
+    private fun setDateToNextDay() {
+        this.setDate(uiState.value.selectedDate.time.plus(OneDay))
     }
 
-    private fun minusOneDay() {
-        setState(
-            newState = uiState.value.copy(
-                selectedDate = Date(
-                    uiState.value.selectedDate.time.minus(OneDay),
-                ),
-            )
-        )
+    private fun setDateToPreviousDay() {
+        this.setDate(date = uiState.value.selectedDate.time.minus(OneDay))
     }
 }
 
