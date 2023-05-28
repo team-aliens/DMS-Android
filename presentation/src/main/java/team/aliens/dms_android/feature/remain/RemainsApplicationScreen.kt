@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -96,7 +95,7 @@ internal fun RemainsApplicationScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
         TopBar(
-            title = stringResource(id = R.string.remain_apply),
+            title = stringResource(id = R.string.remains_apply),
         )
         Box(
             modifier = Modifier
@@ -293,7 +292,7 @@ private fun setRemainApplicationAvailableTime(
     context: Context,
 ): String {
     return context.getString(
-        R.string.remain_time_application_available,
+        R.string.remains_time_application_available,
         "${
             startDayOfWeek.getDisplayName(
                 TextStyle.SHORT,
@@ -316,11 +315,11 @@ private fun setButtonTextByRemainsState(
 ): String {
     return if (!buttonEnabled) context.getString(R.string.application_completed)
     else if (lastAppliedItemTitle.isBlank()) context.getString(
-        R.string.remain_do_apply,
+        R.string.remains_do_apply,
         currentSelectedItemTitle
     )
     else context.getString(
-        R.string.remain_change_to,
+        R.string.remains_change_to,
         currentSelectedItemTitle,
     )
 }
