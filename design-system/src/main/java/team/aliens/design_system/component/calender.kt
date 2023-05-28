@@ -20,11 +20,11 @@ import java.util.Date
 import kotlinx.coroutines.launch
 import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.utils.makeDate
 
 /**
  * TODO(limsaehyun): CalendarView가 아닌 직접 구현한 DormCalenderView 사용 필요
  */
-@Suppress("DEPRECATION")
 @DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -55,14 +55,14 @@ fun DormCalendar(
                 },
                 update = {
                     it.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                        onDateChange(Date(year, month, dayOfMonth))
+                        val date = makeDate(year, month, dayOfMonth)
+                        onDateChange(date)
                     }
                 },
             )
         },
-    ) {
-        content()
-    }
+        content = content,
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
