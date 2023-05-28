@@ -8,6 +8,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -38,9 +40,9 @@ fun Home(
     navController: NavController,
     scaffoldState: ScaffoldState,
 ) {
-    val navHostController = rememberNavController()
+    val bottomNavController = rememberNavController()
 
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val applicationServiceEnabled =
         LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! || LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
@@ -50,6 +52,13 @@ fun Home(
             it.remove(BottomNavigationItem.Application)
         }
     }
+    val onNavigateToNoticeScreen by remember {
+        mutableStateOf(
+            {
+                bottomNavController.navigate(BottomNavigationItem.Notice.route)
+            },
+        )
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -57,7 +66,7 @@ fun Home(
             Column(verticalArrangement = Arrangement.Bottom) {
                 Space(space = 40.dp)
                 BottomNavBar(
-                    navController = navHostController,
+                    navController = bottomNavController,
                     navBackStackEntry = navBackStackEntry,
                     navigationItems = navigationItems,
                 )
@@ -70,7 +79,7 @@ fun Home(
         contentColor = DormTheme.colors.background,
     ) {
         NavHost(
-            navController = navHostController,
+            navController = bottomNavController,
             startDestination = BottomNavigationItem.Meal.route,
         ) {
             composable(BottomNavigationItem.Meal.route) {
@@ -83,7 +92,9 @@ fun Home(
                         )
                     },
                 )*/
-                MealScreen() // fixme
+                MealScreen(
+                    onNavigateToNoticeScreen = onNavigateToNoticeScreen,
+                ) // fixme
             }
             if (applicationServiceEnabled) {
                 composable(BottomNavigationItem.Application.route) {

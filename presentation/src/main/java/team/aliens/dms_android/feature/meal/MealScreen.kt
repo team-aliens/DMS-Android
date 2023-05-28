@@ -445,6 +445,7 @@ private fun DayOfWeek.toKorean(): String {
 
 @Composable
 internal fun MealScreen(
+    onNavigateToNoticeScreen: () -> Unit,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
     val uiState by mealViewModel.uiState.collectAsStateWithLifecycle()
@@ -469,7 +470,7 @@ internal fun MealScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         MealScreenAppLogo()
-        NoticeCard(onIconClicked = {}) // todo uiState의 새 공지 여부에 따라 표시 결정
+        NoticeCard(onIconClicked = onNavigateToNoticeScreen)
         Spacer(Modifier.height(38.dp))
         Title1(
             text = stringResource(R.string.meal_todays_meal),
