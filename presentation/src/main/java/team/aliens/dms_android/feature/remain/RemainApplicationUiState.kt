@@ -6,7 +6,7 @@ import team.aliens.dms_android.base.UiState
 import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
 import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
 
-data class RemainsApplicationState(
+data class RemainsApplicationUiState(
     val remainsApplicationTimeOutput: FetchRemainsApplicationTimeOutput,
     val remainsOptionsOutput: FetchRemainsOptionsOutput,
     val currentAppliedRemainsOption: String,
@@ -14,7 +14,7 @@ data class RemainsApplicationState(
     val remainsApplicationErrorMessage: String,
 ) : UiState {
     companion object {
-        fun initial() = RemainsApplicationState(
+        fun initial() = RemainsApplicationUiState(
             remainsApplicationTimeOutput = FetchRemainsApplicationTimeOutput(
                 startDayOfWeek = DayOfWeek.MONDAY,
                 startTime = "",

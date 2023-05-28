@@ -22,23 +22,23 @@ internal class RemainsApplicationViewModel @Inject constructor(
     private val fetchCurrentAppliedRemainsOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val updateRemainOptionUseCase: UpdateRemainsOptionUseCase,
     private val application: Application = Application(),
-) : MviViewModel<RemainsApplicationState, RemainsApplicationEvent>(RemainsApplicationState.initial()) {
+) : MviViewModel<RemainsApplicationUiState, RemainsApplicationUiEvent>(RemainsApplicationUiState.initial()) {
 
-    override fun updateState(event: RemainsApplicationEvent) {
+    override fun updateState(event: RemainsApplicationUiEvent) {
         when (event) {
-            is RemainsApplicationEvent.FetchAvailableRemainsTime -> {
+            is RemainsApplicationUiEvent.FetchAvailableRemainsTimeUi -> {
                 fetchRemainsApplicationTime()
             }
 
-            is RemainsApplicationEvent.FetchRemainsOptions -> {
+            is RemainsApplicationUiEvent.FetchUiRemainsOptions -> {
                 fetchRemainsOptions()
             }
 
-            is RemainsApplicationEvent.FetchCurrentAppliedRemainsOption -> {
+            is RemainsApplicationUiEvent.FetchCurrentAppliedRemainsOptionUi -> {
                 fetchCurrentAppliedRemainsOption()
             }
 
-            is RemainsApplicationEvent.UpdateRemainsOption -> {
+            is RemainsApplicationUiEvent.UpdateUiRemainsOption -> {
                 setState(
                     newState = uiState.value.copy(
                         remainsOptionId = event.remainsOptionId,

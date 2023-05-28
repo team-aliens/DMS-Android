@@ -90,13 +90,13 @@ internal fun RemainsApplicationScreen(
     LaunchedEffect(Unit) {
         with(remainsApplicationViewModel) {
             onEvent(
-                event = RemainsApplicationEvent.FetchRemainsOptions,
+                event = RemainsApplicationUiEvent.FetchUiRemainsOptions,
             )
             onEvent(
-                event = RemainsApplicationEvent.FetchAvailableRemainsTime,
+                event = RemainsApplicationUiEvent.FetchAvailableRemainsTimeUi,
             )
             onEvent(
-                event = RemainsApplicationEvent.FetchCurrentAppliedRemainsOption,
+                event = RemainsApplicationUiEvent.FetchCurrentAppliedRemainsOptionUi,
             )
 
             uiState.collect {
@@ -184,7 +184,7 @@ internal fun RemainsApplicationScreen(
                     enabled = buttonEnabled
                 ) {
                     remainsApplicationViewModel.onEvent(
-                        event = RemainsApplicationEvent.UpdateRemainsOption(
+                        event = RemainsApplicationUiEvent.UpdateUiRemainsOption(
                             remainsOptionId = UUID.fromString(selectedItemId),
                         )
                     )
