@@ -1,0 +1,86 @@
+package team.aliens.dms_android.feature.mypage.pointhistory
+
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import team.aliens.dms_android.base.MviViewModel
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
+import team.aliens.domain.model._common.PointType
+import team.aliens.domain.model.point.FetchPointsInput
+import team.aliens.domain.model.point.FetchPointsOutput
+import team.aliens.domain.model.point.Point
+import team.aliens.domain.model.point.toModel
+import team.aliens.domain.usecase.point.FetchPointsUseCase
+import javax.inject.Inject
+
+@HiltViewModel
+internal class PointHistoryViewModel @Inject constructor(
+    private val fetchPointsUseCase: FetchPointsUseCase,
+) : MviViewModel<PointHistoryUiState, PointHistoryUiEvent>(
+    initialState = PointHistoryUiState.initial(),
+) {
+    init {
+        fetchPoints(
+            type = PointType.ALL,
+        )
+    }
+
+    override fun updateState(event: PointHistoryUiEvent) {
+        when (event) {
+            PointHistoryUiEvent.FetchAllTypePoints -> this.fetchPoints(PointType.ALL)
+            PointHistoryUiEvent.FetchBonusTypePoints -> this.fetchPoints(PointType.BONUS)
+            PointHistoryUiEvent.FetchMinusTypePoints -> this.fetchPoints(PointType.MINUS)
+        }
+    }
+
+    private fun fetchPoints(type: PointType) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                fetchPointsUseCase(
+                    fetchPointsInput = FetchPointsInput(
+                        type = type,
+                    ),
+                )
+            }.onSuccess {
+                this@PointHistoryViewModel.setPoints(
+                    type = type,
+                    fetchPointsOutput = it,
+                )
+            }
+        }
+    }
+
+    private fun setPoints(
+        type: PointType,
+        fetchPointsOutput: FetchPointsOutput,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                selectedType = type,
+                pointHistories = fetchPointsOutput.pointHistories.toModel(),
+            ),
+        )
+    }
+}
+
+internal data class PointHistoryUiState(
+    val selectedType: PointType,
+    val totalPoint: Int,
+    val pointHistories: List<Point>,
+) : UiState {
+    companion object {
+        fun initial() = PointHistoryUiState(
+            selectedType = PointType.ALL,
+            totalPoint = 0, // todo 스켈레톤 효과에 따른 리팩토링 논의
+            pointHistories = emptyList(),
+        )
+    }
+}
+
+internal sealed class PointHistoryUiEvent : UiEvent {
+    object FetchAllTypePoints : PointHistoryUiEvent()
+    object FetchBonusTypePoints : PointHistoryUiEvent()
+    object FetchMinusTypePoints : PointHistoryUiEvent()
+}
