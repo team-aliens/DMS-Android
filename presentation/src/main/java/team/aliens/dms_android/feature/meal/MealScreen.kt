@@ -4,10 +4,15 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -15,9 +20,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -25,8 +34,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.typography.Title1
+import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.presentation.R
 import kotlin.math.absoluteValue
@@ -426,39 +440,81 @@ private fun DayOfWeek.toKorean(): String {
 internal fun MealScreen(
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
+    val uiState by mealViewModel.uiState.collectAsStateWithLifecycle()
+    val defaultBackgroundBrush by remember {
+        mutableStateOf(
+            Brush.verticalGradient(
+                colors = listOf(
+                    Color.Transparent,
+                    Color.Transparent,
+                    DormColor.DormPrimary.copy(
+                        alpha = 0.1f,
+                    ),
+                ),
+            ),
+        )
+    }
+
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .dormGradientBackground(defaultBackgroundBrush),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        NoticeCard(onIconClicked = {}) // todo
+        MealScreenAppLogo()
+        NoticeCard(onIconClicked = {}) // todo uiState의 새 공지 여부에 따라 표시 결정
+        Spacer(Modifier.height(38.dp))
+        Title1(
+            text = stringResource(R.string.meal_todays_meal),
+        )
+        Spacer(Modifier.height(46.dp))
         DateCard()
         MealCard()
+        Spacer(Modifier.height(120.dp))
     }
 }
 
 @Composable
-fun NoticeCard(
+private fun MealScreenAppLogo() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        AppLogo()
+    }
+}
+
+@Composable
+private fun NoticeCard(
     onIconClicked: () -> Unit,
 ) {
-    Box(
-        contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier.padding(
-            horizontal = 16.dp,
-        ),
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        FloatingNotice(
-            content = stringResource(R.string.notice_new_notice_exists),
-        )
-        Image(
-            modifier = Modifier
-                .padding(end = 10.dp)
-                .size(32.dp)
-                .dormClickable(
-                    rippleEnabled = false,
-                    onClick = onIconClicked,
-                ),
-            painter = painterResource(R.drawable.ic_next),
-            contentDescription = stringResource(R.string.notice),
-        )
+        Spacer(Modifier.height(18.dp))
+        Box(
+            contentAlignment = Alignment.CenterEnd,
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+            ),
+        ) {
+            FloatingNotice(
+                content = stringResource(R.string.notice_new_notice_exists),
+            )
+            Image(
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(32.dp)
+                    .dormClickable(
+                        rippleEnabled = false,
+                        onClick = onIconClicked,
+                    ),
+                painter = painterResource(R.drawable.ic_next),
+                contentDescription = stringResource(R.string.notice),
+            )
+        }
     }
 }
 
@@ -469,9 +525,10 @@ private fun DateCard() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun MealCard() {
-    val pagerState = rememberPagerState(1)
+private fun ColumnScope.MealCard() {
+    val pagerState = rememberPagerState() // todo add logic getting default page
     HorizontalPager(
+        modifier = Modifier.weight(1f),
         pageCount = 3,
         state = pagerState,
         contentPadding = PaddingValues(
@@ -514,10 +571,17 @@ private fun MealCard() {
             shape = RoundedCornerShape(20.dp),
         ) {
             Box(
-                modifier = Modifier.padding(16.dp).background(color= Color.Black)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(color = Color.Black)
             ) {
 
             }
         }
     }
+}
+
+@Composable
+private fun DishInformation() {
+
 }
