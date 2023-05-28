@@ -495,6 +495,7 @@ internal fun MealScreen(
             onPreviousDay = onPreviousDay,
             onShowCalendar = onShowCalendar,
         )
+        Spacer(Modifier.height(36.dp))
         MealCard(
             breakfast = uiState.breakfast,
             kcalOfBreakfast = uiState.kcalOfBreakfast ?: stringResource(R.string.meal_not_exists),
@@ -682,12 +683,15 @@ private fun ColumnScope.MealCard(
         pageCount = 3,
         state = pagerState,
         contentPadding = PaddingValues(
-            horizontal = 52.dp,
+            horizontal = 64.dp,
         ),
     ) { page ->
         Card(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(
+                    horizontal = 8.dp,
+                )
                 .graphicsLayer {
                     val pagerOffset =
                         ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
