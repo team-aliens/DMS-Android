@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import java.util.Date
 import kotlinx.coroutines.launch
 import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.modifier.dormClickable
@@ -23,12 +24,13 @@ import team.aliens.design_system.modifier.dormClickable
 /**
  * TODO(limsaehyun): CalendarView가 아닌 직접 구현한 DormCalenderView 사용 필요
  */
+@Suppress("DEPRECATION")
 @DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormCalendar(
     bottomSheetState: ModalBottomSheetState,
-    onChangeDate: (String) -> Unit,
+    onDateChange: (date: Date) -> Unit,
     content: @Composable () -> Unit,
 ) {
     DormBottomSheetDialog(
@@ -52,10 +54,8 @@ fun DormCalendar(
                     CalendarView(it)
                 },
                 update = {
-                    it.setOnDateChangeListener { _, year, month, day ->
-                        val formedMonth = (month + 1).toString().padStart(2, '0')
-                        val formedDay = day.toString().padStart(2, '0')
-                        onChangeDate("${year}-${formedMonth}-${formedDay}")
+                    it.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                        onDateChange(Date(year, month, dayOfMonth))
                     }
                 },
             )
@@ -74,7 +74,7 @@ fun PreviewDormCalendar() {
 
     DormCalendar(
         bottomSheetState = bottomSheetState,
-        onChangeDate = { date ->
+        onDateChange = { date ->
             print(date)
         },
     ) {
