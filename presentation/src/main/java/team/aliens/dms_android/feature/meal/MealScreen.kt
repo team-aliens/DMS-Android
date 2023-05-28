@@ -1,5 +1,37 @@
 package team.aliens.dms_android.feature.meal
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
+import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.presentation.R
+import kotlin.math.absoluteValue
+
+/*
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -77,7 +109,7 @@ fun CafeteriaScreen(
     onMoveToNotice: () -> Unit,
 ) {
 
-    /*var backgroundGradient by rememberSaveable() {
+    *//*var backgroundGradient by rememberSaveable() {
         mutableStateOf(true)
     }
 
@@ -115,7 +147,7 @@ fun CafeteriaScreen(
         )
     } else {
         null
-    }*/
+    }*//*
 
     val isMealServiceEnabled = LocalAvailableFeatures.current[Extra.isMealServiceEnabled]
 
@@ -194,7 +226,7 @@ fun CafeteriaScreen(
 
                     Space(ratio = 1f)
 
-                    /*Icon(
+                    *//*Icon(
                         painter = painterResource(
                             DormIcon.Palette.drawableId,
                         ),
@@ -211,7 +243,7 @@ fun CafeteriaScreen(
                         } else {
                             DormTheme.colors.primaryVariant
                         },
-                    )*/
+                    )*//*
                 }
 
                 AnimatedVisibility(
@@ -236,34 +268,6 @@ fun CafeteriaScreen(
                 CafeteriaViewPager(mealViewModel)
             }
         }
-    }
-}
-
-@Composable
-fun ImportantNotice(
-    onNoticeIconClick: () -> Unit,
-) {
-    Box(
-        contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier.padding(
-            horizontal = 16.dp,
-        ),
-    ) {
-        FloatingNotice(
-            content = stringResource(id = R.string.NewNotice),
-        )
-        Image(
-            modifier = Modifier
-                .padding(end = 10.dp)
-                .size(33.dp)
-                .dormClickable(
-                    rippleEnabled = false,
-                ) {
-                    onNoticeIconClick()
-                },
-            painter = painterResource(id = R.drawable.ic_next),
-            contentDescription = stringResource(id = R.string.IcNotice),
-        )
     }
 }
 
@@ -415,5 +419,105 @@ private fun DayOfWeek.toKorean(): String {
         FRIDAY -> "금"
         SATURDAY -> "토"
         SUNDAY -> "일"
+    }
+}*/
+
+@Composable
+internal fun MealScreen(
+    mealViewModel: MealViewModel = hiltViewModel(),
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        NoticeCard(onIconClicked = {}) // todo
+        DateCard()
+        MealCard()
+    }
+}
+
+@Composable
+fun NoticeCard(
+    onIconClicked: () -> Unit,
+) {
+    Box(
+        contentAlignment = Alignment.CenterEnd,
+        modifier = Modifier.padding(
+            horizontal = 16.dp,
+        ),
+    ) {
+        FloatingNotice(
+            content = stringResource(R.string.notice_new_notice_exists),
+        )
+        Image(
+            modifier = Modifier
+                .padding(end = 10.dp)
+                .size(32.dp)
+                .dormClickable(
+                    rippleEnabled = false,
+                    onClick = onIconClicked,
+                ),
+            painter = painterResource(R.drawable.ic_next),
+            contentDescription = stringResource(R.string.notice),
+        )
+    }
+}
+
+@Composable
+private fun DateCard() {
+
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun MealCard() {
+    val pagerState = rememberPagerState(1)
+    HorizontalPager(
+        pageCount = 3,
+        state = pagerState,
+        contentPadding = PaddingValues(
+            horizontal = 52.dp,
+        ),
+    ) { page ->
+        Card(
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    val pagerOffset =
+                        ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
+
+                    lerp(
+                        start = 0.875f,
+                        stop = 1f,
+                        fraction = 1f - pagerOffset.coerceIn(0f, 1f)
+                    ).also { scale ->
+                        scaleX = scale
+                        scaleY = scale
+                    }
+                    alpha = lerp(
+                        start = 0.5f,
+                        stop = 1f,
+                        fraction = 1f - pagerOffset.coerceIn(0f, 1f),
+                    )
+                }
+                .background(
+                    color = DormTheme.colors.background,
+                    shape = RoundedCornerShape(20.dp),
+                )
+                .clip(
+                    RoundedCornerShape(20.dp),
+                )
+                .border(
+                    width = 1.dp,
+                    color = DormTheme.colors.primary,
+                    shape = RoundedCornerShape(20.dp),
+                ),
+            shape = RoundedCornerShape(20.dp),
+        ) {
+            Box(
+                modifier = Modifier.padding(16.dp).background(color= Color.Black)
+            ) {
+
+            }
+        }
     }
 }

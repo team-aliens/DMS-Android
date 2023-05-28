@@ -1,3 +1,4 @@
+/*
 package team.aliens.dms_android.feature.meal
 
 import android.annotation.SuppressLint
@@ -206,4 +207,4 @@ private fun MenuListLayout(
             )
         }
     }
-}
+}*/
