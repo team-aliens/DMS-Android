@@ -24,27 +24,36 @@ internal class RemainsApplicationViewModel @Inject constructor(
     private val application: Application = Application(),
 ) : MviViewModel<RemainsApplicationUiState, RemainsApplicationUiEvent>(RemainsApplicationUiState.initial()) {
 
+    init {
+        fetchRemainsApplicationTime()
+        fetchCurrentAppliedRemainsOption()
+        fetchRemainsOptions()
+    }
+
     override fun updateState(event: RemainsApplicationUiEvent) {
         when (event) {
-            is RemainsApplicationUiEvent.FetchAvailableRemainsTimeUi -> {
+            is RemainsApplicationUiEvent.FetchAvailableRemainsTime -> {
                 fetchRemainsApplicationTime()
             }
 
-            is RemainsApplicationUiEvent.FetchUiRemainsOptions -> {
+            is RemainsApplicationUiEvent.FetchRemainsOptions -> {
                 fetchRemainsOptions()
             }
 
-            is RemainsApplicationUiEvent.FetchCurrentAppliedRemainsOptionUi -> {
+            is RemainsApplicationUiEvent.FetchCurrentAppliedRemainsOption -> {
                 fetchCurrentAppliedRemainsOption()
             }
 
             is RemainsApplicationUiEvent.UpdateUiRemainsOption -> {
+                updateRemainOption()
+            }
+
+            is RemainsApplicationUiEvent.SetRemainsOptionItemId -> {
                 setState(
                     newState = uiState.value.copy(
                         remainsOptionId = event.remainsOptionId,
                     )
                 )
-                updateRemainOption()
             }
 
         }
@@ -111,7 +120,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
             runCatching {
                 val remainsOptionId = uiState.value.remainsOptionId
 
-                if(remainsOptionId != null) {
+                if (remainsOptionId != null) {
                     updateRemainOptionUseCase(
                         updateRemainsOptionInput = UpdateRemainsOptionInput(
                             remainsOptionId = remainsOptionId,
@@ -133,31 +142,16 @@ internal class RemainsApplicationViewModel @Inject constructor(
         throwable: Throwable,
     ) {
         setRemainsApplicationErrorMessage(
-            message = when (throwable) {
-                is RemoteException.BadRequest -> {
-                    application.getString(R.string.error_bad_request)
+            message = application.getString(
+                when (throwable) {
+                    is RemoteException.BadRequest -> R.string.error_bad_request
+                    is RemoteException.Unauthorized -> R.string.error_unauthorized
+                    is RemoteException.Forbidden -> R.string.error_forbidden
+                    is RemoteException.NotFound -> R.string.error_not_found
+                    is RemoteException.TooManyRequests -> R.string.error_too_many_request
+                    else -> R.string.error_internal_server
                 }
-
-                is RemoteException.Unauthorized -> {
-                    application.getString(R.string.error_unauthorized)
-                }
-
-                is RemoteException.Forbidden -> {
-                    application.getString(R.string.error_forbidden)
-                }
-
-                is RemoteException.NotFound -> {
-                    application.getString(R.string.error_not_found)
-                }
-
-                is RemoteException.TooManyRequests -> {
-                    application.getString(R.string.error_too_many_request)
-                }
-
-                else -> {
-                    application.getString(R.string.error_internal_server)
-                }
-            }
+            )
         )
     }
 

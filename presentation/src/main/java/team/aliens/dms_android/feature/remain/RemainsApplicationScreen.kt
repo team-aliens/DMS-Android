@@ -39,7 +39,6 @@ import androidx.navigation.NavController
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
-import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.LastAppliedItem
@@ -52,7 +51,7 @@ import team.aliens.design_system.toast.ToastType
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.feature.application.rememberDmsAppState
+import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 
@@ -64,18 +63,13 @@ val ApplicationCardRadius = RoundedCornerShape(
 @Composable
 internal fun RemainsApplicationScreen(
     navController: NavController,
+    appState: DmsAppState,
     remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
 ) {
-
-    val appState = rememberDmsAppState()
 
     val state = remainsApplicationViewModel.uiState.collectAsState().value
 
     val lastAppliedItemTitle = state.currentAppliedRemainsOption
-
-    var selectedItemId by remember {
-        mutableStateOf("")
-    }
 
     var currentSelectedItemTitle by remember {
         mutableStateOf("")
@@ -89,16 +83,6 @@ internal fun RemainsApplicationScreen(
 
     LaunchedEffect(Unit) {
         with(remainsApplicationViewModel) {
-            onEvent(
-                event = RemainsApplicationUiEvent.FetchUiRemainsOptions,
-            )
-            onEvent(
-                event = RemainsApplicationUiEvent.FetchAvailableRemainsTimeUi,
-            )
-            onEvent(
-                event = RemainsApplicationUiEvent.FetchCurrentAppliedRemainsOptionUi,
-            )
-
             uiState.collect {
                 val errorMessage = it.remainsApplicationErrorMessage
 
@@ -137,13 +121,13 @@ internal fun RemainsApplicationScreen(
 
                 val remainApplicationTime = state.remainsApplicationTimeOutput
 
-                if (remainApplicationTime.startTime.isNotBlank()) {
+                if (remainApplicationTime.startDayOfWeek != null) {
                     FloatingNotice(
                         content = setRemainApplicationAvailableTime(
-                            startDayOfWeek = remainApplicationTime.startDayOfWeek,
-                            startTime = remainApplicationTime.startTime,
-                            endDayOfWeek = remainApplicationTime.endDayOfWeek,
-                            endTime = remainApplicationTime.endTime,
+                            startDayOfWeek = remainApplicationTime.startDayOfWeek!!,
+                            startTime = remainApplicationTime.startTime!!,
+                            endDayOfWeek = remainApplicationTime.endDayOfWeek!!,
+                            endTime = remainApplicationTime.endTime!!,
                             context = context,
                         ),
                     )
@@ -161,9 +145,13 @@ internal fun RemainsApplicationScreen(
                         ApplicationCard(
                             text = item.title,
                             content = item.description,
-                            isSelected = selectedItemId == item.id.toString(),
+                            isSelected = state.remainsOptionId == item.id,
                             onSelect = {
-                                selectedItemId = item.id.toString()
+                                remainsApplicationViewModel.onEvent(
+                                    event = RemainsApplicationUiEvent.SetRemainsOptionItemId(
+                                        remainsOptionId = item.id,
+                                    )
+                                )
                                 currentSelectedItemTitle = item.title
                             },
                             isLastApplied = lastAppliedItemTitle == item.title,
@@ -172,7 +160,7 @@ internal fun RemainsApplicationScreen(
                 }
             }
 
-            if (selectedItemId.isNotEmpty()) {
+            if (state.remainsOptionId != null) {
                 DormContainedLargeButton(
                     text = setButtonTextByRemainsState(
                         buttonEnabled = buttonEnabled,
@@ -184,9 +172,7 @@ internal fun RemainsApplicationScreen(
                     enabled = buttonEnabled
                 ) {
                     remainsApplicationViewModel.onEvent(
-                        event = RemainsApplicationUiEvent.UpdateUiRemainsOption(
-                            remainsOptionId = UUID.fromString(selectedItemId),
-                        )
+                        event = RemainsApplicationUiEvent.UpdateUiRemainsOption,
                     )
                 }
             }

@@ -4,10 +4,11 @@ import java.util.UUID
 import team.aliens.dms_android.base.UiEvent
 
 sealed class RemainsApplicationUiEvent : UiEvent {
-    object FetchAvailableRemainsTimeUi : RemainsApplicationUiEvent()
-    object FetchUiRemainsOptions : RemainsApplicationUiEvent()
-    object FetchCurrentAppliedRemainsOptionUi : RemainsApplicationUiEvent()
-    class UpdateUiRemainsOption(
+    object FetchAvailableRemainsTime : RemainsApplicationUiEvent()
+    object FetchRemainsOptions : RemainsApplicationUiEvent()
+    object FetchCurrentAppliedRemainsOption : RemainsApplicationUiEvent()
+    object UpdateUiRemainsOption : RemainsApplicationUiEvent()
+    class SetRemainsOptionItemId(
         val remainsOptionId: UUID,
     ) : RemainsApplicationUiEvent()
 }
