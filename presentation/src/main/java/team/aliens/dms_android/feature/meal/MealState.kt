@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState
 import java.time.LocalDate
 
+/*
 data class MealState(
     var meals: MutableStateFlow<FormedMeal> = MutableStateFlow(FormedMeal()),
     var selectedDay: LocalDate = LocalDate.now(),
@@ -20,3 +21,4 @@ data class FormedMeal(
     var lunch: Pair<List<String>, String> = listOf("") to "",
     var dinner: Pair<List<String>, String> = listOf("") to "",
 )
+*/

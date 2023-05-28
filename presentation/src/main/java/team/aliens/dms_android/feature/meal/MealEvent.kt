@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.meal
 
 import team.aliens.dms_android.base.MviEvent
 
+/*
 sealed class MealEvent : MviEvent {
     object MealSuccess : MealEvent()
     object BadRequestException : MealEvent()
@@ -10,4 +11,4 @@ sealed class MealEvent : MviEvent {
     object TooManyRequestException : MealEvent()
     object InternalServerException : MealEvent()
     object UnknownException : MealEvent()
-}
+}*/
