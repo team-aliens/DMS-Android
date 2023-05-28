@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,9 +26,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,12 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import java.util.Date
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
+import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
@@ -443,24 +445,31 @@ private fun DayOfWeek.toKorean(): String {
     }
 }*/
 
+private val defaultBackgroundBrush = Brush.verticalGradient(
+    colors = listOf(
+        Color.Transparent,
+        Color.Transparent,
+        DormColor.DormPrimary.copy(
+            alpha = 0.1f,
+        ),
+    ),
+)
+
 @Composable
 internal fun MealScreen(
     onNavigateToNoticeScreen: () -> Unit,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
     val uiState by mealViewModel.uiState.collectAsStateWithLifecycle()
-    val defaultBackgroundBrush by remember {
-        mutableStateOf(
-            Brush.verticalGradient(
-                colors = listOf(
-                    Color.Transparent,
-                    Color.Transparent,
-                    DormColor.DormPrimary.copy(
-                        alpha = 0.1f,
-                    ),
-                ),
-            ),
-        )
+
+    val onNextDay = {
+        mealViewModel.onEvent(MealUiEvent.UpdateDateToNextDay)
+    }
+    val onPreviousDay = {
+        mealViewModel.onEvent(MealUiEvent.UpdateDateToPreviousDay)
+    }
+    val onShowCalendar = {
+
     }
 
     Column(
@@ -470,13 +479,20 @@ internal fun MealScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         MealScreenAppLogo()
-        NoticeCard(onIconClicked = onNavigateToNoticeScreen)
+        NoticeCard(
+            onIconClicked = onNavigateToNoticeScreen,
+        )
         Spacer(Modifier.height(38.dp))
         Title1(
             text = stringResource(R.string.meal_todays_meal),
         )
         Spacer(Modifier.height(46.dp))
-        DateCard()
+        DateCard(
+            selectedDate = uiState.selectedDate,
+            onNextDay = onNextDay,
+            onPreviousDay = onPreviousDay,
+            onShowCalendar = onShowCalendar,
+        )
         MealCard(
             breakfast = uiState.breakfast,
             kcalOfBreakfast = uiState.kcalOfBreakfast ?: stringResource(R.string.meal_not_exists),
@@ -534,8 +550,90 @@ private fun NoticeCard(
 }
 
 @Composable
-private fun DateCard() {
+private fun DateCard(
+    selectedDate: Date,
+    onNextDay: () -> Unit,
+    onPreviousDay: () -> Unit,
+    onShowCalendar: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 12.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
+    ) {
+        CalendarArrow(
+            type = ArrowType.BACKWARD,
+            onClick = onPreviousDay,
+        )
+        DateTextButton(
+            selectedDate = selectedDate,
+            onShowCalendar = onShowCalendar,
+        )
+        CalendarArrow(
+            type = ArrowType.FORWARD,
+            onClick = onNextDay,
+        )
+    }
+}
 
+@Composable
+private fun CalendarArrow(
+    type: ArrowType,
+    onClick: () -> Unit,
+) {
+    Image(
+        modifier = Modifier
+            .padding(8.dp)
+            .size(24.dp)
+            .clip(
+                RoundedCornerShape(8.dp),
+            )
+            .dormClickable(onClick = onClick),
+        painter = painterResource(type.icon.drawableId),
+        contentDescription = null,
+    )
+}
+
+@Composable
+private fun DateTextButton(
+    selectedDate: Date,
+    onShowCalendar: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .border(
+                width = 1.dp,
+                color = DormTheme.colors.primaryVariant,
+                shape = RoundedCornerShape(5.dp),
+            )
+            .clip(
+                shape = RoundedCornerShape(5.dp),
+            )
+            .dormClickable(onClick = onShowCalendar)
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painter = painterResource(
+                id = R.drawable.ic_calendar,
+            ),
+            contentDescription = null,
+        )
+        Body5(
+            text = selectedDate.toString(),//todo
+        )
+    }
+}
+
+@Stable
+private enum class ArrowType(
+    val icon: DormIcon,
+) {
+    BACKWARD(DormIcon.Backward), FORWARD(DormIcon.Forward), ;
 }
 
 private const val Breakfast = 0
@@ -595,8 +693,7 @@ private fun ColumnScope.MealCard(
             shape = RoundedCornerShape(20.dp),
         ) {
             Box(
-                modifier = Modifier
-                    .padding(16.dp),
+                modifier = Modifier.padding(16.dp),
             ) {
                 when (page) {
                     Breakfast -> DishInformation(
