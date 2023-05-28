@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.auth.signin
 
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +114,6 @@ internal class SignInViewModel @Inject constructor(
     }
 }
 
-@Stable
 internal data class SignInUiState(
     val signInSuccess: Boolean,
     val accountId: String,
