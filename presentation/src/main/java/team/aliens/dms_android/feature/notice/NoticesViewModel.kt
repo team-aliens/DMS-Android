@@ -1,8 +1,10 @@
 package team.aliens.dms_android.feature.notice
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,21 +42,18 @@ internal class NoticesViewModel @Inject constructor(
                 fetchNotices()
             }
 
-            is NoticesUiEvent.FetchNoticeDetails -> {
-                setState(
-                    newState = uiState.value.copy(
-                        noticeId = event.noticeId,
-                    )
-                )
-                fetchNoticeDetails()
-            }
-
             is NoticesUiEvent.CheckHasNewNotice -> {
                 checkHasNewNotice()
             }
 
             is NoticesUiEvent.SetNoticeOrder -> {
                 setNoticeOrder()
+            }
+
+            is NoticesUiEvent.SetNoticeId -> {
+                setNoticeId(
+                    noticeId = event.noticeId,
+                )
             }
         }
     }
@@ -142,6 +141,17 @@ internal class NoticesViewModel @Inject constructor(
         )
 
         fetchNotices()
+    }
+
+    private fun setNoticeId(
+        noticeId: UUID,
+    ){
+        setState(
+            newState = uiState.value.copy(
+                noticeId = noticeId,
+            )
+        )
+        fetchNoticeDetails()
     }
 
     private fun onErrorEvent(

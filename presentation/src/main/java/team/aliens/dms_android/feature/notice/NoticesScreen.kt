@@ -1,5 +1,7 @@
 package team.aliens.dms_android.feature.notice
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,14 +51,18 @@ internal fun NoticeScreen(
 
     val notices = state.value.notices
 
+    val errorMessage = state.value.noticeErrorMessage
+
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(errorMessage) {
         // TODO DmsAppState toastManager setMessage 함수 사용하기
-        appState.scaffoldState.snackbarHostState.showSnackbar(
-            message = state.value.noticeErrorMessage,
-            actionLabel = ToastType.ERROR.toString(),
-        )
+        if(errorMessage.isNotEmpty()) {
+            appState.scaffoldState.snackbarHostState.showSnackbar(
+                message = state.value.noticeErrorMessage,
+                actionLabel = ToastType.ERROR.toString(),
+            )
+        }
     }
 
     Column(

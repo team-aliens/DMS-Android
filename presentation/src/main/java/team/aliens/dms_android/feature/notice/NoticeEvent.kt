@@ -6,7 +6,7 @@ import team.aliens.domain._model._common.Order
 
 internal sealed class NoticesUiEvent : UiEvent {
     class FetchNotices(val order: Order) : NoticesUiEvent()
-    class FetchNoticeDetails(val noticeId: UUID) : NoticesUiEvent()
     object CheckHasNewNotice : NoticesUiEvent()
     object SetNoticeOrder: NoticesUiEvent()
+    class SetNoticeId(val noticeId: UUID): NoticesUiEvent()
 }

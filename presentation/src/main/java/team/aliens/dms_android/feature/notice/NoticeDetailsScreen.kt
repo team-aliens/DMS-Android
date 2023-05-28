@@ -13,10 +13,6 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import java.util.UUID
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.drop
 import team.aliens.design_system.component.toNoticeDate
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
@@ -41,25 +35,24 @@ internal fun NoticeDetailsScreen(
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
-    var createdAt by remember {
-        mutableStateOf("")
-    }
+    val state = noticesViewModel.uiState.collectAsState()
+
+    val errorMessage = state.value.noticeErrorMessage
+
+    val notice = state.value.notice
 
     LaunchedEffect(Unit) {
+        if (errorMessage.isNotEmpty()) {
+            // TODO 토스트 로직 처리해주기
+        }
         with(noticesViewModel) {
             onEvent(
-                event = NoticesUiEvent.FetchNoticeDetails(
-                    noticeId = UUID.fromString(noticeId)
+                event = NoticesUiEvent.SetNoticeId(
+                    noticeId = UUID.fromString(noticeId),
                 )
             )
-            // TODO refactor collect 로직
-            uiState.drop(1).collectLatest {
-                createdAt = it.notice.createdAt.toNoticeDate()
-            }
         }
     }
-
-    val noticeDetailState = noticesViewModel.uiState.collectAsState().value.notice
 
     Column(
         modifier = Modifier
@@ -76,7 +69,7 @@ internal fun NoticeDetailsScreen(
         ) {
             navController.popBackStack()
         }
-        
+
         Column(
             modifier = Modifier
                 .padding(
@@ -94,14 +87,16 @@ internal fun NoticeDetailsScreen(
 
                 // title
                 Title3(
-                    text = noticeDetailState.title,
+                    text = notice.title,
                 )
 
                 // date
-                Caption(
-                    text = createdAt,
-                    color = DormTheme.colors.primaryVariant,
-                )
+                if (notice.createdAt.isNotEmpty()) {
+                    Caption(
+                        text = notice.createdAt.toNoticeDate(),
+                        color = DormTheme.colors.primaryVariant,
+                    )
+                }
 
                 Divider(
                     modifier = Modifier.fillMaxWidth(),
@@ -118,7 +113,7 @@ internal fun NoticeDetailsScreen(
                     .padding(
                         top = 8.dp,
                     ),
-                text = noticeDetailState.content!!,
+                text = notice.content!!,
             )
         }
     }
