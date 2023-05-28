@@ -67,31 +67,27 @@ internal fun RemainsApplicationScreen(
     remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
 ) {
 
-    val state = remainsApplicationViewModel.uiState.collectAsState().value
+    val state = remainsApplicationViewModel.uiState.collectAsState()
 
-    val lastAppliedItemTitle = state.currentAppliedRemainsOption
+    val lastAppliedItemTitle = state.value.currentAppliedRemainsOption
 
-    var currentSelectedItemTitle by remember {
-        mutableStateOf("")
+    val currentSelectedItemTitle = state.value.selectedRemainsOption.first
+
+    val onRemainsApplicationClicked = {
+        remainsApplicationViewModel.onEvent(
+            event = RemainsApplicationUiEvent.UpdateUiRemainsOption,
+        )
     }
-
-    var buttonEnabled by remember {
-        mutableStateOf(false)
-    }
-
-    buttonEnabled = currentSelectedItemTitle != lastAppliedItemTitle
 
     LaunchedEffect(Unit) {
-        with(remainsApplicationViewModel) {
-            uiState.collect {
-                val errorMessage = it.remainsApplicationErrorMessage
+        remainsApplicationViewModel.uiState.collect {
+            val errorMessage = it.remainsApplicationErrorMessage
 
-                if (errorMessage.isNotEmpty()) {
-                    appState.toastManager.setMessage(
-                        message = errorMessage,
-                        ToastType.ERROR,
-                    )
-                }
+            if (errorMessage.isNotEmpty()) {
+                appState.toastManager.setMessage(
+                    message = errorMessage,
+                    ToastType.ERROR,
+                )
             }
         }
     }
@@ -119,7 +115,7 @@ internal fun RemainsApplicationScreen(
                 modifier = Modifier.fillMaxSize(),
             ) {
 
-                val remainApplicationTime = state.remainsApplicationTimeOutput
+                val remainApplicationTime = state.value.remainsApplicationTimeOutput
 
                 if (remainApplicationTime.startDayOfWeek != null) {
                     FloatingNotice(
@@ -139,20 +135,28 @@ internal fun RemainsApplicationScreen(
                         bottom = 48.dp,
                     )
                 ) {
-                    itemsIndexed(
-                        items = state.remainsOptionsOutput.remainOptions,
-                    ) { _, item ->
+
+                    val remainsOptions = state.value.remainsOptionsOutput.remainOptions
+
+                    items(
+                        count = remainsOptions.size,
+                    ) { index ->
+
+                        val item = remainsOptions[index]
+
                         ApplicationCard(
                             text = item.title,
                             content = item.description,
-                            isSelected = state.remainsOptionId == item.id,
+                            isSelected = remainsApplicationViewModel.getRemainsOptionItemState(
+                                remainsOptionId = item.id,
+                            ),
                             onSelect = {
                                 remainsApplicationViewModel.onEvent(
-                                    event = RemainsApplicationUiEvent.SetRemainsOptionItemId(
+                                    event = RemainsApplicationUiEvent.SetSelectedRemainsOption(
+                                        remainsOptionTitle = item.title,
                                         remainsOptionId = item.id,
                                     )
                                 )
-                                currentSelectedItemTitle = item.title
                             },
                             isLastApplied = lastAppliedItemTitle == item.title,
                         )
@@ -160,7 +164,9 @@ internal fun RemainsApplicationScreen(
                 }
             }
 
-            if (state.remainsOptionId != null) {
+            val buttonEnabled = state.value.remainsApplicationButtonEnabled
+
+            if (state.value.selectedRemainsOption.second != null) {
                 DormContainedLargeButton(
                     text = setButtonTextByRemainsState(
                         buttonEnabled = buttonEnabled,
@@ -169,12 +175,9 @@ internal fun RemainsApplicationScreen(
                         context = context,
                     ),
                     color = DormButtonColor.Blue,
-                    enabled = buttonEnabled
-                ) {
-                    remainsApplicationViewModel.onEvent(
-                        event = RemainsApplicationUiEvent.UpdateUiRemainsOption,
-                    )
-                }
+                    enabled = buttonEnabled,
+                    onClick = onRemainsApplicationClicked,
+                )
             }
         }
     }
@@ -312,8 +315,11 @@ private fun setButtonTextByRemainsState(
     context: Context,
 ): String {
     return if (!buttonEnabled) context.getString(R.string.application_completed)
-    else if(lastAppliedItemTitle.isBlank()) context.getString(R.string.remain_do_apply, currentSelectedItemTitle)
-    else  context.getString(
+    else if (lastAppliedItemTitle.isBlank()) context.getString(
+        R.string.remain_do_apply,
+        currentSelectedItemTitle
+    )
+    else context.getString(
         R.string.remain_change_to,
         currentSelectedItemTitle,
     )

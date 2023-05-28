@@ -3,11 +3,16 @@ package team.aliens.dms_android.feature.remain
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.MviViewModel
+import team.aliens.dms_android.base.UiEvent
+import team.aliens.dms_android.base.UiState
 import team.aliens.domain.exception.RemoteException
+import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
 import team.aliens.domain.model.remains.UpdateRemainsOptionInput
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
@@ -48,11 +53,16 @@ internal class RemainsApplicationViewModel @Inject constructor(
                 updateRemainOption()
             }
 
-            is RemainsApplicationUiEvent.SetRemainsOptionItemId -> {
-                setState(
-                    newState = uiState.value.copy(
-                        remainsOptionId = event.remainsOptionId,
-                    )
+            is RemainsApplicationUiEvent.SetSelectedRemainsOption -> {
+                setSelectedRemainsOption(
+                    remainsOptionTitle = event.remainsOptionTitle,
+                    remainsOptionId = event.remainsOptionId,
+                )
+            }
+
+            is RemainsApplicationUiEvent.SetRemainsApplicationButtonState -> {
+                setRemainApplicationButtonState(
+                    buttonEnabled = event.buttonEnabled,
                 )
             }
 
@@ -118,7 +128,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
     private fun updateRemainOption() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                val remainsOptionId = uiState.value.remainsOptionId
+                val remainsOptionId = uiState.value.selectedRemainsOption.second
 
                 if (remainsOptionId != null) {
                     updateRemainOptionUseCase(
@@ -129,6 +139,9 @@ internal class RemainsApplicationViewModel @Inject constructor(
                 }
             }.onSuccess {
                 fetchCurrentAppliedRemainsOption()
+                setRemainApplicationButtonState(
+                    buttonEnabled = uiState.value.currentAppliedRemainsOption == uiState.value.selectedRemainsOption.first,
+                )
             }.onFailure {
                 onErrorEvent(
                     throwable = it,
@@ -136,6 +149,34 @@ internal class RemainsApplicationViewModel @Inject constructor(
             }
         }
     }
+
+    private fun setSelectedRemainsOption(
+        remainsOptionTitle: String,
+        remainsOptionId: UUID,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                selectedRemainsOption = remainsOptionTitle to remainsOptionId,
+            )
+        )
+        setRemainApplicationButtonState(
+            buttonEnabled = remainsOptionTitle != uiState.value.currentAppliedRemainsOption,
+        )
+    }
+
+    private fun setRemainApplicationButtonState(
+        buttonEnabled: Boolean,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                remainsApplicationButtonEnabled = buttonEnabled,
+            )
+        )
+    }
+
+    internal fun getRemainsOptionItemState(
+        remainsOptionId: UUID,
+    ): Boolean = uiState.value.selectedRemainsOption.second == remainsOptionId
 
     // TODO BaseViewModel (MviViewModel) 에서 처리할 수 있는 방법 생각해보기
     private fun onErrorEvent(
@@ -164,4 +205,46 @@ internal class RemainsApplicationViewModel @Inject constructor(
             )
         )
     }
+}
+
+data class RemainsApplicationUiState(
+    val remainsApplicationTimeOutput: FetchRemainsApplicationTimeOutput,
+    val remainsOptionsOutput: FetchRemainsOptionsOutput,
+    val currentAppliedRemainsOption: String,
+    val selectedRemainsOption: Pair<String, UUID?>,
+    val remainsApplicationErrorMessage: String,
+    val remainsApplicationButtonEnabled: Boolean,
+) : UiState {
+    companion object {
+        fun initial() = RemainsApplicationUiState(
+            remainsApplicationTimeOutput = FetchRemainsApplicationTimeOutput(
+                startDayOfWeek = null,
+                startTime = null,
+                endDayOfWeek = null,
+                endTime = null,
+            ),
+            remainsOptionsOutput = FetchRemainsOptionsOutput(
+                remainOptions = emptyList(),
+            ),
+            selectedRemainsOption = "" to null,
+            currentAppliedRemainsOption = "",
+            remainsApplicationErrorMessage = "",
+            remainsApplicationButtonEnabled = false,
+        )
+    }
+}
+
+
+sealed class RemainsApplicationUiEvent : UiEvent {
+    object FetchAvailableRemainsTime : RemainsApplicationUiEvent()
+    object FetchRemainsOptions : RemainsApplicationUiEvent()
+    object FetchCurrentAppliedRemainsOption : RemainsApplicationUiEvent()
+    object UpdateUiRemainsOption : RemainsApplicationUiEvent()
+    class SetSelectedRemainsOption(
+        val remainsOptionTitle: String,
+        val remainsOptionId: UUID,
+    ) : RemainsApplicationUiEvent()
+    class SetRemainsApplicationButtonState(
+        val buttonEnabled: Boolean,
+    ): RemainsApplicationUiEvent()
 }
