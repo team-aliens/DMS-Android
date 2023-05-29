@@ -42,6 +42,8 @@ internal class SignInViewModel @Inject constructor(
     }
 
     private fun signIn() {
+        setSignInButtonState(false)
+
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val currentUserInformation = this@SignInViewModel.uiState.value
@@ -104,11 +106,12 @@ internal class SignInViewModel @Inject constructor(
         setSignInButtonState()
     }
 
-    // 그렇게 좋은 코드는 아닌 듯
-    private fun setSignInButtonState() {
+    private fun setSignInButtonState(
+        enabled: Boolean = idEntered && passwordEntered
+    ) {
         setState(
             newState = uiState.value.copy(
-                signInButtonEnabled = idEntered && passwordEntered,
+                signInButtonEnabled = enabled,
             ),
         )
     }
