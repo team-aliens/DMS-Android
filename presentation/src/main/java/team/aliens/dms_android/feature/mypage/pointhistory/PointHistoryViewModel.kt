@@ -60,7 +60,8 @@ internal class PointHistoryViewModel @Inject constructor(
         setState(
             newState = uiState.value.copy(
                 selectedType = type,
-                pointHistories = fetchPointsOutput.pointHistories.toModel(),
+                totalPoint = fetchPointsOutput.totalPoint,
+                points = fetchPointsOutput.pointHistories.toModel(),
             ),
         )
     }
@@ -69,13 +70,13 @@ internal class PointHistoryViewModel @Inject constructor(
 internal data class PointHistoryUiState(
     val selectedType: PointType,
     val totalPoint: Int,
-    val pointHistories: List<Point>,
+    val points: List<Point>,
 ) : UiState {
     companion object {
         fun initial() = PointHistoryUiState(
             selectedType = PointType.ALL,
             totalPoint = 0, // todo 스켈레톤 효과에 따른 리팩토링 논의
-            pointHistories = emptyList(),
+            points = emptyList(),
         )
     }
 }

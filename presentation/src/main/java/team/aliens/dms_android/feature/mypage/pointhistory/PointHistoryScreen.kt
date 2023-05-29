@@ -2,7 +2,6 @@ package team.aliens.dms_android.feature.mypage.pointhistory
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,8 +19,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedDefaultButton
 import team.aliens.design_system.button.DormOutlinedDefaultButton
+import team.aliens.design_system.typography.Headline2
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.PointType
+import team.aliens.domain.model.point.Point
 import team.aliens.presentation.R
 
 /*
@@ -269,10 +270,21 @@ internal fun PointHistoryScreen(
             title = stringResource(R.string.my_page_check_point_history),
             onPrevious = onBackToMyPage,
         )
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(36.dp))
         PointFilter(
             selectedType = uiState.selectedType,
             onFilterChange = onFetchPoints,
+        )
+        Spacer(Modifier.height(36.dp))
+        Headline2(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = String.format(
+                stringResource(R.string.my_page_points_of),
+                uiState.totalPoint,
+            ),
+        )
+        Points(
+            points = uiState.points,
         )
     }
 }
@@ -285,7 +297,7 @@ private val filterButtons = listOf(
 )
 
 @Composable
-private fun ColumnScope.PointFilter(
+private fun PointFilter(
     selectedType: PointType,
     onFilterChange: (PointType) -> Unit,
 ) {
@@ -348,4 +360,11 @@ private fun PointTypeRadioGroup(
             }
         }
     }
+}
+
+@Composable
+private fun Points(
+    points: List<Point>,
+) {
+
 }
