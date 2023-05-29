@@ -98,7 +98,6 @@ private fun PointFilter(
             ),
     ) {
         PointTypeRadioGroup(
-            buttons = filterButtons,
             selectedType = selectedType,
             onFilterChange = onFilterChange,
         )
@@ -122,7 +121,6 @@ private val PointTypeRadioButton.text: String
 
 @Composable
 private fun PointTypeRadioGroup(
-    buttons: List<PointTypeRadioButton>,
     selectedType: PointType,
     onFilterChange: (PointType) -> Unit,
 ) {
@@ -130,7 +128,7 @@ private fun PointTypeRadioGroup(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        buttons.forEach { button ->
+        filterButtons.forEach { button ->
             if (selectedType == button.pointType) {
                 DormContainedDefaultButton(
                     text = button.text,
@@ -168,10 +166,8 @@ private fun ColumnScope.Points(
                 Spacer(Modifier.height(54.dp))
         }
 
-        repeat(10) {// todo
-            items(points) { point ->
-                PointInformation(point)
-            }
+        items(points) { point ->
+            PointInformation(point)
         }
     }
 }
