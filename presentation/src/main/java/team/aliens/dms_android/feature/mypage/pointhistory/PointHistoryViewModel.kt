@@ -29,6 +29,7 @@ internal class PointHistoryViewModel @Inject constructor(
 
     override fun updateState(event: PointHistoryUiEvent) {
         when (event) {
+            is PointHistoryUiEvent.FetchPoints -> this.fetchPoints(event.pointType)
             PointHistoryUiEvent.FetchAllTypePoints -> this.fetchPoints(PointType.ALL)
             PointHistoryUiEvent.FetchBonusTypePoints -> this.fetchPoints(PointType.BONUS)
             PointHistoryUiEvent.FetchMinusTypePoints -> this.fetchPoints(PointType.MINUS)
@@ -80,6 +81,7 @@ internal data class PointHistoryUiState(
 }
 
 internal sealed class PointHistoryUiEvent : UiEvent {
+    class FetchPoints(val pointType: PointType) : PointHistoryUiEvent()
     object FetchAllTypePoints : PointHistoryUiEvent()
     object FetchBonusTypePoints : PointHistoryUiEvent()
     object FetchMinusTypePoints : PointHistoryUiEvent()

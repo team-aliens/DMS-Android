@@ -1,14 +1,24 @@
 package team.aliens.dms_android.feature.mypage.pointhistory
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedDefaultButton
 import team.aliens.design_system.button.DormOutlinedDefaultButton
+import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.PointType
 import team.aliens.presentation.R
 
@@ -241,13 +251,47 @@ fun PointListValue(
 
 @Composable
 internal fun PointHistoryScreen(
+    onBackToMyPage: () -> Unit,
     pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
 ) {
+    val uiState by pointHistoryViewModel.uiState.collectAsStateWithLifecycle()
+
+    val onFetchPoints = { pointType: PointType ->
+        pointHistoryViewModel.onEvent(PointHistoryUiEvent.FetchPoints(pointType))
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-
+        TopBar(
+            title = stringResource(R.string.my_page_check_point_history),
+            onPrevious = onBackToMyPage,
+        )
+        Spacer(Modifier.height(40.dp))
+        PointFilter(
+            selectedType = uiState.selectedType,
+            onFilterChange = onFetchPoints,
+        )
     }
+}
+
+@Stable
+private val filterButtons = listOf(
+    PointTypeRadioButton(PointType.ALL),
+    PointTypeRadioButton(PointType.BONUS),
+    PointTypeRadioButton(PointType.MINUS),
+)
+
+@Composable
+private fun ColumnScope.PointFilter(
+    selectedType: PointType,
+    onFilterChange: (PointType) -> Unit,
+) {
+    PointTypeRadioGroup(
+        buttons = filterButtons,
+        selectedType = selectedType,
+        onFilterChange = onFilterChange,
+    )
 }
 
 @JvmInline
@@ -269,23 +313,27 @@ private val PointTypeRadioButton.text: String
 private fun PointTypeRadioGroup(
     buttons: List<PointTypeRadioButton>,
     selectedType: PointType,
-    onFetchPoints: (PointType) -> Unit,
+    onFilterChange: (PointType) -> Unit,
 ) {
-    buttons.forEach { button ->
-        if (selectedType == button.pointType) {
-            DormContainedDefaultButton(
-                text = button.text,
-                color = DormButtonColor.Blue,
-                onClick = {
-                    /* explicit blank */
-                },
-            )
-        } else {
-            DormOutlinedDefaultButton(
-                text = button.text,
-                color = DormButtonColor.Gray,
-            ) {
-                onFetchPoints(button.pointType)
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        buttons.forEach { button ->
+            if (selectedType == button.pointType) {
+                DormContainedDefaultButton(
+                    text = button.text,
+                    color = DormButtonColor.Blue,
+                    onClick = {
+                        /* explicit blank */
+                    },
+                )
+            } else {
+                DormOutlinedDefaultButton(
+                    text = button.text,
+                    color = DormButtonColor.Gray,
+                ) {
+                    onFilterChange(button.pointType)
+                }
             }
         }
     }

@@ -34,7 +34,11 @@ fun NavGraphBuilder.homeNavigation(
         }
 
         composable(DmsRoute.Home.PointHistory) {
-            PointHistoryScreen()
+            PointHistoryScreen(
+                onBackToMyPage = {
+                    navController.popBackStack()
+                },
+            )
         }
 
         composable(
