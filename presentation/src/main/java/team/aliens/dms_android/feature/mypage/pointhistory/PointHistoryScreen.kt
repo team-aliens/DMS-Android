@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -385,7 +384,7 @@ private fun ColumnScope.Points(
 ) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxHeight()
+            .weight(1f)
             .padding(
                 horizontal = 16.dp,
             ),
@@ -396,8 +395,10 @@ private fun ColumnScope.Points(
                 Spacer(Modifier.height(54.dp))
         }
 
-        items(points) { point ->
-            PointInformation(point)
+        repeat(10) {// todo
+            items(points) { point ->
+                PointInformation(point)
+            }
         }
     }
 }
@@ -408,9 +409,6 @@ private fun PointInformation(
 ) {
     Box(
         modifier = Modifier
-            .padding(
-                horizontal = 16.dp,
-            )
             .dormShadow(
                 color = DormTheme.colors.secondaryVariant,
                 offsetY = 1.dp,
@@ -422,50 +420,53 @@ private fun PointInformation(
                 color = DormTheme.colors.surface,
             )
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .padding(
+                vertical = 14.dp,
+                horizontal = 16.dp,
+            ),
         contentAlignment = Alignment.CenterStart,
     ) {
         Column(
-            modifier = Modifier.padding(
-                horizontal = 24.dp,
-            ),
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-
-            val pointDate = point.date.split("-")
+            val (_, month, date) = point.date.split("-")
 
             OverLine(
-                text = "${pointDate[1]}월" + " ${pointDate[2]}일",
+                text = String.format(
+                    stringResource(R.string.my_page_date_of),
+                    month.toInt(),
+                    date.toInt(),
+                ),
                 color = DormTheme.colors.primaryVariant,
             )
 
-            Spacer(Modifier.height(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Body5(
+                    text = point.name,
+                )
 
-            Body5(
-                text = point.name,
-            )
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    end = 15.dp,
-                    bottom = 15.dp,
-                ),
-            contentAlignment = Alignment.BottomEnd,
-        ) {
-            when (point.type) {
-                PointType.BONUS -> {
-                    Body4(
-                        text = "+${point.score}",
-                        color = DormTheme.colors.primary,
-                    )
-                }
+                when (point.type) {
+                    PointType.BONUS -> {
+                        Body4(
+                            text = "+" + point.score,
+                            color = DormTheme.colors.primary,
+                        )
+                    }
 
-                else -> {
-                    Body4(
-                        text = "-${point.score}",
-                        color = DormTheme.colors.error,
-                    )
+                    PointType.MINUS -> {
+                        Body4(
+                            text = "-" + point.score,
+                            color = DormTheme.colors.error,
+                        )
+                    }
+
+                    else -> throw IllegalStateException()
                 }
             }
         }
