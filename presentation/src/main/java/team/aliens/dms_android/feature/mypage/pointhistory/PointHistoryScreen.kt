@@ -18,9 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedDefaultButton
 import team.aliens.design_system.button.DormOutlinedDefaultButton
+import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
@@ -153,21 +157,47 @@ private fun PointTypeRadioGroup(
 private fun ColumnScope.Points(
     points: List<Point>,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .weight(1f)
-            .padding(
-                horizontal = 16.dp,
+    val color = DormTheme.colors
+    val pointFadedBackgroundBrush = remember {
+        Brush.verticalGradient(
+            colors = listOf(
+                color.background,
+                Color.Transparent,
             ),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-        item {
-            if (points.isNotEmpty())
-                Spacer(Modifier.height(54.dp))
-        }
+        )
+    }
+    val pointsNotEmpty = points.isNotEmpty()
 
-        items(points) { point ->
-            PointInformation(point)
+    Box(
+        modifier = Modifier.weight(1f),
+        contentAlignment = Alignment.TopCenter,
+    ) {
+        if (pointsNotEmpty) {
+            LazyColumn(
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                ),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                item {
+                    Spacer(Modifier.height(54.dp))
+                }
+                items(points) { point ->
+                    PointInformation(point)
+                }
+                item {
+                    Spacer(Modifier.height(54.dp))
+                }
+            }
+
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .height(54.dp)
+                    .dormGradientBackground(pointFadedBackgroundBrush),
+            )
+        } else {
+            // todo discuss when 'points' is empty
         }
     }
 }
