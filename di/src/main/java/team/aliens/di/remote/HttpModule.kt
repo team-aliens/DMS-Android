@@ -117,7 +117,7 @@ object HttpModule {
 
         return Retrofit(
             clients = clients,
-            baseUrl = "https://api-dev.aliens-dms.com",
+            baseUrl = baseUrl,
             gsonConverterFactory = true,
         )
     }

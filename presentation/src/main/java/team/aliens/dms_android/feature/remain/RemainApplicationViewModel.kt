@@ -76,6 +76,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
                 setState(
                     newState = uiState.value.copy(
                         remainsApplicationTimeOutput = it,
+                        remainsApplicationErrorMessage = "",
                     )
                 )
             }.onFailure {
@@ -132,7 +133,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
                 if (remainsOptionId != null) {
                     updateRemainOptionUseCase(
                         updateRemainsOptionInput = UpdateRemainsOptionInput(
-                            remainsOptionId = UUID.fromString("remainsOptionId"),
+                            remainsOptionId = remainsOptionId,
                         )
                     )
                 }
@@ -159,6 +160,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
             newState = uiState.value.copy(
                 remainsOptionTitle = remainsOption.title,
                 remainsOptionId = remainsOption.id,
+                remainsApplicationErrorMessage = "",
             )
         )
         setRemainApplicationButtonState(

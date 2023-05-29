@@ -117,7 +117,7 @@ internal fun RemainsApplicationScreen(
 
                 val remainApplicationTime = state.value.remainsApplicationTimeOutput
 
-                if (remainApplicationTime.startTime.isNotEmpty()) {
+                if (remainApplicationTime != null) {
                     FloatingNotice(
                         content = setRemainApplicationAvailableTime(
                             startDayOfWeek = remainApplicationTime.startDayOfWeek,
@@ -136,7 +136,7 @@ internal fun RemainsApplicationScreen(
                     )
                 ) {
 
-                    val remainsOptions = state.value.remainsOptionsOutput.remainOptions
+                    val remainsOptions = state.value.remainsOptions
 
                     items(
                         count = remainsOptions.size,
