@@ -1,17 +1,27 @@
 package team.aliens.dms_android.feature.mypage.pointhistory
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,7 +29,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedDefaultButton
 import team.aliens.design_system.button.DormOutlinedDefaultButton
+import team.aliens.design_system.modifier.dormShadow
+import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.typography.Body4
+import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Headline2
+import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.PointType
 import team.aliens.domain.model.point.Point
@@ -277,7 +292,9 @@ internal fun PointHistoryScreen(
         )
         Spacer(Modifier.height(36.dp))
         Headline2(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+            ),
             text = String.format(
                 stringResource(R.string.my_page_points_of),
                 uiState.totalPoint,
@@ -363,8 +380,94 @@ private fun PointTypeRadioGroup(
 }
 
 @Composable
-private fun Points(
+private fun ColumnScope.Points(
     points: List<Point>,
 ) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(
+                horizontal = 16.dp,
+            ),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        item {
+            if (points.isNotEmpty())
+                Spacer(Modifier.height(54.dp))
+        }
 
+        items(points) { point ->
+            PointInformation(point)
+        }
+    }
+}
+
+@Composable
+private fun PointInformation(
+    point: Point,
+) {
+    Box(
+        modifier = Modifier
+            .padding(
+                horizontal = 16.dp,
+            )
+            .dormShadow(
+                color = DormTheme.colors.secondaryVariant,
+                offsetY = 1.dp,
+            )
+            .clip(
+                RoundedCornerShape(10.dp),
+            )
+            .background(
+                color = DormTheme.colors.surface,
+            )
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Column(
+            modifier = Modifier.padding(
+                horizontal = 24.dp,
+            ),
+        ) {
+
+            val pointDate = point.date.split("-")
+
+            OverLine(
+                text = "${pointDate[1]}월" + " ${pointDate[2]}일",
+                color = DormTheme.colors.primaryVariant,
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Body5(
+                text = point.name,
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    end = 15.dp,
+                    bottom = 15.dp,
+                ),
+            contentAlignment = Alignment.BottomEnd,
+        ) {
+            when (point.type) {
+                PointType.BONUS -> {
+                    Body4(
+                        text = "+${point.score}",
+                        color = DormTheme.colors.primary,
+                    )
+                }
+
+                else -> {
+                    Body4(
+                        text = "-${point.score}",
+                        color = DormTheme.colors.error,
+                    )
+                }
+            }
+        }
+    }
 }
