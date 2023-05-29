@@ -26,14 +26,18 @@ internal class RemainsApplicationViewModel @Inject constructor(
     private val fetchRemainsOptionsUseCase: FetchRemainsOptionsUseCase,
     private val fetchCurrentAppliedRemainsOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
     private val updateRemainOptionUseCase: UpdateRemainsOptionUseCase,
-    private val application: Application = Application(),
-) : MviViewModel<RemainsApplicationUiState, RemainsApplicationUiEvent>(RemainsApplicationUiState.initial()) {
+) : MviViewModel<RemainsApplicationUiState, RemainsApplicationUiEvent>(
+    initialState = RemainsApplicationUiState.initial(),
+) {
 
     init {
         fetchRemainsApplicationTime()
         fetchCurrentAppliedRemainsOption()
         fetchRemainsOptions()
     }
+
+    @Inject
+    lateinit var application: Application
 
     override fun updateState(event: RemainsApplicationUiEvent) {
         when (event) {
