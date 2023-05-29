@@ -55,7 +55,11 @@ fun DormCalendar(
                 },
                 update = {
                     it.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                        val date = makeDate(year, month, dayOfMonth)
+                        val date = makeDate(
+                            year = year,
+                            month = month,
+                            dayOfMonth = dayOfMonth,
+                        )
                         onDateChange(date)
                     }
                 },
