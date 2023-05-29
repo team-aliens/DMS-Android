@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -153,7 +154,9 @@ private fun MealScreenAppLogo() {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        AppLogo()
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
     }
 }
 
