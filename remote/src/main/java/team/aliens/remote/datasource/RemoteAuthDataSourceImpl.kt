@@ -23,8 +23,8 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         input: SignInInput,
     ): AuthenticationOutput {
         return sendHttpRequest(
-            onUnauthorized = throw AuthException.PasswordMismatch,
-            onNotFound = throw AuthException.UserNotFound,
+            onUnauthorized = { throw AuthException.PasswordMismatch },
+            onNotFound = { throw AuthException.UserNotFound },
         ) {
             authApiService.signIn(
                 request = input.toData()
