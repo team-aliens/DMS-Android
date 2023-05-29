@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.mypage.pointhistory
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -287,11 +289,19 @@ private fun ColumnScope.PointFilter(
     selectedType: PointType,
     onFilterChange: (PointType) -> Unit,
 ) {
-    PointTypeRadioGroup(
-        buttons = filterButtons,
-        selectedType = selectedType,
-        onFilterChange = onFilterChange,
-    )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = 16.dp,
+            ),
+    ) {
+        PointTypeRadioGroup(
+            buttons = filterButtons,
+            selectedType = selectedType,
+            onFilterChange = onFilterChange,
+        )
+    }
 }
 
 @JvmInline
@@ -317,6 +327,7 @@ private fun PointTypeRadioGroup(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         buttons.forEach { button ->
             if (selectedType == button.pointType) {
