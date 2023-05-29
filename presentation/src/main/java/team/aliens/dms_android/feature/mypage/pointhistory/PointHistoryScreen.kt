@@ -1,5 +1,18 @@
 package team.aliens.dms_android.feature.mypage.pointhistory
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormContainedDefaultButton
+import team.aliens.design_system.button.DormOutlinedDefaultButton
+import team.aliens.domain.model._common.PointType
+import team.aliens.presentation.R
+
+/*
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -223,5 +236,57 @@ fun PointListValue(
         }
         Space(space = 40.dp)
         PointList(points = point)
+    }
+}*/
+
+@Composable
+internal fun PointHistoryScreen(
+    pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+
+    }
+}
+
+@JvmInline
+private value class PointTypeRadioButton(
+    val pointType: PointType,
+)
+
+private val PointTypeRadioButton.text: String
+    @Composable get() = stringResource(
+        when (this.pointType) {
+            PointType.ALL -> R.string.all_point
+            PointType.BONUS -> R.string.bonus_point
+            PointType.MINUS -> R.string.minus_point
+        },
+    )
+
+
+@Composable
+private fun PointTypeRadioGroup(
+    buttons: List<PointTypeRadioButton>,
+    selectedType: PointType,
+    onFetchPoints: (PointType) -> Unit,
+) {
+    buttons.forEach { button ->
+        if (selectedType == button.pointType) {
+            DormContainedDefaultButton(
+                text = button.text,
+                color = DormButtonColor.Blue,
+                onClick = {
+                    /* explicit blank */
+                },
+            )
+        } else {
+            DormOutlinedDefaultButton(
+                text = button.text,
+                color = DormButtonColor.Gray,
+            ) {
+                onFetchPoints(button.pointType)
+            }
+        }
     }
 }
