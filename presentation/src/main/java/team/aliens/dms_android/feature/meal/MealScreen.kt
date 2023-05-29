@@ -62,6 +62,7 @@ import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.presentation.R
 import kotlin.math.absoluteValue
 
+@Stable
 private val defaultBackgroundBrush = Brush.verticalGradient(
     colors = listOf(
         Color.Transparent,
@@ -254,9 +255,7 @@ private fun DateTextButton(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(
-                id = R.drawable.ic_calendar,
-            ),
+            painter = painterResource(R.drawable.ic_calendar),
             contentDescription = null,
         )
         Body5(
