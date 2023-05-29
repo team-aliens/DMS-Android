@@ -404,9 +404,7 @@ private fun DishInformation(
                 tint = DormTheme.colors.primaryVariant,
             )
         }
-        items(
-            dishes,
-        ) { menu ->
+        items(dishes) { menu ->
             Body2(
                 text = menu,
             )
