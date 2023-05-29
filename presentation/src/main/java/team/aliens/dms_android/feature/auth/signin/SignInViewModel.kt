@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.MviViewModel
 import team.aliens.dms_android.base.UiEvent
 import team.aliens.dms_android.base.UiState
+import team.aliens.domain.exception.AuthException
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
 import team.aliens.domain.model.student.Feature
@@ -63,11 +64,27 @@ internal class SignInViewModel @Inject constructor(
                     ),
                 )
             }.onFailure {
+                when (it) {
+                    AuthException.UserNotFound -> setState(
+                        newState = uiState.value.copy(
+                            idError = true,
+                            error = it,
+                        ),
+                    )
+
+                    AuthException.PasswordMismatch -> setState(
+                        newState = uiState.value.copy(
+                            passwordError = true,
+                            error = it,
+                        ),
+                    )
+                }/*
+
                 setState(
                     newState = uiState.value.copy(
                         error = it,
                     ),
-                )
+                )*/
             }
         }
     }
@@ -87,6 +104,7 @@ internal class SignInViewModel @Inject constructor(
     ) {
         setState(
             newState = uiState.value.copy(
+                idError = false,
                 accountId = newId,
             ),
         )
@@ -99,6 +117,7 @@ internal class SignInViewModel @Inject constructor(
     ) {
         setState(
             newState = uiState.value.copy(
+                passwordError = false,
                 password = newPassword,
             ),
         )

@@ -39,6 +39,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.feature.application.navigateToHome
 import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.domain.exception.AuthException
 import team.aliens.domain.exception.RemoteException
 import team.aliens.presentation.R
 
@@ -93,20 +94,18 @@ internal fun SignInScreen(
         }
     }
 
-    // fixme replace with new toast
     val toast = rememberToast()
-    // todo discuss about this code
     val context = LocalContext.current
     LaunchedEffect(error) {
-        // todo discuss 'bout this code
-        if (error != null) {
+        if (error != null
+            && error !is AuthException.UserNotFound
+            && error !is AuthException.PasswordMismatch
+        ) {
             // todo toast
             toast(
                 message = context.getString(
                     when (error) {
                         is RemoteException.BadRequest -> R.string.error_bad_request
-                        is RemoteException.Unauthorized -> R.string.sign_in_error_unauthorized
-                        is RemoteException.NotFound -> R.string.sign_in_error_not_found
                         is RemoteException.TooManyRequests -> R.string.error_too_many_request
                         is RemoteException.InternalServerError -> R.string.error_internal_server
                         else -> R.string.error_unknown
@@ -129,6 +128,8 @@ internal fun SignInScreen(
             onAccountIdChange = onAccountIdChange, // 사용자의 행위에 대한 자동 콜백 = 능동형
             onPasswordChange = onPasswordChange,
             onAutoSignInOptionChanged = onAutoSignInOptionChanged, // 사용자의 행위 = 수동형(~ed)
+            idError = uiState.idError,
+            passwordError = uiState.passwordError,
             error = error,
         )
         Spacer(Modifier.height(12.dp))
@@ -177,11 +178,17 @@ private fun UserInformationInputs(
     onAccountIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onAutoSignInOptionChanged: (Boolean) -> Unit,
+    idError: Boolean,
+    passwordError: Boolean,
     error: Throwable?,
 ) {
     val focusManager = LocalFocusManager.current
     val idErrorMessage = when (error) {
-        is RemoteException.NotFound -> stringResource(R.string.sign_in_error_not_found)
+        is AuthException.UserNotFound -> stringResource(R.string.sign_in_error_not_found)
+        else -> null
+    }
+    val passwordErrorMessage = when (error) {
+        is AuthException.PasswordMismatch -> stringResource(R.string.sign_in_error_password_mismatch)
         else -> null
     }
 
@@ -201,7 +208,7 @@ private fun UserInformationInputs(
                 focusManager.moveFocus(FocusDirection.Next)
             },
         ),
-        error = idErrorMessage != null,
+        error = idError,
         errorDescription = idErrorMessage,
     )
     Spacer(Modifier.height(32.dp))
@@ -222,6 +229,8 @@ private fun UserInformationInputs(
                 focusManager.clearFocus()
             },
         ),
+        error = passwordError,
+        errorDescription = passwordErrorMessage,
     )
     Spacer(Modifier.height(28.dp))
     DormTextCheckBox(
