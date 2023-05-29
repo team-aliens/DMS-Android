@@ -54,7 +54,7 @@ internal class SignInViewModel @Inject constructor(
                     ),
                 )
             }.onSuccess {
-                this@SignInViewModel.setState(
+                setState(
                     newState = uiState.value.copy(
                         signInSuccess = true,
                         features = it.features.toModel(),
