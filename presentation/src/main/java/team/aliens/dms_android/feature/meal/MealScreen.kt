@@ -29,6 +29,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,6 +39,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -312,6 +315,13 @@ private fun ColumnScope.MealCard(
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
     )
+
+    val haptic = LocalHapticFeedback.current
+
+    LaunchedEffect(pagerState.currentPage) {
+        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+    }
+
     HorizontalPager(
         modifier = Modifier.weight(1f),
         pageCount = 3,
