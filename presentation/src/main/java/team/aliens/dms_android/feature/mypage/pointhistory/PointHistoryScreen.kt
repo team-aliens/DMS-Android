@@ -1,5 +1,7 @@
 package team.aliens.dms_android.feature.mypage.pointhistory
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,16 +21,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedDefaultButton
 import team.aliens.design_system.button.DormOutlinedDefaultButton
@@ -198,6 +207,37 @@ private fun ColumnScope.Points(
             )
         } else {
             // todo discuss when 'points' is empty
+            // and remove these codes
+            // ㅋㅋㅋ 이거 짱 귀여운데 리뷰어 분들 보여드리고 지울게요
+
+            var isVisible by remember {
+                mutableStateOf(false)
+            }
+
+            @Suppress("CoroutineCreationDuringComposition")
+            rememberCoroutineScope().launch {
+                delay(5000L)
+                isVisible = true
+            }
+
+            this@Points.AnimatedVisibility(
+                visible = isVisible,
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(32.dp),
+                        painter = painterResource(R.drawable.img_dummy),
+                        contentDescription = "whaaaaaat?!??!?",
+                    )
+                    OverLine(
+                        text = "짠! 야옹맨이 너의 점수를 가져갔으니 안심하라구!",
+                    )
+                }
+            }
         }
     }
 }
