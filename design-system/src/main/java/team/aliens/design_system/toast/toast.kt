@@ -86,7 +86,7 @@ fun DormToastHost(
                 }
 
                 else -> {
-                    throw IllegalArgumentException()
+                    //throw IllegalArgumentException()
                 }
             }
         }
