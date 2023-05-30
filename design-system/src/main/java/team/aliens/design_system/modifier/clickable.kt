@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import team.aliens.design_system.annotation.DormDeprecated
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.utils.runIf
 
 @DormDeprecated
@@ -23,7 +24,7 @@ fun Modifier.dormClickable(
         clickable(
             onClick = onClick!!,
             indication = rememberRipple(
-                color = rippleColor ?: Color.Unspecified,
+                color = rippleColor ?: DormTheme.colors.primaryVariant,
             ).takeIf {
                 rippleEnabled
             },
