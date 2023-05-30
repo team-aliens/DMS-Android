@@ -2,6 +2,8 @@
 
 package team.aliens.dms_android.feature.meal
 
+import android.content.Context
+import android.os.Vibrator
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,8 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -116,10 +117,9 @@ internal fun MealScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             MealScreenAppLogo()
-            if (uiState.newNotices)
-                NoticeCard(
-                    onIconClicked = onNavigateToNoticeScreen,
-                )
+            if (uiState.newNotices) NoticeCard(
+                onIconClicked = onNavigateToNoticeScreen,
+            )
             Spacer(Modifier.height(38.dp))
             Title1(
                 text = stringResource(R.string.meal_todays_meal),
@@ -319,10 +319,9 @@ private fun ColumnScope.MealCard(
         initialPage = getProperMeal(),
     )
 
-    val haptic = LocalHapticFeedback.current
-
-    LaunchedEffect(pagerState.currentPage) {
-        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+    val context = LocalContext.current
+    LaunchedEffect(pagerState.settledPage) {
+        vibrateOnMealCardPaging(context)
     }
 
     HorizontalPager(
@@ -394,6 +393,14 @@ private fun ColumnScope.MealCard(
             }
         }
     }
+}
+
+@Suppress("DEPRECATION")
+private fun vibrateOnMealCardPaging(
+    context: Context,
+) {
+    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    vibrator.vibrate(1L)
 }
 
 @Composable
