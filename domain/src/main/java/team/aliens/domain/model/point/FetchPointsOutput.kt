@@ -1,16 +1,16 @@
 package team.aliens.domain.model.point
 
-import team.aliens.domain.model._common.PointType
 import java.util.UUID
+import team.aliens.domain.model._common.PointType
 
 /**
  * A response returned when fetching points
  * @property totalPoint total points, summary of bonus and minus points
- * @property points list of points
+ * @property pointHistories list of points
  */
 data class FetchPointsOutput(
     val totalPoint: Int,
-    val points: List<PointInformation>,
+    val pointHistories: List<PointInformation>,
 ) {
 
     /**
@@ -28,4 +28,18 @@ data class FetchPointsOutput(
         val name: String,
         val score: Int,
     )
+}
+
+fun FetchPointsOutput.PointInformation.toModel(): Point {
+    return Point(
+        id = this.id,
+        date = this.date,
+        type = this.type,
+        name = this.name,
+        score = this.score,
+    )
+}
+
+fun List<FetchPointsOutput.PointInformation>.toModel(): List<Point> {
+    return this.map(FetchPointsOutput.PointInformation::toModel)
 }

@@ -7,16 +7,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import java.util.UUID
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.Home
 import team.aliens.dms_android.feature.image.UploadProfileImageScreen
+import team.aliens.dms_android.feature.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
-import team.aliens.dms_android.feature.pointlist.PointHistoryScreen
 import team.aliens.dms_android.feature.remain.RemainsApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
 import team.aliens.dms_android.util.SelectImageType
-import java.util.UUID
 
 fun NavGraphBuilder.homeNavigation(
     navController: NavController,
@@ -35,7 +35,9 @@ fun NavGraphBuilder.homeNavigation(
 
         composable(DmsRoute.Home.PointHistory) {
             PointHistoryScreen(
-                navController = navController,
+                onBackToMyPage = {
+                    navController.popBackStack()
+                },
             )
         }
 

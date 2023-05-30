@@ -18,7 +18,7 @@ data class MyPageState(
             totalPoint = 0,
             fetchPointsOutput = FetchPointsOutput(
                 totalPoint = 0,
-                points = emptyList(),
+                pointHistories = emptyList(),
             ),
         )
     }
