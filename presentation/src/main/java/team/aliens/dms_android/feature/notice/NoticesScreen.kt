@@ -1,7 +1,5 @@
 package team.aliens.dms_android.feature.notice
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,6 +11,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +32,8 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.application.rememberDmsAppState
+import team.aliens.domain._exception.RemoteException
+import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.presentation.R
 
@@ -47,22 +51,44 @@ internal fun NoticeScreen(
     // TODO 인자로 전달받기
     val appState = rememberDmsAppState()
 
+    val context = LocalContext.current
+
     val state = noticesViewModel.uiState.collectAsState()
 
     val notices = state.value.notices
 
-    val errorMessage = state.value.noticeErrorMessage
+    val error = state.value.error
 
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
-    LaunchedEffect(errorMessage) {
-        // TODO DmsAppState toastManager setMessage 함수 사용하기
-        if(errorMessage.isNotEmpty()) {
-            appState.scaffoldState.snackbarHostState.showSnackbar(
-                message = state.value.noticeErrorMessage,
-                actionLabel = ToastType.ERROR.toString(),
-            )
-        }
+    var orderText by remember { mutableStateOf(context.getString(R.string.latest_order)) }
+
+    val onOrderButtonClicked = {
+        noticesViewModel.onEvent(
+            event = NoticesUiEvent.SetNoticeOrder,
+        )
+        orderText = context.getString(
+            when (state.value.order) {
+                Order.NEW -> R.string.oldest_order
+                else -> R.string.latest_order
+            }
+        )
+    }
+
+    LaunchedEffect(error) {
+        appState.scaffoldState.snackbarHostState.showSnackbar(
+            message = context.getString(
+                when (error) {
+                    is RemoteException.BadRequest -> R.string.error_bad_request
+                    is RemoteException.Unauthorized -> R.string.error_unauthorized
+                    is RemoteException.Forbidden -> R.string.error_forbidden
+                    is RemoteException.NotFound -> R.string.error_not_found
+                    is RemoteException.TooManyRequests -> R.string.error_too_many_request
+                    else -> R.string.error_internal_server
+                }
+            ),
+            actionLabel = ToastType.ERROR.toString(),
+        )
     }
 
     Column(
@@ -87,7 +113,8 @@ internal fun NoticeScreen(
         Space(space = 20.dp)
         OrderButton(
             noticesViewModel = noticesViewModel,
-            orderText = state.value.orderText,
+            orderText = orderText,
+            onOrderButtonClicked = onOrderButtonClicked,
         )
         Space(space = 8.dp)
         NoticeList(
@@ -104,12 +131,11 @@ internal fun NoticeScreen(
 private fun OrderButton(
     noticesViewModel: NoticesViewModel,
     orderText: String,
+    onOrderButtonClicked: () -> Unit,
 ) {
     Button(
         onClick = {
-            noticesViewModel.onEvent(
-                event = NoticesUiEvent.SetNoticeOrder,
-            )
+            onOrderButtonClicked()
         },
         border = BorderStroke(
             width = 1.dp,

@@ -37,21 +37,14 @@ internal fun NoticeDetailsScreen(
 
     val state = noticesViewModel.uiState.collectAsState()
 
-    val errorMessage = state.value.noticeErrorMessage
-
     val notice = state.value.notice
 
     LaunchedEffect(Unit) {
-        if (errorMessage.isNotEmpty()) {
-            // TODO 토스트 로직 처리해주기
-        }
-        with(noticesViewModel) {
-            onEvent(
-                event = NoticesUiEvent.SetNoticeId(
-                    noticeId = UUID.fromString(noticeId),
-                )
+        noticesViewModel.onEvent(
+            event = NoticesUiEvent.SetNoticeId(
+                noticeId = UUID.fromString(noticeId),
             )
-        }
+        )
     }
 
     Column(

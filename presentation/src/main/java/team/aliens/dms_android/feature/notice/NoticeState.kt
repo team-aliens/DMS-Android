@@ -12,9 +12,8 @@ internal data class NoticesUiState(
     val notice: Notice,
     val hasNewNotice: Boolean = false,
     val order: Order,
-    val orderText: String,
     val noticeId: UUID?,
-    val noticeErrorMessage: String,
+    val error: Throwable?,
 ) : UiState {
     companion object {
         fun initial() = NoticesUiState(
@@ -28,9 +27,8 @@ internal data class NoticesUiState(
             ),
             hasNewNotice = false,
             order = Order.OLD,
-            orderText = "",
             noticeId = null,
-            noticeErrorMessage = "",
+            error = null,
         )
     }
 }
