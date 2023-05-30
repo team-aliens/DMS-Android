@@ -324,7 +324,8 @@ private fun ColumnScope.MealCard(
 
     var firstEnter by remember { mutableStateOf(true) }
     val context = LocalContext.current
-    LaunchedEffect(pagerState.settledPage) {
+
+    LaunchedEffect(pagerState.currentPage) {
         if (firstEnter) firstEnter = false
         else vibrateOnMealCardPaging(context)
     }
