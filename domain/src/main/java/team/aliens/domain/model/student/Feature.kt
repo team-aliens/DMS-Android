@@ -14,4 +14,22 @@ data class Feature(
     val pointService: Boolean,
     val studyRoomService: Boolean,
     val remainsService: Boolean,
-)
+) {
+    companion object {
+        fun trueInitialized() = Feature(
+            mealService = true,
+            noticeService = true,
+            pointService = true,
+            studyRoomService = true,
+            remainsService = true,
+        )
+
+        fun falseInitialized() = Feature(
+            mealService = false,
+            noticeService = false,
+            pointService = false,
+            studyRoomService = false,
+            remainsService = false,
+        )
+    }
+}

@@ -1,6 +1,7 @@
 package team.aliens.remote.datasource
 
 import team.aliens.data.datasource.remote.RemoteAuthDataSource
+import team.aliens.domain.exception.AuthException
 import team.aliens.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.domain.model.auth.CheckIdExistsInput
@@ -21,7 +22,10 @@ class RemoteAuthDataSourceImpl @Inject constructor(
     override suspend fun signIn(
         input: SignInInput,
     ): AuthenticationOutput {
-        return sendHttpRequest {
+        return sendHttpRequest(
+            onUnauthorized = { throw AuthException.PasswordMismatch },
+            onNotFound = { throw AuthException.UserNotFound },
+        ) {
             authApiService.signIn(
                 request = input.toData()
             )

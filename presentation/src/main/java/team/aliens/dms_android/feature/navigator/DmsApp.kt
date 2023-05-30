@@ -50,6 +50,7 @@ internal fun DmsApp(
                     navController = navController,
                 )
                 authNavigation(
+                    dmsAppState = dmsAppState,
                     navController = navController,
                 )
             }

@@ -251,11 +251,13 @@
 
     <string name="sign_in_error_unauthorized">인증에 실패하였습니다</string>
     <string name="sign_in_error_not_found">해당 아이디는 존재하지 않는 아이디입니다</string>
+    <string name="sign_in_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
 
     <string name="sign_in_error_check_id_or_password">아이디 또는 비밀번호를 확인해주세요.</string>
 
     <!--sign up-->
     <string name="sign_up">회원가입</string>
+    <string name="do_sign_up">회원가입하기</string>
     <string name="sign_up_complete">회원가입이 완료되었습니다</string>
     <string name="sign_up_go_to_sign_in">로그인 화면으로 가기</string>
     <string name="sign_up_are_you_sure_finish_sign_up">회원가입을 종료 하시겠습니까?</string>

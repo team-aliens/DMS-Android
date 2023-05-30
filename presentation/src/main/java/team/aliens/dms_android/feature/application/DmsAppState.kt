@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.application
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -8,20 +9,21 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.util.manager.ToastManager
 import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.util.manager.ToastManager
+import team.aliens.domain.model.student.Feature
 
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavHostController = rememberNavController(),
     toastManager: ToastManager = ToastManager,
+    availableFeatures: Feature = Feature.falseInitialized(),
+    darkTheme: Boolean = isSystemInDarkTheme(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetState: MutableState<Boolean> = mutableStateOf(false),
 ) = remember {
@@ -29,6 +31,8 @@ internal fun rememberDmsAppState(
         scaffoldState = scaffoldState,
         navController = navController,
         toastManager = toastManager,
+        darkTheme = darkTheme,
+        availableFeatures = availableFeatures,
         coroutineScope = coroutineScope,
     )
 }
@@ -38,6 +42,8 @@ internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
     val toastManager: ToastManager,
+    val availableFeatures: Feature,
+    val darkTheme: Boolean,
     coroutineScope: CoroutineScope,
 ) {
 
@@ -69,5 +75,10 @@ internal fun DmsAppState.navigateToSignIn() {
 }
 
 internal fun DmsAppState.navigateToHome() {
-    this.navController.navigate(DmsRoute.Home.route)
+    this.navController.navigate(DmsRoute.Home.route) {
+        launchSingleTop = true
+        popUpTo(this@navigateToHome.navController.graph.startDestinationId) {
+            saveState = true
+        }
+    }
 }

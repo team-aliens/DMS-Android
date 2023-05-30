@@ -1,6 +1,7 @@
 package team.aliens.dms_android.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -11,7 +12,7 @@ import team.aliens.presentation.R
 
 @Composable
 fun AppLogo(
-    darkIcon: Boolean = false,
+    darkIcon: Boolean = isSystemInDarkTheme(),
 ) {
     Box(
         modifier = Modifier.size(
