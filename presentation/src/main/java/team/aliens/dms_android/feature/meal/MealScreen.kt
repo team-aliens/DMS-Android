@@ -35,7 +35,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -319,9 +322,12 @@ private fun ColumnScope.MealCard(
         initialPage = getProperMeal(),
     )
 
+    var firstEnter by remember { mutableStateOf(true) }
     val context = LocalContext.current
-    LaunchedEffect(pagerState.settledPage) {
-        vibrateOnMealCardPaging(context)
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (firstEnter) firstEnter = false
+        else vibrateOnMealCardPaging(context)
     }
 
     HorizontalPager(
@@ -400,7 +406,7 @@ private fun vibrateOnMealCardPaging(
     context: Context,
 ) {
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(1L)
+    vibrator.vibrate(3L)
 }
 
 @Composable
