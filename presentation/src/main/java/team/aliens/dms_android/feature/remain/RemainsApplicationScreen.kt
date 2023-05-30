@@ -1,7 +1,6 @@
 package team.aliens.dms_android.feature.remain
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -53,6 +52,7 @@ import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.util.TopBar
+import team.aliens.domain.exception.RemoteException
 import team.aliens.presentation.R
 
 @Stable
@@ -69,6 +69,8 @@ internal fun RemainsApplicationScreen(
 
     val state = remainsApplicationViewModel.uiState.collectAsState()
 
+    val context = LocalContext.current
+
     val lastAppliedItemTitle = state.value.currentAppliedRemainsOption
 
     val currentSelectedItemTitle = state.value.remainsOptionTitle
@@ -81,12 +83,23 @@ internal fun RemainsApplicationScreen(
 
     LaunchedEffect(Unit) {
         remainsApplicationViewModel.uiState.collect {
-            val errorMessage = it.remainsApplicationErrorMessage
-            Log.d("TEST", errorMessage)
-            if (errorMessage.isNotEmpty()) {
+
+            val error = it.error
+
+            if(error != null) {
                 appState.toastManager.setMessage(
-                    message = errorMessage,
-                    ToastType.ERROR,
+                    message = context.getString(
+                        when (error) {
+                            is RemoteException.BadRequest -> R.string.error_bad_request
+                            is RemoteException.Unauthorized -> R.string.error_unauthorized
+                            is RemoteException.Forbidden -> R.string.error_forbidden
+                            is RemoteException.NotFound -> R.string.error_not_found
+                            is RemoteException.TooManyRequests -> R.string.error_too_many_request
+                            is RemoteException.InternalServerError -> R.string.error_internal_server
+                            else -> R.string.error_unknown
+                        }
+                    ),
+                    toastType = ToastType.ERROR,
                 )
             }
         }
@@ -108,8 +121,6 @@ internal fun RemainsApplicationScreen(
                 ),
             contentAlignment = Alignment.BottomCenter,
         ) {
-
-            val context = LocalContext.current
 
             Column(
                 modifier = Modifier.fillMaxSize(),
