@@ -23,23 +23,26 @@ class AuthorizationInterceptor @Inject constructor(
         )
         if (request.shouldBeIgnored()) return chain.proceed(interceptedRequest) // 1
 
-        //
-        val accessTokenAvailable = authorizationFacade.accessTokenAvailable
-        if (accessTokenAvailable.not()) authorizationFacade.reissueAndSaveToken()
-
-        //
-        val accessToken = authorizationFacade.accessToken
+        // todo make as function [START]
+        val accessTokenAvailable = authorizationFacade.accessTokenAvailable // 2/3
+        if (accessTokenAvailable.not()) authorizationFacade.reissueAndSaveToken() // 2/3
+        // [END]
 
         return chain.proceed(
-            interceptedRequest.newBuilder().addAccessToken(accessToken).build()
+            interceptedRequest.newBuilder().addAccessToken().build()
         ) // 4
     }
 
-    private fun okhttp3.Request.Builder.addAccessToken(accessToken: String): okhttp3.Request.Builder =
-        this.addHeader(
+    private fun okhttp3.Request.Builder.addAccessToken(): okhttp3.Request.Builder {
+        val accessToken = authorizationFacade.accessToken
+
+        return this.addHeader(
             HttpProperty.Header.Authorization,
             HttpProperty.Header.Prefix.Bearer + accessToken,
         )
+    }
 
-    private fun Request.shouldBeIgnored() = ignoreRequestWrapper.ignoreRequests.any { it == this }
+    private fun Request.shouldBeIgnored(): Boolean {
+        return ignoreRequestWrapper.ignoreRequests.any { it == this }
+    }
 }
