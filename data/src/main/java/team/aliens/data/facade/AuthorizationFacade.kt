@@ -27,8 +27,12 @@ class AuthorizationFacade @Inject constructor(
     suspend fun saveToken(
         token: Token,
     ) {
-        return localAuthDataSource.saveToken(
+        localAuthDataSource.saveToken(
             token = token,
         )
+    }
+
+    suspend fun clearToken() {
+        localAuthDataSource.clearToken()
     }
 }

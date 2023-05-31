@@ -133,6 +133,6 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signOut() {
-        localAuthDataSource.signOut()
+        localAuthDataSource.clearToken()
     }
 }
