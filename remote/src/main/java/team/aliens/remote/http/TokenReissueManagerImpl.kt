@@ -16,15 +16,24 @@ import javax.inject.Inject
 
 class TokenReissueManagerImpl @Inject constructor(
     @TokenReissueUrl private val reissueUrl: String,
-) : OkHttpClient(), TokenReissueManager {
+) : TokenReissueManager {
+    private val client: OkHttpClient by lazy {
+        OkHttpClient()
+    }
+
     override fun reissueToken(refreshToken: String): Token {
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
-        val response = newCall(tokenReissueRequest).execute()
-        return if (response.isSuccessful) response.body.toToken() else throw CommonException.SignInRequired
+        val response = client.newCall(tokenReissueRequest).execute()
+
+        return if (response.isSuccessful) {
+            response.body.toToken()
+        } else {
+            throw CommonException.SignInRequired
+        }
     }
 
     private fun ResponseBody?.toToken(): Token {
-        requireNotNull(this)
+        checkNotNull(this)
 
         val token = Gson().fromJson(
             this.string(),
@@ -39,13 +48,11 @@ class TokenReissueManagerImpl @Inject constructor(
         )
     }
 
-    private fun buildTokenReissueRequest(
-        refreshToken: String,
-    ): Request {
+    private fun buildTokenReissueRequest(refreshToken: String): Request {
         return Request.Builder().url(
             reissueUrl,
         ).put(
-            "".toRequestBody(
+            String().toRequestBody(
                 HttpProperty.Header.ContentType.Application.Json.toMediaType(),
             ),
         ).addHeader(
