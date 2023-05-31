@@ -18,7 +18,9 @@ internal class DmsExceptionHandler @Inject constructor(
     ) {
         when (exception) {
             is CommonException.SignInRequired -> signInRequired()
-            else -> exitProcess(2)
+            else -> {
+                exitProcess(0)
+            }
         }
     }
 
