@@ -15,7 +15,7 @@ import team.aliens.remote.annotation.TokenReissueOkHttpClient
 import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.http.AuthorizationInterceptor
 import team.aliens.remote.http.IgnoreRequestWrapper
-import team.aliens.remote.http.TokenReissueClient
+import team.aliens.remote.http.TokenReissueManagerImpl
 import team.aliens.remote.util.OkHttpClient
 import team.aliens.remote.util.Retrofit
 import javax.inject.Singleton
@@ -61,12 +61,12 @@ object HttpModule {
     @Singleton
     fun provideAuthInterceptor(
         authorizationFacade: AuthorizationFacade,
-        tokenReissueClient: TokenReissueClient,
+        tokenReissueManagerImpl: TokenReissueManagerImpl,
         ignoreRequestWrapper: IgnoreRequestWrapper,
     ): AuthorizationInterceptor {
         return AuthorizationInterceptor(
             authorizationFacade = authorizationFacade,
-            tokenReissueClient = tokenReissueClient,
+            tokenReissueManagerImpl = tokenReissueManagerImpl,
             ignoreRequestWrapper = ignoreRequestWrapper,
         )
     }
@@ -94,8 +94,8 @@ object HttpModule {
     @TokenReissueOkHttpClient
     fun provideTokenReissueOkHttpClient(
         @TokenReissueUrl tokenReissueUrl: String,
-    ): TokenReissueClient {
-        return TokenReissueClient(
+    ): TokenReissueManagerImpl {
+        return TokenReissueManagerImpl(
             reissueUrl = tokenReissueUrl,
         )
     }

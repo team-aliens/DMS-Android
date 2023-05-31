@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
-import team.aliens.data.util.TokenReissueManager
+import team.aliens.data.manager.TokenReissueManager
 import team.aliens.domain.exception.CommonException
 import team.aliens.domain.model.auth.Token
 import team.aliens.remote.annotation.TokenReissueUrl

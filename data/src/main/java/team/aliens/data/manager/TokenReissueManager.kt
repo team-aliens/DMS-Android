@@ -1,4 +1,4 @@
-package team.aliens.data.util
+package team.aliens.data.manager
 
 import team.aliens.domain.model.auth.Token
 
