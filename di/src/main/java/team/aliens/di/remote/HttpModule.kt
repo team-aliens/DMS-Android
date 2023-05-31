@@ -61,12 +61,10 @@ object HttpModule {
     @Singleton
     fun provideAuthInterceptor(
         authorizationFacade: AuthorizationFacade,
-        tokenReissueManagerImpl: TokenReissueManagerImpl,
         ignoreRequestWrapper: IgnoreRequestWrapper,
     ): AuthorizationInterceptor {
         return AuthorizationInterceptor(
             authorizationFacade = authorizationFacade,
-            tokenReissueManagerImpl = tokenReissueManagerImpl,
             ignoreRequestWrapper = ignoreRequestWrapper,
         )
     }
