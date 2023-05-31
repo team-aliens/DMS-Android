@@ -20,13 +20,19 @@ class AuthorizationFacade @Inject constructor(
             return currentTime.before(accessTokenExpiredAt)
         }
 
-    fun reissueAndSaveToken() {
+    fun reissueAndSaveToken(): Token {
         val refreshToken = this.refreshToken()
         val reissuedToken = tokenReissueManager.reissueToken(refreshToken)
 
-        this.saveToken(
-            token = reissuedToken,
-        )
+        return reissuedToken.also {
+            saveToken(it)
+        }
+    }
+
+    fun accessTokenOrElseReissue(): String {
+        if (accessTokenAvailable.not()) reissueAndSaveToken()
+
+        return accessToken()
     }
 
     fun accessToken(): String {
