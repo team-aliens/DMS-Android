@@ -17,12 +17,8 @@ class AuthorizationInterceptor @Inject constructor(
     ): Response {
         val interceptedRequest: okhttp3.Request = chain.request()
 
-        val request = Request(
-            method = interceptedRequest.method.toHttpMethod(),
-            path = interceptedRequest.url.encodedPath,
-        )
-        return chain.proceed( // todo
-            if (request.shouldBeIgnored()) {
+        return chain.proceed(
+            if (interceptedRequest.shouldBeIgnored()) {
                 interceptedRequest
             } else {
                 interceptedRequest.newBuilder().addAccessToken().build()
@@ -31,7 +27,7 @@ class AuthorizationInterceptor @Inject constructor(
     }
 
     private fun okhttp3.Request.Builder.addAccessToken(): okhttp3.Request.Builder {
-        val accessToken = authorizationFacade.fetchAccessTokenOrElseReissue()
+        val accessToken = authorizationFacade.accessTokenOrReissue()
 
         return this.addHeader(
             HttpProperty.Header.Authorization,
@@ -39,7 +35,12 @@ class AuthorizationInterceptor @Inject constructor(
         )
     }
 
-    private fun Request.shouldBeIgnored(): Boolean {
-        return ignoreRequestWrapper.ignoreRequests.any { it == this }
+    private fun okhttp3.Request.shouldBeIgnored(): Boolean {
+        val request = Request(
+            method = this.method.toHttpMethod(),
+            path = this.url.encodedPath,
+        )
+
+        return ignoreRequestWrapper.ignoreRequests.any { it == request }
     }
 }

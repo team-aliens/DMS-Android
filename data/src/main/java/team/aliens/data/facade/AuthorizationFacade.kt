@@ -57,7 +57,7 @@ class AuthorizationFacade @Inject constructor(
         }
     }
 
-    fun fetchAccessTokenOrElseReissue(): String {
+    fun accessTokenOrReissue(): String {
         return if (accessTokenAvailable) {
             this.accessToken
         } else {
