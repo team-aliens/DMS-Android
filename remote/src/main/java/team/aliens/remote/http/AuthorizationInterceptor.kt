@@ -21,20 +21,17 @@ class AuthorizationInterceptor @Inject constructor(
             method = interceptedRequest.method.toHttpMethod(),
             path = interceptedRequest.url.encodedPath,
         )
-        if (request.shouldBeIgnored()) return chain.proceed(interceptedRequest) // 1
-
-        // todo make as function [START]
-        val accessTokenAvailable = authorizationFacade.accessTokenAvailable // 2/3
-        if (accessTokenAvailable.not()) authorizationFacade.reissueAndSaveToken() // 2/3
-        // [END]
-
-        return chain.proceed(
-            interceptedRequest.newBuilder().addAccessToken().build()
-        ) // 4
+        return chain.proceed( // todo
+            if (request.shouldBeIgnored()) {
+                interceptedRequest
+            } else {
+                interceptedRequest.newBuilder().addAccessToken().build()
+            }
+        )
     }
 
     private fun okhttp3.Request.Builder.addAccessToken(): okhttp3.Request.Builder {
-        val accessToken = authorizationFacade.accessToken
+        val accessToken = authorizationFacade.fetchAccessTokenOrElseReissue()
 
         return this.addHeader(
             HttpProperty.Header.Authorization,

@@ -51,9 +51,17 @@ class AuthorizationFacade @Inject constructor(
         return tokenReissueManager.reissueToken(refreshToken)
     }
 
-    fun reissueAndSaveToken() {
-        reissueToken().also {
+    fun reissueAndSaveToken(): Token {
+        return reissueToken().also {
             saveToken(it)
+        }
+    }
+
+    fun fetchAccessTokenOrElseReissue(): String {
+        return if (accessTokenAvailable) {
+            this.accessToken
+        } else {
+            reissueAndSaveToken().accessToken
         }
     }
 
