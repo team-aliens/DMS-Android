@@ -65,7 +65,7 @@ fun DormToastHost(
     SnackbarHost(
         modifier = Modifier.fillMaxSize(),
         hostState = hostState,
-        snackbar = {
+        snackbar = {/*
             when (ToastType.valueOf(it.actionLabel.toString())) {
                 ToastType.INFORMATION -> {
                     DormInfoToast(
@@ -88,7 +88,7 @@ fun DormToastHost(
                 else -> {
                     //throw IllegalArgumentException()
                 }
-            }
+            }*/
         }
     )
 }
