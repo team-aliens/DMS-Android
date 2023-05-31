@@ -5,42 +5,39 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody
 import team.aliens.domain.exception.CommonException
-import team.aliens.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model.auth.Token
 import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.common.HttpProperty
+import team.aliens.remote.model._common.AuthenticationResponse
 import javax.inject.Inject
 
 class TokenReissueClient @Inject constructor(
     @TokenReissueUrl private val reissueUrl: String,
 ) : OkHttpClient() {
-
     internal operator fun invoke(
         refreshToken: String,
     ): Token {
-
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
-
         val response = newCall(tokenReissueRequest).execute()
+        return if (response.isSuccessful) response.body.toToken() else throw CommonException.SignInRequired
+    }
 
-        if (response.isSuccessful) {
-            checkNotNull(response.body)
+    private fun ResponseBody?.toToken(): Token {
+        requireNotNull(this)
 
-            val token = Gson().fromJson(
-                response.body!!.string(),
-                AuthenticationOutput::class.java,
-            )
+        val token = Gson().fromJson(
+            this.string(),
+            AuthenticationResponse::class.java,
+        )
 
-            return Token(
-                accessToken = token.accessToken,
-                accessTokenExpiredAt = token.accessTokenExpiredAt,
-                refreshToken = token.refreshToken,
-                refreshTokenExpiredAt = token.refreshTokenExpiredAt,
-            )
-        } else {
-            throw CommonException.SignInRequired
-        }
+        return Token(
+            accessToken = token.accessToken,
+            accessTokenExpiredAt = token.accessTokenExpiredAt,
+            refreshToken = token.refreshToken,
+            refreshTokenExpiredAt = token.refreshTokenExpiredAt,
+        )
     }
 
     private fun buildTokenReissueRequest(
