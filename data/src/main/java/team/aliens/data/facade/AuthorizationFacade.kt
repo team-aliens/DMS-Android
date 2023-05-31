@@ -13,42 +13,48 @@ class AuthorizationFacade @Inject constructor(
     private val tokenReissueManager: TokenReissueManager,
 ) {
     val accessTokenAvailable: Boolean
-        get() {
-            val currentTime = Date()
-            val accessTokenExpiredAt = this.accessTokenExpiredAt().toDate()
+        get() = currentTime.before(accessTokenExpiredAt)
 
-            return currentTime.before(accessTokenExpiredAt)
+    val refreshTokenAvailable: Boolean
+        get() = currentTime.before(refreshTokenExpiredAt)
+
+    private val currentTime: Date
+        get() = Date()
+
+    val token: Token
+        get() = runBlocking {
+            localAuthDataSource.findToken()
         }
 
-    fun reissueAndSaveToken(): Token {
-        val refreshToken = this.refreshToken()
-        val reissuedToken = tokenReissueManager.reissueToken(refreshToken)
+    val accessToken: String
+        get() = runBlocking {
+            localAuthDataSource.findAccessToken()
+        }
 
-        return reissuedToken.also {
+    val accessTokenExpiredAt: Date
+        get() = runBlocking {
+            localAuthDataSource.findAccessTokenExpiredAt()
+        }.toDate()
+
+    val refreshToken: String
+        get() = runBlocking {
+            localAuthDataSource.findRefreshToken()
+        }
+
+    val refreshTokenExpiredAt: Date
+        get() = runBlocking {
+            localAuthDataSource.findRefreshTokenExpiredAt()
+        }.toDate()
+
+
+    fun reissueToken(): Token {
+        return tokenReissueManager.reissueToken(refreshToken)
+    }
+
+    fun reissueAndSaveToken() {
+        reissueToken().also {
             saveToken(it)
         }
-    }
-
-    fun accessTokenOrElseReissue(): String {
-        if (accessTokenAvailable.not()) reissueAndSaveToken()
-
-        return accessToken()
-    }
-
-    fun accessToken(): String {
-        return runBlocking { localAuthDataSource.findAccessToken() }
-    }
-
-    fun accessTokenExpiredAt(): String {
-        return runBlocking { localAuthDataSource.findAccessTokenExpiredAt() }
-    }
-
-    fun refreshToken(): String {
-        return runBlocking { localAuthDataSource.findRefreshToken() }
-    }
-
-    fun refreshTokenExpiredAt(): String {
-        return runBlocking { localAuthDataSource.findRefreshTokenExpiredAt() }
     }
 
     fun saveToken(token: Token) {
