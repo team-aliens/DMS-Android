@@ -5,13 +5,13 @@ import java.util.UUID
 import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
 
 data class FetchCurrentAppliedRemainsOptionResponse(
-    @SerializedName("remain_option_id") val id: UUID,
+    @SerializedName("remain_option_id") val appliedRemainsOptionId: UUID,
     @SerializedName("title") val title: String,
 )
 
 internal fun FetchCurrentAppliedRemainsOptionResponse.toDomain(): FetchCurrentAppliedRemainsOptionOutput {
     return FetchCurrentAppliedRemainsOptionOutput(
-        id = this.id,
+        appliedRemainsOptionId = this.appliedRemainsOptionId,
         title = this.title,
     )
 }

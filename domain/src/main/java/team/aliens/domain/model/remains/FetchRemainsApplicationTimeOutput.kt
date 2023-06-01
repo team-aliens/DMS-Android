@@ -15,3 +15,12 @@ data class FetchRemainsApplicationTimeOutput(
     val endDayOfWeek: DayOfWeek,
     val endTime: String,
 )
+
+fun FetchRemainsApplicationTimeOutput.toModel(): RemainsApplicationTime {
+    return RemainsApplicationTime(
+        startDayOfWeek = startDayOfWeek,
+        startTime = startTime,
+        endDayOfWeek = endDayOfWeek,
+        endTime = endTime,
+    )
+}
