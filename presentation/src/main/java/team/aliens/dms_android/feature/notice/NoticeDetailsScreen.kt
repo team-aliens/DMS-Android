@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.notice
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,34 +12,35 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
-import java.util.UUID
 
-@SuppressLint("RememberReturnType")
 @Composable
-fun NoticeDetailsScreen(
+internal fun NoticeDetailsScreen(
     navController: NavController,
     noticeId: String,
-    noticeViewModel: NoticeViewModel = hiltViewModel(),
+    noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
-    LaunchedEffect(Unit) {
-        noticeViewModel.fetchNoticeDetail(UUID.fromString(noticeId))
-    }
+    val state = noticesViewModel.uiState.collectAsStateWithLifecycle()
 
-    val noticeDetailState = noticeViewModel.noticeDetailViewEffect.collectAsState()
+    val noticeDetails = state.value.noticeDetails
+
+    LaunchedEffect(Unit) {
+        noticesViewModel.onEvent(NoticesUiEvent.FetchNoticeDetails(UUID.fromString(noticeId)))
+    }
 
     Column(
         modifier = Modifier
@@ -49,16 +49,11 @@ fun NoticeDetailsScreen(
                 DormTheme.colors.background,
             ),
     ) {
-
         TopBar(
-            title = stringResource(
-                id = R.string.Announcement,
-            ),
+            title = stringResource(R.string.Announcement),
         ) {
             navController.popBackStack()
         }
-
-
         Column(
             modifier = Modifier
                 .padding(
@@ -69,22 +64,14 @@ fun NoticeDetailsScreen(
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.Start,
         ) {
-
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-
-                // title
-                Title3(
-                    text = noticeDetailState.value.title,
-                )
-
-                // date
+                Title3(text = noticeDetails.title,)
                 Caption(
-                    text = noticeDetailState.value.createAt,
+                    text = noticeDetails.createdAt,
                     color = DormTheme.colors.primaryVariant,
                 )
-
                 Divider(
                     modifier = Modifier.fillMaxWidth(),
                     color = DormTheme.colors.secondaryVariant,
@@ -100,7 +87,7 @@ fun NoticeDetailsScreen(
                     .padding(
                         top = 8.dp,
                     ),
-                text = noticeDetailState.value.content,
+                text = noticeDetails.content!!,
             )
         }
     }
