@@ -23,7 +23,7 @@ internal class NoticesViewModel @Inject constructor(
 ) : MviViewModel<NoticesUiState, NoticesUiEvent>(NoticesUiState.initial()) {
 
     init {
-        setNoticeOrder()
+        fetchNotices()
     }
 
     override fun updateState(event: NoticesUiEvent) {
@@ -31,7 +31,10 @@ internal class NoticesViewModel @Inject constructor(
             is NoticesUiEvent.FetchNotices -> {
                 setState(
                     newState = uiState.value.copy(
-                        order = event.order,
+                        order = when (uiState.value.order) {
+                            Order.NEW -> Order.OLD
+                            else -> Order.NEW
+                        },
                     )
                 )
                 fetchNotices()
@@ -39,10 +42,6 @@ internal class NoticesViewModel @Inject constructor(
 
             is NoticesUiEvent.CheckHasNewNotice -> {
                 checkHasNewNotice()
-            }
-
-            is NoticesUiEvent.SetNoticeOrder -> {
-                setNoticeOrder()
             }
 
             is NoticesUiEvent.SetNoticeId -> {
@@ -119,22 +118,6 @@ internal class NoticesViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun setNoticeOrder() {
-
-        val order = when (uiState.value.order) {
-            Order.NEW -> Order.OLD
-            else -> Order.NEW
-        }
-
-        setState(
-            newState = uiState.value.copy(
-                order = order,
-            )
-        )
-
-        fetchNotices()
     }
 
     private fun setNoticeId(

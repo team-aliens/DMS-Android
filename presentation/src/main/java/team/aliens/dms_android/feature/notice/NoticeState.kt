@@ -26,7 +26,7 @@ internal data class NoticesUiState(
                 createdAt = "",
             ),
             hasNewNotice = false,
-            order = Order.OLD,
+            order = Order.NEW,
             noticeId = null,
             error = null,
         )
