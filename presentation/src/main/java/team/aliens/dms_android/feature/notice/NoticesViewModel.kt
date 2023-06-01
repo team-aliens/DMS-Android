@@ -23,7 +23,9 @@ internal class NoticesViewModel @Inject constructor(
     private val fetchNoticesUseCase: FetchNoticesUseCase,
     private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
-) : MviViewModel<NoticesUiState, NoticesUiEvent>(NoticesUiState.initial()) {
+) : MviViewModel<NoticesUiState, NoticesUiEvent>(
+    initialState = NoticesUiState.initial(),
+) {
 
     init {
         fetchNotices()
@@ -47,6 +49,7 @@ internal class NoticesViewModel @Inject constructor(
         }
     }
 
+    // TODO 예외 처리 필요
     private fun fetchNotices() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -57,14 +60,13 @@ internal class NoticesViewModel @Inject constructor(
                 )
             }.onSuccess {
                 setNotices(
-                    notices = it.notices.toModel()
+                    notices = it.notices.toModel(),
                 )
-            }.onFailure {
-
             }
         }
     }
 
+    // TODO 예외 처리 필요
     private fun fetchNoticeDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -77,13 +79,12 @@ internal class NoticesViewModel @Inject constructor(
                 setNoticeDetails(
                     noticeDetails = it.toModel()
                 )
-            }.onFailure {
-
             }
         }
     }
 
-    internal fun fetchWhetherNewNoticesExist() {
+    // TODO 예외 처리 필요
+    private fun fetchWhetherNewNoticesExist() {
         viewModelScope.launch {
             kotlin.runCatching {
                 fetchWhetherNewNoticesExistUseCase()
@@ -91,14 +92,12 @@ internal class NoticesViewModel @Inject constructor(
                 setWhetherNewNoticesExists(
                     whetherNewNoticesExists = it.newNotices,
                 )
-            }.onFailure {
-
             }
         }
     }
 
     private fun setNotices(
-        notices: List<Notice>
+        notices: List<Notice>,
     ) {
         setState(
             newState = uiState.value.copy(
@@ -130,17 +129,15 @@ internal class NoticesViewModel @Inject constructor(
     private fun setOrder() {
         setState(
             newState = uiState.value.copy(
-                order = when (uiState.value.order) {
-                    Order.NEW -> Order.OLD
-                    else -> Order.NEW
-                }
+                order = if (uiState.value.order == Order.NEW) Order.OLD
+                else Order.NEW,
             )
         )
     }
 
     private fun setNoticeId(
         noticeId: UUID,
-    ){
+    ) {
         setState(
             newState = uiState.value.copy(
                 noticeId = noticeId,
@@ -174,6 +171,6 @@ data class NoticesUiState(
 
 sealed class NoticesUiEvent : UiEvent {
     object SetOrder : NoticesUiEvent()
-    class FetchNoticeDetails(val noticeId: UUID): NoticesUiEvent()
-    object FetchWhetherNewNoticesExist: NoticesUiEvent()
+    class FetchNoticeDetails(val noticeId: UUID) : NoticesUiEvent()
+    object FetchWhetherNewNoticesExist : NoticesUiEvent()
 }

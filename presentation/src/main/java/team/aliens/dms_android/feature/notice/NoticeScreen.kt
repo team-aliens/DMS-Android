@@ -134,7 +134,7 @@ private fun OrderButton(
 @Composable
 private fun Notices(
     notices: List<Notice>,
-    onClick: (UUID) -> Unit,
+    onNoticeClick: (UUID) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -145,7 +145,7 @@ private fun Notices(
         items(notices) { notice ->
             Notice(
                 notice = notice,
-                onClick = onClick,
+                onNoticeClick = onNoticeClick,
             )
         }
         if (notices.isEmpty()) {
@@ -159,7 +159,7 @@ private fun Notices(
 @Composable
 private fun Notice(
     notice: Notice,
-    onClick: (UUID) -> Unit,
+    onNoticeClick: (UUID) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -174,7 +174,7 @@ private fun Notice(
                 color = DormTheme.colors.surface,
             )
             .dormClickable {
-                onClick(notice.id!!)
+                onNoticeClick(notice.id!!)
             },
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -204,3 +204,9 @@ private fun String.toNoticeDate() = StringBuilder().apply {
         append(get(1).split(":")[1])
     }
 }.toString()
+
+@Composable
+private fun getStringByOrder(
+    order: Order,
+) = if (order == Order.NEW) stringResource(id = R.string.oldest_order)
+else stringResource(id = R.string.latest_order)
