@@ -11,3 +11,10 @@ data class FetchCurrentAppliedRemainsOptionOutput(
     val appliedRemainsOptionId: UUID,
     val title: String,
 )
+
+fun FetchCurrentAppliedRemainsOptionOutput.toModel(): CurrentAppliedRemainsOption {
+    return CurrentAppliedRemainsOption(
+        appliedRemainsOptionId = this.appliedRemainsOptionId,
+        title = this.title,
+    )
+}
