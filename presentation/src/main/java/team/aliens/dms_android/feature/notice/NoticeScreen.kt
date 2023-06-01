@@ -3,116 +3,56 @@ package team.aliens.dms_android.feature.notice
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import team.aliens.design_system.component.Notice
-import team.aliens.design_system.component.NoticeList
+import java.util.UUID
 import team.aliens.design_system.extension.Space
+import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body1
+import team.aliens.design_system.typography.Body3
+import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.ButtonText
+import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.domain.model._common.Order
-import team.aliens.domain.model.notice.FetchNoticesOutput
+import team.aliens.domain.model.notice.Notice
 import team.aliens.presentation.R
 
-fun FetchNoticesOutput.NoticeInformation.toNotice() = Notice(
-    noticeId = this.id.toString(),
-    title = this.title,
-    createdAt = this.createdAt,
-)
-
 @Composable
-fun NoticeScreen(
+internal fun NoticeScreen(
     navController: NavController,
-    noticeViewModel: NoticeViewModel = hiltViewModel(),
+    noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
-    LaunchedEffect(Unit) {
-        noticeViewModel.fetchNoticeList()
-    }
-
-    val notices = remember {
-        mutableStateListOf<Notice>()
-    }
-
-    val toast = rememberToast()
-
-    val badRequestComment = stringResource(id = R.string.BadRequest)
-    val unAuthorizedComment = stringResource(id = R.string.UnAuthorized)
-    val forbidden = stringResource(id = R.string.Forbidden)
-    val tooManyRequestComment = stringResource(id = R.string.TooManyRequest)
-    val serverException = stringResource(id = R.string.ServerException)
-    val noInternetException = stringResource(id = R.string.NoInternetException)
+    val state = noticesViewModel.uiState.collectAsStateWithLifecycle()
 
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
-
-    LaunchedEffect(Unit) {
-        noticeViewModel.noticeViewEffect.collect {
-            when (it) {
-                is NoticeViewModel.Event.FetchNoticeList -> {
-                    notices.clear()
-                    val mappingNotice = it.fetchNoticesOutput.notices.map { item ->
-                        item.toNotice()
-                    }
-                    for (i in 1..it.fetchNoticesOutput.notices.size) {
-                        mappingNotice[i - 1].createdAt =
-                            it.fetchNoticesOutput.notices[i - 1].createdAt //.toDate() fixme 리팩토링
-                    }
-                    notices.addAll(mappingNotice.toMutableStateList())
-                }
-                is NoticeViewModel.Event.BadRequestException -> {
-                    toast(badRequestComment)
-                }
-                is NoticeViewModel.Event.UnAuthorizedTokenException -> {
-                    toast(unAuthorizedComment)
-                }
-                is NoticeViewModel.Event.CannotConnectException -> {
-                    toast(forbidden)
-                }
-                is NoticeViewModel.Event.TooManyRequestException -> {
-                    toast(tooManyRequestComment)
-                }
-                is NoticeViewModel.Event.InternalServerException -> {
-                    toast(serverException)
-                }
-                is NoticeViewModel.Event.UnknownException -> {
-                    toast(noInternetException)
-                }
-                is NoticeViewModel.Event.FetchNoticeDetail -> {
-
-                }
-                is NoticeViewModel.Event.NullPointException -> {
-                    toast("null")
-                }
-                else -> {
-                    toast(noInternetException)
-                }
-            }
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -123,38 +63,32 @@ fun NoticeScreen(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         Space(space = 24.dp)
-
         Body1(
             text = stringResource(R.string.Notice),
         )
-
         Space(space = 20.dp)
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
         ) {
-            OrderButton(noticeViewModel)
+            OrderButton(
+                order = state.value.order,
+                noticesViewModel = noticesViewModel,
+            )
         }
-
-        NoticeList(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            notices = notices,
-            onClick = { noticeId ->
-                navController.navigate("noticeDetail/${noticeId}")
-            },
-            errorMessage = stringResource(R.string.TheresNoNotices),
-        )
+        Notices(
+            notices = state.value.notices,
+        ) { noticeId ->
+            navController.navigate("noticeDetails/${noticeId}")
+        }
     }
 }
 
 @Composable
-fun OrderButton(
-    noticeViewModel: NoticeViewModel,
+private fun OrderButton(
+    order: Order,
+    noticesViewModel: NoticesViewModel,
 ) {
 
     val context = LocalContext.current
@@ -167,15 +101,11 @@ fun OrderButton(
 
     Button(
         onClick = {
-            if (noticeViewModel.state.value.type == Order.NEW) {
-                noticeViewModel.state.value.type = Order.OLD
-                text = context.getString(R.string.OldestOrder)
-                noticeViewModel.fetchNoticeList()
-            } else {
-                noticeViewModel.state.value.type = Order.NEW
-                text = context.getString(R.string.LatestOrder)
-                noticeViewModel.fetchNoticeList()
-            }
+            text = context.getString(
+                if (order == Order.NEW) R.string.oldest_order
+                else R.string.latest_order
+            )
+            noticesViewModel.onEvent(NoticesUiEvent.SetOrder)
         },
         border = BorderStroke(
             width = 1.dp,
@@ -200,3 +130,77 @@ fun OrderButton(
         }
     }
 }
+
+@Composable
+private fun Notices(
+    notices: List<Notice>,
+    onClick: (UUID) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        items(notices) { notice ->
+            Notice(
+                notice = notice,
+                onClick = onClick,
+            )
+        }
+        if (notices.isEmpty()) {
+            item {
+                Body3(text = stringResource(R.string.TheresNoNotices))
+            }
+        }
+    }
+}
+
+@Composable
+private fun Notice(
+    notice: Notice,
+    onClick: (UUID) -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(6.dp))
+            .dormShadow(
+                color = DormTheme.colors.secondaryVariant,
+                offsetX = 1.dp,
+                offsetY = 1.dp,
+            )
+            .background(
+                color = DormTheme.colors.surface,
+            )
+            .dormClickable {
+                onClick(notice.id!!)
+            },
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+        ) {
+            Body4(
+                modifier = Modifier.padding(top = 12.dp),
+                text = notice.title,
+            )
+            Space(space = 4.dp)
+            OverLine(
+                modifier = Modifier.padding(bottom = 12.dp),
+                text = notice.createdAt.toNoticeDate(),
+                color = DormTheme.colors.primaryVariant,
+            )
+        }
+    }
+}
+
+private fun String.toNoticeDate() = StringBuilder().apply {
+    with(this@toNoticeDate.split("T")) {
+        append(get(0))
+        append(" ")
+        append(get(1).split(":")[0])
+        append(":")
+        append(get(1).split(":")[1])
+    }
+}.toString()

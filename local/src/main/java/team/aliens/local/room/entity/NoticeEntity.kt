@@ -45,7 +45,7 @@ internal fun List<NoticeEntity>.toDomain(): List<Notice> {
 
 internal fun Notice.toData(): NoticeEntity {
     return NoticeEntity(
-        id = this.id,
+        id = this.id!!,
         title = this.title,
         content = this.content,
         createdAt = this.createdAt,
