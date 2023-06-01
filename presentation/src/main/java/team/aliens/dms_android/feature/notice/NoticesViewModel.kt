@@ -29,19 +29,12 @@ internal class NoticesViewModel @Inject constructor(
     override fun updateState(event: NoticesUiEvent) {
         when (event) {
             is NoticesUiEvent.FetchNotices -> {
-                setState(
-                    newState = uiState.value.copy(
-                        order = when (uiState.value.order) {
-                            Order.NEW -> Order.OLD
-                            else -> Order.NEW
-                        },
-                    )
-                )
+                setOrder()
                 fetchNotices()
             }
 
             is NoticesUiEvent.CheckHasNewNotice -> {
-                checkHasNewNotice()
+                fetchHasNewNotices()
             }
 
             is NoticesUiEvent.SetNoticeId -> {
@@ -102,14 +95,14 @@ internal class NoticesViewModel @Inject constructor(
         }
     }
 
-    private fun checkHasNewNotice() {
+    private fun fetchHasNewNotices() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchHasNewNoticesUseCase()
             }.onSuccess {
                 setState(
                     newState = uiState.value.copy(
-                        hasNewNotice = it.newNotices,
+                        newNoticesExists = it.newNoticesExists,
                     )
                 )
             }.onFailure {
@@ -137,6 +130,17 @@ internal class NoticesViewModel @Inject constructor(
         setState(
             newState = uiState.value.copy(
                 error = error,
+            )
+        )
+    }
+
+    private fun setOrder(){
+        setState(
+            newState = uiState.value.copy(
+                order = when (uiState.value.order) {
+                    Order.NEW -> Order.OLD
+                    else -> Order.NEW
+                },
             )
         )
     }

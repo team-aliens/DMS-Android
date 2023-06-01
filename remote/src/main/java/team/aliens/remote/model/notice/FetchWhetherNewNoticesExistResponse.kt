@@ -9,6 +9,6 @@ data class FetchWhetherNewNoticesExistResponse(
 
 internal fun FetchWhetherNewNoticesExistResponse.toDomain(): FetchWhetherNewNoticesExistOutput {
     return FetchWhetherNewNoticesExistOutput(
-        newNotices = this.newNotices,
+        newNoticesExists = this.newNotices,
     )
 }

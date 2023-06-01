@@ -221,7 +221,7 @@ internal fun CafeteriaScreen(
                     modifier = Modifier.padding(
                         top = 36.dp,
                     ),
-                    visible = state.hasNewNotice,
+                    visible = state.newNoticesExists,
                 ) {
                     ImportantNotice(
                         onNoticeIconClick = onMoveToNotice,
