@@ -156,7 +156,7 @@ internal fun CafeteriaScreen(
 
     LaunchedEffect(Unit) {
         noticesViewModel.onEvent(
-            event = NoticesUiEvent.CheckHasNewNotice,
+            event = NoticesUiEvent.CheckWhetherNewNoticesExist,
         )
     }
 

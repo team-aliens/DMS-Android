@@ -7,9 +7,12 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android._base.MviViewModel
+import team.aliens.dms_android._base.UiEvent
+import team.aliens.dms_android._base.UiState
 import team.aliens.domain._model._common.Order
 import team.aliens.domain._model.notice.FetchNoticeDetailsInput
 import team.aliens.domain._model.notice.FetchNoticesInput
+import team.aliens.domain._model.notice.FetchNoticesOutput
 import team.aliens.domain._model.notice.Notice
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
 import team.aliens.domain.usecase.notice.FetchNoticesUseCase
@@ -19,7 +22,7 @@ import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
 internal class NoticesViewModel @Inject constructor(
     private val fetchNoticesUseCase: FetchNoticesUseCase,
     private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
-    private val fetchHasNewNoticesUseCase: FetchWhetherNewNoticesExistUseCase,
+    private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
 ) : MviViewModel<NoticesUiState, NoticesUiEvent>(NoticesUiState.initial()) {
 
     init {
@@ -33,8 +36,8 @@ internal class NoticesViewModel @Inject constructor(
                 fetchNotices()
             }
 
-            is NoticesUiEvent.CheckHasNewNotice -> {
-                fetchHasNewNotices()
+            is NoticesUiEvent.CheckWhetherNewNoticesExist -> {
+                fetchWhetherNewNoticesExist()
             }
 
             is NoticesUiEvent.SetNoticeId -> {
@@ -95,10 +98,10 @@ internal class NoticesViewModel @Inject constructor(
         }
     }
 
-    private fun fetchHasNewNotices() {
+    private fun fetchWhetherNewNoticesExist() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchHasNewNoticesUseCase()
+                fetchWhetherNewNoticesExistUseCase()
             }.onSuccess {
                 setState(
                     newState = uiState.value.copy(
@@ -144,4 +147,35 @@ internal class NoticesViewModel @Inject constructor(
             )
         )
     }
+}
+
+internal data class NoticesUiState(
+    val order: Order,
+    val notices: List<FetchNoticesOutput.NoticeInformation>,
+    val notice: Notice,
+    val newNoticesExists: Boolean,
+    val noticeId: UUID?,
+    val error: Throwable?,
+) : UiState {
+    companion object {
+        fun initial() = NoticesUiState(
+            order = Order.NEW,
+            notices = emptyList(),
+            notice = Notice(
+                id = UUID.randomUUID(),
+                title = "",
+                content = "",
+                createdAt = "",
+            ),
+            newNoticesExists = false,
+            noticeId = null,
+            error = null,
+        )
+    }
+}
+
+internal sealed class NoticesUiEvent : UiEvent {
+    object FetchNotices : NoticesUiEvent()
+    object CheckWhetherNewNoticesExist : NoticesUiEvent()
+    class SetNoticeId(val noticeId: UUID): NoticesUiEvent()
 }
