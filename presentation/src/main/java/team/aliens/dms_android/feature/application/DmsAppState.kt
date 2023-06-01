@@ -71,7 +71,11 @@ internal class DmsAppState(
 }
 
 internal fun DmsAppState.navigateToSignIn() {
-    this.navController.navigate(DmsRoute.Auth.SignIn)
+    this.navController.navigate(DmsRoute.Auth.route) {
+        popUpTo(this@navigateToSignIn.navController.currentDestination!!.id) {
+            saveState = true
+        }
+    }
 }
 
 internal fun DmsAppState.navigateToHome() {

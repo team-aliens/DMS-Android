@@ -41,10 +41,6 @@ class LocalAuthDataSourceImpl @Inject constructor(
         authDataStorage.clearToken()
     }
 
-    override suspend fun signOut() {
-        authDataStorage.signOut()
-    }
-
     override suspend fun findAutoSignInOption(): Boolean {
         return authDataStorage.findAutoSignInOption()
     }

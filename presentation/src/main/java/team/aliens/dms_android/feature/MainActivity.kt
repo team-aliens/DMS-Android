@@ -12,8 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
+import team.aliens.dms_android.feature.application.rememberDmsAppState
 import team.aliens.dms_android.feature.navigator.DmsApp
 import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.handler.DmsExceptionHandler
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,11 +46,21 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+                val appState = rememberDmsAppState()
+
+                Thread.setDefaultUncaughtExceptionHandler(  // todo 싱글톤으로 만들어보기
+                    DmsExceptionHandler(
+                        context = applicationContext, // 싱글톤으로 만들어 볼 생각
+                        appState = appState,
+                    ),
+                )
+
                 CompositionLocalProvider(
                     values = arrayOf(LocalAvailableFeatures provides availableFeatures),
                 ) {
                     DmsApp(
                         initialRoute = startDestination,
+                        dmsAppState = appState,
                     )
                 }
             }

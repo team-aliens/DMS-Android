@@ -10,12 +10,11 @@ import androidx.navigation.compose.NavHost
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastHost
 import team.aliens.dms_android.feature.application.DmsAppState
-import team.aliens.dms_android.feature.application.rememberDmsAppState
 
 @Composable
 internal fun DmsApp(
     initialRoute: String,
-    dmsAppState: DmsAppState = rememberDmsAppState(),
+    dmsAppState: DmsAppState,
 ) {
     Surface(
         modifier = Modifier.background(
