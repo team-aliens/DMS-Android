@@ -88,8 +88,9 @@ internal fun NavGraphBuilder.homeNavigation(
 
         composable(DmsRoute.Home.RemainsApplication) {
             RemainsApplicationScreen(
-                navController = navController,
-                appState = appState,
+                onPrevious = {
+                    appState.navController.popBackStack()
+                }
             )
         }
 

@@ -9,18 +9,17 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,215 +28,167 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import java.time.DayOfWeek
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.time.format.TextStyle
 import java.util.Locale
+import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.LastAppliedItem
-import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.ToastType
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
-import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.util.TopBar
-import team.aliens.domain.exception.RemoteException
+import team.aliens.domain.model.remains.RemainsApplicationTime
+import team.aliens.domain.model.remains.RemainsOption
 import team.aliens.presentation.R
-
-@Stable
-private val ApplicationCardRadius = RoundedCornerShape(
-    size = 10.dp,
-)
 
 @Composable
 internal fun RemainsApplicationScreen(
-    navController: NavController,
-    appState: DmsAppState,
+    onPrevious: () -> Unit,
     remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
 ) {
-
-    val state = remainsApplicationViewModel.uiState.collectAsState()
-
-    val context = LocalContext.current
-
-    val lastAppliedItemTitle = state.value.currentAppliedRemainsOption
-
-    val currentSelectedItemTitle = state.value.remainsOptionTitle
+    val uiState by remainsApplicationViewModel.uiState.collectAsStateWithLifecycle()
+    val remainsApplicationTime = uiState.remainsApplicationTime
 
     val onRemainsApplicationClicked = {
-        remainsApplicationViewModel.onEvent(
-            event = RemainsApplicationUiEvent.UpdateUiRemainsOption,
-        )
+        remainsApplicationViewModel.onEvent(RemainsApplicationUiEvent.UpdateRemainsOption)
     }
-
-    LaunchedEffect(Unit) {
-        remainsApplicationViewModel.uiState.collect {
-
-            val error = it.error
-
-            if(error != null) {
-                appState.toastManager.setMessage(
-                    message = context.getString(
-                        when (error) {
-                            is RemoteException.BadRequest -> R.string.error_bad_request
-                            is RemoteException.Unauthorized -> R.string.error_unauthorized
-                            is RemoteException.Forbidden -> R.string.error_forbidden
-                            is RemoteException.NotFound -> R.string.error_not_found
-                            is RemoteException.TooManyRequests -> R.string.error_too_many_request
-                            is RemoteException.InternalServerError -> R.string.error_internal_server
-                            else -> R.string.error_unknown
-                        }
-                    ),
-                    toastType = ToastType.ERROR,
-                )
-            }
-        }
+    val onRemainsOptionSelected = { selectedRemainsOptionId: UUID ->
+        remainsApplicationViewModel.onEvent(
+            RemainsApplicationUiEvent.SelectRemainsOption(selectedRemainsOptionId),
+        )
     }
 
     Column(
         modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
     ) {
         TopBar(
-            title = stringResource(id = R.string.remains_apply),
+            title = stringResource(R.string.remains_apply),
+            onPrevious = onPrevious,
         )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight(0.95f)
-                .padding(
-                    top = 12.dp,
+
+        if (remainsApplicationTime != null) RemainsApplicationTimeCard(remainsApplicationTime)
+
+        RemainsItems(
+            remainsOptions = uiState.remainsOptions,
+            selectedRemainsOptionId = uiState.selectedRemainsOptionId,
+            onRemainsOptionSelected = onRemainsOptionSelected,
+        )
+
+        if (uiState.selectedRemainsOptionId != null)
+            DormContainedLargeButton(
+                modifier = Modifier.padding(
+                    bottom = 57.dp,
                     start = 16.dp,
                     end = 16.dp,
                 ),
-            contentAlignment = Alignment.BottomCenter,
-        ) {
+                text = "TEXT",
+                color = DormButtonColor.Blue,
+                enabled = uiState.applicationButtonEnabled,
+                onClick = onRemainsApplicationClicked,
+            )
+    }
+}
 
-            Column(
-                modifier = Modifier.fillMaxSize(),
-            ) {
+@Composable
+private fun RemainsApplicationTime.toFormattedString(): String {
+    val startAt =
+        "${startDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $startTime"
+    val endAt =
+        "${endDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $endTime"
 
-                val remainApplicationTime = state.value.remainsApplicationTimeOutput
+    return String.format(
+        stringResource(R.string.remains_available_remains_application_time_is),
+        "$startAt ~ $endAt",
+    )
+}
 
-                if (remainApplicationTime != null) {
-                    FloatingNotice(
-                        content = setRemainApplicationAvailableTime(
-                            startDayOfWeek = remainApplicationTime.startDayOfWeek,
-                            startTime = remainApplicationTime.startTime,
-                            endDayOfWeek = remainApplicationTime.endDayOfWeek,
-                            endTime = remainApplicationTime.endTime,
-                            context = context,
-                        ),
-                    )
-                }
-                Space(space = 12.dp)
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(
-                        bottom = 48.dp,
-                    )
-                ) {
+@Composable
+private fun RemainsApplicationTimeCard(
+    remainsApplicationTime: RemainsApplicationTime,
+) {
+    Box(
+        modifier = Modifier.padding(
+            vertical = 18.dp,
+            horizontal = 16.dp,
+        ),
+    ) {
+        FloatingNotice(
+            content = remainsApplicationTime.toFormattedString(),
+        )
+    }
+}
 
-                    val remainsOptions = state.value.remainsOptions
-
-                    items(
-                        count = remainsOptions.size,
-                    ) { index ->
-
-                        val item = remainsOptions[index]
-
-                        ApplicationCard(
-                            text = item.title,
-                            content = item.description,
-                            isSelected = remainsApplicationViewModel.getRemainsOptionItemState(
-                                remainsOptionId = item.id,
-                            ),
-                            onSelect = {
-                                remainsApplicationViewModel.onEvent(
-                                    event = RemainsApplicationUiEvent.SetSelectedRemainsOption(
-                                        remainsOptionItemIndex = index,
-                                    )
-                                )
-                            },
-                            isLastApplied = lastAppliedItemTitle == item.title,
-                        )
-                    }
-                }
-            }
-
-            val buttonEnabled = state.value.remainsApplicationButtonEnabled
-
-            if (state.value.remainsOptionId != null) {
-                DormContainedLargeButton(
-                    text = setButtonTextByRemainsState(
-                        buttonEnabled = buttonEnabled,
-                        lastAppliedItemTitle = lastAppliedItemTitle,
-                        currentSelectedItemTitle = currentSelectedItemTitle,
-                        context = context,
-                    ),
-                    color = DormButtonColor.Blue,
-                    enabled = buttonEnabled,
-                    onClick = onRemainsApplicationClicked,
-                )
-            }
+@Composable
+private fun ColumnScope.RemainsItems(
+    remainsOptions: List<RemainsOption>,
+    selectedRemainsOptionId: UUID?,
+    onRemainsOptionSelected: (UUID) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.weight(1f),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(
+            vertical = 48.dp,
+        ),
+    ) {
+        items(remainsOptions) { remainsOption ->
+            RemainsOptionCard(
+                remainsOption = remainsOption,
+                selected = remainsOption.id == selectedRemainsOptionId,
+                onClick = onRemainsOptionSelected,
+                currentApplied = remainsOption.applied,
+            )
         }
     }
 }
 
 @Composable
-private fun ApplicationCard(
-    text: String,
-    content: String,
-    isSelected: Boolean,
-    onSelect: () -> Unit,
-    isLastApplied: Boolean,
+private fun RemainsOptionCard(
+    remainsOption: RemainsOption,
+    selected: Boolean,
+    onClick: (UUID) -> Unit,
+    currentApplied: Boolean,
 ) {
-
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-
+    var expanded by remember { mutableStateOf(false) }
     val rotate by animateFloatAsState(
-        targetValue = if (expanded) 90f
-        else 270f
+        targetValue = if (expanded) 90f else 270f,
+        label = "",
     )
-
-    val borderColor = if (isSelected) DormTheme.colors.primary
-    else DormTheme.colors.surface
-
-    val textColor = if (isSelected) DormTheme.colors.primary
-    else DormTheme.colors.onSurface
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 16.dp)
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
                 offsetY = 8.dp,
             )
             .clip(
-                shape = ApplicationCardRadius,
+                shape = RoundedCornerShape(10.dp),
             )
             .background(
                 color = DormTheme.colors.surface,
-                shape = ApplicationCardRadius,
+                shape = RoundedCornerShape(10.dp),
             )
             .dormClickable {
-                onSelect()
+                onClick(remainsOption.id)
             }
             .border(
                 width = 1.dp,
-                color = borderColor,
-                shape = ApplicationCardRadius,
+                color = if (selected) DormTheme.colors.primary else Color.Transparent,
+                shape = RoundedCornerShape(10.dp),
             )
             .padding(
                 vertical = 16.dp,
@@ -249,25 +200,19 @@ private fun ApplicationCard(
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Title3(
-                    modifier = Modifier.padding(
-                        vertical = 2.dp,
-                    ),
-                    text = text,
-                    color = textColor,
-                )
-                Space(space = 20.dp)
-                if (isLastApplied) {
-                    LastAppliedItem(
-                        text = stringResource(id = R.string.application_completed),
-                    )
-                }
-            }
+            Title3(
+                modifier = Modifier.padding(
+                    vertical = 2.dp,
+                ),
+                text = remainsOption.title,
+                color = if (selected) DormTheme.colors.primary else DormTheme.colors.onSurface,
+            )
+            if (currentApplied) LastAppliedItem(
+                text = stringResource(R.string.application_completed),
+            )
+            Spacer(Modifier.weight(1f))
             Image(
                 modifier = Modifier
                     .rotate(
@@ -289,34 +234,12 @@ private fun ApplicationCard(
                 modifier = Modifier.padding(
                     top = 24.dp,
                 ),
-                text = content,
+                text = remainsOption.description,
             )
         }
     }
 }
 
-private fun setRemainApplicationAvailableTime(
-    startDayOfWeek: DayOfWeek,
-    startTime: String,
-    endDayOfWeek: DayOfWeek,
-    endTime: String,
-    context: Context,
-): String {
-    return context.getString(
-        R.string.remains_available_remains_application_time_is,
-        "${
-            startDayOfWeek.getDisplayName(
-                TextStyle.SHORT,
-                Locale.KOREA,
-            )
-        } $startTime ~ ${
-            endDayOfWeek.getDisplayName(
-                TextStyle.SHORT,
-                Locale.KOREA,
-            )
-        } $endTime"
-    )
-}
 
 private fun setButtonTextByRemainsState(
     buttonEnabled: Boolean,
@@ -326,8 +249,7 @@ private fun setButtonTextByRemainsState(
 ): String {
     return if (!buttonEnabled) context.getString(R.string.application_completed)
     else if (lastAppliedItemTitle.isBlank()) context.getString(
-        R.string.remains_do_apply,
-        currentSelectedItemTitle
+        R.string.remains_do_apply, currentSelectedItemTitle
     )
     else context.getString(
         R.string.remains_change_to,
