@@ -72,6 +72,7 @@ object Dependencies {
         const val OkHttp = "com.squareup.okhttp3:okhttp:${Versions.Remote.OkHttp}"
         const val OkHttpLoggingInterceptor =
             "com.squareup.okhttp3:logging-interceptor:${Versions.Remote.OkHttp}"
+        const val Firebase = "com.google.firebase:firebase-messaging-ktx:${Versions.Remote.Firebase}"
     }
 
     object Test {
