@@ -50,7 +50,9 @@ internal fun NoticesScreen(
 
     val uiState by noticesViewModel.uiState.collectAsStateWithLifecycle()
 
-    val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
+    val navigateToNoticeDetailsScreen = { value: UUID ->
+        navController.navigate("noticeDetails/${value}")
+    }
 
     Column(
         modifier = Modifier
@@ -77,9 +79,8 @@ internal fun NoticesScreen(
         }
         Notices(
             notices = uiState.notices,
-        ) { noticeId ->
-            navController.navigate("noticeDetails/${noticeId}")
-        }
+            onNoticeClick = navigateToNoticeDetailsScreen,
+        )
     }
 }
 
@@ -127,7 +128,7 @@ private fun Notices(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 20.dp),
-        contentPadding = PaddingValues(vertical = 12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(notices) { notice ->
             Notice(
@@ -182,13 +183,15 @@ private fun Notice(
     }
 }
 
-private fun String.toNoticeDate() = StringBuilder().apply {
+internal fun String.toNoticeDate() = StringBuilder().apply {
     with(this@toNoticeDate.split("T")) {
-        append(get(0))
-        append(" ")
-        append(get(1).split(":")[0])
-        append(":")
-        append(get(1).split(":")[1])
+        if(this@toNoticeDate.isNotEmpty()) {
+            append(get(0))
+            append(" ")
+            append(get(1).split(":")[0])
+            append(":")
+            append(get(1).split(":")[1])
+        }
     }
 }.toString()
 

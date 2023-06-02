@@ -34,9 +34,9 @@ internal fun NoticeDetailsScreen(
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
-    val state = noticesViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState = noticesViewModel.uiState.collectAsStateWithLifecycle()
 
-    val noticeDetails = state.value.noticeDetails
+    val noticeDetails = uiState.value.noticeDetails
 
     LaunchedEffect(Unit) {
         noticesViewModel.onEvent(NoticesUiEvent.FetchNoticeDetails(UUID.fromString(noticeId)))
@@ -67,9 +67,9 @@ internal fun NoticeDetailsScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Title3(text = noticeDetails.title,)
+                Title3(text = noticeDetails.title)
                 Caption(
-                    text = noticeDetails.createdAt,
+                    text = noticeDetails.createdAt.toNoticeDate(),
                     color = DormTheme.colors.primaryVariant,
                 )
                 Divider(
@@ -77,8 +77,6 @@ internal fun NoticeDetailsScreen(
                     color = DormTheme.colors.secondaryVariant,
                 )
             }
-
-            // Content
             Body5(
                 modifier = Modifier
                     .verticalScroll(
