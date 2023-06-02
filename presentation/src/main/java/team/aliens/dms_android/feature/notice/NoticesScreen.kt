@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,9 +17,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,12 +43,12 @@ import team.aliens.domain.model.notice.Notice
 import team.aliens.presentation.R
 
 @Composable
-internal fun NoticeScreen(
+internal fun NoticesScreen(
     navController: NavController,
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
 
-    val state = noticesViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by noticesViewModel.uiState.collectAsStateWithLifecycle()
 
     val isNoticeServiceEnabled = LocalAvailableFeatures.current[Extra.isNoticeServiceEnabled]
 
@@ -73,12 +71,12 @@ internal fun NoticeScreen(
             horizontalArrangement = Arrangement.Start,
         ) {
             OrderButton(
-                order = state.value.order,
+                order = uiState.order,
                 noticesViewModel = noticesViewModel,
             )
         }
         Notices(
-            notices = state.value.notices,
+            notices = uiState.notices,
         ) { noticeId ->
             navController.navigate("noticeDetails/${noticeId}")
         }
@@ -90,21 +88,10 @@ private fun OrderButton(
     order: Order,
     noticesViewModel: NoticesViewModel,
 ) {
-
-    val context = LocalContext.current
-
-    var text by remember {
-        mutableStateOf(
-            context.getString(R.string.LatestOrder),
-        )
-    }
+    val text = getStringByOrder(order = order)
 
     Button(
         onClick = {
-            text = context.getString(
-                if (order == Order.NEW) R.string.oldest_order
-                else R.string.latest_order
-            )
             noticesViewModel.onEvent(NoticesUiEvent.SetOrder)
         },
         border = BorderStroke(
@@ -140,7 +127,7 @@ private fun Notices(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(vertical = 12.dp)
     ) {
         items(notices) { notice ->
             Notice(
@@ -208,5 +195,8 @@ private fun String.toNoticeDate() = StringBuilder().apply {
 @Composable
 private fun getStringByOrder(
     order: Order,
-) = if (order == Order.NEW) stringResource(id = R.string.oldest_order)
-else stringResource(id = R.string.latest_order)
+) = when (order) {
+    Order.NEW -> stringResource(id = R.string.latest_order)
+    Order.OLD -> stringResource(id = R.string.oldest_order)
+    else -> throw IllegalArgumentException()
+}

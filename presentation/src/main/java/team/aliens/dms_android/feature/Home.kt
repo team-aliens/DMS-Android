@@ -32,7 +32,7 @@ import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.meal.MealScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
-import team.aliens.dms_android.feature.notice.NoticeScreen
+import team.aliens.dms_android.feature.notice.NoticesScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -104,7 +104,7 @@ fun Home(
                 }
             }
             composable(BottomNavigationItem.Notice.route) {
-                NoticeScreen(
+                NoticesScreen(
                     navController = navController,
                 )
             }

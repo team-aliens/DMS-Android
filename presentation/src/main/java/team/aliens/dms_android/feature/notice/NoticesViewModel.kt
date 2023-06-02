@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.notice
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.lang.IllegalArgumentException
 import java.util.UUID
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -129,8 +130,11 @@ internal class NoticesViewModel @Inject constructor(
     private fun setOrder() {
         setState(
             newState = uiState.value.copy(
-                order = if (uiState.value.order == Order.NEW) Order.OLD
-                else Order.NEW,
+                order = when(uiState.value.order){
+                    Order.NEW -> Order.OLD
+                    Order.OLD -> Order.NEW
+                    else -> throw IllegalArgumentException()
+                }
             )
         )
     }
@@ -146,7 +150,7 @@ internal class NoticesViewModel @Inject constructor(
     }
 }
 
-data class NoticesUiState(
+internal data class NoticesUiState(
     val order: Order,
     val noticeId: UUID?,
     val notices: List<Notice>,
@@ -169,7 +173,7 @@ data class NoticesUiState(
     }
 }
 
-sealed class NoticesUiEvent : UiEvent {
+internal sealed class NoticesUiEvent : UiEvent {
     object SetOrder : NoticesUiEvent()
     class FetchNoticeDetails(val noticeId: UUID) : NoticesUiEvent()
     object FetchWhetherNewNoticesExist : NoticesUiEvent()
