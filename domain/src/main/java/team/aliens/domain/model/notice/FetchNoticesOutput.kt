@@ -1,6 +1,6 @@
 package team.aliens.domain.model.notice
 
-import java.util.*
+import java.util.UUID
 
 /**
  * A response returned when fetching notices
@@ -32,6 +32,10 @@ fun FetchNoticesOutput.NoticeInformation.toModel(): Notice {
 
 fun List<FetchNoticesOutput.NoticeInformation>.toModel(): List<Notice> {
     return this.map(FetchNoticesOutput.NoticeInformation::toModel)
+}
+
+fun FetchNoticesOutput.toModel(): List<Notice> {
+    return this.toModel()
 }
 
 fun List<FetchNoticesOutput.NoticeInformation>.toTypedArray(): Array<Notice> {
