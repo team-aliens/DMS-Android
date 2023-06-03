@@ -5,7 +5,7 @@ import java.util.UUID
 import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
 
 data class FetchCurrentAppliedRemainsOptionResponse(
-    @SerializedName("remain_option_id") val appliedRemainsOptionId: UUID,
+    @SerializedName("id") val appliedRemainsOptionId: UUID, // todo
     @SerializedName("title") val title: String,
 )
 
