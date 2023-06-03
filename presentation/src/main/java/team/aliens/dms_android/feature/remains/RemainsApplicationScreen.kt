@@ -104,7 +104,7 @@ internal fun RemainsApplicationScreen(
                     ),
                     text = if (applicationButtonEnabled) String.format(
                         stringResource(R.string.application_apply_of),
-                        uiState.selectedRemainsOption?.title ?: "코딱지",
+                        uiState.selectedRemainsOption?.title ?: throw IllegalStateException(),
                     ) else stringResource(R.string.application_completed),
                     color = DormButtonColor.Blue,
                     enabled = applicationButtonEnabled,
