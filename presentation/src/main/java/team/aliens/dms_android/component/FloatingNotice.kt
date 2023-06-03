@@ -19,7 +19,7 @@ import team.aliens.design_system.R
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.Caption
 
 @Composable
 fun FloatingNotice(
@@ -57,7 +57,7 @@ fun FloatingNotice(
                 contentDescription = "NoticeIcon",
             )
             Space(space = 13.dp)
-            Body5(text = content)
+            Caption(text = content)
         }
     }
 }

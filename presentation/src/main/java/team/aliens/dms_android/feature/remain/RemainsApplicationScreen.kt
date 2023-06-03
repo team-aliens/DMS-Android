@@ -189,7 +189,7 @@ private fun RemainsOptionCard(
     var expanded by remember { mutableStateOf(false) }
     val rotate by animateFloatAsState(
         targetValue = if (expanded) 90f else 270f,
-        label = "",
+        label = "rotate",
     )
 
     Column(
