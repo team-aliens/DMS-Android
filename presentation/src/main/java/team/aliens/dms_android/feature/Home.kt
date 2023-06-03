@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import java.util.UUID
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
@@ -59,6 +60,13 @@ fun Home(
             },
         )
     }
+    val onNavigateToNoticeDetailsScreen by remember {
+        mutableStateOf(
+            { value: UUID ->
+                navController.navigate("noticeDetails/${value}")
+            },
+        )
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -83,18 +91,9 @@ fun Home(
             startDestination = BottomNavigationItem.Meal.route,
         ) {
             composable(BottomNavigationItem.Meal.route) {
-                /*CafeteriaScreen(
-                    navController = navHostController,
-                    onMoveToNotice = {
-                        navigateTo(
-                            route = BottomNavigationItem.Notice.route,
-                            navController = navHostController,
-                        )
-                    },
-                )*/
                 MealScreen(
                     onNavigateToNoticeScreen = onNavigateToNoticeScreen,
-                ) // fixme
+                )
             }
             if (applicationServiceEnabled) {
                 composable(BottomNavigationItem.Application.route) {
@@ -105,7 +104,7 @@ fun Home(
             }
             composable(BottomNavigationItem.Notice.route) {
                 NoticesScreen(
-                    navController = navController,
+                    onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetailsScreen,
                 )
             }
             composable(BottomNavigationItem.MyPage.route) {

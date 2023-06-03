@@ -1,32 +1,30 @@
 package team.aliens.dms_android.feature.notice
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import java.util.UUID
+import team.aliens.design_system.button.DormButtonColor
+import team.aliens.design_system.button.DormOutlinedDefaultButton
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
@@ -34,24 +32,27 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
-import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.OverLine
-import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.constans.Extra
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
 import team.aliens.presentation.R
 
 @Composable
 internal fun NoticesScreen(
-    navController: NavController,
+    onNavigateToNoticeDetailsScreen: (UUID) -> Unit,
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
-
     val uiState by noticesViewModel.uiState.collectAsStateWithLifecycle()
 
-    val navigateToNoticeDetailsScreen = { value: UUID ->
-        navController.navigate("noticeDetails/${value}")
+    val onOrderButtonClick = {
+        noticesViewModel.onEvent(
+            NoticesUiEvent.SetOrder(
+                order = when (uiState.order) {
+                    Order.NEW -> Order.OLD
+                    Order.OLD -> Order.NEW
+                }
+            ),
+        )
     }
 
     Column(
@@ -59,63 +60,48 @@ internal fun NoticesScreen(
             .fillMaxSize()
             .background(
                 DormTheme.colors.background,
-            )
-            .padding(horizontal = 16.dp),
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Space(space = 24.dp)
-        Body1(
-            text = stringResource(R.string.Notice),
+        Spacer(Modifier.height(24.dp))
+        Body1(text = stringResource(R.string.Notice))
+        Spacer(Modifier.height(24.dp))
+        OrderButton(
+            order = uiState.order,
+            onClick = onOrderButtonClick,
         )
-        Space(space = 20.dp)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            OrderButton(
-                order = uiState.order,
-                noticesViewModel = noticesViewModel,
-            )
-        }
         Notices(
             notices = uiState.notices,
-            onNoticeClick = navigateToNoticeDetailsScreen,
+            onNoticeClick = onNavigateToNoticeDetailsScreen,
         )
     }
 }
 
 @Composable
+private fun getStringByOrder(
+    order: Order,
+) = when (order) {
+    Order.NEW -> stringResource(id = R.string.latest_order)
+    Order.OLD -> stringResource(id = R.string.oldest_order)
+    else -> throw IllegalArgumentException()
+}
+
+@Composable
 private fun OrderButton(
     order: Order,
-    noticesViewModel: NoticesViewModel,
+    onClick: () -> Unit,
 ) {
-    val text = getStringByOrder(order = order)
-
-    Button(
-        onClick = {
-            noticesViewModel.onEvent(NoticesUiEvent.SetOrder)
-        },
-        border = BorderStroke(
-            width = 1.dp,
-            color = DormTheme.colors.onBackground,
-        ),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = DormTheme.colors.background,
-        ),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.Start,
     ) {
-        Row(
-            modifier = Modifier
-                .padding(
-                    horizontal = 8.dp,
-                    vertical = 4.dp,
-                ),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ButtonText(
-                text = text,
-            )
-        }
+        DormOutlinedDefaultButton(
+            text = getStringByOrder(order),
+            color = DormButtonColor.Gray,
+            onClick = onClick,
+        )
     }
 }
 
@@ -127,9 +113,12 @@ private fun Notices(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 20.dp),
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        item {
+
+        }
         items(notices) { notice ->
             Notice(
                 notice = notice,
@@ -185,21 +174,12 @@ private fun Notice(
 
 internal fun String.toNoticeDate() = StringBuilder().apply {
     with(this@toNoticeDate.split("T")) {
-        if(this@toNoticeDate.isNotEmpty()) {
-            append(get(0))
+        if (this@toNoticeDate.isNotEmpty()) {
+            append(this[0])
             append(" ")
-            append(get(1).split(":")[0])
+            append(this[1].split(":")[0].toInt())
             append(":")
-            append(get(1).split(":")[1])
+            append(this[1].split(":")[1])
         }
     }
 }.toString()
-
-@Composable
-private fun getStringByOrder(
-    order: Order,
-) = when (order) {
-    Order.NEW -> stringResource(id = R.string.latest_order)
-    Order.OLD -> stringResource(id = R.string.oldest_order)
-    else -> throw IllegalArgumentException()
-}
