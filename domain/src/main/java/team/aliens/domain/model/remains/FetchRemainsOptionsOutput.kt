@@ -37,3 +37,7 @@ fun FetchRemainsOptionsOutput.RemainsOptionInformation.toModel(): RemainsOption 
 fun List<FetchRemainsOptionsOutput.RemainsOptionInformation>.toModel(): List<RemainsOption> {
     return this.map(FetchRemainsOptionsOutput.RemainsOptionInformation::toModel)
 }
+
+fun FetchRemainsOptionsOutput.toModel(): List<RemainsOption> {
+    return this.remainOptions.toModel()
+}
