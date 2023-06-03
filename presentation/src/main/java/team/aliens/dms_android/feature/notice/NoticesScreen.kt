@@ -142,13 +142,11 @@ private fun ColumnScope.Notices(
                 bottom = 80.dp,
             ),
         ) {
-            repeat(10) {
-                items(notices) { notice ->
-                    Notice(
-                        notice = notice,
-                        onNoticeClick = onNoticeClick,
-                    )
-                }
+            items(notices) { notice ->
+                Notice(
+                    notice = notice,
+                    onNoticeClick = onNoticeClick,
+                )
             }
             if (notices.isEmpty()) {
                 item {
