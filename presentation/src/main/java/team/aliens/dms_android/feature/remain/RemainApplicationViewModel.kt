@@ -79,6 +79,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
             }.onSuccess { fetchedCurrentAppliedRemainsOption ->
                 setState(
                     newState = uiState.value.copy(
+                        selectedRemainsOptionId = fetchedCurrentAppliedRemainsOption.appliedRemainsOptionId,
                         currentAppliedRemainsOption = fetchedCurrentAppliedRemainsOption,
                     ),
                 )
@@ -108,10 +109,13 @@ internal class RemainsApplicationViewModel @Inject constructor(
     }
 
     private fun setSelectedRemainsOption(remainsOptionId: UUID) {
+        val currentAppliedRemainsOptionId =
+            uiState.value.currentAppliedRemainsOption?.appliedRemainsOptionId
+
         setState(
             newState = uiState.value.copy(
                 selectedRemainsOptionId = remainsOptionId,
-                applicationButtonEnabled = remainsOptionId == uiState.value.selectedRemainsOptionId,
+                applicationButtonEnabled = remainsOptionId != currentAppliedRemainsOptionId,
             ),
         )
     }

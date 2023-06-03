@@ -157,15 +157,13 @@ private fun RemainsItems(
                 bottom = 120.dp,
             ),
         ) {
-            repeat(10) {
-                items(remainsOptions) { remainsOption ->
-                    RemainsOptionCard(
-                        remainsOption = remainsOption,
-                        selected = remainsOption.id == selectedRemainsOptionId,
-                        onClick = onRemainsOptionSelected,
-                        currentApplied = remainsOption.applied,
-                    )
-                }
+            items(remainsOptions) { remainsOption ->
+                RemainsOptionCard(
+                    remainsOption = remainsOption,
+                    selected = remainsOption.id == selectedRemainsOptionId,
+                    onClick = onRemainsOptionSelected,
+                    currentApplied = remainsOption.applied,
+                )
             }
         }
         Spacer(
