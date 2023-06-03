@@ -10,7 +10,7 @@ import java.util.*
  * @property createdAt when notice was created at
  */
 data class Notice(
-    val id: UUID,
+    val id: UUID?,
     val title: String,
     val content: String? = null,
     val createdAt: String,

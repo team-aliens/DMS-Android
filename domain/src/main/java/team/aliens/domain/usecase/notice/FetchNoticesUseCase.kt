@@ -1,7 +1,8 @@
 package team.aliens.domain.usecase.notice
 
 import team.aliens.domain.model.notice.FetchNoticesInput
-import team.aliens.domain.model.notice.FetchNoticesOutput
+import team.aliens.domain.model.notice.Notice
+import team.aliens.domain.model.notice.toModel
 import team.aliens.domain.repository.NoticeRepository
 import javax.inject.Inject
 
@@ -10,9 +11,9 @@ class FetchNoticesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         fetchNoticesInput: FetchNoticesInput,
-    ): FetchNoticesOutput {
+    ): List<Notice> {
         return noticeRepository.fetchNotices(
             input = fetchNoticesInput,
-        )
+        ).toModel()
     }
 }

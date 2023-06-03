@@ -100,13 +100,11 @@ internal fun NavGraphBuilder.homeNavigation(
                 navArgument(Extra.noticeId) { type = NavType.StringType },
             ),
         ) {
-            val noticeId = it.arguments!!.getString(Extra.noticeId)
-            if (noticeId != null) {
-                NoticeDetailsScreen(
-                    navController = navController,
-                    noticeId = noticeId,
-                )
-            }
+            val noticeId = UUID.fromString(it.arguments!!.getString(Extra.noticeId))
+            NoticeDetailsScreen(
+                navController = navController,
+                noticeId = noticeId,
+            )
         }
     }
 }

@@ -52,7 +52,7 @@ class NoticeRepositoryImpl @Inject constructor(
     ): FetchNoticesOutput {
         return remoteNoticeDataSource.fetchNotices(
             input = FetchNoticesInput(
-                order = Order.NEW,
+                order = input.order,
             )
         ).also {
             this.saveNotices(

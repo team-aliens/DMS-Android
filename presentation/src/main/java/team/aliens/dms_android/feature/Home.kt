@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import java.util.UUID
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
@@ -32,7 +33,7 @@ import team.aliens.dms_android.feature.application.ApplicationScreen
 import team.aliens.dms_android.feature.meal.MealScreen
 import team.aliens.dms_android.feature.mypage.MyPageScreen
 import team.aliens.dms_android.feature.navigator.BottomNavigationItem
-import team.aliens.dms_android.feature.notice.NoticeScreen
+import team.aliens.dms_android.feature.notice.NoticesScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -56,6 +57,13 @@ fun Home(
         mutableStateOf(
             {
                 bottomNavController.navigate(BottomNavigationItem.Notice.route)
+            },
+        )
+    }
+    val onNavigateToNoticeDetailsScreen by remember {
+        mutableStateOf(
+            { value: UUID ->
+                navController.navigate("noticeDetails/${value}")
             },
         )
     }
@@ -83,18 +91,9 @@ fun Home(
             startDestination = BottomNavigationItem.Meal.route,
         ) {
             composable(BottomNavigationItem.Meal.route) {
-                /*CafeteriaScreen(
-                    navController = navHostController,
-                    onMoveToNotice = {
-                        navigateTo(
-                            route = BottomNavigationItem.Notice.route,
-                            navController = navHostController,
-                        )
-                    },
-                )*/
                 MealScreen(
                     onNavigateToNoticeScreen = onNavigateToNoticeScreen,
-                ) // fixme
+                )
             }
             if (applicationServiceEnabled) {
                 composable(BottomNavigationItem.Application.route) {
@@ -104,8 +103,8 @@ fun Home(
                 }
             }
             composable(BottomNavigationItem.Notice.route) {
-                NoticeScreen(
-                    navController = navController,
+                NoticesScreen(
+                    onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetailsScreen,
                 )
             }
             composable(BottomNavigationItem.MyPage.route) {
