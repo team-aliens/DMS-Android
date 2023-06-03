@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.remain
+package team.aliens.dms_android.feature.remains
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
