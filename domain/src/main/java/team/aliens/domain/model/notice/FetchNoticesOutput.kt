@@ -35,7 +35,7 @@ fun List<FetchNoticesOutput.NoticeInformation>.toModel(): List<Notice> {
 }
 
 fun FetchNoticesOutput.toModel(): List<Notice> {
-    return this.toModel()
+    return this.notices.toModel()
 }
 
 fun List<FetchNoticesOutput.NoticeInformation>.toTypedArray(): Array<Notice> {
