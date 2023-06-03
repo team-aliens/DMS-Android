@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,16 +31,13 @@ import team.aliens.presentation.R
 @Composable
 internal fun NoticeDetailsScreen(
     navController: NavController,
-    noticeId: String,
-    noticesViewModel: NoticesViewModel = hiltViewModel(),
+    noticeId: UUID,
+    noticeDetailsViewModel: NoticeDetailsViewModel = hiltViewModel(),
 ) {
-
-    val uiState = noticesViewModel.uiState.collectAsStateWithLifecycle()
-
-    val noticeDetails = uiState.value.noticeDetails
+    val uiState by noticeDetailsViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        noticesViewModel.onEvent(NoticesUiEvent.FetchNoticeDetails(UUID.fromString(noticeId)))
+        noticeDetailsViewModel.onEvent(NoticeDetailsUiEvent.FetchNoticeDetails(noticeId))
     }
 
     Column(
@@ -67,9 +65,9 @@ internal fun NoticeDetailsScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Title3(text = noticeDetails.title)
+                Title3(text = uiState.title)
                 Caption(
-                    text = noticeDetails.createdAt.toNoticeDate(),
+                    text = uiState.createdAt.toNoticeDate(),
                     color = DormTheme.colors.primaryVariant,
                 )
                 Divider(
@@ -85,7 +83,7 @@ internal fun NoticeDetailsScreen(
                     .padding(
                         top = 8.dp,
                     ),
-                text = noticeDetails.content!!,
+                text = uiState.content,
             )
         }
     }
