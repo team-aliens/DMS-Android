@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.remain
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -65,9 +64,9 @@ internal fun RemainsApplicationScreen(
     val onRemainsApplicationClicked = {
         remainsApplicationViewModel.onEvent(RemainsApplicationUiEvent.UpdateRemainsOption)
     }
-    val onRemainsOptionSelected = { selectedRemainsOptionId: UUID ->
+    val onRemainsOptionSelected = { selectedRemainsOption: RemainsOption ->
         remainsApplicationViewModel.onEvent(
-            RemainsApplicationUiEvent.SelectRemainsOption(selectedRemainsOptionId),
+            RemainsApplicationUiEvent.SelectRemainsOption(selectedRemainsOption),
         )
     }
 
@@ -90,9 +89,11 @@ internal fun RemainsApplicationScreen(
         ) {
             RemainsItems(
                 remainsOptions = uiState.remainsOptions,
-                selectedRemainsOptionId = uiState.selectedRemainsOptionId,
+                selectedRemainsOptionId = uiState.selectedRemainsOption?.id,
                 onRemainsOptionSelected = onRemainsOptionSelected,
             )
+
+            val applicationButtonEnabled = uiState.applicationButtonEnabled
 
             if (uiState.currentAppliedRemainsOption != null) {
                 DormContainedLargeButton(
@@ -101,9 +102,12 @@ internal fun RemainsApplicationScreen(
                         start = 16.dp,
                         end = 16.dp,
                     ),
-                    text = "TEXT",
+                    text = if (applicationButtonEnabled) String.format(
+                        stringResource(R.string.application_apply_of),
+                        uiState.selectedRemainsOption?.title ?: "코딱지",
+                    ) else stringResource(R.string.application_completed),
                     color = DormButtonColor.Blue,
-                    enabled = uiState.applicationButtonEnabled,
+                    enabled = applicationButtonEnabled,
                     onClick = onRemainsApplicationClicked,
                 )
             }
@@ -144,7 +148,7 @@ private fun RemainsApplicationTimeCard(
 private fun RemainsItems(
     remainsOptions: List<RemainsOption>,
     selectedRemainsOptionId: UUID?,
-    onRemainsOptionSelected: (UUID) -> Unit,
+    onRemainsOptionSelected: (RemainsOption) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -179,7 +183,7 @@ private fun RemainsItems(
 private fun RemainsOptionCard(
     remainsOption: RemainsOption,
     selected: Boolean,
-    onClick: (UUID) -> Unit,
+    onClick: (RemainsOption) -> Unit,
     currentApplied: Boolean,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -204,7 +208,7 @@ private fun RemainsOptionCard(
                 shape = RoundedCornerShape(10.dp),
             )
             .dormClickable {
-                onClick(remainsOption.id)
+                onClick(remainsOption)
             }
             .border(
                 width = 1.dp,
@@ -259,21 +263,4 @@ private fun RemainsOptionCard(
             )
         }
     }
-}
-
-
-private fun setButtonTextByRemainsState(
-    buttonEnabled: Boolean,
-    lastAppliedItemTitle: String,
-    currentSelectedItemTitle: String,
-    context: Context,
-): String {
-    return if (!buttonEnabled) context.getString(R.string.application_completed)
-    else if (lastAppliedItemTitle.isBlank()) context.getString(
-        R.string.remains_do_apply, currentSelectedItemTitle
-    )
-    else context.getString(
-        R.string.remains_change_to,
-        currentSelectedItemTitle,
-    )
 }
