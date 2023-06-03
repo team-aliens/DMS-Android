@@ -157,7 +157,7 @@ private fun RemainsItems(
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(
-                top = 30.dp,
+                top = 16.dp,
                 bottom = 120.dp,
             ),
         ) {
@@ -173,7 +173,7 @@ private fun RemainsItems(
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(30.dp)
+                .height(16.dp)
                 .dormGradientBackground(listFadeBrush),
         )
     }
