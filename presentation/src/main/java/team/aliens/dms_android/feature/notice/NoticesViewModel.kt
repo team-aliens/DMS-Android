@@ -20,23 +20,23 @@ internal class NoticesViewModel @Inject constructor(
     initialState = NoticesUiState.initial(),
 ) {
     init {
-        fetchNotices()
+        fetchNotices(Order.NEW)
     }
 
     override fun updateState(event: NoticesUiEvent) {
         when (event) {
-            is NoticesUiEvent.SetOrder -> setOrder(event.order)
+            is NoticesUiEvent.SetOrder -> fetchNotices(event.order)
         }
     }
 
     private fun fetchNotices(
-        order: Order = uiState.value.order,
+        order: Order,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchNoticesUseCase(
                     fetchNoticesInput = FetchNoticesInput(
-                        order = uiState.value.order,
+                        order = order,
                     ),
                 )
             }.onSuccess {
@@ -48,10 +48,6 @@ internal class NoticesViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun setOrder(order: Order) {
-        fetchNotices(order)
     }
 }
 

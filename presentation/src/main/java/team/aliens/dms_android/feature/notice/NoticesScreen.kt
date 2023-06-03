@@ -43,6 +43,13 @@ import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
 import team.aliens.presentation.R
 
+private val Order.text: String
+    @Composable get() = when (this) {
+        Order.NEW -> stringResource(R.string.latest_order)
+        Order.OLD -> stringResource(R.string.oldest_order)
+        else -> throw IllegalArgumentException()
+    }
+
 @Composable
 internal fun NoticesScreen(
     onNavigateToNoticeDetailsScreen: (UUID) -> Unit,
@@ -56,7 +63,7 @@ internal fun NoticesScreen(
                 order = when (uiState.order) {
                     Order.NEW -> Order.OLD
                     Order.OLD -> Order.NEW
-                }
+                },
             ),
         )
     }
@@ -73,7 +80,7 @@ internal fun NoticesScreen(
         Body1(text = stringResource(R.string.Notice))
         Spacer(Modifier.height(24.dp))
         OrderButton(
-            order = uiState.order,
+            text = uiState.order.text,
             onClick = onOrderButtonClick,
         )
         Notices(
@@ -84,17 +91,8 @@ internal fun NoticesScreen(
 }
 
 @Composable
-private fun getStringByOrder(
-    order: Order,
-) = when (order) {
-    Order.NEW -> stringResource(R.string.latest_order)
-    Order.OLD -> stringResource(R.string.oldest_order)
-    else -> throw IllegalArgumentException()
-}
-
-@Composable
 private fun OrderButton(
-    order: Order,
+    text: String,
     onClick: () -> Unit,
 ) {
     Row(
@@ -104,7 +102,7 @@ private fun OrderButton(
         horizontalArrangement = Arrangement.Start,
     ) {
         DormOutlinedDefaultButton(
-            text = getStringByOrder(order),
+            text = text,
             color = DormButtonColor.Gray,
             onClick = onClick,
         )
