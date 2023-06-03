@@ -95,7 +95,7 @@ internal fun RemainsApplicationScreen(
 
             val applicationButtonEnabled = uiState.applicationButtonEnabled
 
-            if (uiState.currentAppliedRemainsOption != null) {
+            if (uiState.selectedRemainsOption != null) {
                 DormContainedLargeButton(
                     modifier = Modifier.padding(
                         bottom = 57.dp,

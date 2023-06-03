@@ -11,7 +11,6 @@ import team.aliens.domain.model.remains.CurrentAppliedRemainsOption
 import team.aliens.domain.model.remains.RemainsApplicationTime
 import team.aliens.domain.model.remains.RemainsOption
 import team.aliens.domain.model.remains.UpdateRemainsOptionInput
-import team.aliens.domain.model.remains.toModel
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
 import team.aliens.domain.usecase.remain.FetchRemainsOptionsUseCase
@@ -29,9 +28,14 @@ internal class RemainsApplicationViewModel @Inject constructor(
 ) {
     init {
         fetchRemainsApplicationTime()
-        fetchRemainsOptions()
         fetchCurrentAppliedRemainsOption()
+        fetchRemainsOptions()
     }
+
+    private val currentAppliedRemainsOption: CurrentAppliedRemainsOption?
+        get() = uiState.value.currentAppliedRemainsOption
+    private val selectedRemainsOption: RemainsOption?
+        get() = uiState.value.selectedRemainsOption
 
     override fun updateState(event: RemainsApplicationUiEvent) {
         when (event) {
@@ -61,10 +65,14 @@ internal class RemainsApplicationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchRemainsOptionsUseCase()
-            }.onSuccess {
+            }.onSuccess { fetchedRemainsOptions ->
+                val appliedRemainsOption = fetchedRemainsOptions.first { it.applied }
+
                 setState(
                     newState = uiState.value.copy(
-                        remainsOptions = it.remainOptions.toModel(),
+                        remainsOptions = fetchedRemainsOptions,
+                        selectedRemainsOption = appliedRemainsOption,
+                        applicationButtonEnabled = appliedRemainsOption.id != selectedRemainsOption?.id,
                     ),
                 )
             }
@@ -86,34 +94,37 @@ internal class RemainsApplicationViewModel @Inject constructor(
     }
 
     private fun updateRemainsOption() {
-        val selectedRemainsOption =
-            uiState.value.selectedRemainsOption ?: TODO("잔류 항목을 선택해주세요 에러 핸들링")
-
+        setRemainsApplicationButtonState(false)
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 updateRemainsOptionUseCase(
                     updateRemainsOptionInput = UpdateRemainsOptionInput(
-                        remainsOptionId = selectedRemainsOption.id,
+                        remainsOptionId = uiState.value.selectedRemainsOption?.id
+                            ?: throw IllegalStateException(),
                     ),
                 )
             }.onSuccess {
-                setState(
-                    newState = uiState.value.copy(
-                        selectedRemainsOption = selectedRemainsOption,
-                    ),
-                )
+                fetchCurrentAppliedRemainsOption()
+                fetchRemainsOptions()
             }
         }
     }
 
-    private fun setSelectedRemainsOption(remainsOption: RemainsOption) {
-        val currentAppliedRemainsOptionId =
-            uiState.value.currentAppliedRemainsOption?.appliedRemainsOptionId
+    private fun setRemainsApplicationButtonState(
+        enabled: Boolean,
+    ) {
+        setState(
+            newState = uiState.value.copy(
+                applicationButtonEnabled = enabled,
+            ),
+        )
+    }
 
+    private fun setSelectedRemainsOption(remainsOption: RemainsOption) {
         setState(
             newState = uiState.value.copy(
                 selectedRemainsOption = remainsOption,
-                applicationButtonEnabled = remainsOption.id != currentAppliedRemainsOptionId,
+                applicationButtonEnabled = remainsOption.id != currentAppliedRemainsOption?.appliedRemainsOptionId,
             ),
         )
     }
