@@ -2,7 +2,13 @@ package team.aliens.dms_android.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,7 +19,7 @@ import team.aliens.design_system.R
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body5
+import team.aliens.design_system.typography.Caption
 
 @Composable
 fun FloatingNotice(
@@ -23,10 +29,12 @@ fun FloatingNotice(
         contentAlignment = Alignment.CenterEnd,
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .defaultMinSize(
+                minHeight = 50.dp,
+            )
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
-                offsetY = 8.dp,
+                offsetY = 1.dp,
             )
             .background(
                 color = DormTheme.colors.surface,
@@ -34,19 +42,22 @@ fun FloatingNotice(
             )
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = 4.dp,
+                    horizontal = 16.dp,
+                ),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .size(26.dp),
+                modifier = Modifier.size(26.dp),
                 painter = painterResource(id = R.drawable.coloricnotice),
                 contentDescription = "NoticeIcon",
             )
             Space(space = 13.dp)
-            Body5(text = content)
+            Caption(text = content)
         }
     }
 }

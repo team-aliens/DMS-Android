@@ -380,7 +380,7 @@
 
     <!--application-->
     <string name="application">신청</string>
-    <string name="application_do_apply">신청하기</string>
+    <string name="application_apply_of">%s 신청하기</string>
     <string name="application_completed">신청 완료</string>
 
     <string name="application_success">신청이 완료되었습니다</string>
@@ -403,15 +403,17 @@
     <string name="study_room_error_not_study_room_application_time">현재 자습실 신청 시간이 아닙니다</string>
     <string name="study_room_seat_not_found">존재하지 않는 자리입니다.</string>
 
-    <!--remain-->
-    <string name="remain_stay">잔류</string>
-    <string name="remain_apply">잔류 신청</string>
-    <string name="remain_do_apply">잔류 신청하기</string>
-    <string name="remain_change_to">로 변경하기</string>
+    <!--remains-->
+    <string name="remains_stay">잔류</string>
+    <string name="remains_apply">잔류 신청</string>
+    <string name="remains_do_apply">%s 신청하기</string>
+    <string name="remains_change_to">%s로 변경하기</string>
+    
+    <string name="remains_description">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요</string>
 
-    <string name="remain_remain_description">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요</string>
+    <string name="remains_available_remains_application_time_is">잔류 신청 시간은 %s 까지 입니다.</string>
 
-    <string name="remain_error_not_remain_application_time">잔류 신청 시간이 아닙니다</string>
+    <string name="remains_error_not_remains_application_time">잔류 신청 시간이 아닙니다</string>
 
     <!--bottom nav-->
     <string name="bottom_nav_home">홈</string>

@@ -6,11 +6,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -25,6 +24,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.utils.runIf
 
@@ -48,29 +48,36 @@ private fun BasicButton(
 
     val btnColor = if (isPressed.value) rippleColor else backgroundColor
 
-    Box(
-        modifier = modifier
-            .runIf(
-                enabled,
-            ) {
-                composed {
-                    dormClickable(
-                        rippleEnabled = enabled,
-                        rippleColor = rippleColor,
-                        onClick = onClick,
-                    )
-                }
+    Surface(
+        modifier = modifier.background(
+            color = DormTheme.colors.background,
+            shape = shape,
+        ).runIf(
+            enabled,
+        ) {
+            composed {
+                dormClickable(
+                    rippleEnabled = enabled,
+                    rippleColor = rippleColor,
+                    onClick = onClick,
+                )
             }
-            .alpha(
-                if (!enabled) disabledAlpha else 1f
-            )
-            .background(
-                color = btnColor,
-                shape = shape,
-            ),
-        contentAlignment = Alignment.Center,
+        },
+        shape = shape,
     ) {
-        content(isPressed.value)
+        Box(
+            modifier = Modifier
+                .alpha(
+                    if (!enabled) disabledAlpha else 1f
+                )
+                .background(
+                    color = btnColor,
+                    shape = shape,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            content(isPressed.value)
+        }
     }
 }
 
@@ -85,7 +92,6 @@ private fun BasicContainedButton(
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-
     BasicButton(
         modifier = modifier,
         shape = shape,
@@ -127,12 +133,11 @@ private fun BasicOutlinedButton(
     )
 
     BasicButton(
-        modifier = modifier
-            .border(
-                width = 1.dp,
-                color = outlineBackgroundColor,
-                shape = shape,
-            ),
+        modifier = modifier.border(
+            width = 1.dp,
+            color = outlineBackgroundColor,
+            shape = shape,
+        ),
         shape = shape,
         backgroundColor = Color.Transparent,
         rippleColor = rippleColor,
@@ -200,10 +205,9 @@ internal fun BasicOutlinedRoundButton(
 
 @Composable
 internal fun BasicContainedRoundLargeButton(
-    modifier: Modifier = Modifier
-        .padding(
-            vertical = 9.dp,
-        ),
+    modifier: Modifier = Modifier.padding(
+        vertical = 9.dp,
+    ),
     text: String,
     textColor: Color,
     round: Dp = 0.dp,
@@ -213,8 +217,7 @@ internal fun BasicContainedRoundLargeButton(
     onClick: () -> Unit,
 ) {
     BasicContainedRoundButton(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         text = text,
         textColor = textColor,
         round = round,
@@ -227,10 +230,9 @@ internal fun BasicContainedRoundLargeButton(
 
 @Composable
 internal fun BasicOutlinedRoundLargeButton(
-    modifier: Modifier = Modifier
-        .padding(
-            vertical = 9.dp
-        ),
+    modifier: Modifier = Modifier.padding(
+        vertical = 9.dp
+    ),
     text: String,
     textColor: Color,
     round: Dp = 0.dp,
@@ -241,8 +243,7 @@ internal fun BasicOutlinedRoundLargeButton(
     onClick: () -> Unit,
 ) {
     BasicOutlinedRoundButton(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         text = text,
         textColor = textColor,
         round = round,

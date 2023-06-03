@@ -35,6 +35,7 @@ fun LastAppliedItem(
                 shape = CircleShape,
             )
             .padding(
+                vertical = 4.dp,
                 horizontal = 12.dp,
             ),
         contentAlignment = Alignment.Center,

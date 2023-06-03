@@ -44,6 +44,7 @@ internal fun DmsApp(
                 homeNavigation(
                     navController = navController,
                     scaffoldState = scaffoldState,
+                    appState = dmsAppState,
                 )
                 signUpNavigation(
                     navController = navController,

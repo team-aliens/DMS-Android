@@ -11,7 +11,7 @@ data class FetchRemainsOptionsResponse(
         @SerializedName("id") val id: UUID,
         @SerializedName("title") val title: String,
         @SerializedName("description") val description: String,
-        @SerializedName("is_applied") val isApplied: Boolean,
+        @SerializedName("is_applied") val applied: Boolean,
     )
 }
 
@@ -26,7 +26,7 @@ internal fun FetchRemainsOptionsResponse.RemainsOptionResponse.toDomain(): Fetch
         id = this.id,
         title = this.title,
         description = this.description,
-        isApplied = this.isApplied,
+        applied = this.applied,
     )
 }
 

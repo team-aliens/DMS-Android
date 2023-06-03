@@ -10,17 +10,19 @@ import androidx.navigation.navigation
 import java.util.UUID
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.Home
+import team.aliens.dms_android.feature.application.DmsAppState
 import team.aliens.dms_android.feature.image.UploadProfileImageScreen
 import team.aliens.dms_android.feature.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
-import team.aliens.dms_android.feature.remain.RemainsApplicationScreen
+import team.aliens.dms_android.feature.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
 import team.aliens.dms_android.util.SelectImageType
 
-fun NavGraphBuilder.homeNavigation(
+internal fun NavGraphBuilder.homeNavigation(
     navController: NavController,
     scaffoldState: ScaffoldState,
+    appState: DmsAppState,
 ) {
     navigation(
         startDestination = DmsRoute.Home.Main,
@@ -86,7 +88,9 @@ fun NavGraphBuilder.homeNavigation(
 
         composable(DmsRoute.Home.RemainsApplication) {
             RemainsApplicationScreen(
-                navController = navController,
+                onPrevious = {
+                    appState.navController.popBackStack()
+                }
             )
         }
 
