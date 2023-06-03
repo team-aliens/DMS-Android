@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,9 +17,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +32,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormOutlinedDefaultButton
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
@@ -81,8 +87,8 @@ internal fun NoticesScreen(
 private fun getStringByOrder(
     order: Order,
 ) = when (order) {
-    Order.NEW -> stringResource(id = R.string.latest_order)
-    Order.OLD -> stringResource(id = R.string.oldest_order)
+    Order.NEW -> stringResource(R.string.latest_order)
+    Order.OLD -> stringResource(R.string.oldest_order)
     else -> throw IllegalArgumentException()
 }
 
@@ -106,30 +112,56 @@ private fun OrderButton(
 }
 
 @Composable
-private fun Notices(
+private fun ColumnScope.Notices(
     notices: List<Notice>,
     onNoticeClick: (UUID) -> Unit,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item {
+    // FIXME replace with fade brush
+    val color = DormTheme.colors
+    val pointFadedBackgroundBrush = remember {
+        Brush.verticalGradient(
+            colors = listOf(
+                color.background,
+                Color.Transparent,
+            ),
+        )
+    } // FIXME end
 
-        }
-        items(notices) { notice ->
-            Notice(
-                notice = notice,
-                onNoticeClick = onNoticeClick,
-            )
-        }
-        if (notices.isEmpty()) {
-            item {
-                Body3(text = stringResource(R.string.TheresNoNotices))
+    Box(
+        modifier = Modifier.weight(1f),
+        contentAlignment = Alignment.TopCenter,
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(
+                top = 20.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 80.dp,
+            ),
+        ) {
+            repeat(10) {
+                items(notices) { notice ->
+                    Notice(
+                        notice = notice,
+                        onNoticeClick = onNoticeClick,
+                    )
+                }
+            }
+            if (notices.isEmpty()) {
+                item {
+                    Body3(text = stringResource(R.string.TheresNoNotices))
+                }
             }
         }
+        Spacer(
+            Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+                .dormGradientBackground(pointFadedBackgroundBrush),
+        )
     }
 }
 
@@ -141,7 +173,7 @@ private fun Notice(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(6.dp))
+            .clip(RoundedCornerShape(6.dp))
             .dormShadow(
                 color = DormTheme.colors.secondaryVariant,
                 offsetX = 1.dp,
