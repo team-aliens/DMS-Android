@@ -106,11 +106,14 @@ internal class RemainsApplicationViewModel @Inject constructor(
             }.onSuccess {
                 fetchCurrentAppliedRemainsOption()
                 fetchRemainsOptions()
+            }.onFailure {
+                setRemainsApplicationButtonState(true)
             }
         }
     }
 
     private fun setRemainsApplicationButtonState(
+        // todo side effect로 기능 재구현 필요!! false 상태에서 무조건 신청 완료 텍스트 표시됨
         enabled: Boolean,
     ) {
         setState(
