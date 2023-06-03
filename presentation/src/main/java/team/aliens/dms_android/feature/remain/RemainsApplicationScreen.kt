@@ -9,12 +9,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,11 +42,13 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.LastAppliedItem
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model.remains.RemainsApplicationTime
 import team.aliens.domain.model.remains.RemainsOption
@@ -78,35 +80,41 @@ internal fun RemainsApplicationScreen(
             onPrevious = onPrevious,
         )
 
-        if (remainsApplicationTime != null) RemainsApplicationTimeCard(remainsApplicationTime)
+        if (remainsApplicationTime != null) {
+            RemainsApplicationTimeCard(remainsApplicationTime)
+        }
 
-        RemainsItems(
-            remainsOptions = uiState.remainsOptions,
-            selectedRemainsOptionId = uiState.selectedRemainsOptionId,
-            onRemainsOptionSelected = onRemainsOptionSelected,
-        )
-
-        if (uiState.selectedRemainsOptionId != null)
-            DormContainedLargeButton(
-                modifier = Modifier.padding(
-                    bottom = 57.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                ),
-                text = "TEXT",
-                color = DormButtonColor.Blue,
-                enabled = uiState.applicationButtonEnabled,
-                onClick = onRemainsApplicationClicked,
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            RemainsItems(
+                remainsOptions = uiState.remainsOptions,
+                selectedRemainsOptionId = uiState.selectedRemainsOptionId,
+                onRemainsOptionSelected = onRemainsOptionSelected,
             )
+
+            if (uiState.currentAppliedRemainsOption != null) {
+                DormContainedLargeButton(
+                    modifier = Modifier.padding(
+                        bottom = 57.dp,
+                        start = 16.dp,
+                        end = 16.dp,
+                    ),
+                    text = "TEXT",
+                    color = DormButtonColor.Blue,
+                    enabled = uiState.applicationButtonEnabled,
+                    onClick = onRemainsApplicationClicked,
+                )
+            }
+        }
     }
 }
 
 @Composable
 private fun RemainsApplicationTime.toFormattedString(): String {
-    val startAt =
-        "${startDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $startTime"
-    val endAt =
-        "${endDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $endTime"
+    val startAt = "${startDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $startTime"
+    val endAt = "${endDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $endTime"
 
     return String.format(
         stringResource(R.string.remains_available_remains_application_time_is),
@@ -120,8 +128,10 @@ private fun RemainsApplicationTimeCard(
 ) {
     Box(
         modifier = Modifier.padding(
-            vertical = 18.dp,
-            horizontal = 16.dp,
+            top = 8.dp,
+            bottom = 30.dp,
+            start = 16.dp,
+            end = 16.dp,
         ),
     ) {
         FloatingNotice(
@@ -131,26 +141,39 @@ private fun RemainsApplicationTimeCard(
 }
 
 @Composable
-private fun ColumnScope.RemainsItems(
+private fun RemainsItems(
     remainsOptions: List<RemainsOption>,
     selectedRemainsOptionId: UUID?,
     onRemainsOptionSelected: (UUID) -> Unit,
 ) {
-    LazyColumn(
-        modifier = Modifier.weight(1f),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(
-            vertical = 48.dp,
-        ),
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter,
     ) {
-        items(remainsOptions) { remainsOption ->
-            RemainsOptionCard(
-                remainsOption = remainsOption,
-                selected = remainsOption.id == selectedRemainsOptionId,
-                onClick = onRemainsOptionSelected,
-                currentApplied = remainsOption.applied,
-            )
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(
+                top = 30.dp,
+                bottom = 120.dp,
+            ),
+        ) {
+            repeat(10) {
+                items(remainsOptions) { remainsOption ->
+                    RemainsOptionCard(
+                        remainsOption = remainsOption,
+                        selected = remainsOption.id == selectedRemainsOptionId,
+                        onClick = onRemainsOptionSelected,
+                        currentApplied = remainsOption.applied,
+                    )
+                }
+            }
         }
+        Spacer(
+            Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .dormGradientBackground(listFadeBrush),
+        )
     }
 }
 
