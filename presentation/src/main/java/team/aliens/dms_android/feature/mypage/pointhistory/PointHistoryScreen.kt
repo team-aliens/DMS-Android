@@ -18,12 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +35,7 @@ import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Headline2
 import team.aliens.design_system.typography.OverLine
+import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.PointType
 import team.aliens.domain.model.point.Point
@@ -157,15 +155,6 @@ private fun PointTypeRadioGroup(
 private fun ColumnScope.Points(
     points: List<Point>,
 ) {
-    val color = DormTheme.colors
-    val pointFadedBackgroundBrush = remember {
-        Brush.verticalGradient(
-            colors = listOf(
-                color.background,
-                Color.Transparent,
-            ),
-        )
-    }
     val pointsNotEmpty = points.isNotEmpty()
 
     Box(
@@ -194,7 +183,7 @@ private fun ColumnScope.Points(
                 Modifier
                     .fillMaxWidth()
                     .height(54.dp)
-                    .dormGradientBackground(pointFadedBackgroundBrush),
+                    .dormGradientBackground(listFadeBrush),
             )
         } else {
             // todo discuss when 'points' is empty
