@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,7 +34,7 @@ fun FloatingNotice(
             )
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
-                offsetY = 8.dp,
+                offsetY = 1.dp,
             )
             .background(
                 color = DormTheme.colors.surface,
@@ -46,6 +45,7 @@ fun FloatingNotice(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
+                    vertical = 4.dp,
                     horizontal = 16.dp,
                 ),
             horizontalArrangement = Arrangement.Start,
