@@ -2,8 +2,8 @@ package team.aliens.data.repository
 
 import team.aliens.data.datasource.remote.RemoteNotificationDataSource
 import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
-import team.aliens.domain.model.notification.SubscribeTopicInput
-import team.aliens.domain.model.notification.UnsubscribeTopicInput
+import team.aliens.domain.model.notification.SubscribeNotificationTopicInput
+import team.aliens.domain.model.notification.UnsubscribeNotificationTopicInput
 import team.aliens.domain.repository.NotificationRepository
 import javax.inject.Inject
 
@@ -13,18 +13,18 @@ class NotificationRepositoryImpl @Inject constructor(
     override suspend fun registerDeviceToken(
         input: RegisterDeviceNotificationTokenInput,
     ) {
-        remoteNotificationDataSource.registerDeviceToken(input)
+        remoteNotificationDataSource.registerDeviceNotificationToken(input)
     }
 
     override suspend fun subscribeTopic(
-        input: SubscribeTopicInput,
+        input: SubscribeNotificationTopicInput,
     ) {
-        remoteNotificationDataSource.subscribeTopic(input)
+        remoteNotificationDataSource.subscribeNotificationTopic(input)
     }
 
     override suspend fun unsubscribeTopic(
-        input: UnsubscribeTopicInput,
+        input: UnsubscribeNotificationTopicInput,
     ) {
-        remoteNotificationDataSource.unsubscribeTopic(input)
+        remoteNotificationDataSource.unsubscribeNotificationTopic(input)
     }
 }
