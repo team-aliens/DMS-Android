@@ -1,8 +1,8 @@
 package team.aliens.domain.repository
 
 import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
-import team.aliens.domain.model.notification.SubscribeTopicInput
-import team.aliens.domain.model.notification.UnsubscribeTopicInput
+import team.aliens.domain.model.notification.SubscribeNotificationTopicInput
+import team.aliens.domain.model.notification.UnsubscribeNotificationTopicInput
 
 interface NotificationRepository {
     suspend fun registerDeviceToken(
@@ -10,10 +10,10 @@ interface NotificationRepository {
     )
 
     suspend fun subscribeTopic(
-        input: SubscribeTopicInput,
+        input: SubscribeNotificationTopicInput,
     )
 
     suspend fun unsubscribeTopic(
-        input: UnsubscribeTopicInput,
+        input: UnsubscribeNotificationTopicInput,
     )
 }
