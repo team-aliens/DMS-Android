@@ -53,6 +53,8 @@ internal object HttpProperty {
         const val Page = "page"
         const val Size = "size"
         const val TimeSlot = "time_slot"
+        const val Token = "token"
+        const val Topic = "topic"
     }
 
     object Body {

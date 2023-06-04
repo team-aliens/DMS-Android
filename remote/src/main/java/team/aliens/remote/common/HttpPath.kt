@@ -4,7 +4,7 @@ internal sealed class HttpPath(
     val path: String,
 ) {
 
-    private companion object {
+    companion object Domain {
         const val Auth = "auth"
         const val Students = "students"
         const val Users = "users"
@@ -15,75 +15,76 @@ internal sealed class HttpPath(
         const val Points = "points"
         const val StudyRooms = "study-rooms"
         const val Remains = "remains"
+        const val Notification = "notifications"
     }
 
     object Auth : HttpPath(
         path = this.Auth,
     ) {
-        const val SignIn = "/${Companion.Auth}/tokens"
-        const val SendEmailVerificationCode = "/${Companion.Auth}/code"
-        const val CheckEmailVerificationCode = "/${Companion.Auth}/code"
-        const val ReissueToken = "/${Companion.Auth}/reissue"
-        const val VerifyEmail = "/${Companion.Auth}/email"
-        const val CheckIdExists = "/${Companion.Auth}/account-id"
+        const val SignIn = "/${Domain.Auth}/tokens"
+        const val SendEmailVerificationCode = "/${Domain.Auth}/code"
+        const val CheckEmailVerificationCode = "/${Domain.Auth}/code"
+        const val ReissueToken = "/${Domain.Auth}/reissue"
+        const val VerifyEmail = "/${Domain.Auth}/email"
+        const val CheckIdExists = "/${Domain.Auth}/account-id"
     }
 
     object Student : HttpPath(
         path = this.Students,
     ) {
-        const val SignUp = "/${Companion.Students}/signup"
-        const val ExamineStudentNumber = "/${Companion.Students}/name"
-        const val FindId = "/${Companion.Students}/account-id/{school-id}"
-        const val ResetPassword = "/${Companion.Students}/password/initialization"
-        const val CheckIdDuplication = "/${Companion.Students}/account-id/duplication"
-        const val CheckEmailDuplication = "/${Companion.Students}/email/duplication"
-        const val FetchMyPage = "/${Companion.Students}/profile"
-        const val EditProfile = "/${Companion.Students}/profile"
-        const val Withdraw = "/${Companion.Students}"
+        const val SignUp = "/${Domain.Students}/signup"
+        const val ExamineStudentNumber = "/${Domain.Students}/name"
+        const val FindId = "/${Domain.Students}/account-id/{school-id}"
+        const val ResetPassword = "/${Domain.Students}/password/initialization"
+        const val CheckIdDuplication = "/${Domain.Students}/account-id/duplication"
+        const val CheckEmailDuplication = "/${Domain.Students}/email/duplication"
+        const val FetchMyPage = "/${Domain.Students}/profile"
+        const val EditProfile = "/${Domain.Students}/profile"
+        const val Withdraw = "/${Domain.Students}"
     }
 
     object User : HttpPath(
         path = this.Users,
     ) {
-        const val EditPassword = "/${Companion.Users}/password"
-        const val ComparePassword = "/${Companion.Users}/password"
+        const val EditPassword = "/${Domain.Users}/password"
+        const val ComparePassword = "/${Domain.Users}/password"
     }
 
     object School : HttpPath(
         path = this.Schools,
     ) {
-        const val FetchSchools = "/${Companion.Schools}"
-        const val FetchSchoolVerificationQuestion = "/${Companion.Schools}/question/{school-id}"
-        const val ExamineSchoolVerificationQuestion = "/${Companion.Schools}/answer/{school-id}"
-        const val ExamineSchoolVerificationCode = "/${Companion.Schools}/code"
-        const val FetchAvailableFeatures = "/${Companion.Schools}/available-features"
+        const val FetchSchools = "/${Domain.Schools}"
+        const val FetchSchoolVerificationQuestion = "/${Domain.Schools}/question/{school-id}"
+        const val ExamineSchoolVerificationQuestion = "/${Domain.Schools}/answer/{school-id}"
+        const val ExamineSchoolVerificationCode = "/${Domain.Schools}/code"
+        const val FetchAvailableFeatures = "/${Domain.Schools}/available-features"
     }
 
     object File : HttpPath(
         path = this.Files,
     ) {
-        const val UploadFile = "/${Companion.Files}"
-        const val FetchPreSignedUrl = "/${Companion.Files}/url"
+        const val UploadFile = "/${Domain.Files}"
+        const val FetchPreSignedUrl = "/${Domain.Files}/url"
     }
 
     object Meal : HttpPath(
         path = this.Meals,
     ) {
-        const val FetchMeals = "/${Companion.Meals}/{date}"
+        const val FetchMeals = "/${Domain.Meals}/{date}"
     }
 
     object Notice : HttpPath(
         path = this.Notices,
     ) {
-        const val FetchWhetherNewNoticesExist = "/${Companion.Notices}/status"
-        const val FetchNoticeDetails = "/${Companion.Notices}/{notice-id}"
-        const val FetchNotices = "/${Companion.Notices}"
+        const val FetchWhetherNewNoticesExist = "/${Domain.Notices}/status"
+        const val FetchNoticeDetails = "/${Domain.Notices}/{notice-id}"
+        const val FetchNotices = "/${Domain.Notices}"
     }
 
     object Point : HttpPath(
         path = this.Points,
     ) {
-        const val FetchPoints = "/${Companion.Points}"
+        const val FetchPoints = "/${Domain.Points}"
     }
 
     object StudyRoom : HttpPath(
@@ -93,22 +94,31 @@ internal sealed class HttpPath(
         private const val Seats = "seats"
         private const val Students = "students"
 
-        const val FetchStudyRoomApplicationTime = "/${Companion.StudyRooms}/available-time"
-        const val ApplySeat = "/${Companion.StudyRooms}/$Seats/{seat-id}"
-        const val CancelSeat = "/${Companion.StudyRooms}/$Seats/{seat-id}"
-        const val FetchStudyRooms = "/${Companion.StudyRooms}/list/$Students"
-        const val FetchStudyRoomDetails = "/${Companion.StudyRooms}/{study-room-id}/$Students"
-        const val FetchCurrentAppliedStudyRoom = "/${Companion.StudyRooms}/my"
-        const val FetchSeatTypes = "/${Companion.StudyRooms}/types"
-        const val FetchAvailableStudyRoomTimes = "/${Companion.StudyRooms}/time-slots"
+        const val FetchStudyRoomApplicationTime = "/${Domain.StudyRooms}/available-time"
+        const val ApplySeat = "/${Domain.StudyRooms}/$Seats/{seat-id}"
+        const val CancelSeat = "/${Domain.StudyRooms}/$Seats/{seat-id}"
+        const val FetchStudyRooms = "/${Domain.StudyRooms}/list/$Students"
+        const val FetchStudyRoomDetails = "/${Domain.StudyRooms}/{study-room-id}/$Students"
+        const val FetchCurrentAppliedStudyRoom = "/${Domain.StudyRooms}/my"
+        const val FetchSeatTypes = "/${Domain.StudyRooms}/types"
+        const val FetchAvailableStudyRoomTimes = "/${Domain.StudyRooms}/time-slots"
     }
 
     object Remains : HttpPath(
         path = this.Remains,
     ) {
-        const val UpdateRemainsOption = "/${Companion.Remains}/{remain-option-id}"
-        const val FetchCurrentAppliedRemainsOption = "/${Companion.Remains}/my"
-        const val FetchRemainsApplicationTime = "/${Companion.Remains}/available-time"
-        const val FetchRemainsOptions = "/${Companion.Remains}/options"
+        const val UpdateRemainsOption = "/${Domain.Remains}/{remain-option-id}"
+        const val FetchCurrentAppliedRemainsOption = "/${Domain.Remains}/my"
+        const val FetchRemainsApplicationTime = "/${Domain.Remains}/available-time"
+        const val FetchRemainsOptions = "/${Domain.Remains}/options"
+    }
+
+    object Notification : HttpPath(
+        path = this.Notification,
+    ) {
+        const val RegisterDeviceToken = "/${Domain.Notification}/token"
+        const val SubscribeTopic = "/${Domain.Notification}/topic"
+        const val UnsubscribeTopic = "/${Domain.Notification}/topic"
+        const val BatchUpdateTopic = "/${Domain.Notification}/topic"
     }
 }
