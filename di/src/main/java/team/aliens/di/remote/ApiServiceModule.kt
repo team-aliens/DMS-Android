@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideAuthService(
+    fun provideAuthApiService(
         retrofit: Retrofit,
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
@@ -22,7 +22,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideFileService(
+    fun provideFileApiService(
         retrofit: Retrofit,
     ): FileApiService {
         return retrofit.create(FileApiService::class.java)
@@ -30,7 +30,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideMealService(
+    fun provideMealApiService(
         retrofit: Retrofit,
     ): MealApiService {
         return retrofit.create(MealApiService::class.java)
@@ -38,7 +38,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideNoticeService(
+    fun provideNoticeApiService(
         retrofit: Retrofit,
     ): NoticeApiService {
         return retrofit.create(NoticeApiService::class.java)
@@ -46,7 +46,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun providePointService(
+    fun providePointApiService(
         retrofit: Retrofit,
     ): PointApiService {
         return retrofit.create(PointApiService::class.java)
@@ -54,7 +54,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideRemainsService(
+    fun provideRemainsApiService(
         retrofit: Retrofit,
     ): RemainsApiService {
         return retrofit.create(RemainsApiService::class.java)
@@ -62,7 +62,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideSchoolService(
+    fun provideSchoolApiService(
         retrofit: Retrofit,
     ): SchoolApiService {
         return retrofit.create(SchoolApiService::class.java)
@@ -70,7 +70,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideStudentService(
+    fun provideStudentApiService(
         retrofit: Retrofit,
     ): StudentApiService {
         return retrofit.create(StudentApiService::class.java)
@@ -78,7 +78,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideStudyRoomService(
+    fun provideStudyRoomApiService(
         retrofit: Retrofit,
     ): StudyRoomApiService {
         return retrofit.create(StudyRoomApiService::class.java)
@@ -86,9 +86,17 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideUserService(
+    fun provideUserApiService(
         retrofit: Retrofit,
     ): UserApiService {
         return retrofit.create(UserApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationApiService(
+        retrofit: Retrofit,
+    ): NotificationApiService {
+        return retrofit.create(NotificationApiService::class.java)
     }
 }
