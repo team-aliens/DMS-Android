@@ -4,12 +4,14 @@ package team.aliens.dms_android.feature.meal
 
 import android.content.Context
 import android.os.Vibrator
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,6 +49,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -138,7 +141,7 @@ internal fun MealScreen(
                 onShowCalendar = onShowCalendar,
             )
             Spacer(Modifier.height(36.dp))
-            MealCard(
+            DishCards(
                 breakfast = uiState.breakfast,
                 kcalOfBreakfast = uiState.kcalOfBreakfast
                     ?: stringResource(R.string.meal_not_exists),
@@ -341,9 +344,9 @@ private const val Breakfast = 0
 private const val Lunch = 1
 private const val Dinner = 2
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-private fun ColumnScope.MealCard(
+private fun ColumnScope.DishCards(
     breakfast: List<String>,
     kcalOfBreakfast: String,
     lunch: List<String>,
@@ -364,7 +367,8 @@ private fun ColumnScope.MealCard(
     }
 
     HorizontalPager(
-        modifier = Modifier.weight(1f),
+        modifier = Modifier
+            .weight(1f),
         pageCount = 3,
         state = pagerState,
         contentPadding = PaddingValues(
@@ -377,6 +381,30 @@ private fun ColumnScope.MealCard(
                 .padding(
                     horizontal = 8.dp,
                 )
+                .pointerInput(Unit) {
+                    detectDragGestures { change, dragAmount ->
+                        println("DRAG")
+                        val x = dragAmount.x
+                        when (page) {
+                            Breakfast -> {
+                                if (x > 0) { // scroll to left/drag right
+                                    Toast
+                                        .makeText(context, "HAHA", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+
+                            Dinner -> {
+                                if (x < 0) { // scroll to right/drag left
+                                    Toast
+                                        .makeText(context, "HOHOHO", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        }
+                        change.consume()
+                    }
+                }
                 .graphicsLayer {
                     val pagerOffset =
                         ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
@@ -411,19 +439,19 @@ private fun ColumnScope.MealCard(
                 modifier = Modifier.padding(16.dp),
             ) {
                 when (page) {
-                    Breakfast -> DishInformation(
+                    Breakfast -> DishCard(
                         icon = DormIcon.Breakfast,
                         dishes = breakfast,
                         kcal = kcalOfBreakfast,
                     )
 
-                    Lunch -> DishInformation(
+                    Lunch -> DishCard(
                         icon = DormIcon.Lunch,
                         dishes = lunch,
                         kcal = kcalOfLunch,
                     )
 
-                    Dinner -> DishInformation(
+                    Dinner -> DishCard(
                         icon = DormIcon.Dinner,
                         dishes = dinner,
                         kcal = kcalOfDinner,
@@ -443,7 +471,7 @@ private fun vibrateOnMealCardPaging(
 }
 
 @Composable
-private fun DishInformation(
+private fun DishCard(
     icon: DormIcon,
     dishes: List<String>,
     kcal: String,
