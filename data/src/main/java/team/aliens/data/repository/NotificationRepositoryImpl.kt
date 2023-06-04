@@ -10,19 +10,19 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(
     private val remoteNotificationDataSource: RemoteNotificationDataSource,
 ) : NotificationRepository {
-    override suspend fun registerDeviceToken(
+    override suspend fun registerDeviceNotificationToken(
         input: RegisterDeviceNotificationTokenInput,
     ) {
         remoteNotificationDataSource.registerDeviceNotificationToken(input)
     }
 
-    override suspend fun subscribeTopic(
+    override suspend fun subscribeNotificationTopic(
         input: SubscribeNotificationTopicInput,
     ) {
         remoteNotificationDataSource.subscribeNotificationTopic(input)
     }
 
-    override suspend fun unsubscribeTopic(
+    override suspend fun unsubscribeNotificationTopic(
         input: UnsubscribeNotificationTopicInput,
     ) {
         remoteNotificationDataSource.unsubscribeNotificationTopic(input)

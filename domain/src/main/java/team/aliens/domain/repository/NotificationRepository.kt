@@ -5,15 +5,15 @@ import team.aliens.domain.model.notification.SubscribeNotificationTopicInput
 import team.aliens.domain.model.notification.UnsubscribeNotificationTopicInput
 
 interface NotificationRepository {
-    suspend fun registerDeviceToken(
+    suspend fun registerDeviceNotificationToken(
         input: RegisterDeviceNotificationTokenInput,
     )
 
-    suspend fun subscribeTopic(
+    suspend fun subscribeNotificationTopic(
         input: SubscribeNotificationTopicInput,
     )
 
-    suspend fun unsubscribeTopic(
+    suspend fun unsubscribeNotificationTopic(
         input: UnsubscribeNotificationTopicInput,
     )
 }
