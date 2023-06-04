@@ -375,88 +375,89 @@ private fun ColumnScope.DishCards(
             horizontal = 64.dp,
         ),
     ) { page ->
-        Card(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    horizontal = 8.dp,
-                )
-                .pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        println("DRAG")
-                        val x = dragAmount.x
-                        when (page) {
-                            Breakfast -> {
-                                if (x > 0) { // scroll to left/drag right
-                                    Toast
-                                        .makeText(context, "HAHA", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                            }
+        MealCard(
+            modifier = Modifier.graphicsLayer {
+                val pagerOffset =
+                    ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
-                            Dinner -> {
-                                if (x < 0) { // scroll to right/drag left
-                                    Toast
-                                        .makeText(context, "HOHOHO", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                            }
-                        }
-                        change.consume()
-                    }
+                lerp(
+                    start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
+                ).also { scale ->
+                    scaleX = scale
+                    scaleY = scale
                 }
-                .graphicsLayer {
-                    val pagerOffset =
-                        ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
+                alpha = lerp(
+                    start = 0.5f,
+                    stop = 1f,
+                    fraction = 1f - pagerOffset.coerceIn(0f, 1f),
+                )
+            },
+            page = page,
+            breakfast = breakfast,
+            kcalOfBreakfast = kcalOfBreakfast,
+            lunch = lunch,
+            kcalOfLunch = kcalOfLunch,
+            dinner = dinner,
+            kcalOfDinner = kcalOfDinner,
+        )
+    }
+}
 
-                    lerp(
-                        start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
-                    ).also { scale ->
-                        scaleX = scale
-                        scaleY = scale
-                    }
-                    alpha = lerp(
-                        start = 0.5f,
-                        stop = 1f,
-                        fraction = 1f - pagerOffset.coerceIn(0f, 1f),
-                    )
-                }
-                .background(
-                    color = DormTheme.colors.background,
-                    shape = RoundedCornerShape(20.dp),
-                )
-                .clip(
-                    RoundedCornerShape(20.dp),
-                )
-                .border(
-                    width = 1.dp,
-                    color = DormTheme.colors.primary,
-                    shape = RoundedCornerShape(20.dp),
-                ),
-            shape = RoundedCornerShape(20.dp),
+@Composable
+private fun MealCard(
+    modifier: Modifier = Modifier,
+    page: Int,
+    breakfast: List<String>,
+    kcalOfBreakfast: String,
+    lunch: List<String>,
+    kcalOfLunch: String,
+    dinner: List<String>,
+    kcalOfDinner: String,
+) {
+    Card(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(
+                horizontal = 8.dp,
+            )
+            .background(
+                color = DormTheme.colors.background,
+                shape = RoundedCornerShape(20.dp),
+            )
+            .clip(
+                RoundedCornerShape(20.dp),
+            )
+            .border(
+                width = 1.dp,
+                color = DormTheme.colors.primary,
+                shape = RoundedCornerShape(20.dp),
+            ),
+        shape = RoundedCornerShape(20.dp),
+    ) {
+        Box(
+            modifier = Modifier.padding(16.dp),
         ) {
-            Box(
-                modifier = Modifier.padding(16.dp),
-            ) {
-                when (page) {
-                    Breakfast -> DishCard(
-                        icon = DormIcon.Breakfast,
-                        dishes = breakfast,
-                        kcal = kcalOfBreakfast,
-                    )
+            when (page) {
+                Breakfast -> Dishes(
+                    icon = DormIcon.Breakfast,
+                    dishes = breakfast,
+                    kcal = kcalOfBreakfast,
+                    page = page,
+                )
 
-                    Lunch -> DishCard(
-                        icon = DormIcon.Lunch,
-                        dishes = lunch,
-                        kcal = kcalOfLunch,
-                    )
+                Lunch -> Dishes(
+                    icon = DormIcon.Lunch,
+                    dishes = lunch,
+                    kcal = kcalOfLunch,
+                    page = page,
+                )
 
-                    Dinner -> DishCard(
-                        icon = DormIcon.Dinner,
-                        dishes = dinner,
-                        kcal = kcalOfDinner,
-                    )
-                }
+                Dinner -> Dishes(
+                    icon = DormIcon.Dinner,
+                    dishes = dinner,
+                    kcal = kcalOfDinner,
+                    page = page,
+                )
             }
         }
     }
@@ -471,13 +472,41 @@ private fun vibrateOnMealCardPaging(
 }
 
 @Composable
-private fun DishCard(
+private fun Dishes(
     icon: DormIcon,
     dishes: List<String>,
     kcal: String,
+    page: Int = -1,
 ) {
+    val context = LocalContext.current
+
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    println("DRAG")
+                    val x = dragAmount.x
+                    when (page) {
+                        Breakfast -> {
+                            if (x > 0) { // scroll to left/drag right
+                                Toast
+                                    .makeText(context, "HAHA", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+
+                        Dinner -> {
+                            if (x < 0) { // scroll to right/drag left
+                                Toast
+                                    .makeText(context, "HOHOHO", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    }
+                    change.consume()
+                }
+            },
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
