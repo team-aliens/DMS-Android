@@ -429,8 +429,9 @@
 
     <!--notification-->
     <string name="notification_channel_id">ch-dms-notification</string>
+
     <string name="notification_group_notice_id">gr-dms-notification-notice</string>
-    <string name="notification_group_notice_title">gr-dms-notification-notice</string>
+    <string name="notification_group_notice_title">공지사항</string>
     <string name="notification_channel_notice_title">공지사항</string>
     <string name="notification_channel_notice_description">공지사항에 관한 알림을 설정합니다.</string>
 </resources>
