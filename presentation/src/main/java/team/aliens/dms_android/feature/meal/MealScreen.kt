@@ -4,6 +4,8 @@ package team.aliens.dms_android.feature.meal
 
 import android.content.Context
 import android.os.Vibrator
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -120,10 +122,11 @@ internal fun MealScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             MealScreenAppLogo()
-            if (uiState.newNotices) NoticeCard(
+            NoticeCard(
+                visible = uiState.newNotices,
                 onIconClicked = onNavigateToNoticeScreen,
             )
-            Spacer(Modifier.height(38.dp))
+            Spacer(Modifier.height(20.dp))
             Title1(
                 text = stringResource(R.string.meal_todays_meal),
             )
@@ -165,32 +168,62 @@ private fun MealScreenAppLogo() {
 
 @Composable
 private fun NoticeCard(
+    visible: Boolean,
     onIconClicked: () -> Unit,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(Modifier.height(18.dp))
-        Box(
-            contentAlignment = Alignment.CenterEnd,
-            modifier = Modifier.padding(
-                horizontal = 16.dp,
+
+    // FIXME replace with fade brush
+    val color = DormTheme.colors
+    val pointFadedBackgroundBrush = remember {
+        Brush.verticalGradient(
+            colors = listOf(
+                color.background,
+                Color.Transparent,
             ),
+        )
+    } // FIXME end
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = expandVertically(),
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            FloatingNotice(
-                content = stringResource(R.string.notice_new_notice_exists),
-            )
-            Image(
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(32.dp)
-                    .dormClickable(
-                        rippleEnabled = false,
-                        onClick = onIconClicked,
+            Box(
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.padding(
+                        top = 18.dp,
+                        bottom = 18.dp,
+                        start = 16.dp,
+                        end = 16.dp,
                     ),
-                painter = painterResource(R.drawable.ic_next),
-                contentDescription = stringResource(R.string.notice),
-            )
+                ) {
+                    FloatingNotice(
+                        content = stringResource(R.string.notice_new_notice_exists),
+                    )
+                    Image(
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .size(32.dp)
+                            .dormClickable(
+                                rippleEnabled = false,
+                                onClick = onIconClicked,
+                            ),
+                        painter = painterResource(R.drawable.ic_next),
+                        contentDescription = stringResource(R.string.notice),
+                    )
+                }
+                Spacer(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(20.dp)
+                        .dormGradientBackground(pointFadedBackgroundBrush),
+                )
+            }
         }
     }
 }
