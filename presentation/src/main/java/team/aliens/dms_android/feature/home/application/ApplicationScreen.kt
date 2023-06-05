@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.application
+package team.aliens.dms_android.feature.home.application
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.presentation.R
 
 @Composable

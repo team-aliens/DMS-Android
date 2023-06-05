@@ -1,7 +1,6 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android.feature.home
 
 import androidx.compose.material.ScaffoldState
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -10,11 +9,11 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import java.util.UUID
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.Home
-import team.aliens.dms_android.feature.application.DmsAppState
+import team.aliens.dms_android.DmsAppState
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.image.UploadProfileImageScreen
-import team.aliens.dms_android.feature.mypage.pointhistory.PointHistoryScreen
-import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
+import team.aliens.dms_android.feature.home.mypage.pointhistory.PointHistoryScreen
+import team.aliens.dms_android.feature.home.notice.NoticeDetailsScreen
 import team.aliens.dms_android.feature.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen

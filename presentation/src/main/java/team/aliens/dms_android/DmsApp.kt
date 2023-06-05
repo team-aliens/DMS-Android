@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastHost
-import team.aliens.dms_android.feature.application.DmsAppState
+import team.aliens.dms_android.feature.auth.authNavigation
+import team.aliens.dms_android.feature.home.homeNavigation
+import team.aliens.dms_android.feature.signup.signUpNavigation
 
 @Composable
 internal fun DmsApp(

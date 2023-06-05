@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.email
+package team.aliens.dms_android.feature.signup.ui.email
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
@@ -49,8 +49,8 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.VerifyTime
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R

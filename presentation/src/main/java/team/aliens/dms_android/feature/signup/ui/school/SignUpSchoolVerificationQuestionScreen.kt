@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.school
+package team.aliens.dms_android.feature.signup.ui.school
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -37,11 +37,11 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.register.event.school.CompareSchoolAnswerSuccess
-import team.aliens.dms_android.feature.register.event.school.FetchSchoolQuestion
-import team.aliens.dms_android.feature.register.event.school.MissMatchCompareSchool
-import team.aliens.dms_android.feature.register.event.school.NotFoundCompareSchool
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.event.school.CompareSchoolAnswerSuccess
+import team.aliens.dms_android.feature.signup.event.school.FetchSchoolQuestion
+import team.aliens.dms_android.feature.signup.event.school.MissMatchCompareSchool
+import team.aliens.dms_android.feature.signup.event.school.NotFoundCompareSchool
 import team.aliens.presentation.R
 
 @Composable

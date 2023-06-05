@@ -1,6 +1,6 @@
 @file:Suppress("ConstPropertyName")
 
-package team.aliens.dms_android.feature.meal
+package team.aliens.dms_android.feature.home.meal
 
 import android.content.Context
 import android.os.Vibrator

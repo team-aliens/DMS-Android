@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.last
+package team.aliens.dms_android.feature.signup.ui.last
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,7 +41,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.fetchImage
 import team.aliens.dms_android.feature.image.ConfirmImageViewModel
 import team.aliens.presentation.R

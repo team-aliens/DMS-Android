@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.application
+package team.aliens.dms_android
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ScaffoldState
@@ -13,7 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.manager.ToastManager
 import team.aliens.domain.model.student.Feature
 

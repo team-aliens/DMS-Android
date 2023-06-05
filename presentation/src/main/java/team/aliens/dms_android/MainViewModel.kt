@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature
+package team.aliens.dms_android
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android.feature
 
 sealed class DmsRoute(
     val route: String,

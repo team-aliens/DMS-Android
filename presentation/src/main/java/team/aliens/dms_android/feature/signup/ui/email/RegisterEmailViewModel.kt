@@ -1,10 +1,10 @@
-package team.aliens.dms_android.feature.register.ui.email
+package team.aliens.dms_android.feature.signup.ui.email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
+import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.model._common.EmailVerificationType

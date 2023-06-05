@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.mypage
+package team.aliens.dms_android.feature.home.mypage
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -29,7 +29,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 

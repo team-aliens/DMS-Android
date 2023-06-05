@@ -6,7 +6,7 @@
 
         <variable
             name="activity"
-            type="team.aliens.dms_android.feature.MainActivity" />
+            type="team.aliens.dms_android.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,17 +1,18 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android.feature.signup
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.register.ui.email.SignUpSendVerificationEmailScreen
-import team.aliens.dms_android.feature.register.ui.email.SignUpEmailVerificationCodeScreen
-import team.aliens.dms_android.feature.register.ui.id.SignUpSetIdScreen
-import team.aliens.dms_android.feature.register.ui.last.SignUpPolicyScreen
-import team.aliens.dms_android.feature.register.ui.last.SignUpSetProfileImageScreen
-import team.aliens.dms_android.feature.register.ui.password.SignUpSetPasswordScreen
-import team.aliens.dms_android.feature.register.ui.school.SignUpSchoolVerificationQuestionScreen
-import team.aliens.dms_android.feature.register.ui.school.SignUpVerifySchoolScreen
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.ui.email.SignUpSendVerificationEmailScreen
+import team.aliens.dms_android.feature.signup.ui.email.SignUpEmailVerificationCodeScreen
+import team.aliens.dms_android.feature.signup.ui.id.SignUpSetIdScreen
+import team.aliens.dms_android.feature.signup.ui.last.SignUpPolicyScreen
+import team.aliens.dms_android.feature.signup.ui.last.SignUpSetProfileImageScreen
+import team.aliens.dms_android.feature.signup.ui.password.SignUpSetPasswordScreen
+import team.aliens.dms_android.feature.signup.ui.school.SignUpSchoolVerificationQuestionScreen
+import team.aliens.dms_android.feature.signup.ui.school.SignUpVerifySchoolScreen
 
 fun NavGraphBuilder.signUpNavigation(
     navController: NavController,

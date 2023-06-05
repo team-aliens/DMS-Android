@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.mypage
+package team.aliens.dms_android.feature.home.mypage
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import team.aliens.dms_android.base.MviState

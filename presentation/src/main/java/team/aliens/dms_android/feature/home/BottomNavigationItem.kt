@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.navigator
+package team.aliens.dms_android.feature.home
 
 import team.aliens.presentation.R
 

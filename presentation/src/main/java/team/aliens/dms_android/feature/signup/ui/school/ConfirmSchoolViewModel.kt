@@ -1,13 +1,13 @@
-package team.aliens.dms_android.feature.register.ui.school
+package team.aliens.dms_android.feature.signup.ui.school
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.register.event.school.CompareSchoolAnswerSuccess
-import team.aliens.dms_android.feature.register.event.school.ConfirmSchoolEvent
-import team.aliens.dms_android.feature.register.event.school.FetchSchoolQuestion
+import team.aliens.dms_android.feature.signup.event.school.CompareSchoolAnswerSuccess
+import team.aliens.dms_android.feature.signup.event.school.ConfirmSchoolEvent
+import team.aliens.dms_android.feature.signup.event.school.FetchSchoolQuestion
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput

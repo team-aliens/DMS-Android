@@ -1,11 +1,11 @@
-package team.aliens.dms_android.feature.register.ui.id
+package team.aliens.dms_android.feature.signup.ui.id
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.register.event.id.SetIdEvent
+import team.aliens.dms_android.feature.signup.event.id.SetIdEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.model.student.CheckIdDuplicationInput

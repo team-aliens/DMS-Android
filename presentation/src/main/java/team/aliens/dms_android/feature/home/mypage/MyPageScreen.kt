@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.mypage
+package team.aliens.dms_android.feature.home.mypage
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -50,7 +50,7 @@ import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.domain.model._common.Sex
 import team.aliens.presentation.R

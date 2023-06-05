@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.password
+package team.aliens.dms_android.feature.signup.ui.password
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -30,7 +30,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.presentation.R
 
 @Composable

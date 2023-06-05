@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.id
+package team.aliens.dms_android.feature.signup.ui.id
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
@@ -41,8 +41,8 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.register.event.id.SetIdEvent
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.event.id.SetIdEvent
 import team.aliens.presentation.R
 import java.util.UUID
 

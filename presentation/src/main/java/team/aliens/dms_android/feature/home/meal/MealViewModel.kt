@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.meal
+package team.aliens.dms_android.feature.home.meal
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

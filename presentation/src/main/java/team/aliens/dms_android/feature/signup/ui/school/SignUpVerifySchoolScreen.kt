@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.school
+package team.aliens.dms_android.feature.signup.ui.school
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -45,8 +45,8 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.register.event.school.ExamineSchoolCodeEvent
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.event.school.ExamineSchoolCodeEvent
 import team.aliens.presentation.R
 
 @Composable

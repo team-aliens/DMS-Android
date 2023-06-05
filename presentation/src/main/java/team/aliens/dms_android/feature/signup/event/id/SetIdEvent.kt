@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.event.id
+package team.aliens.dms_android.feature.signup.event.id
 
 import team.aliens.dms_android.base.MviEvent
 import team.aliens.domain.model.student.ExamineStudentNumberOutput

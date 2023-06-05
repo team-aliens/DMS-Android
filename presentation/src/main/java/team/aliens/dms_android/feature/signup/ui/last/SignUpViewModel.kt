@@ -1,10 +1,10 @@
-package team.aliens.dms_android.feature.register.ui.last
+package team.aliens.dms_android.feature.signup.ui.last
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.register.event.SignUpEvent
+import team.aliens.dms_android.feature.signup.event.SignUpEvent
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
 import team.aliens.domain.model.student.SignUpInput

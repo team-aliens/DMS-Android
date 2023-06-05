@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.ui.last
+package team.aliens.dms_android.feature.signup.ui.last
 
 import android.content.Context
 import android.view.ViewGroup
@@ -39,8 +39,8 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.register.event.SignUpEvent
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.event.SignUpEvent
 import team.aliens.domain.model.student.SignUpInput
 import team.aliens.presentation.R
 

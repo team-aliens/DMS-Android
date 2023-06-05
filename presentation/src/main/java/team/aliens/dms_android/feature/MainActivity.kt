@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature
+package team.aliens.dms_android
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,9 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.application.rememberDmsAppState
-import team.aliens.dms_android.feature.navigator.DmsApp
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.handler.DmsExceptionHandler
 
 @AndroidEntryPoint

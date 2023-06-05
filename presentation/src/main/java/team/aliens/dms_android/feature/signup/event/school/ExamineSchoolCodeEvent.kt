@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.event.school
+package team.aliens.dms_android.feature.signup.event.school
 
 sealed class ExamineSchoolCodeEvent {
     object ExamineSchoolCodeSuccess : ExamineSchoolCodeEvent()

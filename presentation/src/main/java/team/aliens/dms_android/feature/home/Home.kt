@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature
+package team.aliens.dms_android.feature.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -28,11 +28,10 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.application.ApplicationScreen
-import team.aliens.dms_android.feature.meal.MealScreen
-import team.aliens.dms_android.feature.mypage.MyPageScreen
-import team.aliens.dms_android.feature.navigator.BottomNavigationItem
-import team.aliens.dms_android.feature.notice.NoticesScreen
+import team.aliens.dms_android.feature.home.application.ApplicationScreen
+import team.aliens.dms_android.feature.home.meal.MealScreen
+import team.aliens.dms_android.feature.home.mypage.MyPageScreen
+import team.aliens.dms_android.feature.home.notice.NoticesScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

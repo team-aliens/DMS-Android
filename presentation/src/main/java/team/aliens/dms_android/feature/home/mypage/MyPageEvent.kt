@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.mypage
+package team.aliens.dms_android.feature.home.mypage
 
 import team.aliens.dms_android.base.MviEvent
 
