@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.register.event.email
+package team.aliens.dms_android.feature.signup.event.email
 
 import team.aliens.dms_android.base.MviEvent
 
