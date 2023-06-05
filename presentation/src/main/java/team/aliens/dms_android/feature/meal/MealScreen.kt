@@ -270,7 +270,7 @@ private fun CalendarArrow(
     Image(
         modifier = Modifier
             .padding(8.dp)
-            .size(24.dp)
+            .size(32.dp)
             .clip(
                 RoundedCornerShape(8.dp),
             )
