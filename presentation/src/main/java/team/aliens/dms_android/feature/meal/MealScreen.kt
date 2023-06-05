@@ -569,12 +569,11 @@ private const val BreakfastStartTime: Int = 9
 private const val LunchStartTime: Int = 13
 private const val DinnerStartTime: Int = 19
 
-@Suppress("KotlinConstantConditions")
 private fun getProperMeal(): Int {
     val calendar = Calendar.getInstance().apply {
         time = Date()
     }
-    return when (calendar.get(Calendar.HOUR)) {
+    return when (calendar.get(Calendar.HOUR_OF_DAY)) {
         in BreakfastStartTime until LunchStartTime -> Lunch
         in LunchStartTime until DinnerStartTime -> Dinner
         else -> Breakfast
