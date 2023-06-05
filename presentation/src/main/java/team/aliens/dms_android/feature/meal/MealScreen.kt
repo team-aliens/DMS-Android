@@ -191,43 +191,39 @@ private fun NoticeCard(
         visible = visible,
         enter = expandVertically(),
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Box(
+            contentAlignment = Alignment.TopCenter,
         ) {
             Box(
-                contentAlignment = Alignment.TopCenter,
+                contentAlignment = Alignment.CenterEnd,
+                modifier = Modifier.padding(
+                    top = 18.dp,
+                    bottom = 18.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                ),
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.padding(
-                        top = 18.dp,
-                        bottom = 18.dp,
-                        start = 16.dp,
-                        end = 16.dp,
-                    ),
-                ) {
-                    FloatingNotice(
-                        content = stringResource(R.string.notice_new_notice_exists),
-                    )
-                    Image(
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .size(32.dp)
-                            .dormClickable(
-                                rippleEnabled = false,
-                                onClick = onIconClicked,
-                            ),
-                        painter = painterResource(R.drawable.ic_next),
-                        contentDescription = stringResource(R.string.notice),
-                    )
-                }
-                Spacer(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(20.dp)
-                        .dormGradientBackground(pointFadedBackgroundBrush),
+                FloatingNotice(
+                    content = stringResource(R.string.notice_new_notice_exists),
+                )
+                Image(
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                        .size(32.dp)
+                        .dormClickable(
+                            rippleEnabled = false,
+                            onClick = onIconClicked,
+                        ),
+                    painter = painterResource(R.drawable.ic_next),
+                    contentDescription = stringResource(R.string.notice),
                 )
             }
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+                    .dormGradientBackground(pointFadedBackgroundBrush),
+            )
         }
     }
 }
