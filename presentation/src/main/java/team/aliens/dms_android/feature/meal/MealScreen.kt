@@ -148,6 +148,8 @@ internal fun MealScreen(
                 kcalOfLunch = uiState.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
                 dinner = uiState.dinner,
                 kcalOfDinner = uiState.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
+                onNextDay = onNextDay,
+                onPreviousDay = onPreviousDay,
             )
             Spacer(Modifier.height(120.dp))
         }
@@ -352,6 +354,8 @@ private fun ColumnScope.DishCards(
     kcalOfLunch: String,
     dinner: List<String>,
     kcalOfDinner: String,
+    onNextDay: () -> Unit,
+    onPreviousDay: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
@@ -404,7 +408,7 @@ private fun ColumnScope.DishCards(
                         when (page) {
                             Breakfast -> Lunch
                             Lunch -> Dinner
-                            Dinner -> return@launch // todo
+                            Dinner -> return@launch onNextDay()
                             else -> throw IllegalStateException()
                         },
                     )
@@ -414,7 +418,7 @@ private fun ColumnScope.DishCards(
                 scope.launch {
                     pagerState.animateScrollToPage(
                         when (page) {
-                            Breakfast -> return@launch // todo
+                            Breakfast -> return@launch onPreviousDay()
                             Lunch -> Breakfast
                             Dinner -> Lunch
                             else -> throw IllegalStateException()
