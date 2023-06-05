@@ -11,12 +11,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,7 +24,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import java.util.UUID
-import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
@@ -38,16 +37,14 @@ import team.aliens.dms_android.feature.notice.NoticesScreen
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Home(
-    navController: NavController,
+    navController: NavHostController,
     scaffoldState: ScaffoldState,
 ) {
     val bottomNavController = rememberNavController()
-
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val applicationServiceEnabled =
         LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! || LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
-
     val navigationItems = NavigationItemsWrapper.navigationItems.also {
         if (!applicationServiceEnabled) {
             it.remove(BottomNavigationItem.Application)
@@ -56,7 +53,7 @@ fun Home(
     val onNavigateToNoticeScreen by remember {
         mutableStateOf(
             {
-                bottomNavController.navigate(BottomNavigationItem.Notice.route)
+                bottomNavController.navigateTo(BottomNavigationItem.Notice.route)
             },
         )
     }
@@ -71,14 +68,11 @@ fun Home(
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            Column(verticalArrangement = Arrangement.Bottom) {
-                Space(space = 40.dp)
-                BottomNavBar(
-                    navController = bottomNavController,
-                    navBackStackEntry = navBackStackEntry,
-                    navigationItems = navigationItems,
-                )
-            }
+            BottomNavBar(
+                navController = bottomNavController,
+                navBackStackEntry = navBackStackEntry,
+                navigationItems = navigationItems,
+            )
         },
         modifier = Modifier.background(
             DormTheme.colors.background,
@@ -127,17 +121,18 @@ private object NavigationItemsWrapper {
     )
 }
 
+private val selectedColor: Color
+    @Composable get() = DormTheme.colors.onSurface
+
+private val unselectedColor: Color
+    @Composable get() = DormTheme.colors.primaryVariant
+
 @Composable
 private fun BottomNavBar(
     navController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
     navigationItems: List<BottomNavigationItem>,
 ) {
-
-    val currentDestination = navBackStackEntry?.destination?.route
-
-    val selectedColor = DormTheme.colors.onSurface
-    val unselectedColor = DormTheme.colors.primaryVariant
 
     BottomNavigation(
         backgroundColor = DormTheme.colors.surface,
@@ -151,16 +146,13 @@ private fun BottomNavBar(
         },
     ) {
         navigationItems.forEach { navigationItem ->
-
+            val currentDestination = navBackStackEntry?.destination?.route
             val selected = navigationItem.route == currentDestination
 
             BottomNavigationItem(
                 selected = selected,
                 onClick = {
-                    navigateTo(
-                        route = navigationItem.route,
-                        navController = navController,
-                    )
+                    navController.navigateTo(navigationItem.route)
                 },
                 label = {
                     BottomNavItemLabel(
@@ -186,17 +178,15 @@ private fun BottomNavBar(
     }
 }
 
-private fun navigateTo(
+private fun NavHostController.navigateTo(
     route: String,
-    navController: NavHostController,
 ) {
-    navController.navigate(route) {
-        popUpTo(navController.graph.findStartDestination().id) {
+    this.navigate(route) {
+        popUpTo(this@navigateTo.graph.findStartDestination().id) {
             saveState = true
         }
 
         launchSingleTop = true
-
         restoreState = true
     }
 }

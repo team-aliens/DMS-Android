@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.navigator
 import androidx.compose.material.ScaffoldState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
@@ -20,7 +21,7 @@ import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
 import team.aliens.dms_android.util.SelectImageType
 
 internal fun NavGraphBuilder.homeNavigation(
-    navController: NavController,
+    navController: NavHostController,
     scaffoldState: ScaffoldState,
     appState: DmsAppState,
 ) {
