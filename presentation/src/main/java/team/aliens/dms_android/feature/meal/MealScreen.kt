@@ -443,9 +443,11 @@ private fun MealCard(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-                if (page == Breakfast || page == Dinner) detectDragGestures(onDragEnd = {
-                    println("DRAGDRAGEND")
-                }) { _, dragAmount ->
+                detectDragGestures(
+                    onDragEnd = {
+                        println("DRAGDRAGEND")
+                    },
+                ) { _, dragAmount ->
                     val x = dragAmount.x
 
                     when { // swipe to left/drag right
