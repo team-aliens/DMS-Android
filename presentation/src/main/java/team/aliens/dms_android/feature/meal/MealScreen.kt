@@ -4,7 +4,6 @@ package team.aliens.dms_android.feature.meal
 
 import android.content.Context
 import android.os.Vibrator
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -368,8 +367,7 @@ private fun ColumnScope.DishCards(
     }
 
     HorizontalPager(
-        modifier = Modifier
-            .weight(1f),
+        modifier = Modifier.weight(1f),
         pageCount = 3,
         state = pagerState,
         contentPadding = PaddingValues(
@@ -400,11 +398,30 @@ private fun ColumnScope.DishCards(
             kcalOfLunch = kcalOfLunch,
             dinner = dinner,
             kcalOfDinner = kcalOfDinner,
-            onDefaultSwipe = {
+            onSwipeToRight = {
                 scope.launch {
-                    pagerState.animateScrollToPage(Lunch)
+                    pagerState.animateScrollToPage(
+                        when (page) {
+                            Breakfast -> Lunch
+                            Lunch -> Dinner
+                            Dinner -> return@launch // todo
+                            else -> throw IllegalStateException()
+                        },
+                    )
                 }
-            }
+            },
+            onSwipeToLeft = {
+                scope.launch {
+                    pagerState.animateScrollToPage(
+                        when (page) {
+                            Breakfast -> return@launch // todo
+                            Lunch -> Breakfast
+                            Dinner -> Lunch
+                            else -> throw IllegalStateException()
+                        },
+                    )
+                }
+            },
         )
     }
 }
@@ -419,39 +436,23 @@ private fun MealCard(
     kcalOfLunch: String,
     dinner: List<String>,
     kcalOfDinner: String,
-    onDefaultSwipe: () -> Unit,
+    onSwipeToLeft: () -> Unit,
+    onSwipeToRight: () -> Unit,
 ) {
-    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-                if (page == Breakfast || page == Dinner)
-                    detectDragGestures(
-                        onDragEnd = {
-                            println("DRAGDRAGEND")
-                        }
-                    ) { change, dragAmount ->
-                        val x = dragAmount.x
-                        when (page) {
-                            Breakfast -> {
-                                if (x > 0) { // scroll to left/drag right
-                                    Toast
-                                        .makeText(context, "HAHA", Toast.LENGTH_SHORT)
-                                        .show()
-                                } else onDefaultSwipe()
-                            }
+                if (page == Breakfast || page == Dinner) detectDragGestures(onDragEnd = {
+                    println("DRAGDRAGEND")
+                }) { _, dragAmount ->
+                    val x = dragAmount.x
 
-                            Dinner -> {
-                                if (x < 0) { // scroll to right/drag left
-                                    Toast
-                                        .makeText(context, "HOHOHO", Toast.LENGTH_SHORT)
-                                        .show()
-                                } else onDefaultSwipe()
-                            }
-                        }
-                        change.consume()
+                    when { // swipe to left/drag right
+                        x > 0 -> onSwipeToLeft()
+                        x < 0 -> onSwipeToRight()
                     }
+                }
             }
             .padding(
                 horizontal = 8.dp,
@@ -511,8 +512,7 @@ private fun Dishes(
     kcal: String,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
