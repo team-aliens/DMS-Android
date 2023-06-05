@@ -28,11 +28,11 @@ class MainActivity : ComponentActivity() {
             ) {
                 val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-                val startDestination = if (uiState.autoSignInSuccess) {
+                val startDestination = /*if (uiState.autoSignInSuccess) { // todo
                     DmsRoute.Home.route
                 } else {
                     DmsRoute.Auth.route
-                }
+                }*/ DmsRoute.Home.route
 
                 val availableFeatures = uiState.feature.run {
                     mutableMapOf(

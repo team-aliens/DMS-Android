@@ -188,7 +188,7 @@ private fun NoticeCard(
     } // FIXME end
 
     AnimatedVisibility(
-        visible = visible,
+        visible = !visible, // todo
         enter = expandVertically(),
     ) {
         Box(
