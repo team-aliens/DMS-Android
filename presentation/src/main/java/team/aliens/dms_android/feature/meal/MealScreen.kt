@@ -345,7 +345,7 @@ private const val Breakfast = 0
 private const val Lunch = 1
 private const val Dinner = 2
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ColumnScope.DishCards(
     breakfast: List<String>,
@@ -430,6 +430,10 @@ private fun ColumnScope.DishCards(
     }
 }
 
+private enum class DragDirection {
+    LEFT, RIGHT, ;
+}
+
 @Composable
 private fun MealCard(
     modifier: Modifier = Modifier,
@@ -443,20 +447,26 @@ private fun MealCard(
     onSwipeToLeft: () -> Unit,
     onSwipeToRight: () -> Unit,
 ) {
+    var dragDirection: DragDirection? by remember {
+        mutableStateOf(null)
+    }
     Card(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragEnd = {
-                        println("DRAGDRAGEND")
+                        if (dragDirection == DragDirection.LEFT) onSwipeToLeft() else onSwipeToRight()
                     },
                 ) { _, dragAmount ->
                     val x = dragAmount.x
-
-                    when { // swipe to left/drag right
+                    if (page == Lunch) when {
                         x > 0 -> onSwipeToLeft()
                         x < 0 -> onSwipeToRight()
+                    }
+                    else when {
+                        x > 0 -> dragDirection = DragDirection.LEFT
+                        x < 0 -> dragDirection = DragDirection.RIGHT
                     }
                 }
             }
