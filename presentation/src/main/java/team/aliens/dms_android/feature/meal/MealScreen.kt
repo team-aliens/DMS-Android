@@ -408,7 +408,11 @@ private fun ColumnScope.DishCards(
                         when (page) {
                             Breakfast -> Lunch
                             Lunch -> Dinner
-                            Dinner -> return@launch onNextDay()
+                            Dinner -> run {
+                                onNextDay()
+                                Breakfast
+                            }
+
                             else -> throw IllegalStateException()
                         },
                     )
@@ -418,7 +422,11 @@ private fun ColumnScope.DishCards(
                 scope.launch {
                     pagerState.animateScrollToPage(
                         when (page) {
-                            Breakfast -> return@launch onPreviousDay()
+                            Breakfast -> run {
+                                onPreviousDay()
+                                Dinner
+                            }
+
                             Lunch -> Breakfast
                             Dinner -> Lunch
                             else -> throw IllegalStateException()
