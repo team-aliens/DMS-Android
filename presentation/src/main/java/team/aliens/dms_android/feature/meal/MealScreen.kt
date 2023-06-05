@@ -358,6 +358,7 @@ private fun ColumnScope.DishCards(
         initialPage = getProperMeal(),
     )
 
+    val scope = rememberCoroutineScope()
     var firstEnter by remember { mutableStateOf(true) }
     val context = LocalContext.current
 
@@ -399,6 +400,11 @@ private fun ColumnScope.DishCards(
             kcalOfLunch = kcalOfLunch,
             dinner = dinner,
             kcalOfDinner = kcalOfDinner,
+            onDefaultSwipe = {
+                scope.launch {
+                    pagerState.animateScrollToPage(Lunch)
+                }
+            }
         )
     }
 }
@@ -413,10 +419,40 @@ private fun MealCard(
     kcalOfLunch: String,
     dinner: List<String>,
     kcalOfDinner: String,
+    onDefaultSwipe: () -> Unit,
 ) {
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxSize()
+            .pointerInput(Unit) {
+                if (page == Breakfast || page == Dinner)
+                    detectDragGestures(
+                        onDragEnd = {
+                            println("DRAGDRAGEND")
+                        }
+                    ) { change, dragAmount ->
+                        val x = dragAmount.x
+                        when (page) {
+                            Breakfast -> {
+                                if (x > 0) { // scroll to left/drag right
+                                    Toast
+                                        .makeText(context, "HAHA", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else onDefaultSwipe()
+                            }
+
+                            Dinner -> {
+                                if (x < 0) { // scroll to right/drag left
+                                    Toast
+                                        .makeText(context, "HOHOHO", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else onDefaultSwipe()
+                            }
+                        }
+                        change.consume()
+                    }
+            }
             .padding(
                 horizontal = 8.dp,
             )
@@ -442,21 +478,18 @@ private fun MealCard(
                     icon = DormIcon.Breakfast,
                     dishes = breakfast,
                     kcal = kcalOfBreakfast,
-                    page = page,
                 )
 
                 Lunch -> Dishes(
                     icon = DormIcon.Lunch,
                     dishes = lunch,
                     kcal = kcalOfLunch,
-                    page = page,
                 )
 
                 Dinner -> Dishes(
                     icon = DormIcon.Dinner,
                     dishes = dinner,
                     kcal = kcalOfDinner,
-                    page = page,
                 )
             }
         }
@@ -476,37 +509,10 @@ private fun Dishes(
     icon: DormIcon,
     dishes: List<String>,
     kcal: String,
-    page: Int = -1,
 ) {
-    val context = LocalContext.current
-
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    println("DRAG")
-                    val x = dragAmount.x
-                    when (page) {
-                        Breakfast -> {
-                            if (x > 0) { // scroll to left/drag right
-                                Toast
-                                    .makeText(context, "HAHA", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-
-                        Dinner -> {
-                            if (x < 0) { // scroll to right/drag left
-                                Toast
-                                    .makeText(context, "HOHOHO", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                    }
-                    change.consume()
-                }
-            },
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
