@@ -10,7 +10,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -377,6 +377,7 @@ private fun ColumnScope.DishCards(
         contentPadding = PaddingValues(
             horizontal = 64.dp,
         ),
+        userScrollEnabled = false,
     ) { page ->
         MealCard(
             modifier = Modifier.graphicsLayer {
@@ -395,6 +396,7 @@ private fun ColumnScope.DishCards(
                     fraction = 1f - pagerOffset.coerceIn(0f, 1f),
                 )
             },
+            currentPage = pagerState.currentPage,
             page = page,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -445,6 +447,7 @@ private enum class DragDirection {
 @Composable
 private fun MealCard(
     modifier: Modifier = Modifier,
+    currentPage: Int,
     page: Int,
     breakfast: List<String>,
     kcalOfBreakfast: String,
@@ -462,19 +465,22 @@ private fun MealCard(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-                detectDragGestures(
+                detectHorizontalDragGestures(
                     onDragEnd = {
-                        if (dragDirection == DragDirection.LEFT) onSwipeToLeft() else onSwipeToRight()
+                        when (dragDirection) {
+                            DragDirection.LEFT -> onSwipeToLeft()
+                            DragDirection.RIGHT -> onSwipeToRight()
+                            null -> {/* explicit blank */
+                            }
+                        }
                     },
                 ) { _, dragAmount ->
-                    val x = dragAmount.x
-                    if (page == Lunch) when {
-                        x > 0 -> onSwipeToLeft()
-                        x < 0 -> onSwipeToRight()
-                    }
-                    else when {
-                        x > 0 -> dragDirection = DragDirection.LEFT
-                        x < 0 -> dragDirection = DragDirection.RIGHT
+                    if (currentPage == Lunch) when {
+                        dragAmount > 0 -> onSwipeToLeft()
+                        dragAmount < 0 -> onSwipeToRight()
+                    } else when {
+                        dragAmount > 0 -> dragDirection = DragDirection.LEFT
+                        dragAmount < 0 -> dragDirection = DragDirection.RIGHT
                     }
                 }
             }
