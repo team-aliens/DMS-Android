@@ -151,7 +151,7 @@ internal fun MealScreen(
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
             )
-            Spacer(Modifier.height(120.dp))
+            Spacer(Modifier.height(100.dp))
         }
     }
 }
@@ -197,10 +197,8 @@ private fun NoticeCard(
             Box(
                 contentAlignment = Alignment.CenterEnd,
                 modifier = Modifier.padding(
-                    top = 18.dp,
-                    bottom = 18.dp,
-                    start = 16.dp,
-                    end = 16.dp,
+                    vertical = 18.dp,
+                    horizontal = 16.dp,
                 ),
             ) {
                 FloatingNotice(
