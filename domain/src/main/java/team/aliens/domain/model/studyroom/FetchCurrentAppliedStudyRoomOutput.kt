@@ -9,3 +9,10 @@ data class FetchCurrentAppliedStudyRoomOutput(
     val floor: Int,
     val name: String,
 )
+
+fun FetchCurrentAppliedStudyRoomOutput.toModel(): CurrentAppliedStudyRoom {
+    return CurrentAppliedStudyRoom(
+        floor = this.floor,
+        name = this.name,
+    )
+}
