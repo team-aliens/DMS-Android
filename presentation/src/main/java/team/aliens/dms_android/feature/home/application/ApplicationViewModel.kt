@@ -3,81 +3,67 @@ package team.aliens.dms_android.feature.home.application
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.BaseViewModel2
+import team.aliens.dms_android.base.MviViewModel
 import team.aliens.dms_android.base.UiEvent
 import team.aliens.dms_android.base.UiState
+import team.aliens.domain.model.remains.CurrentAppliedRemainsOption
+import team.aliens.domain.model.studyroom.CurrentAppliedStudyRoom
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
 import team.aliens.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class ApplicationViewModel @Inject constructor(
-    private val fetchCurrentStudyRoomOptionUseCase: FetchCurrentAppliedStudyRoomUseCase,
-    private val fetchCurrentRemainOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
-) : BaseViewModel2<ApplicationState, UiEvent>() {
+internal class ApplicationViewModel @Inject constructor(
+    private val fetchCurrentAppliedStudyRoomUseCase: FetchCurrentAppliedStudyRoomUseCase,
+    private val fetchCurrentAppliedRemainsOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
+) : MviViewModel<ApplicationUiState, ApplicationUiEvent>(
+    initialState = ApplicationUiState.initial(),
+) {
+    init {
+        fetchCurrentAppliedStudyRoom()
+        fetchCurrentAppliedRemainsOption()
+    }
 
-    override val _uiState: MutableStateFlow<ApplicationState> = MutableStateFlow(ApplicationState())
-
-    internal fun fetchCurrentRemainOption() {
+    private fun fetchCurrentAppliedStudyRoom() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchCurrentRemainOptionUseCase()
-            }.onSuccess {
-                _uiState.emit(
-                    _uiState.value.copy(
-                        currentRemainOption = it.title,
+                fetchCurrentAppliedStudyRoomUseCase()
+            }.onSuccess { fetchedCurrentAppliedStudyRoom ->
+                setState(
+                    newState = uiState.value.copy(
+                        currentAppliedStudyRoom = fetchedCurrentAppliedStudyRoom,
                     ),
                 )
-            }.onFailure {
-                when (it) {
-                    is RuntimeException -> { // fixme 리팩토링 필요
-                        _uiState.emit(
-                            _uiState.value.copy(
-                                currentRemainOption = ""
-                            )
-                        )
-                    }
-                }
             }
         }
     }
 
-    internal fun fetchCurrentStudyRoomOption() {
+    private fun fetchCurrentAppliedRemainsOption() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                fetchCurrentStudyRoomOptionUseCase()
-            }.onSuccess {
-                _uiState.emit(
-                    _uiState.value.copy(
-                        currentStudyRoomOption = it.floor floorAnd it.name
+                fetchCurrentAppliedRemainsOptionUseCase()
+            }.onSuccess { currentAppliedRemainsOption ->
+                setState(
+                    newState = uiState.value.copy(
+                        currentAppliedRemainsOption = currentAppliedRemainsOption,
                     ),
                 )
-            }.onFailure {
-                when (it) {
-                    is RuntimeException -> { // fixme 리팩토링 필요
-                        _uiState.emit(
-                            _uiState.value.copy(
-                                currentStudyRoomOption = ""
-                            )
-                        )
-                    }
-                }
             }
         }
     }
+}
 
-    override fun onEvent(uiEvent: UiEvent) {
-        /* explicit blank */
+internal data class ApplicationUiState(
+    val currentAppliedStudyRoom: CurrentAppliedStudyRoom?,
+    val currentAppliedRemainsOption: CurrentAppliedRemainsOption?,
+) : UiState {
+    companion object {
+        fun initial() = ApplicationUiState(
+            currentAppliedStudyRoom = null,
+            currentAppliedRemainsOption = null,
+        )
     }
 }
 
-private infix fun Int.floorAnd(other: String): String {
-    return "${this}층 $other"
-}
-
-data class ApplicationState(
-    val currentStudyRoomOption: String = "",
-    val currentRemainOption: String = "",
-) : UiState
+internal sealed class ApplicationUiEvent : UiEvent
