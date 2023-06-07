@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,8 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.home.NavigationItemsWrapper.navigationItems
 import team.aliens.dms_android.feature.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.home.meal.MealScreen
 import team.aliens.dms_android.feature.home.mypage.MyPageScreen
@@ -42,26 +45,18 @@ fun Home(
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
-    val applicationServiceEnabled =
-        LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]!! || LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]!!
-    val navigationItems = NavigationItemsWrapper.navigationItems.also {
-        if (!applicationServiceEnabled) {
-            it.remove(BottomNavigationItem.Application)
-        }
+    val availableFeatures = LocalAvailableFeatures.current
+    val studyRoomServiceEnabled by remember(availableFeatures) {
+        mutableStateOf(availableFeatures[Extra.isStudyRoomEnabled]!!)
     }
-    val onNavigateToNoticeScreen by remember {
-        mutableStateOf(
-            {
-                bottomNavController.navigateTo(BottomNavigationItem.Notice.route)
-            },
-        )
+    val remainsServiceEnabled by remember(availableFeatures) {
+        mutableStateOf(availableFeatures[Extra.isRemainServiceEnabled]!!)
     }
-    val onNavigateToNoticeDetailsScreen by remember {
-        mutableStateOf(
-            { value: UUID ->
-                navController.navigate("noticeDetails/${value}")
-            },
-        )
+    val containsApplicationScreen = studyRoomServiceEnabled || remainsServiceEnabled
+
+    LaunchedEffect(containsApplicationScreen) {
+        if (!containsApplicationScreen)
+            navigationItems.remove(BottomNavigationItem.Application)
     }
 
     Scaffold(
@@ -85,19 +80,30 @@ fun Home(
         ) {
             composable(BottomNavigationItem.Meal.route) {
                 MealScreen(
-                    onNavigateToNoticeScreen = onNavigateToNoticeScreen,
+                    onNavigateToNoticeScreen = {
+                        bottomNavController.navigateTo(BottomNavigationItem.Notice.route)
+                    },
                 )
             }
-            if (applicationServiceEnabled) {
+            if (containsApplicationScreen) {
                 composable(BottomNavigationItem.Application.route) {
                     ApplicationScreen(
-                        navController = navController,
+                        onNavigateToStudyRooms = {
+                            navController.navigate(DmsRoute.Home.StudyRooms)
+                        },
+                        onNavigateToRemainsApplication = {
+                            navController.navigate(DmsRoute.Home.RemainsApplication)
+                        },
+                        studyRoomServiceEnabled = studyRoomServiceEnabled,
+                        remainsServiceEnabled = remainsServiceEnabled,
                     )
                 }
             }
             composable(BottomNavigationItem.Notice.route) {
                 NoticesScreen(
-                    onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetailsScreen,
+                    onNavigateToNoticeDetailsScreen = { value: UUID ->
+                        navController.navigate("noticeDetails/${value}")
+                    },
                 )
             }
             composable(BottomNavigationItem.MyPage.route) {

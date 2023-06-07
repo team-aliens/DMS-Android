@@ -10,17 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.DefaultAppliedTagSize
@@ -30,35 +26,17 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
-import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.constans.Extra
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.presentation.R
 
 @Composable
-fun ApplicationScreen(
-    navController: NavController,
+internal fun ApplicationScreen(
+    onNavigateToStudyRooms: () -> Unit,
+    onNavigateToRemainsApplication: () -> Unit,
+    studyRoomServiceEnabled: Boolean = false,
+    remainsServiceEnabled: Boolean = false,
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
 ) {
-
-    var lastAppliedStudyRoom by remember { mutableStateOf("") }
-    var lastAppliedRemain by remember { mutableStateOf("") }
-
-    val isStudyRoomServiceEnabled = LocalAvailableFeatures.current[Extra.isStudyRoomEnabled]
-    val isRemainServiceEnabled = LocalAvailableFeatures.current[Extra.isRemainServiceEnabled]
-
-    LaunchedEffect(Unit) {
-        applicationViewModel.run {
-
-            fetchCurrentStudyRoomOption()
-            fetchCurrentRemainOption()
-
-            uiState.collect {
-                lastAppliedStudyRoom = it.currentStudyRoomOption
-                lastAppliedRemain = it.currentRemainOption
-            }
-        }
-    }
+    val uiState by applicationViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -70,28 +48,24 @@ fun ApplicationScreen(
         Space(space = 24.dp)
         Body1(text = stringResource(id = R.string.Application))
         Space(space = 40.dp)
-        if (isStudyRoomServiceEnabled!!) {
-            ApplicationCard(
+        if (studyRoomServiceEnabled) {
+           /* ApplicationCard(
                 title = stringResource(id = R.string.StudyRoom),
                 content = stringResource(id = R.string.StudyRoomApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyStudyRoom),
-                onButtonClick = {
-                    navController.navigate(DmsRoute.Home.StudyRooms)
-                },
+                onButtonClick = onNavigateToStudyRooms,
                 lastApplicationText = lastAppliedStudyRoom,
-            )
+            )*/
             Space(space = 30.dp)
         }
-        if (isRemainServiceEnabled!!) {
-            ApplicationCard(
+        if (remainsServiceEnabled) {
+           /* ApplicationCard(
                 title = stringResource(id = R.string.Stay),
                 content = stringResource(id = R.string.RemainApplyDescription),
                 buttonText = stringResource(id = R.string.DoApplyRemain),
-                onButtonClick = {
-                    navController.navigate(DmsRoute.Home.RemainsApplication)
-                },
+                onButtonClick = onNavigateToRemainsApplication, ,
                 lastApplicationText = lastAppliedRemain,
-            )
+            )*/
         }
     }
 }
