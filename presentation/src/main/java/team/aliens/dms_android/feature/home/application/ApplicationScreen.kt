@@ -70,6 +70,32 @@ internal fun ApplicationScreen(
     }
 }
 
+@Immutable
+private object ApplicationCardItemsWrapper {
+    val applicationCardItems: MutableList<ApplicationCardItem> = mutableListOf(
+        ApplicationCardItem.StudyRoomService,
+        ApplicationCardItem.RemainsService,
+    )
+}
+
+private sealed class ApplicationCardItem(
+    val titleRes: Int,
+    val descriptionRes: Int,
+    val buttonTextRes: Int,
+) {
+    object StudyRoomService : ApplicationCardItem(
+        titleRes = R.string.study_room,
+        descriptionRes = R.string.study_room_description,
+        buttonTextRes = R.string.study_room_apply,
+    )
+
+    object RemainsService : ApplicationCardItem(
+        titleRes = R.string.remains_stay,
+        descriptionRes = R.string.remains_description,
+        buttonTextRes = R.string.remains_apply,
+    )
+}
+
 @Composable
 fun ApplicationCard(
     title: String,
