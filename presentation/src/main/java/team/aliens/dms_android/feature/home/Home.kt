@@ -59,7 +59,9 @@ fun Home(
     val remainsServiceEnabled by remember(availableFeatures) {
         mutableStateOf(availableFeatures[Extra.isRemainServiceEnabled]!!)
     }
-    val containsApplicationScreen = studyRoomServiceEnabled || remainsServiceEnabled
+    val containsApplicationScreen by remember {
+        mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled)
+    }
 
     LaunchedEffect(containsApplicationScreen) {
         if (!containsApplicationScreen) navigationItems.remove(BottomNavigationItem.Application)
