@@ -73,6 +73,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.presentation.R
 import kotlin.math.absoluteValue
 
@@ -185,18 +186,6 @@ private fun NoticeCard(
     visible: Boolean,
     onIconClicked: () -> Unit,
 ) {
-
-    // FIXME replace with fade brush
-    val color = DormTheme.colors
-    val pointFadedBackgroundBrush = remember {
-        Brush.verticalGradient(
-            colors = listOf(
-                color.background,
-                Color.Transparent,
-            ),
-        )
-    } // FIXME end
-
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically() + fadeIn(),
@@ -230,7 +219,7 @@ private fun NoticeCard(
                 Modifier
                     .fillMaxWidth()
                     .height(20.dp)
-                    .dormGradientBackground(pointFadedBackgroundBrush),
+                    .dormGradientBackground(listFadeBrush),
             )
         }
     }
