@@ -28,11 +28,11 @@ class MainActivity : ComponentActivity() {
             ) {
                 val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-                val startDestination = /*if (uiState.autoSignInSuccess) { // todo
+                val startDestination = if (uiState.autoSignInSuccess) {
                     DmsRoute.Home.route
                 } else {
                     DmsRoute.Auth.route
-                }*/ DmsRoute.Home.route
+                }
 
                 val availableFeatures = uiState.feature.run {
                     mutableMapOf(
@@ -46,7 +46,8 @@ class MainActivity : ComponentActivity() {
 
                 val appState = rememberDmsAppState()
 
-                Thread.setDefaultUncaughtExceptionHandler(  // todo 싱글톤으로 만들어보기
+                Thread.setDefaultUncaughtExceptionHandler(
+                    // todo 싱글톤으로 만들어보기
                     DmsExceptionHandler(
                         context = applicationContext, // 싱글톤으로 만들어 볼 생각
                         appState = appState,

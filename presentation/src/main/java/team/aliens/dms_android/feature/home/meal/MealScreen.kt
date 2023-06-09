@@ -5,7 +5,8 @@ package team.aliens.dms_android.feature.home.meal
 import android.content.Context
 import android.os.Vibrator
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -188,8 +189,8 @@ private fun NoticeCard(
     } // FIXME end
 
     AnimatedVisibility(
-        visible = !visible, // todo
-        enter = expandVertically(),
+        visible = visible,
+        enter = slideInVertically() + fadeIn(),
     ) {
         Box(
             contentAlignment = Alignment.TopCenter,
