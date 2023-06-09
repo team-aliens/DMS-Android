@@ -5,6 +5,7 @@ package team.aliens.dms_android.feature.home.meal
 import android.content.Context
 import android.os.Vibrator
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -97,6 +98,7 @@ internal fun MealScreen(
     val calendarSheetState = rememberModalBottomSheetState(
         ModalBottomSheetValue.Hidden,
     )
+    val animationVisibility = uiState.newNotices
 
     val onCalendarDateChange = { date: Date ->
         mealViewModel.onEvent(MealUiEvent.UpdateDate(date))
@@ -126,33 +128,40 @@ internal fun MealScreen(
         ) {
             MealScreenAppLogo()
             NoticeCard(
-                visible = uiState.newNotices,
+                visible = animationVisibility,
                 onIconClicked = onNavigateToNoticeScreen,
             )
-            Spacer(Modifier.height(20.dp))
-            Title1(
-                text = stringResource(R.string.meal_todays_meal),
-            )
-            Spacer(Modifier.height(46.dp))
-            DateCard(
-                selectedDate = uiState.selectedDate,
-                onNextDay = onNextDay,
-                onPreviousDay = onPreviousDay,
-                onShowCalendar = onShowCalendar,
-            )
-            Spacer(Modifier.height(36.dp))
-            DishCards(
-                breakfast = uiState.breakfast,
-                kcalOfBreakfast = uiState.kcalOfBreakfast
-                    ?: stringResource(R.string.meal_not_exists),
-                lunch = uiState.lunch,
-                kcalOfLunch = uiState.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
-                dinner = uiState.dinner,
-                kcalOfDinner = uiState.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
-                onNextDay = onNextDay,
-                onPreviousDay = onPreviousDay,
-            )
-            Spacer(Modifier.height(100.dp))
+            Column(
+                modifier = Modifier.animateContentSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(Modifier.height(20.dp))
+                Title1(
+                    text = stringResource(R.string.meal_todays_meal),
+                )
+                Spacer(Modifier.height(46.dp))
+                DateCard(
+                    selectedDate = uiState.selectedDate,
+                    onNextDay = onNextDay,
+                    onPreviousDay = onPreviousDay,
+                    onShowCalendar = onShowCalendar,
+                )
+                Spacer(Modifier.height(36.dp))
+                DishCards(
+                    breakfast = uiState.breakfast,
+                    kcalOfBreakfast = uiState.kcalOfBreakfast
+                        ?: stringResource(R.string.meal_not_exists),
+                    lunch = uiState.lunch,
+                    kcalOfLunch = uiState.kcalOfLunch
+                        ?: stringResource(R.string.meal_not_exists),
+                    dinner = uiState.dinner,
+                    kcalOfDinner = uiState.kcalOfDinner
+                        ?: stringResource(R.string.meal_not_exists),
+                    onNextDay = onNextDay,
+                    onPreviousDay = onPreviousDay,
+                )
+                Spacer(Modifier.height(100.dp))
+            }
         }
     }
 }
@@ -366,7 +375,9 @@ private fun ColumnScope.DishCards(
     }
 
     HorizontalPager(
-        modifier = Modifier.weight(1f),
+        modifier = Modifier
+            .fillMaxSize()
+            .weight(1f),
         pageCount = 3,
         state = pagerState,
         contentPadding = PaddingValues(
@@ -537,7 +548,9 @@ private fun Dishes(
     kcal: String,
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .animateContentSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
