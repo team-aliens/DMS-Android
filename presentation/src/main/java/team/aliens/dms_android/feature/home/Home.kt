@@ -3,9 +3,10 @@ package team.aliens.dms_android.feature.home
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
-import androidx.compose.animation.core.Spring.StiffnessMedium
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -87,12 +88,17 @@ fun Home(
                 route = BottomNavigationItem.Meal.route,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeIn(
+                            animationSpec = tween(
+                                durationMillis = 40,
+                                delayMillis = 30,
                             ),
+                        ) + slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
                         else -> null
@@ -100,12 +106,16 @@ fun Home(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeOut(
+                            animationSpec = tween(
+                                durationMillis = 60,
                             ),
+                        ) + slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
                         else -> null
@@ -123,20 +133,30 @@ fun Home(
                     route = BottomNavigationItem.Application.route,
                     enterTransition = {
                         when (initialState.destination.route) {
-                            BottomNavigationItem.Meal.route -> slideIntoContainer(
+                            BottomNavigationItem.Meal.route -> fadeIn(
+                                animationSpec = tween(
+                                    durationMillis = 60,
+                                    delayMillis = 30,
+                                ),
+                            ) + slideIntoContainer(
                                 towards = AnimatedContentScope.SlideDirection.Left,
-                                animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
-                            ),
+                                animationSpec = keyframes {
+                                    durationMillis = 40
+                                    delayMillis = 20
+                                },
                             )
 
-                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideIntoContainer(
+                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeIn(
+                                animationSpec = tween(
+                                    durationMillis = 60,
+                                    delayMillis = 30,
+                                ),
+                            ) + slideIntoContainer(
                                 towards = AnimatedContentScope.SlideDirection.Right,
-                                animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
-                            ),
+                                animationSpec = keyframes {
+                                    durationMillis = 40
+                                    delayMillis = 20
+                                },
                             )
 
                             else -> null
@@ -144,20 +164,28 @@ fun Home(
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            BottomNavigationItem.Meal.route -> slideOutOfContainer(
+                            BottomNavigationItem.Meal.route -> fadeOut(
+                                animationSpec = tween(
+                                    durationMillis = 60,
+                                ),
+                            ) + slideOutOfContainer(
                                 towards = AnimatedContentScope.SlideDirection.Right,
-                                animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
-                            ),
+                                animationSpec = keyframes {
+                                    durationMillis = 40
+                                    delayMillis = 20
+                                },
                             )
 
-                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideOutOfContainer(
+                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeOut(
+                                animationSpec = tween(
+                                    durationMillis = 60,
+                                ),
+                            ) + slideOutOfContainer(
                                 towards = AnimatedContentScope.SlideDirection.Left,
-                                animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
-                            ),
+                                animationSpec = keyframes {
+                                    durationMillis = 40
+                                    delayMillis = 20
+                                },
                             )
 
                             else -> null
@@ -180,20 +208,30 @@ fun Home(
                 route = BottomNavigationItem.Notice.route,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> fadeIn(
+                            animationSpec = tween(
+                                durationMillis = 60,
+                                delayMillis = 30,
                             ),
+                        ) + slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
-                        BottomNavigationItem.MyPage.route -> slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.MyPage.route -> fadeIn(
+                            animationSpec = tween(
+                                durationMillis = 60,
+                                delayMillis = 30,
                             ),
+                        ) + slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
                         else -> null
@@ -201,20 +239,28 @@ fun Home(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> fadeOut(
+                            animationSpec = tween(
+                                durationMillis = 60,
                             ),
+                        ) + slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
-                        BottomNavigationItem.MyPage.route -> slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium,
+                        BottomNavigationItem.MyPage.route -> fadeOut(
+                            animationSpec = tween(
+                                durationMillis = 60,
                             ),
+                        ) + slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
                         else -> null
@@ -231,12 +277,17 @@ fun Home(
                 route = BottomNavigationItem.MyPage.route,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> fadeIn(
+                            animationSpec = tween(
+                                durationMillis = 60,
+                                delayMillis = 30,
                             ),
+                        ) + slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
                         else -> null
@@ -244,12 +295,16 @@ fun Home(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
-                            animationSpec = spring(
-                                dampingRatio = DampingRatioLowBouncy,
-                                stiffness = StiffnessMedium
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> fadeOut(
+                            animationSpec = tween(
+                                durationMillis = 60,
                             ),
+                        ) + slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = keyframes {
+                                durationMillis = 40
+                                delayMillis = 20
+                            },
                         )
 
                         else -> null
