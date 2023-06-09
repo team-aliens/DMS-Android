@@ -1,6 +1,11 @@
 package team.aliens.dms_android.feature.home
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.Spring.StiffnessMedium
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,10 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
@@ -36,13 +41,14 @@ import team.aliens.dms_android.feature.home.meal.MealScreen
 import team.aliens.dms_android.feature.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.home.notice.NoticesScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Home(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
 ) {
-    val bottomNavController = rememberNavController()
+    val bottomNavController = rememberAnimatedNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val availableFeatures = LocalAvailableFeatures.current
@@ -55,8 +61,7 @@ fun Home(
     val containsApplicationScreen = studyRoomServiceEnabled || remainsServiceEnabled
 
     LaunchedEffect(containsApplicationScreen) {
-        if (!containsApplicationScreen)
-            navigationItems.remove(BottomNavigationItem.Application)
+        if (!containsApplicationScreen) navigationItems.remove(BottomNavigationItem.Application)
     }
 
     Scaffold(
@@ -74,11 +79,39 @@ fun Home(
         backgroundColor = DormTheme.colors.background,
         contentColor = DormTheme.colors.background,
     ) {
-        NavHost(
+        AnimatedNavHost(
             navController = bottomNavController,
             startDestination = BottomNavigationItem.Meal.route,
         ) {
-            composable(BottomNavigationItem.Meal.route) {
+            composable(
+                route = BottomNavigationItem.Meal.route,
+                enterTransition = {
+                    when (initialState.destination.route) {
+                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        else -> null
+                    }
+                },
+            ) {
                 MealScreen(
                     onNavigateToNoticeScreen = {
                         bottomNavController.navigateTo(BottomNavigationItem.Notice.route)
@@ -86,7 +119,51 @@ fun Home(
                 )
             }
             if (containsApplicationScreen) {
-                composable(BottomNavigationItem.Application.route) {
+                composable(
+                    route = BottomNavigationItem.Application.route,
+                    enterTransition = {
+                        when (initialState.destination.route) {
+                            BottomNavigationItem.Meal.route -> slideIntoContainer(
+                                towards = AnimatedContentScope.SlideDirection.Left,
+                                animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                            )
+
+                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideIntoContainer(
+                                towards = AnimatedContentScope.SlideDirection.Right,
+                                animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                            )
+
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            BottomNavigationItem.Meal.route -> slideOutOfContainer(
+                                towards = AnimatedContentScope.SlideDirection.Right,
+                                animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                            )
+
+                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> slideOutOfContainer(
+                                towards = AnimatedContentScope.SlideDirection.Left,
+                                animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                            )
+
+                            else -> null
+                        }
+                    },
+                ) {
                     ApplicationScreen(
                         onNavigateToStudyRooms = {
                             navController.navigate(DmsRoute.Home.StudyRooms)
@@ -99,14 +176,86 @@ fun Home(
                     )
                 }
             }
-            composable(BottomNavigationItem.Notice.route) {
+            composable(
+                route = BottomNavigationItem.Notice.route,
+                enterTransition = {
+                    when (initialState.destination.route) {
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        BottomNavigationItem.MyPage.route -> slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        BottomNavigationItem.MyPage.route -> slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium,
+                            ),
+                        )
+
+                        else -> null
+                    }
+                },
+            ) {
                 NoticesScreen(
                     onNavigateToNoticeDetailsScreen = { value: UUID ->
                         navController.navigate("noticeDetails/${value}")
                     },
                 )
             }
-            composable(BottomNavigationItem.MyPage.route) {
+            composable(
+                route = BottomNavigationItem.MyPage.route,
+                enterTransition = {
+                    when (initialState.destination.route) {
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> slideIntoContainer(
+                            towards = AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = spring(
+                                dampingRatio = DampingRatioLowBouncy,
+                                stiffness = StiffnessMedium
+                            ),
+                        )
+
+                        else -> null
+                    }
+                },
+            ) {
                 MyPageScreen(
                     navController = navController,
                     scaffoldState = scaffoldState,
