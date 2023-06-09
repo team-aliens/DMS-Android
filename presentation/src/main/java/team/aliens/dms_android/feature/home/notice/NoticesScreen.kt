@@ -17,12 +17,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +36,7 @@ import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
+import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
 import team.aliens.presentation.R
@@ -114,17 +112,6 @@ private fun ColumnScope.Notices(
     notices: List<Notice>,
     onNoticeClick: (UUID) -> Unit,
 ) {
-    // FIXME replace with fade brush
-    val color = DormTheme.colors
-    val pointFadedBackgroundBrush = remember {
-        Brush.verticalGradient(
-            colors = listOf(
-                color.background,
-                Color.Transparent,
-            ),
-        )
-    } // FIXME end
-
     Box(
         modifier = Modifier.weight(1f),
         contentAlignment = Alignment.TopCenter,
@@ -156,7 +143,7 @@ private fun ColumnScope.Notices(
             Modifier
                 .fillMaxWidth()
                 .height(20.dp)
-                .dormGradientBackground(pointFadedBackgroundBrush),
+                .dormGradientBackground(listFadeBrush),
         )
     }
 }
@@ -168,13 +155,11 @@ private fun Notice(
 ) {
     Box(
         modifier = Modifier
+            .dormShadow(
+                color = DormTheme.colors.primaryVariant,
+            )
             .fillMaxWidth()
             .clip(RoundedCornerShape(6.dp))
-            .dormShadow(
-                color = DormTheme.colors.secondaryVariant,
-                offsetX = 1.dp,
-                offsetY = 1.dp,
-            )
             .background(
                 color = DormTheme.colors.surface,
             )
