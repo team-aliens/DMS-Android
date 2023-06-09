@@ -2,7 +2,10 @@ package team.aliens.dms_android.feature.home.application
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,11 +30,13 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.DefaultAppliedTagSize
 import team.aliens.design_system.component.LastAppliedItem
-import team.aliens.design_system.extension.Space
+import team.aliens.design_system.modifier.dormGradientBackground
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
+import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.presentation.R
 
 private sealed class ApplicationCardItem(
@@ -39,28 +44,28 @@ private sealed class ApplicationCardItem(
     val descriptionRes: Int,
     val buttonTextRes: Int,
     val onButtonClick: () -> Unit,
-    val lastAppliedOption: String?,
+    val currentAppliedOption: String?,
 ) {
     class StudyRoomService(
         onButtonClick: () -> Unit = { println("NOTHING HAPPENED") },
-        lastAppliedOption: String? = null,
+        currentAppliedOption: String? = null,
     ) : ApplicationCardItem(
         titleRes = R.string.study_room,
         descriptionRes = R.string.study_room_description,
         buttonTextRes = R.string.study_room_apply,
         onButtonClick = onButtonClick,
-        lastAppliedOption = lastAppliedOption,
+        currentAppliedOption = currentAppliedOption,
     )
 
     class RemainsService(
         onButtonClick: () -> Unit = { println("NOTHING HAPPENED") },
-        lastAppliedOption: String? = null,
+        currentAppliedOption: String? = null,
     ) : ApplicationCardItem(
         titleRes = R.string.remains_stay,
         descriptionRes = R.string.remains_description,
         onButtonClick = onButtonClick,
         buttonTextRes = R.string.remains_apply,
-        lastAppliedOption = lastAppliedOption,
+        currentAppliedOption = currentAppliedOption,
     )
 }
 
@@ -75,32 +80,38 @@ internal fun ApplicationScreen(
     val uiState by applicationViewModel.uiState.collectAsStateWithLifecycle()
     val applicationItems = remember { mutableStateListOf<ApplicationCardItem>() }
 
-    LaunchedEffect(studyRoomServiceEnabled, remainsServiceEnabled) {
+    LaunchedEffect(uiState.currentAppliedStudyRoom, uiState.currentAppliedRemainsOption) {
         applicationItems.run {
-            if (studyRoomServiceEnabled) add(
-                ApplicationCardItem.StudyRoomService(
-                    onButtonClick = onNavigateToStudyRooms,
-                ),
-            )
-            if (remainsServiceEnabled) add(
-                ApplicationCardItem.RemainsService(
-                    onButtonClick = onNavigateToRemainsApplication,
-                ),
-            )
+            if (studyRoomServiceEnabled) {
+                add(
+                    ApplicationCardItem.StudyRoomService(
+                        onButtonClick = onNavigateToStudyRooms,
+                        currentAppliedOption = if (uiState.currentAppliedStudyRoom != null) {
+                            "${uiState.currentAppliedStudyRoom?.floor}층 ${uiState.currentAppliedStudyRoom?.name}"
+                        } else null,
+                    ),
+                )
+            }
+            if (remainsServiceEnabled) {
+                add(
+                    ApplicationCardItem.RemainsService(
+                        onButtonClick = onNavigateToRemainsApplication,
+                        currentAppliedOption = uiState.currentAppliedRemainsOption?.title,
+                    ),
+                )
+            }
         }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = DormTheme.colors.background)
-            .padding(horizontal = 16.dp),
+            .background(color = DormTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // todo 상단바 분리 필요
         Spacer(Modifier.height(24.dp))
         Body1(text = stringResource(R.string.Application))
-        Spacer(Modifier.height(40.dp))
         // todo end
 
         ApplicationCards(
@@ -110,21 +121,39 @@ internal fun ApplicationScreen(
 }
 
 @Composable
-private fun ApplicationCards(
+private fun ColumnScope.ApplicationCards(
     applicationItems: List<ApplicationCardItem>,
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+    Box(
+        modifier = Modifier.weight(1f),
+        contentAlignment = Alignment.TopCenter,
     ) {
-        items(applicationItems) { applicationItem ->
-            ApplicationCard(
-                title = stringResource(applicationItem.titleRes),
-                description = stringResource(applicationItem.descriptionRes),
-                buttonText = stringResource(applicationItem.buttonTextRes),
-                onButtonClick = applicationItem.onButtonClick,
-                lastAppliedOption = applicationItem.lastAppliedOption,
-            )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            contentPadding = PaddingValues(
+                top = 36.dp,
+                bottom = 100.dp,
+            ),
+        ) {
+            items(applicationItems) { applicationItem ->
+                ApplicationCard(
+                    title = stringResource(applicationItem.titleRes),
+                    description = stringResource(applicationItem.descriptionRes),
+                    buttonText = stringResource(applicationItem.buttonTextRes),
+                    onButtonClick = applicationItem.onButtonClick,
+                    currentAppliedOption = applicationItem.currentAppliedOption,
+                )
+            }
         }
+        Spacer(
+            Modifier
+                .fillMaxWidth()
+                .height(36.dp)
+                .dormGradientBackground(listFadeBrush),
+        )
     }
 }
 
@@ -134,10 +163,13 @@ private fun ApplicationCard(
     description: String,
     buttonText: String,
     onButtonClick: () -> Unit,
-    lastAppliedOption: String?,
+    currentAppliedOption: String?,
 ) {
     Column(
         modifier = Modifier
+            .dormShadow(
+                DormTheme.colors.primaryVariant,
+            )
             .background(
                 color = DormTheme.colors.surface,
                 shape = RoundedCornerShape(10.dp),
@@ -152,11 +184,11 @@ private fun ApplicationCard(
             SubTitle2(
                 text = title,
             )
-            if (lastAppliedOption != null) {
-                Space(ratio = 1f)
+            if (currentAppliedOption != null) {
+                Spacer(modifier = Modifier.weight(1f))
                 LastAppliedItem(
                     modifier = DefaultAppliedTagSize,
-                    text = lastAppliedOption,
+                    text = currentAppliedOption,
                 )
             }
         }
