@@ -4,13 +4,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,6 +34,36 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.presentation.R
 
+private sealed class ApplicationCardItem(
+    val titleRes: Int,
+    val descriptionRes: Int,
+    val buttonTextRes: Int,
+    val onButtonClick: () -> Unit,
+    val lastAppliedOption: String?,
+) {
+    class StudyRoomService(
+        onButtonClick: () -> Unit = { println("NOTHING HAPPENED") },
+        lastAppliedOption: String? = null,
+    ) : ApplicationCardItem(
+        titleRes = R.string.study_room,
+        descriptionRes = R.string.study_room_description,
+        buttonTextRes = R.string.study_room_apply,
+        onButtonClick = onButtonClick,
+        lastAppliedOption = lastAppliedOption,
+    )
+
+    class RemainsService(
+        onButtonClick: () -> Unit = { println("NOTHING HAPPENED") },
+        lastAppliedOption: String? = null,
+    ) : ApplicationCardItem(
+        titleRes = R.string.remains_stay,
+        descriptionRes = R.string.remains_description,
+        onButtonClick = onButtonClick,
+        buttonTextRes = R.string.remains_apply,
+        lastAppliedOption = lastAppliedOption,
+    )
+}
+
 @Composable
 internal fun ApplicationScreen(
     onNavigateToStudyRooms: () -> Unit,
@@ -37,6 +73,22 @@ internal fun ApplicationScreen(
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
 ) {
     val uiState by applicationViewModel.uiState.collectAsStateWithLifecycle()
+    val applicationItems = remember { mutableStateListOf<ApplicationCardItem>() }
+
+    LaunchedEffect(studyRoomServiceEnabled, remainsServiceEnabled) {
+        applicationItems.run {
+            if (studyRoomServiceEnabled) add(
+                ApplicationCardItem.StudyRoomService(
+                    onButtonClick = onNavigateToStudyRooms,
+                ),
+            )
+            if (remainsServiceEnabled) add(
+                ApplicationCardItem.RemainsService(
+                    onButtonClick = onNavigateToRemainsApplication,
+                ),
+            )
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -45,64 +97,44 @@ internal fun ApplicationScreen(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Space(space = 24.dp)
-        Body1(text = stringResource(id = R.string.Application))
-        Space(space = 40.dp)
-        if (studyRoomServiceEnabled) {
-           /* ApplicationCard(
-                title = stringResource(id = R.string.StudyRoom),
-                content = stringResource(id = R.string.StudyRoomApplyDescription),
-                buttonText = stringResource(id = R.string.DoApplyStudyRoom),
-                onButtonClick = onNavigateToStudyRooms,
-                lastApplicationText = lastAppliedStudyRoom,
-            )*/
-            Space(space = 30.dp)
-        }
-        if (remainsServiceEnabled) {
-           /* ApplicationCard(
-                title = stringResource(id = R.string.Stay),
-                content = stringResource(id = R.string.RemainApplyDescription),
-                buttonText = stringResource(id = R.string.DoApplyRemain),
-                onButtonClick = onNavigateToRemainsApplication, ,
-                lastApplicationText = lastAppliedRemain,
-            )*/
+        // todo 상단바 분리 필요
+        Spacer(Modifier.height(24.dp))
+        Body1(text = stringResource(R.string.Application))
+        Spacer(Modifier.height(40.dp))
+        // todo end
+
+        ApplicationCards(
+            applicationItems = applicationItems,
+        )
+    }
+}
+
+@Composable
+private fun ApplicationCards(
+    applicationItems: List<ApplicationCardItem>,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        items(applicationItems) { applicationItem ->
+            ApplicationCard(
+                title = stringResource(applicationItem.titleRes),
+                description = stringResource(applicationItem.descriptionRes),
+                buttonText = stringResource(applicationItem.buttonTextRes),
+                onButtonClick = applicationItem.onButtonClick,
+                lastAppliedOption = applicationItem.lastAppliedOption,
+            )
         }
     }
 }
 
-@Immutable
-private object ApplicationCardItemsWrapper {
-    val applicationCardItems: MutableList<ApplicationCardItem> = mutableListOf(
-        ApplicationCardItem.StudyRoomService,
-        ApplicationCardItem.RemainsService,
-    )
-}
-
-private sealed class ApplicationCardItem(
-    val titleRes: Int,
-    val descriptionRes: Int,
-    val buttonTextRes: Int,
-) {
-    object StudyRoomService : ApplicationCardItem(
-        titleRes = R.string.study_room,
-        descriptionRes = R.string.study_room_description,
-        buttonTextRes = R.string.study_room_apply,
-    )
-
-    object RemainsService : ApplicationCardItem(
-        titleRes = R.string.remains_stay,
-        descriptionRes = R.string.remains_description,
-        buttonTextRes = R.string.remains_apply,
-    )
-}
-
 @Composable
-fun ApplicationCard(
+private fun ApplicationCard(
     title: String,
-    content: String,
+    description: String,
     buttonText: String,
     onButtonClick: () -> Unit,
-    lastApplicationText: String,
+    lastAppliedOption: String?,
 ) {
     Column(
         modifier = Modifier
@@ -120,16 +152,16 @@ fun ApplicationCard(
             SubTitle2(
                 text = title,
             )
-            if (lastApplicationText.isNotBlank()) {
+            if (lastAppliedOption != null) {
                 Space(ratio = 1f)
                 LastAppliedItem(
                     modifier = DefaultAppliedTagSize,
-                    text = lastApplicationText,
+                    text = lastAppliedOption,
                 )
             }
         }
         Body5(
-            text = content,
+            text = description,
         )
         DormContainedLargeButton(
             modifier = Modifier.height(40.dp),
