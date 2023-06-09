@@ -30,7 +30,7 @@ object Versions {
         const val ComposeHiltNavigation = "1.0.0"
         const val Navigation = "2.5.3"
         const val NavigationAnimation = "0.30.1"
-        const val ViewPager = "0.30.1"
+        const val Accompanist = "0.30.1"
         const val Material = "1.8.0"
         const val Coil = "2.3.0"
         const val TedImagePicker = "1.4.2"
