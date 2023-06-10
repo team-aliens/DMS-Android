@@ -98,8 +98,7 @@ fun Home(
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 5_0
-                                delayMillis = 1_0
+                                durationMillis = 8_0
                             },
                         )
 
@@ -115,7 +114,7 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 6_0
+                                durationMillis = 8_0
                                 delayMillis = 1_0
                             },
                         )
@@ -143,8 +142,7 @@ fun Home(
                             ) + slideIntoContainer(
                                 towards = AnimatedContentScope.SlideDirection.Left,
                                 animationSpec = keyframes {
-                                    durationMillis = 5_0
-                                    delayMillis = 1_0
+                                    durationMillis = 8_0
                                 },
                             )
 
@@ -156,8 +154,7 @@ fun Home(
                             ) + slideIntoContainer(
                                 towards = AnimatedContentScope.SlideDirection.Right,
                                 animationSpec = keyframes {
-                                    durationMillis = 5_0
-                                    delayMillis = 1_0
+                                    durationMillis = 8_0
                                 },
                             )
 
@@ -173,7 +170,7 @@ fun Home(
                             ) + slideOutOfContainer(
                                 towards = AnimatedContentScope.SlideDirection.Right,
                                 animationSpec = keyframes {
-                                    durationMillis = 6_0
+                                    durationMillis = 8_0
                                     delayMillis = 1_0
                                 },
                             )
@@ -185,7 +182,7 @@ fun Home(
                             ) + slideOutOfContainer(
                                 towards = AnimatedContentScope.SlideDirection.Left,
                                 animationSpec = keyframes {
-                                    durationMillis = 6_0
+                                    durationMillis = 8_0
                                     delayMillis = 1_0
                                 },
                             )
@@ -218,8 +215,7 @@ fun Home(
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 5_0
-                                delayMillis = 1_0
+                                durationMillis = 8_0
                             },
                         )
 
@@ -231,8 +227,7 @@ fun Home(
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 5_0
-                                delayMillis = 1_0
+                                durationMillis = 8_0
                             },
                         )
 
@@ -248,7 +243,7 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 6_0
+                                durationMillis = 8_0
                                 delayMillis = 1_0
                             },
                         )
@@ -260,7 +255,7 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 6_0
+                                durationMillis = 8_0
                                 delayMillis = 1_0
                             },
                         )
@@ -287,8 +282,7 @@ fun Home(
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 5_0
-                                delayMillis = 1_0
+                                durationMillis = 8_0
                             },
                         )
 
@@ -304,7 +298,7 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 6_0
+                                durationMillis = 8_0
                                 delayMillis = 1_0
                             },
                         )
