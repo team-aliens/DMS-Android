@@ -6,7 +6,7 @@ import team.aliens.domain.model._common.Sex
  * An entity contains my page information
  * @property schoolName user's school name
  * @property name user's name
- * @property gcn user's grade, class, and number
+ * @property gradeClassNumber user's grade, class, and number
  * @property profileImageUrl user's profile image url
  * @property sex user's sex
  * @property bonusPoint user's bonus point
@@ -16,7 +16,7 @@ import team.aliens.domain.model._common.Sex
 data class MyPage(
     val schoolName: String,
     val name: String,
-    val gcn: String,
+    val gradeClassNumber: String,
     val profileImageUrl: String,
     val sex: Sex,
     val bonusPoint: Int,
