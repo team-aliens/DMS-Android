@@ -93,13 +93,13 @@ fun Home(
                         BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 30,
-                                delayMillis = 30,
+                                delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 5_0
+                                delayMillis = 1_0
                             },
                         )
 
@@ -115,8 +115,8 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 6_0
+                                delayMillis = 1_0
                             },
                         )
 
@@ -138,26 +138,26 @@ fun Home(
                             BottomNavigationItem.Meal.route -> fadeIn(
                                 animationSpec = tween(
                                     durationMillis = 80,
-                                    delayMillis = 30,
+                                    delayMillis = 40,
                                 ),
                             ) + slideIntoContainer(
                                 towards = AnimatedContentScope.SlideDirection.Left,
                                 animationSpec = keyframes {
-                                    durationMillis = 50
-                                    delayMillis = 10
+                                    durationMillis = 5_0
+                                    delayMillis = 1_0
                                 },
                             )
 
                             BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeIn(
                                 animationSpec = tween(
                                     durationMillis = 80,
-                                    delayMillis = 30,
+                                    delayMillis = 40,
                                 ),
                             ) + slideIntoContainer(
                                 towards = AnimatedContentScope.SlideDirection.Right,
                                 animationSpec = keyframes {
-                                    durationMillis = 50
-                                    delayMillis = 10
+                                    durationMillis = 5_0
+                                    delayMillis = 1_0
                                 },
                             )
 
@@ -173,8 +173,8 @@ fun Home(
                             ) + slideOutOfContainer(
                                 towards = AnimatedContentScope.SlideDirection.Right,
                                 animationSpec = keyframes {
-                                    durationMillis = 50
-                                    delayMillis = 10
+                                    durationMillis = 6_0
+                                    delayMillis = 1_0
                                 },
                             )
 
@@ -185,8 +185,8 @@ fun Home(
                             ) + slideOutOfContainer(
                                 towards = AnimatedContentScope.SlideDirection.Left,
                                 animationSpec = keyframes {
-                                    durationMillis = 50
-                                    delayMillis = 10
+                                    durationMillis = 6_0
+                                    delayMillis = 1_0
                                 },
                             )
 
@@ -213,26 +213,26 @@ fun Home(
                         BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 80,
-                                delayMillis = 30,
+                                delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 5_0
+                                delayMillis = 1_0
                             },
                         )
 
                         BottomNavigationItem.MyPage.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 80,
-                                delayMillis = 30,
+                                delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 5_0
+                                delayMillis = 1_0
                             },
                         )
 
@@ -248,8 +248,8 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 6_0
+                                delayMillis = 1_0
                             },
                         )
 
@@ -260,8 +260,8 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 6_0
+                                delayMillis = 1_0
                             },
                         )
 
@@ -282,13 +282,13 @@ fun Home(
                         BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 80,
-                                delayMillis = 30,
+                                delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 5_0
+                                delayMillis = 1_0
                             },
                         )
 
@@ -304,8 +304,8 @@ fun Home(
                         ) + slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Right,
                             animationSpec = keyframes {
-                                durationMillis = 50
-                                delayMillis = 10
+                                durationMillis = 6_0
+                                delayMillis = 1_0
                             },
                         )
 
