@@ -20,7 +20,7 @@ fun Modifier.dormShadow(
     color: Color,
     alpha: Float = 0.2f,
     borderRadius: Dp = 0.dp,
-    shadowRadius: Dp = 20.dp,
+    shadowRadius: Dp = 10.dp,
     offsetY: Dp = 0.dp,
     offsetX: Dp = 0.dp,
 ) = this.drawBehind {
