@@ -126,6 +126,7 @@ internal fun MyPageScreen(
                 vertical = 66.dp,
                 horizontal = 16.dp,
             ),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         myPageInformation?.run {
             UserInformation(
@@ -237,7 +238,6 @@ private fun PointsInformation(
             type = PointCardType.BONUS,
             point = bonusPoint,
         )
-        Spacer(Modifier.width(10.dp))
         PointCard(
             type = PointCardType.MINUS,
             point = minusPoint,
@@ -251,14 +251,15 @@ private fun PhraseCard(
 ) {
     Box(
         modifier = Modifier
-            .padding(
-                vertical = 12.dp,
-                horizontal = 16.dp,
-            )
+
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(
                 DormTheme.colors.secondary,
+            )
+            .padding(
+                vertical = 12.dp,
+                horizontal = 16.dp,
             ),
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -275,8 +276,8 @@ private fun RowScope.PointCard(
     point: Int,
 ) {
     val textColor = when (type) {
-        PointCardType.BONUS -> DormTheme.colors.onPrimary
-        PointCardType.MINUS -> DormTheme.colors.onSecondary
+        PointCardType.BONUS -> DormTheme.colors.primary
+        PointCardType.MINUS -> DormTheme.colors.error
     }
     Column(
         modifier = Modifier
@@ -299,7 +300,12 @@ private fun RowScope.PointCard(
             ),
     ) {
         Caption(
-            text = stringResource(R.string.PlusPoint),
+            text = stringResource(
+                when (type) {
+                    PointCardType.BONUS -> R.string.bonus_point
+                    PointCardType.MINUS -> R.string.minus_point
+                }
+            ),
             color = textColor,
         )
         Box(
