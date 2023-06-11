@@ -3,7 +3,6 @@ package team.aliens.dms_android.feature.home.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,7 +61,7 @@ internal fun MyPageScreen(
     val uiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
     var signOutDialogState by remember { mutableStateOf(false) }
-    var withdrawalDialogState by remember { mutableStateOf(false) }
+    var withdrawDialogState by remember { mutableStateOf(false) }
     var profileDialogState by remember { mutableStateOf(false) }
 
     val pointServiceEnabled = LocalAvailableFeatures.current[Extra.isPointServiceEnabled] ?: false
@@ -74,9 +73,9 @@ internal fun MyPageScreen(
             },
         ) {
             DormDoubleButtonDialog(
-                content = stringResource(R.string.AreYouSureYouLogOut),
-                mainBtnText = stringResource(R.string.Check),
-                subBtnText = stringResource(R.string.Cancel),
+                content = stringResource(R.string.my_page_are_you_sure_you_sign_out),
+                mainBtnText = stringResource(R.string.accept),
+                subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.onEvent(MyPageUiEvent.SignOut)
                     signOutDialogState = true
@@ -87,21 +86,21 @@ internal fun MyPageScreen(
             )
         }
     }
-    if (withdrawalDialogState) {
+    if (withdrawDialogState) {
         DormCustomDialog(
             onDismissRequest = {
                 /* explicit blank */
             },
         ) {
             DormDoubleButtonDialog(
-                content = stringResource(R.string.AreYouSureYouWithdraw),
-                mainBtnText = stringResource(R.string.Check),
-                subBtnText = stringResource(R.string.Cancel),
+                content = stringResource(R.string.my_page_are_you_sure_you_withdraw),
+                mainBtnText = stringResource(R.string.accept),
+                subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.onEvent(MyPageUiEvent.Withdraw)
                 },
                 onSubBtnClick = {
-                    withdrawalDialogState = false
+                    withdrawDialogState = false
                 },
             )
         }
@@ -137,6 +136,7 @@ internal fun MyPageScreen(
                 profileImageUrl = profileImageUrl,
                 onChangeProfileImage = { profileDialogState = !profileDialogState },
             )
+            Spacer(Modifier.height(24.dp))
             if (pointServiceEnabled) PointsInformation(
                 phrase = phrase,
                 bonusPoint = bonusPoint,
@@ -145,8 +145,8 @@ internal fun MyPageScreen(
             Options(
                 onPointHistoryClicked = if (pointServiceEnabled) onNavigateToPointHistory else null,
                 onEditPasswordClicked = onNavigateToEditPassword,
-                onSignOutClicked = {},
-                onWithdrawClicked = {},
+                onSignOutClicked = { signOutDialogState = !signOutDialogState },
+                onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
             )
         }
     }
@@ -349,7 +349,7 @@ private fun Options(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Body5(
-                        text = stringResource(R.string.CheckPointList),
+                        text = stringResource(R.string.my_page_check_point_history),
                     )
                 }
                 Divider(
@@ -359,7 +359,7 @@ private fun Options(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onEditPasswordClicked() }
+                        .dormClickable { onEditPasswordClicked() }
                         .padding(
                             vertical = 14.dp,
                             horizontal = 16.dp,
@@ -367,7 +367,7 @@ private fun Options(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Body5(
-                        text = stringResource(R.string.ChangePassword),
+                        text = stringResource(R.string.change_password),
                     )
                 }
             }
@@ -409,7 +409,7 @@ private fun Options(
                     ),
             ) {
                 Body5(
-                    text = stringResource(R.string.Logout),
+                    text = stringResource(R.string.my_page_sign_out),
                     color = DormTheme.colors.error,
                 )
             }
@@ -423,15 +423,15 @@ private fun Options(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onWithdrawClicked() }
+                    .dormClickable { onWithdrawClicked() }
                     .padding(
                         vertical = 14.dp,
                         horizontal = 16.dp,
                     ),
             ) {
                 Body5(
-                    text = stringResource(R.string.Withdrawal),
-                    color = DormColor.Error,
+                    text = stringResource(R.string.my_page_withdrawal),
+                    color = DormTheme.colors.error,
                 )
             }
         }
