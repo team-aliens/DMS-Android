@@ -39,6 +39,7 @@ import team.aliens.design_system.component.LastAppliedItem
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
@@ -286,6 +287,7 @@ private fun RowScope.PointCard(
     Column(
         modifier = Modifier
             .weight(1f)
+            .dormShadow(DormTheme.colors.primaryVariant)
             .clip(RoundedCornerShape(10.dp))
             .border(
                 color = when (type) {
@@ -339,6 +341,7 @@ private fun Options(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .dormShadow(DormTheme.colors.primaryVariant)
                     .clip(RoundedCornerShape(10.dp))
                     .background(DormTheme.colors.surface),
             ) {
@@ -379,6 +382,7 @@ private fun Options(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .dormShadow(DormTheme.colors.primaryVariant)
                     .clip(RoundedCornerShape(10.dp))
                     .background(DormTheme.colors.surface),
             ) {
@@ -400,6 +404,7 @@ private fun Options(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .dormShadow(DormTheme.colors.primaryVariant)
                 .clip(RoundedCornerShape(10.dp))
                 .background(DormTheme.colors.surface),
         ) {
@@ -421,6 +426,7 @@ private fun Options(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .dormShadow(DormTheme.colors.primaryVariant)
                 .clip(RoundedCornerShape(10.dp))
                 .background(DormTheme.colors.surface),
         ) {
