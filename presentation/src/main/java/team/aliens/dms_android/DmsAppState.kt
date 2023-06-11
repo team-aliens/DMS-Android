@@ -72,8 +72,8 @@ internal class DmsAppState(
 
 internal fun DmsAppState.navigateToSignIn() {
     this.navController.navigate(DmsRoute.Auth.route) {
-        popUpTo(this@navigateToSignIn.navController.currentDestination!!.id) {
-            saveState = true
+        popUpTo(this@navigateToSignIn.navController.graph.id) {
+            inclusive = true
         }
     }
 }

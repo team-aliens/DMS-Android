@@ -33,6 +33,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
+import team.aliens.dms_android.DmsAppState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.DmsRoute
@@ -41,15 +42,17 @@ import team.aliens.dms_android.feature.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.home.meal.MealScreen
 import team.aliens.dms_android.feature.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.home.notice.NoticesScreen
+import team.aliens.dms_android.navigateToSignIn
 import team.aliens.dms_android.util.SelectImageType
 
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun Home(
-    navController: NavHostController,
+internal fun Home(
+    appState: DmsAppState,
     scaffoldState: ScaffoldState,
 ) {
+    val navController = appState.navController
     val bottomNavController = rememberAnimatedNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
@@ -321,6 +324,9 @@ fun Home(
                     },
                     onNavigateToPointHistory = { navController.navigate(DmsRoute.Home.PointHistory) },
                     onNavigateToEditPassword = { navController.navigate(DmsRoute.Auth.EditPassword) },
+                    onNavigateToSignIn = {
+                        appState.navigateToSignIn()
+                    },
                 )
             }
         }

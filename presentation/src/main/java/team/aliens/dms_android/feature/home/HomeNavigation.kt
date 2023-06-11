@@ -30,7 +30,7 @@ internal fun NavGraphBuilder.homeNavigation(
     ) {
         composable(DmsRoute.Home.Main) {
             Home(
-                navController = navController,
+                appState = appState,
                 scaffoldState = scaffoldState,
             )
         }

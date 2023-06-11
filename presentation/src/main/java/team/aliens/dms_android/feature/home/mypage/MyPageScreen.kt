@@ -56,6 +56,7 @@ internal fun MyPageScreen(
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPassword: () -> Unit,
+    onNavigateToSignIn: () -> Unit,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
@@ -78,7 +79,8 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.onEvent(MyPageUiEvent.SignOut)
-                    signOutDialogState = true
+                    onNavigateToSignIn()
+                    signOutDialogState = false
                 },
                 onSubBtnClick = {
                     signOutDialogState = false
@@ -98,6 +100,8 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.onEvent(MyPageUiEvent.Withdraw)
+                    onNavigateToSignIn()
+                    withdrawDialogState = false
                 },
                 onSubBtnClick = {
                     withdrawDialogState = false
