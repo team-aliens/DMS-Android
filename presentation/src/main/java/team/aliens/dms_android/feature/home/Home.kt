@@ -41,6 +41,7 @@ import team.aliens.dms_android.feature.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.home.meal.MealScreen
 import team.aliens.dms_android.feature.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.home.notice.NoticesScreen
+import team.aliens.dms_android.util.SelectImageType
 
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -308,8 +309,18 @@ fun Home(
                 },
             ) {
                 MyPageScreen(
-                    navController = navController,
-                    scaffoldState = scaffoldState,
+                    onNavigateToUploadProfileImageWithTakingPhoto = {
+                        navController.navigate(
+                            DmsRoute.Home.UploadProfileImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                        )
+                    },
+                    onNavigateToUploadProfileImageWithSelectingPhoto = {
+                        navController.navigate(
+                            DmsRoute.Home.UploadProfileImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                        )
+                    },
+                    onNavigateToPointHistory = { navController.navigate(DmsRoute.Home.PointHistory) },
+                    onNavigateToEditPassword = { navController.navigate(DmsRoute.Auth.EditPassword) },
                 )
             }
         }
