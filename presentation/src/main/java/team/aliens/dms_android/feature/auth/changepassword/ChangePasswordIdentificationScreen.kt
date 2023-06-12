@@ -38,9 +38,9 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.navigator.DmsRoute
-import team.aliens.dms_android.feature.register.event.email.RegisterEmailEvent
-import team.aliens.dms_android.feature.register.ui.email.RegisterEmailViewModel
+import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
+import team.aliens.dms_android.feature.signup.ui.email.RegisterEmailViewModel
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 

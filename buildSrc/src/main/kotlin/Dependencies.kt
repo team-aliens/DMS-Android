@@ -28,10 +28,10 @@ object Dependencies {
         const val ComposeGlide = "com.github.skydoves:landscapist-glide:${Versions.Ui.ComposeGlide}"
         const val ComposeHiltNavigation =
             "androidx.hilt:hilt-navigation-compose:${Versions.Ui.ComposeHiltNavigation}"
-        const val Pager = "com.google.accompanist:accompanist-pager:${Versions.Ui.ViewPager}"
+        const val Pager = "com.google.accompanist:accompanist-pager:${Versions.Ui.Accompanist}"
         const val PagerIndicator =
-            "com.google.accompanist:accompanist-pager-indicators:${Versions.Ui.ViewPager}"
-
+            "com.google.accompanist:accompanist-pager-indicators:${Versions.Ui.Accompanist}"
+        const val NavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:${Versions.Ui.Accompanist}"
         const val Material = "com.google.android.material:material:${Versions.Ui.Material}"
         const val Coil = "io.coil-kt:coil-compose:${Versions.Ui.Coil}"
         const val TedImagePicker =

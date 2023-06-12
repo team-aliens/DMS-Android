@@ -1,6 +1,7 @@
 package team.aliens.domain.model.student
 
 import team.aliens.domain.model._common.Sex
+import team.aliens.domain.model.mypage.MyPage
 
 /**
  * A response of fetching my page
@@ -23,3 +24,16 @@ data class FetchMyPageOutput(
     val minusPoint: Int,
     val phrase: String,
 )
+
+fun FetchMyPageOutput.toModel(): MyPage {
+    return MyPage(
+        schoolName = this.schoolName,
+        name = this.studentName,
+        gradeClassNumber = this.gradeClassNumber,
+        profileImageUrl = this.profileImageUrl,
+        sex = this.sex,
+        bonusPoint = this.bonusPoint,
+        minusPoint = this.minusPoint,
+        phrase = this.phrase,
+    )
+}

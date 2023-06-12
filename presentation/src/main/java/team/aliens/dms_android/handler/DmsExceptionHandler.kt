@@ -2,7 +2,7 @@ package team.aliens.dms_android.handler
 
 import android.content.Context
 import android.util.Log
-import team.aliens.dms_android.feature.application.DmsAppState
+import team.aliens.dms_android.DmsAppState
 import javax.inject.Inject
 import kotlin.system.exitProcess
 

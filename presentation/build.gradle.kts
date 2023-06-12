@@ -78,6 +78,7 @@ dependencies {
     implementation(Dependencies.Ui.ComposeHiltNavigation)
     implementation(Dependencies.Ui.ComposeUiUtil)
     implementation(Dependencies.Ui.Pager)
+    implementation(Dependencies.Ui.NavigationAnimation)
     implementation(Dependencies.Ui.PagerIndicator)
     implementation(Dependencies.Ui.TedImagePicker)
     implementation(Dependencies.Ui.Coil)

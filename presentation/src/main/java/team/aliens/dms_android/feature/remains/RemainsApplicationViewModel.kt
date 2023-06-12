@@ -66,15 +66,17 @@ internal class RemainsApplicationViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchRemainsOptionsUseCase()
             }.onSuccess { fetchedRemainsOptions ->
-                val appliedRemainsOption = fetchedRemainsOptions.first { it.applied }
+                if (fetchedRemainsOptions.isNotEmpty()) {
+                    val appliedRemainsOption = fetchedRemainsOptions.firstOrNull { it.applied }
 
-                setState(
-                    newState = uiState.value.copy(
-                        remainsOptions = fetchedRemainsOptions,
-                        selectedRemainsOption = appliedRemainsOption,
-                        applicationButtonEnabled = appliedRemainsOption.id != selectedRemainsOption?.id,
-                    ),
-                )
+                    setState(
+                        newState = uiState.value.copy(
+                            remainsOptions = fetchedRemainsOptions,
+                            selectedRemainsOption = appliedRemainsOption,
+                            applicationButtonEnabled = appliedRemainsOption?.id != selectedRemainsOption?.id,
+                        ),
+                    )
+                }
             }
         }
     }

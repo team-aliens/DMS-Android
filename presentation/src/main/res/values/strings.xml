@@ -228,6 +228,8 @@
     <string name="thursday_abb">목</string>
     <string name="friday_abb">금</string>
     <string name="saturday_abb">토</string>
+    <string name="male">남</string>
+    <string name="female">여</string>
 
     <!--common error-->
     <string name="error_bad_request">잘못된 형식의 요청입니다</string>

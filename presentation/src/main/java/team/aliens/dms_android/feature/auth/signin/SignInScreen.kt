@@ -34,9 +34,9 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.common.initLocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.application.DmsAppState
-import team.aliens.dms_android.feature.application.navigateToHome
-import team.aliens.dms_android.feature.navigator.DmsRoute
+import team.aliens.dms_android.DmsAppState
+import team.aliens.dms_android.navigateToHome
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.domain.exception.AuthException
 import team.aliens.presentation.R
 
