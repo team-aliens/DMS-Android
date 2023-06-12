@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.home.application
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,9 +41,9 @@ import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.presentation.R
 
 private sealed class ApplicationCardItem(
-    val titleRes: Int,
-    val descriptionRes: Int,
-    val buttonTextRes: Int,
+    @StringRes val titleRes: Int,
+    @StringRes val descriptionRes: Int,
+    @StringRes val buttonTextRes: Int,
     val onButtonClick: () -> Unit,
     val currentAppliedOption: String?,
 ) {
