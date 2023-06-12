@@ -45,8 +45,6 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
-import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.image.GettingImageOptionDialog
 import team.aliens.domain.model._common.Sex
 import team.aliens.presentation.R
@@ -255,7 +253,6 @@ private fun PhraseCard(
 ) {
     Box(
         modifier = Modifier
-
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(
