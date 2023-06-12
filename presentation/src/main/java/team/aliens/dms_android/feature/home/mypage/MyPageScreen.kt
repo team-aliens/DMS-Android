@@ -58,6 +58,7 @@ internal fun MyPageScreen(
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onNavigateToSignIn: () -> Unit,
+    pointServiceEnabled: Boolean,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
@@ -65,8 +66,6 @@ internal fun MyPageScreen(
     var signOutDialogState by remember { mutableStateOf(false) }
     var withdrawDialogState by remember { mutableStateOf(false) }
     var profileDialogState by remember { mutableStateOf(false) }
-
-    val pointServiceEnabled = LocalAvailableFeatures.current[Extra.isPointServiceEnabled] ?: false
 
     if (signOutDialogState) {
         DormCustomDialog(

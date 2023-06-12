@@ -67,6 +67,10 @@ internal fun Home(
     val remainsServiceEnabled by remember(availableFeatures) {
         mutableStateOf(availableFeatures[Extra.isRemainServiceEnabled]!!)
     }
+    val pointServiceEnabled by remember(availableFeatures) {
+        mutableStateOf(availableFeatures[Extra.isPointServiceEnabled]!!)
+    }
+
     val containsApplicationScreen by remember {
         mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled)
     }
@@ -331,6 +335,7 @@ internal fun Home(
                     onNavigateToSignIn = {
                         appState.navigateToSignIn()
                     },
+                    pointServiceEnabled = pointServiceEnabled,
                 )
             }
         }
