@@ -27,13 +27,13 @@ data class FetchMyPageOutput(
 
 fun FetchMyPageOutput.toModel(): MyPage {
     return MyPage(
-        schoolName = schoolName,
-        name = studentName,
-        gradeClassNumber = gradeClassNumber,
-        profileImageUrl = profileImageUrl,
-        sex = sex,
-        bonusPoint = bonusPoint,
-        minusPoint = minusPoint,
-        phrase = phrase,
+        schoolName = this.schoolName,
+        name = this.studentName,
+        gradeClassNumber = this.gradeClassNumber,
+        profileImageUrl = this.profileImageUrl,
+        sex = this.sex,
+        bonusPoint = this.bonusPoint,
+        minusPoint = this.minusPoint,
+        phrase = this.phrase,
     )
 }
