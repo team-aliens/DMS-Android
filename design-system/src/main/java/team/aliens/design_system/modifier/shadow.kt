@@ -3,6 +3,7 @@ package team.aliens.design_system.modifier
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.os.Build
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
@@ -24,27 +25,30 @@ fun Modifier.dormShadow(
     offsetY: Dp = 0.dp,
     offsetX: Dp = 0.dp,
 ) = this.drawBehind {
-    val transparentColor = android.graphics.Color.toArgb(color.copy(alpha = 0.0f).value.toLong())
-    val shadowColor = android.graphics.Color.toArgb(color.copy(alpha = alpha).value.toLong())
-    this.drawIntoCanvas {
-        val paint = Paint()
-        val frameworkPaint = paint.asFrameworkPaint()
-        frameworkPaint.color = transparentColor
-        frameworkPaint.setShadowLayer(
-            shadowRadius.toPx(),
-            offsetX.toPx(),
-            offsetY.toPx(),
-            shadowColor,
-        )
-        it.drawRoundRect(
-            0f,
-            0f,
-            this.size.width,
-            this.size.height,
-            borderRadius.toPx(),
-            borderRadius.toPx(),
-            paint,
-        )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val transparentColor =
+            android.graphics.Color.toArgb(color.copy(alpha = 0.0f).value.toLong())
+        val shadowColor = android.graphics.Color.toArgb(color.copy(alpha = alpha).value.toLong())
+        this.drawIntoCanvas {
+            val paint = Paint()
+            val frameworkPaint = paint.asFrameworkPaint()
+            frameworkPaint.color = transparentColor
+            frameworkPaint.setShadowLayer(
+                shadowRadius.toPx(),
+                offsetX.toPx(),
+                offsetY.toPx(),
+                shadowColor,
+            )
+            it.drawRoundRect(
+                0f,
+                0f,
+                this.size.width,
+                this.size.height,
+                borderRadius.toPx(),
+                borderRadius.toPx(),
+                paint,
+            )
+        }
     }
 }
 
@@ -68,13 +72,15 @@ fun Modifier.innerShadow(
         paint.color = color
         paint.isAntiAlias = true
         it.saveLayer(rect, paint)
-        it.drawRoundRect(left = rect.left,
+        it.drawRoundRect(
+            left = rect.left,
             top = rect.top,
             right = rect.right,
             bottom = rect.bottom,
             cornersRadius.toPx(),
             cornersRadius.toPx(),
-            paint)
+            paint
+        )
         val frameworkPaint = paint.asFrameworkPaint()
         frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
         if (blur.toPx() > 0) {
@@ -101,13 +107,15 @@ fun Modifier.innerShadow(
             rect.bottom
         }
         paint.color = Color.Black
-        it.drawRoundRect(left = left + spread.toPx() / 2,
+        it.drawRoundRect(
+            left = left + spread.toPx() / 2,
             top = top + spread.toPx() / 2,
             right = right - spread.toPx() / 2,
             bottom = bottom - spread.toPx() / 2,
             cornersRadius.toPx(),
             cornersRadius.toPx(),
-            paint)
+            paint
+        )
         frameworkPaint.xfermode = null
         frameworkPaint.maskFilter = null
     }
