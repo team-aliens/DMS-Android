@@ -37,7 +37,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
-import team.aliens.dms_android.DmsAppState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.DmsRoute
@@ -60,19 +59,11 @@ internal fun Home(
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val availableFeatures = LocalAvailableFeatures.current
-    val studyRoomServiceEnabled by remember(availableFeatures) {
-        mutableStateOf(availableFeatures[Extra.isStudyRoomEnabled]!!)
-    }
-    val remainsServiceEnabled by remember(availableFeatures) {
-        mutableStateOf(availableFeatures[Extra.isRemainServiceEnabled]!!)
-    }
-    val pointServiceEnabled by remember(availableFeatures) {
-        mutableStateOf(availableFeatures[Extra.isPointServiceEnabled]!!)
-    }
+    val studyRoomServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures[Extra.isStudyRoomEnabled]!!) }
+    val remainsServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures[Extra.isRemainServiceEnabled]!!) }
+    val pointServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures[Extra.isPointServiceEnabled]!!) }
 
-    val containsApplicationScreen by remember {
-        mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled)
-    }
+    val containsApplicationScreen by remember { mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled) }
 
     LaunchedEffect(containsApplicationScreen) {
         if (!containsApplicationScreen) navigationItems.remove(BottomNavigationItem.Application)
@@ -82,6 +73,7 @@ internal fun Home(
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomNavBar(
+                parentNavController = navController,
                 navController = bottomNavController,
                 navBackStackEntry = navBackStackEntry,
                 navigationItems = navigationItems,
@@ -359,6 +351,7 @@ private val unselectedColor: Color
 
 @Composable
 private fun BottomNavBar(
+    parentNavController: NavHostController, // todo remove
     navController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
     navigationItems: List<BottomNavigationItem>,
