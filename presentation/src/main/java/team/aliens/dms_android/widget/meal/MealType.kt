@@ -1,15 +1,18 @@
 package team.aliens.dms_android.widget.meal
+/*
 
 import team.aliens.design_system.icon.DormIcon
 import java.time.LocalDateTime
 
+*/
 /**
  * 급식 타입을 정의합니다.
  *
  * [Breakfast] 아침
  * [Lunch] 점심
  * [Dinner] 저녁
- */
+ *//*
+
 enum class MealType(
     val icon: DormIcon,
     val title: String,
@@ -41,4 +44,4 @@ enum class MealType(
         private const val LunchStartTime: Int = 8
         private const val DinnerStartTime: Int = 13
     }
-}
+}*/
