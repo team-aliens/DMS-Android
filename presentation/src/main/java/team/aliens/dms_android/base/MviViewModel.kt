@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-// TODO component's name must be changed to "BaseViewModel", removing old BaseViewModel(s)
-// todo 뷰모델에 application(또는 context) 프로퍼티를 넣을 것인지 상의 필요 or AndroidViewModel을 구현하도록 변경
+@Deprecated("deprecated because of wrong mvi concept")
 internal abstract class MviViewModel<S : UiState, in E : UiEvent>(
     initialState: S,
 ) : ViewModel() {
