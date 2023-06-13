@@ -1,5 +1,5 @@
 package team.aliens.dms_android.widget.meal.provider
-
+/*
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-/**
+*//**
  * FIXME
  *
  * Widget 에서 데이터를 WorkerManager 를 통해 작업 도중 생긴 문제입니다.
@@ -24,17 +24,17 @@ import javax.inject.Inject
  * 따라서 [onUpdate] 에서 [startMealWorker]는 사용하지 말아야 합니다.
  *
  * WorkerManager 를 통해 Widget 을 업데이트 할 수 있는 방법을 고민해봐야 합니다.
- * */
+ * *//*
 @AndroidEntryPoint
 abstract class BaseMealWidgetProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var fetchMealsUseCase: FetchMealsUseCase
 
-    /**
+    *//**
      * [MealType.getCurrentMealType] 를 통해 가져온 급식 타입에 맞는 급식 상태를 가져옵니다.
      * 급식 불러오기에 실패한다면 "급식이 없는 상태" 를 반환합니다.
-     */
+     *//*
     suspend fun getMealState(
         context: Context,
     ): MealState {
@@ -75,4 +75,4 @@ abstract class BaseMealWidgetProvider : AppWidgetProvider() {
             calories = if (mealNotFound) meal.last() else ""
         )
     }
-}
+}*/
