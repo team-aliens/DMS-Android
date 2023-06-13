@@ -70,18 +70,18 @@ internal class DmsAppState(
     }
 }
 
-internal fun DmsAppState.navigateToSignIn() {
-    this.navController.navigate(DmsRoute.Auth.route) {
-        popUpTo(this@navigateToSignIn.navController.graph.id) {
+internal fun NavHostController.navigateToSignIn() {
+    this.navigate(DmsRoute.Auth.route) {
+        popUpTo(this@navigateToSignIn.graph.id) {
             inclusive = true
         }
     }
 }
 
-internal fun DmsAppState.navigateToHome() {
-    this.navController.navigate(DmsRoute.Home.route) {
+internal fun NavHostController.navigateToHome() {
+    this.navigate(DmsRoute.Home.route) {
         launchSingleTop = true
-        popUpTo(this@navigateToHome.navController.graph.startDestinationId) {
+        popUpTo(this@navigateToHome.graph.startDestinationId) {
             saveState = true
         }
     }

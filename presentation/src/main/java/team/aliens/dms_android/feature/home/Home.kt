@@ -53,10 +53,9 @@ import team.aliens.dms_android.util.SelectImageType
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun Home(
-    appState: DmsAppState,
+    navController: NavHostController,
     scaffoldState: ScaffoldState,
 ) {
-    val navController = appState.navController
     val bottomNavController = rememberAnimatedNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
@@ -333,7 +332,7 @@ internal fun Home(
                     onNavigateToPointHistory = { navController.navigate(DmsRoute.Home.PointHistory) },
                     onNavigateToEditPassword = { navController.navigate(DmsRoute.Auth.EditPassword) },
                     onNavigateToSignIn = {
-                        appState.navigateToSignIn()
+                        navController.navigateToSignIn()
                     },
                     pointServiceEnabled = pointServiceEnabled,
                 )

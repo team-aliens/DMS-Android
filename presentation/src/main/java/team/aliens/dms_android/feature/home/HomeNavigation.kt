@@ -8,12 +8,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import java.util.UUID
-import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.DmsAppState
+import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.feature.image.UploadProfileImageScreen
 import team.aliens.dms_android.feature.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.home.notice.NoticeDetailsScreen
+import team.aliens.dms_android.feature.image.UploadProfileImageScreen
 import team.aliens.dms_android.feature.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
@@ -29,8 +29,8 @@ internal fun NavGraphBuilder.homeNavigation(
         route = DmsRoute.Home.route,
     ) {
         composable(DmsRoute.Home.Main) {
-            Home(
-                appState = appState,
+            Home( // todo 함수들 다 빼야함!!
+                navController = navController,
                 scaffoldState = scaffoldState,
             )
         }
@@ -73,7 +73,9 @@ internal fun NavGraphBuilder.homeNavigation(
             val timeSlot = it.arguments!!.getString(Extra.timeSlot)
             if (roomId != null) {
                 StudyRoomDetailsScreen(
-                    navController = navController,
+                    onPrevious = {
+                        navController.popBackStack()
+                    },
                     roomId = roomId,
                     timeSlot = UUID.fromString(timeSlot),
                 )
