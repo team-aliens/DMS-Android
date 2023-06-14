@@ -4,7 +4,7 @@ sealed class RemoteException(
     message: String,
     val code: Int,
 ) : RuntimeException(
-    message,
+    message = message,
 ) {
 
     object BadRequest : RemoteException(

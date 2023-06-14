@@ -3,7 +3,7 @@ package team.aliens.domain.exception
 sealed class LocalException(
     message: String,
 ) : RuntimeException(
-    message,
+    message = message,
 ) {
 
     object AccessTokenNotFound : LocalException(

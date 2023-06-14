@@ -4,7 +4,7 @@ sealed class AuthException(
     message: String,
     val code: Int,
 ) : RuntimeException(
-    message,
+    message = message,
 ) {
     object PasswordMismatch : AuthException(
         message = "Password mismatch",
