@@ -1,6 +1,6 @@
 package team.aliens.domain.model.remains
 
-import java.time.DayOfWeek
+import team.aliens.domain.model._common.DayOfWeek
 
 /**
  * A response returned when fetching remains application time
