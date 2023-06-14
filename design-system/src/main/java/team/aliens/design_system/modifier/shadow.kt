@@ -40,13 +40,13 @@ fun Modifier.dormShadow(
                 shadowColor,
             )
             it.drawRoundRect(
-                0f,
-                0f,
-                this.size.width,
-                this.size.height,
-                borderRadius.toPx(),
-                borderRadius.toPx(),
-                paint,
+                left = 0f,
+                top = 0f,
+                right = this.size.width,
+                bottom = this.size.height,
+                radiusX = borderRadius.toPx(),
+                radiusY = borderRadius.toPx(),
+                paint = paint,
             )
         }
     }
