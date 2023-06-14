@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -79,12 +78,10 @@ internal fun ApplicationScreen(
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
 ) {
     val uiState by applicationViewModel.uiState.collectAsStateWithLifecycle()
-    val applicationItems = remember { mutableStateListOf<ApplicationCardItem>() }
-
-    LaunchedEffect(uiState.currentAppliedStudyRoom, uiState.currentAppliedRemainsOption) {
-        applicationItems.run {
-            if (studyRoomServiceEnabled) {
-                add(
+    val applicationItems =
+        remember(uiState.currentAppliedStudyRoom, uiState.currentAppliedRemainsOption) {
+            mutableStateListOf<ApplicationCardItem>().apply {
+                if (studyRoomServiceEnabled) add(
                     ApplicationCardItem.StudyRoomService(
                         onButtonClick = onNavigateToStudyRooms,
                         currentAppliedOption = if (uiState.currentAppliedStudyRoom != null) {
@@ -92,9 +89,7 @@ internal fun ApplicationScreen(
                         } else null,
                     ),
                 )
-            }
-            if (remainsServiceEnabled) {
-                add(
+                if (remainsServiceEnabled) add(
                     ApplicationCardItem.RemainsService(
                         onButtonClick = onNavigateToRemainsApplication,
                         currentAppliedOption = uiState.currentAppliedRemainsOption?.title,
@@ -102,7 +97,6 @@ internal fun ApplicationScreen(
                 )
             }
         }
-    }
 
     Column(
         modifier = Modifier
