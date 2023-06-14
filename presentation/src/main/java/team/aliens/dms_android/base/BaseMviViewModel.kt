@@ -3,39 +3,39 @@ package team.aliens.dms_android.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-internal abstract class BaseMviViewModel<I : MviIntent, S : MviViewState, E : MviSingleEvent>(
+internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSideEffect>(
     protected val initialState: S,
 ) : ViewModel() {
-    private val _uiState: MutableStateFlow<S> = MutableStateFlow(initialState)
-    internal val uiState: StateFlow<S>
-        get() = _uiState.asStateFlow()
+    private val stateChannel: Channel<I> = Channel()
+    private val _stateFlow: MutableStateFlow<S> = MutableStateFlow(initialState)
+    internal val stateFlow: StateFlow<S>
+        get() = _stateFlow.asStateFlow()
 
-    private val _singleEvent: MutableSharedFlow<E> = MutableSharedFlow()
-    internal val singleEvent: SharedFlow<E>
-        get() = _singleEvent.asSharedFlow()
-
-    private val eventChannel = Channel<I>()
+    private val sideEffectChannel: Channel<E> = Channel()
+    internal val sideEffectFlow: Flow<E>
+        get() = sideEffectChannel.receiveAsFlow()
 
     init {
-        eventChannel.receiveAsFlow()
+        stateChannel.receiveAsFlow()
             .onEach(::processIntent)
             .launchIn(viewModelScope)
     }
 
-    internal fun onIntent(intent: I) {
+    /**
+     * called by view(user), sent to view model
+     */
+    internal fun postIntent(intent: I) {
         viewModelScope.launch {
-            eventChannel.send(intent)
+            stateChannel.send(intent)
         }
     }
 
@@ -43,12 +43,20 @@ internal abstract class BaseMviViewModel<I : MviIntent, S : MviViewState, E : Mv
         throw NotImplementedError() // need to be implemented when using this function
     }
 
-    protected fun setState(newState: S) {
-        _uiState.tryEmit(newState)
+    protected fun reduce(newState: S) {
+        _stateFlow.tryEmit(newState)
+    }
+
+    /**
+     * called by view model, sent to view(user)
+     */
+    protected fun postSideEffect(event: E) {
+        viewModelScope.launch {
+            sideEffectChannel.send(event)
+        }
     }
 
     override fun onCleared() {
-        super.onCleared()
-        eventChannel.close()
+        stateChannel.close()
     }
 }
