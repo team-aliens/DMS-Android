@@ -77,9 +77,9 @@ fun Modifier.innerShadow(
             top = rect.top,
             right = rect.right,
             bottom = rect.bottom,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
+            radiusX = cornersRadius.toPx(),
+            radiusY = cornersRadius.toPx(),
+            paint = paint,
         )
         val frameworkPaint = paint.asFrameworkPaint()
         frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
@@ -112,9 +112,9 @@ fun Modifier.innerShadow(
             top = top + spread.toPx() / 2,
             right = right - spread.toPx() / 2,
             bottom = bottom - spread.toPx() / 2,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
+            radiusX = cornersRadius.toPx(),
+            radiusY = cornersRadius.toPx(),
+            paint = paint,
         )
         frameworkPaint.xfermode = null
         frameworkPaint.maskFilter = null
