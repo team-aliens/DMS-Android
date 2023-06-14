@@ -73,7 +73,6 @@ internal fun Home(
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomNavBar(
-                parentNavController = navController,
                 navController = bottomNavController,
                 navBackStackEntry = navBackStackEntry,
                 navigationItems = navigationItems,
@@ -351,7 +350,6 @@ private val unselectedColor: Color
 
 @Composable
 private fun BottomNavBar(
-    parentNavController: NavHostController, // todo remove
     navController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
     navigationItems: List<BottomNavigationItem>,
