@@ -1,11 +1,11 @@
 package team.aliens.dms_android.feature.image
 
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android.base._MviState
 import java.io.File
 
 data class ConfirmImageState(
     var selectedImage: File?,
-) : MviState {
+) : _MviState {
     companion object {
         fun getDefaultInstance(): ConfirmImageState {
             return ConfirmImageState(

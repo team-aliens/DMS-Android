@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature.studyroom
 
-import team.aliens.dms_android.base.MviState
+import team.aliens.dms_android.base._MviState
 import team.aliens.domain.model._common.Sex
 import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
 
@@ -9,7 +9,7 @@ data class StudyRoomState(
     var startAt: String,
     var endAt: String,
     val roomDetail: FetchStudyRoomDetailsOutput,
-) : MviState {
+) : _MviState {
     companion object {
         fun getDefaultInstance() = StudyRoomState(
             startAt = "",
