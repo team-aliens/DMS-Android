@@ -31,12 +31,12 @@ import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.DmsAppState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.common.initLocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.DmsAppState
-import team.aliens.dms_android.navigateToHome
 import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.navigateToHome
 import team.aliens.domain.exception.AuthException
 import team.aliens.presentation.R
 
@@ -87,7 +87,7 @@ internal fun SignInScreen(
                 remainsService = uiState.features.remainsService,
             )
 
-            appState.navigateToHome()
+            navController.navigateToHome()
         }
     }
 

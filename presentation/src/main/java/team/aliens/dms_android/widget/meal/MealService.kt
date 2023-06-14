@@ -1,4 +1,5 @@
 package team.aliens.dms_android.widget.meal
+/*
 
 import android.app.Service
 import android.appwidget.AppWidgetManager
@@ -18,12 +19,14 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+*/
 /**
  * FIXME
  *
  * 백그라운드 제한 정책에 의해 사용할 수 없음
  * WorkManager 로 대체 요함
- */
+ *//*
+
 @AndroidEntryPoint
 class MealService : Service(), CoroutineScope by MainScope() {
 
@@ -106,4 +109,4 @@ class MealService : Service(), CoroutineScope by MainScope() {
             calories = if (mealNotFound) meal.last() else ""
         )
     }
-}
+}*/

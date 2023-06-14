@@ -7,6 +7,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastHost
 import team.aliens.dms_android.feature.auth.authNavigation
@@ -46,7 +47,6 @@ internal fun DmsApp(
                 homeNavigation(
                     navController = navController,
                     scaffoldState = scaffoldState,
-                    appState = dmsAppState,
                 )
                 signUpNavigation(
                     navController = navController,

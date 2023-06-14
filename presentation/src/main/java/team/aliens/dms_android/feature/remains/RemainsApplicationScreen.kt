@@ -33,8 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.time.format.TextStyle
-import java.util.Locale
 import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -49,6 +47,7 @@ import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.dms_android.util.TopBar
+import team.aliens.domain.model._common.DayOfWeek
 import team.aliens.domain.model.remains.RemainsApplicationTime
 import team.aliens.domain.model.remains.RemainsOption
 import team.aliens.presentation.R
@@ -117,14 +116,27 @@ internal fun RemainsApplicationScreen(
 
 @Composable
 private fun RemainsApplicationTime.toFormattedString(): String {
-    val startAt = "${startDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $startTime"
-    val endAt = "${endDayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)} $endTime"
+    val startAt = "${startDayOfWeek.displayName} $startTime"
+    val endAt = "${endDayOfWeek.displayName} $endTime"
 
     return String.format(
         stringResource(R.string.remains_available_remains_application_time_is),
         "$startAt ~ $endAt",
     )
 }
+
+private val DayOfWeek.displayName: String
+    @Composable get() = stringResource(
+        when (this) {
+            DayOfWeek.MONDAY -> R.string.monday_abb
+            DayOfWeek.TUESDAY -> R.string.tuesday_abb
+            DayOfWeek.WEDNESDAY -> R.string.wednesday_abb
+            DayOfWeek.THURSDAY -> R.string.thursday_abb
+            DayOfWeek.FRIDAY -> R.string.friday_abb
+            DayOfWeek.SATURDAY -> R.string.saturday_abb
+            DayOfWeek.SUNDAY -> R.string.sunday_abb
+        },
+    )
 
 @Composable
 private fun RemainsApplicationTimeCard(

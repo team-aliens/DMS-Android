@@ -1,8 +1,8 @@
 package team.aliens.remote.model.remains
 
 import com.google.gson.annotations.SerializedName
+import team.aliens.domain.model._common.DayOfWeek
 import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
-import java.time.DayOfWeek
 
 data class FetchRemainsApplicationTimeResponse(
     @SerializedName("start_day_of_week") val startDayOfWeek: String,

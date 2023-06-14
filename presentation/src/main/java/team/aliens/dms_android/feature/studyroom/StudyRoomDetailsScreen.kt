@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -45,7 +44,7 @@ import team.aliens.presentation.R
 @SuppressLint("ResourceType")
 @Composable
 fun StudyRoomDetailsScreen(
-    navController: NavController, // todo refactor to NavHostController
+    onPrevious: () -> Unit, // todo refactor to NavHostController
     roomId: String,
     timeSlot: UUID,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
@@ -109,10 +108,8 @@ fun StudyRoomDetailsScreen(
 
         TopBar(
             title = "${uiState.studyRoomDetails.startTime} ~ ${uiState.studyRoomDetails.endTime}",
-        ) {
-            navController.popBackStack()
-        }
-
+            onPrevious = onPrevious,
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
