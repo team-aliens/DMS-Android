@@ -53,9 +53,9 @@ internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSid
     /**
      * called by view model, sent to view(user)
      */
-    protected fun postSideEffect(event: E) {
+    protected fun postSideEffect(sideEffect: E) {
         viewModelScope.launch {
-            sideEffectChannel.send(event)
+            sideEffectChannel.send(sideEffect)
         }
     }
 
