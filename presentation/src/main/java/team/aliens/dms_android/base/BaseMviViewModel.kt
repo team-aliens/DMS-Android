@@ -24,6 +24,9 @@ internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSid
     internal val sideEffectFlow: Flow<E>
         get() = sideEffectChannel.receiveAsFlow()
 
+    protected val currentState: S
+        get() = stateFlow.value
+
     init {
         stateChannel.receiveAsFlow()
             .onEach(::processIntent)
