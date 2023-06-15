@@ -6,17 +6,18 @@ sealed class RemainException(
 ) : RuntimeException(
     message = message,
 ) {
-    object NotRemainApplyTime: RemainException(
+
+    object NotRemainApplyTime : RemainException(
         message = "Not remain apply time",
         code = 403,
     )
 
-    object DoNotRemainApply: RemainException(
+    object DoNotRemainApply : RemainException(
         message = "Do not Remain apply",
         code = 404,
     )
 
-    object NoRemainApplicationPeriodSet: RemainException(
+    object NoRemainApplicationPeriodSet : RemainException(
         message = "No remain application period set",
         code = 404,
     )
