@@ -15,12 +15,12 @@ sealed class StudyRoomException(
         code = 403,
     )
 
-    object SeatNotFound : StudyRoomException(
+    object StudyRoomSeatNotFound : StudyRoomException(
         message = "Seat not found",
         code = 404,
     )
 
-    object AvailableTimeNotFound : StudyRoomException(
+    object StudyRoomAvailableTimeNotFound : StudyRoomException(
         message = "Available time not found",
         code = 404,
     )
