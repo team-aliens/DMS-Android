@@ -1,22 +1,22 @@
 package team.aliens.domain.exception
 
-sealed class RemainException(
+sealed class RemainsException(
     message: String,
     val code: Int,
 ) : RuntimeException(message) {
 
-    object NotRemainApplyTime : RemainException(
+    object NotRemainsApplyTime : RemainsException(
         message = "Not remains application time",
         code = 403,
     )
 
-    object DoNotRemainApply : RemainException(
-        message = "Do not Remain apply",
+    object DoNotRemainsApply : RemainsException(
+        message = "Do not remains apply",
         code = 404,
     )
 
-    object NoRemainApplicationPeriodSet : RemainException(
-        message = "No remain application period set",
+    object NoRemainsApplicationPeriodSet : RemainsException(
+        message = "No remains application period set",
         code = 404,
     )
 }
