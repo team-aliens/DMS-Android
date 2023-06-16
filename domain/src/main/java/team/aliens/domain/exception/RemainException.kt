@@ -6,7 +6,7 @@ sealed class RemainException(
 ) : RuntimeException(message) {
 
     object NotRemainApplyTime : RemainException(
-        message = "Not remain apply time",
+        message = "Not remains application time",
         code = 403,
     )
 
