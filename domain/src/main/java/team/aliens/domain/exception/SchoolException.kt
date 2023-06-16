@@ -5,13 +5,13 @@ sealed class SchoolException(
     val code: Int,
 ) : RuntimeException(message) {
 
-    object QuestionAnswerMismatch : SchoolException(
-        message = "Question and Answer mismatch",
+    object SchoolVerificationQuestionIsNotCertified : SchoolException(
+        message = "School verification question is not certified",
         code = 401,
     )
 
-    object SchoolCodeMismatch : SchoolException(
-        message = "School code mismatch",
+    object SchoolVerificationCodeMismatch : SchoolException(
+        message = "School verification code mismatch",
         code = 401,
     )
 
