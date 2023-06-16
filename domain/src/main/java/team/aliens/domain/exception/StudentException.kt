@@ -11,11 +11,11 @@ sealed class StudentException(
     )
 
     object StudentInfoMismatch : StudentException(
-        message = "Student Information mismatch",
+        message = "Student information mismatch",
         code = 401,
     )
 
-    object AuthCodeUnAuthorized : StudentException(
+    object AuthCodeUnauthorized : StudentException(
         message = "Auth code unauthorized",
         code = 401,
     )
