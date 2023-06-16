@@ -3,9 +3,7 @@ package team.aliens.domain.exception
 sealed class RemainException(
     message: String,
     val code: Int,
-) : RuntimeException(
-    message = message,
-) {
+) : RuntimeException(message) {
 
     object NotRemainApplyTime : RemainException(
         message = "Not remain apply time",

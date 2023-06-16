@@ -3,9 +3,7 @@ package team.aliens.domain.exception
 sealed class RemoteException(
     message: String,
     val code: Int,
-) : RuntimeException(
-    message = message,
-) {
+) : RuntimeException(message) {
 
     object BadRequest : RemoteException(
         message = "Bad request",

@@ -3,9 +3,7 @@ package team.aliens.domain.exception
 sealed class StudyRoomException(
     message: String,
     val code: Int,
-) : RuntimeException(
-    message = message,
-) {
+) : RuntimeException(message) {
 
     object GenderGradeMismatch : StudyRoomException(
         message = "Gender and Grade mismatch",

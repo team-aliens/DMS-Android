@@ -3,9 +3,7 @@ package team.aliens.domain.exception
 sealed class SchoolException(
     message: String,
     val code: Int,
-) : RuntimeException(
-    message = message,
-) {
+) : RuntimeException(message) {
 
     object QuestionAnswerMismatch : SchoolException(
         message = "Question and Answer mismatch",

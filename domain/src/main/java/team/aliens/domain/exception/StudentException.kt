@@ -3,9 +3,7 @@ package team.aliens.domain.exception
 sealed class StudentException(
     message: String,
     val code: Int,
-) : RuntimeException(
-    message = message,
-) {
+) : RuntimeException(message) {
 
     object EmailUnauthorized : StudentException(
         message = "Email unauthorized",
