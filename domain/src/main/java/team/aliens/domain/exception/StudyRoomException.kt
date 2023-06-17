@@ -6,7 +6,7 @@ sealed class StudyRoomException(
 ) : RuntimeException(message) {
 
     object StudyRoomGenderGradeMismatch : StudyRoomException(
-        message = "Gender and Grade mismatch",
+        message = "Study room gender and grade mismatch",
         code = 401,
     )
 
@@ -16,17 +16,17 @@ sealed class StudyRoomException(
     )
 
     object StudyRoomSeatNotFound : StudyRoomException(
-        message = "Seat not found",
+        message = "Study room seat not found",
         code = 404,
     )
 
     object StudyRoomAvailableTimeNotFound : StudyRoomException(
-        message = "Available time not found",
+        message = "Study room available time not found",
         code = 404,
     )
 
     object StudyRoomSomeoneAlreadyApplied : StudyRoomException(
-        message = "Someone already applied",
+        message = "Study room someone already applied",
         code = 409,
     )
 }
