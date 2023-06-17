@@ -10,8 +10,8 @@ sealed class StudyRoomException(
         code = 401,
     )
 
-    object NotApplicationTime : StudyRoomException(
-        message = "Not application time",
+    object NotStudyRoomApplicationTime : StudyRoomException(
+        message = "Not study room application time",
         code = 403,
     )
 
