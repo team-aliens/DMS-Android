@@ -10,8 +10,8 @@ sealed class RemainsException(
         code = 403,
     )
 
-    object DoNotRemainsApply : RemainsException(
-        message = "Do not remains apply",
+    object RemainsNotApplicated : RemainsException(
+        message = "Remains not applicated",
         code = 404,
     )
 
