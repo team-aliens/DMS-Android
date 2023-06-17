@@ -10,7 +10,7 @@ sealed class StudentException(
         code = 401,
     )
 
-    object StudentInfoMismatch : StudentException(
+    object StudentInformationMismatch : StudentException(
         message = "Student information mismatch",
         code = 401,
     )
@@ -25,7 +25,7 @@ sealed class StudentException(
         code = 404,
     )
 
-    object AccountIdAlreadyExists : StudentException(
+    object IdAlreadyExists : StudentException(
         message = "Account ID already exists",
         code = 409,
     )
