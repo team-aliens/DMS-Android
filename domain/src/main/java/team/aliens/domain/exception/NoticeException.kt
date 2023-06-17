@@ -5,8 +5,8 @@ sealed class NoticeException(
     val code: Int,
 ) : RuntimeException(message) {
 
-    object NoticesNotFound : NoticeException(
-        message = "Notices not found",
+    object NoticeNotFound : NoticeException(
+        message = "Notice not found",
         code = 404,
     )
 }
