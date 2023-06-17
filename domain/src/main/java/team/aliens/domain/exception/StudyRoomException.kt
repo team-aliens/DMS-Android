@@ -5,7 +5,7 @@ sealed class StudyRoomException(
     val code: Int,
 ) : RuntimeException(message) {
 
-    object GenderGradeMismatch : StudyRoomException(
+    object StudyRoomGenderGradeMismatch : StudyRoomException(
         message = "Gender and Grade mismatch",
         code = 401,
     )
@@ -25,7 +25,7 @@ sealed class StudyRoomException(
         code = 404,
     )
 
-    object SomeoneAlreadyApplied : StudyRoomException(
+    object StudyRoomSomeoneAlreadyApplied : StudyRoomException(
         message = "Someone already applied",
         code = 409,
     )
