@@ -5,7 +5,7 @@ sealed class RemainsException(
     val code: Int,
 ) : RuntimeException(message) {
 
-    object NotRemainsApplyTime : RemainsException(
+    object NotRemainsApplicationTime : RemainsException(
         message = "Not remains application time",
         code = 403,
     )
@@ -15,8 +15,8 @@ sealed class RemainsException(
         code = 404,
     )
 
-    object NoRemainsApplicationPeriodSet : RemainsException(
-        message = "No remains application period set",
+    object NoRemainsApplicationOption : RemainsException(
+        message = "No remains application option",
         code = 404,
     )
 }
