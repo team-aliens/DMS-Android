@@ -5,7 +5,7 @@ sealed class SchoolException(
     val code: Int,
 ) : RuntimeException(message) {
 
-    object SchoolVerificationQuestionIsNotCertified : SchoolException(
+    object SchoolVerificationQuestionNotCertified : SchoolException(
         message = "School verification question is not certified",
         code = 401,
     )
