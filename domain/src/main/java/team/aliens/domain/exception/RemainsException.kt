@@ -11,12 +11,12 @@ sealed class RemainsException(
     )
 
     object RemainsNotApplied : RemainsException(
-        message = "Remains not applicated",
+        message = "Remains not applied",
         code = 404,
     )
 
-    object NoRemainsApplicationOption : RemainsException(
-        message = "No remains application option",
+    object RemainsApplicationPeriodNotSet : RemainsException(
+        message = "No remains application period set",
         code = 404,
     )
 }
