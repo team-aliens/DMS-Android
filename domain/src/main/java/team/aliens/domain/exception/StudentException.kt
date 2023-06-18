@@ -25,8 +25,8 @@ sealed class StudentException(
         code = 404,
     )
 
-    object IdAlreadyExists : StudentException(
-        message = "Account ID already exists",
+    object AccountIdDuplicated : StudentException(
+        message = "Account ID duplicated",
         code = 409,
     )
 
