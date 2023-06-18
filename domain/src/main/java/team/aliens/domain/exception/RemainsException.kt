@@ -10,7 +10,7 @@ sealed class RemainsException(
         code = 403,
     )
 
-    object RemainsNotApplicated : RemainsException(
+    object RemainsNotApplied : RemainsException(
         message = "Remains not applicated",
         code = 404,
     )
