@@ -4,15 +4,9 @@ sealed class CommonException(
     message: String,
 ) : RuntimeException() {
 
-    object NoInternet : CommonException(
-        message = "No internet",
-    )
+    object NoInternet : CommonException("No internet")
 
-    object SignInRequired: CommonException(
-        message = "Sign in required"
-    )
+    object SignInRequired: CommonException("Sign in required")
 
-    object Unknown : CommonException(
-        message = "Unknown",
-    )
+    object Unknown : CommonException("Unknown")
 }

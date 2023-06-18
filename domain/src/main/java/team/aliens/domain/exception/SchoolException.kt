@@ -2,21 +2,12 @@ package team.aliens.domain.exception
 
 sealed class SchoolException(
     message: String,
-    val code: Int,
 ) : RuntimeException(message) {
 
-    object SchoolVerificationQuestionNotCertified : SchoolException(
-        message = "School verification question is not certified",
-        code = 401,
-    )
+    object SchoolVerificationQuestionNotCertified :
+        SchoolException("School verification question is not certified")
 
-    object SchoolVerificationCodeMismatch : SchoolException(
-        message = "School verification code mismatch",
-        code = 401,
-    )
+    object SchoolVerificationCodeMismatch : SchoolException("School verification code mismatch")
 
-    object SchoolNotFound : SchoolException(
-        message = "School not found",
-        code = 404,
-    )
+    object SchoolNotFound : SchoolException("School not found")
 }

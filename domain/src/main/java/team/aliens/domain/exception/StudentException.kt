@@ -2,41 +2,20 @@ package team.aliens.domain.exception
 
 sealed class StudentException(
     message: String,
-    val code: Int,
 ) : RuntimeException(message) {
 
-    object EmailUnauthorized : StudentException(
-        message = "Email unauthorized",
-        code = 401,
-    )
+    object EmailUnauthorized : StudentException("Email unauthorized")
 
-    object StudentInformationMismatch : StudentException(
-        message = "Student information mismatch",
-        code = 401,
-    )
+    object StudentInformationMismatch : StudentException("Student information mismatch")
 
-    object EmailVerificationCodeUnauthorized : StudentException(
-        message = "Email verification code unauthorized",
-        code = 401,
-    )
+    object EmailVerificationCodeUnauthorized :
+        StudentException("Email verification code unauthorized")
 
-    object StudentNotFound : StudentException(
-        message = "Student not found",
-        code = 404,
-    )
+    object StudentNotFound : StudentException("Student not found")
 
-    object AccountIdDuplicated : StudentException(
-        message = "Account ID duplicated",
-        code = 409,
-    )
+    object AccountIdDuplicated : StudentException("Account ID duplicated")
 
-    object StudentAlreadyExists : StudentException(
-        message = "Student already exists",
-        code = 409,
-    )
+    object StudentAlreadyExists : StudentException("Student already exists")
 
-    object AlreadySignedUp : StudentException(
-        message = "Already signed up",
-        code = 409,
-    )
+    object AlreadySignedUp : StudentException("Already signed up")
 }
