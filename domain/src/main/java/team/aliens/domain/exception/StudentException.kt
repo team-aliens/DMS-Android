@@ -15,8 +15,8 @@ sealed class StudentException(
         code = 401,
     )
 
-    object AuthCodeUnauthorized : StudentException(
-        message = "Auth code unauthorized",
+    object EmailVerificationCodeUnauthorized : StudentException(
+        message = "Email verification code unauthorized",
         code = 401,
     )
 
