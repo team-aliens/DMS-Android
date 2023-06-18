@@ -2,48 +2,21 @@ package team.aliens.domain.exception
 
 sealed class RemoteException(
     message: String,
-    val code: Int,
-) : RuntimeException(
-    message,
-) {
+) : RuntimeException(message) {
 
-    object BadRequest : RemoteException(
-        message = "Bad request",
-        code = 400,
-    )
+    object BadRequest : RemoteException("Bad request")
 
-    object Unauthorized : RemoteException(
-        message = "Unauthorized",
-        code = 401,
-    )
+    object Unauthorized : RemoteException("Unauthorized")
 
-    object Forbidden : RemoteException(
-        message = "Forbidden",
-        code = 403,
-    )
+    object Forbidden : RemoteException("Forbidden")
 
-    object NotFound : RemoteException(
-        message = "Not found",
-        code = 404,
-    )
+    object NotFound : RemoteException("Not found")
 
-    object Timeout : RemoteException(
-        message = "Timeout",
-        code = 408,
-    )
+    object Timeout : RemoteException("Timeout")
 
-    object Conflict : RemoteException(
-        message = "Conflict",
-        code = 409,
-    )
+    object Conflict : RemoteException("Conflict")
 
-    object TooManyRequests : RemoteException(
-        message = "Too many requests",
-        code = 429,
-    )
+    object TooManyRequests : RemoteException("Too many requests")
 
-    object InternalServerError : RemoteException(
-        message = "Internal server error",
-        code = 500,
-    )
+    object InternalServerError : RemoteException("Internal server error")
 }
