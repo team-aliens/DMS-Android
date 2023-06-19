@@ -25,15 +25,14 @@ internal fun DmsApp(
         ),
     ) {
         val scaffoldState = dmsAppState.scaffoldState
+        val navController = dmsAppState.navController
+        val toastState = rememberToastState()
         DormToastLayout(
-            toastState = rememberToastState(),
+            toastState = toastState,
         ) {
             Scaffold(
                 scaffoldState = scaffoldState,
             ) { paddingValues ->
-
-                val navController = dmsAppState.navController
-
                 NavHost(
                     modifier = Modifier.padding(
                         paddingValues = paddingValues,
