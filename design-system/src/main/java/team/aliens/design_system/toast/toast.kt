@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -102,6 +103,7 @@ class ToastState {
                 )
             }
         } finally {
+            delay(1000L)
             currentToastData = null
         }
     }
@@ -197,11 +199,17 @@ fun DormToastLayout(
 private fun DormToast(
     toastData: ToastData?,
 ) {
+    var visible by remember(toastData) { mutableStateOf(toastData != null) }
     AnimatedVisibility(
-        visible = toastData != null,
+        visible = visible,
         enter = fadeIn(),
+        exit = fadeOut(),
     ) {
         toastData?.run {
+            LaunchedEffect(toastData) {
+                delay(toastData.duration)
+                visible = false
+            }
             Row(
                 modifier = Modifier
                     .padding(
