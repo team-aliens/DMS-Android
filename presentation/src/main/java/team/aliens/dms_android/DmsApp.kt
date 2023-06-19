@@ -7,9 +7,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.DormToastHost
+import team.aliens.design_system.toast.DormToastLayout
+import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.feature.auth.authNavigation
 import team.aliens.dms_android.feature.home.homeNavigation
 import team.aliens.dms_android.feature.signup.signUpNavigation
@@ -25,36 +25,34 @@ internal fun DmsApp(
         ),
     ) {
         val scaffoldState = dmsAppState.scaffoldState
+        DormToastLayout(
+            toastState = rememberToastState(),
+        ) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+            ) { paddingValues ->
 
-        Scaffold(
-            scaffoldState = scaffoldState,
-            snackbarHost = { hostState ->
-                DormToastHost(
-                    hostState = hostState,
-                )
-            },
-        ) { paddingValues ->
+                val navController = dmsAppState.navController
 
-            val navController = dmsAppState.navController
-
-            NavHost(
-                modifier = Modifier.padding(
-                    paddingValues = paddingValues,
-                ),
-                navController = navController,
-                startDestination = initialRoute,
-            ) {
-                homeNavigation(
+                NavHost(
+                    modifier = Modifier.padding(
+                        paddingValues = paddingValues,
+                    ),
                     navController = navController,
-                    scaffoldState = scaffoldState,
-                )
-                signUpNavigation(
-                    navController = navController,
-                )
-                authNavigation(
-                    dmsAppState = dmsAppState,
-                    navController = navController,
-                )
+                    startDestination = initialRoute,
+                ) {
+                    homeNavigation(
+                        navController = navController,
+                        scaffoldState = scaffoldState,
+                    )
+                    signUpNavigation(
+                        navController = navController,
+                    )
+                    authNavigation(
+                        dmsAppState = dmsAppState,
+                        navController = navController,
+                    )
+                }
             }
         }
     }
