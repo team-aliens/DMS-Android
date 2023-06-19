@@ -2,6 +2,8 @@ package team.aliens.design_system.toast
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -156,8 +158,7 @@ fun DormToastHost(
     val currentToastData = toastState.currentToastData
     LaunchedEffect(currentToastData) {
         if (currentToastData != null) {
-            val duration = currentToastData.duration
-            delay(duration)
+            delay(currentToastData.duration)
             currentToastData.dismiss()
         }
     }
@@ -196,38 +197,45 @@ fun DormToastLayout(
 private fun DormToast(
     toastData: ToastData?,
 ) {
-    if (toastData != null) Row(
-        modifier = Modifier
-            .padding(
-                vertical = 12.dp,
-                horizontal = 14.dp,
-            )
-            .fillMaxWidth()
-            .dormShadow(
-                color = DormTheme.colors.primaryVariant,
-            )
-            .background(
-                color = DormTheme.colors.surface,
-                shape = RoundedCornerShape(4.dp),
-            )
-            .padding(
-                vertical = 12.dp,
-                horizontal = 14.dp,
-            ),
-        verticalAlignment = Alignment.CenterVertically,
+    AnimatedVisibility(
+        visible = toastData != null,
+        enter = fadeIn(),
     ) {
-        val toastType = toastData.toastType
-        Icon(
-            modifier = Modifier.size(24.dp),
-            painter = painterResource(toastType.icon.drawableId),
-            contentDescription = null,
-            tint = toastType.color,
-        )
-        Spacer(Modifier.width(8.dp))
-        Body3(
-            text = toastData.message,
-            color = toastType.color,
-        )
+        toastData?.run {
+            Row(
+                modifier = Modifier
+                    .padding(
+                        vertical = 12.dp,
+                        horizontal = 14.dp,
+                    )
+                    .fillMaxWidth()
+                    .dormShadow(
+                        color = DormTheme.colors.primaryVariant,
+                    )
+                    .background(
+                        color = DormTheme.colors.surface,
+                        shape = RoundedCornerShape(4.dp),
+                    )
+                    .padding(
+                        vertical = 12.dp,
+                        horizontal = 14.dp,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                val toastType = toastData.toastType
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(toastType.icon.drawableId),
+                    contentDescription = null,
+                    tint = toastType.color,
+                )
+                Spacer(Modifier.width(8.dp))
+                Body3(
+                    text = toastData.message,
+                    color = toastType.color,
+                )
+            }
+        }
     }
 }
 
