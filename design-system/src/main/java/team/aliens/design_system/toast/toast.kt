@@ -233,7 +233,7 @@ private fun DormToast(
 enum class ToastType(
     val icon: DormIcon,
 ) {
-    INFORMATION(DormIcon.Information), ERROR(DormIcon.Error), SUCCESS(DormIcon.Success), ;
+    INFORMATION(DormIcon.Information), ERROR(DormIcon.Warning), SUCCESS(DormIcon.Check), ;
 
     val color: Color
         @Composable get() = when (this) {
