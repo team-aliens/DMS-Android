@@ -38,6 +38,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import kotlin.coroutines.resume
 
+@Deprecated("Legacy")
 class ToastWrapper(context: Context) {
     private val contextWrapper = WeakReference(context)
     private val _context get() = contextWrapper.get()!!
@@ -54,6 +55,7 @@ class ToastWrapper(context: Context) {
     }
 }
 
+@Deprecated("Legacy")
 @Composable
 fun rememberToast(): ToastWrapper {
     val context = LocalContext.current.applicationContext
