@@ -198,6 +198,10 @@ private fun DormToast(
 ) {
     if (toastData != null) Row(
         modifier = Modifier
+            .padding(
+                vertical = 12.dp,
+                horizontal = 14.dp,
+            )
             .fillMaxWidth()
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
@@ -207,8 +211,8 @@ private fun DormToast(
                 shape = RoundedCornerShape(4.dp),
             )
             .padding(
-                horizontal = 14.dp,
                 vertical = 12.dp,
+                horizontal = 14.dp,
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
