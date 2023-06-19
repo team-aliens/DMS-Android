@@ -150,7 +150,6 @@ class ToastState {
 @Composable
 fun DormToastHost(
     toastState: ToastState,
-    modifier: Modifier = Modifier,
 ) {
     val currentToastData = toastState.currentToastData
     LaunchedEffect(currentToastData) {
@@ -195,118 +194,35 @@ fun DormToastLayout(
 private fun DormToast(
     toastData: ToastData?,
 ) {
-    if (toastData != null)
-        Box {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .dormShadow(
-                        color = DormTheme.colors.primaryVariant,
-                    )
-                    .background(
-                        color = DormTheme.colors.surface,
-                        shape = RoundedCornerShape(4.dp),
-                    )
-                    .padding(
-                        horizontal = 14.dp,
-                        vertical = 12.dp,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                val toastType = toastData.toastType
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(toastType.icon.drawableId),
-                    contentDescription = null,
-                )
-                Spacer(Modifier.width(8.dp))
-                Body3(
-                    text = toastData.message,
-                    color = toastType.color,
-                )
-            }
-        }
-}
-
-/*@Composable
-fun DormToastHost(
-    hostState: SnackbarHostState,
-) {
-    SnackbarHost(
-        modifier = Modifier.fillMaxSize(),
-        hostState = hostState,
-        snackbar = {it.actionLabel
-            when () {
-                ToastType.INFORMATION -> {
-                    DormInfoToast(
-                        message = it.message,
-                    )
-                }
-
-                ToastType.ERROR -> {
-                    DormErrorToast(
-                        message = it.message,
-                    )
-                }
-
-                ToastType.SUCCESS -> {
-                    DormSuccessToast(
-                        message = it.message,
-                    )
-                }
-
-                else -> {
-                    //throw IllegalArgumentException()
-                }
-            }
-        }
-    )
-}*//*
-@Composable
-private fun DormToast(
-    message: String,
-    @DrawableRes drawable: Int,
-    messageColor: Color,
-) {
-    Box(
-        modifier = Modifier.padding(
-            start = 16.dp,
-            end = 16.dp,
-            top = 14.dp,
-        ),
+    if (toastData != null) Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .dormShadow(
+                color = DormTheme.colors.primaryVariant,
+            )
+            .background(
+                color = DormTheme.colors.surface,
+                shape = RoundedCornerShape(4.dp),
+            )
+            .padding(
+                horizontal = 14.dp,
+                vertical = 12.dp,
+            ),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .dormShadow(
-                    color = DormTheme.colors.primaryVariant,
-                    alpha = 0.3f,
-                )
-                .background(
-                    color = DormTheme.colors.surface,
-                    shape = RoundedCornerShape(
-                        size = 4.dp,
-                    )
-                )
-                .padding(
-                    horizontal = 14.dp,
-                    vertical = 12.dp,
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                modifier = Modifier.size(24.dp),
-                painter = painterResource(id = drawable),
-                contentDescription = null,
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Body3(
-                text = message,
-                color = messageColor,
-            )
-        }
+        val toastType = toastData.toastType
+        Image(
+            modifier = Modifier.size(24.dp),
+            painter = painterResource(toastType.icon.drawableId),
+            contentDescription = null,
+        )
+        Spacer(Modifier.width(8.dp))
+        Body3(
+            text = toastData.message,
+            color = toastType.color,
+        )
     }
-}*/
+}
 
 enum class ToastType(
     val icon: DormIcon,
