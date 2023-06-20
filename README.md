@@ -20,4 +20,15 @@ DMS는 기숙사를 위한 편의 시스템을 목표로 하고 있기 때문에
 ## 위젯 & WatchOS
 ![Group 18214](https://user-images.githubusercontent.com/68860610/233824111-b94757fe-9a94-41fd-97a4-b4b6e7b1fece.png)
 
+</br>
+</br>
 
+# Contributors
+
+</br>
+</br>
+<div align="center">
+  <a href="https://github.com/team-aliens/DMS-Android/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=team-aliens/DMS-Android" />
+  </a>
+</div>
