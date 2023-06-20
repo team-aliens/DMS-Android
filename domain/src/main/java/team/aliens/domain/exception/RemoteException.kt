@@ -8,6 +8,12 @@ sealed class RemoteException(
 
     object Unauthorized : RemoteException("Unauthorized")
 
+    object NoPermission : RemoteException("No permission")
+
+    object InvalidToken : RemoteException("Invalid token")
+
+    object TokenExpired : RemoteException("Token expired")
+
     object Forbidden : RemoteException("Forbidden")
 
     object NotFound : RemoteException("Not found")
