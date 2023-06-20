@@ -117,17 +117,12 @@ value class DormIcon private constructor(
 
         @Stable
         val Information = DormIcon(
-            drawableId = R.drawable.ic_information_toast,
+            drawableId = R.drawable.ic_information,
         )
 
         @Stable
-        val Error = DormIcon(
-            drawableId = R.drawable.ic_error_toast,
-        )
-
-        @Stable
-        val Success = DormIcon(
-            drawableId = R.drawable.ic_success_toast,
+        val Warning = DormIcon(
+            drawableId = R.drawable.ic_warning,
         )
 
         @Stable

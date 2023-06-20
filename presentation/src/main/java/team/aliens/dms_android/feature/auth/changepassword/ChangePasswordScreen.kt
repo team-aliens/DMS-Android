@@ -4,9 +4,20 @@ import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -16,12 +27,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import java.util.regex.Pattern
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.dialog.DormSingleButtonDialog
+import team.aliens.design_system.extension.RatioSpace
+import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
@@ -33,9 +47,6 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
-import java.util.regex.Pattern
-import team.aliens.design_system.extension.RatioSpace
-import team.aliens.design_system.extension.Space
 
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
@@ -115,7 +126,7 @@ fun EditPasswordScreen(
                     .padding(top = 32.dp, bottom = 7.dp)
                     .height(85.dp)
                     .width(85.dp),
-                painter = painterResource(id = R.drawable.ic_information_toast),
+                painter = painterResource(R.drawable.ic_information),
                 contentDescription = stringResource(id = R.string.MainLogo),
             )
 
@@ -157,6 +168,7 @@ fun EditPasswordScreen(
                             }
                         }
                     }
+
                     else -> {
                         toast(
                             getStringFromEvent(
@@ -179,7 +191,7 @@ fun EditPasswordScreen(
                 )
         ) {
             AppLogo()
-            Space(space= 8.dp)
+            Space(space = 8.dp)
             Body2(
                 text = stringResource(id = R.string.ChangePassword),
             )
@@ -215,7 +227,7 @@ fun EditPasswordScreen(
                         isPassword = true,
                         hint = stringResource(id = R.string.CheckScanNewPassword),
                         errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
-                        keyboardActions = KeyboardActions{
+                        keyboardActions = KeyboardActions {
                             focusManager.clearFocus()
                         },
                         imeAction = ImeAction.Done,
@@ -255,17 +267,22 @@ private fun getStringFromEvent(
     is ChangePasswordViewModel.Event.BadRequestException -> {
         context.getString(R.string.BadRequest)
     }
+
     is ChangePasswordViewModel.Event.UnauthorizedException -> {
         context.getString(R.string.NoSameCode)
     }
+
     is ChangePasswordViewModel.Event.NotFoundException -> {
         context.getString(R.string.ChangePasswordNotFound)
     }
+
     is ChangePasswordViewModel.Event.TooManyRequestException -> {
         context.getString(R.string.TooManyRequest)
     }
+
     is ChangePasswordViewModel.Event.ServerException -> {
         context.getString(R.string.ServerException)
     }
+
     else -> context.getString(R.string.UnKnownException)
 }
