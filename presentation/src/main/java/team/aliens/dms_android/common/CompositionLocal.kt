@@ -51,7 +51,3 @@ internal fun initLocalAvailableFeatures(
         remainsService = features.remainsService,
     )
 }
-
-val LocalToast = compositionLocalOf {
-    { toastMessage: String, toastType: ToastType -> Unit }
-}
