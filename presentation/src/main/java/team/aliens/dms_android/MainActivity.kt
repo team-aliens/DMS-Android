@@ -10,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
+import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.DmsRoute
@@ -43,6 +45,7 @@ class MainActivity : ComponentActivity() {
                         Extra.isRemainServiceEnabled to remainsService,
                     )
                 }
+                val toastState = rememberToastState()
 
                 val appState = rememberDmsAppState()
 
@@ -55,7 +58,10 @@ class MainActivity : ComponentActivity() {
                 )
 
                 CompositionLocalProvider(
-                    values = arrayOf(LocalAvailableFeatures provides availableFeatures),
+                    values = arrayOf(
+                        LocalAvailableFeatures provides availableFeatures,
+                        LocalToast provides toastState,
+                    ),
                 ) {
                     DmsApp(
                         initialRoute = startDestination,

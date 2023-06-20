@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastLayout
-import team.aliens.design_system.toast.rememberToastState
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.dms_android.feature.auth.authNavigation
 import team.aliens.dms_android.feature.home.homeNavigation
 import team.aliens.dms_android.feature.signup.signUpNavigation
@@ -26,7 +26,8 @@ internal fun DmsApp(
     ) {
         val scaffoldState = dmsAppState.scaffoldState
         val navController = dmsAppState.navController
-        val toastState = rememberToastState()
+        val toastState = LocalToast.current
+
         DormToastLayout(
             toastState = toastState,
         ) {
