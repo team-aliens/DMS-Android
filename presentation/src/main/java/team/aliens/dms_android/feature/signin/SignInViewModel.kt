@@ -9,6 +9,7 @@ import team.aliens.dms_android.base.MviIntent
 import team.aliens.dms_android.base.MviSideEffect
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.exception.AuthException
+import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
 import team.aliens.domain.model.student.Feature
@@ -65,6 +66,7 @@ internal class SignInViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
+                    RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
                     AuthException.UserNotFound -> postSideEffect(SignInSideEffect.IdNotFound)
                     AuthException.PasswordMismatch -> postSideEffect(SignInSideEffect.PasswordMismatch)
                 }
@@ -159,6 +161,7 @@ internal data class SignInState(
 
 internal sealed class SignInSideEffect : MviSideEffect {
     class SignInSuccess(val features: Feature) : SignInSideEffect()
+    object BadRequest : SignInSideEffect()
     object IdNotFound : SignInSideEffect()
     object PasswordMismatch : SignInSideEffect()
 }

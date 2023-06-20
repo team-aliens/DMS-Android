@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -28,6 +29,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
@@ -46,12 +48,24 @@ internal fun SignInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
     val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
-
     val localAvailableFeatures = LocalAvailableFeatures.current
+    val toast = LocalToast.current
+    val context = LocalContext.current // todo need to be discussed
+
     signInViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            SignInSideEffect.IdNotFound -> TODO()
-            SignInSideEffect.PasswordMismatch -> TODO()
+            SignInSideEffect.IdNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.sign_in_error_id_not_found),
+            )
+
+            SignInSideEffect.BadRequest -> toast.showErrorToast(
+                message = context.getString(R.string.sign_in_error_check_id_or_password),
+            )
+
+            SignInSideEffect.PasswordMismatch -> toast.showErrorToast(
+                message = context.getString(R.string.sign_in_error_password_mismatch),
+            )
+
             is SignInSideEffect.SignInSuccess -> {
 
                 // todo not that good
