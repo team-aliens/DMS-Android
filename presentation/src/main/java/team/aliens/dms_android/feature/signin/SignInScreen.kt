@@ -67,7 +67,7 @@ internal fun SignInScreen(
     val signInButtonEnabled = state.signInButtonEnabled
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Spacer(Modifier.height(92.dp))
         Banner()
