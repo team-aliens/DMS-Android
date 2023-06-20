@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -69,6 +70,10 @@ fun rememberToast(): ToastWrapper {
             context = context,
         )
     }
+}
+
+val LocalToast = staticCompositionLocalOf<ToastState> {
+    error("LocalToast not Implemented")
 }
 
 interface ToastData {
