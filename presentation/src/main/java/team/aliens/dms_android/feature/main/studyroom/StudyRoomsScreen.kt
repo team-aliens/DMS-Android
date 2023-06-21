@@ -5,15 +5,30 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,7 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
@@ -40,12 +55,14 @@ import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.presentation.R
-import java.util.UUID
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun StudyRoomsScreen(
-    navController: NavController,
+    onPrevious: () -> Unit,
+    onNavigateToStudyRoomDetails: (
+        seatId: UUID,
+        studyRoomAvailableTimeId: UUID,
+    ) -> Unit,
     studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {
 
@@ -166,9 +183,8 @@ fun StudyRoomsScreen(
             title = stringResource(
                 id = R.string.ApplicateStudyRoom,
             ),
-        ) {
-            navController.popBackStack()
-        }
+            onPrevious = onPrevious,
+        )
 
 
         Column(
@@ -221,9 +237,15 @@ fun StudyRoomsScreen(
 
             Space(space = 24.dp)
 
-            ListStudyRooms(studyRooms = studyRoomState.studyRooms, onClick = { seatId: UUID ->
-                navController.navigate("studyRoomDetails/${seatId}/${studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id}")
-            })
+            ListStudyRooms(
+                studyRooms = studyRoomState.studyRooms,
+                onClick = { seatId -> // todo refactor
+                    onNavigateToStudyRoomDetails(
+                        seatId,
+                        studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
+                    )
+                },
+            )
         }
         Space(space = 24.dp)
     }
@@ -289,8 +311,7 @@ fun DormTimeChip(
             )
             .border(
                 border = BorderStroke(
-                    width = 1.dp,
-                    color = if (!selected) DormColor.Gray400
+                    width = 1.dp, color = if (!selected) DormColor.Gray400
                     else Color.Transparent
                 ),
                 shape = DormTimeChipShape,

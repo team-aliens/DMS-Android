@@ -15,9 +15,11 @@ import team.aliens.dms_android.extension.navigateToNoticeDetails
 import team.aliens.dms_android.extension.navigateToPointHistory
 import team.aliens.dms_android.extension.navigateToRemainsApplication
 import team.aliens.dms_android.extension.navigateToSignIn
+import team.aliens.dms_android.extension.navigateToStudyRoomDetails
 import team.aliens.dms_android.extension.navigateToStudyRooms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithTakingPhoto
+import team.aliens.dms_android.extension.onPrevious
 import team.aliens.dms_android.navigation.authNavigation
 import team.aliens.dms_android.navigation.mainNavigation
 
@@ -46,7 +48,7 @@ internal fun DmsApp(
                     paddingValues = paddingValues,
                 ),
                 navController = navController,
-                startDestination = "ERROR",/*initialRoute*/
+                startDestination = "ERROR", // todo initial route
             ) {
                 mainNavigation(
                     onNavigateToStudyRooms = navController::navigateToStudyRooms,
@@ -57,6 +59,8 @@ internal fun DmsApp(
                     onNavigateToPointHistory = navController::navigateToPointHistory,
                     onNavigateToEditPassword = navController::navigateToEditPassword,
                     onNavigateToSignIn = navController::navigateToSignIn,
+                    onPrevious = navController::onPrevious,
+                    onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
                 )
                 authNavigation()
             }

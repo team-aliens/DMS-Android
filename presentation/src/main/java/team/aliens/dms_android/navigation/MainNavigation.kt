@@ -5,6 +5,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import java.util.UUID
 import team.aliens.dms_android.feature.main.home.Home
+import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
 
 internal object MainNavigation {
     const val route = "main"
@@ -22,12 +23,17 @@ internal object MainNavigation {
 fun NavGraphBuilder.mainNavigation(
     onNavigateToStudyRooms: () -> Unit,
     onNavigateToRemainsApplication: () -> Unit,
-    onNavigateToNoticeDetails: (UUID) -> Unit,
+    onNavigateToNoticeDetails: (noticeId: UUID) -> Unit,
     onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onNavigateToSignIn: () -> Unit,
+    onPrevious: () -> Unit,
+    onNavigateToStudyRoomDetails: (
+        seatId: UUID,
+        studyRoomAvailableTimeId: UUID,
+    ) -> Unit,
 ) {
     navigation(
         startDestination = MainNavigation.Home,
@@ -46,7 +52,10 @@ fun NavGraphBuilder.mainNavigation(
             )
         }
         composable(MainNavigation.StudyRooms) {
-
+            StudyRoomsScreen(
+                onPrevious = onPrevious,
+                onNavigateToStudyRoomDetails = onNavigateToStudyRoomDetails,
+            )
         }
         composable(MainNavigation.StudyRoomDetails) {
 
