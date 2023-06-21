@@ -196,12 +196,8 @@ internal fun Home(
                     },
                 ) {
                     ApplicationScreen(
-                        onNavigateToStudyRooms =/* todo {
-                            navController.navigate(DmsRoute.Home.StudyRooms)
-                        }*/onNavigateToStudyRooms,
-                        onNavigateToRemainsApplication = /* todo {
-                            navController.navigate(DmsRoute.Home.RemainsApplication)
-                        }*/onNavigateToRemainsApplication,
+                        onNavigateToStudyRooms = onNavigateToStudyRooms,
+                        onNavigateToRemainsApplication = onNavigateToRemainsApplication,
                         studyRoomServiceEnabled = studyRoomServiceEnabled,
                         remainsServiceEnabled = remainsServiceEnabled,
                     )
@@ -316,20 +312,10 @@ internal fun Home(
             ) {
                 MyPageScreen(
                     onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
-                    /* todo {
-                                            navController.navigate(
-                                                DmsRoute.Home.UploadProfileImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
-                                            )
-                                        }*/
                     onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
-                    /* todo {
-                                            navController.navigate(
-                                                DmsRoute.Home.UploadProfileImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
-                                            )
-                                        }*/
-                    onNavigateToPointHistory = onNavigateToPointHistory, /* todo { navController.navigate(DmsRoute.Home.PointHistory) } */
-                    onNavigateToEditPassword = onNavigateToEditPassword, /* todo { navController.navigate(DmsRoute.Auth.EditPassword) }, */
-                    onNavigateToSignIn = onNavigateToSignIn,/* todo { navController.navigateToSignIn() } */
+                    onNavigateToPointHistory = onNavigateToPointHistory,
+                    onNavigateToEditPassword = onNavigateToEditPassword,
+                    onNavigateToSignIn = onNavigateToSignIn,
                     pointServiceEnabled = pointServiceEnabled,
                 )
             }
