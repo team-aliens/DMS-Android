@@ -3,8 +3,13 @@ package team.aliens.dms_android.extension
 import androidx.navigation.NavHostController
 import java.util.UUID
 import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.navigation.AuthNavigation
 import team.aliens.dms_android.navigation.MainNavigation
 import team.aliens.dms_android.util.SelectImageType
+
+internal fun NavHostController.onPrevious() {
+    this.popBackStack()
+}
 
 // Main
 internal fun NavHostController.navigateToStudyRooms() {
@@ -40,11 +45,18 @@ internal fun NavHostController.navigateToEditPassword() {
 }
 
 internal fun NavHostController.navigateToSignIn() {
-    this.navigate(DmsRoute.Auth.route) {
+    this.navigate(AuthNavigation.route) {
         popUpTo(this@navigateToSignIn.graph.id) {
             inclusive = true
         }
     }
+}
+
+internal fun NavHostController.navigateToStudyRoomDetails(
+    seatId: UUID,
+    studyRoomAvailableTime: UUID,
+) {
+    this.navigate(MainNavigation.StudyRoomDetails + "/${seatId}/${studyRoomAvailableTime}")
 }
 
 internal fun NavHostController.navigateToHome() {
