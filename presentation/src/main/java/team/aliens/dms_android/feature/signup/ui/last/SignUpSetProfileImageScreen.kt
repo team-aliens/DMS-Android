@@ -40,10 +40,10 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.image.GettingImageOptionDialog
+import team.aliens.dms_android.feature.main.image.GettingImageOptionDialog
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.fetchImage
-import team.aliens.dms_android.feature.image.ConfirmImageViewModel
+import team.aliens.dms_android.feature.main.image.ConfirmImageViewModel
 import team.aliens.presentation.R
 
 const val defaultProfileUrl =
