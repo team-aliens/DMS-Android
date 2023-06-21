@@ -266,11 +266,6 @@ internal fun Home(
             ) {
                 NoticesScreen(
                     onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetails,
-                    /* todo
-                        { value: UUID ->
-                            navController.navigate("noticeDetails/${value}")
-                        }
-                    */
                 )
             }
             composable(
