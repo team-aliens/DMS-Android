@@ -61,7 +61,7 @@ fun StudyRoomsScreen(
     onPrevious: () -> Unit,
     onNavigateToStudyRoomDetails: (
         seatId: UUID,
-        studyRoomAvailableTimeId: UUID,
+        timeslot: UUID,
     ) -> Unit,
     studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {
