@@ -10,6 +10,7 @@ internal object AuthNavigation {
     const val SignIn = "signIn"
     const val FindId = "findId"
 
+    // todo move to reset password package
     object ResetPasswordNavigation {
         const val route = "resetPassword"
 
@@ -18,6 +19,7 @@ internal object AuthNavigation {
         const val SetPassword = "setPassword"
     }
 
+    // todo move to sign up package
     object SignUpNavigation {
         const val route = "signUp"
 
