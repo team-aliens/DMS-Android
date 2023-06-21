@@ -8,7 +8,9 @@ import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.common.UuidType
 import team.aliens.dms_android.feature.main.home.Home
+import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticeDetailsScreen
+import team.aliens.dms_android.feature.main.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
 
@@ -107,10 +109,14 @@ fun NavGraphBuilder.mainNavigation(
             }
         }
         composable(MainNavigation.RemainsApplication) {
-
+            RemainsApplicationScreen(
+                onPrevious = onPrevious,
+            )
         }
         composable(MainNavigation.PointHistory) {
-
+            PointHistoryScreen(
+                onPrevious = onPrevious,
+            )
         }
         composable(MainNavigation.EditPassword) {
 

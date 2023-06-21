@@ -43,7 +43,7 @@ import team.aliens.presentation.R
 
 @Composable
 internal fun PointHistoryScreen(
-    onBackToMyPage: () -> Unit,
+    onPrevious: () -> Unit,
     pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
 ) {
     val uiState by pointHistoryViewModel.uiState.collectAsStateWithLifecycle()
@@ -57,7 +57,7 @@ internal fun PointHistoryScreen(
     ) {
         TopBar(
             title = stringResource(R.string.my_page_check_point_history),
-            onPrevious = onBackToMyPage,
+            onPrevious = onPrevious,
         )
         Spacer(Modifier.height(36.dp))
         PointFilter(
