@@ -1,10 +1,12 @@
 package team.aliens.dms_android.common
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import team.aliens.dms_android.constans.Extra
 import team.aliens.domain.model.student.Feature
 
-internal val LocalAvailableFeatures = staticCompositionLocalOf { mutableMapOf<String, Boolean>() }
+internal val LocalAvailableFeatures = staticCompositionLocalOf { Feature.falseInitialized() }
 
 internal fun initLocalAvailableFeatures(
     container: MutableMap<String, Boolean>,
@@ -50,4 +52,23 @@ internal fun initLocalAvailableFeatures(
         studyRoomService = features.studyRoomService,
         remainsService = features.remainsService,
     )
+}
+
+@Composable
+internal fun rememberAvailableFeatures(
+    mealService: Boolean = false,
+    noticeService: Boolean = false,
+    pointService: Boolean = false,
+    studyRoomService: Boolean = false,
+    remainsService: Boolean = false
+): Feature {
+    return remember {
+        Feature(
+            mealService = mealService,
+            noticeService = noticeService,
+            pointService = pointService,
+            studyRoomService = studyRoomService,
+            remainsService = remainsService,
+        )
+    }
 }

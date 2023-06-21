@@ -1,6 +1,7 @@
 package team.aliens.design_system.theme
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -42,7 +43,7 @@ private val DarkColorPalette = darkColors(
 @DormDeprecated
 @Composable
 fun DormTheme(
-    darkTheme: Boolean,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
 
