@@ -23,8 +23,14 @@ internal object MainNavigation {
     const val NoticeDetails = "noticeDetails/{noticeId}"
     const val RemainsApplication = "remainsApplication"
     const val PointHistory = "pointHistory"
-    const val EditPassword = "editPassword"
     const val UploadProfileImage = "uploadProfileImage"
+
+    object EditPasswordNavigation {
+        const val route = "editPassword"
+
+        const val ConfirmPassword = "confirmPassword"
+        const val SetPassword = "setPassword"
+    }
 
     object Arguments {
         const val StudyRoomId = "study-room-id"
@@ -118,10 +124,22 @@ fun NavGraphBuilder.mainNavigation(
                 onPrevious = onPrevious,
             )
         }
-        composable(MainNavigation.EditPassword) {
+        composable(MainNavigation.UploadProfileImage) {
 
         }
-        composable(MainNavigation.UploadProfileImage) {
+        editPasswordNavigation()
+    }
+}
+
+private fun NavGraphBuilder.editPasswordNavigation() {
+    navigation(
+        startDestination = MainNavigation.EditPasswordNavigation.ConfirmPassword,
+        route = MainNavigation.EditPasswordNavigation.route,
+    ) {
+        composable(MainNavigation.EditPasswordNavigation.ConfirmPassword) {
+
+        }
+        composable(MainNavigation.EditPasswordNavigation.SetPassword) {
 
         }
     }
