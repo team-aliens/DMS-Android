@@ -54,6 +54,7 @@ fun NavGraphBuilder.mainNavigation(
         seatId: UUID,
         studyRoomAvailableTimeId: UUID,
     ) -> Unit,
+    onNavigateToEditPassword: () -> Unit,
 ) {
     navigation(
         startDestination = MainNavigation.Home,
@@ -128,17 +129,26 @@ fun NavGraphBuilder.mainNavigation(
         composable(MainNavigation.UploadProfileImage) {
 
         }
-        editPasswordNavigation()
+        editPasswordNavigation(
+            onNavigateToEditPasswordSetPassword = onNavigateToEditPassword,
+            onPrevious = onPrevious,
+        )
     }
 }
 
-private fun NavGraphBuilder.editPasswordNavigation() {
+private fun NavGraphBuilder.editPasswordNavigation(
+    onNavigateToEditPasswordSetPassword: () -> Unit,
+    onPrevious: () -> Unit,
+) {
     navigation(
         startDestination = MainNavigation.EditPasswordNavigation.ConfirmPassword,
         route = MainNavigation.EditPasswordNavigation.route,
     ) {
         composable(MainNavigation.EditPasswordNavigation.ConfirmPassword) {
-
+            ConfirmPasswordScreen(
+                onNavigateToEditPasswordSetPassword = onNavigateToEditPasswordSetPassword,
+                onPrevious = onPrevious
+            )
         }
         composable(MainNavigation.EditPasswordNavigation.SetPassword) {
 

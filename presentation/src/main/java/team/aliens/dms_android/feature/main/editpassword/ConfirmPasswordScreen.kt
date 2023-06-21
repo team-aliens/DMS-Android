@@ -35,7 +35,7 @@ import team.aliens.presentation.R
 
 @Composable
 fun ConfirmPasswordScreen(
-    onNavigateToEditPassword: () -> Unit,
+    onNavigateToEditPasswordSetPassword: () -> Unit,
     onPrevious: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
@@ -59,7 +59,7 @@ fun ConfirmPasswordScreen(
     LaunchedEffect(Unit) {
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
-                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> onNavigateToEditPassword()
+                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> onNavigateToEditPasswordSetPassword()
 
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true
