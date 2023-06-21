@@ -10,11 +10,11 @@ import androidx.navigation.compose.NavHost
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastLayout
 import team.aliens.design_system.toast.rememberToastState
-import team.aliens.dms_android.extension.navigateToEditPassword
+import team.aliens.dms_android.extension.navigateToEditPasswordNav
 import team.aliens.dms_android.extension.navigateToNoticeDetails
 import team.aliens.dms_android.extension.navigateToPointHistory
 import team.aliens.dms_android.extension.navigateToRemainsApplication
-import team.aliens.dms_android.extension.navigateToSignIn
+import team.aliens.dms_android.extension.navigateToAuthNav
 import team.aliens.dms_android.extension.navigateToStudyRoomDetails
 import team.aliens.dms_android.extension.navigateToStudyRooms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
@@ -57,8 +57,8 @@ internal fun DmsApp(
                     onNavigateToUploadProfileImageWithTakingPhoto = navController::navigateToUploadProfileImageWithTakingPhoto,
                     onNavigateToUploadProfileImageWithSelectingPhoto = navController::navigateToUploadProfileImageWithSelectingPhoto,
                     onNavigateToPointHistory = navController::navigateToPointHistory,
-                    onNavigateToEditPassword = navController::navigateToEditPassword,
-                    onNavigateToSignIn = navController::navigateToSignIn,
+                    onNavigateToEditPasswordNav = navController::navigateToEditPasswordNav,
+                    onNavigateToAuthNav = navController::navigateToAuthNav,
                     onPrevious = navController::onPrevious,
                     onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
                 )

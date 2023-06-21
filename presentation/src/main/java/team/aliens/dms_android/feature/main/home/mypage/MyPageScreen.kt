@@ -54,8 +54,8 @@ internal fun MyPageScreen(
     onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
-    onNavigateToEditPassword: () -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    onNavigateToEditPasswordNav: () -> Unit,
+    onNavigateToAuthNav: () -> Unit,
     pointServiceEnabled: Boolean,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
@@ -77,7 +77,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.onEvent(MyPageUiEvent.SignOut)
-                    onNavigateToSignIn()
+                    onNavigateToAuthNav()
                     signOutDialogState = false
                 },
                 onSubBtnClick = {
@@ -98,7 +98,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.onEvent(MyPageUiEvent.Withdraw)
-                    onNavigateToSignIn()
+                    onNavigateToAuthNav()
                     withdrawDialogState = false
                 },
                 onSubBtnClick = {
@@ -146,7 +146,7 @@ internal fun MyPageScreen(
             )
             Options(
                 onPointHistoryClicked = if (pointServiceEnabled) onNavigateToPointHistory else null,
-                onEditPasswordClicked = onNavigateToEditPassword,
+                onEditPasswordClicked = onNavigateToEditPasswordNav,
                 onSignOutClicked = { signOutDialogState = !signOutDialogState },
                 onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
             )

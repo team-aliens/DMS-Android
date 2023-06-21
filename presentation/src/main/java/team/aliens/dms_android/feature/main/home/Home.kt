@@ -54,8 +54,8 @@ internal fun Home(
     onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
-    onNavigateToEditPassword: () -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    onNavigateToEditPasswordNav: () -> Unit,
+    onNavigateToAuthNav: () -> Unit,
 ) {
     val bottomNavController = rememberAnimatedNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
@@ -309,8 +309,8 @@ internal fun Home(
                     onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
                     onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
                     onNavigateToPointHistory = onNavigateToPointHistory,
-                    onNavigateToEditPassword = onNavigateToEditPassword,
-                    onNavigateToSignIn = onNavigateToSignIn,
+                    onNavigateToEditPasswordNav = onNavigateToEditPasswordNav,
+                    onNavigateToAuthNav = onNavigateToAuthNav,
                     pointServiceEnabled = pointServiceEnabled,
                 )
             }

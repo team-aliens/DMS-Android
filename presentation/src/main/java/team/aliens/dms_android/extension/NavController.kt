@@ -40,13 +40,13 @@ internal fun NavHostController.navigateToPointHistory() {
     this.navigate(MainNavigation.PointHistory)
 }
 
-internal fun NavHostController.navigateToEditPassword() {
-    this.navigate(MainNavigation.EditPassword)
+internal fun NavHostController.navigateToEditPasswordNav() {
+    this.navigate(MainNavigation.EditPasswordNavigation.route)
 }
 
-internal fun NavHostController.navigateToSignIn() {
+internal fun NavHostController.navigateToAuthNav() {
     this.navigate(AuthNavigation.route) {
-        popUpTo(this@navigateToSignIn.graph.id) {
+        popUpTo(this@navigateToAuthNav.graph.id) {
             inclusive = true
         }
     }

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.changepassword
+package team.aliens.dms_android.feature.main.editpassword
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -48,6 +48,7 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
 import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
 import team.aliens.dms_android.feature.signup.ui.email.RegisterEmailViewModel
 import team.aliens.domain.model._common.EmailVerificationType

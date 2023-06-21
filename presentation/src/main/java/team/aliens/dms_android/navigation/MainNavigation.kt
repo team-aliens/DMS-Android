@@ -7,6 +7,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.common.UuidType
+import team.aliens.dms_android.feature.main.editpassword.ConfirmPasswordScreen
 import team.aliens.dms_android.feature.main.home.Home
 import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticeDetailsScreen
@@ -46,8 +47,8 @@ fun NavGraphBuilder.mainNavigation(
     onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
-    onNavigateToEditPassword: () -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    onNavigateToEditPasswordNav: () -> Unit,
+    onNavigateToAuthNav: () -> Unit,
     onPrevious: () -> Unit,
     onNavigateToStudyRoomDetails: (
         seatId: UUID,
@@ -66,8 +67,8 @@ fun NavGraphBuilder.mainNavigation(
                 onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
                 onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
                 onNavigateToPointHistory = onNavigateToPointHistory,
-                onNavigateToEditPassword = onNavigateToEditPassword,
-                onNavigateToSignIn = onNavigateToSignIn,
+                onNavigateToEditPasswordNav = onNavigateToEditPasswordNav,
+                onNavigateToAuthNav = onNavigateToAuthNav,
             )
         }
         composable(MainNavigation.StudyRooms) {

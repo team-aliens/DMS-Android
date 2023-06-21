@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.extension.Space
@@ -30,14 +29,14 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
+import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 
 @Composable
-fun ComparePasswordScreen(
-    navController: NavController,
+fun ConfirmPasswordScreen(
+    onNavigateToEditPassword: () -> Unit,
+    onPrevious: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
 
@@ -60,9 +59,7 @@ fun ComparePasswordScreen(
     LaunchedEffect(Unit) {
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
-                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> {
-                    navController.navigate(DmsRoute.Auth.EditPassword)
-                }
+                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> onNavigateToEditPassword()
 
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true
@@ -80,24 +77,20 @@ fun ComparePasswordScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                DormTheme.colors.background,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
-                focusManager.clearFocus()
-            }
-    ) {
-
-        TopBar(title = stringResource(id = R.string.ChangePassword)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(
+            DormTheme.colors.background,
+        )
+        .dormClickable(
+            rippleEnabled = false,
+        ) {
             focusManager.clearFocus()
-            navController.popBackStack()
-        }
-
+        }) {
+        TopBar(
+            title = stringResource(R.string.ChangePassword),
+            onPrevious = onPrevious,
+        )
         Column(
             modifier = Modifier.padding(
                 top = 46.dp,
@@ -118,8 +111,7 @@ fun ComparePasswordScreen(
                     .fillMaxHeight(0.84f)
                     .padding(top = 80.dp)
             ) {
-                DormTextField(
-                    value = password,
+                DormTextField(value = password,
                     onValueChange = onPasswordChange,
                     isPassword = true,
                     hint = stringResource(id = R.string.Password),
@@ -127,18 +119,13 @@ fun ComparePasswordScreen(
                     error = isError,
                     keyboardActions = KeyboardActions {
                         focusManager.clearFocus()
-                    }
-                )
+                    })
             }
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Next),
                 color = DormButtonColor.Blue,
                 enabled = (password.isNotEmpty() && !isError),
             ) {
-                navController.currentBackStackEntry?.arguments?.putString(
-                    "currentPassword",
-                    password,
-                )
                 changePasswordViewModel.comparePassword()
             }
         }
