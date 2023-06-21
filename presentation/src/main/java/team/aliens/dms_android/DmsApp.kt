@@ -22,8 +22,8 @@ import team.aliens.dms_android.extension.navigateToStudyRooms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithTakingPhoto
 import team.aliens.dms_android.extension.onPrevious
-import team.aliens.dms_android.navigation.authNavigation
-import team.aliens.dms_android.navigation.mainNavigation
+import team.aliens.dms_android.feature.auth.authNavigation
+import team.aliens.dms_android.feature.main.mainNavigation
 
 @Composable
 internal fun DmsApp(

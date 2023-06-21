@@ -3,8 +3,8 @@ package team.aliens.dms_android.extension
 import androidx.navigation.NavHostController
 import java.util.UUID
 import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.navigation.AuthNavigation
-import team.aliens.dms_android.navigation.MainNavigation
+import team.aliens.dms_android.feature.auth.AuthNavigation
+import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.util.SelectImageType
 
 internal fun NavHostController.onPrevious() {
