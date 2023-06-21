@@ -1,16 +1,16 @@
 package team.aliens.dms_android.feature.main.studyroom
 
+import java.util.UUID
 import team.aliens.dms_android.base.UiState
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.domain.model._common.Sex
 import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
-import java.util.UUID
 
 data class StudyRoomDetailUiState(
-    var studyRoomId: String = "",
+    var studyRoomId: UUID? = null,
     var timeSlot: UUID? = null,
-    var currentSeat: MutableEventFlow<String> = MutableEventFlow(),
+    var currentSeat: MutableEventFlow<UUID> = MutableEventFlow(),
     var startAt: String = "",
     var endAt: String = "",
     var errorMessage: MutableEventFlow<String> = MutableEventFlow(),
