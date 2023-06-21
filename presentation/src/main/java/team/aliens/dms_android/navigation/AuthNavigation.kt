@@ -10,6 +10,18 @@ internal object AuthNavigation {
     const val SignIn = "signIn"
     const val FindId = "findId"
     const val ResetPassword = "resetPassword"
+
+    object SignUpNavigation {
+        const val route = "signUp"
+
+        const val EnterSchoolVerificationCode = "enterSchoolVerificationCode"
+        const val EnterSchoolVerificationQuestion = "enterSchoolVerificationQuestion"
+        const val SetEmail = "setEmail"
+        const val SetId = "setId"
+        const val SetPassword = "setPassword"
+        const val SetProfile = "setProfile"
+        const val Terms = "terms"
+    }
 }
 
 fun NavGraphBuilder.authNavigation() {
@@ -31,6 +43,32 @@ fun NavGraphBuilder.authNavigation() {
 }
 
 private fun NavGraphBuilder.signUpNavigation() {
+    navigation(
+        startDestination = AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode,
+        route = AuthNavigation.SignUpNavigation.route,
+    ) {
+        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationQuestion) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetEmail) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetId) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetPassword) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetProfile) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.Terms) {
+            
+        }
+    }
 }
 
 /*
