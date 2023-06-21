@@ -45,9 +45,13 @@ interface AuthRepository {
 
     suspend fun findAccessToken(): String
 
+    suspend fun checkAccessTokenAvailable(): Boolean
+
     suspend fun findAccessTokenExpiredAt(): String
 
     suspend fun findRefreshToken(): String
+
+    suspend fun checkRefreshTokenAvailable(): Boolean
 
     suspend fun findRefreshTokenExpiredAt(): String
 
