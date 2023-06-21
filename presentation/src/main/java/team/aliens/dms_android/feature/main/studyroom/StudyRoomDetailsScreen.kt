@@ -45,7 +45,7 @@ import team.aliens.presentation.R
 @Composable
 fun StudyRoomDetailsScreen(
     onPrevious: () -> Unit, // todo refactor to NavHostController
-    roomId: String,
+    roomId: UUID,
     timeSlot: UUID,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
@@ -61,29 +61,30 @@ fun StudyRoomDetailsScreen(
     val toast = rememberToast()
 
     val uiState = studyRoomDetailsViewModel.uiState.collectAsState().value
-    val currentSeat = uiState.currentSeat.collectAsState("")
+    val currentSeat = uiState.currentSeat.collectAsState(null)
 
     val onCancel: () -> Unit = {
         studyRoomDetailsViewModel.onEvent(
             event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
-                seatId = currentSeat.value,
+                seatId = currentSeat.value!!,
                 timeSlot = timeSlot,
             )
         )
     }
 
     val onApply: () -> Unit = {
-        if (currentSeat.value.isEmpty()) {
+        if (currentSeat.value == null) {
             toast(
                 context.getString(R.string.study_room_please_first_select),
             )
+        } else {
+            studyRoomDetailsViewModel.onEvent(
+                event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
+                    seat = currentSeat.value.toString(), // todo
+                    timeSlot = timeSlot,
+                ),
+            )
         }
-        studyRoomDetailsViewModel.onEvent(
-            event = StudyRoomDetailsViewModel.UiEvent.ApplySeat(
-                seat = currentSeat.value,
-                timeSlot = timeSlot,
-            ),
-        )
     }
 
     LaunchedEffect(Unit) {
@@ -163,7 +164,7 @@ fun StudyRoomDetailsScreen(
                 startDescription = uiState.studyRoomDetails.westDescription,
                 endDescription = uiState.studyRoomDetails.eastDescription,
                 seats = uiState.studyRoomDetails.toDesignSystemModel(),
-                selected = currentSeat.value,
+                selected = currentSeat.value.toString(), // todo
             ) { seat ->
                 studyRoomDetailsViewModel.onEvent(
                     event = StudyRoomDetailsViewModel.UiEvent.ChangeSelectedSeat(
