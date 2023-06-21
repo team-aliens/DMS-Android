@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.common.UuidType
 import team.aliens.dms_android.feature.main.editpassword.ConfirmPasswordScreen
+import team.aliens.dms_android.feature.main.editpassword.EditPasswordSetPasswordScreen
 import team.aliens.dms_android.feature.main.home.Home
 import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticeDetailsScreen
@@ -54,7 +55,8 @@ fun NavGraphBuilder.mainNavigation(
         seatId: UUID,
         studyRoomAvailableTimeId: UUID,
     ) -> Unit,
-    onNavigateToEditPassword: () -> Unit,
+    onNavigateToEditPasswordSetPassword: () -> Unit,
+    onNavigateToHome: () -> Unit,
 ) {
     navigation(
         startDestination = MainNavigation.Home,
@@ -130,8 +132,9 @@ fun NavGraphBuilder.mainNavigation(
 
         }
         editPasswordNavigation(
-            onNavigateToEditPasswordSetPassword = onNavigateToEditPassword,
+            onNavigateToEditPasswordSetPassword = onNavigateToEditPasswordSetPassword,
             onPrevious = onPrevious,
+            onNavigateToHome = onNavigateToHome,
         )
     }
 }
@@ -139,6 +142,7 @@ fun NavGraphBuilder.mainNavigation(
 private fun NavGraphBuilder.editPasswordNavigation(
     onNavigateToEditPasswordSetPassword: () -> Unit,
     onPrevious: () -> Unit,
+    onNavigateToHome: () -> Unit,
 ) {
     navigation(
         startDestination = MainNavigation.EditPasswordNavigation.ConfirmPassword,
@@ -151,7 +155,9 @@ private fun NavGraphBuilder.editPasswordNavigation(
             )
         }
         composable(MainNavigation.EditPasswordNavigation.SetPassword) {
-
+            EditPasswordSetPasswordScreen(
+                onNavigateToHome = onNavigateToHome,
+            )
         }
     }
 }

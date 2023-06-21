@@ -1,5 +1,16 @@
 package team.aliens.dms_android.feature.main.editpassword
 
+import androidx.compose.runtime.Composable
+
+@Composable
+internal fun EditPasswordSetPasswordScreen(
+    onNavigateToHome: () -> Unit,
+) {
+
+}
+
+/*
+
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -55,8 +66,8 @@ import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun EditPasswordScreen(
-    navController: NavController,
+fun EditPasswordSetPasswordScreen(
+    //navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
@@ -270,4 +281,4 @@ private fun getStringFromEvent(
     else -> {
         context.getString(R.string.UnKnownException)
     }
-}
+}*/

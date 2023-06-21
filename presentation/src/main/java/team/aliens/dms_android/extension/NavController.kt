@@ -59,6 +59,10 @@ internal fun NavHostController.navigateToStudyRoomDetails(
     this.navigate(MainNavigation.StudyRoomDetails + "/${seatId}/${studyRoomAvailableTime}")
 }
 
+internal fun NavHostController.navigateToEditPasswordSetPassword(){
+    this.navigate(MainNavigation.EditPasswordNavigation.SetPassword)
+}
+
 internal fun NavHostController.navigateToHome() {
     this.navigate(DmsRoute.Home.route) {
         launchSingleTop = true
