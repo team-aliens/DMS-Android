@@ -1,10 +1,14 @@
 package team.aliens.dms_android.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import java.util.UUID
+import team.aliens.dms_android.common.UuidType
 import team.aliens.dms_android.feature.main.home.Home
+import team.aliens.dms_android.feature.main.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
 
 internal object MainNavigation {
@@ -18,6 +22,11 @@ internal object MainNavigation {
     const val PointHistory = "pointHistory"
     const val EditPassword = "editPassword"
     const val UploadProfileImage = "uploadProfileImage"
+
+    object Arguments {
+        const val RoomId = "room-id"
+        const val Timeslot = "timeslot"
+    }
 }
 
 fun NavGraphBuilder.mainNavigation(
@@ -57,8 +66,27 @@ fun NavGraphBuilder.mainNavigation(
                 onNavigateToStudyRoomDetails = onNavigateToStudyRoomDetails,
             )
         }
-        composable(MainNavigation.StudyRoomDetails) {
+        composable(
+            route = MainNavigation.StudyRoomDetails,
+            arguments = listOf(
+                navArgument(MainNavigation.Arguments.RoomId) {
+                    type = NavType.UuidType
+                },
+                navArgument(MainNavigation.Arguments.Timeslot) {
+                    type = NavType.UuidType
+                },
+            ),
+        ) { backStackEntry ->
+            backStackEntry.arguments?.run {
+                val roomId = getString(MainNavigation.Arguments.RoomId)
+                val timeslot = getString(MainNavigation.Arguments.Timeslot)
 
+                StudyRoomDetailsScreen(
+                    onPrevious = onPrevious,
+                    roomId = UUID.fromString(roomId),
+                    timeSlot = UUID.fromString(timeslot),
+                )
+            }
         }
         composable(MainNavigation.NoticeDetails) {
 
