@@ -3,9 +3,21 @@ package team.aliens.dms_android.feature.main.image
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
@@ -32,8 +43,8 @@ import team.aliens.presentation.R
 
 @Composable
 internal fun UploadProfileImageScreen(
-    selectImageType: Int,
-    navController: NavController,
+    selectImageType: SelectImageType,
+    onPrevious: () -> Unit,
     confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),
 ) {
 
@@ -52,9 +63,7 @@ internal fun UploadProfileImageScreen(
     LaunchedEffect(Unit) {
         confirmImageViewModel.confirmImageEvent.collect {
             when (it) {
-                ConfirmImageViewModel.Event.ProfileEdited -> {
-                    navController.popBackStack()
-                }
+                ConfirmImageViewModel.Event.ProfileEdited -> onPrevious()
                 else -> {
                     toast(
                         getStringFromEvent(
@@ -69,10 +78,11 @@ internal fun UploadProfileImageScreen(
 
     LaunchedEffect(Unit) {
         when (selectImageType) {
-            SelectImageType.TAKE_PHOTO.ordinal -> {
+            SelectImageType.TAKE_PHOTO -> {
                 // take Photo
             }
-            SelectImageType.SELECT_FROM_GALLERY.ordinal -> {
+
+            SelectImageType.SELECT_FROM_GALLERY -> {
 
                 scope.launch {
 
@@ -125,10 +135,8 @@ internal fun UploadProfileImageScreen(
 
         TopBar(
             title = stringResource(R.string.EditProfile),
-        ) {
-            navController.popBackStack()
-        }
-
+            onPrevious = onPrevious,
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()

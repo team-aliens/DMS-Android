@@ -12,9 +12,11 @@ import team.aliens.dms_android.feature.main.editpassword.EditPasswordSetPassword
 import team.aliens.dms_android.feature.main.home.Home
 import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticeDetailsScreen
+import team.aliens.dms_android.feature.main.image.UploadProfileImageScreen
 import team.aliens.dms_android.feature.main.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
+import team.aliens.dms_android.util.SelectImageType
 
 internal object MainNavigation {
     const val route = "main"
@@ -38,6 +40,7 @@ internal object MainNavigation {
         const val StudyRoomId = "study-room-id"
         const val Timeslot = "timeslot"
         const val NoticeId = "notice-id"
+        const val SelectImageType = "select-image-type"
     }
 }
 
@@ -128,8 +131,22 @@ fun NavGraphBuilder.mainNavigation(
                 onPrevious = onPrevious,
             )
         }
-        composable(MainNavigation.UploadProfileImage) {
+        composable(
+            route = MainNavigation.UploadProfileImage,
+            arguments = listOf(
+                navArgument(MainNavigation.Arguments.SelectImageType) {
+                    type = NavType.IntType
+                }
+            ),
+        ) { navBackStackEntry ->
+            navBackStackEntry.arguments?.run {
+                val selectImageType = getInt(MainNavigation.Arguments.SelectImageType)
 
+                UploadProfileImageScreen(
+                    selectImageType = SelectImageType.values()[selectImageType], // todo need to discuss
+                    onPrevious = onPrevious,
+                )
+            }
         }
         editPasswordNavigation(
             onNavigateToEditPasswordSetPassword = onNavigateToEditPasswordSetPassword,
