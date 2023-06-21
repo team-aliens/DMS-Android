@@ -1,6 +1,7 @@
 package team.aliens.dms_android.extension
 
 import androidx.navigation.NavHostController
+import java.util.UUID
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.navigation.MainNavigation
 import team.aliens.dms_android.util.SelectImageType
@@ -12,6 +13,14 @@ internal fun NavHostController.navigateToStudyRooms() {
 
 internal fun NavHostController.navigateToStudyRoomDetails() {
     this.navigate(MainNavigation.StudyRoomDetails)
+}
+
+internal fun NavHostController.navigateToRemainsApplication() {
+    this.navigate(MainNavigation.RemainsApplication)
+}
+
+internal fun NavHostController.navigateToNoticeDetails(noticeId: UUID) {
+    this.navigate(MainNavigation.NoticeDetails + "/${noticeId}")
 }
 
 internal fun NavHostController.navigateToUploadProfileImageWithTakingPhoto() {
