@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.auth
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import team.aliens.dms_android.feature.auth.signin.SignInScreen
 
 internal object AuthNavigation {
     const val route = "auth"
@@ -33,13 +34,23 @@ internal object AuthNavigation {
     }
 }
 
-fun NavGraphBuilder.authNavigation() {
+fun NavGraphBuilder.authNavigation(
+    onNavigateToHome: () -> Unit,
+    onNavigateToSignUpNav: () -> Unit,
+    onNavigateToFindId: () -> Unit,
+    onNavigateToResetPasswordNav: () -> Unit,
+) {
     navigation(
         startDestination = AuthNavigation.SignIn,
         route = AuthNavigation.route,
     ) {
         composable(AuthNavigation.SignIn) {
-
+            SignInScreen(
+                onNavigateToHome = onNavigateToHome,
+                onNavigateToSignUpNav = onNavigateToSignUpNav,
+                onNavigateToFindId = onNavigateToFindId,
+                onNavigateToResetPasswordNav = onNavigateToResetPasswordNav,
+            )
         }
         composable(AuthNavigation.FindId) {
 

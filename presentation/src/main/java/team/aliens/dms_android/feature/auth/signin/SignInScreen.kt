@@ -33,7 +33,6 @@ import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.common.initLocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.presentation.R
@@ -42,9 +41,9 @@ import team.aliens.presentation.R
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
     onNavigateToHome: () -> Unit,
-    onNavigateToSignUp: () -> Unit,
+    onNavigateToSignUpNav: () -> Unit,
     onNavigateToFindId: () -> Unit,
-    onNavigateToResetPassword: () -> Unit,
+    onNavigateToResetPasswordNav: () -> Unit,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
     val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -69,7 +68,7 @@ internal fun SignInScreen(
             is SignInSideEffect.SignInSuccess -> {
 /*
 
-                // todo not that good
+                // todo implement features
                 initLocalAvailableFeatures(
                     container = localAvailableFeatures,
                     features = sideEffect.features,
@@ -106,9 +105,9 @@ internal fun SignInScreen(
         )
         Spacer(Modifier.height(12.dp))
         AuthActions(
-            onSignUpClicked = onNavigateToSignUp,
+            onSignUpClicked = onNavigateToSignUpNav,
             onFindIdClicked = onNavigateToFindId,
-            onResetPasswordClicked = onNavigateToResetPassword,
+            onResetPasswordClicked = onNavigateToResetPasswordNav,
         )
         Spacer(Modifier.weight(1f))
         DormContainedLargeButton(
