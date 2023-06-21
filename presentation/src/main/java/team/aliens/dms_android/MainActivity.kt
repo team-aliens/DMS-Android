@@ -15,7 +15,6 @@ import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.handler.DmsExceptionHandler
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -48,14 +47,6 @@ class MainActivity : ComponentActivity() {
                 val toastState = rememberToastState()
 
                 val appState = rememberDmsAppState()
-
-                Thread.setDefaultUncaughtExceptionHandler(
-                    // todo 싱글톤으로 만들어보기
-                    DmsExceptionHandler(
-                        context = applicationContext, // 싱글톤으로 만들어 볼 생각
-                        appState = appState,
-                    ),
-                )
 
                 CompositionLocalProvider(
                     values = arrayOf(

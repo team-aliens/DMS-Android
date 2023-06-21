@@ -1,14 +1,13 @@
 package team.aliens.dms_android.handler
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
-import team.aliens.dms_android.DmsAppState
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
 internal class DmsExceptionHandler @Inject constructor(
     private val context: Context,
-    private val appState: DmsAppState,
 ) : Thread.UncaughtExceptionHandler {
     override fun uncaughtException(
         thread: Thread,
@@ -21,4 +20,12 @@ internal class DmsExceptionHandler @Inject constructor(
         )
         exitProcess(-1)
     }
+}
+
+internal fun Application.initExceptionHandler() {
+    Thread.setDefaultUncaughtExceptionHandler(
+        DmsExceptionHandler(
+            context = applicationContext,
+        ),
+    )
 }
