@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.common.UuidType
 import team.aliens.dms_android.feature.main.home.Home
+import team.aliens.dms_android.feature.main.home.notice.NoticeDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
 
@@ -26,6 +27,7 @@ internal object MainNavigation {
     object Arguments {
         const val StudyRoomId = "study-room-id"
         const val Timeslot = "timeslot"
+        const val NoticeId = "notice-id"
     }
 }
 
@@ -88,8 +90,20 @@ fun NavGraphBuilder.mainNavigation(
                 )
             }
         }
-        composable(MainNavigation.NoticeDetails) {
-
+        composable(
+            route = MainNavigation.NoticeDetails,
+            arguments = listOf(
+                navArgument(MainNavigation.Arguments.NoticeId) {
+                    type = NavType.UuidType
+                },
+            ),
+        ) { backStackEntry ->
+            backStackEntry.arguments?.run {
+                val noticeId = getString(MainNavigation.Arguments.NoticeId)
+                NoticeDetailsScreen(
+                    noticeId = UUID.fromString(noticeId),
+                )
+            }
         }
         composable(MainNavigation.RemainsApplication) {
 
