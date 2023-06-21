@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.signin
+package team.aliens.dms_android.feature.signin
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,90 +29,84 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
-import team.aliens.dms_android.DmsAppState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.common.initLocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.navigateToHome
-import team.aliens.domain.exception.AuthException
+import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.presentation.R
 
 @Composable
 internal fun SignInScreen(
-    appState: DmsAppState,
+    modifier: Modifier = Modifier,
+    onNavigateToHome: () -> Unit,
+    onNavigateToSignUp: () -> Unit,
+    onNavigateToFindId: () -> Unit,
+    onNavigateToResetPassword: () -> Unit,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val uiState by signInViewModel.uiState.collectAsStateWithLifecycle()
-    val signInButtonEnabled = uiState.signInButtonEnabled
-    val signInSuccess = uiState.signInSuccess
-    val error = uiState.error
-    val navController = appState.navController
+    val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
     val localAvailableFeatures = LocalAvailableFeatures.current
+    val toast = LocalToast.current
+    val context = LocalContext.current // todo need to be discussed
 
-    val onAccountIdChange = { newAccountId: String ->
-        signInViewModel.onEvent(SignInUiEvent.UpdateAccountId(newAccountId))
-    }
-    val onPasswordChange = { newPassword: String ->
-        signInViewModel.onEvent(SignInUiEvent.UpdatePassword(newPassword))
-    }
-    val onAutoSignInOptionChanged = { newAutoSignInOption: Boolean ->
-        signInViewModel.onEvent(SignInUiEvent.UpdateAutoSignInOption(newAutoSignInOption))
-    }
-
-    val onSignUpClicked = {
-        navController.navigate(DmsRoute.SignUp.route)
-    }
-    val onFindIdClicked = {
-        navController.navigate(DmsRoute.Auth.FindId)
-    }
-    val onResetPasswordClicked = {
-        navController.navigate(DmsRoute.Auth.ResetPassword)
-    }
-
-    val onSignInButtonClicked = {
-        signInViewModel.onEvent(SignInUiEvent.SignIn)
-    }
-
-    LaunchedEffect(uiState) {
-        if (signInSuccess) {
-            initLocalAvailableFeatures(
-                container = localAvailableFeatures,
-                mealService = uiState.features.mealService,
-                noticeService = uiState.features.noticeService,
-                pointService = uiState.features.pointService,
-                studyRoomService = uiState.features.studyRoomService,
-                remainsService = uiState.features.remainsService,
+    signInViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            SignInSideEffect.IdNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.sign_in_error_id_not_found),
             )
 
-            navController.navigateToHome()
+            SignInSideEffect.BadRequest -> toast.showErrorToast(
+                message = context.getString(R.string.sign_in_error_check_id_or_password),
+            )
+
+            SignInSideEffect.PasswordMismatch -> toast.showErrorToast(
+                message = context.getString(R.string.sign_in_error_password_mismatch),
+            )
+
+            is SignInSideEffect.SignInSuccess -> {
+
+                // todo not that good
+                initLocalAvailableFeatures(
+                    container = localAvailableFeatures,
+                    features = sideEffect.features,
+                )
+
+                onNavigateToHome()
+            }
         }
     }
+    val signInButtonEnabled = state.signInButtonEnabled
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Spacer(Modifier.height(92.dp))
         Banner()
         Spacer(Modifier.height(60.dp))
         UserInformationInputs(
-            accountIdValue = uiState.accountId,
-            passwordValue = uiState.password,
-            autoSignInValue = uiState.autoSignIn,
-            onAccountIdChange = onAccountIdChange, // 사용자의 행위에 대한 자동 콜백 = 능동형
-            onPasswordChange = onPasswordChange,
-            onAutoSignInOptionChanged = onAutoSignInOptionChanged, // 사용자의 행위 = 수동형(~ed)
-            idError = uiState.idError,
-            passwordError = uiState.passwordError,
-            error = error,
+            accountIdValue = state.accountId,
+            passwordValue = state.password,
+            autoSignInValue = state.autoSignIn,
+            onAccountIdChange = { newAccountId: String ->
+                signInViewModel.postIntent(SignInIntent.UpdateAccountId(newAccountId))
+            },
+            onPasswordChange = { newPassword: String ->
+                signInViewModel.postIntent(SignInIntent.UpdatePassword(newPassword))
+            },
+            onAutoSignInOptionChanged = { newAutoSignInOption: Boolean ->
+                signInViewModel.postIntent(SignInIntent.UpdateAutoSignInOption(newAutoSignInOption))
+            },
+            idError = state.idError,
+            passwordError = state.passwordError,
         )
         Spacer(Modifier.height(12.dp))
         AuthActions(
-            onSignUpClicked = onSignUpClicked,
-            onFindIdClicked = onFindIdClicked,
-            onResetPasswordClicked = onResetPasswordClicked,
+            onSignUpClicked = onNavigateToSignUp,
+            onFindIdClicked = onNavigateToFindId,
+            onResetPasswordClicked = onNavigateToResetPassword,
         )
         Spacer(Modifier.weight(1f))
         DormContainedLargeButton(
@@ -122,7 +116,7 @@ internal fun SignInScreen(
             text = stringResource(R.string.sign_in),
             color = DormButtonColor.Blue,
             enabled = signInButtonEnabled,
-            onClick = onSignInButtonClicked,
+            onClick = { signInViewModel.postIntent(SignInIntent.SignIn) },
         )
         Spacer(Modifier.height(57.dp))
     }
@@ -156,17 +150,8 @@ private fun UserInformationInputs(
     onAutoSignInOptionChanged: (Boolean) -> Unit,
     idError: Boolean,
     passwordError: Boolean,
-    error: Throwable?,
 ) {
     val focusManager = LocalFocusManager.current
-    val idErrorMessage = when (error) {
-        is AuthException.UserNotFound -> stringResource(R.string.sign_in_error_not_found)
-        else -> null
-    }
-    val passwordErrorMessage = when (error) {
-        is AuthException.PasswordMismatch -> stringResource(R.string.sign_in_error_password_mismatch)
-        else -> null
-    }
 
     // 아이디
     DormTextField(
@@ -185,7 +170,8 @@ private fun UserInformationInputs(
             },
         ),
         error = idError,
-        errorDescription = idErrorMessage,
+        /*
+                errorDescription = idErrorMessage,*/
     )
     Spacer(Modifier.height(32.dp))
     // 비밀번호
@@ -206,7 +192,8 @@ private fun UserInformationInputs(
             },
         ),
         error = passwordError,
-        errorDescription = passwordErrorMessage,
+        /*
+                errorDescription = passwordErrorMessage,*/
     )
     Spacer(Modifier.height(28.dp))
     DormTextCheckBox(

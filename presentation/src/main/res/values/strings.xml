@@ -252,7 +252,7 @@
     <string name="sign_in_error_enter_password">비밀번호를 입력해 주세요</string>
 
     <string name="sign_in_error_unauthorized">인증에 실패하였습니다</string>
-    <string name="sign_in_error_not_found">해당 아이디는 존재하지 않는 아이디입니다</string>
+    <string name="sign_in_error_id_not_found">해당 아이디는 존재하지 않는 아이디입니다</string>
     <string name="sign_in_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
 
     <string name="sign_in_error_check_id_or_password">아이디 또는 비밀번호를 확인해주세요.</string>

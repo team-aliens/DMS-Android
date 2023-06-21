@@ -1,22 +1,23 @@
 package team.aliens.dms_android.feature.auth
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.DmsAppState
+import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.auth.changepassword.EditPasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.ResetPasswordScreen
 import team.aliens.dms_android.feature.auth.changepassword.UserVerification
 import team.aliens.dms_android.feature.auth.comparepassword.ComparePasswordScreen
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
-import team.aliens.dms_android.feature.auth.signin.SignInScreen
 import team.aliens.dms_android.feature.home.mypage.MyPageChangePasswordScreen
+import team.aliens.dms_android.feature.signin.SignInScreen
+import team.aliens.dms_android.navigateToHome
 
 internal fun NavGraphBuilder.authNavigation(
     dmsAppState: DmsAppState,
-    navController: NavController,
+    navController: NavHostController,
 ) {
     navigation(
         startDestination = DmsRoute.Auth.SignIn,
@@ -24,7 +25,10 @@ internal fun NavGraphBuilder.authNavigation(
     ) {
         composable(DmsRoute.Auth.SignIn) {
             SignInScreen(
-                appState = dmsAppState,
+                onNavigateToHome = { navController.navigateToHome() },
+                onNavigateToSignUp = { navController.navigate(DmsRoute.SignUp.route) },
+                onNavigateToFindId = { navController.navigate(DmsRoute.Auth.FindId) },
+                onNavigateToResetPassword = { navController.navigate(DmsRoute.Auth.ResetPassword) },
             )
         }
 

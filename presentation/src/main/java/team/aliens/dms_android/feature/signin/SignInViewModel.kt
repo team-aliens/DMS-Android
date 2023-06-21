@@ -1,13 +1,15 @@
-package team.aliens.dms_android.feature.auth.signin
+package team.aliens.dms_android.feature.signin
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.exception.AuthException
+import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
 import team.aliens.domain.model.student.Feature
@@ -17,27 +19,27 @@ import javax.inject.Inject
 @HiltViewModel
 internal class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-) : MviViewModel<SignInUiState, SignInUiEvent>(
-    initialState = SignInUiState.initial(),
+) : BaseMviViewModel<SignInIntent, SignInState, SignInSideEffect>(
+    initialState = SignInState.initial(),
 ) {
     private val idEntered: Boolean
-        get() = uiState.value.accountId.isNotBlank()
+        get() = stateFlow.value.accountId.isNotBlank()
     private val passwordEntered: Boolean
-        get() = uiState.value.password.isNotBlank()
+        get() = stateFlow.value.password.isNotBlank()
 
-    override fun updateState(event: SignInUiEvent) {
-        when (event) {
-            SignInUiEvent.SignIn -> this.signIn()
-            is SignInUiEvent.UpdateAutoSignInOption -> this.setAutoSignInOption(
-                newAutoSignInOption = event.newAutoSignInOption,
+    override fun processIntent(intent: SignInIntent) {
+        when (intent) {
+            SignInIntent.SignIn -> this.signIn()
+            is SignInIntent.UpdateAutoSignInOption -> this.setAutoSignInOption(
+                newAutoSignInOption = intent.newAutoSignInOption,
             )
 
-            is SignInUiEvent.UpdateAccountId -> this.setId(
-                newId = event.newAccountId,
+            is SignInIntent.UpdateAccountId -> this.setId(
+                newId = intent.newAccountId,
             )
 
-            is SignInUiEvent.UpdatePassword -> this.setPassword(
-                newPassword = event.newPassword,
+            is SignInIntent.UpdatePassword -> this.setPassword(
+                newPassword = intent.newPassword,
             )
         }
     }
@@ -47,7 +49,7 @@ internal class SignInViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val currentUserInformation = this@SignInViewModel.uiState.value
+                val currentUserInformation = this@SignInViewModel.stateFlow.value
 
                 signInUseCase(
                     signInInput = SignInInput(
@@ -57,34 +59,17 @@ internal class SignInViewModel @Inject constructor(
                     ),
                 )
             }.onSuccess {
-                setState(
-                    newState = uiState.value.copy(
-                        signInSuccess = true,
+                postSideEffect(
+                    sideEffect = SignInSideEffect.SignInSuccess(
                         features = it.features.toModel(),
                     ),
                 )
             }.onFailure {
                 when (it) {
-                    AuthException.UserNotFound -> setState(
-                        newState = uiState.value.copy(
-                            idError = true,
-                            error = it,
-                        ),
-                    )
-
-                    AuthException.PasswordMismatch -> setState(
-                        newState = uiState.value.copy(
-                            passwordError = true,
-                            error = it,
-                        ),
-                    )
-                }/*
-
-                setState(
-                    newState = uiState.value.copy(
-                        error = it,
-                    ),
-                )*/
+                    RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
+                    AuthException.UserNotFound -> postSideEffect(SignInSideEffect.IdNotFound)
+                    AuthException.PasswordMismatch -> postSideEffect(SignInSideEffect.PasswordMismatch)
+                }
             }
         }
     }
@@ -92,8 +77,8 @@ internal class SignInViewModel @Inject constructor(
     private fun setAutoSignInOption(
         newAutoSignInOption: Boolean,
     ) {
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = currentState.copy(
                 autoSignIn = newAutoSignInOption,
             ),
         )
@@ -102,8 +87,8 @@ internal class SignInViewModel @Inject constructor(
     private fun setId(
         newId: String,
     ) {
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = currentState.copy(
                 idError = false,
                 accountId = newId,
             ),
@@ -115,8 +100,8 @@ internal class SignInViewModel @Inject constructor(
     private fun setPassword(
         newPassword: String,
     ) {
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = currentState.copy(
                 passwordError = false,
                 password = newPassword,
             ),
@@ -128,16 +113,31 @@ internal class SignInViewModel @Inject constructor(
     private fun setSignInButtonState(
         enabled: Boolean = idEntered && passwordEntered
     ) {
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = currentState.copy(
                 signInButtonEnabled = enabled,
             ),
         )
     }
 }
 
-internal data class SignInUiState(
-    val signInSuccess: Boolean,
+internal sealed interface SignInIntent : MviIntent {
+    class UpdateAccountId(
+        val newAccountId: String,
+    ) : SignInIntent
+
+    class UpdatePassword(
+        val newPassword: String,
+    ) : SignInIntent
+
+    class UpdateAutoSignInOption(
+        val newAutoSignInOption: Boolean,
+    ) : SignInIntent
+
+    object SignIn : SignInIntent
+}
+
+internal data class SignInState(
     val accountId: String,
     val password: String,
     val autoSignIn: Boolean,
@@ -145,11 +145,9 @@ internal data class SignInUiState(
     val idError: Boolean,
     val passwordError: Boolean,
     val features: Feature,
-    val error: Throwable?, // todo 상의 필요
-) : UiState {
+) : MviState {
     companion object {
-        fun initial() = SignInUiState(
-            signInSuccess = false,
+        fun initial() = SignInState(
             accountId = "",
             password = "",
             autoSignIn = false,
@@ -157,23 +155,13 @@ internal data class SignInUiState(
             idError = false,
             passwordError = false,
             features = Feature.falseInitialized(),
-            error = null,
         )
     }
 }
 
-internal sealed interface SignInUiEvent : UiEvent {
-    class UpdateAccountId(
-        val newAccountId: String,
-    ) : SignInUiEvent
-
-    class UpdatePassword(
-        val newPassword: String,
-    ) : SignInUiEvent
-
-    class UpdateAutoSignInOption(
-        val newAutoSignInOption: Boolean,
-    ) : SignInUiEvent
-
-    object SignIn : SignInUiEvent
+internal sealed class SignInSideEffect : MviSideEffect {
+    class SignInSuccess(val features: Feature) : SignInSideEffect()
+    object BadRequest : SignInSideEffect()
+    object IdNotFound : SignInSideEffect()
+    object PasswordMismatch : SignInSideEffect()
 }
