@@ -15,6 +15,7 @@ import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.constans.Extra
 import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.handler.DmsExceptionHandler
 
 @AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
@@ -25,6 +26,9 @@ internal class MainActivity : ComponentActivity() {
 
         setContent {
             val appState = rememberDmsAppState()
+            LaunchedEffect(appState) {
+                DmsExceptionHandler.setAppState(appState)
+            }
 
             DormTheme(
                 darkTheme = appState.darkTheme,
