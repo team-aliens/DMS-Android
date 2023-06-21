@@ -9,7 +9,14 @@ internal object AuthNavigation {
 
     const val SignIn = "signIn"
     const val FindId = "findId"
-    const val ResetPassword = "resetPassword"
+
+    object ResetPasswordNavigation {
+        const val route = "resetPassword"
+
+        const val IdVerification = "idVerification"
+        const val EnterEmailVerificationCode = "enterEmailVerificationCode"
+        const val SetPassword = "setPassword"
+    }
 
     object SignUpNavigation {
         const val route = "signUp"
@@ -35,10 +42,25 @@ fun NavGraphBuilder.authNavigation() {
         composable(AuthNavigation.FindId) {
 
         }
-        composable(AuthNavigation.ResetPassword) {
+        resetPasswordNavigation()
+        signUpNavigation()
+    }
+}
+
+private fun NavGraphBuilder.resetPasswordNavigation() {
+    navigation(
+        startDestination = AuthNavigation.ResetPasswordNavigation.IdVerification,
+        route = AuthNavigation.ResetPasswordNavigation.route,
+    ) {
+        composable(AuthNavigation.ResetPasswordNavigation.IdVerification) {
 
         }
-        signUpNavigation()
+        composable(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode) {
+
+        }
+        composable(AuthNavigation.ResetPasswordNavigation.SetPassword) {
+
+        }
     }
 }
 
@@ -66,7 +88,7 @@ private fun NavGraphBuilder.signUpNavigation() {
 
         }
         composable(AuthNavigation.SignUpNavigation.Terms) {
-            
+
         }
     }
 }
