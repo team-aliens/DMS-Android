@@ -24,7 +24,7 @@ internal object MainNavigation {
     const val UploadProfileImage = "uploadProfileImage"
 
     object Arguments {
-        const val RoomId = "room-id"
+        const val StudyRoomId = "study-room-id"
         const val Timeslot = "timeslot"
     }
 }
@@ -69,7 +69,7 @@ fun NavGraphBuilder.mainNavigation(
         composable(
             route = MainNavigation.StudyRoomDetails,
             arguments = listOf(
-                navArgument(MainNavigation.Arguments.RoomId) {
+                navArgument(MainNavigation.Arguments.StudyRoomId) {
                     type = NavType.UuidType
                 },
                 navArgument(MainNavigation.Arguments.Timeslot) {
@@ -78,7 +78,7 @@ fun NavGraphBuilder.mainNavigation(
             ),
         ) { backStackEntry ->
             backStackEntry.arguments?.run {
-                val roomId = getString(MainNavigation.Arguments.RoomId)
+                val roomId = getString(MainNavigation.Arguments.StudyRoomId)
                 val timeslot = getString(MainNavigation.Arguments.Timeslot)
 
                 StudyRoomDetailsScreen(
