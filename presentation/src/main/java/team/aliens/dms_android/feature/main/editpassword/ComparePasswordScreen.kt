@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.comparepassword
+package team.aliens.dms_android.feature.main.editpassword
 
 import android.content.Context
 import androidx.compose.foundation.background
