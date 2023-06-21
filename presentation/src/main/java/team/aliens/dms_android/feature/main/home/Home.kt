@@ -29,8 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -65,7 +67,7 @@ internal fun Home(
     val containsApplicationScreen by remember { mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled) }
 
     LaunchedEffect(containsApplicationScreen) {
-        if (!containsApplicationScreen) navigationItems.remove(BottomNavigationItem.Application)
+        if (!containsApplicationScreen) navigationItems.remove(HomeBottomNavigationItem.Application)
     }
 
     Scaffold(
@@ -85,13 +87,13 @@ internal fun Home(
     ) {
         AnimatedNavHost(
             navController = bottomNavController,
-            startDestination = BottomNavigationItem.Meal.route,
+            startDestination = HomeBottomNavigationItem.Meal.route,
         ) {
             composable(
-                route = BottomNavigationItem.Meal.route,
+                route = HomeBottomNavigationItem.Meal.route,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeIn(
+                        HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 30,
                                 delayMillis = 40,
@@ -108,7 +110,7 @@ internal fun Home(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeOut(
+                        HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeOut(
                             animationSpec = tween(
                                 durationMillis = 30,
                             ),
@@ -126,16 +128,16 @@ internal fun Home(
             ) {
                 MealScreen(
                     onNavigateToNoticeScreen = {
-                        bottomNavController.navigateTo(BottomNavigationItem.Notice.route)
+                        bottomNavController.navigateTo(HomeBottomNavigationItem.Notice.route)
                     },
                 )
             }
             if (containsApplicationScreen) {
                 composable(
-                    route = BottomNavigationItem.Application.route,
+                    route = HomeBottomNavigationItem.Application.route,
                     enterTransition = {
                         when (initialState.destination.route) {
-                            BottomNavigationItem.Meal.route -> fadeIn(
+                            HomeBottomNavigationItem.Meal.route -> fadeIn(
                                 animationSpec = tween(
                                     durationMillis = 80,
                                     delayMillis = 40,
@@ -147,7 +149,7 @@ internal fun Home(
                                 },
                             )
 
-                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeIn(
+                            HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeIn(
                                 animationSpec = tween(
                                     durationMillis = 80,
                                     delayMillis = 40,
@@ -164,7 +166,7 @@ internal fun Home(
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            BottomNavigationItem.Meal.route -> fadeOut(
+                            HomeBottomNavigationItem.Meal.route -> fadeOut(
                                 animationSpec = tween(
                                     durationMillis = 30,
                                 ),
@@ -176,7 +178,7 @@ internal fun Home(
                                 },
                             )
 
-                            BottomNavigationItem.Notice.route, BottomNavigationItem.MyPage.route -> fadeOut(
+                            HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeOut(
                                 animationSpec = tween(
                                     durationMillis = 30,
                                 ),
@@ -205,10 +207,10 @@ internal fun Home(
                 }
             }
             composable(
-                route = BottomNavigationItem.Notice.route,
+                route = HomeBottomNavigationItem.Notice.route,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> fadeIn(
+                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 80,
                                 delayMillis = 40,
@@ -220,7 +222,7 @@ internal fun Home(
                             },
                         )
 
-                        BottomNavigationItem.MyPage.route -> fadeIn(
+                        HomeBottomNavigationItem.MyPage.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 80,
                                 delayMillis = 40,
@@ -237,7 +239,7 @@ internal fun Home(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route -> fadeOut(
+                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route -> fadeOut(
                             animationSpec = tween(
                                 durationMillis = 30,
                             ),
@@ -249,7 +251,7 @@ internal fun Home(
                             },
                         )
 
-                        BottomNavigationItem.MyPage.route -> fadeOut(
+                        HomeBottomNavigationItem.MyPage.route -> fadeOut(
                             animationSpec = tween(
                                 durationMillis = 30,
                             ),
@@ -272,10 +274,10 @@ internal fun Home(
                 )
             }
             composable(
-                route = BottomNavigationItem.MyPage.route,
+                route = HomeBottomNavigationItem.MyPage.route,
                 enterTransition = {
                     when (initialState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> fadeIn(
+                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route -> fadeIn(
                             animationSpec = tween(
                                 durationMillis = 80,
                                 delayMillis = 40,
@@ -292,7 +294,7 @@ internal fun Home(
                 },
                 exitTransition = {
                     when (targetState.destination.route) {
-                        BottomNavigationItem.Meal.route, BottomNavigationItem.Application.route, BottomNavigationItem.Notice.route -> fadeOut(
+                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route -> fadeOut(
                             animationSpec = tween(
                                 durationMillis = 30,
                             ),
@@ -333,11 +335,11 @@ internal fun Home(
 
 @Immutable
 private object NavigationItemsWrapper {
-    val navigationItems: MutableList<BottomNavigationItem> = mutableListOf(
-        BottomNavigationItem.Meal,
-        BottomNavigationItem.Application,
-        BottomNavigationItem.Notice,
-        BottomNavigationItem.MyPage,
+    val navigationItems: MutableList<HomeBottomNavigationItem> = mutableListOf(
+        HomeBottomNavigationItem.Meal,
+        HomeBottomNavigationItem.Application,
+        HomeBottomNavigationItem.Notice,
+        HomeBottomNavigationItem.MyPage,
     )
 }
 
@@ -351,7 +353,7 @@ private val unselectedColor: Color
 private fun BottomNavBar(
     navController: NavHostController,
     navBackStackEntry: NavBackStackEntry?,
-    navigationItems: List<BottomNavigationItem>,
+    navigationItems: List<HomeBottomNavigationItem>,
 ) {
 
     BottomNavigation(
@@ -409,4 +411,10 @@ private fun NavHostController.navigateTo(
         launchSingleTop = true
         restoreState = true
     }
+}
+
+internal fun NavGraphBuilder.homeNavigation() {
+    navigation(
+        startDestination = HomeBottomNavigationItem
+    )
 }
