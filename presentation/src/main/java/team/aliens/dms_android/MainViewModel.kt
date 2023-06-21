@@ -1,63 +1,42 @@
 package team.aliens.dms_android
 
+import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
-import team.aliens.domain.model._common.toModel
-import team.aliens.domain.model.student.Feature
-import team.aliens.domain.usecase.auth.AutoSignInUseCase
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.domain.usecase.auth.CheckRefreshTokenAvailableUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
-    private val autoSignInUseCase: AutoSignInUseCase,
-) : MviViewModel<MainUiState, MainUiEvent>(
-    initialState = MainUiState.initial(),
-) {
+    private val checkRefreshTokenAvailableUseCase: CheckRefreshTokenAvailableUseCase,
+) : ViewModel() {
+    private val _stateFlow = MutableSharedFlow<MainSideEffect>()
+    val sideEffectFlow: SharedFlow<MainSideEffect>
+        get() = _stateFlow.asSharedFlow()
+
     init {
         autoSignIn()
     }
 
     private fun autoSignIn() {
-        runBlocking { // fixme 로직 생각해보기
+        runBlocking {
             kotlin.runCatching {
-                autoSignInUseCase()
-            }.onSuccess {
-                setState(
-                    newState = uiState.value.copy(
-                        autoSignInSuccess = true,
-                        feature = it.features.toModel(),
-                    ),
-                )
-            }.onFailure {
-                setState(
-                    newState = uiState.value.copy(
-                        autoSignInSuccess = false,
-                    ),
+                checkRefreshTokenAvailableUseCase()
+            }.onSuccess { refreshTokenAvailable ->
+                _stateFlow.tryEmit(
+                    if (refreshTokenAvailable) MainSideEffect.RefreshTokenAvailable
+                    else MainSideEffect.RefreshTokenNotAvailable,
                 )
             }
         }
     }
 }
 
-internal data class MainUiState(
-    val autoSignInSuccess: Boolean,
-    val feature: Feature,
-) : UiState {
-    companion object {
-        fun initial() = MainUiState(
-            autoSignInSuccess = false,
-            feature = Feature(
-                mealService = false,
-                noticeService = false,
-                pointService = false,
-                studyRoomService = false,
-                remainsService = false,
-            ),
-        )
-    }
+internal sealed class MainSideEffect : MviSideEffect {
+    object RefreshTokenAvailable : MainSideEffect()
+    object RefreshTokenNotAvailable : MainSideEffect()
 }
-
-internal sealed class MainUiEvent : UiEvent
