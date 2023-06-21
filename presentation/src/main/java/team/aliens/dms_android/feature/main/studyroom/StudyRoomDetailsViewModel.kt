@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.main.studyroom
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +19,6 @@ import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.presentation.R
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +38,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         ) : UiEvent()
 
         class CancelApplySeat(
-            val seatId: String,
+            val seatId: UUID,
             val timeSlot: UUID,
         ) : UiEvent()
 
@@ -52,11 +52,9 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private var timeSlot = _uiState.value.timeSlot
 
     internal fun initStudyRoom(
-        roomId: String,
+        roomId: UUID,
         timeSlot: UUID,
     ) {
-        require(roomId.isNotBlank())
-
         this.roomId = roomId
         this.timeSlot = timeSlot
 
@@ -107,7 +105,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
-                    roomId = roomId,
+                    roomId = roomId!!,
                     timeSlot = timeSlot,
                 )
             }.onFailure {
@@ -130,7 +128,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
 
                     is KotlinNullPointerException -> { // todo optimize code
                         fetchStudyRoomDetails(
-                            roomId = roomId,
+                            roomId = roomId!!,
                             timeSlot = timeSlot,
                         )
                     }
@@ -144,7 +142,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     }
 
     private fun cancelSeat(
-        seatId: String,
+        seatId: UUID,
         timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -157,7 +155,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onSuccess {
                 fetchStudyRoomDetails(
-                    roomId = roomId,
+                    roomId = roomId!!,
                     timeSlot = timeSlot,
                 )
             }.onFailure {
@@ -188,14 +186,14 @@ class StudyRoomDetailsViewModel @Inject constructor(
     }
 
     private fun fetchStudyRoomDetails(
-        roomId: String,
+        roomId: UUID,
         timeSlot: UUID,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchStudyRoomDetailUseCase(
                     fetchStudyRoomDetailsInput = FetchStudyRoomDetailsInput(
-                        studyRoomId = UUID.fromString(roomId),
+                        studyRoomId = roomId,
                         timeSlot = timeSlot,
                     ),
                 )
@@ -214,7 +212,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchSeatTypeUseCase(
                     fetchSeatTypesInput = FetchSeatTypesInput(
-                        studyRoomId = UUID.fromString(roomId),
+                        studyRoomId = roomId!!,
                     ),
                 )
             }.onSuccess {
