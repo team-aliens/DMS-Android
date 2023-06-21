@@ -412,9 +412,3 @@ private fun NavHostController.navigateTo(
         restoreState = true
     }
 }
-
-internal fun NavGraphBuilder.homeNavigation() {
-    navigation(
-        startDestination = HomeBottomNavigationItem
-    )
-}
