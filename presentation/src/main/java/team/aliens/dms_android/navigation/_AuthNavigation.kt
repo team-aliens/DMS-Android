@@ -1,18 +1,39 @@
 package team.aliens.dms_android.navigation
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.feature.auth.changepassword.EditPasswordScreen
-import team.aliens.dms_android.feature.auth.changepassword.ResetPasswordScreen
-import team.aliens.dms_android.feature.auth.changepassword.UserVerification
-import team.aliens.dms_android.feature.main.comparepassword.ComparePasswordScreen
-import team.aliens.dms_android.feature.auth.findid.FindIdScreen
-import team.aliens.dms_android.feature.auth.signin.SignInScreen
-import team.aliens.dms_android.feature.main.home.mypage.MyPageChangePasswordScreen
-import team.aliens.dms_android.navigateToHome
+import androidx.navigation.navigation
 
+internal object AuthNavigation {
+    const val route = "auth"
+
+    const val SignIn = "signIn"
+    const val FindId = "findId"
+    const val ResetPassword = "resetPassword"
+}
+
+fun NavGraphBuilder.authNavigation() {
+    navigation(
+        startDestination = AuthNavigation.SignIn,
+        route = AuthNavigation.route,
+    ) {
+        composable(AuthNavigation.SignIn) {
+
+        }
+        composable(AuthNavigation.FindId) {
+
+        }
+        composable(AuthNavigation.ResetPassword) {
+
+        }
+        signUpNavigation()
+    }
+}
+
+private fun NavGraphBuilder.signUpNavigation() {
+}
+
+/*
 internal fun NavGraphBuilder.authNavigation(
     navController: NavHostController,
 ) {
@@ -62,4 +83,4 @@ internal fun NavGraphBuilder.authNavigation(
             navController = navController,
         )
     }
-}
+}*/
