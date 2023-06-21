@@ -4,9 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model._common.PointType
 import team.aliens.domain.model.point.FetchPointsInput
 import team.aliens.domain.model.point.FetchPointsOutput
@@ -18,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class PointHistoryViewModel @Inject constructor(
     private val fetchPointsUseCase: FetchPointsUseCase,
-) : MviViewModel<PointHistoryUiState, PointHistoryUiEvent>(
-    initialState = PointHistoryUiState.initial(),
+) : BaseMviViewModel<PointHistoryIntent, PointHistoryState, PointHistorySideEffect>(
+    initialState = PointHistoryState.initial(),
 ) {
     init {
         fetchPoints(
@@ -27,12 +28,12 @@ internal class PointHistoryViewModel @Inject constructor(
         )
     }
 
-    override fun updateState(event: PointHistoryUiEvent) {
-        when (event) {
-            is PointHistoryUiEvent.FetchPoints -> this.fetchPoints(event.pointType)
-            PointHistoryUiEvent.FetchAllTypePoints -> this.fetchPoints(PointType.ALL)
-            PointHistoryUiEvent.FetchBonusTypePoints -> this.fetchPoints(PointType.BONUS)
-            PointHistoryUiEvent.FetchMinusTypePoints -> this.fetchPoints(PointType.MINUS)
+    override fun processIntent(intent: PointHistoryIntent) {
+        when (intent) {
+            is PointHistoryIntent.FetchPoints -> this.fetchPoints(intent.pointType)
+            PointHistoryIntent.FetchAllTypePoints -> this.fetchPoints(PointType.ALL)
+            PointHistoryIntent.FetchBonusTypePoints -> this.fetchPoints(PointType.BONUS)
+            PointHistoryIntent.FetchMinusTypePoints -> this.fetchPoints(PointType.MINUS)
         }
     }
 
@@ -57,8 +58,8 @@ internal class PointHistoryViewModel @Inject constructor(
         type: PointType,
         fetchPointsOutput: FetchPointsOutput,
     ) {
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = stateFlow.value.copy(
                 selectedType = type,
                 totalPoint = fetchPointsOutput.totalPoint,
                 points = fetchPointsOutput.pointHistories.toModel(),
@@ -67,13 +68,21 @@ internal class PointHistoryViewModel @Inject constructor(
     }
 }
 
-internal data class PointHistoryUiState(
+internal sealed class PointHistoryIntent : MviIntent {
+    class FetchPoints(val pointType: PointType) : PointHistoryIntent()
+    object FetchAllTypePoints : PointHistoryIntent()
+    object FetchBonusTypePoints : PointHistoryIntent()
+    object FetchMinusTypePoints : PointHistoryIntent()
+}
+
+
+internal data class PointHistoryState(
     val selectedType: PointType,
     val totalPoint: Int,
     val points: List<Point>,
-) : UiState {
+) : MviState {
     companion object {
-        fun initial() = PointHistoryUiState(
+        fun initial() = PointHistoryState(
             selectedType = PointType.ALL,
             totalPoint = 0, // todo 스켈레톤 효과에 따른 리팩토링 논의
             points = emptyList(),
@@ -81,9 +90,4 @@ internal data class PointHistoryUiState(
     }
 }
 
-internal sealed class PointHistoryUiEvent : UiEvent {
-    class FetchPoints(val pointType: PointType) : PointHistoryUiEvent()
-    object FetchAllTypePoints : PointHistoryUiEvent()
-    object FetchBonusTypePoints : PointHistoryUiEvent()
-    object FetchMinusTypePoints : PointHistoryUiEvent()
-}
+internal sealed class PointHistorySideEffect : MviSideEffect

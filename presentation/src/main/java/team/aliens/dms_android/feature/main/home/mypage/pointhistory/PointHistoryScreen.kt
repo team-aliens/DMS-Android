@@ -46,11 +46,7 @@ internal fun PointHistoryScreen(
     onPrevious: () -> Unit,
     pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
 ) {
-    val uiState by pointHistoryViewModel.uiState.collectAsStateWithLifecycle()
-
-    val onFetchPoints = { pointType: PointType ->
-        pointHistoryViewModel.onEvent(PointHistoryUiEvent.FetchPoints(pointType))
-    }
+    val uiState by pointHistoryViewModel.stateFlow.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -64,7 +60,9 @@ internal fun PointHistoryScreen(
         Spacer(Modifier.height(36.dp))
         PointFilter(
             selectedType = uiState.selectedType,
-            onFilterChange = onFetchPoints,
+            onFilterChange = { pointType: PointType ->
+                pointHistoryViewModel.postIntent(PointHistoryIntent.FetchPoints(pointType))
+            },
         )
         Spacer(Modifier.height(36.dp))
         Headline2(
