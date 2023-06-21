@@ -101,6 +101,7 @@ fun NavGraphBuilder.mainNavigation(
             backStackEntry.arguments?.run {
                 val noticeId = getString(MainNavigation.Arguments.NoticeId)
                 NoticeDetailsScreen(
+                    onPrevious = onPrevious,
                     noticeId = UUID.fromString(noticeId),
                 )
             }

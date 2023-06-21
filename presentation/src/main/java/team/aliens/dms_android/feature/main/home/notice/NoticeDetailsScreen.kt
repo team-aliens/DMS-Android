@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
@@ -30,7 +29,7 @@ import team.aliens.presentation.R
 
 @Composable
 internal fun NoticeDetailsScreen(
-    navController: NavController,
+    onPrevious: () -> Unit,
     noticeId: UUID,
     noticeDetailsViewModel: NoticeDetailsViewModel = hiltViewModel(),
 ) {
@@ -49,9 +48,8 @@ internal fun NoticeDetailsScreen(
     ) {
         TopBar(
             title = stringResource(R.string.Announcement),
-        ) {
-            navController.popBackStack()
-        }
+            onPrevious = onPrevious,
+        )
         Column(
             modifier = Modifier
                 .padding(
