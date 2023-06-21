@@ -14,7 +14,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,10 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -40,21 +38,24 @@ import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.main.home.NavigationItemsWrapper.navigationItems
 import team.aliens.dms_android.feature.main.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.meal.MealScreen
 import team.aliens.dms_android.feature.main.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticesScreen
-import team.aliens.dms_android.navigateToSignIn
-import team.aliens.dms_android.util.SelectImageType
 
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun Home(
-    navController: NavHostController,
-    scaffoldState: ScaffoldState,
+    onNavigateToStudyRooms: () -> Unit,
+    onNavigateToRemainsApplication: () -> Unit,
+    onNavigateToNoticeDetails: (UUID) -> Unit,
+    onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
+    onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
+    onNavigateToPointHistory: () -> Unit,
+    onNavigateToEditPassword: () -> Unit,
+    onNavigateToSignIn: () -> Unit,
 ) {
     val bottomNavController = rememberAnimatedNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
@@ -71,7 +72,7 @@ internal fun Home(
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
+        scaffoldState = rememberScaffoldState(),
         bottomBar = {
             BottomNavBar(
                 navController = bottomNavController,
@@ -195,12 +196,12 @@ internal fun Home(
                     },
                 ) {
                     ApplicationScreen(
-                        onNavigateToStudyRooms = {
+                        onNavigateToStudyRooms =/* todo {
                             navController.navigate(DmsRoute.Home.StudyRooms)
-                        },
-                        onNavigateToRemainsApplication = {
+                        }*/onNavigateToStudyRooms,
+                        onNavigateToRemainsApplication = /* todo {
                             navController.navigate(DmsRoute.Home.RemainsApplication)
-                        },
+                        }*/onNavigateToRemainsApplication,
                         studyRoomServiceEnabled = studyRoomServiceEnabled,
                         remainsServiceEnabled = remainsServiceEnabled,
                     )
@@ -268,9 +269,12 @@ internal fun Home(
                 },
             ) {
                 NoticesScreen(
-                    onNavigateToNoticeDetailsScreen = { value: UUID ->
-                        navController.navigate("noticeDetails/${value}")
-                    },
+                    onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetails,
+                    /* todo
+                        { value: UUID ->
+                            navController.navigate("noticeDetails/${value}")
+                        }
+                    */
                 )
             }
             composable(
@@ -311,21 +315,21 @@ internal fun Home(
                 },
             ) {
                 MyPageScreen(
-                    onNavigateToUploadProfileImageWithTakingPhoto = {
-                        navController.navigate(
-                            DmsRoute.Home.UploadProfileImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
-                        )
-                    },
-                    onNavigateToUploadProfileImageWithSelectingPhoto = {
-                        navController.navigate(
-                            DmsRoute.Home.UploadProfileImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
-                        )
-                    },
-                    onNavigateToPointHistory = { navController.navigate(DmsRoute.Home.PointHistory) },
-                    onNavigateToEditPassword = { navController.navigate(DmsRoute.Auth.EditPassword) },
-                    onNavigateToSignIn = {
-                        navController.navigateToSignIn()
-                    },
+                    onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
+                    /* todo {
+                                            navController.navigate(
+                                                DmsRoute.Home.UploadProfileImage + "/${SelectImageType.TAKE_PHOTO.ordinal}",
+                                            )
+                                        }*/
+                    onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
+                    /* todo {
+                                            navController.navigate(
+                                                DmsRoute.Home.UploadProfileImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}",
+                                            )
+                                        }*/
+                    onNavigateToPointHistory = onNavigateToPointHistory, /* todo { navController.navigate(DmsRoute.Home.PointHistory) } */
+                    onNavigateToEditPassword = onNavigateToEditPassword, /* todo { navController.navigate(DmsRoute.Auth.EditPassword) }, */
+                    onNavigateToSignIn = onNavigateToSignIn,/* todo { navController.navigateToSignIn() } */
                     pointServiceEnabled = pointServiceEnabled,
                 )
             }
