@@ -22,13 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DMS_Android.NoActionBar"
         android:usesCleartextTraffic="true">
 
         <activity
             android:name="team.aliens.dms_android.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.DMS_Android.NoActionBar"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
