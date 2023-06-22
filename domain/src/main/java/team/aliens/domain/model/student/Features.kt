@@ -8,7 +8,7 @@ package team.aliens.domain.model.student
  * @property studyRoomService boolean value of study room service enabled
  * @property remainsService boolean value of remains service enabled
  */
-data class Feature(
+data class Features(
     val mealService: Boolean,
     val noticeService: Boolean,
     val pointService: Boolean,
@@ -16,7 +16,7 @@ data class Feature(
     val remainsService: Boolean,
 ) {
     companion object {
-        fun trueInitialized() = Feature(
+        fun trueInitialized() = Features(
             mealService = true,
             noticeService = true,
             pointService = true,
@@ -24,7 +24,7 @@ data class Feature(
             remainsService = true,
         )
 
-        fun falseInitialized() = Feature(
+        fun falseInitialized() = Features(
             mealService = false,
             noticeService = false,
             pointService = false,

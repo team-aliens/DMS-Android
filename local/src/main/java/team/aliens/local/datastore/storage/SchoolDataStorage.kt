@@ -1,10 +1,10 @@
 package team.aliens.local.datastore.storage
 
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 
 interface SchoolDataStorage {
 
-    suspend fun findFeature(): Feature
+    suspend fun findFeature(): Features
 
     suspend fun findMealFeatureEnabled(): Boolean
 
@@ -17,6 +17,6 @@ interface SchoolDataStorage {
     suspend fun findRemainsServiceEnabled(): Boolean
 
     suspend fun saveFeature(
-        feature: Feature,
+        features: Features,
     )
 }

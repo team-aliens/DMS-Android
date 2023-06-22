@@ -12,7 +12,7 @@ import team.aliens.domain.exception.AuthException
 import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 import team.aliens.domain.usecase.auth.SignInUseCase
 import javax.inject.Inject
 
@@ -144,7 +144,7 @@ internal data class SignInState(
     val signInButtonEnabled: Boolean,
     val idError: Boolean,
     val passwordError: Boolean,
-    val features: Feature,
+    val features: Features,
 ) : MviState {
     companion object {
         fun initial() = SignInState(
@@ -154,13 +154,13 @@ internal data class SignInState(
             signInButtonEnabled = false,
             idError = false,
             passwordError = false,
-            features = Feature.falseInitialized(),
+            features = Features.falseInitialized(),
         )
     }
 }
 
 internal sealed class SignInSideEffect : MviSideEffect {
-    class SignInSuccess(val features: Feature) : SignInSideEffect()
+    class SignInSuccess(val features: Features) : SignInSideEffect()
     object BadRequest : SignInSideEffect()
     object IdNotFound : SignInSideEffect()
     object PasswordMismatch : SignInSideEffect()

@@ -1,6 +1,6 @@
 package team.aliens.domain.model._common
 
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 
 /**
  * A response returned when authentication succeed
@@ -35,8 +35,8 @@ data class AuthenticationOutput(
     )
 }
 
-fun AuthenticationOutput.Features.toModel(): Feature {
-    return Feature(
+fun AuthenticationOutput.Features.toModel(): Features {
+    return Features(
         mealService = this.mealService,
         noticeService = this.noticeService,
         pointService = this.pointService,

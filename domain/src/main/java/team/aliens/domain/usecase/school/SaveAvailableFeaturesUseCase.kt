@@ -4,10 +4,10 @@ import team.aliens.domain.model.student.Features
 import team.aliens.domain.repository.SchoolRepository
 import javax.inject.Inject
 
-class FetchLocalAvailableFeaturesUseCase @Inject constructor(
+class SaveAvailableFeaturesUseCase @Inject constructor(
     private val schoolRepository: SchoolRepository,
 ) {
-    suspend operator fun invoke(): Features {
-        return schoolRepository.findFeature()
+    suspend operator fun invoke(features: Features) {
+        schoolRepository.saveFeatures(features)
     }
 }

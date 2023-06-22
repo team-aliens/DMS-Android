@@ -1,7 +1,7 @@
 package team.aliens.local.datasource
 
 import team.aliens.data.datasource.local.LocalSchoolDataSource
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 import team.aliens.local.datastore.storage.SchoolDataStorage
 import javax.inject.Inject
 
@@ -9,7 +9,7 @@ class LocalSchoolDataSourceImpl @Inject constructor(
     private val schoolDataStorage: SchoolDataStorage,
 ) : LocalSchoolDataSource {
 
-    override suspend fun findFeature(): Feature {
+    override suspend fun findFeature(): Features {
         return schoolDataStorage.findFeature()
     }
 
@@ -34,10 +34,10 @@ class LocalSchoolDataSourceImpl @Inject constructor(
     }
 
     override suspend fun saveFeature(
-        feature: Feature,
+        features: Features,
     ) {
         schoolDataStorage.saveFeature(
-            feature = feature,
+            features = features,
         )
     }
 }

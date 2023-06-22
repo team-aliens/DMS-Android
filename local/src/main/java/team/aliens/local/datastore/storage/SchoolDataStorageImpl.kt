@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.first
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.MealService
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.NoticeService
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.PointService
@@ -16,7 +16,7 @@ class SchoolDataStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : SchoolDataStorage {
 
-    override suspend fun findFeature(): Feature {
+    override suspend fun findFeature(): Features {
 
         val fetchedMealOption = this.findMealFeatureEnabled()
         val fetchedNoticeOption = this.findNoticeFeatureEnabled()
@@ -24,7 +24,7 @@ class SchoolDataStorageImpl @Inject constructor(
         val fetchedStudyRoomOption = this.findStudyRoomServiceEnabled()
         val fetchedRemainsOption = this.findRemainsServiceEnabled()
 
-        return Feature(
+        return Features(
             mealService = fetchedMealOption,
             noticeService = fetchedNoticeOption,
             pointService = fetchedPointOption,
@@ -54,14 +54,14 @@ class SchoolDataStorageImpl @Inject constructor(
     }
 
     override suspend fun saveFeature(
-        feature: Feature,
+        features: Features,
     ) {
         dataStore.edit {
-            it[MealService] = feature.mealService
-            it[NoticeService] = feature.noticeService
-            it[PointService] = feature.pointService
-            it[StudyRoomService] = feature.studyRoomService
-            it[RemainsService] = feature.remainsService
+            it[MealService] = features.mealService
+            it[NoticeService] = features.noticeService
+            it[PointService] = features.pointService
+            it[StudyRoomService] = features.studyRoomService
+            it[RemainsService] = features.remainsService
         }
     }
 }

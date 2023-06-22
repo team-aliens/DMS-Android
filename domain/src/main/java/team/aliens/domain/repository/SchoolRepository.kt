@@ -7,7 +7,7 @@ import team.aliens.domain.model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain.model.school.FetchSchoolsOutput
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 
 interface SchoolRepository {
 
@@ -27,7 +27,7 @@ interface SchoolRepository {
 
     suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput
 
-    suspend fun findFeature(): Feature
+    suspend fun findFeature(): Features
 
     suspend fun findMealFeatureEnabled(): Boolean
 
@@ -39,7 +39,5 @@ interface SchoolRepository {
 
     suspend fun findRemainsServiceEnabled(): Boolean
 
-    suspend fun saveFeature(
-        feature: Feature,
-    )
+    suspend fun saveFeatures(features: Features)
 }

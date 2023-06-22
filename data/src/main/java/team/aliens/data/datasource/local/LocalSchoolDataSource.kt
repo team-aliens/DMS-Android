@@ -1,10 +1,10 @@
 package team.aliens.data.datasource.local
 
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 
 interface LocalSchoolDataSource {
 
-    suspend fun findFeature(): Feature
+    suspend fun findFeature(): Features
 
     suspend fun findMealFeatureEnabled(): Boolean
 
@@ -17,6 +17,6 @@ interface LocalSchoolDataSource {
     suspend fun findRemainsServiceEnabled(): Boolean
 
     suspend fun saveFeature(
-        feature: Feature,
+        features: Features,
     )
 }

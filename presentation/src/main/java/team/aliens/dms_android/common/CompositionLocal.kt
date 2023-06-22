@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import team.aliens.dms_android.constans.Extra
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 
-internal val LocalAvailableFeatures = staticCompositionLocalOf { Feature.falseInitialized() }
+internal val LocalAvailableFeatures = staticCompositionLocalOf { Features.falseInitialized() }
 
 internal fun initLocalAvailableFeatures(
     container: MutableMap<String, Boolean>,
@@ -42,7 +42,7 @@ internal fun initLocalAvailableFeatures(
 
 internal fun initLocalAvailableFeatures(
     container: MutableMap<String, Boolean>,
-    features: Feature
+    features: Features
 ) {
     initLocalAvailableFeatures(
         container = container,
@@ -61,9 +61,9 @@ internal fun rememberAvailableFeatures(
     pointService: Boolean = false,
     studyRoomService: Boolean = false,
     remainsService: Boolean = false
-): Feature {
+): Features {
     return remember {
-        Feature(
+        Features(
             mealService = mealService,
             noticeService = noticeService,
             pointService = pointService,

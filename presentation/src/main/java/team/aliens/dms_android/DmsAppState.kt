@@ -10,15 +10,14 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.toast.ToastState
 import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.common.rememberAvailableFeatures
-import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 
 @Composable
 internal fun rememberDmsAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavHostController = rememberNavController(),
     toastState: ToastState = rememberToastState(),
-    availableFeatures: Feature = rememberAvailableFeatures(),
+    availableFeatures: Features = rememberAvailableFeatures(),
     darkTheme: Boolean = isSystemInDarkTheme(),
 ) = remember {
     DmsAppState(
@@ -35,6 +34,6 @@ internal class DmsAppState(
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
     val toastState: ToastState,
-    val availableFeatures: Feature,
+    val availableFeatures: Features,
     val darkTheme: Boolean,
 )
