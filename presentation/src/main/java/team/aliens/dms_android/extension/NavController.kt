@@ -4,7 +4,9 @@ import androidx.navigation.NavHostController
 import java.util.UUID
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.auth.AuthNavigation
+import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
+import team.aliens.dms_android.feature.main.editpassword.EditPasswordNavigation
 import team.aliens.dms_android.util.SelectImageType
 
 internal fun NavHostController.navigateToHome() {
@@ -54,7 +56,7 @@ internal fun NavHostController.navigateToPointHistory() {
 }
 
 internal fun NavHostController.navigateToEditPasswordNav() {
-    this.navigate(MainNavigation.EditPasswordNavigation.route)
+    this.navigate(EditPasswordNavigation.route)
 }
 
 internal fun NavHostController.navigateToStudyRoomDetails(
@@ -65,12 +67,12 @@ internal fun NavHostController.navigateToStudyRoomDetails(
 }
 
 internal fun NavHostController.navigateToEditPasswordSetPassword() {
-    this.navigate(MainNavigation.EditPasswordNavigation.SetPassword)
+    this.navigate(EditPasswordNavigation.SetPassword)
 }
 
 // Auth
 internal fun NavHostController.navigateToSignUpNav() {
-    this.navigate(AuthNavigation.SignUpNavigation.route)
+    // todo this.navigate(SignUpNavigation.route)
 }
 
 internal fun NavHostController.navigateToFindId() {
@@ -78,13 +80,13 @@ internal fun NavHostController.navigateToFindId() {
 }
 
 internal fun NavHostController.navigateToResetPasswordNav() {
-    this.navigate(AuthNavigation.ResetPasswordNavigation.route)
+    this.navigate(ResetPasswordNavigation.route)
 }
 
 internal fun NavHostController.navigateToResetPasswordEnterEmailVerificationCode() {
-    this.navigate(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode)
+    this.navigate(ResetPasswordNavigation.EnterEmailVerificationCode)
 }
 
 internal fun NavHostController.navigateToResetPasswordSetPassword() {
-    this.navigate(AuthNavigation.ResetPasswordNavigation.SetPassword)
+    this.navigate(ResetPasswordNavigation.SetPassword)
 }
