@@ -1,9 +1,7 @@
 package team.aliens.dms_android.feature.main.home
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -30,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import java.util.UUID
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
@@ -57,7 +55,7 @@ internal fun Home(
     onNavigateToEditPasswordNav: () -> Unit,
     onNavigateToAuthNav: () -> Unit,
 ) {
-    val bottomNavController = rememberAnimatedNavController()
+    val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val availableFeatures = LocalAvailableFeatures.current
@@ -86,47 +84,27 @@ internal fun Home(
         backgroundColor = DormTheme.colors.background,
         contentColor = DormTheme.colors.background,
     ) {
-        AnimatedNavHost(
+        NavHost(
             navController = bottomNavController,
             startDestination = HomeBottomNavigationItem.Meal.route,
+            enterTransition = {
+                // todo
+                fadeIn(
+                    animationSpec = tween(
+                        durationMillis = 100,
+                    ),
+                )
+            },
+            exitTransition = {
+                // todo
+                fadeOut(
+                    animationSpec = tween(
+                        durationMillis = 100,
+                    ),
+                )
+            },
         ) {
-            composable(
-                route = HomeBottomNavigationItem.Meal.route,
-                enterTransition = {
-                    when (initialState.destination.route) {
-                        HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeIn(
-                            animationSpec = tween(
-                                durationMillis = 30,
-                                delayMillis = 40,
-                            ),
-                        ) + slideIntoContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                            },
-                        )
-
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeOut(
-                            animationSpec = tween(
-                                durationMillis = 30,
-                            ),
-                        ) + slideOutOfContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                                delayMillis = 1_0
-                            },
-                        )
-
-                        else -> null
-                    }
-                },
-            ) {
+            composable(HomeBottomNavigationItem.Meal.route) {
                 MealScreen(
                     onNavigateToNoticeScreen = {
                         bottomNavController.navigateTo(HomeBottomNavigationItem.Notice.route)
@@ -134,67 +112,7 @@ internal fun Home(
                 )
             }
             if (containsApplicationScreen) {
-                composable(
-                    route = HomeBottomNavigationItem.Application.route,
-                    enterTransition = {
-                        when (initialState.destination.route) {
-                            HomeBottomNavigationItem.Meal.route -> fadeIn(
-                                animationSpec = tween(
-                                    durationMillis = 80,
-                                    delayMillis = 40,
-                                ),
-                            ) + slideIntoContainer(
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                                animationSpec = keyframes {
-                                    durationMillis = 8_0
-                                },
-                            )
-
-                            HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeIn(
-                                animationSpec = tween(
-                                    durationMillis = 80,
-                                    delayMillis = 40,
-                                ),
-                            ) + slideIntoContainer(
-                                towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                                animationSpec = keyframes {
-                                    durationMillis = 8_0
-                                },
-                            )
-
-                            else -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            HomeBottomNavigationItem.Meal.route -> fadeOut(
-                                animationSpec = tween(
-                                    durationMillis = 30,
-                                ),
-                            ) + slideOutOfContainer(
-                                towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                                animationSpec = keyframes {
-                                    durationMillis = 8_0
-                                    delayMillis = 1_0
-                                },
-                            )
-
-                            HomeBottomNavigationItem.Notice.route, HomeBottomNavigationItem.MyPage.route -> fadeOut(
-                                animationSpec = tween(
-                                    durationMillis = 30,
-                                ),
-                            ) + slideOutOfContainer(
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                                animationSpec = keyframes {
-                                    durationMillis = 8_0
-                                    delayMillis = 1_0
-                                },
-                            )
-
-                            else -> null
-                        }
-                    },
-                ) {
+                composable(HomeBottomNavigationItem.Application.route) {
                     ApplicationScreen(
                         onNavigateToStudyRooms = onNavigateToStudyRooms,
                         onNavigateToRemainsApplication = onNavigateToRemainsApplication,
@@ -203,108 +121,12 @@ internal fun Home(
                     )
                 }
             }
-            composable(
-                route = HomeBottomNavigationItem.Notice.route,
-                enterTransition = {
-                    when (initialState.destination.route) {
-                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route -> fadeIn(
-                            animationSpec = tween(
-                                durationMillis = 80,
-                                delayMillis = 40,
-                            ),
-                        ) + slideIntoContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                            },
-                        )
-
-                        HomeBottomNavigationItem.MyPage.route -> fadeIn(
-                            animationSpec = tween(
-                                durationMillis = 80,
-                                delayMillis = 40,
-                            ),
-                        ) + slideIntoContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                            },
-                        )
-
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route -> fadeOut(
-                            animationSpec = tween(
-                                durationMillis = 30,
-                            ),
-                        ) + slideOutOfContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                                delayMillis = 1_0
-                            },
-                        )
-
-                        HomeBottomNavigationItem.MyPage.route -> fadeOut(
-                            animationSpec = tween(
-                                durationMillis = 30,
-                            ),
-                        ) + slideOutOfContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                                delayMillis = 1_0
-                            },
-                        )
-
-                        else -> null
-                    }
-                },
-            ) {
+            composable(HomeBottomNavigationItem.Notice.route) {
                 NoticesScreen(
                     onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetails,
                 )
             }
-            composable(
-                route = HomeBottomNavigationItem.MyPage.route,
-                enterTransition = {
-                    when (initialState.destination.route) {
-                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route -> fadeIn(
-                            animationSpec = tween(
-                                durationMillis = 80,
-                                delayMillis = 40,
-                            ),
-                        ) + slideIntoContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                            },
-                        )
-
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        HomeBottomNavigationItem.Meal.route, HomeBottomNavigationItem.Application.route, HomeBottomNavigationItem.Notice.route -> fadeOut(
-                            animationSpec = tween(
-                                durationMillis = 30,
-                            ),
-                        ) + slideOutOfContainer(
-                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                            animationSpec = keyframes {
-                                durationMillis = 8_0
-                                delayMillis = 1_0
-                            },
-                        )
-
-                        else -> null
-                    }
-                },
-            ) {
+            composable(HomeBottomNavigationItem.MyPage.route) {
                 MyPageScreen(
                     onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
                     onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
@@ -340,7 +162,6 @@ private fun BottomNavBar(
     navBackStackEntry: NavBackStackEntry?,
     navigationItems: List<HomeBottomNavigationItem>,
 ) {
-
     BottomNavigation(
         backgroundColor = DormTheme.colors.surface,
         modifier = Modifier.graphicsLayer {
