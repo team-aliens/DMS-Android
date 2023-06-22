@@ -14,7 +14,7 @@ internal object AuthNavigation {
     const val FindId = this.route + "/findId"
 }
 
-fun NavGraphBuilder.authNavigation(
+internal fun NavGraphBuilder.authNavigation(
     onNavigateToHome: () -> Unit,
     onNavigateToSignUpNav: () -> Unit,
     onNavigateToFindId: () -> Unit,

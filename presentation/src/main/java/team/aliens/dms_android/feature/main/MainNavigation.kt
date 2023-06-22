@@ -36,7 +36,7 @@ internal object MainNavigation {
     }
 }
 
-fun NavGraphBuilder.mainNavigation(
+internal fun NavGraphBuilder.mainNavigation(
     onNavigateToStudyRooms: () -> Unit,
     onNavigateToRemainsApplication: () -> Unit,
     onNavigateToNoticeDetails: (noticeId: UUID) -> Unit,
