@@ -4,9 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
-import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordEnterEmailVerificationCodeScreen
-import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordIdVerificationScreen
-import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordSetPasswordScreen
+import team.aliens.dms_android.feature.auth.resetpassword.resetPasswordNavigation
 import team.aliens.dms_android.feature.auth.signin.SignInScreen
 
 internal object AuthNavigation {
@@ -14,28 +12,6 @@ internal object AuthNavigation {
 
     const val SignIn = this.route + "/signIn"
     const val FindId = this.route + "/findId"
-
-    // todo move to reset password package
-    object ResetPasswordNavigation {
-        const val route = "resetPassword"
-
-        const val IdVerification = this.route + "/passwordIdVerification"
-        const val EnterEmailVerificationCode = this.route + "/passwordEnterEmailVerificationCode"
-        const val SetPassword = this.route + "/passwordSetPassword"
-    }
-
-    // todo move to sign up package
-    object SignUpNavigation {
-        const val route = "/signUp"
-
-        const val EnterSchoolVerificationCode = this.route + "/enterSchoolVerificationCode"
-        const val EnterSchoolVerificationQuestion = this.route + "/enterSchoolVerificationQuestion"
-        const val SetEmail = this.route + "/setEmail"
-        const val SetId = this.route + "/setId"
-        const val SetPassword = this.route + "/setPassword"
-        const val SetProfile = this.route + "/setProfile"
-        const val Terms = this.route + "/terms"
-    }
 }
 
 fun NavGraphBuilder.authNavigation(
@@ -71,65 +47,6 @@ fun NavGraphBuilder.authNavigation(
             onPrevious = onPrevious,
             onNavigateToSignIn = onNavigateToSignIn,
         )
-        signUpNavigation()
-    }
-}
-
-private fun NavGraphBuilder.resetPasswordNavigation(
-    onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
-    onNavigateToResetPasswordSetPassword: () -> Unit,
-    onPrevious: () -> Unit,
-    onNavigateToSignIn: () -> Unit,
-) {
-    navigation(
-        startDestination = AuthNavigation.ResetPasswordNavigation.IdVerification,
-        route = AuthNavigation.ResetPasswordNavigation.route,
-    ) {
-        composable(AuthNavigation.ResetPasswordNavigation.IdVerification) {
-            ResetPasswordIdVerificationScreen(
-                onNavigateToResetPasswordEnterEmailVerificationCode = onNavigateToResetPasswordEnterEmailVerificationCode,
-            )
-        }
-        composable(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode) {
-            ResetPasswordEnterEmailVerificationCodeScreen(
-                onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword
-            )
-        }
-        composable(AuthNavigation.ResetPasswordNavigation.SetPassword) {
-            ResetPasswordSetPasswordScreen(
-                onPrevious = onPrevious,
-                onNavigateToSignIn = onNavigateToSignIn,
-            )
-        }
-    }
-}
-
-// todo sign up 작업 후 마저 구현하기
-private fun NavGraphBuilder.signUpNavigation() {
-    navigation(
-        startDestination = AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode,
-        route = AuthNavigation.SignUpNavigation.route,
-    ) {
-        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode) {
-
-        }
-        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationQuestion) {
-
-        }
-        composable(AuthNavigation.SignUpNavigation.SetEmail) {
-
-        }
-        composable(AuthNavigation.SignUpNavigation.SetId) {
-
-        }
-        composable(AuthNavigation.SignUpNavigation.SetPassword) {
-
-        }
-        composable(AuthNavigation.SignUpNavigation.SetProfile) {
-
-        }
-        composable(AuthNavigation.SignUpNavigation.Terms) {
-
-        }
+        // todo signUpNavigation()
     }
 }
