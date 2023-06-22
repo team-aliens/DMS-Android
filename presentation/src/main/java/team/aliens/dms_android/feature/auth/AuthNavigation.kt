@@ -70,7 +70,7 @@ private fun NavGraphBuilder.resetPasswordNavigation() {
         route = AuthNavigation.ResetPasswordNavigation.route,
     ) {
         composable(AuthNavigation.ResetPasswordNavigation.IdVerification) {
-
+            
         }
         composable(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode) {
 

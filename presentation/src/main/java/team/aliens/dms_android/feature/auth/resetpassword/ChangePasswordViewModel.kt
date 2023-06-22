@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.auth.changepassword
+package team.aliens.dms_android.feature.auth.resetpassword
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

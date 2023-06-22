@@ -1,6 +1,6 @@
 @file:JvmName("EditPasswordScreenKt")
 
-package team.aliens.dms_android.feature.auth.changepassword
+package team.aliens.dms_android.feature.auth.resetpassword
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
