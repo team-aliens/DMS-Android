@@ -12,29 +12,29 @@ import team.aliens.dms_android.feature.auth.signin.SignInScreen
 internal object AuthNavigation {
     const val route = "auth"
 
-    const val SignIn = "signIn"
-    const val FindId = "findId"
+    const val SignIn = this.route + "/signIn"
+    const val FindId = this.route + "/findId"
 
     // todo move to reset password package
     object ResetPasswordNavigation {
         const val route = "resetPassword"
 
-        const val IdVerification = "idVerification"
-        const val EnterEmailVerificationCode = "enterEmailVerificationCode"
-        const val SetPassword = "setPassword"
+        const val IdVerification = this.route + "/passwordIdVerification"
+        const val EnterEmailVerificationCode = this.route + "/passwordEnterEmailVerificationCode"
+        const val SetPassword = this.route + "/passwordSetPassword"
     }
 
     // todo move to sign up package
     object SignUpNavigation {
-        const val route = "signUp"
+        const val route = "/signUp"
 
-        const val EnterSchoolVerificationCode = "enterSchoolVerificationCode"
-        const val EnterSchoolVerificationQuestion = "enterSchoolVerificationQuestion"
-        const val SetEmail = "setEmail"
-        const val SetId = "setId"
-        const val SetPassword = "setPassword"
-        const val SetProfile = "setProfile"
-        const val Terms = "terms"
+        const val EnterSchoolVerificationCode = this.route + "/enterSchoolVerificationCode"
+        const val EnterSchoolVerificationQuestion = this.route + "/enterSchoolVerificationQuestion"
+        const val SetEmail = this.route + "/setEmail"
+        const val SetId = this.route + "/setId"
+        const val SetPassword = this.route + "/setPassword"
+        const val SetProfile = this.route + "/setProfile"
+        const val Terms = this.route + "/terms"
     }
 }
 
