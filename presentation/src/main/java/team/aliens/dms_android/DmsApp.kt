@@ -3,11 +3,13 @@ package team.aliens.dms_android
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastLayout
-import team.aliens.design_system.toast.rememberToastState
+import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.common.rememberAvailableFeatures
 import team.aliens.dms_android.extension.navigateToAuthNav
 import team.aliens.dms_android.extension.navigateToEditPasswordNav
 import team.aliens.dms_android.extension.navigateToEditPasswordSetPassword
@@ -28,53 +30,61 @@ import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.authNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.feature.main.mainNavigation
+import team.aliens.domain.model.student.Features
 
 @Composable
 internal fun DmsApp(
-    refreshTokenAvailable: Boolean,
     modifier: Modifier = Modifier,
-    dmsAppState: DmsAppState = rememberDmsAppState(),
+    isSignedIn: Boolean,
+    initialAvailableFeatures: Features,
+    dmsAppState: DmsAppState = rememberDmsAppState(
+        availableFeatures = rememberAvailableFeatures(initialAvailableFeatures),
+    ),
 ) {
     val navController = dmsAppState.navController
-    val toastState = rememberToastState()
+    val toastState = dmsAppState.toastState
 
-    DormToastLayout(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                color = DormTheme.colors.background,
-            ),
-        toastState = toastState,
+    CompositionLocalProvider(
+        LocalAvailableFeatures provides initialAvailableFeatures,
     ) {
-        NavHost(
-            modifier = modifier.fillMaxSize(),
-            navController = navController,
-            startDestination = if (refreshTokenAvailable) MainNavigation.route else AuthNavigation.route,
+        DormToastLayout(
+            modifier = modifier
+                .fillMaxSize()
+                .background(
+                    color = DormTheme.colors.background,
+                ),
+            toastState = toastState,
         ) {
-            mainNavigation(
-                onNavigateToStudyRooms = navController::navigateToStudyRooms,
-                onNavigateToRemainsApplication = navController::navigateToRemainsApplication,
-                onNavigateToNoticeDetails = navController::navigateToNoticeDetails,
-                onNavigateToUploadProfileImageWithTakingPhoto = navController::navigateToUploadProfileImageWithTakingPhoto,
-                onNavigateToUploadProfileImageWithSelectingPhoto = navController::navigateToUploadProfileImageWithSelectingPhoto,
-                onNavigateToPointHistory = navController::navigateToPointHistory,
-                onNavigateToEditPasswordNav = navController::navigateToEditPasswordNav,
-                onNavigateToAuthNav = navController::navigateToAuthNav,
-                onPrevious = navController::popBackStack,
-                onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
-                onNavigateToEditPasswordSetPassword = navController::navigateToEditPasswordSetPassword,
-                onNavigateToHome = navController::navigateToHome,
-            )
-            authNavigation(
-                onNavigateToHome = navController::navigateToHome,
-                onNavigateToSignUpNav = navController::navigateToSignUpNav,
-                onNavigateToFindId = navController::navigateToFindId,
-                onNavigateToResetPasswordNav = navController::navigateToResetPasswordNav,
-                onNavigateToSignIn = navController::navigateToAuthNav,
-                onNavigateToResetPasswordEnterEmailVerificationCode = navController::navigateToResetPasswordEnterEmailVerificationCode,
-                onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
-                onPrevious = navController::popBackStack,
-            )
+            NavHost(
+                modifier = modifier.fillMaxSize(),
+                navController = navController,
+                startDestination = if (isSignedIn) MainNavigation.route else AuthNavigation.route,
+            ) {
+                mainNavigation(
+                    onNavigateToStudyRooms = navController::navigateToStudyRooms,
+                    onNavigateToRemainsApplication = navController::navigateToRemainsApplication,
+                    onNavigateToNoticeDetails = navController::navigateToNoticeDetails,
+                    onNavigateToUploadProfileImageWithTakingPhoto = navController::navigateToUploadProfileImageWithTakingPhoto,
+                    onNavigateToUploadProfileImageWithSelectingPhoto = navController::navigateToUploadProfileImageWithSelectingPhoto,
+                    onNavigateToPointHistory = navController::navigateToPointHistory,
+                    onNavigateToEditPasswordNav = navController::navigateToEditPasswordNav,
+                    onNavigateToAuthNav = navController::navigateToAuthNav,
+                    onPrevious = navController::popBackStack,
+                    onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
+                    onNavigateToEditPasswordSetPassword = navController::navigateToEditPasswordSetPassword,
+                    onNavigateToHome = navController::navigateToHome,
+                )
+                authNavigation(
+                    onNavigateToHome = navController::navigateToHome,
+                    onNavigateToSignUpNav = navController::navigateToSignUpNav,
+                    onNavigateToFindId = navController::navigateToFindId,
+                    onNavigateToResetPasswordNav = navController::navigateToResetPasswordNav,
+                    onNavigateToSignIn = navController::navigateToAuthNav,
+                    onNavigateToResetPasswordEnterEmailVerificationCode = navController::navigateToResetPasswordEnterEmailVerificationCode,
+                    onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
+                    onPrevious = navController::popBackStack,
+                )
+            }
         }
     }
 }

@@ -139,8 +139,4 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun clearToken() {
         localAuthDataSource.clearToken()
     }
-
-    override suspend fun signOut() {
-        localAuthDataSource.clearToken()
-    }
 }

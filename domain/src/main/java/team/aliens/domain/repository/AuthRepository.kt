@@ -60,6 +60,4 @@ interface AuthRepository {
     )
 
     suspend fun clearToken()
-
-    suspend fun signOut()
 }

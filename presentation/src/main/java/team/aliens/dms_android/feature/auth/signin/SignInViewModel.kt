@@ -13,12 +13,12 @@ import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
 import team.aliens.domain.model.student.Features
-import team.aliens.domain.usecase.auth.SignInUseCase
+import team.aliens.domain.usecase.auth.SignInWithSavingTokensAndFeaturesUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SignInViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase,
+    private val signInWithSavingTokensAndFeaturesUseCase: SignInWithSavingTokensAndFeaturesUseCase,
 ) : BaseMviViewModel<SignInIntent, SignInState, SignInSideEffect>(
     initialState = SignInState.initial(),
 ) {
@@ -51,7 +51,7 @@ internal class SignInViewModel @Inject constructor(
             kotlin.runCatching {
                 val currentUserInformation = this@SignInViewModel.stateFlow.value
 
-                signInUseCase(
+                signInWithSavingTokensAndFeaturesUseCase(
                     signInInput = SignInInput(
                         accountId = currentUserInformation.accountId,
                         password = currentUserInformation.password,
