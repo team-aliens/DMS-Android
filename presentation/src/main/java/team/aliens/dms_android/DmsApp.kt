@@ -2,8 +2,6 @@ package team.aliens.dms_android
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -37,7 +35,6 @@ internal fun DmsApp(
     modifier: Modifier = Modifier,
     dmsAppState: DmsAppState = rememberDmsAppState(),
 ) {
-    val scaffoldState = dmsAppState.scaffoldState
     val navController = dmsAppState.navController
     val toastState = rememberToastState()
 
@@ -49,41 +46,35 @@ internal fun DmsApp(
             ),
         toastState = toastState,
     ) {
-        Scaffold(
-            scaffoldState = scaffoldState,
-        ) { paddingValues ->
-            NavHost(
-                modifier = Modifier.padding(
-                    paddingValues = paddingValues,
-                ),
-                navController = navController,
-                startDestination = if (refreshTokenAvailable) MainNavigation.route else AuthNavigation.route,
-            ) {
-                mainNavigation(
-                    onNavigateToStudyRooms = navController::navigateToStudyRooms,
-                    onNavigateToRemainsApplication = navController::navigateToRemainsApplication,
-                    onNavigateToNoticeDetails = navController::navigateToNoticeDetails,
-                    onNavigateToUploadProfileImageWithTakingPhoto = navController::navigateToUploadProfileImageWithTakingPhoto,
-                    onNavigateToUploadProfileImageWithSelectingPhoto = navController::navigateToUploadProfileImageWithSelectingPhoto,
-                    onNavigateToPointHistory = navController::navigateToPointHistory,
-                    onNavigateToEditPasswordNav = navController::navigateToEditPasswordNav,
-                    onNavigateToAuthNav = navController::navigateToAuthNav,
-                    onPrevious = navController::popBackStack,
-                    onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
-                    onNavigateToEditPasswordSetPassword = navController::navigateToEditPasswordSetPassword,
-                    onNavigateToHome = navController::navigateToHome,
-                )
-                authNavigation(
-                    onNavigateToHome = navController::navigateToHome,
-                    onNavigateToSignUpNav = navController::navigateToSignUpNav,
-                    onNavigateToFindId = navController::navigateToFindId,
-                    onNavigateToResetPasswordNav = navController::navigateToResetPasswordNav,
-                    onNavigateToSignIn = navController::navigateToAuthNav,
-                    onNavigateToResetPasswordEnterEmailVerificationCode = navController::navigateToResetPasswordEnterEmailVerificationCode,
-                    onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
-                    onPrevious = navController::popBackStack,
-                )
-            }
+        NavHost(
+            modifier = modifier.fillMaxSize(),
+            navController = navController,
+            startDestination = if (refreshTokenAvailable) MainNavigation.route else AuthNavigation.route,
+        ) {
+            mainNavigation(
+                onNavigateToStudyRooms = navController::navigateToStudyRooms,
+                onNavigateToRemainsApplication = navController::navigateToRemainsApplication,
+                onNavigateToNoticeDetails = navController::navigateToNoticeDetails,
+                onNavigateToUploadProfileImageWithTakingPhoto = navController::navigateToUploadProfileImageWithTakingPhoto,
+                onNavigateToUploadProfileImageWithSelectingPhoto = navController::navigateToUploadProfileImageWithSelectingPhoto,
+                onNavigateToPointHistory = navController::navigateToPointHistory,
+                onNavigateToEditPasswordNav = navController::navigateToEditPasswordNav,
+                onNavigateToAuthNav = navController::navigateToAuthNav,
+                onPrevious = navController::popBackStack,
+                onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
+                onNavigateToEditPasswordSetPassword = navController::navigateToEditPasswordSetPassword,
+                onNavigateToHome = navController::navigateToHome,
+            )
+            authNavigation(
+                onNavigateToHome = navController::navigateToHome,
+                onNavigateToSignUpNav = navController::navigateToSignUpNav,
+                onNavigateToFindId = navController::navigateToFindId,
+                onNavigateToResetPasswordNav = navController::navigateToResetPasswordNav,
+                onNavigateToSignIn = navController::navigateToAuthNav,
+                onNavigateToResetPasswordEnterEmailVerificationCode = navController::navigateToResetPasswordEnterEmailVerificationCode,
+                onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
+                onPrevious = navController::popBackStack,
+            )
         }
     }
 }
