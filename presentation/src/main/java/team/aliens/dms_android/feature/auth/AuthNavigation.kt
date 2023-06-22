@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
+import team.aliens.dms_android.feature.auth.resetpassword.IdVerificationScreen
 import team.aliens.dms_android.feature.auth.signin.SignInScreen
 
 internal object AuthNavigation {
@@ -41,6 +42,7 @@ fun NavGraphBuilder.authNavigation(
     onNavigateToFindId: () -> Unit,
     onNavigateToResetPasswordNav: () -> Unit,
     onNavigateToSignIn: () -> Unit,
+    onNavigateToResetPasswordSetPassword: () -> Unit,
 ) {
     navigation(
         startDestination = AuthNavigation.SignIn,
@@ -59,18 +61,24 @@ fun NavGraphBuilder.authNavigation(
                 onNavigateToSignIn = onNavigateToSignIn,
             )
         }
-        resetPasswordNavigation()
+        resetPasswordNavigation(
+            onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword,
+        )
         signUpNavigation()
     }
 }
 
-private fun NavGraphBuilder.resetPasswordNavigation() {
+private fun NavGraphBuilder.resetPasswordNavigation(
+    onNavigateToResetPasswordSetPassword: () -> Unit
+) {
     navigation(
         startDestination = AuthNavigation.ResetPasswordNavigation.IdVerification,
         route = AuthNavigation.ResetPasswordNavigation.route,
     ) {
         composable(AuthNavigation.ResetPasswordNavigation.IdVerification) {
-            
+            IdVerificationScreen(
+                onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword,
+            )
         }
         composable(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode) {
 

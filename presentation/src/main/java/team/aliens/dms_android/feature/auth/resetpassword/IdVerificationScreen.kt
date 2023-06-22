@@ -27,7 +27,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.extension.RatioSpace
@@ -38,17 +37,16 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
 import team.aliens.dms_android.feature.signup.ui.email.RegisterEmailViewModel
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun UserVerification(
-    navController: NavController,
-    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
-    registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
+fun IdVerificationScreen(
+    onNavigateToResetPasswordSetPassword: () -> Unit,
+    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
+    registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(), // fixme
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -90,9 +88,11 @@ fun UserVerification(
                 is ChangePasswordViewModel.Event.CheckIdSuccess -> {
                     emailResponse = it.email
                 }
+
                 is ChangePasswordViewModel.Event.NotFoundException -> {
                     isIdError = true
                 }
+
                 else -> {
                     toast(
                         getStringFromEvent(
@@ -108,17 +108,11 @@ fun UserVerification(
     LaunchedEffect(Unit) {
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
-                is RegisterEmailEvent.SendEmailSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString("accountId", id.trim())
-                        putString("name", name.trim())
-                        putString("email", userEmail.trim())
-                    }
-                    navController.navigate(DmsRoute.Auth.ResetPassword)
-                }
+                is RegisterEmailEvent.SendEmailSuccess -> onNavigateToResetPasswordSetPassword()
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.Retry))
                 }
+
                 else -> toast(
                     getStringFromEmailEvent(
                         context = context,
@@ -274,12 +268,15 @@ private fun getStringFromEvent(
     is ChangePasswordViewModel.Event.BadRequestException -> {
         context.getString(R.string.BadRequest)
     }
+
     is ChangePasswordViewModel.Event.TooManyRequestException -> {
         context.getString(R.string.TooManyRequest)
     }
+
     is ChangePasswordViewModel.Event.ServerException -> {
         context.getString(R.string.ServerException)
     }
+
     else -> {
         context.getString(R.string.UnKnownException)
     }
@@ -292,15 +289,19 @@ private fun getStringFromEmailEvent(
     is RegisterEmailEvent.CheckEmailNotFound -> {
         context.getString(R.string.CertificationInfoNotFound)
     }
+
     is RegisterEmailEvent.BadRequestException -> {
         context.getString(R.string.NotFound)
     }
+
     is RegisterEmailEvent.ConflictException -> {
         context.getString(R.string.ConflictEmail)
     }
+
     is RegisterEmailEvent.InternalServerException -> {
         context.getString(R.string.ServerException)
     }
+
     else -> {
         context.getString(R.string.UnKnownException)
     }

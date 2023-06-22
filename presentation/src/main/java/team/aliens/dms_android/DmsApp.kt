@@ -13,10 +13,14 @@ import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.extension.navigateToAuthNav
 import team.aliens.dms_android.extension.navigateToEditPasswordNav
 import team.aliens.dms_android.extension.navigateToEditPasswordSetPassword
+import team.aliens.dms_android.extension.navigateToFindId
 import team.aliens.dms_android.extension.navigateToHome
 import team.aliens.dms_android.extension.navigateToNoticeDetails
 import team.aliens.dms_android.extension.navigateToPointHistory
 import team.aliens.dms_android.extension.navigateToRemainsApplication
+import team.aliens.dms_android.extension.navigateToResetPasswordNav
+import team.aliens.dms_android.extension.navigateToResetPasswordSetPassword
+import team.aliens.dms_android.extension.navigateToSignUpNav
 import team.aliens.dms_android.extension.navigateToStudyRoomDetails
 import team.aliens.dms_android.extension.navigateToStudyRooms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
@@ -66,7 +70,14 @@ internal fun DmsApp(
                     onNavigateToEditPasswordSetPassword = navController::navigateToEditPasswordSetPassword,
                     onNavigateToHome = navController::navigateToHome,
                 )
-                authNavigation()
+                authNavigation(
+                    onNavigateToHome = navController::navigateToHome,
+                    onNavigateToSignUpNav = navController::navigateToSignUpNav,
+                    onNavigateToFindId = navController::navigateToFindId,
+                    onNavigateToResetPasswordNav = navController::navigateToResetPasswordNav,
+                    onNavigateToSignIn = navController::navigateToAuthNav,
+                    onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
+                )
             }
         }
     }
