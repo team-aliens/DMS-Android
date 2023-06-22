@@ -13,8 +13,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,7 +58,7 @@ internal fun Home(
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val availableFeatures = LocalAvailableFeatures.current
-    val studyRoomServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.studyRoomService) }
+    val studyRoomServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.mealService) }
     val remainsServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.remainsService) }
     val pointServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.pointService) }
 
@@ -138,7 +138,7 @@ internal fun Home(
     }
 }
 
-@Immutable
+@Stable
 private object NavigationItemsWrapper {
     val navigationItems: MutableList<HomeBottomNavigationItem> = mutableListOf(
         HomeBottomNavigationItem.Meal,
@@ -163,13 +163,13 @@ private fun BottomNavBar(
     BottomNavigation(
         backgroundColor = DormTheme.colors.surface,
         modifier = Modifier.graphicsLayer {
-                clip = true
-                shape = RoundedCornerShape(
-                    topStart = 24.dp,
-                    topEnd = 24.dp,
-                )
-                shadowElevation = 20f
-            },
+            clip = true
+            shape = RoundedCornerShape(
+                topStart = 24.dp,
+                topEnd = 24.dp,
+            )
+            shadowElevation = 20f
+        },
     ) {
         navigationItems.forEach { navigationItem ->
             val currentDestination = navBackStackEntry?.destination?.route
