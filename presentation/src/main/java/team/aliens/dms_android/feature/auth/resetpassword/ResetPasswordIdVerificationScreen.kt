@@ -43,7 +43,7 @@ import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun IdVerificationScreen(
+fun ResetPasswordIdVerificationScreen(
     onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(), // fixme

@@ -51,7 +51,7 @@ import team.aliens.presentation.R
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
 @Composable
-fun ResetPasswordScreen(
+fun ResetPasswordSetPasswordScreen(
     onPrevious: () -> Unit,
     onNavigateToSignIn: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),

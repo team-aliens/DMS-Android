@@ -7,10 +7,6 @@ import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.util.SelectImageType
 
-internal fun NavHostController.onPrevious() {
-    this.popBackStack()
-}
-
 internal fun NavHostController.navigateToHome() {
     this.navigate(DmsRoute.Home.route) {
         launchSingleTop = true
