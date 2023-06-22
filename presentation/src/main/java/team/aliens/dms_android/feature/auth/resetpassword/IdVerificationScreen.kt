@@ -44,7 +44,7 @@ import team.aliens.presentation.R
 
 @Composable
 fun IdVerificationScreen(
-    onNavigateToResetPasswordSetPassword: () -> Unit,
+    onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(), // fixme
 ) {
@@ -108,7 +108,7 @@ fun IdVerificationScreen(
     LaunchedEffect(Unit) {
         registerEmailViewModel.registerEmailEvent.collect {
             when (it) {
-                is RegisterEmailEvent.SendEmailSuccess -> onNavigateToResetPasswordSetPassword()
+                is RegisterEmailEvent.SendEmailSuccess -> onNavigateToResetPasswordEnterEmailVerificationCode()
                 is RegisterEmailEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.Retry))
                 }

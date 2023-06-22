@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
+import team.aliens.dms_android.feature.auth.resetpassword.EnterEmailVerificationCodeScreen
 import team.aliens.dms_android.feature.auth.resetpassword.IdVerificationScreen
 import team.aliens.dms_android.feature.auth.signin.SignInScreen
 
@@ -42,6 +43,7 @@ fun NavGraphBuilder.authNavigation(
     onNavigateToFindId: () -> Unit,
     onNavigateToResetPasswordNav: () -> Unit,
     onNavigateToSignIn: () -> Unit,
+    onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     onNavigateToResetPasswordSetPassword: () -> Unit,
 ) {
     navigation(
@@ -62,6 +64,7 @@ fun NavGraphBuilder.authNavigation(
             )
         }
         resetPasswordNavigation(
+            onNavigateToResetPasswordEnterEmailVerificationCode = onNavigateToResetPasswordEnterEmailVerificationCode,
             onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword,
         )
         signUpNavigation()
@@ -69,6 +72,7 @@ fun NavGraphBuilder.authNavigation(
 }
 
 private fun NavGraphBuilder.resetPasswordNavigation(
+    onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     onNavigateToResetPasswordSetPassword: () -> Unit
 ) {
     navigation(
@@ -77,11 +81,13 @@ private fun NavGraphBuilder.resetPasswordNavigation(
     ) {
         composable(AuthNavigation.ResetPasswordNavigation.IdVerification) {
             IdVerificationScreen(
-                onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword,
+                onNavigateToResetPasswordEnterEmailVerificationCode = onNavigateToResetPasswordEnterEmailVerificationCode,
             )
         }
         composable(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode) {
-
+            EnterEmailVerificationCodeScreen(
+                onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword
+            )
         }
         composable(AuthNavigation.ResetPasswordNavigation.SetPassword) {
 
@@ -89,6 +95,7 @@ private fun NavGraphBuilder.resetPasswordNavigation(
     }
 }
 
+// todo sign up 작업 후 마저 구현하기
 private fun NavGraphBuilder.signUpNavigation() {
     navigation(
         startDestination = AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode,

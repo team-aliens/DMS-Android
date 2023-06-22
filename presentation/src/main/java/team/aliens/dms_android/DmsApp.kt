@@ -18,6 +18,7 @@ import team.aliens.dms_android.extension.navigateToHome
 import team.aliens.dms_android.extension.navigateToNoticeDetails
 import team.aliens.dms_android.extension.navigateToPointHistory
 import team.aliens.dms_android.extension.navigateToRemainsApplication
+import team.aliens.dms_android.extension.navigateToResetPasswordEnterEmailVerificationCode
 import team.aliens.dms_android.extension.navigateToResetPasswordNav
 import team.aliens.dms_android.extension.navigateToResetPasswordSetPassword
 import team.aliens.dms_android.extension.navigateToSignUpNav
@@ -76,6 +77,7 @@ internal fun DmsApp(
                     onNavigateToFindId = navController::navigateToFindId,
                     onNavigateToResetPasswordNav = navController::navigateToResetPasswordNav,
                     onNavigateToSignIn = navController::navigateToAuthNav,
+                    onNavigateToResetPasswordEnterEmailVerificationCode = navController::navigateToResetPasswordEnterEmailVerificationCode,
                     onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
                 )
             }

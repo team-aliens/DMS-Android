@@ -85,6 +85,10 @@ internal fun NavHostController.navigateToResetPasswordNav() {
     this.navigate(AuthNavigation.ResetPasswordNavigation.route)
 }
 
+internal fun NavHostController.navigateToResetPasswordEnterEmailVerificationCode() {
+    this.navigate(AuthNavigation.ResetPasswordNavigation.EnterEmailVerificationCode)
+}
+
 internal fun NavHostController.navigateToResetPasswordSetPassword() {
     this.navigate(AuthNavigation.ResetPasswordNavigation.SetPassword)
 }
