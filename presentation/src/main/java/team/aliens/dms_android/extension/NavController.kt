@@ -2,7 +2,6 @@ package team.aliens.dms_android.extension
 
 import androidx.navigation.NavHostController
 import java.util.UUID
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
@@ -10,7 +9,7 @@ import team.aliens.dms_android.feature.main.editpassword.EditPasswordNavigation
 import team.aliens.dms_android.util.SelectImageType
 
 internal fun NavHostController.navigateToHome() {
-    this.navigate(DmsRoute.Home.route) {
+    this.navigate(MainNavigation.route) {
         launchSingleTop = true
         popUpTo(this@navigateToHome.graph.startDestinationId) {
             saveState = true
