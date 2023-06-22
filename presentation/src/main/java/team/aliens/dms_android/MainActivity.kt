@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.design_system.theme.DormTheme
 
@@ -17,12 +17,13 @@ internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val refreshTokenAvailable by rememberSaveable { mutableStateOf(mainViewModel.checkRefreshTokenAvailable()) }
-            val localAvailableFeatures by rememberSaveable { mutableStateOf(mainViewModel.fetchLocalAvailableFeatures()) }
+            val autoSignInAvailable by remember { mutableStateOf(mainViewModel.checkAutoSignInAvailable()) }
+            val initialAvailableFeatures by remember { mutableStateOf(mainViewModel.fetchLocalAvailableFeatures()) }
 
             DormTheme {
                 DmsApp(
-                    refreshTokenAvailable = refreshTokenAvailable,
+                    isSignedIn = autoSignInAvailable,
+                    initialAvailableFeatures = initialAvailableFeatures,
                 )
             }
         }
