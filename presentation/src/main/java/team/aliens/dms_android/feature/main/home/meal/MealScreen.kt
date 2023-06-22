@@ -372,7 +372,8 @@ private fun ColumnScope.DishCards(
         state = pagerState,
         contentPadding = PaddingValues(
             horizontal = 64.dp,
-        )
+        ),
+        userScrollEnabled = false,
     ) { page ->
         MealCard(
             modifier = Modifier.graphicsLayer {
