@@ -18,6 +18,8 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val refreshTokenAvailable by rememberSaveable { mutableStateOf(mainViewModel.checkRefreshTokenAvailable()) }
+            val localAvailableFeatures by rememberSaveable { mutableStateOf(mainViewModel.fetchLocalAvailableFeatures()) }
+
             DormTheme {
                 DmsApp(
                     refreshTokenAvailable = refreshTokenAvailable,
