@@ -21,19 +21,19 @@ import team.aliens.dms_android.util.SelectImageType
 internal object MainNavigation {
     const val route = "main"
 
-    const val Home = "home"
-    const val StudyRooms = "studyRooms"
-    const val StudyRoomDetails = "studyRoomDetails/{seatId}/{timeSlot}"
-    const val NoticeDetails = "noticeDetails/{noticeId}"
-    const val RemainsApplication = "remainsApplication"
-    const val PointHistory = "pointHistory"
-    const val UploadProfileImage = "uploadProfileImage"
+    const val Home = this.route + "/home"
+    const val StudyRooms = this.route + "/studyRooms"
+    const val StudyRoomDetails = this.route + "/studyRoomDetails/{seatId}/{timeSlot}"
+    const val NoticeDetails = this.route + "/noticeDetails/{noticeId}"
+    const val RemainsApplication = this.route + "/remainsApplication"
+    const val PointHistory = this.route + "/pointHistory"
+    const val UploadProfileImage = this.route + "/uploadProfileImage"
 
     object EditPasswordNavigation {
         const val route = "editPassword"
 
-        const val ConfirmPassword = "confirmPassword"
-        const val SetPassword = "setPassword"
+        const val ConfirmPassword = this.route + "/confirmPassword"
+        const val SetPassword = this.route + "/setPassword"
     }
 
     object Arguments {
@@ -133,11 +133,9 @@ fun NavGraphBuilder.mainNavigation(
         }
         composable(
             route = MainNavigation.UploadProfileImage,
-            arguments = listOf(
-                navArgument(MainNavigation.Arguments.SelectImageType) {
-                    type = NavType.IntType
-                }
-            ),
+            arguments = listOf(navArgument(MainNavigation.Arguments.SelectImageType) {
+                type = NavType.IntType
+            }),
         ) { navBackStackEntry ->
             navBackStackEntry.arguments?.run {
                 val selectImageType = getInt(MainNavigation.Arguments.SelectImageType)
