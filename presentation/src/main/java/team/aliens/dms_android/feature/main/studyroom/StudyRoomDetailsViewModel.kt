@@ -168,7 +168,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
         seat: String,
     ) {
         viewModelScope.launch {
-            _uiState.value.currentSeat.emit(seat)
+            _uiState.value.currentSeat.emit(UUID.fromString(seat))
         }
     }
 
