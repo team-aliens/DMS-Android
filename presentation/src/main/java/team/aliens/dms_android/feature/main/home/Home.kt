@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature.main.home
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
@@ -100,7 +100,7 @@ internal fun Home(
                                 delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                             },
@@ -116,7 +116,7 @@ internal fun Home(
                                 durationMillis = 30,
                             ),
                         ) + slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                                 delayMillis = 1_0
@@ -144,7 +144,7 @@ internal fun Home(
                                     delayMillis = 40,
                                 ),
                             ) + slideIntoContainer(
-                                towards = AnimatedContentScope.SlideDirection.Left,
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left,
                                 animationSpec = keyframes {
                                     durationMillis = 8_0
                                 },
@@ -156,7 +156,7 @@ internal fun Home(
                                     delayMillis = 40,
                                 ),
                             ) + slideIntoContainer(
-                                towards = AnimatedContentScope.SlideDirection.Right,
+                                towards = AnimatedContentTransitionScope.SlideDirection.Right,
                                 animationSpec = keyframes {
                                     durationMillis = 8_0
                                 },
@@ -172,7 +172,7 @@ internal fun Home(
                                     durationMillis = 30,
                                 ),
                             ) + slideOutOfContainer(
-                                towards = AnimatedContentScope.SlideDirection.Right,
+                                towards = AnimatedContentTransitionScope.SlideDirection.Right,
                                 animationSpec = keyframes {
                                     durationMillis = 8_0
                                     delayMillis = 1_0
@@ -184,7 +184,7 @@ internal fun Home(
                                     durationMillis = 30,
                                 ),
                             ) + slideOutOfContainer(
-                                towards = AnimatedContentScope.SlideDirection.Left,
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left,
                                 animationSpec = keyframes {
                                     durationMillis = 8_0
                                     delayMillis = 1_0
@@ -213,7 +213,7 @@ internal fun Home(
                                 delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                             },
@@ -225,7 +225,7 @@ internal fun Home(
                                 delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                             },
@@ -241,7 +241,7 @@ internal fun Home(
                                 durationMillis = 30,
                             ),
                         ) + slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                                 delayMillis = 1_0
@@ -253,7 +253,7 @@ internal fun Home(
                                 durationMillis = 30,
                             ),
                         ) + slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                                 delayMillis = 1_0
@@ -278,7 +278,7 @@ internal fun Home(
                                 delayMillis = 40,
                             ),
                         ) + slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Left,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                             },
@@ -294,7 +294,7 @@ internal fun Home(
                                 durationMillis = 30,
                             ),
                         ) + slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Right,
+                            towards = AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = keyframes {
                                 durationMillis = 8_0
                                 delayMillis = 1_0

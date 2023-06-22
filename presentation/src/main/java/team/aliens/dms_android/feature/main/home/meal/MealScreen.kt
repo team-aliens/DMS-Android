@@ -352,6 +352,8 @@ private fun ColumnScope.DishCards(
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
+        initialPageOffsetFraction = 0f,
+        pageCount = { 3 },
     )
 
     val scope = rememberCoroutineScope()
@@ -367,12 +369,10 @@ private fun ColumnScope.DishCards(
         modifier = Modifier
             .fillMaxSize()
             .weight(1f),
-        pageCount = 3,
         state = pagerState,
         contentPadding = PaddingValues(
             horizontal = 64.dp,
-        ),
-        userScrollEnabled = false,
+        )
     ) { page ->
         MealCard(
             modifier = Modifier.graphicsLayer {
