@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.auth
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import team.aliens.dms_android.feature.auth.findid.FindIdScreen
 import team.aliens.dms_android.feature.auth.signin.SignInScreen
 
 internal object AuthNavigation {
@@ -39,6 +40,7 @@ fun NavGraphBuilder.authNavigation(
     onNavigateToSignUpNav: () -> Unit,
     onNavigateToFindId: () -> Unit,
     onNavigateToResetPasswordNav: () -> Unit,
+    onNavigateToSignIn: () -> Unit,
 ) {
     navigation(
         startDestination = AuthNavigation.SignIn,
@@ -53,7 +55,9 @@ fun NavGraphBuilder.authNavigation(
             )
         }
         composable(AuthNavigation.FindId) {
-
+            FindIdScreen(
+                onNavigateToSignIn = onNavigateToSignIn,
+            )
         }
         resetPasswordNavigation()
         signUpNavigation()
