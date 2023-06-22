@@ -1,13 +1,13 @@
 package team.aliens.dms_android.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.staticCompositionLocalOf
 import team.aliens.dms_android.constans.Extra
 import team.aliens.domain.model.student.Features
 
-internal val LocalAvailableFeatures = staticCompositionLocalOf { Features.falseInitialized() }
-
+internal val LocalAvailableFeatures = compositionLocalOf { AvailableFeaturesWrapper.features }
 internal fun initLocalAvailableFeatures(
     container: MutableMap<String, Boolean>,
     mealService: Boolean,
@@ -40,9 +40,39 @@ internal fun initLocalAvailableFeatures(
     }
 }
 
+@Stable
+internal object AvailableFeaturesWrapper {
+    var features = Features.falseInitialized()
+        private set
+
+    fun of(features: Features): AvailableFeaturesWrapper {
+        this.features = features
+        return this
+    }
+
+    fun of(
+        mealService: Boolean,
+        noticeService: Boolean,
+        pointService: Boolean,
+        studyRoomService: Boolean,
+        remainsService: Boolean,
+    ): AvailableFeaturesWrapper = this.of(
+        Features(
+            mealService = mealService,
+            noticeService = noticeService,
+            pointService = pointService,
+            studyRoomService = studyRoomService,
+            remainsService = remainsService,
+        ),
+    )
+
+    fun updateFeatures(features: Features) {
+        this.features = features
+    }
+}
+
 internal fun initLocalAvailableFeatures(
-    container: MutableMap<String, Boolean>,
-    features: Features
+    container: MutableMap<String, Boolean>, features: Features
 ) {
     initLocalAvailableFeatures(
         container = container,
@@ -60,15 +90,22 @@ internal fun rememberAvailableFeatures(
     noticeService: Boolean = false,
     pointService: Boolean = false,
     studyRoomService: Boolean = false,
-    remainsService: Boolean = false
+    remainsService: Boolean = false,
 ): Features {
-    return remember {
-        Features(
+    return rememberAvailableFeatures(
+        features = Features(
             mealService = mealService,
             noticeService = noticeService,
             pointService = pointService,
             studyRoomService = studyRoomService,
             remainsService = remainsService,
-        )
-    }
+        ),
+    )
+}
+
+@Composable
+internal fun rememberAvailableFeatures(
+    features: Features,
+): Features {
+    return remember { features }
 }
