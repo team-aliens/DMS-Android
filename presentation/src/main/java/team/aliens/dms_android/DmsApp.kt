@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastLayout
+import team.aliens.dms_android.common.AvailableFeaturesWrapper
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.common.rememberAvailableFeatures
 import team.aliens.dms_android.extension.navigateToAuthNav
@@ -45,7 +46,7 @@ internal fun DmsApp(
     val toastState = dmsAppState.toastState
 
     CompositionLocalProvider(
-        LocalAvailableFeatures provides initialAvailableFeatures,
+        LocalAvailableFeatures provides AvailableFeaturesWrapper.of(initialAvailableFeatures),
     ) {
         DormToastLayout(
             modifier = modifier

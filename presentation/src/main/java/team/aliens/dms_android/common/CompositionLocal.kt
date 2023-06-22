@@ -7,7 +7,34 @@ import androidx.compose.runtime.remember
 import team.aliens.dms_android.constans.Extra
 import team.aliens.domain.model.student.Features
 
-internal val LocalAvailableFeatures = compositionLocalOf { AvailableFeaturesWrapper.features }
+internal val LocalAvailableFeatures = compositionLocalOf { AvailableFeaturesWrapper }
+
+@Stable
+internal object AvailableFeaturesWrapper {
+    var features = Features.falseInitialized()
+
+    fun of(features: Features): AvailableFeaturesWrapper {
+        this.features = features
+        return this
+    }
+
+    fun of(
+        mealService: Boolean,
+        noticeService: Boolean,
+        pointService: Boolean,
+        studyRoomService: Boolean,
+        remainsService: Boolean,
+    ): AvailableFeaturesWrapper = this.of(
+        Features(
+            mealService = mealService,
+            noticeService = noticeService,
+            pointService = pointService,
+            studyRoomService = studyRoomService,
+            remainsService = remainsService,
+        ),
+    )
+}
+
 internal fun initLocalAvailableFeatures(
     container: MutableMap<String, Boolean>,
     mealService: Boolean,
@@ -37,37 +64,6 @@ internal fun initLocalAvailableFeatures(
             Extra.isRemainServiceEnabled,
             remainsService,
         )
-    }
-}
-
-@Stable
-internal object AvailableFeaturesWrapper {
-    var features = Features.falseInitialized()
-        private set
-
-    fun of(features: Features): AvailableFeaturesWrapper {
-        this.features = features
-        return this
-    }
-
-    fun of(
-        mealService: Boolean,
-        noticeService: Boolean,
-        pointService: Boolean,
-        studyRoomService: Boolean,
-        remainsService: Boolean,
-    ): AvailableFeaturesWrapper = this.of(
-        Features(
-            mealService = mealService,
-            noticeService = noticeService,
-            pointService = pointService,
-            studyRoomService = studyRoomService,
-            remainsService = remainsService,
-        ),
-    )
-
-    fun updateFeatures(features: Features) {
-        this.features = features
     }
 }
 

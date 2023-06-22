@@ -58,9 +58,9 @@ internal fun Home(
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
 
     val availableFeatures = LocalAvailableFeatures.current
-    val studyRoomServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.mealService) }
-    val remainsServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.remainsService) }
-    val pointServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.pointService) }
+    val studyRoomServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.features.mealService) }
+    val remainsServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.features.remainsService) }
+    val pointServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.features.pointService) }
 
     val containsApplicationScreen by remember { mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled) }
 

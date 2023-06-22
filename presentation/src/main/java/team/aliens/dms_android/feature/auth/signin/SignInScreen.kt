@@ -47,7 +47,7 @@ internal fun SignInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
     val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
-    val localAvailableFeatures = LocalAvailableFeatures.current
+    val availableFeatures = LocalAvailableFeatures.current
     val toast = LocalToast.current
     val context = LocalContext.current // todo need to be discussed
 
@@ -66,15 +66,7 @@ internal fun SignInScreen(
             )
 
             is SignInSideEffect.SignInSuccess -> {
-/*
-
-                // todo implement features
-                initLocalAvailableFeatures(
-                    container = localAvailableFeatures,
-                    features = sideEffect.features,
-                )
-*/
-
+                availableFeatures.features = sideEffect.features
                 onNavigateToHome()
             }
         }
