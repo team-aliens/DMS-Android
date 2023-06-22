@@ -7,8 +7,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.common.UuidType
-import team.aliens.dms_android.feature.main.editpassword.ConfirmPasswordScreen
-import team.aliens.dms_android.feature.main.editpassword.EditPasswordSetPasswordScreen
+import team.aliens.dms_android.feature.main.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature.main.home.Home
 import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticeDetailsScreen
@@ -28,13 +27,6 @@ internal object MainNavigation {
     const val RemainsApplication = this.route + "/remainsApplication"
     const val PointHistory = this.route + "/pointHistory"
     const val UploadProfileImage = this.route + "/uploadProfileImage"
-
-    object EditPasswordNavigation {
-        const val route = "editPassword"
-
-        const val ConfirmPassword = this.route + "/confirmPassword"
-        const val SetPassword = this.route + "/setPassword"
-    }
 
     object Arguments {
         const val StudyRoomId = "study-room-id"
@@ -151,28 +143,5 @@ fun NavGraphBuilder.mainNavigation(
             onPrevious = onPrevious,
             onNavigateToHome = onNavigateToHome,
         )
-    }
-}
-
-private fun NavGraphBuilder.editPasswordNavigation(
-    onNavigateToEditPasswordSetPassword: () -> Unit,
-    onPrevious: () -> Unit,
-    onNavigateToHome: () -> Unit,
-) {
-    navigation(
-        startDestination = MainNavigation.EditPasswordNavigation.ConfirmPassword,
-        route = MainNavigation.EditPasswordNavigation.route,
-    ) {
-        composable(MainNavigation.EditPasswordNavigation.ConfirmPassword) {
-            ConfirmPasswordScreen(
-                onNavigateToEditPasswordSetPassword = onNavigateToEditPasswordSetPassword,
-                onPrevious = onPrevious
-            )
-        }
-        composable(MainNavigation.EditPasswordNavigation.SetPassword) {
-            EditPasswordSetPasswordScreen(
-                onNavigateToHome = onNavigateToHome,
-            )
-        }
     }
 }
