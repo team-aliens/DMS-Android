@@ -26,11 +26,14 @@ import team.aliens.dms_android.extension.navigateToStudyRoomDetails
 import team.aliens.dms_android.extension.navigateToStudyRooms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithTakingPhoto
+import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.authNavigation
+import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.feature.main.mainNavigation
 
 @Composable
 internal fun DmsApp(
+    refreshTokenAvailable: Boolean,
     modifier: Modifier = Modifier,
     dmsAppState: DmsAppState = rememberDmsAppState(),
 ) {
@@ -54,7 +57,7 @@ internal fun DmsApp(
                     paddingValues = paddingValues,
                 ),
                 navController = navController,
-                startDestination = "ERROR", // todo initial route
+                startDestination = if (refreshTokenAvailable) MainNavigation.route else AuthNavigation.route,
             ) {
                 mainNavigation(
                     onNavigateToStudyRooms = navController::navigateToStudyRooms,
