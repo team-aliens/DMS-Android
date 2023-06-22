@@ -1,11 +1,10 @@
 package team.aliens.dms_android.feature.main.home
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
@@ -42,10 +41,10 @@ import team.aliens.dms_android.feature.main.home.meal.MealScreen
 import team.aliens.dms_android.feature.main.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticesScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun Home(
+    modifier: Modifier = Modifier,
     onNavigateToStudyRooms: () -> Unit,
     onNavigateToRemainsApplication: () -> Unit,
     onNavigateToNoticeDetails: (UUID) -> Unit,
@@ -78,13 +77,12 @@ internal fun Home(
                 navigationItems = navigationItems,
             )
         },
-        modifier = Modifier.background(
-            DormTheme.colors.background,
-        ),
+        modifier = modifier.fillMaxSize(),
         backgroundColor = DormTheme.colors.background,
         contentColor = DormTheme.colors.background,
     ) {
         NavHost(
+            modifier = Modifier.fillMaxSize(),
             navController = bottomNavController,
             startDestination = HomeBottomNavigationItem.Meal.route,
             enterTransition = {
@@ -165,13 +163,13 @@ private fun BottomNavBar(
     BottomNavigation(
         backgroundColor = DormTheme.colors.surface,
         modifier = Modifier.graphicsLayer {
-            clip = true
-            shape = RoundedCornerShape(
-                topStart = 24.dp,
-                topEnd = 24.dp,
-            )
-            shadowElevation = 20f
-        },
+                clip = true
+                shape = RoundedCornerShape(
+                    topStart = 24.dp,
+                    topEnd = 24.dp,
+                )
+                shadowElevation = 20f
+            },
     ) {
         navigationItems.forEach { navigationItem ->
             val currentDestination = navBackStackEntry?.destination?.route
