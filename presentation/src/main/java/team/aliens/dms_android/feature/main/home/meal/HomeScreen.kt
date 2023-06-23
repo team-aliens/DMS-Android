@@ -63,7 +63,6 @@ import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
@@ -95,7 +94,9 @@ internal fun HomeScreen(
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
     val uiState by mealViewModel.uiState.collectAsStateWithLifecycle()
+
     LaunchedEffect(calendarDate) { mealViewModel.onEvent(MealUiEvent.UpdateDate(calendarDate)) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -124,6 +125,7 @@ internal fun HomeScreen(
             )
             Spacer(Modifier.height(36.dp))
             DishCards(
+                currentDate = calendarDate,
                 breakfast = uiState.breakfast,
                 kcalOfBreakfast = uiState.kcalOfBreakfast
                     ?: stringResource(R.string.meal_not_exists),
@@ -313,6 +315,7 @@ private const val Dinner = 2
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ColumnScope.DishCards(
+    currentDate: Date,
     breakfast: List<String>,
     kcalOfBreakfast: String,
     lunch: List<String>,
@@ -329,10 +332,10 @@ private fun ColumnScope.DishCards(
     )
 
     val scope = rememberCoroutineScope()
-    var firstEnter by remember { mutableStateOf(true) }
+    var firstEnter by remember(currentDate) { mutableStateOf(true) }
     val context = LocalContext.current
 
-    LaunchedEffect(pagerState.currentPage) {
+    LaunchedEffect(currentDate) {
         if (firstEnter) firstEnter = false
         else vibrateOnMealCardPaging(context)
     }
@@ -426,13 +429,12 @@ private fun MealCard(
     onSwipeToLeft: () -> Unit,
     onSwipeToRight: () -> Unit,
 ) {
-    var dragDirection: DragDirection? by remember {
-        mutableStateOf(null)
-    }
+    var dragDirection: DragDirection? by remember { mutableStateOf(null) }
+
     Card(
         modifier = modifier
             .fillMaxSize()
-            .pointerInput(Unit) {
+            .pointerInput(currentPage) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
                         when (dragDirection) {
