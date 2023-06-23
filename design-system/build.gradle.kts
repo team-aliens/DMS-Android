@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation(Dependencies.Ui.Material)
     implementation(Dependencies.Ui.Compose)
     implementation(Dependencies.Ui.ComposeMaterial)
     implementation(Dependencies.Ui.ComposePreview)
