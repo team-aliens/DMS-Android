@@ -108,8 +108,6 @@ internal fun Home(
                 )
             },
             modifier = modifier.fillMaxSize(),
-            backgroundColor = DormTheme.colors.surface,
-            contentColor = DormTheme.colors.surface,
         ) {
             NavHost(
                 modifier = Modifier.fillMaxSize(),
