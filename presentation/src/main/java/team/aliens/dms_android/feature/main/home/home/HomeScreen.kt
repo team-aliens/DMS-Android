@@ -108,7 +108,7 @@ internal fun HomeScreen(
             .dormGradientBackground(defaultBackgroundBrush),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        MealScreenAppLogo()
+        HomeScreenAppLogo()
         NoticeCard(
             visible = uiState.newNotices,
             onIconClicked = onNavigateToNoticeScreen,
@@ -147,7 +147,7 @@ internal fun HomeScreen(
 }
 
 @Composable
-private fun MealScreenAppLogo() {
+private fun HomeScreenAppLogo() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
