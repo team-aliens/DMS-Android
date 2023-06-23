@@ -1,12 +1,10 @@
 package team.aliens.dms_android
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.DormToastLayout
 import team.aliens.dms_android.common.AvailableFeaturesWrapper
 import team.aliens.dms_android.common.LocalAvailableFeatures
@@ -49,11 +47,7 @@ internal fun DmsApp(
         LocalAvailableFeatures provides AvailableFeaturesWrapper.of(initialAvailableFeatures),
     ) {
         DormToastLayout(
-            modifier = modifier
-                .fillMaxSize()
-                .background(
-                    color = DormTheme.colors.background,
-                ),
+            modifier = modifier.fillMaxSize(),
             toastState = toastState,
         ) {
             NavHost(
