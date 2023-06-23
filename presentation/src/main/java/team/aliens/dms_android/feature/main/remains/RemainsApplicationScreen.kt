@@ -54,6 +54,7 @@ import team.aliens.presentation.R
 
 @Composable
 internal fun RemainsApplicationScreen(
+    modifier: Modifier = Modifier,
     onPrevious: () -> Unit,
     remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
 ) {
@@ -70,7 +71,9 @@ internal fun RemainsApplicationScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(DormTheme.colors.background),
         verticalArrangement = Arrangement.Center,
     ) {
         TopBar(
@@ -142,18 +145,15 @@ private val DayOfWeek.displayName: String
 private fun RemainsApplicationTimeCard(
     remainsApplicationTime: RemainsApplicationTime,
 ) {
-    Box(
+    FloatingNotice(
         modifier = Modifier.padding(
             top = 8.dp,
             bottom = 30.dp,
             start = 16.dp,
             end = 16.dp,
         ),
-    ) {
-        FloatingNotice(
-            content = remainsApplicationTime.toFormattedString(),
-        )
-    }
+        text = remainsApplicationTime.toFormattedString(),
+    )
 }
 
 @Composable
