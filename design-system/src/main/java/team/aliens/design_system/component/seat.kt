@@ -23,12 +23,12 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.constans.asLoose
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.modifier.innerShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.DormTypography
 import team.aliens.design_system.typography.OverLine
-import team.aliens.design_system.extension.Space
 
 private val SeatSize: DpSize = DpSize(
     width = 40.dp,
@@ -290,6 +290,7 @@ private fun SeatListContent(
                         SeatType.EMPTY -> {
                             Spacer(modifier = Modifier.size(SeatSize))
                         }
+
                         SeatType.IN_USE -> {
                             SeatContent(
                                 seatId = seat.id ?: "",
@@ -302,6 +303,7 @@ private fun SeatListContent(
                                 clickedEnabled = false,
                             )
                         }
+
                         SeatType.AVAILABLE -> {
                             SeatContent(
                                 seatId = seat.id ?: "",
@@ -313,6 +315,7 @@ private fun SeatListContent(
                                 },
                             )
                         }
+
                         SeatType.UNAVAILABLE -> {
                             Box(
                                 modifier = Modifier
@@ -348,13 +351,10 @@ fun RoomItem(
 ) {
     Box(
         modifier = Modifier
-            .clip(
-                shape = RoundedCornerShape(10.dp),
-            )
             .fillMaxWidth()
-            .background(
-                color = DormTheme.colors.surface,
-            ),
+            .dormShadow(color = DormTheme.colors.primaryVariant)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = DormTheme.colors.surface),
     ) {
         Column(
             modifier = Modifier
@@ -412,7 +412,7 @@ fun RoomItem(
                     ratio = 1f,
                 )
 
-                if(isMine) {
+                if (isMine) {
                     LastAppliedItem(
                         text = "신청함",
                         modifier = StudyRoomAppliedTagSize,

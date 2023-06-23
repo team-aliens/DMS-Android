@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,7 +45,6 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
 import team.aliens.design_system.dialog.DormBottomAlignedContainedLargeButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
-import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
@@ -187,36 +187,33 @@ fun StudyRoomsScreen(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
-            Space(space = 17.dp)
-
+            Spacer(Modifier.height(8.dp))
             AnimatedVisibility(
                 visible = studyRoomState.hasApplyTime,
             ) {
                 FloatingNotice(
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     content = stringResource(
                         id = R.string.study_room_apply_time,
-                        "${studyRoomState.startAt} ~ ${studyRoomState.endAt}"
-                    )
+                        "${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
+                    ),
                 )
             }
-
-            Space(space = 24.dp)
-
             if (studyRoomAvailableTimeList.isNotEmpty()) {
+                Spacer(Modifier.height(16.dp))
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-
                     Image(
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(32.dp)
                             .dormClickable {
                                 showTimeFilterDialogState = true
                             },
@@ -225,16 +222,12 @@ fun StudyRoomsScreen(
                         ),
                         contentDescription = null,
                     )
-
                     Body3(
                         text = selectedAvailableTime,
                         color = DormTheme.colors.primary,
                     )
                 }
             }
-
-            Space(space = 24.dp)
-
             ListStudyRooms(
                 studyRooms = studyRoomState.studyRooms,
                 onClick = { seatId -> // todo refactor
@@ -245,17 +238,23 @@ fun StudyRoomsScreen(
                 },
             )
         }
-        Space(space = 24.dp)
     }
 }
 
 @Composable
 private fun ListStudyRooms(
+    modifier: Modifier = Modifier,
     studyRooms: List<StudyRoomInformation>,
     onClick: (UUID) -> Unit,
 ) {
     LazyColumn(
+        modifier = modifier
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(
+            horizontal = 16.dp,
+            vertical = 16.dp,
+        ),
     ) {
 
         if (studyRooms.isNotEmpty()) {
