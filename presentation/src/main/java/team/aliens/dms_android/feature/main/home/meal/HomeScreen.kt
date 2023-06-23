@@ -90,7 +90,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun MealScreen(
+internal fun HomeScreen(
     onNavigateToNoticeScreen: () -> Unit,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
