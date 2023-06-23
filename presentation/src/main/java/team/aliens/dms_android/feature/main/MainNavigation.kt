@@ -22,8 +22,8 @@ internal object MainNavigation {
 
     const val Home = this.route + "/home"
     const val StudyRooms = this.route + "/studyRooms"
-    const val StudyRoomDetails = this.route + "/studyRoomDetails/{seatId}/{timeSlot}"
-    const val NoticeDetails = this.route + "/noticeDetails/{noticeId}"
+    const val StudyRoomDetails = this.route + "/studyRoomDetails"
+    const val NoticeDetails = this.route + "/noticeDetails"
     const val RemainsApplication = this.route + "/remainsApplication"
     const val PointHistory = this.route + "/pointHistory"
     const val UploadProfileImage = this.route + "/uploadProfileImage"
@@ -126,16 +126,16 @@ internal fun NavGraphBuilder.mainNavigation(
             )
         }
         composable(
-            route = MainNavigation.UploadProfileImage,
+            route = MainNavigation.UploadProfileImage + "/{${MainNavigation.Arguments.SelectImageType}}",
             arguments = listOf(navArgument(MainNavigation.Arguments.SelectImageType) {
-                type = NavType.IntType
+                type = NavType.StringType
             }),
         ) { navBackStackEntry ->
             navBackStackEntry.arguments?.run {
-                val selectImageType = getInt(MainNavigation.Arguments.SelectImageType)
+                val selectImageType = getString(MainNavigation.Arguments.SelectImageType)!!
 
                 UploadProfileImageScreen(
-                    selectImageType = SelectImageType.values()[selectImageType], // todo need to discuss
+                    selectImageType = SelectImageType.valueOf(selectImageType),
                     onPrevious = onPrevious,
                 )
             }
