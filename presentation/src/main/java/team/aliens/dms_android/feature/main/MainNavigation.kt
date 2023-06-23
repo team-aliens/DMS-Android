@@ -7,6 +7,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.common.UuidType
+import team.aliens.dms_android.extension.appendNavArgumentName
 import team.aliens.dms_android.feature.main.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature.main.home.Home
 import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
@@ -98,7 +99,7 @@ internal fun NavGraphBuilder.mainNavigation(
             }
         }
         composable(
-            route = MainNavigation.NoticeDetails + "/{${MainNavigation.Arguments.NoticeId}}",
+            route = MainNavigation.NoticeDetails appendNavArgumentName MainNavigation.Arguments.NoticeId,
             arguments = listOf(
                 navArgument(MainNavigation.Arguments.NoticeId) {
                     type = NavType.StringType
@@ -126,7 +127,7 @@ internal fun NavGraphBuilder.mainNavigation(
             )
         }
         composable(
-            route = MainNavigation.UploadProfileImage + "/{${MainNavigation.Arguments.SelectImageType}}",
+            route = MainNavigation.UploadProfileImage appendNavArgumentName MainNavigation.Arguments.SelectImageType,
             arguments = listOf(navArgument(MainNavigation.Arguments.SelectImageType) {
                 type = NavType.StringType
             }),
