@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.home.meal
+package team.aliens.dms_android.feature.main.home.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,20 +23,20 @@ internal fun Date.toMealFormattedString(
 ): String = SimpleDateFormat(MealDateFormat, locale).format(this)
 
 @HiltViewModel
-internal class MealViewModel @Inject constructor(
+internal class HomeViewModel @Inject constructor(
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
     private val fetchMealUseCase: FetchMealUseCase,
-) : MviViewModel<MealUiState, MealUiEvent>(
-    initialState = MealUiState.initial(),
+) : MviViewModel<HomeUiState, HomeUiEvent>(
+    initialState = HomeUiState.initial(),
 ) {
     init {
         fetchWhetherNewNoticesExist()
         fetchMeal()
     }
 
-    override fun updateState(event: MealUiEvent) {
+    override fun updateState(event: HomeUiEvent) {
         when (event) {
-            is MealUiEvent.UpdateDate -> this.setDate(event.date)
+            is HomeUiEvent.UpdateDate -> this.setDate(event.date)
         }
     }
 
@@ -78,7 +78,7 @@ internal class MealViewModel @Inject constructor(
                     ),
                 )
             }.onSuccess {
-                this@MealViewModel.setMeal(
+                this@HomeViewModel.setMeal(
                     meal = it,
                 )
             }
@@ -108,7 +108,7 @@ internal class MealViewModel @Inject constructor(
     }
 }
 
-internal data class MealUiState(
+internal data class HomeUiState(
     val newNotices: Boolean,
     val selectedDate: Date,
     val breakfast: List<String>,
@@ -119,7 +119,7 @@ internal data class MealUiState(
     val kcalOfDinner: String?,
 ) : UiState {
     companion object {
-        fun initial() = MealUiState(
+        fun initial() = HomeUiState(
             newNotices = false,
             selectedDate = Date(),
             breakfast = emptyList(),
@@ -132,8 +132,8 @@ internal data class MealUiState(
     }
 }
 
-internal sealed class MealUiEvent : UiEvent {
+internal sealed class HomeUiEvent : UiEvent {
     class UpdateDate(
         val date: Date,
-    ) : MealUiEvent()
+    ) : HomeUiEvent()
 }

@@ -46,7 +46,7 @@ import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.feature.main.home.NavigationItemsWrapper.navigationItems
 import team.aliens.dms_android.feature.main.home.application.ApplicationScreen
-import team.aliens.dms_android.feature.main.home.meal.HomeScreen
+import team.aliens.dms_android.feature.main.home.home.HomeScreen
 import team.aliens.dms_android.feature.main.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticesScreen
 

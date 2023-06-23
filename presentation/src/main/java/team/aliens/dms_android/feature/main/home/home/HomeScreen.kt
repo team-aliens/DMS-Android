@@ -1,6 +1,6 @@
 @file:Suppress("ConstPropertyName")
 
-package team.aliens.dms_android.feature.main.home.meal
+package team.aliens.dms_android.feature.main.home.home
 
 import android.content.Context
 import android.os.Vibrator
@@ -71,9 +71,9 @@ import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.component.listFadeBrush
-import team.aliens.dms_android.feature.main.home.meal.MealCardType.BREAKFAST
-import team.aliens.dms_android.feature.main.home.meal.MealCardType.DINNER
-import team.aliens.dms_android.feature.main.home.meal.MealCardType.LUNCH
+import team.aliens.dms_android.feature.main.home.home.MealCardType.BREAKFAST
+import team.aliens.dms_android.feature.main.home.home.MealCardType.DINNER
+import team.aliens.dms_android.feature.main.home.home.MealCardType.LUNCH
 import team.aliens.presentation.R
 import kotlin.math.absoluteValue
 
@@ -95,11 +95,11 @@ internal fun HomeScreen(
     onPreviousDay: () -> Unit,
     onShowCalendar: () -> Unit,
     onNavigateToNoticeScreen: () -> Unit,
-    mealViewModel: MealViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val uiState by mealViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(calendarDate) { mealViewModel.onEvent(MealUiEvent.UpdateDate(calendarDate)) }
+    LaunchedEffect(calendarDate) { homeViewModel.onEvent(HomeUiEvent.UpdateDate(calendarDate)) }
 
     Column(
         modifier = Modifier
