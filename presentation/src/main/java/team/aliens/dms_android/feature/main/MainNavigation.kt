@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import java.util.UUID
-import team.aliens.dms_android.common.UuidType
 import team.aliens.dms_android.extension.appendNavArgumentName
 import team.aliens.dms_android.feature.main.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature.main.home.Home
@@ -77,16 +76,13 @@ internal fun NavGraphBuilder.mainNavigation(
             )
         }
         composable(
-            route = MainNavigation.StudyRoomDetails.appendNavArgumentName(
-                MainNavigation.Arguments.StudyRoomId,
-                MainNavigation.Arguments.Timeslot,
-            ),
+            route = MainNavigation.StudyRoomDetails appendNavArgumentName MainNavigation.Arguments.StudyRoomId appendNavArgumentName MainNavigation.Arguments.Timeslot,
             arguments = listOf(
                 navArgument(MainNavigation.Arguments.StudyRoomId) {
-                    type = NavType.UuidType
+                    type = NavType.StringType
                 },
                 navArgument(MainNavigation.Arguments.Timeslot) {
-                    type = NavType.UuidType
+                    type = NavType.StringType
                 },
             ),
         ) { backStackEntry ->

@@ -12,16 +12,8 @@ internal infix fun String.appendNavArgumentName(value: String): String {
     return this.plus("/{$value}")
 }
 
-internal fun String.appendNavArgumentName(vararg values: String): String {
-    return this.apply { values.forEach(this::appendNavArgumentName) }
-}
-
 internal infix fun String.appendNavArgument(value: Any): String {
     return this.plus("/$value")
-}
-
-internal fun String.appendNavArgument(vararg values: Any): String {
-    return this.apply { values.forEach(this::appendNavArgument) }
 }
 
 internal fun NavHostController.navigateToHome() {
@@ -80,7 +72,9 @@ internal fun NavHostController.navigateToStudyRoomDetails(
     seatId: UUID,
     timeslot: UUID,
 ) {
-    this.navigate(MainNavigation.StudyRoomDetails.appendNavArgument(seatId, timeslot))
+    this.navigate(
+        MainNavigation.StudyRoomDetails appendNavArgument seatId appendNavArgument timeslot,
+    )
 }
 
 internal fun NavHostController.navigateToEditPasswordSetPassword() {
