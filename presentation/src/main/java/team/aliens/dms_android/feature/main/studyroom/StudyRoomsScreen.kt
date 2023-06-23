@@ -190,13 +190,11 @@ fun StudyRoomsScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(Modifier.height(8.dp))
             AnimatedVisibility(
                 visible = studyRoomState.hasApplyTime,
             ) {
-                FloatingNotice(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    content = stringResource(
+                StudyRoomsApplicationTimeCard(
+                    text = stringResource(
                         id = R.string.study_room_apply_time,
                         "${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
                     ),
@@ -239,6 +237,21 @@ fun StudyRoomsScreen(
             )
         }
     }
+}
+
+@Composable
+private fun StudyRoomsApplicationTimeCard(
+    text: String,
+) {
+    FloatingNotice(
+        modifier = Modifier.padding(
+            top = 8.dp,
+            bottom = 30.dp,
+            start = 16.dp,
+            end = 16.dp,
+        ),
+        text = text,
+    )
 }
 
 @Composable
