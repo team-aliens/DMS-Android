@@ -60,7 +60,7 @@ import team.aliens.presentation.R
 fun StudyRoomsScreen(
     onPrevious: () -> Unit,
     onNavigateToStudyRoomDetails: (
-        seatId: UUID,
+        studyRoomId: UUID,
         timeslot: UUID,
     ) -> Unit,
     studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),

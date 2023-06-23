@@ -16,11 +16,11 @@ internal fun String.appendNavArgumentName(vararg values: String): String {
     return this.apply { values.forEach(this::appendNavArgumentName) }
 }
 
-internal infix fun String.appendNavArgument(value: String): String {
+internal infix fun String.appendNavArgument(value: Any): String {
     return this.plus("/$value")
 }
 
-internal fun String.appendNavArgument(vararg values: String): String {
+internal fun String.appendNavArgument(vararg values: Any): String {
     return this.apply { values.forEach(this::appendNavArgument) }
 }
 
@@ -51,13 +51,13 @@ internal fun NavHostController.navigateToRemainsApplication() {
 }
 
 internal fun NavHostController.navigateToNoticeDetails(noticeId: UUID) {
-    this.navigate(MainNavigation.NoticeDetails + "/${noticeId}")
+    this.navigate(MainNavigation.NoticeDetails appendNavArgument noticeId)
 }
 
 internal fun NavHostController.navigateToUploadProfileImage(
     selectImageType: SelectImageType,
 ) {
-    this.navigate(MainNavigation.UploadProfileImage + "/${selectImageType.name}")
+    this.navigate(MainNavigation.UploadProfileImage appendNavArgument selectImageType.name)
 }
 
 internal fun NavHostController.navigateToUploadProfileImageWithTakingPhoto() {
@@ -80,7 +80,7 @@ internal fun NavHostController.navigateToStudyRoomDetails(
     seatId: UUID,
     timeslot: UUID,
 ) {
-    this.navigate(MainNavigation.StudyRoomDetails + "/${seatId}/${timeslot}")
+    this.navigate(MainNavigation.StudyRoomDetails.appendNavArgument(seatId, timeslot))
 }
 
 internal fun NavHostController.navigateToEditPasswordSetPassword() {

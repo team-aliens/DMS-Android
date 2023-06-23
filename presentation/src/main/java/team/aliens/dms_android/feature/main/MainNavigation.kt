@@ -48,7 +48,7 @@ internal fun NavGraphBuilder.mainNavigation(
     onNavigateToAuthNav: () -> Unit,
     onPrevious: () -> Unit,
     onNavigateToStudyRoomDetails: (
-        seatId: UUID,
+        studyRoomId: UUID,
         studyRoomAvailableTimeId: UUID,
     ) -> Unit,
     onNavigateToEditPasswordSetPassword: () -> Unit,
@@ -77,7 +77,10 @@ internal fun NavGraphBuilder.mainNavigation(
             )
         }
         composable(
-            route = MainNavigation.StudyRoomDetails,
+            route = MainNavigation.StudyRoomDetails.appendNavArgumentName(
+                MainNavigation.Arguments.StudyRoomId,
+                MainNavigation.Arguments.Timeslot,
+            ),
             arguments = listOf(
                 navArgument(MainNavigation.Arguments.StudyRoomId) {
                     type = NavType.UuidType
@@ -88,8 +91,8 @@ internal fun NavGraphBuilder.mainNavigation(
             ),
         ) { backStackEntry ->
             backStackEntry.arguments?.run {
-                val roomId = getString(MainNavigation.Arguments.StudyRoomId)
-                val timeslot = getString(MainNavigation.Arguments.Timeslot)
+                val roomId = getString(MainNavigation.Arguments.StudyRoomId)!!
+                val timeslot = getString(MainNavigation.Arguments.Timeslot)!!
 
                 StudyRoomDetailsScreen(
                     onPrevious = onPrevious,
