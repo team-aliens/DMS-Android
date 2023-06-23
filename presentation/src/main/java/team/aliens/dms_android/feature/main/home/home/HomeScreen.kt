@@ -180,7 +180,7 @@ private fun NoticeCard(
                 ),
             ) {
                 FloatingNotice(
-                    content = stringResource(R.string.notice_new_notice_exists),
+                    text = stringResource(R.string.notice_new_notice_exists),
                 )
                 Image(
                     modifier = Modifier

@@ -124,7 +124,7 @@ fun StudyRoomDetailsScreen(
             )
 
             FloatingNotice(
-                content = stringResource(
+                text = stringResource(
                     id = R.string.study_room_apply_time, "${uiState.startAt} ~ ${uiState.endAt}"
                 ),
             )

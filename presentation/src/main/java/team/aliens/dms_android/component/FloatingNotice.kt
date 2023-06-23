@@ -24,7 +24,7 @@ import team.aliens.design_system.typography.Caption
 @Composable
 fun FloatingNotice(
     modifier: Modifier = Modifier,
-    content: String,
+    text: String,
 ) {
     Box(
         contentAlignment = Alignment.CenterEnd,
@@ -58,7 +58,7 @@ fun FloatingNotice(
                 contentDescription = "NoticeIcon",
             )
             Space(space = 13.dp)
-            Caption(text = content)
+            Caption(text = text)
         }
     }
 }
