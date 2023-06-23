@@ -47,7 +47,6 @@ internal fun DmsApp(
         LocalAvailableFeatures provides AvailableFeaturesWrapper.of(initialAvailableFeatures),
     ) {
         DormToastLayout(
-            modifier = modifier.fillMaxSize(),
             toastState = toastState,
         ) {
             NavHost(

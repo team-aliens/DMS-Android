@@ -171,7 +171,9 @@ fun StudyRoomsScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DormTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
