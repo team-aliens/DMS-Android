@@ -16,7 +16,6 @@ import team.aliens.domain.usecase.meal.FetchMealUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
 import javax.inject.Inject
 
-private const val OneDay = 1000 * 60 * 60 * 24
 private const val MealDateFormat = "yyyy-MM-dd"
 
 internal fun Date.toMealFormattedString(
@@ -38,8 +37,6 @@ internal class MealViewModel @Inject constructor(
     override fun updateState(event: MealUiEvent) {
         when (event) {
             is MealUiEvent.UpdateDate -> this.setDate(event.date)
-            MealUiEvent.UpdateDateToNextDay -> this.setDateToNextDay()
-            MealUiEvent.UpdateDateToPreviousDay -> this.setDateToPreviousDay()
         }
     }
 
@@ -109,14 +106,6 @@ internal class MealViewModel @Inject constructor(
             ),
         )
     }
-
-    private fun setDateToNextDay() {
-        this.setDate(uiState.value.selectedDate.time.plus(OneDay))
-    }
-
-    private fun setDateToPreviousDay() {
-        this.setDate(date = uiState.value.selectedDate.time.minus(OneDay))
-    }
 }
 
 internal data class MealUiState(
@@ -147,7 +136,4 @@ internal sealed class MealUiEvent : UiEvent {
     class UpdateDate(
         val date: Date,
     ) : MealUiEvent()
-
-    object UpdateDateToNextDay : MealUiEvent()
-    object UpdateDateToPreviousDay : MealUiEvent()
 }

@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,6 +21,9 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -31,7 +37,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import java.util.Date
 import java.util.UUID
+import kotlinx.coroutines.launch
+import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
@@ -41,6 +50,19 @@ import team.aliens.dms_android.feature.main.home.meal.HomeScreen
 import team.aliens.dms_android.feature.main.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.main.home.notice.NoticesScreen
 
+private const val OneDay = 1000 * 60 * 60 * 24
+
+internal fun Date.plusOneDay(): Date {
+    return Date(this.time.plus(OneDay))
+}
+
+internal fun Date.minusOneDay(): Date {
+    return Date(this.time.minus(OneDay))
+}
+
+private typealias Today = Date
+
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun Home(
@@ -56,6 +78,10 @@ internal fun Home(
 ) {
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
+    val coroutineScope = rememberCoroutineScope()
+    var currentCalendarDate by rememberSaveable { mutableStateOf(Today()) }
+    val onCalendarDateChange = { newDate: Date -> currentCalendarDate = newDate }
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     val availableFeatures = LocalAvailableFeatures.current
     val studyRoomServiceEnabled by remember(availableFeatures) { mutableStateOf(availableFeatures.features.mealService) }
@@ -68,71 +94,80 @@ internal fun Home(
         if (!containsApplicationScreen) navigationItems.remove(HomeBottomNavigationItem.Application)
     }
 
-    Scaffold(
-        scaffoldState = rememberScaffoldState(),
-        bottomBar = {
-            BottomNavBar(
-                navController = bottomNavController,
-                navBackStackEntry = navBackStackEntry,
-                navigationItems = navigationItems,
-            )
-        },
-        modifier = modifier.fillMaxSize(),
-        backgroundColor = DormTheme.colors.background,
-        contentColor = DormTheme.colors.background,
+    DormCalendarLayout(
+        bottomSheetState = bottomSheetState,
+        onDateChange = onCalendarDateChange,
     ) {
-        NavHost(
-            modifier = Modifier.fillMaxSize(),
-            navController = bottomNavController,
-            startDestination = HomeBottomNavigationItem.Meal.route,
-            enterTransition = {
-                // todo
-                fadeIn(
-                    animationSpec = tween(
-                        durationMillis = 100,
-                    ),
+        Scaffold(
+            scaffoldState = rememberScaffoldState(),
+            bottomBar = {
+                BottomNavBar(
+                    navController = bottomNavController,
+                    navBackStackEntry = navBackStackEntry,
+                    navigationItems = navigationItems,
                 )
             },
-            exitTransition = {
-                // todo
-                fadeOut(
-                    animationSpec = tween(
-                        durationMillis = 100,
-                    ),
-                )
-            },
+            modifier = modifier.fillMaxSize(),
+            backgroundColor = DormTheme.colors.background,
+            contentColor = DormTheme.colors.background,
         ) {
-            composable(HomeBottomNavigationItem.Meal.route) {
-                HomeScreen(
-                    onNavigateToNoticeScreen = {
-                        bottomNavController.navigateTo(HomeBottomNavigationItem.Notice.route)
-                    },
-                )
-            }
-            if (containsApplicationScreen) {
-                composable(HomeBottomNavigationItem.Application.route) {
-                    ApplicationScreen(
-                        onNavigateToStudyRooms = onNavigateToStudyRooms,
-                        onNavigateToRemainsApplication = onNavigateToRemainsApplication,
-                        studyRoomServiceEnabled = studyRoomServiceEnabled,
-                        remainsServiceEnabled = remainsServiceEnabled,
+            NavHost(
+                modifier = Modifier.fillMaxSize(),
+                navController = bottomNavController,
+                startDestination = HomeBottomNavigationItem.Meal.route,
+                enterTransition = {
+                    // todo
+                    fadeIn(
+                        animationSpec = tween(
+                            durationMillis = 100,
+                        ),
+                    )
+                },
+                exitTransition = {
+                    // todo
+                    fadeOut(
+                        animationSpec = tween(
+                            durationMillis = 100,
+                        ),
+                    )
+                },
+            ) {
+                composable(HomeBottomNavigationItem.Meal.route) {
+                    HomeScreen(
+                        calendarDate = currentCalendarDate,
+                        onNextDay = { onCalendarDateChange(currentCalendarDate.plusOneDay()) },
+                        onPreviousDay = { onCalendarDateChange(currentCalendarDate.minusOneDay()) },
+                        onShowCalendar = { coroutineScope.launch { bottomSheetState.show() } },
+                        onNavigateToNoticeScreen = {
+                            bottomNavController.navigateTo(HomeBottomNavigationItem.Notice.route)
+                        },
                     )
                 }
-            }
-            composable(HomeBottomNavigationItem.Notice.route) {
-                NoticesScreen(
-                    onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetails,
-                )
-            }
-            composable(HomeBottomNavigationItem.MyPage.route) {
-                MyPageScreen(
-                    onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
-                    onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
-                    onNavigateToPointHistory = onNavigateToPointHistory,
-                    onNavigateToEditPasswordNav = onNavigateToEditPasswordNav,
-                    onNavigateToAuthNav = onNavigateToAuthNav,
-                    pointServiceEnabled = pointServiceEnabled,
-                )
+                if (containsApplicationScreen) {
+                    composable(HomeBottomNavigationItem.Application.route) {
+                        ApplicationScreen(
+                            onNavigateToStudyRooms = onNavigateToStudyRooms,
+                            onNavigateToRemainsApplication = onNavigateToRemainsApplication,
+                            studyRoomServiceEnabled = studyRoomServiceEnabled,
+                            remainsServiceEnabled = remainsServiceEnabled,
+                        )
+                    }
+                }
+                composable(HomeBottomNavigationItem.Notice.route) {
+                    NoticesScreen(
+                        onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetails,
+                    )
+                }
+                composable(HomeBottomNavigationItem.MyPage.route) {
+                    MyPageScreen(
+                        onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
+                        onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
+                        onNavigateToPointHistory = onNavigateToPointHistory,
+                        onNavigateToEditPasswordNav = onNavigateToEditPasswordNav,
+                        onNavigateToAuthNav = onNavigateToAuthNav,
+                        pointServiceEnabled = pointServiceEnabled,
+                    )
+                }
             }
         }
     }

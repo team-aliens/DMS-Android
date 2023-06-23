@@ -32,10 +32,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -62,11 +59,11 @@ import java.util.Calendar
 import java.util.Date
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
@@ -88,81 +85,56 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
     ),
 )
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun HomeScreen(
+    calendarDate: Date,
+    onNextDay: () -> Unit,
+    onPreviousDay: () -> Unit,
+    onShowCalendar: () -> Unit,
     onNavigateToNoticeScreen: () -> Unit,
     mealViewModel: MealViewModel = hiltViewModel(),
 ) {
     val uiState by mealViewModel.uiState.collectAsStateWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
-    val calendarSheetState = rememberModalBottomSheetState(
-        ModalBottomSheetValue.Hidden,
-    )
-    val animationVisibility = uiState.newNotices
-
-    val onCalendarDateChange = { date: Date ->
-        mealViewModel.onEvent(MealUiEvent.UpdateDate(date))
-    }
-
-    val onNextDay = {
-        mealViewModel.onEvent(MealUiEvent.UpdateDateToNextDay)
-    }
-    val onPreviousDay = {
-        mealViewModel.onEvent(MealUiEvent.UpdateDateToPreviousDay)
-    }
-    val onShowCalendar: () -> Unit = {
-        coroutineScope.launch {
-            calendarSheetState.show()
-        }
-    }
-
-    DormCalendarLayout(
-        bottomSheetState = calendarSheetState,
-        onDateChange = onCalendarDateChange,
+    LaunchedEffect(calendarDate) { mealViewModel.onEvent(MealUiEvent.UpdateDate(calendarDate)) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .dormGradientBackground(defaultBackgroundBrush),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        MealScreenAppLogo()
+        NoticeCard(
+            visible = uiState.newNotices,
+            onIconClicked = onNavigateToNoticeScreen,
+        )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .dormGradientBackground(defaultBackgroundBrush),
+            modifier = Modifier.animateContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            MealScreenAppLogo()
-            NoticeCard(
-                visible = animationVisibility,
-                onIconClicked = onNavigateToNoticeScreen,
+            Spacer(Modifier.height(20.dp))
+            Title1(
+                text = stringResource(R.string.meal_todays_meal),
             )
-            Column(
-                modifier = Modifier.animateContentSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Spacer(Modifier.height(20.dp))
-                Title1(
-                    text = stringResource(R.string.meal_todays_meal),
-                )
-                Spacer(Modifier.height(46.dp))
-                DateCard(
-                    selectedDate = uiState.selectedDate,
-                    onNextDay = onNextDay,
-                    onPreviousDay = onPreviousDay,
-                    onShowCalendar = onShowCalendar,
-                )
-                Spacer(Modifier.height(36.dp))
-                DishCards(
-                    breakfast = uiState.breakfast,
-                    kcalOfBreakfast = uiState.kcalOfBreakfast
-                        ?: stringResource(R.string.meal_not_exists),
-                    lunch = uiState.lunch,
-                    kcalOfLunch = uiState.kcalOfLunch
-                        ?: stringResource(R.string.meal_not_exists),
-                    dinner = uiState.dinner,
-                    kcalOfDinner = uiState.kcalOfDinner
-                        ?: stringResource(R.string.meal_not_exists),
-                    onNextDay = onNextDay,
-                    onPreviousDay = onPreviousDay,
-                )
-                Spacer(Modifier.height(100.dp))
-            }
+            Spacer(Modifier.height(46.dp))
+            DateCard(
+                selectedDate = uiState.selectedDate,
+                onNextDay = onNextDay,
+                onPreviousDay = onPreviousDay,
+                onShowCalendar = onShowCalendar,
+            )
+            Spacer(Modifier.height(36.dp))
+            DishCards(
+                breakfast = uiState.breakfast,
+                kcalOfBreakfast = uiState.kcalOfBreakfast
+                    ?: stringResource(R.string.meal_not_exists),
+                lunch = uiState.lunch,
+                kcalOfLunch = uiState.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
+                dinner = uiState.dinner,
+                kcalOfDinner = uiState.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
+                onNextDay = onNextDay,
+                onPreviousDay = onPreviousDay,
+            )
+            Spacer(Modifier.height(100.dp))
         }
     }
 }
