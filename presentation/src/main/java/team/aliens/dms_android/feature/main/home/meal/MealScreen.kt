@@ -62,7 +62,7 @@ import java.util.Calendar
 import java.util.Date
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.component.DormCalendar
+import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
@@ -117,7 +117,7 @@ internal fun MealScreen(
         }
     }
 
-    DormCalendar(
+    DormCalendarLayout(
         bottomSheetState = calendarSheetState,
         onDateChange = onCalendarDateChange,
     ) {

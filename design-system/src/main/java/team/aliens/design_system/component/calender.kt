@@ -28,7 +28,7 @@ import team.aliens.design_system.utils.makeDate
 @DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DormCalendar(
+fun DormCalendarLayout(
     bottomSheetState: ModalBottomSheetState,
     onDateChange: (date: Date) -> Unit,
     content: @Composable () -> Unit,
@@ -76,7 +76,7 @@ fun PreviewDormCalendar() {
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
 
-    DormCalendar(
+    DormCalendarLayout(
         bottomSheetState = bottomSheetState,
         onDateChange = { date ->
             print(date)
