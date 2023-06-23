@@ -335,7 +335,7 @@ private fun ColumnScope.DishCards(
     var firstEnter by remember(currentDate) { mutableStateOf(true) }
     val context = LocalContext.current
 
-    LaunchedEffect(currentDate) {
+    LaunchedEffect(pagerState.currentPage) {
         if (firstEnter) firstEnter = false
         else vibrateOnMealCardPaging(context)
     }
