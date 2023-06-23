@@ -212,7 +212,8 @@ private fun DateCard(
     onShowCalendar: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
             space = 12.dp,
@@ -259,12 +260,16 @@ private fun DateTextButton(
 ) {
     Row(
         modifier = Modifier
+            .dormShadow(DormTheme.colors.primaryVariant)
+            .background(
+                color = DormTheme.colors.surface,
+                shape = RoundedCornerShape(5.dp),
+            )
             .border(
                 width = 1.dp,
                 color = DormTheme.colors.primaryVariant,
                 shape = RoundedCornerShape(5.dp),
             )
-            .background(DormTheme.colors.surface)
             .clip(
                 shape = RoundedCornerShape(5.dp),
             )

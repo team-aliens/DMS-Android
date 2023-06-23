@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CalendarLight" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:textColorPrimary">@color/gray_900</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="colorOnPrimary">@color/gray_900</item>
+        <item name="colorSurface">@color/gray_900</item>
+    </style>
+
+    <style name="CalendarWeekLight" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/gray_900</item>
+    </style>
+
+    <style name="CalendarDark" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:textColorPrimary">@color/gray_100</item>
+        <item name="colorAccent">@color/darken_100</item>
+        <item name="colorOnPrimary">@color/gray_100</item>
+        <item name="colorSurface">@color/gray_100</item>
+    </style>
+
+    <style name="CalendarWeekDark" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/gray_100</item>
+    </style>
+</resources>
