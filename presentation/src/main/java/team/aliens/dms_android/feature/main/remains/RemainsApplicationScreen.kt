@@ -158,12 +158,13 @@ private fun RemainsApplicationTimeCard(
 
 @Composable
 private fun RemainsItems(
+    modifier: Modifier = Modifier,
     remainsOptions: List<RemainsOption>,
     selectedRemainsOptionId: UUID?,
     onRemainsOptionSelected: (RemainsOption) -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
         LazyColumn(
