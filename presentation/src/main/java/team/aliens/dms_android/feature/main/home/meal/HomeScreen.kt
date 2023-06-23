@@ -34,6 +34,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -70,6 +71,9 @@ import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.component.listFadeBrush
+import team.aliens.dms_android.feature.main.home.meal.MealCardType.BREAKFAST
+import team.aliens.dms_android.feature.main.home.meal.MealCardType.DINNER
+import team.aliens.dms_android.feature.main.home.meal.MealCardType.LUNCH
 import team.aliens.presentation.R
 import kotlin.math.absoluteValue
 
@@ -124,7 +128,7 @@ internal fun HomeScreen(
                 onShowCalendar = onShowCalendar,
             )
             Spacer(Modifier.height(36.dp))
-            DishCards(
+            MealCards(
                 currentDate = calendarDate,
                 breakfast = uiState.breakfast,
                 kcalOfBreakfast = uiState.kcalOfBreakfast
@@ -301,11 +305,27 @@ private fun Date.getDigitOfDayOfWeek(): Int {
     return calendar.get(Calendar.DAY_OF_WEEK)
 }
 
-@Stable
+@Immutable
 private enum class ArrowType(
     val icon: DormIcon,
 ) {
     BACKWARD(DormIcon.Backward), FORWARD(DormIcon.Forward), ;
+}
+
+@Immutable
+private enum class MealCardType(
+    val icon: DormIcon,
+) {
+    BREAKFAST(DormIcon.Breakfast), LUNCH(DormIcon.Lunch), DINNER(DormIcon.Dinner), ;
+}
+
+private fun Int.asMealCardType(): MealCardType {
+    return when (this) {
+        0 -> BREAKFAST
+        1 -> LUNCH
+        2 -> DINNER
+        else -> throw IllegalArgumentException()
+    }
 }
 
 private const val Breakfast = 0
@@ -314,7 +334,7 @@ private const val Dinner = 2
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ColumnScope.DishCards(
+private fun ColumnScope.MealCards(
     currentDate: Date,
     breakfast: List<String>,
     kcalOfBreakfast: String,
@@ -327,7 +347,6 @@ private fun ColumnScope.DishCards(
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
-        initialPageOffsetFraction = 0f,
         pageCount = { 3 },
     )
 
@@ -350,6 +369,8 @@ private fun ColumnScope.DishCards(
         ),
         userScrollEnabled = false,
     ) { page ->
+        val currentCardType = page.asMealCardType()
+
         MealCard(
             modifier = Modifier.graphicsLayer {
                 val pagerOffset =
@@ -367,8 +388,7 @@ private fun ColumnScope.DishCards(
                     fraction = 1f - pagerOffset.coerceIn(0f, 1f),
                 )
             },
-            currentPage = pagerState.currentPage,
-            page = page,
+            currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
             lunch = lunch,
@@ -379,13 +399,9 @@ private fun ColumnScope.DishCards(
                 scope.launch {
                     pagerState.animateScrollToPage(
                         when (page) {
-                            Breakfast -> Lunch
-                            Lunch -> Dinner
-                            Dinner -> run {
-                                onNextDay()
-                                Breakfast
-                            }
-
+                            BREAKFAST.ordinal -> LUNCH.ordinal
+                            LUNCH.ordinal -> DINNER.ordinal
+                            DINNER.ordinal -> BREAKFAST.ordinal.also { onNextDay() }
                             else -> throw IllegalStateException()
                         },
                     )
@@ -395,13 +411,9 @@ private fun ColumnScope.DishCards(
                 scope.launch {
                     pagerState.animateScrollToPage(
                         when (page) {
-                            Breakfast -> run {
-                                onPreviousDay()
-                                Dinner
-                            }
-
-                            Lunch -> Breakfast
-                            Dinner -> Lunch
+                            BREAKFAST.ordinal -> DINNER.ordinal.also { onPreviousDay() }
+                            LUNCH.ordinal -> BREAKFAST.ordinal
+                            DINNER.ordinal -> LUNCH.ordinal
                             else -> throw IllegalStateException()
                         },
                     )
@@ -418,8 +430,7 @@ private enum class DragDirection {
 @Composable
 private fun MealCard(
     modifier: Modifier = Modifier,
-    currentPage: Int,
-    page: Int,
+    currentCardType: MealCardType,
     breakfast: List<String>,
     kcalOfBreakfast: String,
     lunch: List<String>,
@@ -434,18 +445,18 @@ private fun MealCard(
     Card(
         modifier = modifier
             .fillMaxSize()
-            .pointerInput(currentPage) {
+            .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> {/* explicit blank */
+                            null -> { /* explicit blank */
                             }
                         }
                     },
                 ) { _, dragAmount ->
-                    if (currentPage == Lunch) when {
+                    if (currentCardType == LUNCH) when {
                         dragAmount > 0 -> onSwipeToLeft()
                         dragAmount < 0 -> onSwipeToRight()
                     } else when {
@@ -474,21 +485,21 @@ private fun MealCard(
         Box(
             modifier = Modifier.padding(16.dp),
         ) {
-            when (page) {
-                Breakfast -> Dishes(
-                    icon = DormIcon.Breakfast,
+            when (currentCardType) {
+                BREAKFAST -> Dishes(
+                    icon = BREAKFAST.icon,
                     dishes = breakfast,
                     kcal = kcalOfBreakfast,
                 )
 
-                Lunch -> Dishes(
-                    icon = DormIcon.Lunch,
+                LUNCH -> Dishes(
+                    icon = LUNCH.icon,
                     dishes = lunch,
                     kcal = kcalOfLunch,
                 )
 
-                Dinner -> Dishes(
-                    icon = DormIcon.Dinner,
+                DINNER -> Dishes(
+                    icon = DINNER.icon,
                     dishes = dinner,
                     kcal = kcalOfDinner,
                 )
