@@ -23,7 +23,7 @@
         <!-- Window -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-        <item name="android:statusBarColor">@color/gray_200</item>
+        <item name="android:statusBarColor">@color/gray_100</item>
         <item name="android:navigationBarColor">@color/gray_100</item>
         <!-- Splash -->
         <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/gray_200</item>

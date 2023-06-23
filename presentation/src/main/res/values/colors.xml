@@ -18,7 +18,7 @@
     <color name="gray_500">#999999</color>
     <color name="gray_600">#555555</color>
     <color name="gray_700">#343434</color>
-    <color name="gray_800">#121212</color>
+    <color name="gray_800">#202020</color>
     <color name="gray_900">#000000</color>
     <color name="error">#FF4646</color>
 </resources>
