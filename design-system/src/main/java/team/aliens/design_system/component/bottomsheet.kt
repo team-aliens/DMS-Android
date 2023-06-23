@@ -4,7 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -44,7 +49,8 @@ fun DormBottomSheetDialog(
                 sheetContent = sheetContent,
             )
         },
-        sheetBackgroundColor = Color.Transparent,
+        sheetBackgroundColor = DormTheme.colors.background,
+        scrimColor = Color.Transparent,
     ) {
         content()
     }
@@ -58,15 +64,11 @@ private fun DormBottomSheetContent(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = DormTheme.colors.background,
-            ),
+            .fillMaxWidth(),
     ) {
         DormBottomSheetHandle(
             useHandle = useHandle,
         )
-
         sheetContent()
     }
 }
@@ -118,12 +120,10 @@ fun DormBottomSheetDialogWithButtonLayout(
     btnText: String,
     content: @Composable () -> Unit,
 ) {
-
     val scope = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         sheetState = sheetState,
         sheetContent = {
             DormBottomSheetContent(
@@ -173,12 +173,10 @@ private fun DormCancellableBottomSheetDialogPreview() {
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Expanded)
 
     DormBottomSheetDialogWithButtonLayout(
-        sheetState = sheetState,
-        sheetContent = {
+        sheetState = sheetState, sheetContent = {
             Body1(text = "HIHI")
 
-        },
-        btnText = "취소"
+        }, btnText = "취소"
     ) {
 
     }
