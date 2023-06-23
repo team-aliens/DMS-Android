@@ -16,6 +16,14 @@ internal fun String.appendNavArgumentName(vararg values: String): String {
     return this.apply { values.forEach(this::appendNavArgumentName) }
 }
 
+internal infix fun String.appendNavArgument(value: String): String {
+    return this.plus("/$value")
+}
+
+internal fun String.appendNavArgument(vararg values: String): String {
+    return this.apply { values.forEach(this::appendNavArgument) }
+}
+
 internal fun NavHostController.navigateToHome() {
     this.navigate(MainNavigation.route) {
         launchSingleTop = true
@@ -36,10 +44,6 @@ internal fun NavHostController.navigateToAuthNav() {
 // Main
 internal fun NavHostController.navigateToStudyRooms() {
     this.navigate(MainNavigation.StudyRooms)
-}
-
-internal fun NavHostController.navigateToStudyRoomDetails() {
-    this.navigate(MainNavigation.StudyRoomDetails)
 }
 
 internal fun NavHostController.navigateToRemainsApplication() {
@@ -74,9 +78,9 @@ internal fun NavHostController.navigateToEditPasswordNav() {
 
 internal fun NavHostController.navigateToStudyRoomDetails(
     seatId: UUID,
-    studyRoomAvailableTime: UUID,
+    timeslot: UUID,
 ) {
-    this.navigate(MainNavigation.StudyRoomDetails + "/${seatId}/${studyRoomAvailableTime}")
+    this.navigate(MainNavigation.StudyRoomDetails + "/${seatId}/${timeslot}")
 }
 
 internal fun NavHostController.navigateToEditPasswordSetPassword() {
