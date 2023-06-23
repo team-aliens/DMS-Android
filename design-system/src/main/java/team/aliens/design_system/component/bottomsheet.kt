@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import team.aliens.design_system.annotation.DormDeprecated
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body2
@@ -34,13 +35,14 @@ private val BottomSheetShape = RoundedCornerShape(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormBottomSheetDialog(
+    modifier: Modifier = Modifier,
     useHandle: Boolean = false,
     sheetState: ModalBottomSheetState,
     sheetContent: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     ModalBottomSheetLayout(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         sheetState = sheetState,
         sheetShape = BottomSheetShape,
         sheetContent = {
@@ -50,7 +52,7 @@ fun DormBottomSheetDialog(
             )
         },
         sheetBackgroundColor = DormTheme.colors.background,
-        scrimColor = Color.Transparent,
+        scrimColor = DormColor.Gray1000.copy(alpha = 0.4f),
     ) {
         content()
     }
