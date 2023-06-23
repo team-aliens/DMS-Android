@@ -27,7 +27,7 @@ value class DormIcon private constructor(
 
         @Stable
         val BackArrow = DormIcon(
-            drawableId = R.drawable.ic_backarrow,
+            drawableId = R.drawable.ic_back,
         )
 
         @Stable

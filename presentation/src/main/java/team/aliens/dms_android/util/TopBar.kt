@@ -1,25 +1,26 @@
 package team.aliens.dms_android.util
 
-// todo 적절한 위치로 이동
-
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import team.aliens.design_system.extension.Space
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.presentation.R
-
-private val IconSize = DpSize(width = 24.dp, height = 24.dp)
 
 @Composable
 fun TopBar(
@@ -28,27 +29,27 @@ fun TopBar(
 ) {
     Row(
         modifier = Modifier
-            .height(70.dp)
+            .height(56.dp)
+            .dormShadow(DormTheme.colors.primaryVariant)
             .fillMaxWidth()
-            .background(color = DormTheme.colors.surface),
+            .background(DormTheme.colors.surface)
+            .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Space(space = 24.dp)
         Icon(
             modifier = Modifier
-                .size(IconSize)
+                .size(24.dp)
                 .dormClickable(
                     rippleEnabled = false,
-                ) {
-                    if (onPrevious != null) {
-                        onPrevious()
-                    }
-                },
-            painter = painterResource(id = DormIcon.BackArrow.drawableId),
-            contentDescription = stringResource(id = R.string.BackButton),
-            tint = DormTheme.colors.onBackground,
+                ) { if (onPrevious != null) onPrevious() },
+            painter = painterResource(DormIcon.BackArrow.drawableId),
+            contentDescription = stringResource(R.string.top_bar_back_button),
+            tint = DormTheme.colors.onSurface,
         )
-        Space(space = 32.dp)
-        Body1(text = title)
+        Spacer(Modifier.width(16.dp))
+        Body1(
+            modifier = Modifier.weight(1f),
+            text = title,
+        )
     }
 }
