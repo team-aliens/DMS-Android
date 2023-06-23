@@ -63,6 +63,7 @@ import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
+import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body5
@@ -263,6 +264,7 @@ private fun DateTextButton(
                 color = DormTheme.colors.primaryVariant,
                 shape = RoundedCornerShape(5.dp),
             )
+            .background(DormTheme.colors.surface)
             .clip(
                 shape = RoundedCornerShape(5.dp),
             )
@@ -347,7 +349,7 @@ private fun ColumnScope.MealCards(
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
-        pageCount = { 3 },
+        pageCount = { MealCardType.values().size },
     )
 
     val scope = rememberCoroutineScope()
@@ -365,29 +367,32 @@ private fun ColumnScope.MealCards(
             .weight(1f),
         state = pagerState,
         contentPadding = PaddingValues(
-            horizontal = 64.dp,
+            horizontal = 56.dp,
         ),
         userScrollEnabled = false,
     ) { page ->
         val currentCardType = page.asMealCardType()
 
         MealCard(
-            modifier = Modifier.graphicsLayer {
-                val pagerOffset =
-                    ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
+            modifier = Modifier
+                .graphicsLayer {
+                    val pagerOffset =
+                        ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
-                lerp(
-                    start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
-                ).also { scale ->
-                    scaleX = scale
-                    scaleY = scale
+                    lerp(
+                        start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
+                    ).also { scale ->
+                        scaleX = scale
+                        scaleY = scale
+                    }
+                    alpha = lerp(
+                        start = 0.5f,
+                        stop = 1f,
+                        fraction = 1f - pagerOffset.coerceIn(0f, 1f),
+                    )
                 }
-                alpha = lerp(
-                    start = 0.5f,
-                    stop = 1f,
-                    fraction = 1f - pagerOffset.coerceIn(0f, 1f),
-                )
-            },
+                .padding(8.dp)
+                .dormShadow(color = DormTheme.colors.primaryVariant),
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
