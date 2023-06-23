@@ -8,6 +8,14 @@ import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.feature.main.editpassword.EditPasswordNavigation
 import team.aliens.dms_android.util.SelectImageType
 
+internal infix fun String.appendNavArgumentName(value: String): String {
+    return this.plus("/{$value}")
+}
+
+internal fun String.appendNavArgumentName(vararg values: String): String {
+    return this.apply { values.forEach(this::appendNavArgumentName) }
+}
+
 internal fun NavHostController.navigateToHome() {
     this.navigate(MainNavigation.route) {
         launchSingleTop = true
@@ -42,12 +50,18 @@ internal fun NavHostController.navigateToNoticeDetails(noticeId: UUID) {
     this.navigate(MainNavigation.NoticeDetails + "/${noticeId}")
 }
 
+internal fun NavHostController.navigateToUploadProfileImage(
+    selectImageType: SelectImageType,
+) {
+    this.navigate(MainNavigation.UploadProfileImage + "/${selectImageType.name}")
+}
+
 internal fun NavHostController.navigateToUploadProfileImageWithTakingPhoto() {
-    this.navigate(MainNavigation.UploadProfileImage + "/${SelectImageType.TAKE_PHOTO.ordinal}")
+    this.navigateToUploadProfileImage(SelectImageType.TAKE_PHOTO)
 }
 
 internal fun NavHostController.navigateToUploadProfileImageWithSelectingPhoto() {
-    this.navigate(MainNavigation.UploadProfileImage + "/${SelectImageType.SELECT_FROM_GALLERY.ordinal}")
+    this.navigateToUploadProfileImage(SelectImageType.SELECT_FROM_GALLERY)
 }
 
 internal fun NavHostController.navigateToPointHistory() {
