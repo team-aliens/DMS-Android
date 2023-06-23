@@ -99,19 +99,14 @@ internal fun ApplicationScreen(
         }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DormTheme.colors.background),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // todo 상단바 분리 필요
         Spacer(Modifier.height(24.dp))
         Body1(text = stringResource(R.string.Application))
         // todo end
-
-        ApplicationCards(
-            applicationItems = applicationItems,
-        )
+        ApplicationCards(applicationItems)
     }
 }
 

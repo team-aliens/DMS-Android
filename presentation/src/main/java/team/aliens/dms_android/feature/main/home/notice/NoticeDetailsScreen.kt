@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.main.home.notice
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -40,11 +39,7 @@ internal fun NoticeDetailsScreen(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                DormTheme.colors.background,
-            ),
+        modifier = Modifier.fillMaxSize(),
     ) {
         TopBar(
             title = stringResource(R.string.Announcement),
