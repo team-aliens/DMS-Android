@@ -8,7 +8,7 @@ import team.aliens.design_system.theme.DormTheme
 internal val listFadeBrush: Brush
     @Composable get() = Brush.verticalGradient(
         colors = listOf(
-            DormTheme.colors.surface,
+            DormTheme.colors.background,
             Color.Transparent,
         ),
     )
