@@ -98,15 +98,17 @@ internal fun NavGraphBuilder.mainNavigation(
             }
         }
         composable(
-            route = MainNavigation.NoticeDetails,
+            route = MainNavigation.NoticeDetails + "/{${MainNavigation.Arguments.NoticeId}}",
             arguments = listOf(
                 navArgument(MainNavigation.Arguments.NoticeId) {
-                    type = NavType.UuidType
+                    type = NavType.StringType
                 },
             ),
         ) { backStackEntry ->
+            println(backStackEntry.destination)
             backStackEntry.arguments?.run {
-                val noticeId = getString(MainNavigation.Arguments.NoticeId)
+                val noticeId = getString(MainNavigation.Arguments.NoticeId)!!
+
                 NoticeDetailsScreen(
                     onPrevious = onPrevious,
                     noticeId = UUID.fromString(noticeId),
