@@ -161,7 +161,7 @@ private fun HomeScreenAppLogo() {
 }
 
 @Composable
-private fun NoticeCard(
+private fun ColumnScope.NoticeCard(
     visible: Boolean,
     onIconClicked: () -> Unit,
 ) {
@@ -173,11 +173,11 @@ private fun NoticeCard(
             contentAlignment = Alignment.TopCenter,
         ) {
             Box(
-                contentAlignment = Alignment.CenterEnd,
                 modifier = Modifier.padding(
-                    vertical = 18.dp,
+                    vertical = 16.dp,
                     horizontal = 16.dp,
                 ),
+                contentAlignment = Alignment.CenterEnd,
             ) {
                 FloatingNotice(
                     text = stringResource(R.string.notice_new_notice_exists),
@@ -212,8 +212,7 @@ private fun DateCard(
     onShowCalendar: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
             space = 12.dp,
