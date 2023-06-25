@@ -40,10 +40,18 @@ import androidx.navigation.compose.rememberNavController
 import java.util.Date
 import java.util.UUID
 import kotlinx.coroutines.launch
+import team.aliens.design_system.animate.slideInToEnd
+import team.aliens.design_system.animate.slideInToStart
+import team.aliens.design_system.animate.slideOutToEnd
+import team.aliens.design_system.animate.slideOutToStart
 import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Application
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Meal
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.MyPage
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Notice
 import team.aliens.dms_android.feature.main.home.NavigationItemsWrapper.navigationItems
 import team.aliens.dms_android.feature.main.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.home.HomeScreen
@@ -91,7 +99,7 @@ internal fun Home(
     val containsApplicationScreen by remember { mutableStateOf(studyRoomServiceEnabled || remainsServiceEnabled) }
 
     LaunchedEffect(containsApplicationScreen) {
-        if (!containsApplicationScreen) navigationItems.remove(HomeBottomNavigationItem.Application)
+        if (!containsApplicationScreen) navigationItems.remove(Application)
     }
 
     DormCalendarLayout(
@@ -112,37 +120,43 @@ internal fun Home(
             NavHost(
                 modifier = Modifier.fillMaxSize(),
                 navController = bottomNavController,
-                startDestination = HomeBottomNavigationItem.Meal.route,
-                enterTransition = {
-                    // todo
-                    fadeIn(
-                        animationSpec = tween(
-                            durationMillis = 100,
-                        ),
-                    )
-                },
-                exitTransition = {
-                    // todo
-                    fadeOut(
-                        animationSpec = tween(
-                            durationMillis = 100,
-                        ),
-                    )
-                },
+                startDestination = Meal.route,
+                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 100)) },
+                exitTransition = { fadeOut(animationSpec = tween(durationMillis = 100)) },
             ) {
-                composable(HomeBottomNavigationItem.Meal.route) {
+                composable(
+                    route = Meal.route,
+                    enterTransition = { slideInToEnd() },
+                    exitTransition = { slideOutToEnd() },
+                ) {
                     HomeScreen(
                         calendarDate = currentCalendarDate,
                         onNextDay = { onCalendarDateChange(currentCalendarDate.plusOneDay()) },
                         onPreviousDay = { onCalendarDateChange(currentCalendarDate.minusOneDay()) },
                         onShowCalendar = { coroutineScope.launch { bottomSheetState.show() } },
                         onNavigateToNoticeScreen = {
-                            bottomNavController.navigateTo(HomeBottomNavigationItem.Notice.route)
+                            bottomNavController.navigateTo(Notice.route)
                         },
                     )
                 }
                 if (containsApplicationScreen) {
-                    composable(HomeBottomNavigationItem.Application.route) {
+                    composable(
+                        route = Application.route,
+                        enterTransition = {
+                            when (targetState.destination.route) {
+                                Meal.route -> slideInToEnd()
+                                Notice.route, MyPage.route -> slideInToStart()
+                                else -> null
+                            }
+                        },
+                        exitTransition = {
+                            when (targetState.destination.route) {
+                                Meal.route -> slideOutToStart()
+                                Notice.route, MyPage.route -> slideOutToEnd()
+                                else -> null
+                            }
+                        },
+                    ) {
                         ApplicationScreen(
                             onNavigateToStudyRooms = onNavigateToStudyRooms,
                             onNavigateToRemainsApplication = onNavigateToRemainsApplication,
@@ -151,12 +165,32 @@ internal fun Home(
                         )
                     }
                 }
-                composable(HomeBottomNavigationItem.Notice.route) {
+                composable(
+                    route = Notice.route,
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            Meal.route, Application.route -> slideInToEnd()
+                            MyPage.route -> slideInToStart()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            Meal.route, Application.route -> slideOutToStart()
+                            MyPage.route -> slideOutToEnd()
+                            else -> null
+                        }
+                    },
+                ) {
                     NoticesScreen(
                         onNavigateToNoticeDetailsScreen = onNavigateToNoticeDetails,
                     )
                 }
-                composable(HomeBottomNavigationItem.MyPage.route) {
+                composable(
+                    route = MyPage.route,
+                    enterTransition = { slideInToStart() },
+                    exitTransition = { slideOutToStart() },
+                ) {
                     MyPageScreen(
                         onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
                         onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
@@ -174,10 +208,10 @@ internal fun Home(
 @Stable
 private object NavigationItemsWrapper {
     val navigationItems: MutableList<HomeBottomNavigationItem> = mutableListOf(
-        HomeBottomNavigationItem.Meal,
-        HomeBottomNavigationItem.Application,
-        HomeBottomNavigationItem.Notice,
-        HomeBottomNavigationItem.MyPage,
+        Meal,
+        Application,
+        Notice,
+        MyPage,
     )
 }
 
