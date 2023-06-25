@@ -423,6 +423,6 @@
     <!--bottom nav-->
     <string name="bottom_nav_home">홈</string>
     <string name="bottom_nav_application">신청</string>
-    <string name="bottom_nav_guide">안내</string>
+    <string name="bottom_nav_notices">안내</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 </resources>
