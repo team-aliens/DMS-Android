@@ -1,5 +1,9 @@
 package team.aliens.dms_android
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -54,6 +58,15 @@ internal fun DmsApp(
                 modifier = modifier.fillMaxSize(),
                 navController = navController,
                 startDestination = if (isSignedIn) MainNavigation.route else AuthNavigation.route,
+                enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) },
+                exitTransition = { fadeOut(tween(delayMillis = 10)) },
+                popEnterTransition = { EnterTransition.None },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(delayMillis = 10),
+                    )
+                }
             ) {
                 mainNavigation(
                     onNavigateToStudyRooms = navController::navigateToStudyRooms,
