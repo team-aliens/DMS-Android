@@ -29,8 +29,8 @@ internal fun NavHostController.popBackStackIfNotStartDestination() {
 internal fun NavHostController.navigateToHome() {
     this.navigate(MainNavigation.route) {
         launchSingleTop = true
-        popUpTo(this@navigateToHome.graph.startDestinationId) {
-            saveState = true
+        popUpTo(this@navigateToHome.graph.findStartDestination().id) {
+            inclusive = true
         }
     }
 }
