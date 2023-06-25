@@ -2,6 +2,7 @@ package team.aliens.dms_android.extension
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import java.util.UUID
 import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordNavigation
@@ -43,23 +44,39 @@ internal fun NavHostController.navigateToAuthNav() {
     }
 }
 
+internal fun NavHostController.navigateSingleTop(
+    route: String,
+) {
+    this.navigate(route) { launchSingleTop = true }
+}
+
+internal fun NavHostController.navigateSingleTop(
+    route: String,
+    builder: NavOptionsBuilder.() -> Unit,
+) {
+    this.navigate(route) {
+        builder()
+        launchSingleTop = true
+    }
+}
+
 // Main
 internal fun NavHostController.navigateToStudyRooms() {
-    this.navigate(MainNavigation.StudyRooms)
+    this.navigateSingleTop(MainNavigation.StudyRooms)
 }
 
 internal fun NavHostController.navigateToRemainsApplication() {
-    this.navigate(MainNavigation.RemainsApplication)
+    this.navigateSingleTop(MainNavigation.RemainsApplication)
 }
 
 internal fun NavHostController.navigateToNoticeDetails(noticeId: UUID) {
-    this.navigate(MainNavigation.NoticeDetails appendNavArgument noticeId)
+    this.navigateSingleTop(MainNavigation.NoticeDetails appendNavArgument noticeId)
 }
 
 internal fun NavHostController.navigateToUploadProfileImage(
     selectImageType: SelectImageType,
 ) {
-    this.navigate(MainNavigation.UploadProfileImage appendNavArgument selectImageType.name)
+    this.navigateSingleTop(MainNavigation.UploadProfileImage appendNavArgument selectImageType.name)
 }
 
 internal fun NavHostController.navigateToUploadProfileImageWithTakingPhoto() {
@@ -71,43 +88,43 @@ internal fun NavHostController.navigateToUploadProfileImageWithSelectingPhoto() 
 }
 
 internal fun NavHostController.navigateToPointHistory() {
-    this.navigate(MainNavigation.PointHistory)
+    this.navigateSingleTop(MainNavigation.PointHistory)
 }
 
 internal fun NavHostController.navigateToEditPasswordNav() {
-    this.navigate(EditPasswordNavigation.route)
+    this.navigateSingleTop(EditPasswordNavigation.route)
 }
 
 internal fun NavHostController.navigateToStudyRoomDetails(
     seatId: UUID,
     timeslot: UUID,
 ) {
-    this.navigate(
+    this.navigateSingleTop(
         MainNavigation.StudyRoomDetails appendNavArgument seatId appendNavArgument timeslot,
     )
 }
 
 internal fun NavHostController.navigateToEditPasswordSetPassword() {
-    this.navigate(EditPasswordNavigation.SetPassword)
+    this.navigateSingleTop(EditPasswordNavigation.SetPassword)
 }
 
 // Auth
 internal fun NavHostController.navigateToSignUpNav() {
-    // todo this.navigate(SignUpNavigation.route)
+    // todo this.navigateSingleTop(SignUpNavigation.route)
 }
 
 internal fun NavHostController.navigateToFindId() {
-    this.navigate(AuthNavigation.FindId)
+    this.navigateSingleTop(AuthNavigation.FindId)
 }
 
 internal fun NavHostController.navigateToResetPasswordNav() {
-    this.navigate(ResetPasswordNavigation.route)
+    this.navigateSingleTop(ResetPasswordNavigation.route)
 }
 
 internal fun NavHostController.navigateToResetPasswordEnterEmailVerificationCode() {
-    this.navigate(ResetPasswordNavigation.EnterEmailVerificationCode)
+    this.navigateSingleTop(ResetPasswordNavigation.EnterEmailVerificationCode)
 }
 
 internal fun NavHostController.navigateToResetPasswordSetPassword() {
-    this.navigate(ResetPasswordNavigation.SetPassword)
+    this.navigateSingleTop(ResetPasswordNavigation.SetPassword)
 }
