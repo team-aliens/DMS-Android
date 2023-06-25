@@ -40,10 +40,10 @@ import androidx.navigation.compose.rememberNavController
 import java.util.Date
 import java.util.UUID
 import kotlinx.coroutines.launch
-import team.aliens.design_system.animate.slideInToEnd
-import team.aliens.design_system.animate.slideInToStart
-import team.aliens.design_system.animate.slideOutToEnd
-import team.aliens.design_system.animate.slideOutToStart
+import team.aliens.design_system.animate.slideInFromEnd
+import team.aliens.design_system.animate.slideInFromStart
+import team.aliens.design_system.animate.slideOutFromEnd
+import team.aliens.design_system.animate.slideOutFromStart
 import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
@@ -121,13 +121,23 @@ internal fun Home(
                 modifier = Modifier.fillMaxSize(),
                 navController = bottomNavController,
                 startDestination = Meal.route,
-                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 100)) },
-                exitTransition = { fadeOut(animationSpec = tween(durationMillis = 100)) },
+                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
+                exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
             ) {
                 composable(
                     route = Meal.route,
-                    enterTransition = { slideInToEnd() },
-                    exitTransition = { slideOutToEnd() },
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            Application.route, Notice.route, MyPage.route -> slideInFromStart()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            Application.route, Notice.route, MyPage.route -> slideOutFromEnd()
+                            else -> null
+                        }
+                    },
                 ) {
                     HomeScreen(
                         calendarDate = currentCalendarDate,
@@ -144,15 +154,15 @@ internal fun Home(
                         route = Application.route,
                         enterTransition = {
                             when (targetState.destination.route) {
-                                Meal.route -> slideInToEnd()
-                                Notice.route, MyPage.route -> slideInToStart()
+                                Meal.route -> slideInFromEnd()
+                                Notice.route, MyPage.route -> slideInFromStart()
                                 else -> null
                             }
                         },
                         exitTransition = {
                             when (targetState.destination.route) {
-                                Meal.route -> slideOutToStart()
-                                Notice.route, MyPage.route -> slideOutToEnd()
+                                Meal.route -> slideOutFromStart()
+                                Notice.route, MyPage.route -> slideOutFromEnd()
                                 else -> null
                             }
                         },
@@ -169,15 +179,15 @@ internal fun Home(
                     route = Notice.route,
                     enterTransition = {
                         when (targetState.destination.route) {
-                            Meal.route, Application.route -> slideInToEnd()
-                            MyPage.route -> slideInToStart()
+                            Meal.route, Application.route -> slideInFromEnd()
+                            MyPage.route -> slideInFromStart()
                             else -> null
                         }
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            Meal.route, Application.route -> slideOutToStart()
-                            MyPage.route -> slideOutToEnd()
+                            Meal.route, Application.route -> slideOutFromStart()
+                            MyPage.route -> slideOutFromEnd()
                             else -> null
                         }
                     },
@@ -188,8 +198,18 @@ internal fun Home(
                 }
                 composable(
                     route = MyPage.route,
-                    enterTransition = { slideInToStart() },
-                    exitTransition = { slideOutToStart() },
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            Meal.route, Application.route, Notice.route -> slideInFromEnd()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            Meal.route, Application.route, Notice.route -> slideOutFromStart()
+                            else -> null
+                        }
+                    },
                 ) {
                     MyPageScreen(
                         onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,

@@ -8,38 +8,38 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 
-fun slideInToStart(): EnterTransition {
-    return slideInHorizontally { initialOffset -> initialOffset / 2 } + fadeIn(
+fun slideInFromStart(): EnterTransition {
+    return slideInHorizontally { initialOffset -> initialOffset / 3 } + fadeIn(
         animationSpec = tween(
-            durationMillis = 100,
-            delayMillis = 100,
+            durationMillis = 80,
+            delayMillis = 60,
         ),
     )
 }
 
-fun slideInToEnd(): EnterTransition {
-    return slideInHorizontally { initialOffset -> initialOffset / 2 * -1 } + fadeIn(
+fun slideInFromEnd(): EnterTransition {
+    return slideInHorizontally { initialOffset -> initialOffset / 3 * -1 } + fadeIn(
         animationSpec = tween(
-            durationMillis = 100,
-            delayMillis = 100,
+            durationMillis = 80,
+            delayMillis = 60,
         ),
     )
 }
 
-fun slideOutToStart(): ExitTransition {
-    return slideOutHorizontally { initialOffset -> initialOffset / 2 } + fadeOut(
+fun slideOutFromStart(): ExitTransition {
+    return slideOutHorizontally { initialOffset -> initialOffset / 3 } + fadeOut(
         animationSpec = tween(
-            durationMillis = 100,
-            delayMillis = 100,
+            durationMillis = 80,
+            delayMillis = 60,
         )
     )
 }
 
-fun slideOutToEnd(): ExitTransition {
-    return slideOutHorizontally { initialOffset -> initialOffset / 2 * -1 } + fadeOut(
+fun slideOutFromEnd(): ExitTransition {
+    return slideOutHorizontally { initialOffset -> initialOffset / 3 * -1 } + fadeOut(
         animationSpec = tween(
-            durationMillis = 100,
-            delayMillis = 100,
+            durationMillis = 80,
+            delayMillis = 60,
         )
     )
 }
