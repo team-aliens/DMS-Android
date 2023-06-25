@@ -53,7 +53,9 @@ internal fun PointHistoryScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .background(DormTheme.colors.background)
+            .fillMaxSize(),
     ) {
         TopBar(
             title = stringResource(R.string.my_page_check_point_history),
