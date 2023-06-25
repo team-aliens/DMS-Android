@@ -117,18 +117,18 @@ internal fun HomeScreen(
             modifier = Modifier.animateContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.weight(0.05f))
             Title1(
                 text = stringResource(R.string.meal_todays_meal),
             )
-            Spacer(Modifier.height(46.dp))
+            Spacer(Modifier.weight(0.05f))
             DateCard(
                 selectedDate = uiState.selectedDate,
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
                 onShowCalendar = onShowCalendar,
             )
-            Spacer(Modifier.height(36.dp))
+            Spacer(Modifier.weight(0.1f))
             MealCards(
                 currentDate = calendarDate,
                 breakfast = uiState.breakfast,
@@ -141,7 +141,7 @@ internal fun HomeScreen(
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
             )
-            Spacer(Modifier.height(100.dp))
+            Spacer(Modifier.height(80.dp))
         }
     }
 }
