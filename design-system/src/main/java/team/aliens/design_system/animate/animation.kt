@@ -9,25 +9,19 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 
 fun slideInFromStart(): EnterTransition {
-    return slideInHorizontally { initialOffset -> initialOffset / 3 } + fadeIn(
-        animationSpec = tween(
-            durationMillis = 80,
-            delayMillis = 60,
-        ),
+    return slideInHorizontally { initialOffset -> initialOffset / 10 } + fadeIn(
+        animationSpec = tween(durationMillis = 100),
     )
 }
 
 fun slideInFromEnd(): EnterTransition {
-    return slideInHorizontally { initialOffset -> initialOffset / 3 * -1 } + fadeIn(
-        animationSpec = tween(
-            durationMillis = 80,
-            delayMillis = 60,
-        ),
+    return slideInHorizontally { initialOffset -> initialOffset / 10 * -1 } + fadeIn(
+        animationSpec = tween(durationMillis = 100),
     )
 }
 
 fun slideOutFromStart(): ExitTransition {
-    return slideOutHorizontally { initialOffset -> initialOffset / 3 } + fadeOut(
+    return slideOutHorizontally { initialOffset -> initialOffset / 10 } + fadeOut(
         animationSpec = tween(
             durationMillis = 80,
             delayMillis = 60,
@@ -36,7 +30,7 @@ fun slideOutFromStart(): ExitTransition {
 }
 
 fun slideOutFromEnd(): ExitTransition {
-    return slideOutHorizontally { initialOffset -> initialOffset / 3 * -1 } + fadeOut(
+    return slideOutHorizontally { initialOffset -> initialOffset / 10 * -1 } + fadeOut(
         animationSpec = tween(
             durationMillis = 80,
             delayMillis = 60,
