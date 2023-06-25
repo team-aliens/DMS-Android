@@ -99,7 +99,9 @@ internal fun ApplicationScreen(
         }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .background(DormTheme.colors.background)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // todo 상단바 분리 필요

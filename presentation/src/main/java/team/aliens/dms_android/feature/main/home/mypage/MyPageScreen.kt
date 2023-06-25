@@ -122,6 +122,7 @@ internal fun MyPageScreen(
 
     Column(
         modifier = Modifier
+            .background(DormTheme.colors.background)
             .fillMaxSize()
             .padding(
                 vertical = 66.dp,

@@ -67,7 +67,9 @@ internal fun NoticesScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .background(DormTheme.colors.background)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(24.dp))
