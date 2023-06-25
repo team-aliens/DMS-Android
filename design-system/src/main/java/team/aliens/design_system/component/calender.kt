@@ -30,6 +30,7 @@ fun DormCalendarLayout(
     darkTheme: Boolean = isSystemInDarkTheme(),
     bottomSheetState: ModalBottomSheetState,
     onDateChange: (date: Date) -> Unit,
+    selectedDate: Date,
     content: @Composable () -> Unit,
 ) {
     DormBottomSheetDialog(
@@ -53,13 +54,16 @@ fun DormCalendarLayout(
                     }
                 },
                 update = {
-                    it.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                        val date = makeDate(
-                            year = year,
-                            month = month,
-                            dayOfMonth = dayOfMonth,
-                        )
-                        onDateChange(date)
+                    it.run {
+                        date = selectedDate.time
+                        setOnDateChangeListener { _, year, month, dayOfMonth ->
+                            val date = makeDate(
+                                year = year,
+                                month = month,
+                                dayOfMonth = dayOfMonth,
+                            )
+                            onDateChange(date)
+                        }
                     }
                 },
             )

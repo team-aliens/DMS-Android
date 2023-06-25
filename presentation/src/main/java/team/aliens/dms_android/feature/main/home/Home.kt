@@ -105,6 +105,7 @@ internal fun Home(
     DormCalendarLayout(
         bottomSheetState = bottomSheetState,
         onDateChange = onCalendarDateChange,
+        selectedDate = currentCalendarDate,
     ) {
         Scaffold(
             scaffoldState = rememberScaffoldState(),
