@@ -25,6 +25,7 @@ import team.aliens.dms_android.extension.navigateToStudyRoomDetails
 import team.aliens.dms_android.extension.navigateToStudyRooms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithTakingPhoto
+import team.aliens.dms_android.extension.popBackStackIfNotStartDestination
 import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.authNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
@@ -63,7 +64,7 @@ internal fun DmsApp(
                     onNavigateToPointHistory = navController::navigateToPointHistory,
                     onNavigateToEditPasswordNav = navController::navigateToEditPasswordNav,
                     onNavigateToAuthNav = navController::navigateToAuthNav,
-                    onPrevious = navController::popBackStack,
+                    onPrevious = navController::popBackStackIfNotStartDestination,
                     onNavigateToStudyRoomDetails = navController::navigateToStudyRoomDetails,
                     onNavigateToEditPasswordSetPassword = navController::navigateToEditPasswordSetPassword,
                     onNavigateToHome = navController::navigateToHome,

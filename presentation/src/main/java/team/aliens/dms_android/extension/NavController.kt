@@ -1,5 +1,6 @@
 package team.aliens.dms_android.extension
 
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import java.util.UUID
 import team.aliens.dms_android.feature.auth.AuthNavigation
@@ -14,6 +15,15 @@ internal infix fun String.appendNavArgumentName(value: String): String {
 
 internal infix fun String.appendNavArgument(value: Any): String {
     return this.plus("/$value")
+}
+
+internal fun NavHostController.popBackStackIfNotStartDestination() {
+    val currentDestination = this.currentDestination
+    val startDestination = this.graph.findStartDestination()
+
+    if (currentDestination != startDestination) {
+        this.popBackStack()
+    }
 }
 
 internal fun NavHostController.navigateToHome() {
