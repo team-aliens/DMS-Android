@@ -84,11 +84,11 @@ internal fun NavHostController.navigateToStudyRooms() {
 }
 
 internal fun NavHostController.navigateToRemainsApplication() {
-    this.navigateSingleTop(MainNavigation.RemainsApplication)
+    this.navigateSingleTopWithRestoringState(MainNavigation.RemainsApplication)
 }
 
 internal fun NavHostController.navigateToNoticeDetails(noticeId: UUID) {
-    this.navigateSingleTop(MainNavigation.NoticeDetails appendNavArgument noticeId)
+    this.navigateSingleTopWithRestoringState(MainNavigation.NoticeDetails appendNavArgument noticeId)
 }
 
 internal fun NavHostController.navigateToUploadProfileImage(
@@ -106,7 +106,7 @@ internal fun NavHostController.navigateToUploadProfileImageWithSelectingPhoto() 
 }
 
 internal fun NavHostController.navigateToPointHistory() {
-    this.navigateSingleTop(MainNavigation.PointHistory)
+    this.navigateSingleTopWithRestoringState(MainNavigation.PointHistory)
 }
 
 internal fun NavHostController.navigateToEditPasswordNav() {
@@ -117,7 +117,7 @@ internal fun NavHostController.navigateToStudyRoomDetails(
     seatId: UUID,
     timeslot: UUID,
 ) {
-    this.navigateSingleTop(
+    this.navigateSingleTopWithRestoringState(
         MainNavigation.StudyRoomDetails appendNavArgument seatId appendNavArgument timeslot,
     )
 }
