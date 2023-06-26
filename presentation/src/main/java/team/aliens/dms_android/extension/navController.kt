@@ -60,9 +60,27 @@ internal fun NavHostController.navigateSingleTop(
     }
 }
 
+internal fun NavHostController.navigateSingleTopWithRestoringState(
+    route: String,
+) {
+    this.navigateSingleTop(route) {
+        restoreState = true
+    }
+}
+
+internal fun NavHostController.navigateSingleTopWithRestoringState(
+    route: String,
+    builder: NavOptionsBuilder.() -> Unit,
+) {
+    this.navigateSingleTopWithRestoringState(route) {
+        builder()
+        restoreState = true
+    }
+}
+
 // Main
 internal fun NavHostController.navigateToStudyRooms() {
-    this.navigateSingleTop(MainNavigation.StudyRooms)
+    this.navigateSingleTopWithRestoringState(MainNavigation.StudyRooms)
 }
 
 internal fun NavHostController.navigateToRemainsApplication() {
