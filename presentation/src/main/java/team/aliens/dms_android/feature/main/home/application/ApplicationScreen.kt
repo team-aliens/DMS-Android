@@ -77,7 +77,7 @@ internal fun ApplicationScreen(
     remainsServiceEnabled: Boolean = false,
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
 ) {
-    val uiState by applicationViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by applicationViewModel.stateFlow.collectAsStateWithLifecycle()
     val applicationItems =
         remember(uiState.currentAppliedStudyRoom, uiState.currentAppliedRemainsOption) {
             mutableStateListOf<ApplicationCardItem>().apply {

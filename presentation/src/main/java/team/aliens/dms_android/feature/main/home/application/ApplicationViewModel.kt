@@ -4,9 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model.remains.CurrentAppliedRemainsOption
 import team.aliens.domain.model.studyroom.CurrentAppliedStudyRoom
 import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
@@ -17,8 +18,8 @@ import javax.inject.Inject
 internal class ApplicationViewModel @Inject constructor(
     private val fetchCurrentAppliedStudyRoomUseCase: FetchCurrentAppliedStudyRoomUseCase,
     private val fetchCurrentAppliedRemainsOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
-) : MviViewModel<ApplicationUiState, ApplicationUiEvent>(
-    initialState = ApplicationUiState.initial(),
+) : BaseMviViewModel<ApplicationIntent, ApplicationState, ApplicationSideEffect>(
+    initialState = ApplicationState.initial(),
 ) {
     init {
         fetchCurrentAppliedStudyRoom()
@@ -30,8 +31,8 @@ internal class ApplicationViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchCurrentAppliedStudyRoomUseCase()
             }.onSuccess { fetchedCurrentAppliedStudyRoom ->
-                setState(
-                    newState = uiState.value.copy(
+                reduce(
+                    newState = stateFlow.value.copy(
                         currentAppliedStudyRoom = fetchedCurrentAppliedStudyRoom,
                     ),
                 )
@@ -44,8 +45,8 @@ internal class ApplicationViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchCurrentAppliedRemainsOptionUseCase()
             }.onSuccess { currentAppliedRemainsOption ->
-                setState(
-                    newState = uiState.value.copy(
+                reduce(
+                    newState = stateFlow.value.copy(
                         currentAppliedRemainsOption = currentAppliedRemainsOption,
                     ),
                 )
@@ -54,16 +55,18 @@ internal class ApplicationViewModel @Inject constructor(
     }
 }
 
-internal data class ApplicationUiState(
+internal sealed class ApplicationIntent : MviIntent
+
+internal data class ApplicationState(
     val currentAppliedStudyRoom: CurrentAppliedStudyRoom?,
     val currentAppliedRemainsOption: CurrentAppliedRemainsOption?,
-) : UiState {
+) : MviState {
     companion object {
-        fun initial() = ApplicationUiState(
+        fun initial() = ApplicationState(
             currentAppliedStudyRoom = null,
             currentAppliedRemainsOption = null,
         )
     }
 }
 
-internal sealed class ApplicationUiEvent : UiEvent
+internal sealed class ApplicationSideEffect : MviSideEffect
