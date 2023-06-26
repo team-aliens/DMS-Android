@@ -4,9 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model.mypage.MyPage
 import team.aliens.domain.usecase.auth.SignOutUseCase
 import team.aliens.domain.usecase.student.FetchMyPageUseCase
@@ -18,17 +19,17 @@ internal class MyPageViewModel @Inject constructor(
     private val fetchMyPageUseCase: FetchMyPageUseCase,
     private val signOutUseCase: SignOutUseCase,
     private val withdrawUseCase: WithdrawUseCase,
-) : MviViewModel<MyPageUiState, MyPageUiEvent>(
-    initialState = MyPageUiState.initial(),
+) : BaseMviViewModel<MyPageIntent, MyPageState, MyPageSideEffect>(
+    initialState = MyPageState.initial(),
 ) {
     init {
         fetchMyPage()
     }
 
-    override fun updateState(event: MyPageUiEvent) {
-        when (event) {
-            MyPageUiEvent.SignOut -> signOut()
-            MyPageUiEvent.Withdraw -> withdraw()
+    override fun processIntent(intent: MyPageIntent) {
+        when (intent) {
+            MyPageIntent.SignOut -> signOut()
+            MyPageIntent.Withdraw -> withdraw()
         }
     }
 
@@ -37,8 +38,8 @@ internal class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchMyPageUseCase()
             }.onSuccess { fetchedMyPage ->
-                setState(
-                    newState = uiState.value.copy(
+                reduce(
+                    newState = stateFlow.value.copy(
                         myPage = fetchedMyPage,
                     ),
                 )
@@ -67,19 +68,21 @@ internal class MyPageViewModel @Inject constructor(
     }
 }
 
-internal data class MyPageUiState(
+internal sealed class MyPageIntent : MviIntent {
+    object SignOut : MyPageIntent()
+    object Withdraw : MyPageIntent()
+}
+
+internal data class MyPageState(
     val myPage: MyPage?,
-) : UiState {
+) : MviState {
     companion object {
-        fun initial(): MyPageUiState {
-            return MyPageUiState(
+        fun initial(): MyPageState {
+            return MyPageState(
                 myPage = null,
             )
         }
     }
 }
 
-internal sealed class MyPageUiEvent : UiEvent {
-    object SignOut : MyPageUiEvent()
-    object Withdraw : MyPageUiEvent()
-}
+internal sealed class MyPageSideEffect : MviSideEffect

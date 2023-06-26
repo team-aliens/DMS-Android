@@ -59,7 +59,7 @@ internal fun MyPageScreen(
     pointServiceEnabled: Boolean,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
-    val uiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
     var signOutDialogState by remember { mutableStateOf(false) }
     var withdrawDialogState by remember { mutableStateOf(false) }
@@ -76,7 +76,7 @@ internal fun MyPageScreen(
                 mainBtnText = stringResource(R.string.accept),
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
-                    myPageViewModel.onEvent(MyPageUiEvent.SignOut)
+                    myPageViewModel.postIntent(MyPageIntent.SignOut)
                     onNavigateToAuthNav()
                     signOutDialogState = false
                 },
@@ -97,7 +97,7 @@ internal fun MyPageScreen(
                 mainBtnText = stringResource(R.string.accept),
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
-                    myPageViewModel.onEvent(MyPageUiEvent.Withdraw)
+                    myPageViewModel.postIntent(MyPageIntent.Withdraw)
                     onNavigateToAuthNav()
                     withdrawDialogState = false
                 },
