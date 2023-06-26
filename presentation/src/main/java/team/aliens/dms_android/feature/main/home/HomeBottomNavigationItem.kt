@@ -9,8 +9,8 @@ internal sealed class HomeBottomNavigationItem(
     @DrawableRes val iconResId: Int,
     @StringRes val titleResId: Int,
 ) {
-    object Meal : HomeBottomNavigationItem(
-        route = "meal",
+    object Home : HomeBottomNavigationItem(
+        route = "home",
         iconResId = R.drawable.ic_home,
         titleResId = R.string.bottom_nav_home,
     )

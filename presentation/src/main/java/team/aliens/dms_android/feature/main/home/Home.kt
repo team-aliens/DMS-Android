@@ -49,7 +49,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Application
-import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Meal
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Home
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.MyPage
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Notice
 import team.aliens.dms_android.feature.main.home.NavigationItemsWrapper.navigationItems
@@ -121,12 +121,12 @@ internal fun Home(
             NavHost(
                 modifier = Modifier.fillMaxSize(),
                 navController = bottomNavController,
-                startDestination = Meal.route,
+                startDestination = Home.route,
                 enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
                 exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
             ) {
                 composable(
-                    route = Meal.route,
+                    route = Home.route,
                     enterTransition = {
                         when (targetState.destination.route) {
                             Application.route, Notice.route, MyPage.route -> slideInFromStart()
@@ -155,14 +155,14 @@ internal fun Home(
                         route = Application.route,
                         enterTransition = {
                             when (targetState.destination.route) {
-                                Meal.route -> slideInFromEnd()
+                                Home.route -> slideInFromEnd()
                                 Notice.route, MyPage.route -> slideInFromStart()
                                 else -> null
                             }
                         },
                         exitTransition = {
                             when (targetState.destination.route) {
-                                Meal.route -> slideOutFromStart()
+                                Home.route -> slideOutFromStart()
                                 Notice.route, MyPage.route -> slideOutFromEnd()
                                 else -> null
                             }
@@ -180,14 +180,14 @@ internal fun Home(
                     route = Notice.route,
                     enterTransition = {
                         when (targetState.destination.route) {
-                            Meal.route, Application.route -> slideInFromEnd()
+                            Home.route, Application.route -> slideInFromEnd()
                             MyPage.route -> slideInFromStart()
                             else -> null
                         }
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            Meal.route, Application.route -> slideOutFromStart()
+                            Home.route, Application.route -> slideOutFromStart()
                             MyPage.route -> slideOutFromEnd()
                             else -> null
                         }
@@ -201,13 +201,13 @@ internal fun Home(
                     route = MyPage.route,
                     enterTransition = {
                         when (targetState.destination.route) {
-                            Meal.route, Application.route, Notice.route -> slideInFromEnd()
+                            Home.route, Application.route, Notice.route -> slideInFromEnd()
                             else -> null
                         }
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            Meal.route, Application.route, Notice.route -> slideOutFromStart()
+                            Home.route, Application.route, Notice.route -> slideOutFromStart()
                             else -> null
                         }
                     },
@@ -229,7 +229,7 @@ internal fun Home(
 @Stable
 private object NavigationItemsWrapper {
     val navigationItems: MutableList<HomeBottomNavigationItem> = mutableListOf(
-        Meal,
+        Home,
         Application,
         Notice,
         MyPage,
