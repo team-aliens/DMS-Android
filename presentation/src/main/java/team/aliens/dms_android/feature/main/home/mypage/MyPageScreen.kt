@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,8 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,6 +52,7 @@ import team.aliens.presentation.R
 
 @Composable
 internal fun MyPageScreen(
+    modifier: Modifier = Modifier,
     onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
@@ -119,19 +121,19 @@ internal fun MyPageScreen(
             },
         )
     }
-
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize()
-            .padding(
-                vertical = 66.dp,
-                horizontal = 16.dp,
-            ),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         myPageInformation?.run {
+            Spacer(Modifier.height(32.dp))
             UserInformation(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 gradeClassNumber = gradeClassNumber,
                 name = name,
                 sex = sex,
@@ -141,22 +143,30 @@ internal fun MyPageScreen(
             )
             Spacer(Modifier.height(24.dp))
             if (pointServiceEnabled) PointsInformation(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 phrase = phrase,
                 bonusPoint = bonusPoint,
                 minusPoint = minusPoint,
             )
             Options(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 onPointHistoryClicked = if (pointServiceEnabled) onNavigateToPointHistory else null,
                 onEditPasswordClicked = onNavigateToEditPasswordNav,
                 onSignOutClicked = { signOutDialogState = !signOutDialogState },
                 onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
             )
+            Spacer(Modifier.height(64.dp))
         }
     }
 }
 
 @Composable
 private fun UserInformation(
+    modifier: Modifier = Modifier,
     gradeClassNumber: String,
     name: String,
     sex: Sex,
@@ -165,10 +175,12 @@ private fun UserInformation(
     onChangeProfileImage: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column {
+        Column(
+            modifier = Modifier.weight(0.8f),
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -200,8 +212,8 @@ private fun UserInformation(
                 text = school,
             )
         }
-        Spacer(Modifier.weight(1f))
         Box(
+            modifier = Modifier.weight(0.2f),
             contentAlignment = Alignment.BottomEnd,
         ) {
             AsyncImage(
@@ -228,32 +240,40 @@ private enum class PointCardType {
 
 @Composable
 private fun PointsInformation(
+    modifier: Modifier = Modifier,
     phrase: String,
     bonusPoint: Int,
     minusPoint: Int,
 ) {
-    PhraseCard(phrase)
-    Row(
-        modifier = Modifier.height(90.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        PointCard(
-            type = PointCardType.BONUS,
-            point = bonusPoint,
-        )
-        PointCard(
-            type = PointCardType.MINUS,
-            point = minusPoint,
-        )
+        PhraseCard(phrase = phrase)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            PointCard(
+                modifier = Modifier.weight(1f),
+                type = PointCardType.BONUS,
+                point = bonusPoint,
+            )
+            PointCard(
+                modifier = Modifier.weight(1f),
+                type = PointCardType.MINUS,
+                point = minusPoint,
+            )
+        }
     }
 }
 
 @Composable
 private fun PhraseCard(
+    modifier: Modifier = Modifier,
     phrase: String,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(
@@ -273,7 +293,8 @@ private fun PhraseCard(
 }
 
 @Composable
-private fun RowScope.PointCard(
+private fun PointCard(
+    modifier: Modifier = Modifier,
     type: PointCardType,
     point: Int,
 ) {
@@ -282,8 +303,7 @@ private fun RowScope.PointCard(
         PointCardType.MINUS -> DormTheme.colors.error
     }
     Column(
-        modifier = Modifier
-            .weight(1f)
+        modifier = modifier
             .dormShadow(DormTheme.colors.primaryVariant)
             .clip(RoundedCornerShape(10.dp))
             .border(
@@ -311,6 +331,7 @@ private fun RowScope.PointCard(
             ),
             color = textColor,
         )
+        Spacer(Modifier.height(24.dp))
         Box(
             contentAlignment = Alignment.BottomEnd,
             modifier = Modifier.fillMaxSize(),
@@ -326,13 +347,15 @@ private fun RowScope.PointCard(
 // TODO 리스트 디자인시스템으로 커버 필요
 @Composable
 private fun Options(
+    modifier: Modifier = Modifier,
     onPointHistoryClicked: (() -> Unit)?,
     onEditPasswordClicked: () -> Unit,
     onSignOutClicked: () -> Unit,
     onWithdrawClicked: () -> Unit,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (onPointHistoryClicked != null) {
             Column(
