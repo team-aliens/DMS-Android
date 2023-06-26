@@ -73,7 +73,6 @@ internal class RemainsApplicationViewModel @Inject constructor(
                         newState = uiState.value.copy(
                             remainsOptions = fetchedRemainsOptions,
                             selectedRemainsOption = appliedRemainsOption,
-                            applicationButtonEnabled = appliedRemainsOption?.id != selectedRemainsOption?.id,
                         ),
                     )
                 }
