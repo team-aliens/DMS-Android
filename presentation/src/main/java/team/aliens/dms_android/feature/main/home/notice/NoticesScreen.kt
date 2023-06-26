@@ -53,11 +53,11 @@ internal fun NoticesScreen(
     onNavigateToNoticeDetailsScreen: (UUID) -> Unit,
     noticesViewModel: NoticesViewModel = hiltViewModel(),
 ) {
-    val uiState by noticesViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by noticesViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val onOrderButtonClick = {
-        noticesViewModel.onEvent(
-            NoticesUiEvent.SetOrder(
+        noticesViewModel.postIntent(
+            NoticesEvent.SetOrder(
                 order = when (uiState.order) {
                     Order.NEW -> Order.OLD
                     Order.OLD -> Order.NEW

@@ -4,9 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.FetchNoticesInput
 import team.aliens.domain.model.notice.Notice
@@ -16,16 +17,16 @@ import javax.inject.Inject
 @HiltViewModel
 internal class NoticesViewModel @Inject constructor(
     private val fetchNoticesUseCase: FetchNoticesUseCase,
-) : MviViewModel<NoticesUiState, NoticesUiEvent>(
-    initialState = NoticesUiState.initial(),
+) : BaseMviViewModel<NoticesEvent, NoticesState, NoticesSideEffect>(
+    initialState = NoticesState.initial(),
 ) {
     init {
         fetchNotices(Order.NEW)
     }
 
-    override fun updateState(event: NoticesUiEvent) {
-        when (event) {
-            is NoticesUiEvent.SetOrder -> fetchNotices(event.order)
+    override fun processIntent(intent: NoticesEvent) {
+        when (intent) {
+            is NoticesEvent.SetOrder -> fetchNotices(intent.order)
         }
     }
 
@@ -40,8 +41,8 @@ internal class NoticesViewModel @Inject constructor(
                     ),
                 )
             }.onSuccess {
-                setState(
-                    newState = uiState.value.copy(
+                reduce(
+                    newState = stateFlow.value.copy(
                         order = order,
                         notices = it,
                     )
@@ -51,18 +52,20 @@ internal class NoticesViewModel @Inject constructor(
     }
 }
 
-internal data class NoticesUiState(
+internal sealed class NoticesEvent : MviIntent {
+    class SetOrder(val order: Order) : NoticesEvent()
+}
+
+internal data class NoticesState(
     val order: Order,
     val notices: List<Notice>,
-) : UiState {
+) : MviState {
     companion object {
-        fun initial() = NoticesUiState(
+        fun initial() = NoticesState(
             order = Order.NEW,
             notices = emptyList(),
         )
     }
 }
 
-internal sealed class NoticesUiEvent : UiEvent {
-    class SetOrder(val order: Order) : NoticesUiEvent()
-}
+internal sealed class NoticesSideEffect : MviSideEffect
