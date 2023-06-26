@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import team.aliens.design_system.R
 import team.aliens.design_system.annotation.DormDeprecated
@@ -169,7 +170,7 @@ object DormTypography {
     val bottomNavItemLabel = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp,
+        fontSize = 3.em,
         lineHeight = 16.sp,
     )
 }
@@ -196,7 +197,7 @@ fun Headline1(
 fun Headline2(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color =DormTheme.colors.onBackground,
+    color: Color = DormTheme.colors.onBackground,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
@@ -447,7 +448,7 @@ fun BottomNavItemLabel(
     modifier: Modifier = Modifier,
     text: String,
     color: Color,
-){
+) {
     Text(
         modifier = modifier,
         text = text,
