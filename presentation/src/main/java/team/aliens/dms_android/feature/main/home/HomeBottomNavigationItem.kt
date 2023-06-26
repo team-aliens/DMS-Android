@@ -21,8 +21,8 @@ internal sealed class HomeBottomNavigationItem(
         titleResId = R.string.bottom_nav_application,
     )
 
-    object Notice : HomeBottomNavigationItem(
-        route = "notice",
+    object Notices : HomeBottomNavigationItem(
+        route = "notices",
         iconResId = R.drawable.ic_notice,
         titleResId = R.string.bottom_nav_notices,
     )

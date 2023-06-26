@@ -51,7 +51,7 @@ import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Application
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Home
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.MyPage
-import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Notice
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Notices
 import team.aliens.dms_android.feature.main.home.NavigationItemsWrapper.navigationItems
 import team.aliens.dms_android.feature.main.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.home.HomeScreen
@@ -129,13 +129,13 @@ internal fun Home(
                     route = Home.route,
                     enterTransition = {
                         when (targetState.destination.route) {
-                            Application.route, Notice.route, MyPage.route -> slideInFromStart()
+                            Application.route, Notices.route, MyPage.route -> slideInFromStart()
                             else -> null
                         }
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            Application.route, Notice.route, MyPage.route -> slideOutFromEnd()
+                            Application.route, Notices.route, MyPage.route -> slideOutFromEnd()
                             else -> null
                         }
                     },
@@ -146,7 +146,7 @@ internal fun Home(
                         onPreviousDay = { onCalendarDateChange(currentCalendarDate.minusOneDay()) },
                         onShowCalendar = { coroutineScope.launch { bottomSheetState.show() } },
                         onNavigateToNoticeScreen = {
-                            bottomNavController.navigateTo(Notice.route)
+                            bottomNavController.navigateTo(Notices.route)
                         },
                     )
                 }
@@ -156,14 +156,14 @@ internal fun Home(
                         enterTransition = {
                             when (targetState.destination.route) {
                                 Home.route -> slideInFromEnd()
-                                Notice.route, MyPage.route -> slideInFromStart()
+                                Notices.route, MyPage.route -> slideInFromStart()
                                 else -> null
                             }
                         },
                         exitTransition = {
                             when (targetState.destination.route) {
                                 Home.route -> slideOutFromStart()
-                                Notice.route, MyPage.route -> slideOutFromEnd()
+                                Notices.route, MyPage.route -> slideOutFromEnd()
                                 else -> null
                             }
                         },
@@ -177,7 +177,7 @@ internal fun Home(
                     }
                 }
                 composable(
-                    route = Notice.route,
+                    route = Notices.route,
                     enterTransition = {
                         when (targetState.destination.route) {
                             Home.route, Application.route -> slideInFromEnd()
@@ -201,13 +201,13 @@ internal fun Home(
                     route = MyPage.route,
                     enterTransition = {
                         when (targetState.destination.route) {
-                            Home.route, Application.route, Notice.route -> slideInFromEnd()
+                            Home.route, Application.route, Notices.route -> slideInFromEnd()
                             else -> null
                         }
                     },
                     exitTransition = {
                         when (targetState.destination.route) {
-                            Home.route, Application.route, Notice.route -> slideOutFromStart()
+                            Home.route, Application.route, Notices.route -> slideOutFromStart()
                             else -> null
                         }
                     },
@@ -231,7 +231,7 @@ private object NavigationItemsWrapper {
     val navigationItems: MutableList<HomeBottomNavigationItem> = mutableListOf(
         Home,
         Application,
-        Notice,
+        Notices,
         MyPage,
     )
 }
