@@ -53,13 +53,13 @@ import team.aliens.presentation.R
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
+    myPageViewModel: MyPageViewModel = hiltViewModel(),
     onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPasswordNav: () -> Unit,
     onNavigateToAuthNav: () -> Unit,
     pointServiceEnabled: Boolean,
-    myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
