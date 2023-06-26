@@ -249,8 +249,12 @@ private fun PointsInformation(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        PhraseCard(phrase = phrase)
+        PhraseCard(
+            modifier = Modifier.fillMaxWidth(),
+            phrase = phrase,
+        )
         Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             PointCard(
