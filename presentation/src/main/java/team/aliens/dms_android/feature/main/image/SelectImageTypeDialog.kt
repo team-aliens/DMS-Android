@@ -5,20 +5,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import team.aliens.design_system.dialog.DormBottomAlignedSingleButtonDialog
 import team.aliens.design_system.dialog.DormCustomDialog
+import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.component.GettingImageOptionItem
 import team.aliens.presentation.R
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun GettingImageOptionDialog(
+internal fun SelectImageTypeDialog(
     onCancel: () -> Unit,
     onTakePhoto: () -> Unit,
     onSelectPhoto: () -> Unit,
@@ -46,23 +45,20 @@ internal fun GettingImageOptionDialog(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-
-                // 사진 촬영
                 GettingImageOptionItem(
-                    icon = R.drawable.ic_camera,
+                    icon = DormIcon.Camera.drawableId,
                     text = stringResource(R.string.TakePhoto),
                 ) {
-
                     toast("죄송합니다, 현재 기능을 사용할 수 없습니다.") // todo replace with taking photo with camera
-
                     //onTakePhoto()
                 }
 
                 // 사진 선택
                 GettingImageOptionItem(
-                    icon = R.drawable.ic_photo,
+                    icon = DormIcon.Photo.drawableId,
                     text = stringResource(R.string.SelectPhoto),
                 ) {
+                    onDialogDismiss()
                     onSelectPhoto()
                 }
             }

@@ -173,13 +173,13 @@ fun DormBottomAlignedSingleButtonDialog(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .dormClickable { onBackgroundPress() },
+            .dormClickable(
+                rippleEnabled = false,
+            ) { onBackgroundPress() },
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
-            Modifier.background(
-                color = DormTheme.colors.surface,
-            ),
+            Modifier.background(DormTheme.colors.background),
         ) {
             content()
             Divider(
@@ -232,14 +232,13 @@ fun DormDoubleButtonDialog(
             thickness = 1.dp,
         )
         Row(
-            modifier = Modifier
-                .background(
-                    color = DormTheme.colors.secondaryVariant,
-                    shape = RoundedCornerShape(
-                        bottomStart = 10.dp,
-                        bottomEnd = 10.dp,
-                    ),
+            modifier = Modifier.background(
+                color = DormTheme.colors.secondaryVariant,
+                shape = RoundedCornerShape(
+                    bottomStart = 10.dp,
+                    bottomEnd = 10.dp,
                 ),
+            ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(1.dp),
         ) {
