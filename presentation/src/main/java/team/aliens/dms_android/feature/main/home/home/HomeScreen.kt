@@ -98,9 +98,9 @@ internal fun HomeScreen(
     onNavigateToNoticeScreen: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
 
-    LaunchedEffect(calendarDate) { homeViewModel.onEvent(HomeUiEvent.UpdateDate(calendarDate)) }
+    LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
 
     Column(
         modifier = Modifier
@@ -110,7 +110,7 @@ internal fun HomeScreen(
     ) {
         HomeScreenAppLogo()
         NoticeCard(
-            visible = uiState.newNotices,
+            visible = state.newNotices,
             onIconClicked = onNavigateToNoticeScreen,
         )
         Column(
@@ -123,7 +123,7 @@ internal fun HomeScreen(
             )
             Spacer(Modifier.weight(0.05f))
             DateCard(
-                selectedDate = uiState.selectedDate,
+                selectedDate = state.selectedDate,
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
                 onShowCalendar = onShowCalendar,
@@ -131,13 +131,13 @@ internal fun HomeScreen(
             Spacer(Modifier.weight(0.1f))
             MealCards(
                 currentDate = calendarDate,
-                breakfast = uiState.breakfast,
-                kcalOfBreakfast = uiState.kcalOfBreakfast
+                breakfast = state.breakfast,
+                kcalOfBreakfast = state.kcalOfBreakfast
                     ?: stringResource(R.string.meal_not_exists),
-                lunch = uiState.lunch,
-                kcalOfLunch = uiState.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
-                dinner = uiState.dinner,
-                kcalOfDinner = uiState.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
+                lunch = state.lunch,
+                kcalOfLunch = state.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
+                dinner = state.dinner,
+                kcalOfDinner = state.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
             )

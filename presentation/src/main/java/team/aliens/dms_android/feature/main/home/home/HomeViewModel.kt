@@ -7,9 +7,10 @@ import java.util.Date
 import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model.meal.FetchMealInput
 import team.aliens.domain.model.meal.Meal
 import team.aliens.domain.usecase.meal.FetchMealUseCase
@@ -26,31 +27,27 @@ internal fun Date.toMealFormattedString(
 internal class HomeViewModel @Inject constructor(
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
     private val fetchMealUseCase: FetchMealUseCase,
-) : MviViewModel<HomeUiState, HomeUiEvent>(
-    initialState = HomeUiState.initial(),
+) : BaseMviViewModel<HomeIntent, HomeState, HomeSideEffect>(
+    initialState = HomeState.initial(),
 ) {
     init {
         fetchWhetherNewNoticesExist()
         fetchMeal()
     }
 
-    override fun updateState(event: HomeUiEvent) {
-        when (event) {
-            is HomeUiEvent.UpdateDate -> this.setDate(event.date)
+    override fun processIntent(intent: HomeIntent) {
+        when (intent) {
+            is HomeIntent.UpdateDate -> this.setDate(intent.date)
         }
     }
 
     private fun setDate(date: Date) {
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = stateFlow.value.copy(
                 selectedDate = date,
             )
         )
         fetchMeal()
-    }
-
-    private fun setDate(date: Long) {
-        this.setDate(Date(date))
     }
 
     private fun fetchWhetherNewNoticesExist() {
@@ -58,13 +55,11 @@ internal class HomeViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchWhetherNewNoticesExistUseCase()
             }.onSuccess {
-                if (it.newNotices) {
-                    setState(
-                        newState = uiState.value.copy(
-                            newNotices = true,
-                        ),
-                    )
-                }
+                if (it.newNotices) reduce(
+                    newState = stateFlow.value.copy(
+                        newNotices = true,
+                    ),
+                )
             }
         }
     }
@@ -72,16 +67,14 @@ internal class HomeViewModel @Inject constructor(
     private fun fetchMeal() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                val formattedSelectedDate = stateFlow.value.selectedDate.toMealFormattedString()
+
                 fetchMealUseCase(
                     fetchMealInput = FetchMealInput(
-                        date = uiState.value.selectedDate.toMealFormattedString(),
+                        date = formattedSelectedDate,
                     ),
                 )
-            }.onSuccess {
-                this@HomeViewModel.setMeal(
-                    meal = it,
-                )
-            }
+            }.onSuccess { fetchedMeal -> setMeal(fetchedMeal) }
         }
     }
 
@@ -95,8 +88,8 @@ internal class HomeViewModel @Inject constructor(
         val dinner = meal.dinner.dropLast(1)
         val kcalOfDinner = meal.dinner.last()
 
-        setState(
-            newState = uiState.value.copy(
+        reduce(
+            newState = stateFlow.value.copy(
                 breakfast = breakfast,
                 kcalOfBreakfast = kcalOfBreakfast,
                 lunch = lunch,
@@ -108,7 +101,11 @@ internal class HomeViewModel @Inject constructor(
     }
 }
 
-internal data class HomeUiState(
+internal sealed class HomeIntent : MviIntent {
+    class UpdateDate(val date: Date) : HomeIntent()
+}
+
+internal data class HomeState(
     val newNotices: Boolean,
     val selectedDate: Date,
     val breakfast: List<String>,
@@ -117,9 +114,9 @@ internal data class HomeUiState(
     val kcalOfLunch: String?,
     val dinner: List<String>,
     val kcalOfDinner: String?,
-) : UiState {
+) : MviState {
     companion object {
-        fun initial() = HomeUiState(
+        fun initial() = HomeState(
             newNotices = false,
             selectedDate = Date(),
             breakfast = emptyList(),
@@ -132,8 +129,4 @@ internal data class HomeUiState(
     }
 }
 
-internal sealed class HomeUiEvent : UiEvent {
-    class UpdateDate(
-        val date: Date,
-    ) : HomeUiEvent()
-}
+internal sealed class HomeSideEffect : MviSideEffect
