@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.home.notice
+package team.aliens.dms_android.feature.main.home.announcements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,15 +49,15 @@ private val Order.text: String
     }
 
 @Composable
-internal fun NoticesScreen(
-    onNavigateToNoticeDetailsScreen: (UUID) -> Unit,
-    noticesViewModel: NoticesViewModel = hiltViewModel(),
+internal fun AnnouncementsScreen(
+    onNavigateToNoticeDetails: (UUID) -> Unit,
+    announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
 ) {
-    val uiState by noticesViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by announcementsViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val onOrderButtonClick = {
-        noticesViewModel.postIntent(
-            NoticesEvent.SetOrder(
+        announcementsViewModel.postIntent(
+            AnnouncementsEvent.SetOrder(
                 order = when (uiState.order) {
                     Order.NEW -> Order.OLD
                     Order.OLD -> Order.NEW
@@ -73,7 +73,7 @@ internal fun NoticesScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(24.dp))
-        Body1(text = stringResource(R.string.Notice))
+        Body1(text = stringResource(R.string.notice))
         Spacer(Modifier.height(24.dp))
         OrderButton(
             text = uiState.order.text,
@@ -81,7 +81,7 @@ internal fun NoticesScreen(
         )
         Notices(
             notices = uiState.notices,
-            onNoticeClick = onNavigateToNoticeDetailsScreen,
+            onNoticeClick = onNavigateToNoticeDetails,
         )
     }
 }

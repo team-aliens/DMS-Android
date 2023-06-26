@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.home.notice
+package team.aliens.dms_android.feature.main.home.announcements
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,18 +15,18 @@ import team.aliens.domain.usecase.notice.FetchNoticesUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-internal class NoticesViewModel @Inject constructor(
+internal class AnnouncementsViewModel @Inject constructor(
     private val fetchNoticesUseCase: FetchNoticesUseCase,
-) : BaseMviViewModel<NoticesEvent, NoticesState, NoticesSideEffect>(
-    initialState = NoticesState.initial(),
+) : BaseMviViewModel<AnnouncementsEvent, AnnouncementsState, AnnouncementsSideEffect>(
+    initialState = AnnouncementsState.initial(),
 ) {
     init {
         fetchNotices(Order.NEW)
     }
 
-    override fun processIntent(intent: NoticesEvent) {
+    override fun processIntent(intent: AnnouncementsEvent) {
         when (intent) {
-            is NoticesEvent.SetOrder -> fetchNotices(intent.order)
+            is AnnouncementsEvent.SetOrder -> fetchNotices(intent.order)
         }
     }
 
@@ -52,20 +52,20 @@ internal class NoticesViewModel @Inject constructor(
     }
 }
 
-internal sealed class NoticesEvent : MviIntent {
-    class SetOrder(val order: Order) : NoticesEvent()
+internal sealed class AnnouncementsEvent : MviIntent {
+    class SetOrder(val order: Order) : AnnouncementsEvent()
 }
 
-internal data class NoticesState(
+internal data class AnnouncementsState(
     val order: Order,
     val notices: List<Notice>,
 ) : MviState {
     companion object {
-        fun initial() = NoticesState(
+        fun initial() = AnnouncementsState(
             order = Order.NEW,
             notices = emptyList(),
         )
     }
 }
 
-internal sealed class NoticesSideEffect : MviSideEffect
+internal sealed class AnnouncementsSideEffect : MviSideEffect
