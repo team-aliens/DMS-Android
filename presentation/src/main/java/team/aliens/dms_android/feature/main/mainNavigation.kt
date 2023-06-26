@@ -11,7 +11,7 @@ import team.aliens.dms_android.feature.main.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature.main.home.Home
 import team.aliens.dms_android.feature.main.home.mypage.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.announcements.NoticeDetailsScreen
-import team.aliens.dms_android.feature.main.image.UploadProfileImageScreen
+import team.aliens.dms_android.feature.main.image.EditProfileImageScreen
 import team.aliens.dms_android.feature.main.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
@@ -134,7 +134,7 @@ internal fun NavGraphBuilder.mainNavigation(
             navBackStackEntry.arguments?.run {
                 val selectImageType = getString(MainNavigation.Arguments.SelectImageType)!!
 
-                UploadProfileImageScreen(
+                EditProfileImageScreen(
                     selectImageType = SelectImageType.valueOf(selectImageType),
                     onPrevious = onPrevious,
                 )
