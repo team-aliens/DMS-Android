@@ -124,7 +124,7 @@ private fun ColumnScope.ApplicationCards(
         VerticallyFadedLazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(top = 20.dp),
+            contentPadding = PaddingValues(vertical = 24.dp),
         ) {
             items(applicationItems) { applicationItem ->
                 ApplicationCard(
