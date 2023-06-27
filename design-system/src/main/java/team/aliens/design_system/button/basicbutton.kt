@@ -16,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -41,28 +40,23 @@ private fun BasicButton(
     onClick: () -> Unit,
     content: @Composable (isPressed: Boolean) -> Unit,
 ) {
-
     val interactionSource = remember { MutableInteractionSource() }
-
     val isPressed = interactionSource.collectIsPressedAsState()
-
     val btnColor = if (isPressed.value) rippleColor else backgroundColor
 
     Surface(
-        modifier = modifier.background(
-            color = DormTheme.colors.background,
-            shape = shape,
-        ).runIf(
-            enabled,
-        ) {
-            composed {
+        modifier = modifier
+            .background(
+                color = DormTheme.colors.background,
+                shape = shape,
+            )
+            .runIf(enabled) {
                 dormClickable(
                     rippleEnabled = enabled,
                     rippleColor = rippleColor,
                     onClick = onClick,
                 )
-            }
-        },
+            },
         shape = shape,
     ) {
         Box(
@@ -73,6 +67,10 @@ private fun BasicButton(
                 .background(
                     color = btnColor,
                     shape = shape,
+                )
+                .padding(
+                    vertical = 12.dp,
+                    horizontal = 20.dp,
                 ),
             contentAlignment = Alignment.Center,
         ) {
@@ -101,10 +99,6 @@ private fun BasicContainedButton(
         onClick = onClick,
     ) {
         ButtonText(
-            modifier = Modifier.padding(
-                vertical = 12.dp,
-                horizontal = 20.dp,
-            ),
             text = text,
             color = textColor,
         )
@@ -125,11 +119,13 @@ private fun BasicOutlinedButton(
 ) {
 
     val outlineBackgroundColor by animateColorAsState(
-        if (enabled) backgroundColor else disabledColor
+        targetValue = if (enabled) backgroundColor else disabledColor,
+        label = "outlineBackgroundColor",
     )
 
     val outlineTextColor by animateColorAsState(
-        if (enabled) textColor else disabledColor
+        targetValue = if (enabled) textColor else disabledColor,
+        label = "outlineTextColor",
     )
 
     BasicButton(
@@ -205,9 +201,7 @@ internal fun BasicOutlinedRoundButton(
 
 @Composable
 internal fun BasicContainedRoundLargeButton(
-    modifier: Modifier = Modifier.padding(
-        vertical = 9.dp,
-    ),
+    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     round: Dp = 0.dp,
@@ -230,9 +224,7 @@ internal fun BasicContainedRoundLargeButton(
 
 @Composable
 internal fun BasicOutlinedRoundLargeButton(
-    modifier: Modifier = Modifier.padding(
-        vertical = 9.dp
-    ),
+    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     round: Dp = 0.dp,

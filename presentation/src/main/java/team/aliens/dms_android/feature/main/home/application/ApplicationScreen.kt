@@ -188,7 +188,6 @@ private fun ApplicationCard(
             text = description,
         )
         DormContainedLargeButton(
-            modifier = Modifier.height(40.dp),
             text = buttonText,
             color = DormButtonColor.Blue,
             onClick = onButtonClick,
