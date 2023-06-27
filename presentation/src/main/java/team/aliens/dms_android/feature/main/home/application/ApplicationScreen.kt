@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -30,6 +29,7 @@ import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.DefaultAppliedTagSize
 import team.aliens.design_system.component.LastAppliedItem
+import team.aliens.design_system.layout.VerticallyFadedLazyColumn
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
@@ -121,15 +121,10 @@ private fun ColumnScope.ApplicationCards(
         modifier = Modifier.weight(1f),
         contentAlignment = Alignment.TopCenter,
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+        VerticallyFadedLazyColumn(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(
-                top = 36.dp,
-                bottom = 100.dp,
-            ),
+            contentPadding = PaddingValues(top = 20.dp),
         ) {
             items(applicationItems) { applicationItem ->
                 ApplicationCard(
@@ -152,6 +147,7 @@ private fun ColumnScope.ApplicationCards(
 
 @Composable
 private fun ApplicationCard(
+    modifier: Modifier = Modifier,
     title: String,
     description: String,
     buttonText: String,
@@ -159,7 +155,8 @@ private fun ApplicationCard(
     currentAppliedOption: String?,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
+            .padding(horizontal = 16.dp)
             .dormShadow(
                 DormTheme.colors.primaryVariant,
             )

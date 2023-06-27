@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -28,7 +27,7 @@ import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormOutlinedDefaultButton
 import team.aliens.design_system.extension.Space
-import team.aliens.design_system.layout.VerticallyFadedColumn
+import team.aliens.design_system.layout.VerticallyFadedLazyColumn
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
@@ -68,18 +67,16 @@ internal fun AnnouncementsScreen(
         )
     }
 
-    VerticallyFadedColumn(
+    Column(
         modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        topDisappearanceSize = 0.dp,
     ) {
         Spacer(Modifier.height(24.dp))
         Body1(text = stringResource(R.string.notice))
-        Spacer(Modifier.height(24.dp))
         OrderButton(
-            text = uiState.order.text,
+            text =  uiState.order.text,
             onClick = onOrderButtonClick,
         )
         Notices(
@@ -117,22 +114,20 @@ private fun ColumnScope.Notices(
         modifier = Modifier.weight(1f),
         contentAlignment = Alignment.TopCenter,
     ) {
-        LazyColumn(
+        VerticallyFadedLazyColumn(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(
-                top = 20.dp,
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 80.dp,
-            ),
+            contentPadding = PaddingValues(top = 20.dp),
         ) {
-            items(notices) { notice ->
-                Notice(
-                    notice = notice,
-                    onNoticeClick = onNoticeClick,
-                )
+            repeat(10) {
+                items(notices) { notice ->
+                    Notice(
+                        notice = notice,
+                        onNoticeClick = onNoticeClick,
+                    )
+                }
             }
+            // todo add loading effect
             if (notices.isEmpty()) {
                 item {
                     Body3(text = stringResource(R.string.TheresNoNotices))
@@ -150,16 +145,18 @@ private fun ColumnScope.Notices(
 
 @Composable
 private fun Notice(
+    modifier: Modifier = Modifier,
     notice: Notice,
     onNoticeClick: (UUID) -> Unit,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
+            .padding(horizontal = 16.dp)
             .dormShadow(
                 color = DormTheme.colors.primaryVariant,
             )
             .fillMaxWidth()
-            .clip(RoundedCornerShape(6.dp))
+            .clip(RoundedCornerShape(10.dp))
             .background(
                 color = DormTheme.colors.surface,
             )
