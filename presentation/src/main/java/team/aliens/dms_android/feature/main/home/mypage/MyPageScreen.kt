@@ -128,8 +128,8 @@ internal fun MyPageScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        Spacer(Modifier.height(32.dp))
         myPageInformation?.run {
-            Spacer(Modifier.height(32.dp))
             UserInformation(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,17 +150,17 @@ internal fun MyPageScreen(
                 bonusPoint = bonusPoint,
                 minusPoint = minusPoint,
             )
-            Options(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onPointHistoryClicked = if (pointServiceEnabled) onNavigateToPointHistory else null,
-                onEditPasswordClicked = onNavigateToEditPasswordNav,
-                onSignOutClicked = { signOutDialogState = !signOutDialogState },
-                onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
-            )
-            Spacer(Modifier.height(64.dp))
         }
+        Options(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onPointHistoryClicked = if (pointServiceEnabled) onNavigateToPointHistory else null,
+            onEditPasswordClicked = onNavigateToEditPasswordNav,
+            onSignOutClicked = { signOutDialogState = !signOutDialogState },
+            onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
+        )
+        Spacer(Modifier.height(64.dp))
     }
 }
 
