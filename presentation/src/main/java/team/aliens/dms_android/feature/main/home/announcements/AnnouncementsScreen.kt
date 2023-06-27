@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,14 +31,12 @@ import team.aliens.design_system.button.DormOutlinedDefaultButton
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.layout.VerticallyFadedLazyColumn
 import team.aliens.design_system.modifier.dormClickable
-import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
-import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
 import team.aliens.presentation.R
@@ -87,6 +83,7 @@ internal fun AnnouncementsScreen(
             onClick = onOrderButtonClick,
         )
         Notices(
+            modifier = Modifier.weight(1f),
             notices = uiState.notices,
             listState = listState,
             onNoticeClick = onNavigateToNoticeDetails,
@@ -114,42 +111,29 @@ private fun OrderButton(
 }
 
 @Composable
-private fun ColumnScope.Notices(
+private fun Notices(
+    modifier: Modifier = Modifier,
     notices: List<Notice>,
     listState: LazyListState,
-    onNoticeClick: (UUID) -> Unit,
+    onNoticeClick: (noticeId: UUID) -> Unit,
 ) {
-    Box(
-        modifier = Modifier.weight(1f),
-        contentAlignment = Alignment.TopCenter,
+    VerticallyFadedLazyColumn(
+        modifier = modifier.fillMaxSize(),
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        VerticallyFadedLazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            state = listState,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(top = 20.dp),
-        ) {
-            repeat(10) {// todo
-                items(notices) { notice ->
-                    Notice(
-                        notice = notice,
-                        onNoticeClick = onNoticeClick,
-                    )
-                }
-            }
-            // todo add loading effect
-            if (notices.isEmpty()) {
-                item {
-                    Body3(text = stringResource(R.string.TheresNoNotices))
-                }
+        items(notices) { notice ->
+            Notice(
+                notice = notice,
+                onNoticeClick = onNoticeClick,
+            )
+        }
+        // todo add loading effect
+        if (notices.isEmpty()) {
+            item {
+                Body3(text = stringResource(R.string.TheresNoNotices))
             }
         }
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(20.dp)
-                .dormGradientBackground(listFadeBrush),
-        )
     }
 }
 
