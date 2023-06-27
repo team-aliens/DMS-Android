@@ -17,23 +17,23 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AnnouncementsViewModel @Inject constructor(
     private val fetchNoticesUseCase: FetchNoticesUseCase,
-) : BaseMviViewModel<AnnouncementsEvent, AnnouncementsState, AnnouncementsSideEffect>(
+) : BaseMviViewModel<AnnouncementsIntent, AnnouncementsState, AnnouncementsSideEffect>(
     initialState = AnnouncementsState.initial(),
 ) {
     init {
-        fetchNotices(Order.NEW)
+        fetchNotices()
     }
 
-    override fun processIntent(intent: AnnouncementsEvent) {
+    override fun processIntent(intent: AnnouncementsIntent) {
         when (intent) {
-            is AnnouncementsEvent.SetOrder -> fetchNotices(intent.order)
+            is AnnouncementsIntent.SetOrder -> setOrder(intent.order)
         }
     }
 
-    private fun fetchNotices(
-        order: Order,
-    ) {
+    private fun fetchNotices() {
         viewModelScope.launch(Dispatchers.IO) {
+            val order = Order.NEW
+
             kotlin.runCatching {
                 fetchNoticesUseCase(
                     fetchNoticesInput = FetchNoticesInput(
@@ -50,10 +50,19 @@ internal class AnnouncementsViewModel @Inject constructor(
             }
         }
     }
+
+    private fun setOrder(order: Order) {
+        reduce(
+            newState = stateFlow.value.copy(
+                order = order,
+                notices = stateFlow.value.notices.reversed(),
+            )
+        )
+    }
 }
 
-internal sealed class AnnouncementsEvent : MviIntent {
-    class SetOrder(val order: Order) : AnnouncementsEvent()
+internal sealed class AnnouncementsIntent : MviIntent {
+    class SetOrder(val order: Order) : AnnouncementsIntent()
 }
 
 internal data class AnnouncementsState(

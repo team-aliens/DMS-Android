@@ -50,14 +50,15 @@ private val Order.text: String
 
 @Composable
 internal fun AnnouncementsScreen(
-    onNavigateToNoticeDetails: (UUID) -> Unit,
+    modifier: Modifier = Modifier,
     announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
+    onNavigateToNoticeDetails: (UUID) -> Unit,
 ) {
     val uiState by announcementsViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val onOrderButtonClick = {
         announcementsViewModel.postIntent(
-            AnnouncementsEvent.SetOrder(
+            AnnouncementsIntent.SetOrder(
                 order = when (uiState.order) {
                     Order.NEW -> Order.OLD
                     Order.OLD -> Order.NEW
@@ -67,7 +68,7 @@ internal fun AnnouncementsScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
