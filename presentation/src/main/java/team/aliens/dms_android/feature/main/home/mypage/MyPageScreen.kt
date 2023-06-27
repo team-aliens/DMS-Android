@@ -14,10 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -124,16 +123,13 @@ internal fun MyPageScreen(
     Column(
         modifier = modifier
             .background(DormTheme.colors.background)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Spacer(Modifier.height(32.dp))
         myPageInformation?.run {
+            Spacer(Modifier.height(24.dp))
             UserInformation(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 gradeClassNumber = gradeClassNumber,
                 name = name,
                 sex = sex,
@@ -141,11 +137,8 @@ internal fun MyPageScreen(
                 profileImageUrl = profileImageUrl,
                 onChangeProfileImage = { profileDialogState = !profileDialogState },
             )
-            Spacer(Modifier.height(24.dp))
             if (pointServiceEnabled) PointsInformation(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 phrase = phrase,
                 bonusPoint = bonusPoint,
                 minusPoint = minusPoint,
@@ -160,7 +153,6 @@ internal fun MyPageScreen(
             onSignOutClicked = { signOutDialogState = !signOutDialogState },
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )
-        Spacer(Modifier.height(64.dp))
     }
 }
 
@@ -175,7 +167,7 @@ private fun UserInformation(
     onChangeProfileImage: () -> Unit,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
@@ -246,7 +238,7 @@ private fun PointsInformation(
     minusPoint: Int,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         PhraseCard(
@@ -336,15 +328,12 @@ private fun PointCard(
             color = textColor,
         )
         Spacer(Modifier.height(24.dp))
-        Box(
-            contentAlignment = Alignment.BottomEnd,
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            Headline3(
-                text = point.toString(),
-                color = textColor,
-            )
-        }
+        Headline3(
+            modifier = Modifier.fillMaxWidth(),
+            text = point.toString(),
+            textAlign = TextAlign.End,
+            color = textColor,
+        )
     }
 }
 
