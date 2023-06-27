@@ -6,10 +6,11 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -31,9 +32,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
@@ -45,18 +46,41 @@ internal fun EditProfileImageScreen(
     onPrevious: () -> Unit,
 ) {
     val uiState by editProfileImageViewModel.stateFlow.collectAsStateWithLifecycle()
-    val photoPickerLauncher = rememberLauncherForActivityResult(
+    editProfileImageViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            UploadProfileImageSideEffect.EditProfileFailed -> {}
+            UploadProfileImageSideEffect.EditProfileSucceed -> onPrevious()
+            UploadProfileImageSideEffect.ImageNotSelected -> {}
+            UploadProfileImageSideEffect.UploadProfileImageFailed -> {}
+        }
+    }
+
+    val takePhotoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { takenImage: Uri? ->
+        if (takenImage != null) {
+            editProfileImageViewModel.postIntent(
+                UploadProfileImageIntent.SelectImage(takenImage),
+            )
+        }
+    }
+    val selectImageFromGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { selectedImage: Uri? ->
-            if (selectedImage != null) {
-                editProfileImageViewModel.postIntent(
-                    UploadProfileImageIntent.SelectImage(selectedImage),
-                )
-            }
-        },
-    )
+    ) { selectedImage: Uri? ->
+        if (selectedImage != null) {
+            editProfileImageViewModel.postIntent(
+                UploadProfileImageIntent.SelectImage(selectedImage),
+            )
+        }
+    }
+    // todo
+    val onTakePhoto = {
+        /*takePhotoLauncher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.)
+        )*/
+    }
     val onSelectPhoto = {
-        photoPickerLauncher.launch(
+        selectImageFromGalleryLauncher.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
         )
     }
@@ -84,56 +108,43 @@ internal fun EditProfileImageScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DormTheme.colors.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         TopBar(
             title = stringResource(R.string.my_page_edit_profile),
             onPrevious = onPrevious,
         )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    DormTheme.colors.background,
-                )
-                .padding(
-                    horizontal = 16.dp,
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+        Spacer(Modifier.weight(1f))
+        Box(
+            contentAlignment = Alignment.BottomEnd,
         ) {
-            Box(
-                contentAlignment = Alignment.BottomEnd,
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        .dormClickable { onSelectImageTypeDialogShow() },
-                    contentDescription = stringResource(R.string.profile_image),
-                    contentScale = ContentScale.Crop,
-                    painter = rememberAsyncImagePainter(uiState.selectedImageUri),
-                )
-                Image(
-                    modifier = Modifier.size(30.dp),
-                    painter = painterResource(R.drawable.ic_mypage_edit),
-                    contentDescription = null,
-                )
-            }
-
-
-            Space(space = 80.dp)
-
-
-            // 확인 버튼
-            DormContainedLargeButton(
-                text = stringResource(R.string.Check),
-                color = DormButtonColor.Blue,
-                // enabled = confirmButtonState,
-            ) {
-                // uploadProfileImageViewModel.editProfileImage()
-            }
+            Image(
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+                    .dormClickable { onSelectImageTypeDialogShow() },
+                contentDescription = stringResource(R.string.profile_image),
+                contentScale = ContentScale.Crop,
+                painter = rememberAsyncImagePainter(uiState.selectedImageUri),
+            )
+            Image(
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(R.drawable.ic_mypage_edit),
+                contentDescription = null,
+            )
         }
+        Spacer(Modifier.height(80.dp))
+        DormContainedLargeButton(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = stringResource(R.string.Check),
+            color = DormButtonColor.Blue,
+            enabled = uiState.uploadButtonEnabled,
+        ) {
+            editProfileImageViewModel.postIntent(UploadProfileImageIntent.UploadAndEditProfile)
+        }
+        Spacer(Modifier.weight(1f))
     }
 }
