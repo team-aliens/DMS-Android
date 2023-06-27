@@ -7,10 +7,12 @@ import team.aliens.domain.model.meal.Meal
 
 interface MealRepository {
 
+    @Deprecated("does not save into local db")
     suspend fun fetchMeal(
         input: FetchMealInput,
     ): Meal
 
+    @Deprecated("does not save into local db")
     suspend fun fetchMeals(
         input: FetchMealsInput,
     ): FetchMealsOutput
@@ -22,4 +24,8 @@ interface MealRepository {
     suspend fun saveMeals(
         vararg meals: Meal,
     )
+    /*
+        suspend fun fetchAndSaveMeals(
+            fetchMealsInput: FetchMealsInput,
+        ): FetchMealsOutput*/
 }

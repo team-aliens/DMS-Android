@@ -15,6 +15,7 @@ class MealRepositoryImpl @Inject constructor(
     private val remoteMealDataSource: RemoteMealDataSource,
 ) : MealRepository {
 
+    @Deprecated("does not save into local db")
     override suspend fun fetchMeal(
         input: FetchMealInput,
     ): Meal {
@@ -37,6 +38,7 @@ class MealRepositoryImpl @Inject constructor(
         )
     }
 
+    @Deprecated("does not save into local db")
     override suspend fun fetchMeals(
         input: FetchMealsInput,
     ): FetchMealsOutput {
