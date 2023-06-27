@@ -3,13 +3,18 @@ package team.aliens.data.facade
 import java.util.Date
 import kotlinx.coroutines.runBlocking
 import team.aliens.data.datasource.local.LocalAuthDataSource
+import team.aliens.data.datasource.local.LocalSchoolDataSource
 import team.aliens.data.manager.TokenReissueManager
 import team.aliens.data.util.toDate
+import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.Token
+import team.aliens.domain.model.student.Features
 import javax.inject.Inject
 
 class AuthorizationFacade @Inject constructor(
     private val localAuthDataSource: LocalAuthDataSource,
+    private val localSchoolDataSource: LocalSchoolDataSource,
     private val tokenReissueManager: TokenReissueManager,
 ) {
     val accessTokenAvailable: Boolean
@@ -22,46 +27,47 @@ class AuthorizationFacade @Inject constructor(
         get() = Date()
 
     val token: Token
-        get() = runBlocking {
-            localAuthDataSource.findToken()
-        }
+        get() = runBlocking { localAuthDataSource.findToken() }
 
     val accessToken: String
-        get() = runBlocking {
-            localAuthDataSource.findAccessToken()
-        }
+        get() = runBlocking { localAuthDataSource.findAccessToken() }
 
     val accessTokenExpiredAt: Date
-        get() = runBlocking {
-            localAuthDataSource.findAccessTokenExpiredAt()
-        }.toDate()
+        get() = runBlocking { localAuthDataSource.findAccessTokenExpiredAt() }.toDate()
 
     val refreshToken: String
-        get() = runBlocking {
-            localAuthDataSource.findRefreshToken()
-        }
+        get() = runBlocking { localAuthDataSource.findRefreshToken() }
 
     val refreshTokenExpiredAt: Date
-        get() = runBlocking {
-            localAuthDataSource.findRefreshTokenExpiredAt()
-        }.toDate()
+        get() = runBlocking { localAuthDataSource.findRefreshTokenExpiredAt() }.toDate()
 
 
-    fun reissueToken(): Token {
+    fun reissueToken(): AuthenticationOutput {
         return tokenReissueManager.reissueToken(refreshToken)
     }
 
-    fun reissueAndSaveToken(): Token {
-        return reissueToken().also {
-            saveToken(it)
-        }
+    fun saveFeatures(features: Features) {
+        runBlocking { localSchoolDataSource.saveFeatures(features) }
+    }
+
+    fun reissueAndSaveTokenAndFeatures(): Token {
+        val authenticationOutput = reissueToken()
+        val token = Token(
+            accessToken = authenticationOutput.accessToken,
+            accessTokenExpiredAt = authenticationOutput.accessTokenExpiredAt,
+            refreshToken = authenticationOutput.refreshToken,
+            refreshTokenExpiredAt = authenticationOutput.refreshTokenExpiredAt,
+        )
+        saveFeatures(authenticationOutput.features.toModel())
+        saveToken(token)
+        return token
     }
 
     fun accessTokenOrReissue(): String {
         return if (accessTokenAvailable) {
             this.accessToken
         } else {
-            reissueAndSaveToken().accessToken
+            reissueAndSaveTokenAndFeatures().accessToken
         }
     }
 
@@ -73,7 +79,7 @@ class AuthorizationFacade @Inject constructor(
         }
     }
 
-    suspend fun clearToken() {
+    fun clearToken() {
         runBlocking {
             localAuthDataSource.clearToken()
         }

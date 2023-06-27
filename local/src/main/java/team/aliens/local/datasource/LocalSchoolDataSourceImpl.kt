@@ -33,7 +33,7 @@ class LocalSchoolDataSourceImpl @Inject constructor(
         return schoolDataStorage.findRemainsServiceEnabled()
     }
 
-    override suspend fun saveFeature(
+    override suspend fun saveFeatures(
         features: Features,
     ) {
         schoolDataStorage.saveFeature(

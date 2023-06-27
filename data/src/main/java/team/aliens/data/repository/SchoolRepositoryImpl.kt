@@ -77,7 +77,7 @@ class SchoolRepositoryImpl @Inject constructor(
     override suspend fun saveFeatures(
         features: Features,
     ) {
-        localSchoolDataSource.saveFeature(
+        localSchoolDataSource.saveFeatures(
             features = features,
         )
     }

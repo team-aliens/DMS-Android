@@ -16,7 +16,5 @@ interface LocalSchoolDataSource {
 
     suspend fun findRemainsServiceEnabled(): Boolean
 
-    suspend fun saveFeature(
-        features: Features,
-    )
+    suspend fun saveFeatures(features: Features)
 }
