@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -41,40 +42,32 @@ private fun BasicButton(
     content: @Composable (isPressed: Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed = interactionSource.collectIsPressedAsState()
-    val btnColor = if (isPressed.value) rippleColor else backgroundColor
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val btnColor = if (isPressed) rippleColor else backgroundColor
 
     Surface(
         modifier = modifier
-            .background(
-                color = DormTheme.colors.background,
-                shape = shape,
-            )
-            .runIf(enabled) {
-                dormClickable(
-                    rippleEnabled = enabled,
-                    rippleColor = rippleColor,
-                    onClick = onClick,
-                )
-            },
-        shape = shape,
+            .background(DormTheme.colors.background)
+            .clip(shape),
     ) {
         Box(
             modifier = Modifier
-                .alpha(
-                    if (!enabled) disabledAlpha else 1f
-                )
-                .background(
-                    color = btnColor,
-                    shape = shape,
-                )
+                .alpha(if (enabled) 1f else disabledAlpha)
+                .runIf(enabled) {
+                    dormClickable(
+                        rippleEnabled = true,
+                        rippleColor = rippleColor,
+                        onClick = onClick,
+                    )
+                }
+                .background(btnColor)
                 .padding(
                     vertical = 12.dp,
                     horizontal = 20.dp,
                 ),
             contentAlignment = Alignment.Center,
         ) {
-            content(isPressed.value)
+            content(isPressed)
         }
     }
 }
@@ -141,10 +134,6 @@ private fun BasicOutlinedButton(
         onClick = onClick,
     ) {
         ButtonText(
-            modifier = Modifier.padding(
-                vertical = 12.dp,
-                horizontal = 20.dp,
-            ),
             text = text,
             color = outlineTextColor,
         )
