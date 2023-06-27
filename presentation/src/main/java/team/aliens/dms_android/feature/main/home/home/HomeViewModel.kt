@@ -13,7 +13,7 @@ import team.aliens.dms_android.base.MviSideEffect
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model.meal.FetchMealInput
 import team.aliens.domain.model.meal.Meal
-import team.aliens.domain.usecase.meal.FetchMealUseCase
+import team.aliens.domain.usecase.meal.FetchMealFromLocalOrRemoteIfNotExistsUseCase
 import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ internal fun Date.toMealFormattedString(
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val fetchWhetherNewNoticesExistUseCase: FetchWhetherNewNoticesExistUseCase,
-    private val fetchMealUseCase: FetchMealUseCase,
+    private val fetchMealFromLocalOrRemoteIfNotExistsUseCase: FetchMealFromLocalOrRemoteIfNotExistsUseCase,
 ) : BaseMviViewModel<HomeIntent, HomeState, HomeSideEffect>(
     initialState = HomeState.initial(),
 ) {
@@ -69,7 +69,7 @@ internal class HomeViewModel @Inject constructor(
             kotlin.runCatching {
                 val formattedSelectedDate = stateFlow.value.selectedDate.toMealFormattedString()
 
-                fetchMealUseCase(
+                fetchMealFromLocalOrRemoteIfNotExistsUseCase(
                     fetchMealInput = FetchMealInput(
                         date = formattedSelectedDate,
                     ),
