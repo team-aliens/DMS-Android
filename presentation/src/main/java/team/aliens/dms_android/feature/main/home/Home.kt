@@ -1,10 +1,10 @@
 package team.aliens.dms_android.feature.main.home
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
@@ -48,15 +48,15 @@ import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.common.LocalAvailableFeatures
+import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Announcement
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Application
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Home
 import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.MyPage
-import team.aliens.dms_android.feature.main.home.HomeBottomNavigationItem.Announcement
 import team.aliens.dms_android.feature.main.home.NavigationItemsWrapper.navigationItems
+import team.aliens.dms_android.feature.main.home.announcements.AnnouncementsScreen
 import team.aliens.dms_android.feature.main.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.home.HomeScreen
 import team.aliens.dms_android.feature.main.home.mypage.MyPageScreen
-import team.aliens.dms_android.feature.main.home.announcements.AnnouncementsScreen
 
 private const val OneDay = 1000 * 60 * 60 * 24
 
@@ -71,7 +71,6 @@ internal fun Date.minusOneDay(): Date {
 private typealias Today = Date
 
 @OptIn(ExperimentalMaterialApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun Home(
     modifier: Modifier = Modifier,
@@ -117,7 +116,7 @@ internal fun Home(
                 )
             },
             modifier = modifier.fillMaxSize(),
-        ) {
+        ) { paddingValues ->
             NavHost(
                 modifier = Modifier.fillMaxSize(),
                 navController = bottomNavController,
@@ -169,6 +168,7 @@ internal fun Home(
                         },
                     ) {
                         ApplicationScreen(
+                            modifier = Modifier.padding(paddingValues),
                             onNavigateToStudyRooms = onNavigateToStudyRooms,
                             onNavigateToRemainsApplication = onNavigateToRemainsApplication,
                             studyRoomServiceEnabled = studyRoomServiceEnabled,
@@ -194,6 +194,7 @@ internal fun Home(
                     },
                 ) {
                     AnnouncementsScreen(
+                        modifier = Modifier.padding(paddingValues),
                         onNavigateToNoticeDetails = onNavigateToNoticeDetails,
                     )
                 }
@@ -213,6 +214,7 @@ internal fun Home(
                     },
                 ) {
                     MyPageScreen(
+                        modifier = Modifier.padding(paddingValues),
                         onNavigateToUploadProfileImageWithTakingPhoto = onNavigateToUploadProfileImageWithTakingPhoto,
                         onNavigateToUploadProfileImageWithSelectingPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
                         onNavigateToPointHistory = onNavigateToPointHistory,

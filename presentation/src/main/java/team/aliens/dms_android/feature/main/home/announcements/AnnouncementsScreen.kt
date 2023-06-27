@@ -28,6 +28,7 @@ import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormOutlinedDefaultButton
 import team.aliens.design_system.extension.Space
+import team.aliens.design_system.layout.VerticallyFadedColumn
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormGradientBackground
 import team.aliens.design_system.modifier.dormShadow
@@ -67,11 +68,12 @@ internal fun AnnouncementsScreen(
         )
     }
 
-    Column(
+    VerticallyFadedColumn(
         modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
+        topDisappearanceSize = 0.dp,
     ) {
         Spacer(Modifier.height(24.dp))
         Body1(text = stringResource(R.string.notice))

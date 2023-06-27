@@ -71,6 +71,7 @@ private sealed class ApplicationCardItem(
 
 @Composable
 internal fun ApplicationScreen(
+    modifier: Modifier = Modifier,
     onNavigateToStudyRooms: () -> Unit,
     onNavigateToRemainsApplication: () -> Unit,
     studyRoomServiceEnabled: Boolean = false,
@@ -99,7 +100,7 @@ internal fun ApplicationScreen(
         }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
