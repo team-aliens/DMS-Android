@@ -1,5 +1,3 @@
-@file:JvmName("EditPasswordScreenKt")
-
 package team.aliens.dms_android.feature.auth.resetpassword
 
 import android.content.Context
@@ -48,6 +46,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.util.TopBar
 import team.aliens.presentation.R
 
+@Suppress("ConstPropertyName")
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
 @Composable
