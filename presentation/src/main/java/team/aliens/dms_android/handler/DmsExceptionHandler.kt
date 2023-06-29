@@ -25,7 +25,7 @@ internal class DmsExceptionHandler @Inject constructor(
     companion object {
         private var appState: DmsAppState? = null
         fun setAppState(appState: DmsAppState) {
-            if (this.appState == null) this.appState = appState; println("APPSTATESET")
+            if (this.appState == null) this.appState = appState
         }
     }
 }
