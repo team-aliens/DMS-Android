@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import java.util.Date
 import kotlinx.coroutines.flow.first
-import team.aliens.domain.exception.CommonException
 import team.aliens.domain.exception.LocalException
 import team.aliens.domain.model.auth.Token
 import team.aliens.local.datastore.common.DataStoreProperty.Key.Auth.AccessToken
@@ -46,8 +45,6 @@ class AuthDataStorageImpl @Inject constructor(
             currentTime.before(accessTokenExpiredAt)
         } catch (e: LocalException.AccessTokenExpiredAtNotFound) {
             false
-        } catch (e: Exception) {
-            throw CommonException.Unknown
         }
     }
 
@@ -67,8 +64,6 @@ class AuthDataStorageImpl @Inject constructor(
             currentTime.before(refreshTokenExpiredAt)
         } catch (e: LocalException.RefreshTokenExpiredAtNotFound) {
             false
-        } catch (e: Exception) {
-            throw CommonException.Unknown
         }
     }
 
