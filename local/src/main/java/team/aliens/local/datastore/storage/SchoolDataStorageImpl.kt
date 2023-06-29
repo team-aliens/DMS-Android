@@ -16,7 +16,7 @@ class SchoolDataStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : SchoolDataStorage {
 
-    override suspend fun findFeature(): Features {
+    override suspend fun findFeatures(): Features {
 
         val fetchedMealOption = this.findMealFeatureEnabled()
         val fetchedNoticeOption = this.findNoticeFeatureEnabled()
@@ -53,7 +53,7 @@ class SchoolDataStorageImpl @Inject constructor(
         return dataStore.data.first()[RemainsService] ?: false
     }
 
-    override suspend fun saveFeature(
+    override suspend fun saveFeatures(
         features: Features,
     ) {
         dataStore.edit {

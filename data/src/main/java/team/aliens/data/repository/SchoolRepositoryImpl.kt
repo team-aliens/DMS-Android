@@ -50,8 +50,8 @@ class SchoolRepositoryImpl @Inject constructor(
         return remoteSchoolDataSource.fetchAvailableFeatures()
     }
 
-    override suspend fun findFeature(): Features {
-        return localSchoolDataSource.findFeature()
+    override suspend fun findFeatures(): Features {
+        return localSchoolDataSource.findFeatures()
     }
 
     override suspend fun findMealFeatureEnabled(): Boolean {

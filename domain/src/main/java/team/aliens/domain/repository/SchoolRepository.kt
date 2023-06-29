@@ -27,7 +27,7 @@ interface SchoolRepository {
 
     suspend fun fetchAvailableFeatures(): FetchAvailableFeaturesOutput
 
-    suspend fun findFeature(): Features
+    suspend fun findFeatures(): Features
 
     suspend fun findMealFeatureEnabled(): Boolean
 

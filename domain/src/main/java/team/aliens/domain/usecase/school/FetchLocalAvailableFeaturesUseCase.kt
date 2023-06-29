@@ -8,6 +8,6 @@ class FetchLocalAvailableFeaturesUseCase @Inject constructor(
     private val schoolRepository: SchoolRepository,
 ) {
     suspend operator fun invoke(): Features {
-        return schoolRepository.findFeature()
+        return schoolRepository.findFeatures()
     }
 }

@@ -9,8 +9,8 @@ class LocalSchoolDataSourceImpl @Inject constructor(
     private val schoolDataStorage: SchoolDataStorage,
 ) : LocalSchoolDataSource {
 
-    override suspend fun findFeature(): Features {
-        return schoolDataStorage.findFeature()
+    override suspend fun findFeatures(): Features {
+        return schoolDataStorage.findFeatures()
     }
 
     override suspend fun findMealFeatureEnabled(): Boolean {
@@ -36,7 +36,7 @@ class LocalSchoolDataSourceImpl @Inject constructor(
     override suspend fun saveFeatures(
         features: Features,
     ) {
-        schoolDataStorage.saveFeature(
+        schoolDataStorage.saveFeatures(
             features = features,
         )
     }

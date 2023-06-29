@@ -4,7 +4,7 @@ import team.aliens.domain.model.student.Features
 
 interface LocalSchoolDataSource {
 
-    suspend fun findFeature(): Features
+    suspend fun findFeatures(): Features
 
     suspend fun findMealFeatureEnabled(): Boolean
 

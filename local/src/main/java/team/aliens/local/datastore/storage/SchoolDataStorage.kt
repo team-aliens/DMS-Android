@@ -4,7 +4,7 @@ import team.aliens.domain.model.student.Features
 
 interface SchoolDataStorage {
 
-    suspend fun findFeature(): Features
+    suspend fun findFeatures(): Features
 
     suspend fun findMealFeatureEnabled(): Boolean
 
@@ -16,7 +16,5 @@ interface SchoolDataStorage {
 
     suspend fun findRemainsServiceEnabled(): Boolean
 
-    suspend fun saveFeature(
-        features: Features,
-    )
+    suspend fun saveFeatures(features: Features)
 }
