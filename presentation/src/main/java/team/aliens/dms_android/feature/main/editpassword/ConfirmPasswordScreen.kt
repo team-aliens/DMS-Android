@@ -111,7 +111,8 @@ fun ConfirmPasswordScreen(
                     .fillMaxHeight(0.84f)
                     .padding(top = 80.dp)
             ) {
-                DormTextField(value = password,
+                DormTextField(
+                    value = password,
                     onValueChange = onPasswordChange,
                     isPassword = true,
                     hint = stringResource(id = R.string.Password),
