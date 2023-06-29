@@ -1,4 +1,4 @@
-package team.aliens.design_system.animate
+package team.aliens.design_system.animation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition

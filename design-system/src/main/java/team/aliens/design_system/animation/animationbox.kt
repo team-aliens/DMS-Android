@@ -1,4 +1,4 @@
-package team.aliens.design_system.animate
+package team.aliens.design_system.animation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState

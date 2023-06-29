@@ -40,10 +40,10 @@ import androidx.navigation.compose.rememberNavController
 import java.util.Date
 import java.util.UUID
 import kotlinx.coroutines.launch
-import team.aliens.design_system.animate.slideInFromEnd
-import team.aliens.design_system.animate.slideInFromStart
-import team.aliens.design_system.animate.slideOutFromEnd
-import team.aliens.design_system.animate.slideOutFromStart
+import team.aliens.design_system.animation.slideInFromEnd
+import team.aliens.design_system.animation.slideInFromStart
+import team.aliens.design_system.animation.slideOutFromEnd
+import team.aliens.design_system.animation.slideOutFromStart
 import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel

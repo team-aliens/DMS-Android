@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.R
-import team.aliens.design_system.animate.HorizontalAnimationBox
+import team.aliens.design_system.animation.HorizontalAnimationBox
 import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
