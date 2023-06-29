@@ -77,16 +77,18 @@ fun ConfirmPasswordScreen(
         }
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(
-            DormTheme.colors.background,
-        )
-        .dormClickable(
-            rippleEnabled = false,
-        ) {
-            focusManager.clearFocus()
-        }) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                DormTheme.colors.background,
+            )
+            .dormClickable(
+                rippleEnabled = false,
+            ) {
+                focusManager.clearFocus()
+            },
+    ) {
         TopBar(
             title = stringResource(R.string.ChangePassword),
             onPrevious = onPrevious,
