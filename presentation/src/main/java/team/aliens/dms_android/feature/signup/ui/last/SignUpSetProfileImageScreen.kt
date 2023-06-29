@@ -1,61 +1,23 @@
 package team.aliens.dms_android.feature.signup.ui.last
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
-import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.extension.RatioSpace
-import team.aliens.design_system.extension.Space
-import team.aliens.design_system.modifier.dormClickable
-import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body2
-import team.aliens.design_system.typography.ButtonText
-import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.image.GettingImageOptionDialog
-import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.util.fetchImage
-import team.aliens.dms_android.feature.image.ConfirmImageViewModel
-import team.aliens.presentation.R
 
 const val defaultProfileUrl =
     "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
 
+// todo remove
+class SignUpSetProfileImageViewModel: ViewModel()
+
 @Composable
 fun SignUpSetProfileImageScreen(
     navController: NavController,
-    confirmImageViewModel: ConfirmImageViewModel = hiltViewModel(),
+    uploadProfileImageViewModel: SignUpSetProfileImageViewModel = hiltViewModel(),
 ) {
 
-    val context = LocalContext.current
+    /*val context = LocalContext.current
     val profileImageUrl by remember { mutableStateOf(null) }
 
     var isSelectedImage by remember { mutableStateOf(false) }
@@ -64,7 +26,7 @@ fun SignUpSetProfileImageScreen(
 
     val scope = rememberCoroutineScope()
 
-    val state = confirmImageViewModel.state.collectAsState().value
+    val state = uploadProfileImageViewModel.state.collectAsState().value
 
     if (setProfileDialogState) {
         GettingImageOptionDialog(
@@ -80,7 +42,7 @@ fun SignUpSetProfileImageScreen(
                     if (selectedImage.toString().isNotEmpty()) {
                         isSelectedImage = true
                     }
-                    confirmImageViewModel.setImage(selectedImage ?: return@launch)
+                    uploadProfileImageViewModel.setImage(selectedImage ?: return@launch)
                     setProfileDialogState = false
                 }
             },
@@ -196,7 +158,7 @@ fun SignUpSetProfileImageScreen(
                 color = DormButtonColor.Blue,
                 enabled = isSelectedImage,
             ) {
-                confirmImageViewModel.uploadImage()
+                uploadProfileImageViewModel.uploadImage()
                 navController.run {
                     currentBackStackEntry?.arguments?.putString(
                         "schoolCode",
@@ -236,11 +198,11 @@ fun SignUpSetProfileImageScreen(
                     )
                     currentBackStackEntry?.arguments?.putString(
                         "profileImageUrl",
-                        confirmImageViewModel.profileImageUrl,
+                        uploadProfileImageViewModel.profileImageUrl,
                     )
                     navigate(DmsRoute.SignUp.Policy)
                 }
             }
         }
-    }
+    }*/
 }

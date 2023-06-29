@@ -4,7 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -16,6 +21,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import team.aliens.design_system.annotation.DormDeprecated
+import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body2
@@ -29,13 +35,14 @@ private val BottomSheetShape = RoundedCornerShape(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DormBottomSheetDialog(
+    modifier: Modifier = Modifier,
     useHandle: Boolean = false,
     sheetState: ModalBottomSheetState,
     sheetContent: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     ModalBottomSheetLayout(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         sheetState = sheetState,
         sheetShape = BottomSheetShape,
         sheetContent = {
@@ -44,7 +51,8 @@ fun DormBottomSheetDialog(
                 sheetContent = sheetContent,
             )
         },
-        sheetBackgroundColor = Color.Transparent,
+        sheetBackgroundColor = DormTheme.colors.background,
+        scrimColor = DormColor.Gray1000.copy(alpha = 0.4f),
     ) {
         content()
     }
@@ -58,15 +66,11 @@ private fun DormBottomSheetContent(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = DormTheme.colors.background,
-            ),
+            .fillMaxWidth(),
     ) {
         DormBottomSheetHandle(
             useHandle = useHandle,
         )
-
         sheetContent()
     }
 }
@@ -118,12 +122,10 @@ fun DormBottomSheetDialogWithButtonLayout(
     btnText: String,
     content: @Composable () -> Unit,
 ) {
-
     val scope = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         sheetState = sheetState,
         sheetContent = {
             DormBottomSheetContent(
@@ -173,12 +175,10 @@ private fun DormCancellableBottomSheetDialogPreview() {
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Expanded)
 
     DormBottomSheetDialogWithButtonLayout(
-        sheetState = sheetState,
-        sheetContent = {
+        sheetState = sheetState, sheetContent = {
             Body1(text = "HIHI")
 
-        },
-        btnText = "취소"
+        }, btnText = "취소"
     ) {
 
     }

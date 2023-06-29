@@ -16,8 +16,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -41,42 +41,33 @@ private fun BasicButton(
     onClick: () -> Unit,
     content: @Composable (isPressed: Boolean) -> Unit,
 ) {
-
     val interactionSource = remember { MutableInteractionSource() }
-
-    val isPressed = interactionSource.collectIsPressedAsState()
-
-    val btnColor = if (isPressed.value) rippleColor else backgroundColor
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val btnColor = if (isPressed) rippleColor else backgroundColor
 
     Surface(
-        modifier = modifier.background(
-            color = DormTheme.colors.background,
-            shape = shape,
-        ).runIf(
-            enabled,
-        ) {
-            composed {
-                dormClickable(
-                    rippleEnabled = enabled,
-                    rippleColor = rippleColor,
-                    onClick = onClick,
-                )
-            }
-        },
-        shape = shape,
+        modifier = modifier
+            .background(DormTheme.colors.background)
+            .clip(shape),
     ) {
         Box(
             modifier = Modifier
-                .alpha(
-                    if (!enabled) disabledAlpha else 1f
-                )
-                .background(
-                    color = btnColor,
-                    shape = shape,
+                .alpha(if (enabled) 1f else disabledAlpha)
+                .runIf(enabled) {
+                    dormClickable(
+                        rippleEnabled = true,
+                        rippleColor = rippleColor,
+                        onClick = onClick,
+                    )
+                }
+                .background(btnColor)
+                .padding(
+                    vertical = 12.dp,
+                    horizontal = 20.dp,
                 ),
             contentAlignment = Alignment.Center,
         ) {
-            content(isPressed.value)
+            content(isPressed)
         }
     }
 }
@@ -101,10 +92,6 @@ private fun BasicContainedButton(
         onClick = onClick,
     ) {
         ButtonText(
-            modifier = Modifier.padding(
-                vertical = 12.dp,
-                horizontal = 20.dp,
-            ),
             text = text,
             color = textColor,
         )
@@ -125,11 +112,13 @@ private fun BasicOutlinedButton(
 ) {
 
     val outlineBackgroundColor by animateColorAsState(
-        if (enabled) backgroundColor else disabledColor
+        targetValue = if (enabled) backgroundColor else disabledColor,
+        label = "outlineBackgroundColor",
     )
 
     val outlineTextColor by animateColorAsState(
-        if (enabled) textColor else disabledColor
+        targetValue = if (enabled) textColor else disabledColor,
+        label = "outlineTextColor",
     )
 
     BasicButton(
@@ -145,10 +134,6 @@ private fun BasicOutlinedButton(
         onClick = onClick,
     ) {
         ButtonText(
-            modifier = Modifier.padding(
-                vertical = 12.dp,
-                horizontal = 20.dp,
-            ),
             text = text,
             color = outlineTextColor,
         )
@@ -205,9 +190,7 @@ internal fun BasicOutlinedRoundButton(
 
 @Composable
 internal fun BasicContainedRoundLargeButton(
-    modifier: Modifier = Modifier.padding(
-        vertical = 9.dp,
-    ),
+    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     round: Dp = 0.dp,
@@ -230,9 +213,7 @@ internal fun BasicContainedRoundLargeButton(
 
 @Composable
 internal fun BasicOutlinedRoundLargeButton(
-    modifier: Modifier = Modifier.padding(
-        vertical = 9.dp
-    ),
+    modifier: Modifier = Modifier,
     text: String,
     textColor: Color,
     round: Dp = 0.dp,

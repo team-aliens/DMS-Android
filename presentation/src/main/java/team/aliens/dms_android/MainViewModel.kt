@@ -1,63 +1,31 @@
 package team.aliens.dms_android
 
+import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
-import team.aliens.domain.model._common.toModel
-import team.aliens.domain.model.student.Feature
-import team.aliens.domain.usecase.auth.AutoSignInUseCase
+import team.aliens.domain.model.student.Features
+import team.aliens.domain.usecase.auth.CheckAutoSignInAvailableUseCase
+import team.aliens.domain.usecase.school.FetchLocalAvailableFeaturesUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
-    private val autoSignInUseCase: AutoSignInUseCase,
-) : MviViewModel<MainUiState, MainUiEvent>(
-    initialState = MainUiState.initial(),
-) {
-    init {
-        autoSignIn()
-    }
-
-    private fun autoSignIn() {
-        runBlocking { // fixme 로직 생각해보기
+    private val checkAutoSignInAvailableUseCase: CheckAutoSignInAvailableUseCase,
+    private val fetchLocalAvailableFeaturesUseCase: FetchLocalAvailableFeaturesUseCase,
+) : ViewModel() {
+    fun checkAutoSignInAvailable(): Boolean {
+        return runBlocking {
             kotlin.runCatching {
-                autoSignInUseCase()
-            }.onSuccess {
-                setState(
-                    newState = uiState.value.copy(
-                        autoSignInSuccess = true,
-                        feature = it.features.toModel(),
-                    ),
-                )
-            }.onFailure {
-                setState(
-                    newState = uiState.value.copy(
-                        autoSignInSuccess = false,
-                    ),
-                )
+                checkAutoSignInAvailableUseCase()
             }
-        }
+        }.getOrThrow()
+    }
+
+    fun fetchLocalAvailableFeatures(): Features {
+        return runBlocking {
+            kotlin.runCatching {
+                fetchLocalAvailableFeaturesUseCase()
+            }
+        }.getOrThrow()
     }
 }
-
-internal data class MainUiState(
-    val autoSignInSuccess: Boolean,
-    val feature: Feature,
-) : UiState {
-    companion object {
-        fun initial() = MainUiState(
-            autoSignInSuccess = false,
-            feature = Feature(
-                mealService = false,
-                noticeService = false,
-                pointService = false,
-                studyRoomService = false,
-                remainsService = false,
-            ),
-        )
-    }
-}
-
-internal sealed class MainUiEvent : UiEvent

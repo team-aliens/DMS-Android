@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -187,16 +188,18 @@ fun DormToastLayout(
     toastHost: @Composable (ToastState) -> Unit = { DormToastHost(it) },
     content: @Composable () -> Unit,
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
+    CompositionLocalProvider(LocalToast provides toastState) {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopCenter,
         ) {
-            content()
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                content()
+            }
+            toastHost(toastState)
         }
-        toastHost(toastState)
     }
 }
 

@@ -8,10 +8,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import team.aliens.data.manager.TokenReissueManager
 import team.aliens.domain.exception.CommonException
+import team.aliens.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model.auth.Token
 import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.model._common.AuthenticationResponse
+import team.aliens.remote.model._common.toDomain
 import javax.inject.Inject
 
 class TokenReissueManagerImpl @Inject constructor(
@@ -21,12 +23,12 @@ class TokenReissueManagerImpl @Inject constructor(
         OkHttpClient()
     }
 
-    override fun reissueToken(refreshToken: String): Token {
+    override fun reissueToken(refreshToken: String): AuthenticationOutput {
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
         val response = client.newCall(tokenReissueRequest).execute()
 
         return if (response.isSuccessful) {
-            response.body.toToken()
+            response.body.toAuthenticationOutput()
         } else {
             throw CommonException.SignInRequired
         }
@@ -46,6 +48,17 @@ class TokenReissueManagerImpl @Inject constructor(
             refreshToken = token.refreshToken,
             refreshTokenExpiredAt = token.refreshTokenExpiredAt,
         )
+    }
+
+    private fun ResponseBody?.toAuthenticationOutput(): AuthenticationOutput {
+        checkNotNull(this)
+
+        val response = Gson().fromJson(
+            this.string(),
+            AuthenticationResponse::class.java,
+        )
+
+        return response.toDomain()
     }
 
     private fun buildTokenReissueRequest(refreshToken: String): Request {

@@ -23,11 +23,12 @@ import team.aliens.design_system.typography.Caption
 
 @Composable
 fun FloatingNotice(
-    content: String,
+    modifier: Modifier = Modifier,
+    text: String,
 ) {
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(
                 minHeight = 50.dp,
@@ -57,7 +58,7 @@ fun FloatingNotice(
                 contentDescription = "NoticeIcon",
             )
             Space(space = 13.dp)
-            Caption(text = content)
+            Caption(text = text)
         }
     }
 }

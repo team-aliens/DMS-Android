@@ -217,7 +217,7 @@
     <string name="yes">네</string>
     <string name="no">아니오</string>
     <string name="next">다음</string>
-    <string name="latest_order">최신순</string>
+    <string name="latest_order">최신 순</string>
     <string name="oldest_order">오래된 순</string>
     <string name="take_photo">사진 촬영</string>
     <string name="select_photo">사진 선택</string>
@@ -241,6 +241,9 @@
     <string name="error_internal_server">서버와의 통신에서 오류가 발생하였습니다</string>
     <string name="error_unknown">알 수 없는 에러가 발생하였습니다</string>
     <string name="error_timeout">요청 시간이 초과되었습니다</string>
+
+    <!--components-->
+    <string name="top_bar_back_button">뒤로 가기</string>
 
     <!--sign in-->
     <string name="sign_in">로그인</string>
@@ -370,6 +373,7 @@
     <string name="bonus_point">상점</string>
     <string name="minus_point">벌점</string>
     <string name="all_point">전체</string>
+    <string name="profile_image">프로필 사진</string>
     <string name="my_page_set_profile">프로필 설정</string>
     <string name="my_page_edit_profile">프로필 수정</string>
     <string name="my_page_check_point_history">상벌점 내역 확인</string>
@@ -410,7 +414,7 @@
     <string name="remains_apply">잔류 신청</string>
     <string name="remains_do_apply">%s 신청하기</string>
     <string name="remains_change_to">%s로 변경하기</string>
-    
+
     <string name="remains_description">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요</string>
 
     <string name="remains_available_remains_application_time_is">잔류 신청 시간은 %s 까지 입니다.</string>
@@ -420,6 +424,6 @@
     <!--bottom nav-->
     <string name="bottom_nav_home">홈</string>
     <string name="bottom_nav_application">신청</string>
-    <string name="bottom_nav_guide">안내</string>
+    <string name="bottom_nav_announcement">안내</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 </resources>

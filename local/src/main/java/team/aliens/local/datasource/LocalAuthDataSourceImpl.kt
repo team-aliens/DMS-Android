@@ -17,12 +17,20 @@ class LocalAuthDataSourceImpl @Inject constructor(
         return authDataStorage.findAccessToken()
     }
 
+    override suspend fun checkAccessTokenAvailable(): Boolean {
+        return authDataStorage.checkAccessTokenAvailable()
+    }
+
     override suspend fun findAccessTokenExpiredAt(): String {
         return authDataStorage.findAccessTokenExpiredAt()
     }
 
     override suspend fun findRefreshToken(): String {
         return authDataStorage.findRefreshToken()
+    }
+
+    override suspend fun checkRefreshTokenAvailable(): Boolean {
+        return authDataStorage.checkRefreshTokenAvailable()
     }
 
     override suspend fun findRefreshTokenExpiredAt(): String {

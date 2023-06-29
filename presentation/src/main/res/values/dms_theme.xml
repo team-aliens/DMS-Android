@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.DMS_Android.NoActionBar" android:fitsSystemWindows="true">
+        <!-- Action bar -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- Splash -->
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">
+            @drawable/ic_logo_image
+        </item>
+    </style>
+
+    <style name="Theme.DMS_Android.NoActionBar.Light" parent="Theme.AppCompat.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/lighten_100</item>
+        <item name="colorOnPrimary">@color/lighten_200</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Window -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:statusBarColor">@color/gray_200</item>
+        <item name="android:navigationBarColor">@color/gray_200</item>
+        <!-- Splash -->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/gray_200</item>
+    </style>
+
+    <style name="Theme.DMS_Android.NoActionBar.Dark" parent="Theme.AppCompat.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/darken_100</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Window -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:statusBarColor">@color/gray_900</item>
+        <item name="android:navigationBarColor">@color/gray_900</item>
+        <!-- Splash -->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/gray_900</item>
+    </style>
+</resources>

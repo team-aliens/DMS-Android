@@ -108,12 +108,20 @@ class AuthRepositoryImpl @Inject constructor(
         return localAuthDataSource.findAccessToken()
     }
 
+    override suspend fun checkAccessTokenAvailable(): Boolean {
+        return localAuthDataSource.checkAccessTokenAvailable()
+    }
+
     override suspend fun findAccessTokenExpiredAt(): String {
         return localAuthDataSource.findAccessTokenExpiredAt()
     }
 
     override suspend fun findRefreshToken(): String {
         return localAuthDataSource.findRefreshToken()
+    }
+
+    override suspend fun checkRefreshTokenAvailable(): Boolean {
+        return localAuthDataSource.checkRefreshTokenAvailable()
     }
 
     override suspend fun findRefreshTokenExpiredAt(): String {
@@ -129,10 +137,6 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearToken() {
-        localAuthDataSource.clearToken()
-    }
-
-    override suspend fun signOut() {
         localAuthDataSource.clearToken()
     }
 }

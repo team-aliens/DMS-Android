@@ -3,7 +3,6 @@ package team.aliens.design_system.modifier
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
-import android.os.Build
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
@@ -12,6 +11,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.annotation.DormDeprecated
@@ -19,36 +19,34 @@ import team.aliens.design_system.annotation.DormDeprecated
 @DormDeprecated
 fun Modifier.dormShadow(
     color: Color,
-    alpha: Float = 0.2f,
-    borderRadius: Dp = 0.dp,
+    alpha: Float = 0.15f,
+    borderRadius: Dp = 10.dp,
     shadowRadius: Dp = 10.dp,
     offsetY: Dp = 0.dp,
     offsetX: Dp = 0.dp,
-) = this.drawBehind {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val transparentColor =
-            android.graphics.Color.toArgb(color.copy(alpha = 0.0f).value.toLong())
-        val shadowColor = android.graphics.Color.toArgb(color.copy(alpha = alpha).value.toLong())
-        this.drawIntoCanvas {
-            val paint = Paint()
-            val frameworkPaint = paint.asFrameworkPaint()
-            frameworkPaint.color = transparentColor
-            frameworkPaint.setShadowLayer(
+) = drawBehind {
+    drawIntoCanvas { canvas ->
+        val paint = Paint()
+
+        paint.asFrameworkPaint().apply {
+            setColor(android.graphics.Color.TRANSPARENT)
+            setShadowLayer(
                 shadowRadius.toPx(),
                 offsetX.toPx(),
                 offsetY.toPx(),
-                shadowColor,
-            )
-            it.drawRoundRect(
-                left = 0f,
-                top = 0f,
-                right = this.size.width,
-                bottom = this.size.height,
-                radiusX = borderRadius.toPx(),
-                radiusY = borderRadius.toPx(),
-                paint = paint,
+                color.copy(alpha = alpha).toArgb(),
             )
         }
+
+        canvas.drawRoundRect(
+            left = 0f,
+            top = 0f,
+            right = this.size.width,
+            bottom = this.size.height,
+            radiusX = borderRadius.toPx(),
+            radiusY = borderRadius.toPx(),
+            paint = paint,
+        )
     }
 }
 

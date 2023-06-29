@@ -1,6 +1,7 @@
 package team.aliens.design_system.theme
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -10,7 +11,7 @@ import team.aliens.design_system.annotation.DormDeprecated
 import team.aliens.design_system.color.DormColor
 
 @SuppressLint("ConflictingOnColor")
-private val LightColorPalette = lightColors(
+private val lightColorPalette = lightColors(
     primary = DormColor.DormPrimary,
     onPrimary = DormColor.Gray100,
     secondary = DormColor.Lighten200, // primary container
@@ -25,7 +26,7 @@ private val LightColorPalette = lightColors(
     secondaryVariant = DormColor.Gray300, // line
 )
 
-private val DarkColorPalette = darkColors(
+private val darkColorPalette = darkColors(
     primary = DormColor.DormPrimary,
     onPrimary = DormColor.Gray100,
     secondary = DormColor.Lighten100, // primary container
@@ -42,13 +43,10 @@ private val DarkColorPalette = darkColors(
 @DormDeprecated
 @Composable
 fun DormTheme(
-    darkTheme: Boolean,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-
-    val rememberedColors = remember {
-        if (darkTheme) DarkColorPalette else LightColorPalette
-    }
+    val rememberedColors = remember { if (darkTheme) darkColorPalette else lightColorPalette }
 
     CompositionLocalProvider(
         LocalColors provides rememberedColors,

@@ -39,7 +39,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
@@ -51,13 +50,12 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.domain.model.school.FetchSchoolsOutput
 import team.aliens.presentation.R
 
 @Composable
 fun FindIdScreen(
-    navController: NavController,
+    onNavigateToSignIn: () -> Unit,
     findIdViewModel: FindIdViewModel = hiltViewModel(),
 ) {
 
@@ -94,13 +92,7 @@ fun FindIdScreen(
             DormSingleButtonDialog(
                 content = stringResource(id = R.string.SendIdToEmail, findIdViewModel.email),
                 mainBtnText = stringResource(id = R.string.GoLoginScreen),
-                onMainBtnClick = {
-                    navController.navigate(DmsRoute.Auth.SignIn) {
-                        popUpTo(DmsRoute.Auth.SignIn) {
-                            inclusive = true
-                        }
-                    }
-                },
+                onMainBtnClick = onNavigateToSignIn,
                 mainBtnTextColor = DormTheme.colors.primary,
             )
         }
@@ -112,30 +104,39 @@ fun FindIdScreen(
                 is FetchSchools -> {
                     schoolList.addAll(event.fetchSchoolsOutput.schools)
                 }
+
                 SuccessFindId -> {
                     findIdDialogState = true
                 }
+
                 FindIdNoInternetException -> {
                     toast(context.getString(R.string.NoInternetException))
                 }
+
                 FindIdServerException -> {
                     toast(context.getString(R.string.ServerException))
                 }
+
                 FindIdTooManyRequest -> {
                     toast(context.getString(R.string.TooManyRequest))
                 }
+
                 FindIdUnknownException -> {
                     toast(context.getString(R.string.UnKnownException))
                 }
+
                 FindIdNeedLoginException -> {
                     toast(context.getString(R.string.NeedAccount))
                 }
+
                 FindIdBadRequest -> {
                     toast(context.getString(R.string.BadRequest))
                 }
+
                 FindIdNotFound -> {
                     toast(context.getString(R.string.ChangePasswordNotFound))
                 }
+
                 FindIdUnauthorized -> {
                     toast(context.getString(R.string.MissMatchAccountInfo))
                 }
@@ -189,7 +190,7 @@ fun FindIdScreen(
                         color = DormTheme.colors.primaryVariant,
                     )
                     Icon(
-                        painterResource(id = R.drawable.ic_down), 
+                        painterResource(id = R.drawable.ic_down),
                         contentDescription = null,
                     )
                 }

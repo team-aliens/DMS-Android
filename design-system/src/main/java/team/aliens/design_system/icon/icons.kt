@@ -27,7 +27,7 @@ value class DormIcon private constructor(
 
         @Stable
         val BackArrow = DormIcon(
-            drawableId = R.drawable.ic_backarrow,
+            drawableId = R.drawable.ic_back,
         )
 
         @Stable
@@ -138,6 +138,16 @@ value class DormIcon private constructor(
         @Stable
         val BlueDinner = DormIcon(
             drawableId = R.drawable.ic_blue_dinner,
+        )
+
+        @Stable
+        val Photo = DormIcon(
+            drawableId = R.drawable.ic_photo,
+        )
+
+        @Stable
+        val Camera = DormIcon(
+            drawableId = R.drawable.ic_camera,
         )
     }
 }

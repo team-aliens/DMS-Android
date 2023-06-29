@@ -9,7 +9,7 @@ import team.aliens.domain.model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain.model.school.FetchSchoolsOutput
-import team.aliens.domain.model.student.Feature
+import team.aliens.domain.model.student.Features
 import team.aliens.domain.repository.SchoolRepository
 import javax.inject.Inject
 
@@ -50,8 +50,8 @@ class SchoolRepositoryImpl @Inject constructor(
         return remoteSchoolDataSource.fetchAvailableFeatures()
     }
 
-    override suspend fun findFeature(): Feature {
-        return localSchoolDataSource.findFeature()
+    override suspend fun findFeatures(): Features {
+        return localSchoolDataSource.findFeatures()
     }
 
     override suspend fun findMealFeatureEnabled(): Boolean {
@@ -74,11 +74,11 @@ class SchoolRepositoryImpl @Inject constructor(
         return localSchoolDataSource.findRemainsServiceEnabled()
     }
 
-    override suspend fun saveFeature(
-        feature: Feature,
+    override suspend fun saveFeatures(
+        features: Features,
     ) {
-        localSchoolDataSource.saveFeature(
-            feature = feature,
+        localSchoolDataSource.saveFeatures(
+            features = features,
         )
     }
 }

@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.feature.signup.ui.email.SignUpSendVerificationEmailScreen
 import team.aliens.dms_android.feature.signup.ui.email.SignUpEmailVerificationCodeScreen
+import team.aliens.dms_android.feature.signup.ui.email.SignUpSendVerificationEmailScreen
 import team.aliens.dms_android.feature.signup.ui.id.SignUpSetIdScreen
 import team.aliens.dms_android.feature.signup.ui.last.SignUpPolicyScreen
 import team.aliens.dms_android.feature.signup.ui.last.SignUpSetProfileImageScreen
@@ -70,3 +70,46 @@ fun NavGraphBuilder.signUpNavigation(
         }
     }
 }
+
+/* todo sign up 작업 후 마저 구현하기
+internal object SignUpNavigation {
+    const val route = "signUp"
+
+    const val EnterSchoolVerificationCode = this.route + "/enterSchoolVerificationCode"
+    const val EnterSchoolVerificationQuestion = this.route + "/enterSchoolVerificationQuestion"
+    const val SetEmail = this.route + "/setEmail"
+    const val SetId = this.route + "/setId"
+    const val SetPassword = this.route + "/setPassword"
+    const val SetProfile = this.route + "/setProfile"
+    const val Terms = this.route + "/terms"
+}
+
+internal fun NavGraphBuilder.signUpNavigation() {
+    navigation(
+        startDestination = AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode,
+        route = AuthNavigation.SignUpNavigation.route,
+    ) {
+        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationQuestion) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetEmail) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetId) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetPassword) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.SetProfile) {
+
+        }
+        composable(AuthNavigation.SignUpNavigation.Terms) {
+
+        }
+    }
+}
+*/

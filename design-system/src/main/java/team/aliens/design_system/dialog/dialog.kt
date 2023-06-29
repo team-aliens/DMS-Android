@@ -3,20 +3,28 @@ package team.aliens.design_system.dialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -101,37 +109,27 @@ fun DormSurveyDialog(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    painter = painterResource(
-                        id = icon.drawableId,
-                    ),
+                    painter = painterResource(icon.drawableId),
                     contentDescription = iconDescription,
                 )
-
                 Space(space = 16.dp)
-
                 Body5(
                     text = title,
                     color = DormColor.Error,
                 )
             }
-
             Space(space = 20.dp)
-
             Body5(
                 text = content,
                 color = DormColor.Gray700,
             )
-
             Space(space = 32.dp)
-
             DormContainedLargeButton(
                 text = btnText,
                 color = DormButtonColor.Blue,
-            ) {
-                onDismissRequest()
-            }
+                onClick = onDismissRequest,
+            )
         }
-
     }
 }
 
@@ -147,9 +145,7 @@ fun DormBottomAlignedContainedLargeButtonDialog(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .dormClickable {
-                onDismissRequest()
-            },
+            .dormClickable { onDismissRequest() },
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
@@ -162,11 +158,8 @@ fun DormBottomAlignedContainedLargeButtonDialog(
                     vertical = 40.dp,
                 ),
         ) {
-
             content()
-
             Space(space = 50.dp)
-
             DormContainedLargeButton(
                 text = btnText,
                 color = btnColor,
@@ -188,34 +181,25 @@ fun DormBottomAlignedSingleButtonDialog(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .dormClickable {
-                onBackgroundPress()
-            },
+            .dormClickable(
+                rippleEnabled = false,
+            ) { onBackgroundPress() },
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
-            Modifier.background(
-                color = DormTheme.colors.surface,
-            ),
+            Modifier.background(DormTheme.colors.background),
         ) {
-
             content()
-
             Divider(
                 modifier = Modifier
-                    .padding(
-                        horizontal = 10.dp,
-                    )
+                    .padding(horizontal = 10.dp)
                     .fillMaxWidth(),
             )
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)
-                    .clickable {
-                        onBtnClick()
-                    },
+                    .clickable { onBtnClick() },
                 contentAlignment = Alignment.Center,
             ) {
                 Body2(
@@ -240,45 +224,42 @@ fun DormDoubleButtonDialog(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(160.dp)
+            .wrapContentSize()
             .background(
-                DormTheme.colors.surface,
-                DormDoubleButtonDialogShape,
+                color = DormTheme.colors.surface,
+                shape = DormDoubleButtonDialogShape,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
-        Space(space = 50.dp)
-
         Body3(
+            modifier = Modifier.padding(vertical = 32.dp),
             text = content,
         )
-
-        Space(space = 40.dp)
-
         Divider(
-            modifier = Modifier
-                .background(
-                    DormTheme.colors.secondaryVariant,
-                )
-                .height(1.dp),
+            color = DormTheme.colors.secondaryVariant,
+            thickness = 1.dp,
         )
-
         Row(
+            modifier = Modifier.background(
+                color = DormTheme.colors.secondaryVariant,
+                shape = RoundedCornerShape(
+                    bottomStart = 10.dp,
+                    bottomEnd = 10.dp,
+                ),
+            ),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(1.dp),
         ) {
-
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight()
-                    .clip(
-                        DormDoubleButtonDialogSubButtonShape,
+                    .background(
+                        color = DormTheme.colors.surface,
+                        shape = DormDoubleButtonDialogSubButtonShape,
                     )
-                    .clickable {
-                        onSubBtnClick()
-                    },
+                    .clip(DormDoubleButtonDialogSubButtonShape)
+                    .dormClickable { onSubBtnClick() }
+                    .padding(vertical = 16.dp),
                 contentAlignment = Alignment.Center,
             ) {
                 Body3(
@@ -286,26 +267,16 @@ fun DormDoubleButtonDialog(
                     color = subBtnTextColor,
                 )
             }
-
-            Divider(
-                modifier = Modifier
-                    .background(
-                        DormTheme.colors.secondaryVariant,
-                    )
-                    .fillMaxHeight()
-                    .width(1.dp),
-            )
-
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight()
-                    .clip(
-                        DormDoubleButtonDialogMainButtonShape,
+                    .background(
+                        color = DormTheme.colors.surface,
+                        shape = DormDoubleButtonDialogMainButtonShape,
                     )
-                    .clickable {
-                        onMainBtnClick()
-                    },
+                    .clip(DormDoubleButtonDialogMainButtonShape)
+                    .dormClickable { onMainBtnClick() }
+                    .padding(vertical = 16.dp),
                 contentAlignment = Alignment.Center,
             ) {
                 Body3(
@@ -372,48 +343,6 @@ fun DormSingleButtonDialog(
                     text = mainBtnText,
                     color = mainBtnTextColor,
                 )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Preview(
-    showSystemUi = true,
-    showBackground = true,
-)
-@Composable
-fun PreviewDialog() {
-    Column {
-        /*DormCustomDialog(
-            onDismissRequest = { },
-        ) {
-            DormSurveyDialog(
-                icon = DormIcon.Dinner,
-                title = "설문이 조기종료 되었습니다.",
-                content = "사유 : 이러이러한 사유로 설문이 종료되었습니다.",
-                btnText = "확인",
-            ) {}
-        }*/
-        /*DormCustomDialog(onDismissRequest = { }) {
-            DormDoubleButtonDialog(content = "정말 로그아웃 하시겠습니까?",
-                mainBtnText = "확인",
-                subBtnText = "취소",
-                onMainBtnClick = { *//*TODO*//* },
-                onSubBtnClick = { *//*TODO*//* })
-        }*/
-
-        DormCustomDialog(
-            onDismissRequest = {},
-        ) {
-            DormBottomAlignedSingleButtonDialog(
-                btnText = "취소",
-                onBtnClick = { },
-                onBackgroundPress = {
-
-                }
-            ) {
-
             }
         }
     }

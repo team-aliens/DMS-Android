@@ -26,7 +26,7 @@ enum class DormButtonColor(
         textColor = DormColor.Gray100,
         backgroundColor = DormColor.DormPrimary,
         disabledColor = DormColor.Lighten100,
-        rippleColor = DormColor.Darken100,
+        rippleColor = DormColor.Darken200,
     ),
 
     Gray(

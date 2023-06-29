@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name="team.aliens.dms_android.DMSApplication"
+        android:name="team.aliens.dms_android.DmsApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,14 +23,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DMS_Android"
-        android:usesCleartextTraffic="true">
-
+        android:usesCleartextTraffic="true"
+        tools:targetApi="tiramisu">
 
         <activity
             android:name="team.aliens.dms_android.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DMS_Android.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

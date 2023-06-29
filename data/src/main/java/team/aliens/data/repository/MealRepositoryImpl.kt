@@ -6,6 +6,7 @@ import team.aliens.domain.model.meal.FetchMealInput
 import team.aliens.domain.model.meal.FetchMealsInput
 import team.aliens.domain.model.meal.FetchMealsOutput
 import team.aliens.domain.model.meal.Meal
+import team.aliens.domain.model.meal.toModel
 import team.aliens.domain.model.meal.toTypedArray
 import team.aliens.domain.repository.MealRepository
 import javax.inject.Inject
@@ -15,6 +16,7 @@ class MealRepositoryImpl @Inject constructor(
     private val remoteMealDataSource: RemoteMealDataSource,
 ) : MealRepository {
 
+    @Deprecated("does not save into local db")
     override suspend fun fetchMeal(
         input: FetchMealInput,
     ): Meal {
@@ -37,6 +39,7 @@ class MealRepositoryImpl @Inject constructor(
         )
     }
 
+    @Deprecated("does not save into local db")
     override suspend fun fetchMeals(
         input: FetchMealsInput,
     ): FetchMealsOutput {
@@ -63,5 +66,46 @@ class MealRepositoryImpl @Inject constructor(
         localMealDataSource.saveMeals(
             meals = meals,
         )
+    }
+
+    override suspend fun fetchMealFromLocal(
+        input: FetchMealInput,
+    ): Meal {
+        return localMealDataSource.fetchMeal(input)
+    }
+
+    // todo review later
+    override suspend fun fetchMealFromRemoteAndSave(
+        input: FetchMealInput,
+    ): Meal {
+        val fetchedMeals = this.fetchMealsFromRemote(
+            FetchMealsInput(
+                date = input.date,
+            )
+        ).meals.toModel()
+        this.saveMeals(*fetchedMeals.toTypedArray())
+        return fetchedMeals.first { it.date == input.date }
+    }
+
+    override suspend fun fetchMealFromLocalOrRemoteIfNotExists(
+        input: FetchMealInput,
+    ): Meal {
+        return kotlin.runCatching {
+            this.fetchMealFromLocal(input)
+        }.getOrNull() ?: fetchMealFromRemoteAndSave(input)
+    }
+
+    override suspend fun fetchMealsFromRemote(
+        input: FetchMealsInput,
+    ): FetchMealsOutput {
+        return remoteMealDataSource.fetchMeals(input = input)
+    }
+
+    override suspend fun fetchMealFromRemoteAndSave(
+        input: FetchMealsInput,
+    ): FetchMealsOutput {
+        return this.fetchMealsFromRemote(input).also {
+            this.saveMeals(*it.meals.toTypedArray())
+        }
     }
 }

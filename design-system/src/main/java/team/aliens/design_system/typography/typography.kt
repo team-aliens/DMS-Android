@@ -12,6 +12,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import team.aliens.design_system.R
 import team.aliens.design_system.annotation.DormDeprecated
@@ -169,7 +171,7 @@ object DormTypography {
     val bottomNavItemLabel = TextStyle(
         fontFamily = NotoSansFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp,
+        fontSize = 3.em,
         lineHeight = 16.sp,
     )
 }
@@ -180,6 +182,7 @@ object DormTypography {
 fun Headline1(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -187,6 +190,7 @@ fun Headline1(
         text = text,
         style = DormTypography.headline1,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -196,15 +200,15 @@ fun Headline1(
 fun Headline2(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color =DormTheme.colors.onBackground,
-    rippleEnabled: Boolean = false,
-    onClick: (() -> Unit)? = null,
+    textAlign: TextAlign? = null,
+    color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
         modifier = modifier,
         text = text,
         style = DormTypography.headline2,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -214,6 +218,7 @@ fun Headline2(
 fun Headline3(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -221,6 +226,7 @@ fun Headline3(
         text = text,
         style = DormTypography.headline3,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -230,6 +236,7 @@ fun Headline3(
 fun Title1(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -237,6 +244,7 @@ fun Title1(
         text = text,
         style = DormTypography.title1,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -246,6 +254,7 @@ fun Title1(
 fun Title2(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -253,6 +262,7 @@ fun Title2(
         text = text,
         style = DormTypography.title2,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -262,6 +272,7 @@ fun Title2(
 fun Title3(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -269,6 +280,7 @@ fun Title3(
         text = text,
         style = DormTypography.title3,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -278,6 +290,7 @@ fun Title3(
 fun SubTitle1(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -285,6 +298,7 @@ fun SubTitle1(
         text = text,
         style = DormTypography.subtitle1,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -294,6 +308,7 @@ fun SubTitle1(
 fun SubTitle2(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -301,6 +316,7 @@ fun SubTitle2(
         text = text,
         style = DormTypography.subtitle2,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -310,6 +326,7 @@ fun SubTitle2(
 fun Body1(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -317,6 +334,7 @@ fun Body1(
         text = text,
         style = DormTypography.body1,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -326,6 +344,7 @@ fun Body1(
 fun Body2(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -333,6 +352,7 @@ fun Body2(
         text = text,
         style = DormTypography.body2,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -342,6 +362,7 @@ fun Body2(
 fun Body3(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -349,6 +370,7 @@ fun Body3(
         text = text,
         style = DormTypography.body3,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -359,6 +381,7 @@ fun Body3(
 fun Body4(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -366,6 +389,7 @@ fun Body4(
         text = text,
         style = DormTypography.body4,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -375,6 +399,7 @@ fun Body4(
 fun Body5(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -383,6 +408,7 @@ fun Body5(
         style = DormTypography.body5,
         color = color,
         lineHeight = 24.sp,
+        textAlign = textAlign,
     )
 }
 
@@ -394,6 +420,7 @@ fun Caption(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = DormTheme.colors.onBackground,
+    textAlign: TextAlign? = null,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
@@ -405,6 +432,7 @@ fun Caption(
         text = text,
         style = DormTypography.caption,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -414,6 +442,7 @@ fun Caption(
 fun OverLine(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -421,6 +450,7 @@ fun OverLine(
         text = text,
         style = DormTypography.overline,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -430,6 +460,7 @@ fun OverLine(
 fun ButtonText(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color = DormTheme.colors.onBackground,
 ) {
     Text(
@@ -437,6 +468,7 @@ fun ButtonText(
         text = text,
         style = DormTypography.button,
         color = color,
+        textAlign = textAlign,
     )
 }
 
@@ -446,12 +478,14 @@ fun ButtonText(
 fun BottomNavItemLabel(
     modifier: Modifier = Modifier,
     text: String,
+    textAlign: TextAlign? = null,
     color: Color,
-){
+) {
     Text(
         modifier = modifier,
         text = text,
         color = color,
         style = DormTypography.bottomNavItemLabel,
+        textAlign = textAlign,
     )
 }
