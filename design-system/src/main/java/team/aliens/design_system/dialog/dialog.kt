@@ -3,20 +3,28 @@ package team.aliens.design_system.dialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -335,45 +343,6 @@ fun DormSingleButtonDialog(
                     text = mainBtnText,
                     color = mainBtnTextColor,
                 )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Preview(
-    showSystemUi = true,
-    showBackground = true,
-)
-@Composable
-fun PreviewDialog() {
-    Column {
-        /*DormCustomDialog(
-            onDismissRequest = { },
-        ) {
-            DormSurveyDialog(
-                icon = DormIcon.Dinner,
-                title = "설문이 조기종료 되었습니다.",
-                content = "사유 : 이러이러한 사유로 설문이 종료되었습니다.",
-                btnText = "확인",
-            ) {}
-        }*//*DormCustomDialog(onDismissRequest = { }) {
-            DormDoubleButtonDialog(content = "정말 로그아웃 하시겠습니까?",
-                mainBtnText = "확인",
-                subBtnText = "취소",
-                onMainBtnClick = { *//*TODO*//* },
-                onSubBtnClick = { *//*TODO*//* })
-        }*/
-
-        DormCustomDialog(
-            onDismissRequest = {},
-        ) {
-            DormBottomAlignedSingleButtonDialog(btnText = "취소",
-                onBtnClick = { },
-                onBackgroundPress = {
-
-                }) {
-
             }
         }
     }
