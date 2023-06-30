@@ -1,13 +1,14 @@
 package team.aliens.dms_android.feature.signup.ui.school
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -19,9 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,15 +40,14 @@ import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.SignUpIntent
+import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
-import team.aliens.dms_android.feature.signup.event.school.ExamineSchoolCodeEvent
 import team.aliens.presentation.R
 
 @Composable
@@ -60,45 +58,33 @@ internal fun EnterSchoolVerificationCodeScreen(
 
     val state by signUpViewModel.stateFlow.collectAsState()
 
-    val schoolVerificationCode = state.schoolVerificationCode
+    val schoolCodeMismatchError = state.schoolCodeMismatchError
 
     val focusManager = LocalFocusManager.current
 
     val focusRequester = remember { FocusRequester() }
 
-    var isError by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-
-    val onVerificationCodeChange = { verificationCode: String ->
-        if (verificationCode.length == 8) {
-            focusManager.clearFocus()
-            signUpViewModel.postIntent(
-                intent = SignUpIntent.VerifySchool.SetSchoolVerificationCode(verificationCode),
+    val onVerificationCodeChange = { schoolCode: String ->
+        signUpViewModel.postIntent(
+            SignUpIntent.VerifySchool.SetSchoolVerificationCode(
+                schoolCode = schoolCode,
             )
-        } else {
-            isError = false
+        )
+        if (schoolCode.length == 8) {
+            focusManager.clearFocus()
+            signUpViewModel.postIntent(SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
         }
     }
 
-    val toast = rememberToast()
-
     LaunchedEffect(Unit) {
-        signUpViewModel.sideEffectFlow.collect{
-            when(it){
-                is SignUpSideEffect.SignUpVerifySchoolSideEffect.SuccessVerifySchoolCode -> {
-                    navController.navigate(DmsRoute.SignUp.SchoolVerificationQuestion)
+        focusRequester.requestFocus()
+        signUpViewModel.sideEffectFlow.collect {
+            when (it) {
+                is SignUpSideEffect.VerifySchoolSideEffect.SuccessVerifySchoolCode -> {
+                    navController.navigate(SignUpNavigation.VerifySchool.EnterSchoolVerificationQuestion)
                 }
 
-                is SignUpSideEffect.SignUpVerifySchoolSideEffect.MismatchVerifySchoolCode -> {
-
-                }
-
-                else -> {
-
-                }
+                else -> {}
             }
         }
     }
@@ -106,34 +92,29 @@ internal fun EnterSchoolVerificationCodeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                DormTheme.colors.surface,
-            )
-            .padding(
-                top = 108.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
+            .background(DormTheme.colors.surface)
+            .dormClickable(rippleEnabled = false) {
                 focusManager.clearFocus()
             },
     ) {
-        AppLogo(
-            darkIcon = isSystemInDarkTheme(),
-        )
-        Space(space = 8.dp)
-        Body2(
-            text = stringResource(id = R.string.SchoolVerificationCode)
-        )
+        Spacer(modifier = Modifier.height(108.dp))
+        Column(
+            modifier = Modifier.padding(start = 16.dp),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            AppLogo(darkIcon = isSystemInDarkTheme())
+            Space(space = 8.dp)
+            Body2(text = stringResource(id = R.string.SchoolVerificationCode))
+        }
         Space(space = 100.dp)
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BasicTextField(
-                value = schoolVerificationCode,
+                value = state.schoolCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(
@@ -153,9 +134,8 @@ internal fun EnterSchoolVerificationCodeScreen(
                                     .size(16.dp)
                                     .clip(shape = CircleShape)
                                     .background(
-                                        color = if (schoolVerificationCode.length - 1 >= index) {
-                                            DormColor.Gray600
-                                        } else DormColor.Gray400,
+                                        color = if (state.schoolCode.length - 1 >= index) DormTheme.colors.primaryVariant
+                                        else DormTheme.colors.secondaryVariant,
                                     ),
                             )
                         }
@@ -164,40 +144,21 @@ internal fun EnterSchoolVerificationCodeScreen(
             )
             Space(space = 40.dp)
             Body3(
-                text = if (isError) {
-                    stringResource(id = R.string.NoSameCode)
-                } else stringResource(id = R.string.EmailEightCode),
-                color = if (isError) {
-                    DormColor.Error
-                } else DormColor.Gray500,
+                text = stringResource(
+                    id = if (schoolCodeMismatchError) R.string.sign_up_confirm_school_error_incorrect_school_verification_code
+                    else R.string.sign_up_confirm_school_please_enter_school_verification_code,
+                ),
+                color = if (schoolCodeMismatchError) DormColor.Error
+                else DormColor.Gray500,
             )
             RatioSpace(height = 0.767f)
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = (schoolVerificationCode.length == 8 && !isError),
+                enabled = state.schoolCodeConfirmButtonEnabled,
             ) {
-                signUpViewModel.postIntent(intent = SignUpIntent.VerifySchool)
+                signUpViewModel.postIntent(intent = SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
             }
         }
     }
 }
-
-private fun getStringFromEvent(
-    context: Context,
-    event: ExamineSchoolCodeEvent,
-): String =
-    when (event) {
-        is ExamineSchoolCodeEvent.BadRequestException -> {
-            context.getString(R.string.BadRequest)
-        }
-        is ExamineSchoolCodeEvent.TooManyRequestException -> {
-            context.getString(R.string.TooManyRequest)
-        }
-        is ExamineSchoolCodeEvent.ServerException -> {
-            context.getString(R.string.ServerException)
-        }
-        else -> {
-            context.getString(R.string.UnKnownException)
-        }
-    }

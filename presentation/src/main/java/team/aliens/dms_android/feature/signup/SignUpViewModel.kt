@@ -1,12 +1,17 @@
 package team.aliens.dms_android.feature.signup
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms_android.base.BaseMviViewModel
 import team.aliens.dms_android.base.MviIntent
-import team.aliens.dms_android.base.MviSingleEvent
-import team.aliens.dms_android.base.MviViewState
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
+import team.aliens.domain.exception.RemoteException
+import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.file.UploadFileUseCase
@@ -20,6 +25,7 @@ import team.aliens.domain.usecase.student.SignUpUseCase
 
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
+    // TODO usecase 설명 주석 없애기
     // 학교 인증 코드
     private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
 
@@ -51,8 +57,16 @@ internal class SignUpViewModel @Inject constructor(
         intent: SignUpIntent,
     ) {
         when (intent) {
-            is SignUpIntent.SetSchoolVerificationCode -> {
-                setSchoolVerificationCode(schoolCode = intent.schoolCode)
+            is SignUpIntent.VerifySchool -> {
+                when (intent) {
+                    is SignUpIntent.VerifySchool.SetSchoolVerificationCode -> {
+                        setSchoolCode(schoolCode = intent.schoolCode)
+                    }
+
+                    is SignUpIntent.VerifySchool.ExamineSchoolVerificationCode -> {
+                        examineSchoolVerificationCode()
+                    }
+                }
             }
 
             is SignUpIntent.SetSchoolVerificationAnswer -> {
@@ -93,23 +107,59 @@ internal class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun examineSchoolVerificationCode() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                examineSchoolVerificationCodeUseCase(
+                    examineSchoolVerificationCodeInput = ExamineSchoolVerificationCodeInput(
+                        schoolCode = stateFlow.value.schoolCode
+                    )
+                )
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.VerifySchoolSideEffect.SuccessVerifySchoolCode)
+            }.onFailure {
+                setSchoolCodeMismatchError(it is RemoteException.Unauthorized)
+            }
+        }
+    }
 
-
-    private fun setSchoolVerificationCode(
+    private fun setSchoolCode(
         schoolCode: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
-                schoolVerificationCode = schoolCode,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolCode = schoolCode,
+            )
+        )
+        if(schoolCode.length == 8) examineSchoolVerificationCode()
+        setSchoolCodeConfirmButtonEnabled(stateFlow.value.schoolCode.length == 8 && !stateFlow.value.schoolCodeMismatchError)
+    }
+
+    private fun setSchoolCodeMismatchError(
+        schoolCodeMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolCodeMismatchError = schoolCodeMismatchError,
+            )
+        )
+    }
+
+    private fun setSchoolCodeConfirmButtonEnabled(
+        schoolCodeConfirmButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolCodeConfirmButtonEnabled = schoolCodeConfirmButtonEnabled,
             )
         )
     }
 
     private fun setSchoolVerificationAnswer(
         schoolVerificationAnswer: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 schoolVerificationAnswer = schoolVerificationAnswer,
             )
         )
@@ -117,9 +167,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setEmail(
         email: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 email = email,
             )
         )
@@ -127,9 +177,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setEmailVerificationCode(
         emailVerificationCode: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 emailVerificationCode = emailVerificationCode,
             )
         )
@@ -137,9 +187,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setGrade(
         grade: Int,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 grade = grade,
             )
         )
@@ -147,9 +197,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setClassRoom(
         classRoom: Int,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 classRoom = classRoom,
             )
         )
@@ -157,9 +207,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setNumber(
         number: Int,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 number = number,
             )
         )
@@ -167,9 +217,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setAccountId(
         accountId: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 accountId = accountId,
             )
         )
@@ -177,9 +227,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setPassword(
         password: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 password = password,
             )
         )
@@ -187,9 +237,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setPasswordRepeat(
         passwordRepeat: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 passwordRepeat = passwordRepeat,
             )
         )
@@ -197,9 +247,9 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setProfileImageUrl(
         profileImageUrl: String,
-    ){
-        setState(
-            newState = uiState.value.copy(
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
                 profileImageUrl = profileImageUrl,
             )
         )
@@ -207,7 +257,12 @@ internal class SignUpViewModel @Inject constructor(
 }
 
 sealed class SignUpIntent : MviIntent {
-    class SetSchoolVerificationCode(val schoolCode: String) : SignUpIntent()
+
+    sealed class VerifySchool : SignUpIntent() {
+        class SetSchoolVerificationCode(val schoolCode: String) : VerifySchool()
+        object ExamineSchoolVerificationCode : VerifySchool()
+    }
+
     class SetSchoolVerificationAnswer(val schoolVerificationAnswer: String) : SignUpIntent()
     class SetEmail(val email: String) : SignUpIntent()
     class SetEmailVerificationCode(val emailVerificationCode: String) : SignUpIntent()
@@ -220,9 +275,13 @@ sealed class SignUpIntent : MviIntent {
 }
 
 data class SignUpState(
-    val schoolVerificationCode: String,
-    val question: String,
+    val schoolCode: String,
+    val schoolCodeMismatchError: Boolean,
+    val schoolCodeConfirmButtonEnabled: Boolean,
+
+    val schoolVerificationQuestion: String,
     val schoolVerificationAnswer: String,
+    val schoolVerificationAnswerMismatch: Boolean,
     val email: String,
     val emailVerificationCode: String,
     val grade: Int,
@@ -233,12 +292,14 @@ data class SignUpState(
     val passwordRepeat: String,
     val profileImageUrl: String,
     val schoolId: UUID?,
-) : MviViewState {
+) : MviState {
     companion object {
         fun initial(): SignUpState {
             return SignUpState(
-                schoolVerificationCode = "",
-                question = "",
+                schoolCode = "",
+                schoolCodeMismatchError = false,
+                schoolCodeConfirmButtonEnabled = false,
+                schoolVerificationQuestion = "",
                 schoolVerificationAnswer = "",
                 email = "",
                 emailVerificationCode = "",
@@ -250,13 +311,18 @@ data class SignUpState(
                 passwordRepeat = "",
                 profileImageUrl = "",
                 schoolId = null,
+                schoolVerificationAnswerMismatch = false,
             )
         }
     }
 }
 
-sealed class SignUpSideEffect : MviSingleEvent {
-    object MoveToNextScreen : SignUpSideEffect()
+sealed class SignUpSideEffect : MviSideEffect {
+
+    sealed class VerifySchoolSideEffect : SignUpSideEffect() {
+        object SuccessVerifySchoolCode : VerifySchoolSideEffect()
+    }
+
     object NotCorrectSchoolVerificationCode : SignUpSideEffect()
     object NotCorrectSchoolVerificationAnswer : SignUpSideEffect()
     object InvalidFormatEmail : SignUpSideEffect()
@@ -264,7 +330,7 @@ sealed class SignUpSideEffect : MviSingleEvent {
     object NotExistsStudentNumber : SignUpSideEffect()
     object DuplicatedStudent : SignUpSideEffect()
     object MisMatchPasswordRepeat : SignUpSideEffect()
-    object SuccessSetProfileImage: SignUpSideEffect()
-    object SuccessSignUp: SignUpSideEffect()
+    object SuccessSetProfileImage : SignUpSideEffect()
+    object SuccessSignUp : SignUpSideEffect()
 }
 
