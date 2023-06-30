@@ -6,11 +6,11 @@ import team.aliens.domain.model._common.PointType
 /**
  * A response returned when fetching points
  * @property totalPoint total points, summary of bonus and minus points
- * @property pointHistories list of points
+ * @property points list of points
  */
 data class FetchPointsOutput(
     val totalPoint: Int,
-    val pointHistories: List<PointInformation>,
+    val points: List<PointInformation>,
 ) {
 
     /**
