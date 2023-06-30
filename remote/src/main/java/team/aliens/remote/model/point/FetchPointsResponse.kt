@@ -21,7 +21,7 @@ data class FetchPointsResponse(
 internal fun FetchPointsResponse.toDomain(): FetchPointsOutput {
     return FetchPointsOutput(
         totalPoint = this.totalPoint,
-        pointHistories = this.pointResponses.toDomain(),
+        points = this.pointResponses.toDomain(),
     )
 }
 
