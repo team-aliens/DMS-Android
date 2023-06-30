@@ -61,7 +61,7 @@ internal fun PointHistoryScreen(
         PointFilter(
             selectedType = uiState.selectedType,
             onFilterChange = { pointType: PointType ->
-                pointHistoryViewModel.postIntent(PointHistoryIntent.FetchPoints(pointType))
+                pointHistoryViewModel.postIntent(PointHistoryIntent.UpdateFilter(pointType))
             },
         )
         Spacer(Modifier.height(36.dp))
@@ -71,12 +71,10 @@ internal fun PointHistoryScreen(
             ),
             text = String.format(
                 stringResource(R.string.my_page_points_of),
-                uiState.totalPoint,
+                uiState.totalPoints,
             ),
         )
-        Points(
-            points = uiState.points,
-        )
+        Points(points = uiState.points)
     }
 }
 
@@ -168,15 +166,11 @@ private fun ColumnScope.Points(
                 ),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                item {
-                    Spacer(Modifier.height(54.dp))
-                }
+                item { Spacer(Modifier.height(54.dp)) }
                 items(points) { point ->
                     PointInformation(point)
                 }
-                item {
-                    Spacer(Modifier.height(54.dp))
-                }
+                item { Spacer(Modifier.height(54.dp)) }
             }
 
             Spacer(
