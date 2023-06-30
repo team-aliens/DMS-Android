@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.home.mypage.pointhistory
+package team.aliens.dms_android.feature.main.pointhistory
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
