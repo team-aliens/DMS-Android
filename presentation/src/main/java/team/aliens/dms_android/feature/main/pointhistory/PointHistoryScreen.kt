@@ -222,7 +222,9 @@ private fun PointInformation(
                 )
             }
 
-            else -> throw IllegalStateException()
+            else -> {
+                // explicit blank
+            }
         }
     }
 }
