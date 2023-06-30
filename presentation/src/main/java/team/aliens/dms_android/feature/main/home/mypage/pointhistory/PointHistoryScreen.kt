@@ -42,6 +42,7 @@ internal fun PointHistoryScreen(
     pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
 ) {
     val uiState by pointHistoryViewModel.stateFlow.collectAsStateWithLifecycle()
+    val selectedType = uiState.selectedType
 
     Column(
         modifier = Modifier
@@ -54,7 +55,7 @@ internal fun PointHistoryScreen(
         )
         Spacer(Modifier.height(18.dp))
         PointFilter(
-            selectedType = uiState.selectedType,
+            selectedType = selectedType,
             onFilterChange = { pointType: PointType ->
                 pointHistoryViewModel.postIntent(PointHistoryIntent.UpdateFilter(pointType))
             },
@@ -64,12 +65,20 @@ internal fun PointHistoryScreen(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = String.format(
                 stringResource(R.string.my_page_points_of),
-                uiState.totalPoints,
+                when (selectedType) {
+                    PointType.ALL -> uiState.totalAllPoints
+                    PointType.BONUS -> uiState.totalBonusPoints
+                    PointType.MINUS -> uiState.totalMinusPoints
+                },
             ),
         )
         Points(
             modifier = Modifier.weight(1f),
-            points = uiState.points,
+            points = when (selectedType) {
+                PointType.ALL -> uiState.allPoints
+                PointType.BONUS -> uiState.bonusPoints
+                PointType.MINUS -> uiState.minusPoints
+            },
         )
     }
 }
