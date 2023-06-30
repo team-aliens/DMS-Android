@@ -12,6 +12,8 @@ import team.aliens.dms_android.base.MviSideEffect
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
+import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.file.UploadFileUseCase
@@ -25,11 +27,7 @@ import team.aliens.domain.usecase.student.SignUpUseCase
 
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
-    // TODO usecase 설명 주석 없애기
-    // 학교 인증 코드
     private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
-
-    // 학교 질문 & 답변
     private val fetchSchoolVerificationQuestionUseCase: FetchSchoolVerificationQuestionUseCase,
     private val examineSchoolVerificationQuestionUseCase: ExamineSchoolVerificationQuestionUseCase,
 
@@ -69,8 +67,20 @@ internal class SignUpViewModel @Inject constructor(
                 }
             }
 
-            is SignUpIntent.SetSchoolVerificationAnswer -> {
-                setSchoolVerificationAnswer(schoolVerificationAnswer = intent.schoolVerificationAnswer)
+            is SignUpIntent.SchoolQuestion -> {
+                when (intent) {
+                    is SignUpIntent.SchoolQuestion.FetchSchoolQuestion -> {
+                        fetchSchoolQuestion()
+                    }
+
+                    is SignUpIntent.SchoolQuestion.SetSchoolAnswer -> {
+                        setSchoolAnswer(schoolAnswer = intent.schoolAnswer)
+                    }
+
+                    is SignUpIntent.SchoolQuestion.ExamineSchoolAnswer -> {
+                        examineSchoolAnswer()
+                    }
+                }
             }
 
             is SignUpIntent.SetEmail -> {
@@ -104,6 +114,8 @@ internal class SignUpViewModel @Inject constructor(
             is SignUpIntent.SetPasswordRepeat -> {
                 setPasswordRepeat(passwordRepeat = intent.passwordRepeat)
             }
+
+            else -> {}
         }
     }
 
@@ -116,9 +128,43 @@ internal class SignUpViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
-                postSideEffect(SignUpSideEffect.VerifySchoolSideEffect.SuccessVerifySchoolCode)
+                postSideEffect(SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode)
+                setSchoolId(schoolId = it.schoolId)
             }.onFailure {
                 setSchoolCodeMismatchError(it is RemoteException.Unauthorized)
+            }
+        }
+    }
+
+    private fun fetchSchoolQuestion() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                fetchSchoolVerificationQuestionUseCase(
+                    fetchSchoolVerificationQuestionInput = FetchSchoolVerificationQuestionInput(
+                        schoolId = stateFlow.value.schoolId!!,
+                    )
+                )
+            }.onSuccess {
+                setSchoolQuestion(schoolQuestion = it.question)
+            }.onFailure {
+
+            }
+        }
+    }
+
+    private fun examineSchoolAnswer() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                examineSchoolVerificationQuestionUseCase(
+                    examineSchoolVerificationQuestionInput = ExamineSchoolVerificationQuestionInput(
+                        schoolId = stateFlow.value.schoolId!!,
+                        answer = stateFlow.value.schoolAnswer,
+                    )
+                )
+            }.onSuccess {
+                postSideEffect(sideEffect = SignUpSideEffect.SchoolQuestion.SuccessVerifySchoolAnswer)
+            }.onFailure {
+                setSchoolAnswerMismatchError(it is RemoteException.Unauthorized)
             }
         }
     }
@@ -131,8 +177,8 @@ internal class SignUpViewModel @Inject constructor(
                 schoolCode = schoolCode,
             )
         )
-        if(schoolCode.length == 8) examineSchoolVerificationCode()
-        setSchoolCodeConfirmButtonEnabled(stateFlow.value.schoolCode.length == 8 && !stateFlow.value.schoolCodeMismatchError)
+        if (schoolCode.length == 8) examineSchoolVerificationCode()
+        setSchoolCodeConfirmButtonEnabled(schoolCode.isNotEmpty() && !stateFlow.value.schoolCodeMismatchError)
     }
 
     private fun setSchoolCodeMismatchError(
@@ -155,12 +201,43 @@ internal class SignUpViewModel @Inject constructor(
         )
     }
 
-    private fun setSchoolVerificationAnswer(
-        schoolVerificationAnswer: String,
+    private fun setSchoolQuestion(
+        schoolQuestion: String,
     ) {
         reduce(
             newState = stateFlow.value.copy(
-                schoolVerificationAnswer = schoolVerificationAnswer,
+                schoolQuestion = schoolQuestion,
+            )
+        )
+    }
+
+    private fun setSchoolAnswer(
+        schoolAnswer: String,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolAnswer = schoolAnswer,
+            )
+        )
+        setSchoolAnswerConfirmButtonEnabled(schoolAnswer.isNotEmpty() && !stateFlow.value.schoolAnswerMismatchError)
+    }
+
+    private fun setSchoolAnswerMismatchError(
+        schoolAnswerMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolAnswerMismatchError = schoolAnswerMismatchError
+            )
+        )
+    }
+
+    private fun setSchoolAnswerConfirmButtonEnabled(
+        schoolAnswerConfirmButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolAnswerConfirmButtonEnabled = schoolAnswerConfirmButtonEnabled,
             )
         )
     }
@@ -254,6 +331,16 @@ internal class SignUpViewModel @Inject constructor(
             )
         )
     }
+
+    private fun setSchoolId(
+        schoolId: UUID,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolId = schoolId,
+            )
+        )
+    }
 }
 
 sealed class SignUpIntent : MviIntent {
@@ -263,7 +350,13 @@ sealed class SignUpIntent : MviIntent {
         object ExamineSchoolVerificationCode : VerifySchool()
     }
 
-    class SetSchoolVerificationAnswer(val schoolVerificationAnswer: String) : SignUpIntent()
+    sealed class SchoolQuestion : SignUpIntent() {
+        object FetchSchoolQuestion : SchoolQuestion()
+        class SetSchoolAnswer(val schoolAnswer: String) : SchoolQuestion()
+        object ExamineSchoolAnswer : SchoolQuestion()
+    }
+
+    class SetSchoolAnswer(val schoolAnswer: String) : SignUpIntent()
     class SetEmail(val email: String) : SignUpIntent()
     class SetEmailVerificationCode(val emailVerificationCode: String) : SignUpIntent()
     class SetGrade(val grade: Int) : SignUpIntent()
@@ -279,9 +372,11 @@ data class SignUpState(
     val schoolCodeMismatchError: Boolean,
     val schoolCodeConfirmButtonEnabled: Boolean,
 
-    val schoolVerificationQuestion: String,
-    val schoolVerificationAnswer: String,
-    val schoolVerificationAnswerMismatch: Boolean,
+    val schoolQuestion: String,
+    val schoolAnswer: String,
+    val schoolAnswerMismatchError: Boolean,
+    val schoolAnswerConfirmButtonEnabled: Boolean,
+
     val email: String,
     val emailVerificationCode: String,
     val grade: Int,
@@ -299,8 +394,12 @@ data class SignUpState(
                 schoolCode = "",
                 schoolCodeMismatchError = false,
                 schoolCodeConfirmButtonEnabled = false,
-                schoolVerificationQuestion = "",
-                schoolVerificationAnswer = "",
+
+                schoolQuestion = "",
+                schoolAnswer = "",
+                schoolAnswerMismatchError = false,
+                schoolAnswerConfirmButtonEnabled = false,
+
                 email = "",
                 emailVerificationCode = "",
                 grade = 0,
@@ -311,7 +410,6 @@ data class SignUpState(
                 passwordRepeat = "",
                 profileImageUrl = "",
                 schoolId = null,
-                schoolVerificationAnswerMismatch = false,
             )
         }
     }
@@ -319,8 +417,12 @@ data class SignUpState(
 
 sealed class SignUpSideEffect : MviSideEffect {
 
-    sealed class VerifySchoolSideEffect : SignUpSideEffect() {
-        object SuccessVerifySchoolCode : VerifySchoolSideEffect()
+    sealed class VerifySchool : SignUpSideEffect() {
+        object SuccessVerifySchoolCode : VerifySchool()
+    }
+
+    sealed class SchoolQuestion : SignUpSideEffect() {
+        object SuccessVerifySchoolAnswer : SchoolQuestion()
     }
 
     object NotCorrectSchoolVerificationCode : SignUpSideEffect()
