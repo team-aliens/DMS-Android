@@ -34,7 +34,7 @@ import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpSetPasswordScreen(
+fun SetPasswordScreen(
     navController: NavController,
 ) {
 

@@ -42,7 +42,7 @@ import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpSendVerificationEmailScreen(
+fun SendVerificationEmailScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
 ) {

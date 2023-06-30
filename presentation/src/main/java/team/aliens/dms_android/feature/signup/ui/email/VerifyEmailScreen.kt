@@ -56,7 +56,7 @@ import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpEmailVerificationCodeScreen(
+fun VerifyEmailScreen(
     navController: NavController,
     registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
 ) {

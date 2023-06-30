@@ -1,10 +1,6 @@
 package team.aliens.dms_android.feature.signup
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-import team.aliens.dms_android.feature.DmsRoute
+/*import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.ui.email.SignUpEmailVerificationCodeScreen
 import team.aliens.dms_android.feature.signup.ui.email.SignUpSendVerificationEmailScreen
 import team.aliens.dms_android.feature.signup.ui.id.SignUpSetIdScreen
@@ -13,7 +9,20 @@ import team.aliens.dms_android.feature.signup.ui.last.SignUpSetProfileImageScree
 import team.aliens.dms_android.feature.signup.ui.password.SignUpSetPasswordScreen
 import team.aliens.dms_android.feature.signup.ui.school.SignUpSchoolVerificationQuestionScreen
 import team.aliens.dms_android.feature.signup.ui.school.SignUpVerifySchoolScreen
+import androidx.navigation.NavController*/
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import team.aliens.dms_android.feature.signup.ui.email.SendVerificationEmailScreen
+import team.aliens.dms_android.feature.signup.ui.email.VerifyEmailScreen
+import team.aliens.dms_android.feature.signup.ui.id.SetIdScreen
+import team.aliens.dms_android.feature.signup.ui.last.SetProfileImageScreen
+import team.aliens.dms_android.feature.signup.ui.password.SetPasswordScreen
+import team.aliens.dms_android.feature.signup.ui.school.EnterSchoolVerificationCodeScreen
+import team.aliens.dms_android.feature.signup.ui.school.EnterSchoolVerificationQuestionScreen
 
+/*
 fun NavGraphBuilder.signUpNavigation(
     navController: NavController,
 ) {
@@ -69,47 +78,68 @@ fun NavGraphBuilder.signUpNavigation(
             )
         }
     }
-}
-
-/* todo sign up 작업 후 마저 구현하기
+}*/
+// todo sign up 작업 후 마저 구현하기
 internal object SignUpNavigation {
     const val route = "signUp"
 
     const val EnterSchoolVerificationCode = this.route + "/enterSchoolVerificationCode"
     const val EnterSchoolVerificationQuestion = this.route + "/enterSchoolVerificationQuestion"
     const val SetEmail = this.route + "/setEmail"
+    const val VerifyEmail = this.route + "/verifyEmail"
     const val SetId = this.route + "/setId"
     const val SetPassword = this.route + "/setPassword"
     const val SetProfile = this.route + "/setProfile"
     const val Terms = this.route + "/terms"
 }
 
-internal fun NavGraphBuilder.signUpNavigation() {
+internal fun NavGraphBuilder.signUpNavigation(
+    navController: NavController,
+) {
     navigation(
-        startDestination = AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode,
-        route = AuthNavigation.SignUpNavigation.route,
+        startDestination = SignUpNavigation.EnterSchoolVerificationCode,
+        route = SignUpNavigation.route,
     ) {
-        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationCode) {
-
+        composable(SignUpNavigation.EnterSchoolVerificationCode) {
+            EnterSchoolVerificationCodeScreen(
+                navController = navController,
+            )
         }
-        composable(AuthNavigation.SignUpNavigation.EnterSchoolVerificationQuestion) {
-
+        composable(SignUpNavigation.EnterSchoolVerificationQuestion) {
+            EnterSchoolVerificationQuestionScreen(
+                navController = navController,
+            )
         }
-        composable(AuthNavigation.SignUpNavigation.SetEmail) {
-
+        composable(SignUpNavigation.SetEmail) {
+            SendVerificationEmailScreen(
+                navController = navController,
+            )
         }
-        composable(AuthNavigation.SignUpNavigation.SetId) {
-
+        composable(SignUpNavigation.VerifyEmail){
+            VerifyEmailScreen(
+                navController = navController,
+            )
         }
-        composable(AuthNavigation.SignUpNavigation.SetPassword) {
-
+        composable(SignUpNavigation.SetId) {
+            SetIdScreen(
+                navController = navController,
+            )
         }
-        composable(AuthNavigation.SignUpNavigation.SetProfile) {
-
+        composable(SignUpNavigation.SetPassword) {
+            SetPasswordScreen(
+                navController = navController,
+            )
         }
-        composable(AuthNavigation.SignUpNavigation.Terms) {
-
+        composable(SignUpNavigation.SetProfile) {
+            SetProfileImageScreen(
+                navController = navController,
+            )
+        }
+        composable(SignUpNavigation.Terms) {
+            TermsScreen(
+                navController = navController,
+            )
         }
     }
 }
-*/
+

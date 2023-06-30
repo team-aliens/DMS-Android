@@ -12,7 +12,7 @@ const val defaultProfileUrl =
 class SignUpSetProfileImageViewModel: ViewModel()
 
 @Composable
-fun SignUpSetProfileImageScreen(
+fun SetProfileImageScreen(
     navController: NavController,
     uploadProfileImageViewModel: SignUpSetProfileImageViewModel = hiltViewModel(),
 ) {

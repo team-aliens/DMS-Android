@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -46,60 +46,58 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
+import team.aliens.dms_android.feature.signup.SignUpIntent
+import team.aliens.dms_android.feature.signup.SignUpSideEffect
+import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.dms_android.feature.signup.event.school.ExamineSchoolCodeEvent
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpVerifySchoolScreen(
+internal fun EnterSchoolVerificationCodeScreen(
     navController: NavController,
-    examineSchoolCodeViewModel: ExamineSchoolCodeViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
 
-    val context = LocalContext.current
+    val state by signUpViewModel.stateFlow.collectAsState()
+
+    val schoolVerificationCode = state.schoolVerificationCode
 
     val focusManager = LocalFocusManager.current
 
     val focusRequester = remember { FocusRequester() }
 
-    var verificationCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
 
-    val onVerificationCodeChange = { value: String ->
-        if (value.length == 8) {
+    val onVerificationCodeChange = { verificationCode: String ->
+        if (verificationCode.length == 8) {
             focusManager.clearFocus()
-            examineSchoolCodeViewModel.examineSchoolCode(value)
+            signUpViewModel.postIntent(
+                intent = SignUpIntent.VerifySchool.SetSchoolVerificationCode(verificationCode),
+            )
         } else {
             isError = false
         }
-        verificationCode = value.take(8)
     }
 
     val toast = rememberToast()
 
     LaunchedEffect(Unit) {
-        examineSchoolCodeViewModel.examineSchoolCodeEvent.collect {
-            when (it) {
-                is ExamineSchoolCodeEvent.ExamineSchoolCodeSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString("schoolCode", verificationCode)
-                        putString("schoolId", examineSchoolCodeViewModel.schoolId.toString())
-                    }
+        signUpViewModel.sideEffectFlow.collect{
+            when(it){
+                is SignUpSideEffect.SignUpVerifySchoolSideEffect.SuccessVerifySchoolCode -> {
                     navController.navigate(DmsRoute.SignUp.SchoolVerificationQuestion)
                 }
-                is ExamineSchoolCodeEvent.MissMatchSchoolCode -> {
-                    isError = true
+
+                is SignUpSideEffect.SignUpVerifySchoolSideEffect.MismatchVerifySchoolCode -> {
+
                 }
+
                 else -> {
-                    toast(
-                        getStringFromEvent(
-                            context = context,
-                            event = it,
-                        ),
-                    )
+
                 }
             }
         }
@@ -135,7 +133,7 @@ fun SignUpVerifySchoolScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BasicTextField(
-                value = verificationCode,
+                value = schoolVerificationCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(
@@ -155,7 +153,7 @@ fun SignUpVerifySchoolScreen(
                                     .size(16.dp)
                                     .clip(shape = CircleShape)
                                     .background(
-                                        color = if (verificationCode.length - 1 >= index) {
+                                        color = if (schoolVerificationCode.length - 1 >= index) {
                                             DormColor.Gray600
                                         } else DormColor.Gray400,
                                     ),
@@ -177,9 +175,9 @@ fun SignUpVerifySchoolScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = (verificationCode.length == 8 && !isError),
+                enabled = (schoolVerificationCode.length == 8 && !isError),
             ) {
-                examineSchoolCodeViewModel.examineSchoolCode(verificationCode)
+                signUpViewModel.postIntent(intent = SignUpIntent.VerifySchool)
             }
         }
     }

@@ -49,7 +49,7 @@ import java.util.UUID
 const val idFormatPattern = "^[a-zA-Z]*$"
 
 @Composable
-fun SignUpSetIdScreen(
+fun SetIdScreen(
     navController: NavController,
     setIdViewModel: SetIdViewModel = hiltViewModel(),
 ) {

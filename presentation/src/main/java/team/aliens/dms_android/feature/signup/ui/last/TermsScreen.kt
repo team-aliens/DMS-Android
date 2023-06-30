@@ -45,7 +45,7 @@ import team.aliens.domain.model.student.SignUpInput
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpPolicyScreen(
+fun TermsScreen(
     navController: NavController,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {

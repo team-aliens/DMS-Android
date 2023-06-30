@@ -45,7 +45,7 @@ import team.aliens.dms_android.feature.signup.event.school.NotFoundCompareSchool
 import team.aliens.presentation.R
 
 @Composable
-fun SignUpSchoolVerificationQuestionScreen(
+fun EnterSchoolVerificationQuestionScreen(
     navController: NavController,
     confirmSchoolViewModel: ConfirmSchoolViewModel = hiltViewModel(),
 ) {
