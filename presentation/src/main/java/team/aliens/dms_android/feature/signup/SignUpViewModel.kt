@@ -1,8 +1,10 @@
 package team.aliens.dms_android.feature.signup
 
+import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
+import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,9 +13,12 @@ import team.aliens.dms_android.base.MviIntent
 import team.aliens.dms_android.base.MviSideEffect
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.exception.RemoteException
+import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
+import team.aliens.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.file.UploadFileUseCase
@@ -83,8 +88,20 @@ internal class SignUpViewModel @Inject constructor(
                 }
             }
 
-            is SignUpIntent.SetEmail -> {
-                setEmail(email = intent.email)
+            is SignUpIntent.SendEmail -> {
+                when(intent){
+                    is SignUpIntent.SendEmail.SetEmail -> {
+                        setEmail(email = intent.email)
+                    }
+
+                    is SignUpIntent.SendEmail.CheckEmailDuplication -> {
+                        checkEmailDuplication()
+                    }
+
+                    is SignUpIntent.SendEmail.SendEmailVerificationCode -> {
+                        sendEmailVerificationCode()
+                    }
+                }
             }
 
             is SignUpIntent.SetEmailVerificationCode -> {
@@ -114,8 +131,6 @@ internal class SignUpViewModel @Inject constructor(
             is SignUpIntent.SetPasswordRepeat -> {
                 setPasswordRepeat(passwordRepeat = intent.passwordRepeat)
             }
-
-            else -> {}
         }
     }
 
@@ -165,6 +180,39 @@ internal class SignUpViewModel @Inject constructor(
                 postSideEffect(sideEffect = SignUpSideEffect.SchoolQuestion.SuccessVerifySchoolAnswer)
             }.onFailure {
                 setSchoolAnswerMismatchError(it is RemoteException.Unauthorized)
+            }
+        }
+    }
+
+    private fun checkEmailDuplication(){
+        viewModelScope.launch(Dispatchers.IO){
+            kotlin.runCatching{
+                checkEmailDuplicationUseCase(
+                    checkEmailDuplicationInput = CheckEmailDuplicationInput(stateFlow.value.email)
+                )
+            }.onSuccess {
+                postSideEffect(sideEffect = SignUpSideEffect.SendEmail.AvailableEmail)
+            }.onFailure {
+                if(it is RemoteException.Conflict){
+                    postSideEffect(sideEffect = SignUpSideEffect.SendEmail.DuplicatedEmail)
+                }
+            }
+        }
+    }
+
+    private fun sendEmailVerificationCode(){
+        viewModelScope.launch(Dispatchers.IO){
+            kotlin.runCatching{
+                sendEmailVerificationCodeUseCase(
+                    sendEmailVerificationCodeInput = SendEmailVerificationCodeInput(
+                        email = stateFlow.value.email,
+                        type = EmailVerificationType.SIGNUP,
+                    )
+                )
+            }.onSuccess {
+                postSideEffect(sideEffect = SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode)
+            }.onFailure {
+
             }
         }
     }
@@ -248,6 +296,28 @@ internal class SignUpViewModel @Inject constructor(
         reduce(
             newState = stateFlow.value.copy(
                 email = email,
+            )
+        )
+        setEmailFormatError(!Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), email))
+        setSendEmailButtonEnabled(email.isNotEmpty() && !stateFlow.value.emailFormatError)
+    }
+
+    private fun setEmailFormatError(
+        emailFormatError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                emailFormatError = emailFormatError,
+            )
+        )
+    }
+
+    private fun setSendEmailButtonEnabled(
+        sendEmailButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                sendEmailButtonEnabled = sendEmailButtonEnabled,
             )
         )
     }
@@ -356,8 +426,12 @@ sealed class SignUpIntent : MviIntent {
         object ExamineSchoolAnswer : SchoolQuestion()
     }
 
-    class SetSchoolAnswer(val schoolAnswer: String) : SignUpIntent()
-    class SetEmail(val email: String) : SignUpIntent()
+    sealed class SendEmail : SignUpIntent() {
+        class SetEmail(val email: String) : SendEmail()
+        object CheckEmailDuplication : SendEmail()
+        object SendEmailVerificationCode : SendEmail()
+    }
+
     class SetEmailVerificationCode(val emailVerificationCode: String) : SignUpIntent()
     class SetGrade(val grade: Int) : SignUpIntent()
     class SetClassRoom(val classRoom: Int) : SignUpIntent()
@@ -378,6 +452,9 @@ data class SignUpState(
     val schoolAnswerConfirmButtonEnabled: Boolean,
 
     val email: String,
+    val emailFormatError: Boolean,
+    val sendEmailButtonEnabled: Boolean,
+
     val emailVerificationCode: String,
     val grade: Int,
     val classRoom: Int,
@@ -401,6 +478,9 @@ data class SignUpState(
                 schoolAnswerConfirmButtonEnabled = false,
 
                 email = "",
+                emailFormatError = false,
+                sendEmailButtonEnabled = false,
+
                 emailVerificationCode = "",
                 grade = 0,
                 classRoom = 0,
@@ -425,9 +505,12 @@ sealed class SignUpSideEffect : MviSideEffect {
         object SuccessVerifySchoolAnswer : SchoolQuestion()
     }
 
-    object NotCorrectSchoolVerificationCode : SignUpSideEffect()
-    object NotCorrectSchoolVerificationAnswer : SignUpSideEffect()
-    object InvalidFormatEmail : SignUpSideEffect()
+    sealed class SendEmail : SignUpSideEffect() {
+        object AvailableEmail : SendEmail()
+        object DuplicatedEmail: SendEmail()
+        object SuccessSendEmailVerificationCode : SendEmail()
+    }
+
     object NotCorrectEmailVerificationCode : SignUpSideEffect()
     object NotExistsStudentNumber : SignUpSideEffect()
     object DuplicatedStudent : SignUpSideEffect()

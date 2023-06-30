@@ -1,7 +1,5 @@
 package team.aliens.dms_android.feature.signup.ui.email
 
-import android.content.Context
-import android.util.Patterns
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,13 +15,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -33,41 +30,36 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
-import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.feature.signup.SignUpIntent
+import team.aliens.dms_android.feature.signup.SignUpNavigation
+import team.aliens.dms_android.feature.signup.SignUpSideEffect
+import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
 
 @Composable
-fun SendVerificationEmailScreen(
+internal fun SendVerificationEmailScreen(
     navController: NavController,
-    registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel,
 ) {
+
+    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
-    val context = LocalContext.current
+    var showQuitSignUpDialog by remember { mutableStateOf(false) }
 
-    var email by remember { mutableStateOf("") }
-
-    val toast = rememberToast()
-
-    var isError by remember { mutableStateOf(false) }
-    var errorDescription by remember { mutableStateOf("") }
-
-    var isPressedBackButton by remember { mutableStateOf(false) }
-
-    val pattern = Patterns.EMAIL_ADDRESS
-
-    val onEmailChange = { value: String ->
-        if (value.length != email.length) isError = false
-        email = value
+    val onEmailChange = { email: String ->
+        signUpViewModel.postIntent(
+            SignUpIntent.SendEmail.SetEmail(
+                email = email,
+            )
+        )
     }
 
-    if (isPressedBackButton) {
+    if (showQuitSignUpDialog) {
         DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
             DormDoubleButtonDialog(
                 content = stringResource(id = R.string.FinishSignUp),
@@ -80,56 +72,32 @@ fun SendVerificationEmailScreen(
                         }
                     }
                 },
-                onSubBtnClick = { isPressedBackButton = false },
+                onSubBtnClick = { showQuitSignUpDialog = false },
             )
         }
     }
 
 
     BackHandler(enabled = true) {
-        isPressedBackButton = true
+        showQuitSignUpDialog = true
     }
 
     LaunchedEffect(Unit) {
-        registerEmailViewModel.registerEmailEvent.collect {
-            when (it) {
-                is RegisterEmailEvent.AllowEmail -> {
-                    registerEmailViewModel.requestEmailCode(
-                        email,
-                        EmailVerificationType.SIGNUP,
-                    )
+        signUpViewModel.sideEffectFlow.collect{
+            when(it){
+                is SignUpSideEffect.SendEmail.AvailableEmail -> {
+                    signUpViewModel.postIntent(SignUpIntent.SendEmail.SendEmailVerificationCode)
                 }
-                is RegisterEmailEvent.ConflictException -> {
-                    isError = true
-                    errorDescription = context.getString(R.string.ConflictEmail)
+
+                is SignUpSideEffect.SendEmail.DuplicatedEmail -> {
+                    // TODO toast
                 }
-                is RegisterEmailEvent.SendEmailSuccess -> {
-                    navController.currentBackStackEntry?.arguments?.run {
-                        putString(
-                            "schoolCode",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolCode")
-                        )
-                        putString(
-                            "schoolId",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolId")
-                        )
-                        putString(
-                            "schoolAnswer",
-                            navController.previousBackStackEntry?.arguments?.getString("schoolAnswer")
-                        )
-                        putString("email", email)
-                    }
-                    navController.navigate(DmsRoute.SignUp.CheckEmailVerificationCode)
+
+                is SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode -> {
+                    navController.navigate(SignUpNavigation.VerifyEmail.VerifyEmail)
                 }
-                is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.ChangeEmail))
-                }
-                else -> toast(
-                    getStringFromEvent(
-                        context = context,
-                        event = it,
-                    )
-                )
+
+                else -> {}
             }
         }
     }
@@ -159,12 +127,12 @@ fun SendVerificationEmailScreen(
             Body2(text = stringResource(id = R.string.EnterEmailAddress))
             Space(space = 86.dp)
             DormTextField(
-                value = email,
+                value = state.email,
                 onValueChange = onEmailChange,
                 hint = stringResource(id = R.string.EnterEmailAddress),
-                error = isError,
+                error = state.emailFormatError,
                 keyboardType = KeyboardType.Email,
-                errorDescription = errorDescription,
+                errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
                 keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
                 },
@@ -174,33 +142,9 @@ fun SendVerificationEmailScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.SendVerificationCode),
             color = DormButtonColor.Blue,
-            enabled = (email.isNotEmpty() && !isError),
+            enabled = state.sendEmailButtonEnabled,
         ) {
-            if (pattern.matcher(email).find()) {
-                registerEmailViewModel.checkEmailDuplicate(email.trim())
-            } else {
-                isError = true
-                errorDescription = context.getString(R.string.NotValidEmailFormat)
-            }
+            signUpViewModel.postIntent(SignUpIntent.SendEmail.CheckEmailDuplication)
         }
     }
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: RegisterEmailEvent,
-): String = when (event) {
-    is RegisterEmailEvent.BadRequestException -> {
-        context.getString(R.string.BadRequest)
-    }
-    is RegisterEmailEvent.TooManyRequestsException -> {
-        context.getString(R.string.EmailTooManyRequest)
-    }
-    is RegisterEmailEvent.InternalServerException -> {
-        context.getString(R.string.ServerException)
-    }
-    else -> {
-        context.getString(R.string.UnKnownException)
-    }
-
 }
