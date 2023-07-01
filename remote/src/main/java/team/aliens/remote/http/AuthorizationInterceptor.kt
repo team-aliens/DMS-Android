@@ -5,6 +5,7 @@ import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.data.facade.AuthorizationFacade
+import team.aliens.remote.common.HttpPath
 import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.toHttpMethod
 
@@ -43,7 +44,20 @@ class AuthorizationInterceptor @Inject constructor(
         )
 
         return ignoreRequestWrapper.ignoreRequests.any {
-            Pattern.compile(it.path).matcher(request.path).matches() && it.method == request.method
+            with(HttpPath.Path) {
+                Pattern.compile(
+                    it.path.replace(date, dateRegex)
+                        .replace(noticeId, uuidRegex)
+                        .replace(schoolId, uuidRegex)
+                        .replace(seatId, uuidRegex)
+                        .replace(studyRoomId, uuidRegex)
+                        .replace(remainOptionId, uuidRegex)
+                ).matcher(request.path).matches() && it.method == request.method
+            }
         }
     }
 }
+
+private const val uuidRegex = "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})"
+
+private const val dateRegex = "(\\d{4})-(\\d{2})-(\\d{2})"
