@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.signup.ui.email
 
-import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -32,12 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.extension.RatioSpace
@@ -50,18 +48,19 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
+import team.aliens.dms_android.feature.signup.SignUpIntent
+import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.dms_android.util.VerifyTime
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
 @Composable
-fun VerifyEmailScreen(
+internal fun VerifyEmailScreen(
     navController: NavController,
-    registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel,
 ) {
 
-    val context = LocalContext.current
+    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
@@ -71,17 +70,17 @@ fun VerifyEmailScreen(
         focusRequester.requestFocus()
     }
 
-    var verificationCode by remember { mutableStateOf("") }
-
-    val toast = rememberToast()
+    val onVerificationCodeChange = { authCode: String ->
+        signUpViewModel.postIntent(
+            SignUpIntent.VerifyEmail.SetAuthCode(
+                authCode = authCode,
+            )
+        )
+    }
 
     var time by remember { mutableStateOf("3 : 00") }
 
     var isRunningTimer by remember { mutableStateOf(true) }
-
-    var email by remember { mutableStateOf("") }
-
-    var isError by remember { mutableStateOf(false) }
 
     var isPressedBackButton by remember { mutableStateOf(false) }
 
@@ -107,60 +106,6 @@ fun VerifyEmailScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        email = navController.previousBackStackEntry?.arguments?.getString("email").toString()
-        registerEmailViewModel.registerEmailEvent.collect { it ->
-            when (it) {
-                is RegisterEmailEvent.CheckEmailSuccess -> {
-                    with(navController) {
-                        currentBackStackEntry?.arguments?.run {
-                            previousBackStackEntry?.arguments?.let {
-                                putString(
-                                    "schoolCode",
-                                    it.getString("schoolCode"),
-                                )
-                                putString(
-                                    "schoolId",
-                                    it.getString("schoolId"),
-                                )
-                                putString(
-                                    "schoolAnswer",
-                                    it.getString("schoolAnswer"),
-                                )
-                                putString(
-                                    "email",
-                                    email,
-                                )
-                                putString(
-                                    "authCode",
-                                    verificationCode,
-                                )
-                            }
-                        }
-                        navigate(DmsRoute.SignUp.SetId)
-                    }
-                }
-                is RegisterEmailEvent.SendEmailSuccess -> {
-                    toast(context.getString(R.string.ResendEmail))
-                }
-
-                is RegisterEmailEvent.CheckEmailUnauthorized -> {
-                    isError = true
-                }
-                is RegisterEmailEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.ChangeEmail))
-                    navController.popBackStack()
-                }
-                else -> toast(
-                    getStringFromEvent(
-                        context = context,
-                        event = it,
-                    ),
-                )
-            }
-        }
-    }
-
     // FixMe too dirty
     LaunchedEffect(isRunningTimer) {
         run loop@{
@@ -178,27 +123,7 @@ fun VerifyEmailScreen(
                 seconds = (totalSecond % VerifyTime.DIVISION_TIME).toString()
                 if (seconds.toInt() < VerifyTime.REMAIN_TIME) seconds = seconds.padStart(2, '0')
                 time = "$minutes : $seconds"
-                if (totalSecond == 0) {
-                    toast(context.getString(R.string.AuthenticationTimeout))
-                }
             }
-        }
-    }
-
-    val onVerificationCodeChange = { value: String ->
-        if (value.length != verificationCode.length) isError = false
-        if (value.length <= 6) {
-            verificationCode = value
-            if (value.length == 6) {
-                focusManager.clearFocus()
-                registerEmailViewModel.checkEmailCode(
-                    email = email,
-                    authCode = value,
-                    type = EmailVerificationType.SIGNUP,
-                )
-            }
-        } else {
-            verificationCode = value.take(6)
         }
     }
 
@@ -234,7 +159,7 @@ fun VerifyEmailScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BasicTextField(
-                value = verificationCode,
+                value = state.authCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(
@@ -249,9 +174,8 @@ fun VerifyEmailScreen(
                                     .size(16.dp)
                                     .clip(shape = CircleShape)
                                     .background(
-                                        color = if (verificationCode.length - 1 >= index) {
-                                            DormColor.Gray600
-                                        } else DormColor.Gray400,
+                                        color = if (state.authCode.length - 1 >= index) DormTheme.colors.primaryVariant
+                                        else DormTheme.colors.secondaryVariant,
                                     ),
                             )
                         }
@@ -260,10 +184,12 @@ fun VerifyEmailScreen(
             )
             Space(space = 40.dp)
             Body3(
-                text = if (isError) stringResource(id = R.string.NoSameCode)
-                else stringResource(id = R.string.EmailSixCode),
-                color = if (isError) DormColor.Error
-                else DormColor.Gray500,
+                text = stringResource(
+                    id = if (state.authCodeMismatchError) R.string.sign_up_email_error_verification_code_incorrect
+                    else R.string.sign_up_email_please_enter_verification_code,
+                ),
+                color = if (state.authCodeMismatchError) DormTheme.colors.error
+                else DormTheme.colors.primaryVariant,
             )
             Space(space = 10.dp)
             Body3(
@@ -276,10 +202,7 @@ fun VerifyEmailScreen(
                     rippleEnabled = false,
                 ) {
                     isRunningTimer = false
-                    registerEmailViewModel.requestEmailCode(
-                        email,
-                        EmailVerificationType.SIGNUP,
-                    )
+                    signUpViewModel.postIntent(SignUpIntent.SendEmail.SendEmailVerificationCode)
                 },
                 text = stringResource(id = R.string.ResendVerificationCode),
             )
@@ -287,35 +210,10 @@ fun VerifyEmailScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = verificationCode.isNotEmpty() && isRunningTimer
+                enabled = state.authCodeConfirmButtonEnabled,
             ) {
-                registerEmailViewModel.checkEmailCode(
-                    email = email,
-                    authCode = verificationCode,
-                    type = EmailVerificationType.SIGNUP,
-                )
+                signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
             }
         }
-    }
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: RegisterEmailEvent,
-): String = when (event) {
-    is RegisterEmailEvent.CheckEmailNotFound -> {
-        context.getString(R.string.CertificationInfoNotFound)
-    }
-    is RegisterEmailEvent.BadRequestException -> {
-        context.getString(R.string.NotFound)
-    }
-    is RegisterEmailEvent.ConflictException -> {
-        context.getString(R.string.ConflictEmail)
-    }
-    is RegisterEmailEvent.InternalServerException -> {
-        context.getString(R.string.ServerException)
-    }
-    else -> {
-        context.getString(R.string.UnKnownException)
     }
 }

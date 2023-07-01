@@ -14,6 +14,7 @@ import team.aliens.dms_android.base.MviSideEffect
 import team.aliens.dms_android.base.MviState
 import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
@@ -35,12 +36,8 @@ internal class SignUpViewModel @Inject constructor(
     private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
     private val fetchSchoolVerificationQuestionUseCase: FetchSchoolVerificationQuestionUseCase,
     private val examineSchoolVerificationQuestionUseCase: ExamineSchoolVerificationQuestionUseCase,
-
-    // 이메일 보내기
     private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
     private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
-
-    // 이메일 인증코드 인증
     private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
 
     // 학생 학번 인증 && 아이디 중복 체크
@@ -104,8 +101,20 @@ internal class SignUpViewModel @Inject constructor(
                 }
             }
 
+            is SignUpIntent.VerifyEmail -> {
+                when(intent){
+                    is SignUpIntent.VerifyEmail.SetAuthCode -> {
+                        setAuthCode(authCode = intent.authCode)
+                    }
+
+                    is SignUpIntent.VerifyEmail.CheckEmailVerificationCode -> {
+                        checkEmailVerificationCode()
+                    }
+                }
+            }
+
             is SignUpIntent.SetEmailVerificationCode -> {
-                setEmailVerificationCode(emailVerificationCode = intent.emailVerificationCode)
+                setAuthCode(authCode = intent.emailVerificationCode)
             }
 
             is SignUpIntent.SetGrade -> {
@@ -217,6 +226,24 @@ internal class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun checkEmailVerificationCode(){
+        viewModelScope.launch(Dispatchers.IO){
+            kotlin.runCatching{
+                checkEmailVerificationCodeUseCase(
+                    checkEmailVerificationCodeInput = CheckEmailVerificationCodeInput(
+                        email = stateFlow.value.email,
+                        authCode = stateFlow.value.authCode,
+                        type = EmailVerificationType.SIGNUP,
+                    )
+                )
+            }.onSuccess {
+                postSideEffect(sideEffect = SignUpSideEffect.VerifyEmail.SuccessVerifyEmail)
+            }.onFailure {
+                setAuthCodeMismatchError(it is RemoteException.Unauthorized)
+            }
+        }
+    }
+
     private fun setSchoolCode(
         schoolCode: String,
     ) {
@@ -322,12 +349,33 @@ internal class SignUpViewModel @Inject constructor(
         )
     }
 
-    private fun setEmailVerificationCode(
-        emailVerificationCode: String,
+    private fun setAuthCode(
+        authCode: String,
     ) {
         reduce(
             newState = stateFlow.value.copy(
-                emailVerificationCode = emailVerificationCode,
+                authCode = authCode,
+            )
+        )
+        setAuthCodeConfirmButtonEnabled(authCode.isNotEmpty() && !stateFlow.value.authCodeMismatchError)
+    }
+
+    private fun setAuthCodeMismatchError(
+        authCodeMismatchError: Boolean,
+    ){
+        reduce(
+            newState = stateFlow.value.copy(
+                authCodeMismatchError = authCodeMismatchError,
+            )
+        )
+    }
+
+    private fun setAuthCodeConfirmButtonEnabled(
+        authCodeConfirmButtonEnabled: Boolean,
+    ){
+        reduce(
+            newState = stateFlow.value.copy(
+                authCodeConfirmButtonEnabled = authCodeConfirmButtonEnabled,
             )
         )
     }
@@ -432,6 +480,11 @@ sealed class SignUpIntent : MviIntent {
         object SendEmailVerificationCode : SendEmail()
     }
 
+    sealed class VerifyEmail : SignUpIntent(){
+        class SetAuthCode(val authCode: String): VerifyEmail()
+        object CheckEmailVerificationCode: VerifyEmail()
+    }
+
     class SetEmailVerificationCode(val emailVerificationCode: String) : SignUpIntent()
     class SetGrade(val grade: Int) : SignUpIntent()
     class SetClassRoom(val classRoom: Int) : SignUpIntent()
@@ -455,7 +508,10 @@ data class SignUpState(
     val emailFormatError: Boolean,
     val sendEmailButtonEnabled: Boolean,
 
-    val emailVerificationCode: String,
+    val authCode: String,
+    val authCodeMismatchError: Boolean,
+    val authCodeConfirmButtonEnabled: Boolean,
+
     val grade: Int,
     val classRoom: Int,
     val number: Int,
@@ -481,7 +537,10 @@ data class SignUpState(
                 emailFormatError = false,
                 sendEmailButtonEnabled = false,
 
-                emailVerificationCode = "",
+                authCode = "",
+                authCodeMismatchError = false,
+                authCodeConfirmButtonEnabled = false,
+
                 grade = 0,
                 classRoom = 0,
                 number = 0,
@@ -509,6 +568,10 @@ sealed class SignUpSideEffect : MviSideEffect {
         object AvailableEmail : SendEmail()
         object DuplicatedEmail: SendEmail()
         object SuccessSendEmailVerificationCode : SendEmail()
+    }
+
+    sealed class VerifyEmail : SignUpSideEffect(){
+        object SuccessVerifyEmail: VerifyEmail()
     }
 
     object NotCorrectEmailVerificationCode : SignUpSideEffect()
