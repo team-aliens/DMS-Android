@@ -1,5 +1,8 @@
 package team.aliens.remote.common
 
+private const val uuidRegex = "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})"
+private const val dateRegex = "(\\d{4})-(\\d{2})-(\\d{2})"
+
 internal sealed class HttpPath(
     val path: String,
 ) {
@@ -33,7 +36,7 @@ internal sealed class HttpPath(
     ) {
         const val SignUp = "/${Companion.Students}/signup"
         const val ExamineStudentNumber = "/${Companion.Students}/name"
-        const val FindId = "/${Companion.Students}/account-id/{school-id}"
+        const val FindId = "/${Companion.Students}/account-id/$uuidRegex"
         const val ResetPassword = "/${Companion.Students}/password/initialization"
         const val CheckIdDuplication = "/${Companion.Students}/account-id/duplication"
         const val CheckEmailDuplication = "/${Companion.Students}/email/duplication"
@@ -53,8 +56,8 @@ internal sealed class HttpPath(
         path = this.Schools,
     ) {
         const val FetchSchools = "/${Companion.Schools}"
-        const val FetchSchoolVerificationQuestion = "/${Companion.Schools}/question/{school-id}"
-        const val ExamineSchoolVerificationQuestion = "/${Companion.Schools}/answer/{school-id}"
+        const val FetchSchoolVerificationQuestion = "/${Companion.Schools}/question/$uuidRegex"
+        const val ExamineSchoolVerificationQuestion = "/${Companion.Schools}/answer/$uuidRegex"
         const val ExamineSchoolVerificationCode = "/${Companion.Schools}/code"
         const val FetchAvailableFeatures = "/${Companion.Schools}/available-features"
     }
@@ -69,14 +72,14 @@ internal sealed class HttpPath(
     object Meal : HttpPath(
         path = this.Meals,
     ) {
-        const val FetchMeals = "/${Companion.Meals}/{date}"
+        const val FetchMeals = "/${Companion.Meals}/$dateRegex"
     }
 
     object Notice : HttpPath(
         path = this.Notices,
     ) {
         const val FetchWhetherNewNoticesExist = "/${Companion.Notices}/status"
-        const val FetchNoticeDetails = "/${Companion.Notices}/{notice-id}"
+        const val FetchNoticeDetails = "/${Companion.Notices}/$uuidRegex"
         const val FetchNotices = "/${Companion.Notices}"
     }
 
@@ -94,10 +97,10 @@ internal sealed class HttpPath(
         private const val Students = "students"
 
         const val FetchStudyRoomApplicationTime = "/${Companion.StudyRooms}/available-time"
-        const val ApplySeat = "/${Companion.StudyRooms}/$Seats/{seat-id}"
-        const val CancelSeat = "/${Companion.StudyRooms}/$Seats/{seat-id}"
+        const val ApplySeat = "/${Companion.StudyRooms}/$Seats/$uuidRegex"
+        const val CancelSeat = "/${Companion.StudyRooms}/$Seats/$uuidRegex"
         const val FetchStudyRooms = "/${Companion.StudyRooms}/list/$Students"
-        const val FetchStudyRoomDetails = "/${Companion.StudyRooms}/{study-room-id}/$Students"
+        const val FetchStudyRoomDetails = "/${Companion.StudyRooms}/$uuidRegex/$Students"
         const val FetchCurrentAppliedStudyRoom = "/${Companion.StudyRooms}/my"
         const val FetchSeatTypes = "/${Companion.StudyRooms}/types"
         const val FetchAvailableStudyRoomTimes = "/${Companion.StudyRooms}/time-slots"
@@ -106,7 +109,7 @@ internal sealed class HttpPath(
     object Remains : HttpPath(
         path = this.Remains,
     ) {
-        const val UpdateRemainsOption = "/${Companion.Remains}/{remain-option-id}"
+        const val UpdateRemainsOption = "/${Companion.Remains}/$uuidRegex"
         const val FetchCurrentAppliedRemainsOption = "/${Companion.Remains}/my"
         const val FetchRemainsApplicationTime = "/${Companion.Remains}/available-time"
         const val FetchRemainsOptions = "/${Companion.Remains}/options"
