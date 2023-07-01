@@ -1,11 +1,12 @@
 package team.aliens.remote.http
 
+import java.util.regex.Pattern
+import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.remote.common.HttpProperty
 import team.aliens.remote.common.toHttpMethod
-import javax.inject.Inject
 
 // todo 토큰을 캐싱하여 참조하는 로직이 필요
 class AuthorizationInterceptor @Inject constructor(
@@ -41,6 +42,8 @@ class AuthorizationInterceptor @Inject constructor(
             path = this.url.encodedPath,
         )
 
-        return ignoreRequestWrapper.ignoreRequests.any { it == request }
+        return ignoreRequestWrapper.ignoreRequests.any {
+            Pattern.compile(it.path).matcher(request.path).matches() && it.method == request.method
+        }
     }
 }
