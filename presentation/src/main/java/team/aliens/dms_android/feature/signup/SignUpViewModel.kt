@@ -86,7 +86,7 @@ internal class SignUpViewModel @Inject constructor(
             }
 
             is SignUpIntent.SendEmail -> {
-                when(intent){
+                when (intent) {
                     is SignUpIntent.SendEmail.SetEmail -> {
                         setEmail(email = intent.email)
                     }
@@ -98,11 +98,19 @@ internal class SignUpViewModel @Inject constructor(
                     is SignUpIntent.SendEmail.SendEmailVerificationCode -> {
                         sendEmailVerificationCode()
                     }
+
+                    is SignUpIntent.SendEmail.SetEmailExpirationTime -> {
+                        setEmailExpirationTime(emailExpirationTime = intent.emailExpirationTime)
+                    }
+
+                    is SignUpIntent.SendEmail.SetEmailTimerWorked -> {
+                        setEmailTimerWorked(emailTimerWorked = intent.emailTimerWorked)
+                    }
                 }
             }
 
             is SignUpIntent.VerifyEmail -> {
-                when(intent){
+                when (intent) {
                     is SignUpIntent.VerifyEmail.SetAuthCode -> {
                         setAuthCode(authCode = intent.authCode)
                     }
@@ -193,25 +201,25 @@ internal class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun checkEmailDuplication(){
-        viewModelScope.launch(Dispatchers.IO){
-            kotlin.runCatching{
+    private fun checkEmailDuplication() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
                 checkEmailDuplicationUseCase(
                     checkEmailDuplicationInput = CheckEmailDuplicationInput(stateFlow.value.email)
                 )
             }.onSuccess {
                 postSideEffect(sideEffect = SignUpSideEffect.SendEmail.AvailableEmail)
             }.onFailure {
-                if(it is RemoteException.Conflict){
+                if (it is RemoteException.Conflict) {
                     postSideEffect(sideEffect = SignUpSideEffect.SendEmail.DuplicatedEmail)
                 }
             }
         }
     }
 
-    private fun sendEmailVerificationCode(){
-        viewModelScope.launch(Dispatchers.IO){
-            kotlin.runCatching{
+    private fun sendEmailVerificationCode() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
                 sendEmailVerificationCodeUseCase(
                     sendEmailVerificationCodeInput = SendEmailVerificationCodeInput(
                         email = stateFlow.value.email,
@@ -226,9 +234,9 @@ internal class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun checkEmailVerificationCode(){
-        viewModelScope.launch(Dispatchers.IO){
-            kotlin.runCatching{
+    private fun checkEmailVerificationCode() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
                 checkEmailVerificationCodeUseCase(
                     checkEmailVerificationCodeInput = CheckEmailVerificationCodeInput(
                         email = stateFlow.value.email,
@@ -325,7 +333,12 @@ internal class SignUpViewModel @Inject constructor(
                 email = email,
             )
         )
-        setEmailFormatError(!Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), email))
+        setEmailFormatError(
+            email.isNotEmpty() && !Pattern.matches(
+                Patterns.EMAIL_ADDRESS.pattern(),
+                email
+            )
+        )
         setSendEmailButtonEnabled(email.isNotEmpty() && !stateFlow.value.emailFormatError)
     }
 
@@ -349,6 +362,26 @@ internal class SignUpViewModel @Inject constructor(
         )
     }
 
+    private fun setEmailExpirationTime(
+        emailExpirationTime: String,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                emailExpirationTime = emailExpirationTime,
+            )
+        )
+    }
+
+    private fun setEmailTimerWorked(
+        emailTimerWorked: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                emailTimerWorked = emailTimerWorked,
+            )
+        )
+    }
+
     private fun setAuthCode(
         authCode: String,
     ) {
@@ -362,7 +395,7 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setAuthCodeMismatchError(
         authCodeMismatchError: Boolean,
-    ){
+    ) {
         reduce(
             newState = stateFlow.value.copy(
                 authCodeMismatchError = authCodeMismatchError,
@@ -372,7 +405,7 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setAuthCodeConfirmButtonEnabled(
         authCodeConfirmButtonEnabled: Boolean,
-    ){
+    ) {
         reduce(
             newState = stateFlow.value.copy(
                 authCodeConfirmButtonEnabled = authCodeConfirmButtonEnabled,
@@ -478,11 +511,13 @@ sealed class SignUpIntent : MviIntent {
         class SetEmail(val email: String) : SendEmail()
         object CheckEmailDuplication : SendEmail()
         object SendEmailVerificationCode : SendEmail()
+        class SetEmailExpirationTime(val emailExpirationTime: String) : SendEmail()
+        class SetEmailTimerWorked(val emailTimerWorked: Boolean) : SendEmail()
     }
 
-    sealed class VerifyEmail : SignUpIntent(){
-        class SetAuthCode(val authCode: String): VerifyEmail()
-        object CheckEmailVerificationCode: VerifyEmail()
+    sealed class VerifyEmail : SignUpIntent() {
+        class SetAuthCode(val authCode: String) : VerifyEmail()
+        object CheckEmailVerificationCode : VerifyEmail()
     }
 
     class SetEmailVerificationCode(val emailVerificationCode: String) : SignUpIntent()
@@ -507,6 +542,8 @@ data class SignUpState(
     val email: String,
     val emailFormatError: Boolean,
     val sendEmailButtonEnabled: Boolean,
+    val emailExpirationTime: String,
+    val emailTimerWorked: Boolean,
 
     val authCode: String,
     val authCodeMismatchError: Boolean,
@@ -536,6 +573,8 @@ data class SignUpState(
                 email = "",
                 emailFormatError = false,
                 sendEmailButtonEnabled = false,
+                emailExpirationTime = "",
+                emailTimerWorked = false,
 
                 authCode = "",
                 authCodeMismatchError = false,
@@ -566,12 +605,12 @@ sealed class SignUpSideEffect : MviSideEffect {
 
     sealed class SendEmail : SignUpSideEffect() {
         object AvailableEmail : SendEmail()
-        object DuplicatedEmail: SendEmail()
+        object DuplicatedEmail : SendEmail()
         object SuccessSendEmailVerificationCode : SendEmail()
     }
 
-    sealed class VerifyEmail : SignUpSideEffect(){
-        object SuccessVerifyEmail: VerifyEmail()
+    sealed class VerifyEmail : SignUpSideEffect() {
+        object SuccessVerifyEmail : VerifyEmail()
     }
 
     object NotCorrectEmailVerificationCode : SignUpSideEffect()
