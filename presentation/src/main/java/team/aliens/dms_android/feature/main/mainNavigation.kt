@@ -105,7 +105,6 @@ internal fun NavGraphBuilder.mainNavigation(
                 },
             ),
         ) { backStackEntry ->
-            println(backStackEntry.destination)
             backStackEntry.arguments?.run {
                 val noticeId = getString(MainNavigation.Arguments.NoticeId)!!
 
