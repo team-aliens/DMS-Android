@@ -33,10 +33,10 @@ internal fun NoticeDetailsScreen(
     noticeId: UUID,
     noticeDetailsViewModel: NoticeDetailsViewModel = hiltViewModel(),
 ) {
-    val uiState by noticeDetailsViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by noticeDetailsViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        noticeDetailsViewModel.onEvent(NoticeDetailsUiEvent.FetchNoticeDetails(noticeId))
+        noticeDetailsViewModel.postIntent(NoticeDetailsIntent.FetchNoticeDetails(noticeId))
     }
 
     Column(

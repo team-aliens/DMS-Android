@@ -5,9 +5,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.base.MviViewModel
-import team.aliens.dms_android.base.UiEvent
-import team.aliens.dms_android.base.UiState
+import team.aliens.dms_android.base.BaseMviViewModel
+import team.aliens.dms_android.base.MviIntent
+import team.aliens.dms_android.base.MviSideEffect
+import team.aliens.dms_android.base.MviState
 import team.aliens.domain.model.notice.FetchNoticeDetailsInput
 import team.aliens.domain.model.notice.toModel
 import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
@@ -16,30 +17,26 @@ import javax.inject.Inject
 @HiltViewModel
 internal class NoticeDetailsViewModel @Inject constructor(
     private val fetchNoticeDetailsUseCase: FetchNoticeDetailsUseCase,
-) : MviViewModel<NoticeDetailsUiState, NoticeDetailsUiEvent>(
-    initialState = NoticeDetailsUiState.initial(),
+) : BaseMviViewModel<NoticeDetailsIntent, NoticeDetailsState, NoticeDetailsSideEffect>(
+    initialState = NoticeDetailsState.initial(),
 ) {
-    override fun updateState(event: NoticeDetailsUiEvent) {
-        when (event) {
-            is NoticeDetailsUiEvent.FetchNoticeDetails -> fetchNoticeDetails(event.noticeId)
+    override fun processIntent(intent: NoticeDetailsIntent) {
+        when (intent) {
+            is NoticeDetailsIntent.FetchNoticeDetails -> fetchNoticeDetails(intent.noticeId)
         }
     }
 
-    private fun fetchNoticeDetails(
-        noticeId: UUID,
-    ) {
+    private fun fetchNoticeDetails(noticeId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 fetchNoticeDetailsUseCase(
-                    fetchNoticeDetailsInput = FetchNoticeDetailsInput(
-                        noticeId = noticeId,
-                    ),
+                    fetchNoticeDetailsInput = FetchNoticeDetailsInput(noticeId = noticeId),
                 )
             }.onSuccess {
                 val notice = it.toModel()
 
-                setState(
-                    newState = uiState.value.copy(
+                reduce(
+                    newState = stateFlow.value.copy(
                         title = notice.title,
                         content = notice.content!!,
                         createdAt = notice.createdAt,
@@ -50,13 +47,17 @@ internal class NoticeDetailsViewModel @Inject constructor(
     }
 }
 
-internal data class NoticeDetailsUiState(
+internal sealed class NoticeDetailsIntent : MviIntent {
+    class FetchNoticeDetails(val noticeId: UUID) : NoticeDetailsIntent()
+}
+
+internal data class NoticeDetailsState(
     val title: String,
     val content: String,
     val createdAt: String,
-) : UiState {
+) : MviState {
     companion object {
-        fun initial() = NoticeDetailsUiState(
+        fun initial() = NoticeDetailsState(
             title = "",
             content = "",
             createdAt = "",
@@ -64,6 +65,4 @@ internal data class NoticeDetailsUiState(
     }
 }
 
-internal sealed class NoticeDetailsUiEvent : UiEvent {
-    class FetchNoticeDetails(val noticeId: UUID) : NoticeDetailsUiEvent()
-}
+internal sealed class NoticeDetailsSideEffect : MviSideEffect
