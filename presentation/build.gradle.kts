@@ -89,5 +89,5 @@ dependencies {
 
     implementation(Dependencies.Test.JUnit)
 
-    implementation(Dependencies.Remote.Firebase)
+    implementation(Dependencies.Remote.FirebaseMessaging)
 }
