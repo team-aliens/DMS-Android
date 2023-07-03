@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.auth.signin
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -124,7 +125,7 @@ internal class SignInViewModel @Inject constructor(
     }
 
     private fun registerDeviceNotificationToken() {
-        viewModelScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 val token = this@SignInViewModel.fetchDeviceNotificationToken()
 
@@ -134,7 +135,6 @@ internal class SignInViewModel @Inject constructor(
                     ),
                 )
             }.onFailure {
-                it.printStackTrace()
                 postSideEffect(SignInSideEffect.DeviceTokenRegisteringFailure)
             }
         }
