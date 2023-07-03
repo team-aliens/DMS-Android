@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -42,12 +43,15 @@ import team.aliens.design_system.dialog.DormDoubleButtonDialog
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.SignUpIntent
+import team.aliens.dms_android.feature.signup.SignUpNavigation
+import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
 
@@ -63,11 +67,33 @@ internal fun VerifyEmailScreen(
 
     val focusManager = LocalFocusManager.current
 
+    val context = LocalContext.current
+
     val focusRequester = remember { FocusRequester() }
+
+    val localToast = LocalToast.current
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         signUpViewModel.postIntent(SignUpIntent.SendEmail.SetEmailTimerWorked(emailTimerWorked = true))
+        signUpViewModel.sideEffectFlow.collect{
+            when(it){
+                is SignUpSideEffect.VerifyEmail.CompleteEnteredAuthCode -> {
+                    focusManager.clearFocus()
+                    signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
+                }
+
+                is SignUpSideEffect.VerifyEmail.SuccessVerifyEmail -> {
+                    navController.navigate(SignUpNavigation.SetUserInformation.SetId)
+                }
+
+                is SignUpSideEffect.VerifyEmail.ConflictEmail -> {
+                    localToast.showErrorToast(context.getString(R.string.sign_up_email_error_conflict))
+                }
+
+                else -> {}
+            }
+        }
     }
 
     val onVerificationCodeChange = { authCode: String ->
