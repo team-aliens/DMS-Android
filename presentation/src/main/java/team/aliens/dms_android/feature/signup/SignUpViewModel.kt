@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.signup
 
+import android.net.Uri
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -178,6 +179,18 @@ internal class SignUpViewModel @Inject constructor(
                     }
                 }
             }
+
+            is SignUpIntent.SetProfileImage -> {
+                when (intent) {
+                    is SignUpIntent.SetProfileImage.SelectProfileImage -> {
+                        setProfileImageUrl(intent.profileImageUri)
+                    }
+
+                    is SignUpIntent.SetProfileImage.UploadImage -> {
+
+                    }
+                }
+            }
         }
     }
 
@@ -328,6 +341,10 @@ internal class SignUpViewModel @Inject constructor(
                 setConflictAccountIdError(it is RemoteException.Conflict)
             }
         }
+    }
+
+    private fun uploadImage(){
+
     }
 
     private fun setSchoolCode(
@@ -659,13 +676,14 @@ internal class SignUpViewModel @Inject constructor(
     }
 
     private fun setProfileImageUrl(
-        profileImageUrl: String,
+        profileImageUrl: Uri?,
     ) {
         reduce(
             newState = stateFlow.value.copy(
-                profileImageUrl = profileImageUrl,
+                profileImageUri = profileImageUrl,
             )
         )
+        setConfirmProfileImageEnabled(profileImageUrl != null)
     }
 
     private fun setSchoolId(
@@ -674,6 +692,16 @@ internal class SignUpViewModel @Inject constructor(
         reduce(
             newState = stateFlow.value.copy(
                 schoolId = schoolId,
+            )
+        )
+    }
+
+    private fun setConfirmProfileImageEnabled(
+        confirmProfileImageEnabled: Boolean,
+    ){
+        reduce(
+            newState = stateFlow.value.copy(
+                confirmProfileImageButtonEnabled = confirmProfileImageEnabled,
             )
         )
     }
@@ -722,6 +750,11 @@ sealed class SignUpIntent : MviIntent {
         class SetPasswordRepeat(val passwordRepeat: String) : SignUpIntent.SetPassword()
         object CheckPassword : SignUpIntent.SetPassword()
     }
+
+    sealed class SetProfileImage : SignUpIntent() {
+        class SelectProfileImage(val profileImageUri: Uri) : SetProfileImage()
+        object UploadImage : SetProfileImage()
+    }
 }
 
 data class SignUpState(
@@ -761,7 +794,9 @@ data class SignUpState(
     val passwordMismatchError: Boolean,
     val passwordConfirmButtonEnabled: Boolean,
 
-    val profileImageUrl: String,
+    val profileImageUri: Uri?,
+    val confirmProfileImageButtonEnabled: Boolean,
+
     val schoolId: UUID?,
 ) : MviState {
     companion object {
@@ -803,8 +838,9 @@ data class SignUpState(
                 passwordMismatchError = false,
                 passwordConfirmButtonEnabled = false,
 
-                profileImageUrl = "",
+                profileImageUri = null,
                 schoolId = null,
+                confirmProfileImageButtonEnabled = false,
             )
         }
     }
@@ -840,5 +876,7 @@ sealed class SignUpSideEffect : MviSideEffect {
     sealed class SetPassword : SignUpSideEffect() {
         object SuccessCheckPassword : SetPassword()
     }
+
+
 }
 
