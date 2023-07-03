@@ -33,6 +33,8 @@ import team.aliens.domain.usecase.student.CheckIdDuplicationUseCase
 import team.aliens.domain.usecase.student.ExamineStudentNumberUseCase
 import team.aliens.domain.usecase.student.SignUpUseCase
 
+private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
+
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
     private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
@@ -41,8 +43,6 @@ internal class SignUpViewModel @Inject constructor(
     private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
     private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
     private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
-
-    // 학생 학번 인증 && 아이디 중복 체크
     private val examineStudentNumberUseCase: ExamineStudentNumberUseCase,
     private val checkIdDuplicationUseCase: CheckIdDuplicationUseCase,
 
@@ -164,11 +164,19 @@ internal class SignUpViewModel @Inject constructor(
             }
 
             is SignUpIntent.SetPassword -> {
-                setPassword(password = intent.password)
-            }
+                when (intent) {
+                    is SignUpIntent.SetPassword.SetPassword -> {
+                        setPassword(intent.password)
+                    }
 
-            is SignUpIntent.SetPasswordRepeat -> {
-                setPasswordRepeat(passwordRepeat = intent.passwordRepeat)
+                    is SignUpIntent.SetPassword.SetPasswordRepeat -> {
+                        setPasswordRepeat(intent.passwordRepeat)
+                    }
+
+                    is SignUpIntent.SetPassword.CheckPassword -> {
+                        checkPassword()
+                    }
+                }
             }
         }
     }
@@ -580,7 +588,7 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setCheckedStudentName(
         checkedStudentName: Boolean,
-    ){
+    ) {
         reduce(
             newState = stateFlow.value.copy(
                 checkedStudentName = checkedStudentName,
@@ -596,6 +604,7 @@ internal class SignUpViewModel @Inject constructor(
                 password = password,
             )
         )
+        setPasswordFormatError(!Pattern.matches(passwordFormat, password))
     }
 
     private fun setPasswordRepeat(
@@ -604,6 +613,47 @@ internal class SignUpViewModel @Inject constructor(
         reduce(
             newState = stateFlow.value.copy(
                 passwordRepeat = passwordRepeat,
+            )
+        )
+        setPasswordMismatchError(stateFlow.value.password != passwordRepeat)
+    }
+
+    private fun checkPassword() {
+
+        if (!stateFlow.value.passwordFormatError && !stateFlow.value.passwordMismatchError) {
+            setPasswordConfirmButtonEnabled(true)
+            postSideEffect(SignUpSideEffect.SetPassword.SuccessCheckPassword)
+        }
+    }
+
+    private fun setPasswordFormatError(
+        passwordFormatError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                passwordFormatError = passwordFormatError,
+            )
+        )
+        setPasswordConfirmButtonEnabled(!passwordFormatError && !stateFlow.value.passwordMismatchError)
+    }
+
+    private fun setPasswordMismatchError(
+        passwordMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                passwordMismatchError = passwordMismatchError,
+            )
+        )
+        setPasswordConfirmButtonEnabled(!stateFlow.value.passwordFormatError && !passwordMismatchError)
+    }
+
+    private fun setPasswordConfirmButtonEnabled(
+        passwordConfirmButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                passwordConfirmButtonEnabled = passwordConfirmButtonEnabled,
             )
         )
     }
@@ -664,11 +714,14 @@ sealed class SignUpIntent : MviIntent {
         class SetGcnMismatchError(val gcnMismatchError: Boolean) : SetId()
         object ExamineStudentNumber : SetId()
         object CheckIdDuplication : SetId()
-        class CheckedStudentName(val checkedStudentName: Boolean): SetId()
+        class CheckedStudentName(val checkedStudentName: Boolean) : SetId()
     }
 
-    class SetPassword(val password: String) : SignUpIntent()
-    class SetPasswordRepeat(val passwordRepeat: String) : SignUpIntent()
+    sealed class SetPassword : SignUpIntent() {
+        class SetPassword(val password: String) : SignUpIntent.SetPassword()
+        class SetPasswordRepeat(val passwordRepeat: String) : SignUpIntent.SetPassword()
+        object CheckPassword : SignUpIntent.SetPassword()
+    }
 }
 
 data class SignUpState(
@@ -704,6 +757,10 @@ data class SignUpState(
 
     val password: String,
     val passwordRepeat: String,
+    val passwordFormatError: Boolean,
+    val passwordMismatchError: Boolean,
+    val passwordConfirmButtonEnabled: Boolean,
+
     val profileImageUrl: String,
     val schoolId: UUID?,
 ) : MviState {
@@ -742,6 +799,10 @@ data class SignUpState(
 
                 password = "",
                 passwordRepeat = "",
+                passwordFormatError = false,
+                passwordMismatchError = false,
+                passwordConfirmButtonEnabled = false,
+
                 profileImageUrl = "",
                 schoolId = null,
             )
@@ -776,11 +837,8 @@ sealed class SignUpSideEffect : MviSideEffect {
         object SuccessVerifyStudent : SetId()
     }
 
-    object NotCorrectEmailVerificationCode : SignUpSideEffect()
-    object NotExistsStudentNumber : SignUpSideEffect()
-    object DuplicatedStudent : SignUpSideEffect()
-    object MisMatchPasswordRepeat : SignUpSideEffect()
-    object SuccessSetProfileImage : SignUpSideEffect()
-    object SuccessSignUp : SignUpSideEffect()
+    sealed class SetPassword : SignUpSideEffect() {
+        object SuccessCheckPassword : SetPassword()
+    }
 }
 
