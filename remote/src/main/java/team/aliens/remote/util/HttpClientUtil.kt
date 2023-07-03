@@ -3,6 +3,7 @@ package team.aliens.remote.util
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 // 참고 자료 : https://kyucumber.github.io/posts/book/effective-kotlin/effective-kotlin-item-33
@@ -13,7 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun Retrofit(
     vararg clients: OkHttpClient,
     baseUrl: String,
-    gsonConverterFactory: Boolean = false,
+    gsonConverter: Boolean = false,
+    rxJavaCallAdapter: Boolean = false,
 ): Retrofit {
 
     var retrofit = Retrofit.Builder().baseUrl(
@@ -27,9 +29,14 @@ fun Retrofit(
         }
 
     // gsonConverterFactory 옵션이 활성화되어있는 경우, GsonConverterFactory를 추가합니다
-    if (gsonConverterFactory)
+    if (gsonConverter)
         retrofit = retrofit.addConverterFactory(
             GsonConverterFactory.create(),
+        )
+
+    if (rxJavaCallAdapter)
+        retrofit = retrofit.addCallAdapterFactory(
+            RxJava2CallAdapterFactory.create(),
         )
 
     return retrofit.build()

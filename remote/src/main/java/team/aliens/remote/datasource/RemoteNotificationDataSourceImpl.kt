@@ -5,6 +5,7 @@ import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInpu
 import team.aliens.domain.model.notification.SubscribeNotificationTopicInput
 import team.aliens.domain.model.notification.UnsubscribeNotificationTopicInput
 import team.aliens.remote.apiservice.NotificationApiService
+import team.aliens.remote.model.notification.RegisterDeviceNotificationTokenRequest
 import javax.inject.Inject
 
 class RemoteNotificationDataSourceImpl @Inject constructor(
@@ -14,7 +15,9 @@ class RemoteNotificationDataSourceImpl @Inject constructor(
         input: RegisterDeviceNotificationTokenInput,
     ) {
         notificationApiService.registerDeviceNotificationToken(
-            token = input.token,
+            request = RegisterDeviceNotificationTokenRequest(
+                deviceToken = input.token,
+            ),
         )
     }
 

@@ -6,15 +6,15 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 import team.aliens.remote.common.HttpPath
-import team.aliens.remote.common.HttpProperty.QueryString.Token
 import team.aliens.remote.common.HttpProperty.QueryString.Topic
 import team.aliens.remote.model.notification.BatchUpdateNotificationTopicRequest
+import team.aliens.remote.model.notification.RegisterDeviceNotificationTokenRequest
 
 interface NotificationApiService {
 
     @POST(HttpPath.Notification.RegisterDeviceToken)
     suspend fun registerDeviceNotificationToken(
-        @Query(Token) token: String,
+        @Body request: RegisterDeviceNotificationTokenRequest,
     )
 
     @POST(HttpPath.Notification.SubscribeTopic)
