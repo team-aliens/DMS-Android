@@ -24,6 +24,10 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var registerDeviceNotificationTokenUseCase: RegisterDeviceNotificationTokenUseCase
 
+    private val notificationChannelId by lazy {
+        getString(R.string.notification_channel_id)
+    }
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         registerDeviceNotificationToken(token)
@@ -34,12 +38,20 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(notification: RemoteMessage.Notification) {
-        val channelId = getString(R.string.notification_channel_id)
-
-        val builder =
-            NotificationCompat.Builder(this, channelId).setSmallIcon(R.drawable.ic_logo_image_large)
-                .setContentTitle(notification.title).setContentText(notification.body)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val notificationBuilder = NotificationCompat.Builder(
+            this,
+            notificationChannelId,
+        ).setSmallIcon(
+            R.drawable.ic_logo_image_large,
+        ).setContentTitle(
+            notification.title,
+        ).setContentText(
+            notification.body,
+        ).setStyle(
+            NotificationCompat.BigTextStyle().bigText(notification.body),
+        ).setPriority(
+            NotificationCompat.PRIORITY_DEFAULT,
+        )
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -47,14 +59,14 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(
                 NotificationChannel(
-                    channelId,
+                    notificationChannelId,
                     getString(R.string.notification_channel_notice_title),
                     IMPORTANCE_DEFAULT,
                 ),
             )
         }
 
-        notificationManager.notify(getIdFromTime(), builder.build())
+        notificationManager.notify(getIdFromTime(), notificationBuilder.build())
     }
 
     private fun registerDeviceNotificationToken(token: String) {
