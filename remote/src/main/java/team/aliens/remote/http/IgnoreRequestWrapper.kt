@@ -23,6 +23,10 @@ object IgnoreRequestWrapper {
             method = HttpMethod.GET,
             path = HttpPath.Auth.CheckIdExists,
         ),
+        Request(
+            method = HttpMethod.GET,
+            path = HttpPath.Auth.CheckEmailVerificationCode,
+        ),
 
         // Student
         Request(
