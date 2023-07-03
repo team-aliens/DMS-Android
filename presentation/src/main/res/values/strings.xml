@@ -355,6 +355,7 @@
     <string name="find_id_select_school">학교를 선택해주세요</string>
 
     <string name="find_id_error_account_not_found">위 정보로 가입된 계정이 없습니다</string>
+    <string name="find_id_error_check_class_and_grade_and_number">학년, 반 번호를 확인해주세요.</string>
 
     <!--meal-->
     <string name="meal_todays_meal">오늘의 급식</string>
