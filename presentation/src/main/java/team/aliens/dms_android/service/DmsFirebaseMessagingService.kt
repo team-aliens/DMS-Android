@@ -37,7 +37,7 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
         val channelId = getString(R.string.notification_channel_id)
 
         val builder =
-            NotificationCompat.Builder(this, channelId).setSmallIcon(R.drawable.ic_logo_image)
+            NotificationCompat.Builder(this, channelId).setSmallIcon(R.drawable.ic_logo_image_large)
                 .setContentTitle(notification.title).setContentText(notification.body)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
