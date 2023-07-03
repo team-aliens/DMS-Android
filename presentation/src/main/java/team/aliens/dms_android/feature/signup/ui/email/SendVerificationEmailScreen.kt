@@ -4,8 +4,9 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
@@ -83,8 +84,8 @@ internal fun SendVerificationEmailScreen(
     }
 
     LaunchedEffect(Unit) {
-        signUpViewModel.sideEffectFlow.collect{
-            when(it){
+        signUpViewModel.sideEffectFlow.collect {
+            when (it) {
                 is SignUpSideEffect.SendEmail.AvailableEmail -> {
                     signUpViewModel.postIntent(SignUpIntent.SendEmail.SendEmailVerificationCode)
                 }
@@ -119,26 +120,25 @@ internal fun SendVerificationEmailScreen(
                 focusManager.clearFocus()
             },
     ) {
-        Column(modifier = Modifier.fillMaxHeight(0.843f)) {
-            AppLogo(
-                darkIcon = isSystemInDarkTheme(),
-            )
-            Space(space = 8.dp)
-            Body2(text = stringResource(id = R.string.EnterEmailAddress))
-            Space(space = 86.dp)
-            DormTextField(
-                value = state.email,
-                onValueChange = onEmailChange,
-                hint = stringResource(id = R.string.EnterEmailAddress),
-                error = state.emailFormatError,
-                keyboardType = KeyboardType.Email,
-                errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
-                keyboardActions = KeyboardActions {
-                    focusManager.clearFocus()
-                },
-                imeAction = ImeAction.Done,
-            )
-        }
+        AppLogo(
+            darkIcon = isSystemInDarkTheme(),
+        )
+        Space(space = 8.dp)
+        Body2(text = stringResource(id = R.string.EnterEmailAddress))
+        Space(space = 86.dp)
+        DormTextField(
+            value = state.email,
+            onValueChange = onEmailChange,
+            hint = stringResource(id = R.string.EnterEmailAddress),
+            error = state.emailFormatError,
+            keyboardType = KeyboardType.Email,
+            errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
+            keyboardActions = KeyboardActions {
+                focusManager.clearFocus()
+            },
+            imeAction = ImeAction.Done,
+        )
+        Spacer(modifier = Modifier.weight(1f))
         DormContainedLargeButton(
             text = stringResource(id = R.string.SendVerificationCode),
             color = DormButtonColor.Blue,
@@ -146,5 +146,6 @@ internal fun SendVerificationEmailScreen(
         ) {
             signUpViewModel.postIntent(SignUpIntent.SendEmail.CheckEmailDuplication)
         }
+        Spacer(modifier = Modifier.height(82.dp))
     }
 }
