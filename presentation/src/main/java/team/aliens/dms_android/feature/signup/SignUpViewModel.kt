@@ -20,6 +20,8 @@ import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.domain.model.student.CheckIdDuplicationInput
+import team.aliens.domain.model.student.ExamineStudentNumberInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.file.UploadFileUseCase
@@ -121,24 +123,44 @@ internal class SignUpViewModel @Inject constructor(
                 }
             }
 
-            is SignUpIntent.SetEmailVerificationCode -> {
-                setAuthCode(authCode = intent.emailVerificationCode)
-            }
+            is SignUpIntent.SetId -> {
+                when (intent) {
+                    is SignUpIntent.SetId.SetGrade -> {
+                        setGrade(grade = intent.grade)
+                    }
 
-            is SignUpIntent.SetGrade -> {
-                setGrade(grade = intent.grade)
-            }
+                    is SignUpIntent.SetId.SetClassRoom -> {
+                        setClassRoom(classRoom = intent.classRoom)
+                    }
 
-            is SignUpIntent.SetClassRoom -> {
-                setClassRoom(classRoom = intent.classRoom)
-            }
+                    is SignUpIntent.SetId.SetNumber -> {
+                        setNumber(number = intent.number)
+                    }
 
-            is SignUpIntent.SetNumber -> {
-                setNumber(number = intent.number)
-            }
+                    is SignUpIntent.SetId.SetAccountId -> {
+                        setAccountId(accountId = intent.accountId)
+                    }
 
-            is SignUpIntent.SetAccountId -> {
-                setAccountId(accountId = intent.accountId)
+                    is SignUpIntent.SetId.SetStudentName -> {
+                        setStudentName(studentName = intent.studentName)
+                    }
+
+                    is SignUpIntent.SetId.SetGcnMismatchError -> {
+                        setStudentNumberMismatchError(studentNumberMismatchError = intent.gcnMismatchError)
+                    }
+
+                    is SignUpIntent.SetId.ExamineStudentNumber -> {
+                        examineStudentNumber()
+                    }
+
+                    is SignUpIntent.SetId.CheckIdDuplication -> {
+                        checkIdDuplication()
+                    }
+
+                    is SignUpIntent.SetId.CheckedStudentName -> {
+                        setCheckedStudentName(intent.checkedStudentName)
+                    }
+                }
             }
 
             is SignUpIntent.SetPassword -> {
@@ -248,6 +270,54 @@ internal class SignUpViewModel @Inject constructor(
                 postSideEffect(sideEffect = SignUpSideEffect.VerifyEmail.SuccessVerifyEmail)
             }.onFailure {
                 setAuthCodeMismatchError(it is RemoteException.Unauthorized)
+                if (it is RemoteException.Conflict) {
+                    postSideEffect(SignUpSideEffect.VerifyEmail.ConflictEmail)
+                }
+            }
+        }
+    }
+
+    private fun examineStudentNumber() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                examineStudentNumberUseCase(
+                    examineStudentNumberInput = ExamineStudentNumberInput(
+                        schoolId = stateFlow.value.schoolId!!,
+                        grade = stateFlow.value.grade.toInt(),
+                        classRoom = stateFlow.value.classRoom.toInt(),
+                        number = stateFlow.value.number.toInt(),
+                    )
+                )
+            }.onSuccess {
+                setSuccessVerifyStudent(true)
+                setStudentName(studentName = it.name)
+            }.onFailure {
+                setSuccessVerifyStudent(false)
+                when (it) {
+                    is RemoteException.NotFound -> {
+                        setStudentNumberMismatchError(true)
+                    }
+
+                    is RemoteException.Conflict -> {
+                        postSideEffect(SignUpSideEffect.SetId.ConflictStudent)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun checkIdDuplication() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                checkIdDuplicationUseCase(
+                    checkIdDuplicationInput = CheckIdDuplicationInput(
+                        accountId = stateFlow.value.accountId,
+                    )
+                )
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
+            }.onFailure {
+                setConflictAccountIdError(it is RemoteException.Conflict)
             }
         }
     }
@@ -391,6 +461,7 @@ internal class SignUpViewModel @Inject constructor(
             )
         )
         setAuthCodeConfirmButtonEnabled(authCode.isNotEmpty() && !stateFlow.value.authCodeMismatchError)
+        if (authCode.length == 6) postSideEffect(SignUpSideEffect.VerifyEmail.CompleteEnteredAuthCode)
     }
 
     private fun setAuthCodeMismatchError(
@@ -414,33 +485,36 @@ internal class SignUpViewModel @Inject constructor(
     }
 
     private fun setGrade(
-        grade: Int,
+        grade: String,
     ) {
         reduce(
             newState = stateFlow.value.copy(
                 grade = grade,
             )
         )
+        setIdConfirmButtonEnabled()
     }
 
     private fun setClassRoom(
-        classRoom: Int,
+        classRoom: String,
     ) {
         reduce(
             newState = stateFlow.value.copy(
                 classRoom = classRoom,
             )
         )
+        setIdConfirmButtonEnabled()
     }
 
     private fun setNumber(
-        number: Int,
+        number: String,
     ) {
         reduce(
             newState = stateFlow.value.copy(
                 number = number,
             )
         )
+        setIdConfirmButtonEnabled()
     }
 
     private fun setAccountId(
@@ -449,6 +523,67 @@ internal class SignUpViewModel @Inject constructor(
         reduce(
             newState = stateFlow.value.copy(
                 accountId = accountId,
+            )
+        )
+        setIdConfirmButtonEnabled()
+    }
+
+    private fun setStudentName(
+        studentName: String,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                studentName = studentName,
+            )
+        )
+    }
+
+    private fun setStudentNumberMismatchError(
+        studentNumberMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                studentNumberMismatchError = studentNumberMismatchError,
+            )
+        )
+    }
+
+    private fun setSuccessVerifyStudent(
+        successVerifyStudent: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                successVerifyStudent = successVerifyStudent,
+            )
+        )
+    }
+
+    private fun setConflictAccountIdError(
+        conflictAccountIdError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                conflictAccountIdError = conflictAccountIdError,
+            )
+        )
+    }
+
+    private fun setIdConfirmButtonEnabled() {
+        with(stateFlow.value) {
+            reduce(
+                newState = stateFlow.value.copy(
+                    idConfirmButtonEnabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && accountId.isNotEmpty()
+                )
+            )
+        }
+    }
+
+    private fun setCheckedStudentName(
+        checkedStudentName: Boolean,
+    ){
+        reduce(
+            newState = stateFlow.value.copy(
+                checkedStudentName = checkedStudentName,
             )
         )
     }
@@ -520,11 +655,18 @@ sealed class SignUpIntent : MviIntent {
         object CheckEmailVerificationCode : VerifyEmail()
     }
 
-    class SetEmailVerificationCode(val emailVerificationCode: String) : SignUpIntent()
-    class SetGrade(val grade: Int) : SignUpIntent()
-    class SetClassRoom(val classRoom: Int) : SignUpIntent()
-    class SetNumber(val number: Int) : SignUpIntent()
-    class SetAccountId(val accountId: String) : SignUpIntent()
+    sealed class SetId : SignUpIntent() {
+        class SetGrade(val grade: String) : SetId()
+        class SetClassRoom(val classRoom: String) : SetId()
+        class SetNumber(val number: String) : SetId()
+        class SetAccountId(val accountId: String) : SetId()
+        class SetStudentName(val studentName: String) : SetId()
+        class SetGcnMismatchError(val gcnMismatchError: Boolean) : SetId()
+        object ExamineStudentNumber : SetId()
+        object CheckIdDuplication : SetId()
+        class CheckedStudentName(val checkedStudentName: Boolean): SetId()
+    }
+
     class SetPassword(val password: String) : SignUpIntent()
     class SetPasswordRepeat(val passwordRepeat: String) : SignUpIntent()
 }
@@ -549,10 +691,17 @@ data class SignUpState(
     val authCodeMismatchError: Boolean,
     val authCodeConfirmButtonEnabled: Boolean,
 
-    val grade: Int,
-    val classRoom: Int,
-    val number: Int,
+    val grade: String,
+    val classRoom: String,
+    val number: String,
     val accountId: String,
+    val studentName: String,
+    val studentNumberMismatchError: Boolean,
+    val successVerifyStudent: Boolean,
+    val conflictAccountIdError: Boolean,
+    val checkedStudentName: Boolean,
+    val idConfirmButtonEnabled: Boolean,
+
     val password: String,
     val passwordRepeat: String,
     val profileImageUrl: String,
@@ -580,10 +729,17 @@ data class SignUpState(
                 authCodeMismatchError = false,
                 authCodeConfirmButtonEnabled = false,
 
-                grade = 0,
-                classRoom = 0,
-                number = 0,
+                grade = "",
+                classRoom = "",
+                number = "",
                 accountId = "",
+                studentName = "",
+                studentNumberMismatchError = false,
+                successVerifyStudent = false,
+                conflictAccountIdError = false,
+                idConfirmButtonEnabled = false,
+                checkedStudentName = false,
+
                 password = "",
                 passwordRepeat = "",
                 profileImageUrl = "",
@@ -611,6 +767,13 @@ sealed class SignUpSideEffect : MviSideEffect {
 
     sealed class VerifyEmail : SignUpSideEffect() {
         object SuccessVerifyEmail : VerifyEmail()
+        object CompleteEnteredAuthCode : VerifyEmail()
+        object ConflictEmail : VerifyEmail()
+    }
+
+    sealed class SetId : SignUpSideEffect() {
+        object ConflictStudent : SetId()
+        object SuccessVerifyStudent : SetId()
     }
 
     object NotCorrectEmailVerificationCode : SignUpSideEffect()
