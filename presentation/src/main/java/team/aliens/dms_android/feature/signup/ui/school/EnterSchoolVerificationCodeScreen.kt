@@ -43,7 +43,6 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.SignUpIntent
 import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
@@ -80,7 +79,7 @@ internal fun EnterSchoolVerificationCodeScreen(
         focusRequester.requestFocus()
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
-                is SignUpSideEffect.VerifySchoolSideEffect.SuccessVerifySchoolCode -> {
+                is SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode -> {
                     navController.navigate(SignUpNavigation.VerifySchool.EnterSchoolVerificationQuestion)
                 }
 
@@ -151,7 +150,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                 color = if (schoolCodeMismatchError) DormColor.Error
                 else DormColor.Gray500,
             )
-            RatioSpace(height = 0.767f)
+            Spacer(modifier = Modifier.weight(1f))
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
@@ -159,6 +158,7 @@ internal fun EnterSchoolVerificationCodeScreen(
             ) {
                 signUpViewModel.postIntent(intent = SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
             }
+            Spacer(modifier = Modifier.height(82.dp))
         }
     }
 }
