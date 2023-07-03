@@ -1,9 +1,12 @@
 package team.aliens.dms_android.feature.auth.signin
 
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseMviViewModel
 import team.aliens.dms_android.base.MviIntent
 import team.aliens.dms_android.base.MviSideEffect
@@ -12,13 +15,16 @@ import team.aliens.domain.exception.AuthException
 import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.toModel
 import team.aliens.domain.model.auth.SignInInput
+import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
 import team.aliens.domain.model.student.Features
 import team.aliens.domain.usecase.auth.SignInWithSavingTokensAndFeaturesUseCase
+import team.aliens.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SignInViewModel @Inject constructor(
     private val signInWithSavingTokensAndFeaturesUseCase: SignInWithSavingTokensAndFeaturesUseCase,
+    private val registerDeviceNotificationTokenUseCase: RegisterDeviceNotificationTokenUseCase,
 ) : BaseMviViewModel<SignInIntent, SignInState, SignInSideEffect>(
     initialState = SignInState.initial(),
 ) {
@@ -64,6 +70,7 @@ internal class SignInViewModel @Inject constructor(
                         features = it.features.toModel(),
                     ),
                 )
+                this@SignInViewModel.registerDeviceNotificationToken()
             }.onFailure {
                 when (it) {
                     RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
@@ -113,11 +120,37 @@ internal class SignInViewModel @Inject constructor(
     private fun setSignInButtonState(
         enabled: Boolean = idEntered && passwordEntered
     ) {
-        reduce(
-            newState = currentState.copy(
-                signInButtonEnabled = enabled,
-            ),
-        )
+        reduce(newState = currentState.copy(signInButtonEnabled = enabled))
+    }
+
+    private fun registerDeviceNotificationToken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val token = this@SignInViewModel.fetchDeviceNotificationToken()
+
+                registerDeviceNotificationTokenUseCase(
+                    registerDeviceNotificationTokenInput = RegisterDeviceNotificationTokenInput(
+                        token = token,
+                    ),
+                )
+            }.onFailure {
+                it.printStackTrace()
+                postSideEffect(SignInSideEffect.DeviceTokenRegisteringFailure)
+            }
+        }
+    }
+
+    // todo 추후 분리 필요
+    private fun fetchDeviceNotificationToken(): String {
+        val task = FirebaseMessaging.getInstance().token
+        val token = task.addOnCompleteListener {
+            if (!it.isSuccessful) {
+                postSideEffect(SignInSideEffect.DeviceTokenRegisteringFailure)
+                return@addOnCompleteListener
+            }
+        }
+        runBlocking { delay(1000L) }
+        return token.result
     }
 }
 
@@ -164,4 +197,5 @@ internal sealed class SignInSideEffect : MviSideEffect {
     object BadRequest : SignInSideEffect()
     object IdNotFound : SignInSideEffect()
     object PasswordMismatch : SignInSideEffect()
+    object DeviceTokenRegisteringFailure : SignInSideEffect()
 }

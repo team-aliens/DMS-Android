@@ -69,6 +69,10 @@ internal fun SignInScreen(
                 availableFeatures.features = sideEffect.features
                 onNavigateToHome()
             }
+
+            SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
+                message = context.getString(R.string.sign_in_error_device_token_registering_failure),
+            )
         }
     }
     val signInButtonEnabled = state.signInButtonEnabled
