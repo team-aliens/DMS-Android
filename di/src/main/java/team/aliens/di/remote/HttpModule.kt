@@ -118,7 +118,8 @@ object HttpModule {
         return Retrofit(
             clients = clients,
             baseUrl = baseUrl,
-            gsonConverterFactory = true,
+            gsonConverter = true,
+            rxJavaCallAdapter = true,
         )
     }
 }

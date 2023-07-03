@@ -75,6 +75,8 @@ object Dependencies {
             "com.squareup.okhttp3:logging-interceptor:${Versions.Remote.OkHttp}"
         const val FirebaseMessaging =
             "com.google.firebase:firebase-messaging-ktx:${Versions.Remote.Firebase}"
+        const val RetrofitRxJavaAdapter =
+            "com.squareup.retrofit2:adapter-rxjava2:${Versions.Remote.Retrofit}"
     }
 
     object Test {
