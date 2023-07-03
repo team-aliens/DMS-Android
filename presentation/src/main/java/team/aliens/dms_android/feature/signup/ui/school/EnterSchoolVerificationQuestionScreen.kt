@@ -94,7 +94,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.843f)
+                .fillMaxHeight()
                 .padding(horizontal = 16.dp),
         ) {
             Spacer(modifier = Modifier.height(108.dp))
@@ -117,7 +117,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 },
                 imeAction = ImeAction.Done,
             )
-
+            Spacer(modifier = Modifier.weight(1f))
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,
@@ -151,6 +151,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     text = stringResource(id = R.string.Login),
                 )
             }
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }
