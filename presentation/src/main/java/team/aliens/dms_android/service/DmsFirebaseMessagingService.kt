@@ -1,9 +1,12 @@
 package team.aliens.dms_android.service
 
-import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_DEFAULT
+import android.content.Context
+import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,23 +29,32 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
         registerDeviceNotificationToken(token)
     }
 
-    @SuppressLint("MissingPermission") // todo need to be checked
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        remoteMessage.notification?.let { notification -> sendNotification(notification) }
+    }
+
+    private fun sendNotification(notification: RemoteMessage.Notification) {
         val channelId = getString(R.string.notification_channel_id)
 
         val builder =
             NotificationCompat.Builder(this, channelId).setSmallIcon(R.drawable.ic_logo_image)
-                .setContentTitle("FB Notification")
-                .setContentText("FB Notification content. Time to use DMS!").setStyle(
-                    NotificationCompat.BigPictureStyle().setSummaryText(
-                        "FB Notification content. This is longer than the preview content. Thank you for using DMS!"
-                    ),
-                ).setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentTitle(notification.title).setContentText(notification.body)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        with(NotificationManagerCompat.from(this)) {
-            val id = getIdFromTime()
-            notify(id, builder.build())
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(
+                NotificationChannel(
+                    channelId,
+                    getString(R.string.notification_channel_notice_title),
+                    IMPORTANCE_DEFAULT,
+                ),
+            )
         }
+
+        notificationManager.notify(getIdFromTime(), builder.build())
     }
 
     private fun registerDeviceNotificationToken(token: String) {
