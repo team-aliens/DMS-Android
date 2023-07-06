@@ -82,6 +82,7 @@ internal fun Home(
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPasswordNav: () -> Unit,
     onNavigateToAuthNav: () -> Unit,
+    onNavigateToNotificationBox: () -> Unit,
 ) {
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
@@ -144,9 +145,8 @@ internal fun Home(
                         onNextDay = { onCalendarDateChange(currentCalendarDate.plusOneDay()) },
                         onPreviousDay = { onCalendarDateChange(currentCalendarDate.minusOneDay()) },
                         onShowCalendar = { coroutineScope.launch { bottomSheetState.show() } },
-                        onNavigateToNoticeScreen = {
-                            bottomNavController.navigateTo(Announcement.route)
-                        },
+                        onNavigateToNoticeScreen = { bottomNavController.navigateTo(Announcement.route) },
+                        onNavigateToNotificationBox = onNavigateToNotificationBox,
                     )
                 }
                 if (containsApplicationScreen) {

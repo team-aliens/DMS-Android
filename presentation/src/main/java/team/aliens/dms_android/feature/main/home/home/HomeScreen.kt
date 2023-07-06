@@ -13,7 +13,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -92,24 +91,28 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 
 @Composable
 internal fun HomeScreen(
+    modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel(),
     calendarDate: Date,
     onNextDay: () -> Unit,
     onPreviousDay: () -> Unit,
     onShowCalendar: () -> Unit,
     onNavigateToNoticeScreen: () -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToNotificationBox: () -> Unit,
 ) {
     val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .dormGradientBackground(defaultBackgroundBrush),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        HomeScreenAppLogo()
+        HomeScreenAppLogo(
+            onNavigateToNotificationBox = onNavigateToNotificationBox,
+        )
         NoticeCard(
             visible = state.newNotices,
             onIconClicked = onNavigateToNoticeScreen,
@@ -148,15 +151,27 @@ internal fun HomeScreen(
 }
 
 @Composable
-private fun HomeScreenAppLogo() {
-    Column(
-        modifier = Modifier
+private fun HomeScreenAppLogo(
+    modifier: Modifier = Modifier,
+    onNavigateToNotificationBox: () -> Unit,
+) {
+    Row(
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        AppLogo(
-            darkIcon = isSystemInDarkTheme(),
+        AppLogo()
+        Spacer(modifier = Modifier.weight(1f))
+        Icon(
+            modifier = Modifier
+                .padding(8.dp)
+                .size(24.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .dormClickable(onClick = onNavigateToNotificationBox),
+            painter = painterResource(DormIcon.Bell.drawableId),
+            contentDescription = null,
+            tint = DormTheme.colors.primaryVariant,
         )
     }
 }
