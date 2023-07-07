@@ -3,6 +3,7 @@ package team.aliens.dms_android.feature.main.notificationbox
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,13 +42,9 @@ internal fun NotificationBoxScreen(
             title = stringResource(R.string.my_page_check_point_history),
             onPrevious = onPrevious,
         )
-        /* Notifications(
-             modifier = Modifier.fillMaxSize(),
-             notifications = listOf(), // todo
-         )*/
-        Notification(
-            icon = DormIcon.MyPage.drawableId,
-            isNew = true,
+        Notifications(
+            modifier = Modifier.fillMaxWidth(),
+            notifications = listOf(),
         )
     }
 }
@@ -61,8 +58,50 @@ private fun Notifications(
     VerticallyFadedLazyColumn(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(top = 16.dp),
     ) {
-
+        item {
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = true,
+            )
+        }
+        item{
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = true,
+            )
+        }
+        item {
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = false,
+            )
+        }
+        item {
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = false,
+            )
+        }
+        item {
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = false,
+            )
+        }
+        item {
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = false,
+            )
+        }
+        item {
+            Notification(
+                icon = DormIcon.MyPage.drawableId,
+                isNew = false,
+            )
+        }
     }
 }
 
@@ -74,6 +113,7 @@ private fun Notification(
 ) {
     Row(
         modifier = modifier
+            .padding(horizontal = 16.dp)
             .dormShadow(DormTheme.colors.primaryVariant)
             .fillMaxWidth()
             .background(
@@ -105,7 +145,10 @@ private fun Notification(
             },
         )
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Body3(
                 text = "TEXTTEXT",
