@@ -4,6 +4,7 @@ import team.aliens.domain.model.notification.BatchUpdateNotificationTopicInput
 import team.aliens.domain.model.notification.CancelDeviceTokenRegistrationInput
 import team.aliens.domain.model.notification.FetchNotificationTopicStatusInput
 import team.aliens.domain.model.notification.FetchNotificationTopicStatusOutput
+import team.aliens.domain.model.notification.FetchNotificationsOutput
 import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
 import team.aliens.domain.model.notification.SubscribeNotificationTopicInput
 import team.aliens.domain.model.notification.UnsubscribeNotificationTopicInput
@@ -33,5 +34,5 @@ interface NotificationRepository {
         input: FetchNotificationTopicStatusInput,
     ): FetchNotificationTopicStatusOutput
 
-    suspend fun fetchNotifications(): FetchNotificationTopicStatusOutput
+    suspend fun fetchNotifications(): FetchNotificationsOutput
 }

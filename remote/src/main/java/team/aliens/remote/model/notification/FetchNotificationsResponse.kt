@@ -33,6 +33,8 @@ fun List<FetchNotificationsResponse.NotificationResponse>.toDomain(): List<Fetch
     return this.map(FetchNotificationsResponse.NotificationResponse::toDomain)
 }
 
-fun FetchNotificationsResponse.toDomain(): List<FetchNotificationsOutput.NotificationInformation> {
-    return notifications.toDomain()
+fun FetchNotificationsResponse.toDomain(): FetchNotificationsOutput {
+    return FetchNotificationsOutput(
+        notifications = this.notifications.toDomain(),
+    )
 }

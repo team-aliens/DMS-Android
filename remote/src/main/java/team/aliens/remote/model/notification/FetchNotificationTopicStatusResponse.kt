@@ -31,6 +31,7 @@ fun FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionRes
     )
 }
 
+@JvmName("remoteTopicSubscriptionResponseToDomain")
 fun List<FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse>.toDomain(): List<FetchNotificationTopicStatusOutput.TopicGroupInformation.TopicSubscriptionInformation> {
     return this.map(FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse::toDomain)
 }
@@ -43,6 +44,7 @@ fun FetchNotificationTopicStatusResponse.TopicGroupResponse.toDomain(): FetchNot
     )
 }
 
+@JvmName("remoteTopicGroupResponseToDomain")
 fun List<FetchNotificationTopicStatusResponse.TopicGroupResponse>.toDomain(): List<FetchNotificationTopicStatusOutput.TopicGroupInformation> {
     return this.map(FetchNotificationTopicStatusResponse.TopicGroupResponse::toDomain)
 }

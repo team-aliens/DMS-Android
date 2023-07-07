@@ -24,6 +24,8 @@ fun List<BatchUpdateNotificationTopicInput.NotificationTopicInformation>.toData(
     return this.map(BatchUpdateNotificationTopicInput.NotificationTopicInformation::toData)
 }
 
-fun BatchUpdateNotificationTopicInput.toData(): List<BatchUpdateNotificationTopicRequest.NotificationTopicRequest> {
-    return topics.toData()
+fun BatchUpdateNotificationTopicInput.toData(): BatchUpdateNotificationTopicRequest {
+    return BatchUpdateNotificationTopicRequest(
+        topics = this.topics.toData(),
+    )
 }
