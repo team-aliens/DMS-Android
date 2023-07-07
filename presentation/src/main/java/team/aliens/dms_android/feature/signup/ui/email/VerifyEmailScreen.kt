@@ -117,8 +117,8 @@ internal fun VerifyEmailScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    navController.navigate(DmsRoute.SignUp.SendVerificationEmail) {
-                        popUpTo(DmsRoute.SignUp.SendVerificationEmail) {
+                    navController.navigate(SignUpNavigation.VerifyEmail.SetEmail) {
+                        popUpTo(SignUpNavigation.VerifyEmail.VerifyEmail) {
                             inclusive = true
                         }
                     }

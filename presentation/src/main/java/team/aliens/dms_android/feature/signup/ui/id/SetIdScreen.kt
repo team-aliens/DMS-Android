@@ -95,12 +95,6 @@ internal fun SetIdScreen(
                     navController.navigate(SignUpNavigation.SetUserInformation.SetPassword)
                 }
 
-                is SignUpSideEffect.SetId.NotCorrectFormat -> {
-                    toast.showErrorToast(
-                        message = context.getString(R.string.sign_up_id_error_not_correct_format)
-                    )
-                }
-
                 else -> {}
             }
         }

@@ -37,8 +37,7 @@ import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
-import team.aliens.dms_android.feature.main.MainNavigation
+import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.signup.SignUpIntent
 import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
@@ -70,11 +69,7 @@ internal fun TermsScreen(
         signUpViewModel.sideEffectFlow.collect{
             when(it){
                 is SignUpSideEffect.Terms.SuccessSignUp -> {
-                    navController.navigate(MainNavigation.Home){
-                        popUpTo(SignUpNavigation.Terms){
-                            inclusive = true
-                        }
-                    }
+                    signUpDialogState = true
                 }
                 
                 is SignUpSideEffect.Terms.AlreadyExistsStudent -> {
@@ -98,8 +93,8 @@ internal fun TermsScreen(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
                 onMainBtnClick = {
-                    navController.navigate(DmsRoute.Auth.SignIn) {
-                        popUpTo(DmsRoute.Auth.SignIn) {
+                    navController.navigate(AuthNavigation.SignIn) {
+                        popUpTo(SignUpNavigation.Terms) {
                             inclusive = true
                         }
                     }
