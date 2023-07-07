@@ -1,9 +1,8 @@
 package team.aliens.domain.model.notification
 
 import java.util.UUID
-import team.aliens.domain.model._common.NotificationTopic
 
-data class FetchReceivedNotificationsOutput(
+data class FetchNotificationsOutput(
     val notifications: List<NotificationInformation>,
 ) {
     data class NotificationInformation(
@@ -16,7 +15,7 @@ data class FetchReceivedNotificationsOutput(
     )
 }
 
-fun FetchReceivedNotificationsOutput.NotificationInformation.toModel(): Notification {
+fun FetchNotificationsOutput.NotificationInformation.toModel(): Notification {
     return Notification(
         id = this.id,
         topic = this.topic,
@@ -27,10 +26,10 @@ fun FetchReceivedNotificationsOutput.NotificationInformation.toModel(): Notifica
     )
 }
 
-fun List<FetchReceivedNotificationsOutput.NotificationInformation>.toModel(): List<Notification> {
-    return this.map(FetchReceivedNotificationsOutput.NotificationInformation::toModel)
+fun List<FetchNotificationsOutput.NotificationInformation>.toModel(): List<Notification> {
+    return this.map(FetchNotificationsOutput.NotificationInformation::toModel)
 }
 
-fun FetchReceivedNotificationsOutput.toModel(): List<Notification> {
+fun FetchNotificationsOutput.toModel(): List<Notification> {
     return this.notifications.toModel()
 }

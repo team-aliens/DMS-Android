@@ -1,6 +1,6 @@
 package team.aliens.domain.model.notification
 
-import team.aliens.domain.model._common.NotificationTopic
+import team.aliens.domain.model.notification.NotificationTopic
 
 /**
  * An input used when subscribing notification topic

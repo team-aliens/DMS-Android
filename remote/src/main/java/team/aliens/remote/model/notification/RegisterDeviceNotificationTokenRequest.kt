@@ -5,6 +5,6 @@ import java.util.UUID
 
 data class RegisterDeviceNotificationTokenRequest(
     @SerializedName("device_token") val deviceToken: String,
-    @SerializedName("device_id") val deviceId: UUID, // todo discuss
-    @SerializedName("operating_system") val operatingSystem: String = "ANDROID",
+    @SerializedName("device_id") val deviceId: UUID,
+    @SerializedName("operating_system") val operatingSystem: String,
 )

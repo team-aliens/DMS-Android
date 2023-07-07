@@ -16,7 +16,7 @@ class RemoteNotificationDataSourceImpl @Inject constructor(
     ) {
         notificationApiService.registerDeviceNotificationToken(
             request = RegisterDeviceNotificationTokenRequest(
-                deviceToken = input.token,
+                deviceToken = input.deviceToken,
             ),
         )
     }

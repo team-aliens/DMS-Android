@@ -131,7 +131,7 @@ internal class SignInViewModel @Inject constructor(
 
                 registerDeviceNotificationTokenUseCase(
                     registerDeviceNotificationTokenInput = RegisterDeviceNotificationTokenInput(
-                        token = token,
+                        deviceToken = token,
                     ),
                 )
             }.onFailure {

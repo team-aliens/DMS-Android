@@ -2,8 +2,10 @@ package team.aliens.domain.model.notification
 
 /**
  * An input used when registering device notification token
- * @property token device's token
+ * @property deviceToken device's token
  */
 data class RegisterDeviceNotificationTokenInput(
-    val token: String,
+    val deviceToken: String,
+    val deviceId: String,
+    val operatingSystem: String = "ANDROID",
 )
