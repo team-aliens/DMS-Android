@@ -9,7 +9,7 @@ data class FetchNotificationTopicStatusResponse(
 ) {
     data class TopicGroupResponse(
         @SerializedName("topic_group") val topicGroup: NotificationTopicGroup,
-        @SerializedName("group_name") val groupName: String,
+        @SerializedName("group_title") val groupTitle: String,
         @SerializedName("topic_subscriptions") val topicSubscriptions: List<TopicSubscriptionResponse>,
     ) {
         data class TopicSubscriptionResponse(

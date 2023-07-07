@@ -8,6 +8,6 @@ data class BatchUpdateNotificationTopicRequest(
 ) {
     data class NotificationTopicRequest(
         @SerializedName("topic") val topic: NotificationTopic,
-        @SerializedName("is_subscribe") val subscribe: Boolean,
+        @SerializedName("is_subscribed") val subscribed: Boolean,
     )
 }

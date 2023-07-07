@@ -5,6 +5,6 @@ data class BatchUpdateNotificationTopicInput(
 ) {
     data class NotificationTopicInformation(
         val topic: NotificationTopic,
-        val subscribe: Boolean,
+        val subscribed: Boolean,
     )
 }
