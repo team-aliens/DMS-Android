@@ -117,8 +117,11 @@ internal sealed class HttpPath(
         path = this.Notification,
     ) {
         const val RegisterDeviceToken = "/${Domain.Notification}/token"
+        const val CancelDeviceTokenRegistration = "/${Domain.Notification}/token"
         const val SubscribeTopic = "/${Domain.Notification}/topic"
         const val UnsubscribeTopic = "/${Domain.Notification}/topic"
         const val BatchUpdateTopic = "/${Domain.Notification}/topic"
+        const val FetchNotificationTopicsStatus = "/${Domain.Notification}/topic"
+        const val FetchNotifications = "/${Domain.Notification}"
     }
 }
