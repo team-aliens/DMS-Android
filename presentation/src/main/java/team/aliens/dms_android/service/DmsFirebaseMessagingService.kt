@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.MainActivity
+import team.aliens.dms_android.util.getDeviceUid
 import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
 import team.aliens.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
 import team.aliens.presentation.R
@@ -101,6 +102,7 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
                 registerDeviceNotificationTokenUseCase(
                     registerDeviceNotificationTokenInput = RegisterDeviceNotificationTokenInput(
                         deviceToken = token,
+                        deviceId = baseContext.getDeviceUid(),
                     ),
                 )
             }.onFailure {

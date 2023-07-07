@@ -36,7 +36,7 @@ internal class SignInViewModel @Inject constructor(
 
     override fun processIntent(intent: SignInIntent) {
         when (intent) {
-            SignInIntent.SignIn -> this.signIn()
+            is SignInIntent.SignIn -> this.signIn(intent.deviceId)
             is SignInIntent.UpdateAutoSignInOption -> this.setAutoSignInOption(
                 newAutoSignInOption = intent.newAutoSignInOption,
             )
@@ -51,7 +51,7 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun signIn() {
+    private fun signIn(deviceId: String) {
         setSignInButtonState(false)
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -71,7 +71,7 @@ internal class SignInViewModel @Inject constructor(
                         features = it.features.toModel(),
                     ),
                 )
-                this@SignInViewModel.registerDeviceNotificationToken()
+                this@SignInViewModel.registerDeviceNotificationToken(deviceId)
             }.onFailure {
                 when (it) {
                     RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
@@ -124,7 +124,9 @@ internal class SignInViewModel @Inject constructor(
         reduce(newState = currentState.copy(signInButtonEnabled = enabled))
     }
 
-    private fun registerDeviceNotificationToken() {
+    private fun registerDeviceNotificationToken(
+        deviceId: String,
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 val token = this@SignInViewModel.fetchDeviceNotificationToken()
@@ -132,6 +134,7 @@ internal class SignInViewModel @Inject constructor(
                 registerDeviceNotificationTokenUseCase(
                     registerDeviceNotificationTokenInput = RegisterDeviceNotificationTokenInput(
                         deviceToken = token,
+                        deviceId = deviceId,
                     ),
                 )
             }.onFailure {
@@ -155,19 +158,13 @@ internal class SignInViewModel @Inject constructor(
 }
 
 internal sealed interface SignInIntent : MviIntent {
-    class UpdateAccountId(
-        val newAccountId: String,
-    ) : SignInIntent
+    class UpdateAccountId(val newAccountId: String) : SignInIntent
 
-    class UpdatePassword(
-        val newPassword: String,
-    ) : SignInIntent
+    class UpdatePassword(val newPassword: String) : SignInIntent
 
-    class UpdateAutoSignInOption(
-        val newAutoSignInOption: Boolean,
-    ) : SignInIntent
+    class UpdateAutoSignInOption(val newAutoSignInOption: Boolean) : SignInIntent
 
-    object SignIn : SignInIntent
+    class SignIn(val deviceId: String) : SignInIntent
 }
 
 internal data class SignInState(

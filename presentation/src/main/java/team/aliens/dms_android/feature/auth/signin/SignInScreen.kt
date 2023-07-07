@@ -35,6 +35,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms_android.util.getDeviceUid
 import team.aliens.presentation.R
 
 @Composable
@@ -113,7 +114,7 @@ internal fun SignInScreen(
             text = stringResource(R.string.sign_in),
             color = DormButtonColor.Blue,
             enabled = signInButtonEnabled,
-            onClick = { signInViewModel.postIntent(SignInIntent.SignIn) },
+            onClick = { signInViewModel.postIntent(SignInIntent.SignIn(context.getDeviceUid())) },
         )
         Spacer(Modifier.height(57.dp))
     }
