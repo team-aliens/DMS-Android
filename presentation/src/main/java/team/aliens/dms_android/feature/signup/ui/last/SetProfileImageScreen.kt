@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,16 +41,18 @@ import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.main.image.SelectImageTypeDialog
 import team.aliens.dms_android.feature.signup.SignUpIntent
+import team.aliens.dms_android.feature.signup.SignUpNavigation
+import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
+import team.aliens.dms_android.feature.signup.defaultProfileUrl
 import team.aliens.presentation.R
 
-private const val defaultProfileUrl =
-    "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
 
 @Composable
 internal fun SetProfileImageScreen(
@@ -58,8 +61,8 @@ internal fun SetProfileImageScreen(
 ) {
     val selectImageFromGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-    ){
-        if(it != null){
+    ) {
+        if (it != null) {
             signUpViewModel.postIntent(SignUpIntent.SetProfileImage.SelectProfileImage(it))
         }
     }
@@ -70,18 +73,41 @@ internal fun SetProfileImageScreen(
         )
     }
 
+    val toast = LocalToast.current
+    val uploadImageFailedMessage = stringResource(id = R.string.sign_up_profile_error_load_image_error)
+    val uploadImageNotSelected = stringResource(id = R.string.sign_up_profile_error_image_not_selected)
+
     var selectImageTypeDialogState by remember { mutableStateOf(false) }
     val onSelectImageTypeDialogShow = { selectImageTypeDialogState = true }
     val onSelectImageTypeDialogDismiss = { selectImageTypeDialogState = false }
 
     val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit){
+        signUpViewModel.sideEffectFlow.collect{
+            when(it){
+                is SignUpSideEffect.SetProfileImage.UploadImageSuccess -> {
+                    navController.navigate(SignUpNavigation.Terms)
+                }
+                is SignUpSideEffect.SetProfileImage.UploadImageFailed -> {
+                    toast.showErrorToast(uploadImageFailedMessage)
+                }
+
+                is SignUpSideEffect.SetProfileImage.UploadImageNotSelected -> {
+                    toast.showErrorToast(uploadImageFailedMessage)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
     if (selectImageTypeDialogState) {
         SelectImageTypeDialog(
             onCancel = onSelectImageTypeDialogDismiss,
             onTakePhoto = {},
             onSelectPhoto = onSelectPhoto,
-            onDialogDismiss = {},
+            onDialogDismiss = onSelectImageTypeDialogDismiss,
         )
     }
 

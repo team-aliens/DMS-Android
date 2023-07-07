@@ -2,6 +2,7 @@ package team.aliens.dms_android.feature.signup
 
 import android.net.Uri
 import android.util.Patterns
+import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
@@ -17,12 +18,14 @@ import team.aliens.domain.exception.RemoteException
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.domain.model.file.UploadFileInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.domain.model.student.CheckIdDuplicationInput
 import team.aliens.domain.model.student.ExamineStudentNumberInput
+import team.aliens.domain.model.student.SignUpInput
 import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
 import team.aliens.domain.usecase.file.UploadFileUseCase
@@ -35,6 +38,8 @@ import team.aliens.domain.usecase.student.ExamineStudentNumberUseCase
 import team.aliens.domain.usecase.student.SignUpUseCase
 
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
+const val defaultProfileUrl =
+    "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
 
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
@@ -187,7 +192,19 @@ internal class SignUpViewModel @Inject constructor(
                     }
 
                     is SignUpIntent.SetProfileImage.UploadImage -> {
+                        uploadImage()
+                    }
+                }
+            }
 
+            is SignUpIntent.Terms -> {
+                when (intent) {
+                    is SignUpIntent.Terms.SetCheckedPolicy -> {
+                        setCheckedPolicy(intent.checkedPolicy)
+                    }
+
+                    is SignUpIntent.Terms.SignUp -> {
+                        signUp()
                     }
                 }
             }
@@ -343,8 +360,61 @@ internal class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun uploadImage(){
+    private fun uploadImage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val profileImageUri = stateFlow.value.profileImageUri
+            if (profileImageUri == null) {
+                postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageNotSelected)
+            }
+            kotlin.runCatching {
+                uploadFileUseCase(
+                    uploadFileInput = UploadFileInput(
+                        file = profileImageUri!!.toFile(),
+                    )
+                )
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageSuccess)
+                setProfileImageUrl(profileImageUrl = it.fileUrl)
+            }.onFailure {
+                postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageFailed)
+            }
+        }
+    }
 
+
+    private fun signUp() {
+        viewModelScope.launch(Dispatchers.IO) {
+            with(stateFlow.value) {
+                kotlin.runCatching {
+                    signUpUseCase(
+                        signUpInput = SignUpInput(
+                            schoolVerificationCode = schoolCode,
+                            schoolVerificationAnswer = schoolAnswer,
+                            email = email,
+                            emailVerificationCode = authCode,
+                            grade = grade.toInt(),
+                            classRoom = classRoom.toInt(),
+                            number = number.toInt(),
+                            accountId = accountId,
+                            password = password,
+                            profileImageUrl = profileImageUrl,
+                        )
+                    )
+                }.onSuccess {
+                    postSideEffect(SignUpSideEffect.Terms.SuccessSignUp)
+                }.onFailure {
+                    when(it){
+                        is RemoteException.Unauthorized -> {
+                            postSideEffect(SignUpSideEffect.Terms.EmailNotVerified)
+                        }
+
+                        is RemoteException.Conflict -> {
+                            postSideEffect(SignUpSideEffect.Terms.AlreadyExistsStudent)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setSchoolCode(
@@ -698,10 +768,30 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun setConfirmProfileImageEnabled(
         confirmProfileImageEnabled: Boolean,
-    ){
+    ) {
         reduce(
             newState = stateFlow.value.copy(
                 confirmProfileImageButtonEnabled = confirmProfileImageEnabled,
+            )
+        )
+    }
+
+    private fun setProfileImageUrl(
+        profileImageUrl: String,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                profileImageUrl = profileImageUrl,
+            )
+        )
+    }
+
+    private fun setCheckedPolicy(
+        checkedPolicy: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                checkedPolicy = checkedPolicy,
             )
         )
     }
@@ -755,6 +845,11 @@ sealed class SignUpIntent : MviIntent {
         class SelectProfileImage(val profileImageUri: Uri) : SetProfileImage()
         object UploadImage : SetProfileImage()
     }
+
+    sealed class Terms : SignUpIntent() {
+        class SetCheckedPolicy(val checkedPolicy: Boolean) : Terms()
+        object SignUp : Terms()
+    }
 }
 
 data class SignUpState(
@@ -795,7 +890,10 @@ data class SignUpState(
     val passwordConfirmButtonEnabled: Boolean,
 
     val profileImageUri: Uri?,
+    val profileImageUrl: String,
     val confirmProfileImageButtonEnabled: Boolean,
+
+    val checkedPolicy: Boolean,
 
     val schoolId: UUID?,
 ) : MviState {
@@ -839,8 +937,11 @@ data class SignUpState(
                 passwordConfirmButtonEnabled = false,
 
                 profileImageUri = null,
+                profileImageUrl = "",
                 schoolId = null,
                 confirmProfileImageButtonEnabled = false,
+
+                checkedPolicy = false,
             )
         }
     }
@@ -877,6 +978,16 @@ sealed class SignUpSideEffect : MviSideEffect {
         object SuccessCheckPassword : SetPassword()
     }
 
+    sealed class SetProfileImage : SignUpSideEffect() {
+        object UploadImageSuccess : SetProfileImage()
+        object UploadImageFailed : SetProfileImage()
+        object UploadImageNotSelected : SetProfileImage()
+    }
 
+    sealed class Terms: SignUpSideEffect(){
+        object SuccessSignUp: Terms()
+        object EmailNotVerified: Terms()
+        object AlreadyExistsStudent: Terms()
+    }
 }
 
