@@ -40,6 +40,7 @@ import team.aliens.domain.usecase.student.SignUpUseCase
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 const val defaultProfileUrl =
     "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
+private const val idFormatPattern = "^[a-zA-Z]*$"
 
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
@@ -51,11 +52,7 @@ internal class SignUpViewModel @Inject constructor(
     private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
     private val examineStudentNumberUseCase: ExamineStudentNumberUseCase,
     private val checkIdDuplicationUseCase: CheckIdDuplicationUseCase,
-
-    // 학생 프로필 설정
     private val uploadFileUseCase: UploadFileUseCase,
-
-    // 최종 회원가입
     private val signUpUseCase: SignUpUseCase,
 ) : BaseMviViewModel<SignUpIntent, SignUpState, SignUpSideEffect>(
     initialState = SignUpState.initial(),
@@ -163,8 +160,8 @@ internal class SignUpViewModel @Inject constructor(
                         checkIdDuplication()
                     }
 
-                    is SignUpIntent.SetId.CheckedStudentName -> {
-                        setCheckedStudentName(intent.checkedStudentName)
+                    is SignUpIntent.SetId.SetCheckedStudentName -> {
+                        this.setCheckedStudentName(intent.checkedStudentName)
                     }
                 }
             }
@@ -320,17 +317,18 @@ internal class SignUpViewModel @Inject constructor(
             kotlin.runCatching {
                 examineStudentNumberUseCase(
                     examineStudentNumberInput = ExamineStudentNumberInput(
-                        schoolId = stateFlow.value.schoolId!!,
+                        schoolId = UUID.fromString("918bffd6-6c7e-11ed-a1eb-0242ac120002"),
                         grade = stateFlow.value.grade.toInt(),
                         classRoom = stateFlow.value.classRoom.toInt(),
                         number = stateFlow.value.number.toInt(),
                     )
                 )
             }.onSuccess {
-                setSuccessVerifyStudent(true)
+                setCheckedStudentName(true)
+                setStudentNumberMismatchError(false)
                 setStudentName(studentName = it.name)
             }.onFailure {
-                setSuccessVerifyStudent(false)
+                setCheckedStudentName(false)
                 when (it) {
                     is RemoteException.NotFound -> {
                         setStudentNumberMismatchError(true)
@@ -346,16 +344,23 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun checkIdDuplication() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                checkIdDuplicationUseCase(
-                    checkIdDuplicationInput = CheckIdDuplicationInput(
-                        accountId = stateFlow.value.accountId,
+
+            val accountId = stateFlow.value.accountId
+
+            if (Pattern.matches(idFormatPattern, accountId)) {
+                kotlin.runCatching {
+                    checkIdDuplicationUseCase(
+                        checkIdDuplicationInput = CheckIdDuplicationInput(
+                            accountId = stateFlow.value.accountId,
+                        )
                     )
-                )
-            }.onSuccess {
-                postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
-            }.onFailure {
-                setConflictAccountIdError(it is RemoteException.Conflict)
+                }.onSuccess {
+                    postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
+                }.onFailure {
+                    setConflictAccountIdError(it is RemoteException.Conflict)
+                }
+            } else {
+                postSideEffect(SignUpSideEffect.SetId.NotCorrectFormat)
             }
         }
     }
@@ -403,7 +408,7 @@ internal class SignUpViewModel @Inject constructor(
                 }.onSuccess {
                     postSideEffect(SignUpSideEffect.Terms.SuccessSignUp)
                 }.onFailure {
-                    when(it){
+                    when (it) {
                         is RemoteException.Unauthorized -> {
                             postSideEffect(SignUpSideEffect.Terms.EmailNotVerified)
                         }
@@ -641,16 +646,7 @@ internal class SignUpViewModel @Inject constructor(
                 studentNumberMismatchError = studentNumberMismatchError,
             )
         )
-    }
-
-    private fun setSuccessVerifyStudent(
-        successVerifyStudent: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                successVerifyStudent = successVerifyStudent,
-            )
-        )
+        setIdConfirmButtonEnabled()
     }
 
     private fun setConflictAccountIdError(
@@ -666,8 +662,8 @@ internal class SignUpViewModel @Inject constructor(
     private fun setIdConfirmButtonEnabled() {
         with(stateFlow.value) {
             reduce(
-                newState = stateFlow.value.copy(
-                    idConfirmButtonEnabled = grade.isNotEmpty() && classRoom.isNotEmpty() && number.isNotEmpty() && accountId.isNotEmpty()
+                newState = copy(
+                    idConfirmButtonEnabled = !studentNumberMismatchError && grade.isNotBlank() && classRoom.isNotBlank() && number.isNotBlank() && accountId.isNotBlank(),
                 )
             )
         }
@@ -830,9 +826,9 @@ sealed class SignUpIntent : MviIntent {
         class SetAccountId(val accountId: String) : SetId()
         class SetStudentName(val studentName: String) : SetId()
         class SetGcnMismatchError(val gcnMismatchError: Boolean) : SetId()
+        class SetCheckedStudentName(val checkedStudentName: Boolean) : SetId()
         object ExamineStudentNumber : SetId()
         object CheckIdDuplication : SetId()
-        class CheckedStudentName(val checkedStudentName: Boolean) : SetId()
     }
 
     sealed class SetPassword : SignUpIntent() {
@@ -878,9 +874,8 @@ data class SignUpState(
     val accountId: String,
     val studentName: String,
     val studentNumberMismatchError: Boolean,
-    val successVerifyStudent: Boolean,
-    val conflictAccountIdError: Boolean,
     val checkedStudentName: Boolean,
+    val conflictAccountIdError: Boolean,
     val idConfirmButtonEnabled: Boolean,
 
     val password: String,
@@ -925,10 +920,9 @@ data class SignUpState(
                 accountId = "",
                 studentName = "",
                 studentNumberMismatchError = false,
-                successVerifyStudent = false,
+                checkedStudentName = false,
                 conflictAccountIdError = false,
                 idConfirmButtonEnabled = false,
-                checkedStudentName = false,
 
                 password = "",
                 passwordRepeat = "",
@@ -972,6 +966,7 @@ sealed class SignUpSideEffect : MviSideEffect {
     sealed class SetId : SignUpSideEffect() {
         object ConflictStudent : SetId()
         object SuccessVerifyStudent : SetId()
+        object NotCorrectFormat : SetId()
     }
 
     sealed class SetPassword : SignUpSideEffect() {
@@ -984,10 +979,9 @@ sealed class SignUpSideEffect : MviSideEffect {
         object UploadImageNotSelected : SetProfileImage()
     }
 
-    sealed class Terms: SignUpSideEffect(){
-        object SuccessSignUp: Terms()
-        object EmailNotVerified: Terms()
-        object AlreadyExistsStudent: Terms()
+    sealed class Terms : SignUpSideEffect() {
+        object SuccessSignUp : Terms()
+        object EmailNotVerified : Terms()
+        object AlreadyExistsStudent : Terms()
     }
 }
-

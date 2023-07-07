@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -43,8 +45,6 @@ import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
 
-const val idFormatPattern = "^[a-zA-Z]*$"
-
 @Composable
 internal fun SetIdScreen(
     navController: NavController,
@@ -59,16 +59,23 @@ internal fun SetIdScreen(
 
     val context = LocalContext.current
 
+    val moveFocus = {
+        focusManager.moveFocus(FocusDirection.Next)
+    }
+
     val onGradeChange = { grade: String ->
         signUpViewModel.postIntent(SignUpIntent.SetId.SetGrade(grade = grade))
+        if (grade.length == 1) moveFocus()
     }
 
     val onClassRoomChange = { classRoom: String ->
         signUpViewModel.postIntent(SignUpIntent.SetId.SetClassRoom(classRoom = classRoom))
+        if (classRoom.length == 1) moveFocus()
     }
 
     val onNumberChange = { number: String ->
         signUpViewModel.postIntent(SignUpIntent.SetId.SetNumber(number = number))
+        if (number.length == 2) moveFocus()
     }
 
     val onAccountIdChange = { accountId: String ->
@@ -86,6 +93,12 @@ internal fun SetIdScreen(
 
                 is SignUpSideEffect.SetId.SuccessVerifyStudent -> {
                     navController.navigate(SignUpNavigation.SetUserInformation.SetPassword)
+                }
+
+                is SignUpSideEffect.SetId.NotCorrectFormat -> {
+                    toast.showErrorToast(
+                        message = context.getString(R.string.sign_up_id_error_not_correct_format)
+                    )
                 }
 
                 else -> {}
@@ -147,7 +160,7 @@ internal fun SetIdScreen(
                 )
             }
             AnimatedVisibility(
-                visible = state.successVerifyStudent,
+                visible = state.checkedStudentName,
             ) {
                 Row(
                     modifier = Modifier
@@ -168,7 +181,11 @@ internal fun SetIdScreen(
                         modifier = Modifier.dormClickable(
                             rippleEnabled = false,
                         ) {
-                            signUpViewModel.postIntent(SignUpIntent.SetId.CheckedStudentName(true))
+                            signUpViewModel.postIntent(
+                                SignUpIntent.SetId.SetCheckedStudentName(
+                                    false
+                                )
+                            )
                         },
                         text = stringResource(id = R.string.Check),
                     )
@@ -176,6 +193,9 @@ internal fun SetIdScreen(
             }
             Space(space = 26.dp)
             DormTextField(
+                modifier = Modifier.onFocusChanged {
+                    signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
+                },
                 value = state.accountId,
                 onValueChange = onAccountIdChange,
                 hint = stringResource(id = R.string.EnterId),
@@ -187,18 +207,18 @@ internal fun SetIdScreen(
                 imeAction = ImeAction.Done,
             )
             Spacer(modifier = Modifier.weight(1f))
-            DormContainedLargeButton(
-                text = stringResource(id = R.string.Next),
-                color = DormButtonColor.Blue,
-                enabled = state.idConfirmButtonEnabled,
+            Column(
+                modifier = Modifier.imePadding(),
             ) {
-                if (!state.successVerifyStudent) {
-                    signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
-                } else if(state.checkedStudentName){
+                DormContainedLargeButton(
+                    text = stringResource(id = R.string.Next),
+                    color = DormButtonColor.Blue,
+                    enabled = state.idConfirmButtonEnabled,
+                ) {
                     signUpViewModel.postIntent(SignUpIntent.SetId.CheckIdDuplication)
                 }
+                Spacer(modifier = Modifier.height(48.dp))
             }
-            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }
