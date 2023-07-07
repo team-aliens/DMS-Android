@@ -2,6 +2,7 @@ package team.aliens.remote.model.notification
 
 import com.google.gson.annotations.SerializedName
 import java.util.UUID
+import team.aliens.domain.model.notification.FetchNotificationsOutput
 import team.aliens.domain.model.notification.NotificationTopic
 
 data class FetchNotificationsResponse(
@@ -15,4 +16,23 @@ data class FetchNotificationsResponse(
         @SerializedName("content") val content: String,
         @SerializedName("created_at") val createdAt: String,
     )
+}
+
+fun FetchNotificationsResponse.NotificationResponse.toDomain(): FetchNotificationsOutput.NotificationInformation {
+    return FetchNotificationsOutput.NotificationInformation(
+        id = id,
+        topic = topic,
+        linkId = linkId,
+        title = title,
+        content = content,
+        createdAt = createdAt,
+    )
+}
+
+fun List<FetchNotificationsResponse.NotificationResponse>.toDomain(): List<FetchNotificationsOutput.NotificationInformation> {
+    return this.map(FetchNotificationsResponse.NotificationResponse::toDomain)
+}
+
+fun FetchNotificationsResponse.toDomain(): List<FetchNotificationsOutput.NotificationInformation> {
+    return notifications.toDomain()
 }
