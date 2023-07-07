@@ -10,6 +10,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import team.aliens.dms_android.base.BaseMviViewModel
 import team.aliens.dms_android.base.MviIntent
 import team.aliens.dms_android.base.MviSideEffect
@@ -40,7 +41,6 @@ import team.aliens.domain.usecase.student.SignUpUseCase
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 const val defaultProfileUrl =
     "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
-private const val idFormatPattern = "^[a-zA-Z]*$"
 
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
@@ -185,7 +185,7 @@ internal class SignUpViewModel @Inject constructor(
             is SignUpIntent.SetProfileImage -> {
                 when (intent) {
                     is SignUpIntent.SetProfileImage.SelectProfileImage -> {
-                        setProfileImageUrl(intent.profileImageUri)
+                        setProfileImageUri(intent.profileImageUri)
                     }
 
                     is SignUpIntent.SetProfileImage.UploadImage -> {
@@ -347,39 +347,40 @@ internal class SignUpViewModel @Inject constructor(
 
             val accountId = stateFlow.value.accountId
 
-            if (Pattern.matches(idFormatPattern, accountId)) {
-                kotlin.runCatching {
-                    checkIdDuplicationUseCase(
-                        checkIdDuplicationInput = CheckIdDuplicationInput(
-                            accountId = stateFlow.value.accountId,
-                        )
+            kotlin.runCatching {
+                checkIdDuplicationUseCase(
+                    checkIdDuplicationInput = CheckIdDuplicationInput(
+                        accountId = stateFlow.value.accountId,
                     )
-                }.onSuccess {
-                    postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
-                }.onFailure {
-                    setConflictAccountIdError(it is RemoteException.Conflict)
-                }
-            } else {
-                postSideEffect(SignUpSideEffect.SetId.NotCorrectFormat)
+                )
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
+            }.onFailure {
+                setConflictAccountIdError(it is RemoteException.Conflict)
             }
         }
     }
 
+    private fun uploadProfile(): String {
+        return runBlocking(Dispatchers.IO) {
+            uploadFileUseCase(
+                uploadFileInput = UploadFileInput(
+                    file = stateFlow.value.profileImageUri!!.toFile(), // not-null asserted
+                ),
+            )
+        }.fileUrl
+    }
+
     private fun uploadImage() {
+        if (stateFlow.value.profileImageUri == null) {
+            postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageNotSelected)
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            val profileImageUri = stateFlow.value.profileImageUri
-            if (profileImageUri == null) {
-                postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageNotSelected)
-            }
             kotlin.runCatching {
-                uploadFileUseCase(
-                    uploadFileInput = UploadFileInput(
-                        file = profileImageUri!!.toFile(),
-                    )
-                )
+                uploadProfile()
             }.onSuccess {
                 postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageSuccess)
-                setProfileImageUrl(profileImageUrl = it.fileUrl)
+                setProfileImageUrl(it)
             }.onFailure {
                 postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageFailed)
             }
@@ -741,15 +742,15 @@ internal class SignUpViewModel @Inject constructor(
         )
     }
 
-    private fun setProfileImageUrl(
-        profileImageUrl: Uri?,
+    private fun setProfileImageUri(
+        profileImageUri: Uri?,
     ) {
         reduce(
             newState = stateFlow.value.copy(
-                profileImageUri = profileImageUrl,
+                profileImageUri = profileImageUri,
             )
         )
-        setConfirmProfileImageEnabled(profileImageUrl != null)
+        setConfirmProfileImageEnabled(profileImageUri != null)
     }
 
     private fun setSchoolId(
@@ -931,7 +932,7 @@ data class SignUpState(
                 passwordConfirmButtonEnabled = false,
 
                 profileImageUri = null,
-                profileImageUrl = "",
+                profileImageUrl = defaultProfileUrl,
                 schoolId = null,
                 confirmProfileImageButtonEnabled = false,
 

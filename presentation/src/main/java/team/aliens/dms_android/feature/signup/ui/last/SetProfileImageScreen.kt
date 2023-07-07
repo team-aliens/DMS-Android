@@ -27,11 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -75,7 +73,7 @@ internal fun SetProfileImageScreen(
 
     val toast = LocalToast.current
     val uploadImageFailedMessage = stringResource(id = R.string.sign_up_profile_error_load_image_error)
-    val uploadImageNotSelected = stringResource(id = R.string.sign_up_profile_error_image_not_selected)
+    val uploadImageNotSelectedMessage = stringResource(id = R.string.sign_up_profile_error_image_not_selected)
 
     var selectImageTypeDialogState by remember { mutableStateOf(false) }
     val onSelectImageTypeDialogShow = { selectImageTypeDialogState = true }
@@ -83,18 +81,19 @@ internal fun SetProfileImageScreen(
 
     val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit){
-        signUpViewModel.sideEffectFlow.collect{
-            when(it){
+    LaunchedEffect(Unit) {
+        signUpViewModel.sideEffectFlow.collect {
+            when (it) {
                 is SignUpSideEffect.SetProfileImage.UploadImageSuccess -> {
                     navController.navigate(SignUpNavigation.Terms)
                 }
+
                 is SignUpSideEffect.SetProfileImage.UploadImageFailed -> {
                     toast.showErrorToast(uploadImageFailedMessage)
                 }
 
                 is SignUpSideEffect.SetProfileImage.UploadImageNotSelected -> {
-                    toast.showErrorToast(uploadImageFailedMessage)
+                    toast.showErrorToast(uploadImageNotSelectedMessage)
                 }
 
                 else -> {}
@@ -155,7 +154,7 @@ internal fun SetProfileImageScreen(
                 modifier = Modifier.dormClickable(
                     rippleEnabled = false,
                 ) {
-
+                  navController.navigate(SignUpNavigation.Terms)
                 },
                 text = stringResource(id = R.string.SettingLater),
             )

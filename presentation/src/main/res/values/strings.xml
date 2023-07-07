@@ -308,7 +308,6 @@
 
     <string name="sign_up_id_set">아이디 설정</string>
     <string name="sign_up_id_enter">아이디 입력</string>
-    <string name="sign_up_id_error_not_correct_format">아이디 형식이 일치하지 않습니다</string>
 
     <string name="sign_up_id_grade">학년</string>
     <string name="sign_up_id_class">반</string>
