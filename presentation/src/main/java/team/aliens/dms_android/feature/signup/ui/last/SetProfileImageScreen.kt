@@ -31,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -45,16 +44,14 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.main.image.SelectImageTypeDialog
 import team.aliens.dms_android.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.dms_android.feature.signup.defaultProfileUrl
 import team.aliens.presentation.R
 
-
 @Composable
 internal fun SetProfileImageScreen(
-    navController: NavController,
+    onNavigateToTerms: () -> Unit,
     signUpViewModel: SignUpViewModel,
 ) {
     val selectImageFromGalleryLauncher = rememberLauncherForActivityResult(
@@ -72,8 +69,10 @@ internal fun SetProfileImageScreen(
     }
 
     val toast = LocalToast.current
-    val uploadImageFailedMessage = stringResource(id = R.string.sign_up_profile_error_load_image_error)
-    val uploadImageNotSelectedMessage = stringResource(id = R.string.sign_up_profile_error_image_not_selected)
+    val uploadImageFailedMessage =
+        stringResource(id = R.string.sign_up_profile_error_load_image_error)
+    val uploadImageNotSelectedMessage =
+        stringResource(id = R.string.sign_up_profile_error_image_not_selected)
 
     var selectImageTypeDialogState by remember { mutableStateOf(false) }
     val onSelectImageTypeDialogShow = { selectImageTypeDialogState = true }
@@ -85,7 +84,7 @@ internal fun SetProfileImageScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SetProfileImage.UploadImageSuccess -> {
-                    navController.navigate(SignUpNavigation.Terms)
+                    onNavigateToTerms()
                 }
 
                 is SignUpSideEffect.SetProfileImage.UploadImageFailed -> {
@@ -153,9 +152,8 @@ internal fun SetProfileImageScreen(
             ButtonText(
                 modifier = Modifier.dormClickable(
                     rippleEnabled = false,
-                ) {
-                  navController.navigate(SignUpNavigation.Terms)
-                },
+                    onClick = onNavigateToTerms,
+                ),
                 text = stringResource(id = R.string.SettingLater),
             )
             Space(space = 30.dp)

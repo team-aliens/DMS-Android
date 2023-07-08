@@ -42,7 +42,8 @@ import team.aliens.presentation.R
 
 @Composable
 internal fun SendVerificationEmailScreen(
-    navController: NavController,
+    onNavigateToVerifyEmail: () -> Unit,
+    onNavigateToSignInWithInclusive: () -> Unit,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -66,13 +67,7 @@ internal fun SendVerificationEmailScreen(
                 content = stringResource(id = R.string.FinishSignUp),
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = {
-                    navController.navigate(DmsRoute.Auth.SignIn) {
-                        popUpTo(DmsRoute.Auth.SignIn) {
-                            inclusive = true
-                        }
-                    }
-                },
+                onMainBtnClick = onNavigateToSignInWithInclusive,
                 onSubBtnClick = { showQuitSignUpDialog = false },
             )
         }
@@ -95,7 +90,7 @@ internal fun SendVerificationEmailScreen(
                 }
 
                 is SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode -> {
-                    navController.navigate(SignUpNavigation.VerifyEmail.VerifyEmail)
+                    onNavigateToVerifyEmail()
                 }
 
                 else -> {}

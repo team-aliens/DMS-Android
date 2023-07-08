@@ -34,7 +34,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -48,9 +47,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
@@ -59,7 +56,8 @@ private const val TotalSecond = 180
 
 @Composable
 internal fun VerifyEmailScreen(
-    navController: NavController,
+    onNavigateToSetId: () -> Unit,
+    onNavigateToSetEmailWithInclusive: () -> Unit,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -76,15 +74,15 @@ internal fun VerifyEmailScreen(
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         signUpViewModel.postIntent(SignUpIntent.SendEmail.SetEmailTimerWorked(emailTimerWorked = true))
-        signUpViewModel.sideEffectFlow.collect{
-            when(it){
+        signUpViewModel.sideEffectFlow.collect {
+            when (it) {
                 is SignUpSideEffect.VerifyEmail.CompleteEnteredAuthCode -> {
                     focusManager.clearFocus()
                     signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
                 }
 
                 is SignUpSideEffect.VerifyEmail.SuccessVerifyEmail -> {
-                    navController.navigate(SignUpNavigation.SetUserInformation.SetId)
+                    onNavigateToSetId()
                 }
 
                 is SignUpSideEffect.VerifyEmail.ConflictEmail -> {
@@ -116,13 +114,7 @@ internal fun VerifyEmailScreen(
                 content = stringResource(id = R.string.CancelEmailVerify),
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = {
-                    navController.navigate(SignUpNavigation.VerifyEmail.SetEmail) {
-                        popUpTo(SignUpNavigation.VerifyEmail.VerifyEmail) {
-                            inclusive = true
-                        }
-                    }
-                },
+                onMainBtnClick = onNavigateToSetEmailWithInclusive,
                 onSubBtnClick = { isPressedBackButton = false },
             )
         }

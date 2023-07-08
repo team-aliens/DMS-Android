@@ -16,6 +16,7 @@ import team.aliens.dms_android.common.rememberAvailableFeatures
 import team.aliens.dms_android.extension.navigateToAuthNav
 import team.aliens.dms_android.extension.navigateToEditPasswordNav
 import team.aliens.dms_android.extension.navigateToEditPasswordSetPassword
+import team.aliens.dms_android.extension.navigateToEnterSchoolVerificationQuestion
 import team.aliens.dms_android.extension.navigateToFindId
 import team.aliens.dms_android.extension.navigateToHome
 import team.aliens.dms_android.extension.navigateToNoticeDetails
@@ -24,11 +25,18 @@ import team.aliens.dms_android.extension.navigateToRemainsApplication
 import team.aliens.dms_android.extension.navigateToResetPasswordEnterEmailVerificationCode
 import team.aliens.dms_android.extension.navigateToResetPasswordNav
 import team.aliens.dms_android.extension.navigateToResetPasswordSetPassword
+import team.aliens.dms_android.extension.navigateToSetEmail
+import team.aliens.dms_android.extension.navigateToSetId
+import team.aliens.dms_android.extension.navigateToSetPassword
+import team.aliens.dms_android.extension.navigateToSetProfile
+import team.aliens.dms_android.extension.navigateToSignInWithInclusive
 import team.aliens.dms_android.extension.navigateToSignUpNav
 import team.aliens.dms_android.extension.navigateToStudyRoomDetails
 import team.aliens.dms_android.extension.navigateToStudyRooms
+import team.aliens.dms_android.extension.navigateToTerms
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithSelectingPhoto
 import team.aliens.dms_android.extension.navigateToUploadProfileImageWithTakingPhoto
+import team.aliens.dms_android.extension.navigateToVerifyEmail
 import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.authNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
@@ -82,6 +90,7 @@ internal fun DmsApp(
                     onNavigateToHome = navController::navigateToHome,
                 )
                 authNavigation(
+                    navController = navController,
                     onNavigateToHome = navController::navigateToHome,
                     onNavigateToSignUpNav = navController::navigateToSignUpNav,
                     onNavigateToFindId = navController::navigateToFindId,
@@ -89,6 +98,14 @@ internal fun DmsApp(
                     onNavigateToSignIn = navController::navigateToAuthNav,
                     onNavigateToResetPasswordEnterEmailVerificationCode = navController::navigateToResetPasswordEnterEmailVerificationCode,
                     onNavigateToResetPasswordSetPassword = navController::navigateToResetPasswordSetPassword,
+                    onNavigateToEnterSchoolVerificationQuestion = navController::navigateToEnterSchoolVerificationQuestion,
+                    onNavigateToSetEmail = navController::navigateToSetEmail,
+                    onNavigateToVerifyEmail = navController::navigateToVerifyEmail,
+                    onNavigateToSetId = navController::navigateToSetId,
+                    onNavigateToSetPassword = navController::navigateToSetPassword,
+                    onNavigateToSetProfile = navController::navigateToSetProfile,
+                    onNavigateToTerms = navController::navigateToTerms,
+                    onNavigateToSignInWithInclusive = navController::navigateToSignInWithInclusive,
                     onPrevious = navController::navigateUp,
                 )
             }

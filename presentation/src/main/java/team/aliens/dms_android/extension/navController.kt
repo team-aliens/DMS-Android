@@ -8,6 +8,7 @@ import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.auth.resetpassword.ResetPasswordNavigation
 import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.feature.main.editpassword.EditPasswordNavigation
+import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.util.SelectImageType
 
 internal infix fun String.appendNavArgumentName(value: String): String {
@@ -34,6 +35,18 @@ internal fun NavHostController.navigateToHome() {
             inclusive = true
         }
     }
+}
+
+internal fun NavHostController.navigateToSignInWithInclusive(){
+    this.navigate(AuthNavigation.SignIn){
+        popUpTo(this@navigateToSignInWithInclusive.graph.id){
+            inclusive = true
+        }
+    }
+}
+
+internal fun NavHostController.navigateToSetEmailWithInclusive(){
+    this.navigate(SignUpNavigation.VerifyEmail.SetEmail)
 }
 
 internal fun NavHostController.navigateToAuthNav() {
@@ -128,7 +141,7 @@ internal fun NavHostController.navigateToEditPasswordSetPassword() {
 
 // Auth
 internal fun NavHostController.navigateToSignUpNav() {
-    // todo this.navigateSingleTop(SignUpNavigation.route)
+    this.navigateSingleTop(SignUpNavigation.route)
 }
 
 internal fun NavHostController.navigateToFindId() {
@@ -145,4 +158,32 @@ internal fun NavHostController.navigateToResetPasswordEnterEmailVerificationCode
 
 internal fun NavHostController.navigateToResetPasswordSetPassword() {
     this.navigateSingleTop(ResetPasswordNavigation.SetPassword)
+}
+
+internal fun NavHostController.navigateToEnterSchoolVerificationQuestion(){
+    this.navigateSingleTop(SignUpNavigation.VerifySchool.EnterSchoolVerificationQuestion)
+}
+
+internal fun NavHostController.navigateToSetEmail(){
+    this.navigateSingleTop(SignUpNavigation.VerifyEmail.SetEmail)
+}
+
+internal fun NavHostController.navigateToVerifyEmail(){
+    this.navigateSingleTop(SignUpNavigation.VerifyEmail.VerifyEmail)
+}
+
+internal fun NavHostController.navigateToSetId(){
+    this.navigateSingleTop(SignUpNavigation.SetUserInformation.SetId)
+}
+
+internal fun NavHostController.navigateToSetPassword(){
+    this.navigateSingleTop(SignUpNavigation.SetUserInformation.SetPassword)
+}
+
+internal fun NavHostController.navigateToSetProfile(){
+    this.navigateSingleTop(SignUpNavigation.SetUserInformation.SetProfile)
+}
+
+internal fun NavHostController.navigateToTerms(){
+    this.navigateSingleTop(SignUpNavigation.Terms)
 }

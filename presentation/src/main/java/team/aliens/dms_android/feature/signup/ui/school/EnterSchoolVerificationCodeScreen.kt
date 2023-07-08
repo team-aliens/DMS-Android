@@ -32,11 +32,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
@@ -44,14 +42,13 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
 
 @Composable
 internal fun EnterSchoolVerificationCodeScreen(
-    navController: NavController,
+    onNavigateToEnterSchoolQuestion: () -> Unit,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
 
@@ -80,7 +77,7 @@ internal fun EnterSchoolVerificationCodeScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode -> {
-                    navController.navigate(SignUpNavigation.VerifySchool.EnterSchoolVerificationQuestion)
+                    onNavigateToEnterSchoolQuestion()
                 }
 
                 else -> {}

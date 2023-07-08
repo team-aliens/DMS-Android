@@ -10,7 +10,7 @@ import team.aliens.dms_android.feature.signup.ui.password.SignUpSetPasswordScree
 import team.aliens.dms_android.feature.signup.ui.school.SignUpSchoolVerificationQuestionScreen
 import team.aliens.dms_android.feature.signup.ui.school.SignUpVerifySchoolScreen
 import androidx.navigation.NavController*/
-import androidx.navigation.NavController
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
@@ -22,6 +22,7 @@ import team.aliens.dms_android.feature.signup.ui.last.TermsScreen
 import team.aliens.dms_android.feature.signup.ui.password.SetPasswordScreen
 import team.aliens.dms_android.feature.signup.ui.school.EnterSchoolVerificationCodeScreen
 import team.aliens.dms_android.feature.signup.ui.school.EnterSchoolVerificationQuestionScreen
+import team.aliens.dms_android.util.composableActivityViewModel
 
 /*
 fun NavGraphBuilder.signUpNavigation(
@@ -106,35 +107,55 @@ internal object SignUpNavigation {
     const val Terms = this.route + "/terms"
 }
 
+private val signUpViewModel
+    @Composable get() = composableActivityViewModel<SignUpViewModel>()
+
 internal fun NavGraphBuilder.signUpNavigation(
-    navController: NavController,
+    onNavigateToEnterSchoolQuestion: () -> Unit,
+    onNavigateToSendVerificationEmail: () -> Unit,
+    onNavigateToVerifyEmail: () -> Unit,
+    onNavigateToSetId: () -> Unit,
+    onNavigateToSetPassword: () -> Unit,
+    onNavigateToSetProfileImage: () -> Unit,
+    onNavigateToTerms: () -> Unit,
+    onNavigateToSignInWithInclusive: () -> Unit,
 ) {
     navigation(
         startDestination = SignUpNavigation.verifySchool,
         route = SignUpNavigation.route,
     ) {
         verifySchoolNavigation(
-            navController = navController,
+            onNavigateToEnterSchoolQuestion = onNavigateToEnterSchoolQuestion,
+            onNavigateToSendVerificationEmail = onNavigateToSendVerificationEmail,
+            onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
         )
 
         verifyEmailNavigation(
-            navController = navController,
+            onNavigateToVerifyEmail = onNavigateToVerifyEmail,
+            onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
+            onNavigateToSetId = onNavigateToSetId,
         )
 
         setUserInformationNavigation(
-            navController = navController,
+            onNavigateToSetPassword = onNavigateToSetPassword,
+            onNavigateToSetProfileImage = onNavigateToSetProfileImage,
+            onNavigateToTerms = onNavigateToTerms,
         )
 
         composable(SignUpNavigation.Terms) {
             TermsScreen(
-                navController = navController,
+                onNavigateToTerms = onNavigateToTerms,
+                onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
+                signUpViewModel = signUpViewModel,
             )
         }
     }
 }
 
 private fun NavGraphBuilder.verifySchoolNavigation(
-    navController: NavController,
+    onNavigateToEnterSchoolQuestion: () -> Unit,
+    onNavigateToSendVerificationEmail: () -> Unit,
+    onNavigateToSignInWithInclusive: () -> Unit,
 ) {
     navigation(
         startDestination = SignUpNavigation.VerifySchool.EnterSchoolVerificationCode,
@@ -142,20 +163,25 @@ private fun NavGraphBuilder.verifySchoolNavigation(
     ) {
         composable(SignUpNavigation.VerifySchool.EnterSchoolVerificationCode) {
             EnterSchoolVerificationCodeScreen(
-                navController = navController,
+                onNavigateToEnterSchoolQuestion = onNavigateToEnterSchoolQuestion,
+                signUpViewModel = signUpViewModel,
             )
         }
 
         composable(SignUpNavigation.VerifySchool.EnterSchoolVerificationQuestion) {
             EnterSchoolVerificationQuestionScreen(
-                navController = navController,
+                onNavigateToSendVerificationEmail = onNavigateToSendVerificationEmail,
+                onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
+                signUpViewModel = signUpViewModel,
             )
         }
     }
 }
 
 private fun NavGraphBuilder.verifyEmailNavigation(
-    navController: NavController,
+    onNavigateToVerifyEmail: () -> Unit,
+    onNavigateToSignInWithInclusive: () -> Unit,
+    onNavigateToSetId: () -> Unit,
 ) {
     navigation(
         startDestination = SignUpNavigation.VerifyEmail.SetEmail,
@@ -163,20 +189,26 @@ private fun NavGraphBuilder.verifyEmailNavigation(
     ) {
         composable(SignUpNavigation.VerifyEmail.SetEmail) {
             SendVerificationEmailScreen(
-                navController = navController,
+                onNavigateToVerifyEmail = onNavigateToVerifyEmail,
+                onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
+                signUpViewModel = signUpViewModel,
             )
         }
 
         composable(SignUpNavigation.VerifyEmail.VerifyEmail) {
             VerifyEmailScreen(
-                navController = navController,
+                onNavigateToSetId = onNavigateToSetId,
+                onNavigateToSetEmailWithInclusive = onNavigateToSignInWithInclusive,
+                signUpViewModel = signUpViewModel,
             )
         }
     }
 }
 
 private fun NavGraphBuilder.setUserInformationNavigation(
-    navController: NavController,
+    onNavigateToSetPassword: () -> Unit,
+    onNavigateToSetProfileImage: () -> Unit,
+    onNavigateToTerms: () -> Unit,
 ) {
     navigation(
         startDestination = SignUpNavigation.SetUserInformation.SetId,
@@ -184,19 +216,22 @@ private fun NavGraphBuilder.setUserInformationNavigation(
     ) {
         composable(SignUpNavigation.SetUserInformation.SetId) {
             SetIdScreen(
-                navController = navController,
+                onNavigateToSetPassword = onNavigateToSetPassword,
+                signUpViewModel = signUpViewModel,
             )
         }
 
         composable(SignUpNavigation.SetUserInformation.SetPassword) {
             SetPasswordScreen(
-                navController = navController,
+                onNavigateToSetProfile = onNavigateToSetProfileImage,
+                signUpViewModel = signUpViewModel,
             )
         }
 
         composable(SignUpNavigation.SetUserInformation.SetProfile) {
             SetProfileImageScreen(
-                navController = navController,
+                onNavigateToTerms = onNavigateToTerms,
+                signUpViewModel = signUpViewModel,
             )
         }
     }

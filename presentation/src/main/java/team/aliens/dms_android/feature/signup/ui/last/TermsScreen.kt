@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormCheckBox
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -37,16 +36,15 @@ import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.auth.AuthNavigation
 import team.aliens.dms_android.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
 
 @Composable
 internal fun TermsScreen(
-    navController: NavController,
+    onNavigateToTerms: () -> Unit,
+    onNavigateToSignInWithInclusive: () -> Unit,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -59,23 +57,23 @@ internal fun TermsScreen(
     val onCheckChanged = { checked: Boolean ->
         signUpViewModel.postIntent(SignUpIntent.Terms.SetCheckedPolicy(checked))
     }
-    
+
     val toast = LocalToast.current
-    
+
     val alreadyExistsStudentMessage = stringResource(id = R.string.sign_up_error_conflict)
     val emailNotVerified = stringResource(id = R.string.sign_up_error_unauthorized)
-    
-    LaunchedEffect(Unit){
-        signUpViewModel.sideEffectFlow.collect{
-            when(it){
+
+    LaunchedEffect(Unit) {
+        signUpViewModel.sideEffectFlow.collect {
+            when (it) {
                 is SignUpSideEffect.Terms.SuccessSignUp -> {
                     signUpDialogState = true
                 }
-                
+
                 is SignUpSideEffect.Terms.AlreadyExistsStudent -> {
                     toast.showErrorToast(alreadyExistsStudentMessage)
                 }
-                
+
                 is SignUpSideEffect.Terms.EmailNotVerified -> {
                     toast.showErrorToast(emailNotVerified)
                 }
@@ -92,13 +90,7 @@ internal fun TermsScreen(
             DormSingleButtonDialog(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
-                onMainBtnClick = {
-                    navController.navigate(AuthNavigation.SignIn) {
-                        popUpTo(SignUpNavigation.Terms) {
-                            inclusive = true
-                        }
-                    }
-                },
+                onMainBtnClick = onNavigateToSignInWithInclusive,
                 mainBtnTextColor = DormTheme.colors.primary,
             )
         }
