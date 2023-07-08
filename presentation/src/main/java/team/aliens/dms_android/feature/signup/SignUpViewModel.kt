@@ -301,7 +301,7 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(sideEffect = SignUpSideEffect.VerifyEmail.SuccessVerifyEmail)
             }.onFailure {
-                setAuthCodeConfirmButtonEnabled(true)
+                setAuthCodeButtonEnabled(true)
                 when(it){
                     is RemoteException.Unauthorized -> {
                         setAuthCodeMismatchError()
@@ -389,8 +389,7 @@ internal class SignUpViewModel @Inject constructor(
             }
         }
     }
-
-
+    
     private fun signUp() {
         viewModelScope.launch(Dispatchers.IO) {
             with(stateFlow.value) {
@@ -435,27 +434,7 @@ internal class SignUpViewModel @Inject constructor(
             )
         )
         if (schoolCode.length == 8) examineSchoolVerificationCode()
-        setSchoolCodeConfirmButtonEnabled(schoolCode.isNotEmpty() && !stateFlow.value.schoolCodeMismatchError)
-    }
-
-    private fun setSchoolCodeMismatchError(
-        schoolCodeMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolCodeMismatchError = schoolCodeMismatchError,
-            )
-        )
-    }
-
-    private fun setSchoolCodeConfirmButtonEnabled(
-        schoolCodeConfirmButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolCodeConfirmButtonEnabled = schoolCodeConfirmButtonEnabled,
-            )
-        )
+        setSchoolCodeButtonEnabled(schoolCode.isNotEmpty() && !stateFlow.value.schoolCodeMismatchError)
     }
 
     private fun setSchoolQuestion(
@@ -476,30 +455,9 @@ internal class SignUpViewModel @Inject constructor(
                 schoolAnswer = schoolAnswer,
             )
         )
-        setSchoolAnswerConfirmButtonEnabled(schoolAnswer.isNotBlank())
+        setSchoolAnswerButtonEnabled(schoolAnswer.isNotBlank())
     }
-
-    private fun setSchoolAnswerMismatchError(
-        schoolAnswerMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolAnswerMismatchError = schoolAnswerMismatchError
-            )
-        )
-        setSchoolAnswerConfirmButtonEnabled(!schoolAnswerMismatchError)
-    }
-
-    private fun setSchoolAnswerConfirmButtonEnabled(
-        schoolAnswerConfirmButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolAnswerConfirmButtonEnabled = schoolAnswerConfirmButtonEnabled,
-            )
-        )
-    }
-
+    
     private fun setEmail(
         email: String,
     ) {
@@ -510,27 +468,6 @@ internal class SignUpViewModel @Inject constructor(
         )
         setSendEmailButtonEnabled(email.isNotEmpty())
         setEmailFormatError(!Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), email))
-    }
-
-    private fun setEmailFormatError(
-        emailFormatError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                emailFormatError = emailFormatError,
-            )
-        )
-        setSendEmailButtonEnabled(!emailFormatError)
-    }
-
-    private fun setSendEmailButtonEnabled(
-        sendEmailButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                sendEmailButtonEnabled = sendEmailButtonEnabled,
-            )
-        )
     }
 
     private fun setEmailExpirationTime(
@@ -561,26 +498,7 @@ internal class SignUpViewModel @Inject constructor(
                 authCode = authCode,
             )
         )
-        setAuthCodeConfirmButtonEnabled(authCode.isNotEmpty())
-    }
-
-    private fun setAuthCodeMismatchError() {
-        reduce(
-            newState = stateFlow.value.copy(
-                authCodeMismatchError = true,
-            )
-        )
-        setAuthCodeConfirmButtonEnabled(false)
-    }
-
-    private fun setAuthCodeConfirmButtonEnabled(
-        authCodeConfirmButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                authCodeConfirmButtonEnabled = authCodeConfirmButtonEnabled,
-            )
-        )
+        setAuthCodeButtonEnabled(authCode.isNotEmpty())
     }
 
     private fun setGrade(
@@ -591,7 +509,7 @@ internal class SignUpViewModel @Inject constructor(
                 grade = grade,
             )
         )
-        setIdConfirmButtonEnabled()
+        setIdButtonEnabled()
     }
 
     private fun setClassRoom(
@@ -602,7 +520,7 @@ internal class SignUpViewModel @Inject constructor(
                 classRoom = classRoom,
             )
         )
-        setIdConfirmButtonEnabled()
+        setIdButtonEnabled()
     }
 
     private fun setNumber(
@@ -613,7 +531,7 @@ internal class SignUpViewModel @Inject constructor(
                 number = number,
             )
         )
-        setIdConfirmButtonEnabled()
+        setIdButtonEnabled()
     }
 
     private fun setAccountId(
@@ -624,7 +542,7 @@ internal class SignUpViewModel @Inject constructor(
                 accountId = accountId,
             )
         )
-        setIdConfirmButtonEnabled()
+        setIdButtonEnabled()
     }
 
     private fun setStudentName(
@@ -635,37 +553,6 @@ internal class SignUpViewModel @Inject constructor(
                 studentName = studentName,
             )
         )
-    }
-
-    private fun setStudentNumberMismatchError(
-        studentNumberMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                studentNumberMismatchError = studentNumberMismatchError,
-            )
-        )
-        setIdConfirmButtonEnabled()
-    }
-
-    private fun setConflictAccountIdError(
-        conflictAccountIdError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                conflictAccountIdError = conflictAccountIdError,
-            )
-        )
-    }
-
-    private fun setIdConfirmButtonEnabled() {
-        with(stateFlow.value) {
-            reduce(
-                newState = copy(
-                    idConfirmButtonEnabled = !studentNumberMismatchError && grade.isNotBlank() && classRoom.isNotBlank() && number.isNotBlank() && accountId.isNotBlank(),
-                )
-            )
-        }
     }
 
     private fun setCheckedStudentName(
@@ -701,45 +588,12 @@ internal class SignUpViewModel @Inject constructor(
     }
 
     private fun checkPassword() {
-
         if (!stateFlow.value.passwordFormatError && !stateFlow.value.passwordMismatchError) {
-            setPasswordConfirmButtonEnabled(true)
+            setPasswordButtonEnabled(true)
             postSideEffect(SignUpSideEffect.SetPassword.SuccessCheckPassword)
         }
     }
-
-    private fun setPasswordFormatError(
-        passwordFormatError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordFormatError = passwordFormatError,
-            )
-        )
-        setPasswordConfirmButtonEnabled(!passwordFormatError && !stateFlow.value.passwordMismatchError)
-    }
-
-    private fun setPasswordMismatchError(
-        passwordMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordMismatchError = passwordMismatchError,
-            )
-        )
-        setPasswordConfirmButtonEnabled(!stateFlow.value.passwordFormatError && !passwordMismatchError)
-    }
-
-    private fun setPasswordConfirmButtonEnabled(
-        passwordConfirmButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordConfirmButtonEnabled = passwordConfirmButtonEnabled,
-            )
-        )
-    }
-
+    
     private fun setProfileImageUri(
         profileImageUri: Uri?,
     ) {
@@ -748,7 +602,7 @@ internal class SignUpViewModel @Inject constructor(
                 profileImageUri = profileImageUri,
             )
         )
-        setConfirmProfileImageEnabled(profileImageUri != null)
+        setProfileImageEnabled(profileImageUri != null)
     }
 
     private fun setSchoolId(
@@ -757,16 +611,6 @@ internal class SignUpViewModel @Inject constructor(
         reduce(
             newState = stateFlow.value.copy(
                 schoolId = schoolId,
-            )
-        )
-    }
-
-    private fun setConfirmProfileImageEnabled(
-        confirmProfileImageEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                confirmProfileImageButtonEnabled = confirmProfileImageEnabled,
             )
         )
     }
@@ -790,10 +634,164 @@ internal class SignUpViewModel @Inject constructor(
             )
         )
     }
+
+    private fun setSchoolCodeMismatchError(
+        schoolCodeMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolCodeMismatchError = schoolCodeMismatchError,
+            )
+        )
+    }
+
+    private fun setSchoolAnswerMismatchError(
+        schoolAnswerMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolAnswerMismatchError = schoolAnswerMismatchError
+            )
+        )
+        setSchoolAnswerButtonEnabled(!schoolAnswerMismatchError)
+    }
+
+    private fun setEmailFormatError(
+        emailFormatError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                emailFormatError = emailFormatError,
+            )
+        )
+        setSendEmailButtonEnabled(!emailFormatError)
+    }
+
+    private fun setAuthCodeMismatchError() {
+        reduce(
+            newState = stateFlow.value.copy(
+                authCodeMismatchError = true,
+            )
+        )
+        setAuthCodeButtonEnabled(false)
+    }
+
+    private fun setStudentNumberMismatchError(
+        studentNumberMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                studentNumberMismatchError = studentNumberMismatchError,
+            )
+        )
+        setIdButtonEnabled()
+    }
+
+    private fun setConflictAccountIdError(
+        conflictAccountIdError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                conflictAccountIdError = conflictAccountIdError,
+            )
+        )
+    }
+
+    private fun setPasswordFormatError(
+        passwordFormatError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                passwordFormatError = passwordFormatError,
+            )
+        )
+        setPasswordButtonEnabled(!passwordFormatError && !stateFlow.value.passwordMismatchError)
+    }
+
+    private fun setPasswordMismatchError(
+        passwordMismatchError: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                passwordMismatchError = passwordMismatchError,
+            )
+        )
+        setPasswordButtonEnabled(!stateFlow.value.passwordFormatError && !passwordMismatchError)
+    }
+
+    private fun setSchoolCodeButtonEnabled(
+        schoolCodeButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolCodeButtonEnabled = schoolCodeButtonEnabled,
+            )
+        )
+    }
+
+    private fun setSchoolAnswerButtonEnabled(
+        schoolAnswerButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                schoolAnswerButtonEnabled = schoolAnswerButtonEnabled,
+            )
+        )
+    }
+
+    private fun setSendEmailButtonEnabled(
+        sendEmailButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                sendEmailButtonEnabled = sendEmailButtonEnabled,
+            )
+        )
+    }
+
+    private fun setAuthCodeButtonEnabled(
+        authCodeButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                authCodeButtonEnabled = authCodeButtonEnabled,
+            )
+        )
+    }
+
+    private fun setIdButtonEnabled() {
+        with(stateFlow.value) {
+            reduce(
+                newState = copy(
+                    idButtonEnabled = !studentNumberMismatchError && grade.isNotBlank() && classRoom.isNotBlank() && number.isNotBlank() && accountId.isNotBlank(),
+                )
+            )
+        }
+    }
+
+    private fun setPasswordButtonEnabled(
+        passwordButtonEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                passwordButtonEnabled = passwordButtonEnabled,
+            )
+        )
+    }
+
+    private fun setProfileImageEnabled(
+        ProfileImageEnabled: Boolean,
+    ) {
+        reduce(
+            newState = stateFlow.value.copy(
+                ProfileImageButtonEnabled = ProfileImageEnabled,
+            )
+        )
+    }
 }
 
 sealed class SignUpIntent : MviIntent {
-
+    
     sealed class VerifySchool : SignUpIntent() {
         class SetSchoolVerificationCode(val schoolCode: String) : VerifySchool()
         object ExamineSchoolVerificationCode : VerifySchool()
@@ -848,99 +846,84 @@ sealed class SignUpIntent : MviIntent {
 
 data class SignUpState(
     val schoolCode: String,
-    val schoolCodeMismatchError: Boolean,
-    val schoolCodeConfirmButtonEnabled: Boolean,
-
     val schoolQuestion: String,
     val schoolAnswer: String,
-    val schoolAnswerMismatchError: Boolean,
-    val schoolAnswerConfirmButtonEnabled: Boolean,
-
     val email: String,
-    val emailFormatError: Boolean,
-    val sendEmailButtonEnabled: Boolean,
     val emailExpirationTime: String,
     val emailTimerWorked: Boolean,
-
     val authCode: String,
-    val authCodeMismatchError: Boolean,
-    val authCodeConfirmButtonEnabled: Boolean,
-
     val grade: String,
     val classRoom: String,
     val number: String,
     val accountId: String,
     val studentName: String,
-    val studentNumberMismatchError: Boolean,
     val checkedStudentName: Boolean,
-    val conflictAccountIdError: Boolean,
-    val idConfirmButtonEnabled: Boolean,
-
     val password: String,
     val passwordRepeat: String,
-    val passwordFormatError: Boolean,
-    val passwordMismatchError: Boolean,
-    val passwordConfirmButtonEnabled: Boolean,
-
     val profileImageUri: Uri?,
     val profileImageUrl: String,
-    val confirmProfileImageButtonEnabled: Boolean,
-
-    val checkedPolicy: Boolean,
-
     val schoolId: UUID?,
+    val checkedPolicy: Boolean,
+    val schoolCodeMismatchError: Boolean,
+    val schoolAnswerMismatchError: Boolean,
+    val emailFormatError: Boolean,
+    val authCodeMismatchError: Boolean,
+    val studentNumberMismatchError: Boolean,
+    val conflictAccountIdError: Boolean,
+    val passwordFormatError: Boolean,
+    val passwordMismatchError: Boolean,
+    val schoolCodeButtonEnabled: Boolean,
+    val schoolAnswerButtonEnabled: Boolean,
+    val sendEmailButtonEnabled: Boolean,
+    val authCodeButtonEnabled: Boolean,
+    val idButtonEnabled: Boolean,
+    val passwordButtonEnabled: Boolean,
+    val ProfileImageButtonEnabled: Boolean,
 ) : MviState {
     companion object {
         fun initial(): SignUpState {
             return SignUpState(
                 schoolCode = "",
-                schoolCodeMismatchError = false,
-                schoolCodeConfirmButtonEnabled = false,
-
                 schoolQuestion = "",
                 schoolAnswer = "",
-                schoolAnswerMismatchError = false,
-                schoolAnswerConfirmButtonEnabled = false,
-
                 email = "",
-                emailFormatError = false,
-                sendEmailButtonEnabled = false,
                 emailExpirationTime = "",
                 emailTimerWorked = false,
-
                 authCode = "",
-                authCodeMismatchError = false,
-                authCodeConfirmButtonEnabled = false,
-
                 grade = "",
                 classRoom = "",
                 number = "",
                 accountId = "",
                 studentName = "",
-                studentNumberMismatchError = false,
                 checkedStudentName = false,
-                conflictAccountIdError = false,
-                idConfirmButtonEnabled = false,
-
                 password = "",
                 passwordRepeat = "",
-                passwordFormatError = false,
-                passwordMismatchError = false,
-                passwordConfirmButtonEnabled = false,
-
                 profileImageUri = null,
                 profileImageUrl = defaultProfileUrl,
                 schoolId = null,
-                confirmProfileImageButtonEnabled = false,
-
                 checkedPolicy = false,
+                schoolCodeMismatchError = false,
+                schoolAnswerMismatchError = false,
+                emailFormatError = false,
+                authCodeMismatchError = false,
+                studentNumberMismatchError = false,
+                conflictAccountIdError = false,
+                passwordFormatError = false,
+                passwordMismatchError = false,
+                schoolCodeButtonEnabled = false,
+                schoolAnswerButtonEnabled = false,
+                sendEmailButtonEnabled = false,
+                authCodeButtonEnabled = false,
+                idButtonEnabled = false,
+                passwordButtonEnabled = false,
+                ProfileImageButtonEnabled = false,
             )
         }
     }
 }
 
 sealed class SignUpSideEffect : MviSideEffect {
-
+    
     sealed class VerifySchool : SignUpSideEffect() {
         object SuccessVerifySchoolCode : VerifySchool()
     }
