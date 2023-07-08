@@ -17,7 +17,6 @@ internal object AuthNavigation {
 }
 
 internal fun NavGraphBuilder.authNavigation(
-    navController: NavController,
     onNavigateToHome: () -> Unit,
     onNavigateToSignUpNav: () -> Unit,
     onNavigateToFindId: () -> Unit,
@@ -33,6 +32,7 @@ internal fun NavGraphBuilder.authNavigation(
     onNavigateToSetProfile: () -> Unit,
     onNavigateToTerms: () -> Unit,
     onNavigateToSignInWithInclusive: () -> Unit,
+    onNavigateToSetEmailWithInclusive: () -> Unit,
     onPrevious: () -> Unit,
 ) {
     navigation(
@@ -67,6 +67,7 @@ internal fun NavGraphBuilder.authNavigation(
             onNavigateToSetProfileImage = onNavigateToSetProfile,
             onNavigateToTerms = onNavigateToTerms,
             onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
+            onNavigateToSetEmailWithInclusive = onNavigateToSetEmailWithInclusive,
         )
     }
 }

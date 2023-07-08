@@ -119,6 +119,7 @@ internal fun NavGraphBuilder.signUpNavigation(
     onNavigateToSetProfileImage: () -> Unit,
     onNavigateToTerms: () -> Unit,
     onNavigateToSignInWithInclusive: () -> Unit,
+    onNavigateToSetEmailWithInclusive: () -> Unit,
 ) {
     navigation(
         startDestination = SignUpNavigation.verifySchool,
@@ -134,6 +135,7 @@ internal fun NavGraphBuilder.signUpNavigation(
             onNavigateToVerifyEmail = onNavigateToVerifyEmail,
             onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
             onNavigateToSetId = onNavigateToSetId,
+            onNavigateToSetEmailWithInclusive = onNavigateToSetEmailWithInclusive,
         )
 
         setUserInformationNavigation(
@@ -181,6 +183,7 @@ private fun NavGraphBuilder.verifySchoolNavigation(
 private fun NavGraphBuilder.verifyEmailNavigation(
     onNavigateToVerifyEmail: () -> Unit,
     onNavigateToSignInWithInclusive: () -> Unit,
+    onNavigateToSetEmailWithInclusive: () -> Unit,
     onNavigateToSetId: () -> Unit,
 ) {
     navigation(
@@ -198,7 +201,7 @@ private fun NavGraphBuilder.verifyEmailNavigation(
         composable(SignUpNavigation.VerifyEmail.VerifyEmail) {
             VerifyEmailScreen(
                 onNavigateToSetId = onNavigateToSetId,
-                onNavigateToSetEmailWithInclusive = onNavigateToSignInWithInclusive,
+                onNavigateToSetEmailWithInclusive = onNavigateToSetEmailWithInclusive,
                 signUpViewModel = signUpViewModel,
             )
         }

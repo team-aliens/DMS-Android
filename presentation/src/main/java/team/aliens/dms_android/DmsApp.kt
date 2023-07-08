@@ -26,6 +26,7 @@ import team.aliens.dms_android.extension.navigateToResetPasswordEnterEmailVerifi
 import team.aliens.dms_android.extension.navigateToResetPasswordNav
 import team.aliens.dms_android.extension.navigateToResetPasswordSetPassword
 import team.aliens.dms_android.extension.navigateToSetEmail
+import team.aliens.dms_android.extension.navigateToSetEmailWithInclusive
 import team.aliens.dms_android.extension.navigateToSetId
 import team.aliens.dms_android.extension.navigateToSetPassword
 import team.aliens.dms_android.extension.navigateToSetProfile
@@ -90,7 +91,6 @@ internal fun DmsApp(
                     onNavigateToHome = navController::navigateToHome,
                 )
                 authNavigation(
-                    navController = navController,
                     onNavigateToHome = navController::navigateToHome,
                     onNavigateToSignUpNav = navController::navigateToSignUpNav,
                     onNavigateToFindId = navController::navigateToFindId,
@@ -106,6 +106,7 @@ internal fun DmsApp(
                     onNavigateToSetProfile = navController::navigateToSetProfile,
                     onNavigateToTerms = navController::navigateToTerms,
                     onNavigateToSignInWithInclusive = navController::navigateToSignInWithInclusive,
+                    onNavigateToSetEmailWithInclusive = navController::navigateToSetEmailWithInclusive,
                     onPrevious = navController::navigateUp,
                 )
             }
