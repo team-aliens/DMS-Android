@@ -784,7 +784,7 @@ internal class SignUpViewModel @Inject constructor(
     ) {
         reduce(
             newState = stateFlow.value.copy(
-                ProfileImageButtonEnabled = ProfileImageEnabled,
+                profileImageButtonEnabled = ProfileImageEnabled,
             )
         )
     }
@@ -878,7 +878,7 @@ data class SignUpState(
     val authCodeButtonEnabled: Boolean,
     val idButtonEnabled: Boolean,
     val passwordButtonEnabled: Boolean,
-    val ProfileImageButtonEnabled: Boolean,
+    val profileImageButtonEnabled: Boolean,
 ) : MviState {
     companion object {
         fun initial(): SignUpState {
@@ -916,7 +916,7 @@ data class SignUpState(
                 authCodeButtonEnabled = false,
                 idButtonEnabled = false,
                 passwordButtonEnabled = false,
-                ProfileImageButtonEnabled = false,
+                profileImageButtonEnabled = false,
             )
         }
     }

@@ -122,7 +122,7 @@ internal fun SetPasswordScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.Next),
             color = DormButtonColor.Blue,
-            enabled = state.passwordConfirmButtonEnabled,
+            enabled = state.passwordButtonEnabled,
         ) {
             signUpViewModel.postIntent(SignUpIntent.SetPassword.CheckPassword)
         }

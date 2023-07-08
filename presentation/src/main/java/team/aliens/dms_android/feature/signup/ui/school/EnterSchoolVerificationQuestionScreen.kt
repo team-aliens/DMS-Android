@@ -108,7 +108,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,
-                enabled = state.schoolAnswerConfirmButtonEnabled,
+                enabled = state.schoolAnswerButtonEnabled,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.SchoolQuestion.ExamineSchoolAnswer)
             }

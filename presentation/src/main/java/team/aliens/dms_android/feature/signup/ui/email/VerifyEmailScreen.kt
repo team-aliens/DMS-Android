@@ -224,7 +224,7 @@ internal fun VerifyEmailScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = state.authCodeConfirmButtonEnabled,
+                enabled = state.authCodeButtonEnabled,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
             }

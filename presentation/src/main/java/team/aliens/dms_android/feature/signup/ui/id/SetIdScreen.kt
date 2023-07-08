@@ -210,7 +210,7 @@ internal fun SetIdScreen(
                 DormContainedLargeButton(
                     text = stringResource(id = R.string.Next),
                     color = DormButtonColor.Blue,
-                    enabled = state.idConfirmButtonEnabled,
+                    enabled = state.idButtonEnabled,
                 ) {
                     signUpViewModel.postIntent(SignUpIntent.SetId.CheckIdDuplication)
                 }

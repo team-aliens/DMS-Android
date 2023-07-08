@@ -160,7 +160,7 @@ internal fun SetProfileImageScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Next),
                 color = DormButtonColor.Blue,
-                enabled = state.confirmProfileImageButtonEnabled,
+                enabled = state.profileImageButtonEnabled,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.SetProfileImage.UploadImage)
             }

@@ -153,7 +153,7 @@ internal fun EnterSchoolVerificationCodeScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = state.schoolCodeConfirmButtonEnabled,
+                enabled = state.schoolCodeButtonEnabled,
             ) {
                 signUpViewModel.postIntent(intent = SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
             }
