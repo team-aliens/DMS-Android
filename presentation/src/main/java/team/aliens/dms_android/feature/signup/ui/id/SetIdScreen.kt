@@ -189,7 +189,9 @@ internal fun SetIdScreen(
             Space(space = 26.dp)
             DormTextField(
                 modifier = Modifier.onFocusChanged {
-                    signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
+                   if(it.isFocused) {
+                       signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
+                   }
                 },
                 value = state.accountId,
                 onValueChange = onAccountIdChange,

@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.signup.ui.email
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -115,7 +116,14 @@ internal fun VerifyEmailScreen(
                 content = stringResource(id = R.string.CancelEmailVerify),
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = onNavigateToSetEmailWithInclusive,
+                onMainBtnClick = {
+                    onNavigateToSetEmailWithInclusive()
+                    signUpViewModel.postIntent(
+                        SignUpIntent.VerifyEmail.SetAuthCode(
+                            authCode = "",
+                        )
+                    )
+                },
                 onSubBtnClick = { isPressedBackButton = false },
             )
         }
@@ -127,8 +135,8 @@ internal fun VerifyEmailScreen(
         repeat(TotalSecond) {
             min = ((TotalSecond - it) / 60).toString()
             sec = ((TotalSecond - it) % 60).toString().padStart(2, '0')
-            delay(1000)
             signUpViewModel.postIntent(SignUpIntent.SendEmail.SetEmailExpirationTime("$min : $sec"))
+            delay(1000)
         }
     }
 

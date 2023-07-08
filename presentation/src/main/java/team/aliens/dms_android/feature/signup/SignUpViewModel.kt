@@ -148,10 +148,6 @@ internal class SignUpViewModel @Inject constructor(
                         setStudentName(studentName = intent.studentName)
                     }
 
-                    is SignUpIntent.SetId.SetGcnMismatchError -> {
-                        setStudentNumberMismatchError(studentNumberMismatchError = intent.gcnMismatchError)
-                    }
-
                     is SignUpIntent.SetId.ExamineStudentNumber -> {
                         examineStudentNumber()
                     }
@@ -354,9 +350,6 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun checkIdDuplication() {
         viewModelScope.launch(Dispatchers.IO) {
-
-            val accountId = stateFlow.value.accountId
-
             kotlin.runCatching {
                 checkIdDuplicationUseCase(
                     checkIdDuplicationInput = CheckIdDuplicationInput(
@@ -831,7 +824,6 @@ sealed class SignUpIntent : MviIntent {
         class SetNumber(val number: String) : SetId()
         class SetAccountId(val accountId: String) : SetId()
         class SetStudentName(val studentName: String) : SetId()
-        class SetGcnMismatchError(val gcnMismatchError: Boolean) : SetId()
         class SetCheckedStudentName(val checkedStudentName: Boolean) : SetId()
         object ExamineStudentNumber : SetId()
         object CheckIdDuplication : SetId()
