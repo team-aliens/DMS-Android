@@ -267,6 +267,7 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(sideEffect = SignUpSideEffect.SendEmail.AvailableEmail)
             }.onFailure {
+                setSendEmailButtonEnabled(false)
                 if (it is RemoteException.Conflict) {
                     postSideEffect(sideEffect = SignUpSideEffect.SendEmail.DuplicatedEmail)
                 }
@@ -304,9 +305,15 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(sideEffect = SignUpSideEffect.VerifyEmail.SuccessVerifyEmail)
             }.onFailure {
-                setAuthCodeMismatchError(it is RemoteException.Unauthorized)
-                if (it is RemoteException.Conflict) {
-                    postSideEffect(SignUpSideEffect.VerifyEmail.ConflictEmail)
+                setAuthCodeConfirmButtonEnabled(true)
+                when(it){
+                    is RemoteException.Unauthorized -> {
+                        setAuthCodeMismatchError()
+                    }
+
+                    is RemoteException.Conflict -> {
+                        postSideEffect(SignUpSideEffect.VerifyEmail.ConflictEmail)
+                    }
                 }
             }
         }
@@ -314,28 +321,31 @@ internal class SignUpViewModel @Inject constructor(
 
     private fun examineStudentNumber() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                examineStudentNumberUseCase(
-                    examineStudentNumberInput = ExamineStudentNumberInput(
-                        schoolId = UUID.fromString("918bffd6-6c7e-11ed-a1eb-0242ac120002"),
-                        grade = stateFlow.value.grade.toInt(),
-                        classRoom = stateFlow.value.classRoom.toInt(),
-                        number = stateFlow.value.number.toInt(),
+            with(stateFlow.value) {
+                kotlin.runCatching {
+                    examineStudentNumberUseCase(
+                        examineStudentNumberInput = ExamineStudentNumberInput(
+                            schoolId = schoolId!!,
+                            grade = grade.toInt(),
+                            classRoom = classRoom.toInt(),
+                            number = number.toInt(),
+                        )
                     )
-                )
-            }.onSuccess {
-                setCheckedStudentName(true)
-                setStudentNumberMismatchError(false)
-                setStudentName(studentName = it.name)
-            }.onFailure {
-                setCheckedStudentName(false)
-                when (it) {
-                    is RemoteException.NotFound -> {
-                        setStudentNumberMismatchError(true)
-                    }
+                }.onSuccess {
+                    setCheckedStudentName(true)
+                    setStudentNumberMismatchError(false)
+                    setStudentName(studentName = it.name)
+                }.onFailure {
+                    setCheckedStudentName(false)
+                    setStudentNumberMismatchError(true)
+                    when (it) {
+                        is RemoteException.NotFound -> {
 
-                    is RemoteException.Conflict -> {
-                        postSideEffect(SignUpSideEffect.SetId.ConflictStudent)
+                        }
+
+                        is RemoteException.Conflict -> {
+                            postSideEffect(SignUpSideEffect.SetId.ConflictStudent)
+                        }
                     }
                 }
             }
@@ -473,7 +483,7 @@ internal class SignUpViewModel @Inject constructor(
                 schoolAnswer = schoolAnswer,
             )
         )
-        setSchoolAnswerConfirmButtonEnabled(schoolAnswer.isNotEmpty() && !stateFlow.value.schoolAnswerMismatchError)
+        setSchoolAnswerConfirmButtonEnabled(schoolAnswer.isNotBlank())
     }
 
     private fun setSchoolAnswerMismatchError(
@@ -484,6 +494,7 @@ internal class SignUpViewModel @Inject constructor(
                 schoolAnswerMismatchError = schoolAnswerMismatchError
             )
         )
+        setSchoolAnswerConfirmButtonEnabled(!schoolAnswerMismatchError)
     }
 
     private fun setSchoolAnswerConfirmButtonEnabled(
@@ -504,13 +515,8 @@ internal class SignUpViewModel @Inject constructor(
                 email = email,
             )
         )
-        setEmailFormatError(
-            email.isNotEmpty() && !Pattern.matches(
-                Patterns.EMAIL_ADDRESS.pattern(),
-                email
-            )
-        )
-        setSendEmailButtonEnabled(email.isNotEmpty() && !stateFlow.value.emailFormatError)
+        setSendEmailButtonEnabled(email.isNotEmpty())
+        setEmailFormatError(!Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), email))
     }
 
     private fun setEmailFormatError(
@@ -521,6 +527,7 @@ internal class SignUpViewModel @Inject constructor(
                 emailFormatError = emailFormatError,
             )
         )
+        setSendEmailButtonEnabled(!emailFormatError)
     }
 
     private fun setSendEmailButtonEnabled(
@@ -561,18 +568,16 @@ internal class SignUpViewModel @Inject constructor(
                 authCode = authCode,
             )
         )
-        setAuthCodeConfirmButtonEnabled(authCode.isNotEmpty() && !stateFlow.value.authCodeMismatchError)
-        if (authCode.length == 6) postSideEffect(SignUpSideEffect.VerifyEmail.CompleteEnteredAuthCode)
+        setAuthCodeConfirmButtonEnabled(authCode.isNotEmpty())
     }
 
-    private fun setAuthCodeMismatchError(
-        authCodeMismatchError: Boolean,
-    ) {
+    private fun setAuthCodeMismatchError() {
         reduce(
             newState = stateFlow.value.copy(
-                authCodeMismatchError = authCodeMismatchError,
+                authCodeMismatchError = true,
             )
         )
+        setAuthCodeConfirmButtonEnabled(false)
     }
 
     private fun setAuthCodeConfirmButtonEnabled(
@@ -960,14 +965,13 @@ sealed class SignUpSideEffect : MviSideEffect {
 
     sealed class VerifyEmail : SignUpSideEffect() {
         object SuccessVerifyEmail : VerifyEmail()
-        object CompleteEnteredAuthCode : VerifyEmail()
         object ConflictEmail : VerifyEmail()
     }
 
     sealed class SetId : SignUpSideEffect() {
+        object NotFoundStudent: SetId()
         object ConflictStudent : SetId()
         object SuccessVerifyStudent : SetId()
-        object NotCorrectFormat : SetId()
     }
 
     sealed class SetPassword : SignUpSideEffect() {

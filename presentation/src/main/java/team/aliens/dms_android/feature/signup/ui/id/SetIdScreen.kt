@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -54,8 +53,10 @@ internal fun SetIdScreen(
     val focusManager = LocalFocusManager.current
 
     val toast = LocalToast.current
-
-    val context = LocalContext.current
+    val conflictStudentErrorMessage =
+        stringResource(id = R.string.sign_up_id_error_conflict_student)
+    val notFoundStudentErrorMessage =
+        stringResource(id = R.string.sign_up_id_error_not_found_student)
 
     val moveFocus = {
         focusManager.moveFocus(FocusDirection.Next)
@@ -83,14 +84,16 @@ internal fun SetIdScreen(
     LaunchedEffect(Unit) {
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
-                is SignUpSideEffect.SetId.ConflictStudent -> {
-                    toast.showErrorToast(
-                        message = context.getString(R.string.sign_up_id_error_check_gcn)
-                    )
-                }
-
                 is SignUpSideEffect.SetId.SuccessVerifyStudent -> {
                     onNavigateToSetPassword()
+                }
+
+                is SignUpSideEffect.SetId.NotFoundStudent -> {
+                    toast.showErrorToast(notFoundStudentErrorMessage)
+                }
+
+                is SignUpSideEffect.SetId.ConflictStudent -> {
+                    toast.showErrorToast(conflictStudentErrorMessage)
                 }
 
                 else -> {}

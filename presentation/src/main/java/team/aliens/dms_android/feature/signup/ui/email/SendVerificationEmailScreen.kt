@@ -31,6 +31,7 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
@@ -52,6 +53,9 @@ internal fun SendVerificationEmailScreen(
     val focusManager = LocalFocusManager.current
 
     var showQuitSignUpDialog by remember { mutableStateOf(false) }
+
+    val toast = LocalToast.current
+    val duplicateEmailErrorMessage = stringResource(id = R.string.sign_up_email_error_conflict)
 
     val onEmailChange = { email: String ->
         signUpViewModel.postIntent(
@@ -86,7 +90,7 @@ internal fun SendVerificationEmailScreen(
                 }
 
                 is SignUpSideEffect.SendEmail.DuplicatedEmail -> {
-                    // TODO toast
+                    toast.showErrorToast(duplicateEmailErrorMessage)
                 }
 
                 is SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode -> {

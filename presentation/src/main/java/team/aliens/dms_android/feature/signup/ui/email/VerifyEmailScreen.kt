@@ -76,11 +76,6 @@ internal fun VerifyEmailScreen(
         signUpViewModel.postIntent(SignUpIntent.SendEmail.SetEmailTimerWorked(emailTimerWorked = true))
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
-                is SignUpSideEffect.VerifyEmail.CompleteEnteredAuthCode -> {
-                    focusManager.clearFocus()
-                    signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
-                }
-
                 is SignUpSideEffect.VerifyEmail.SuccessVerifyEmail -> {
                     onNavigateToSetId()
                 }
@@ -95,11 +90,17 @@ internal fun VerifyEmailScreen(
     }
 
     val onVerificationCodeChange = { authCode: String ->
-        signUpViewModel.postIntent(
-            SignUpIntent.VerifyEmail.SetAuthCode(
-                authCode = authCode,
+        if (authCode.length <= 6) {
+            signUpViewModel.postIntent(
+                SignUpIntent.VerifyEmail.SetAuthCode(
+                    authCode = authCode,
+                )
             )
-        )
+            if (authCode.length == 6) {
+                focusManager.clearFocus()
+                signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
+            }
+        }
     }
 
     var isPressedBackButton by remember { mutableStateOf(false) }
@@ -126,8 +127,8 @@ internal fun VerifyEmailScreen(
         repeat(TotalSecond) {
             min = ((TotalSecond - it) / 60).toString()
             sec = ((TotalSecond - it) % 60).toString().padStart(2, '0')
-            signUpViewModel.postIntent(SignUpIntent.SendEmail.SetEmailExpirationTime("$min : $sec"))
             delay(1000)
+            signUpViewModel.postIntent(SignUpIntent.SendEmail.SetEmailExpirationTime("$min : $sec"))
         }
     }
 
@@ -137,20 +138,21 @@ internal fun VerifyEmailScreen(
             .background(
                 DormTheme.colors.surface,
             )
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-            )
             .dormClickable(
                 rippleEnabled = false,
             ) {
                 focusManager.clearFocus()
             },
     ) {
-        Spacer(modifier = Modifier.height(108.dp))
-        AppLogo(darkIcon = isSystemInDarkTheme())
-        Space(space = 8.dp)
-        Body2(text = stringResource(id = R.string.VerificationCode))
+        Column(
+            modifier = Modifier.padding(start = 16.dp),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Spacer(modifier = Modifier.height(108.dp))
+            AppLogo(darkIcon = isSystemInDarkTheme())
+            Space(space = 8.dp)
+            Body2(text = stringResource(id = R.string.VerificationCode))
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()

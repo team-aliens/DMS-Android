@@ -61,14 +61,16 @@ internal fun EnterSchoolVerificationCodeScreen(
     val focusRequester = remember { FocusRequester() }
 
     val onVerificationCodeChange = { schoolCode: String ->
-        signUpViewModel.postIntent(
-            SignUpIntent.VerifySchool.SetSchoolVerificationCode(
-                schoolCode = schoolCode,
+        if(schoolCode.length <= 8) {
+            signUpViewModel.postIntent(
+                SignUpIntent.VerifySchool.SetSchoolVerificationCode(
+                    schoolCode = schoolCode,
+                )
             )
-        )
-        if (schoolCode.length == 8) {
-            focusManager.clearFocus()
-            signUpViewModel.postIntent(SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
+            if (schoolCode.length == 8) {
+                focusManager.clearFocus()
+                signUpViewModel.postIntent(SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
+            }
         }
     }
 
