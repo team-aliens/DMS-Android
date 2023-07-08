@@ -74,9 +74,7 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun setAutoSignInOption(
-        newAutoSignInOption: Boolean,
-    ) {
+    private fun setAutoSignInOption(newAutoSignInOption: Boolean) {
         reduce(
             newState = currentState.copy(
                 autoSignIn = newAutoSignInOption,
@@ -84,9 +82,7 @@ internal class SignInViewModel @Inject constructor(
         )
     }
 
-    private fun setId(
-        newId: String,
-    ) {
+    private fun setId(newId: String) {
         reduce(
             newState = currentState.copy(
                 idError = false,
@@ -97,9 +93,7 @@ internal class SignInViewModel @Inject constructor(
         setSignInButtonState()
     }
 
-    private fun setPassword(
-        newPassword: String,
-    ) {
+    private fun setPassword(newPassword: String) {
         reduce(
             newState = currentState.copy(
                 passwordError = false,
@@ -122,18 +116,9 @@ internal class SignInViewModel @Inject constructor(
 }
 
 internal sealed interface SignInIntent : MviIntent {
-    class UpdateAccountId(
-        val newAccountId: String,
-    ) : SignInIntent
-
-    class UpdatePassword(
-        val newPassword: String,
-    ) : SignInIntent
-
-    class UpdateAutoSignInOption(
-        val newAutoSignInOption: Boolean,
-    ) : SignInIntent
-
+    class UpdateAccountId(val newAccountId: String) : SignInIntent
+    class UpdatePassword(val newPassword: String) : SignInIntent
+    class UpdateAutoSignInOption(val newAutoSignInOption: Boolean) : SignInIntent
     object SignIn : SignInIntent
 }
 
