@@ -15,17 +15,19 @@ data class FetchNotificationsResponse(
         @SerializedName("title") val title: String,
         @SerializedName("content") val content: String,
         @SerializedName("created_at") val createdAt: String,
+        @SerializedName("is_read") val read: Boolean,
     )
 }
 
 fun FetchNotificationsResponse.NotificationResponse.toDomain(): FetchNotificationsOutput.NotificationInformation {
     return FetchNotificationsOutput.NotificationInformation(
-        id = id,
-        topic = topic,
-        linkId = linkId,
-        title = title,
-        content = content,
-        createdAt = createdAt,
+        id = this.id,
+        topic = this.topic,
+        linkId = this.linkId,
+        title = this.title,
+        content = this.content,
+        createdAt = this.createdAt,
+        read = this.read,
     )
 }
 

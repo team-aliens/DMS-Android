@@ -6,12 +6,10 @@ import team.aliens.domain.model.notification.CancelDeviceTokenRegistrationInput
 
 data class CancelDeviceTokenRegistrationRequest(
     @SerializedName("device_id") val deviceId: UUID,
-    @SerializedName("operating_system") val operatingSystem: String,
 )
 
 fun CancelDeviceTokenRegistrationInput.toData(): CancelDeviceTokenRegistrationRequest {
     return CancelDeviceTokenRegistrationRequest(
         deviceId = deviceId,
-        operatingSystem = operatingSystem,
     )
 }

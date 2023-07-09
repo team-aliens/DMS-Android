@@ -12,6 +12,7 @@ data class FetchNotificationsOutput(
         val title: String,
         val content: String,
         val createdAt: String,
+        val read: Boolean,
     )
 }
 

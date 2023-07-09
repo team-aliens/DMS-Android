@@ -24,10 +24,10 @@ data class FetchNotificationTopicStatusResponse(
 
 fun FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse.toDomain(): FetchNotificationTopicStatusOutput.TopicGroupInformation.TopicSubscriptionInformation {
     return FetchNotificationTopicStatusOutput.TopicGroupInformation.TopicSubscriptionInformation(
-        topic = topic,
-        title = title,
-        description = description,
-        subscribed = subscribed,
+        topic = this.topic,
+        title = this.title,
+        description = this.description,
+        subscribed = this.subscribed,
     )
 }
 
@@ -38,9 +38,9 @@ fun List<FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscripti
 
 fun FetchNotificationTopicStatusResponse.TopicGroupResponse.toDomain(): FetchNotificationTopicStatusOutput.TopicGroupInformation {
     return FetchNotificationTopicStatusOutput.TopicGroupInformation(
-        topicGroup = topicGroup,
-        groupTitle = groupTitle,
-        topicSubscriptions = topicSubscriptions.toDomain(),
+        topicGroup = this.topicGroup,
+        groupTitle = this.groupTitle,
+        topicSubscriptions = this.topicSubscriptions.toDomain(),
     )
 }
 

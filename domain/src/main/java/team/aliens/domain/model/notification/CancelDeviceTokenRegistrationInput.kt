@@ -4,5 +4,4 @@ import java.util.UUID
 
 data class CancelDeviceTokenRegistrationInput(
     val deviceId: UUID,
-    val operatingSystem: String = "ANDROID",
 )
