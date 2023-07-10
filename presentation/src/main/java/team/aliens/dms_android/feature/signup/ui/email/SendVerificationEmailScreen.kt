@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -127,12 +128,14 @@ internal fun SendVerificationEmailScreen(
             onValueChange = onEmailChange,
             hint = stringResource(id = R.string.sign_up_email_enter_email_address),
             error = uiState.emailFormatError,
-            keyboardType = KeyboardType.Email,
             errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
             keyboardActions = KeyboardActions {
                 focusManager.clearFocus()
             },
-            imeAction = ImeAction.Done,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Email,
+            ),
         )
         Spacer(modifier = Modifier.weight(1f))
         DormContainedLargeButton(

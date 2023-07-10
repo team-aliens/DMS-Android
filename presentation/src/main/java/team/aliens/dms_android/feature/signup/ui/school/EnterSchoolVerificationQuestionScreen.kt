@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -89,7 +90,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 darkIcon = isSystemInDarkTheme(),
             )
             Space(space = 8.dp)
-            Body2(text = stringResource(id = R.string.QuestionConfirmSchool))
+            Body2(text = stringResource(id = R.string.sign_up_confirm_school_question))
             Space(space = 60.dp)
             Body2(text = uiState.schoolQuestion)
             Space(space = 10.dp)
@@ -98,15 +99,17 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 onValueChange = onAnswerChange,
                 hint = stringResource(id = R.string.Reply),
                 error = uiState.schoolAnswerMismatchError,
-                errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
+                errorDescription = stringResource(id = R.string.sign_up_confirm_school_error_incorrect_answer),
                 keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
                 },
-                imeAction = ImeAction.Done,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                ),
             )
             Spacer(modifier = Modifier.weight(1f))
             DormContainedLargeButton(
-                text = stringResource(id = R.string.Check),
+                text = stringResource(id = R.string.accept),
                 color = DormButtonColor.Blue,
                 enabled = uiState.schoolAnswerButtonEnabled,
             ) {
@@ -119,7 +122,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Caption(
-                    text = stringResource(id = R.string.AlreadyAccount),
+                    text = stringResource(id = R.string.sign_up_confirm_school_do_you_have_account_already),
                     color = DormTheme.colors.primaryVariant,
                 )
                 Space(space = 8.dp)
@@ -130,7 +133,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                             rippleEnabled = false,
                             onClick = onNavigateToSignInWithInclusive,
                         ),
-                    text = stringResource(id = R.string.Login),
+                    text = stringResource(id = R.string.sign_in),
                 )
             }
             Spacer(modifier = Modifier.height(48.dp))
