@@ -121,7 +121,7 @@ internal fun SetIdScreen(
     ) {
         AppLogo()
         Space(space = 8.dp)
-        Body2(text = stringResource(id = R.string.SetId))
+        Body2(text = stringResource(id = R.string.sign_up_id_set))
         Space(space = 60.dp)
         Column {
             Row(
