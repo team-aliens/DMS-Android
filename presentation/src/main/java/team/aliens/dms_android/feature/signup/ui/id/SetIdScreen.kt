@@ -48,7 +48,7 @@ internal fun SetIdScreen(
     signUpViewModel: SignUpViewModel,
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
@@ -128,34 +128,34 @@ internal fun SetIdScreen(
             ) {
                 DormTextField(
                     modifier = Modifier.fillMaxWidth(0.292f),
-                    value = state.grade,
+                    value = uiState.grade,
                     onValueChange = onGradeChange,
                     hint = stringResource(id = R.string.Grade),
                     keyboardType = KeyboardType.NumberPassword,
-                    error = state.studentNumberMismatchError,
+                    error = uiState.studentNumberMismatchError,
                     imeAction = ImeAction.Next,
                 )
                 DormTextField(
                     modifier = Modifier.fillMaxWidth(0.45f),
-                    value = state.classRoom,
+                    value = uiState.classRoom,
                     onValueChange = onClassRoomChange,
                     hint = stringResource(id = R.string.ClassRoom),
                     keyboardType = KeyboardType.NumberPassword,
-                    error = state.studentNumberMismatchError,
+                    error = uiState.studentNumberMismatchError,
                     imeAction = ImeAction.Next,
                 )
                 DormTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = state.number,
+                    value = uiState.number,
                     onValueChange = onNumberChange,
                     hint = stringResource(id = R.string.Number),
                     keyboardType = KeyboardType.NumberPassword,
-                    error = state.studentNumberMismatchError,
+                    error = uiState.studentNumberMismatchError,
                     imeAction = ImeAction.Next,
                 )
             }
             AnimatedVisibility(
-                visible = state.checkedStudentName,
+                visible = uiState.checkedStudentName,
             ) {
                 Row(
                     modifier = Modifier
@@ -170,7 +170,7 @@ internal fun SetIdScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Space(space = 16.dp)
-                    Body3(text = "${state.studentName}님이 맞으신가요?")
+                    Body3(text = "${uiState.studentName}님이 맞으신가요?")
                     RatioSpace(width = 0.8f)
                     ButtonText(
                         modifier = Modifier.dormClickable(
@@ -193,10 +193,10 @@ internal fun SetIdScreen(
                        signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
                    }
                 },
-                value = state.accountId,
+                value = uiState.accountId,
                 onValueChange = onAccountIdChange,
                 hint = stringResource(id = R.string.EnterId),
-                error = state.conflictAccountIdError,
+                error = uiState.conflictAccountIdError,
                 errorDescription = stringResource(id = R.string.sign_up_id_error_id_conflict),
                 keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
@@ -210,7 +210,7 @@ internal fun SetIdScreen(
                 DormContainedLargeButton(
                     text = stringResource(id = R.string.Next),
                     color = DormButtonColor.Blue,
-                    enabled = state.idButtonEnabled,
+                    enabled = uiState.idButtonEnabled,
                 ) {
                     signUpViewModel.postIntent(SignUpIntent.SetId.CheckIdDuplication)
                 }

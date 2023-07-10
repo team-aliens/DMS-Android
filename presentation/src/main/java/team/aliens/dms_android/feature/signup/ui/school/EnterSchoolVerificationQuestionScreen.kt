@@ -44,7 +44,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
     signUpViewModel: SignUpViewModel,
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
@@ -91,13 +91,13 @@ internal fun EnterSchoolVerificationQuestionScreen(
             Space(space = 8.dp)
             Body2(text = stringResource(id = R.string.QuestionConfirmSchool))
             Space(space = 60.dp)
-            Body2(text = state.schoolQuestion)
+            Body2(text = uiState.schoolQuestion)
             Space(space = 10.dp)
             DormTextField(
-                value = state.schoolAnswer,
+                value = uiState.schoolAnswer,
                 onValueChange = onAnswerChange,
                 hint = stringResource(id = R.string.Reply),
-                error = state.schoolAnswerMismatchError,
+                error = uiState.schoolAnswerMismatchError,
                 errorDescription = stringResource(id = R.string.InconsistentSchoolReply),
                 keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
@@ -108,7 +108,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,
-                enabled = state.schoolAnswerButtonEnabled,
+                enabled = uiState.schoolAnswerButtonEnabled,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.SchoolQuestion.ExamineSchoolAnswer)
             }

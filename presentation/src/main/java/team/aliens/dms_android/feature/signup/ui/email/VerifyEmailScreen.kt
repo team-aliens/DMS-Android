@@ -1,6 +1,5 @@
 package team.aliens.dms_android.feature.signup.ui.email
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -62,7 +61,7 @@ internal fun VerifyEmailScreen(
     signUpViewModel: SignUpViewModel,
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
@@ -129,7 +128,7 @@ internal fun VerifyEmailScreen(
         }
     }
 
-    LaunchedEffect(state.emailTimerWorked) {
+    LaunchedEffect(uiState.emailTimerWorked) {
         var min: String
         var sec: String
         repeat(TotalSecond) {
@@ -169,7 +168,7 @@ internal fun VerifyEmailScreen(
         ) {
             Spacer(modifier = Modifier.height(100.dp))
             BasicTextField(
-                value = state.authCode,
+                value = uiState.authCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(
@@ -184,7 +183,7 @@ internal fun VerifyEmailScreen(
                                     .size(16.dp)
                                     .clip(shape = CircleShape)
                                     .background(
-                                        color = if (state.authCode.length - 1 >= index) DormTheme.colors.primaryVariant
+                                        color = if (uiState.authCode.length - 1 >= index) DormTheme.colors.primaryVariant
                                         else DormTheme.colors.secondaryVariant,
                                     ),
                             )
@@ -195,15 +194,15 @@ internal fun VerifyEmailScreen(
             Space(space = 40.dp)
             Body3(
                 text = stringResource(
-                    id = if (state.authCodeMismatchError) R.string.sign_up_email_error_verification_code_incorrect
+                    id = if (uiState.authCodeMismatchError) R.string.sign_up_email_error_verification_code_incorrect
                     else R.string.sign_up_email_please_enter_verification_code,
                 ),
-                color = if (state.authCodeMismatchError) DormTheme.colors.error
+                color = if (uiState.authCodeMismatchError) DormTheme.colors.error
                 else DormTheme.colors.primaryVariant,
             )
             Space(space = 10.dp)
             Body3(
-                text = state.emailExpirationTime,
+                text = uiState.emailExpirationTime,
                 color = DormTheme.colors.primary,
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -224,7 +223,7 @@ internal fun VerifyEmailScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = state.authCodeButtonEnabled,
+                enabled = uiState.authCodeButtonEnabled,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.VerifyEmail.CheckEmailVerificationCode)
             }

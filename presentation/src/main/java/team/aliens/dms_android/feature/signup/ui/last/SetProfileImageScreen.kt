@@ -78,7 +78,7 @@ internal fun SetProfileImageScreen(
     val onSelectImageTypeDialogShow = { selectImageTypeDialogState = true }
     val onSelectImageTypeDialogDismiss = { selectImageTypeDialogState = false }
 
-    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         signUpViewModel.sideEffectFlow.collect {
@@ -138,7 +138,7 @@ internal fun SetProfileImageScreen(
                         .size(150.dp)
                         .clip(CircleShape)
                         .clickable(onClick = onSelectImageTypeDialogShow),
-                    painter = rememberAsyncImagePainter(state.profileImageUri ?: defaultProfileUrl),
+                    painter = rememberAsyncImagePainter(uiState.profileImageUri ?: defaultProfileUrl),
                     contentDescription = stringResource(R.string.profile_image),
                     contentScale = ContentScale.Crop,
                 )
@@ -160,7 +160,7 @@ internal fun SetProfileImageScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Next),
                 color = DormButtonColor.Blue,
-                enabled = state.profileImageButtonEnabled,
+                enabled = uiState.profileImageButtonEnabled,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.SetProfileImage.UploadImage)
             }

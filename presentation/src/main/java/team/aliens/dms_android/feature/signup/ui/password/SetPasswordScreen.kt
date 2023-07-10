@@ -38,7 +38,7 @@ internal fun SetPasswordScreen(
     signUpViewModel: SignUpViewModel,
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsState()
+    val uiState by signUpViewModel.stateFlow.collectAsState()
 
     val focusManager = LocalFocusManager.current
 
@@ -97,21 +97,21 @@ internal fun SetPasswordScreen(
                 modifier = Modifier.fillMaxHeight(0.17f),
             ) {
                 DormTextField(
-                    value = state.password,
+                    value = uiState.password,
                     onValueChange = onPasswordChange,
                     hint = stringResource(id = R.string.EnterPassword),
                     isPassword = true,
-                    error = state.passwordFormatError,
+                    error = uiState.passwordFormatError,
                     errorDescription = stringResource(id = R.string.CheckPasswordFormat),
                     imeAction = ImeAction.Next,
                 )
             }
             DormTextField(
-                value = state.passwordRepeat,
+                value = uiState.passwordRepeat,
                 onValueChange = onPasswordRepeatChange,
                 hint = stringResource(id = R.string.ReEnterPassword),
                 isPassword = true,
-                error = state.passwordMismatchError,
+                error = uiState.passwordMismatchError,
                 errorDescription = stringResource(id = R.string.CheckPassword),
                 keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
@@ -122,7 +122,7 @@ internal fun SetPasswordScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.Next),
             color = DormButtonColor.Blue,
-            enabled = state.passwordButtonEnabled,
+            enabled = uiState.passwordButtonEnabled,
         ) {
             signUpViewModel.postIntent(SignUpIntent.SetPassword.CheckPassword)
         }

@@ -22,7 +22,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.dialog.DormCustomDialog
@@ -34,9 +33,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.presentation.R
@@ -48,7 +45,7 @@ internal fun SendVerificationEmailScreen(
     signUpViewModel: SignUpViewModel,
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
@@ -126,10 +123,10 @@ internal fun SendVerificationEmailScreen(
         Body2(text = stringResource(id = R.string.EnterEmailAddress))
         Space(space = 86.dp)
         DormTextField(
-            value = state.email,
+            value = uiState.email,
             onValueChange = onEmailChange,
             hint = stringResource(id = R.string.EnterEmailAddress),
-            error = state.emailFormatError,
+            error = uiState.emailFormatError,
             keyboardType = KeyboardType.Email,
             errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
             keyboardActions = KeyboardActions {
@@ -141,7 +138,7 @@ internal fun SendVerificationEmailScreen(
         DormContainedLargeButton(
             text = stringResource(id = R.string.SendVerificationCode),
             color = DormButtonColor.Blue,
-            enabled = state.sendEmailButtonEnabled,
+            enabled = uiState.sendEmailButtonEnabled,
         ) {
             signUpViewModel.postIntent(SignUpIntent.SendEmail.CheckEmailDuplication)
         }

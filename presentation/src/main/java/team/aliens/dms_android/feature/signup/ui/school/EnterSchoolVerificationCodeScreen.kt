@@ -52,9 +52,9 @@ internal fun EnterSchoolVerificationCodeScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsState()
+    val uiState by signUpViewModel.stateFlow.collectAsState()
 
-    val schoolCodeMismatchError = state.schoolCodeMismatchError
+    val schoolCodeMismatchError = uiState.schoolCodeMismatchError
 
     val focusManager = LocalFocusManager.current
 
@@ -112,7 +112,7 @@ internal fun EnterSchoolVerificationCodeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BasicTextField(
-                value = state.schoolCode,
+                value = uiState.schoolCode,
                 modifier = Modifier.focusRequester(focusRequester),
                 onValueChange = onVerificationCodeChange,
                 keyboardOptions = KeyboardOptions(
@@ -132,7 +132,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                                     .size(16.dp)
                                     .clip(shape = CircleShape)
                                     .background(
-                                        color = if (state.schoolCode.length - 1 >= index) DormTheme.colors.primaryVariant
+                                        color = if (uiState.schoolCode.length - 1 >= index) DormTheme.colors.primaryVariant
                                         else DormTheme.colors.secondaryVariant,
                                     ),
                             )
@@ -153,7 +153,7 @@ internal fun EnterSchoolVerificationCodeScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Verification),
                 color = DormButtonColor.Blue,
-                enabled = state.schoolCodeButtonEnabled,
+                enabled = uiState.schoolCodeButtonEnabled,
             ) {
                 signUpViewModel.postIntent(intent = SignUpIntent.VerifySchool.ExamineSchoolVerificationCode)
             }
