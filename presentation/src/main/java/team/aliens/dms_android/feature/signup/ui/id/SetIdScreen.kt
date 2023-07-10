@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -131,27 +132,33 @@ internal fun SetIdScreen(
                     value = uiState.grade,
                     onValueChange = onGradeChange,
                     hint = stringResource(id = R.string.Grade),
-                    keyboardType = KeyboardType.NumberPassword,
                     error = uiState.studentNumberMismatchError,
-                    imeAction = ImeAction.Next,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.NumberPassword,
+                    ),
                 )
                 DormTextField(
                     modifier = Modifier.fillMaxWidth(0.45f),
                     value = uiState.classRoom,
                     onValueChange = onClassRoomChange,
                     hint = stringResource(id = R.string.ClassRoom),
-                    keyboardType = KeyboardType.NumberPassword,
                     error = uiState.studentNumberMismatchError,
-                    imeAction = ImeAction.Next,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.NumberPassword,
+                    ),
                 )
                 DormTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.number,
                     onValueChange = onNumberChange,
                     hint = stringResource(id = R.string.Number),
-                    keyboardType = KeyboardType.NumberPassword,
                     error = uiState.studentNumberMismatchError,
-                    imeAction = ImeAction.Next,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.NumberPassword,
+                    ),
                 )
             }
             AnimatedVisibility(
@@ -189,9 +196,9 @@ internal fun SetIdScreen(
             Space(space = 26.dp)
             DormTextField(
                 modifier = Modifier.onFocusChanged {
-                   if(it.isFocused) {
-                       signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
-                   }
+                    if (it.isFocused) {
+                        signUpViewModel.postIntent(SignUpIntent.SetId.ExamineStudentNumber)
+                    }
                 },
                 value = uiState.accountId,
                 onValueChange = onAccountIdChange,
@@ -201,7 +208,9 @@ internal fun SetIdScreen(
                 keyboardActions = KeyboardActions {
                     focusManager.clearFocus()
                 },
-                imeAction = ImeAction.Done,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                ),
             )
             Spacer(modifier = Modifier.weight(1f))
             Column(
