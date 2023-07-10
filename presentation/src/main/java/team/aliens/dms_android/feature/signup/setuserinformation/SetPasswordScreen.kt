@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.signup.ui.password
+package team.aliens.dms_android.feature.signup.setuserinformation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme

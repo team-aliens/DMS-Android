@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.signup.ui.last
+package team.aliens.dms_android.feature.signup.terms
 
 import android.view.ViewGroup
 import android.webkit.WebView

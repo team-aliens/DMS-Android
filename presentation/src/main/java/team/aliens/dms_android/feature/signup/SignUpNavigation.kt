@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.signup.ui.email.SendVerificationEmailScreen
-import team.aliens.dms_android.feature.signup.ui.email.VerifyEmailScreen
-import team.aliens.dms_android.feature.signup.ui.id.SetIdScreen
-import team.aliens.dms_android.feature.signup.ui.last.SetProfileImageScreen
-import team.aliens.dms_android.feature.signup.ui.last.TermsScreen
-import team.aliens.dms_android.feature.signup.ui.password.SetPasswordScreen
-import team.aliens.dms_android.feature.signup.ui.school.EnterSchoolVerificationCodeScreen
-import team.aliens.dms_android.feature.signup.ui.school.EnterSchoolVerificationQuestionScreen
+import team.aliens.dms_android.feature.signup.verifyemail.SendVerificationEmailScreen
+import team.aliens.dms_android.feature.signup.verifyemail.VerifyEmailScreen
+import team.aliens.dms_android.feature.signup.setuserinformation.SetIdScreen
+import team.aliens.dms_android.feature.signup.setuserinformation.SetProfileImageScreen
+import team.aliens.dms_android.feature.signup.setuserinformation.SetPasswordScreen
+import team.aliens.dms_android.feature.signup.terms.TermsScreen
+import team.aliens.dms_android.feature.signup.verifyschool.EnterSchoolVerificationCodeScreen
+import team.aliens.dms_android.feature.signup.verifyschool.EnterSchoolVerificationQuestionScreen
 import team.aliens.dms_android.util.composableActivityViewModel
 
 // todo sign up 작업 후 마저 구현하기

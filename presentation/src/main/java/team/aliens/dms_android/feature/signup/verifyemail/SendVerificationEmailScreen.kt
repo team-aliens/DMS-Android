@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.signup.ui.email
+package team.aliens.dms_android.feature.signup.verifyemail
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.signup.ui.school
+package team.aliens.dms_android.feature.signup.verifyschool
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme

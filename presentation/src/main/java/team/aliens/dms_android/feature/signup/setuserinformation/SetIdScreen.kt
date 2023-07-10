@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.signup.ui.id
+package team.aliens.dms_android.feature.signup.setuserinformation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

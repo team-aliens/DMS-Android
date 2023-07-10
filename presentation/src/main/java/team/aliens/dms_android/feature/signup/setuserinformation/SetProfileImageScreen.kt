@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.signup.ui.last
+package team.aliens.dms_android.feature.signup.setuserinformation
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
