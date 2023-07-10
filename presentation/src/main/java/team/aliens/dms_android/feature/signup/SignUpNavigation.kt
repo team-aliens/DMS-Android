@@ -17,24 +17,26 @@ import team.aliens.dms_android.util.composableActivityViewModel
 // todo sign up 작업 후 마저 구현하기
 internal object SignUpNavigation {
     const val route = "signUp"
-    const val verifySchool = this.route + "/verifySchool"
-    const val verifyEmail = this.route + "/verifyEmail"
-    const val setUserInformation = this.route + "/setUserInformation"
+
+    const val VerifySchoolRoute = this.route + "/verifySchool"
+    const val VerifyEmailRoute = this.route + "/verifyEmail"
+    const val SetUserInformationRoute = this.route + "/setUserInformation"
+
 
     object VerifySchool {
-        const val EnterSchoolVerificationCode = "$verifySchool/enterSchoolVerificationCode"
-        const val EnterSchoolVerificationQuestion = "$verifySchool/enterSchoolVerificationQuestion"
+        const val EnterSchoolVerificationCode = "$VerifySchoolRoute/enterSchoolVerificationCode"
+        const val EnterSchoolVerificationQuestion = "$VerifySchoolRoute/enterSchoolVerificationQuestion"
     }
 
     object VerifyEmail {
-        const val SetEmail = "$verifyEmail/setEmail"
-        const val VerifyEmail = "$verifyEmail/verifyEmail"
+        const val SetEmail = "$VerifyEmailRoute/setEmail"
+        const val VerifyEmail = "$VerifyEmailRoute/verifyEmail"
     }
 
     object SetUserInformation {
-        const val SetId = "$setUserInformation/setId"
-        const val SetPassword = "$setUserInformation/setPassword"
-        const val SetProfile = "$setUserInformation/setProfile"
+        const val SetId = "$SetUserInformationRoute/setId"
+        const val SetPassword = "$SetUserInformationRoute/setPassword"
+        const val SetProfile = "$SetUserInformationRoute/setProfile"
     }
 
     const val Terms = this.route + "/terms"
@@ -55,7 +57,7 @@ internal fun NavGraphBuilder.signUpNavigation(
     onNavigateToSetEmailWithInclusive: () -> Unit,
 ) {
     navigation(
-        startDestination = SignUpNavigation.verifySchool,
+        startDestination = SignUpNavigation.SetUserInformationRoute,
         route = SignUpNavigation.route,
     ) {
         verifySchoolNavigation(
@@ -94,7 +96,7 @@ private fun NavGraphBuilder.verifySchoolNavigation(
 ) {
     navigation(
         startDestination = SignUpNavigation.VerifySchool.EnterSchoolVerificationCode,
-        route = SignUpNavigation.verifySchool,
+        route = SignUpNavigation.VerifySchoolRoute,
     ) {
         composable(SignUpNavigation.VerifySchool.EnterSchoolVerificationCode) {
             EnterSchoolVerificationCodeScreen(
@@ -121,7 +123,7 @@ private fun NavGraphBuilder.verifyEmailNavigation(
 ) {
     navigation(
         startDestination = SignUpNavigation.VerifyEmail.SetEmail,
-        route = SignUpNavigation.verifyEmail,
+        route = SignUpNavigation.VerifyEmailRoute,
     ) {
         composable(SignUpNavigation.VerifyEmail.SetEmail) {
             SendVerificationEmailScreen(
@@ -148,7 +150,7 @@ private fun NavGraphBuilder.setUserInformationNavigation(
 ) {
     navigation(
         startDestination = SignUpNavigation.SetUserInformation.SetId,
-        route = SignUpNavigation.setUserInformation,
+        route = SignUpNavigation.SetUserInformationRoute,
     ) {
         composable(SignUpNavigation.SetUserInformation.SetId) {
             SetIdScreen(
