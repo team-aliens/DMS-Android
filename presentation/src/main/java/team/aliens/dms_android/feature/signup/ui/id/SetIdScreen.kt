@@ -217,7 +217,7 @@ internal fun SetIdScreen(
                 modifier = Modifier.imePadding(),
             ) {
                 DormContainedLargeButton(
-                    text = stringResource(id = R.string.Next),
+                    text = stringResource(id = R.string.next),
                     color = DormButtonColor.Blue,
                     enabled = uiState.idButtonEnabled,
                 ) {

@@ -48,7 +48,7 @@ internal fun TermsScreen(
     signUpViewModel: SignUpViewModel,
 ) {
 
-    val state by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val policyUrl by remember { mutableStateOf("https://webview.aliens-dms.com/policy/privacy") }
 
@@ -141,7 +141,7 @@ internal fun TermsScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 DormCheckBox(
-                    checked = state.checkedPolicy,
+                    checked = uiState.checkedPolicy,
                     onCheckedChange = onCheckChanged,
                 )
                 Space(space = 14.dp)
@@ -154,7 +154,7 @@ internal fun TermsScreen(
             DormContainedLargeButton(
                 text = stringResource(id = R.string.Check),
                 color = DormButtonColor.Blue,
-                enabled = state.checkedPolicy,
+                enabled = uiState.checkedPolicy,
             ) {
                 signUpViewModel.postIntent(SignUpIntent.Terms.SignUp)
             }
