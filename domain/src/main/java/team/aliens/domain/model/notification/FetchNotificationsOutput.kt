@@ -24,6 +24,7 @@ fun FetchNotificationsOutput.NotificationInformation.toModel(): Notification {
         title = this.title,
         content = this.content,
         createdAt = this.createdAt,
+        read = this.read,
     )
 }
 

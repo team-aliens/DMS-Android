@@ -26,8 +26,6 @@ class RemoteNotificationDataSourceImpl @Inject constructor(
             notificationApiService.registerDeviceNotificationToken(
                 request = RegisterDeviceNotificationTokenRequest(
                     deviceToken = input.deviceToken,
-                    deviceId = input.deviceId,
-                    operatingSystem = input.operatingSystem,
                 ),
             )
         }
@@ -84,8 +82,6 @@ class RemoteNotificationDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchNotifications(): FetchNotificationsOutput {
-        return sendHttpRequest {
-            notificationApiService.fetchNotifications()
-        }.toDomain()
+        return sendHttpRequest { notificationApiService.fetchNotifications() }.toDomain()
     }
 }
