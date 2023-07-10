@@ -102,7 +102,6 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
                 registerDeviceNotificationTokenUseCase(
                     registerDeviceNotificationTokenInput = RegisterDeviceNotificationTokenInput(
                         deviceToken = token,
-                        deviceId = baseContext.getDeviceUid(),
                     ),
                 )
             }.onFailure {

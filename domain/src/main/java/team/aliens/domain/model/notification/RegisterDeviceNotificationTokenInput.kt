@@ -6,5 +6,4 @@ package team.aliens.domain.model.notification
  */
 data class RegisterDeviceNotificationTokenInput(
     val deviceToken: String,
-    val deviceId: String,
 )

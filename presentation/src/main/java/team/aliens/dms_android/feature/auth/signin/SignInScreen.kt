@@ -114,7 +114,7 @@ internal fun SignInScreen(
             text = stringResource(R.string.sign_in),
             color = DormButtonColor.Blue,
             enabled = signInButtonEnabled,
-            onClick = { signInViewModel.postIntent(SignInIntent.SignIn(context.getDeviceUid())) },
+            onClick = { signInViewModel.postIntent(SignInIntent.SignIn) },
         )
         Spacer(Modifier.height(57.dp))
     }
