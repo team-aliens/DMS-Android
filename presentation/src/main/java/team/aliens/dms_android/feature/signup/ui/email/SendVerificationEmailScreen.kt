@@ -120,12 +120,12 @@ internal fun SendVerificationEmailScreen(
             darkIcon = isSystemInDarkTheme(),
         )
         Space(space = 8.dp)
-        Body2(text = stringResource(id = R.string.EnterEmailAddress))
+        Body2(text = stringResource(id = R.string.sign_up_email_enter_email_address))
         Space(space = 86.dp)
         DormTextField(
             value = uiState.email,
             onValueChange = onEmailChange,
-            hint = stringResource(id = R.string.EnterEmailAddress),
+            hint = stringResource(id = R.string.sign_up_email_enter_email_address),
             error = uiState.emailFormatError,
             keyboardType = KeyboardType.Email,
             errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
@@ -136,7 +136,7 @@ internal fun SendVerificationEmailScreen(
         )
         Spacer(modifier = Modifier.weight(1f))
         DormContainedLargeButton(
-            text = stringResource(id = R.string.SendVerificationCode),
+            text = stringResource(id = R.string.sign_up_email_send_verification_code),
             color = DormButtonColor.Blue,
             enabled = uiState.sendEmailButtonEnabled,
         ) {
