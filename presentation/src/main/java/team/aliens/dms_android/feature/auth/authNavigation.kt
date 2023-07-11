@@ -1,11 +1,13 @@
 package team.aliens.dms_android.feature.auth
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import team.aliens.dms_android.feature.auth.findid.FindIdScreen
 import team.aliens.dms_android.feature.auth.resetpassword.resetPasswordNavigation
 import team.aliens.dms_android.feature.auth.signin.SignInScreen
+import team.aliens.dms_android.feature.signup.signUpNavigation
 
 internal object AuthNavigation {
     const val route = "auth"
@@ -22,6 +24,15 @@ internal fun NavGraphBuilder.authNavigation(
     onNavigateToSignIn: () -> Unit,
     onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     onNavigateToResetPasswordSetPassword: () -> Unit,
+    onNavigateToEnterSchoolVerificationQuestion: () -> Unit,
+    onNavigateToSetEmail: () -> Unit,
+    onNavigateToVerifyEmail: () -> Unit,
+    onNavigateToSetId: () -> Unit,
+    onNavigateToSetPassword: () -> Unit,
+    onNavigateToSetProfile: () -> Unit,
+    onNavigateToTerms: () -> Unit,
+    onNavigateToSignInWithInclusive: () -> Unit,
+    onNavigateToSetEmailWithInclusive: () -> Unit,
     onPrevious: () -> Unit,
 ) {
     navigation(
@@ -47,6 +58,16 @@ internal fun NavGraphBuilder.authNavigation(
             onPrevious = onPrevious,
             onNavigateToSignIn = onNavigateToSignIn,
         )
-        // todo signUpNavigation()
+        signUpNavigation(
+            onNavigateToEnterSchoolQuestion = onNavigateToEnterSchoolVerificationQuestion,
+            onNavigateToSendVerificationEmail = onNavigateToSetEmail,
+            onNavigateToVerifyEmail = onNavigateToVerifyEmail,
+            onNavigateToSetId = onNavigateToSetId,
+            onNavigateToSetPassword = onNavigateToSetPassword,
+            onNavigateToSetProfileImage = onNavigateToSetProfile,
+            onNavigateToTerms = onNavigateToTerms,
+            onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
+            onNavigateToSetEmailWithInclusive = onNavigateToSetEmailWithInclusive,
+        )
     }
 }

@@ -60,8 +60,8 @@ import team.aliens.design_system.typography.ButtonText
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.feature.auth.changepassword.ChangePasswordViewModel
-import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
-import team.aliens.dms_android.feature.signup.ui.email.RegisterEmailViewModel
+import team.aliens.dms_android.feature.signup.RegisterEmailEvent
+import team.aliens.dms_android.feature.signup.RegisterEmailViewModel
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 

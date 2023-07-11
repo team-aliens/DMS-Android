@@ -313,7 +313,8 @@
     <string name="sign_up_id_class">반</string>
     <string name="sign_up_id_number">번호</string>
 
-    <string name="sign_up_id_error_check_gcn">학번을 확인해 주세요</string>
+    <string name="sign_up_id_error_not_found_student">존재하지 않는 학생 입니다</string>
+    <string name="sign_up_id_error_conflict_student">이미 존재하는 학생 입니다</string>
     <string name="sign_up_id_error_id_conflict">이미 사용중인 아이디입니다</string>
 
     <string name="sign_up_set_password">비밀번호 설정</string>
@@ -331,6 +332,7 @@
     <string name="sign_up_profile__set_later"><u>다음에 설정하기</u></string>
 
     <string name="sign_up_profile_error_load_image_error">이미지를 불러올 수 없습니다</string>
+    <string name="sign_up_profile_error_image_not_selected">이미지를 선택해주세요</string>
 
     <!--change password-->
     <string name="change_password">비밀번호 변경</string>

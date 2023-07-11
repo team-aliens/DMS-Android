@@ -37,8 +37,6 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.dms_android.feature.signup.event.email.RegisterEmailEvent
-import team.aliens.dms_android.feature.signup.ui.email.RegisterEmailViewModel
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.presentation.R
 
@@ -46,7 +44,7 @@ import team.aliens.presentation.R
 fun ResetPasswordIdVerificationScreen(
     onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
-    registerEmailViewModel: RegisterEmailViewModel = hiltViewModel(), // fixme
+    resetPasswordVerificationViewModel: ResetPasswordVerificationViewModel = hiltViewModel(), // fixme
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -106,10 +104,10 @@ fun ResetPasswordIdVerificationScreen(
     }
 
     LaunchedEffect(Unit) {
-        registerEmailViewModel.registerEmailEvent.collect {
+        resetPasswordVerificationViewModel.registerEmailEvent.collect {
             when (it) {
-                is RegisterEmailEvent.SendEmailSuccess -> onNavigateToResetPasswordEnterEmailVerificationCode()
-                is RegisterEmailEvent.TooManyRequestsException -> {
+                is ResetPasswordVerificationEvent.SendEmailSuccess -> onNavigateToResetPasswordEnterEmailVerificationCode()
+                is ResetPasswordVerificationEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.Retry))
                 }
 
@@ -243,7 +241,7 @@ fun ResetPasswordIdVerificationScreen(
             ) {
                 if (id.isNotBlank() && name.isNotBlank() && userEmail.isNotBlank()) {
                     if (pattern.matcher(userEmail).find()) {
-                        registerEmailViewModel.requestEmailCode(
+                        resetPasswordVerificationViewModel.requestEmailCode(
                             email = userEmail.trim(),
                             type = EmailVerificationType.PASSWORD,
                         )
@@ -284,21 +282,21 @@ private fun getStringFromEvent(
 
 private fun getStringFromEmailEvent(
     context: Context,
-    event: RegisterEmailEvent,
+    event: ResetPasswordVerificationEvent,
 ): String = when (event) {
-    is RegisterEmailEvent.CheckEmailNotFound -> {
+    is ResetPasswordVerificationEvent.CheckEmailNotFound -> {
         context.getString(R.string.CertificationInfoNotFound)
     }
 
-    is RegisterEmailEvent.BadRequestException -> {
+    is ResetPasswordVerificationEvent.BadRequestException -> {
         context.getString(R.string.NotFound)
     }
 
-    is RegisterEmailEvent.ConflictException -> {
+    is ResetPasswordVerificationEvent.ConflictException -> {
         context.getString(R.string.ConflictEmail)
     }
 
-    is RegisterEmailEvent.InternalServerException -> {
+    is ResetPasswordVerificationEvent.InternalServerException -> {
         context.getString(R.string.ServerException)
     }
 
