@@ -47,6 +47,19 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
+        <service
+            android:name="team.aliens.dms_android.service.DmsFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_logo_image" />
+
         <!--<receiver
             android:name="team.aliens.dms_android.widget.meal.provider.BigMealWidgetProvider"
             android:enabled="true"

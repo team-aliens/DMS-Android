@@ -3,6 +3,7 @@ plugins {
     id(Plugins.Module.Hilt)
     id(Plugins.Module.KotlinAndroid)
     id(Plugins.Module.KotlinKapt)
+    id(Plugins.Module.Firebase)
 }
 
 android {
@@ -87,4 +88,6 @@ dependencies {
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Test.JUnit)
+
+    implementation(Dependencies.Remote.FirebaseMessaging)
 }

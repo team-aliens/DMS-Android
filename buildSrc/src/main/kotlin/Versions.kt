@@ -22,6 +22,7 @@ object Versions {
     object Gradle {
         const val Android = "7.4.2"
         const val Kotlin = "1.8.10"
+        const val Firebase = "4.3.15"
     }
 
     object Ui {
@@ -58,6 +59,7 @@ object Versions {
     object Remote {
         const val Retrofit = "2.9.0"
         const val OkHttp = "4.11.0"
+        const val Firebase = "23.1.2"
     }
 
     object Test {

@@ -57,8 +57,8 @@ import team.aliens.dms_android.feature.main.home.announcements.AnnouncementsScre
 import team.aliens.dms_android.feature.main.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.home.HomeScreen
 import team.aliens.dms_android.feature.main.home.mypage.MyPageScreen
-
-private const val OneDay = 1000 * 60 * 60 * 24
+import team.aliens.dms_android.util.Now
+import team.aliens.dms_android.util.OneDay
 
 internal fun Date.plusOneDay(): Date {
     return Date(this.time.plus(OneDay))
@@ -67,8 +67,6 @@ internal fun Date.plusOneDay(): Date {
 internal fun Date.minusOneDay(): Date {
     return Date(this.time.minus(OneDay))
 }
-
-private typealias Today = Date
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -82,11 +80,12 @@ internal fun Home(
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPasswordNav: () -> Unit,
     onNavigateToAuthNav: () -> Unit,
+    onNavigateToNotificationBox: () -> Unit,
 ) {
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val coroutineScope = rememberCoroutineScope()
-    var currentCalendarDate by rememberSaveable { mutableStateOf(Today()) }
+    var currentCalendarDate by rememberSaveable { mutableStateOf(Now()) }
     val onCalendarDateChange = { newDate: Date -> currentCalendarDate = newDate }
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
@@ -144,9 +143,8 @@ internal fun Home(
                         onNextDay = { onCalendarDateChange(currentCalendarDate.plusOneDay()) },
                         onPreviousDay = { onCalendarDateChange(currentCalendarDate.minusOneDay()) },
                         onShowCalendar = { coroutineScope.launch { bottomSheetState.show() } },
-                        onNavigateToNoticeScreen = {
-                            bottomNavController.navigateTo(Announcement.route)
-                        },
+                        onNavigateToNoticeScreen = { bottomNavController.navigateTo(Announcement.route) },
+                        onNavigateToNotificationBox = onNavigateToNotificationBox,
                     )
                 }
                 if (containsApplicationScreen) {

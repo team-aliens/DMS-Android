@@ -5,6 +5,7 @@ object Plugins {
         const val Kotlin =
             "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Gradle.Kotlin}"
         const val Hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.Di.Hilt}"
+        const val Firebase = "com.google.gms:google-services:${Versions.Gradle.Firebase}"
     }
 
     object Module {
@@ -13,5 +14,6 @@ object Plugins {
         const val KotlinAndroid = "org.jetbrains.kotlin.android"
         const val KotlinKapt = "kotlin-kapt"
         const val Hilt = "dagger.hilt.android.plugin"
+        const val Firebase = "com.google.gms.google-services"
     }
 }

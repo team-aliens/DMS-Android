@@ -71,4 +71,10 @@ abstract class RemoteDataSourceModule {
     abstract fun bindRemoteUserDataSource(
         impl: RemoteUserDataSourceImpl,
     ): RemoteUserDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindRemoteNotificationDataSource(
+        impl: RemoteNotificationDataSourceImpl,
+    ): RemoteNotificationDataSource
 }

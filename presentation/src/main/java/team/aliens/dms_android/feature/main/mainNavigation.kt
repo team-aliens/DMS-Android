@@ -9,9 +9,10 @@ import java.util.UUID
 import team.aliens.dms_android.extension.appendNavArgumentName
 import team.aliens.dms_android.feature.main.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature.main.home.Home
-import team.aliens.dms_android.feature.main.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.home.announcements.NoticeDetailsScreen
 import team.aliens.dms_android.feature.main.image.EditProfileImageScreen
+import team.aliens.dms_android.feature.main.notificationbox.NotificationBoxScreen
+import team.aliens.dms_android.feature.main.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.main.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature.main.studyroom.StudyRoomsScreen
@@ -27,6 +28,7 @@ internal object MainNavigation {
     const val RemainsApplication = this.route + "/remainsApplication"
     const val PointHistory = this.route + "/pointHistory"
     const val UploadProfileImage = this.route + "/uploadProfileImage"
+    const val NotificationBox = this.route + "/notificationBox"
 
     object Arguments {
         const val StudyRoomId = "study-room-id"
@@ -52,6 +54,7 @@ internal fun NavGraphBuilder.mainNavigation(
     ) -> Unit,
     onNavigateToEditPasswordSetPassword: () -> Unit,
     onNavigateToHome: () -> Unit,
+    onNavigateToNotificationBox: () -> Unit,
 ) {
     navigation(
         startDestination = MainNavigation.Home,
@@ -67,6 +70,7 @@ internal fun NavGraphBuilder.mainNavigation(
                 onNavigateToPointHistory = onNavigateToPointHistory,
                 onNavigateToEditPasswordNav = onNavigateToEditPasswordNav,
                 onNavigateToAuthNav = onNavigateToAuthNav,
+                onNavigateToNotificationBox = onNavigateToNotificationBox,
             )
         }
         composable(MainNavigation.StudyRooms) {
@@ -126,9 +130,11 @@ internal fun NavGraphBuilder.mainNavigation(
         }
         composable(
             route = MainNavigation.UploadProfileImage appendNavArgumentName MainNavigation.Arguments.SelectImageType,
-            arguments = listOf(navArgument(MainNavigation.Arguments.SelectImageType) {
-                type = NavType.StringType
-            }),
+            arguments = listOf(
+                navArgument(MainNavigation.Arguments.SelectImageType) {
+                    type = NavType.StringType
+                },
+            ),
         ) { navBackStackEntry ->
             navBackStackEntry.arguments?.run {
                 val selectImageType = getString(MainNavigation.Arguments.SelectImageType)!!
@@ -138,6 +144,11 @@ internal fun NavGraphBuilder.mainNavigation(
                     onPrevious = onPrevious,
                 )
             }
+        }
+        composable(MainNavigation.NotificationBox) {
+            NotificationBoxScreen(
+                onPrevious = onPrevious,
+            )
         }
         editPasswordNavigation(
             onNavigateToEditPasswordSetPassword = onNavigateToEditPasswordSetPassword,

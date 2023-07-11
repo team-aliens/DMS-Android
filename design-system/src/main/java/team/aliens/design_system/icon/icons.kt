@@ -149,5 +149,10 @@ value class DormIcon private constructor(
         val Camera = DormIcon(
             drawableId = R.drawable.ic_camera,
         )
+
+        @Stable // todo immutable ㄱㄴ?
+        val Bell = DormIcon(
+            drawableId = R.drawable.ic_bell,
+        )
     }
 }

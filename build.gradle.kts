@@ -8,6 +8,7 @@ buildscript {
         classpath(Plugins.Gradle.Android)
         classpath(Plugins.Gradle.Kotlin)
         classpath(Plugins.Gradle.Hilt)
+        classpath(Plugins.Gradle.Firebase)
     }
 }
 

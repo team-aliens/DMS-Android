@@ -59,6 +59,7 @@ dependencies {
     kapt(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Remote.Retrofit)
+    implementation(Dependencies.Remote.RetrofitRxJavaAdapter)
 
     implementation(Dependencies.Serialization.GsonConverter)
 

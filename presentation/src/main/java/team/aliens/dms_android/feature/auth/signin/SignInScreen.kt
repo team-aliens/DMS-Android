@@ -35,6 +35,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms_android.util.getDeviceUid
 import team.aliens.presentation.R
 
 @Composable
@@ -69,6 +70,10 @@ internal fun SignInScreen(
                 availableFeatures.features = sideEffect.features
                 onNavigateToHome()
             }
+
+            SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
+                message = context.getString(R.string.sign_in_error_device_token_registering_failure),
+            )
         }
     }
     val signInButtonEnabled = state.signInButtonEnabled

@@ -139,6 +139,10 @@ internal fun NavHostController.navigateToEditPasswordSetPassword() {
     this.navigateSingleTop(EditPasswordNavigation.SetPassword)
 }
 
+internal fun NavHostController.navigateToNotificationBox() {
+    this.navigateSingleTopWithRestoringState(MainNavigation.NotificationBox)
+}
+
 // Auth
 internal fun NavHostController.navigateToSignUpNav() {
     this.navigateSingleTop(SignUpNavigation.route)
