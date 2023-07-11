@@ -3,7 +3,6 @@ package team.aliens.dms_android.feature.main.notificationbox
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +27,9 @@ import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.util.Now
 import team.aliens.dms_android.util.TopBar
+import team.aliens.dms_android.util.toDate
 import team.aliens.domain.model.notification.Notification
 import team.aliens.domain.model.notification.NotificationTopic
 import team.aliens.presentation.R
@@ -72,7 +73,7 @@ private fun Notifications(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (newNotifications.isNotEmpty()) {
-            items(newNotifications) { newNotification ->
+            items(newNotifications.also { println("NEWNEW $it") }) { newNotification ->
                 Notification(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -82,7 +83,7 @@ private fun Notifications(
             }
         }
         if (priorNotifications.isNotEmpty()) {
-            items(priorNotifications) { priorNotification ->
+            items(priorNotifications.also { println("PRIPRI $it") }) { priorNotification ->
                 Notification(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -104,8 +105,8 @@ private fun Notification(
             .dormShadow(DormTheme.colors.primaryVariant)
             .fillMaxWidth()
             .background(
-                color = if (notification.read) {
-                    DormTheme.colors.secondary
+                color = if (!notification.read) {
+                    DormTheme.colors.surface
                 } else {
                     DormTheme.colors.surface
                 },
@@ -129,7 +130,7 @@ private fun Notification(
                 },
             ),
             contentDescription = null,
-            tint = if (notification.read) {
+            tint = if (!notification.read) {
                 DormTheme.colors.primary
             } else {
                 DormTheme.colors.onBackground
@@ -143,16 +144,24 @@ private fun Notification(
         ) {
             Body3(
                 text = notification.title,
-                color = Color.Black,
             )
             Caption(
                 text = notification.content,
-                color = Color.Black,
             )
         }
         Caption(
-            text = notification.createdAt,
-            color = Color.Black,
+            text = createdAtDateToFormattedString(notification.createdAt),
         )
     }
+}
+
+@Composable
+private fun createdAtDateToFormattedString(createdAt: String): String {
+    val formattedDate = createdAt.toDate()
+    val now = Now()
+
+    when (formattedDate.time - now.time) {
+
+    }
+    return "8일 전"
 }
