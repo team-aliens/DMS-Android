@@ -7,22 +7,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -39,36 +38,97 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.dialog.DormCustomDialog
-import team.aliens.design_system.dialog.DormSingleButtonDialog
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.textfield.DormTextField
 import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.toast.rememberToast
+import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
+import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.domain.model.school.FetchSchoolsOutput
 import team.aliens.presentation.R
 
 @Composable
-fun FindIdScreen(
-    onNavigateToSignIn: () -> Unit,
+internal fun FindIdScreen(
     findIdViewModel: FindIdViewModel = hiltViewModel(),
+    onNavigateToSignIn: () -> Unit,
 ) {
+    val uiState by findIdViewModel.stateFlow.collectAsStateWithLifecycle()
+    val (findIdDialogState, setFindIdDialogState) = remember { mutableStateOf(false) }
 
-    val focusManager = LocalFocusManager.current
+    val toast = LocalToast.current
+    val context = LocalContext.current
 
-    var nameState by remember { mutableStateOf("") }
-    var gradeState by remember { mutableStateOf("") }
-    var classRoomState by remember { mutableStateOf("") }
-    var numberState by remember { mutableStateOf("") }
-    var findIdDialogState by remember { mutableStateOf(false) }
-    var errorState by remember { mutableStateOf(false) }
+    findIdViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            FindIdSideEffect.BadRequest -> toast.showErrorToast(
+                message = context.getString(R.string.find_id_error_check_class_and_grade_and_number),
+            )
 
-    var isDropdownMenuExpanded by remember { mutableStateOf(false) }
+            FindIdSideEffect.NotFound -> toast.showErrorToast(
+                message = context.getString(R.string.find_id_error_account_not_found),
+            )
+
+            // todo remind
+            is FindIdSideEffect.FindIdSuccess -> {
+                sideEffect.email
+                onNavigateToSignIn()
+            }
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Spacer(Modifier.height(92.dp))
+        FindIdHeader(Modifier)
+        Spacer(Modifier.height(60.dp))
+        // drop down
+        SchoolsDropDownMenu(
+            modifier = Modifier,
+        )
+        Space(space = 37.dp)
+        UserInformationInputs(
+            modifier = Modifier,
+            gradeValue = uiState.grade,
+            classRoomValue = uiState.classRoom,
+            numberValue = uiState.number,
+            nameValue = uiState.name,
+            onGradeChange = { newGrade: String ->
+                findIdViewModel.postIntent(FindIdIntent.UpdateGrade(newGrade))
+            },
+            onClassRoomChange = { newClassRoom: String ->
+                findIdViewModel.postIntent(FindIdIntent.UpdateClassRoom(newClassRoom))
+            },
+            onNumberChange = { newNumber: String ->
+                findIdViewModel.postIntent(FindIdIntent.UpdateNumber(newNumber))
+            },
+            onNameChange = { newName: String ->
+                findIdViewModel.postIntent(FindIdIntent.UpdateName(newName))
+            },
+            gradeError = uiState.gradeError,
+            classRoomError = uiState.classRoomError,
+            numberError = uiState.numberError,
+            nameError = uiState.nameError,
+        )
+        Spacer(Modifier.weight(1f))
+        DormContainedLargeButton(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 57.dp),
+            text = stringResource(id = R.string.find_id),
+            color = DormButtonColor.Blue,
+            enabled = uiState.findIdButtonEnabled,
+            onClick = { findIdViewModel.postIntent(FindIdIntent.FindId) },
+        )
+    }
+}
+
+@Composable
+private fun SchoolsDropDownMenu(
+    modifier: Modifier = Modifier,
+) {
+    var isDropDownMenuExpended by remember { mutableStateOf(false) }
     var schoolList = remember {
         mutableStateListOf<FetchSchoolsOutput.SchoolInformation>()
     }
@@ -82,212 +142,165 @@ fun FindIdScreen(
         )
     }
 
-    val toast = rememberToast()
-    val context = LocalContext.current
 
-    if (findIdDialogState) {
-        DormCustomDialog(
-            onDismissRequest = {},
-        ) {
-            DormSingleButtonDialog(
-                content = stringResource(id = R.string.SendIdToEmail, findIdViewModel.email),
-                mainBtnText = stringResource(id = R.string.GoLoginScreen),
-                onMainBtnClick = onNavigateToSignIn,
-                mainBtnTextColor = DormTheme.colors.primary,
-            )
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        findIdViewModel.findIdEvent.collect { event ->
-            when (event) {
-                is FetchSchools -> {
-                    schoolList.addAll(event.fetchSchoolsOutput.schools)
-                }
-
-                SuccessFindId -> {
-                    findIdDialogState = true
-                }
-
-                FindIdNoInternetException -> {
-                    toast(context.getString(R.string.NoInternetException))
-                }
-
-                FindIdServerException -> {
-                    toast(context.getString(R.string.ServerException))
-                }
-
-                FindIdTooManyRequest -> {
-                    toast(context.getString(R.string.TooManyRequest))
-                }
-
-                FindIdUnknownException -> {
-                    toast(context.getString(R.string.UnKnownException))
-                }
-
-                FindIdNeedLoginException -> {
-                    toast(context.getString(R.string.NeedAccount))
-                }
-
-                FindIdBadRequest -> {
-                    toast(context.getString(R.string.BadRequest))
-                }
-
-                FindIdNotFound -> {
-                    toast(context.getString(R.string.ChangePasswordNotFound))
-                }
-
-                FindIdUnauthorized -> {
-                    toast(context.getString(R.string.MissMatchAccountInfo))
-                }
-            }
-        }
-    }
-
-    Column( // todo refactor
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 16.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
-                focusManager.clearFocus()
-            }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
     ) {
-        Space(space = 92.dp)
-        FindIdHeader()
-        Space(space = 60.dp)
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
+        Box(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            contentAlignment = Alignment.CenterEnd,
         ) {
-            Box() {
-                Row(
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.small)
-                        .height(46.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            isDropdownMenuExpanded = !isDropdownMenuExpanded
-                        }
-                        .border(
-                            width = 1.dp,
-                            shape = MaterialTheme.shapes.small,
-                            color = DormTheme.colors.primaryVariant,
-                        )
-
-                        .padding(start = 16.dp, end = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Body2(
-                        text = selectedSchool.name,
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(46.dp)
+                    .clickable {
+                        isDropDownMenuExpended = !isDropDownMenuExpended
+                    }
+                    .border(
+                        width = 1.dp,
+                        shape = MaterialTheme.shapes.small,
                         color = DormTheme.colors.primaryVariant,
                     )
-                    Icon(
-                        painterResource(id = R.drawable.ic_down),
-                        contentDescription = null,
-                    )
-                }
-
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Body2(
+                    modifier = Modifier.weight(1f),
+                    text = (if (selectedSchool.name != null) selectedSchool.name else {
+                        stringResource(id = R.string.find_id_select_school)
+                    }),
+                    color = DormTheme.colors.primaryVariant,
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_down),
+                    contentDescription = null,
+                )
                 DropdownMenu(
-                    expanded = isDropdownMenuExpanded,
-                    onDismissRequest = { isDropdownMenuExpanded = false },
+                    modifier = Modifier.weight(1f),
+                    expanded = isDropDownMenuExpended,
+                    onDismissRequest = { isDropDownMenuExpended = false },
                 ) {
                     schoolList.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
-                                isDropdownMenuExpanded = false
+                                isDropDownMenuExpended = false
                                 selectedSchool = item
-                            }
+                            },
                         ) {
-                            Text(item.name)
+                            Text(text = item.name)
                         }
                     }
                 }
-            }
-
-            Space(space = 37.dp)
-            DormTextField(
-                value = nameState,
-                onValueChange = { name -> nameState = name },
-                hint = stringResource(id = R.string.Name),
-                imeAction = ImeAction.Next
-            )
-            Space(space = 37.dp)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                DormTextField(
-                    modifier = Modifier.width(100.dp),
-                    value = gradeState,
-                    onValueChange = { grade -> gradeState = grade },
-                    hint = stringResource(id = R.string.Grade),
-                    keyboardType = KeyboardType.NumberPassword,
-                    imeAction = ImeAction.Next,
-                    error = errorState
-                )
-                DormTextField(
-                    modifier = Modifier.width(100.dp),
-                    value = classRoomState,
-                    onValueChange = { classRoom -> classRoomState = classRoom },
-                    hint = stringResource(id = R.string.ClassRoom),
-                    error = errorState,
-                    keyboardType = KeyboardType.NumberPassword,
-                    imeAction = ImeAction.Next
-                )
-                DormTextField(
-                    modifier = Modifier.width(100.dp),
-                    value = numberState,
-                    onValueChange = { number -> numberState = number },
-                    hint = stringResource(id = R.string.Number),
-                    keyboardType = KeyboardType.NumberPassword,
-                    error = errorState,
-                    keyboardActions = KeyboardActions {
-                        focusManager.clearFocus()
-                    },
-                    imeAction = ImeAction.Done,
-                )
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxHeight(0.81f),
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            DormContainedLargeButton(
-                text = stringResource(id = R.string.FindId),
-                color = DormButtonColor.Blue,
-                enabled = nameState.isNotEmpty() && gradeState.isNotEmpty() && classRoomState.isNotEmpty() && numberState.isNotEmpty()
-            ) {
-                findIdViewModel.findId(
-                    schoolId = selectedSchool.id ?: throw IllegalStateException(),
-                    name = nameState,
-                    grade = gradeState.toInt(),
-                    classRoom = classRoomState.toInt(),
-                    number = numberState.toInt(),
-                )
             }
         }
     }
 }
 
 @Composable
-fun FindIdHeader() {
+private fun UserInformationInputs(
+    modifier: Modifier,
+    gradeValue: String,
+    numberValue: String,
+    classRoomValue: String,
+    nameValue: String,
+    onGradeChange: (String) -> Unit,
+    onClassRoomChange: (String) -> Unit,
+    onNumberChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    gradeError: Boolean,
+    classRoomError: Boolean,
+    numberError: Boolean,
+    nameError: Boolean,
+) {
+    val focusManager = LocalFocusManager.current
+
+    DormTextField(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        value = nameValue,
+        onValueChange = onNameChange,
+        hint = stringResource(id = R.string.find_id_name),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next
+        ),
+        keyboardActions = KeyboardActions(
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Next)
+            },
+        ),
+        error = nameError,
+    )
+    Spacer(Modifier.height(16.dp))
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(vertical = 16.dp, horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(36.dp),
+    ) {
+        DormTextField(
+            modifier = Modifier.fillMaxWidth(0.292f),
+            value = gradeValue,
+            onValueChange = onGradeChange,
+            hint = stringResource(id = R.string.find_id_grade),
+            error = gradeError,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.NumberPassword,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            ),
+        )
+        DormTextField(
+            modifier = Modifier.fillMaxWidth(0.45f),
+            value = classRoomValue,
+            onValueChange = onClassRoomChange,
+            hint = stringResource(id = R.string.find_id_class_room),
+            error = classRoomError,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.NumberPassword,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                },
+            ),
+        )
+        DormTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = numberValue,
+            onValueChange = onNumberChange,
+            hint = stringResource(id = R.string.find_id_number),
+            error = numberError,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.NumberPassword,
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                },
+            ),
+        )
+    }
+}
+
+@Composable
+private fun FindIdHeader(modifier: Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentWidth()
-            .height(60.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+            .height(60.dp)
+            .padding(
+                start = 16.dp,
+            ), verticalArrangement = Arrangement.SpaceBetween
     ) {
 
         AppLogo(
