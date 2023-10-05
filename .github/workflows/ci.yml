@@ -12,13 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: set up JDK 17
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
+
       - name: Generate local.properties
         run: |
           echo $PROD_BASE_URL >> ./local.properties
@@ -27,8 +30,10 @@ jobs:
         env:
           PROD_BASE_URL: ${{secrets.PROD_BASE_URL}}
           DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Generate local.properties
         run: |
           echo $PROD_BASE_URL >> ./local.properties
@@ -37,10 +42,13 @@ jobs:
         env:
           PROD_BASE_URL: ${{secrets.PROD_BASE_URL}}
           DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
+
       - name: Generate google-services.json
         run: |
           echo '${{secrets.GOOGLE_SERVICES}}' > ./presentation/google-services.json
+
       - name: Build with Gradle
         run: ./gradlew build
+
       - name: Run test
         run: ./gradlew test
