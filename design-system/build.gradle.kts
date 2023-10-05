@@ -52,7 +52,7 @@ dependencies {
 
     implementation(libs.material)
 
-    implementation(libs.coilCompose)
+    implementation(libs.coil.compose)
 
     implementation(libs.androidx.activity.compose)
 
