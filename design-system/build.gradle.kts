@@ -25,36 +25,43 @@ android {
             )
         }
     }
+
     buildFeatures {
         compose = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.androidx.
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
-    implementation(Dependencies.Ui.Material)
-    implementation(Dependencies.Ui.Compose)
-    implementation(Dependencies.Ui.ComposeMaterial)
-    implementation(Dependencies.Ui.ComposePreview)
-    implementation(Dependencies.Ui.ComposeActiviy)
-    implementation(Dependencies.Ui.ComposeNavigation)
-    implementation(Dependencies.Ui.ComposeNavigationAnimation)
-    implementation(Dependencies.Ui.ComposeUiTooling)
+    // TODO: Remove Dependency
     implementation(Dependencies.Ui.ComposeGlide)
-    androidTestImplementation(Dependencies.Ui.ComposeTest)
-    debugImplementation(Dependencies.Ui.ComposeUiTooling)
 
-    implementation(Dependencies.Test.JUnit)
+    implementation(libs.material)
+
+    implementation(libs.coilCompose)
+
+    implementation(libs.androidx.activity.compose)
+
+    implementation(libs.androidx.compose)
+    implementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.material)
+
+    androidTestImplementation(libs.androidx.compose.test.junit)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

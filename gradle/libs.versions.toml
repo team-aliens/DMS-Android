@@ -1,4 +1,5 @@
 [versions]
+activity = "1.7.3"
 appcompat = "1.6.1"
 core = "1.12.0"
 espresso = "3.5.1"
@@ -25,6 +26,7 @@ compileSdk = "34"
 minSdk = "23"
 
 [libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitAndroid" }
@@ -35,6 +37,7 @@ androidx-compose = { group = "androidx.compose.ui:", name = "ui", version.ref = 
 androidx-compose-util = { group = "androidx.compose.ui:", name = "ui-util", version.ref = "compose" }
 androidx-compose-tooling = { group = "androidx.compose.ui:", name = "ui-tooling", version.ref = "compose" }
 androidx-compose-tooling-preview = { group = "androidx.compose.ui:", name = "ui-tooling-preview", version.ref = "compose" }
+androidx-compose-test-junit = { group = "androidx.compose.ui:", name = "ui-test-junit4", version.ref = "compose" }
 androidx-compose-material = { group = "androidx.compose.material:", name = "material", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
