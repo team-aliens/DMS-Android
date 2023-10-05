@@ -1,17 +1,18 @@
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    id(Plugins.Module.AndroidLibrary)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.KotlinKapt)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
-
     namespace = "team.aliens.design_system"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = ProjectProperties.MinSdkVersion
-        targetSdk = ProjectProperties.TargetSdkVersion
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -22,41 +23,47 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
+
     buildFeatures {
         compose = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.Ui.Compose
-        kotlinCompilerVersion = Versions.Kotlin.Kotlin
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
-    implementation(Dependencies.Ui.Material)
-    implementation(Dependencies.Ui.Compose)
-    implementation(Dependencies.Ui.ComposeMaterial)
-    implementation(Dependencies.Ui.ComposePreview)
-    implementation(Dependencies.Ui.ComposeActiviy)
-    implementation(Dependencies.Ui.ComposeNavigation)
-    implementation(Dependencies.Ui.ComposeNavigationAnimation)
-    implementation(Dependencies.Ui.ComposeUiTooling)
+    // TODO: Remove Dependency
     implementation(Dependencies.Ui.ComposeGlide)
-    androidTestImplementation(Dependencies.Ui.ComposeTest)
-    debugImplementation(Dependencies.Ui.ComposeUiTooling)
 
-    implementation(Dependencies.Test.JUnit)
+    implementation(libs.material)
+
+    implementation(libs.coil.compose)
+
+    implementation(libs.androidx.activity.compose)
+
+    implementation(libs.androidx.compose)
+    implementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.material)
+
+    androidTestImplementation(libs.androidx.compose.test.junit)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

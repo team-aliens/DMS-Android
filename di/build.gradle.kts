@@ -1,17 +1,19 @@
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    id(Plugins.Module.AndroidLibrary)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.Hilt)
-    id(Plugins.Module.KotlinKapt)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "team.aliens.dms_android.di"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = ProjectProperties.MinSdkVersion
-        targetSdk = ProjectProperties.TargetSdkVersion
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -20,47 +22,59 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
-    }
-    kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
-    }
+
     buildFeatures {
         buildConfig = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":data"))
-    implementation(project(":remote"))
+    implementation(project(":domain"))
     implementation(project(":local"))
+    implementation(project(":remote"))
 
-    implementation(Dependencies.Util.LocalDateTime)
+    implementation(libs.androidx.core)
 
-    implementation(Dependencies.Remote.Retrofit)
-    implementation(Dependencies.Remote.OkHttp)
-    implementation(Dependencies.Remote.OkHttp)
-    implementation(Dependencies.Remote.OkHttpLoggingInterceptor)
+    implementation(libs.threetenbp)
 
-    implementation(Dependencies.Di.Hilt)
-    kapt(Dependencies.Di.HiltCompiler)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
-    implementation(Dependencies.Serialization.Moshi)
-    kapt(Dependencies.Serialization.MoshiCompiler)
-    implementation(Dependencies.Serialization.GsonConverter)
+    implementation(libs.moshi)
+    implementation(libs.moshi.codegen)
 
-    implementation(Dependencies.Local.Room)
-    implementation(Dependencies.Local.RoomRuntime)
-    kapt(Dependencies.Local.RoomCompiler)
+    implementation(libs.coroutines)
 
-    implementation(Dependencies.Local.DataStorePreferences)
+    implementation(libs.javax.inject)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.datastore.preferences)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

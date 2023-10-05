@@ -1,18 +1,11 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
 
-    dependencies {
-        classpath(Plugins.Gradle.Android)
-        classpath(Plugins.Gradle.Kotlin)
-        classpath(Plugins.Gradle.Hilt)
-        classpath(Plugins.Gradle.Firebase)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
-    }
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.googleServices) apply false
+    alias(libs.plugins.ksp) apply false
 }
