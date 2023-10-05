@@ -4,11 +4,11 @@ object Versions {
 
     object Android {
         const val Core = "1.10.0"
-        const val Activity = "1.7.1"
-        const val Fragment = "1.5.7"
+        const val Activity = "1.7.2"
+        const val Fragment = "1.6.1"
         const val AppCompat = "1.6.1"
         const val WorkRuntime = "2.8.1"
-        const val LifeCycleRunTime = "2.6.1"
+        const val LifeCycleRunTime = "2.6.2"
     }
 
     object Kotlin {
