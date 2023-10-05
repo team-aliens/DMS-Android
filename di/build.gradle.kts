@@ -55,7 +55,7 @@ dependencies {
     implementation(libs.threetenbp)
 
     implementation(libs.okhttp)
-    implementation(libs.okhttp.interceptor)
+    implementation(libs.okhttp.interceptor.logging)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 

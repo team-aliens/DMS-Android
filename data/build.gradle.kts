@@ -1,4 +1,6 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -44,6 +46,7 @@ dependencies {
     implementation(libs.threetenbp)
 
     implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor.logging)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
