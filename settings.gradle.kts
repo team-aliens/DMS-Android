@@ -25,5 +25,5 @@ include(":presentation")
 include(":di")
 include(":design-system")
 
-include(":DMS")
+include(":app")
 
