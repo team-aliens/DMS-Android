@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "team.aliens.dms_android.data"
     compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
