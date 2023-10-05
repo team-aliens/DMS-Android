@@ -1,7 +1,8 @@
 [versions]
-activity = "1.7.3"
+activity = "1.7.2"
 appcompat = "1.6.1"
 core = "1.12.0"
+datastorePreferences = "1.0.0"
 espresso = "3.5.1"
 javaxInject = "1"
 junit = "4.13.2"
@@ -16,7 +17,7 @@ google = "4.4.0"
 ksp = "1.9.10-1.0.13"
 okhttp = "4.11.0"
 retrofit = "2.9.0"
-room = "2.5.3"
+room = "2.5.2"
 threetenbp = "1.6.8"
 compose = "1.5.3"
 navigation = "2.7.3"
@@ -29,29 +30,31 @@ minSdk = "23"
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitAndroid" }
 androidx-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
-androidx-room-runtime = { group = "androidx.room:", name = "room-runtime", version.ref = "room" }
-androidx-room-compiler = { group = "androidx.room:", name = "room-compiler", version.ref = "room" }
-androidx-compose = { group = "androidx.compose.ui:", name = "ui", version.ref = "compose" }
-androidx-compose-util = { group = "androidx.compose.ui:", name = "ui-util", version.ref = "compose" }
-androidx-compose-tooling = { group = "androidx.compose.ui:", name = "ui-tooling", version.ref = "compose" }
-androidx-compose-tooling-preview = { group = "androidx.compose.ui:", name = "ui-tooling-preview", version.ref = "compose" }
-androidx-compose-test-junit = { group = "androidx.compose.ui:", name = "ui-test-junit4", version.ref = "compose" }
-androidx-compose-material = { group = "androidx.compose.material:", name = "material", version.ref = "materialCompose" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-compose = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+androidx-compose-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "compose" }
+androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
+androidx-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 junit = { module = "junit:junit", version.ref = "junit" }
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 threetenbp = { module = "org.threeten:threetenbp", version.ref = "threetenbp" }
-hilt = { group = "com.google.dagger:", name = "hilt-android", version.ref = "hilt" }
-hiltCompiler = { group = "com.google.dagger:", name = "hilt-android-compiler", version.ref = "hilt" }
-coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
