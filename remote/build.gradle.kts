@@ -1,55 +1,60 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
 
 plugins {
-    id(Plugins.Module.AndroidLibrary)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.KotlinKapt)
-    id(Plugins.Module.Hilt)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "team.aliens.dms_android.remote"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = ProjectProperties.MinSdkVersion
-        targetSdk = ProjectProperties.TargetSdkVersion
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        buildConfigField(
-            type = "String",
-            name = "PROD_BASE_URL",
-            value = fetchProperty("PROD_BASE_URL"),
-        )
-
-        buildConfigField(
-            type = "String",
-            name = "DEV_BASE_URL",
-            value = fetchProperty("DEV_BASE_URL"),
-        )
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+
+            buildConfigField(
+                type = "String",
+                name = "PROD_BASE_URL",
+                value = localProperty("PROD_BASE_URL"),
+            )
+        }
+
+        debug {
+            buildConfigField(
+                type = "String",
+                name = "DEV_BASE_URL",
+                value = localProperty("DEV_BASE_URL"),
+            )
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
-    }
-    buildFeatures {
-        buildConfig = true
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
@@ -57,20 +62,30 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.JavaInject)
-    kapt(Dependencies.Di.HiltCompiler)
+    implementation(libs.androidx.core)
 
-    implementation(Dependencies.Remote.Retrofit)
-    implementation(Dependencies.Remote.RetrofitRxJavaAdapter)
+    implementation(libs.threetenbp)
 
-    implementation(Dependencies.Serialization.GsonConverter)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor.logging)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
-    testImplementation(Dependencies.Test.JUnit)
+    implementation(libs.coroutines)
+
+    implementation(libs.javax.inject)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }
 
-fun fetchProperty(
+fun localProperty(
     key: String,
 ): String {
-    return gradleLocalProperties(rootDir).getProperty(key)
+    return com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir)
+        .getProperty(key)
 }
