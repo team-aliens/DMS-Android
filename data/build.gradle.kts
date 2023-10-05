@@ -1,8 +1,7 @@
 plugins {
-    id(Plugins.Module.AndroidLibrary)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.Hilt)
-    id(Plugins.Module.KotlinKapt)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -40,20 +39,19 @@ android {
 dependencies {
     implementation(project(":domain"))
 
-    implementation(Dependencies.Serialization.Moshi)
-    kapt(Dependencies.Serialization.MoshiCompiler)
-    implementation(Dependencies.Serialization.GsonConverter)
+    implementation(libs.androidx.core)
 
-    implementation(Dependencies.Util.LocalDateTime)
+    implementation(libs.threetenbp)
 
-    implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.JavaInject)
-    kapt(Dependencies.Di.HiltCompiler)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
-    implementation(Dependencies.Remote.Retrofit)
-    implementation(Dependencies.Remote.OkHttp)
+    implementation(libs.kotlinx.coroutines.android)
 
-    testImplementation(Dependencies.Test.JUnit)
-    testImplementation(Dependencies.Test.Mockito)
-    testImplementation(Dependencies.Test.CoroutinesTest)
+    implementation(libs.javax.inject)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
