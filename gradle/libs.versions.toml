@@ -26,6 +26,7 @@ hiltNavigation = "1.0.0"
 coil = "2.4.0"
 compileSdk = "34"
 minSdk = "23"
+targetSdk = "33"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }

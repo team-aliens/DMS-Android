@@ -1,64 +1,67 @@
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    id(Plugins.Module.AndroidApplication)
-    id(Plugins.Module.Hilt)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.KotlinKapt)
-    id(Plugins.Module.Firebase)
+    // TODO: replace to android library later
+    alias(libs.plugins.android.application)
+
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+
+    // TODO: remove later
+    alias(libs.plugins.googleServices)
 }
 
 android {
-
     namespace = "team.aliens.dms_android.presentation"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = ProjectProperties.ApplicationId
-        minSdk = ProjectProperties.MinSdkVersion
-        targetSdk = ProjectProperties.TargetSdkVersion
-        versionCode = ProjectProperties.VersionCode
-        versionName = ProjectProperties.VersionName
+        applicationId = "team.aliens.dms_android"
+
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+
+        versionCode = 1
+        versionName = "1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        dataBinding = true
-        compose = true
-        viewBinding = true
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.Ui.Compose
-        kotlinCompilerVersion = Versions.Kotlin.Kotlin
     }
 
-    packagingOptions {
-        exclude("META-INF/gradle/incremental.annotation.processors")
-    }
     kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
+    implementation(project(":design-system"))
     implementation(project(":domain"))
     implementation(project(":di"))
-    implementation(project(":design-system"))
 
     implementation(Dependencies.Android.CoreX)
     implementation(Dependencies.Android.ActivityX)
@@ -83,7 +86,7 @@ dependencies {
     implementation(Dependencies.Ui.PagerIndicator)
 
     implementation(Dependencies.Di.Hilt)
-    kapt(Dependencies.Di.HiltCompiler)
+    ksp(Dependencies.Di.HiltCompiler)
 
     implementation(Dependencies.Test.JUnit)
 
