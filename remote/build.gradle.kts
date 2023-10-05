@@ -30,7 +30,7 @@ android {
 
             buildConfigField(
                 type = "String",
-                name = "PROD_BASE_URL",
+                name = "BASE_URL",
                 value = localProperty("PROD_BASE_URL"),
             )
         }
@@ -38,7 +38,7 @@ android {
         debug {
             buildConfigField(
                 type = "String",
-                name = "DEV_BASE_URL",
+                name = "BASE_URL",
                 value = localProperty("DEV_BASE_URL"),
             )
         }

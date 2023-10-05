@@ -29,11 +29,7 @@ object HttpModule {
     @Singleton
     @BaseUrl
     fun provideBaseUrl(): String {
-        return if (BuildConfig.DEBUG) {
-            RemoteBuildConfig.DEV_BASE_URL
-        } else {
-            RemoteBuildConfig.PROD_BASE_URL
-        }
+        return RemoteBuildConfig.BASE_URL
     }
 
     @Provides
@@ -119,7 +115,6 @@ object HttpModule {
             clients = clients,
             baseUrl = baseUrl,
             gsonConverter = true,
-            rxJavaCallAdapter = true,
         )
     }
 }
