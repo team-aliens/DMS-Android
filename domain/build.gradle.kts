@@ -22,17 +22,17 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
 
     kotlinOptions {
-        jvmTarget =Versions.Java.Java.toString()
+        jvmTarget = Versions.Java.Java.toString()
     }
-    kotlin{
-
+    kotlin {
+        jvmToolchain(17)
     }
 }
 

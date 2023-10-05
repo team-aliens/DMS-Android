@@ -23,21 +23,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.rememberAsyncImagePainter
+import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms_android.presentation.R
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
-import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun EditProfileImageScreen(
@@ -121,14 +120,12 @@ internal fun EditProfileImageScreen(
         Box(
             contentAlignment = Alignment.BottomEnd,
         ) {
-            Image(
+            GlideImage(
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
                     .dormClickable { onSelectImageTypeDialogShow() },
-                contentDescription = stringResource(R.string.profile_image),
-                contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(uiState.selectedImageUri),
+                imageModel = { uiState.selectedImageUri },
             )
             Image(
                 modifier = Modifier.size(30.dp),

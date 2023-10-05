@@ -25,14 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.DefaultAppliedTagSize
 import team.aliens.design_system.component.LastAppliedItem
@@ -46,8 +45,8 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.feature.main.image.SelectImageTypeDialog
-import team.aliens.domain.model._common.Sex
 import team.aliens.dms_android.presentation.R
+import team.aliens.domain.model._common.Sex
 
 @Composable
 internal fun MyPageScreen(
@@ -208,14 +207,12 @@ private fun UserInformation(
             modifier = Modifier.weight(0.2f),
             contentAlignment = Alignment.BottomEnd,
         ) {
-            AsyncImage(
+            GlideImage(
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
                     .dormClickable { onChangeProfileImage() },
-                model = profileImageUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+                imageModel = { profileImageUrl },
             )
             Image(
                 modifier = Modifier.size(20.dp),

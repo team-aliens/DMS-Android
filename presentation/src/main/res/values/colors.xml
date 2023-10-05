@@ -21,4 +21,7 @@
     <color name="gray_800">#202020</color>
     <color name="gray_900">#121212</color>
     <color name="error">#FF4646</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>
