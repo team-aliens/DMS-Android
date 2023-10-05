@@ -16,7 +16,7 @@ object Versions {
     }
 
     object Java {
-        val Java = JavaVersion.VERSION_1_8
+        val Java = JavaVersion.VERSION_17
     }
 
     object Gradle {
@@ -29,12 +29,10 @@ object Versions {
         const val Compose = "1.5.3"
         const val ComposeGlide = "2.1.11"
         const val ComposeHiltNavigation = "1.0.0"
-        const val Navigation = "2.6.0-alpha06"
-        const val NavigationAnimation = "0.31.4-beta"
-        const val Accompanist = "0.30.1"
-        const val Material = "1.8.0"
-        const val Coil = "2.3.0"
-        const val TedImagePicker = "1.4.2"
+        const val Navigation = "2.7.3"
+        const val NavigationAnimation = "0.32.0"
+        const val Accompanist = "0.32.0"
+        const val Material = "1.9.0"
     }
 
     object Di {

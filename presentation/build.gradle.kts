@@ -81,8 +81,6 @@ dependencies {
     implementation(Dependencies.Ui.Pager)
     implementation(Dependencies.Ui.NavigationAnimation)
     implementation(Dependencies.Ui.PagerIndicator)
-    implementation(Dependencies.Ui.TedImagePicker)
-    implementation(Dependencies.Ui.Coil)
 
     implementation(Dependencies.Di.Hilt)
     kapt(Dependencies.Di.HiltCompiler)

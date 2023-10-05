@@ -7,6 +7,7 @@ pluginManagement {
         mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -14,7 +15,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
 rootProject.name = "dms-android"
 
 include(":domain")
@@ -23,6 +23,7 @@ include(":remote")
 include(":local")
 include(":presentation")
 include(":di")
-
 include(":design-system")
+
+include(":DMS")
 
