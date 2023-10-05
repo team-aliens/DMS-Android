@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "team.aliens.dms_android.data"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = ProjectProperties.MinSdkVersion
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -21,18 +21,18 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
