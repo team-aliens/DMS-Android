@@ -37,7 +37,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun EditProfileImageScreen(

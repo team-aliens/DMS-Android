@@ -44,7 +44,7 @@ import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.util.TopBar
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Suppress("ConstPropertyName")
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
@@ -119,7 +119,7 @@ fun ResetPasswordSetPasswordScreen(
                     .padding(top = 32.dp, bottom = 7.dp)
                     .height(85.dp)
                     .width(85.dp),
-                painter = painterResource(R.drawable.ic_information),
+                painter = painterResource(team.aliens.design_system.R.drawable.ic_information),
                 contentDescription = stringResource(id = R.string.MainLogo),
             )
 

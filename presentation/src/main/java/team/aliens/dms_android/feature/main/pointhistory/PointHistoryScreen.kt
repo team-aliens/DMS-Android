@@ -34,7 +34,7 @@ import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.PointType
 import team.aliens.domain.model.point.Point
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun PointHistoryScreen(

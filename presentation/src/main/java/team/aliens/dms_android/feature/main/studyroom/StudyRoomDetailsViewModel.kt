@@ -18,7 +18,7 @@ import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 import javax.inject.Inject
 
 @HiltViewModel

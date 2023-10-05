@@ -37,7 +37,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.signup.SignUpIntent
 import team.aliens.dms_android.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.signup.SignUpViewModel
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun SendVerificationEmailScreen(

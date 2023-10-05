@@ -37,7 +37,7 @@ import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.SubTitle2
 import team.aliens.dms_android.component.listFadeBrush
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 private sealed class ApplicationCardItem(
     @StringRes val titleRes: Int,

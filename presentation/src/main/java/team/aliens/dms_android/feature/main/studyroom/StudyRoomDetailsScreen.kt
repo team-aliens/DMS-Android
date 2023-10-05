@@ -34,7 +34,7 @@ import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
 import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 /**
  * 자습실 상세보기 screen

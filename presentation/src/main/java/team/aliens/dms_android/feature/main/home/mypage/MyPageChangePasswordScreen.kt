@@ -31,7 +31,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.auth.resetpassword.ChangePasswordViewModel
 import team.aliens.dms_android.feature.DmsRoute
 import team.aliens.dms_android.util.TopBar
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Stable
 const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"

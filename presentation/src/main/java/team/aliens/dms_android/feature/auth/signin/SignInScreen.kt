@@ -35,8 +35,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.common.LocalAvailableFeatures
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
-import team.aliens.dms_android.util.getDeviceUid
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun SignInScreen(

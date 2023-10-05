@@ -75,7 +75,7 @@ import team.aliens.dms_android.component.listFadeBrush
 import team.aliens.dms_android.feature.main.home.home.MealCardType.BREAKFAST
 import team.aliens.dms_android.feature.main.home.home.MealCardType.DINNER
 import team.aliens.dms_android.feature.main.home.home.MealCardType.LUNCH
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 import kotlin.math.absoluteValue
 
 @Stable

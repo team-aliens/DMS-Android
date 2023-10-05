@@ -8,7 +8,7 @@ plugins {
 
 android {
 
-    namespace = "team.aliens.presentation"
+    namespace = "team.aliens.dms_android.presentation"
     compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
