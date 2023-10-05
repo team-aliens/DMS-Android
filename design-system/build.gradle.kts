@@ -1,17 +1,16 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id(Plugins.Module.AndroidLibrary)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.KotlinKapt)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
-
     namespace = "team.aliens.design_system"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = ProjectProperties.MinSdkVersion
-        targetSdk = ProjectProperties.TargetSdkVersion
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -22,7 +21,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -31,8 +30,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.Ui.Compose
-        kotlinCompilerVersion = Versions.Kotlin.Kotlin
+        kotlinCompilerExtensionVersion = libs.androidx.
     }
 
     compileOptions {

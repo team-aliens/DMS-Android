@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -42,10 +42,10 @@ dependencies {
 
     implementation(libs.material)
 
-    implementation(libs.room.runtime)
-    ksp(libs.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso)
 }

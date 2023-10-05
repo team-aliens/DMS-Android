@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -47,11 +47,11 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.coroutines)
 
     implementation(libs.javax.inject)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso)
 }
