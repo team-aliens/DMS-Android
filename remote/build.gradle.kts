@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.remote"
+    namespace = "team.aliens.dms_android.remote"
     compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
@@ -47,6 +47,9 @@ android {
 
     kotlinOptions {
         jvmTarget = Versions.Java.Java.toString()
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
