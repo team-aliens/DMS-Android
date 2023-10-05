@@ -9,6 +9,7 @@ agp = "8.1.2"
 kotlin = "1.9.10"
 hiltAndroid = "2.48"
 googleServices = "4.4.0"
+googleKsp = "1.9.10-1.0.13"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -24,3 +25,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "googleKsp" }
