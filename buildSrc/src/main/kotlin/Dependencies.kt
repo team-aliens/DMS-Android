@@ -34,9 +34,6 @@ object Dependencies {
         const val NavigationAnimation =
             "com.google.accompanist:accompanist-navigation-animation:${Versions.Ui.Accompanist}"
         const val Material = "com.google.android.material:material:${Versions.Ui.Material}"
-        const val Coil = "io.coil-kt:coil-compose:${Versions.Ui.Coil}"
-        const val TedImagePicker =
-            "io.github.ParkSangGwon:tedimagepicker:${Versions.Ui.TedImagePicker}"
     }
 
     object Di {
