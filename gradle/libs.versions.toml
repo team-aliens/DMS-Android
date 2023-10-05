@@ -15,6 +15,7 @@ kotlin = "1.9.10"
 hilt = "2.48"
 google = "4.4.0"
 ksp = "1.9.10-1.0.13"
+moshiKotlin = "1.14.0"
 okhttp = "4.11.0"
 retrofit = "2.9.0"
 room = "2.5.2"
@@ -47,6 +48,8 @@ javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInjec
 junit = { module = "junit:junit", version.ref = "junit" }
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
+moshi-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshiKotlin" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

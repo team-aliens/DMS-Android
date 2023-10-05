@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
+    implementation(libs.moshi)
+    implementation(libs.moshi.codegen)
+
     implementation(libs.coroutines)
 
     implementation(libs.javax.inject)
