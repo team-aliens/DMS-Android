@@ -31,7 +31,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.auth.resetpassword.ChangePasswordViewModel
 import team.aliens.dms_android.util.TopBar
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 fun ConfirmPasswordScreen(

@@ -22,7 +22,7 @@ import team.aliens.dms_android.MainActivity
 import team.aliens.dms_android.util.getDeviceUid
 import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
 import team.aliens.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 import javax.inject.Inject
 
 @AndroidEntryPoint

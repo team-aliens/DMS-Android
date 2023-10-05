@@ -47,7 +47,7 @@ import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.feature.main.image.SelectImageTypeDialog
 import team.aliens.domain.model._common.Sex
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun MyPageScreen(

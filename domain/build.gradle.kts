@@ -7,7 +7,7 @@ plugins {
 
 android {
 
-    namespace = "team.aliens.domain"
+    namespace = "team.aliens.dms_android.domain"
     compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
@@ -31,6 +31,9 @@ android {
     kotlinOptions {
         jvmTarget =Versions.Java.Java.toString()
     }
+    kotlin{
+
+    }
 }
 
 dependencies {
@@ -41,6 +44,4 @@ dependencies {
     implementation(Dependencies.Di.Hilt)
     implementation(Dependencies.Di.JavaInject)
     kapt(Dependencies.Di.HiltCompiler)
-
-    //implementation(Dependencies.Kotlin.Coroutines)
 }

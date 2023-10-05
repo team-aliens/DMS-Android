@@ -19,7 +19,7 @@ import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.util.TopBar
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 fun SuccessChangePasswordScreen(

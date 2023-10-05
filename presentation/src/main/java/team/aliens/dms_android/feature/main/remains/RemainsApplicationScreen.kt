@@ -50,7 +50,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.DayOfWeek
 import team.aliens.domain.model.remains.RemainsApplicationTime
 import team.aliens.domain.model.remains.RemainsOption
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun RemainsApplicationScreen(

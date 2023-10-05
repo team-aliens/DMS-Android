@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.util.MutableEventFlow
 import team.aliens.dms_android.util.asEventFlow
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 import javax.inject.Inject
 
 @Deprecated("legacy")

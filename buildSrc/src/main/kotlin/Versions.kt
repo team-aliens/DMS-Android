@@ -3,12 +3,12 @@ import org.gradle.api.JavaVersion
 object Versions {
 
     object Android {
-        const val Core = "1.10.0"
-        const val Activity = "1.7.1"
-        const val Fragment = "1.5.7"
+        const val Core = "1.12.0"
+        const val Activity = "1.7.2"
+        const val Fragment = "1.6.1"
         const val AppCompat = "1.6.1"
         const val WorkRuntime = "2.8.1"
-        const val LifeCycleRunTime = "2.6.1"
+        const val LifeCycleRunTime = "2.6.2"
     }
 
     object Kotlin {
@@ -16,17 +16,17 @@ object Versions {
     }
 
     object Java {
-        val Java = JavaVersion.VERSION_11
+        val Java = JavaVersion.VERSION_1_8
     }
 
     object Gradle {
-        const val Android = "7.4.2"
-        const val Kotlin = "1.8.10"
+        const val Android = "8.1.2"
+        const val Kotlin = "1.9.10"
         const val Firebase = "4.3.15"
     }
 
     object Ui {
-        const val Compose = "1.4.2"
+        const val Compose = "1.5.3"
         const val ComposeGlide = "2.1.11"
         const val ComposeHiltNavigation = "1.0.0"
         const val Navigation = "2.6.0-alpha06"
@@ -38,7 +38,7 @@ object Versions {
     }
 
     object Di {
-        const val Hilt = "2.44"
+        const val Hilt = "2.48"
         const val JavaInject = "1"
     }
 

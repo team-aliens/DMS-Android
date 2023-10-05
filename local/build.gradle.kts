@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.local"
+    namespace = "team.aliens.dms_android.local"
     compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {

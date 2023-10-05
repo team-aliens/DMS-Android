@@ -51,7 +51,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.domain.model.school.FetchSchoolsOutput
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 fun FindIdScreen(
@@ -190,7 +190,7 @@ fun FindIdScreen(
                         color = DormTheme.colors.primaryVariant,
                     )
                     Icon(
-                        painterResource(id = R.drawable.ic_down),
+                        painterResource(id = team.aliens.design_system.R.drawable.ic_down),
                         contentDescription = null,
                     )
                 }

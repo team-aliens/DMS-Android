@@ -54,7 +54,7 @@ import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 fun StudyRoomsScreen(

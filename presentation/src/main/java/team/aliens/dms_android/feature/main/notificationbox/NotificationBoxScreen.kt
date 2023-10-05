@@ -32,7 +32,7 @@ import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.util.toDate
 import team.aliens.domain.model.notification.Notification
 import team.aliens.domain.model.notification.NotificationTopic
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 @Composable
 internal fun NotificationBoxScreen(

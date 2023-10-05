@@ -7,7 +7,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 // todo 내부 함수 분리 필요
 @RequiresApi(Build.VERSION_CODES.O)

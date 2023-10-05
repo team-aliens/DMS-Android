@@ -39,7 +39,7 @@ import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
-import team.aliens.presentation.R
+import team.aliens.dms_android.presentation.R
 
 private val Order.text: String
     @Composable inline get() = when (this) {

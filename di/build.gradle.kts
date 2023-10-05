@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.di"
+    namespace = "team.aliens.dms_android.di"
     compileSdk = ProjectProperties.CompileSdkVersion
 
     defaultConfig {
@@ -32,6 +32,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = Versions.Java.Java.toString()
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
