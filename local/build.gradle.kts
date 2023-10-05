@@ -1,17 +1,18 @@
+// TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    id(Plugins.Module.AndroidLibrary)
-    id(Plugins.Module.KotlinAndroid)
-    id(Plugins.Module.KotlinKapt)
-    id(Plugins.Module.Hilt)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "team.aliens.dms_android.local"
-    compileSdk = ProjectProperties.CompileSdkVersion
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = ProjectProperties.MinSdkVersion
-        targetSdk = ProjectProperties.TargetSdkVersion
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -20,39 +21,42 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = Versions.Java.Java
-        targetCompatibility = Versions.Java.Java
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = Versions.Java.Java.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
-
     implementation(project(":data"))
     implementation(project(":domain"))
 
-    implementation(Dependencies.Di.Hilt)
-    implementation(Dependencies.Di.JavaInject)
-    kapt(Dependencies.Di.HiltCompiler)
 
-    implementation(Dependencies.Serialization.Moshi)
-    kapt(Dependencies.Serialization.MoshiCompiler)
+    implementation(libs.threetenbp)
 
-    implementation(Dependencies.Local.DataStorePreferences)
+    implementation(libs.javax.inject)
 
-    implementation(Dependencies.Local.Room)
-    implementation(Dependencies.Local.RoomRuntime)
-    kapt(Dependencies.Local.RoomCompiler)
+    implementation(libs.moshi)
+    implementation(libs.moshi.codegen)
 
-    testImplementation(Dependencies.Test.JUnit)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.datastore.preferences)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }
