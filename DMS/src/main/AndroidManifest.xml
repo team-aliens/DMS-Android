@@ -16,5 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
 
+        <activity
+            android:name="team.aliens.dms_android.app.splash.SplashActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="team.aliens.dms_android.app.MainActivity"
+            android:exported="true" />
     </application>
 </manifest>
