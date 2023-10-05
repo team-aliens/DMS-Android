@@ -16,7 +16,7 @@ object Versions {
     }
 
     object Java {
-        val Java = JavaVersion.VERSION_1_8
+        val Java = JavaVersion.VERSION_17
     }
 
     object Gradle {
