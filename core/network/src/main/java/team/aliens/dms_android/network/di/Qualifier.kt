@@ -10,4 +10,9 @@ annotation class DefaultHttpClient
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
+annotation class GlobalHttpClient
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
 annotation class TokenReissueHttpClient
