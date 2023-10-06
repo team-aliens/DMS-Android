@@ -4,6 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.data.datasource.local.LocalAuthDataSource
+import team.aliens.data.datasource.local.LocalSchoolDataSource
+import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.data.manager.TokenReissueManager
 import team.aliens.remote.annotation.TokenReissueHttpClient
 import team.aliens.remote.annotation.TokenReissueUrl
@@ -29,4 +32,19 @@ object GarbageModule {
     @Provides
     @Singleton
     fun provideIgnoreRequestWrapper(): IgnoreRequestWrapper = IgnoreRequestWrapper
+
+    // TODO: remove original class
+    @Provides
+    @Singleton
+    fun provideAuthorizationFacade(
+        localAuthDataSource: LocalAuthDataSource,
+        localSchoolDataSource: LocalSchoolDataSource,
+        tokenReissueManager: TokenReissueManager,
+    ): AuthorizationFacade {
+        return AuthorizationFacade(
+            localAuthDataSource = localAuthDataSource,
+            localSchoolDataSource = localSchoolDataSource,
+            tokenReissueManager = tokenReissueManager,
+        )
+    }
 }
