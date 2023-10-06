@@ -1,11 +1,11 @@
-package team.aliens.dms_android.database.dao
+package team.aliens.dms_android.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import team.aliens.dms_android.database.entity.MealEntity
+import team.aliens.dms_android.core.database.entity.MealEntity
 
 @Dao
 abstract class MealDao {

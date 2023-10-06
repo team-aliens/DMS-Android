@@ -1,14 +1,14 @@
-package team.aliens.dms_android.database
+package team.aliens.dms_android.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import team.aliens.dms_android.database.converter.StringListTypeConverter
-import team.aliens.dms_android.database.converter.UuidTypeConverter
-import team.aliens.dms_android.database.dao.MealDao
-import team.aliens.dms_android.database.dao.NoticeDao
-import team.aliens.dms_android.database.entity.MealEntity
-import team.aliens.dms_android.database.entity.NoticeEntity
+import team.aliens.dms_android.core.database.converter.StringListTypeConverter
+import team.aliens.dms_android.core.database.converter.UuidTypeConverter
+import team.aliens.dms_android.core.database.dao.MealDao
+import team.aliens.dms_android.core.database.dao.NoticeDao
+import team.aliens.dms_android.core.database.entity.MealEntity
+import team.aliens.dms_android.core.database.entity.NoticeEntity
 
 @Database(
     entities = [
