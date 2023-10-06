@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.data.facade.AuthorizationFacade
-import team.aliens.dms_android.app.Debug
+import team.aliens.dms_android.app.di.Debug
 import team.aliens.remote.annotation.DefaultHttpLoggingInterceptor
 import team.aliens.remote.annotation.DefaultHttpLoggingLevel
 import team.aliens.remote.http.AuthorizationInterceptor
