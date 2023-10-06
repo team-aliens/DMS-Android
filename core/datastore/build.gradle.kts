@@ -1,35 +1,33 @@
 // TODO: Remove once KTIJ-19369 is fixed
-@file:Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION")
 
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "team.aliens.dms_android.app"
+    namespace = "team.aliens.dms_android.core.datastore"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
         }
-    }
-
-    buildFeatures {
-        buildConfig = true
     }
 
     compileOptions {
@@ -43,35 +41,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:datastore"))
-
-    implementation(project(":data"))
-    implementation(project(":domain"))
-    implementation(project(":local"))
-    implementation(project(":remote"))
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
-    implementation(libs.moshi)
-    ksp(libs.moshi.codegen)
-
-    implementation(libs.material)
-
-    implementation(libs.javax.inject)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.interceptor.logging)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-
-    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
