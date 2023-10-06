@@ -1,8 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":core:datastore")
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -18,15 +15,19 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "dms-android"
 
-include(":domain")
-include(":data")
-include(":remote")
-include(":local")
-include(":presentation")
-include(":di")
-include(":design-system")
+rootProject.name = "dms-android"
 
 include(":app")
 
+include(":core:datastore")
+
+include(":data")
+include(":design-system")
+include(":domain")
+include(":di")
+include(":remote")
+include(":local")
+
+// TODO: remove module
+include(":presentation")
