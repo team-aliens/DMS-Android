@@ -24,7 +24,7 @@ import team.aliens.dms_android.database.entity.NoticeEntity
         UuidTypeConverter::class,
     ],
 )
-internal abstract class DmsDatabase : RoomDatabase() {
+abstract class DmsDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun noticeDao(): NoticeDao
 }
