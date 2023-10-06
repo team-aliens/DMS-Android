@@ -1,5 +1,4 @@
 package team.aliens.di.datasource
-/*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -78,4 +77,3 @@ abstract class RemoteDataSourceModule {
         impl: RemoteNotificationDataSourceImpl,
     ): RemoteNotificationDataSource
 }
-*/

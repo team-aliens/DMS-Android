@@ -1,5 +1,4 @@
 package team.aliens.di.repository
-/*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -78,4 +77,3 @@ abstract class RepositoryModule {
         impl: NotificationRepositoryImpl,
     ): NotificationRepository
 }
-*/

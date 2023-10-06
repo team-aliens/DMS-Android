@@ -1,5 +1,4 @@
 package team.aliens.di.local
-/*
 import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
@@ -36,4 +35,4 @@ object RoomModule {
             UuidTypeConverter(),
         ).build()
     }
-}*/
+}

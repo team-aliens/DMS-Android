@@ -1,6 +1,5 @@
 package team.aliens.di.remote
 
-/*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -101,4 +100,3 @@ object ApiServiceModule {
         return retrofit.create(NotificationApiService::class.java)
     }
 }
-*/
