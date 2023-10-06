@@ -1,5 +1,4 @@
-package team.aliens.di.local
-/*
+package team.aliens.dms_android.app.di.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -10,23 +9,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import team.aliens.local.datastore.common.DataStoreProperty
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
-    private val Context.authDataStore: DataStore<Preferences> by preferencesDataStore(
-        name = DataStoreProperty.DataStore.Auth,
-    )
+    private val Context.authDataStore: DataStore<Preferences> by preferencesDataStore("dms-datastore")
 
     @Provides
     @Singleton
-    fun providePreferenceDataStore(
-        @ApplicationContext context: Context,
-    ): DataStore<Preferences> {
-        return context.authDataStore
-    }
+    fun providePreferenceDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        context.authDataStore
 }
-*/
