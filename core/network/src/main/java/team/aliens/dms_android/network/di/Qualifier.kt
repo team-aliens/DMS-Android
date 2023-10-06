@@ -21,3 +21,8 @@ annotation class GlobalHttpClient
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 annotation class TokenReissueHttpClient
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class FileUploadHttpClient
