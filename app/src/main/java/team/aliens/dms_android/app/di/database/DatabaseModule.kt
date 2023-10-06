@@ -1,7 +1,8 @@
-package team.aliens.di.local
-/*
+package team.aliens.dms_android.app.di.database
+
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -16,24 +17,22 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RoomModule {
+object DatabaseModule {
 
     @Provides
     @Singleton
     fun provideDormDataBase(
         @ApplicationContext context: Context,
         moshi: Moshi,
-    ): DormDatabase {
-        return Room.databaseBuilder(
-            context,
-            DormDatabase::class.java,
-            RoomProperty.Database.DbName,
-        ).addTypeConverter(
-            StringListTypeConverter(
-                moshi = moshi,
-            ),
-        ).addTypeConverter(
-            UuidTypeConverter(),
-        ).build()
-    }
-}*/
+    ): DormDatabase = Room.databaseBuilder(
+        context = context,
+        klass = DormDatabase::class.java,
+        name = RoomProperty.Database.DbName,
+    ).addTypeConverters(
+        StringListTypeConverter(moshi),
+        UuidTypeConverter(),
+    ).build()
+}
+
+private fun <T : RoomDatabase> RoomDatabase.Builder<T>.addTypeConverters(vararg converters: Any) =
+    this.apply { converters.forEach { converter -> addTypeConverter(converter) } }
