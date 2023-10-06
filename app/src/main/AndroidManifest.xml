@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".DmsApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,6 +22,18 @@
 
         <activity
             android:name="team.aliens.dms_android.app.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

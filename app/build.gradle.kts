@@ -4,6 +4,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
 
@@ -27,6 +28,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -38,14 +43,33 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":local"))
+    implementation(project(":remote"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.moshi)
+    ksp(libs.moshi.codegen)
+
     implementation(libs.material)
+
+    implementation(libs.javax.inject)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor.logging)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
