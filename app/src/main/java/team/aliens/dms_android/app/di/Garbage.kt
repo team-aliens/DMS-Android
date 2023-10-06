@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.manager.TokenReissueManager
-import team.aliens.remote.annotation.TokenReissueOkHttpClient
+import team.aliens.remote.annotation.TokenReissueHttpClient
 import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.http.IgnoreRequestWrapper
 import team.aliens.remote.http.TokenReissueManagerImpl
@@ -18,7 +18,7 @@ object GarbageModule {
     // TODO: remove original class
     @Provides
     @Singleton
-    @TokenReissueOkHttpClient
+    @TokenReissueHttpClient
     fun provideTokenReissueManager(
         @TokenReissueUrl tokenReissueUrl: String,
     ): TokenReissueManager = TokenReissueManagerImpl(

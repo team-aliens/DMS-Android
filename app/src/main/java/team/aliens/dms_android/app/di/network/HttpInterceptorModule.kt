@@ -5,9 +5,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.logging.HttpLoggingInterceptor
+import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.dms_android.app.Debug
 import team.aliens.remote.annotation.DefaultHttpLoggingInterceptor
 import team.aliens.remote.annotation.DefaultHttpLoggingLevel
+import team.aliens.remote.http.AuthorizationInterceptor
+import team.aliens.remote.http.IgnoreRequestWrapper
 import javax.inject.Singleton
 
 @Module
@@ -26,6 +29,19 @@ object HttpInterceptorModule {
     @Provides
     @Singleton
     @DefaultHttpLoggingInterceptor
-    fun provideDefaultHttpLoggingInterceptor(@DefaultHttpLoggingLevel level: HttpLoggingInterceptor.Level): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(level)
+    fun provideDefaultHttpLoggingInterceptor(
+        @DefaultHttpLoggingLevel level: HttpLoggingInterceptor.Level,
+    ): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(level)
+
+    @Provides
+    @Singleton
+    fun provideAuthorizationInterceptor(
+        // TODO: remove origin class
+        authorizationFacade: AuthorizationFacade,
+        // TODO: remove origin class
+        ignoreRequestWrapper: IgnoreRequestWrapper,
+    ): AuthorizationInterceptor = AuthorizationInterceptor(
+        authorizationFacade = authorizationFacade,
+        ignoreRequestWrapper = ignoreRequestWrapper,
+    )
 }
