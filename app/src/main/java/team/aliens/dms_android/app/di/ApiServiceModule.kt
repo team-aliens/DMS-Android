@@ -1,4 +1,4 @@
-package team.aliens.dms_android.app.di.network
+package team.aliens.dms_android.app.di
 
 import dagger.Module
 import dagger.Provides
