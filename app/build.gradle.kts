@@ -43,6 +43,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:datastore"))
+
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":local"))
