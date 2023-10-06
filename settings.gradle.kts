@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:datastore")
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
