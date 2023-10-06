@@ -1,4 +1,4 @@
-package team.aliens.dms_android.network
+package team.aliens.dms_android.core.network
 
 import okhttp3.OkHttpClient
 
