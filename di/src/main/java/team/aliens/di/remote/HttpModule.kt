@@ -11,8 +11,8 @@ import retrofit2.Retrofit
 import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.dms_android.di.BuildConfig
 import team.aliens.remote.annotation.BaseUrl
-import team.aliens.remote.annotation.GlobalOkHttpClient
-import team.aliens.remote.annotation.TokenReissueOkHttpClient
+import team.aliens.remote.annotation.DefaultHttpClient
+import team.aliens.remote.annotation.TokenReissueHttpClient
 import team.aliens.remote.annotation.TokenReissueUrl
 import team.aliens.remote.http.AuthorizationInterceptor
 import team.aliens.remote.http.IgnoreRequestWrapper
@@ -67,7 +67,7 @@ object HttpModule {
 
     @Provides
     @Singleton
-    @GlobalOkHttpClient
+    @DefaultHttpClient
     fun provideGlobalOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authorizationInterceptor: AuthorizationInterceptor,
@@ -85,7 +85,7 @@ object HttpModule {
 
     @Provides
     @Singleton
-    @TokenReissueOkHttpClient
+    @TokenReissueHttpClient
     fun provideTokenReissueOkHttpClient(
         @TokenReissueUrl tokenReissueUrl: String,
     ): TokenReissueManagerImpl {
@@ -103,7 +103,7 @@ object HttpModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        @GlobalOkHttpClient okHttpClient: OkHttpClient,
+        @DefaultHttpClient okHttpClient: OkHttpClient,
         @BaseUrl baseUrl: String,
     ): Retrofit {
 
