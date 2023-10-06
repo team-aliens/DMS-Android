@@ -57,6 +57,11 @@ dependencies {
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor.logging)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
