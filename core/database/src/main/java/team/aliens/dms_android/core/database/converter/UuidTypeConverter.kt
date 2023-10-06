@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.converter
+package team.aliens.dms_android.core.database.converter
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter

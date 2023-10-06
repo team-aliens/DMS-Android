@@ -1,22 +1,24 @@
-package team.aliens.dms_android.database.di
+package team.aliens.dms_android.core.database.di
 
 import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms_android.database.DmsDatabase
-import team.aliens.dms_android.database.converter.StringListTypeConverter
-import team.aliens.dms_android.database.converter.UuidTypeConverter
-import team.aliens.dms_android.database.dao.MealDao
-import team.aliens.dms_android.database.dao.NoticeDao
-import team.aliens.dms_android.database.util.addTypeConverters
+import team.aliens.dms_android.core.database.DmsDatabase
+import team.aliens.dms_android.core.database.converter.StringListTypeConverter
+import team.aliens.dms_android.core.database.converter.UuidTypeConverter
+import team.aliens.dms_android.core.database.dao.MealDao
+import team.aliens.dms_android.core.database.dao.NoticeDao
+import team.aliens.dms_android.core.database.util.addTypeConverters
 import javax.inject.Singleton
 
+@Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+internal object DatabaseModule {
 
     @Provides
     @Singleton

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.util
+package team.aliens.dms_android.core.database.util
 
 import androidx.room.RoomDatabase
 

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.entity
+package team.aliens.dms_android.core.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
