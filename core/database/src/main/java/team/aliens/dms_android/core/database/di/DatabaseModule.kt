@@ -3,6 +3,7 @@ package team.aliens.dms_android.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.squareup.moshi.Moshi
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -15,6 +16,7 @@ import team.aliens.dms_android.core.database.dao.NoticeDao
 import team.aliens.dms_android.core.database.util.addTypeConverters
 import javax.inject.Singleton
 
+@Module
 @InstallIn(SingletonComponent::class)
 internal object DatabaseModule {
 
