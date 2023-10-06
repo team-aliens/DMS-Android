@@ -39,6 +39,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":local"))
+    implementation(project(":remote"))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
