@@ -47,6 +47,9 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.moshi)
+    ksp(libs.moshi.codegen)
+
     implementation(libs.material)
 
     implementation(libs.javax.inject)
