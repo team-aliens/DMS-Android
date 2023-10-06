@@ -1,7 +1,6 @@
 package team.aliens.dms_android.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -24,7 +23,4 @@ abstract class MealDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveAll(vararg mealEntities: MealEntity)
-
-    @Delete
-    abstract fun deleteByDate(date: String)
 }
