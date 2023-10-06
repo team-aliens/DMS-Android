@@ -7,24 +7,30 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import team.aliens.dms_android.core.network.util.OkHttpClient
+import team.aliens.dms_android.core.network.util.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
 
-
     @Provides
     @Singleton
     @DefaultHttpClient
-    fun provideGlobalHttpClient(
+    fun provideDefaultHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authorizationInterceptor: AuthorizationInterceptor,
-    ): OkHttpClient = OkHttpClient(
-        interceptors = arrayOf(httpLoggingInterceptor, authorizationInterceptor),
-    )
+    ): OkHttpClient = OkHttpClient(interceptors = arrayOf(httpLoggingInterceptor))
 
-    /* TODO: implement TokenReissueHttpClient
+    @Provides
+    @Singleton
+    @GlobalHttpClient
+    fun provideGlobalHttpClient(
+        @DefaultHttpClient httpClient: OkHttpClient,
+    ): OkHttpClient = httpClient.apply { /* apply global config */ }
+
+    /*
+    // TODO: implement TokenReissueHttpClient
     @Provides
     @Singleton
     @TokenReissueOkHttpClient
@@ -36,7 +42,7 @@ internal object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        @DefaultHttpClient okHttpClient: OkHttpClient,
+        @GlobalHttpClient okHttpClient: OkHttpClient,
         @BaseUrl baseUrl: String,
     ): Retrofit = Retrofit(
         clients = arrayOf(okHttpClient),
