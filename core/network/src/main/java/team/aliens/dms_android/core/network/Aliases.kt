@@ -7,3 +7,5 @@ typealias DefaultHttpClient = OkHttpClient
 typealias GlobalHttpClient = OkHttpClient
 
 typealias TokenReissueHttpClient = OkHttpClient
+
+typealias FileUploadHttpClient = OkHttpClient
