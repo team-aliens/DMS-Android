@@ -42,8 +42,13 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.javax.inject)
+
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.moshi)
+    ksp(libs.moshi.codegen)
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
