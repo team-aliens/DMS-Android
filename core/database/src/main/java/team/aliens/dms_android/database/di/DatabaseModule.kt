@@ -16,7 +16,7 @@ import team.aliens.dms_android.database.util.addTypeConverters
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+internal object DatabaseModule {
 
     @Provides
     @Singleton
