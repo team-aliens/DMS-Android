@@ -1,13 +1,13 @@
 package team.aliens.dms_android.network.http
 
-import java.util.regex.Pattern
-import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
 import team.aliens.data.facade.AuthorizationFacade
-import team.aliens.network.common.HttpPath
-import team.aliens.network.common.HttpProperty
-import team.aliens.network.common.toHttpMethod
+import team.aliens.dms_android.network.common.HttpPath
+import team.aliens.dms_android.network.common.HttpProperty
+import team.aliens.dms_android.network.common.toHttpMethod
+import java.util.regex.Pattern
+import javax.inject.Inject
 
 // todo 토큰을 캐싱하여 참조하는 로직이 필요
 class AuthorizationInterceptor @Inject constructor(
@@ -46,12 +46,9 @@ class AuthorizationInterceptor @Inject constructor(
         return ignoreRequestWrapper.ignoreRequests.any {
             with(HttpPath.Path) {
                 Pattern.compile(
-                    it.path.replace(date, dateRegex)
-                        .replace(noticeId, uuidRegex)
-                        .replace(schoolId, uuidRegex)
-                        .replace(seatId, uuidRegex)
-                        .replace(studyRoomId, uuidRegex)
-                        .replace(remainOptionId, uuidRegex)
+                    it.path.replace(date, dateRegex).replace(noticeId, uuidRegex)
+                        .replace(schoolId, uuidRegex).replace(seatId, uuidRegex)
+                        .replace(studyRoomId, uuidRegex).replace(remainOptionId, uuidRegex)
                 ).matcher(request.path).matches() && it.method == request.method
             }
         }

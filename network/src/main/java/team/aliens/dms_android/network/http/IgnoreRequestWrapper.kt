@@ -1,7 +1,7 @@
 package team.aliens.dms_android.network.http
 
-import team.aliens.network.common.HttpMethod
-import team.aliens.network.common.HttpPath
+import team.aliens.dms_android.network.common.HttpMethod
+import team.aliens.dms_android.network.common.HttpPath
 
 object IgnoreRequestWrapper {
     val ignoreRequests: ArrayList<Request> = arrayListOf(

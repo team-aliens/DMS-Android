@@ -2,7 +2,7 @@ package team.aliens.dms_android.network.http
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import team.aliens.network.util.toOctetStreamRequestBody
+import team.aliens.dms_android.network.util.toOctetStreamRequestBody
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
