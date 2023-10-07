@@ -19,14 +19,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.util.UUID
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
-import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.util.TopBar
+import java.util.UUID
 
+@Destination
 @Composable
 internal fun NoticeDetailsScreen(
     onPrevious: () -> Unit,
