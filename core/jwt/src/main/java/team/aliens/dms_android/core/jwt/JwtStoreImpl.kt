@@ -18,8 +18,9 @@ import team.aliens.dms_android.core.jwt.exception.RefreshTokenExpirationNotFound
 import team.aliens.dms_android.core.jwt.exception.RefreshTokenNotFoundException
 import team.aliens.dms_android.core.jwt.util.toEpochMillis
 import team.aliens.dms_android.core.jwt.util.toLocalDateTime
+import javax.inject.Inject
 
-internal class JwtStoreImpl(
+internal class JwtStoreImpl @Inject constructor(
     private val preferencesDataStore: PreferencesDataStore,
 ) : JwtStore() {
     override fun loadAccessToken(): AccessToken = runBlocking {
