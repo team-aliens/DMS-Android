@@ -1,6 +1,6 @@
 package team.aliens.dms_android.app.di
 
-import team.aliens.dms_android.network.BuildConfig as RemoteBuildConfig
+import team.aliens.dms_android.network.BuildConfig as NetworkBuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ object NetworkConfigModule {
     @Provides
     @Singleton
     @BaseUrl
-    fun provideBaseUrl(): String = RemoteBuildConfig.BASE_URL
+    fun provideBaseUrl(): String = NetworkBuildConfig.BASE_URL
 
     @Provides
     @Singleton
