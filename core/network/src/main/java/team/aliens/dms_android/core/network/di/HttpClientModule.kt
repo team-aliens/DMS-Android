@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object NetworkModule {
+internal object HttpClientModule {
 
     @Provides
     @Singleton
@@ -29,15 +29,16 @@ internal object NetworkModule {
         @DefaultHttpClient httpClient: OkHttpClient,
     ): OkHttpClient = httpClient.apply { /* apply global config */ }
 
-    /*
-    // TODO: implement TokenReissueHttpClient
     @Provides
     @Singleton
-    @TokenReissueOkHttpClient
-    fun provideTokenReissueHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-        @TokenReissueUrl tokenReissueUrl: String,
-    ) = */
+    @FileUploadHttpClient
+    fun provideFileUploadHttpClient(
+        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
+        @DefaultHttpClient httpClient: OkHttpClient,
+    ): OkHttpClient = team.aliens.dms_android.core.network.httpclient.FileUploadHttpClient(
+        httpLoggingInterceptor = httpLoggingInterceptor,
+        baseHttpClient = httpClient,
+    )
 
     @Provides
     @Singleton

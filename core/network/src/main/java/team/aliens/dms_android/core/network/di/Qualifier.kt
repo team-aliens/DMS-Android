@@ -20,9 +20,20 @@ annotation class GlobalHttpClient
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
-annotation class TokenReissueHttpClient
+annotation class FileUploadHttpClient
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
-annotation class FileUploadHttpClient
+annotation class DefaultHttpLoggingInterceptor
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class DefaultHttpLoggingLevel
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+@Deprecated("make :core:debug module")
+annotation class Debug

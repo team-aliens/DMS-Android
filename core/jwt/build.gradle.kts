@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.network"
+    namespace = "team.aliens.dms_android.core.jwt"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -30,10 +30,6 @@ android {
         }
     }
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -45,13 +41,20 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:datastore"))
+    implementation(project(":core:network"))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
+
+    implementation(libs.threetenbp)
 
     implementation(libs.javax.inject)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor.logging)

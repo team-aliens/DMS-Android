@@ -22,6 +22,7 @@ include(":app")
 
 include(":core:database")
 include(":core:datastore")
+include(":core:jwt")
 include(":core:network")
 
 include(":data")
