@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.threetenbp)
+
     implementation(libs.javax.inject)
 
     implementation(libs.hilt)
