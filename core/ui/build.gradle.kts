@@ -39,12 +39,27 @@ android {
 }
 
 dependencies {
+    implementation(project(":design-system"))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
     implementation(libs.material)
 
+    implementation(libs.androidx.activity.compose)
 
+    implementation(libs.androidx.compose)
+    implementation(libs.androidx.compose.util)
+    implementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.test.junit)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    implementation(libs.coil.compose)
+
+    implementation(libs.threetenbp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
