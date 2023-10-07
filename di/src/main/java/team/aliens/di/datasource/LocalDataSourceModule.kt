@@ -5,11 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.datasource.local.*
-import team.aliens.dms_android.database.datasource.LocalAuthDataSourceImpl
-import team.aliens.dms_android.database.datasource.LocalMealDataSourceImpl
-import team.aliens.dms_android.database.datasource.LocalNoticeDataSourceImpl
-import team.aliens.dms_android.database.datasource.LocalSchoolDataSourceImpl
-import team.aliens.local.datasource.*
+import team.aliens.dms_android.database.datasource.*
 import javax.inject.Singleton
 
 @Module
