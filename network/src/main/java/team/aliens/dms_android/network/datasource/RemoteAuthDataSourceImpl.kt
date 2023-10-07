@@ -1,6 +1,11 @@
 package team.aliens.dms_android.network.datasource
 
 import team.aliens.data.datasource.remote.RemoteAuthDataSource
+import team.aliens.dms_android.network.apiservice.AuthApiService
+import team.aliens.dms_android.network.model._common.toDomain
+import team.aliens.dms_android.network.model.auth.toData
+import team.aliens.dms_android.network.model.auth.toDomain
+import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.domain.exception.AuthException
 import team.aliens.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model._common.EmailVerificationType
@@ -8,11 +13,6 @@ import team.aliens.domain.model.auth.CheckIdExistsInput
 import team.aliens.domain.model.auth.CheckIdExistsOutput
 import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
 import team.aliens.domain.model.auth.SignInInput
-import team.aliens.network.apiservice.AuthApiService
-import team.aliens.network.model._common.toDomain
-import team.aliens.network.model.auth.toData
-import team.aliens.network.model.auth.toDomain
-import team.aliens.network.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(

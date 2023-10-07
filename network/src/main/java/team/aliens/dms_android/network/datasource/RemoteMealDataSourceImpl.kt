@@ -1,11 +1,11 @@
 package team.aliens.dms_android.network.datasource
 
 import team.aliens.data.datasource.remote.RemoteMealDataSource
+import team.aliens.dms_android.network.apiservice.MealApiService
+import team.aliens.dms_android.network.model.meal.toDomain
+import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.domain.model.meal.FetchMealsInput
 import team.aliens.domain.model.meal.FetchMealsOutput
-import team.aliens.network.model.meal.toDomain
-import team.aliens.network.apiservice.MealApiService
-import team.aliens.network.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteMealDataSourceImpl @Inject constructor(

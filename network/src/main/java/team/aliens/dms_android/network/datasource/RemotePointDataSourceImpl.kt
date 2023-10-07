@@ -1,11 +1,11 @@
 package team.aliens.dms_android.network.datasource
 
 import team.aliens.data.datasource.remote.RemotePointDataSource
+import team.aliens.dms_android.network.apiservice.PointApiService
+import team.aliens.dms_android.network.model.point.toDomain
+import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.domain.model.point.FetchPointsInput
 import team.aliens.domain.model.point.FetchPointsOutput
-import team.aliens.network.model.point.toDomain
-import team.aliens.network.apiservice.PointApiService
-import team.aliens.network.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemotePointDataSourceImpl @Inject constructor(

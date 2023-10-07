@@ -1,6 +1,9 @@
 package team.aliens.dms_android.network.datasource
 
 import team.aliens.data.datasource.remote.RemoteSchoolDataSource
+import team.aliens.dms_android.network.apiservice.SchoolApiService
+import team.aliens.dms_android.network.model.school.toDomain
+import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
 import team.aliens.domain.model.school.ExamineSchoolVerificationCodeOutput
 import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
@@ -8,9 +11,6 @@ import team.aliens.domain.model.school.FetchAvailableFeaturesOutput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
 import team.aliens.domain.model.school.FetchSchoolVerificationQuestionOutput
 import team.aliens.domain.model.school.FetchSchoolsOutput
-import team.aliens.network.model.school.toDomain
-import team.aliens.network.apiservice.SchoolApiService
-import team.aliens.network.util.sendHttpRequest
 import javax.inject.Inject
 
 class RemoteSchoolDataSourceImpl @Inject constructor(

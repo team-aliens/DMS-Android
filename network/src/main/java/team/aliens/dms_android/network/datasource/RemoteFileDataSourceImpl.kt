@@ -1,16 +1,16 @@
 package team.aliens.dms_android.network.datasource
 
 import team.aliens.data.datasource.remote.RemoteFileDataSource
+import team.aliens.dms_android.network.apiservice.FileApiService
+import team.aliens.dms_android.network.common.HttpProperty
+import team.aliens.dms_android.network.common.HttpProperty.Header.ContentType
+import team.aliens.dms_android.network.http.FileUploadClient
+import team.aliens.dms_android.network.model.file.toDomain
+import team.aliens.dms_android.network.util.sendHttpRequest
+import team.aliens.dms_android.network.util.toMultipart
 import team.aliens.domain.model.file.FetchPreSignedUrlOutput
 import team.aliens.domain.model.file.UploadFileInput
 import team.aliens.domain.model.file.UploadFileOutput
-import team.aliens.network.common.HttpProperty
-import team.aliens.network.common.HttpProperty.Header.ContentType
-import team.aliens.network.http.FileUploadClient
-import team.aliens.network.model.file.toDomain
-import team.aliens.network.apiservice.FileApiService
-import team.aliens.network.util.sendHttpRequest
-import team.aliens.network.util.toMultipart
 import java.io.File
 import javax.inject.Inject
 
