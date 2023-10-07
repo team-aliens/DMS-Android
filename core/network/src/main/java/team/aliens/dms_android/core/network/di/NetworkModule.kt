@@ -15,38 +15,4 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
 
-    @Provides
-    @Singleton
-    @DefaultHttpClient
-    fun provideDefaultHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient = OkHttpClient(interceptors = arrayOf(httpLoggingInterceptor))
-
-    @Provides
-    @Singleton
-    @GlobalHttpClient
-    fun provideGlobalHttpClient(
-        @DefaultHttpClient httpClient: OkHttpClient,
-    ): OkHttpClient = httpClient.apply { /* apply global config */ }
-
-    /*
-    // TODO: implement TokenReissueHttpClient
-    @Provides
-    @Singleton
-    @TokenReissueOkHttpClient
-    fun provideTokenReissueHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-        @TokenReissueUrl tokenReissueUrl: String,
-    ) = */
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(
-        @GlobalHttpClient okHttpClient: OkHttpClient,
-        @BaseUrl baseUrl: String,
-    ): Retrofit = Retrofit(
-        clients = arrayOf(okHttpClient),
-        baseUrl = baseUrl,
-        gsonConverter = true,
-    )
 }
