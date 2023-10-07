@@ -14,16 +14,15 @@ internal class TokenReissueHttpClient(
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,
 ) : OkHttpClient() {
-
-    private val client: OkHttpClient by lazy {
-        baseHttpClient.newBuilder().apply {
+    init {
+        this.apply {
             /* config http client */
-        }.build()
+        }
     }
 
     operator fun invoke(refreshToken: String): AuthenticationResponse {
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
-        val response = client.newCall(tokenReissueRequest).execute()
+        val response = newCall(tokenReissueRequest).execute()
 
         return if (response.isSuccessful) {
             response.body.toAuthenticationResponse()
