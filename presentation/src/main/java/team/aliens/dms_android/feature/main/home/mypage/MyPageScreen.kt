@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.DefaultAppliedTagSize
@@ -48,6 +49,7 @@ import team.aliens.dms_android.feature.main.image.SelectImageTypeDialog
 import team.aliens.dms_android.presentation.R
 import team.aliens.domain.model._common.Sex
 
+@Destination
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
@@ -224,7 +226,8 @@ private fun UserInformation(
 }
 
 private enum class PointCardType {
-    BONUS, MINUS, ;
+    BONUS, MINUS,
+    ;
 }
 
 @Composable
