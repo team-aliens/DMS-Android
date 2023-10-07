@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.extension.Space
@@ -30,9 +31,10 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.feature.auth.resetpassword.ChangePasswordViewModel
-import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.util.TopBar
 
+@Destination
 @Composable
 fun ConfirmPasswordScreen(
     onNavigateToEditPasswordSetPassword: () -> Unit,

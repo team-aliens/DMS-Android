@@ -56,8 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.util.Calendar
-import java.util.Date
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.icon.DormIcon
@@ -76,6 +75,8 @@ import team.aliens.dms_android.feature.main.home.home.MealCardType.BREAKFAST
 import team.aliens.dms_android.feature.main.home.home.MealCardType.DINNER
 import team.aliens.dms_android.feature.main.home.home.MealCardType.LUNCH
 import team.aliens.dms_android.presentation.R
+import java.util.Calendar
+import java.util.Date
 import kotlin.math.absoluteValue
 
 @Stable
@@ -89,6 +90,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
     ),
 )
 
+@Destination
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -331,14 +333,16 @@ private fun Date.getDigitOfDayOfWeek(): Int {
 private enum class ArrowType(
     val icon: DormIcon,
 ) {
-    BACKWARD(DormIcon.Backward), FORWARD(DormIcon.Forward), ;
+    BACKWARD(DormIcon.Backward), FORWARD(DormIcon.Forward),
+    ;
 }
 
 @Immutable
 private enum class MealCardType(
     val icon: DormIcon,
 ) {
-    BREAKFAST(DormIcon.Breakfast), LUNCH(DormIcon.Lunch), DINNER(DormIcon.Dinner), ;
+    BREAKFAST(DormIcon.Breakfast), LUNCH(DormIcon.Lunch), DINNER(DormIcon.Dinner),
+    ;
 }
 
 private fun Int.asMealCardType(): MealCardType {
@@ -449,7 +453,8 @@ private fun ColumnScope.MealCards(
 }
 
 private enum class DragDirection {
-    LEFT, RIGHT, ;
+    LEFT, RIGHT,
+    ;
 }
 
 @Composable

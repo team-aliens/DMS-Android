@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedDefaultButton
 import team.aliens.design_system.button.DormOutlinedDefaultButton
@@ -31,11 +32,12 @@ import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Headline2
 import team.aliens.design_system.typography.OverLine
+import team.aliens.dms_android.presentation.R
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.PointType
 import team.aliens.domain.model.point.Point
-import team.aliens.dms_android.presentation.R
 
+@Destination
 @Composable
 internal fun PointHistoryScreen(
     onPrevious: () -> Unit,
@@ -120,7 +122,6 @@ private val PointTypeRadioButton.text: String
             PointType.MINUS -> R.string.minus_point
         },
     )
-
 
 @Composable
 private fun PointTypeRadioGroup(

@@ -205,7 +205,7 @@
     <string name="MissMatchAccountInfo">학생 정보가 일치하지 않습니다.</string>
 
     <!-- app -->
-    <string name="app_name">DMS</string>
+    <string name="app_name">DMS(Old)</string>
     <string name="app_description">더 편한 기숙사 생활을 위해</string>
 
     <!--common-->

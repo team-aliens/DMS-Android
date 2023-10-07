@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.extension.RatioSpace
@@ -37,9 +38,10 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.component.AppLogo
-import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.dms_android.presentation.R
+import team.aliens.domain.model._common.EmailVerificationType
 
+@Destination
 @Composable
 fun ResetPasswordIdVerificationScreen(
     onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
