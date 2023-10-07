@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.network.annotation.BaseUrl
+import team.aliens.dms_android.network.annotation.BaseUrl
 import javax.inject.Singleton
 
 @Module
@@ -14,10 +14,10 @@ object NetworkConfigModule {
 
     @Provides
     @Singleton
-    @BaseUrl
+    @team.aliens.dms_android.network.annotation.BaseUrl
     fun provideBaseUrl(): String = RemoteBuildConfig.BASE_URL
 
     @Provides
     @Singleton
-    fun provideTokenReissueUrl(@BaseUrl baseUrl: String): String = "$baseUrl/auth/reissue"
+    fun provideTokenReissueUrl(@team.aliens.dms_android.network.annotation.BaseUrl baseUrl: String): String = "$baseUrl/auth/reissue"
 }
