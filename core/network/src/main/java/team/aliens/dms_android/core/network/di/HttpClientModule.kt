@@ -31,6 +31,17 @@ internal object HttpClientModule {
 
     @Provides
     @Singleton
+    @FileUploadHttpClient
+    fun provideFileUploadHttpClient(
+        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
+        @DefaultHttpClient httpClient: OkHttpClient,
+    ): OkHttpClient = team.aliens.dms_android.core.network.httpclient.FileUploadHttpClient(
+        httpLoggingInterceptor = httpLoggingInterceptor,
+        baseHttpClient = httpClient,
+    )
+
+    @Provides
+    @Singleton
     fun provideRetrofit(
         @GlobalHttpClient okHttpClient: OkHttpClient,
         @BaseUrl baseUrl: String,
