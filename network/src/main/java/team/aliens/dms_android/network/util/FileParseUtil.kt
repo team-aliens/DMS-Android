@@ -5,7 +5,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import team.aliens.network.common.HttpProperty
+import team.aliens.dms_android.network.common.HttpProperty
 import java.io.File
 
 internal fun File.toMultipart(
