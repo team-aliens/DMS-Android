@@ -14,5 +14,5 @@ internal abstract class JwtModule {
 
     @Binds
     @Singleton
-    fun bindJwtStore(impl: JwtStoreImpl): JwtStore = JwtStoreImpl()
+    abstract fun bindJwtStore(impl: JwtStoreImpl): JwtStore
 }
