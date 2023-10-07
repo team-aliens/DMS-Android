@@ -54,6 +54,19 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.androidx.activity.compose)
+
+    implementation(libs.androidx.compose)
+    implementation(libs.androidx.compose.util)
+    implementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.test.junit)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    implementation(libs.coil.compose)
+
     implementation(libs.moshi)
     ksp(libs.moshi.codegen)
 
@@ -73,6 +86,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.threetenbp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
