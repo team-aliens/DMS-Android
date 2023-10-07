@@ -5,15 +5,15 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
-import team.aliens.network.common.HttpPath
-import team.aliens.network.model.notification.BatchUpdateNotificationTopicRequest
-import team.aliens.network.model.notification.CancelDeviceTokenRegistrationRequest
-import team.aliens.network.model.notification.FetchNotificationTopicStatusRequest
-import team.aliens.network.model.notification.FetchNotificationTopicStatusResponse
-import team.aliens.network.model.notification.FetchNotificationsResponse
-import team.aliens.network.model.notification.RegisterDeviceNotificationTokenRequest
-import team.aliens.network.model.notification.SubscribeNotificationTopicRequest
-import team.aliens.network.model.notification.UnsubscribeNotificationTopicRequest
+import team.aliens.dms_android.network.common.HttpPath
+import team.aliens.dms_android.network.model.notification.BatchUpdateNotificationTopicRequest
+import team.aliens.dms_android.network.model.notification.CancelDeviceTokenRegistrationRequest
+import team.aliens.dms_android.network.model.notification.FetchNotificationTopicStatusRequest
+import team.aliens.dms_android.network.model.notification.FetchNotificationTopicStatusResponse
+import team.aliens.dms_android.network.model.notification.FetchNotificationsResponse
+import team.aliens.dms_android.network.model.notification.RegisterDeviceNotificationTokenRequest
+import team.aliens.dms_android.network.model.notification.SubscribeNotificationTopicRequest
+import team.aliens.dms_android.network.model.notification.UnsubscribeNotificationTopicRequest
 
 interface NotificationApiService {
 

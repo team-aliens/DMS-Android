@@ -2,22 +2,22 @@ package team.aliens.dms_android.network.apiservice
 
 import retrofit2.http.*
 import team.aliens.dms_android.network.annotation.RequiresRefreshToken
-import team.aliens.network.common.HttpPath.Auth.CheckEmailVerificationCode
-import team.aliens.network.common.HttpPath.Auth.CheckIdExists
-import team.aliens.network.common.HttpPath.Auth.ReissueToken
-import team.aliens.network.common.HttpPath.Auth.SendEmailVerificationCode
-import team.aliens.network.common.HttpPath.Auth.SignIn
-import team.aliens.network.common.HttpPath.Auth.VerifyEmail
-import team.aliens.network.common.HttpProperty.Header.RefreshToken
-import team.aliens.network.common.HttpProperty.QueryString.AccountId
-import team.aliens.network.common.HttpProperty.QueryString.AuthCode
-import team.aliens.network.common.HttpProperty.QueryString.Email
-import team.aliens.network.common.HttpProperty.QueryString.Type
-import team.aliens.network.model._common.AuthenticationResponse
-import team.aliens.network.model.auth.CheckIdExistsResponse
-import team.aliens.network.model.auth.SendEmailVerificationCodeRequest
-import team.aliens.network.model.auth.SignInRequest
-import team.aliens.network.model.auth.VerifyEmailResponse
+import team.aliens.dms_android.network.common.HttpPath.Auth.CheckEmailVerificationCode
+import team.aliens.dms_android.network.common.HttpPath.Auth.CheckIdExists
+import team.aliens.dms_android.network.common.HttpPath.Auth.ReissueToken
+import team.aliens.dms_android.network.common.HttpPath.Auth.SendEmailVerificationCode
+import team.aliens.dms_android.network.common.HttpPath.Auth.SignIn
+import team.aliens.dms_android.network.common.HttpPath.Auth.VerifyEmail
+import team.aliens.dms_android.network.common.HttpProperty.Header.RefreshToken
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.AccountId
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.AuthCode
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.Email
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.Type
+import team.aliens.dms_android.network.model._common.AuthenticationResponse
+import team.aliens.dms_android.network.model.auth.CheckIdExistsResponse
+import team.aliens.dms_android.network.model.auth.SendEmailVerificationCodeRequest
+import team.aliens.dms_android.network.model.auth.SignInRequest
+import team.aliens.dms_android.network.model.auth.VerifyEmailResponse
 
 interface AuthApiService {
 
@@ -39,7 +39,7 @@ interface AuthApiService {
     )
 
     @PUT(ReissueToken)
-    @team.aliens.dms_android.network.annotation.RequiresRefreshToken
+    @RequiresRefreshToken
     suspend fun reissueToken(
         @Header(RefreshToken) refreshToken: String,
     ): AuthenticationResponse

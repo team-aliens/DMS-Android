@@ -3,11 +3,11 @@ package team.aliens.dms_android.network.apiservice
 import okhttp3.MultipartBody
 import retrofit2.http.*
 import team.aliens.dms_android.network.annotation.RequiresAccessToken
-import team.aliens.network.common.HttpPath.File.FetchPreSignedUrl
-import team.aliens.network.common.HttpPath.File.UploadFile
-import team.aliens.network.common.HttpProperty.QueryString.FileName
-import team.aliens.network.model.file.FetchPreSignedUrlResponse
-import team.aliens.network.model.file.UploadFileResponse
+import team.aliens.dms_android.network.common.HttpPath.File.FetchPreSignedUrl
+import team.aliens.dms_android.network.common.HttpPath.File.UploadFile
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.FileName
+import team.aliens.dms_android.network.model.file.FetchPreSignedUrlResponse
+import team.aliens.dms_android.network.model.file.UploadFileResponse
 
 interface FileApiService {
 
@@ -18,7 +18,7 @@ interface FileApiService {
     ): UploadFileResponse
 
     @GET(FetchPreSignedUrl)
-    @team.aliens.dms_android.network.annotation.RequiresAccessToken
+    @RequiresAccessToken
     suspend fun fetchPreSignedUrl(
         @Query(FileName) fileName: String,
     ): FetchPreSignedUrlResponse

@@ -9,30 +9,30 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.dms_android.network.annotation.RequiresAccessToken
-import team.aliens.network.common.HttpPath.Student.CheckEmailDuplication
-import team.aliens.network.common.HttpPath.Student.CheckIdDuplication
-import team.aliens.network.common.HttpPath.Student.EditProfile
-import team.aliens.network.common.HttpPath.Student.ExamineStudentNumber
-import team.aliens.network.common.HttpPath.Student.FetchMyPage
-import team.aliens.network.common.HttpPath.Student.FindId
-import team.aliens.network.common.HttpPath.Student.ResetPassword
-import team.aliens.network.common.HttpPath.Student.SignUp
-import team.aliens.network.common.HttpPath.Student.Withdraw
-import team.aliens.network.common.HttpProperty.PathVariable
-import team.aliens.network.common.HttpProperty.QueryString.AccountId
-import team.aliens.network.common.HttpProperty.QueryString.ClassRoom
-import team.aliens.network.common.HttpProperty.QueryString.Email
-import team.aliens.network.common.HttpProperty.QueryString.Grade
-import team.aliens.network.common.HttpProperty.QueryString.Name
-import team.aliens.network.common.HttpProperty.QueryString.Number
-import team.aliens.network.common.HttpProperty.QueryString.SchoolId
-import team.aliens.network.model._common.AuthenticationResponse
-import team.aliens.network.model.student.EditProfileRequest
-import team.aliens.network.model.student.ExamineStudentNumberResponse
-import team.aliens.network.model.student.FetchMyPageResponse
-import team.aliens.network.model.student.FindIdResponse
-import team.aliens.network.model.student.ResetPasswordRequest
-import team.aliens.network.model.student.SignUpRequest
+import team.aliens.dms_android.network.common.HttpPath.Student.CheckEmailDuplication
+import team.aliens.dms_android.network.common.HttpPath.Student.CheckIdDuplication
+import team.aliens.dms_android.network.common.HttpPath.Student.EditProfile
+import team.aliens.dms_android.network.common.HttpPath.Student.ExamineStudentNumber
+import team.aliens.dms_android.network.common.HttpPath.Student.FetchMyPage
+import team.aliens.dms_android.network.common.HttpPath.Student.FindId
+import team.aliens.dms_android.network.common.HttpPath.Student.ResetPassword
+import team.aliens.dms_android.network.common.HttpPath.Student.SignUp
+import team.aliens.dms_android.network.common.HttpPath.Student.Withdraw
+import team.aliens.dms_android.network.common.HttpProperty.PathVariable
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.AccountId
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.ClassRoom
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.Email
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.Grade
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.Name
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.Number
+import team.aliens.dms_android.network.common.HttpProperty.QueryString.SchoolId
+import team.aliens.dms_android.network.model._common.AuthenticationResponse
+import team.aliens.dms_android.network.model.student.EditProfileRequest
+import team.aliens.dms_android.network.model.student.ExamineStudentNumberResponse
+import team.aliens.dms_android.network.model.student.FetchMyPageResponse
+import team.aliens.dms_android.network.model.student.FindIdResponse
+import team.aliens.dms_android.network.model.student.ResetPasswordRequest
+import team.aliens.dms_android.network.model.student.SignUpRequest
 import java.util.*
 
 interface StudentApiService {
@@ -75,16 +75,16 @@ interface StudentApiService {
     )
 
     @GET(FetchMyPage)
-    @team.aliens.dms_android.network.annotation.RequiresAccessToken
+    @RequiresAccessToken
     suspend fun fetchMyPage(): FetchMyPageResponse
 
     @PATCH(EditProfile)
-    @team.aliens.dms_android.network.annotation.RequiresAccessToken
+    @RequiresAccessToken
     suspend fun editProfile(
         @Body request: EditProfileRequest,
     ): Response<Unit>
 
     @DELETE(Withdraw)
-    @team.aliens.dms_android.network.annotation.RequiresAccessToken
+    @RequiresAccessToken
     suspend fun withdraw()
 }
