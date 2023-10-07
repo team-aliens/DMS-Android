@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.util.UUID
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormOutlinedDefaultButton
@@ -37,9 +37,10 @@ import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
+import team.aliens.dms_android.presentation.R
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
-import team.aliens.dms_android.presentation.R
+import java.util.UUID
 
 private val Order.text: String
     @Composable inline get() = when (this) {
@@ -48,6 +49,7 @@ private val Order.text: String
         else -> throw IllegalArgumentException()
     }
 
+@Destination
 @Composable
 internal fun AnnouncementsScreen(
     modifier: Modifier = Modifier,
