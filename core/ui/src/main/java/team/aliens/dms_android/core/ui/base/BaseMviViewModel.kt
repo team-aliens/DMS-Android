@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.feature.base
+package team.aliens.dms_android.core.ui.base
 
 import androidx.lifecycle.ViewModel
 
