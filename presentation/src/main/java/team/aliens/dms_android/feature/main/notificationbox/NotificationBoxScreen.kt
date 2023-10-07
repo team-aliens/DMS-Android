@@ -15,25 +15,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.layout.VerticallyFadedLazyColumn
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.presentation.R
 import team.aliens.dms_android.util.Now
 import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.util.toDate
 import team.aliens.domain.model.notification.Notification
 import team.aliens.domain.model.notification.NotificationTopic
-import team.aliens.dms_android.presentation.R
 
+@Destination
 @Composable
 internal fun NotificationBoxScreen(
     modifier: Modifier = Modifier,
