@@ -1,10 +1,10 @@
-package team.aliens.local.datasource
+package team.aliens.dms_android.database.datasource
 
 import team.aliens.data.datasource.local.LocalNoticeDataSource
 import team.aliens.domain.model.notice.Notice
-import team.aliens.local.room.dao.NoticeDao
-import team.aliens.local.room.entity.toData
-import team.aliens.local.room.entity.toDomain
+import team.aliens.dms_android.database.room.dao.NoticeDao
+import team.aliens.dms_android.database.room.entity.toData
+import team.aliens.dms_android.database.room.entity.toDomain
 import java.util.*
 import javax.inject.Inject
 

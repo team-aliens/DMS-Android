@@ -1,11 +1,11 @@
-package team.aliens.local.datasource
+package team.aliens.dms_android.database.datasource
 
 import team.aliens.data.datasource.local.LocalMealDataSource
 import team.aliens.domain.model.meal.FetchMealInput
 import team.aliens.domain.model.meal.Meal
-import team.aliens.local.room.dao.MealDao
-import team.aliens.local.room.entity.toData
-import team.aliens.local.room.entity.toDomain
+import team.aliens.dms_android.database.room.dao.MealDao
+import team.aliens.dms_android.database.room.entity.toData
+import team.aliens.dms_android.database.room.entity.toDomain
 import javax.inject.Inject
 
 class LocalMealDataSourceImpl @Inject constructor(

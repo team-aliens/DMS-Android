@@ -1,4 +1,4 @@
-package team.aliens.local.room.common
+package team.aliens.dms_android.database.room.common
 
 object RoomProperty {
 

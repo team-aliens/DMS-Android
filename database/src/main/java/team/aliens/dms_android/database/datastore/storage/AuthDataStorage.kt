@@ -1,4 +1,4 @@
-package team.aliens.local.datastore.storage
+package team.aliens.dms_android.database.datastore.storage
 
 import team.aliens.domain.model.auth.Token
 

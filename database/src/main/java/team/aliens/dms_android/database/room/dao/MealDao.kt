@@ -1,11 +1,11 @@
-package team.aliens.local.room.dao
+package team.aliens.dms_android.database.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import team.aliens.local.room.common.RoomProperty
-import team.aliens.local.room.entity.MealEntity
+import team.aliens.dms_android.database.room.common.RoomProperty
+import team.aliens.dms_android.database.room.entity.MealEntity
 
 @Dao
 interface MealDao {

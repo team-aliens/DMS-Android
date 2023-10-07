@@ -1,4 +1,4 @@
-package team.aliens.local.util
+package team.aliens.dms_android.database.util
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat

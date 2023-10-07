@@ -1,15 +1,15 @@
-package team.aliens.local.datastore.storage
+package team.aliens.dms_android.database.datastore.storage
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.first
 import team.aliens.domain.model.student.Features
-import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.MealService
-import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.NoticeService
-import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.PointService
-import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.RemainsService
-import team.aliens.local.datastore.common.DataStoreProperty.Key.Student.StudyRoomService
+import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Student.MealService
+import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Student.NoticeService
+import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Student.PointService
+import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Student.RemainsService
+import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Student.StudyRoomService
 import javax.inject.Inject
 
 class SchoolDataStorageImpl @Inject constructor(

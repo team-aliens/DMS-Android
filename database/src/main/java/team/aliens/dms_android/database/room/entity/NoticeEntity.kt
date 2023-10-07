@@ -1,11 +1,11 @@
-package team.aliens.local.room.entity
+package team.aliens.dms_android.database.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import team.aliens.domain.model.notice.Notice
-import team.aliens.local.room.common.RoomProperty.ColumnName
-import team.aliens.local.room.common.RoomProperty.TableName
+import team.aliens.dms_android.database.room.common.RoomProperty.ColumnName
+import team.aliens.dms_android.database.room.common.RoomProperty.TableName
 import java.util.*
 
 @Entity(
