@@ -7,14 +7,12 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms_android.core.jwt.exception.CannotReissueTokenException
-import team.aliens.dms_android.core.network.di.DefaultHttpClient
 
 internal class TokenReissueHttpClient(
-    @TokenReissueUrl private val reissueUrl: String,
+    private val reissueUrl: String,
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
-    @DefaultHttpClient baseHttpClient: OkHttpClient,
+    baseHttpClient: OkHttpClient,
 ) : OkHttpClient() {
 
     private val client: OkHttpClient by lazy {
