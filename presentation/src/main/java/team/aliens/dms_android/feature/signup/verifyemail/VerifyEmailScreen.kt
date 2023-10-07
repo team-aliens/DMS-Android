@@ -34,6 +34,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -54,6 +55,7 @@ import team.aliens.dms_android.presentation.R
 
 private const val TotalSecond = 180
 
+@Destination
 @Composable
 internal fun VerifyEmailScreen(
     onNavigateToSetId: () -> Unit,
