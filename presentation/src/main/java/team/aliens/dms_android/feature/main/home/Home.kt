@@ -37,6 +37,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.annotation.Destination
 import java.util.Date
 import java.util.UUID
 import kotlinx.coroutines.launch
@@ -68,6 +69,7 @@ internal fun Date.minusOneDay(): Date {
     return Date(this.time.minus(OneDay))
 }
 
+@Destination
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun Home(
