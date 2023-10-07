@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.manager.TokenReissueManager
-import team.aliens.remote.http.TokenReissueManagerImpl
+import team.aliens.network.http.TokenReissueManagerImpl
 import javax.inject.Singleton
 
 @Module

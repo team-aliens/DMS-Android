@@ -8,10 +8,10 @@ import team.aliens.data.datasource.local.LocalAuthDataSource
 import team.aliens.data.datasource.local.LocalSchoolDataSource
 import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.data.manager.TokenReissueManager
-import team.aliens.remote.annotation.TokenReissueHttpClient
-import team.aliens.remote.annotation.TokenReissueUrl
-import team.aliens.remote.http.IgnoreRequestWrapper
-import team.aliens.remote.http.TokenReissueManagerImpl
+import team.aliens.network.annotation.TokenReissueHttpClient
+import team.aliens.network.annotation.TokenReissueUrl
+import team.aliens.network.http.IgnoreRequestWrapper
+import team.aliens.network.http.TokenReissueManagerImpl
 import javax.inject.Singleton
 
 @Module

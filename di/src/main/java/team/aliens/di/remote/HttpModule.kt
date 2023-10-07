@@ -10,15 +10,15 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.dms_android.di.BuildConfig
-import team.aliens.remote.annotation.BaseUrl
-import team.aliens.remote.annotation.DefaultHttpClient
-import team.aliens.remote.annotation.TokenReissueHttpClient
-import team.aliens.remote.annotation.TokenReissueUrl
-import team.aliens.remote.http.AuthorizationInterceptor
-import team.aliens.remote.http.IgnoreRequestWrapper
-import team.aliens.remote.http.TokenReissueManagerImpl
-import team.aliens.remote.util.OkHttpClient
-import team.aliens.remote.util.Retrofit
+import team.aliens.network.annotation.BaseUrl
+import team.aliens.network.annotation.DefaultHttpClient
+import team.aliens.network.annotation.TokenReissueHttpClient
+import team.aliens.network.annotation.TokenReissueUrl
+import team.aliens.network.http.AuthorizationInterceptor
+import team.aliens.network.http.IgnoreRequestWrapper
+import team.aliens.network.http.TokenReissueManagerImpl
+import team.aliens.network.util.OkHttpClient
+import team.aliens.network.util.Retrofit
 import javax.inject.Singleton
 
 @Module

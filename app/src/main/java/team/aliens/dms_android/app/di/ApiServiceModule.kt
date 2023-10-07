@@ -5,17 +5,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import team.aliens.remote.apiservice.AuthApiService
-import team.aliens.remote.apiservice.FileApiService
-import team.aliens.remote.apiservice.MealApiService
-import team.aliens.remote.apiservice.NoticeApiService
-import team.aliens.remote.apiservice.NotificationApiService
-import team.aliens.remote.apiservice.PointApiService
-import team.aliens.remote.apiservice.RemainsApiService
-import team.aliens.remote.apiservice.SchoolApiService
-import team.aliens.remote.apiservice.StudentApiService
-import team.aliens.remote.apiservice.StudyRoomApiService
-import team.aliens.remote.apiservice.UserApiService
+import team.aliens.network.apiservice.AuthApiService
+import team.aliens.network.apiservice.FileApiService
+import team.aliens.network.apiservice.MealApiService
+import team.aliens.network.apiservice.NoticeApiService
+import team.aliens.network.apiservice.NotificationApiService
+import team.aliens.network.apiservice.PointApiService
+import team.aliens.network.apiservice.RemainsApiService
+import team.aliens.network.apiservice.SchoolApiService
+import team.aliens.network.apiservice.StudentApiService
+import team.aliens.network.apiservice.StudyRoomApiService
+import team.aliens.network.apiservice.UserApiService
 import javax.inject.Singleton
 
 @Module
