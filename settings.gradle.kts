@@ -30,7 +30,7 @@ include(":design-system")
 include(":domain")
 include(":di")
 include(":network")
-include(":local")
+include(":database")
 
 // TODO: remove module
 include(":presentation")

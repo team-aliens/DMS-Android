@@ -48,7 +48,7 @@ dependencies {
 
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":local"))
+    implementation(project(":database"))
     implementation(project(":network"))
 
     implementation(libs.androidx.core)
