@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -38,6 +39,7 @@ import team.aliens.dms_android.presentation.R
 import team.aliens.dms_android.util.SelectImageType
 import team.aliens.dms_android.util.TopBar
 
+@Destination
 @Composable
 internal fun EditProfileImageScreen(
     editProfileImageViewModel: EditProfileImageViewModel = hiltViewModel(),
