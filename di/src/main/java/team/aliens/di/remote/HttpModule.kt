@@ -1,6 +1,6 @@
 package team.aliens.di.remote
 
-import team.aliens.dms_android.remote.BuildConfig as RemoteBuildConfig
+import team.aliens.dms_android.network.BuildConfig as RemoteBuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,11 +14,11 @@ import team.aliens.dms_android.network.annotation.BaseUrl
 import team.aliens.dms_android.network.annotation.DefaultHttpClient
 import team.aliens.dms_android.network.annotation.TokenReissueHttpClient
 import team.aliens.dms_android.network.annotation.TokenReissueUrl
-import team.aliens.network.http.AuthorizationInterceptor
-import team.aliens.network.http.IgnoreRequestWrapper
-import team.aliens.network.http.TokenReissueManagerImpl
-import team.aliens.network.util.OkHttpClient
-import team.aliens.network.util.Retrofit
+import team.aliens.dms_android.network.http.AuthorizationInterceptor
+import team.aliens.dms_android.network.http.IgnoreRequestWrapper
+import team.aliens.dms_android.network.http.TokenReissueManagerImpl
+import team.aliens.dms_android.network.util.OkHttpClient
+import team.aliens.dms_android.network.util.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -27,16 +27,16 @@ object HttpModule {
 
     @Provides
     @Singleton
-    @team.aliens.dms_android.network.annotation.BaseUrl
+    @BaseUrl
     fun provideBaseUrl(): String {
         return RemoteBuildConfig.BASE_URL
     }
 
     @Provides
     @Singleton
-    @team.aliens.dms_android.network.annotation.TokenReissueUrl
+    @TokenReissueUrl
     fun provideTokenReissueUrl(
-        @team.aliens.dms_android.network.annotation.BaseUrl baseUrl: String,
+        @BaseUrl baseUrl: String,
     ): String {
         return "$baseUrl/auth/reissue"
     }
@@ -67,7 +67,7 @@ object HttpModule {
 
     @Provides
     @Singleton
-    @team.aliens.dms_android.network.annotation.DefaultHttpClient
+    @DefaultHttpClient
     fun provideGlobalOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         authorizationInterceptor: AuthorizationInterceptor,
@@ -85,9 +85,9 @@ object HttpModule {
 
     @Provides
     @Singleton
-    @team.aliens.dms_android.network.annotation.TokenReissueHttpClient
+    @TokenReissueHttpClient
     fun provideTokenReissueOkHttpClient(
-        @team.aliens.dms_android.network.annotation.TokenReissueUrl tokenReissueUrl: String,
+        @TokenReissueUrl tokenReissueUrl: String,
     ): TokenReissueManagerImpl {
         return TokenReissueManagerImpl(
             reissueUrl = tokenReissueUrl,
@@ -103,8 +103,8 @@ object HttpModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        @team.aliens.dms_android.network.annotation.DefaultHttpClient okHttpClient: OkHttpClient,
-        @team.aliens.dms_android.network.annotation.BaseUrl baseUrl: String,
+        @DefaultHttpClient okHttpClient: OkHttpClient,
+        @BaseUrl baseUrl: String,
     ): Retrofit {
 
         val clients = arrayOf(

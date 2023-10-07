@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.datasource.remote.*
-import team.aliens.network.datasource.*
+import team.aliens.dms_android.network.datasource.*
 import javax.inject.Singleton
 
 @Module
