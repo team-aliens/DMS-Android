@@ -12,15 +12,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.extension.RatioSpace
 import team.aliens.design_system.extension.Space
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
-import team.aliens.dms_android.util.TopBar
 import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.util.TopBar
 
+@Destination
 @Composable
 fun SuccessChangePasswordScreen(
     navController: NavController,
