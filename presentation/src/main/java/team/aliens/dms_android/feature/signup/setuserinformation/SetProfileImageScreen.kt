@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -48,6 +49,7 @@ import team.aliens.dms_android.feature.signup.SignUpViewModel
 import team.aliens.dms_android.feature.signup.defaultProfileUrl
 import team.aliens.dms_android.presentation.R
 
+@Destination
 @Composable
 internal fun SetProfileImageScreen(
     onNavigateToTerms: () -> Unit,
