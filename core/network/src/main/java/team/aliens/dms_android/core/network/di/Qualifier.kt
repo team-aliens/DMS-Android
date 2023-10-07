@@ -26,3 +26,8 @@ annotation class TokenReissueHttpClient
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 annotation class FileUploadHttpClient
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class DefaultHttpLoggingInterceptor
