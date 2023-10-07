@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.button.DormTextCheckBox
@@ -37,6 +38,7 @@ import team.aliens.dms_android.component.AppLogo
 import team.aliens.dms_android.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.presentation.R
 
+@Destination
 @Composable
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
