@@ -1,4 +1,4 @@
-package team.aliens.dms_android.app.di.network
+package team.aliens.dms_android.app.di
 
 import team.aliens.dms_android.remote.BuildConfig as RemoteBuildConfig
 import dagger.Module
