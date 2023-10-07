@@ -29,8 +29,8 @@ include(":data")
 include(":design-system")
 include(":domain")
 include(":di")
-include(":remote")
-include(":local")
+include(":network")
+include(":database")
 
 // TODO: remove module
 include(":presentation")

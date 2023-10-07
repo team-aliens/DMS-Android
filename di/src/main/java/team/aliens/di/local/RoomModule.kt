@@ -7,10 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import team.aliens.local.room.common.RoomProperty
-import team.aliens.local.room.converter.StringListTypeConverter
-import team.aliens.local.room.converter.UuidTypeConverter
-import team.aliens.local.room.db.DormDatabase
+import team.aliens.dms_android.database.room.common.RoomProperty
+import team.aliens.dms_android.database.room.converter.StringListTypeConverter
+import team.aliens.dms_android.database.room.converter.UuidTypeConverter
+import team.aliens.dms_android.database.room.db.DormDatabase
 import javax.inject.Singleton
 
 @Module

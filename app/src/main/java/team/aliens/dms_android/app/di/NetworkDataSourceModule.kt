@@ -15,17 +15,17 @@ import team.aliens.data.datasource.remote.RemoteSchoolDataSource
 import team.aliens.data.datasource.remote.RemoteStudentDataSource
 import team.aliens.data.datasource.remote.RemoteStudyRoomDataSource
 import team.aliens.data.datasource.remote.RemoteUserDataSource
-import team.aliens.remote.datasource.RemoteAuthDataSourceImpl
-import team.aliens.remote.datasource.RemoteFileDataSourceImpl
-import team.aliens.remote.datasource.RemoteMealDataSourceImpl
-import team.aliens.remote.datasource.RemoteNoticeDataSourceImpl
-import team.aliens.remote.datasource.RemoteNotificationDataSourceImpl
-import team.aliens.remote.datasource.RemotePointDataSourceImpl
-import team.aliens.remote.datasource.RemoteRemainsDataSourceImpl
-import team.aliens.remote.datasource.RemoteSchoolDataSourceImpl
-import team.aliens.remote.datasource.RemoteStudentDataSourceImpl
-import team.aliens.remote.datasource.RemoteStudyRoomDataSourceImpl
-import team.aliens.remote.datasource.RemoteUserDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteAuthDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteFileDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteMealDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteNoticeDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteNotificationDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemotePointDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteRemainsDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteSchoolDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteStudentDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteStudyRoomDataSourceImpl
+import team.aliens.dms_android.network.datasource.RemoteUserDataSourceImpl
 import javax.inject.Singleton
 
 @Module

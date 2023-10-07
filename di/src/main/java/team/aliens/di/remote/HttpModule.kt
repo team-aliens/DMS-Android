@@ -1,6 +1,6 @@
 package team.aliens.di.remote
 
-import team.aliens.dms_android.remote.BuildConfig as RemoteBuildConfig
+import team.aliens.dms_android.network.BuildConfig as NetworkBuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,15 +10,15 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.dms_android.di.BuildConfig
-import team.aliens.remote.annotation.BaseUrl
-import team.aliens.remote.annotation.DefaultHttpClient
-import team.aliens.remote.annotation.TokenReissueHttpClient
-import team.aliens.remote.annotation.TokenReissueUrl
-import team.aliens.remote.http.AuthorizationInterceptor
-import team.aliens.remote.http.IgnoreRequestWrapper
-import team.aliens.remote.http.TokenReissueManagerImpl
-import team.aliens.remote.util.OkHttpClient
-import team.aliens.remote.util.Retrofit
+import team.aliens.dms_android.network.annotation.BaseUrl
+import team.aliens.dms_android.network.annotation.DefaultHttpClient
+import team.aliens.dms_android.network.annotation.TokenReissueHttpClient
+import team.aliens.dms_android.network.annotation.TokenReissueUrl
+import team.aliens.dms_android.network.http.AuthorizationInterceptor
+import team.aliens.dms_android.network.http.IgnoreRequestWrapper
+import team.aliens.dms_android.network.http.TokenReissueManagerImpl
+import team.aliens.dms_android.network.util.OkHttpClient
+import team.aliens.dms_android.network.util.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -28,9 +28,7 @@ object HttpModule {
     @Provides
     @Singleton
     @BaseUrl
-    fun provideBaseUrl(): String {
-        return RemoteBuildConfig.BASE_URL
-    }
+    fun provideBaseUrl(): String = NetworkBuildConfig.BASE_URL
 
     @Provides
     @Singleton
