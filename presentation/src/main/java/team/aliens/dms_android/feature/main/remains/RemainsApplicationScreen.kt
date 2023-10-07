@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import java.util.UUID
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.component.LastAppliedItem
@@ -46,12 +46,14 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
 import team.aliens.dms_android.component.listFadeBrush
+import team.aliens.dms_android.presentation.R
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model._common.DayOfWeek
 import team.aliens.domain.model.remains.RemainsApplicationTime
 import team.aliens.domain.model.remains.RemainsOption
-import team.aliens.dms_android.presentation.R
+import java.util.UUID
 
+@Destination
 @Composable
 internal fun RemainsApplicationScreen(
     modifier: Modifier = Modifier,
