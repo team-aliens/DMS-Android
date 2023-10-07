@@ -31,3 +31,14 @@ annotation class FileUploadHttpClient
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingInterceptor
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class DefaultHttpLoggingLevel
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+@Deprecated("make :core:debug module")
+annotation class Debug
