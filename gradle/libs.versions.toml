@@ -21,6 +21,7 @@ retrofit = "2.9.0"
 room = "2.5.2"
 threetenbp = "1.6.8"
 compose = "1.5.3"
+composeDestination = "1.9.54"
 navigation = "2.7.3"
 hiltNavigation = "1.0.0"
 coil = "2.4.0"
@@ -45,6 +46,8 @@ androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-j
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
+composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "composeDestination" }
+composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 junit = { module = "junit:junit", version.ref = "junit" }
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }

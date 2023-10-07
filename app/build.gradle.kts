@@ -65,6 +65,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    implementation(libs.composeDestinations)
+    ksp(libs.composeDestinations.ksp)
+
     implementation(libs.coil.compose)
 
     implementation(libs.moshi)
