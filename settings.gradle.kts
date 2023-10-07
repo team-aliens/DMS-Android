@@ -29,7 +29,7 @@ include(":data")
 include(":design-system")
 include(":domain")
 include(":di")
-include(":remote")
+include(":network")
 include(":local")
 
 // TODO: remove module
