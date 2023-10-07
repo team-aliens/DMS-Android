@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 import java.util.UUID
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.button.DormContainedLargeButton
@@ -41,6 +42,7 @@ import team.aliens.dms_android.presentation.R
  *
  * @param roomId 자습실 아이디
  */
+@Destination
 @SuppressLint("ResourceType")
 @Composable
 fun StudyRoomDetailsScreen(
