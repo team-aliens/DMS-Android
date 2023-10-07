@@ -93,4 +93,7 @@ dependencies {
     implementation(Dependencies.Test.JUnit)
 
     implementation(Dependencies.Remote.FirebaseMessaging)
+
+    implementation(libs.composeDestinations)
+    ksp(libs.composeDestinations.ksp)
 }
