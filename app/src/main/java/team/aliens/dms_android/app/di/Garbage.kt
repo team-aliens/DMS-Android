@@ -10,8 +10,8 @@ import team.aliens.data.facade.AuthorizationFacade
 import team.aliens.data.manager.TokenReissueManager
 import team.aliens.dms_android.network.annotation.TokenReissueHttpClient
 import team.aliens.dms_android.network.annotation.TokenReissueUrl
-import team.aliens.network.http.IgnoreRequestWrapper
-import team.aliens.network.http.TokenReissueManagerImpl
+import team.aliens.dms_android.network.http.IgnoreRequestWrapper
+import team.aliens.dms_android.network.http.TokenReissueManagerImpl
 import javax.inject.Singleton
 
 @Module
@@ -21,9 +21,9 @@ object GarbageModule {
     // TODO: remove original class
     @Provides
     @Singleton
-    @team.aliens.dms_android.network.annotation.TokenReissueHttpClient
+    @TokenReissueHttpClient
     fun provideTokenReissueManager(
-        @team.aliens.dms_android.network.annotation.TokenReissueUrl tokenReissueUrl: String,
+        @TokenReissueUrl tokenReissueUrl: String,
     ): TokenReissueManager = TokenReissueManagerImpl(
         reissueUrl = tokenReissueUrl,
     )
