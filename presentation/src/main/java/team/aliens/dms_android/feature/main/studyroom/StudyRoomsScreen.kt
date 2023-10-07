@@ -39,7 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import java.util.UUID
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.design_system.button.DormButtonColor
 import team.aliens.design_system.color.DormColor
 import team.aliens.design_system.component.RoomItem
@@ -52,10 +52,12 @@ import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.ButtonText
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.component.FloatingNotice
+import team.aliens.dms_android.presentation.R
 import team.aliens.dms_android.util.TopBar
 import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.dms_android.presentation.R
+import java.util.UUID
 
+@Destination
 @Composable
 fun StudyRoomsScreen(
     onPrevious: () -> Unit,
