@@ -69,7 +69,7 @@ internal fun Date.minusOneDay(): Date {
     return Date(this.time.minus(OneDay))
 }
 
-@Destination
+@Destination(start = true)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun Home(

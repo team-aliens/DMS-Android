@@ -43,8 +43,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:datastore"))
+    implementation(project(":shared:date"))
+
     implementation(project(":core:database"))
+    implementation(project(":core:datastore"))
+    implementation(project(":core:jwt"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
 
     implementation(project(":data"))
     implementation(project(":domain"))

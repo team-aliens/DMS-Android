@@ -1,4 +1,6 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+// TODO: Remove once KTIJ-19369 is fixed
+@Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -7,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.database"
+    namespace = "team.aliens.dms_android.shared.date"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -39,23 +41,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared:date"))
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
     implementation(libs.threetenbp)
 
-    implementation(libs.javax.inject)
-
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.moshi)
-    ksp(libs.moshi.codegen)
-
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

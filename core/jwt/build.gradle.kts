@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared:date"))
+
     implementation(project(":core:datastore"))
     implementation(project(":core:network"))
 

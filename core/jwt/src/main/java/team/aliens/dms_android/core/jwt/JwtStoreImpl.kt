@@ -16,8 +16,8 @@ import team.aliens.dms_android.core.jwt.exception.CannotStoreRefreshTokenExcepti
 import team.aliens.dms_android.core.jwt.exception.CannotStoreRefreshTokenExpirationException
 import team.aliens.dms_android.core.jwt.exception.RefreshTokenExpirationNotFoundException
 import team.aliens.dms_android.core.jwt.exception.RefreshTokenNotFoundException
-import team.aliens.dms_android.core.jwt.util.toEpochMillis
-import team.aliens.dms_android.core.jwt.util.toLocalDateTime
+import team.aliens.dms_android.shared.date.extension.toEpochMilli
+import team.aliens.dms_android.shared.date.extension.toLocalDateTime
 import javax.inject.Inject
 
 internal class JwtStoreImpl @Inject constructor(
@@ -53,7 +53,7 @@ internal class JwtStoreImpl @Inject constructor(
         transform(
             job = {
                 preferencesDataStore.edit { preferences ->
-                    preferences[ACCESS_TOKEN_EXPIRATION] = expiration.toEpochMillis()
+                    preferences[ACCESS_TOKEN_EXPIRATION] = expiration.toEpochMilli()
                 }
             },
             onFailure = { throw CannotStoreAccessTokenExpirationException() },
@@ -90,7 +90,7 @@ internal class JwtStoreImpl @Inject constructor(
         transform(
             job = {
                 preferencesDataStore.edit { preferences ->
-                    preferences[REFRESH_TOKEN_EXPIRATION] = expiration.toEpochMillis()
+                    preferences[REFRESH_TOKEN_EXPIRATION] = expiration.toEpochMilli()
                 }
             },
             onFailure = { throw CannotStoreRefreshTokenExpirationException() },
