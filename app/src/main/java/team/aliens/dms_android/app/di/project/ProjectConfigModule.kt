@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.threeten.bp.ZoneOffset
 import team.aliens.dms_android.app.BuildConfig
 import javax.inject.Singleton
 
@@ -14,4 +15,8 @@ object ProjectConfigModule {
     @Provides
     @Singleton
     fun provideDebug(): Boolean = BuildConfig.DEBUG
+
+    @Provides
+    @Singleton
+    fun provideZoneOffset(): ZoneOffset = ZoneOffset.UTC
 }
