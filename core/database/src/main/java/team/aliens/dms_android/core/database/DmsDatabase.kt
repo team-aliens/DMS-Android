@@ -3,6 +3,7 @@ package team.aliens.dms_android.core.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import team.aliens.dms_android.core.database.converter.DateTypeConverter
 import team.aliens.dms_android.core.database.converter.StringListTypeConverter
 import team.aliens.dms_android.core.database.converter.UuidTypeConverter
 import team.aliens.dms_android.core.database.dao.MealDao
@@ -20,6 +21,7 @@ import team.aliens.dms_android.core.database.entity.NoticeEntity
 )
 @TypeConverters(
     value = [
+        DateTypeConverter::class,
         StringListTypeConverter::class,
         UuidTypeConverter::class,
     ],
