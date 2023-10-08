@@ -36,4 +36,4 @@ include(":network")
 include(":database")
 
 // TODO: remove module
-include(":presentation")
+include(":feature")

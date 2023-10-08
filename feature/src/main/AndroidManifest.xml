@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".DmsApplication"
+        android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="tiramisu">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DMS_Android.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="remove" />
+
+        <service
+            android:name=".service.DmsFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_logo_image" />
+
+        <!--<receiver
+            android:name="team.aliens.dms_android.widget.meal.provider.BigMealWidgetProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="DMS 급식">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/big_meal_widget_provider" />
+        </receiver>
+
+        <receiver
+            android:name="team.aliens.dms_android.widget.meal.provider.SmallMealWidgetProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="DMS 급식">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/small_meal_widget_provider" />
+        </receiver>
+
+        <service
+            android:name="team.aliens.dms_android.widget.meal.MealService"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />-->
+    </application>
+</manifest>
