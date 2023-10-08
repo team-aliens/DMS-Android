@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared:date"))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
