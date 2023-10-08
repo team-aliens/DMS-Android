@@ -14,7 +14,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.presentation"
+    namespace = "team.aliens.dms_android.feature"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
