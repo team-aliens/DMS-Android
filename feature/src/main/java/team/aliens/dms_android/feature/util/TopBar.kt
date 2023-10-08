@@ -20,7 +20,7 @@ import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body1
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 
 @Composable
 fun TopBar(
