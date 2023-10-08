@@ -36,7 +36,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.feature.common.LocalAvailableFeatures
 import team.aliens.dms_android.feature.component.AppLogo
 import team.aliens.dms_android.feature.extension.collectInLaunchedEffectWithLifeCycle
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 
 @Destination
 @Composable

@@ -43,7 +43,7 @@ import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Caption
 import team.aliens.dms_android.feature.component.AppLogo
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.TopBar
 import java.util.regex.Pattern
 
