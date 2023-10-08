@@ -20,6 +20,8 @@ rootProject.name = "dms-android"
 
 include(":app")
 
+include(":shared:date")
+
 include(":core:database")
 include(":core:datastore")
 include(":core:ui")
