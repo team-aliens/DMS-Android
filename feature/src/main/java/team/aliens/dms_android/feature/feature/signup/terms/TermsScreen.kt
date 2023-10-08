@@ -40,7 +40,7 @@ import team.aliens.dms_android.feature.component.AppLogo
 import team.aliens.dms_android.feature.feature.signup.SignUpIntent
 import team.aliens.dms_android.feature.feature.signup.SignUpSideEffect
 import team.aliens.dms_android.feature.feature.signup.SignUpViewModel
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 
 @Destination
 @Composable
