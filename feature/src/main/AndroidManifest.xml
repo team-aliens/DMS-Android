@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name="team.aliens.dms_android.DmsApplication"
+        android:name=".DmsApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +26,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name="team.aliens.dms_android.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DMS_Android.NoActionBar"
@@ -48,7 +48,7 @@
             tools:node="remove" />
 
         <service
-            android:name="team.aliens.dms_android.service.DmsFirebaseMessagingService"
+            android:name=".service.DmsFirebaseMessagingService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
