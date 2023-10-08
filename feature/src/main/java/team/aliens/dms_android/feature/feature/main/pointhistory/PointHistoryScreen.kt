@@ -32,7 +32,7 @@ import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Headline2
 import team.aliens.design_system.typography.OverLine
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.TopBar
 import team.aliens.domain.model._common.PointType
 import team.aliens.domain.model.point.Point

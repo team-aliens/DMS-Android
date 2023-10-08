@@ -14,7 +14,7 @@ import team.aliens.design_system.dialog.DormCustomDialog
 import team.aliens.design_system.icon.DormIcon
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.feature.component.GettingImageOptionItem
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 
 @Composable
 internal fun SelectImageTypeDialog(

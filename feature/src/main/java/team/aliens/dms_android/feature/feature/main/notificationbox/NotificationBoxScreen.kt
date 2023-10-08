@@ -27,7 +27,7 @@ import team.aliens.design_system.modifier.dormShadow
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Caption
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.Now
 import team.aliens.dms_android.feature.util.TopBar
 import team.aliens.dms_android.feature.util.toDate

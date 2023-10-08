@@ -35,7 +35,7 @@ import team.aliens.design_system.button.DormContainedLargeButton
 import team.aliens.design_system.modifier.dormClickable
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.dms_android.feature.extension.collectInLaunchedEffectWithLifeCycle
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.SelectImageType
 import team.aliens.dms_android.feature.util.TopBar
 
