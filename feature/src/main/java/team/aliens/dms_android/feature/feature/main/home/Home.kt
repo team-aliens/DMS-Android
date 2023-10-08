@@ -37,9 +37,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.ramcosta.composedestinations.annotation.Destination
-import java.util.Date
-import java.util.UUID
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import kotlinx.coroutines.launch
 import team.aliens.design_system.animation.slideInFromEnd
 import team.aliens.design_system.animation.slideInFromStart
@@ -60,6 +58,8 @@ import team.aliens.dms_android.feature.feature.main.home.home.HomeScreen
 import team.aliens.dms_android.feature.feature.main.home.mypage.MyPageScreen
 import team.aliens.dms_android.feature.util.Now
 import team.aliens.dms_android.feature.util.OneDay
+import java.util.Date
+import java.util.UUID
 
 internal fun Date.plusOneDay(): Date {
     return Date(this.time.plus(OneDay))
@@ -69,7 +69,7 @@ internal fun Date.minusOneDay(): Date {
     return Date(this.time.minus(OneDay))
 }
 
-@Destination(start = true)
+@RootNavGraph(start = true)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun Home(
