@@ -37,7 +37,7 @@ import team.aliens.design_system.typography.Body1
 import team.aliens.design_system.typography.Body3
 import team.aliens.design_system.typography.Body4
 import team.aliens.design_system.typography.OverLine
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 import team.aliens.domain.model._common.Order
 import team.aliens.domain.model.notice.Notice
 import java.util.UUID

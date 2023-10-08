@@ -17,7 +17,7 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body4
 import team.aliens.dms_android.feature.component.AppLogo
 import team.aliens.dms_android.feature.util.TopBar
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 
 @Deprecated("no usage")
 @Composable

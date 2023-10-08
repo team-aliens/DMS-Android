@@ -46,7 +46,7 @@ import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Headline3
 import team.aliens.design_system.typography.Title1
 import team.aliens.dms_android.feature.feature.main.image.SelectImageTypeDialog
-import team.aliens.dms_android.presentation.R
+import team.aliens.dms_android.feature.R
 import team.aliens.domain.model._common.Sex
 
 @Destination
