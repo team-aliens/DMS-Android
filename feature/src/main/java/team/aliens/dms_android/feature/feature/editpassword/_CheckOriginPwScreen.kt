@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.main.mypage
+package team.aliens.dms_android.feature.feature.editpassword
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme

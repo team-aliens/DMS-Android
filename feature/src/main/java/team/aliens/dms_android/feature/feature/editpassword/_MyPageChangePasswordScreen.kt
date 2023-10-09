@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.main.mypage
+package team.aliens.dms_android.feature.feature.editpassword
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -36,6 +36,7 @@ import team.aliens.dms_android.feature.R
 @Stable
 const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
+@Deprecated("No usage")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MyPageChangePasswordScreen(
