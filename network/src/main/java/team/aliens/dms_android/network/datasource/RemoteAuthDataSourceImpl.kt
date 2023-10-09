@@ -8,11 +8,11 @@ import team.aliens.dms_android.network.model.auth.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.dms_android.domain.exception.AuthException
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model._common.EmailVerificationType
-import team.aliens.domain.model.auth.CheckIdExistsInput
-import team.aliens.domain.model.auth.CheckIdExistsOutput
-import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.model.auth.SignInInput
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsOutput
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.SignInInput
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(
@@ -21,10 +21,10 @@ class RemoteAuthDataSourceImpl @Inject constructor(
 
     override suspend fun signIn(
         input: SignInInput,
-    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    ): AuthenticationOutput {
         return sendHttpRequest(
-            onUnauthorized = { throw team.aliens.dms_android.domain.exception.AuthException.PasswordMismatch },
-            onNotFound = { throw team.aliens.dms_android.domain.exception.AuthException.UserNotFound },
+            onUnauthorized = { throw AuthException.PasswordMismatch },
+            onNotFound = { throw AuthException.UserNotFound },
         ) {
             authApiService.signIn(
                 request = input.toData()
@@ -58,7 +58,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
 
     override suspend fun reissueToken(
         refreshToken: String,
-    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    ): AuthenticationOutput {
         return sendHttpRequest {
             authApiService.reissueToken(
                 refreshToken = refreshToken,

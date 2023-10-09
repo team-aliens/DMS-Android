@@ -4,8 +4,8 @@ import team.aliens.data.datasource.remote.RemotePointDataSource
 import team.aliens.dms_android.network.apiservice.PointApiService
 import team.aliens.dms_android.network.model.point.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.model.point.FetchPointsInput
-import team.aliens.domain.model.point.FetchPointsOutput
+import team.aliens.dms_android.domain.model.point.FetchPointsInput
+import team.aliens.dms_android.domain.model.point.FetchPointsOutput
 import javax.inject.Inject
 
 class RemotePointDataSourceImpl @Inject constructor(

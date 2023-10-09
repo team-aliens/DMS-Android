@@ -4,11 +4,11 @@ import team.aliens.data.datasource.remote.RemoteNoticeDataSource
 import team.aliens.dms_android.network.apiservice.NoticeApiService
 import team.aliens.dms_android.network.model.notice.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.model.notice.FetchNoticeDetailsInput
-import team.aliens.domain.model.notice.FetchNoticeDetailsOutput
-import team.aliens.domain.model.notice.FetchNoticesInput
-import team.aliens.domain.model.notice.FetchNoticesOutput
-import team.aliens.domain.model.notice.FetchWhetherNewNoticesExistOutput
+import team.aliens.dms_android.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.dms_android.domain.model.notice.FetchNoticeDetailsOutput
+import team.aliens.dms_android.domain.model.notice.FetchNoticesInput
+import team.aliens.dms_android.domain.model.notice.FetchNoticesOutput
+import team.aliens.dms_android.domain.model.notice.FetchWhetherNewNoticesExistOutput
 import javax.inject.Inject
 
 class RemoteNoticeDataSourceImpl @Inject constructor(

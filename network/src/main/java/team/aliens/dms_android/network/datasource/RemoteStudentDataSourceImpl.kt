@@ -7,16 +7,16 @@ import team.aliens.dms_android.network.model.student.toData
 import team.aliens.dms_android.network.model.student.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.domain.model.student.CheckIdDuplicationInput
-import team.aliens.domain.model.student.EditProfileInput
-import team.aliens.domain.model.student.ExamineStudentNumberInput
-import team.aliens.domain.model.student.ExamineStudentNumberOutput
-import team.aliens.domain.model.student.FetchMyPageOutput
-import team.aliens.domain.model.student.FindIdInput
-import team.aliens.domain.model.student.FindIdOutput
-import team.aliens.domain.model.student.ResetPasswordInput
-import team.aliens.domain.model.student.SignUpInput
+import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms_android.domain.model.student.CheckIdDuplicationInput
+import team.aliens.dms_android.domain.model.student.EditProfileInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.dms_android.domain.model.student.FetchMyPageOutput
+import team.aliens.dms_android.domain.model.student.FindIdInput
+import team.aliens.dms_android.domain.model.student.FindIdOutput
+import team.aliens.dms_android.domain.model.student.ResetPasswordInput
+import team.aliens.dms_android.domain.model.student.SignUpInput
 import javax.inject.Inject
 
 class RemoteStudentDataSourceImpl @Inject constructor(
@@ -25,7 +25,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
 
     override suspend fun signUp(
         input: SignUpInput,
-    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    ): AuthenticationOutput {
         return sendHttpRequest {
             studentApiService.signUp(
                 request = input.toData(),

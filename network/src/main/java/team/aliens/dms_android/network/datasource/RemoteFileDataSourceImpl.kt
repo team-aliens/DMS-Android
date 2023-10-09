@@ -8,9 +8,9 @@ import team.aliens.dms_android.network.http.FileUploadClient
 import team.aliens.dms_android.network.model.file.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
 import team.aliens.dms_android.network.util.toMultipart
-import team.aliens.domain.model.file.FetchPreSignedUrlOutput
-import team.aliens.domain.model.file.UploadFileInput
-import team.aliens.domain.model.file.UploadFileOutput
+import team.aliens.dms_android.domain.model.file.FetchPreSignedUrlOutput
+import team.aliens.dms_android.domain.model.file.UploadFileInput
+import team.aliens.dms_android.domain.model.file.UploadFileOutput
 import java.io.File
 import javax.inject.Inject
 
