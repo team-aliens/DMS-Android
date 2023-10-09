@@ -43,8 +43,10 @@ jobs:
           DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
 
       - name: Generate google-services.json
+        # TODO: must remove /feature generation
         run: |
-          echo '${{secrets.GOOGLE_SERVICES}}' > ./presentation/google-services.json
+          echo '${{secrets.GOOGLE_SERVICES}}' > ./feature/google-services.json
+          echo '${{secretes.GOOGLE_SERVICES}}' > ./feature/google-services.json
 
       - name: Build with Gradle
         run: ./gradlew build
