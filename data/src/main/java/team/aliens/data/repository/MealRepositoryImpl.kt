@@ -2,13 +2,13 @@ package team.aliens.data.repository
 
 import team.aliens.data.datasource.local.LocalMealDataSource
 import team.aliens.data.datasource.remote.RemoteMealDataSource
-import team.aliens.domain.model.meal.FetchMealInput
-import team.aliens.domain.model.meal.FetchMealsInput
-import team.aliens.domain.model.meal.FetchMealsOutput
-import team.aliens.domain.model.meal.Meal
-import team.aliens.domain.model.meal.toModel
-import team.aliens.domain.model.meal.toTypedArray
-import team.aliens.domain.repository.MealRepository
+import team.aliens.dms_android.domain.model.meal.FetchMealInput
+import team.aliens.dms_android.domain.model.meal.FetchMealsInput
+import team.aliens.dms_android.domain.model.meal.FetchMealsOutput
+import team.aliens.dms_android.domain.model.meal.Meal
+import team.aliens.dms_android.domain.model.meal.toModel
+import team.aliens.dms_android.domain.model.meal.toTypedArray
+import team.aliens.dms_android.domain.repository.MealRepository
 import javax.inject.Inject
 
 class MealRepositoryImpl @Inject constructor(

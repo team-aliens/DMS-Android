@@ -1,9 +1,9 @@
 package team.aliens.data.repository
 
 import team.aliens.data.datasource.remote.RemoteUserDataSource
-import team.aliens.domain.model.user.ComparePasswordInput
-import team.aliens.domain.model.user.EditPasswordInput
-import team.aliens.domain.repository.UserRepository
+import team.aliens.dms_android.domain.model.user.ComparePasswordInput
+import team.aliens.dms_android.domain.model.user.EditPasswordInput
+import team.aliens.dms_android.domain.repository.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
