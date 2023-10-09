@@ -51,7 +51,7 @@ private val Order.text: String
 
 @Destination
 @Composable
-internal fun AnnouncementsScreen(
+internal fun AnnouncementListScreen(
     modifier: Modifier = Modifier,
     announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
     onNavigateToNoticeDetails: (UUID) -> Unit,

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home.announcements
+package team.aliens.dms_android.feature.feature.notice
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +25,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.feature.home.announcements.toNoticeDate
 import team.aliens.dms_android.feature.util.TopBar
 import java.util.UUID
 

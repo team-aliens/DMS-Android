@@ -53,7 +53,7 @@ import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.App
 import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.Home
 import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.MyPage
 import team.aliens.dms_android.feature.feature.home.NavigationItemsWrapper.navigationItems
-import team.aliens.dms_android.feature.feature.home.announcements.AnnouncementsScreen
+import team.aliens.dms_android.feature.feature.home.announcements.AnnouncementListScreen
 import team.aliens.dms_android.feature.feature.home.application.ApplicationScreen
 import team.aliens.dms_android.feature.feature.home.home.HomeScreen
 import team.aliens.dms_android.feature.feature.home.mypage.MyPageScreen
@@ -195,7 +195,7 @@ internal fun Home(
                         }
                     },
                 ) {
-                    AnnouncementsScreen(
+                    AnnouncementListScreen(
                         modifier = Modifier.padding(paddingValues),
                         onNavigateToNoticeDetails = onNavigateToNoticeDetails,
                     )
