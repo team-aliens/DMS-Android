@@ -39,10 +39,10 @@ import team.aliens.dms_android.feature.extension.navigateToTerms
 import team.aliens.dms_android.feature.extension.navigateToUploadProfileImageWithSelectingPhoto
 import team.aliens.dms_android.feature.extension.navigateToUploadProfileImageWithTakingPhoto
 import team.aliens.dms_android.feature.extension.navigateToVerifyEmail
-import team.aliens.dms_android.feature.feature.AuthNavigation
-import team.aliens.dms_android.feature.feature.authNavigation
-import team.aliens.dms_android.feature.feature.MainNavigation
-import team.aliens.dms_android.feature.feature.mainNavigation
+import team.aliens.dms_android.feature._feature.AuthNavigation
+import team.aliens.dms_android.feature._feature.authNavigation
+import team.aliens.dms_android.feature._feature.MainNavigation
+import team.aliens.dms_android.feature._feature.mainNavigation
 import team.aliens.domain.model.student.Features
 
 @Composable
