@@ -1,7 +1,7 @@
 package team.aliens.dms_android.network.model.school
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model.school.FetchSchoolVerificationQuestionOutput
+import team.aliens.dms_android.domain.model.school.FetchSchoolVerificationQuestionOutput
 
 data class FetchSchoolVerificationQuestionResponse(
     @SerializedName("question") val question: String,

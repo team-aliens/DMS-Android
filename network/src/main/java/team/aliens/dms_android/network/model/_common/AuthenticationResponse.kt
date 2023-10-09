@@ -11,13 +11,13 @@ data class AuthenticationResponse(
     @SerializedName("features") val features: FeaturesResponse,
 )
 
-internal fun AuthenticationResponse.toDomain(): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
-    return _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput(
+internal fun AuthenticationResponse.toDomain(): AuthenticationOutput {
+    return AuthenticationOutput(
         accessToken = accessToken,
         accessTokenExpiredAt = accessTokenExpiredAt,
         refreshToken = refreshToken,
         refreshTokenExpiredAt = refreshTokenExpiredAt,
-        features = _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput.Features(
+        features = AuthenticationOutput.Features(
             mealService = features.mealService,
             noticeService = features.noticeService,
             pointService = features.pointService,

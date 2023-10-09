@@ -1,8 +1,8 @@
 package team.aliens.dms_android.network.model.point
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model._common.PointType
-import team.aliens.domain.model.point.FetchPointsOutput
+import team.aliens.dms_android.domain.model._common.PointType
+import team.aliens.dms_android.domain.model.point.FetchPointsOutput
 import java.util.UUID
 
 data class FetchPointsResponse(

@@ -1,8 +1,8 @@
 package team.aliens.dms_android.network.model.notification
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model.notification.BatchUpdateNotificationTopicInput
-import team.aliens.domain.model.notification.NotificationTopic
+import team.aliens.dms_android.domain.model.notification.BatchUpdateNotificationTopicInput
+import team.aliens.dms_android.domain.model.notification.NotificationTopic
 
 data class BatchUpdateNotificationTopicRequest(
     @SerializedName("topics_to_subscribe") val topics: List<NotificationTopicRequest>,

@@ -1,7 +1,7 @@
 package team.aliens.dms_android.network.model.file
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model.file.UploadFileOutput
+import team.aliens.dms_android.domain.model.file.UploadFileOutput
 
 data class UploadFileResponse(
     @SerializedName("file_url") val fileUrl: String,
