@@ -1,6 +1,6 @@
 package team.aliens.dms_android.domain.model._common
 
-import team.aliens.domain.model.student.Features
+import team.aliens.dms_android.domain.model.student.Features
 
 /**
  * A response returned when authentication succeed

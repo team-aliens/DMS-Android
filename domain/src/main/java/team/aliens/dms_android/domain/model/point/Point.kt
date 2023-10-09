@@ -1,6 +1,6 @@
 package team.aliens.dms_android.domain.model.point
 
-import team.aliens.domain.model._common.PointType
+import team.aliens.dms_android.domain.model._common.PointType
 import java.util.UUID
 
 /**

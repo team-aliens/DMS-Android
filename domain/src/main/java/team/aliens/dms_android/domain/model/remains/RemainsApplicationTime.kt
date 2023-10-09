@@ -1,6 +1,6 @@
 package team.aliens.dms_android.domain.model.remains
 
-import team.aliens.domain.model._common.DayOfWeek
+import team.aliens.dms_android.domain.model._common.DayOfWeek
 
 /**
  * A set of room time information

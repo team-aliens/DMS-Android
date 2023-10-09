@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.model._common
 
-import team.aliens.domain.model._common.EmailVerificationType.PASSWORD
-import team.aliens.domain.model._common.EmailVerificationType.SIGNUP
+import team.aliens.dms_android.domain.model._common.EmailVerificationType.PASSWORD
+import team.aliens.dms_android.domain.model._common.EmailVerificationType.SIGNUP
 
 /**
  * An enum class of email verification type

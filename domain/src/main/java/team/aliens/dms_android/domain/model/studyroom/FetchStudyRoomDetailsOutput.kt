@@ -1,10 +1,10 @@
 package team.aliens.dms_android.domain.model.studyroom
 
-import team.aliens.domain.model._common.Sex
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.AVAILABLE
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.EMPTY
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.IN_USE
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.UNAVAILABLE
+import team.aliens.dms_android.domain.model._common.Sex
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.AVAILABLE
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.EMPTY
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.IN_USE
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput.SeatInformation.SeatStatus.UNAVAILABLE
 import java.util.UUID
 
 /**

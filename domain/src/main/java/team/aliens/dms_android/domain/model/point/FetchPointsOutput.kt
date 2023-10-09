@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.model.point
 
 import java.util.UUID
-import team.aliens.domain.model._common.PointType
+import team.aliens.dms_android.domain.model._common.PointType
 
 /**
  * A response returned when fetching points

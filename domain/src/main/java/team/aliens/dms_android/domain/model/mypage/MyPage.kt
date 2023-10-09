@@ -1,6 +1,6 @@
 package team.aliens.dms_android.domain.model.mypage
 
-import team.aliens.domain.model._common.Sex
+import team.aliens.dms_android.domain.model._common.Sex
 
 /**
  * An entity contains my page information

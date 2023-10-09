@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.model.student
 
-import team.aliens.domain.model._common.Sex
-import team.aliens.domain.model.mypage.MyPage
+import team.aliens.dms_android.domain.model._common.Sex
+import team.aliens.dms_android.domain.model.mypage.MyPage
 
 /**
  * A response of fetching my page

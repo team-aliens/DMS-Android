@@ -1,6 +1,6 @@
 package team.aliens.dms_android.domain.model.auth
 
-import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
 
 /**
  * A request when sending email verification code

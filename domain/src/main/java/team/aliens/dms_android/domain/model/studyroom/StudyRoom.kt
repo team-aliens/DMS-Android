@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.model.studyroom
 
-import team.aliens.domain.model._common.Sex
-import java.util.*
+import team.aliens.dms_android.domain.model._common.Sex
+import java.util.UUID
 
 /**
  * A set of study room information, contains study room id, name and etc
