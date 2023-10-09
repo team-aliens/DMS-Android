@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home.announcements
+package team.aliens.dms_android.feature.feature.main.announcements
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home
+package team.aliens.dms_android.feature.feature.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

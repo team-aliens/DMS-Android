@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home.mypage
+package team.aliens.dms_android.feature.feature.main.mypage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme

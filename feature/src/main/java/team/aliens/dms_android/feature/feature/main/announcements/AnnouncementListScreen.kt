@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home.announcements
+package team.aliens.dms_android.feature.feature.main.announcements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

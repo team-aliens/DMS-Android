@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home.application
+package team.aliens.dms_android.feature.feature.main.application
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background

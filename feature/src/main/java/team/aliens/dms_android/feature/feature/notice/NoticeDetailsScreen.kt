@@ -25,7 +25,7 @@ import team.aliens.design_system.typography.Body5
 import team.aliens.design_system.typography.Caption
 import team.aliens.design_system.typography.Title3
 import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.feature.feature.home.announcements.toNoticeDate
+import team.aliens.dms_android.feature.feature.main.announcements.toNoticeDate
 import team.aliens.dms_android.feature.util.TopBar
 import java.util.UUID
 

@@ -8,7 +8,7 @@ import androidx.navigation.navArgument
 import java.util.UUID
 import team.aliens.dms_android.feature.extension.appendNavArgumentName
 import team.aliens.dms_android.feature.feature.editpassword.editPasswordNavigation
-import team.aliens.dms_android.feature.feature.home.Home
+import team.aliens.dms_android.feature.feature.main.Home
 import team.aliens.dms_android.feature.feature.notice.NoticeDetailsScreen
 import team.aliens.dms_android.feature.feature.image.EditProfileImageScreen
 import team.aliens.dms_android.feature.feature.notificationbox.NotificationBoxScreen

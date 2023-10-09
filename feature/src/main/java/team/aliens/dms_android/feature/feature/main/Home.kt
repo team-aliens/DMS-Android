@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.home
+package team.aliens.dms_android.feature.feature.main
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -48,15 +48,15 @@ import team.aliens.design_system.component.DormCalendarLayout
 import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature.common.LocalAvailableFeatures
-import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.Announcement
-import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.Application
-import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.Home
-import team.aliens.dms_android.feature.feature.home.HomeBottomNavigationItem.MyPage
-import team.aliens.dms_android.feature.feature.home.NavigationItemsWrapper.navigationItems
-import team.aliens.dms_android.feature.feature.home.announcements.AnnouncementListScreen
-import team.aliens.dms_android.feature.feature.home.application.ApplicationScreen
-import team.aliens.dms_android.feature.feature.home.home.HomeScreen
-import team.aliens.dms_android.feature.feature.home.mypage.MyPageScreen
+import team.aliens.dms_android.feature.feature.main.HomeBottomNavigationItem.Announcement
+import team.aliens.dms_android.feature.feature.main.HomeBottomNavigationItem.Application
+import team.aliens.dms_android.feature.feature.main.HomeBottomNavigationItem.Home
+import team.aliens.dms_android.feature.feature.main.HomeBottomNavigationItem.MyPage
+import team.aliens.dms_android.feature.feature.main.NavigationItemsWrapper.navigationItems
+import team.aliens.dms_android.feature.feature.main.announcements.AnnouncementListScreen
+import team.aliens.dms_android.feature.feature.main.application.ApplicationScreen
+import team.aliens.dms_android.feature.feature.main.home.HomeScreen
+import team.aliens.dms_android.feature.feature.main.mypage.MyPageScreen
 import team.aliens.dms_android.feature.util.Now
 import team.aliens.dms_android.feature.util.OneDay
 import java.util.Date
