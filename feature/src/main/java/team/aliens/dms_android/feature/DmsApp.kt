@@ -41,8 +41,8 @@ import team.aliens.dms_android.feature.extension.navigateToUploadProfileImageWit
 import team.aliens.dms_android.feature.extension.navigateToVerifyEmail
 import team.aliens.dms_android.feature.feature.AuthNavigation
 import team.aliens.dms_android.feature.feature.authNavigation
-import team.aliens.dms_android.feature.feature.main.MainNavigation
-import team.aliens.dms_android.feature.feature.main.mainNavigation
+import team.aliens.dms_android.feature.feature.MainNavigation
+import team.aliens.dms_android.feature.feature.mainNavigation
 import team.aliens.domain.model.student.Features
 
 @Composable
