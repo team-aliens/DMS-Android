@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.auth.signin
+package team.aliens.dms_android.feature.feature.signin
 
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging

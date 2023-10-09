@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.auth.signin
+package team.aliens.dms_android.feature.feature.signin
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

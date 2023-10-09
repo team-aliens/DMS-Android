@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.auth.resetpassword
+package team.aliens.dms_android.feature.feature.resetpassword
 
 import team.aliens.dms_android.feature.base.MviEvent
 

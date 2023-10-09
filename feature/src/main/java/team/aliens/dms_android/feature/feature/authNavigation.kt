@@ -1,11 +1,11 @@
-package team.aliens.dms_android.feature.feature.auth
+package team.aliens.dms_android.feature.feature
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.feature.auth.findid.FindIdScreen
-import team.aliens.dms_android.feature.feature.auth.resetpassword.resetPasswordNavigation
-import team.aliens.dms_android.feature.feature.auth.signin.SignInScreen
+import team.aliens.dms_android.feature.feature.findid.FindIdScreen
+import team.aliens.dms_android.feature.feature.resetpassword.resetPasswordNavigation
+import team.aliens.dms_android.feature.feature.signin.SignInScreen
 import team.aliens.dms_android.feature.feature.signup.signUpNavigation
 
 internal object AuthNavigation {

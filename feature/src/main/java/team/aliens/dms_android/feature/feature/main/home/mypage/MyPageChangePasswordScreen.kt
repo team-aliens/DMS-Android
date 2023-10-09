@@ -28,7 +28,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.OverLine
 import team.aliens.dms_android.feature.component.AppLogo
-import team.aliens.dms_android.feature.feature.auth.resetpassword.ChangePasswordViewModel
+import team.aliens.dms_android.feature.feature.resetpassword.ChangePasswordViewModel
 import team.aliens.dms_android.feature.feature.DmsRoute
 import team.aliens.dms_android.feature.util.TopBar
 import team.aliens.dms_android.feature.R

@@ -4,8 +4,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import java.util.UUID
-import team.aliens.dms_android.feature.feature.auth.AuthNavigation
-import team.aliens.dms_android.feature.feature.auth.resetpassword.ResetPasswordNavigation
+import team.aliens.dms_android.feature.feature.AuthNavigation
+import team.aliens.dms_android.feature.feature.resetpassword.ResetPasswordNavigation
 import team.aliens.dms_android.feature.feature.main.MainNavigation
 import team.aliens.dms_android.feature.feature.main.editpassword.EditPasswordNavigation
 import team.aliens.dms_android.feature.feature.signup.SignUpNavigation

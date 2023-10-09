@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.auth.findid
+package team.aliens.dms_android.feature.feature.findid
 
 import team.aliens.domain.model.school.FetchSchoolsOutput
 

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.auth.resetpassword
+package team.aliens.dms_android.feature.feature.resetpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

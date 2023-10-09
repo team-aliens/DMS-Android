@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.auth.findid
+package team.aliens.dms_android.feature.feature.findid
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
