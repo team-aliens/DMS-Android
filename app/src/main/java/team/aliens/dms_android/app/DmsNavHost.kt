@@ -12,7 +12,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 @Composable
 fun DmsNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
 ) {/*
     NavHost(
         modifier = modifier,
