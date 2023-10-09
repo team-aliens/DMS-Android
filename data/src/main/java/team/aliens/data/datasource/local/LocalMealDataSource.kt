@@ -1,7 +1,7 @@
 package team.aliens.data.datasource.local
 
-import team.aliens.domain.model.meal.FetchMealInput
-import team.aliens.domain.model.meal.Meal
+import team.aliens.dms_android.domain.model.meal.FetchMealInput
+import team.aliens.dms_android.domain.model.meal.Meal
 
 interface LocalMealDataSource {
 

@@ -1,12 +1,12 @@
 package team.aliens.data.datasource.remote
 
-import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.domain.model.school.ExamineSchoolVerificationCodeOutput
-import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
-import team.aliens.domain.model.school.FetchAvailableFeaturesOutput
-import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
-import team.aliens.domain.model.school.FetchSchoolVerificationQuestionOutput
-import team.aliens.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationQuestionInput
+import team.aliens.dms_android.domain.model.school.FetchAvailableFeaturesOutput
+import team.aliens.dms_android.domain.model.school.FetchSchoolVerificationQuestionInput
+import team.aliens.dms_android.domain.model.school.FetchSchoolVerificationQuestionOutput
+import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
 
 interface RemoteSchoolDataSource {
 
