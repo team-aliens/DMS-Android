@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.data.repository.*
-import team.aliens.domain.repository.*
+import team.aliens.dms_android.domain.repository.*
 import javax.inject.Singleton
 
 @Module
