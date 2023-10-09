@@ -1,9 +1,9 @@
 package team.aliens.dms_android.domain.repository
 
-import team.aliens.domain.model.meal.FetchMealInput
-import team.aliens.domain.model.meal.FetchMealsInput
-import team.aliens.domain.model.meal.FetchMealsOutput
-import team.aliens.domain.model.meal.Meal
+import team.aliens.dms_android.domain.model.meal.FetchMealInput
+import team.aliens.dms_android.domain.model.meal.FetchMealsInput
+import team.aliens.dms_android.domain.model.meal.FetchMealsOutput
+import team.aliens.dms_android.domain.model.meal.Meal
 
 interface MealRepository {
 

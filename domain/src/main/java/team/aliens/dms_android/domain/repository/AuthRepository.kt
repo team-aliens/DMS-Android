@@ -1,20 +1,20 @@
 package team.aliens.dms_android.domain.repository
 
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.domain.model.auth.CheckIdExistsInput
-import team.aliens.domain.model.auth.CheckIdExistsOutput
-import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.model.auth.SignInInput
-import team.aliens.domain.model.auth.Token
+import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsOutput
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.SignInInput
+import team.aliens.dms_android.domain.model.auth.Token
 
 interface AuthRepository {
 
     suspend fun signIn(
         input: SignInInput,
-    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput
+    ): AuthenticationOutput
 
-    suspend fun autoSignIn(): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput
+    suspend fun autoSignIn(): AuthenticationOutput
 
     suspend fun findAutoSignInOption(): Boolean
 
@@ -30,7 +30,7 @@ interface AuthRepository {
         input: CheckEmailVerificationCodeInput,
     )
 
-    suspend fun reissueToken(): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput
+    suspend fun reissueToken(): AuthenticationOutput
 
     suspend fun verifyEmail(
         accountId: String,

@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.repository
 
-import team.aliens.domain.model.point.FetchPointsInput
-import team.aliens.domain.model.point.FetchPointsOutput
+import team.aliens.dms_android.domain.model.point.FetchPointsInput
+import team.aliens.dms_android.domain.model.point.FetchPointsOutput
 
 interface PointRepository {
 

@@ -1,9 +1,9 @@
 package team.aliens.dms_android.domain.repository
 
-import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
-import team.aliens.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.dms_android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.dms_android.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.dms_android.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.dms_android.domain.model.remains.UpdateRemainsOptionInput
 
 interface RemainsRepository {
 

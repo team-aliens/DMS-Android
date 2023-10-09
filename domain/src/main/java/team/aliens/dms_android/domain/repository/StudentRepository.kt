@@ -1,22 +1,22 @@
 package team.aliens.dms_android.domain.repository
 
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.domain.model.student.CheckIdDuplicationInput
-import team.aliens.domain.model.student.EditProfileInput
-import team.aliens.domain.model.student.ExamineStudentNumberInput
-import team.aliens.domain.model.student.ExamineStudentNumberOutput
-import team.aliens.domain.model.student.FetchMyPageOutput
-import team.aliens.domain.model.student.FindIdInput
-import team.aliens.domain.model.student.FindIdOutput
-import team.aliens.domain.model.student.ResetPasswordInput
-import team.aliens.domain.model.student.SignUpInput
+import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms_android.domain.model.student.CheckIdDuplicationInput
+import team.aliens.dms_android.domain.model.student.EditProfileInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.dms_android.domain.model.student.FetchMyPageOutput
+import team.aliens.dms_android.domain.model.student.FindIdInput
+import team.aliens.dms_android.domain.model.student.FindIdOutput
+import team.aliens.dms_android.domain.model.student.ResetPasswordInput
+import team.aliens.dms_android.domain.model.student.SignUpInput
 
 interface StudentRepository {
 
     suspend fun signUp(
         input: SignUpInput,
-    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput
+    ): AuthenticationOutput
 
     suspend fun examineStudentNumber(
         input: ExamineStudentNumberInput,
