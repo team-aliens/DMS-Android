@@ -13,7 +13,7 @@ import team.aliens.dms_android.network.model._common.AuthenticationResponse
 import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.domain.exception.CommonException
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model.auth.Token
+import team.aliens.dms_android.domain.model.auth.Token
 import javax.inject.Inject
 
 class TokenReissueManagerImpl @Inject constructor(
@@ -23,14 +23,14 @@ class TokenReissueManagerImpl @Inject constructor(
         OkHttpClient()
     }
 
-    override fun reissueToken(refreshToken: String): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    override fun reissueToken(refreshToken: String): AuthenticationOutput {
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
         val response = client.newCall(tokenReissueRequest).execute()
 
         return if (response.isSuccessful) {
             response.body.toAuthenticationOutput()
         } else {
-            throw team.aliens.dms_android.domain.exception.CommonException.SignInRequired
+            throw CommonException.SignInRequired
         }
     }
 
@@ -50,7 +50,7 @@ class TokenReissueManagerImpl @Inject constructor(
         )
     }
 
-    private fun ResponseBody?.toAuthenticationOutput(): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    private fun ResponseBody?.toAuthenticationOutput(): AuthenticationOutput {
         checkNotNull(this)
 
         val response = Gson().fromJson(
