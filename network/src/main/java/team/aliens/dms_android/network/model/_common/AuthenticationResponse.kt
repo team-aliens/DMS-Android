@@ -1,7 +1,7 @@
 package team.aliens.dms_android.network.model._common
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 
 data class AuthenticationResponse(
     @SerializedName("access_token") val accessToken: String,
@@ -11,13 +11,13 @@ data class AuthenticationResponse(
     @SerializedName("features") val features: FeaturesResponse,
 )
 
-internal fun AuthenticationResponse.toDomain(): AuthenticationOutput {
-    return AuthenticationOutput(
+internal fun AuthenticationResponse.toDomain(): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    return _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput(
         accessToken = accessToken,
         accessTokenExpiredAt = accessTokenExpiredAt,
         refreshToken = refreshToken,
         refreshTokenExpiredAt = refreshTokenExpiredAt,
-        features = AuthenticationOutput.Features(
+        features = _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput.Features(
             mealService = features.mealService,
             noticeService = features.noticeService,
             pointService = features.pointService,

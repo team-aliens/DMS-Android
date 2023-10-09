@@ -6,7 +6,7 @@ import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.network.model.student.toData
 import team.aliens.dms_android.network.model.student.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.domain.model.student.CheckIdDuplicationInput
 import team.aliens.domain.model.student.EditProfileInput
@@ -25,7 +25,7 @@ class RemoteStudentDataSourceImpl @Inject constructor(
 
     override suspend fun signUp(
         input: SignUpInput,
-    ): AuthenticationOutput {
+    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
         return sendHttpRequest {
             studentApiService.signUp(
                 request = input.toData(),

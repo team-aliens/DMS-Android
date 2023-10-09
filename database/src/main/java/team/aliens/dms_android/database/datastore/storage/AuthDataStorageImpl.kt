@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import java.util.Date
 import kotlinx.coroutines.flow.first
-import team.aliens.domain.exception.LocalException
+import team.aliens.dms_android.domain.exception.LocalException
 import team.aliens.domain.model.auth.Token
 import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.AccessToken
 import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.AccessTokenExpiredAt
@@ -35,7 +35,7 @@ class AuthDataStorageImpl @Inject constructor(
     }
 
     override suspend fun findAccessToken(): String {
-        return dataStore.data.first()[AccessToken] ?: throw LocalException.AccessTokenNotFound
+        return dataStore.data.first()[AccessToken] ?: throw team.aliens.dms_android.domain.exception.LocalException.AccessTokenNotFound
     }
 
     override suspend fun checkAccessTokenAvailable(): Boolean {
@@ -43,18 +43,18 @@ class AuthDataStorageImpl @Inject constructor(
             val currentTime = Date()
             val accessTokenExpiredAt = this.findAccessTokenExpiredAt().toDate()
             currentTime.before(accessTokenExpiredAt)
-        } catch (e: LocalException.AccessTokenExpiredAtNotFound) {
+        } catch (e: team.aliens.dms_android.domain.exception.LocalException.AccessTokenExpiredAtNotFound) {
             false
         }
     }
 
     override suspend fun findAccessTokenExpiredAt(): String {
         return dataStore.data.first()[AccessTokenExpiredAt]
-            ?: throw LocalException.AccessTokenExpiredAtNotFound
+            ?: throw team.aliens.dms_android.domain.exception.LocalException.AccessTokenExpiredAtNotFound
     }
 
     override suspend fun findRefreshToken(): String {
-        return dataStore.data.first()[RefreshToken] ?: throw LocalException.RefreshTokenNotFound
+        return dataStore.data.first()[RefreshToken] ?: throw team.aliens.dms_android.domain.exception.LocalException.RefreshTokenNotFound
     }
 
     override suspend fun checkRefreshTokenAvailable(): Boolean {
@@ -62,14 +62,14 @@ class AuthDataStorageImpl @Inject constructor(
             val currentTime = Date()
             val refreshTokenExpiredAt = this.findRefreshTokenExpiredAt().toDate()
             currentTime.before(refreshTokenExpiredAt)
-        } catch (e: LocalException.RefreshTokenExpiredAtNotFound) {
+        } catch (e: team.aliens.dms_android.domain.exception.LocalException.RefreshTokenExpiredAtNotFound) {
             false
         }
     }
 
     override suspend fun findRefreshTokenExpiredAt(): String {
         return dataStore.data.first()[RefreshTokenExpiredAt]
-            ?: throw LocalException.RefreshTokenExpiredAtNotFound
+            ?: throw team.aliens.dms_android.domain.exception.LocalException.RefreshTokenExpiredAtNotFound
     }
 
     override suspend fun saveToken(

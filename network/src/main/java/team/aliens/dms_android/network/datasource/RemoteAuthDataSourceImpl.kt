@@ -6,8 +6,8 @@ import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.network.model.auth.toData
 import team.aliens.dms_android.network.model.auth.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.exception.AuthException
-import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.exception.AuthException
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model._common.EmailVerificationType
 import team.aliens.domain.model.auth.CheckIdExistsInput
 import team.aliens.domain.model.auth.CheckIdExistsOutput
@@ -21,10 +21,10 @@ class RemoteAuthDataSourceImpl @Inject constructor(
 
     override suspend fun signIn(
         input: SignInInput,
-    ): AuthenticationOutput {
+    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
         return sendHttpRequest(
-            onUnauthorized = { throw AuthException.PasswordMismatch },
-            onNotFound = { throw AuthException.UserNotFound },
+            onUnauthorized = { throw team.aliens.dms_android.domain.exception.AuthException.PasswordMismatch },
+            onNotFound = { throw team.aliens.dms_android.domain.exception.AuthException.UserNotFound },
         ) {
             authApiService.signIn(
                 request = input.toData()
@@ -58,7 +58,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
 
     override suspend fun reissueToken(
         refreshToken: String,
-    ): AuthenticationOutput {
+    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
         return sendHttpRequest {
             authApiService.reissueToken(
                 refreshToken = refreshToken,

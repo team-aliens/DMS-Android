@@ -1,19 +1,19 @@
 package team.aliens.dms_android.network.util
 
-import team.aliens.domain.exception.CommonException
-import team.aliens.domain.exception.RemoteException
+import team.aliens.dms_android.domain.exception.CommonException
+import team.aliens.dms_android.domain.exception.RemoteException
 
 @Suppress("UNREACHABLE_CODE")
 suspend inline fun <T> sendHttpRequest(
-    onBadRequest: (message: String) -> Nothing = { throw RemoteException.BadRequest },
-    onUnauthorized: (message: String) -> Nothing = { throw RemoteException.Unauthorized },
-    onForbidden: (message: String) -> Nothing = { throw RemoteException.Forbidden },
-    onNotFound: (message: String) -> Nothing = { throw RemoteException.NotFound },
-    onTimeout: (message: String) -> Nothing = { throw RemoteException.Timeout },
-    onConflict: (message: String) -> Nothing = { throw RemoteException.Conflict },
-    onTooManyRequest: (message: String) -> Nothing = { throw RemoteException.TooManyRequests },
-    onInternalServerError: (message: String) -> Nothing = { throw RemoteException.InternalServerError },
-    onUnknownException: (message: String) -> Nothing = { throw CommonException.Unknown },
+    onBadRequest: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.BadRequest },
+    onUnauthorized: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.Unauthorized },
+    onForbidden: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.Forbidden },
+    onNotFound: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.NotFound },
+    onTimeout: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.Timeout },
+    onConflict: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.Conflict },
+    onTooManyRequest: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.TooManyRequests },
+    onInternalServerError: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.RemoteException.InternalServerError },
+    onUnknownException: (message: String) -> Nothing = { throw team.aliens.dms_android.domain.exception.CommonException.Unknown },
     crossinline httpRequest: suspend () -> T,
 ): T {
     return try {

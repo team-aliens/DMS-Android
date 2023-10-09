@@ -2,8 +2,8 @@ package team.aliens.data.repository
 
 import team.aliens.data.datasource.local.LocalAuthDataSource
 import team.aliens.data.datasource.remote.RemoteAuthDataSource
-import team.aliens.domain.exception.CommonException
-import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.exception.CommonException
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.domain.model.auth.CheckIdExistsInput
 import team.aliens.domain.model.auth.CheckIdExistsOutput
@@ -20,7 +20,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun signIn(
         input: SignInInput,
-    ): AuthenticationOutput {
+    ): team.aliens.dms_android.domain.model._common.AuthenticationOutput {
         return remoteAuthDataSource.signIn(
             input = input
         ).also {
@@ -38,10 +38,10 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun autoSignIn(): AuthenticationOutput {
+    override suspend fun autoSignIn(): team.aliens.dms_android.domain.model._common.AuthenticationOutput {
         val autoSignInEnabled = this.findAutoSignInOption()
         if (autoSignInEnabled) return this.reissueToken()
-        throw CommonException.SignInRequired
+        throw team.aliens.dms_android.domain.exception.CommonException.SignInRequired
     }
 
     override suspend fun findAutoSignInOption(): Boolean {
@@ -74,7 +74,7 @@ class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun reissueToken(): AuthenticationOutput {
+    override suspend fun reissueToken(): team.aliens.dms_android.domain.model._common.AuthenticationOutput {
         val refreshToken = this.findRefreshToken()
 
         return remoteAuthDataSource.reissueToken(

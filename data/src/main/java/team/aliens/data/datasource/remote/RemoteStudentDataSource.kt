@@ -1,6 +1,6 @@
 package team.aliens.data.datasource.remote
 
-import team.aliens.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.domain.model.student.CheckIdDuplicationInput
 import team.aliens.domain.model.student.EditProfileInput
@@ -16,7 +16,7 @@ interface RemoteStudentDataSource {
 
     suspend fun signUp(
         input: SignUpInput,
-    ): AuthenticationOutput
+    ): team.aliens.dms_android.domain.model._common.AuthenticationOutput
 
     suspend fun examineStudentNumber(
         input: ExamineStudentNumberInput,
