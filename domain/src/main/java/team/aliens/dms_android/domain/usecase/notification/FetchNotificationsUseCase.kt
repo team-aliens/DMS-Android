@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.notification
 
-import team.aliens.domain.model.notification.Notification
-import team.aliens.domain.model.notification.toModel
-import team.aliens.domain.repository.NotificationRepository
+import team.aliens.dms_android.domain.model.notification.Notification
+import team.aliens.dms_android.domain.model.notification.toModel
+import team.aliens.dms_android.domain.repository.NotificationRepository
 import javax.inject.Inject
 
 class FetchNotificationsUseCase @Inject constructor(

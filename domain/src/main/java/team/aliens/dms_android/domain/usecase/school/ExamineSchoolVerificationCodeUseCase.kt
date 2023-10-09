@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.school
 
-import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.domain.model.school.ExamineSchoolVerificationCodeOutput
-import team.aliens.domain.repository.SchoolRepository
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.dms_android.domain.repository.SchoolRepository
 import javax.inject.Inject
 
 class ExamineSchoolVerificationCodeUseCase @Inject constructor(

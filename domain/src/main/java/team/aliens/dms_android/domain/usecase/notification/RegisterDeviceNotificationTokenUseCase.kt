@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.usecase.notification
 
-import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
-import team.aliens.domain.repository.NotificationRepository
+import team.aliens.dms_android.domain.model.notification.RegisterDeviceNotificationTokenInput
+import team.aliens.dms_android.domain.repository.NotificationRepository
 import javax.inject.Inject
 
 class RegisterDeviceNotificationTokenUseCase @Inject constructor(

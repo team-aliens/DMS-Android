@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.remain
 
-import team.aliens.domain.model.remains.RemainsOption
-import team.aliens.domain.model.remains.toModel
-import team.aliens.domain.repository.RemainsRepository
+import team.aliens.dms_android.domain.model.remains.RemainsOption
+import team.aliens.dms_android.domain.model.remains.toModel
+import team.aliens.dms_android.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class FetchRemainsOptionsUseCase @Inject constructor(

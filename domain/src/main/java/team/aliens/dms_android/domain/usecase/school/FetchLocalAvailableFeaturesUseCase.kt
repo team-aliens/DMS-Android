@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.usecase.school
 
-import team.aliens.domain.model.student.Features
-import team.aliens.domain.repository.SchoolRepository
+import team.aliens.dms_android.domain.model.student.Features
+import team.aliens.dms_android.domain.repository.SchoolRepository
 import javax.inject.Inject
 
 class FetchLocalAvailableFeaturesUseCase @Inject constructor(

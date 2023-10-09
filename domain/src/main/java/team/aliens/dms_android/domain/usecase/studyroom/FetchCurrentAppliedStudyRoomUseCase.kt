@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.studyroom
 
-import team.aliens.domain.model.studyroom.CurrentAppliedStudyRoom
-import team.aliens.domain.model.studyroom.toModel
-import team.aliens.domain.repository.StudyRoomRepository
+import team.aliens.dms_android.domain.model.studyroom.CurrentAppliedStudyRoom
+import team.aliens.dms_android.domain.model.studyroom.toModel
+import team.aliens.dms_android.domain.repository.StudyRoomRepository
 import javax.inject.Inject
 
 class FetchCurrentAppliedStudyRoomUseCase @Inject constructor(

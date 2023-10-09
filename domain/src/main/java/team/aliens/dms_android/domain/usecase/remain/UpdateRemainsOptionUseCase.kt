@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.usecase.remain
 
-import team.aliens.domain.model.remains.UpdateRemainsOptionInput
-import team.aliens.domain.repository.RemainsRepository
+import team.aliens.dms_android.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.dms_android.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class UpdateRemainsOptionUseCase @Inject constructor(

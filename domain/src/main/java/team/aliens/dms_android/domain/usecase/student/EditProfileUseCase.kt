@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.usecase.student
 
-import team.aliens.domain.model.student.EditProfileInput
-import team.aliens.domain.repository.StudentRepository
+import team.aliens.dms_android.domain.model.student.EditProfileInput
+import team.aliens.dms_android.domain.repository.StudentRepository
 import javax.inject.Inject
 
 class EditProfileUseCase @Inject constructor(

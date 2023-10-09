@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.point
 
-import team.aliens.domain.model.point.FetchPointsInput
-import team.aliens.domain.model.point.FetchPointsOutput
-import team.aliens.domain.repository.PointRepository
+import team.aliens.dms_android.domain.model.point.FetchPointsInput
+import team.aliens.dms_android.domain.model.point.FetchPointsOutput
+import team.aliens.dms_android.domain.repository.PointRepository
 import javax.inject.Inject
 
 class FetchPointsUseCase @Inject constructor(

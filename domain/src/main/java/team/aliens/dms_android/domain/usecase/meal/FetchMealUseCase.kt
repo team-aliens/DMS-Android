@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.meal
 
-import team.aliens.domain.model.meal.FetchMealInput
-import team.aliens.domain.model.meal.Meal
-import team.aliens.domain.repository.MealRepository
+import team.aliens.dms_android.domain.model.meal.FetchMealInput
+import team.aliens.dms_android.domain.model.meal.Meal
+import team.aliens.dms_android.domain.repository.MealRepository
 import javax.inject.Inject
 
 class FetchMealUseCase @Inject constructor(

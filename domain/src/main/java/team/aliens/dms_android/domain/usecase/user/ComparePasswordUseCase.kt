@@ -1,7 +1,7 @@
 package team.aliens.dms_android.domain.usecase.user
 
-import team.aliens.domain.model.user.ComparePasswordInput
-import team.aliens.domain.repository.UserRepository
+import team.aliens.dms_android.domain.model.user.ComparePasswordInput
+import team.aliens.dms_android.domain.repository.UserRepository
 import javax.inject.Inject
 
 class ComparePasswordUseCase @Inject constructor(

@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.auth
 
-import team.aliens.domain.model.auth.CheckIdExistsInput
-import team.aliens.domain.model.auth.CheckIdExistsOutput
-import team.aliens.domain.repository.AuthRepository
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsOutput
+import team.aliens.dms_android.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class CheckIdExistsUseCase @Inject constructor(

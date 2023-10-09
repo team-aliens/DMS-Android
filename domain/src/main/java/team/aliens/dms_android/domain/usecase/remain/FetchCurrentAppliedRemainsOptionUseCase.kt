@@ -1,9 +1,8 @@
 package team.aliens.dms_android.domain.usecase.remain
 
-import team.aliens.domain.model.remains.CurrentAppliedRemainsOption
-import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.domain.model.remains.toModel
-import team.aliens.domain.repository.RemainsRepository
+import team.aliens.dms_android.domain.model.remains.CurrentAppliedRemainsOption
+import team.aliens.dms_android.domain.model.remains.toModel
+import team.aliens.dms_android.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class FetchCurrentAppliedRemainsOptionUseCase @Inject constructor(

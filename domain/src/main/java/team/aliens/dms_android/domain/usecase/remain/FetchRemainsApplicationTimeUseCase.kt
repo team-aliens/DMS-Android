@@ -1,8 +1,8 @@
 package team.aliens.dms_android.domain.usecase.remain
 
-import team.aliens.domain.model.remains.RemainsApplicationTime
-import team.aliens.domain.model.remains.toModel
-import team.aliens.domain.repository.RemainsRepository
+import team.aliens.dms_android.domain.model.remains.RemainsApplicationTime
+import team.aliens.dms_android.domain.model.remains.toModel
+import team.aliens.dms_android.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class FetchRemainsApplicationTimeUseCase @Inject constructor(

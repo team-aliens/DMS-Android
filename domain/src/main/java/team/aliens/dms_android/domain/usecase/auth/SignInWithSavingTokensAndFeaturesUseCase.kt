@@ -2,10 +2,10 @@ package team.aliens.dms_android.domain.usecase.auth
 
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.dms_android.domain.model._common.toModel
-import team.aliens.domain.model.auth.SignInInput
-import team.aliens.domain.model.auth.Token
-import team.aliens.domain.repository.AuthRepository
-import team.aliens.domain.repository.SchoolRepository
+import team.aliens.dms_android.domain.model.auth.SignInInput
+import team.aliens.dms_android.domain.model.auth.Token
+import team.aliens.dms_android.domain.repository.AuthRepository
+import team.aliens.dms_android.domain.repository.SchoolRepository
 import javax.inject.Inject
 
 class SignInWithSavingTokensAndFeaturesUseCase @Inject constructor(
@@ -14,7 +14,7 @@ class SignInWithSavingTokensAndFeaturesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         signInInput: SignInInput,
-    ): _root_ide_package_.team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    ): AuthenticationOutput {
         return authRepository.signIn(signInInput).also {
             val token = Token(
                 accessToken = it.accessToken,
