@@ -4,14 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import team.aliens.dms_android.feature.feature.signup.verifyemail.SendVerificationEmailScreen
-import team.aliens.dms_android.feature.feature.signup.verifyemail.VerifyEmailScreen
-import team.aliens.dms_android.feature.feature.signup.setuserinformation.SetIdScreen
-import team.aliens.dms_android.feature.feature.signup.setuserinformation.SetProfileImageScreen
-import team.aliens.dms_android.feature.feature.signup.setuserinformation.SetPasswordScreen
-import team.aliens.dms_android.feature.feature.signup.terms.TermsScreen
-import team.aliens.dms_android.feature.feature.signup.verifyschool.EnterSchoolVerificationCodeScreen
-import team.aliens.dms_android.feature.feature.signup.verifyschool.EnterSchoolVerificationQuestionScreen
 import team.aliens.dms_android.feature.util.composableActivityViewModel
 
 // todo sign up 작업 후 마저 구현하기

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.signup.verifyschool
+package team.aliens.dms_android.feature.feature.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -42,9 +42,6 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.typography.Body2
 import team.aliens.design_system.typography.Body3
 import team.aliens.dms_android.feature.component.AppLogo
-import team.aliens.dms_android.feature.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.feature.signup.SignUpSideEffect
-import team.aliens.dms_android.feature.feature.signup.SignUpViewModel
 import team.aliens.dms_android.feature.R
 
 @Destination

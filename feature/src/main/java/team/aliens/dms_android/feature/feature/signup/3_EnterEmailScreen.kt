@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.feature.signup.verifyemail
+package team.aliens.dms_android.feature.feature.signup
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -35,9 +35,6 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.LocalToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.feature.component.AppLogo
-import team.aliens.dms_android.feature.feature.signup.SignUpIntent
-import team.aliens.dms_android.feature.feature.signup.SignUpSideEffect
-import team.aliens.dms_android.feature.feature.signup.SignUpViewModel
 import team.aliens.dms_android.feature.R
 
 @Destination
