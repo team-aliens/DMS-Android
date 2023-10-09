@@ -8,8 +8,8 @@ import team.aliens.data.manager.TokenReissueManager
 import team.aliens.data.util.toDate
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.dms_android.domain.model._common.toModel
-import team.aliens.domain.model.auth.Token
-import team.aliens.domain.model.student.Features
+import team.aliens.dms_android.domain.model.auth.Token
+import team.aliens.dms_android.domain.model.student.Features
 import javax.inject.Inject
 
 class AuthorizationFacade @Inject constructor(
@@ -42,7 +42,7 @@ class AuthorizationFacade @Inject constructor(
         get() = runBlocking { localAuthDataSource.findRefreshTokenExpiredAt() }.toDate()
 
 
-    fun reissueToken(): team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    fun reissueToken(): AuthenticationOutput {
         return tokenReissueManager.reissueToken(refreshToken)
     }
 
