@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.store
+package team.aliens.dms_android.core.jwt
 
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -23,6 +23,17 @@ import team.aliens.dms_android.core.jwt.exception.RefreshTokenNotFoundException
 import team.aliens.dms_android.shared.date.extension.toEpochMilli
 import team.aliens.dms_android.shared.date.extension.toLocalDateTime
 import javax.inject.Inject
+
+internal abstract class JwtStore {
+    abstract fun loadAccessToken(): AccessToken
+    abstract suspend fun storeAccessToken(token: AccessToken)
+    abstract fun loadAccessTokenExpiration(): AccessTokenExpiration
+    abstract suspend fun storeAccessTokenExpiration(expiration: AccessTokenExpiration)
+    abstract fun loadRefreshToken(): RefreshToken
+    abstract suspend fun storeRefreshToken(token: RefreshToken)
+    abstract fun loadRefreshTokenExpiration(): RefreshTokenExpiration
+    abstract suspend fun storeRefreshTokenExpiration(expiration: RefreshTokenExpiration)
+}
 
 internal class JwtStoreImpl @Inject constructor(
     private val preferencesDataStore: PreferencesDataStore,
