@@ -41,6 +41,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:datastore"))
+    implementation(project(":core:network"))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
