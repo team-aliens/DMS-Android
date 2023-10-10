@@ -5,24 +5,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.network.BuildConfig
+import team.aliens.dms_android.core.project.di.Debug
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object InterceptorModule {
 
-    // TODO: remove in future
-    @Provides
-    @Singleton
-    @Debug
-    fun provideDebug(): Boolean = BuildConfig.DEBUG
-
     @Provides
     @Singleton
     @DefaultHttpLoggingLevel
     fun provideHttpLoggingLevel(
-        // TODO: implement :core:project and inject debug
         @Debug debug: Boolean,
     ): HttpLoggingInterceptor.Level = if (debug) {
         HttpLoggingInterceptor.Level.BODY
