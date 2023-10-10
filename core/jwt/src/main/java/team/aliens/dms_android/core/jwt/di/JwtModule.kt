@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms_android.core.jwt.JwtStore
-import team.aliens.dms_android.core.jwt.JwtStoreImpl
+import team.aliens.dms_android.core.jwt.datastore.JwtStore
+import team.aliens.dms_android.core.jwt.datastore.JwtStoreImpl
 import javax.inject.Singleton
 
 @Module

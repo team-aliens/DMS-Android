@@ -1,6 +1,11 @@
-package team.aliens.dms_android.core.jwt
+package team.aliens.dms_android.core.jwt.datastore
 
-abstract class JwtStore {
+import team.aliens.dms_android.core.jwt.AccessToken
+import team.aliens.dms_android.core.jwt.AccessTokenExpiration
+import team.aliens.dms_android.core.jwt.RefreshToken
+import team.aliens.dms_android.core.jwt.RefreshTokenExpiration
+
+internal abstract class JwtStore {
     abstract fun loadAccessToken(): AccessToken
     abstract suspend fun storeAccessToken(token: AccessToken)
     abstract fun loadAccessTokenExpiration(): AccessTokenExpiration
