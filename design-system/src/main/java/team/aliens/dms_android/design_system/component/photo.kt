@@ -3,7 +3,12 @@ package team.aliens.dms_android.design_system.component
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.AsyncImage
 import team.aliens.design_system.R
 import team.aliens.dms_android.design_system.animation.HorizontalAnimationBox
 import team.aliens.dms_android.design_system.annotation.DormDeprecated
@@ -83,7 +88,7 @@ private fun Photo(
         modifier = modifier,
         contentAlignment = Alignment.TopEnd,
     ) {
-        GlideImage(
+        AsyncImage(
             modifier = Modifier
                 .size(DefaultPhotoSize)
                 .background(
@@ -97,7 +102,8 @@ private fun Photo(
                 .clip(
                     PhotoShape,
                 ),
-            imageModel = { photoUrl },
+            model = photoUrl,
+            contentDescription = null,
         )
 
         Image(
