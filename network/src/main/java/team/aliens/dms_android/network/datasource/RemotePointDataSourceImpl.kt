@@ -1,6 +1,6 @@
 package team.aliens.dms_android.network.datasource
 
-import team.aliens.data.datasource.remote.RemotePointDataSource
+import team.aliens.dms_android.data.datasource.remote.RemotePointDataSource
 import team.aliens.dms_android.network.apiservice.PointApiService
 import team.aliens.dms_android.network.model.point.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest

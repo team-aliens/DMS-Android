@@ -1,6 +1,6 @@
 package team.aliens.dms_android.network.datasource
 
-import team.aliens.data.datasource.remote.RemoteStudentDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteStudentDataSource
 import team.aliens.dms_android.network.apiservice.StudentApiService
 import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.network.model.student.toData
