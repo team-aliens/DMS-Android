@@ -3,11 +3,14 @@ package team.aliens.dms_android.core.jwt
 import team.aliens.dms_android.core.jwt.store.JwtStore
 import javax.inject.Inject
 
-object JwtProvider {/*
+object JwtProvider : JwtProviderInjectionDelegation() {
+    /*
+        val cachedAccessToken: AccessToken
+        val cachedRefreshToken: RefreshToken
+    */
+}
 
-    val cachedAccessToken: AccessToken
-    val cachedRefreshToken: RefreshToken
-
+abstract class JwtProviderInjectionDelegation {
     @Inject
-    private lateinit var jwtStore: JwtStore*/
+    lateinit var jwtStore: JwtStore
 }

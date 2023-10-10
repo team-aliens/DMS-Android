@@ -20,12 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
+import coil.compose.AsyncImage
 import team.aliens.dms_android.design_system.annotation.DormDeprecated
 import team.aliens.dms_android.design_system.color.DormColor
 import team.aliens.dms_android.design_system.extension.Space
@@ -104,14 +102,15 @@ private fun LostProperty(
         Row(
             modifier = Modifier.padding(16.dp),
         ) {
-            GlideImage(
+            AsyncImage(
                 modifier = Modifier
                     .size(LostPropertyImageSize)
                     .background(
                         color = Color.Transparent,
                         shape = LostPropertyShape,
                     ),
-                imageModel = { property.propertyImage },
+                model = property.propertyImage,
+                contentDescription = null,
             )
 
             Space(space = 16.dp)
@@ -127,15 +126,13 @@ private fun LostProperty(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    GlideImage(
+                    AsyncImage(
                         modifier = Modifier
                             .size(LostPropertyProfileSize)
                             .background(color = Color.Transparent)
                             .clip(CircleShape),
-                        imageModel = { property.profileImage },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                        )
+                        model = property.profileImage,
+                        contentDescription = null,
                     )
 
                     Space(space = 10.dp)
