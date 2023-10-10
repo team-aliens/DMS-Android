@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.datastore
+package team.aliens.dms_android.core.jwt.store
 
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey

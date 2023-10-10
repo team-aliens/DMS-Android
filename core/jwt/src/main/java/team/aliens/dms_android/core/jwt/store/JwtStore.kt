@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.datastore
+package team.aliens.dms_android.core.jwt.store
 
 import team.aliens.dms_android.core.jwt.AccessToken
 import team.aliens.dms_android.core.jwt.AccessTokenExpiration
