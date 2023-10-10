@@ -24,10 +24,11 @@ include(":shared:date")
 
 include(":core:database")
 include(":core:datastore")
-include(":core:ui")
 include(":core:jwt")
 include(":core:network")
 include(":core:project")
+include(":core:school")
+include(":core:ui")
 
 include(":data")
 include(":design-system")
