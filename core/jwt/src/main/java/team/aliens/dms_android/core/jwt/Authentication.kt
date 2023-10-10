@@ -5,13 +5,4 @@ data class Authentication(
     val accessTokenExpiration: String,
     val refreshToken: String,
     val refreshTokenExpiration: String,
-    val features: Features,
-) {
-    data class Features(
-        val mealService: Boolean,
-        val noticeService: Boolean,
-        val pointService: Boolean,
-        val studyRoomService: Boolean,
-        val remainsService: Boolean,
-    )
-}
+)
