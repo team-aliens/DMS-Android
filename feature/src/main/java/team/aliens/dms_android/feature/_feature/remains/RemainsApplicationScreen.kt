@@ -48,9 +48,9 @@ import team.aliens.dms_android.feature.component.FloatingNotice
 import team.aliens.dms_android.feature.component.listFadeBrush
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.TopBar
-import team.aliens.domain.model._common.DayOfWeek
-import team.aliens.domain.model.remains.RemainsApplicationTime
-import team.aliens.domain.model.remains.RemainsOption
+import team.aliens.dms_android.domain.model._common.DayOfWeek
+import team.aliens.dms_android.domain.model.remains.RemainsApplicationTime
+import team.aliens.dms_android.domain.model.remains.RemainsOption
 import java.util.UUID
 
 @Destination

@@ -9,15 +9,15 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.base.BaseViewModel2
 import team.aliens.dms_android.feature.util.extractHourFromDate
 import team.aliens.dms_android.domain.exception.RemoteException
-import team.aliens.domain.model.studyroom.ApplySeatInput
-import team.aliens.domain.model.studyroom.CancelSeatInput
-import team.aliens.domain.model.studyroom.FetchSeatTypesInput
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
-import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
-import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
-import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
+import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
+import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
+import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.dms_android.domain.usecase.studyroom.ApplySeatUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.CancelSeatUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchSeatTypesUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.dms_android.feature.R
 import javax.inject.Inject
 
@@ -110,19 +110,19 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
-                    is team.aliens.dms_android.domain.exception.RemoteException.Unauthorized -> emitErrorEvent(
+                    is RemoteException.Unauthorized -> emitErrorEvent(
                         application.getString(R.string.NotAvailableSeat),
                     )
 
-                    is team.aliens.dms_android.domain.exception.RemoteException.Forbidden -> emitErrorEvent(
+                    is RemoteException.Forbidden -> emitErrorEvent(
                         application.getString(R.string.NotStudyRoomApplicateTime),
                     )
 
-                    is team.aliens.dms_android.domain.exception.RemoteException.Conflict -> emitErrorEvent(
+                    is RemoteException.Conflict -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
 
-                    is team.aliens.dms_android.domain.exception.RemoteException.NotFound -> emitErrorEvent(
+                    is RemoteException.NotFound -> emitErrorEvent(
                         errorMessage = application.getString(R.string.study_room_seat_not_found),
                     )
 

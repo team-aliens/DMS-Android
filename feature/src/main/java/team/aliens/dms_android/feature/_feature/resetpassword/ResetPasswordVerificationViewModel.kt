@@ -6,13 +6,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.util.MutableEventFlow
 import team.aliens.dms_android.feature.util.asEventFlow
-import team.aliens.domain.model._common.EmailVerificationType
-import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
-import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
-import team.aliens.domain.usecase.student.CheckEmailDuplicationUseCase
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms_android.domain.usecase.auth.CheckEmailVerificationCodeUseCase
+import team.aliens.dms_android.domain.usecase.auth.SendEmailVerificationCodeUseCase
+import team.aliens.dms_android.domain.usecase.student.CheckEmailDuplicationUseCase
 import javax.inject.Inject
 
 @HiltViewModel

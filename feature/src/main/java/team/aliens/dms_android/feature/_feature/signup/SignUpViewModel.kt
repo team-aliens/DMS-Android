@@ -16,27 +16,27 @@ import team.aliens.dms_android.feature.base.MviIntent
 import team.aliens.dms_android.feature.base.MviSideEffect
 import team.aliens.dms_android.feature.base.MviState
 import team.aliens.dms_android.domain.exception.RemoteException
-import team.aliens.domain.model._common.EmailVerificationType
-import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.model.file.UploadFileInput
-import team.aliens.domain.model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.domain.model.school.ExamineSchoolVerificationQuestionInput
-import team.aliens.domain.model.school.FetchSchoolVerificationQuestionInput
-import team.aliens.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.domain.model.student.CheckIdDuplicationInput
-import team.aliens.domain.model.student.ExamineStudentNumberInput
-import team.aliens.domain.model.student.SignUpInput
-import team.aliens.domain.usecase.auth.CheckEmailVerificationCodeUseCase
-import team.aliens.domain.usecase.auth.SendEmailVerificationCodeUseCase
-import team.aliens.domain.usecase.file.UploadFileUseCase
-import team.aliens.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
-import team.aliens.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
-import team.aliens.domain.usecase.school.FetchSchoolVerificationQuestionUseCase
-import team.aliens.domain.usecase.student.CheckEmailDuplicationUseCase
-import team.aliens.domain.usecase.student.CheckIdDuplicationUseCase
-import team.aliens.domain.usecase.student.ExamineStudentNumberUseCase
-import team.aliens.domain.usecase.student.SignUpUseCase
+import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.file.UploadFileInput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationQuestionInput
+import team.aliens.dms_android.domain.model.school.FetchSchoolVerificationQuestionInput
+import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms_android.domain.model.student.CheckIdDuplicationInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberInput
+import team.aliens.dms_android.domain.model.student.SignUpInput
+import team.aliens.dms_android.domain.usecase.auth.CheckEmailVerificationCodeUseCase
+import team.aliens.dms_android.domain.usecase.auth.SendEmailVerificationCodeUseCase
+import team.aliens.dms_android.domain.usecase.file.UploadFileUseCase
+import team.aliens.dms_android.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
+import team.aliens.dms_android.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
+import team.aliens.dms_android.domain.usecase.school.FetchSchoolVerificationQuestionUseCase
+import team.aliens.dms_android.domain.usecase.student.CheckEmailDuplicationUseCase
+import team.aliens.dms_android.domain.usecase.student.CheckIdDuplicationUseCase
+import team.aliens.dms_android.domain.usecase.student.ExamineStudentNumberUseCase
+import team.aliens.dms_android.domain.usecase.student.SignUpUseCase
 
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 const val defaultProfileUrl =
@@ -216,7 +216,7 @@ internal class SignUpViewModel @Inject constructor(
                 postSideEffect(SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode)
                 setSchoolId(schoolId = it.schoolId)
             }.onFailure {
-                setSchoolCodeMismatchError(it is team.aliens.dms_android.domain.exception.RemoteException.Unauthorized)
+                setSchoolCodeMismatchError(it is RemoteException.Unauthorized)
             }
         }
     }
@@ -249,7 +249,7 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(sideEffect = SignUpSideEffect.SchoolQuestion.SuccessVerifySchoolAnswer)
             }.onFailure {
-                setSchoolAnswerMismatchError(it is team.aliens.dms_android.domain.exception.RemoteException.Unauthorized)
+                setSchoolAnswerMismatchError(it is RemoteException.Unauthorized)
             }
         }
     }
@@ -264,7 +264,7 @@ internal class SignUpViewModel @Inject constructor(
                 postSideEffect(sideEffect = SignUpSideEffect.SendEmail.AvailableEmail)
             }.onFailure {
                 setSendEmailButtonEnabled(false)
-                if (it is team.aliens.dms_android.domain.exception.RemoteException.Conflict) {
+                if (it is RemoteException.Conflict) {
                     postSideEffect(sideEffect = SignUpSideEffect.SendEmail.DuplicatedEmail)
                 }
             }
@@ -303,11 +303,11 @@ internal class SignUpViewModel @Inject constructor(
             }.onFailure {
                 setAuthCodeButtonEnabled(true)
                 when(it){
-                    is team.aliens.dms_android.domain.exception.RemoteException.Unauthorized -> {
+                    is RemoteException.Unauthorized -> {
                         setAuthCodeMismatchError()
                     }
 
-                    is team.aliens.dms_android.domain.exception.RemoteException.Conflict -> {
+                    is RemoteException.Conflict -> {
                         postSideEffect(SignUpSideEffect.VerifyEmail.ConflictEmail)
                     }
                 }
@@ -335,11 +335,11 @@ internal class SignUpViewModel @Inject constructor(
                     setCheckedStudentName(false)
                     setStudentNumberMismatchError(true)
                     when (it) {
-                        is team.aliens.dms_android.domain.exception.RemoteException.NotFound -> {
+                        is RemoteException.NotFound -> {
 
                         }
 
-                        is team.aliens.dms_android.domain.exception.RemoteException.Conflict -> {
+                        is RemoteException.Conflict -> {
                             postSideEffect(SignUpSideEffect.SetId.ConflictStudent)
                         }
                     }
@@ -359,7 +359,7 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
             }.onFailure {
-                setConflictAccountIdError(it is team.aliens.dms_android.domain.exception.RemoteException.Conflict)
+                setConflictAccountIdError(it is RemoteException.Conflict)
             }
         }
     }
@@ -412,11 +412,11 @@ internal class SignUpViewModel @Inject constructor(
                     postSideEffect(SignUpSideEffect.Terms.SuccessSignUp)
                 }.onFailure {
                     when (it) {
-                        is team.aliens.dms_android.domain.exception.RemoteException.Unauthorized -> {
+                        is RemoteException.Unauthorized -> {
                             postSideEffect(SignUpSideEffect.Terms.EmailNotVerified)
                         }
 
-                        is team.aliens.dms_android.domain.exception.RemoteException.Conflict -> {
+                        is RemoteException.Conflict -> {
                             postSideEffect(SignUpSideEffect.Terms.AlreadyExistsStudent)
                         }
                     }

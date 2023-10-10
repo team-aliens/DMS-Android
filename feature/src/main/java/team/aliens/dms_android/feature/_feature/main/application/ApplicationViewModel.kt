@@ -8,10 +8,10 @@ import team.aliens.dms_android.feature.base.BaseMviViewModel
 import team.aliens.dms_android.feature.base.MviIntent
 import team.aliens.dms_android.feature.base.MviSideEffect
 import team.aliens.dms_android.feature.base.MviState
-import team.aliens.domain.model.remains.CurrentAppliedRemainsOption
-import team.aliens.domain.model.studyroom.CurrentAppliedStudyRoom
-import team.aliens.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
-import team.aliens.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
+import team.aliens.dms_android.domain.model.remains.CurrentAppliedRemainsOption
+import team.aliens.dms_android.domain.model.studyroom.CurrentAppliedStudyRoom
+import team.aliens.dms_android.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
 import javax.inject.Inject
 
 @HiltViewModel

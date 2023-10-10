@@ -31,8 +31,8 @@ import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.Now
 import team.aliens.dms_android.feature.util.TopBar
 import team.aliens.dms_android.feature.util.toDate
-import team.aliens.domain.model.notification.Notification
-import team.aliens.domain.model.notification.NotificationTopic
+import team.aliens.dms_android.domain.model.notification.Notification
+import team.aliens.dms_android.domain.model.notification.NotificationTopic
 
 @Destination
 @Composable

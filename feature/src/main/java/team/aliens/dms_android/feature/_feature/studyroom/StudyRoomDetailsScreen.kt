@@ -33,8 +33,8 @@ import team.aliens.design_system.theme.DormTheme
 import team.aliens.design_system.toast.rememberToast
 import team.aliens.dms_android.feature.component.FloatingNotice
 import team.aliens.dms_android.feature.util.TopBar
-import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.dms_android.feature.R
 
 /**

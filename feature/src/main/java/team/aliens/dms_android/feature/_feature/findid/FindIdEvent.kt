@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature._feature.findid
 
-import team.aliens.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
 
 
 sealed interface FindIdEvent

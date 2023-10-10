@@ -39,7 +39,7 @@ import team.aliens.design_system.toast.rememberToast
 import team.aliens.design_system.typography.Body2
 import team.aliens.dms_android.feature.component.AppLogo
 import team.aliens.dms_android.feature.R
-import team.aliens.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
 
 @Destination
 @Composable

@@ -11,10 +11,10 @@ import team.aliens.dms_android.feature.base.BaseMviViewModel
 import team.aliens.dms_android.feature.base.MviIntent
 import team.aliens.dms_android.feature.base.MviSideEffect
 import team.aliens.dms_android.feature.base.MviState
-import team.aliens.domain.model.meal.FetchMealInput
-import team.aliens.domain.model.meal.Meal
-import team.aliens.domain.usecase.meal.FetchMealFromLocalOrRemoteIfNotExistsUseCase
-import team.aliens.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
+import team.aliens.dms_android.domain.model.meal.FetchMealInput
+import team.aliens.dms_android.domain.model.meal.Meal
+import team.aliens.dms_android.domain.usecase.meal.FetchMealFromLocalOrRemoteIfNotExistsUseCase
+import team.aliens.dms_android.domain.usecase.notice.FetchWhetherNewNoticesExistUseCase
 import javax.inject.Inject
 
 private const val MealDateFormat = "yyyy-MM-dd"
