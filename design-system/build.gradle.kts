@@ -21,6 +21,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -47,9 +48,6 @@ android {
 }
 
 dependencies {
-    // TODO: Remove Dependency
-    implementation(Dependencies.Ui.ComposeGlide)
-
     implementation(libs.material)
 
     implementation(libs.coil.compose)
