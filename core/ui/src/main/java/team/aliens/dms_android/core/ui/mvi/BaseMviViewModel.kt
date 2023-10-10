@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.core.ui.base.BaseViewModel
+import team.aliens.dms_android.core.ui.viewmodel.BaseViewModel
 
 abstract class BaseMviViewModel<S : UiState, I : Intent, E : SideEffect>(
     initialState: S,
