@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.network
+package team.aliens.dms_android.core.jwt.network.model
 
 import com.google.gson.annotations.SerializedName
 import team.aliens.dms_android.core.jwt.Authentication
