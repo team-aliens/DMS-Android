@@ -1,6 +1,6 @@
 package team.aliens.dms_android.database.datasource
 
-import team.aliens.data.datasource.local.LocalMealDataSource
+import team.aliens.dms_android.data.datasource.local.LocalMealDataSource
 import team.aliens.dms_android.domain.model.meal.FetchMealInput
 import team.aliens.dms_android.domain.model.meal.Meal
 import team.aliens.dms_android.database.room.dao.MealDao
