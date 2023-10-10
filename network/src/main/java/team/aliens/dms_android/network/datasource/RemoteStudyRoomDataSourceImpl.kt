@@ -4,17 +4,17 @@ import team.aliens.data.datasource.remote.RemoteStudyRoomDataSource
 import team.aliens.dms_android.network.apiservice.StudyRoomApiService
 import team.aliens.dms_android.network.model.studyroom.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.model.studyroom.ApplySeatInput
-import team.aliens.domain.model.studyroom.CancelSeatInput
-import team.aliens.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
-import team.aliens.domain.model.studyroom.FetchSeatTypesInput
-import team.aliens.domain.model.studyroom.FetchSeatTypesOutput
-import team.aliens.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.domain.model.studyroom.FetchStudyRoomsInput
-import team.aliens.domain.model.studyroom.FetchStudyRoomsOutput
+import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
+import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
+import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsInput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsOutput
 import javax.inject.Inject
 
 class RemoteStudyRoomDataSourceImpl @Inject constructor(

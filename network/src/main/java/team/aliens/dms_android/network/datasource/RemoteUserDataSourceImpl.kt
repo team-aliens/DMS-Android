@@ -4,8 +4,8 @@ import team.aliens.data.datasource.remote.RemoteUserDataSource
 import team.aliens.dms_android.network.apiservice.UserApiService
 import team.aliens.dms_android.network.model.user.toData
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.model.user.ComparePasswordInput
-import team.aliens.domain.model.user.EditPasswordInput
+import team.aliens.dms_android.domain.model.user.ComparePasswordInput
+import team.aliens.dms_android.domain.model.user.EditPasswordInput
 import javax.inject.Inject
 
 class RemoteUserDataSourceImpl @Inject constructor(

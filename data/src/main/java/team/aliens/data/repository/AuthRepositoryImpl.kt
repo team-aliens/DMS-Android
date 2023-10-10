@@ -2,15 +2,15 @@ package team.aliens.data.repository
 
 import team.aliens.data.datasource.local.LocalAuthDataSource
 import team.aliens.data.datasource.remote.RemoteAuthDataSource
-import team.aliens.domain.exception.CommonException
-import team.aliens.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.domain.model.auth.CheckIdExistsInput
-import team.aliens.domain.model.auth.CheckIdExistsOutput
-import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.model.auth.SignInInput
-import team.aliens.domain.model.auth.Token
-import team.aliens.domain.repository.AuthRepository
+import team.aliens.dms_android.domain.exception.CommonException
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsOutput
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.SignInInput
+import team.aliens.dms_android.domain.model.auth.Token
+import team.aliens.dms_android.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

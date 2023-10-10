@@ -4,10 +4,10 @@ import team.aliens.data.datasource.remote.RemoteRemainsDataSource
 import team.aliens.dms_android.network.apiservice.RemainsApiService
 import team.aliens.dms_android.network.model.remains.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.domain.model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.domain.model.remains.FetchRemainsOptionsOutput
-import team.aliens.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.dms_android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.dms_android.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.dms_android.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.dms_android.domain.model.remains.UpdateRemainsOptionInput
 import javax.inject.Inject
 
 class RemoteRemainsDataSourceImpl @Inject constructor(

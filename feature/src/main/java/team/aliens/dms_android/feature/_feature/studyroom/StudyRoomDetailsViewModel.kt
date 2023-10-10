@@ -8,16 +8,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.base.BaseViewModel2
 import team.aliens.dms_android.feature.util.extractHourFromDate
-import team.aliens.domain.exception.RemoteException
-import team.aliens.domain.model.studyroom.ApplySeatInput
-import team.aliens.domain.model.studyroom.CancelSeatInput
-import team.aliens.domain.model.studyroom.FetchSeatTypesInput
-import team.aliens.domain.model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.domain.usecase.studyroom.ApplySeatUseCase
-import team.aliens.domain.usecase.studyroom.CancelSeatUseCase
-import team.aliens.domain.usecase.studyroom.FetchSeatTypesUseCase
-import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
+import team.aliens.dms_android.domain.exception.RemoteException
+import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
+import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
+import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.dms_android.domain.usecase.studyroom.ApplySeatUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.CancelSeatUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchSeatTypesUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.dms_android.feature.R
 import javax.inject.Inject
 

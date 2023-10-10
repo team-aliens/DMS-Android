@@ -2,8 +2,8 @@ package team.aliens.dms_android.network.model.notification
 
 import com.google.gson.annotations.SerializedName
 import java.util.UUID
-import team.aliens.domain.model.notification.FetchNotificationsOutput
-import team.aliens.domain.model.notification.NotificationTopic
+import team.aliens.dms_android.domain.model.notification.FetchNotificationsOutput
+import team.aliens.dms_android.domain.model.notification.NotificationTopic
 
 data class FetchNotificationsResponse(
     @SerializedName("notifications") val notifications: List<NotificationResponse>,

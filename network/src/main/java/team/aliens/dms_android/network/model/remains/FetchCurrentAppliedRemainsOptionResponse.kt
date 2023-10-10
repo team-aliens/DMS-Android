@@ -1,8 +1,8 @@
 package team.aliens.dms_android.network.model.remains
 
 import com.google.gson.annotations.SerializedName
+import team.aliens.dms_android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
 import java.util.UUID
-import team.aliens.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
 
 data class FetchCurrentAppliedRemainsOptionResponse(
     @SerializedName("id") val appliedRemainsOptionId: UUID,

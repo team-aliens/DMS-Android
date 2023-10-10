@@ -11,9 +11,9 @@ import team.aliens.dms_android.network.annotation.TokenReissueUrl
 import team.aliens.dms_android.network.common.HttpProperty
 import team.aliens.dms_android.network.model._common.AuthenticationResponse
 import team.aliens.dms_android.network.model._common.toDomain
-import team.aliens.domain.exception.CommonException
-import team.aliens.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model.auth.Token
+import team.aliens.dms_android.domain.exception.CommonException
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model.auth.Token
 import javax.inject.Inject
 
 class TokenReissueManagerImpl @Inject constructor(

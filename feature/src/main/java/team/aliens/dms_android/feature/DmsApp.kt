@@ -43,7 +43,7 @@ import team.aliens.dms_android.feature._feature.AuthNavigation
 import team.aliens.dms_android.feature._feature.authNavigation
 import team.aliens.dms_android.feature._feature.MainNavigation
 import team.aliens.dms_android.feature._feature.mainNavigation
-import team.aliens.domain.model.student.Features
+import team.aliens.dms_android.domain.model.student.Features
 
 @Composable
 internal fun DmsApp(

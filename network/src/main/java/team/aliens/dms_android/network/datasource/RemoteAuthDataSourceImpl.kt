@@ -6,13 +6,13 @@ import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.network.model.auth.toData
 import team.aliens.dms_android.network.model.auth.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
-import team.aliens.domain.exception.AuthException
-import team.aliens.domain.model._common.AuthenticationOutput
-import team.aliens.domain.model._common.EmailVerificationType
-import team.aliens.domain.model.auth.CheckIdExistsInput
-import team.aliens.domain.model.auth.CheckIdExistsOutput
-import team.aliens.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.domain.model.auth.SignInInput
+import team.aliens.dms_android.domain.exception.AuthException
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsOutput
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.auth.SignInInput
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(

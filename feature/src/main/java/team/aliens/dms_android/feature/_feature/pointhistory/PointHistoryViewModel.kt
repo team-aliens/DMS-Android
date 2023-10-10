@@ -8,11 +8,11 @@ import team.aliens.dms_android.feature.base.BaseMviViewModel
 import team.aliens.dms_android.feature.base.MviIntent
 import team.aliens.dms_android.feature.base.MviSideEffect
 import team.aliens.dms_android.feature.base.MviState
-import team.aliens.domain.model._common.PointType
-import team.aliens.domain.model.point.FetchPointsInput
-import team.aliens.domain.model.point.Point
-import team.aliens.domain.model.point.toModel
-import team.aliens.domain.usecase.point.FetchPointsUseCase
+import team.aliens.dms_android.domain.model._common.PointType
+import team.aliens.dms_android.domain.model.point.FetchPointsInput
+import team.aliens.dms_android.domain.model.point.Point
+import team.aliens.dms_android.domain.model.point.toModel
+import team.aliens.dms_android.domain.usecase.point.FetchPointsUseCase
 import javax.inject.Inject
 
 @HiltViewModel

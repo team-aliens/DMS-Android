@@ -9,9 +9,9 @@ import team.aliens.dms_android.feature.base.BaseMviViewModel
 import team.aliens.dms_android.feature.base.MviIntent
 import team.aliens.dms_android.feature.base.MviSideEffect
 import team.aliens.dms_android.feature.base.MviState
-import team.aliens.domain.model.notice.FetchNoticeDetailsInput
-import team.aliens.domain.model.notice.toModel
-import team.aliens.domain.usecase.notice.FetchNoticeDetailsUseCase
+import team.aliens.dms_android.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.dms_android.domain.model.notice.toModel
+import team.aliens.dms_android.domain.usecase.notice.FetchNoticeDetailsUseCase
 import javax.inject.Inject
 
 @HiltViewModel

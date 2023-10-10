@@ -19,8 +19,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.MainActivity
-import team.aliens.domain.model.notification.RegisterDeviceNotificationTokenInput
-import team.aliens.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
+import team.aliens.dms_android.domain.model.notification.RegisterDeviceNotificationTokenInput
+import team.aliens.dms_android.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
 import team.aliens.dms_android.feature.R
 import javax.inject.Inject
 

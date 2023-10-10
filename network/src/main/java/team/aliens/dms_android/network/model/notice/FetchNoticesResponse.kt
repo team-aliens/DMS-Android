@@ -1,7 +1,7 @@
 package team.aliens.dms_android.network.model.notice
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model.notice.FetchNoticesOutput
+import team.aliens.dms_android.domain.model.notice.FetchNoticesOutput
 import java.util.*
 
 data class FetchNoticesResponse(

@@ -6,14 +6,14 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.base.BaseViewModel1
 import team.aliens.dms_android.feature.util.MutableEventFlow
 import team.aliens.dms_android.feature.util.asEventFlow
-import team.aliens.domain.model.auth.CheckIdExistsInput
-import team.aliens.domain.model.student.ResetPasswordInput
-import team.aliens.domain.model.user.ComparePasswordInput
-import team.aliens.domain.model.user.EditPasswordInput
-import team.aliens.domain.usecase.auth.CheckIdExistsUseCase
-import team.aliens.domain.usecase.student.ResetPasswordUseCase
-import team.aliens.domain.usecase.user.ComparePasswordUseCase
-import team.aliens.domain.usecase.user.EditPasswordUseCase
+import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.student.ResetPasswordInput
+import team.aliens.dms_android.domain.model.user.ComparePasswordInput
+import team.aliens.dms_android.domain.model.user.EditPasswordInput
+import team.aliens.dms_android.domain.usecase.auth.CheckIdExistsUseCase
+import team.aliens.dms_android.domain.usecase.student.ResetPasswordUseCase
+import team.aliens.dms_android.domain.usecase.user.ComparePasswordUseCase
+import team.aliens.dms_android.domain.usecase.user.EditPasswordUseCase
 import javax.inject.Inject
 
 @HiltViewModel

@@ -1,10 +1,10 @@
 package team.aliens.data.repository
 
 import team.aliens.data.datasource.remote.RemoteFileDataSource
-import team.aliens.domain.model.file.FetchPreSignedUrlOutput
-import team.aliens.domain.model.file.UploadFileInput
-import team.aliens.domain.model.file.UploadFileOutput
-import team.aliens.domain.repository.FileRepository
+import team.aliens.dms_android.domain.model.file.FetchPreSignedUrlOutput
+import team.aliens.dms_android.domain.model.file.UploadFileInput
+import team.aliens.dms_android.domain.model.file.UploadFileOutput
+import team.aliens.dms_android.domain.repository.FileRepository
 import java.io.File
 import javax.inject.Inject
 

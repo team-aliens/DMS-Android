@@ -1,8 +1,8 @@
 package team.aliens.dms_android.network.model.notification
 
 import com.google.gson.annotations.SerializedName
+import team.aliens.dms_android.domain.model.notification.CancelDeviceTokenRegistrationInput
 import java.util.UUID
-import team.aliens.domain.model.notification.CancelDeviceTokenRegistrationInput
 
 data class CancelDeviceTokenRegistrationRequest(
     @SerializedName("device_id") val deviceId: UUID,

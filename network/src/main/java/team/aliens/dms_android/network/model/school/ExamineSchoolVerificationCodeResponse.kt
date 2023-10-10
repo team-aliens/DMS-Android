@@ -1,7 +1,7 @@
 package team.aliens.dms_android.network.model.school
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.domain.model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeOutput
 import java.util.*
 
 data class ExamineSchoolVerificationCodeResponse(

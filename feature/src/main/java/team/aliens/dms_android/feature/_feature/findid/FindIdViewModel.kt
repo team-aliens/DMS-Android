@@ -8,9 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.util.MutableEventFlow
 import team.aliens.dms_android.feature.util.asEventFlow
-import team.aliens.domain.model.student.FindIdInput
-import team.aliens.domain.usecase.school.FetchSchoolsUseCase
-import team.aliens.domain.usecase.student.FindIdUseCase
+import team.aliens.dms_android.domain.model.student.FindIdInput
+import team.aliens.dms_android.domain.usecase.school.FetchSchoolsUseCase
+import team.aliens.dms_android.domain.usecase.student.FindIdUseCase
 import javax.inject.Inject
 
 @HiltViewModel

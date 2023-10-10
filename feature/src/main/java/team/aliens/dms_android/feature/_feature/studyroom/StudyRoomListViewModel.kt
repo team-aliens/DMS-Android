@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature.base.BaseViewModel2
 import team.aliens.dms_android.feature.util.extractHourFromDate
-import team.aliens.domain.exception.RemoteException
-import team.aliens.domain.model.studyroom.FetchStudyRoomsInput
-import team.aliens.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
-import team.aliens.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
-import team.aliens.domain.usecase.studyroom.FetchStudyRoomsUseCase
+import team.aliens.dms_android.domain.exception.RemoteException
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsInput
+import team.aliens.dms_android.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
+import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomsUseCase
 import java.util.UUID
 import javax.inject.Inject
 

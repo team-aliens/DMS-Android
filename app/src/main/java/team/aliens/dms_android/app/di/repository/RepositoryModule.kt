@@ -15,17 +15,17 @@ import team.aliens.data.repository.SchoolRepositoryImpl
 import team.aliens.data.repository.StudentRepositoryImpl
 import team.aliens.data.repository.StudyRoomRepositoryImpl
 import team.aliens.data.repository.UserRepositoryImpl
-import team.aliens.domain.repository.AuthRepository
-import team.aliens.domain.repository.FileRepository
-import team.aliens.domain.repository.MealRepository
-import team.aliens.domain.repository.NoticeRepository
-import team.aliens.domain.repository.NotificationRepository
-import team.aliens.domain.repository.PointRepository
-import team.aliens.domain.repository.RemainsRepository
-import team.aliens.domain.repository.SchoolRepository
-import team.aliens.domain.repository.StudentRepository
-import team.aliens.domain.repository.StudyRoomRepository
-import team.aliens.domain.repository.UserRepository
+import team.aliens.dms_android.domain.repository.AuthRepository
+import team.aliens.dms_android.domain.repository.FileRepository
+import team.aliens.dms_android.domain.repository.MealRepository
+import team.aliens.dms_android.domain.repository.NoticeRepository
+import team.aliens.dms_android.domain.repository.NotificationRepository
+import team.aliens.dms_android.domain.repository.PointRepository
+import team.aliens.dms_android.domain.repository.RemainsRepository
+import team.aliens.dms_android.domain.repository.SchoolRepository
+import team.aliens.dms_android.domain.repository.StudentRepository
+import team.aliens.dms_android.domain.repository.StudyRoomRepository
+import team.aliens.dms_android.domain.repository.UserRepository
 import javax.inject.Singleton
 
 @Module

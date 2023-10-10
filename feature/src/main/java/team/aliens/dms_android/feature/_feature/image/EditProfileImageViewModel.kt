@@ -11,10 +11,10 @@ import team.aliens.dms_android.feature.base.BaseMviViewModel
 import team.aliens.dms_android.feature.base.MviIntent
 import team.aliens.dms_android.feature.base.MviSideEffect
 import team.aliens.dms_android.feature.base.MviState
-import team.aliens.domain.model.file.UploadFileInput
-import team.aliens.domain.model.student.EditProfileInput
-import team.aliens.domain.usecase.file.UploadFileUseCase
-import team.aliens.domain.usecase.student.EditProfileUseCase
+import team.aliens.dms_android.domain.model.file.UploadFileInput
+import team.aliens.dms_android.domain.model.student.EditProfileInput
+import team.aliens.dms_android.domain.usecase.file.UploadFileUseCase
+import team.aliens.dms_android.domain.usecase.student.EditProfileUseCase
 import javax.inject.Inject
 
 @HiltViewModel
