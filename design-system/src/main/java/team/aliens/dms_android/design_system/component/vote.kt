@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.dms_android.design_system.annotation.DormDeprecated
-import team.aliens.design_system.button.*
 import team.aliens.dms_android.design_system.color.DormColor
 import team.aliens.dms_android.design_system.extension.Space
 import team.aliens.dms_android.design_system.toast.rememberToast
