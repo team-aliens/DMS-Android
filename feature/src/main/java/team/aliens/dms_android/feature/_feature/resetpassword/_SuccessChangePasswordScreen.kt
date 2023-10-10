@@ -13,12 +13,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.extension.RatioSpace
-import team.aliens.design_system.extension.Space
-import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body2
+import team.aliens.dms_android.design_system.button.DormButtonColor
+import team.aliens.dms_android.design_system.button.DormContainedLargeButton
+import team.aliens.dms_android.design_system.extension.RatioSpace
+import team.aliens.dms_android.design_system.extension.Space
+import team.aliens.dms_android.design_system.theme.DormTheme
+import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.TopBar
 

@@ -30,10 +30,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.skydoves.landscapist.glide.GlideImage
-import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.modifier.dormClickable
-import team.aliens.design_system.theme.DormTheme
+import team.aliens.dms_android.design_system.button.DormButtonColor
+import team.aliens.dms_android.design_system.button.DormContainedLargeButton
+import team.aliens.dms_android.design_system.modifier.dormClickable
+import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.feature.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.util.SelectImageType

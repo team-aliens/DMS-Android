@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.design_system.R
-import team.aliens.design_system.extension.Space
-import team.aliens.design_system.modifier.dormShadow
-import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Caption
+import team.aliens.dms_android.design_system.extension.Space
+import team.aliens.dms_android.design_system.modifier.dormShadow
+import team.aliens.dms_android.design_system.theme.DormTheme
+import team.aliens.dms_android.design_system.typography.Caption
 
 @Composable
 fun FloatingNotice(
