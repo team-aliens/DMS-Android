@@ -5,6 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,5 +25,11 @@ class MainActivity : ComponentActivity() {
 private fun DmsApp(
     modifier: Modifier = Modifier,
 ) {
-    DmsNavHost(modifier = modifier)
+    // TODO: auto sign in
+    val autoSignIn by remember { mutableStateOf(false) }
+
+    DmsNavHost(
+        modifier = modifier,
+        autoSignIn = autoSignIn,
+    )
 }
