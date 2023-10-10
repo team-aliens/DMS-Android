@@ -3,9 +3,9 @@ package team.aliens.dms_android.feature
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
-import team.aliens.domain.model.student.Features
-import team.aliens.domain.usecase.auth.CheckAutoSignInAvailableUseCase
-import team.aliens.domain.usecase.school.FetchLocalAvailableFeaturesUseCase
+import team.aliens.dms_android.domain.model.student.Features
+import team.aliens.dms_android.domain.usecase.auth.CheckAutoSignInAvailableUseCase
+import team.aliens.dms_android.domain.usecase.school.FetchLocalAvailableFeaturesUseCase
 import javax.inject.Inject
 
 @HiltViewModel

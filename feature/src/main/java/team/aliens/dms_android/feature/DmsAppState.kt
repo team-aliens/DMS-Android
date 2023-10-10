@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import team.aliens.design_system.toast.ToastState
 import team.aliens.design_system.toast.rememberToastState
 import team.aliens.dms_android.feature.common.rememberAvailableFeatures
-import team.aliens.domain.model.student.Features
+import team.aliens.dms_android.domain.model.student.Features
 
 @Composable
 internal fun rememberDmsAppState(
