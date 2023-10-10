@@ -1,6 +1,6 @@
 package team.aliens.dms_android.network.datasource
 
-import team.aliens.data.datasource.remote.RemoteAuthDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteAuthDataSource
 import team.aliens.dms_android.network.apiservice.AuthApiService
 import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.network.model.auth.toData

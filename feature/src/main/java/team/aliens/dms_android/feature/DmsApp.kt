@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import team.aliens.design_system.toast.DormToastLayout
+import team.aliens.dms_android.design_system.toast.DormToastLayout
 import team.aliens.dms_android.feature.common.AvailableFeaturesWrapper
 import team.aliens.dms_android.feature.common.LocalAvailableFeatures
 import team.aliens.dms_android.feature.common.rememberAvailableFeatures

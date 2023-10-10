@@ -4,10 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data.datasource.local.LocalAuthDataSource
-import team.aliens.data.datasource.local.LocalMealDataSource
-import team.aliens.data.datasource.local.LocalNoticeDataSource
-import team.aliens.data.datasource.local.LocalSchoolDataSource
+import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
+import team.aliens.dms_android.data.datasource.local.LocalMealDataSource
+import team.aliens.dms_android.data.datasource.local.LocalNoticeDataSource
+import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms_android.database.datasource.LocalAuthDataSourceImpl
 import team.aliens.dms_android.database.datasource.LocalMealDataSourceImpl
 import team.aliens.dms_android.database.datasource.LocalNoticeDataSourceImpl

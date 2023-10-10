@@ -2,7 +2,7 @@ package team.aliens.dms_android.network.http
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import team.aliens.data.facade.AuthorizationFacade
+import team.aliens.dms_android.data.facade.AuthorizationFacade
 import team.aliens.dms_android.network.common.HttpPath
 import team.aliens.dms_android.network.common.HttpProperty
 import team.aliens.dms_android.network.common.toHttpMethod

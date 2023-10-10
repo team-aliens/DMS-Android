@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data.datasource.local.LocalAuthDataSource
-import team.aliens.data.datasource.local.LocalSchoolDataSource
-import team.aliens.data.facade.AuthorizationFacade
-import team.aliens.data.manager.TokenReissueManager
+import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
+import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
+import team.aliens.dms_android.data.facade.AuthorizationFacade
+import team.aliens.dms_android.data.manager.TokenReissueManager
 import javax.inject.Singleton
 
 @Module

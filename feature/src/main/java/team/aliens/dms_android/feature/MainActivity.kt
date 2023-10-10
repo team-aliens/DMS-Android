@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import dagger.hilt.android.AndroidEntryPoint
-import team.aliens.design_system.theme.DormTheme
+import team.aliens.dms_android.design_system.theme.DormTheme
 
 @AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {

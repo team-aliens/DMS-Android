@@ -33,14 +33,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.design_system.button.DormButtonColor
-import team.aliens.design_system.button.DormContainedLargeButton
-import team.aliens.design_system.color.DormColor
-import team.aliens.design_system.extension.Space
-import team.aliens.design_system.modifier.dormClickable
-import team.aliens.design_system.theme.DormTheme
-import team.aliens.design_system.typography.Body2
-import team.aliens.design_system.typography.Body3
+import team.aliens.dms_android.design_system.button.DormButtonColor
+import team.aliens.dms_android.design_system.button.DormContainedLargeButton
+import team.aliens.dms_android.design_system.color.DormColor
+import team.aliens.dms_android.design_system.extension.Space
+import team.aliens.dms_android.design_system.modifier.dormClickable
+import team.aliens.dms_android.design_system.theme.DormTheme
+import team.aliens.dms_android.design_system.typography.Body2
+import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.feature.component.AppLogo
 import team.aliens.dms_android.feature.R
 

@@ -8,7 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import team.aliens.data.facade.AuthorizationFacade
+import team.aliens.dms_android.data.facade.AuthorizationFacade
 import team.aliens.dms_android.di.BuildConfig
 import team.aliens.dms_android.network.annotation.BaseUrl
 import team.aliens.dms_android.network.annotation.DefaultHttpClient

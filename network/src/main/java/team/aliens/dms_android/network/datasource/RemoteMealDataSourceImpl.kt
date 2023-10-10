@@ -1,6 +1,6 @@
 package team.aliens.dms_android.network.datasource
 
-import team.aliens.data.datasource.remote.RemoteMealDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteMealDataSource
 import team.aliens.dms_android.network.apiservice.MealApiService
 import team.aliens.dms_android.network.model.meal.toDomain
 import team.aliens.dms_android.network.util.sendHttpRequest
