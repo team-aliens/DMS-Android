@@ -12,5 +12,5 @@ object JwtProvider : JwtProviderInjectionDelegation() {
 
 abstract class JwtProviderInjectionDelegation {
     @Inject
-    internal lateinit var jwtStore: JwtStore
+    lateinit var jwtStore: JwtStore
 }
