@@ -7,7 +7,7 @@ import team.aliens.dms_android.core.network.util.toOctetStreamRequestBody
 import java.io.File
 import java.io.IOException
 
-// TODO: consider defining class internal
+// TODO: consider defining class as FileUploadManager
 class FileUploadHttpClient(
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,

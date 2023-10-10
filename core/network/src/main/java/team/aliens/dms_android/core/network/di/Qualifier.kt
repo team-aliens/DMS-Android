@@ -31,9 +31,3 @@ annotation class DefaultHttpLoggingInterceptor
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingLevel
-
-@Qualifier
-@MustBeDocumented
-@Retention(AnnotationRetention.BINARY)
-@Deprecated("make :core:debug module")
-annotation class Debug

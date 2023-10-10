@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.core.network"
+    namespace = "team.aliens.dms_android.core.project"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -45,20 +45,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:project"))
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
-    implementation(libs.javax.inject)
-
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.interceptor.logging)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

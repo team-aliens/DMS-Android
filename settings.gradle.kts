@@ -27,6 +27,7 @@ include(":core:datastore")
 include(":core:ui")
 include(":core:jwt")
 include(":core:network")
+include(":core:project")
 
 include(":data")
 include(":design-system")
