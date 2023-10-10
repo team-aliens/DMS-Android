@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data.manager.TokenReissueManager
+import team.aliens.dms_android.data.manager.TokenReissueManager
 import team.aliens.dms_android.network.http.TokenReissueManagerImpl
 import javax.inject.Singleton
 

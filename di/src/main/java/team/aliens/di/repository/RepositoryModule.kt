@@ -3,7 +3,17 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data.repository.*
+import team.aliens.dms_android.data.repository.AuthRepositoryImpl
+import team.aliens.dms_android.data.repository.FileRepositoryImpl
+import team.aliens.dms_android.data.repository.MealRepositoryImpl
+import team.aliens.dms_android.data.repository.NoticeRepositoryImpl
+import team.aliens.dms_android.data.repository.NotificationRepositoryImpl
+import team.aliens.dms_android.data.repository.PointRepositoryImpl
+import team.aliens.dms_android.data.repository.RemainsRepositoryImpl
+import team.aliens.dms_android.data.repository.SchoolRepositoryImpl
+import team.aliens.dms_android.data.repository.StudentRepositoryImpl
+import team.aliens.dms_android.data.repository.StudyRoomRepositoryImpl
+import team.aliens.dms_android.data.repository.UserRepositoryImpl
 import team.aliens.dms_android.domain.repository.*
 import javax.inject.Singleton
 

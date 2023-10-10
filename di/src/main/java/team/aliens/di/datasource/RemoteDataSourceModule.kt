@@ -3,7 +3,17 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.data.datasource.remote.*
+import team.aliens.dms_android.data.datasource.remote.RemoteAuthDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteFileDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteMealDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteNoticeDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteNotificationDataSource
+import team.aliens.dms_android.data.datasource.remote.RemotePointDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteRemainsDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteSchoolDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteStudentDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteStudyRoomDataSource
+import team.aliens.dms_android.data.datasource.remote.RemoteUserDataSource
 import team.aliens.dms_android.network.datasource.*
 import javax.inject.Singleton
 
