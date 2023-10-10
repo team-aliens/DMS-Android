@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.ui.base.mvi
+package team.aliens.dms_android.core.ui.mvi
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
