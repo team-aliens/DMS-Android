@@ -8,7 +8,9 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms_android.core.jwt.exception.CannotReissueTokenException
+import team.aliens.dms_android.core.jwt.network.model.AuthenticationResponse
 
+// TODO: TokenReissueManager
 internal class TokenReissueHttpClient(
     private val reissueUrl: String,
     private val httpLoggingInterceptor: HttpLoggingInterceptor,

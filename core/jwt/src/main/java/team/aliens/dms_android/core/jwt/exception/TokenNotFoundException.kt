@@ -1,6 +1,8 @@
 package team.aliens.dms_android.core.jwt.exception
 
-sealed class TokenNotFoundException(message: String?) : RuntimeException(message)
+import team.aliens.dms_android.core.datastore.exception.SearchFailureException
+
+sealed class TokenNotFoundException(message: String?) : SearchFailureException(message)
 
 class AccessTokenNotFoundException : TokenNotFoundException("Access token not found")
 
