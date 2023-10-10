@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:project"))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
