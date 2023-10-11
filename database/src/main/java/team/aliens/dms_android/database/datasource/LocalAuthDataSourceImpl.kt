@@ -5,6 +5,8 @@ import team.aliens.dms_android.domain.model.auth.Token
 import team.aliens.dms_android.database.datastore.storage.AuthDataStorage
 import javax.inject.Inject
 
+// TODO: remove
+@Deprecated("No usage")
 class LocalAuthDataSourceImpl @Inject constructor(
     private val authDataStorage: AuthDataStorage,
 ) : LocalAuthDataSource {
