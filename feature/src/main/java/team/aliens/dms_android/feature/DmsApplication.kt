@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature
 
-import android.app.Application
+/*import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import team.aliens.dms_android.feature.handler.initExceptionHandler
 
@@ -10,4 +10,4 @@ class DmsApplication : Application() {
         super.onCreate()
         initExceptionHandler()
     }
-}
+}*/

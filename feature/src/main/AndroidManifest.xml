@@ -6,13 +6,12 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
+<!--
     <application
         android:name=".DmsApplication"
         android:allowBackup="true"
@@ -60,7 +59,7 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_logo_image" />
 
-        <!--<receiver
+        &lt;!&ndash;<receiver
             android:name="team.aliens.dms_android.widget.meal.provider.BigMealWidgetProvider"
             android:enabled="true"
             android:exported="true"
@@ -89,6 +88,6 @@
         <service
             android:name="team.aliens.dms_android.widget.meal.MealService"
             android:exported="true"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />-->
-    </application>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />&ndash;&gt;
+    </application>-->
 </manifest>
