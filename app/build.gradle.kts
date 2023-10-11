@@ -84,7 +84,6 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.composeDestinations)
-    implementation(libs.composeDestinations.animations)
     ksp(libs.composeDestinations.ksp)
 
     implementation(libs.coil.compose)
