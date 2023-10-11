@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+@Deprecated("No usage")
 internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSideEffect>(
     protected val initialState: S,
 ) : ViewModel() {
