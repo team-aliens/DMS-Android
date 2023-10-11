@@ -40,9 +40,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:database"))
+
     implementation(project(":data"))
     implementation(project(":domain"))
-
 
     implementation(libs.threetenbp)
 
