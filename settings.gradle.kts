@@ -33,7 +33,6 @@ include(":core:ui")
 include(":data")
 include(":design-system")
 include(":domain")
-include(":di")
 include(":network")
 include(":database")
 

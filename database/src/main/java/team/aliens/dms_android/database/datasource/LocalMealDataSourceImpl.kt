@@ -1,11 +1,11 @@
 package team.aliens.dms_android.database.datasource
 
+import team.aliens.dms_android.core.database.dao.MealDao
 import team.aliens.dms_android.data.datasource.local.LocalMealDataSource
-import team.aliens.dms_android.domain.model.meal.FetchMealInput
-import team.aliens.dms_android.domain.model.meal.Meal
-import team.aliens.dms_android.database.room.dao.MealDao
 import team.aliens.dms_android.database.room.entity.toData
 import team.aliens.dms_android.database.room.entity.toDomain
+import team.aliens.dms_android.domain.model.meal.FetchMealInput
+import team.aliens.dms_android.domain.model.meal.Meal
 import javax.inject.Inject
 
 class LocalMealDataSourceImpl @Inject constructor(
@@ -25,7 +25,7 @@ class LocalMealDataSourceImpl @Inject constructor(
     override suspend fun saveMeal(
         meal: Meal,
     ) {
-        mealDao.saveOne(
+        mealDao.save(
             mealEntity = meal.toData(),
         )
     }

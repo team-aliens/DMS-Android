@@ -14,6 +14,9 @@ import team.aliens.dms_android.database.datasource.LocalNoticeDataSourceImpl
 import team.aliens.dms_android.database.datasource.LocalSchoolDataSourceImpl
 import javax.inject.Singleton
 
+
+// TODO: remove
+@Deprecated("No usage")
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class LocalDataSourceModule {

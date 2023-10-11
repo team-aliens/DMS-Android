@@ -12,6 +12,8 @@ import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.S
 import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Student.StudyRoomService
 import javax.inject.Inject
 
+// TODO: remove
+@Deprecated("No usage")
 class SchoolDataStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : SchoolDataStorage {

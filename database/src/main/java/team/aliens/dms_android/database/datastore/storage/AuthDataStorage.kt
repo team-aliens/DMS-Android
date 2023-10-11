@@ -2,6 +2,8 @@ package team.aliens.dms_android.database.datastore.storage
 
 import team.aliens.dms_android.domain.model.auth.Token
 
+// TODO: remove
+@Deprecated("No usage")
 interface AuthDataStorage {
 
     suspend fun findToken(): Token

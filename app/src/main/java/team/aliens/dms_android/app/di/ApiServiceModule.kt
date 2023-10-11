@@ -18,6 +18,9 @@ import team.aliens.dms_android.network.apiservice.StudyRoomApiService
 import team.aliens.dms_android.network.apiservice.UserApiService
 import javax.inject.Singleton
 
+
+// TODO: remove
+@Deprecated("No usage")
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiServiceModule {

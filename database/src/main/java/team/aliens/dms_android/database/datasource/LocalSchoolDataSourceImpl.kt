@@ -5,6 +5,8 @@ import team.aliens.dms_android.domain.model.student.Features
 import team.aliens.dms_android.database.datastore.storage.SchoolDataStorage
 import javax.inject.Inject
 
+// TODO: remove
+@Deprecated("No usage")
 class LocalSchoolDataSourceImpl @Inject constructor(
     private val schoolDataStorage: SchoolDataStorage,
 ) : LocalSchoolDataSource {

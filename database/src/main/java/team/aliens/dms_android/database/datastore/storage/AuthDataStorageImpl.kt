@@ -15,6 +15,8 @@ import team.aliens.dms_android.database.util.toDate
 import team.aliens.dms_android.domain.model.auth.Token
 import javax.inject.Inject
 
+// TODO: remove
+@Deprecated("No usage")
 class AuthDataStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : AuthDataStorage {

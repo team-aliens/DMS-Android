@@ -1,11 +1,11 @@
 package team.aliens.dms_android.database.datasource
 
+import team.aliens.dms_android.core.database.dao.NoticeDao
 import team.aliens.dms_android.data.datasource.local.LocalNoticeDataSource
-import team.aliens.dms_android.domain.model.notice.Notice
-import team.aliens.dms_android.database.room.dao.NoticeDao
 import team.aliens.dms_android.database.room.entity.toData
 import team.aliens.dms_android.database.room.entity.toDomain
-import java.util.*
+import team.aliens.dms_android.domain.model.notice.Notice
+import java.util.UUID
 import javax.inject.Inject
 
 class LocalNoticeDataSourceImpl @Inject constructor(
@@ -15,7 +15,7 @@ class LocalNoticeDataSourceImpl @Inject constructor(
     override fun fetchNotice(
         noticeId: UUID,
     ): Notice {
-        return noticeDao.findOne(
+        return noticeDao.findById(
             id = noticeId,
         ).toDomain()
     }
@@ -27,7 +27,7 @@ class LocalNoticeDataSourceImpl @Inject constructor(
     override fun saveNotice(
         notice: Notice,
     ) {
-        noticeDao.saveOne(
+        noticeDao.save(
             noticeEntity = notice.toData(),
         )
     }

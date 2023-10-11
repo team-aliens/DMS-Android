@@ -3,6 +3,8 @@ package team.aliens.dms_android.database.datastore.common
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
+// TODO: remove
+@Deprecated("No usage")
 object DataStoreProperty {
     object DataStore {
         const val Auth = "auth_prefs"
