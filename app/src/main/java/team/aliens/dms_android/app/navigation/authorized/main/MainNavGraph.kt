@@ -11,7 +11,7 @@ import team.aliens.dms_android.feature._feature.destinations.MyPageScreenDestina
 
 object MainNavGraph : NavGraphSpec {
     override val route: String = "main"
-    override val startRoute: Route = HomeScreenDestination
+    override val startRoute: Route = HomeScreenDestination routedIn this
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
         listOf<DestinationSpec<*>>(
             HomeScreenDestination,
