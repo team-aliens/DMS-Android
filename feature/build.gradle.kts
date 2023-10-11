@@ -2,8 +2,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 plugins {
-    // TODO: replace to android library later
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
 
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
@@ -18,13 +17,7 @@ android {
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "team.aliens.dms_android"
-
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-
-        versionCode = 1
-        versionName = "1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
