@@ -1,42 +1,25 @@
 package team.aliens.dms_android.app.navigation
 
-import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
+import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavGraph
+import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavGraph
 
 object DmsNavGraph {
-
     fun root(autoSignIn: Boolean) = object : NavGraphSpec {
         override val route: String = "root"
         override val startRoute: Route = if (autoSignIn) {
-            authorized
+            AuthorizedNavGraph
         } else {
-            unauthorized
+            UnauthorizedNavGraph
         }
+
         override val destinationsByRoute: Map<String, DestinationSpec<*>> = emptyMap()
         override val nestedNavGraphs: List<NavGraphSpec> =
             listOf(
-                authorized,
-                unauthorized,
+                AuthorizedNavGraph,
+                UnauthorizedNavGraph,
             )
-    }
-
-    val authorized = object : NavGraphSpec {
-        override val route: String = "authorized"
-        override val startRoute: Route = TODO()
-        override val destinationsByRoute: Map<String, DestinationSpec<*>> =
-            listOf<DestinationSpec<*>>(/* TODO */)
-                .routedIn(navGraphSpec = this)
-                .associateBy { it.route }
-    }
-
-    val unauthorized = object : NavGraphSpec {
-        override val route: String = "unauthorized"
-        override val startRoute: Route = TODO()
-        override val destinationsByRoute: Map<String, DestinationSpec<*>> =
-            listOf<DestinationSpec<*>>(/* TODO */)
-                .routedIn(navGraphSpec = this)
-                .associateBy { it.route }
     }
 }
