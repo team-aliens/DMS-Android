@@ -6,14 +6,14 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
+import team.aliens.dms_android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms_android.data.manager.TokenReissueManager
-import team.aliens.dms_android.network.annotation.TokenReissueUrl
-import team.aliens.dms_android.network.common.HttpProperty
-import team.aliens.dms_android.network.model._common.AuthenticationResponse
-import team.aliens.dms_android.network.model._common.toDomain
 import team.aliens.dms_android.domain.exception.CommonException
 import team.aliens.dms_android.domain.model._common.AuthenticationOutput
 import team.aliens.dms_android.domain.model.auth.Token
+import team.aliens.dms_android.network.common.HttpProperty
+import team.aliens.dms_android.network.model._common.AuthenticationResponse
+import team.aliens.dms_android.network.model._common.toDomain
 import javax.inject.Inject
 
 class TokenReissueManagerImpl @Inject constructor(
