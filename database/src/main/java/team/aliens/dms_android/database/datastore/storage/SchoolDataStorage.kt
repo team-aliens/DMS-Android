@@ -2,6 +2,8 @@ package team.aliens.dms_android.database.datastore.storage
 
 import team.aliens.dms_android.domain.model.student.Features
 
+// TODO: remove
+@Deprecated("No usage")
 interface SchoolDataStorage {
 
     suspend fun findFeatures(): Features
