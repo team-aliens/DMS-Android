@@ -13,6 +13,9 @@ import team.aliens.dms_android.network.http.IgnoreRequestWrapper
 import team.aliens.dms_android.network.http.TokenReissueManagerImpl
 import javax.inject.Singleton
 
+
+// TODO: remove
+@Deprecated("No usage")
 @Module
 @InstallIn(SingletonComponent::class)
 object GarbageModule {

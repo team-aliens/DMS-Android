@@ -10,6 +10,8 @@ import team.aliens.dms_android.database.datastore.storage.SchoolDataStorage
 import team.aliens.dms_android.database.datastore.storage.SchoolDataStorageImpl
 import javax.inject.Singleton
 
+// TODO: remove
+@Deprecated("No usage")
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataStorageModule {

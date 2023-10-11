@@ -8,6 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
+// TODO: remove
+@Deprecated("No usage")
 @Module
 @InstallIn(SingletonComponent::class)
 object SerializationModule {

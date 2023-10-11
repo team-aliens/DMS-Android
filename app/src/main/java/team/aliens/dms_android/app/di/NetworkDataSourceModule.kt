@@ -28,6 +28,9 @@ import team.aliens.dms_android.network.datasource.RemoteStudyRoomDataSourceImpl
 import team.aliens.dms_android.network.datasource.RemoteUserDataSourceImpl
 import javax.inject.Singleton
 
+
+// TODO: remove
+@Deprecated("No usage")
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class NetworkDataSourceModule {
