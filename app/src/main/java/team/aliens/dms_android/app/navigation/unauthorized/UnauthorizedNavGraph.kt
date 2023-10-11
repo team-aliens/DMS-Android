@@ -8,7 +8,7 @@ import team.aliens.dms_android.feature._feature.destinations.SignInScreenDestina
 
 object UnauthorizedNavGraph : NavGraphSpec {
     override val route: String = "unauthorized"
-    override val startRoute: Route = SignInScreenDestination
+    override val startRoute: Route = SignInScreenDestination routedIn this
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
         listOf<DestinationSpec<*>>(
             SignInScreenDestination,
