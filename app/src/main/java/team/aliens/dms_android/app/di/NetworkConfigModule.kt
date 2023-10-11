@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms_android.network.annotation.BaseUrl
+import team.aliens.dms_android.core.network.di.BaseUrl
 import javax.inject.Singleton
 
 @Module
