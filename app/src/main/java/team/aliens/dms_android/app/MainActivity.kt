@@ -26,7 +26,7 @@ private fun DmsApp(
     modifier: Modifier = Modifier,
 ) {
     // TODO: auto sign in
-    val autoSignIn by remember { mutableStateOf(false) }
+    val autoSignIn by remember { mutableStateOf(true) }
 
     DmsNavHost(
         modifier = modifier,
