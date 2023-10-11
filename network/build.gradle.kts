@@ -59,6 +59,10 @@ android {
 }
 
 dependencies {
+
+    // TODO: also remove dependency when TokenReissueManager is removed from :network
+    implementation(project(":core:jwt"))
+
     implementation(project(":data"))
     implementation(project(":domain"))
 
