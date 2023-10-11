@@ -4,12 +4,15 @@ import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
+import team.aliens.dms_android.feature._feature.destinations.SignInScreenDestination
 
 object UnauthorizedNavGraph : NavGraphSpec {
     override val route: String = "unauthorized"
-    override val startRoute: Route = TODO()
+    override val startRoute: Route = SignInScreenDestination
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
-        listOf<DestinationSpec<*>>(/* TODO */)
+        listOf<DestinationSpec<*>>(
+            SignInScreenDestination,
+        )
             .routedIn(navGraphSpec = this)
             .associateBy { it.route }
 }
