@@ -19,7 +19,7 @@ internal object HttpClientModule {
     @Singleton
     @DefaultHttpClient
     fun provideDefaultHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
+        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient = OkHttpClient(interceptors = arrayOf(httpLoggingInterceptor))
 
     @Provides
