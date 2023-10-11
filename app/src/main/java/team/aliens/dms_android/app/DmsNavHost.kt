@@ -17,8 +17,8 @@ fun DmsNavHost(
     val engine = rememberAnimatedNavHostEngine()
 
     DestinationsNavHost(
-        engine = engine,
         modifier = modifier,
+        engine = engine,
         navGraph = DmsNavGraph.root(autoSignIn = autoSignIn),
     )
 }
