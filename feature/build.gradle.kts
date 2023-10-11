@@ -55,9 +55,6 @@ dependencies {
     implementation(project(":design-system"))
     implementation(project(":domain"))
 
-    // TODO: remove project implementation
-    implementation(project(":di"))
-
     implementation(Dependencies.Android.CoreX)
     implementation(Dependencies.Android.ActivityX)
     implementation(Dependencies.Android.FragmentX)
