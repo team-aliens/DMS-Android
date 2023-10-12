@@ -5,11 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +19,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DmsApp(modifier = Modifier.fillMaxSize())
+            val autoSignIn by viewModel.autoSignInAvailable.collectAsStateWithLifecycle()
+
+            if (autoSignIn != null) {
+                DmsApp(
+                    modifier = Modifier.fillMaxSize(),
+                    autoSignIn = autoSignIn!!,
+                )
+            } else {
+                Text(text = "LOADING, SPLASH")
+            }
         }
     }
 }
@@ -27,10 +36,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun DmsApp(
     modifier: Modifier = Modifier,
+    autoSignIn: Boolean,
 ) {
-    // TODO: auto sign in
-    val autoSignIn by remember { mutableStateOf(true) }
-
     DmsNavHost(
         modifier = modifier,
         autoSignIn = autoSignIn,
