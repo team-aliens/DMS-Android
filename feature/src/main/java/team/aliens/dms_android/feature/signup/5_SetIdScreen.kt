@@ -87,7 +87,7 @@ internal fun SetIdScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SetId.SuccessVerifyStudent -> {
-                    navigator.openSetPassword()
+                    navigator.openSignUpSetPassword()
                 }
 
                 is SignUpSideEffect.SetId.NotFoundStudent -> {

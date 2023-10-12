@@ -55,7 +55,7 @@ internal fun SignUpSetPasswordScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SetPassword.SuccessCheckPassword -> {
-                    navigator.openSetProfile()
+                    navigator.openSetProfileImage()
                 }
 
                 else -> {}

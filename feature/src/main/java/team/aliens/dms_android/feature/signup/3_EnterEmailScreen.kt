@@ -92,7 +92,7 @@ internal fun EnterEmailScreen(
                 }
 
                 is SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode -> {
-                    navigator.openEnterEmailVerificationCode()
+                    navigator.openSignUpEnterEmailVerificationCode()
                 }
 
                 else -> {}
