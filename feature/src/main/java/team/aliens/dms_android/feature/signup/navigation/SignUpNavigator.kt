@@ -4,7 +4,8 @@ interface SignUpNavigator {
     fun openEnterSchoolVerificationQuestion()
     fun openEnterEmail(clearStack: Boolean = false)
     fun openSignIn()
-    fun openEnterEmailVerificationCode()
+    fun openSignUpEnterEmailVerificationCode()
     fun openSetId()
-    fun openSetPassword()
+    fun openSignUpSetPassword()
+    fun openSetProfile()
 }
