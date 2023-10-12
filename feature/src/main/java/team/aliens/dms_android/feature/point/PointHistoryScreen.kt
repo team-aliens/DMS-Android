@@ -49,7 +49,7 @@ internal fun PointHistoryScreen(
     val selectedType = uiState.selectedType
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
     ) {
