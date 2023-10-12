@@ -33,13 +33,13 @@ import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.Now
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature._legacy.util.toDate
-import team.aliens.dms_android.feature.notification.navigation.NotificationBoxNavigator
+import team.aliens.dms_android.feature.notification.navigation.NotificationNavigation
 
 @Destination
 @Composable
 internal fun NotificationBoxScreen(
     modifier: Modifier = Modifier,
-    navigator: NotificationBoxNavigator,
+    navigator: NotificationNavigation,
     notificationBoxViewModel: NotificationBoxViewModel = hiltViewModel(),
 ) {
     val uiState by notificationBoxViewModel.stateFlow.collectAsStateWithLifecycle()

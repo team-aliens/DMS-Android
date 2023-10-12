@@ -1,5 +1,5 @@
 package team.aliens.dms_android.feature.notification.navigation
 
-interface NotificationBoxNavigator {
+interface NotificationNavigation {
     fun popBackStack()
 }
