@@ -11,6 +11,8 @@ interface MainNavigator {
     fun openStudyRoomList()
     fun openRemainsApplication()
     fun openNotificationBox()
+    fun openPointHistory()
+    fun openEditPassword()
 
     fun switchNavGraphRoot()
 }
