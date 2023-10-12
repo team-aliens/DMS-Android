@@ -5,6 +5,7 @@ import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
 import team.aliens.dms_android.app.navigation.authorized.main.MainNavGraph
+import team.aliens.dms_android.feature.editpassword.EditPasswordNavGraph
 
 object AuthorizedNavGraph : NavGraphSpec {
     override val route: String = "authorized"
@@ -12,6 +13,7 @@ object AuthorizedNavGraph : NavGraphSpec {
     override val nestedNavGraphs: List<NavGraphSpec> =
         listOf(
             MainNavGraph,
+            EditPasswordNavGraph,
         )
 
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
