@@ -51,10 +51,10 @@ import team.aliens.dms_android.design_system.toast.rememberToast
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.ButtonText
 import team.aliens.dms_android.design_system.typography.Title3
-import team.aliens.dms_android.feature._legacy.FloatingNotice
-import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.FloatingNotice
+import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature.studyroom.navigation.StudyRoomNavigator
 import java.util.UUID
 
@@ -62,11 +62,7 @@ import java.util.UUID
 @Composable
 fun StudyRoomListScreen(
     modifier: Modifier = Modifier,
-    navigator:StudyRoomNavigator,
-    onNavigateToStudyRoomDetails: (
-        studyRoomId: UUID,
-        timeslot: UUID,
-    ) -> Unit,
+    navigator: StudyRoomNavigator,
     studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {
 
@@ -233,9 +229,9 @@ fun StudyRoomListScreen(
             ListStudyRooms(
                 studyRooms = studyRoomState.studyRooms,
                 onClick = { seatId -> // todo refactor
-                    onNavigateToStudyRoomDetails(
-                        seatId,
-                        studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
+                    navigator.openStudyRoomDetails(
+                        studyRoomId = seatId,
+                        timeslot = studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
                     )
                 },
             )
