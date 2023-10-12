@@ -42,9 +42,10 @@ import team.aliens.dms_android.design_system.toast.rememberToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Body4
 import team.aliens.dms_android.design_system.typography.Caption
-import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature._legacy.util.TopBar
+import team.aliens.dms_android.feature.resetpassword.navigation.ResetPasswordNavigator
 import java.util.regex.Pattern
 
 @Suppress("ConstPropertyName")
@@ -53,8 +54,8 @@ private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+
 @Destination
 @Composable
 fun ResetPasswordSetPasswordScreen(
-    onPrevious: () -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: ResetPasswordNavigator,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
 
@@ -101,7 +102,7 @@ fun ResetPasswordSetPasswordScreen(
 
         TopBar(
             title = stringResource(R.string.ChangePassword),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
 
         if (isShowDialog) {
@@ -111,7 +112,7 @@ fun ResetPasswordSetPasswordScreen(
                 DormSingleButtonDialog(
                     content = stringResource(id = R.string.SuccessChangePassword),
                     mainBtnText = stringResource(id = R.string.GoLogin),
-                    onMainBtnClick = onNavigateToSignIn,
+                    onMainBtnClick = navigator::openSignIn,
                     mainBtnTextColor = DormColor.DormPrimary,
                 )
             }
@@ -140,7 +141,7 @@ fun ResetPasswordSetPasswordScreen(
                     content = stringResource(id = R.string.FinishResetPassword),
                     mainBtnText = stringResource(id = R.string.Yes),
                     subBtnText = stringResource(id = R.string.No),
-                    onMainBtnClick = onNavigateToSignIn,
+                    onMainBtnClick = navigator::openSignIn,
                     onSubBtnClick = { isPressedBackButton = false },
                 )
             }
@@ -151,7 +152,7 @@ fun ResetPasswordSetPasswordScreen(
                 when (it) {
                     is ChangePasswordViewModel.Event.ResetPasswordSuccess -> {
                         toast(context.getString(R.string.SuccessResetPassword))
-                        onNavigateToSignIn()
+                        navigator.openSignIn()
                     }
 
                     else -> {
