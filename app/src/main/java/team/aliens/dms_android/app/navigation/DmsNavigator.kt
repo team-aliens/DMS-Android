@@ -60,6 +60,10 @@ class DmsNavigatorImpl @Inject constructor() : DmsNavigator {
         TODO("Not yet implemented")
     }
 
+    override fun openEditProfileImage() {
+        TODO("Not yet implemented")
+    }
+
     override fun switchNavGraphRoot() {
         TODO("Not yet implemented")
     }
