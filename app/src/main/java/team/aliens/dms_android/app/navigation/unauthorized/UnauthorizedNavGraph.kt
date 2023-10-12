@@ -6,6 +6,7 @@ import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
 import team.aliens.dms_android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms_android.feature.destinations.SignInScreenDestination
+import team.aliens.dms_android.feature.resetpassword.ResetPasswordNavGraph
 import team.aliens.dms_android.feature.signup.SignUpNavGraph
 
 object UnauthorizedNavGraph : NavGraphSpec {
@@ -14,6 +15,7 @@ object UnauthorizedNavGraph : NavGraphSpec {
     override val nestedNavGraphs: List<NavGraphSpec> =
         listOf(
             SignUpNavGraph,
+            ResetPasswordNavGraph,
         )
 
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
