@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature.editpassword
+/*
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -33,3 +34,4 @@ internal fun NavGraphBuilder.editPasswordNavigation(
         }
     }
 }
+*/

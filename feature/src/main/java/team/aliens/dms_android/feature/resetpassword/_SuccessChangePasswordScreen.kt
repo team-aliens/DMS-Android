@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature.resetpassword
+/*
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -58,3 +59,4 @@ fun SuccessChangePasswordScreen(
         }
     }
 }
+*/

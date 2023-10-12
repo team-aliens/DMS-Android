@@ -1,4 +1,4 @@
-package team.aliens.dms_android.app.navigation.authorized.main
+package team.aliens.dms_android.feature.main.navigation
 
 import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec

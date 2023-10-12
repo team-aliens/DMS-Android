@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.resetpassword
+package team.aliens.dms_android.feature.resetpassword.navigation
 
 import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
@@ -17,6 +17,6 @@ object ResetPasswordNavGraph : NavGraphSpec {
             ResetPasswordEnterEmailVerificationCodeScreenDestination,
             ResetPasswordSetPasswordScreenDestination,
         )
-            .routedIn(this)
+            .routedIn(navGraphSpec = this)
             .associateBy { it.route }
 }

@@ -1,3 +1,4 @@
+/*
 package team.aliens.dms_android.feature.main
 
 import androidx.navigation.NavGraphBuilder
@@ -156,3 +157,4 @@ internal fun NavGraphBuilder.mainNavigation(
         )
     }
 }
+*/

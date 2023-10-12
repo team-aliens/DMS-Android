@@ -53,7 +53,7 @@ import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Application
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Home
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.MyPage
 import team.aliens.dms_android.feature.main.NavigationItemsWrapper.navigationItems
-import team.aliens.dms_android.feature.main.announcements.AnnouncementListScreen
+import team.aliens.dms_android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms_android.feature.main.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.HomeScreen
 import team.aliens.dms_android.feature.main.mypage.MyPageScreen

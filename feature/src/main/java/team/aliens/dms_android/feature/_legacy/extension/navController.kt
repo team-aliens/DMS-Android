@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature._legacy.extension
+/*
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -191,3 +192,4 @@ internal fun NavHostController.navigateToSetProfile(){
 internal fun NavHostController.navigateToTerms(){
     this.navigateSingleTop(SignUpNavigation.Terms)
 }
+*/

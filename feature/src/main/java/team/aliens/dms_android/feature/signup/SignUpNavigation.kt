@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature.signup
+/*
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
@@ -167,3 +168,4 @@ private fun NavGraphBuilder.setUserInformationNavigation(
     }
 }
 
+*/

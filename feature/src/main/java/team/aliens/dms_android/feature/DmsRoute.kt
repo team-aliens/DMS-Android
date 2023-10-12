@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature
+/*
 
 sealed class DmsRoute(
     val route: String,
@@ -41,3 +42,4 @@ sealed class DmsRoute(
         const val UserVerification = "userVerification"
     }
 }
+*/
