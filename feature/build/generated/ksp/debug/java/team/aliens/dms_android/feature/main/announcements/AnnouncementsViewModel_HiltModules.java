@@ -12,8 +12,6 @@ import dagger.hilt.codegen.OriginatingElement;
 import dagger.multibindings.IntoMap;
 import dagger.multibindings.IntoSet;
 import dagger.multibindings.StringKey;
-import team.aliens.dms_android.feature.main.announcements.AnnouncementsViewModel;
-
 import java.lang.String;
 import javax.annotation.processing.Generated;
 

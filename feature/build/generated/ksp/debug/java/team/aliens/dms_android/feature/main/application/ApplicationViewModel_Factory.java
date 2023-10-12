@@ -8,7 +8,6 @@ import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 import team.aliens.dms_android.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase;
 import team.aliens.dms_android.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase;
-import team.aliens.dms_android.feature.main.application.ApplicationViewModel;
 
 @ScopeMetadata
 @QualifierMetadata

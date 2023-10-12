@@ -7,7 +7,6 @@ import dagger.internal.ScopeMetadata;
 import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 import team.aliens.dms_android.domain.usecase.notice.FetchNoticesUseCase;
-import team.aliens.dms_android.feature.main.announcements.AnnouncementsViewModel;
 
 @ScopeMetadata
 @QualifierMetadata
