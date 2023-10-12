@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import team.aliens.dms_android.feature._legacy.Extra
 import team.aliens.dms_android.domain.model.student.Features
 
 internal val LocalAvailableFeatures = compositionLocalOf { AvailableFeaturesWrapper }

@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import team.aliens.dms_android.design_system.toast.ToastState
 import team.aliens.dms_android.design_system.toast.rememberToastState
-import team.aliens.dms_android.feature._legacy.rememberAvailableFeatures
 import team.aliens.dms_android.domain.model.student.Features
 
 @Composable

@@ -4,11 +4,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import java.util.UUID
-import team.aliens.dms_android.feature._feature.AuthNavigation
-import team.aliens.dms_android.feature._feature.resetpassword.ResetPasswordNavigation
-import team.aliens.dms_android.feature._feature.MainNavigation
-import team.aliens.dms_android.feature._feature.editpassword.EditPasswordNavigation
-import team.aliens.dms_android.feature._feature.signup.SignUpNavigation
+import team.aliens.dms_android.feature.AuthNavigation
+import team.aliens.dms_android.feature.resetpassword.ResetPasswordNavigation
+import team.aliens.dms_android.feature.MainNavigation
+import team.aliens.dms_android.feature.editpassword.EditPasswordNavigation
+import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature._legacy.util.SelectImageType
 
 internal infix fun String.appendNavArgumentName(value: String): String {
