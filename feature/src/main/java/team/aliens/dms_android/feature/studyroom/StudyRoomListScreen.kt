@@ -59,7 +59,7 @@ import java.util.UUID
 
 @Destination
 @Composable
-fun StudyRoomsScreen(
+fun StudyRoomListScreen(
     onPrevious: () -> Unit,
     onNavigateToStudyRoomDetails: (
         studyRoomId: UUID,

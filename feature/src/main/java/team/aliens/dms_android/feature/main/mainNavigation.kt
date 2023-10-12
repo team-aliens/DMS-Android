@@ -14,7 +14,7 @@ import team.aliens.dms_android.feature.notificationbox.NotificationBoxScreen
 import team.aliens.dms_android.feature.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature.studyroom.StudyRoomDetailsScreen
-import team.aliens.dms_android.feature.studyroom.StudyRoomsScreen
+import team.aliens.dms_android.feature.studyroom.StudyRoomListScreen
 import team.aliens.dms_android.feature._legacy.util.SelectImageType
 
 internal object MainNavigation {
@@ -73,7 +73,7 @@ internal fun NavGraphBuilder.mainNavigation(
             )
         }
         composable(MainNavigation.StudyRooms) {
-            StudyRoomsScreen(
+            StudyRoomListScreen(
                 onPrevious = onPrevious,
                 onNavigateToStudyRoomDetails = onNavigateToStudyRoomDetails,
             )
