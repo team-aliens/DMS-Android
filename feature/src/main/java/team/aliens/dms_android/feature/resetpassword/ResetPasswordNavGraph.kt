@@ -17,6 +17,6 @@ object ResetPasswordNavGraph : NavGraphSpec {
             ResetPasswordEnterEmailVerificationCodeScreenDestination,
             ResetPasswordSetPasswordScreenDestination,
         )
-            .routedIn(this)
+            .routedIn(navGraphSpec = this)
             .associateBy { it.route }
 }

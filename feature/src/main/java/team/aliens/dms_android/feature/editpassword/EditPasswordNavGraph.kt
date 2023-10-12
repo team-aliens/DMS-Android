@@ -15,6 +15,6 @@ object EditPasswordNavGraph : NavGraphSpec {
             ConfirmPasswordScreenDestination,
             EditPasswordSetPasswordScreenDestination,
         )
-            .routedIn(this)
+            .routedIn(navGraphSpec = this)
             .associateBy { it.route }
 }
