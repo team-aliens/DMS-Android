@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.notificationbox
+package team.aliens.dms_android.feature.notification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,7 @@ import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.Now
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature._legacy.util.toDate
-import team.aliens.dms_android.feature.notificationbox.navigation.NotificationBoxNavigator
+import team.aliens.dms_android.feature.notification.navigation.NotificationBoxNavigator
 
 @Destination
 @Composable

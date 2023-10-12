@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.notificationbox
+package team.aliens.dms_android.feature.notification
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
