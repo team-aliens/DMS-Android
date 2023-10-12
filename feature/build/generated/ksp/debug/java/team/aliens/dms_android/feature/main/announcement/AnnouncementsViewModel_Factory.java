@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.announcements;
+package team.aliens.dms_android.feature.main.announcement;
 
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
