@@ -7,10 +7,13 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature._legacy.base.BaseViewModel2
 import team.aliens.dms_android.feature._legacy.util.extractHourFromDate
 import team.aliens.dms_android.domain.exception.RemoteException
+import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsInput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsOutput
 import team.aliens.dms_android.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomsUseCase
+import team.aliens.dms_android.feature._legacy.base.UiState
 import java.util.UUID
 import javax.inject.Inject
 
@@ -127,5 +130,48 @@ class StudyRoomListViewModel @Inject constructor(
                 )
             }
         }
+    }
+}
+
+data class StudyRoomListUiState(
+    var startAt: String = "",
+    var endAt: String = "",
+    var studyRooms: List<StudyRoomInformation> = emptyList(),
+    var studyRoomAvailableTime: List<FetchAvailableStudyRoomTimesOutput.TimeSlotInformation> = emptyList(),
+    var timeSlot: UUID? = null,
+    var hasApplyTime: Boolean = false,
+) : UiState
+
+data class StudyRoomInformation(
+    val roomId: UUID,
+    val position: String,
+    val title: String,
+    val currentNumber: Int,
+    val isMine: Boolean,
+    val maxNumber: Int,
+    val condition: String,
+)
+
+internal fun FetchStudyRoomsOutput.StudyRoomInformation?.toInformation(): StudyRoomInformation {
+    requireNotNull(this)
+
+    val grade = if (availableGrade == 0) "모든" else availableGrade
+
+    return StudyRoomInformation(
+        roomId = id,
+        position = "${floor}층",
+        title = name,
+        currentNumber = inUseHeadcount,
+        isMine = isMine,
+        maxNumber = totalAvailableSeat,
+        condition = "${grade}학년 ${availableSex.koreanValue}",
+    )
+}
+
+internal fun List<FetchStudyRoomsOutput.StudyRoomInformation?>.toInformation(): List<StudyRoomInformation> {
+    return if (this.isNotEmpty()) {
+        this.map { it.toInformation() }
+    } else {
+        return emptyList()
     }
 }
