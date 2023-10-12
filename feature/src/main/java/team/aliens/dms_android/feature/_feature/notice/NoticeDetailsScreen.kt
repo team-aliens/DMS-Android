@@ -26,7 +26,7 @@ import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Title3
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._feature.main.announcements.toNoticeDate
-import team.aliens.dms_android.feature.util.TopBar
+import team.aliens.dms_android.feature._legacy.util.TopBar
 import java.util.UUID
 
 @Destination

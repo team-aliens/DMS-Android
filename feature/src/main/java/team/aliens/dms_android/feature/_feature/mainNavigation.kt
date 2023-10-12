@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import java.util.UUID
-import team.aliens.dms_android.feature.extension.appendNavArgumentName
+import team.aliens.dms_android.feature._legacy.extension.appendNavArgumentName
 import team.aliens.dms_android.feature._feature.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature._feature.main.Home
 import team.aliens.dms_android.feature._feature.notice.NoticeDetailsScreen
@@ -16,7 +16,7 @@ import team.aliens.dms_android.feature._feature.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature._feature.remains.RemainsApplicationScreen
 import team.aliens.dms_android.feature._feature.studyroom.StudyRoomDetailsScreen
 import team.aliens.dms_android.feature._feature.studyroom.StudyRoomsScreen
-import team.aliens.dms_android.feature.util.SelectImageType
+import team.aliens.dms_android.feature._legacy.util.SelectImageType
 
 internal object MainNavigation {
     const val route = "main"

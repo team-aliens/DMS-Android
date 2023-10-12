@@ -47,7 +47,7 @@ import team.aliens.dms_android.design_system.animation.slideOutFromStart
 import team.aliens.dms_android.design_system.component.DormCalendarLayout
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.BottomNavItemLabel
-import team.aliens.dms_android.feature.common.LocalAvailableFeatures
+import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
 import team.aliens.dms_android.feature._feature.main.HomeBottomNavigationItem.Announcement
 import team.aliens.dms_android.feature._feature.main.HomeBottomNavigationItem.Application
 import team.aliens.dms_android.feature._feature.main.HomeBottomNavigationItem.Home
@@ -57,8 +57,8 @@ import team.aliens.dms_android.feature._feature.main.announcements.AnnouncementL
 import team.aliens.dms_android.feature._feature.main.application.ApplicationScreen
 import team.aliens.dms_android.feature._feature.main.home.HomeScreen
 import team.aliens.dms_android.feature._feature.main.mypage.MyPageScreen
-import team.aliens.dms_android.feature.util.Now
-import team.aliens.dms_android.feature.util.OneDay
+import team.aliens.dms_android.feature._legacy.util.Now
+import team.aliens.dms_android.feature._legacy.util.OneDay
 import java.util.Date
 import java.util.UUID
 

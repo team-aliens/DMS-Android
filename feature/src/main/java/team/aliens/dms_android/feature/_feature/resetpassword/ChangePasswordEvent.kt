@@ -1,6 +1,6 @@
 package team.aliens.dms_android.feature._feature.resetpassword
 
-import team.aliens.dms_android.feature.base.MviEvent
+import team.aliens.dms_android.feature._legacy.base.MviEvent
 
 sealed class ChangePasswordEvent : MviEvent {
     object ChangePasswordSuccess : ChangePasswordEvent()

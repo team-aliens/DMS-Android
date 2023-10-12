@@ -68,9 +68,9 @@ import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Body5
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Title1
-import team.aliens.dms_android.feature.component.AppLogo
-import team.aliens.dms_android.feature.component.FloatingNotice
-import team.aliens.dms_android.feature.component.listFadeBrush
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature._legacy.FloatingNotice
+import team.aliens.dms_android.feature._legacy.listFadeBrush
 import team.aliens.dms_android.feature._feature.main.home.MealCardType.BREAKFAST
 import team.aliens.dms_android.feature._feature.main.home.MealCardType.DINNER
 import team.aliens.dms_android.feature._feature.main.home.MealCardType.LUNCH

@@ -34,10 +34,10 @@ import team.aliens.dms_android.design_system.button.DormButtonColor
 import team.aliens.dms_android.design_system.button.DormContainedLargeButton
 import team.aliens.dms_android.design_system.modifier.dormClickable
 import team.aliens.dms_android.design_system.theme.DormTheme
-import team.aliens.dms_android.feature.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms_android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.feature.util.SelectImageType
-import team.aliens.dms_android.feature.util.TopBar
+import team.aliens.dms_android.feature._legacy.util.SelectImageType
+import team.aliens.dms_android.feature._legacy.util.TopBar
 
 @Destination
 @Composable

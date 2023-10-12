@@ -15,8 +15,8 @@ import team.aliens.dms_android.design_system.extension.Space
 import team.aliens.dms_android.design_system.textfield.DormTextField
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Body4
-import team.aliens.dms_android.feature.component.AppLogo
-import team.aliens.dms_android.feature.util.TopBar
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature.R
 
 @Deprecated("no usage")

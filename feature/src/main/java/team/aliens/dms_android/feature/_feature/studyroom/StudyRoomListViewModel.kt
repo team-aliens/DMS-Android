@@ -4,13 +4,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.base.BaseViewModel2
-import team.aliens.dms_android.feature.util.extractHourFromDate
+import team.aliens.dms_android.feature._legacy.base.BaseViewModel2
+import team.aliens.dms_android.feature._legacy.util.extractHourFromDate
 import team.aliens.dms_android.domain.exception.RemoteException
 import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsInput
 import team.aliens.dms_android.domain.usecase.studyroom.FetchAvailableStudyRoomTimesUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomsUseCase
+import team.aliens.dms_android.feature._legacy.base.UiEvent
 import java.util.UUID
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ class StudyRoomListViewModel @Inject constructor(
         fetchApplyTime()
     }
 
-    sealed class UiEvent : team.aliens.dms_android.feature.base.UiEvent {
+    sealed class UiEvent : team.aliens.dms_android.feature._legacy.base.UiEvent {
 
         data class FetchStudyRooms(
             val timeSlot: UUID,

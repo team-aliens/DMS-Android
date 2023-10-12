@@ -37,7 +37,7 @@ import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Body1
 import team.aliens.dms_android.design_system.typography.Body5
 import team.aliens.dms_android.design_system.typography.SubTitle2
-import team.aliens.dms_android.feature.component.listFadeBrush
+import team.aliens.dms_android.feature._legacy.listFadeBrush
 import team.aliens.dms_android.feature.R
 
 private sealed class ApplicationCardItem(

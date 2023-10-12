@@ -6,8 +6,8 @@ import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.base.BaseViewModel2
-import team.aliens.dms_android.feature.util.extractHourFromDate
+import team.aliens.dms_android.feature._legacy.base.BaseViewModel2
+import team.aliens.dms_android.feature._legacy.util.extractHourFromDate
 import team.aliens.dms_android.domain.exception.RemoteException
 import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
 import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
@@ -19,6 +19,7 @@ import team.aliens.dms_android.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.base.UiEvent
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +31,7 @@ class StudyRoomDetailsViewModel @Inject constructor(
     private val fetchSeatTypeUseCase: FetchSeatTypesUseCase,
 ) : BaseViewModel2<StudyRoomDetailUiState, StudyRoomDetailsViewModel.UiEvent>() {
 
-    sealed class UiEvent : team.aliens.dms_android.feature.base.UiEvent {
+    sealed class UiEvent : team.aliens.dms_android.feature._legacy.base.UiEvent {
 
         class ApplySeat(
             val seat: String,

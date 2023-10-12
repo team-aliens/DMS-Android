@@ -38,7 +38,7 @@ import team.aliens.dms_android.design_system.toast.LocalToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.ButtonText
-import team.aliens.dms_android.feature.component.AppLogo
+import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
 
 @Destination

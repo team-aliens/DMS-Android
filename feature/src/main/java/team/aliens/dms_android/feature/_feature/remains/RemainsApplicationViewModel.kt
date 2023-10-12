@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.base.MviViewModel
-import team.aliens.dms_android.feature.base.UiEvent
-import team.aliens.dms_android.feature.base.UiState
+import team.aliens.dms_android.feature._legacy.base.MviViewModel
+import team.aliens.dms_android.feature._legacy.base.UiEvent
+import team.aliens.dms_android.feature._legacy.base.UiState
 import team.aliens.dms_android.domain.model.remains.CurrentAppliedRemainsOption
 import team.aliens.dms_android.domain.model.remains.RemainsApplicationTime
 import team.aliens.dms_android.domain.model.remains.RemainsOption

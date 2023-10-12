@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature._feature.studyroom
 
 import java.util.UUID
-import team.aliens.dms_android.feature.base.UiState
+import team.aliens.dms_android.feature._legacy.base.UiState
 import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsOutput
 

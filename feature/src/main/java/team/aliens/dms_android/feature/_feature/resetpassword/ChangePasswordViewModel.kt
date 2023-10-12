@@ -3,9 +3,9 @@ package team.aliens.dms_android.feature._feature.resetpassword
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.base.BaseViewModel1
-import team.aliens.dms_android.feature.util.MutableEventFlow
-import team.aliens.dms_android.feature.util.asEventFlow
+import team.aliens.dms_android.feature._legacy.base.BaseViewModel1
+import team.aliens.dms_android.feature._legacy.util.MutableEventFlow
+import team.aliens.dms_android.feature._legacy.util.asEventFlow
 import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
 import team.aliens.dms_android.domain.model.student.ResetPasswordInput
 import team.aliens.dms_android.domain.model.user.ComparePasswordInput

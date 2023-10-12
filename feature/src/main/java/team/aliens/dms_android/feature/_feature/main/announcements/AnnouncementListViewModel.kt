@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.base.BaseMviViewModel
-import team.aliens.dms_android.feature.base.MviIntent
-import team.aliens.dms_android.feature.base.MviSideEffect
-import team.aliens.dms_android.feature.base.MviState
+import team.aliens.dms_android.feature._legacy.base.BaseMviViewModel
+import team.aliens.dms_android.feature._legacy.base.MviIntent
+import team.aliens.dms_android.feature._legacy.base.MviSideEffect
+import team.aliens.dms_android.feature._legacy.base.MviState
 import team.aliens.dms_android.domain.model._common.Order
 import team.aliens.dms_android.domain.model.notice.FetchNoticesInput
 import team.aliens.dms_android.domain.model.notice.Notice

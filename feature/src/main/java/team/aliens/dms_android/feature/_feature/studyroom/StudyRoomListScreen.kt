@@ -51,9 +51,9 @@ import team.aliens.dms_android.design_system.toast.rememberToast
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.ButtonText
 import team.aliens.dms_android.design_system.typography.Title3
-import team.aliens.dms_android.feature.component.FloatingNotice
+import team.aliens.dms_android.feature._legacy.FloatingNotice
 import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.feature.util.TopBar
+import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import java.util.UUID
 

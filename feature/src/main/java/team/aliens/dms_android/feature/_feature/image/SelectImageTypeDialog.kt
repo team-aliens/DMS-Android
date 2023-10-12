@@ -13,7 +13,7 @@ import team.aliens.dms_android.design_system.dialog.DormBottomAlignedSingleButto
 import team.aliens.dms_android.design_system.dialog.DormCustomDialog
 import team.aliens.dms_android.design_system.icon.DormIcon
 import team.aliens.dms_android.design_system.toast.rememberToast
-import team.aliens.dms_android.feature.component.GettingImageOptionItem
+import team.aliens.dms_android.feature._legacy.GettingImageOptionItem
 import team.aliens.dms_android.feature.R
 
 @Composable

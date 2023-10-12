@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.util.MutableEventFlow
-import team.aliens.dms_android.feature.util.asEventFlow
+import team.aliens.dms_android.feature._legacy.util.MutableEventFlow
+import team.aliens.dms_android.feature._legacy.util.asEventFlow
 import team.aliens.dms_android.domain.model._common.EmailVerificationType
 import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput

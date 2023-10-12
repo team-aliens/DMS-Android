@@ -11,10 +11,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.feature.base.BaseMviViewModel
-import team.aliens.dms_android.feature.base.MviIntent
-import team.aliens.dms_android.feature.base.MviSideEffect
-import team.aliens.dms_android.feature.base.MviState
+import team.aliens.dms_android.feature._legacy.base.BaseMviViewModel
+import team.aliens.dms_android.feature._legacy.base.MviIntent
+import team.aliens.dms_android.feature._legacy.base.MviSideEffect
+import team.aliens.dms_android.feature._legacy.base.MviState
 import team.aliens.dms_android.domain.exception.RemoteException
 import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.dms_android.domain.model._common.EmailVerificationType
