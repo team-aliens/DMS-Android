@@ -12,6 +12,7 @@ object UnauthorizedNavGraph : NavGraphSpec {
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
         listOf<DestinationSpec<*>>(
             SignInScreenDestination,
+            SignUpNavGraph,
         )
             .routedIn(navGraphSpec = this)
             .associateBy { it.route }

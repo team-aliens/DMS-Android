@@ -1,6 +1,6 @@
 @file:Suppress("ConstPropertyName")
 
-package team.aliens.dms_android.feature.home
+package team.aliens.dms_android.feature.main.home
 
 import android.content.Context
 import android.os.Vibrator
@@ -71,9 +71,9 @@ import team.aliens.dms_android.design_system.typography.Title1
 import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature._legacy.FloatingNotice
 import team.aliens.dms_android.feature._legacy.listFadeBrush
-import team.aliens.dms_android.feature.home.MealCardType.BREAKFAST
-import team.aliens.dms_android.feature.home.MealCardType.DINNER
-import team.aliens.dms_android.feature.home.MealCardType.LUNCH
+import team.aliens.dms_android.feature.main.home.MealCardType.BREAKFAST
+import team.aliens.dms_android.feature.main.home.MealCardType.DINNER
+import team.aliens.dms_android.feature.main.home.MealCardType.LUNCH
 import team.aliens.dms_android.feature.R
 import java.util.Calendar
 import java.util.Date

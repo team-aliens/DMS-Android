@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature
+package team.aliens.dms_android.feature.main
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -48,15 +48,15 @@ import team.aliens.dms_android.design_system.component.DormCalendarLayout
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
-import team.aliens.dms_android.feature.HomeBottomNavigationItem.Announcement
-import team.aliens.dms_android.feature.HomeBottomNavigationItem.Application
-import team.aliens.dms_android.feature.HomeBottomNavigationItem.Home
-import team.aliens.dms_android.feature.HomeBottomNavigationItem.MyPage
-import team.aliens.dms_android.feature.NavigationItemsWrapper.navigationItems
-import team.aliens.dms_android.feature.announcements.AnnouncementListScreen
-import team.aliens.dms_android.feature.application.ApplicationScreen
-import team.aliens.dms_android.feature.home.HomeScreen
-import team.aliens.dms_android.feature.mypage.MyPageScreen
+import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Announcement
+import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Application
+import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Home
+import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.MyPage
+import team.aliens.dms_android.feature.main.NavigationItemsWrapper.navigationItems
+import team.aliens.dms_android.feature.main.announcements.AnnouncementListScreen
+import team.aliens.dms_android.feature.main.application.ApplicationScreen
+import team.aliens.dms_android.feature.main.home.HomeScreen
+import team.aliens.dms_android.feature.main.mypage.MyPageScreen
 import team.aliens.dms_android.feature._legacy.util.Now
 import team.aliens.dms_android.feature._legacy.util.OneDay
 import java.util.Date

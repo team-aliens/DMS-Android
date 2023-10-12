@@ -6,7 +6,7 @@ import androidx.navigation.NavOptionsBuilder
 import java.util.UUID
 import team.aliens.dms_android.feature.AuthNavigation
 import team.aliens.dms_android.feature.resetpassword.ResetPasswordNavigation
-import team.aliens.dms_android.feature.MainNavigation
+import team.aliens.dms_android.feature.main.MainNavigation
 import team.aliens.dms_android.feature.editpassword.EditPasswordNavigation
 import team.aliens.dms_android.feature.signup.SignUpNavigation
 import team.aliens.dms_android.feature._legacy.util.SelectImageType

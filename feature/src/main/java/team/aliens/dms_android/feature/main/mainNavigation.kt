@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature
+package team.aliens.dms_android.feature.main
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
