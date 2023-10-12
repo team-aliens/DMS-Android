@@ -36,14 +36,15 @@ import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.LocalToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Caption
-import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
 @Composable
 internal fun TermsScreen(
-    onNavigateToTerms: () -> Unit,
-    onNavigateToSignInWithInclusive: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -89,7 +90,7 @@ internal fun TermsScreen(
             DormSingleButtonDialog(
                 content = stringResource(id = R.string.CompleteRegister),
                 mainBtnText = stringResource(id = R.string.GoLogin),
-                onMainBtnClick = onNavigateToSignInWithInclusive,
+                onMainBtnClick = navigator::openSignIn,
                 mainBtnTextColor = DormTheme.colors.primary,
             )
         }
