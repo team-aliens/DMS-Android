@@ -89,7 +89,7 @@ internal fun AnnouncementListScreen(
             modifier = Modifier.weight(1f),
             notices = uiState.notices,
             listState = listState,
-            onNoticeClick = navigator::openNavigateToNoticeDetails,
+            onNoticeClick = navigator::openNoticeDetails,
         )
     }
 }
