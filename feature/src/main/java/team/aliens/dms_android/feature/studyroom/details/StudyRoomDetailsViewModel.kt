@@ -9,16 +9,21 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature._legacy.base.BaseViewModel2
 import team.aliens.dms_android.feature._legacy.util.extractHourFromDate
 import team.aliens.dms_android.domain.exception.RemoteException
+import team.aliens.dms_android.domain.model._common.Sex
 import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
 import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
 import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
 import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.dms_android.domain.usecase.studyroom.ApplySeatUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.dms_android.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.base.UiState
+import team.aliens.dms_android.feature._legacy.util.MutableEventFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -232,3 +237,31 @@ class StudyRoomDetailsViewModel @Inject constructor(
         }
     }
 }
+
+data class StudyRoomDetailUiState(
+    var studyRoomId: UUID? = null,
+    var timeSlot: UUID? = null,
+    var currentSeat: MutableEventFlow<UUID> = MutableEventFlow(),
+    var startAt: String = "",
+    var endAt: String = "",
+    var errorMessage: MutableEventFlow<String> = MutableEventFlow(),
+    var seatType: FetchSeatTypesOutput = FetchSeatTypesOutput(listOf()),
+    var seatBoolean: Boolean = false,
+    var studyRoomDetails: FetchStudyRoomDetailsOutput = FetchStudyRoomDetailsOutput(
+        floor = 0,
+        name = "",
+        startTime = "",
+        endTime = "",
+        totalAvailableSeat = 0,
+        inUseHeadcount = 0,
+        availableSex = Sex.ALL,
+        availableGrade = 0,
+        eastDescription = "",
+        westDescription = "",
+        southDescription = "",
+        northDescription = "",
+        totalWidthSize = 0,
+        totalHeightSize = 0,
+        seats = listOf(),
+    ),
+) : UiState
