@@ -37,8 +37,9 @@ import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Body1
 import team.aliens.dms_android.design_system.typography.Body5
 import team.aliens.dms_android.design_system.typography.SubTitle2
-import team.aliens.dms_android.feature._legacy.listFadeBrush
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.listFadeBrush
+import team.aliens.dms_android.feature.main.navigation.MainNavigator
 
 private sealed class ApplicationCardItem(
     @StringRes val titleRes: Int,
@@ -74,16 +75,16 @@ private sealed class ApplicationCardItem(
 @Composable
 internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
-    onNavigateToStudyRooms: () -> Unit,
-    onNavigateToRemainsApplication: () -> Unit,
-    studyRoomServiceEnabled: Boolean = false,
-    remainsServiceEnabled: Boolean = false,
+    navigator: MainNavigator,
+    // TODO: implement cacher
+    // studyRoomServiceEnabled: Boolean = false,
+    // remainsServiceEnabled: Boolean = false,
     applicationViewModel: ApplicationViewModel = hiltViewModel(),
 ) {
     val uiState by applicationViewModel.stateFlow.collectAsStateWithLifecycle()
     val applicationItems =
         remember(uiState.currentAppliedStudyRoom, uiState.currentAppliedRemainsOption) {
-            mutableStateListOf<ApplicationCardItem>().apply {
+            mutableStateListOf<ApplicationCardItem>()/*.apply {
                 if (studyRoomServiceEnabled) add(
                     ApplicationCardItem.StudyRoomService(
                         onButtonClick = onNavigateToStudyRooms,
@@ -98,7 +99,7 @@ internal fun ApplicationScreen(
                         currentAppliedOption = uiState.currentAppliedRemainsOption?.title,
                     ),
                 )
-            }
+            }*/
         }
 
     Column(

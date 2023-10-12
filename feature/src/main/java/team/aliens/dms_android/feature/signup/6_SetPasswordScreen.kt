@@ -29,11 +29,13 @@ import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
 @Composable
 internal fun SignUpSetPasswordScreen(
-    onNavigateToSetProfile: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -53,7 +55,7 @@ internal fun SignUpSetPasswordScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SetPassword.SuccessCheckPassword -> {
-                    onNavigateToSetProfile()
+                    navigator.openSetProfileImage()
                 }
 
                 else -> {}
@@ -62,7 +64,7 @@ internal fun SignUpSetPasswordScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(
                 DormTheme.colors.surface,

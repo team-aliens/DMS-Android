@@ -75,6 +75,7 @@ import team.aliens.dms_android.feature.main.home.MealCardType.BREAKFAST
 import team.aliens.dms_android.feature.main.home.MealCardType.DINNER
 import team.aliens.dms_android.feature.main.home.MealCardType.LUNCH
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.main.navigation.MainNavigator
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.absoluteValue
@@ -94,17 +95,16 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
+    navigator: MainNavigator,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    calendarDate: Date,
-    onNextDay: () -> Unit,
-    onPreviousDay: () -> Unit,
-    onShowCalendar: () -> Unit,
-    onNavigateToNoticeScreen: () -> Unit,
-    onNavigateToNotificationBox: () -> Unit,
+    // calendarDate: Date,
+    // onNextDay: () -> Unit,
+    // onPreviousDay: () -> Unit,
+    // onShowCalendar: () -> Unit,
 ) {
     val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
 
-    LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
+    // LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
 
     Column(
         modifier = modifier
@@ -113,11 +113,11 @@ internal fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeScreenAppLogo(
-            onNavigateToNotificationBox = onNavigateToNotificationBox,
+            onNavigateToNotificationBox = navigator::openNotificationBox,
         )
         NoticeCard(
             visible = state.newNotices,
-            onIconClicked = onNavigateToNoticeScreen,
+            onIconClicked = navigator::openAnnouncementList,
         )
         Column(
             modifier = Modifier.animateContentSize(),
@@ -128,14 +128,14 @@ internal fun HomeScreen(
                 text = stringResource(R.string.meal_todays_meal),
             )
             Spacer(Modifier.weight(0.05f))
-            DateCard(
+            /*DateCard(
                 selectedDate = state.selectedDate,
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
                 onShowCalendar = onShowCalendar,
-            )
+            )*/
             Spacer(Modifier.weight(0.1f))
-            MealCards(
+            /*MealCards(
                 currentDate = calendarDate,
                 breakfast = state.breakfast,
                 kcalOfBreakfast = state.kcalOfBreakfast
@@ -146,7 +146,7 @@ internal fun HomeScreen(
                 kcalOfDinner = state.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
-            )
+            )*/
             Spacer(Modifier.height(80.dp))
         }
     }
@@ -541,9 +541,9 @@ private fun MealCard(
 @Suppress("DEPRECATION")
 private fun vibrateOnMealCardPaging(
     context: Context,
-) {
+) {/* TODO
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(3L)
+    vibrator.vibrate(3L)*/
 }
 
 @Composable

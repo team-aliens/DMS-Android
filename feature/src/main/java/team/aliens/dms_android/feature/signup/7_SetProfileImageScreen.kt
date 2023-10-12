@@ -41,14 +41,16 @@ import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.LocalToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.ButtonText
-import team.aliens.dms_android.feature._legacy.AppLogo
-import team.aliens.dms_android.feature.editprofile.SelectImageTypeDialog
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature.editprofile.dialog.SelectImageTypeDialog
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
 @Composable
 internal fun SetProfileImageScreen(
-    onNavigateToTerms: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel,
 ) {
     val selectImageFromGalleryLauncher = rememberLauncherForActivityResult(
@@ -81,7 +83,7 @@ internal fun SetProfileImageScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SetProfileImage.UploadImageSuccess -> {
-                    onNavigateToTerms()
+                    navigator.openTerms()
                 }
 
                 is SignUpSideEffect.SetProfileImage.UploadImageFailed -> {
@@ -147,7 +149,7 @@ internal fun SetProfileImageScreen(
             ButtonText(
                 modifier = Modifier.dormClickable(
                     rippleEnabled = false,
-                    onClick = onNavigateToTerms,
+                    onClick = navigator::openTerms,
                 ),
                 text = stringResource(id = R.string.SettingLater),
             )

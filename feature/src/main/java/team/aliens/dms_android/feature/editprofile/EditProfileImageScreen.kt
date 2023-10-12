@@ -34,23 +34,26 @@ import team.aliens.dms_android.design_system.button.DormButtonColor
 import team.aliens.dms_android.design_system.button.DormContainedLargeButton
 import team.aliens.dms_android.design_system.modifier.dormClickable
 import team.aliens.dms_android.design_system.theme.DormTheme
-import team.aliens.dms_android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.feature._legacy.util.SelectImageType
 import team.aliens.dms_android.feature._legacy.util.TopBar
+import team.aliens.dms_android.feature.editprofile.dialog.SelectImageTypeDialog
+import team.aliens.dms_android.feature.editprofile.navigation.EditProfileNavigator
 
 @Destination
 @Composable
 internal fun EditProfileImageScreen(
+    modifier: Modifier = Modifier,
+    navigator: EditProfileNavigator,
     editProfileImageViewModel: EditProfileImageViewModel = hiltViewModel(),
     selectImageType: SelectImageType? = null,
-    onPrevious: () -> Unit,
 ) {
     val uiState by editProfileImageViewModel.stateFlow.collectAsStateWithLifecycle()
     editProfileImageViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
             UploadProfileImageSideEffect.EditProfileFailed -> {}
-            UploadProfileImageSideEffect.EditProfileSucceed -> onPrevious()
+            UploadProfileImageSideEffect.EditProfileSucceed -> navigator.popBackStack()
             UploadProfileImageSideEffect.ImageNotSelected -> {}
             UploadProfileImageSideEffect.UploadProfileImageFailed -> {}
         }
@@ -109,14 +112,14 @@ internal fun EditProfileImageScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(DormTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TopBar(
             title = stringResource(R.string.my_page_edit_profile),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
         Spacer(Modifier.weight(1f))
         Box(

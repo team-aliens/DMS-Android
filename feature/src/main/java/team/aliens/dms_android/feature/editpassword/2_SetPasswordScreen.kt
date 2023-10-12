@@ -1,12 +1,15 @@
 package team.aliens.dms_android.feature.editpassword
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms_android.feature.editpassword.navigation.EditPasswordNavigator
 
 @Destination
 @Composable
-internal fun EditPasswordSetPasswordScreen(
-    onNavigateToHome: () -> Unit,
+fun EditPasswordSetPasswordScreen(
+    modifier: Modifier = Modifier,
+    navigator: EditPasswordNavigator,
 ) {
 
 }

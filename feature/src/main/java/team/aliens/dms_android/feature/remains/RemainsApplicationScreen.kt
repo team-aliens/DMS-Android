@@ -44,20 +44,21 @@ import team.aliens.dms_android.design_system.modifier.dormShadow
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Title3
-import team.aliens.dms_android.feature._legacy.FloatingNotice
-import team.aliens.dms_android.feature._legacy.listFadeBrush
-import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.domain.model._common.DayOfWeek
 import team.aliens.dms_android.domain.model.remains.RemainsApplicationTime
 import team.aliens.dms_android.domain.model.remains.RemainsOption
+import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.FloatingNotice
+import team.aliens.dms_android.feature._legacy.listFadeBrush
+import team.aliens.dms_android.feature._legacy.util.TopBar
+import team.aliens.dms_android.feature.remains.navigator.RemainsNavigator
 import java.util.UUID
 
 @Destination
 @Composable
 internal fun RemainsApplicationScreen(
     modifier: Modifier = Modifier,
-    onPrevious: () -> Unit,
+    navigator: RemainsNavigator,
     remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
 ) {
     val uiState by remainsApplicationViewModel.uiState.collectAsStateWithLifecycle()
@@ -80,7 +81,7 @@ internal fun RemainsApplicationScreen(
     ) {
         TopBar(
             title = stringResource(R.string.remains_apply),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
 
         if (remainsApplicationTime != null) {

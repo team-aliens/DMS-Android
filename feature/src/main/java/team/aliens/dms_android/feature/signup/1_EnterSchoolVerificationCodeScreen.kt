@@ -43,11 +43,13 @@ import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
 @Composable
 internal fun EnterSchoolVerificationCodeScreen(
-    onNavigateToEnterSchoolQuestion: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
 
@@ -78,7 +80,7 @@ internal fun EnterSchoolVerificationCodeScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode -> {
-                    onNavigateToEnterSchoolQuestion()
+                    navigator.openEnterSchoolVerificationQuestion()
                 }
 
                 else -> {}

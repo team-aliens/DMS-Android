@@ -45,21 +45,20 @@ import team.aliens.dms_android.design_system.typography.Body5
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Headline3
 import team.aliens.dms_android.design_system.typography.Title1
-import team.aliens.dms_android.feature.editprofile.SelectImageTypeDialog
-import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.domain.model._common.Sex
+import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.editprofile.dialog.SelectImageTypeDialog
+import team.aliens.dms_android.feature.main.navigation.MainNavigator
 
 @Destination
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
     myPageViewModel: MyPageViewModel = hiltViewModel(),
-    onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
-    onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
-    onNavigateToPointHistory: () -> Unit,
-    onNavigateToEditPasswordNav: () -> Unit,
-    onNavigateToAuthNav: () -> Unit,
-    pointServiceEnabled: Boolean,
+    navigator: MainNavigator,
+    // onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
+    // onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
+    // pointServiceEnabled: Boolean,
 ) {
     val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
@@ -79,7 +78,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.postIntent(MyPageIntent.SignOut)
-                    onNavigateToAuthNav()
+                    navigator.switchNavGraphRoot()
                     signOutDialogState = false
                 },
                 onSubBtnClick = {
@@ -100,7 +99,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.postIntent(MyPageIntent.Withdraw)
-                    onNavigateToAuthNav()
+                    navigator.switchNavGraphRoot()
                     withdrawDialogState = false
                 },
                 onSubBtnClick = {
@@ -114,8 +113,8 @@ internal fun MyPageScreen(
             onCancel = {
                 profileDialogState = false
             },
-            onTakePhoto = onNavigateToUploadProfileImageWithTakingPhoto,
-            onSelectPhoto = onNavigateToUploadProfileImageWithSelectingPhoto,
+            onTakePhoto = { },
+            onSelectPhoto = { },
             onDialogDismiss = {
                 profileDialogState = false
             },
@@ -138,7 +137,8 @@ internal fun MyPageScreen(
                 profileImageUrl = profileImageUrl,
                 onChangeProfileImage = { profileDialogState = !profileDialogState },
             )
-            if (pointServiceEnabled) PointsInformation(
+            // TODO
+            if (true) PointsInformation(
                 modifier = Modifier.fillMaxWidth(),
                 phrase = phrase,
                 bonusPoint = bonusPoint,
@@ -149,8 +149,9 @@ internal fun MyPageScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onPointHistoryClicked = if (pointServiceEnabled) onNavigateToPointHistory else null,
-            onEditPasswordClicked = onNavigateToEditPasswordNav,
+            // TODO
+            onPointHistoryClicked = if (true) navigator::openPointHistory else null,
+            onEditPasswordClicked = navigator::openEditPassword,
             onSignOutClicked = { signOutDialogState = !signOutDialogState },
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )

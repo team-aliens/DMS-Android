@@ -33,14 +33,15 @@ import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.ButtonText
 import team.aliens.dms_android.design_system.typography.Caption
-import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
 @Composable
 internal fun EnterSchoolVerificationQuestionScreen(
-    onNavigateToSendVerificationEmail: () -> Unit,
-    onNavigateToSignInWithInclusive: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -61,7 +62,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SchoolQuestion.SuccessVerifySchoolAnswer -> {
-                    onNavigateToSendVerificationEmail()
+                    navigator.openEnterEmail()
                 }
 
                 else -> {}
@@ -130,7 +131,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                         .padding(top = 1.dp)
                         .dormClickable(
                             rippleEnabled = false,
-                            onClick = onNavigateToSignInWithInclusive,
+                            onClick = navigator::openSignIn,
                         ),
                     text = stringResource(id = R.string.sign_in),
                 )

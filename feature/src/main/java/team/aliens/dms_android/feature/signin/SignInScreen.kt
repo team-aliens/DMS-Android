@@ -33,19 +33,17 @@ import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.LocalToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Caption
-import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
-import team.aliens.dms_android.feature._legacy.AppLogo
-import team.aliens.dms_android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
+import team.aliens.dms_android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms_android.feature.signin.navigation.SignInNavigator
 
 @Destination
 @Composable
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
-    onNavigateToHome: () -> Unit,
-    onNavigateToSignUpNav: () -> Unit,
-    onNavigateToFindId: () -> Unit,
-    onNavigateToResetPasswordNav: () -> Unit,
+    navigator: SignInNavigator,
     signInViewModel: SignInViewModel = hiltViewModel(),
 ) {
     val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -69,7 +67,7 @@ internal fun SignInScreen(
 
             is SignInSideEffect.SignInSuccess -> {
                 availableFeatures.features = sideEffect.features
-                onNavigateToHome()
+                navigator.openMain()
             }
 
             SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
@@ -103,9 +101,9 @@ internal fun SignInScreen(
         )
         Spacer(Modifier.height(12.dp))
         AuthActions(
-            onSignUpClicked = onNavigateToSignUpNav,
-            onFindIdClicked = onNavigateToFindId,
-            onResetPasswordClicked = onNavigateToResetPasswordNav,
+            onSignUpClicked = navigator::openSignUp,
+            onFindIdClicked = navigator::openFindId,
+            onResetPasswordClicked = navigator::openResetPassword,
         )
         Spacer(Modifier.weight(1f))
         DormContainedLargeButton(

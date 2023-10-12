@@ -25,31 +25,32 @@ import team.aliens.dms_android.design_system.typography.Body5
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Title3
 import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.feature.main.announcement.toNoticeDate
 import team.aliens.dms_android.feature._legacy.util.TopBar
-import java.util.UUID
+import team.aliens.dms_android.feature.main.announcement.toNoticeDate
+import team.aliens.dms_android.feature.notice.navigation.NoticeNavigator
 
 @Destination
 @Composable
 internal fun NoticeDetailsScreen(
-    onPrevious: () -> Unit,
-    noticeId: UUID,
+    modifier: Modifier = Modifier,
+    navigator: NoticeNavigator,
+    // noticeId: UUID,
     noticeDetailsViewModel: NoticeDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by noticeDetailsViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        noticeDetailsViewModel.postIntent(NoticeDetailsIntent.FetchNoticeDetails(noticeId))
+        // noticeDetailsViewModel.postIntent(NoticeDetailsIntent.FetchNoticeDetails(noticeId))
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
     ) {
         TopBar(
             title = stringResource(R.string.Announcement),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
         Column(
             modifier = Modifier

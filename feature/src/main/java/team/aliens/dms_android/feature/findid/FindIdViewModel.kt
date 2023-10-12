@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
 import team.aliens.dms_android.feature._legacy.util.MutableEventFlow
 import team.aliens.dms_android.feature._legacy.util.asEventFlow
 import team.aliens.dms_android.domain.model.student.FindIdInput
@@ -75,3 +76,26 @@ private fun getEventFromThrowable(throwable: Throwable): FindIdEvent {
         else -> FindIdUnknownException
     }
 }
+
+
+sealed interface FindIdEvent
+
+class FetchSchools(val fetchSchoolsOutput: FetchSchoolsOutput) : FindIdEvent
+
+object SuccessFindId : FindIdEvent
+
+object FindIdBadRequest : FindIdEvent
+
+object FindIdUnauthorized : FindIdEvent
+
+object FindIdNotFound : FindIdEvent
+
+object FindIdTooManyRequest : FindIdEvent
+
+object FindIdServerException : FindIdEvent
+
+object FindIdNoInternetException : FindIdEvent
+
+object FindIdNeedLoginException : FindIdEvent
+
+object FindIdUnknownException : FindIdEvent
