@@ -6,4 +6,5 @@ interface SignUpNavigator {
     fun openSignIn()
     fun openEnterEmailVerificationCode()
     fun openSetId()
+    fun openSetPassword()
 }

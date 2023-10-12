@@ -40,11 +40,13 @@ import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.ButtonText
 import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
 @Composable
 internal fun SetIdScreen(
-    onNavigateToSetPassword: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -85,7 +87,7 @@ internal fun SetIdScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.SetId.SuccessVerifyStudent -> {
-                    onNavigateToSetPassword()
+                    navigator.openSetPassword()
                 }
 
                 is SignUpSideEffect.SetId.NotFoundStudent -> {
@@ -102,7 +104,7 @@ internal fun SetIdScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(
                 DormTheme.colors.surface,
