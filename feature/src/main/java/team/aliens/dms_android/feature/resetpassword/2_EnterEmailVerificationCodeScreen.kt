@@ -5,7 +5,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
 @Composable
-internal fun ResetPasswordEnterEmailVerificationCodeScreen(
+internal fun EnterEmailVerificationCodeScreen(
     onNavigateToResetPasswordSetPassword: () -> Unit,
 ) {
 
