@@ -37,14 +37,17 @@ import team.aliens.dms_android.design_system.textfield.DormTextField
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.rememberToast
 import team.aliens.dms_android.design_system.typography.Body2
-import team.aliens.dms_android.feature._legacy.AppLogo
-import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature.resetpassword.navigation.ResetPasswordNavigator
 
+// TODO Pop backstack
 @Destination
 @Composable
 fun AccountVerificationScreen(
-    onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: ResetPasswordNavigator,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
     resetPasswordVerificationViewModel: ResetPasswordVerificationViewModel = hiltViewModel(), // fixme
 ) {
@@ -108,7 +111,7 @@ fun AccountVerificationScreen(
     LaunchedEffect(Unit) {
         resetPasswordVerificationViewModel.registerEmailEvent.collect {
             when (it) {
-                is ResetPasswordVerificationEvent.SendEmailSuccess -> onNavigateToResetPasswordEnterEmailVerificationCode()
+                is ResetPasswordVerificationEvent.SendEmailSuccess -> navigator::openResetPasswordEnterEmailVerificationCode
                 is ResetPasswordVerificationEvent.TooManyRequestsException -> {
                     toast(context.getString(R.string.Retry))
                 }
@@ -124,7 +127,7 @@ fun AccountVerificationScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(
                 DormTheme.colors.surface,
