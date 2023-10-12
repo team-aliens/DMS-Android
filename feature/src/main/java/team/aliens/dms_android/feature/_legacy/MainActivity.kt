@@ -21,10 +21,10 @@ internal class MainActivity : ComponentActivity() {
             val initialAvailableFeatures by remember { mutableStateOf(mainViewModel.fetchLocalAvailableFeatures()) }
 
             DormTheme {
-                DmsApp(
+                /*DmsApp(
                     isSignedIn = autoSignInAvailable,
                     initialAvailableFeatures = initialAvailableFeatures,
-                )
+                )*/
             }
         }
     }
