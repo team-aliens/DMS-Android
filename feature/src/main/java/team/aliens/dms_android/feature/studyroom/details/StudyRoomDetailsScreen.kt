@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
-import java.util.UUID
 import team.aliens.dms_android.design_system.button.DormButtonColor
 import team.aliens.dms_android.design_system.button.DormContainedLargeButton
 import team.aliens.dms_android.design_system.color.DormColor
@@ -31,33 +30,34 @@ import team.aliens.dms_android.design_system.component.SeatTypeUiModel
 import team.aliens.dms_android.design_system.extension.Space
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.rememberToast
-import team.aliens.dms_android.feature._legacy.FloatingNotice
-import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
 import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.FloatingNotice
+import team.aliens.dms_android.feature._legacy.util.TopBar
+import team.aliens.dms_android.feature.studyroom.navigation.StudyRoomNavigator
+import java.util.UUID
 
-/**
- * 자습실 상세보기 screen
- *
- * @param roomId 자습실 아이디
- */
-@Destination
+data class StudyRoomDetailsNavArgs(
+    val studyRoomId: UUID,
+    val timeslot: UUID,
+)
+
 @SuppressLint("ResourceType")
+@Destination(navArgsDelegate = StudyRoomDetailsNavArgs::class)
 @Composable
 fun StudyRoomDetailsScreen(
-    onPrevious: () -> Unit, // todo refactor to NavHostController
-    roomId: UUID,
-    timeSlot: UUID,
+    modifier: Modifier = Modifier,
+    navigator: StudyRoomNavigator,
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
-    val availableTime = LaunchedEffect(Unit) {
+    /*val availableTime = LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.initStudyRoom(
             roomId = roomId, // todo refactor
-            timeSlot = timeSlot,
+            timeslot = timeslot,
         )
-    }
+    }*/
 
     val context = LocalContext.current
     val toast = rememberToast()
@@ -66,16 +66,16 @@ fun StudyRoomDetailsScreen(
     val currentSeat = uiState.currentSeat.collectAsState(null)
 
     val onCancel: () -> Unit = {
-        studyRoomDetailsViewModel.onEvent(
+        /*studyRoomDetailsViewModel.onEvent(
             event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
                 seatId = currentSeat.value!!,
                 timeSlot = timeSlot,
             )
-        )
+        )*/
     }
 
     val onApply: () -> Unit = {
-        if (currentSeat.value == null) {
+       /* if (currentSeat.value == null) {
             toast(
                 context.getString(R.string.study_room_please_first_select),
             )
@@ -86,7 +86,7 @@ fun StudyRoomDetailsScreen(
                     timeSlot = timeSlot,
                 ),
             )
-        }
+        }*/
     }
 
     LaunchedEffect(Unit) {
@@ -111,7 +111,7 @@ fun StudyRoomDetailsScreen(
 
         TopBar(
             title = "${uiState.studyRoomDetails.startTime} ~ ${uiState.studyRoomDetails.endTime}",
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
         Column(
             modifier = Modifier
@@ -251,7 +251,6 @@ private fun StudyRoomInformationBox(
         onClick = { },
     )
 }
-
 
 fun FetchSeatTypesOutput.SeatTypeInformation.toModel() = SeatTypeUiModel(
     color = this.color,
