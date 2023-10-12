@@ -39,7 +39,7 @@ import team.aliens.dms_android.feature.R
 
 @Destination
 @Composable
-internal fun SendVerificationEmailScreen(
+internal fun EnterEmailScreen(
     onNavigateToVerifyEmail: () -> Unit,
     onNavigateToSignInWithInclusive: () -> Unit,
     signUpViewModel: SignUpViewModel,
