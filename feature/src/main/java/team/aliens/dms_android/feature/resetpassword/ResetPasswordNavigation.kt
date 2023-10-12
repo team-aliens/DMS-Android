@@ -23,7 +23,7 @@ internal fun NavGraphBuilder.resetPasswordNavigation(
         route = ResetPasswordNavigation.route,
     ) {
         composable(ResetPasswordNavigation.IdVerification) {
-            ResetPasswordIdVerificationScreen(
+            AccountVerificationScreen(
                 onNavigateToResetPasswordEnterEmailVerificationCode = onNavigateToResetPasswordEnterEmailVerificationCode,
             )
         }

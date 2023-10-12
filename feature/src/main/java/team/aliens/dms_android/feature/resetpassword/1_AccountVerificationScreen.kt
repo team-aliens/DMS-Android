@@ -43,7 +43,7 @@ import team.aliens.dms_android.domain.model._common.EmailVerificationType
 
 @Destination
 @Composable
-fun ResetPasswordIdVerificationScreen(
+fun AccountVerificationScreen(
     onNavigateToResetPasswordEnterEmailVerificationCode: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
     resetPasswordVerificationViewModel: ResetPasswordVerificationViewModel = hiltViewModel(), // fixme
