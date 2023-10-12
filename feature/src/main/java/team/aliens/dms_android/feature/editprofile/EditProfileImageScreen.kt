@@ -38,6 +38,7 @@ import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms_android.feature._legacy.util.SelectImageType
 import team.aliens.dms_android.feature._legacy.util.TopBar
+import team.aliens.dms_android.feature.editprofile.dialog.SelectImageTypeDialog
 import team.aliens.dms_android.feature.editprofile.navigation.EditProfileNavigator
 
 @Destination

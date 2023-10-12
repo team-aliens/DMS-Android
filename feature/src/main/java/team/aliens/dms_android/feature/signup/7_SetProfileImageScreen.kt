@@ -43,7 +43,7 @@ import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.ButtonText
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.AppLogo
-import team.aliens.dms_android.feature.editprofile.SelectImageTypeDialog
+import team.aliens.dms_android.feature.editprofile.dialog.SelectImageTypeDialog
 import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 @Destination
