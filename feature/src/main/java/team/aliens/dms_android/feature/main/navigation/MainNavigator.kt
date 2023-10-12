@@ -7,7 +7,10 @@ interface MainNavigator {
     fun openApplication()
     fun openAnnouncementList()
     fun openMyPage()
-    fun openNavigateToNoticeDetails(noticeId: UUID)
+    fun openNoticeDetails(noticeId: UUID)
+    fun openStudyRoomList()
+    fun openRemainsApplication()
+    fun openNotificationBox()
 
     fun switchNavGraphRoot()
 }
