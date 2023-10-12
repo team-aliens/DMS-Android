@@ -36,11 +36,13 @@ import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.domain.model._common.PointType
 import team.aliens.dms_android.domain.model.point.Point
+import team.aliens.dms_android.feature.point.navigation.PointHistoryNavigator
 
 @Destination
 @Composable
 internal fun PointHistoryScreen(
-    onPrevious: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: PointHistoryNavigator,
     pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
 ) {
     val uiState by pointHistoryViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -53,7 +55,7 @@ internal fun PointHistoryScreen(
     ) {
         TopBar(
             title = stringResource(R.string.my_page_check_point_history),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
         Spacer(Modifier.height(18.dp))
         PointFilter(
