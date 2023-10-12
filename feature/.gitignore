@@ -1,3 +1,4 @@
 build/
-build/**/main/*.kt
-build/**/main/*.java
+build/**/main/
+build/**/main/**/*.kt
+build/**/main/**/*.java
