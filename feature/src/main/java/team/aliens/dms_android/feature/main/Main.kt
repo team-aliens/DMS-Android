@@ -1,11 +1,7 @@
 package team.aliens.dms_android.feature.main
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
@@ -34,17 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import kotlinx.coroutines.launch
-import team.aliens.dms_android.design_system.animation.slideInFromEnd
-import team.aliens.dms_android.design_system.animation.slideInFromStart
-import team.aliens.dms_android.design_system.animation.slideOutFromEnd
-import team.aliens.dms_android.design_system.animation.slideOutFromStart
 import team.aliens.dms_android.design_system.component.DormCalendarLayout
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.BottomNavItemLabel
@@ -56,10 +45,6 @@ import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Application
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Home
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.MyPage
 import team.aliens.dms_android.feature.main.NavigationItemsWrapper.navigationItems
-import team.aliens.dms_android.feature.main.announcement.AnnouncementListScreen
-import team.aliens.dms_android.feature.main.application.ApplicationScreen
-import team.aliens.dms_android.feature.main.home.HomeScreen
-import team.aliens.dms_android.feature.main.mypage.MyPageScreen
 import team.aliens.dms_android.feature.main.navigation.MainNavigator
 import java.util.Date
 
@@ -76,7 +61,7 @@ internal fun Date.minusOneDay(): Date {
 @Destination
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun MainScreen(
+internal fun Main(
     modifier: Modifier = Modifier,
     navigator: MainNavigator,
     /*
