@@ -1,19 +1,29 @@
 package team.aliens.dms_android.feature.resetpassword
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import team.aliens.dms_android.domain.model._common.EmailVerificationType
+import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.dms_android.feature._legacy.base.BaseViewModel1
 import team.aliens.dms_android.feature._legacy.util.MutableEventFlow
 import team.aliens.dms_android.feature._legacy.util.asEventFlow
 import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
 import team.aliens.dms_android.domain.model.student.ResetPasswordInput
 import team.aliens.dms_android.domain.model.user.ComparePasswordInput
 import team.aliens.dms_android.domain.model.user.EditPasswordInput
+import team.aliens.dms_android.domain.usecase.auth.CheckEmailVerificationCodeUseCase
 import team.aliens.dms_android.domain.usecase.auth.CheckIdExistsUseCase
+import team.aliens.dms_android.domain.usecase.auth.SendEmailVerificationCodeUseCase
+import team.aliens.dms_android.domain.usecase.student.CheckEmailDuplicationUseCase
 import team.aliens.dms_android.domain.usecase.student.ResetPasswordUseCase
 import team.aliens.dms_android.domain.usecase.user.ComparePasswordUseCase
 import team.aliens.dms_android.domain.usecase.user.EditPasswordUseCase
+import team.aliens.dms_android.feature._legacy.base.MviEvent
+import team.aliens.dms_android.feature._legacy.base._MviState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,7 +63,7 @@ class ChangePasswordViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.EditPasswordSuccess)
             }.onFailure {
-                event(getEventFromThrowable(it))
+                event(getEventFromThrowableChangePassword(it))
             }
         }
     }
@@ -69,7 +79,7 @@ class ChangePasswordViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.ComparePasswordSuccess)
             }.onFailure {
-                event(getEventFromThrowable(it))
+                event(getEventFromThrowableChangePassword(it))
             }
         }
     }
@@ -87,7 +97,7 @@ class ChangePasswordViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.CheckIdSuccess(it.email))
             }.onFailure {
-                event(getEventFromThrowable(it))
+                event(getEventFromThrowableChangePassword(it))
             }
         }
     }
@@ -115,7 +125,7 @@ class ChangePasswordViewModel @Inject constructor(
             }.onSuccess {
                 event(Event.ResetPasswordSuccess)
             }.onFailure {
-                event(getEventFromThrowable(it))
+                event(getEventFromThrowableChangePassword(it))
             }
         }
     }
@@ -179,10 +189,146 @@ class ChangePasswordViewModel @Inject constructor(
 }
 
 // TODO 추후에 리팩토링 필요
-private fun getEventFromThrowable(
+private fun getEventFromThrowableChangePassword(
     throwable: Throwable?,
 ): ChangePasswordViewModel.Event {
     return when (throwable) {
         else -> ChangePasswordViewModel.Event.UnknownException
     }
+}
+
+sealed class ChangePasswordEvent : MviEvent {
+    object ChangePasswordSuccess : ChangePasswordEvent()
+    object BadRequestException : ChangePasswordEvent()
+    object UnAuthorizedException : ChangePasswordEvent()
+    object NotFoundException : ChangePasswordEvent()
+    object TooManyRequestException : ChangePasswordEvent()
+    object InternalServerException : ChangePasswordEvent()
+    object UnKnownException : ChangePasswordEvent()
+
+    data class SetCurrentPassword(val currentPassword: String): ChangePasswordEvent()
+    data class SetRepeatPassword(val repeatPassword: String): ChangePasswordEvent()
+    data class SetNewPassword(val newPassword: String): ChangePasswordEvent()
+}
+
+data class ChangePasswordState(
+    val currentPassword: String,
+    val repeatPassword: String,
+    val newPassword: String,
+) : _MviState {
+
+    companion object {
+        fun getDefaultInstance() =
+            ChangePasswordState(
+                currentPassword = "",
+                repeatPassword = "",
+                newPassword = "",
+            )
+    }
+}
+
+@HiltViewModel
+class ResetPasswordVerificationViewModel @Inject constructor(
+    private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
+    private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
+    private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
+) : ViewModel() {
+
+    private val _resetPasswordVerificationEvent = MutableEventFlow<ResetPasswordVerificationEvent>()
+    val registerEmailEvent = _resetPasswordVerificationEvent.asEventFlow()
+
+    fun requestEmailCode(
+        email: String,
+        type: EmailVerificationType,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                sendEmailVerificationCodeUseCase(
+                    sendEmailVerificationCodeInput = SendEmailVerificationCodeInput(
+                        email = email,
+                        type = type,
+                    ),
+                )
+            }.onSuccess {
+                event(ResetPasswordVerificationEvent.SendEmailSuccess)
+            }.onFailure {
+                // fixme 추후에 리팩토링 필요
+                when (it) {
+                    else -> event(ResetPasswordVerificationEvent.UnKnownException)
+                }
+            }
+        }
+    }
+
+    fun checkEmailCode(
+        email: String,
+        authCode: String,
+        type: EmailVerificationType,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                checkEmailVerificationCodeUseCase(
+                    checkEmailVerificationCodeInput = CheckEmailVerificationCodeInput(
+                        email = email,
+                        type = type,
+                        authCode = authCode,
+                    ),
+                )
+            }.onSuccess {
+                event(ResetPasswordVerificationEvent.CheckEmailSuccess)
+            }.onFailure {
+                // fixme 추후에 리팩토링 필요
+                when (it) {
+                    else -> event(ResetPasswordVerificationEvent.InternalServerException)
+                }
+            }
+        }
+    }
+
+    internal fun checkEmailDuplicate(
+        email: String,
+    ) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                checkEmailDuplicationUseCase(
+                    checkEmailDuplicationInput = CheckEmailDuplicationInput(
+                        email = email,
+                    ),
+                )
+            }.onSuccess {
+                event(ResetPasswordVerificationEvent.AllowEmail)
+            }.onFailure {
+                event(getEventFromThrowable(it))
+            }
+        }
+    }
+
+    private fun event(event: ResetPasswordVerificationEvent) {
+        viewModelScope.launch {
+            _resetPasswordVerificationEvent.emit(event)
+        }
+    }
+}
+
+// fixme 추후에 리팩토링 필요
+private fun getEventFromThrowable(
+    throwable: Throwable?,
+): ResetPasswordVerificationEvent =
+    when (throwable) {
+        else -> {
+            ResetPasswordVerificationEvent.UnKnownException
+        }
+    }
+sealed class ResetPasswordVerificationEvent : MviEvent {
+    object SendEmailSuccess : ResetPasswordVerificationEvent()
+    object CheckEmailSuccess : ResetPasswordVerificationEvent()
+    object BadRequestException : ResetPasswordVerificationEvent()
+    object CheckEmailNotFound : ResetPasswordVerificationEvent()
+    object CheckEmailUnauthorized : ResetPasswordVerificationEvent()
+    object TooManyRequestsException : ResetPasswordVerificationEvent()
+    object InternalServerException : ResetPasswordVerificationEvent()
+    object UnKnownException : ResetPasswordVerificationEvent()
+
+    object AllowEmail: ResetPasswordVerificationEvent()
+    object ConflictException: ResetPasswordVerificationEvent()
 }
