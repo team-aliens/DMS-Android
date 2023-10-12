@@ -1,6 +1,8 @@
 package team.aliens.dms_android.feature.main
 
 import android.annotation.SuppressLint
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +39,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import team.aliens.dms_android.design_system.component.DormCalendarLayout
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.BottomNavItemLabel
+import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
 import team.aliens.dms_android.feature._legacy.util.Now
 import team.aliens.dms_android.feature._legacy.util.OneDay
@@ -296,4 +299,35 @@ private fun NavHostController.navigateTo(
         launchSingleTop = true
         restoreState = true
     }
+}
+
+
+internal sealed class HomeBottomNavigationItem(
+    val route: String,
+    @DrawableRes val iconResId: Int,
+    @StringRes val titleResId: Int,
+) {
+    object Home : HomeBottomNavigationItem(
+        route = "home",
+        iconResId = R.drawable.ic_home,
+        titleResId = R.string.bottom_nav_home,
+    )
+
+    object Application : HomeBottomNavigationItem(
+        route = "application",
+        iconResId = R.drawable.ic_application,
+        titleResId = R.string.bottom_nav_application,
+    )
+
+    object Announcement : HomeBottomNavigationItem(
+        route = "announcement",
+        iconResId = R.drawable.ic_notice,
+        titleResId = R.string.bottom_nav_announcement,
+    )
+
+    object MyPage : HomeBottomNavigationItem(
+        route = "mypage",
+        iconResId = R.drawable.ic_mypage,
+        titleResId = R.string.bottom_nav_my_page,
+    )
 }
