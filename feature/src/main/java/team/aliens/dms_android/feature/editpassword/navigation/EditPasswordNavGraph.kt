@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.editpassword
+package team.aliens.dms_android.feature.editpassword.navigation
 
 import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
