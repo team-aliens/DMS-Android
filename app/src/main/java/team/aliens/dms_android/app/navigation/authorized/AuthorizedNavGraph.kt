@@ -15,7 +15,9 @@ object AuthorizedNavGraph : NavGraphSpec {
         )
 
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
-        listOf<DestinationSpec<*>>(/* TODO */)
+        listOf<DestinationSpec<*>>(
+
+        )
             .routedIn(navGraphSpec = this)
             .associateBy { it.route }
 }
