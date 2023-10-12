@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.main.mypage
+package team.aliens.dms_android.feature.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

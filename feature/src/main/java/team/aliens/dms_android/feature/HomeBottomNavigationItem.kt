@@ -1,8 +1,7 @@
-package team.aliens.dms_android.feature.main
+package team.aliens.dms_android.feature
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import team.aliens.dms_android.feature.R
 
 internal sealed class HomeBottomNavigationItem(
     val route: String,
