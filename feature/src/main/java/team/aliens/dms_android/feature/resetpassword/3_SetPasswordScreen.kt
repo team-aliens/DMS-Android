@@ -52,7 +52,7 @@ private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+
 
 @Destination
 @Composable
-fun SetPasswordScreen(
+fun ResetPasswordSetPasswordScreen(
     onPrevious: () -> Unit,
     onNavigateToSignIn: () -> Unit,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),

@@ -32,7 +32,7 @@ import team.aliens.dms_android.feature.R
 
 @Destination
 @Composable
-internal fun SetPasswordScreen(
+internal fun SignUpSetPasswordScreen(
     onNavigateToSetProfile: () -> Unit,
     signUpViewModel: SignUpViewModel,
 ) {

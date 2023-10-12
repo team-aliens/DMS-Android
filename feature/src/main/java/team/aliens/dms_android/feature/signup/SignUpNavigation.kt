@@ -152,7 +152,7 @@ private fun NavGraphBuilder.setUserInformationNavigation(
         }
 
         composable(SignUpNavigation.SetUserInformation.SetPassword) {
-            SetPasswordScreen(
+            SignUpSetPasswordScreen(
                 onNavigateToSetProfile = onNavigateToSetProfileImage,
                 signUpViewModel = signUpViewModel,
             )
