@@ -4,4 +4,5 @@ interface SignUpNavigator{
     fun openEnterSchoolVerificationQuestion()
     fun openEnterEmail()
     fun openSignIn()
+    fun openEnterEmailVerificationCode()
 }
