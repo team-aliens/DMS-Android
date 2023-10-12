@@ -44,7 +44,7 @@ internal fun NoticeDetailsScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(DormTheme.colors.background)
             .fillMaxSize(),
     ) {
