@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.studyroom
+package team.aliens.dms_android.feature.studyroom.details
 
 import java.util.UUID
 import team.aliens.dms_android.feature._legacy.base.UiState

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.studyroom
+package team.aliens.dms_android.feature.studyroom.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke

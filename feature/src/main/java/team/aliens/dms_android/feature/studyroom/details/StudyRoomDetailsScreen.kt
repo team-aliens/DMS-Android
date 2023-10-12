@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.studyroom
+package team.aliens.dms_android.feature.studyroom.details
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
