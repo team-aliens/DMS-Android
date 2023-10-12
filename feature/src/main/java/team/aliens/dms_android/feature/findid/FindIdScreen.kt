@@ -53,11 +53,13 @@ import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms_android.feature.findid.navigator.FindIdNavigator
 
 @Destination
 @Composable
 fun FindIdScreen(
-    onNavigateToSignIn: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: FindIdNavigator,
     findIdViewModel: FindIdViewModel = hiltViewModel(),
 ) {
 
@@ -94,7 +96,7 @@ fun FindIdScreen(
             DormSingleButtonDialog(
                 content = stringResource(id = R.string.SendIdToEmail, findIdViewModel.email),
                 mainBtnText = stringResource(id = R.string.GoLoginScreen),
-                onMainBtnClick = onNavigateToSignIn,
+                onMainBtnClick = navigator::popBackStack,
                 mainBtnTextColor = DormTheme.colors.primary,
             )
         }
@@ -147,7 +149,7 @@ fun FindIdScreen(
     }
 
     Column( // todo refactor
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(
                 top = 16.dp,
