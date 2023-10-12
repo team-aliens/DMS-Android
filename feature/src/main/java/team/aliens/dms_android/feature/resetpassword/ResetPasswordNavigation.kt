@@ -33,7 +33,7 @@ internal fun NavGraphBuilder.resetPasswordNavigation(
             )
         }
         composable(ResetPasswordNavigation.SetPassword) {
-            ResetPasswordSetPasswordScreen(
+            SetPasswordScreen(
                 onPrevious = onPrevious,
                 onNavigateToSignIn = onNavigateToSignIn,
             )
