@@ -1,13 +1,16 @@
 package team.aliens.dms_android.app.navigation
 
+import androidx.navigation.NavHostController
+import com.ramcosta.composedestinations.spec.NavGraphSpec
 import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavigator
 import java.util.UUID
-import javax.inject.Inject
 
-interface DmsNavigator : AuthorizedNavigator, UnauthorizedNavigator
-
-class DmsNavigatorImpl @Inject constructor() : DmsNavigator {
+class DmsNavigator(
+    private val navGraph: NavGraphSpec,
+    private val navController: NavHostController,
+) : AuthorizedNavigator,
+    UnauthorizedNavigator {
     override fun openSetPassword() {
         TODO("Not yet implemented")
     }
