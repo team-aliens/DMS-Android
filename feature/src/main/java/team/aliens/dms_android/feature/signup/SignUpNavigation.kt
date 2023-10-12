@@ -118,7 +118,7 @@ private fun NavGraphBuilder.verifyEmailNavigation(
         route = SignUpNavigation.VerifyEmailRoute,
     ) {
         composable(SignUpNavigation.VerifyEmail.SetEmail) {
-            SendVerificationEmailScreen(
+            EnterEmailScreen(
                 onNavigateToVerifyEmail = onNavigateToVerifyEmail,
                 onNavigateToSignInWithInclusive = onNavigateToSignInWithInclusive,
                 signUpViewModel = signUpViewModel,
@@ -126,7 +126,7 @@ private fun NavGraphBuilder.verifyEmailNavigation(
         }
 
         composable(SignUpNavigation.VerifyEmail.VerifyEmail) {
-            VerifyEmailScreen(
+            EnterEmailVerificationCodeScreen(
                 onNavigateToSetId = onNavigateToSetId,
                 onNavigateToSetEmailWithInclusive = onNavigateToSetEmailWithInclusive,
                 signUpViewModel = signUpViewModel,
