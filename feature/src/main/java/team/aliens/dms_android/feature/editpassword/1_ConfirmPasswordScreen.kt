@@ -29,16 +29,17 @@ import team.aliens.dms_android.design_system.textfield.DormTextField
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.rememberToast
 import team.aliens.dms_android.design_system.typography.Body2
-import team.aliens.dms_android.feature._legacy.AppLogo
-import team.aliens.dms_android.feature.resetpassword.ChangePasswordViewModel
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature._legacy.util.TopBar
+import team.aliens.dms_android.feature.editpassword.navigation.EditPasswordNavigator
+import team.aliens.dms_android.feature.resetpassword.ChangePasswordViewModel
 
 @Destination
 @Composable
 fun ConfirmPasswordScreen(
-    onNavigateToEditPasswordSetPassword: () -> Unit,
-    onPrevious: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: EditPasswordNavigator,
     changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
 
@@ -61,7 +62,7 @@ fun ConfirmPasswordScreen(
     LaunchedEffect(Unit) {
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
-                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> onNavigateToEditPasswordSetPassword()
+                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> navigator.openSetPassword()
 
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true
@@ -80,7 +81,7 @@ fun ConfirmPasswordScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(
                 DormTheme.colors.background,
@@ -93,7 +94,7 @@ fun ConfirmPasswordScreen(
     ) {
         TopBar(
             title = stringResource(R.string.ChangePassword),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
         Column(
             modifier = Modifier.padding(
