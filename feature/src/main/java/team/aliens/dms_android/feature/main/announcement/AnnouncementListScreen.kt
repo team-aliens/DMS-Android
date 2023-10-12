@@ -37,9 +37,10 @@ import team.aliens.dms_android.design_system.typography.Body1
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.Body4
 import team.aliens.dms_android.design_system.typography.OverLine
-import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.domain.model._common.Order
 import team.aliens.dms_android.domain.model.notice.Notice
+import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature.main.navigation.MainNavigator
 import java.util.UUID
 
 private val Order.text: String
@@ -53,8 +54,8 @@ private val Order.text: String
 @Composable
 internal fun AnnouncementListScreen(
     modifier: Modifier = Modifier,
+    navigator: MainNavigator,
     announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
-    onNavigateToNoticeDetails: (UUID) -> Unit,
 ) {
     val uiState by announcementsViewModel.stateFlow.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
@@ -88,7 +89,7 @@ internal fun AnnouncementListScreen(
             modifier = Modifier.weight(1f),
             notices = uiState.notices,
             listState = listState,
-            onNoticeClick = onNavigateToNoticeDetails,
+            onNoticeClick = navigator::openNavigateToNoticeDetails,
         )
     }
 }
