@@ -47,16 +47,17 @@ import team.aliens.dms_android.design_system.toast.LocalToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.ButtonText
-import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
+import team.aliens.dms_android.feature._legacy.AppLogo
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavigator
 
 private const val TotalSecond = 180
 
 @Destination
 @Composable
 internal fun SignUpEnterEmailVerificationCodeScreen(
-    onNavigateToSetId: () -> Unit,
-    onNavigateToSetEmailWithInclusive: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator: SignUpNavigator,
     signUpViewModel: SignUpViewModel,
 ) {
 
@@ -76,7 +77,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
         signUpViewModel.sideEffectFlow.collect {
             when (it) {
                 is SignUpSideEffect.VerifyEmail.SuccessVerifyEmail -> {
-                    onNavigateToSetId()
+                    navigator.openSetId()
                 }
 
                 is SignUpSideEffect.VerifyEmail.ConflictEmail -> {
@@ -115,7 +116,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 mainBtnText = stringResource(id = R.string.Yes),
                 subBtnText = stringResource(id = R.string.No),
                 onMainBtnClick = {
-                    onNavigateToSetEmailWithInclusive()
+                    navigator.openEnterEmail(clearStack = true)
                     signUpViewModel.postIntent(
                         SignUpIntent.VerifyEmail.SetAuthCode(
                             authCode = "",
