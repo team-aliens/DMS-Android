@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature.editpassword
+/*
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -87,10 +88,12 @@ fun MyPageChangePasswordScreen(
             changePasswordViewModel.editPasswordEffect.collect {
                 when (it) {
                     is ChangePasswordViewModel.Event.EditPasswordSuccess -> {
-                        toast(context.getString(R.string.SuccessChangePassword))
+                        toast(context.getString(R.string.SuccessChangePassword))*/
+/*
                         navController.navigate(DmsRoute.Home.route) {
                             popUpTo(navController.currentDestination?.id!!)
-                        }
+                        }*//*
+
                     }
 
                     else -> {
@@ -199,3 +202,4 @@ private fun getStringFromEvent(
             else -> R.string.UnKnownException
         }
     )
+*/

@@ -1,4 +1,5 @@
 package team.aliens.dms_android.feature.editpassword
+/*
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -95,3 +96,4 @@ fun CheckPwValue() {
 fun CheckPwPreView() {
     CheckOriginPwScreen()
 }
+*/
