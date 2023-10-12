@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.image
+package team.aliens.dms_android.feature.editprofile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

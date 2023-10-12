@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.image
+package team.aliens.dms_android.feature.editprofile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

@@ -9,7 +9,7 @@ import java.util.UUID
 import team.aliens.dms_android.feature._legacy.extension.appendNavArgumentName
 import team.aliens.dms_android.feature.editpassword.editPasswordNavigation
 import team.aliens.dms_android.feature.notice.NoticeDetailsScreen
-import team.aliens.dms_android.feature.image.EditProfileImageScreen
+import team.aliens.dms_android.feature.editprofile.EditProfileImageScreen
 import team.aliens.dms_android.feature.notificationbox.NotificationBoxScreen
 import team.aliens.dms_android.feature.pointhistory.PointHistoryScreen
 import team.aliens.dms_android.feature.remains.RemainsApplicationScreen
