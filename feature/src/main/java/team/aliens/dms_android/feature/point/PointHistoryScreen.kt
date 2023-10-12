@@ -1,4 +1,4 @@
-package team.aliens.dms_android.feature.pointhistory
+package team.aliens.dms_android.feature.point
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
