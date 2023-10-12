@@ -55,12 +55,14 @@ import team.aliens.dms_android.feature._legacy.FloatingNotice
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.dms_android.feature.studyroom.navigation.StudyRoomNavigator
 import java.util.UUID
 
 @Destination
 @Composable
 fun StudyRoomListScreen(
-    onPrevious: () -> Unit,
+    modifier: Modifier = Modifier,
+    navigator:StudyRoomNavigator,
     onNavigateToStudyRoomDetails: (
         studyRoomId: UUID,
         timeslot: UUID,
@@ -183,7 +185,7 @@ fun StudyRoomListScreen(
             title = stringResource(
                 id = R.string.ApplicateStudyRoom,
             ),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
 
 
