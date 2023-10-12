@@ -60,12 +60,14 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:jwt"))
     implementation(project(":core:network"))
+    implementation(project(":core:project"))
+    implementation(project(":core:school"))
     implementation(project(":core:ui"))
 
     implementation(project(":data"))
-    implementation(project(":domain"))
     implementation(project(":database"))
     implementation(project(":design-system"))
+    implementation(project(":domain"))
     implementation(project(":feature"))
     implementation(project(":network"))
 
@@ -82,6 +84,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.composeDestinations)
     ksp(libs.composeDestinations.ksp)
