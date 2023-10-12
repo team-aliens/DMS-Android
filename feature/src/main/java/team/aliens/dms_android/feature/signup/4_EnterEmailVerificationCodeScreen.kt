@@ -54,7 +54,7 @@ private const val TotalSecond = 180
 
 @Destination
 @Composable
-internal fun EnterEmailVerificationCodeScreen(
+internal fun SignUpEnterEmailVerificationCodeScreen(
     onNavigateToSetId: () -> Unit,
     onNavigateToSetEmailWithInclusive: () -> Unit,
     signUpViewModel: SignUpViewModel,

@@ -28,7 +28,7 @@ internal fun NavGraphBuilder.resetPasswordNavigation(
             )
         }
         composable(ResetPasswordNavigation.EnterEmailVerificationCode) {
-            EnterEmailVerificationCodeScreen(
+            ResetPasswordEnterEmailVerificationCodeScreen(
                 onNavigateToResetPasswordSetPassword = onNavigateToResetPasswordSetPassword
             )
         }
