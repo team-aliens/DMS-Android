@@ -1,7 +1,7 @@
 package team.aliens.dms_android.feature.signin.navigation
 
 interface SignInNavigator {
-    fun openMain()
+    fun openAuthorizedNav()
     fun openSignUp()
     fun openFindId()
     fun openResetPassword()

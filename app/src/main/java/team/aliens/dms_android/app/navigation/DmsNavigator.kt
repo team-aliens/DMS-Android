@@ -1,8 +1,12 @@
 package team.aliens.dms_android.app.navigation
 
 import androidx.navigation.NavHostController
+import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.NavGraphSpec
+import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavigator
+import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavigator
 import java.util.UUID
 
@@ -79,8 +83,12 @@ class DmsNavigator(
         TODO("Not yet implemented")
     }
 
-    override fun openMain() {
-        TODO("Not yet implemented")
+    override fun openAuthorizedNav() {
+        navController.navigate(AuthorizedNavGraph) {
+            popUpTo(UnauthorizedNavGraph) {
+                inclusive = true
+            }
+        }
     }
 
     override fun openSignUp() {

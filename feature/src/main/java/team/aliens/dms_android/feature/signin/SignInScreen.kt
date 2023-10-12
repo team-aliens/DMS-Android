@@ -67,7 +67,7 @@ internal fun SignInScreen(
 
             is SignInSideEffect.SignInSuccess -> {
                 availableFeatures.features = sideEffect.features
-                navigator.openMain()
+                navigator.openAuthorizedNav()
             }
 
             SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
