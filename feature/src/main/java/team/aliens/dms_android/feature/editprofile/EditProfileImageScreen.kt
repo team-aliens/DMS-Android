@@ -111,7 +111,7 @@ internal fun EditProfileImageScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(DormTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
