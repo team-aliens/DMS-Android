@@ -8,4 +8,5 @@ interface SignUpNavigator {
     fun openSetId()
     fun openSignUpSetPassword()
     fun openSetProfileImage()
+    fun openTerms()
 }
