@@ -60,12 +60,14 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:jwt"))
     implementation(project(":core:network"))
+    implementation(project(":core:project"))
+    implementation(project(":core:school"))
     implementation(project(":core:ui"))
 
     implementation(project(":data"))
-    implementation(project(":domain"))
     implementation(project(":database"))
     implementation(project(":design-system"))
+    implementation(project(":domain"))
     implementation(project(":feature"))
     implementation(project(":network"))
 
