@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.main
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -48,6 +49,8 @@ import team.aliens.dms_android.design_system.component.DormCalendarLayout
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
+import team.aliens.dms_android.feature._legacy.util.Now
+import team.aliens.dms_android.feature._legacy.util.OneDay
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Announcement
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Application
 import team.aliens.dms_android.feature.main.HomeBottomNavigationItem.Home
@@ -57,10 +60,8 @@ import team.aliens.dms_android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms_android.feature.main.application.ApplicationScreen
 import team.aliens.dms_android.feature.main.home.HomeScreen
 import team.aliens.dms_android.feature.main.mypage.MyPageScreen
-import team.aliens.dms_android.feature._legacy.util.Now
-import team.aliens.dms_android.feature._legacy.util.OneDay
+import team.aliens.dms_android.feature.main.navigation.MainNavigator
 import java.util.Date
-import java.util.UUID
 
 internal fun Date.plusOneDay(): Date {
     return Date(this.time.plus(OneDay))
@@ -70,12 +71,15 @@ internal fun Date.minusOneDay(): Date {
     return Date(this.time.minus(OneDay))
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @RootNavGraph(start = true)
 @Destination
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun Home(
+internal fun MainScreen(
     modifier: Modifier = Modifier,
+    navigator: MainNavigator,
+    /*
     onNavigateToStudyRooms: () -> Unit,
     onNavigateToRemainsApplication: () -> Unit,
     onNavigateToNoticeDetails: (UUID) -> Unit,
@@ -84,7 +88,7 @@ internal fun Home(
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPasswordNav: () -> Unit,
     onNavigateToAuthNav: () -> Unit,
-    onNavigateToNotificationBox: () -> Unit,
+    onNavigateToNotificationBox: () -> Unit,*/
 ) {
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
@@ -119,8 +123,8 @@ internal fun Home(
                 )
             },
             modifier = modifier.fillMaxSize(),
-        ) { paddingValues ->
-            NavHost(
+        ) {  paddingValues ->
+            /*NavHost(
                 modifier = Modifier.fillMaxSize(),
                 navController = bottomNavController,
                 startDestination = Home.route,
@@ -225,7 +229,7 @@ internal fun Home(
                         pointServiceEnabled = pointServiceEnabled,
                     )
                 }
-            }
+            }*/
         }
     }
 }
