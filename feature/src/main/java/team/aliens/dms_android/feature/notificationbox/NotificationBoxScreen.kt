@@ -27,19 +27,20 @@ import team.aliens.dms_android.design_system.modifier.dormShadow
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.Caption
+import team.aliens.dms_android.domain.model.notification.Notification
+import team.aliens.dms_android.domain.model.notification.NotificationTopic
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.Now
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature._legacy.util.toDate
-import team.aliens.dms_android.domain.model.notification.Notification
-import team.aliens.dms_android.domain.model.notification.NotificationTopic
+import team.aliens.dms_android.feature.notificationbox.navigation.NotificationBoxNavigator
 
 @Destination
 @Composable
 internal fun NotificationBoxScreen(
     modifier: Modifier = Modifier,
+    navigator: NotificationBoxNavigator,
     notificationBoxViewModel: NotificationBoxViewModel = hiltViewModel(),
-    onPrevious: () -> Unit,
 ) {
     val uiState by notificationBoxViewModel.stateFlow.collectAsStateWithLifecycle()
 
@@ -50,7 +51,7 @@ internal fun NotificationBoxScreen(
     ) {
         TopBar(
             title = stringResource(R.string.my_page_check_point_history),
-            onPrevious = onPrevious,
+            onPrevious = navigator::popBackStack,
         )
         Notifications(
             modifier = Modifier.fillMaxWidth(),
