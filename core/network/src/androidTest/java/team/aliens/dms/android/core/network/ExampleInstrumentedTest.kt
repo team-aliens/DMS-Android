@@ -1,4 +1,4 @@
-package team.aliens.dms_android.network
+package team.aliens.dms.android.core.network
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
