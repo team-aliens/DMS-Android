@@ -3,13 +3,9 @@
 
 plugins {
     alias(libs.plugins.android.library)
-
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-
-    // TODO: remove later
-    alias(libs.plugins.googleServices)
 }
 
 android {
@@ -55,35 +51,34 @@ dependencies {
     implementation(project(":design-system"))
     implementation(project(":domain"))
 
-    implementation(Dependencies.Android.CoreX)
-    implementation(Dependencies.Android.ActivityX)
-    implementation(Dependencies.Android.FragmentX)
-    implementation(Dependencies.Android.AppCompat)
-    implementation(Dependencies.Android.WorkX)
-    implementation(Dependencies.Android.LifeCycleViewModelX)
-    implementation(Dependencies.Android.LifeCycleCompose)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
 
-    implementation(Dependencies.Ui.Material)
-    implementation(Dependencies.Ui.Compose)
-    implementation(Dependencies.Ui.ComposeMaterial)
-    implementation(Dependencies.Ui.ComposePreview)
-    implementation(Dependencies.Ui.ComposeActiviy)
-    implementation(Dependencies.Ui.ComposeNavigation)
-    implementation(Dependencies.Ui.ComposeNavigationAnimation)
-    implementation(Dependencies.Ui.ComposeGlide)
-    implementation(Dependencies.Ui.ComposeHiltNavigation)
-    implementation(Dependencies.Ui.ComposeUiUtil)
-    implementation(Dependencies.Ui.Pager)
-    implementation(Dependencies.Ui.NavigationAnimation)
-    implementation(Dependencies.Ui.PagerIndicator)
+    implementation(libs.androidx.compose)
+    implementation(libs.androidx.compose.util)
+    implementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.compose.tooling.preview)
+    androidTestImplementation(libs.androidx.compose.test.junit)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
-    implementation(Dependencies.Di.Hilt)
-    ksp(Dependencies.Di.HiltCompiler)
+    implementation(libs.coil.compose)
 
-    implementation(Dependencies.Test.JUnit)
+    implementation(libs.material)
 
-    implementation(Dependencies.Remote.FirebaseMessaging)
+    implementation(libs.javax.inject)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.threetenbp)
 
     implementation(libs.composeDestinations)
     ksp(libs.composeDestinations.ksp)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }
