@@ -47,7 +47,7 @@ import team.aliens.dms.android.design_system.typography.Title3
 import team.aliens.dms.android.domain.model._common.DayOfWeek
 import team.aliens.dms.android.domain.model.remains.RemainsApplicationTime
 import team.aliens.dms.android.domain.model.remains.RemainsOption
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.FloatingNotice
 import team.aliens.dms.android.feature._legacy.listFadeBrush
 import team.aliens.dms.android.feature._legacy.util.TopBar
