@@ -39,7 +39,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import team.aliens.dms.android.design_system.component.DormCalendarLayout
 import team.aliens.dms.android.design_system.theme.DormTheme
 import team.aliens.dms.android.design_system.typography.BottomNavItemLabel
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.LocalAvailableFeatures
 import team.aliens.dms.android.feature._legacy.util.Now
 import team.aliens.dms.android.feature._legacy.util.OneDay
