@@ -1,4 +1,4 @@
-package team.aliens.dms_android.network
+package team.aliens.dms.android.core.network
 
 import org.junit.Test
 
