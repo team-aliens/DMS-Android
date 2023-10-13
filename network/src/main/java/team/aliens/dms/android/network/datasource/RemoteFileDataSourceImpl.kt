@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.datasource
 
-import team.aliens.dms_android.data.datasource.remote.RemoteFileDataSource
+import team.aliens.dms.android.data.datasource.remote.RemoteFileDataSource
 import team.aliens.dms.android.network.apiservice.FileApiService
 import team.aliens.dms.android.network.common.HttpProperty
 import team.aliens.dms.android.network.common.HttpProperty.Header.ContentType

@@ -1,6 +1,6 @@
 package team.aliens.dms.android.database.datasource
 
-import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
+import team.aliens.dms.android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms.android.domain.model.auth.Token
 import team.aliens.dms.android.database.datastore.storage.AuthDataStorage
 import javax.inject.Inject

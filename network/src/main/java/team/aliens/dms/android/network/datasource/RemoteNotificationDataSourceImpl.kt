@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.datasource
 
-import team.aliens.dms_android.data.datasource.remote.RemoteNotificationDataSource
+import team.aliens.dms.android.data.datasource.remote.RemoteNotificationDataSource
 import team.aliens.dms.android.network.apiservice.NotificationApiService
 import team.aliens.dms.android.network.model.notification.RegisterDeviceNotificationTokenRequest
 import team.aliens.dms.android.network.model.notification.toData

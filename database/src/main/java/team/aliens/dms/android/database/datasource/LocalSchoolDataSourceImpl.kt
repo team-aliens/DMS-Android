@@ -1,6 +1,6 @@
 package team.aliens.dms.android.database.datasource
 
-import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
+import team.aliens.dms.android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms.android.domain.model.student.Features
 import team.aliens.dms.android.database.datastore.storage.SchoolDataStorage
 import javax.inject.Inject
