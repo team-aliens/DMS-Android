@@ -49,7 +49,7 @@ android {
 
 dependencies {
     implementation(project(ProjectPaths.designSystem))
-    implementation(project(ProjectPaths.designSystem))
+    implementation(project(ProjectPaths.domain))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
