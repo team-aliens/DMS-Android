@@ -5,17 +5,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import team.aliens.dms_android.network.apiservice.AuthApiService
-import team.aliens.dms_android.network.apiservice.FileApiService
-import team.aliens.dms_android.network.apiservice.MealApiService
-import team.aliens.dms_android.network.apiservice.NoticeApiService
-import team.aliens.dms_android.network.apiservice.NotificationApiService
-import team.aliens.dms_android.network.apiservice.PointApiService
-import team.aliens.dms_android.network.apiservice.RemainsApiService
-import team.aliens.dms_android.network.apiservice.SchoolApiService
-import team.aliens.dms_android.network.apiservice.StudentApiService
-import team.aliens.dms_android.network.apiservice.StudyRoomApiService
-import team.aliens.dms_android.network.apiservice.UserApiService
+import team.aliens.dms.android.network.apiservice.AuthApiService
+import team.aliens.dms.android.network.apiservice.FileApiService
+import team.aliens.dms.android.network.apiservice.MealApiService
+import team.aliens.dms.android.network.apiservice.NoticeApiService
+import team.aliens.dms.android.network.apiservice.NotificationApiService
+import team.aliens.dms.android.network.apiservice.PointApiService
+import team.aliens.dms.android.network.apiservice.RemainsApiService
+import team.aliens.dms.android.network.apiservice.SchoolApiService
+import team.aliens.dms.android.network.apiservice.StudentApiService
+import team.aliens.dms.android.network.apiservice.StudyRoomApiService
+import team.aliens.dms.android.network.apiservice.UserApiService
 import javax.inject.Singleton
 
 

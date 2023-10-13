@@ -9,8 +9,8 @@ import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms_android.data.facade.AuthorizationFacade
 import team.aliens.dms_android.data.manager.TokenReissueManager
-import team.aliens.dms_android.network.http.IgnoreRequestWrapper
-import team.aliens.dms_android.network.http.TokenReissueManagerImpl
+import team.aliens.dms.android.network.http.IgnoreRequestWrapper
+import team.aliens.dms.android.network.http.TokenReissueManagerImpl
 import javax.inject.Singleton
 
 

@@ -1,0 +1,114 @@
+package team.aliens.dms.android.network.datasource
+
+import team.aliens.dms_android.data.datasource.remote.RemoteStudentDataSource
+import team.aliens.dms.android.network.apiservice.StudentApiService
+import team.aliens.dms.android.network.model._common.toDomain
+import team.aliens.dms.android.network.model.student.toData
+import team.aliens.dms.android.network.model.student.toDomain
+import team.aliens.dms.android.network.util.sendHttpRequest
+import team.aliens.dms_android.domain.model._common.AuthenticationOutput
+import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms_android.domain.model.student.CheckIdDuplicationInput
+import team.aliens.dms_android.domain.model.student.EditProfileInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberInput
+import team.aliens.dms_android.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.dms_android.domain.model.student.FetchMyPageOutput
+import team.aliens.dms_android.domain.model.student.FindIdInput
+import team.aliens.dms_android.domain.model.student.FindIdOutput
+import team.aliens.dms_android.domain.model.student.ResetPasswordInput
+import team.aliens.dms_android.domain.model.student.SignUpInput
+import javax.inject.Inject
+
+class RemoteStudentDataSourceImpl @Inject constructor(
+    private val studentApiService: StudentApiService,
+) : RemoteStudentDataSource {
+
+    override suspend fun signUp(
+        input: SignUpInput,
+    ): AuthenticationOutput {
+        return sendHttpRequest {
+            studentApiService.signUp(
+                request = input.toData(),
+            )
+        }.toDomain()
+    }
+
+    override suspend fun examineStudentNumber(
+        input: ExamineStudentNumberInput,
+    ): ExamineStudentNumberOutput {
+        return sendHttpRequest {
+            studentApiService.examineStudentNumber(
+                schoolId = input.schoolId,
+                grade = input.grade,
+                classRoom = input.classRoom,
+                number = input.number,
+            )
+        }.toDomain()
+    }
+
+    override suspend fun findId(
+        input: FindIdInput,
+    ): FindIdOutput {
+        return sendHttpRequest {
+            studentApiService.findId(
+                schoolId = input.schoolId,
+                studentName = input.studentName,
+                grade = input.grade,
+                classRoom = input.classRoom,
+                number = input.number,
+            )
+        }.toDomain()
+    }
+
+    override suspend fun resetPassword(
+        input: ResetPasswordInput,
+    ) {
+        return sendHttpRequest {
+            studentApiService.resetPassword(
+                request = input.toData(),
+            )
+        }
+    }
+
+    override suspend fun checkIdDuplication(
+        input: CheckIdDuplicationInput,
+    ) {
+        return sendHttpRequest {
+            studentApiService.checkIdDuplication(
+                accountId = input.accountId,
+            )
+        }
+    }
+
+    override suspend fun checkEmailDuplication(
+        input: CheckEmailDuplicationInput,
+    ) {
+        return sendHttpRequest {
+            studentApiService.checkEmailDuplication(
+                email = input.email,
+            )
+        }
+    }
+
+    override suspend fun fetchMyPage(): FetchMyPageOutput {
+        return sendHttpRequest {
+            studentApiService.fetchMyPage()
+        }.toDomain()
+    }
+
+    override suspend fun editProfile(
+        input: EditProfileInput,
+    ) {
+        return sendHttpRequest {
+            studentApiService.editProfile(
+                request = input.toData(),
+            )
+        }
+    }
+
+    override suspend fun withdraw() {
+        return sendHttpRequest {
+            studentApiService.withdraw()
+        }
+    }
+}
