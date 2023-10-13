@@ -9,13 +9,20 @@ import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavigator
+import team.aliens.dms_android.feature._legacy.util.SelectImageType
 import team.aliens.dms_android.feature.destinations.AnnouncementListScreenDestination
 import team.aliens.dms_android.feature.destinations.ApplicationScreenDestination
 import team.aliens.dms_android.feature.destinations.EditPasswordSetPasswordScreenDestination
+import team.aliens.dms_android.feature.destinations.EditProfileImageScreenDestination
 import team.aliens.dms_android.feature.destinations.HomeScreenDestination
 import team.aliens.dms_android.feature.destinations.MyPageScreenDestination
 import team.aliens.dms_android.feature.destinations.NoticeDetailsScreenDestination
+import team.aliens.dms_android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms_android.feature.destinations.PointHistoryScreenDestination
+import team.aliens.dms_android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms_android.feature.destinations.SignInScreenDestination
+import team.aliens.dms_android.feature.destinations.StudyRoomListScreenDestination
+import team.aliens.dms_android.feature.editpassword.navigation.EditPasswordNavGraph
 import java.util.UUID
 
 class DmsNavigator(
@@ -56,27 +63,31 @@ class DmsNavigator(
     }
 
     override fun openStudyRoomList() {
-        TODO("Not yet implemented")
+        navController.navigate(StudyRoomListScreenDestination within navGraph)
     }
 
     override fun openRemainsApplication() {
-        TODO("Not yet implemented")
+        navController.navigate(RemainsApplicationScreenDestination within navGraph)
     }
 
     override fun openNotificationBox() {
-        TODO("Not yet implemented")
+        navController.navigate(NotificationBoxScreenDestination within navGraph)
     }
 
     override fun openPointHistory() {
-        TODO("Not yet implemented")
+        navController.navigate(PointHistoryScreenDestination within navGraph)
     }
 
     override fun openEditPasswordNav() {
-        TODO("Not yet implemented")
+        navController.navigate(EditPasswordNavGraph) {
+            restoreState = true
+            launchSingleTop = true
+        }
     }
 
-    override fun openEditProfileImage() {
-        TODO("Not yet implemented")
+    override fun openEditProfileImage(selectImageType: SelectImageType) {
+        // TODO
+        navController.navigate(EditProfileImageScreenDestination(selectImageType) within navGraph)
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
