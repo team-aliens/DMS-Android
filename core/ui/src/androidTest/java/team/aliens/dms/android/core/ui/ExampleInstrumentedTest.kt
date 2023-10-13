@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.ui
+package team.aliens.dms.android.core.ui
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
