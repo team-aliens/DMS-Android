@@ -1,4 +1,4 @@
-package team.aliens.dms_android.shared.date
+package team.aliens.dms.android.shared.date
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
