@@ -73,7 +73,7 @@ import team.aliens.dms.android.feature._legacy.listFadeBrush
 import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
 import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
 import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.Calendar
 import java.util.Date
