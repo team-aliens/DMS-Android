@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.datastore.storage
+package team.aliens.dms.android.database.datastore.storage
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -6,12 +6,12 @@ import androidx.datastore.preferences.core.edit
 import java.util.Date
 import kotlinx.coroutines.flow.first
 import team.aliens.dms.android.domain.exception.LocalException
-import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.AccessToken
-import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.AccessTokenExpiredAt
-import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.AutoSignIn
-import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.RefreshToken
-import team.aliens.dms_android.database.datastore.common.DataStoreProperty.Key.Auth.RefreshTokenExpiredAt
-import team.aliens.dms_android.database.util.toDate
+import team.aliens.dms.android.database.datastore.common.DataStoreProperty.Key.Auth.AccessToken
+import team.aliens.dms.android.database.datastore.common.DataStoreProperty.Key.Auth.AccessTokenExpiredAt
+import team.aliens.dms.android.database.datastore.common.DataStoreProperty.Key.Auth.AutoSignIn
+import team.aliens.dms.android.database.datastore.common.DataStoreProperty.Key.Auth.RefreshToken
+import team.aliens.dms.android.database.datastore.common.DataStoreProperty.Key.Auth.RefreshTokenExpiredAt
+import team.aliens.dms.android.database.util.toDate
 import team.aliens.dms.android.domain.model.auth.Token
 import javax.inject.Inject
 

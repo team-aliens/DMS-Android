@@ -3,7 +3,6 @@
 package team.aliens.dms_android.feature.main.home
 
 import android.content.Context
-import android.os.Vibrator
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn

@@ -4,10 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms_android.database.datastore.storage.AuthDataStorage
-import team.aliens.dms_android.database.datastore.storage.AuthDataStorageImpl
-import team.aliens.dms_android.database.datastore.storage.SchoolDataStorage
-import team.aliens.dms_android.database.datastore.storage.SchoolDataStorageImpl
+import team.aliens.dms.android.database.datastore.storage.AuthDataStorage
+import team.aliens.dms.android.database.datastore.storage.AuthDataStorageImpl
+import team.aliens.dms.android.database.datastore.storage.SchoolDataStorage
+import team.aliens.dms.android.database.datastore.storage.SchoolDataStorageImpl
 import javax.inject.Singleton
 
 // TODO: remove

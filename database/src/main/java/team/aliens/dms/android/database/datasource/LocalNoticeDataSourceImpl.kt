@@ -1,9 +1,9 @@
-package team.aliens.dms_android.database.datasource
+package team.aliens.dms.android.database.datasource
 
 import team.aliens.dms_android.core.database.dao.NoticeDao
 import team.aliens.dms_android.data.datasource.local.LocalNoticeDataSource
-import team.aliens.dms_android.database.room.entity.toData
-import team.aliens.dms_android.database.room.entity.toDomain
+import team.aliens.dms.android.database.room.entity.toData
+import team.aliens.dms.android.database.room.entity.toDomain
 import team.aliens.dms.android.domain.model.notice.Notice
 import java.util.UUID
 import javax.inject.Inject

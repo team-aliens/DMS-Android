@@ -8,10 +8,10 @@ import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms_android.data.datasource.local.LocalMealDataSource
 import team.aliens.dms_android.data.datasource.local.LocalNoticeDataSource
 import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
-import team.aliens.dms_android.database.datasource.LocalAuthDataSourceImpl
-import team.aliens.dms_android.database.datasource.LocalMealDataSourceImpl
-import team.aliens.dms_android.database.datasource.LocalNoticeDataSourceImpl
-import team.aliens.dms_android.database.datasource.LocalSchoolDataSourceImpl
+import team.aliens.dms.android.database.datasource.LocalAuthDataSourceImpl
+import team.aliens.dms.android.database.datasource.LocalMealDataSourceImpl
+import team.aliens.dms.android.database.datasource.LocalNoticeDataSourceImpl
+import team.aliens.dms.android.database.datasource.LocalSchoolDataSourceImpl
 import javax.inject.Singleton
 
 

@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.datastore.common
+package team.aliens.dms.android.database.datastore.common
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey

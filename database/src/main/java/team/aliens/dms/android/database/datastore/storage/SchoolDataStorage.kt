@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.datastore.storage
+package team.aliens.dms.android.database.datastore.storage
 
 import team.aliens.dms.android.domain.model.student.Features
 

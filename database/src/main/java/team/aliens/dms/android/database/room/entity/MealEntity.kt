@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database.room.entity
+package team.aliens.dms.android.database.room.entity
 
 import team.aliens.dms_android.core.database.entity.MealEntity
 import team.aliens.dms.android.domain.model.meal.Meal

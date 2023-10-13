@@ -1,8 +1,8 @@
-package team.aliens.dms_android.database.datasource
+package team.aliens.dms.android.database.datasource
 
 import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms.android.domain.model.student.Features
-import team.aliens.dms_android.database.datastore.storage.SchoolDataStorage
+import team.aliens.dms.android.database.datastore.storage.SchoolDataStorage
 import javax.inject.Inject
 
 // TODO: remove
