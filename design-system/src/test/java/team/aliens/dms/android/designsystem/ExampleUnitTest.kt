@@ -1,4 +1,4 @@
-package team.aliens.design_system
+package team.aliens.dms.android.designsystem
 
 import org.junit.Test
 
