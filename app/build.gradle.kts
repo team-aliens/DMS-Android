@@ -54,22 +54,22 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared:date"))
+    implementation(project(ProjectPaths.Shared.date))
 
-    implementation(project(":core:database"))
-    implementation(project(":core:datastore"))
-    implementation(project(":core:jwt"))
-    implementation(project(":core:network"))
-    implementation(project(":core:project"))
-    implementation(project(":core:school"))
-    implementation(project(":core:ui"))
+    implementation(project(ProjectPaths.Core.database))
+    implementation(project(ProjectPaths.Core.dataStore))
+    implementation(project(ProjectPaths.Core.jwt))
+    implementation(project(ProjectPaths.Core.network))
+    implementation(project(ProjectPaths.Core.project))
+    implementation(project(ProjectPaths.Core.school))
+    implementation(project(ProjectPaths.Core.ui))
 
-    implementation(project(":data"))
-    implementation(project(":database"))
-    implementation(project(":design-system"))
-    implementation(project(":domain"))
-    implementation(project(":feature"))
-    implementation(project(":network"))
+    implementation(project(ProjectPaths.data))
+    implementation(project(ProjectPaths.database))
+    implementation(project(ProjectPaths.designSystem))
+    implementation(project(ProjectPaths.domain))
+    implementation(project(ProjectPaths.feature))
+    implementation(project(ProjectPaths.network))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
