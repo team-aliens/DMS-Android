@@ -1,10 +1,10 @@
-package team.aliens.dms_android.core.database.dao
+package team.aliens.dms.android.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import team.aliens.dms_android.core.database.entity.NoticeEntity
+import team.aliens.dms.android.core.database.entity.NoticeEntity
 import java.util.UUID
 
 @Dao

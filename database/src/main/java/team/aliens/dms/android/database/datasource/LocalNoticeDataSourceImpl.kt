@@ -1,6 +1,6 @@
 package team.aliens.dms.android.database.datasource
 
-import team.aliens.dms_android.core.database.dao.NoticeDao
+import team.aliens.dms.android.core.database.dao.NoticeDao
 import team.aliens.dms.android.data.datasource.local.LocalNoticeDataSource
 import team.aliens.dms.android.database.room.entity.toData
 import team.aliens.dms.android.database.room.entity.toDomain
