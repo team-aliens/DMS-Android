@@ -78,7 +78,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.postIntent(MyPageIntent.SignOut)
-                    navigator.switchNavGraphRoot()
+                    navigator.openUnauthorizedNav()
                     signOutDialogState = false
                 },
                 onSubBtnClick = {
@@ -99,7 +99,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.postIntent(MyPageIntent.Withdraw)
-                    navigator.switchNavGraphRoot()
+                    navigator.openUnauthorizedNav()
                     withdrawDialogState = false
                 },
                 onSubBtnClick = {
@@ -151,7 +151,7 @@ internal fun MyPageScreen(
                 .padding(horizontal = 16.dp),
             // TODO
             onPointHistoryClicked = if (true) navigator::openPointHistory else null,
-            onEditPasswordClicked = navigator::openEditPassword,
+            onEditPasswordClicked = navigator::openEditPasswordNav,
             onSignOutClicked = { signOutDialogState = !signOutDialogState },
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )

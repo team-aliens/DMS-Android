@@ -182,7 +182,7 @@ fun rememberToastState(): ToastState {
 }
 
 @Composable
-fun DormToastLayout(
+fun ToastLayout(
     modifier: Modifier = Modifier,
     toastState: ToastState,
     toastHost: @Composable (ToastState) -> Unit = { DormToastHost(it) },

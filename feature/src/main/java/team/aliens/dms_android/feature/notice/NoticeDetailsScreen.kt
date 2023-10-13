@@ -28,13 +28,14 @@ import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature.main.announcement.toNoticeDate
 import team.aliens.dms_android.feature.notice.navigation.NoticeNavigator
+import java.util.UUID
 
 @Destination
 @Composable
 internal fun NoticeDetailsScreen(
     modifier: Modifier = Modifier,
     navigator: NoticeNavigator,
-    // noticeId: UUID,
+    noticeId: UUID,
     noticeDetailsViewModel: NoticeDetailsViewModel = hiltViewModel(),
 ) {
     val uiState by noticeDetailsViewModel.stateFlow.collectAsStateWithLifecycle()

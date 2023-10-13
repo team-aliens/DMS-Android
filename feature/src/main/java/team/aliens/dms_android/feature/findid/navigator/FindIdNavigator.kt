@@ -4,4 +4,5 @@ interface FindIdNavigator {
     fun openSignIn()
 
     fun popBackStack()
+    fun navigateUp()
 }

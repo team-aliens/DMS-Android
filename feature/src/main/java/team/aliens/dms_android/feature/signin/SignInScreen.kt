@@ -67,7 +67,7 @@ internal fun SignInScreen(
 
             is SignInSideEffect.SignInSuccess -> {
                 availableFeatures.features = sideEffect.features
-                navigator.openMain()
+                navigator.openAuthorizedNav()
             }
 
             SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
@@ -101,9 +101,9 @@ internal fun SignInScreen(
         )
         Spacer(Modifier.height(12.dp))
         AuthActions(
-            onSignUpClicked = navigator::openSignUp,
+            onSignUpClicked = navigator::openSignUpNav,
             onFindIdClicked = navigator::openFindId,
-            onResetPasswordClicked = navigator::openResetPassword,
+            onResetPasswordClicked = navigator::openResetPasswordNav,
         )
         Spacer(Modifier.weight(1f))
         DormContainedLargeButton(

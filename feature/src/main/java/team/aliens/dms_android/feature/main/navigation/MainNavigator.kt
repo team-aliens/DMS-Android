@@ -1,5 +1,6 @@
 package team.aliens.dms_android.feature.main.navigation
 
+import team.aliens.dms_android.feature._legacy.util.SelectImageType
 import java.util.UUID
 
 interface MainNavigator {
@@ -12,7 +13,8 @@ interface MainNavigator {
     fun openRemainsApplication()
     fun openNotificationBox()
     fun openPointHistory()
-    fun openEditPassword()
+    fun openEditPasswordNav()
+    fun openEditProfileImage(selectImageType: SelectImageType = SelectImageType.NONE)
 
-    fun switchNavGraphRoot()
+    fun openUnauthorizedNav()
 }

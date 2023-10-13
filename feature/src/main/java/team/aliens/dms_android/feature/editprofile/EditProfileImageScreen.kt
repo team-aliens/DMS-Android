@@ -95,6 +95,7 @@ internal fun EditProfileImageScreen(
             }
 
             SelectImageType.SELECT_FROM_GALLERY -> onSelectPhoto()
+            else -> {}
         }
     }
 

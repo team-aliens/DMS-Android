@@ -11,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import team.aliens.dms_android.design_system.toast.ToastLayout
+import team.aliens.dms_android.design_system.toast.rememberToastState
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -20,14 +22,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val autoSignIn by viewModel.autoSignInAvailable.collectAsStateWithLifecycle()
+            val toast = rememberToastState()
 
-            if (autoSignIn != null) {
-                DmsApp(
-                    modifier = Modifier.fillMaxSize(),
-                    autoSignIn = autoSignIn!!,
-                )
-            } else {
-                Text(text = "LOADING, SPLASH")
+            ToastLayout(
+                modifier = Modifier.fillMaxSize(),
+                toastState = toast,
+            ) {
+                if (autoSignIn != null) {
+                    DmsApp(
+                        modifier = Modifier.fillMaxSize(),
+                        autoSignIn = autoSignIn!!,
+                    )
+                } else {
+                    Text(text = "LOADING, SPLASH")
+                }
             }
         }
     }
