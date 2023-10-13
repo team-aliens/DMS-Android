@@ -31,8 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.dms.android.design_system.color.DormColor
 import team.aliens.dms.android.design_system.component.DefaultAppliedTagSize
 import team.aliens.dms.android.design_system.component.LastAppliedItem
@@ -210,12 +210,13 @@ private fun UserInformation(
             modifier = Modifier.weight(0.2f),
             contentAlignment = Alignment.BottomEnd,
         ) {
-            GlideImage(
+            AsyncImage(
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
                     .dormClickable { onChangeProfileImage() },
-                imageModel = { profileImageUrl },
+                model = profileImageUrl,
+                contentDescription = null,
             )
             Image(
                 modifier = Modifier.size(20.dp),
