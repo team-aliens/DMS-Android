@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.network"
+    namespace = "team.aliens.dms.android.network"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

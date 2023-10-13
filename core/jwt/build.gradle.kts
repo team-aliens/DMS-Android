@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.core.jwt"
+    namespace = "team.aliens.dms.android.core.jwt"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

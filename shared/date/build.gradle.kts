@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.shared.date"
+    namespace = "team.aliens.dms.android.shared.date"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

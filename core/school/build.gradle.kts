@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.core.school"
+    namespace = "team.aliens.dms.android.core.school"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

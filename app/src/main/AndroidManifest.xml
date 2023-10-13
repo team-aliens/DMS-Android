@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name=".DmsApplication"
+        android:name="team.aliens.dms.android.app.DmsApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,11 +25,11 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name="team.aliens.dms_android.app.splash.SplashActivity"
+            android:name="team.aliens.dms_android.app.team.aliens.dms.android.app.splash.SplashActivity"
             android:exported="false" />
 
         <activity
-            android:name="team.aliens.dms_android.app.MainActivity"
+            android:name="team.aliens.dms_android.app.team.aliens.dms.android.app.MainActivity"
             android:exported="true"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar">

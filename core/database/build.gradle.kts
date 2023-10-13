@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.core.database"
+    namespace = "team.aliens.dms.android.core.database"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
