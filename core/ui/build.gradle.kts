@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms_android.core.ui"
+    namespace = "team.aliens.dms.android.core.ui"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
