@@ -49,22 +49,22 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = Versions.java.toString()
     }
 }
 
 dependencies {
 
     // TODO: also remove dependency when TokenReissueManager is removed from :network
-    implementation(project(":core:jwt"))
+    implementation(project(ProjectPaths.Core.jwt))
 
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(project(ProjectPaths.data))
+    implementation(project(ProjectPaths.domain))
 
     implementation(libs.androidx.core)
 

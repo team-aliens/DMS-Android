@@ -29,17 +29,17 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = Versions.java.toString()
     }
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(project(ProjectPaths.domain))
 
     implementation(libs.androidx.core)
 

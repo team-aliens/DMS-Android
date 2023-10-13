@@ -1,7 +1,6 @@
 package team.aliens.dms.android.feature.signin
 
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,7 +70,7 @@ internal class SignInViewModel @Inject constructor(
                         features = it.features.toModel(),
                     ),
                 )
-                this@SignInViewModel.registerDeviceNotificationToken()
+                // TODO: this@SignInViewModel.registerDeviceNotificationToken()
             }.onFailure {
                 when (it) {
                     RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
@@ -123,7 +122,7 @@ internal class SignInViewModel @Inject constructor(
     ) {
         reduce(newState = currentState.copy(signInButtonEnabled = enabled))
     }
-
+/*
     private fun registerDeviceNotificationToken() {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
@@ -151,7 +150,7 @@ internal class SignInViewModel @Inject constructor(
         }
         runBlocking { delay(1000L) }
         return token.result
-    }
+    }*/
 }
 
 internal sealed interface SignInIntent : MviIntent {
