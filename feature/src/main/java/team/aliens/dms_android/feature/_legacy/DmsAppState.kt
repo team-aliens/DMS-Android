@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import team.aliens.dms_android.design_system.toast.ToastState
-import team.aliens.dms_android.design_system.toast.rememberToastState
+import team.aliens.dms.android.design_system.toast.ToastState
+import team.aliens.dms.android.design_system.toast.rememberToastState
 import team.aliens.dms.android.domain.model.student.Features
 
 @Composable

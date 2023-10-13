@@ -11,8 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import team.aliens.dms_android.design_system.toast.ToastLayout
-import team.aliens.dms_android.design_system.toast.rememberToastState
+import team.aliens.dms.android.design_system.toast.ToastLayout
+import team.aliens.dms.android.design_system.toast.rememberToastState
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

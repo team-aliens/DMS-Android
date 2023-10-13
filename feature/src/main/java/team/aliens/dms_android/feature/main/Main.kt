@@ -36,9 +36,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms_android.design_system.component.DormCalendarLayout
-import team.aliens.dms_android.design_system.theme.DormTheme
-import team.aliens.dms_android.design_system.typography.BottomNavItemLabel
+import team.aliens.dms.android.design_system.component.DormCalendarLayout
+import team.aliens.dms.android.design_system.theme.DormTheme
+import team.aliens.dms.android.design_system.typography.BottomNavItemLabel
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.LocalAvailableFeatures
 import team.aliens.dms_android.feature._legacy.util.Now

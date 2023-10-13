@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms_android.design_system.theme.DormTheme
-import team.aliens.dms_android.design_system.typography.Body5
-import team.aliens.dms_android.design_system.typography.Caption
-import team.aliens.dms_android.design_system.typography.Title3
+import team.aliens.dms.android.design_system.theme.DormTheme
+import team.aliens.dms.android.design_system.typography.Body5
+import team.aliens.dms.android.design_system.typography.Caption
+import team.aliens.dms.android.design_system.typography.Title3
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.TopBar
 import team.aliens.dms_android.feature.main.announcement.toNoticeDate
