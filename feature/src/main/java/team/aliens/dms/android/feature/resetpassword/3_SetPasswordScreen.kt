@@ -42,7 +42,7 @@ import team.aliens.dms.android.design_system.toast.rememberToast
 import team.aliens.dms.android.design_system.typography.Body2
 import team.aliens.dms.android.design_system.typography.Body4
 import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
@@ -122,7 +122,7 @@ fun ResetPasswordSetPasswordScreen(
                     .padding(top = 32.dp, bottom = 7.dp)
                     .height(85.dp)
                     .width(85.dp),
-                painter = painterResource(team.aliens.design_system.R.drawable.ic_information),
+                painter = painterResource(team.aliens.dms.android.designsystem.R.drawable.ic_information),
                 contentDescription = stringResource(id = R.string.MainLogo),
             )
 
