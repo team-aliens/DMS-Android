@@ -48,8 +48,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":design-system"))
-    implementation(project(":domain"))
+    implementation(project(ProjectPaths.designSystem))
+    implementation(project(ProjectPaths.designSystem))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
