@@ -1,6 +1,7 @@
 package team.aliens.dms_android.app.navigation
 
 import androidx.navigation.NavHostController
+import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.NavGraphSpec
@@ -8,6 +9,10 @@ import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavigator
+import team.aliens.dms_android.feature.destinations.ApplicationScreenDestination
+import team.aliens.dms_android.feature.destinations.EditPasswordSetPasswordScreenDestination
+import team.aliens.dms_android.feature.destinations.HomeScreenDestination
+import team.aliens.dms_android.feature.destinations.SignInScreenDestination
 import java.util.UUID
 
 class DmsNavigator(
@@ -15,28 +20,28 @@ class DmsNavigator(
     private val navController: NavHostController,
 ) : AuthorizedNavigator,
     UnauthorizedNavigator {
-    override fun openSetPasswordNav() {
-        TODO("Not yet implemented")
+    override fun openEditPasswordSetPasswordNav() {
+        navController.navigate(EditPasswordSetPasswordScreenDestination within navGraph)
     }
 
     override fun openSignIn() {
-        TODO("Not yet implemented")
+        navController.navigate(SignInScreenDestination within navGraph)
     }
 
     override fun popBackStack() {
-        TODO("Not yet implemented")
+        navController.popBackStack()
     }
 
     override fun openHome() {
-        TODO("Not yet implemented")
+        navController.navigate(HomeScreenDestination within navGraph)
     }
 
     override fun openApplication() {
-        TODO("Not yet implemented")
+        navController.navigate(ApplicationScreenDestination within navGraph)
     }
 
     override fun openAnnouncementList() {
-        TODO("Not yet implemented")
+        navCon
     }
 
     override fun openMyPage() {
