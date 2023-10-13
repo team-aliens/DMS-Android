@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.project.di
+package team.aliens.dms.android.core.project.di
 
 import javax.inject.Qualifier
 

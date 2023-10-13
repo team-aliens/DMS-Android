@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.project.di.Debug
+import team.aliens.dms.android.core.project.di.Debug
 import javax.inject.Singleton
 
 @Module

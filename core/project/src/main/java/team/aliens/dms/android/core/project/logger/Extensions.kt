@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.project.logger
+package team.aliens.dms.android.core.project.logger
 
 fun logInfo(tag: String = "Information", message: String) = Logging.info(tag, message)
 

@@ -1,6 +1,6 @@
 // TODO: need to be checked
 
-package team.aliens.dms_android.core.project.logger
+package team.aliens.dms.android.core.project.logger
 
 import android.util.Log
 
