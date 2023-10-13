@@ -29,7 +29,7 @@ import team.aliens.dms.android.design_system.textfield.DormTextField
 import team.aliens.dms.android.design_system.theme.DormTheme
 import team.aliens.dms.android.design_system.toast.rememberToast
 import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavigator

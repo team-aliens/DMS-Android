@@ -4,8 +4,8 @@ import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
-import team.aliens.dms_android.feature.destinations.ConfirmPasswordScreenDestination
-import team.aliens.dms_android.feature.destinations.EditPasswordSetPasswordScreenDestination
+import team.aliens.dms.android.feature.destinations.ConfirmPasswordScreenDestination
+import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 
 object EditPasswordNavGraph : NavGraphSpec {
     override val route: String = "edit_password"
