@@ -14,15 +14,28 @@ import team.aliens.dms_android.feature.destinations.AnnouncementListScreenDestin
 import team.aliens.dms_android.feature.destinations.ApplicationScreenDestination
 import team.aliens.dms_android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms_android.feature.destinations.EditProfileImageScreenDestination
+import team.aliens.dms_android.feature.destinations.EnterEmailScreenDestination
+import team.aliens.dms_android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
+import team.aliens.dms_android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms_android.feature.destinations.HomeScreenDestination
 import team.aliens.dms_android.feature.destinations.MyPageScreenDestination
 import team.aliens.dms_android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms_android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms_android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms_android.feature.destinations.RemainsApplicationScreenDestination
+import team.aliens.dms_android.feature.destinations.ResetPasswordEnterEmailVerificationCodeScreenDestination
+import team.aliens.dms_android.feature.destinations.ResetPasswordSetPasswordScreenDestination
+import team.aliens.dms_android.feature.destinations.SetIdScreenDestination
+import team.aliens.dms_android.feature.destinations.SetProfileImageScreenDestination
 import team.aliens.dms_android.feature.destinations.SignInScreenDestination
+import team.aliens.dms_android.feature.destinations.SignUpEnterEmailVerificationCodeScreenDestination
+import team.aliens.dms_android.feature.destinations.SignUpSetPasswordScreenDestination
+import team.aliens.dms_android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms_android.feature.destinations.StudyRoomListScreenDestination
+import team.aliens.dms_android.feature.destinations.TermsScreenDestination
 import team.aliens.dms_android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms_android.feature.resetpassword.navigation.ResetPasswordNavGraph
+import team.aliens.dms_android.feature.signup.navigation.SignUpNavGraph
 import java.util.UUID
 
 class DmsNavigator(
@@ -95,11 +108,11 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
-        navController.navigate()
+        navController.navigate(ResetPasswordEnterEmailVerificationCodeScreenDestination within navGraph)
     }
 
     override fun openResetPasswordSetPassword() {
-        TODO("Not yet implemented")
+        navController.navigate(ResetPasswordSetPasswordScreenDestination)
     }
 
     override fun openAuthorizedNav() {
@@ -119,46 +132,54 @@ class DmsNavigator(
     }
 
     override fun openSignUpNav() {
-        TODO("Not yet implemented")
+        navController.navigate(SignUpNavGraph)
     }
 
     override fun openFindId() {
-        TODO("Not yet implemented")
+        navController.navigate(FindIdScreenDestination within navGraph)
     }
 
     override fun openResetPasswordNav() {
-        TODO("Not yet implemented")
+        navController.navigate(ResetPasswordNavGraph)
     }
 
     override fun openEnterSchoolVerificationQuestion() {
-        TODO("Not yet implemented")
+        navController.navigate(EnterSchoolVerificationQuestionScreenDestination within navGraph)
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
-        TODO("Not yet implemented")
+        navController.navigate(EnterEmailScreenDestination within navGraph)
     }
 
     override fun openSignUpEnterEmailVerificationCode() {
-        TODO("Not yet implemented")
+        navController.navigate(SignUpEnterEmailVerificationCodeScreenDestination within navGraph)
     }
 
     override fun openSetId() {
-        TODO("Not yet implemented")
+        navController.navigate(SetIdScreenDestination within navGraph)
     }
 
     override fun openSignUpSetPassword() {
-        TODO("Not yet implemented")
+        navController.navigate(SignUpSetPasswordScreenDestination within navGraph)
     }
 
     override fun openSetProfileImage() {
-        TODO("Not yet implemented")
+        navController.navigate(SetProfileImageScreenDestination within navGraph)
     }
 
     override fun openTerms() {
-        TODO("Not yet implemented")
+        navController.navigate(TermsScreenDestination within navGraph)
     }
 
-    override fun openStudyRoomDetails(studyRoomId: UUID, timeslot: UUID) {
-        TODO("Not yet implemented")
+    override fun openStudyRoomDetails(
+        studyRoomId: UUID,
+        timeslot: UUID,
+    ) {
+        navController.navigate(
+            StudyRoomDetailsScreenDestination(
+                studyRoomId = studyRoomId,
+                timeslot = timeslot,
+            ) within navGraph,
+        )
     }
 }
