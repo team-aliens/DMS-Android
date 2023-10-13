@@ -15,7 +15,7 @@ class DmsNavigator(
     private val navController: NavHostController,
 ) : AuthorizedNavigator,
     UnauthorizedNavigator {
-    override fun openSetPassword() {
+    override fun openSetPasswordNav() {
         TODO("Not yet implemented")
     }
 

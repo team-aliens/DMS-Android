@@ -62,7 +62,7 @@ fun ConfirmPasswordScreen(
     LaunchedEffect(Unit) {
         changePasswordViewModel.editPasswordEffect.collect {
             when (it) {
-                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> navigator.openSetPassword()
+                is ChangePasswordViewModel.Event.ComparePasswordSuccess -> navigator.openSetPasswordNav()
 
                 is ChangePasswordViewModel.Event.UnauthorizedException -> {
                     isError = true
