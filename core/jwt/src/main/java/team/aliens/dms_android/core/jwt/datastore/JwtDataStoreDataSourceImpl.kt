@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.core.datastore.PreferencesDataStore
-import team.aliens.dms_android.core.datastore.util.transform
+import team.aliens.dms.android.core.datastore.PreferencesDataStore
+import team.aliens.dms.android.core.datastore.util.transform
 import team.aliens.dms_android.core.jwt.AccessToken
 import team.aliens.dms_android.core.jwt.AccessTokenExpiration
 import team.aliens.dms_android.core.jwt.RefreshToken

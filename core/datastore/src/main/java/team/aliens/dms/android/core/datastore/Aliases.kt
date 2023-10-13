@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.datastore
+package team.aliens.dms.android.core.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

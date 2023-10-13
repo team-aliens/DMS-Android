@@ -1,6 +1,6 @@
-package team.aliens.dms_android.core.datastore.util
+package team.aliens.dms.android.core.datastore.util
 
-import team.aliens.dms_android.core.datastore.exception.TransformFailureException
+import team.aliens.dms.android.core.datastore.exception.TransformFailureException
 
 suspend inline fun <reified T> transform(
     crossinline job: suspend () -> T,

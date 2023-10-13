@@ -1,6 +1,6 @@
 package team.aliens.dms_android.core.jwt.exception
 
-import team.aliens.dms_android.core.datastore.exception.TransformFailureException
+import team.aliens.dms.android.core.datastore.exception.TransformFailureException
 
 sealed class CannotStoreTokenExpirationException(message: String?) :
     TransformFailureException(message)
