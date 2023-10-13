@@ -27,12 +27,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import team.aliens.design_system.R
 import team.aliens.dms.android.design_system.animation.HorizontalAnimationBox
 import team.aliens.dms.android.design_system.annotation.DormDeprecated
 import team.aliens.dms.android.design_system.color.DormColor
 import team.aliens.dms.android.design_system.icon.DormIcon
 import team.aliens.dms.android.design_system.modifier.dormClickable
+import team.aliens.dms.android.designsystem.R
 
 @Stable
 val DefaultPhotoSize: Dp = 100.dp

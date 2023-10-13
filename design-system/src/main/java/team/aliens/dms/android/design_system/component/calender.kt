@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import java.util.Date
-import team.aliens.design_system.R
+import team.aliens.dms.android.designsystem.R
 import team.aliens.dms.android.design_system.annotation.DormDeprecated
 import team.aliens.dms.android.design_system.utils.makeDate
 
