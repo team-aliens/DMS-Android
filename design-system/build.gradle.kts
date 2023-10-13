@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.design_system"
+    namespace = "team.aliens.dms.android.designsystem"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
