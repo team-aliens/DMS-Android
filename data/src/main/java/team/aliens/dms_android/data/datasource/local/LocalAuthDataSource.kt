@@ -1,6 +1,6 @@
 package team.aliens.dms_android.data.datasource.local
 
-import team.aliens.dms_android.domain.model.auth.Token
+import team.aliens.dms.android.domain.model.auth.Token
 
 interface LocalAuthDataSource {
 

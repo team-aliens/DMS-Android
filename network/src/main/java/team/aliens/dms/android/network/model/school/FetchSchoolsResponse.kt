@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.school
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms.android.domain.model.school.FetchSchoolsOutput
 import java.util.*
 
 data class FetchSchoolsResponse(

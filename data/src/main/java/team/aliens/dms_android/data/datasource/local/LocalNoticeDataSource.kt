@@ -1,6 +1,6 @@
 package team.aliens.dms_android.data.datasource.local
 
-import team.aliens.dms_android.domain.model.notice.Notice
+import team.aliens.dms.android.domain.model.notice.Notice
 import java.util.UUID
 
 interface LocalNoticeDataSource {

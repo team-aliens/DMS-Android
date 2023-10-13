@@ -37,8 +37,8 @@ import team.aliens.dms_android.design_system.typography.Body1
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.Body4
 import team.aliens.dms_android.design_system.typography.OverLine
-import team.aliens.dms_android.domain.model._common.Order
-import team.aliens.dms_android.domain.model.notice.Notice
+import team.aliens.dms.android.domain.model._common.Order
+import team.aliens.dms.android.domain.model.notice.Notice
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.main.navigation.MainNavigator
 import java.util.UUID

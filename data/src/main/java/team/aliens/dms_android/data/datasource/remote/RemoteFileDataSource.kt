@@ -1,8 +1,8 @@
 package team.aliens.dms_android.data.datasource.remote
 
-import team.aliens.dms_android.domain.model.file.FetchPreSignedUrlOutput
-import team.aliens.dms_android.domain.model.file.UploadFileInput
-import team.aliens.dms_android.domain.model.file.UploadFileOutput
+import team.aliens.dms.android.domain.model.file.FetchPreSignedUrlOutput
+import team.aliens.dms.android.domain.model.file.UploadFileInput
+import team.aliens.dms.android.domain.model.file.UploadFileOutput
 import java.io.File
 
 interface RemoteFileDataSource {

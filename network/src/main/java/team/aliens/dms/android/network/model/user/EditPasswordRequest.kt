@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.user
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.user.EditPasswordInput
+import team.aliens.dms.android.domain.model.user.EditPasswordInput
 
 data class EditPasswordRequest(
     @SerializedName("current_password") val currentPassword: String,

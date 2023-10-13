@@ -1,11 +1,11 @@
 package team.aliens.dms_android.data.repository
 
 import team.aliens.dms_android.data.datasource.remote.RemoteRemainsDataSource
-import team.aliens.dms_android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.dms_android.domain.model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.dms_android.domain.model.remains.FetchRemainsOptionsOutput
-import team.aliens.dms_android.domain.model.remains.UpdateRemainsOptionInput
-import team.aliens.dms_android.domain.repository.RemainsRepository
+import team.aliens.dms.android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.dms.android.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.dms.android.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.dms.android.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.dms.android.domain.repository.RemainsRepository
 import javax.inject.Inject
 
 class RemainsRepositoryImpl @Inject constructor(

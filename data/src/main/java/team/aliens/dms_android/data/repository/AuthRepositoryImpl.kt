@@ -2,15 +2,15 @@ package team.aliens.dms_android.data.repository
 
 import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms_android.data.datasource.remote.RemoteAuthDataSource
-import team.aliens.dms_android.domain.exception.CommonException
-import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.dms_android.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.dms_android.domain.model.auth.CheckIdExistsInput
-import team.aliens.dms_android.domain.model.auth.CheckIdExistsOutput
-import team.aliens.dms_android.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.dms_android.domain.model.auth.SignInInput
-import team.aliens.dms_android.domain.model.auth.Token
-import team.aliens.dms_android.domain.repository.AuthRepository
+import team.aliens.dms.android.domain.exception.CommonException
+import team.aliens.dms.android.domain.model._common.AuthenticationOutput
+import team.aliens.dms.android.domain.model.auth.CheckEmailVerificationCodeInput
+import team.aliens.dms.android.domain.model.auth.CheckIdExistsInput
+import team.aliens.dms.android.domain.model.auth.CheckIdExistsOutput
+import team.aliens.dms.android.domain.model.auth.SendEmailVerificationCodeInput
+import team.aliens.dms.android.domain.model.auth.SignInInput
+import team.aliens.dms.android.domain.model.auth.Token
+import team.aliens.dms.android.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

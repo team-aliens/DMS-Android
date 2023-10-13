@@ -34,8 +34,8 @@ import team.aliens.dms_android.design_system.typography.Headline2
 import team.aliens.dms_android.design_system.typography.OverLine
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.TopBar
-import team.aliens.dms_android.domain.model._common.PointType
-import team.aliens.dms_android.domain.model.point.Point
+import team.aliens.dms.android.domain.model._common.PointType
+import team.aliens.dms.android.domain.model.point.Point
 import team.aliens.dms_android.feature.point.navigation.PointHistoryNavigator
 
 @Destination

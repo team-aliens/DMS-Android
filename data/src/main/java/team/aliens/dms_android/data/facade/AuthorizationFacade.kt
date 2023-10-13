@@ -6,10 +6,10 @@ import team.aliens.dms_android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms_android.data.manager.TokenReissueManager
 import team.aliens.dms_android.data.util.toDate
-import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.dms_android.domain.model._common.toModel
-import team.aliens.dms_android.domain.model.auth.Token
-import team.aliens.dms_android.domain.model.student.Features
+import team.aliens.dms.android.domain.model._common.AuthenticationOutput
+import team.aliens.dms.android.domain.model._common.toModel
+import team.aliens.dms.android.domain.model.auth.Token
+import team.aliens.dms.android.domain.model.student.Features
 import javax.inject.Inject
 
 class AuthorizationFacade @Inject constructor(

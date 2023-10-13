@@ -1,7 +1,7 @@
 package team.aliens.dms_android.database.room.entity
 
 import team.aliens.dms_android.core.database.entity.NoticeEntity
-import team.aliens.dms_android.domain.model.notice.Notice
+import team.aliens.dms.android.domain.model.notice.Notice
 
 internal fun NoticeEntity.toDomain(): Notice {
     return Notice(

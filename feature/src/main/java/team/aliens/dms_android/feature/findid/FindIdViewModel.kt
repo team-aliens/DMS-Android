@@ -6,12 +6,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms.android.domain.model.school.FetchSchoolsOutput
 import team.aliens.dms_android.feature._legacy.util.MutableEventFlow
 import team.aliens.dms_android.feature._legacy.util.asEventFlow
-import team.aliens.dms_android.domain.model.student.FindIdInput
-import team.aliens.dms_android.domain.usecase.school.FetchSchoolsUseCase
-import team.aliens.dms_android.domain.usecase.student.FindIdUseCase
+import team.aliens.dms.android.domain.model.student.FindIdInput
+import team.aliens.dms.android.domain.usecase.school.FetchSchoolsUseCase
+import team.aliens.dms.android.domain.usecase.student.FindIdUseCase
 import javax.inject.Inject
 
 @HiltViewModel

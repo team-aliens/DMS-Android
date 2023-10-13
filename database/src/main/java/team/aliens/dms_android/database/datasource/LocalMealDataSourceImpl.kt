@@ -4,8 +4,8 @@ import team.aliens.dms_android.core.database.dao.MealDao
 import team.aliens.dms_android.data.datasource.local.LocalMealDataSource
 import team.aliens.dms_android.database.room.entity.toData
 import team.aliens.dms_android.database.room.entity.toDomain
-import team.aliens.dms_android.domain.model.meal.FetchMealInput
-import team.aliens.dms_android.domain.model.meal.Meal
+import team.aliens.dms.android.domain.model.meal.FetchMealInput
+import team.aliens.dms.android.domain.model.meal.Meal
 import javax.inject.Inject
 
 class LocalMealDataSourceImpl @Inject constructor(

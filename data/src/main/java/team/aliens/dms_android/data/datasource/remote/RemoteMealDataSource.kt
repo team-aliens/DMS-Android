@@ -1,7 +1,7 @@
 package team.aliens.dms_android.data.datasource.remote
 
-import team.aliens.dms_android.domain.model.meal.FetchMealsOutput
-import team.aliens.dms_android.domain.model.meal.FetchMealsInput
+import team.aliens.dms.android.domain.model.meal.FetchMealsOutput
+import team.aliens.dms.android.domain.model.meal.FetchMealsInput
 
 interface RemoteMealDataSource {
 

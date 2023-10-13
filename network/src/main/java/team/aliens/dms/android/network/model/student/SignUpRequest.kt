@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.student.SignUpInput
+import team.aliens.dms.android.domain.model.student.SignUpInput
 
 data class SignUpRequest(
     @SerializedName("school_code") val schoolVerificationCode: String,

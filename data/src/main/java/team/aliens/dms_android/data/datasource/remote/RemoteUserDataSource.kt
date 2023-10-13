@@ -1,7 +1,7 @@
 package team.aliens.dms_android.data.datasource.remote
 
-import team.aliens.dms_android.domain.model.user.ComparePasswordInput
-import team.aliens.dms_android.domain.model.user.EditPasswordInput
+import team.aliens.dms.android.domain.model.user.ComparePasswordInput
+import team.aliens.dms.android.domain.model.user.EditPasswordInput
 
 interface RemoteUserDataSource {
 

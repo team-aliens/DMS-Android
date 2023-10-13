@@ -30,8 +30,8 @@ import team.aliens.dms_android.design_system.component.SeatTypeUiModel
 import team.aliens.dms_android.design_system.extension.Space
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.toast.rememberToast
-import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomDetailsOutput
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.FloatingNotice
 import team.aliens.dms_android.feature._legacy.util.TopBar

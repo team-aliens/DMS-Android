@@ -1,9 +1,9 @@
 package team.aliens.dms_android.data.repository
 
 import team.aliens.dms_android.data.datasource.remote.RemotePointDataSource
-import team.aliens.dms_android.domain.model.point.FetchPointsInput
-import team.aliens.dms_android.domain.model.point.FetchPointsOutput
-import team.aliens.dms_android.domain.repository.PointRepository
+import team.aliens.dms.android.domain.model.point.FetchPointsInput
+import team.aliens.dms.android.domain.model.point.FetchPointsOutput
+import team.aliens.dms.android.domain.repository.PointRepository
 import javax.inject.Inject
 
 class PointRepositoryImpl @Inject constructor(

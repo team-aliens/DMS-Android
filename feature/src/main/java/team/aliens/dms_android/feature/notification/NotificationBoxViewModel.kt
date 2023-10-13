@@ -8,8 +8,8 @@ import team.aliens.dms_android.feature._legacy.base.BaseMviViewModel
 import team.aliens.dms_android.feature._legacy.base.MviIntent
 import team.aliens.dms_android.feature._legacy.base.MviSideEffect
 import team.aliens.dms_android.feature._legacy.base.MviState
-import team.aliens.dms_android.domain.model.notification.Notification
-import team.aliens.dms_android.domain.usecase.notification.FetchNotificationsUseCase
+import team.aliens.dms.android.domain.model.notification.Notification
+import team.aliens.dms.android.domain.usecase.notification.FetchNotificationsUseCase
 import javax.inject.Inject
 
 @HiltViewModel

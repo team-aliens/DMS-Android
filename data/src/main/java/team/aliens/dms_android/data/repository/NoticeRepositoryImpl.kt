@@ -1,10 +1,17 @@
 package team.aliens.dms_android.data.repository
 
+import team.aliens.dms.android.domain.model.notice.FetchNoticesOutput
+import team.aliens.dms.android.domain.model.notice.Notice
+import team.aliens.dms.android.domain.model.notice.toTypedArray
 import team.aliens.dms_android.data.datasource.local.LocalNoticeDataSource
 import team.aliens.dms_android.data.datasource.remote.RemoteNoticeDataSource
-import team.aliens.dms_android.domain.model._common.Order
-import team.aliens.dms_android.domain.model.notice.*
-import team.aliens.dms_android.domain.repository.NoticeRepository
+import team.aliens.dms.android.domain.model._common.Order
+import team.aliens.dms.android.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.dms.android.domain.model.notice.FetchNoticeDetailsOutput
+import team.aliens.dms.android.domain.model.notice.FetchNoticesInput
+import team.aliens.dms.android.domain.model.notice.FetchWhetherNewNoticesExistOutput
+import team.aliens.dms.android.domain.model.notice.toModel
+import team.aliens.dms.android.domain.repository.NoticeRepository
 import java.util.*
 import javax.inject.Inject
 

@@ -8,10 +8,10 @@ import team.aliens.dms_android.feature._legacy.base.BaseMviViewModel
 import team.aliens.dms_android.feature._legacy.base.MviIntent
 import team.aliens.dms_android.feature._legacy.base.MviSideEffect
 import team.aliens.dms_android.feature._legacy.base.MviState
-import team.aliens.dms_android.domain.model.mypage.MyPage
-import team.aliens.dms_android.domain.usecase.auth.SignOutUseCase
-import team.aliens.dms_android.domain.usecase.student.FetchMyPageUseCase
-import team.aliens.dms_android.domain.usecase.student.WithdrawUseCase
+import team.aliens.dms.android.domain.model.mypage.MyPage
+import team.aliens.dms.android.domain.usecase.auth.SignOutUseCase
+import team.aliens.dms.android.domain.usecase.student.FetchMyPageUseCase
+import team.aliens.dms.android.domain.usecase.student.WithdrawUseCase
 import javax.inject.Inject
 
 @HiltViewModel

@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.remains
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.dms.android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
 import java.util.UUID
 
 data class FetchCurrentAppliedRemainsOptionResponse(

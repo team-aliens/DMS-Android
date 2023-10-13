@@ -44,9 +44,9 @@ import team.aliens.dms_android.design_system.modifier.dormShadow
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Title3
-import team.aliens.dms_android.domain.model._common.DayOfWeek
-import team.aliens.dms_android.domain.model.remains.RemainsApplicationTime
-import team.aliens.dms_android.domain.model.remains.RemainsOption
+import team.aliens.dms.android.domain.model._common.DayOfWeek
+import team.aliens.dms.android.domain.model.remains.RemainsApplicationTime
+import team.aliens.dms.android.domain.model.remains.RemainsOption
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.FloatingNotice
 import team.aliens.dms_android.feature._legacy.listFadeBrush

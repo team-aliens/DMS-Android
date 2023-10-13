@@ -2,15 +2,15 @@ package team.aliens.dms_android.data.repository
 
 import team.aliens.dms_android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms_android.data.datasource.remote.RemoteSchoolDataSource
-import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationCodeOutput
-import team.aliens.dms_android.domain.model.school.ExamineSchoolVerificationQuestionInput
-import team.aliens.dms_android.domain.model.school.FetchAvailableFeaturesOutput
-import team.aliens.dms_android.domain.model.school.FetchSchoolVerificationQuestionInput
-import team.aliens.dms_android.domain.model.school.FetchSchoolVerificationQuestionOutput
-import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
-import team.aliens.dms_android.domain.model.student.Features
-import team.aliens.dms_android.domain.repository.SchoolRepository
+import team.aliens.dms.android.domain.model.school.ExamineSchoolVerificationCodeInput
+import team.aliens.dms.android.domain.model.school.ExamineSchoolVerificationCodeOutput
+import team.aliens.dms.android.domain.model.school.ExamineSchoolVerificationQuestionInput
+import team.aliens.dms.android.domain.model.school.FetchAvailableFeaturesOutput
+import team.aliens.dms.android.domain.model.school.FetchSchoolVerificationQuestionInput
+import team.aliens.dms.android.domain.model.school.FetchSchoolVerificationQuestionOutput
+import team.aliens.dms.android.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms.android.domain.model.student.Features
+import team.aliens.dms.android.domain.repository.SchoolRepository
 import javax.inject.Inject
 
 class SchoolRepositoryImpl @Inject constructor(

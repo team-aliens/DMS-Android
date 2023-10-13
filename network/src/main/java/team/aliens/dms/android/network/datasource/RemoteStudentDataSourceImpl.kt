@@ -6,17 +6,17 @@ import team.aliens.dms.android.network.model._common.toDomain
 import team.aliens.dms.android.network.model.student.toData
 import team.aliens.dms.android.network.model.student.toDomain
 import team.aliens.dms.android.network.util.sendHttpRequest
-import team.aliens.dms_android.domain.model._common.AuthenticationOutput
-import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.dms_android.domain.model.student.CheckIdDuplicationInput
-import team.aliens.dms_android.domain.model.student.EditProfileInput
-import team.aliens.dms_android.domain.model.student.ExamineStudentNumberInput
-import team.aliens.dms_android.domain.model.student.ExamineStudentNumberOutput
-import team.aliens.dms_android.domain.model.student.FetchMyPageOutput
-import team.aliens.dms_android.domain.model.student.FindIdInput
-import team.aliens.dms_android.domain.model.student.FindIdOutput
-import team.aliens.dms_android.domain.model.student.ResetPasswordInput
-import team.aliens.dms_android.domain.model.student.SignUpInput
+import team.aliens.dms.android.domain.model._common.AuthenticationOutput
+import team.aliens.dms.android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms.android.domain.model.student.CheckIdDuplicationInput
+import team.aliens.dms.android.domain.model.student.EditProfileInput
+import team.aliens.dms.android.domain.model.student.ExamineStudentNumberInput
+import team.aliens.dms.android.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.dms.android.domain.model.student.FetchMyPageOutput
+import team.aliens.dms.android.domain.model.student.FindIdInput
+import team.aliens.dms.android.domain.model.student.FindIdOutput
+import team.aliens.dms.android.domain.model.student.ResetPasswordInput
+import team.aliens.dms.android.domain.model.student.SignUpInput
 import javax.inject.Inject
 
 class RemoteStudentDataSourceImpl @Inject constructor(

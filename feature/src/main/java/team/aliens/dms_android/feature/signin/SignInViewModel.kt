@@ -12,14 +12,14 @@ import team.aliens.dms_android.feature._legacy.base.BaseMviViewModel
 import team.aliens.dms_android.feature._legacy.base.MviIntent
 import team.aliens.dms_android.feature._legacy.base.MviSideEffect
 import team.aliens.dms_android.feature._legacy.base.MviState
-import team.aliens.dms_android.domain.exception.AuthException
-import team.aliens.dms_android.domain.exception.RemoteException
-import team.aliens.dms_android.domain.model._common.toModel
-import team.aliens.dms_android.domain.model.auth.SignInInput
-import team.aliens.dms_android.domain.model.notification.RegisterDeviceNotificationTokenInput
-import team.aliens.dms_android.domain.model.student.Features
-import team.aliens.dms_android.domain.usecase.auth.SignInWithSavingTokensAndFeaturesUseCase
-import team.aliens.dms_android.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
+import team.aliens.dms.android.domain.exception.AuthException
+import team.aliens.dms.android.domain.exception.RemoteException
+import team.aliens.dms.android.domain.model._common.toModel
+import team.aliens.dms.android.domain.model.auth.SignInInput
+import team.aliens.dms.android.domain.model.notification.RegisterDeviceNotificationTokenInput
+import team.aliens.dms.android.domain.model.student.Features
+import team.aliens.dms.android.domain.usecase.auth.SignInWithSavingTokensAndFeaturesUseCase
+import team.aliens.dms.android.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
 import javax.inject.Inject
 
 @HiltViewModel

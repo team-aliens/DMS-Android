@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.student.FindIdOutput
+import team.aliens.dms.android.domain.model.student.FindIdOutput
 
 data class FindIdResponse(
     @SerializedName("email") val email: String,

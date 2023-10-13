@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model._common
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model._common.AuthenticationOutput
+import team.aliens.dms.android.domain.model._common.AuthenticationOutput
 
 data class AuthenticationResponse(
     @SerializedName("access_token") val accessToken: String,

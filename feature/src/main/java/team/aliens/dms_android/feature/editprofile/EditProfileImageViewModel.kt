@@ -7,10 +7,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import team.aliens.dms_android.domain.model.file.UploadFileInput
-import team.aliens.dms_android.domain.model.student.EditProfileInput
-import team.aliens.dms_android.domain.usecase.file.UploadFileUseCase
-import team.aliens.dms_android.domain.usecase.student.EditProfileUseCase
+import team.aliens.dms.android.domain.model.file.UploadFileInput
+import team.aliens.dms.android.domain.model.student.EditProfileInput
+import team.aliens.dms.android.domain.usecase.file.UploadFileUseCase
+import team.aliens.dms.android.domain.usecase.student.EditProfileUseCase
 import team.aliens.dms_android.feature._legacy.base.BaseMviViewModel
 import team.aliens.dms_android.feature._legacy.base.MviIntent
 import team.aliens.dms_android.feature._legacy.base.MviSideEffect

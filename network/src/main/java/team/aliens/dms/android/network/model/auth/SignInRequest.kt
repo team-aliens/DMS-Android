@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.auth
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.auth.SignInInput
+import team.aliens.dms.android.domain.model.auth.SignInInput
 
 data class SignInRequest(
     @SerializedName("account_id") val accountId: String,

@@ -1,16 +1,16 @@
 package team.aliens.dms_android.data.datasource.remote
 
-import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
-import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
-import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesInput
-import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsInput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsOutput
+import team.aliens.dms.android.domain.model.studyroom.ApplySeatInput
+import team.aliens.dms.android.domain.model.studyroom.CancelSeatInput
+import team.aliens.dms.android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.dms.android.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomsInput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomsOutput
 
 interface RemoteStudyRoomDataSource {
 

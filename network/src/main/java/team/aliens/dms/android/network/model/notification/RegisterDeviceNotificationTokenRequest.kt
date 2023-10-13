@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.notification
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.notification.RegisterDeviceNotificationTokenInput
+import team.aliens.dms.android.domain.model.notification.RegisterDeviceNotificationTokenInput
 
 data class RegisterDeviceNotificationTokenRequest(
     @SerializedName("device_token") val deviceToken: String,

@@ -1,10 +1,10 @@
 package team.aliens.dms_android.data.datasource.remote
 
-import team.aliens.dms_android.domain.model.notice.FetchNoticeDetailsInput
-import team.aliens.dms_android.domain.model.notice.FetchNoticeDetailsOutput
-import team.aliens.dms_android.domain.model.notice.FetchNoticesInput
-import team.aliens.dms_android.domain.model.notice.FetchNoticesOutput
-import team.aliens.dms_android.domain.model.notice.FetchWhetherNewNoticesExistOutput
+import team.aliens.dms.android.domain.model.notice.FetchNoticeDetailsInput
+import team.aliens.dms.android.domain.model.notice.FetchNoticeDetailsOutput
+import team.aliens.dms.android.domain.model.notice.FetchNoticesInput
+import team.aliens.dms.android.domain.model.notice.FetchNoticesOutput
+import team.aliens.dms.android.domain.model.notice.FetchWhetherNewNoticesExistOutput
 
 interface RemoteNoticeDataSource {
 

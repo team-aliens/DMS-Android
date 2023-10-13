@@ -27,8 +27,8 @@ import team.aliens.dms_android.design_system.modifier.dormShadow
 import team.aliens.dms_android.design_system.theme.DormTheme
 import team.aliens.dms_android.design_system.typography.Body3
 import team.aliens.dms_android.design_system.typography.Caption
-import team.aliens.dms_android.domain.model.notification.Notification
-import team.aliens.dms_android.domain.model.notification.NotificationTopic
+import team.aliens.dms.android.domain.model.notification.Notification
+import team.aliens.dms.android.domain.model.notification.NotificationTopic
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature._legacy.util.Now
 import team.aliens.dms_android.feature._legacy.util.TopBar

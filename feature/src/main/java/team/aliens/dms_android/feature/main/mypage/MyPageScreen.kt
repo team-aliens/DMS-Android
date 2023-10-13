@@ -45,7 +45,7 @@ import team.aliens.dms_android.design_system.typography.Body5
 import team.aliens.dms_android.design_system.typography.Caption
 import team.aliens.dms_android.design_system.typography.Headline3
 import team.aliens.dms_android.design_system.typography.Title1
-import team.aliens.dms_android.domain.model._common.Sex
+import team.aliens.dms.android.domain.model._common.Sex
 import team.aliens.dms_android.feature.R
 import team.aliens.dms_android.feature.editprofile.dialog.SelectImageTypeDialog
 import team.aliens.dms_android.feature.main.navigation.MainNavigator

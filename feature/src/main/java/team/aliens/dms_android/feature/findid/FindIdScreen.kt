@@ -52,7 +52,7 @@ import team.aliens.dms_android.design_system.toast.rememberToast
 import team.aliens.dms_android.design_system.typography.Body2
 import team.aliens.dms_android.feature._legacy.AppLogo
 import team.aliens.dms_android.feature.R
-import team.aliens.dms_android.domain.model.school.FetchSchoolsOutput
+import team.aliens.dms.android.domain.model.school.FetchSchoolsOutput
 import team.aliens.dms_android.feature.findid.navigator.FindIdNavigator
 
 @Destination

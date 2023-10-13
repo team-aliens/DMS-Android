@@ -4,17 +4,17 @@ import team.aliens.dms_android.data.datasource.remote.RemoteStudyRoomDataSource
 import team.aliens.dms.android.network.apiservice.StudyRoomApiService
 import team.aliens.dms.android.network.model.studyroom.toDomain
 import team.aliens.dms.android.network.util.sendHttpRequest
-import team.aliens.dms_android.domain.model.studyroom.ApplySeatInput
-import team.aliens.dms_android.domain.model.studyroom.CancelSeatInput
-import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesInput
-import team.aliens.dms_android.domain.model.studyroom.FetchSeatTypesOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsInput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomDetailsOutput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsInput
-import team.aliens.dms_android.domain.model.studyroom.FetchStudyRoomsOutput
+import team.aliens.dms.android.domain.model.studyroom.ApplySeatInput
+import team.aliens.dms.android.domain.model.studyroom.CancelSeatInput
+import team.aliens.dms.android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchCurrentAppliedStudyRoomOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchSeatTypesInput
+import team.aliens.dms.android.domain.model.studyroom.FetchSeatTypesOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomApplicationTimeOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomDetailsInput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomDetailsOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomsInput
+import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomsOutput
 import javax.inject.Inject
 
 class RemoteStudyRoomDataSourceImpl @Inject constructor(

@@ -1,9 +1,9 @@
 package team.aliens.dms_android.data.datasource.remote
 
-import team.aliens.dms_android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
-import team.aliens.dms_android.domain.model.remains.FetchRemainsApplicationTimeOutput
-import team.aliens.dms_android.domain.model.remains.FetchRemainsOptionsOutput
-import team.aliens.dms_android.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.dms.android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
+import team.aliens.dms.android.domain.model.remains.FetchRemainsApplicationTimeOutput
+import team.aliens.dms.android.domain.model.remains.FetchRemainsOptionsOutput
+import team.aliens.dms.android.domain.model.remains.UpdateRemainsOptionInput
 
 interface RemoteRemainsDataSource {
 

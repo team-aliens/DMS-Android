@@ -7,14 +7,14 @@ import kotlinx.coroutines.launch
 import team.aliens.dms_android.feature._legacy.base.MviViewModel
 import team.aliens.dms_android.feature._legacy.base.UiEvent
 import team.aliens.dms_android.feature._legacy.base.UiState
-import team.aliens.dms_android.domain.model.remains.CurrentAppliedRemainsOption
-import team.aliens.dms_android.domain.model.remains.RemainsApplicationTime
-import team.aliens.dms_android.domain.model.remains.RemainsOption
-import team.aliens.dms_android.domain.model.remains.UpdateRemainsOptionInput
-import team.aliens.dms_android.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
-import team.aliens.dms_android.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
-import team.aliens.dms_android.domain.usecase.remain.FetchRemainsOptionsUseCase
-import team.aliens.dms_android.domain.usecase.remain.UpdateRemainsOptionUseCase
+import team.aliens.dms.android.domain.model.remains.CurrentAppliedRemainsOption
+import team.aliens.dms.android.domain.model.remains.RemainsApplicationTime
+import team.aliens.dms.android.domain.model.remains.RemainsOption
+import team.aliens.dms.android.domain.model.remains.UpdateRemainsOptionInput
+import team.aliens.dms.android.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
+import team.aliens.dms.android.domain.usecase.remain.FetchRemainsApplicationTimeUseCase
+import team.aliens.dms.android.domain.usecase.remain.FetchRemainsOptionsUseCase
+import team.aliens.dms.android.domain.usecase.remain.UpdateRemainsOptionUseCase
 import javax.inject.Inject
 
 @HiltViewModel

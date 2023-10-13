@@ -1,7 +1,7 @@
 package team.aliens.dms_android.database.room.entity
 
 import team.aliens.dms_android.core.database.entity.MealEntity
-import team.aliens.dms_android.domain.model.meal.Meal
+import team.aliens.dms.android.domain.model.meal.Meal
 
 internal fun MealEntity.toDomain(): Meal {
     return Meal(

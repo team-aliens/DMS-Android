@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.studyroom
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
+import team.aliens.dms.android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import java.util.*
 
 data class FetchAvailableStudyRoomTimesResponse(

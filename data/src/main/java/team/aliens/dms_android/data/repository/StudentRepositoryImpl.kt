@@ -1,17 +1,18 @@
 package team.aliens.dms_android.data.repository
 
+import team.aliens.dms.android.domain.model._common.AuthenticationOutput
 import team.aliens.dms_android.data.datasource.remote.RemoteStudentDataSource
-import team.aliens.dms_android.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.dms_android.domain.model.student.CheckIdDuplicationInput
-import team.aliens.dms_android.domain.model.student.EditProfileInput
-import team.aliens.dms_android.domain.model.student.ExamineStudentNumberInput
-import team.aliens.dms_android.domain.model.student.ExamineStudentNumberOutput
-import team.aliens.dms_android.domain.model.student.FetchMyPageOutput
-import team.aliens.dms_android.domain.model.student.FindIdInput
-import team.aliens.dms_android.domain.model.student.FindIdOutput
-import team.aliens.dms_android.domain.model.student.ResetPasswordInput
-import team.aliens.dms_android.domain.model.student.SignUpInput
-import team.aliens.dms_android.domain.repository.StudentRepository
+import team.aliens.dms.android.domain.model.student.CheckEmailDuplicationInput
+import team.aliens.dms.android.domain.model.student.CheckIdDuplicationInput
+import team.aliens.dms.android.domain.model.student.EditProfileInput
+import team.aliens.dms.android.domain.model.student.ExamineStudentNumberInput
+import team.aliens.dms.android.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.dms.android.domain.model.student.FetchMyPageOutput
+import team.aliens.dms.android.domain.model.student.FindIdInput
+import team.aliens.dms.android.domain.model.student.FindIdOutput
+import team.aliens.dms.android.domain.model.student.ResetPasswordInput
+import team.aliens.dms.android.domain.model.student.SignUpInput
+import team.aliens.dms.android.domain.repository.StudentRepository
 import javax.inject.Inject
 
 class StudentRepositoryImpl @Inject constructor(
@@ -20,7 +21,7 @@ class StudentRepositoryImpl @Inject constructor(
 
     override suspend fun signUp(
         input: SignUpInput,
-    ): team.aliens.dms_android.domain.model._common.AuthenticationOutput {
+    ): AuthenticationOutput {
         return remoteStudentDataSource.signUp(
             input = input,
         )

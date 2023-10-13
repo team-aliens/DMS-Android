@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model.student.ExamineStudentNumberOutput
+import team.aliens.dms.android.domain.model.student.ExamineStudentNumberOutput
 
 data class ExamineStudentNumberResponse(
     @SerializedName("name") val name: String,

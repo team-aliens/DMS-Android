@@ -1,8 +1,8 @@
 package team.aliens.dms.android.network.model.student
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.domain.model._common.Sex
-import team.aliens.dms_android.domain.model.student.FetchMyPageOutput
+import team.aliens.dms.android.domain.model._common.Sex
+import team.aliens.dms.android.domain.model.student.FetchMyPageOutput
 
 data class FetchMyPageResponse(
     @SerializedName("school_name") val schoolName: String,

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import team.aliens.dms_android.core.ui.viewmodel.BaseViewModel
 import team.aliens.dms_android.core.ui.viewmodel.launchOnViewModelScope
-import team.aliens.dms_android.domain.usecase.auth.CheckAutoSignInAvailableUseCase
+import team.aliens.dms.android.domain.usecase.auth.CheckAutoSignInAvailableUseCase
 import javax.inject.Inject
 
 @HiltViewModel
