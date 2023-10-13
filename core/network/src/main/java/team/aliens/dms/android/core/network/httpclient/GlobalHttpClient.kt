@@ -1,8 +1,8 @@
-package team.aliens.dms_android.core.network.httpclient
+package team.aliens.dms.android.core.network.httpclient
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.network.di.DefaultHttpClient
+import team.aliens.dms.android.core.network.di.DefaultHttpClient
 import javax.inject.Inject
 
 internal class GlobalHttpClient @Inject constructor(

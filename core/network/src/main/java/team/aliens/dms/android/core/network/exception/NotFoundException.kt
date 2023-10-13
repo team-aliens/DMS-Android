@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.network.exception
+package team.aliens.dms.android.core.network.exception
 
 class NotFoundException : NetworkException(
     code = 404,

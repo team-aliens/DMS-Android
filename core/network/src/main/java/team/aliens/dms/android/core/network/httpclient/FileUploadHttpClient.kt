@@ -1,9 +1,9 @@
-package team.aliens.dms_android.core.network.httpclient
+package team.aliens.dms.android.core.network.httpclient
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.network.util.toOctetStreamRequestBody
+import team.aliens.dms.android.core.network.util.toOctetStreamRequestBody
 import java.io.File
 import java.io.IOException
 

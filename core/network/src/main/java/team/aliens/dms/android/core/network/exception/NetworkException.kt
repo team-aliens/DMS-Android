@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.network.exception
+package team.aliens.dms.android.core.network.exception
 
 sealed class NetworkException(
     val code: Int = NO_CODE,

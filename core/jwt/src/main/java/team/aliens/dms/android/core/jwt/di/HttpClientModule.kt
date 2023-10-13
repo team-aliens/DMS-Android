@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.network.di.DefaultHttpClient
-import team.aliens.dms_android.core.network.di.DefaultHttpLoggingInterceptor
+import team.aliens.dms.android.core.network.di.DefaultHttpClient
+import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
 import javax.inject.Singleton
 
 @Module

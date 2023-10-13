@@ -1,15 +1,15 @@
-package team.aliens.dms_android.core.network.util
+package team.aliens.dms.android.core.network.util
 
-import team.aliens.dms_android.core.network.exception.BadRequestException
-import team.aliens.dms_android.core.network.exception.ConflictException
-import team.aliens.dms_android.core.network.exception.ForbiddenException
-import team.aliens.dms_android.core.network.exception.InternalServerError
-import team.aliens.dms_android.core.network.exception.NotFoundException
-import team.aliens.dms_android.core.network.exception.RequestTimeoutException
-import team.aliens.dms_android.core.network.exception.TooManyRequestsException
-import team.aliens.dms_android.core.network.exception.UnAuthorizedException
-import team.aliens.dms_android.core.network.exception.UnknownException
-import team.aliens.dms_android.core.network.exception.UnsupportedMediaTypeException
+import team.aliens.dms.android.core.network.exception.BadRequestException
+import team.aliens.dms.android.core.network.exception.ConflictException
+import team.aliens.dms.android.core.network.exception.ForbiddenException
+import team.aliens.dms.android.core.network.exception.InternalServerError
+import team.aliens.dms.android.core.network.exception.NotFoundException
+import team.aliens.dms.android.core.network.exception.RequestTimeoutException
+import team.aliens.dms.android.core.network.exception.TooManyRequestsException
+import team.aliens.dms.android.core.network.exception.UnAuthorizedException
+import team.aliens.dms.android.core.network.exception.UnknownException
+import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
 
 suspend inline fun <T> sendHttpRequest(
     on400: (message: String?) -> Nothing = { throw BadRequestException() },

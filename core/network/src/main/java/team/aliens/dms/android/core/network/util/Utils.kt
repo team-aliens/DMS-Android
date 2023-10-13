@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.network.util
+package team.aliens.dms.android.core.network.util
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody

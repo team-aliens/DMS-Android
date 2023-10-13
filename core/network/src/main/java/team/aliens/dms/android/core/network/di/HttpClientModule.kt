@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.network.di
+package team.aliens.dms.android.core.network.di
 
 import dagger.Module
 import dagger.Provides
@@ -7,8 +7,8 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import team.aliens.dms_android.core.network.util.OkHttpClient
-import team.aliens.dms_android.core.network.util.Retrofit
+import team.aliens.dms.android.core.network.util.OkHttpClient
+import team.aliens.dms.android.core.network.util.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -35,7 +35,7 @@ internal object HttpClientModule {
     fun provideFileUploadHttpClient(
         @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient httpClient: OkHttpClient,
-    ): OkHttpClient = team.aliens.dms_android.core.network.httpclient.FileUploadHttpClient(
+    ): OkHttpClient = team.aliens.dms.android.core.network.httpclient.FileUploadHttpClient(
         httpLoggingInterceptor = httpLoggingInterceptor,
         baseHttpClient = httpClient,
     )
