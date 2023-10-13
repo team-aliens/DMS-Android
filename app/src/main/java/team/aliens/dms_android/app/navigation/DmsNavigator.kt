@@ -95,7 +95,7 @@ class DmsNavigator(
         }
     }
 
-    override fun openSignUp() {
+    override fun openSignUpNav() {
         TODO("Not yet implemented")
     }
 

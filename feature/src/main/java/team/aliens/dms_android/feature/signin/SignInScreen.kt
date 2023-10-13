@@ -101,7 +101,7 @@ internal fun SignInScreen(
         )
         Spacer(Modifier.height(12.dp))
         AuthActions(
-            onSignUpClicked = navigator::openSignUp,
+            onSignUpClicked = navigator::openSignUpNav,
             onFindIdClicked = navigator::openFindId,
             onResetPasswordClicked = navigator::openResetPassword,
         )
