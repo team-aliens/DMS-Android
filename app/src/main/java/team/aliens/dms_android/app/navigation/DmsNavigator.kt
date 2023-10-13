@@ -9,9 +9,12 @@ import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavigator
+import team.aliens.dms_android.feature.destinations.AnnouncementListScreenDestination
 import team.aliens.dms_android.feature.destinations.ApplicationScreenDestination
 import team.aliens.dms_android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms_android.feature.destinations.HomeScreenDestination
+import team.aliens.dms_android.feature.destinations.MyPageScreenDestination
+import team.aliens.dms_android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms_android.feature.destinations.SignInScreenDestination
 import java.util.UUID
 
@@ -41,15 +44,15 @@ class DmsNavigator(
     }
 
     override fun openAnnouncementList() {
-        navCon
+        navController.navigate(AnnouncementListScreenDestination within navGraph)
     }
 
     override fun openMyPage() {
-        TODO("Not yet implemented")
+        navController.navigate(MyPageScreenDestination within navGraph)
     }
 
     override fun openNoticeDetails(noticeId: UUID) {
-        TODO("Not yet implemented")
+        navController.navigate(NoticeDetailsScreenDestination(noticeId = noticeId) within navGraph)
     }
 
     override fun openStudyRoomList() {
