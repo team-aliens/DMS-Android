@@ -71,10 +71,6 @@ class DmsNavigator(
         TODO("Not yet implemented")
     }
 
-    override fun switchNavGraphRoot() {
-        TODO("Not yet implemented")
-    }
-
     override fun openResetPasswordEnterEmailVerificationCode() {
         TODO("Not yet implemented")
     }
@@ -86,6 +82,14 @@ class DmsNavigator(
     override fun openAuthorizedNav() {
         navController.navigate(AuthorizedNavGraph) {
             popUpTo(UnauthorizedNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun openUnauthorizedNav() {
+        navController.navigate(UnauthorizedNavGraph) {
+            popUpTo(AuthorizedNavGraph) {
                 inclusive = true
             }
         }

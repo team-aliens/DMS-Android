@@ -78,7 +78,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.postIntent(MyPageIntent.SignOut)
-                    navigator.switchNavGraphRoot()
+                    navigator.openUnauthorizedNav()
                     signOutDialogState = false
                 },
                 onSubBtnClick = {
@@ -99,7 +99,7 @@ internal fun MyPageScreen(
                 subBtnText = stringResource(R.string.cancel),
                 onMainBtnClick = {
                     myPageViewModel.postIntent(MyPageIntent.Withdraw)
-                    navigator.switchNavGraphRoot()
+                    navigator.openUnauthorizedNav()
                     withdrawDialogState = false
                 },
                 onSubBtnClick = {

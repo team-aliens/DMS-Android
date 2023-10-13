@@ -15,5 +15,5 @@ interface MainNavigator {
     fun openEditPasswordNav()
     fun openEditProfileImage()
 
-    fun switchNavGraphRoot()
+    fun openUnauthorizedNav()
 }
