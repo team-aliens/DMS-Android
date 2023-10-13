@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.dms.android.design_system.button.DormButtonColor
 import team.aliens.dms.android.design_system.button.DormContainedLargeButton
 import team.aliens.dms.android.design_system.modifier.dormClickable
@@ -126,12 +126,13 @@ internal fun EditProfileImageScreen(
         Box(
             contentAlignment = Alignment.BottomEnd,
         ) {
-            GlideImage(
+            AsyncImage(
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
                     .dormClickable { onSelectImageTypeDialogShow() },
-                imageModel = { uiState.selectedImageUri },
+                model = uiState.selectedImageUri,
+                contentDescription = null,
             )
             Image(
                 modifier = Modifier.size(30.dp),
