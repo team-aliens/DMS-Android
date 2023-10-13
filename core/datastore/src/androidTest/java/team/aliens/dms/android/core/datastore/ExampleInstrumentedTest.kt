@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.datastore
+package team.aliens.dms.android.core.datastore
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
