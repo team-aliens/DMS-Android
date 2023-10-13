@@ -1,4 +1,4 @@
-package team.aliens.local
+package team.aliens.dms.android.database
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
