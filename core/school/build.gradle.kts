@@ -31,18 +31,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = Versions.java.toString()
     }
 }
 
 dependencies {
-    implementation(project(":core:datastore"))
-    implementation(project(":core:network"))
+    implementation(project(ProjectPaths.Core.dataStore))
+    implementation(project(ProjectPaths.Core.network))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
