@@ -1,6 +1,6 @@
 package team.aliens.dms.android.app.di
 
-import team.aliens.dms_android.network.BuildConfig as NetworkBuildConfig
+import team.aliens.dms.android.network.BuildConfig as NetworkBuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

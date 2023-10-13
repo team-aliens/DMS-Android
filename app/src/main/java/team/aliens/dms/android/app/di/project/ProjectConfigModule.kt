@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.threeten.bp.ZoneOffset
-import team.aliens.dms_android.app.BuildConfig
+import team.aliens.dms.android.app.BuildConfig
 import javax.inject.Singleton
 
 @Module
