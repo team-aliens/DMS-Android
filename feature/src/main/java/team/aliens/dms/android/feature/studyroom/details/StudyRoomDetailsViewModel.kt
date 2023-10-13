@@ -21,7 +21,7 @@ import team.aliens.dms.android.domain.usecase.studyroom.CancelSeatUseCase
 import team.aliens.dms.android.domain.usecase.studyroom.FetchSeatTypesUseCase
 import team.aliens.dms.android.domain.usecase.studyroom.FetchStudyRoomApplicationTimeUseCase
 import team.aliens.dms.android.domain.usecase.studyroom.FetchStudyRoomDetailsUseCase
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.base.UiState
 import team.aliens.dms.android.feature._legacy.util.MutableEventFlow
 import javax.inject.Inject

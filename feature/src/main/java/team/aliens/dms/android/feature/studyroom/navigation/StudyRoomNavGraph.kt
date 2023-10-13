@@ -4,8 +4,8 @@ import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
-import team.aliens.dms_android.feature.destinations.StudyRoomDetailsScreenDestination
-import team.aliens.dms_android.feature.destinations.StudyRoomListScreenDestination
+import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
+import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 
 object StudyRoomNavGraph : NavGraphSpec {
     override val route: String = "study_room"
