@@ -1,4 +1,4 @@
-package team.aliens.dms_android.shared.date.di
+package team.aliens.dms.android.shared.date.di
 
 import dagger.Module
 import dagger.hilt.InstallIn

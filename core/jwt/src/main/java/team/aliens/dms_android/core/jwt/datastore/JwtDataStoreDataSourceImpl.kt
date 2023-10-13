@@ -20,8 +20,8 @@ import team.aliens.dms_android.core.jwt.exception.CannotStoreRefreshTokenExcepti
 import team.aliens.dms_android.core.jwt.exception.CannotStoreRefreshTokenExpirationException
 import team.aliens.dms_android.core.jwt.exception.RefreshTokenExpirationNotFoundException
 import team.aliens.dms_android.core.jwt.exception.RefreshTokenNotFoundException
-import team.aliens.dms_android.shared.date.extension.toEpochMilli
-import team.aliens.dms_android.shared.date.extension.toLocalDateTime
+import team.aliens.dms.android.shared.date.extension.toEpochMilli
+import team.aliens.dms.android.shared.date.extension.toLocalDateTime
 import javax.inject.Inject
 
 internal class JwtDataStoreDataSourceImpl @Inject constructor(

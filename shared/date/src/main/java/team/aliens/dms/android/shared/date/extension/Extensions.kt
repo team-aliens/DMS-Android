@@ -1,4 +1,4 @@
-package team.aliens.dms_android.shared.date.extension
+package team.aliens.dms.android.shared.date.extension
 
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
