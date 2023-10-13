@@ -9,7 +9,7 @@ import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms_android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms_android.app.navigation.unauthorized.UnauthorizedNavigator
-import team.aliens.dms_android.feature._legacy.util.SelectImageType
+import team.aliens.dms.android.feature._legacy.util.SelectImageType
 import team.aliens.dms_android.feature.destinations.AnnouncementListScreenDestination
 import team.aliens.dms_android.feature.destinations.ApplicationScreenDestination
 import team.aliens.dms_android.feature.destinations.EditPasswordSetPasswordScreenDestination
@@ -33,9 +33,9 @@ import team.aliens.dms_android.feature.destinations.SignUpSetPasswordScreenDesti
 import team.aliens.dms_android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms_android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms_android.feature.destinations.TermsScreenDestination
-import team.aliens.dms_android.feature.editpassword.navigation.EditPasswordNavGraph
-import team.aliens.dms_android.feature.resetpassword.navigation.ResetPasswordNavGraph
-import team.aliens.dms_android.feature.signup.navigation.SignUpNavGraph
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
+import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 import java.util.UUID
 
 class DmsNavigator(

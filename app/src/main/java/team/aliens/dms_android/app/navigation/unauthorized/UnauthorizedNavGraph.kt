@@ -6,8 +6,8 @@ import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
 import team.aliens.dms_android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms_android.feature.destinations.SignInScreenDestination
-import team.aliens.dms_android.feature.resetpassword.navigation.ResetPasswordNavGraph
-import team.aliens.dms_android.feature.signup.navigation.SignUpNavGraph
+import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
+import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 
 object UnauthorizedNavGraph : NavGraphSpec {
     override val route: String = "unauthorized"

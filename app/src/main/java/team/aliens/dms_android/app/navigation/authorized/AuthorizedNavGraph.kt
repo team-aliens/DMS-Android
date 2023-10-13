@@ -8,9 +8,9 @@ import team.aliens.dms_android.feature.destinations.NoticeDetailsScreenDestinati
 import team.aliens.dms_android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms_android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms_android.feature.destinations.RemainsApplicationScreenDestination
-import team.aliens.dms_android.feature.editpassword.navigation.EditPasswordNavGraph
-import team.aliens.dms_android.feature.main.navigation.MainNavGraph
-import team.aliens.dms_android.feature.studyroom.navigation.StudyRoomNavGraph
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.main.navigation.MainNavGraph
+import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavGraph
 
 object AuthorizedNavGraph : NavGraphSpec {
     override val route: String = "authorized"
