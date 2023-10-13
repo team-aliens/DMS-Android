@@ -14,6 +14,7 @@ object ProjectPaths {
         const val network = ":core:network"
         const val project = ":core:project"
         const val school = ":core:school"
+        const val ui = ":core:ui"
     }
 
     object Shared {
