@@ -42,6 +42,10 @@ class DmsNavigator(
         navController.popBackStack()
     }
 
+    override fun navigateUp() {
+        navController.navigateUp()
+    }
+
     override fun openHome() {
         navController.navigate(HomeScreenDestination within navGraph)
     }
@@ -91,7 +95,7 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
-        TODO("Not yet implemented")
+        navController.navigate()
     }
 
     override fun openResetPasswordSetPassword() {
