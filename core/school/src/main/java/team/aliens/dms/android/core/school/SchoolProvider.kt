@@ -1,6 +1,6 @@
-package team.aliens.dms_android.core.school
+package team.aliens.dms.android.core.school
 
-import team.aliens.dms_android.core.school.store.FeaturesStore
+import team.aliens.dms.android.core.school.store.FeaturesStore
 import javax.inject.Inject
 
 object SchoolProvider : SchoolProviderInjectionDelegation()

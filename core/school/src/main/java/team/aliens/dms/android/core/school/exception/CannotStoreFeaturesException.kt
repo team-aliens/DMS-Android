@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.school.exception
+package team.aliens.dms.android.core.school.exception
 
 import team.aliens.dms.android.core.datastore.exception.TransformFailureException
 

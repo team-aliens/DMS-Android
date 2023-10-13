@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.school.network.model
+package team.aliens.dms.android.core.school.network.model
 
 import com.google.gson.annotations.SerializedName
 
