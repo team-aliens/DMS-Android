@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.network
+package team.aliens.dms.android.core.jwt.network
 
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
@@ -7,8 +7,8 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms_android.core.jwt.exception.CannotReissueTokenException
-import team.aliens.dms_android.core.jwt.network.model.AuthenticationResponse
+import team.aliens.dms.android.core.jwt.exception.CannotReissueTokenException
+import team.aliens.dms.android.core.jwt.network.model.AuthenticationResponse
 
 // TODO: TokenReissueManager
 internal class TokenReissueHttpClient(

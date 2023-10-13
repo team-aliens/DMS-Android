@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.di
+package team.aliens.dms.android.core.jwt.di
 
 import dagger.Module
 import dagger.Provides
@@ -21,7 +21,7 @@ internal object HttpClientModule {
         @TokenReissueUrl reissueUrl: String,
         @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient httpClient: OkHttpClient,
-    ): OkHttpClient = team.aliens.dms_android.core.jwt.network.TokenReissueHttpClient(
+    ): OkHttpClient = team.aliens.dms.android.core.jwt.network.TokenReissueHttpClient(
         reissueUrl = reissueUrl,
         httpLoggingInterceptor = httpLoggingInterceptor,
         baseHttpClient = httpClient,

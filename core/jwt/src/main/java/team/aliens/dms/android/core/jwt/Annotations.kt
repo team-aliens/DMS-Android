@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt
+package team.aliens.dms.android.core.jwt
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)

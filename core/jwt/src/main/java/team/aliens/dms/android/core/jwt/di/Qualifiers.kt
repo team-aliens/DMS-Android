@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.di
+package team.aliens.dms.android.core.jwt.di
 
 import javax.inject.Qualifier
 

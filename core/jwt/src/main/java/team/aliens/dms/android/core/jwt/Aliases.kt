@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt
+package team.aliens.dms.android.core.jwt
 
 import org.threeten.bp.LocalDateTime
 

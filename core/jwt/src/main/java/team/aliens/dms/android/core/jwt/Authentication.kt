@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt
+package team.aliens.dms.android.core.jwt
 
 data class Authentication(
     val accessToken: String,

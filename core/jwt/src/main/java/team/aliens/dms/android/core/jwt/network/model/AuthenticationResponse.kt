@@ -1,7 +1,7 @@
-package team.aliens.dms_android.core.jwt.network.model
+package team.aliens.dms.android.core.jwt.network.model
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms_android.core.jwt.Authentication
+import team.aliens.dms.android.core.jwt.Authentication
 
 internal data class AuthenticationResponse(
     @SerializedName("access_token") val accessToken: String,

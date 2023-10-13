@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.jwt.exception
+package team.aliens.dms.android.core.jwt.exception
 
 sealed class TokenReissueException(message: String?) : RuntimeException(message)
 

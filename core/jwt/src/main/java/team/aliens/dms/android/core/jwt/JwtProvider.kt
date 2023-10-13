@@ -1,6 +1,6 @@
-package team.aliens.dms_android.core.jwt
+package team.aliens.dms.android.core.jwt
 
-import team.aliens.dms_android.core.jwt.store.JwtStore
+import team.aliens.dms.android.core.jwt.store.JwtStore
 import javax.inject.Inject
 
 object JwtProvider : JwtProviderInjectionDelegation() {

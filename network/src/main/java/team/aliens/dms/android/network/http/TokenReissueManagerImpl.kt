@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
-import team.aliens.dms_android.core.jwt.di.TokenReissueUrl
+import team.aliens.dms.android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms.android.data.manager.TokenReissueManager
 import team.aliens.dms.android.domain.exception.CommonException
 import team.aliens.dms.android.domain.model._common.AuthenticationOutput

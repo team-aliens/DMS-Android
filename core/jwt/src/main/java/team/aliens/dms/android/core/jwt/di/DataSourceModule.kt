@@ -1,11 +1,11 @@
-package team.aliens.dms_android.core.jwt.di
+package team.aliens.dms.android.core.jwt.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms_android.core.jwt.datastore.JwtDataStoreDataSource
-import team.aliens.dms_android.core.jwt.datastore.JwtDataStoreDataSourceImpl
+import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
+import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

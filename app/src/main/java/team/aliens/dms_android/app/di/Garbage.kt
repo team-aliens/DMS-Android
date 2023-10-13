@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms_android.core.jwt.di.TokenReissueUrl
+import team.aliens.dms.android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms.android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms.android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms.android.data.facade.AuthorizationFacade
