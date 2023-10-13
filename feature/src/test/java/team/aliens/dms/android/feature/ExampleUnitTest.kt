@@ -1,4 +1,4 @@
-package team.aliens.dms_android
+package team.aliens.dms.android.feature
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
