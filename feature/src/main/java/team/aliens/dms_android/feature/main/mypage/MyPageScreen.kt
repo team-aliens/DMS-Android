@@ -151,7 +151,7 @@ internal fun MyPageScreen(
                 .padding(horizontal = 16.dp),
             // TODO
             onPointHistoryClicked = if (true) navigator::openPointHistory else null,
-            onEditPasswordClicked = navigator::openEditPassword,
+            onEditPasswordClicked = navigator::openEditPasswordNav,
             onSignOutClicked = { signOutDialogState = !signOutDialogState },
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )

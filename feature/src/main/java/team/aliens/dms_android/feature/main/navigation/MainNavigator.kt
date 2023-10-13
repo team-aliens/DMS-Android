@@ -12,7 +12,7 @@ interface MainNavigator {
     fun openRemainsApplication()
     fun openNotificationBox()
     fun openPointHistory()
-    fun openEditPassword()
+    fun openEditPasswordNav()
     fun openEditProfileImage()
 
     fun switchNavGraphRoot()

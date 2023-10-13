@@ -63,7 +63,7 @@ class DmsNavigator(
         TODO("Not yet implemented")
     }
 
-    override fun openEditPassword() {
+    override fun openEditPasswordNav() {
         TODO("Not yet implemented")
     }
 
