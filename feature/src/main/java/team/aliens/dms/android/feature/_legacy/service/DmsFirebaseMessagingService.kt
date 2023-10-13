@@ -1,5 +1,5 @@
 package team.aliens.dms.android.feature._legacy.service
-
+/*
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -116,4 +116,4 @@ internal class DmsFirebaseMessagingService : FirebaseMessagingService() {
 
 private fun getIdFromTime(): Int {
     return System.currentTimeMillis().hashCode()
-}
+}*/
