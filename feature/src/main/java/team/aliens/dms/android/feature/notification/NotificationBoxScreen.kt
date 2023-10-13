@@ -29,7 +29,7 @@ import team.aliens.dms.android.design_system.typography.Body3
 import team.aliens.dms.android.design_system.typography.Caption
 import team.aliens.dms.android.domain.model.notification.Notification
 import team.aliens.dms.android.domain.model.notification.NotificationTopic
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.Now
 import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature._legacy.util.toDate
