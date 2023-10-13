@@ -1,4 +1,4 @@
-package team.aliens.network;
+package team.aliens.dms.android.network.network;
 
 import android.content.Context;
 
