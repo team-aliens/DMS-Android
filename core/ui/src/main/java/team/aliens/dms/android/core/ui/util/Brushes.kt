@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.ui.util
+package team.aliens.dms.android.core.ui.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

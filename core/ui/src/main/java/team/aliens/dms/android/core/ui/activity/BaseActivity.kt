@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.ui.activity
+package team.aliens.dms.android.core.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 
