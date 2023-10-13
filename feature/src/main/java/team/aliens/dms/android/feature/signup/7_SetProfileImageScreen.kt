@@ -30,8 +30,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import com.skydoves.landscapist.glide.GlideImage
 import team.aliens.dms.android.design_system.button.DormButtonColor
 import team.aliens.dms.android.design_system.button.DormContainedLargeButton
 import team.aliens.dms.android.design_system.extension.RatioSpace
@@ -132,12 +132,13 @@ internal fun SetProfileImageScreen(
                 modifier = Modifier.size(150.dp),
                 contentAlignment = Alignment.BottomEnd,
             ) {
-                GlideImage(
+                AsyncImage(
                     modifier = Modifier
                         .size(150.dp)
                         .clip(CircleShape)
                         .clickable(onClick = onSelectImageTypeDialogShow),
-                    imageModel = { uiState.profileImageUri ?: defaultProfileUrl },
+                    model = uiState.profileImageUri ?: defaultProfileUrl,
+                    contentDescription = null,
                 )
                 Image(
                     modifier = Modifier.size(30.dp),
