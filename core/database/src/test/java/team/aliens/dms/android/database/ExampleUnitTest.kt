@@ -1,4 +1,4 @@
-package team.aliens.dms_android.database
+package team.aliens.dms.android.database
 
 import org.junit.Test
 
