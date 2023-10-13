@@ -103,7 +103,7 @@ internal fun SignInScreen(
         AuthActions(
             onSignUpClicked = navigator::openSignUpNav,
             onFindIdClicked = navigator::openFindId,
-            onResetPasswordClicked = navigator::openResetPassword,
+            onResetPasswordClicked = navigator::openResetPasswordNav,
         )
         Spacer(Modifier.weight(1f))
         DormContainedLargeButton(

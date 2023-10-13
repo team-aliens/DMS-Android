@@ -4,5 +4,5 @@ interface SignInNavigator {
     fun openAuthorizedNav()
     fun openSignUpNav()
     fun openFindId()
-    fun openResetPassword()
+    fun openResetPasswordNav()
 }

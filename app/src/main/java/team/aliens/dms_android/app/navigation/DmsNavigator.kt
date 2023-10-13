@@ -103,7 +103,7 @@ class DmsNavigator(
         TODO("Not yet implemented")
     }
 
-    override fun openResetPassword() {
+    override fun openResetPasswordNav() {
         TODO("Not yet implemented")
     }
 
