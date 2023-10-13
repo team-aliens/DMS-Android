@@ -1,4 +1,4 @@
-package team.aliens.jwt
+package team.aliens.dms.android.core.jwt
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
