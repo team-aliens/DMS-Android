@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.MutableEventFlow
 import team.aliens.dms.android.feature._legacy.util.asEventFlow
 import javax.inject.Inject

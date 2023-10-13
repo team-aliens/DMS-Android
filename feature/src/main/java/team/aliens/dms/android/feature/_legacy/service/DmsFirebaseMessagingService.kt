@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.feature._legacy.MainActivity
 import team.aliens.dms.android.domain.model.notification.RegisterDeviceNotificationTokenInput
 import team.aliens.dms.android.domain.usecase.notification.RegisterDeviceNotificationTokenUseCase
-import team.aliens.dms_android.feature.R
+import team.aliens.dms.android.feature.R
 import javax.inject.Inject
 
 @AndroidEntryPoint
