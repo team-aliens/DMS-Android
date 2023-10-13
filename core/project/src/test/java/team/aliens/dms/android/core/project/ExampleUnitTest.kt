@@ -1,4 +1,4 @@
-package team.aliens.dms_android.core.project
+package team.aliens.dms.android.core.project
 
 import org.junit.Test
 
