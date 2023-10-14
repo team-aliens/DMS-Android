@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.threeten.bp.ZoneOffset
 import team.aliens.dms.android.app.BuildConfig
+import team.aliens.dms.android.core.project.di.Debug
 import javax.inject.Singleton
 
 @Module
@@ -14,6 +15,7 @@ object ProjectConfigModule {
 
     @Provides
     @Singleton
+    @Debug
     fun provideDebug(): Boolean = BuildConfig.DEBUG
 
     @Provides
