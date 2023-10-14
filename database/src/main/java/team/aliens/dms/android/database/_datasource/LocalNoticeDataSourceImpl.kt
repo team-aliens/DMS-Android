@@ -1,9 +1,10 @@
 package team.aliens.dms.android.database._datasource
+/*
 
 import team.aliens.dms.android.core.database.dao.NoticeDao
 import team.aliens.dms.android.data.datasource.local.LocalNoticeDataSource
-import team.aliens.dms.android.database.room.entity.toData
-import team.aliens.dms.android.database.room.entity.toDomain
+import team.aliens.dms.android.database.model.mapper.toData
+import team.aliens.dms.android.database.model.mapper.toDomain
 import team.aliens.dms.android.domain.model.notice.Notice
 import java.util.UUID
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class LocalNoticeDataSourceImpl @Inject constructor(
         notice: Notice,
     ) {
         noticeDao.save(
-            noticeEntity = notice.toData(),
+            notice = notice.toData(),
         )
     }
 
@@ -36,7 +37,8 @@ class LocalNoticeDataSourceImpl @Inject constructor(
         vararg notices: Notice,
     ) {
         noticeDao.saveAll(
-            noticeEntities = arrayOf(*notices).toData(),
+            notices = arrayOf(*notices).toData(),
         )
     }
 }
+*/

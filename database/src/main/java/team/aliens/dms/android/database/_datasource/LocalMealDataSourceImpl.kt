@@ -1,9 +1,10 @@
 package team.aliens.dms.android.database._datasource
+/*
 
 import team.aliens.dms.android.core.database.dao.MealDao
 import team.aliens.dms.android.data.datasource.local.LocalMealDataSource
-import team.aliens.dms.android.database.room.entity.toData
-import team.aliens.dms.android.database.room.entity.toDomain
+import team.aliens.dms.android.database.model.mapper.toData
+import team.aliens.dms.android.database.model.mapper.toDomain
 import team.aliens.dms.android.domain.model.meal.FetchMealInput
 import team.aliens.dms.android.domain.model.meal.Meal
 import javax.inject.Inject
@@ -38,3 +39,4 @@ class LocalMealDataSourceImpl @Inject constructor(
         )
     }
 }
+*/
