@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.di
+package team.aliens.dms.android.database.meal.di
 
 import dagger.Module
 import dagger.Provides
@@ -6,8 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.dms.android.database.meal.datasource.DatabaseMealDataSource
 import team.aliens.dms.android.database.meal.datasource.DatabaseMealDataSourceImpl
-import team.aliens.dms.android.database.notice.datasource.DatabaseNoticeDataSource
-import team.aliens.dms.android.database.notice.datasource.DatabaseNoticeDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -17,8 +15,4 @@ internal abstract class DataSourceModule {
     @Provides
     @Singleton
     abstract fun provideDatabaseMealDataSource(impl: DatabaseMealDataSourceImpl): DatabaseMealDataSource
-
-    @Provides
-    @Singleton
-    abstract fun provideDatabaseNoticeDataSource(impl: DatabaseNoticeDataSourceImpl): DatabaseNoticeDataSource
 }
