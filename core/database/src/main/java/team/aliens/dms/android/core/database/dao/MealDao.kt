@@ -20,8 +20,8 @@ abstract class MealDao {
     abstract fun findByDate(date: LocalDate): MealEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun save(mealEntity: MealEntity)
+    abstract fun save(meal: MealEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveAll(mealEntities: List<MealEntity>)
+    abstract fun saveAll(meals: List<MealEntity>)
 }
