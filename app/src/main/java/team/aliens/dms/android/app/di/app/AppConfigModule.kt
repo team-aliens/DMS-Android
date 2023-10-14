@@ -1,4 +1,4 @@
-package team.aliens.dms.android.app.di.project
+package team.aliens.dms.android.app.di.app
 
 import dagger.Module
 import dagger.Provides
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ProjectConfigModule {
+object AppConfigModule {
 
     @Provides
     @Singleton
