@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.datasource
+package team.aliens.dms.android.database.meal.datasource
 
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.database.dao.MealDao
