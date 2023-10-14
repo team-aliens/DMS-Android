@@ -23,5 +23,5 @@ abstract class MealDao {
     abstract fun save(mealEntity: MealEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveAll(vararg mealEntities: MealEntity)
+    abstract fun saveAll(mealEntities: List<MealEntity>)
 }
