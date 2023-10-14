@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.datasource
+package team.aliens.dms.android.database.notice.datasource
 
 import team.aliens.dms.android.core.database.dao.NoticeDao
 import team.aliens.dms.android.core.database.entity.NoticeEntity
