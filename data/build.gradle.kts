@@ -39,7 +39,11 @@ android {
 }
 
 dependencies {
+    // TODO: Remove dependency
     implementation(project(ProjectPaths.domain))
+
+    implementation(project(ProjectPaths.database))
+    // implementation(project(ProjectPaths.network))
 
     implementation(libs.androidx.core)
 
