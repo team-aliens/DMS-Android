@@ -41,10 +41,8 @@ android {
 }
 
 dependencies {
+    implementation(project(ProjectPaths.Shared.date))
     implementation(project(ProjectPaths.Core.database))
-
-    implementation(project(ProjectPaths.data))
-    implementation(project(ProjectPaths.domain))
 
     implementation(libs.threetenbp)
 
