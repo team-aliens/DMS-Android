@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.datasource
+package team.aliens.dms.android.database._datasource
 
 import team.aliens.dms.android.data.datasource.local.LocalAuthDataSource
 import team.aliens.dms.android.domain.model.auth.Token

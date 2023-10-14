@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.datasource
+package team.aliens.dms.android.database._datasource
 
 import team.aliens.dms.android.data.datasource.local.LocalSchoolDataSource
 import team.aliens.dms.android.domain.model.student.Features
