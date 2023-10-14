@@ -1,10 +1,10 @@
 package team.aliens.dms.android.database.datasource
 
-import team.aliens.dms.android.domain.model.meal.FetchMealInput
-import team.aliens.dms.android.domain.model.meal.Meal
+import org.threeten.bp.LocalDate
+import team.aliens.dms.android.core.database.entity.MealEntity
 
 abstract class DatabaseMealDataSource {
-    abstract suspend fun queryMeal(input: FetchMealInput): Meal
-    abstract suspend fun saveMeal(meal: Meal)
-    abstract suspend fun saveMeals(vararg meals: Meal)
+    abstract suspend fun queryMeal(date: LocalDate): MealEntity
+    abstract suspend fun saveMeal(meal: MealEntity)
+    abstract suspend fun saveMeals(vararg meals: MealEntity)
 }
