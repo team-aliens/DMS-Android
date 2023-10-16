@@ -1,4 +1,5 @@
 package team.aliens.dms.android.network._legacy.apiservice
+/*
 
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -23,3 +24,4 @@ interface FileApiService {
         @Query(FileName) fileName: String,
     ): FetchPreSignedUrlResponse
 }
+*/

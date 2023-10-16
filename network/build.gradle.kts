@@ -65,9 +65,6 @@ dependencies {
 
     implementation(project(ProjectPaths.Core.network))
 
-    implementation(project(ProjectPaths.data))
-    implementation(project(ProjectPaths.domain))
-
     implementation(libs.androidx.core)
 
     implementation(libs.threetenbp)
