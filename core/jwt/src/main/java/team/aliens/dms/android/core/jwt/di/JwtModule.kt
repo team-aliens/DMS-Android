@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms.android.core.jwt.store.JwtStore
-import team.aliens.dms.android.core.jwt.store.JwtStoreImpl
+import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
+import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -14,5 +14,5 @@ internal abstract class JwtModule {
 
     @Binds
     @Singleton
-    abstract fun bindJwtStore(impl: JwtStoreImpl): JwtStore
+    abstract fun bindJwtStoreDataSource(impl: JwtDataStoreDataSourceImpl): JwtDataStoreDataSource
 }

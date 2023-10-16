@@ -12,5 +12,5 @@ import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSourceImpl
 internal abstract class DataSourceModule {
 
     @Binds
-    abstract fun bindJwtDataStore(impl: JwtDataStoreDataSourceImpl): JwtDataStoreDataSource
+    abstract fun bindJwtDataStoreDataSource(impl: JwtDataStoreDataSourceImpl): JwtDataStoreDataSource
 }
