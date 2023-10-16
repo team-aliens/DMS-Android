@@ -1,7 +1,6 @@
 package team.aliens.dms.android.network._legacy.datasource
 
 import team.aliens.dms.android.data.datasource.remote.RemoteUserDataSource
-import team.aliens.dms.android.network._legacy.apiservice.UserApiService
 import team.aliens.dms.android.network.model.user.toData
 import team.aliens.dms.android.network.util.sendHttpRequest
 import team.aliens.dms.android.domain.model.user.ComparePasswordInput
