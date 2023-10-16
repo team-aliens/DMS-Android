@@ -10,21 +10,18 @@ import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.jwt.exception.CannotReissueTokenException
 import team.aliens.dms.android.core.jwt.network.model.AuthenticationResponse
 
-// TODO: TokenReissueManager
-internal class TokenReissueHttpClient(
+class TokenReissueManager(
     private val reissueUrl: String,
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,
-) : OkHttpClient() {
-    init {
-        this.apply {
-            /* config http client */
-        }
+) {
+    private val client: OkHttpClient by lazy {
+        baseHttpClient.apply { /* config http client */ }
     }
 
     operator fun invoke(refreshToken: String): AuthenticationResponse {
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
-        val response = newCall(tokenReissueRequest).execute()
+        val response = client.newCall(tokenReissueRequest).execute()
 
         return if (response.isSuccessful) {
             response.body.toAuthenticationResponse()
