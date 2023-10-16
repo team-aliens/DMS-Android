@@ -16,7 +16,9 @@ class TokenReissueManager(
     baseHttpClient: OkHttpClient,
 ) {
     private val client: OkHttpClient by lazy {
-        baseHttpClient.apply { /* config http client */ }
+        baseHttpClient.newBuilder().apply {
+            addInterceptor(httpLoggingInterceptor)
+        }.build()
     }
 
     operator fun invoke(refreshToken: String): TokensResponse {
