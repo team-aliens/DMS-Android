@@ -6,7 +6,7 @@ import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.RefreshTokenExpiration
 import team.aliens.dms.android.core.jwt.Tokens
 
-internal abstract class JwtStore {
+abstract class JwtStore {
     abstract fun loadTokens(): Tokens
     abstract suspend fun storeTokens(tokens: Tokens)
     abstract fun loadAccessToken(): AccessToken
