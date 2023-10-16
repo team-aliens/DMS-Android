@@ -35,7 +35,7 @@ internal class JwtDataStoreDataSourceImpl @Inject constructor(
 
     override suspend fun storeAccessToken(token: AccessToken) {
         transform(
-            job = {
+            block = {
                 preferencesDataStore.edit { preferences ->
                     preferences[ACCESS_TOKEN] = token
                 }
@@ -55,7 +55,7 @@ internal class JwtDataStoreDataSourceImpl @Inject constructor(
 
     override suspend fun storeAccessTokenExpiration(expiration: AccessTokenExpiration) {
         transform(
-            job = {
+            block = {
                 preferencesDataStore.edit { preferences ->
                     preferences[ACCESS_TOKEN_EXPIRATION] = expiration.toEpochMilli()
                 }
@@ -72,7 +72,7 @@ internal class JwtDataStoreDataSourceImpl @Inject constructor(
 
     override suspend fun storeRefreshToken(token: RefreshToken) {
         transform(
-            job = {
+            block = {
                 preferencesDataStore.edit { preferences ->
                     preferences[REFRESH_TOKEN] = token
                 }
@@ -92,7 +92,7 @@ internal class JwtDataStoreDataSourceImpl @Inject constructor(
 
     override suspend fun storeRefreshTokenExpiration(expiration: RefreshTokenExpiration) {
         transform(
-            job = {
+            block = {
                 preferencesDataStore.edit { preferences ->
                     preferences[REFRESH_TOKEN_EXPIRATION] = expiration.toEpochMilli()
                 }
