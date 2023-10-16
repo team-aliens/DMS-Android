@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.meal.mapper
+package team.aliens.dms.android.data.meal.mapper
 
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.database.entity.MealEntity
