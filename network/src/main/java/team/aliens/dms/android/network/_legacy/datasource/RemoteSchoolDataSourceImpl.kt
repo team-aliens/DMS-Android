@@ -1,7 +1,6 @@
 package team.aliens.dms.android.network._legacy.datasource
 
 import team.aliens.dms.android.data.datasource.remote.RemoteSchoolDataSource
-import team.aliens.dms.android.network._legacy.apiservice.SchoolApiService
 import team.aliens.dms.android.network.model.school.toDomain
 import team.aliens.dms.android.network.util.sendHttpRequest
 import team.aliens.dms.android.domain.model.school.ExamineSchoolVerificationCodeInput

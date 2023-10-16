@@ -6,7 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import team.aliens.dms.android.network._legacy.apiservice.FileApiService
-import team.aliens.dms.android.network._legacy.apiservice.SchoolApiService
 import team.aliens.dms.android.network._legacy.apiservice.StudentApiService
 import team.aliens.dms.android.network._legacy.apiservice.StudyRoomApiService
 import team.aliens.dms.android.network._legacy.apiservice.UserApiService
