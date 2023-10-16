@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class JwtModule {
+internal abstract class JwtStoreModule {
 
     @Binds
     @Singleton
