@@ -5,12 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import team.aliens.dms.android.network._legacy.apiservice.AuthApiService
 import team.aliens.dms.android.network._legacy.apiservice.FileApiService
-import team.aliens.dms.android.network._legacy.apiservice.MealApiService
-import team.aliens.dms.android.network._legacy.apiservice.NoticeApiService
-import team.aliens.dms.android.network._legacy.apiservice.NotificationApiService
-import team.aliens.dms.android.network._legacy.apiservice.PointApiService
 import team.aliens.dms.android.network._legacy.apiservice.RemainsApiService
 import team.aliens.dms.android.network._legacy.apiservice.SchoolApiService
 import team.aliens.dms.android.network._legacy.apiservice.StudentApiService

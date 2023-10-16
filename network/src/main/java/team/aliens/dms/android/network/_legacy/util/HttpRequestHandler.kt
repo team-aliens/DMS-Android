@@ -1,5 +1,5 @@
 package team.aliens.dms.android.network._legacy.util
-
+/*
 import team.aliens.dms.android.domain.exception.CommonException
 import team.aliens.dms.android.domain.exception.RemoteException
 
@@ -39,4 +39,4 @@ suspend inline fun <T> sendHttpRequest(
             else -> onUnknownException(message)
         }
     }
-}
+}*/
