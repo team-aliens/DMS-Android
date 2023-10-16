@@ -13,7 +13,7 @@ abstract class RemainsApiService {
 
     @PUT("/remains/{remain-option-id}")
     @RequiresAccessToken
-    abstract suspend fun updateRemainsOption(@Path("remains-option-id") remainsOptionId: UUID)
+    abstract suspend fun updateRemainsOption(@Path("remains-option-id") optionId: UUID)
 
     @GET("/remains/my")
     @RequiresAccessToken
