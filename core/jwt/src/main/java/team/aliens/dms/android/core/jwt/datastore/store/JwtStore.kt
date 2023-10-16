@@ -8,7 +8,7 @@ import team.aliens.dms.android.core.jwt.Tokens
 
 internal abstract class JwtStore {
     abstract fun loadTokens(): Tokens
-    abstract suspend fun store
+    abstract suspend fun storeTokens(tokens: Tokens)
     abstract fun loadAccessToken(): AccessToken
     abstract suspend fun storeAccessToken(token: AccessToken)
     abstract fun loadAccessTokenExpiration(): AccessTokenExpiration
