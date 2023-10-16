@@ -1,4 +1,4 @@
-package team.aliens.dms.android.database.notice.mapper
+package team.aliens.dms.android.data.notice.mapper
 
 import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.database.entity.NoticeEntity
