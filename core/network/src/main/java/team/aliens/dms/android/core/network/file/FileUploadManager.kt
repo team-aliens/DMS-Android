@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.network.httpclient
+package team.aliens.dms.android.core.network.file
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -8,14 +8,12 @@ import java.io.File
 import java.io.IOException
 
 // TODO: consider defining class as FileUploadManager
-class FileUploadHttpClient(
+class FileUploadManager(
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,
-) : OkHttpClient() {
-    init {
-        this.apply {
-            /* config http client */
-        }
+) {
+    private val client: OkHttpClient by lazy {
+        baseHttpClient.apply { /* config */ }
     }
 
     operator fun invoke(
@@ -26,7 +24,7 @@ class FileUploadHttpClient(
             file = file,
             fileUploadUrl = fileUploadUrl,
         )
-        val response = newCall(request).execute()
+        val response = client.newCall(request).execute()
 
         if (response.isSuccessful) {
             checkNotNull(response.body)

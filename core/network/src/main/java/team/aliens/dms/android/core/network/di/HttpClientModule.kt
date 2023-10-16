@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import team.aliens.dms.android.core.network.file.FileUploadManager
 import team.aliens.dms.android.core.network.util.OkHttpClient
 import team.aliens.dms.android.core.network.util.Retrofit
 import javax.inject.Singleton
@@ -29,13 +30,14 @@ internal object HttpClientModule {
         @DefaultHttpClient httpClient: OkHttpClient,
     ): OkHttpClient = httpClient.apply { /* apply global config */ }
 
+    // TODO: fix location
     @Provides
     @Singleton
     @FileUploadHttpClient
-    fun provideFileUploadHttpClient(
+    fun provideFileUploadManager(
         @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient httpClient: OkHttpClient,
-    ): OkHttpClient = team.aliens.dms.android.core.network.httpclient.FileUploadHttpClient(
+    ): FileUploadManager = FileUploadManager(
         httpLoggingInterceptor = httpLoggingInterceptor,
         baseHttpClient = httpClient,
     )
