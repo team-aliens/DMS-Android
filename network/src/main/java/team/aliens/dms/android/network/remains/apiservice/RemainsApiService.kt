@@ -9,7 +9,7 @@ import team.aliens.dms.android.network.remains.model.FetchRemainsApplicationTime
 import team.aliens.dms.android.network.remains.model.FetchRemainsOptionsResponse
 import java.util.UUID
 
-abstract class RemainsApiService {
+internal abstract class RemainsApiService {
 
     @PUT("/remains/{remain-option-id}")
     @RequiresAccessToken
