@@ -1,7 +1,6 @@
 package team.aliens.dms.android.network._legacy.datasource
 
 import team.aliens.dms.android.data.datasource.remote.RemoteRemainsDataSource
-import team.aliens.dms.android.network._legacy.apiservice.RemainsApiService
 import team.aliens.dms.android.network.model.remains.toDomain
 import team.aliens.dms.android.network.util.sendHttpRequest
 import team.aliens.dms.android.domain.model.remains.FetchCurrentAppliedRemainsOptionOutput
