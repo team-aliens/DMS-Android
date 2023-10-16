@@ -8,7 +8,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.jwt.exception.CannotReissueTokenException
-import team.aliens.dms.android.core.jwt.network.model.AuthenticationResponse
+import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 
 class TokenReissueManager(
     private val reissueUrl: String,
@@ -19,7 +19,7 @@ class TokenReissueManager(
         baseHttpClient.apply { /* config http client */ }
     }
 
-    operator fun invoke(refreshToken: String): AuthenticationResponse {
+    operator fun invoke(refreshToken: String): TokensResponse {
         val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
         val response = client.newCall(tokenReissueRequest).execute()
 
@@ -30,11 +30,11 @@ class TokenReissueManager(
         }
     }
 
-    private fun ResponseBody?.toAuthenticationResponse(): AuthenticationResponse {
+    private fun ResponseBody?.toAuthenticationResponse(): TokensResponse {
         requireNotNull(this)
         return Gson().fromJson(
             this.string(),
-            AuthenticationResponse::class.java,
+            TokensResponse::class.java,
         )
     }
 
