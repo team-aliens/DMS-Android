@@ -1,7 +1,6 @@
 package team.aliens.dms.android.network._legacy.datasource
 
 import team.aliens.dms.android.data.datasource.remote.RemoteStudyRoomDataSource
-import team.aliens.dms.android.network._legacy.apiservice.StudyRoomApiService
 import team.aliens.dms.android.network.model.studyroom.toDomain
 import team.aliens.dms.android.network.util.sendHttpRequest
 import team.aliens.dms.android.domain.model.studyroom.ApplySeatInput
