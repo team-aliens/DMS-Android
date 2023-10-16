@@ -28,8 +28,8 @@ abstract class NoticeDao {
     abstract fun findAll(): List<NoticeEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun save(noticeEntity: NoticeEntity)
+    abstract fun save(notice: NoticeEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveAll(vararg noticeEntities: NoticeEntity)
+    abstract fun saveAll(notices: List<NoticeEntity>)
 }

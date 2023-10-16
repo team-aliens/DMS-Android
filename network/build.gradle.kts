@@ -60,8 +60,10 @@ android {
 
 dependencies {
 
-    // TODO: also remove dependency when TokenReissueManager is removed from :network
+    // TODO: also remove jwt dependency when TokenReissueManager is removed from :network
     implementation(project(ProjectPaths.Core.jwt))
+
+    implementation(project(ProjectPaths.Core.network))
 
     implementation(project(ProjectPaths.data))
     implementation(project(ProjectPaths.domain))

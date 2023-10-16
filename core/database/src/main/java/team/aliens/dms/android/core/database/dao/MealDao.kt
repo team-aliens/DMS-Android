@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.database.entity.MealEntity
 
 @Dao
@@ -16,11 +17,11 @@ abstract class MealDao {
             WHERE date = :date; 
         """,
     )
-    abstract fun findByDate(date: String): MealEntity
+    abstract fun findByDate(date: LocalDate): MealEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun save(mealEntity: MealEntity)
+    abstract fun save(meal: MealEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveAll(vararg mealEntities: MealEntity)
+    abstract fun saveAll(meals: List<MealEntity>)
 }
