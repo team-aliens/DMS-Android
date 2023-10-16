@@ -22,9 +22,9 @@ suspend inline fun <T> sendHttpRequest(
     on429: (message: String?) -> Nothing = { throw TooManyRequestsException() },
     on500: (message: String?) -> Nothing = { throw InternalServerError() },
     onUnknownException: (message: String) -> Nothing = { throw UnknownException() },
-    crossinline httpRequest: suspend () -> T,
+    crossinline request: suspend () -> T,
 ): T = try {
-    httpRequest()
+    request()
 } catch (httpException: retrofit2.HttpException) {
 
     val code = httpException.code()
