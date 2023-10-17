@@ -34,18 +34,6 @@ internal object HttpClientModule {
         globalInterceptors.interceptors.forEach(this::addInterceptor)
     }.build()
 
-    // TODO: fix location
-    @Provides
-    @Singleton
-    @FileUploadHttpClient
-    fun provideFileUploadManager(
-        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
-        @DefaultHttpClient httpClient: OkHttpClient,
-    ): FileUploadManager = FileUploadManager(
-        httpLoggingInterceptor = httpLoggingInterceptor,
-        baseHttpClient = httpClient,
-    )
-
     @Provides
     @Singleton
     @GlobalRetrofitClient
@@ -68,5 +56,17 @@ internal object HttpClientModule {
         client = defaultHttpClient,
         baseUrl = baseUrl,
         gsonConverter = true,
+    )
+
+    // TODO: fix location
+    @Provides
+    @Singleton
+    @FileUploadHttpClient
+    fun provideFileUploadManager(
+        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
+        @DefaultHttpClient httpClient: OkHttpClient,
+    ): FileUploadManager = FileUploadManager(
+        httpLoggingInterceptor = httpLoggingInterceptor,
+        baseHttpClient = httpClient,
     )
 }
