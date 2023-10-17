@@ -30,4 +30,25 @@ annotation class DefaultHttpLoggingInterceptor
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
+annotation class GlobalHttpLoggingInterceptor
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingLevel
+
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class GlobalHttpLoggingLevel
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class DefaultRetrofitClient
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class GlobalRetrofitClient
