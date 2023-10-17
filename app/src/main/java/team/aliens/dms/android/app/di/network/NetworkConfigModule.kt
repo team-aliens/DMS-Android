@@ -5,6 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.dms.android.core.jwt.network.IgnoreRequests
+import team.aliens.dms.android.core.network.HttpMethod
+import team.aliens.dms.android.core.network.HttpRequest
 import team.aliens.dms.android.core.network.di.BaseUrl
 import javax.inject.Singleton
 
@@ -20,4 +23,73 @@ object NetworkConfigModule {
     @Provides
     @Singleton
     fun provideTokenReissueUrl(@BaseUrl baseUrl: String): String = "$baseUrl/auth/reissue"
+
+    @Provides
+    @Singleton
+    fun provideIgnoreRequests(): IgnoreRequests = object : IgnoreRequests {
+        override val requests: List<HttpRequest> = listOf(
+
+            // Auth
+            HttpRequest(
+                method = HttpMethod.POST,
+                path = "/auth/tokens",
+            ),
+            HttpRequest(
+                method = HttpMethod.POST,
+                path = "/auth/code",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/auth/code",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/auth/account-id",
+            ),
+
+            // Student
+            HttpRequest(
+                method = HttpMethod.POST,
+                path = "/students/signup",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/students/name",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/students/account-id/",
+            ),
+            HttpRequest(
+                method = HttpMethod.PATCH,
+                path = "/students/password/initialization",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/students/account-id/duplication",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/students/email/duplication",
+            ),
+
+            // School
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/schools",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/schools/question/",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/schools/answer/",
+            ),
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/schools/code",
+            ),
+        )
+    }
 }
