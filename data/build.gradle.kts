@@ -39,8 +39,6 @@ android {
 }
 
 dependencies {
-    // TODO: Remove dependency
-    implementation(project(ProjectPaths.domain))
 
     implementation(project(ProjectPaths.Core.database))
     implementation(project(ProjectPaths.Core.network))
