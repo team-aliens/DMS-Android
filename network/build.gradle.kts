@@ -60,9 +60,6 @@ android {
 
 dependencies {
 
-    // TODO: also remove jwt dependency when TokenReissueManager is removed from :network
-    implementation(project(ProjectPaths.Core.jwt))
-
     implementation(project(ProjectPaths.Core.network))
 
     implementation(libs.androidx.core)
