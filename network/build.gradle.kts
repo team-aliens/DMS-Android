@@ -60,7 +60,9 @@ android {
 
 dependencies {
 
+    implementation(project(ProjectPaths.Core.jwt))
     implementation(project(ProjectPaths.Core.network))
+    implementation(project(ProjectPaths.Core.school))
 
     implementation(libs.androidx.core)
 
