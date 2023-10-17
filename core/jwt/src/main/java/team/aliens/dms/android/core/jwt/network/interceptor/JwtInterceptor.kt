@@ -14,6 +14,9 @@ class JwtInterceptor @Inject constructor(
     private val ignoreRequests: IgnoreRequests,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+
+        chain.proceed(chain.request())
+
         val interceptedRequest: Request = chain.request()
 
         return chain.proceed(
@@ -25,14 +28,10 @@ class JwtInterceptor @Inject constructor(
         )
     }
 
-    private fun Builder.addAccessToken(): Builder {
-        val accessToken = jwtProvider.cachedAccessToken
-
-        return this@addAccessToken.addHeader(
-            name = "authorization",
-            value = "bearer $accessToken",
-        )
-    }
+    private fun Builder.addAccessToken(): Builder = this@addAccessToken.addHeader(
+        name = "authorization",
+        value = "bearer ${jwtProvider.cachedAccessToken}",
+    )
 
     private fun Request.shouldBeIgnored(): Boolean = ignoreRequests.requests.any { ignoreRequest ->
         val path = this@shouldBeIgnored.url.encodedPath
