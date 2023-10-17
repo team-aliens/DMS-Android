@@ -11,7 +11,7 @@ import javax.inject.Inject
 object JwtProvider : JwtProviderInjectionDelegation() {
 
     private var _cachedAccessToken: AccessToken? = null
-    private val cachedAccessToken: AccessToken
+    val cachedAccessToken: AccessToken
         get() = if (_cachedAccessToken == null) {
             this.updateAccessToken()
         } else {
