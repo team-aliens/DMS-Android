@@ -43,9 +43,10 @@ dependencies {
     implementation(project(ProjectPaths.domain))
 
     implementation(project(ProjectPaths.Core.database))
+    implementation(project(ProjectPaths.Core.network))
 
     implementation(project(ProjectPaths.database))
-    // implementation(project(ProjectPaths.network))
+    implementation(project(ProjectPaths.network))
 
     implementation(libs.androidx.core)
 
