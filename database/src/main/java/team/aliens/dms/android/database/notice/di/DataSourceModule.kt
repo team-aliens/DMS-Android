@@ -1,7 +1,7 @@
 package team.aliens.dms.android.database.notice.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import team.aliens.dms.android.database.notice.datasource.DatabaseNoticeDataSource
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal abstract class DataSourceModule {
 
-    @Provides
+    @Binds
     @Singleton
     abstract fun provideDatabaseNoticeDataSource(impl: DatabaseNoticeDataSourceImpl): DatabaseNoticeDataSource
 }

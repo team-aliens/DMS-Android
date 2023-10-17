@@ -15,18 +15,34 @@ internal object InterceptorModule {
     @Provides
     @Singleton
     @DefaultHttpLoggingLevel
-    fun provideHttpLoggingLevel(
-        @Debug debug: Boolean,
-    ): HttpLoggingInterceptor.Level = if (debug) {
-        HttpLoggingInterceptor.Level.BODY
-    } else {
-        HttpLoggingInterceptor.Level.BASIC
-    }
+    fun provideDefaultHttpLoggingLevel(@Debug debug: Boolean): HttpLoggingInterceptor.Level =
+        if (debug) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.BASIC
+        }
+
+    @Provides
+    @Singleton
+    @GlobalHttpLoggingLevel
+    fun provideGlobalHttpLoggingLevel(@Debug debug: Boolean): HttpLoggingInterceptor.Level =
+        if (debug) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.BASIC
+        }
 
     @Provides
     @Singleton
     @DefaultHttpLoggingInterceptor
     fun provideDefaultHttpLoggingInterceptor(
-        @DefaultHttpLoggingLevel level: HttpLoggingInterceptor.Level,
-    ): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(level)
+        @DefaultHttpLoggingLevel defaultLoggingLevel: HttpLoggingInterceptor.Level,
+    ): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(defaultLoggingLevel)
+
+    @Provides
+    @Singleton
+    @GlobalHttpLoggingInterceptor
+    fun provideGlobalHttpLoggingInterceptor(
+        @GlobalHttpLoggingLevel globalLoggingLevel: HttpLoggingInterceptor.Level,
+    ): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(globalLoggingLevel)
 }

@@ -4,16 +4,16 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import team.aliens.dms.android.core.jwt.network.model.AuthenticationResponse
 import team.aliens.dms.android.network.auth.model.CheckIdExistsResponse
 import team.aliens.dms.android.network.auth.model.EmailVerificationType
 import team.aliens.dms.android.network.auth.model.SendEmailVerificationCodeRequest
 import team.aliens.dms.android.network.auth.model.SignInRequest
+import team.aliens.dms.android.network.auth.model.SignInResponse
 
 internal abstract class AuthApiService {
 
     @POST("/auth/tokens")
-    abstract suspend fun signIn(@Body request: SignInRequest): AuthenticationResponse
+    abstract suspend fun signIn(@Body request: SignInRequest): SignInResponse
 
     @POST("/auth/code")
     abstract suspend fun sendEmailVerificationCode(@Body request: SendEmailVerificationCodeRequest)

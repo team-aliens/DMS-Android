@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.jwt.datastore
+package team.aliens.dms.android.core.jwt.datastore.store
 
 import team.aliens.dms.android.core.jwt.AccessToken
 import team.aliens.dms.android.core.jwt.AccessTokenExpiration
@@ -6,7 +6,7 @@ import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.RefreshTokenExpiration
 import team.aliens.dms.android.core.jwt.Tokens
 
-abstract class JwtDataStoreDataSource {
+internal abstract class JwtStore {
 
     abstract fun loadTokens(): Tokens
 

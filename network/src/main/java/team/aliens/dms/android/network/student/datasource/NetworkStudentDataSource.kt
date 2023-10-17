@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.student.datasource
 
-import team.aliens.dms.android.core.jwt.network.model.AuthenticationResponse
+import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
@@ -11,7 +11,7 @@ import java.util.UUID
 
 abstract class NetworkStudentDataSource {
 
-    abstract suspend fun signUp(request: SignUpRequest): AuthenticationResponse
+    abstract suspend fun signUp(request: SignUpRequest): TokensResponse
 
     abstract suspend fun examineStudentNumber(
         schoolId: UUID,

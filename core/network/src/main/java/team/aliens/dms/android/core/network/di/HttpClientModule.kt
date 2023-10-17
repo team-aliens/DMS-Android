@@ -8,6 +8,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import team.aliens.dms.android.core.network.file.FileUploadManager
+import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
+import team.aliens.dms.android.core.network.httpclient.GlobalInterceptors
 import team.aliens.dms.android.core.network.util.OkHttpClient
 import team.aliens.dms.android.core.network.util.Retrofit
 import javax.inject.Singleton
@@ -19,37 +21,51 @@ internal object HttpClientModule {
     @Provides
     @Singleton
     @DefaultHttpClient
-    fun provideDefaultHttpClient(
-        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient = OkHttpClient(interceptors = arrayOf(httpLoggingInterceptor))
+    fun provideDefaultHttpClient(defaultInterceptors: DefaultInterceptors): OkHttpClient =
+        OkHttpClient(interceptors = defaultInterceptors.interceptors)
 
     @Provides
     @Singleton
     @GlobalHttpClient
     fun provideGlobalHttpClient(
-        @DefaultHttpClient httpClient: OkHttpClient,
-    ): OkHttpClient = httpClient.apply { /* apply global config */ }
+        @DefaultHttpClient baseHttpClient: OkHttpClient,
+        globalInterceptors: GlobalInterceptors,
+    ): OkHttpClient = baseHttpClient.newBuilder().apply {
+        globalInterceptors.interceptors.forEach(this::addInterceptor)
+    }.build()
+
+    @Provides
+    @Singleton
+    @GlobalRetrofitClient
+    fun provideGlobalRetrofitClient(
+        @GlobalHttpClient globalOkHttpClient: OkHttpClient,
+        @BaseUrl baseUrl: String,
+    ): Retrofit = Retrofit(
+        client = globalOkHttpClient,
+        baseUrl = baseUrl,
+        gsonConverter = true,
+    )
+
+    @Provides
+    @Singleton
+    @DefaultRetrofitClient
+    fun provideDefaultRetrofitClient(
+        @DefaultHttpClient defaultHttpClient: OkHttpClient,
+        @BaseUrl baseUrl: String,
+    ): Retrofit = Retrofit(
+        client = defaultHttpClient,
+        baseUrl = baseUrl,
+        gsonConverter = true,
+    )
 
     // TODO: fix location
     @Provides
     @Singleton
-    @FileUploadHttpClient
     fun provideFileUploadManager(
         @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient httpClient: OkHttpClient,
     ): FileUploadManager = FileUploadManager(
         httpLoggingInterceptor = httpLoggingInterceptor,
         baseHttpClient = httpClient,
-    )
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(
-        @GlobalHttpClient okHttpClient: OkHttpClient,
-        @BaseUrl baseUrl: String,
-    ): Retrofit = Retrofit(
-        clients = arrayOf(okHttpClient),
-        baseUrl = baseUrl,
-        gsonConverter = true,
     )
 }

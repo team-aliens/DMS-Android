@@ -1,8 +1,6 @@
 package team.aliens.dms.android.network.notification.model
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms.android.domain.model.notification.NotificationTopic
-import team.aliens.dms.android.domain.model.notification.NotificationTopicGroup
 
 data class FetchNotificationTopicStatusResponse(
     @SerializedName("topic_groups") val topicGroups: List<TopicGroupResponse>,
