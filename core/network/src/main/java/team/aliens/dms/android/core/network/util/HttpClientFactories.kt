@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 fun Retrofit(
-    vararg clients: OkHttpClient,
+    clients: List<OkHttpClient>,
     baseUrl: String,
     gsonConverter: Boolean = false,
 ): Retrofit = Retrofit.Builder().baseUrl(baseUrl).apply {
@@ -19,7 +19,7 @@ fun Retrofit(
 }.build()
 
 fun OkHttpClient(
-    vararg interceptors: Interceptor,
+    interceptors: List<Interceptor>,
 ): OkHttpClient = OkHttpClient().newBuilder().apply {
     if (interceptors.isNotEmpty()) {
         interceptors.forEach(this::addInterceptor)
