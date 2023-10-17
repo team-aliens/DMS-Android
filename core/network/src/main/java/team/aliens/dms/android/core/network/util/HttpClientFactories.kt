@@ -10,9 +10,8 @@ fun Retrofit(
     baseUrl: String,
     gsonConverter: Boolean = false,
 ): Retrofit = Retrofit.Builder().baseUrl(baseUrl).apply {
-    if (clients.isNotEmpty()) {
-        clients.forEach(this::client)
-    }
+    clients.forEach(this::client)
+
     if (gsonConverter) {
         addConverterFactory(GsonConverterFactory.create())
     }
@@ -21,7 +20,5 @@ fun Retrofit(
 fun OkHttpClient(
     interceptors: List<Interceptor>,
 ): OkHttpClient = OkHttpClient().newBuilder().apply {
-    if (interceptors.isNotEmpty()) {
-        interceptors.forEach(this::addInterceptor)
-    }
+    interceptors.forEach(this::addInterceptor)
 }.build()
