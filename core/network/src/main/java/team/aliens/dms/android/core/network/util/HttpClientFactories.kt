@@ -6,19 +6,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 fun Retrofit(
-    clients: List<OkHttpClient>,
+    client: OkHttpClient,
     baseUrl: String,
     gsonConverter: Boolean = false,
-): Retrofit = Retrofit.Builder().baseUrl(baseUrl).apply {
-    clients.forEach(this::client)
-
-    if (gsonConverter) {
-        addConverterFactory(GsonConverterFactory.create())
-    }
-}.build()
+): Retrofit = Retrofit.Builder()
+    .baseUrl(baseUrl)
+    .apply {
+        client(client)
+        if (gsonConverter) {
+            addConverterFactory(GsonConverterFactory.create())
+        }
+    }.build()
 
 fun OkHttpClient(
     interceptors: List<Interceptor>,
-): OkHttpClient = OkHttpClient().newBuilder().apply {
-    interceptors.forEach(this::addInterceptor)
-}.build()
+): OkHttpClient = OkHttpClient().newBuilder()
+    .apply {
+        interceptors.forEach(this::addInterceptor)
+    }.build()
