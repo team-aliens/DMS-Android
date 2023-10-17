@@ -1,21 +1,20 @@
 package team.aliens.dms.android.data.meal.mapper
 
-import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.database.entity.MealEntity
-import team.aliens.dms.android.domain.model.meal.Meal
+import team.aliens.dms.android.data.meal.model.Meal
 
-internal fun MealEntity.toDomain() = Meal(
-    date = this.date.toString(), // TODO: change type
+internal fun MealEntity.toModel() = Meal(
+    date = this.date,
     breakfast = this.breakfast,
     lunch = this.lunch,
     dinner = this.dinner,
 )
 
-internal fun Meal.toData() = MealEntity(
-    date = LocalDate.now(), // TODO: this.date
+internal fun Meal.toEntity() = MealEntity(
+    date = this.date,
     breakfast = this.breakfast,
     lunch = this.lunch,
     dinner = this.dinner,
 )
 
-internal fun List<Meal>.toData() = this.map(Meal::toData)
+internal fun List<Meal>.toEntity() = this.map(Meal::toEntity)
