@@ -5,8 +5,8 @@ import androidx.room.TypeConverter
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
-import team.aliens.dms.android.shared.date.extension.toLocalDate
-import team.aliens.dms.android.shared.date.extension.toLocalDateTime
+import team.aliens.dms.android.shared.date.toLocalDate
+import team.aliens.dms.android.shared.date.toLocalDateTime
 import javax.inject.Inject
 
 @ProvidedTypeConverter
