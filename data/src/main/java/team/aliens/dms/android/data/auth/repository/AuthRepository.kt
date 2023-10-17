@@ -1,5 +1,8 @@
 package team.aliens.dms.android.data.auth.repository
 
+import team.aliens.dms.android.data.auth.model.CheckIdExistsOutput
+import team.aliens.dms.android.shared.model.EmailVerificationType
+
 abstract class AuthRepository {
 
     abstract suspend fun signIn(
@@ -9,6 +12,14 @@ abstract class AuthRepository {
 
     abstract suspend fun sendEmailVerificationCode(
         email: String,
-        type: Email
+        type: EmailVerificationType,
     )
+
+    abstract suspend fun examineEmailVerificationCode(
+        email: String,
+        code: String,
+        type: EmailVerificationType,
+    )
+
+    abstract suspend fun checkIdExists(accountId: String): CheckIdExistsOutput
 }
