@@ -41,6 +41,9 @@ android {
 
 dependencies {
 
+    implementation(project(ProjectPaths.Shared.date))
+    implementation(project(ProjectPaths.Shared.model))
+
     implementation(project(ProjectPaths.Core.database))
     implementation(project(ProjectPaths.Core.network))
 
