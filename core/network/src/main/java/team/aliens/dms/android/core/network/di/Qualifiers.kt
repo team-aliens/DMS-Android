@@ -20,11 +20,6 @@ annotation class GlobalHttpClient
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
-annotation class FileUploadHttpClient
-
-@Qualifier
-@MustBeDocumented
-@Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingInterceptor
 
 @Qualifier
@@ -36,7 +31,6 @@ annotation class GlobalHttpLoggingInterceptor
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingLevel
-
 
 @Qualifier
 @MustBeDocumented

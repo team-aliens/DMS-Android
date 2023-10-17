@@ -61,7 +61,6 @@ internal object HttpClientModule {
     // TODO: fix location
     @Provides
     @Singleton
-    @FileUploadHttpClient
     fun provideFileUploadManager(
         @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient httpClient: OkHttpClient,
