@@ -72,10 +72,12 @@ internal class JwtProviderImpl @Inject constructor(
     // FIXME: 수정 필요
     override fun initTokens() {
         try {
-            loadTokens()
         } catch (e: LoadFailureException) {
-            e.printStackTrace()
-            fetchTokens()
+            try {
+                e.printStackTrace()
+                fetchTokens()
+            } catch (_: Exception) {
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
