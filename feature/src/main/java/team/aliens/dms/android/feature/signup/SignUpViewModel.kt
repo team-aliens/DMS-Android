@@ -15,7 +15,7 @@ import team.aliens.dms.android.feature._legacy.base.BaseMviViewModel
 import team.aliens.dms.android.feature._legacy.base.MviIntent
 import team.aliens.dms.android.feature._legacy.base.MviSideEffect
 import team.aliens.dms.android.feature._legacy.base.MviState
-import team.aliens.dms.android.domain.exception.RemoteException
+import team.aliens.dms.android.domain._legacy.exception.RemoteException
 import team.aliens.dms.android.domain.model.auth.CheckEmailVerificationCodeInput
 import team.aliens.dms.android.domain.model._common.EmailVerificationType
 import team.aliens.dms.android.domain.model.auth.SendEmailVerificationCodeInput
@@ -216,7 +216,7 @@ internal class SignUpViewModel @Inject constructor(
                 postSideEffect(SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode)
                 setSchoolId(schoolId = it.schoolId)
             }.onFailure {
-                setSchoolCodeMismatchError(it is RemoteException.Unauthorized)
+                setSchoolCodeMismatchError(it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized)
             }
         }
     }
@@ -249,7 +249,7 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(sideEffect = SignUpSideEffect.SchoolQuestion.SuccessVerifySchoolAnswer)
             }.onFailure {
-                setSchoolAnswerMismatchError(it is RemoteException.Unauthorized)
+                setSchoolAnswerMismatchError(it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized)
             }
         }
     }
@@ -264,7 +264,7 @@ internal class SignUpViewModel @Inject constructor(
                 postSideEffect(sideEffect = SignUpSideEffect.SendEmail.AvailableEmail)
             }.onFailure {
                 setSendEmailButtonEnabled(false)
-                if (it is RemoteException.Conflict) {
+                if (it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict) {
                     postSideEffect(sideEffect = SignUpSideEffect.SendEmail.DuplicatedEmail)
                 }
             }
@@ -303,11 +303,11 @@ internal class SignUpViewModel @Inject constructor(
             }.onFailure {
                 setAuthCodeButtonEnabled(true)
                 when(it){
-                    is RemoteException.Unauthorized -> {
+                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized -> {
                         setAuthCodeMismatchError()
                     }
 
-                    is RemoteException.Conflict -> {
+                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> {
                         postSideEffect(SignUpSideEffect.VerifyEmail.ConflictEmail)
                     }
                 }
@@ -335,11 +335,11 @@ internal class SignUpViewModel @Inject constructor(
                     setCheckedStudentName(false)
                     setStudentNumberMismatchError(true)
                     when (it) {
-                        is RemoteException.NotFound -> {
+                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.NotFound -> {
 
                         }
 
-                        is RemoteException.Conflict -> {
+                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> {
                             postSideEffect(SignUpSideEffect.SetId.ConflictStudent)
                         }
                     }
@@ -359,7 +359,7 @@ internal class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
             }.onFailure {
-                setConflictAccountIdError(it is RemoteException.Conflict)
+                setConflictAccountIdError(it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict)
             }
         }
     }
@@ -412,11 +412,11 @@ internal class SignUpViewModel @Inject constructor(
                     postSideEffect(SignUpSideEffect.Terms.SuccessSignUp)
                 }.onFailure {
                     when (it) {
-                        is RemoteException.Unauthorized -> {
+                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized -> {
                             postSideEffect(SignUpSideEffect.Terms.EmailNotVerified)
                         }
 
-                        is RemoteException.Conflict -> {
+                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> {
                             postSideEffect(SignUpSideEffect.Terms.AlreadyExistsStudent)
                         }
                     }

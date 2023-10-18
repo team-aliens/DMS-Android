@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.feature._legacy.base.BaseViewModel2
 import team.aliens.dms.android.feature._legacy.util.extractHourFromDate
-import team.aliens.dms.android.domain.exception.RemoteException
+import team.aliens.dms.android.domain._legacy.exception.RemoteException
 import team.aliens.dms.android.domain.model._common.Sex
 import team.aliens.dms.android.domain.model.studyroom.ApplySeatInput
 import team.aliens.dms.android.domain.model.studyroom.CancelSeatInput
@@ -115,19 +115,19 @@ class StudyRoomDetailsViewModel @Inject constructor(
                 )
             }.onFailure {
                 when (it) {
-                    is RemoteException.Unauthorized -> emitErrorEvent(
+                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized -> emitErrorEvent(
                         application.getString(R.string.NotAvailableSeat),
                     )
 
-                    is RemoteException.Forbidden -> emitErrorEvent(
+                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Forbidden -> emitErrorEvent(
                         application.getString(R.string.NotStudyRoomApplicateTime),
                     )
 
-                    is RemoteException.Conflict -> emitErrorEvent(
+                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> emitErrorEvent(
                         application.getString(R.string.SeatAlreadyBeenUsed),
                     )
 
-                    is RemoteException.NotFound -> emitErrorEvent(
+                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.NotFound -> emitErrorEvent(
                         errorMessage = application.getString(R.string.study_room_seat_not_found),
                     )
 
