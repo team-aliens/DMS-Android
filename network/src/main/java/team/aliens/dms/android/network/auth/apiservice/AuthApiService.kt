@@ -5,10 +5,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import team.aliens.dms.android.network.auth.model.CheckIdExistsResponse
-import team.aliens.dms.android.network.auth.model.EmailVerificationType
 import team.aliens.dms.android.network.auth.model.SendEmailVerificationCodeRequest
 import team.aliens.dms.android.network.auth.model.SignInRequest
 import team.aliens.dms.android.network.auth.model.SignInResponse
+import team.aliens.dms.android.shared.model.EmailVerificationType
 
 internal abstract class AuthApiService {
 

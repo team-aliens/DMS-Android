@@ -4,6 +4,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
 
@@ -39,8 +40,9 @@ android {
 }
 
 dependencies {
-    // TODO: Remove dependency
-    implementation(project(ProjectPaths.domain))
+
+    implementation(project(ProjectPaths.Shared.date))
+    implementation(project(ProjectPaths.Shared.model))
 
     implementation(project(ProjectPaths.Core.database))
     implementation(project(ProjectPaths.Core.network))
@@ -60,6 +62,9 @@ dependencies {
     implementation(libs.coroutines)
 
     implementation(libs.javax.inject)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

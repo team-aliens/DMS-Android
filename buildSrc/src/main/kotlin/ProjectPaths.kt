@@ -19,5 +19,6 @@ object ProjectPaths {
 
     object Shared {
         const val date = ":shared:date"
+        const val model = ":shared:model"
     }
 }
