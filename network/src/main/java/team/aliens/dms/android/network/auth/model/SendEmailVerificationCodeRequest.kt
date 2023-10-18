@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class SendEmailVerificationCodeRequest(
     @SerializedName("email") val email: String,
-    @SerializedName("type") val type: EmailVerificationType,
+    @SerializedName("type") val type: String,
 )
