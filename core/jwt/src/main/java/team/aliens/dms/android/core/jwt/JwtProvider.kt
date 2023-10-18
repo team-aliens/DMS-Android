@@ -2,6 +2,9 @@ package team.aliens.dms.android.core.jwt
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.datastore.exception.LoadFailureException
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
@@ -15,7 +18,7 @@ object JwtProvider : JwtProviderInjectionDelegation() {
 
     private var _cachedAccessToken: AccessToken? = null
     val cachedAccessToken: AccessToken
-        get() = if (isCachedAccessTokenAvailable) {
+        get() = if (checkCachedAccessTokenAvailable().also(::updateCachedAccessTokenAvailable)) {
             _cachedAccessToken!!
         } else {
             this.fetchTokens().accessToken
@@ -25,15 +28,23 @@ object JwtProvider : JwtProviderInjectionDelegation() {
     val cachedAccessTokenExpiration: AccessTokenExpiration
         get() = _cachedAccessTokenExpiration ?: this.fetchTokens().accessTokenExpiration
 
-    private val isCachedAccessTokenAvailable: Boolean
-        get() {
-            val con1 = _cachedAccessToken != null
-            val con2 = now.isBefore(cachedAccessTokenExpiration)
-            return con1 && con2
-        }
+    private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isCachedAccessTokenAvailable: StateFlow<Boolean> =
+        _isCachedAccessTokenAvailable.asStateFlow()
 
     init {
         loadTokens()
+    }
+
+    private fun checkCachedAccessTokenAvailable(): Boolean {
+        val con1 = _cachedAccessToken != null
+        val con2 = now.isBefore(cachedAccessTokenExpiration)
+
+        return con1 && con2
+    }
+
+    private fun updateCachedAccessTokenAvailable(available: Boolean) {
+        CoroutineScope(Dispatchers.Default).launch { _isCachedAccessTokenAvailable.emit(available) }
     }
 
     private fun loadTokens(): Tokens = try {
@@ -52,7 +63,10 @@ object JwtProvider : JwtProviderInjectionDelegation() {
     private fun updateTokens(tokens: Tokens) {
         this._cachedAccessToken = tokens.accessToken
         this._cachedAccessTokenExpiration = tokens.accessTokenExpiration
-        CoroutineScope(Dispatchers.IO).launch { jwtDataStoreDataSource.storeTokens(tokens) }
+        CoroutineScope(Dispatchers.IO).launch {
+            updateCachedAccessTokenAvailable(true)
+            jwtDataStoreDataSource.storeTokens(tokens)
+        }
     }
 }
 
