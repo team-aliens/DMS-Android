@@ -1,8 +1,8 @@
 package team.aliens.dms.android.data.student.repository
 
-import team.aliens.dms.android.data.student.model.ExamineStudentNumberOutput
-import team.aliens.dms.android.data.student.model.FindIdOutput
+import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
+import team.aliens.dms.android.data.student.model.StudentName
 import java.util.UUID
 
 abstract class StudentRepository {
@@ -25,7 +25,7 @@ abstract class StudentRepository {
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): ExamineStudentNumberOutput
+    ): StudentName
 
     abstract suspend fun findId(
         schoolId: UUID,
@@ -33,7 +33,7 @@ abstract class StudentRepository {
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): FindIdOutput
+    ): HashedEmail
 
     abstract suspend fun resetPassword(
         accountId: String,
