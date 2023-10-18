@@ -6,8 +6,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import team.aliens.dms.android.designsystem.color.Colors
-import team.aliens.dms.android.designsystem.color.LocalColors
 
 @Composable
 fun DmsTheme(

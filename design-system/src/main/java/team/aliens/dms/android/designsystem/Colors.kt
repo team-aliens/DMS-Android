@@ -1,4 +1,4 @@
-package team.aliens.dms.android.designsystem.color
+package team.aliens.dms.android.designsystem
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
