@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.datastore.exception.LoadFailureException
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
-import team.aliens.dms.android.core.jwt.exception.CannotUseTokensException
 import team.aliens.dms.android.core.jwt.network.TokenReissueManager
 import team.aliens.dms.android.shared.date.util.now
 import javax.inject.Inject
@@ -52,7 +51,7 @@ internal class JwtProviderImpl @Inject constructor(
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
-        loadTokens()
+        initTokens()
     }
 
     private fun checkCachedAccessTokenAvailable(): Boolean {
@@ -70,17 +69,26 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch { _isCachedRefreshTokenAvailable.emit(available) }
     }
 
-    private fun loadTokens(): Tokens = try {
-        jwtDataStoreDataSource.loadTokens().also(::updateTokens)
-    } catch (e: LoadFailureException) {
-        throw CannotUseTokensException()
+    // FIXME: 수정 필요
+    override fun initTokens() {
+        try {
+            loadTokens()
+        } catch (e: LoadFailureException) {
+            e.printStackTrace()
+            fetchTokens()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
-    private fun fetchTokens(): Tokens = try {
+    private fun loadTokens(): Tokens {
+        val tokens = jwtDataStoreDataSource.loadTokens()
+        return tokens.also(::updateTokens)
+    }
+
+    private fun fetchTokens(): Tokens {
         val refreshToken = jwtDataStoreDataSource.loadRefreshToken()
-        tokenReissueManager(refreshToken).toModel().also(::updateTokens)
-    } catch (e: LoadFailureException) {
-        throw CannotUseTokensException()
+        return tokenReissueManager(refreshToken).toModel().also(::updateTokens)
     }
 
     private fun updateTokens(tokens: Tokens) {

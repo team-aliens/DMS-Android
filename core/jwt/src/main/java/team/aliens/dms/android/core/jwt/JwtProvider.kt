@@ -10,4 +10,6 @@ abstract class JwtProvider {
     abstract val cachedRefreshToken: RefreshToken
     abstract val cachedRefreshTokenExpiration: RefreshTokenExpiration
     abstract val isCachedRefreshTokenAvailable: StateFlow<Boolean>
+
+    abstract fun initTokens()
 }
