@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.signin
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,28 +12,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.button.DormTextCheckBox
-import team.aliens.dms.android.design_system.textfield.DormTextField
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.toast.LocalToast
-import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.design_system.typography.Caption
+import team.aliens.dms.android.designsystem.button.DormTextCheckBox
+import team.aliens.dms.android.designsystem.textfield.DormTextField
+import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.typography.Body2
+import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
@@ -42,8 +39,23 @@ import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
     navigator: SignInNavigator,
-    // signInViewModel: SignInViewModel = hiltViewModel(),
-) {/*
+) {
+    val viewModel: SignInViewModel = hiltViewModel()
+
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues)
+                .background(color = Color.Red),
+        ) {
+
+        }
+    }
+
+    /*
     val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
     val availableFeatures = LocalAvailableFeatures.current
     val toast = LocalToast.current

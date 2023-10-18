@@ -1,52 +1,9 @@
 package team.aliens.dms.android.feature.resetpassword
 
-import android.content.Context
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.color.DormColor
-import team.aliens.dms.android.design_system.dialog.DormCustomDialog
-import team.aliens.dms.android.design_system.dialog.DormDoubleButtonDialog
-import team.aliens.dms.android.design_system.dialog.DormSingleButtonDialog
-import team.aliens.dms.android.design_system.extension.RatioSpace
-import team.aliens.dms.android.design_system.extension.Space
-import team.aliens.dms.android.design_system.modifier.dormClickable
-import team.aliens.dms.android.design_system.textfield.DormTextField
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.toast.rememberToast
-import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.design_system.typography.Body4
-import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.AppLogo
-import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
-import java.util.regex.Pattern
 
 @Suppress("ConstPropertyName")
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
