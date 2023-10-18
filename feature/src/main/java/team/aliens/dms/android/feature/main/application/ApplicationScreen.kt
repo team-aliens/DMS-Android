@@ -21,10 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.designsystem.button.DormButtonColor
-import team.aliens.dms.android.designsystem.button.DormContainedLargeButton
-import team.aliens.dms.android.designsystem.component.DefaultAppliedTagSize
-import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
 import team.aliens.dms.android.designsystem.modifier.dormShadow
@@ -34,6 +30,7 @@ import team.aliens.dms.android.designsystem.typography.SubTitle2
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.listFadeBrush
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
+/*
 
 private sealed class ApplicationCardItem(
     @StringRes val titleRes: Int,
@@ -64,6 +61,7 @@ private sealed class ApplicationCardItem(
         currentAppliedOption = currentAppliedOption,
     )
 }
+*/
 
 @Destination
 @Composable
@@ -109,7 +107,7 @@ internal fun ApplicationScreen(
         ApplicationCards(applicationItems)
     }*/
 }
-
+/*
 @Composable
 private fun ColumnScope.ApplicationCards(
     applicationItems: List<ApplicationCardItem>,
@@ -140,7 +138,8 @@ private fun ColumnScope.ApplicationCards(
                 .dormGradientBackground(listFadeBrush),
         )
     }
-}
+}*/
+/*
 
 @Composable
 private fun ApplicationCard(
@@ -189,3 +188,4 @@ private fun ApplicationCard(
         )
     }
 }
+*/

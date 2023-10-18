@@ -1,4 +1,5 @@
 package team.aliens.dms.android.designsystem.textfield
+/*
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,11 +34,13 @@ import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.utils.runIf
 import team.aliens.dms.android.designsystem.extension.Space
 
+*/
 /**
  * [TODO]
  * 기본적으로 로직이 깔끔하지 못해
  * 추후에 개선이 필요함.
- */
+ *//*
+
 @DormDeprecated
 @Composable
 fun DormTextField(
@@ -205,4 +208,4 @@ fun PreviewDormTextField() {
             hint = "비밀번호",
         )
     }
-}
+}*/

@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
-import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.typography.Caption
+/*
 
 data class Property(
     val propertyImage: String,
@@ -181,4 +181,4 @@ fun PreviewLostProperty() {
         propertyList = properties,
         onClick = {},
     )
-}
+}*/

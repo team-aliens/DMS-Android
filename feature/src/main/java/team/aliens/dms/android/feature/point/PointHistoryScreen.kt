@@ -14,9 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointType
-import team.aliens.dms.android.designsystem.button.DormButtonColor
-import team.aliens.dms.android.designsystem.button.DormContainedDefaultButton
-import team.aliens.dms.android.designsystem.button.DormOutlinedDefaultButton
 import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
@@ -68,7 +65,7 @@ internal fun PointHistoryScreen(
             },
         )
     }*/
-}
+}/*
 
 @Stable
 private val filterButtons = listOf(
@@ -123,7 +120,7 @@ private fun PointTypeRadioGroup(
                     text = button.text,
                     color = DormButtonColor.Blue,
                     onClick = {
-                        /* explicit blank */
+                        *//* explicit blank *//*
                     },
                 )
             } else {
@@ -160,7 +157,7 @@ private fun Points(
 private fun PointInformation(
     modifier: Modifier = Modifier,
     point: Point,
-) {/*
+) {*//*
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -212,5 +209,6 @@ private fun PointInformation(
                 // explicit blank
             }
         }
-    }*/
+    }*//*
 }
+*/

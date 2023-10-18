@@ -35,7 +35,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
 import team.aliens.dms.android.data.remains.model.RemainsOption
-import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
@@ -44,8 +43,6 @@ import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.typography.Title3
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.FloatingNotice
-import team.aliens.dms.android.feature._legacy.listFadeBrush
 import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
 import java.util.UUID
 
@@ -114,6 +111,7 @@ internal fun RemainsApplicationScreen(
         }
     }*/
 }
+/*
 
 @Composable
 private fun RemainsApplicationTime.toFormattedString(): String {
@@ -275,3 +273,4 @@ private fun RemainsOptionCard(
         }
     }
 }
+*/

@@ -218,7 +218,7 @@ private val selectedColor: Color
     @Composable get() = DmsTheme.colors.onSurface
 
 private val unselectedColor: Color
-    @Composable get() = DmsTheme.colors.primaryVariant
+    @Composable get() = DmsTheme.colors.line
 
 @Composable
 private fun BottomNavBar(

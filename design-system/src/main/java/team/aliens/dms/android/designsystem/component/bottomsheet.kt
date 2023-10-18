@@ -1,4 +1,5 @@
 package team.aliens.dms.android.designsystem.component
+/*
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -184,3 +185,4 @@ private fun DormCancellableBottomSheetDialogPreview() {
     }
 }
 
+*/

@@ -24,8 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.ui.composables.AppLogo
-import team.aliens.dms.android.designsystem.button.DormTextCheckBox
-import team.aliens.dms.android.designsystem.textfield.DormTextField
 import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
@@ -83,7 +81,7 @@ private fun UserInformationInputs(
     onAutoSignInOptionChanged: (Boolean) -> Unit,
     idError: Boolean,
     passwordError: Boolean,
-) {
+) {/*
     val focusManager = LocalFocusManager.current
 
     // 아이디
@@ -103,8 +101,8 @@ private fun UserInformationInputs(
             },
         ),
         error = idError,
-        /*
-                errorDescription = idErrorMessage,*/
+        *//*
+                errorDescription = idErrorMessage,*//*
     )
     Spacer(Modifier.height(32.dp))
     // 비밀번호
@@ -125,8 +123,8 @@ private fun UserInformationInputs(
             },
         ),
         error = passwordError,
-        /*
-                errorDescription = passwordErrorMessage,*/
+        *//*
+                errorDescription = passwordErrorMessage,*//*
     )
     Spacer(Modifier.height(28.dp))
     DormTextCheckBox(
@@ -137,8 +135,8 @@ private fun UserInformationInputs(
         checked = autoSignInValue,
         onCheckedChange = onAutoSignInOptionChanged,
     )
-    Spacer(Modifier.height(28.dp))
-}
+    Spacer(Modifier.height(28.dp))*/
+}/*
 
 @Composable
 private fun AuthActions(
@@ -183,3 +181,4 @@ private fun AuthActionDivider() {
         color = DmsTheme.colors.primaryVariant,
     )
 }
+*/

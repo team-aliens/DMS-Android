@@ -14,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
-import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
+/*
 
 @Stable
 private val ToggleSwitchWidth = 38.dp
@@ -80,4 +80,4 @@ fun PreviewToggleSwitch() {
         checked = checked,
         onToggle = { checked = !checked },
     )
-}
+}*/

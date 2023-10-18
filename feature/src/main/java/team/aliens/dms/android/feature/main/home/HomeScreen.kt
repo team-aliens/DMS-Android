@@ -54,26 +54,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.composables.AppLogo
-import team.aliens.dms.android.designsystem.color.DormColor
-import team.aliens.dms.android.designsystem.icon.DormIcon
-import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
-import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.DmsTheme
-import team.aliens.dms.android.designsystem.typography.Body2
-import team.aliens.dms.android.designsystem.typography.Caption
-import team.aliens.dms.android.feature._legacy.FloatingNotice
-import team.aliens.dms.android.feature._legacy.listFadeBrush
-import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
-import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
-import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.absoluteValue
-
+/*
 @Stable
 private val defaultBackgroundBrush = Brush.verticalGradient(
     colors = listOf(
@@ -83,7 +69,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
             alpha = 0.1f,
         ),
     ),
-)
+)*/
 
 @Destination
 @Composable
@@ -144,7 +130,7 @@ internal fun HomeScreen(
             Spacer(Modifier.height(80.dp))
         }
     }*/
-}
+}/*
 
 @Composable
 private fun HomeScreenAppLogo(
@@ -170,8 +156,8 @@ private fun HomeScreenAppLogo(
             tint = DmsTheme.colors.primaryVariant,
         )
     }
-}
-
+}*/
+/*
 @Composable
 private fun ColumnScope.NoticeCard(
     visible: Boolean,
@@ -214,8 +200,8 @@ private fun ColumnScope.NoticeCard(
             )
         }
     }
-}
-
+}*/
+/*
 @Composable
 private fun DateCard(
     selectedDate: Date,
@@ -244,7 +230,7 @@ private fun DateCard(
             onClick = onNextDay,
         )
     }
-}
+}*//*
 
 @Composable
 private fun CalendarArrow(
@@ -262,8 +248,8 @@ private fun CalendarArrow(
         painter = painterResource(type.icon.drawableId),
         contentDescription = null,
     )
-}
-
+}*/
+/*
 @Composable
 private fun DateTextButton(
     selectedDate: Date,
@@ -289,16 +275,16 @@ private fun DateTextButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        /*Image(
+        *//*Image(
             painter = painterResource(R.drawable.ic_calendar),
             contentDescription = null,
         )
         Body5(
             text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
-        )*/
+        )*//*
     }
-}
-
+}*/
+/*
 @Composable
 private fun Date.getDayOfWeek(): String {
     val digit = this.getDigitOfDayOfWeek()
@@ -444,8 +430,8 @@ private fun ColumnScope.MealCards(
             },
         )
     }
-}
-
+}*/
+/*
 private enum class DragDirection {
     LEFT, RIGHT,
     ;
@@ -475,7 +461,7 @@ private fun MealCard(
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> { /* explicit blank */
+                            null -> { *//* explicit blank *//*
                             }
                         }
                     },
@@ -530,14 +516,17 @@ private fun MealCard(
             }
         }
     }
-}
+}*/
+/*
 
 @Suppress("DEPRECATION")
 private fun vibrateOnMealCardPaging(
     context: Context,
-) {/* TODO
+) {*/
+/* TODO
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(3L)*/
+    vibrator.vibrate(3L)*//*
+
 }
 
 @Composable
@@ -591,3 +580,4 @@ private fun getProperMeal(): Int {
         else -> Breakfast
     }
 }
+*/

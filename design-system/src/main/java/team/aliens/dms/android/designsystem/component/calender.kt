@@ -1,4 +1,5 @@
 package team.aliens.dms.android.designsystem.component
+/*
 
 import android.view.ContextThemeWrapper
 import android.widget.CalendarView
@@ -19,9 +20,11 @@ import team.aliens.dms.android.designsystem.R
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.utils.makeDate
 
+*/
 /**
  * TODO(limsaehyun): CalendarView가 아닌 직접 구현한 DormCalenderView 사용 필요
- */
+ *//*
+
 @DormDeprecated
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -71,3 +74,4 @@ fun DormCalendarLayout(
         content = content,
     )
 }
+*/

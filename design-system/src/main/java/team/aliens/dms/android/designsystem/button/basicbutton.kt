@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonElevation
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
@@ -25,8 +26,11 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import team.aliens.dms.android.designsystem.DmsTheme
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Button(
     onClick: () -> Unit,
@@ -34,11 +38,11 @@ fun Button(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ButtonDefaults.elevation(),
-    shape: Shape = MaterialTheme.shapes.small,
+    shape: Shape = DmsTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     val contentColor by colors.contentColor(enabled)
     Surface(
@@ -70,6 +74,12 @@ fun Button(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun ButtonPreview() {
+
 }
 
 /*

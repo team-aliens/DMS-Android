@@ -1,4 +1,5 @@
 package team.aliens.dms.android.designsystem.dialog
+/*
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -347,3 +348,4 @@ fun DormSingleButtonDialog(
         }
     }
 }
+*/

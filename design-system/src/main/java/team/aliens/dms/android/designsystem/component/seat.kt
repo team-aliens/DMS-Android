@@ -1,4 +1,5 @@
 package team.aliens.dms.android.designsystem.component
+/*
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
@@ -65,6 +66,7 @@ enum class SeatType {
     }
 }
 
+*/
 /**
  * 자습실 좌석을 구성하는 data class
  *
@@ -74,7 +76,8 @@ enum class SeatType {
  * @param number 좌석 넘버
  * @param name 좌석을 사용중인 사람의 이름
  * @param color 좌석의 색갈
- */
+ *//*
+
 data class SeatItem(
     val id: String? = null,
     val number: Int? = null,
@@ -471,4 +474,4 @@ private fun SeatTypeContent(
         )
         OverLine(text = item.text)
     }
-}
+}*/

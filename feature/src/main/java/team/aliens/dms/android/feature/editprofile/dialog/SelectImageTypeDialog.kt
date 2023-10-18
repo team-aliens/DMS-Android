@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.editprofile.dialog
+/*
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +29,9 @@ internal fun SelectImageTypeDialog(
 
     DormCustomDialog(
         onDismissRequest = {
-            /* explicit blank */
+            */
+/* explicit blank *//*
+
         },
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
@@ -64,4 +67,4 @@ internal fun SelectImageTypeDialog(
             }
         }
     }
-}
+}*/

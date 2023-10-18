@@ -15,11 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
-import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.utils.runIf
+/*
 
 @DormDeprecated
 @Composable
@@ -146,4 +146,4 @@ fun PreviewRadioButton() {
         onCheckedChange = { checked2 = !checked2 },
         text = "항목 1",
     )
-}
+}*/

@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,4 +62,4 @@ fun FloatingNotice(
             Caption(text = text)
         }
     }
-}
+}*/

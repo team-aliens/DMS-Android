@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import team.aliens.dms.android.designsystem.animation.HorizontalAnimationBox
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
-import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.R
+/*
 
 @Stable
 val DefaultPhotoSize: Dp = 100.dp
@@ -160,4 +160,4 @@ fun PreviewPhoto() {
         onClickAdd = { photos.add(fakeImage) },
         onClickDelete = { photos.removeAt(it) },
     )
-}
+}*/

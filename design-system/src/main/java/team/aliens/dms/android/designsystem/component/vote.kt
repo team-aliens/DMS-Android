@@ -1,4 +1,5 @@
 package team.aliens.dms.android.designsystem.component
+/*
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -250,4 +251,4 @@ fun PreviewVote() {
             finished = false
         }
     )
-}
+}*/

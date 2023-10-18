@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -45,3 +46,4 @@ internal fun GettingImageOptionItem(
         )
     }
 }
+*/

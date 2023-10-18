@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.toast.rememberToast
+/*
 
 enum class DormButtonColor(
     val textColor: Color,
@@ -139,7 +140,7 @@ fun DormOutlinedDefaultButton(
 
 @Preview
 @Composable
-fun ButtonPreview() {
+fun _ButtonPreview() {
     val scrollState = rememberScrollState()
     val toast = rememberToast()
 
@@ -264,4 +265,4 @@ fun ButtonPreview() {
             )
         }
     }
-}
+}*/

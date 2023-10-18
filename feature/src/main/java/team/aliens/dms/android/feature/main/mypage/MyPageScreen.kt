@@ -26,9 +26,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.designsystem.color.DormColor
-import team.aliens.dms.android.designsystem.component.DefaultAppliedTagSize
-import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
 import team.aliens.dms.android.designsystem.DmsTheme
@@ -147,7 +144,7 @@ internal fun MyPageScreen(
         )
     }*/
 }
-
+/*
 @Composable
 private fun UserInformation(
     modifier: Modifier = Modifier,
@@ -215,7 +212,7 @@ private fun UserInformation(
             )
         }
     }
-}
+}*//*
 
 private enum class PointCardType {
     BONUS, MINUS,
@@ -253,8 +250,8 @@ private fun PointsInformation(
             )
         }
     }
-}
-
+}*/
+/*
 @Composable
 private fun PhraseCard(
     modifier: Modifier = Modifier,
@@ -278,8 +275,8 @@ private fun PhraseCard(
             color = DormColor.Gray1000,
         )
     }
-}
-
+}*/
+/*
 @Composable
 private fun PointCard(
     modifier: Modifier = Modifier,
@@ -327,7 +324,8 @@ private fun PointCard(
             color = textColor,
         )
     }
-}
+}*/
+/*
 
 // TODO 리스트 디자인시스템으로 커버 필요
 @Composable
@@ -452,3 +450,4 @@ private fun Options(
         }
     }
 }
+*/

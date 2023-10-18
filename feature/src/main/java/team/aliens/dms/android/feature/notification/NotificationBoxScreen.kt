@@ -99,7 +99,7 @@ private fun Notification(
 ) {
     Row(
         modifier = modifier
-            .dormShadow(DmsTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.line)
             .fillMaxWidth()
             .background(
                 color = if (!notification.read) {
