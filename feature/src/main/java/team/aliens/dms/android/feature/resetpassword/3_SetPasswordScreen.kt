@@ -56,8 +56,8 @@ private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+
 fun ResetPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
-) {
+    // changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
+) {/*
 
     val context = LocalContext.current
 
@@ -135,7 +135,7 @@ fun ResetPasswordSetPasswordScreen(
 
         if (isPressedBackButton) {
             DormCustomDialog(
-                onDismissRequest = { /*TODO*/ },
+                onDismissRequest = { *//*TODO*//* },
             ) {
                 DormDoubleButtonDialog(
                     content = stringResource(id = R.string.FinishResetPassword),
@@ -231,7 +231,7 @@ fun ResetPasswordSetPasswordScreen(
                 } else if (!Pattern.compile(passwordFormat).matcher(password).find()) {
                     isPasswordFormatError = true
                 } else {
-                    /* todo
+                    *//* todo
                         navController.previousBackStackEntry?.arguments?.run {
                         changePasswordViewModel.resetPassword(
                             accountId = getString("accountId").toString(),
@@ -240,36 +240,9 @@ fun ResetPasswordSetPasswordScreen(
                             studentName = getString("name").toString(),
                             newPassword = password,
                         )
-                    }*/
+                    }*//*
                 }
             }
         }
-    }
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: ChangePasswordViewModel.Event,
-): String = when (event) {
-    is ChangePasswordViewModel.Event.BadRequestException -> {
-        context.getString(R.string.BadRequest)
-    }
-
-    is ChangePasswordViewModel.Event.UnauthorizedException -> {
-        context.getString(R.string.NoSameCode)
-    }
-
-    is ChangePasswordViewModel.Event.NotFoundException -> {
-        context.getString(R.string.ChangePasswordNotFound)
-    }
-
-    is ChangePasswordViewModel.Event.TooManyRequestException -> {
-        context.getString(R.string.TooManyRequest)
-    }
-
-    is ChangePasswordViewModel.Event.ServerException -> {
-        context.getString(R.string.ServerException)
-    }
-
-    else -> context.getString(R.string.UnKnownException)
+    }*/
 }

@@ -5,7 +5,6 @@ import team.aliens.dms.android.network.notice.apiservice.NoticeApiService
 import team.aliens.dms.android.network.notice.model.FetchNoticeDetailsResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
 import team.aliens.dms.android.network.notice.model.FetchWhetherNewNoticesExistResponse
-import team.aliens.dms.android.network.notice.model.Order
 import java.util.UUID
 import javax.inject.Inject
 
@@ -15,7 +14,7 @@ internal class NetworkNoticeDataSourceImpl @Inject constructor(
     override suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse =
         sendHttpRequest { noticeApiService.fetchWhetherNewNoticesExist() }
 
-    override suspend fun fetchNotices(order: Order): FetchNoticesResponse =
+    override suspend fun fetchNotices(order: String): FetchNoticesResponse =
         sendHttpRequest { noticeApiService.fetchNotices(order) }
 
     override suspend fun fetchNoticeDetails(noticeId: UUID): FetchNoticeDetailsResponse =

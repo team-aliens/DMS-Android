@@ -50,8 +50,8 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun EnterSchoolVerificationCodeScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel = hiltViewModel(),
-) {
+    // signUpViewModel: SignUpViewModel = hiltViewModel(),
+) {/*
 
     val uiState by signUpViewModel.stateFlow.collectAsState()
 
@@ -160,5 +160,5 @@ internal fun EnterSchoolVerificationCodeScreen(
             }
             Spacer(modifier = Modifier.height(82.dp))
         }
-    }
+    }*/
 }

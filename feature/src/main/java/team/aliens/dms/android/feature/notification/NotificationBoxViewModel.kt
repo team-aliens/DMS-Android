@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.notification
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,10 +40,12 @@ internal class NotificationBoxViewModel @Inject constructor(
         }
     }
 
-    /**
+    */
+/**
      * @return [Pair.first] new notifications
      * @return [Pair.second] prior notifications
-     */
+     *//*
+
     private fun List<Notification>.extractNewNotificationsAndPriorNotifications(): Pair<List<Notification>, List<Notification>> {
         val newNotifications = this.filter { it.read }
         val priorNotifications = this.filter { !it.read }
@@ -67,3 +70,4 @@ internal data class NotificationBoxState(
 internal sealed class NotificationBoxSideEffect : MviSideEffect {
     object FetchingNotificationsFailed : NotificationBoxSideEffect()
 }
+*/

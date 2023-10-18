@@ -7,7 +7,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavig
 
 @Destination
 @Composable
-fun EditPasswordSetPasswordScreen(
+internal fun EditPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
 ) {

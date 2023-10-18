@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.main.application
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -70,3 +71,4 @@ internal data class ApplicationState(
 }
 
 internal sealed class ApplicationSideEffect : MviSideEffect
+*/

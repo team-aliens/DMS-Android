@@ -47,8 +47,8 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun SetIdScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel,
-) {
+    // signUpViewModel: SignUpViewModel,
+) {/*
 
     val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
@@ -227,5 +227,5 @@ internal fun SetIdScreen(
                 Spacer(modifier = Modifier.height(48.dp))
             }
         }
-    }
+    }*/
 }

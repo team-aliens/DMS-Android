@@ -43,9 +43,9 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun EnterEmailScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel,
+    // signUpViewModel: SignUpViewModel,
 ) {
-
+/*
     val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
@@ -64,7 +64,7 @@ internal fun EnterEmailScreen(
     }
 
     if (showQuitSignUpDialog) {
-        DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
+        DormCustomDialog(onDismissRequest = { *//*TODO*//* }) {
             DormDoubleButtonDialog(
                 content = stringResource(id = R.string.FinishSignUp),
                 mainBtnText = stringResource(id = R.string.Yes),
@@ -146,5 +146,5 @@ internal fun EnterEmailScreen(
             signUpViewModel.postIntent(SignUpIntent.SendEmail.CheckEmailDuplication)
         }
         Spacer(modifier = Modifier.height(82.dp))
-    }
+    }*/
 }

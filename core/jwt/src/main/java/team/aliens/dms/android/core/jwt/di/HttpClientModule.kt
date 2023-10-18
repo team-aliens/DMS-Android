@@ -17,14 +17,13 @@ internal object HttpClientModule {
 
     @Provides
     @Singleton
-    @TokenReissueHttpClient
-    fun provideTokenReissueHttpClient(
+    fun provideTokenReissueManager(
         @TokenReissueUrl reissueUrl: String,
-        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
-        @DefaultHttpClient httpClient: OkHttpClient,
+        @DefaultHttpLoggingInterceptor defaultHttpLoggingInterceptor: HttpLoggingInterceptor,
+        @DefaultHttpClient baseHttpClient: OkHttpClient,
     ): TokenReissueManager = TokenReissueManager(
         reissueUrl = reissueUrl,
-        httpLoggingInterceptor = httpLoggingInterceptor,
-        baseHttpClient = httpClient,
+        httpLoggingInterceptor = defaultHttpLoggingInterceptor,
+        baseHttpClient = baseHttpClient,
     )
 }

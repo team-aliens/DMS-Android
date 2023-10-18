@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.findid
+/*
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -98,4 +99,4 @@ object FindIdNoInternetException : FindIdEvent
 
 object FindIdNeedLoginException : FindIdEvent
 
-object FindIdUnknownException : FindIdEvent
+object FindIdUnknownException : FindIdEvent*/

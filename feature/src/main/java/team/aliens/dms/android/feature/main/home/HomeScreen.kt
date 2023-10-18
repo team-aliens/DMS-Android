@@ -95,13 +95,13 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     navigator: MainNavigator,
-    homeViewModel: HomeViewModel = hiltViewModel(),
+    // homeViewModel: HomeViewModel = hiltViewModel(),
     // calendarDate: Date,
     // onNextDay: () -> Unit,
     // onPreviousDay: () -> Unit,
     // onShowCalendar: () -> Unit,
 ) {
-    val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
+    /*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
 
     // LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
 
@@ -127,14 +127,14 @@ internal fun HomeScreen(
                 text = stringResource(R.string.meal_todays_meal),
             )
             Spacer(Modifier.weight(0.05f))
-            /*DateCard(
+            *//*DateCard(
                 selectedDate = state.selectedDate,
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
                 onShowCalendar = onShowCalendar,
-            )*/
+            )*//*
             Spacer(Modifier.weight(0.1f))
-            /*MealCards(
+            *//*MealCards(
                 currentDate = calendarDate,
                 breakfast = state.breakfast,
                 kcalOfBreakfast = state.kcalOfBreakfast
@@ -145,10 +145,10 @@ internal fun HomeScreen(
                 kcalOfDinner = state.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
                 onNextDay = onNextDay,
                 onPreviousDay = onPreviousDay,
-            )*/
+            )*//*
             Spacer(Modifier.height(80.dp))
         }
-    }
+    }*/
 }
 
 @Composable
@@ -294,13 +294,13 @@ private fun DateTextButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
+        /*Image(
             painter = painterResource(R.drawable.ic_calendar),
             contentDescription = null,
         )
         Body5(
             text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
-        )
+        )*/
     }
 }
 

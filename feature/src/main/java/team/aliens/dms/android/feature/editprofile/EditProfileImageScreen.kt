@@ -46,9 +46,9 @@ import team.aliens.dms.android.feature.editprofile.navigation.EditProfileNavigat
 internal fun EditProfileImageScreen(
     modifier: Modifier = Modifier,
     navigator: EditProfileNavigator,
-    editProfileImageViewModel: EditProfileImageViewModel = hiltViewModel(),
+    // editProfileImageViewModel: EditProfileImageViewModel = hiltViewModel(),
     selectImageType: SelectImageType? = null,
-) {
+) {/*
     val uiState by editProfileImageViewModel.stateFlow.collectAsStateWithLifecycle()
     editProfileImageViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
@@ -79,9 +79,9 @@ internal fun EditProfileImageScreen(
     }
     // todo
     val onTakePhoto = {
-        /*takePhotoLauncher.launch(
+        *//*takePhotoLauncher.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.)
-        )*/
+        )*//*
     }
     val onSelectPhoto = {
         selectImageFromGalleryLauncher.launch(
@@ -150,5 +150,5 @@ internal fun EditProfileImageScreen(
             editProfileImageViewModel.postIntent(UploadProfileImageIntent.UploadAndEditProfile)
         }
         Spacer(Modifier.weight(1f))
-    }
+    }*/
 }

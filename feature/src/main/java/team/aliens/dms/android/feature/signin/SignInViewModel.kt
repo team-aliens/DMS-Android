@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.signin
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -122,6 +123,7 @@ internal class SignInViewModel @Inject constructor(
     ) {
         reduce(newState = currentState.copy(signInButtonEnabled = enabled))
     }
+*/
 /*
     private fun registerDeviceNotificationToken() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -150,7 +152,8 @@ internal class SignInViewModel @Inject constructor(
         }
         runBlocking { delay(1000L) }
         return token.result
-    }*/
+    }*//*
+
 }
 
 internal sealed interface SignInIntent : MviIntent {
@@ -192,3 +195,4 @@ internal sealed class SignInSideEffect : MviSideEffect {
     object PasswordMismatch : SignInSideEffect()
     object DeviceTokenRegisteringFailure : SignInSideEffect()
 }
+*/

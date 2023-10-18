@@ -45,9 +45,9 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun TermsScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel,
+    // signUpViewModel: SignUpViewModel,
 ) {
-
+/*
     val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
     val policyUrl by remember { mutableStateOf("https://webview.aliens-dms.com/policy/privacy") }
@@ -159,5 +159,5 @@ internal fun TermsScreen(
                 signUpViewModel.postIntent(SignUpIntent.Terms.SignUp)
             }
         }
-    }
+    }*/
 }

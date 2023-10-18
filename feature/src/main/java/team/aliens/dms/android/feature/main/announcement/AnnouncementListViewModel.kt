@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.main.announcement
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -78,3 +79,4 @@ internal data class AnnouncementsState(
 }
 
 internal sealed class AnnouncementsSideEffect : MviSideEffect
+*/

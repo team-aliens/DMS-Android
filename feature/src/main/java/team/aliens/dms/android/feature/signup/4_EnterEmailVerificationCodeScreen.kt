@@ -58,8 +58,8 @@ private const val TotalSecond = 180
 internal fun SignUpEnterEmailVerificationCodeScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel,
-) {
+    // signUpViewModel: SignUpViewModel,
+) {/*
 
     val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
@@ -110,7 +110,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
     }
 
     if (isPressedBackButton) {
-        DormCustomDialog(onDismissRequest = { /*TODO*/ }) {
+        DormCustomDialog(onDismissRequest = { *//*TODO*//* }) {
             DormDoubleButtonDialog(
                 content = stringResource(id = R.string.CancelEmailVerify),
                 mainBtnText = stringResource(id = R.string.Yes),
@@ -229,5 +229,5 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
             }
             Spacer(modifier = Modifier.height(82.dp))
         }
-    }
+    }*/
 }

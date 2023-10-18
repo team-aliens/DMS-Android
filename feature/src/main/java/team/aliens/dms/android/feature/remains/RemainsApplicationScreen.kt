@@ -34,6 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.DayOfWeek
+import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
+import team.aliens.dms.android.data.remains.model.RemainsOption
 import team.aliens.dms.android.design_system.button.DormButtonColor
 import team.aliens.dms.android.design_system.button.DormContainedLargeButton
 import team.aliens.dms.android.design_system.component.LastAppliedItem
@@ -44,9 +47,6 @@ import team.aliens.dms.android.design_system.modifier.dormShadow
 import team.aliens.dms.android.design_system.theme.DormTheme
 import team.aliens.dms.android.design_system.typography.Caption
 import team.aliens.dms.android.design_system.typography.Title3
-import team.aliens.dms.android.domain.model._common.DayOfWeek
-import team.aliens.dms.android.domain.model.remains.RemainsApplicationTime
-import team.aliens.dms.android.domain.model.remains.RemainsOption
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.FloatingNotice
 import team.aliens.dms.android.feature._legacy.listFadeBrush
@@ -59,8 +59,8 @@ import java.util.UUID
 internal fun RemainsApplicationScreen(
     modifier: Modifier = Modifier,
     navigator: RemainsNavigator,
-    remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
-) {
+    // remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
+) {/*
     val uiState by remainsApplicationViewModel.uiState.collectAsStateWithLifecycle()
     val remainsApplicationTime = uiState.remainsApplicationTime
 
@@ -117,7 +117,7 @@ internal fun RemainsApplicationScreen(
                 )
             }
         }
-    }
+    }*/
 }
 
 @Composable

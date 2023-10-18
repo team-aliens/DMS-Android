@@ -37,11 +37,10 @@ import team.aliens.dms.android.design_system.typography.Body1
 import team.aliens.dms.android.design_system.typography.Body3
 import team.aliens.dms.android.design_system.typography.Body4
 import team.aliens.dms.android.design_system.typography.OverLine
-import team.aliens.dms.android.domain.model._common.Order
-import team.aliens.dms.android.domain.model.notice.Notice
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.UUID
+/*
 
 private val Order.text: String
     @Composable inline get() = when (this) {
@@ -49,14 +48,15 @@ private val Order.text: String
         Order.OLD -> stringResource(R.string.oldest_order)
         else -> throw IllegalArgumentException()
     }
+*/
 
 @Destination
 @Composable
 internal fun AnnouncementListScreen(
     modifier: Modifier = Modifier,
     navigator: MainNavigator,
-    announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
-) {
+    // announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
+) {/*
     val uiState by announcementsViewModel.stateFlow.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -91,8 +91,9 @@ internal fun AnnouncementListScreen(
             listState = listState,
             onNoticeClick = navigator::openNoticeDetails,
         )
-    }
+    }*/
 }
+/*
 
 @Composable
 private fun OrderButton(
@@ -190,3 +191,4 @@ internal fun String.toNoticeDate() = StringBuilder().apply {
         }
     }
 }.toString()
+*/

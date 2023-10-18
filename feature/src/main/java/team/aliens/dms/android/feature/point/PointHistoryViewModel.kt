@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.point
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -138,3 +139,4 @@ internal data class PointHistoryState(
 }
 
 internal sealed class PointHistorySideEffect : MviSideEffect
+*/

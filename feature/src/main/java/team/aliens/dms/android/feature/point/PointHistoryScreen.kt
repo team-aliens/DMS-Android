@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.data.point.model.Point
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.design_system.button.DormButtonColor
 import team.aliens.dms.android.design_system.button.DormContainedDefaultButton
 import team.aliens.dms.android.design_system.button.DormOutlinedDefaultButton
@@ -34,8 +36,6 @@ import team.aliens.dms.android.design_system.typography.Headline2
 import team.aliens.dms.android.design_system.typography.OverLine
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.TopBar
-import team.aliens.dms.android.domain.model._common.PointType
-import team.aliens.dms.android.domain.model.point.Point
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 
 @Destination
@@ -43,8 +43,8 @@ import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 internal fun PointHistoryScreen(
     modifier: Modifier = Modifier,
     navigator: PointHistoryNavigator,
-    pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
-) {
+    // pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
+) {/*
     val uiState by pointHistoryViewModel.stateFlow.collectAsStateWithLifecycle()
     val selectedType = uiState.selectedType
 
@@ -84,7 +84,7 @@ internal fun PointHistoryScreen(
                 PointType.MINUS -> uiState.minusPoints
             },
         )
-    }
+    }*/
 }
 
 @Stable
@@ -177,7 +177,7 @@ private fun Points(
 private fun PointInformation(
     modifier: Modifier = Modifier,
     point: Point,
-) {
+) {/*
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -229,5 +229,5 @@ private fun PointInformation(
                 // explicit blank
             }
         }
-    }
+    }*/
 }

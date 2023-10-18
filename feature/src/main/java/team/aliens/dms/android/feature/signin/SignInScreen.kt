@@ -35,8 +35,6 @@ import team.aliens.dms.android.design_system.typography.Body2
 import team.aliens.dms.android.design_system.typography.Caption
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.AppLogo
-import team.aliens.dms.android.feature._legacy.LocalAvailableFeatures
-import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
 @Destination
@@ -44,8 +42,8 @@ import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
     navigator: SignInNavigator,
-    signInViewModel: SignInViewModel = hiltViewModel(),
-) {
+    // signInViewModel: SignInViewModel = hiltViewModel(),
+) {/*
     val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
     val availableFeatures = LocalAvailableFeatures.current
     val toast = LocalToast.current
@@ -116,7 +114,7 @@ internal fun SignInScreen(
             onClick = { signInViewModel.postIntent(SignInIntent.SignIn) },
         )
         Spacer(Modifier.height(57.dp))
-    }
+    }*/
 }
 
 @Composable

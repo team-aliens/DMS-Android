@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+/*
 
 @Deprecated("No usage")
 internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSideEffect>(
@@ -34,9 +35,11 @@ internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSid
             .launchIn(viewModelScope)
     }
 
-    /**
+    */
+/**
      * called by view(user), sent to view model
-     */
+     *//*
+
     internal fun postIntent(intent: I) {
         viewModelScope.launch {
             stateChannel.send(intent)
@@ -51,9 +54,11 @@ internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSid
         _stateFlow.tryEmit(newState)
     }
 
-    /**
+    */
+/**
      * called by view model, sent to view(user)
-     */
+     *//*
+
     protected fun postSideEffect(sideEffect: E) {
         viewModelScope.launch {
             sideEffectChannel.send(sideEffect)
@@ -64,3 +69,4 @@ internal abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviSid
         stateChannel.close()
     }
 }
+*/

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.design_system.button.DormButtonColor
 import team.aliens.dms.android.design_system.button.DormContainedLargeButton
 import team.aliens.dms.android.design_system.extension.RatioSpace
@@ -37,7 +38,6 @@ import team.aliens.dms.android.design_system.textfield.DormTextField
 import team.aliens.dms.android.design_system.theme.DormTheme
 import team.aliens.dms.android.design_system.toast.rememberToast
 import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.domain.model._common.EmailVerificationType
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
@@ -48,9 +48,9 @@ import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNav
 fun AccountVerificationScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
-    resetPasswordVerificationViewModel: ResetPasswordVerificationViewModel = hiltViewModel(), // fixme
-) {
+    // changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
+    // resetPasswordVerificationViewModel: ResetPasswordVerificationViewModel = hiltViewModel(), // fixme
+) {/*
 
     val focusManager = LocalFocusManager.current
 
@@ -261,51 +261,5 @@ fun AccountVerificationScreen(
                 }
             }
         }
-    }
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: ChangePasswordViewModel.Event,
-): String = when (event) {
-    is ChangePasswordViewModel.Event.BadRequestException -> {
-        context.getString(R.string.BadRequest)
-    }
-
-    is ChangePasswordViewModel.Event.TooManyRequestException -> {
-        context.getString(R.string.TooManyRequest)
-    }
-
-    is ChangePasswordViewModel.Event.ServerException -> {
-        context.getString(R.string.ServerException)
-    }
-
-    else -> {
-        context.getString(R.string.UnKnownException)
-    }
-}
-
-private fun getStringFromEmailEvent(
-    context: Context,
-    event: ResetPasswordVerificationEvent,
-): String = when (event) {
-    is ResetPasswordVerificationEvent.CheckEmailNotFound -> {
-        context.getString(R.string.CertificationInfoNotFound)
-    }
-
-    is ResetPasswordVerificationEvent.BadRequestException -> {
-        context.getString(R.string.NotFound)
-    }
-
-    is ResetPasswordVerificationEvent.ConflictException -> {
-        context.getString(R.string.ConflictEmail)
-    }
-
-    is ResetPasswordVerificationEvent.InternalServerException -> {
-        context.getString(R.string.ServerException)
-    }
-
-    else -> {
-        context.getString(R.string.UnKnownException)
-    }
+    }*/
 }
