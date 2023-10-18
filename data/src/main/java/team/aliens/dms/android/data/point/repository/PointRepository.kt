@@ -1,7 +1,7 @@
 package team.aliens.dms.android.data.point.repository
 
 import team.aliens.dms.android.data.point.model.FetchPointsOutput
-import team.aliens.dms.android.shared.model.PointType
+import team.aliens.dms.android.data.point.model.PointType
 
 abstract class PointRepository {
 
