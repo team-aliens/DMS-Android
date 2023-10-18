@@ -3,9 +3,11 @@ package team.aliens.dms.android.core.ui.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.R
 
 @Composable
@@ -17,6 +19,10 @@ fun AppLogo(
         modifier = modifier,
     ) {
         Image(
+            modifier = Modifier.size(
+                width = 124.dp,
+                height = 44.dp,
+            ),
             painter = painterResource(
                 id = if (darkIcon) {
                     R.drawable.ic_logo_dark
