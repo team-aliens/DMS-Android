@@ -43,12 +43,7 @@ dependencies {
 
     implementation(project(ProjectPaths.Shared.date))
 
-    implementation(project(ProjectPaths.Core.database))
-    implementation(project(ProjectPaths.Core.network))
-
     implementation(project(ProjectPaths.data))
-    implementation(project(ProjectPaths.database))
-    implementation(project(ProjectPaths.network))
 
     implementation(libs.threetenbp)
 
