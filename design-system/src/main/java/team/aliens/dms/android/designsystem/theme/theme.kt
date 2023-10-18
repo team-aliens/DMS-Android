@@ -1,58 +1,25 @@
 package team.aliens.dms.android.designsystem.theme
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
-import androidx.compose.runtime.*
-import team.aliens.dms.android.designsystem.annotation.DormDeprecated
-import team.aliens.dms.android.designsystem.color.DormColor
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
+import team.aliens.dms.android.designsystem.color.Colors
+import team.aliens.dms.android.designsystem.color.LocalColors
 
-@SuppressLint("ConflictingOnColor")
-private val lightColorPalette = lightColors(
-    primary = DormColor.DormPrimary,
-    onPrimary = DormColor.Gray100,
-    secondary = DormColor.Lighten200, // primary container
-    onSecondary = DormColor.Darken200, // on primary container
-    error = DormColor.Error,
-    onError = DormColor.Gray100,
-    background = DormColor.Gray200,
-    onBackground = DormColor.Gray1000,
-    surface = DormColor.Gray100,
-    onSurface = DormColor.Gray900,
-    primaryVariant = DormColor.Gray500, // icon
-    secondaryVariant = DormColor.Gray300, // line
-)
-
-private val darkColorPalette = darkColors(
-    primary = DormColor.DormPrimary,
-    onPrimary = DormColor.Gray100,
-    secondary = DormColor.Lighten100, // primary container
-    onSecondary = DormColor.Darken100, // on primary container
-    onError = DormColor.Gray100,
-    background = DormColor.Gray900,
-    onBackground = DormColor.Gray100,
-    surface = DormColor.Gray800,
-    onSurface = DormColor.Gray200,
-    primaryVariant = DormColor.Gray500, // icon
-    secondaryVariant = DormColor.Gray700, // line
-)
-
-@DormDeprecated
 @Composable
-fun DormTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+fun DmsTheme(
+    colors: Colors = DormTheme.colors,
     content: @Composable () -> Unit,
 ) {
-    val rememberedColors = remember { if (darkTheme) darkColorPalette else lightColorPalette }
+    val rememberedColors = remember { colors.copy() }
 
     CompositionLocalProvider(
         LocalColors provides rememberedColors,
     ) {
         MaterialTheme(
-            colors = DormTheme.colors,
             content = content,
         )
     }
@@ -66,5 +33,3 @@ object DormTheme {
         @ReadOnlyComposable
         get() = LocalColors.current
 }
-
-internal val LocalColors = staticCompositionLocalOf { lightColors() }
