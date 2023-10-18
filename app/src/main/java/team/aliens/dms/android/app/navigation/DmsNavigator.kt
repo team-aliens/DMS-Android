@@ -176,10 +176,10 @@ class DmsNavigator(
         timeslot: UUID,
     ) {
         navController.navigate(
-            StudyRoomDetailsScreenDestination(
+            StudyRoomDetailsScreenDestination/*(
                 studyRoomId = studyRoomId,
                 timeslot = timeslot,
-            ) within navGraph,
+            )*/ within navGraph,
         )
     }
 }
