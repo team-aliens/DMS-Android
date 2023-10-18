@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.point.repository
 
-import team.aliens.dms.android.data.point.model.FetchPointsOutput
+import team.aliens.dms.android.data.point.model.PointStatus
 import team.aliens.dms.android.network.point.datasource.NetworkPointDataSource
 import team.aliens.dms.android.data.point.model.PointType
 import javax.inject.Inject
@@ -12,7 +12,7 @@ internal class PointRepositoryImpl @Inject constructor(
         type: PointType,
         page: Long?,
         size: Long?,
-    ): FetchPointsOutput {
+    ): PointStatus {
         TODO("Not yet implemented")
     }
 }

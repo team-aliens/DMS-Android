@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.point.model
 
-data class FetchPointsOutput(
+data class PointStatus(
     val totalPoints: Int,
     val points: List<Point>,
 )
