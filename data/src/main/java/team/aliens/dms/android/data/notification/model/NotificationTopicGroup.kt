@@ -1,4 +1,4 @@
-package team.aliens.dms.android.shared.model
+package team.aliens.dms.android.data.notification.model
 
 enum class NotificationTopicGroup {
     NOTICE, STUDY_ROOM, STUDY_ROOM_APPLY,
@@ -10,7 +10,7 @@ enum class NotificationTopicGroup {
         val topicSubscriptions: List<TopicSubscription>,
     ) {
         data class TopicSubscription(
-            val topic: team.aliens.dms.android.data.notification.model.NotificationTopic,
+            val topic: NotificationTopic,
             val title: String,
             val description: String,
             val subscribed: Boolean,
