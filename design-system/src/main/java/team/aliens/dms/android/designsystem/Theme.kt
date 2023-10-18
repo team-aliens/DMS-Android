@@ -1,5 +1,6 @@
 package team.aliens.dms.android.designsystem
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -9,16 +10,19 @@ import androidx.compose.runtime.remember
 
 @Composable
 fun DmsTheme(
-    colors: Colors = DmsTheme.colors,
-    shapes: Shapes = DmsTheme.shapes,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val rememberedColors = remember { colors.copy() }
-    val rememberedShapes = remember { shapes.copy() }
+    val colorScheme = remember(darkTheme) {
+        if (darkTheme) {
+            darkColors()
+        } else {
+            lightColors()
+        }
+    }
 
     CompositionLocalProvider(
-        LocalColors provides rememberedColors,
-        LocalShapes provides rememberedShapes,
+        LocalColors provides colorScheme,
     ) {
         MaterialTheme(
             content = content,
