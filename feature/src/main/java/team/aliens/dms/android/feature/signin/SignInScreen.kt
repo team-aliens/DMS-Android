@@ -59,14 +59,13 @@ private fun Banner(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         AppLogo(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
         )
-        Spacer(modifier = Modifier.height(8.dp))
         Body2(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = stringResource(R.string.app_description)
