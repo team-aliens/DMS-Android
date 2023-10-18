@@ -1,7 +1,7 @@
 package team.aliens.dms.android.data.notification.model
 
 enum class NotificationTopic {
-    NOTICE, STUDY_ROOM,
+    NOTICE,
     ;
 
     data class Subscription(
