@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.datastore.exception.LoadFailureException
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.network.TokenReissueManager
 import team.aliens.dms.android.shared.date.util.now
@@ -71,15 +70,12 @@ internal class JwtProviderImpl @Inject constructor(
 
     // FIXME: 수정 필요
     override fun initTokens() {
-        try {
-        } catch (e: LoadFailureException) {
-            try {
-                e.printStackTrace()
+        runCatching {
+            loadTokens()
+        }.onFailure {
+            runCatching {
                 fetchTokens()
-            } catch (_: Exception) {
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
