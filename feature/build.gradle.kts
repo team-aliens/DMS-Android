@@ -48,6 +48,9 @@ android {
 }
 
 dependencies {
+
+    implementation(project(ProjectPaths.Core.ui))
+
     implementation(project(ProjectPaths.designSystem))
     implementation(project(ProjectPaths.data))
 
