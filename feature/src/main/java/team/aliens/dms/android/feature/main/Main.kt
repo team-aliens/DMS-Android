@@ -40,8 +40,6 @@ import team.aliens.dms.android.design_system.component.DormCalendarLayout
 import team.aliens.dms.android.design_system.theme.DormTheme
 import team.aliens.dms.android.design_system.typography.BottomNavItemLabel
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.LocalAvailableFeatures
-import team.aliens.dms.android.feature._legacy.util.Now
 import team.aliens.dms.android.feature._legacy.util.OneDay
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Announcement
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Application
@@ -77,7 +75,7 @@ internal fun Main(
     onNavigateToEditPasswordNav: () -> Unit,
     onNavigateToAuthNav: () -> Unit,
     onNavigateToNotificationBox: () -> Unit,*/
-) {
+) {/*
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -112,7 +110,7 @@ internal fun Main(
             },
             modifier = modifier.fillMaxSize(),
         ) {  paddingValues ->
-            /*NavHost(
+            *//*NavHost(
                 modifier = Modifier.fillMaxSize(),
                 navController = bottomNavController,
                 startDestination = Home.route,
@@ -217,9 +215,9 @@ internal fun Main(
                         pointServiceEnabled = pointServiceEnabled,
                     )
                 }
-            }*/
+            }*//*
         }
-    }
+    }*/
 }
 
 @Stable

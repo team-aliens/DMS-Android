@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -104,3 +105,4 @@ internal fun rememberAvailableFeatures(
 ): Features {
     return remember { features }
 }
+*/

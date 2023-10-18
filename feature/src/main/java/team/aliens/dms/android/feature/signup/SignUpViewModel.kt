@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.signup
+/*
 
 import android.net.Uri
 import android.util.Patterns
@@ -964,4 +965,4 @@ sealed class SignUpSideEffect : MviSideEffect {
         object EmailNotVerified : Terms()
         object AlreadyExistsStudent : Terms()
     }
-}
+}*/

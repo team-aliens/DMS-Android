@@ -33,7 +33,6 @@ import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavigator
-import team.aliens.dms.android.feature.resetpassword.ChangePasswordViewModel
 
 @Destination
 @Composable
@@ -41,7 +40,7 @@ internal fun ConfirmPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
 ) {
-    val viewModel: EditPasswordViewModel = hiltViewModel()
+    // val viewModel: EditPasswordViewModel = hiltViewModel()
 /*
     val focusManager = LocalFocusManager.current
 
@@ -136,27 +135,4 @@ internal fun ConfirmPasswordScreen(
             }
         }
     }*/
-}
-
-private fun getStringFromEvent(
-    context: Context,
-    event: ChangePasswordViewModel.Event,
-): String = when (event) {
-    is ChangePasswordViewModel.Event.BadRequestException -> {
-        context.getString(R.string.BadRequest)
-    }
-
-    is ChangePasswordViewModel.Event.ForbiddenException -> {
-        context.getString(R.string.Forbidden)
-    }
-
-    is ChangePasswordViewModel.Event.TooManyRequestException -> {
-        context.getString(R.string.TooManyRequest)
-    }
-
-    is ChangePasswordViewModel.Event.ServerException -> {
-        context.getString(R.string.ServerException)
-    }
-
-    else -> context.getString(R.string.UnKnownException)
 }

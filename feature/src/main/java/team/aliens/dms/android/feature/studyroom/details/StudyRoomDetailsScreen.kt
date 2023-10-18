@@ -1,5 +1,20 @@
 package team.aliens.dms.android.feature.studyroom.details
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
+
+@Destination
+@Composable
+fun StudyRoomDetailsScreen(
+    modifier: Modifier = Modifier,
+    navigator: StudyRoomNavigator,
+) {
+
+}
+/*
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -52,12 +67,14 @@ fun StudyRoomDetailsScreen(
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
-    /*val availableTime = LaunchedEffect(Unit) {
+        */
+/*val availableTime = LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.initStudyRoom(
             roomId = roomId, // todo refactor
             timeslot = timeslot,
         )
-    }*/
+    }*//*
+
 
     val context = LocalContext.current
     val toast = rememberToast()
@@ -66,16 +83,19 @@ fun StudyRoomDetailsScreen(
     val currentSeat = uiState.currentSeat.collectAsState(null)
 
     val onCancel: () -> Unit = {
-        /*studyRoomDetailsViewModel.onEvent(
+        */
+/*studyRoomDetailsViewModel.onEvent(
             event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
                 seatId = currentSeat.value!!,
                 timeSlot = timeSlot,
             )
-        )*/
+        )*//*
+
     }
 
     val onApply: () -> Unit = {
-       /* if (currentSeat.value == null) {
+       */
+/* if (currentSeat.value == null) {
             toast(
                 context.getString(R.string.study_room_please_first_select),
             )
@@ -86,7 +106,8 @@ fun StudyRoomDetailsScreen(
                     timeSlot = timeSlot,
                 ),
             )
-        }*/
+        }*//*
+
     }
 
     LaunchedEffect(Unit) {
@@ -257,12 +278,14 @@ fun FetchSeatTypesOutput.SeatTypeInformation.toModel() = SeatTypeUiModel(
     text = this.name,
 )
 
+*/
 /**
  * [StudyRoomDetailEntity] 를 디자인 시스템인 [RoomDetail] 에서 사용하기 위해
  * List<List<SeatItem>> 형식으로 Mapping 에주는 extension
  *
  * @return 디자인 시스템에서 사용할 수 있는 List<List<SeatItem>> 형식
- */
+ *//*
+
 private fun FetchStudyRoomDetailsOutput.toDesignSystemModel(): List<List<SeatItem>> {
     val defaultSeats: MutableList<MutableList<SeatItem>> = List(
         size = this.totalWidthSize,
@@ -298,3 +321,4 @@ private fun FetchStudyRoomDetailsOutput.toDesignSystemModel(): List<List<SeatIte
 
     return defaultSeats
 }
+*/

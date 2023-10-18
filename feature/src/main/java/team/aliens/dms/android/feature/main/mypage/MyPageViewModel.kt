@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.main.mypage
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -86,3 +87,4 @@ internal data class MyPageState(
 }
 
 internal sealed class MyPageSideEffect : MviSideEffect
+*/

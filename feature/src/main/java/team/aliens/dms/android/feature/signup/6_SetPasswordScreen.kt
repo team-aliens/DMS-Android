@@ -36,9 +36,9 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun SignUpSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel,
+    // signUpViewModel: SignUpViewModel,
 ) {
-
+/*
     val uiState by signUpViewModel.stateFlow.collectAsState()
 
     val focusManager = LocalFocusManager.current
@@ -127,5 +127,5 @@ internal fun SignUpSetPasswordScreen(
         ) {
             signUpViewModel.postIntent(SignUpIntent.SetPassword.CheckPassword)
         }
-    }
+    }*/
 }

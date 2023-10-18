@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.studyroom.details
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -265,3 +266,4 @@ data class StudyRoomDetailUiState(
         seats = listOf(),
     ),
 ) : UiState
+*/

@@ -26,7 +26,6 @@ import team.aliens.dms.android.design_system.typography.Caption
 import team.aliens.dms.android.design_system.typography.Title3
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.TopBar
-import team.aliens.dms.android.feature.main.announcement.toNoticeDate
 import team.aliens.dms.android.feature.notice.navigation.NoticeNavigator
 import java.util.UUID
 
@@ -36,8 +35,7 @@ internal fun NoticeDetailsScreen(
     modifier: Modifier = Modifier,
     navigator: NoticeNavigator,
     noticeId: UUID,
-    noticeDetailsViewModel: NoticeDetailsViewModel = hiltViewModel(),
-) {
+) {/*
     val uiState by noticeDetailsViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -87,5 +85,5 @@ internal fun NoticeDetailsScreen(
                 text = uiState.content,
             )
         }
-    }
+    }*/
 }

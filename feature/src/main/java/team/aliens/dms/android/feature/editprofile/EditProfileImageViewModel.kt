@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.editprofile
 
+/*
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
@@ -106,3 +107,4 @@ internal sealed class UploadProfileImageSideEffect : MviSideEffect {
     object ImageNotSelected : UploadProfileImageSideEffect()
     object UploadProfileImageFailed : UploadProfileImageSideEffect()
 }
+*/

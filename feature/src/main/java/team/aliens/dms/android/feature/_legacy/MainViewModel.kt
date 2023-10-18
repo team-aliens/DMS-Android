@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,3 +30,4 @@ internal class MainViewModel @Inject constructor(
         }.getOrThrow()
     }
 }
+*/

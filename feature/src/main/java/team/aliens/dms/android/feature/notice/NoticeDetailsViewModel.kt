@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.notice
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,3 +67,4 @@ internal data class NoticeDetailsState(
 }
 
 internal sealed class NoticeDetailsSideEffect : MviSideEffect
+*/

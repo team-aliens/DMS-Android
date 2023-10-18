@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.studyroom.list
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -175,3 +176,4 @@ internal fun List<FetchStudyRoomsOutput.StudyRoomInformation?>.toInformation(): 
         return emptyList()
     }
 }
+*/

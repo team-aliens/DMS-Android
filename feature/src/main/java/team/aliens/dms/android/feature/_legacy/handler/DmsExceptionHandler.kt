@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy.handler
+/*
 
 import android.app.Application
 import android.content.Context
@@ -37,3 +38,4 @@ internal fun Application.initExceptionHandler() {
         ),
     )
 }
+*/

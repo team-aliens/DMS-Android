@@ -45,21 +45,21 @@ import team.aliens.dms.android.design_system.typography.Body5
 import team.aliens.dms.android.design_system.typography.Caption
 import team.aliens.dms.android.design_system.typography.Headline3
 import team.aliens.dms.android.design_system.typography.Title1
-import team.aliens.dms.android.domain.model._common.Sex
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.editprofile.dialog.SelectImageTypeDialog
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
+import team.aliens.dms.android.shared.model.Sex
 
 @Destination
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
-    myPageViewModel: MyPageViewModel = hiltViewModel(),
+    // myPageViewModel: MyPageViewModel = hiltViewModel(),
     navigator: MainNavigator,
     // onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     // onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     // pointServiceEnabled: Boolean,
-) {
+) {/*
     val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
     var signOutDialogState by remember { mutableStateOf(false) }
@@ -69,7 +69,7 @@ internal fun MyPageScreen(
     if (signOutDialogState) {
         DormCustomDialog(
             onDismissRequest = {
-                /* explicit blank */
+                *//* explicit blank *//*
             },
         ) {
             DormDoubleButtonDialog(
@@ -90,7 +90,7 @@ internal fun MyPageScreen(
     if (withdrawDialogState) {
         DormCustomDialog(
             onDismissRequest = {
-                /* explicit blank */
+                *//* explicit blank *//*
             },
         ) {
             DormDoubleButtonDialog(
@@ -155,7 +155,7 @@ internal fun MyPageScreen(
             onSignOutClicked = { signOutDialogState = !signOutDialogState },
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )
-    }
+    }*/
 }
 
 @Composable

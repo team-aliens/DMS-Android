@@ -51,8 +51,8 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun SetProfileImageScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    signUpViewModel: SignUpViewModel,
-) {
+    // signUpViewModel: SignUpViewModel,
+) {/*
     val selectImageFromGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
     ) {
@@ -163,5 +163,5 @@ internal fun SetProfileImageScreen(
                 signUpViewModel.postIntent(SignUpIntent.SetProfileImage.UploadImage)
             }
         }
-    }
+    }*/
 }

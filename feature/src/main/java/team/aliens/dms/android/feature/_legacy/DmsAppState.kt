@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,3 +28,4 @@ internal class DmsAppState(
     val toastState: ToastState,
     val availableFeatures: Features,
 )
+*/

@@ -51,7 +51,6 @@ import team.aliens.dms.android.design_system.toast.rememberToast
 import team.aliens.dms.android.design_system.typography.Body3
 import team.aliens.dms.android.design_system.typography.ButtonText
 import team.aliens.dms.android.design_system.typography.Title3
-import team.aliens.dms.android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.FloatingNotice
 import team.aliens.dms.android.feature._legacy.util.TopBar
@@ -63,8 +62,8 @@ import java.util.UUID
 fun StudyRoomListScreen(
     modifier: Modifier = Modifier,
     navigator: StudyRoomNavigator,
-    studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
-) {
+    // studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
+) {/*
 
     val toast = rememberToast()
 
@@ -251,8 +250,9 @@ private fun StudyRoomsApplicationTimeCard(
             end = 16.dp,
         ),
         text = text,
-    )
+    )*/
 }
+/*
 
 @Composable
 private fun ListStudyRooms(
@@ -338,7 +338,4 @@ fun DormTimeChip(
         )
     }
 }
-
-private fun makeTimeRange(
-    studyRoomAvailableTimeList: FetchAvailableStudyRoomTimesOutput.TimeSlotInformation,
-): String = "${studyRoomAvailableTimeList.startTime} ~ ${studyRoomAvailableTimeList.endTime}"
+*/

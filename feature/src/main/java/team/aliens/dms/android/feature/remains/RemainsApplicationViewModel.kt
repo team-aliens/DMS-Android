@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.remains
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -160,3 +161,4 @@ internal sealed class RemainsApplicationUiEvent : UiEvent {
     object UpdateRemainsOption : RemainsApplicationUiEvent()
     class SelectRemainsOption(val remainsOption: RemainsOption) : RemainsApplicationUiEvent()
 }
+*/

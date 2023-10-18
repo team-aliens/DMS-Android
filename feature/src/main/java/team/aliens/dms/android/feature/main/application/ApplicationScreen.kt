@@ -79,12 +79,12 @@ internal fun ApplicationScreen(
     // TODO: implement cacher
     // studyRoomServiceEnabled: Boolean = false,
     // remainsServiceEnabled: Boolean = false,
-    applicationViewModel: ApplicationViewModel = hiltViewModel(),
-) {
+    // applicationViewModel: ApplicationViewModel = hiltViewModel(),
+) {/*
     val uiState by applicationViewModel.stateFlow.collectAsStateWithLifecycle()
     val applicationItems =
         remember(uiState.currentAppliedStudyRoom, uiState.currentAppliedRemainsOption) {
-            mutableStateListOf<ApplicationCardItem>()/*.apply {
+            mutableStateListOf<ApplicationCardItem>()*//*.apply {
                 if (studyRoomServiceEnabled) add(
                     ApplicationCardItem.StudyRoomService(
                         onButtonClick = onNavigateToStudyRooms,
@@ -99,7 +99,7 @@ internal fun ApplicationScreen(
                         currentAppliedOption = uiState.currentAppliedRemainsOption?.title,
                     ),
                 )
-            }*/
+            }*//*
         }
 
     Column(
@@ -113,7 +113,7 @@ internal fun ApplicationScreen(
         Body1(text = stringResource(R.string.Application))
         // todo end
         ApplicationCards(applicationItems)
-    }
+    }*/
 }
 
 @Composable

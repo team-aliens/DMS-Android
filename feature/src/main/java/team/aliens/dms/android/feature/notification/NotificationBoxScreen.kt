@@ -21,14 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.data.notification.model.Notification
+import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.design_system.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.design_system.modifier.dormClickable
 import team.aliens.dms.android.design_system.modifier.dormShadow
 import team.aliens.dms.android.design_system.theme.DormTheme
 import team.aliens.dms.android.design_system.typography.Body3
 import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms.android.domain.model.notification.Notification
-import team.aliens.dms.android.domain.model.notification.NotificationTopic
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.Now
 import team.aliens.dms.android.feature._legacy.util.TopBar
@@ -40,8 +40,8 @@ import team.aliens.dms.android.feature.notification.navigation.NotificationNavig
 internal fun NotificationBoxScreen(
     modifier: Modifier = Modifier,
     navigator: NotificationNavigation,
-    notificationBoxViewModel: NotificationBoxViewModel = hiltViewModel(),
-) {
+    // notificationBoxViewModel: NotificationBoxViewModel = hiltViewModel(),
+) {/*
     val uiState by notificationBoxViewModel.stateFlow.collectAsStateWithLifecycle()
 
     Column(
@@ -58,7 +58,7 @@ internal fun NotificationBoxScreen(
             newNotifications = uiState.newNotifications,
             priorNotifications = uiState.priorNotifications,
         )
-    }
+    }*/
 }
 
 // todo move to design system

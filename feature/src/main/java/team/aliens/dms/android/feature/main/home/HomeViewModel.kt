@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.main.home
+/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -130,3 +131,4 @@ internal data class HomeState(
 }
 
 internal sealed class HomeSideEffect : MviSideEffect
+*/

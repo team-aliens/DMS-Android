@@ -52,7 +52,6 @@ import team.aliens.dms.android.design_system.toast.rememberToast
 import team.aliens.dms.android.design_system.typography.Body2
 import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.domain.model.school.FetchSchoolsOutput
 import team.aliens.dms.android.feature.findid.navigator.FindIdNavigator
 
 @Destination
@@ -60,8 +59,8 @@ import team.aliens.dms.android.feature.findid.navigator.FindIdNavigator
 fun FindIdScreen(
     modifier: Modifier = Modifier,
     navigator: FindIdNavigator,
-    findIdViewModel: FindIdViewModel = hiltViewModel(),
-) {
+    // findIdViewModel: FindIdViewModel = hiltViewModel(),
+) {/*
 
     val focusManager = LocalFocusManager.current
 
@@ -282,7 +281,7 @@ fun FindIdScreen(
                 )
             }
         }
-    }
+    }*/
 }
 
 @Composable
