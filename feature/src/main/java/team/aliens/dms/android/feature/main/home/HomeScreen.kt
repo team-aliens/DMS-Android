@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.ui.composables.AppLogo
 import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
@@ -62,7 +63,6 @@ import team.aliens.dms.android.designsystem.modifier.dormShadow
 import team.aliens.dms.android.designsystem.theme.DormTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
-import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature._legacy.FloatingNotice
 import team.aliens.dms.android.feature._legacy.listFadeBrush
 import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST

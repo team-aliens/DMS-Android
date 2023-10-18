@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.signin
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,20 +17,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.ui.composables.AppLogo
 import team.aliens.dms.android.designsystem.button.DormTextCheckBox
 import team.aliens.dms.android.designsystem.textfield.DormTextField
 import team.aliens.dms.android.designsystem.theme.DormTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
 @Destination
@@ -48,101 +46,30 @@ internal fun SignInScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padValues)
-                .background(color = Color.Red),
+                .padding(padValues),
         ) {
-
+            Banner(modifier.fillMaxWidth())
         }
     }
-
-    /*
-    val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
-    val availableFeatures = LocalAvailableFeatures.current
-    val toast = LocalToast.current
-    val context = LocalContext.current // todo need to be discussed
-
-    signInViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
-        when (sideEffect) {
-            SignInSideEffect.IdNotFound -> toast.showErrorToast(
-                message = context.getString(R.string.sign_in_error_id_not_found),
-            )
-
-            SignInSideEffect.BadRequest -> toast.showErrorToast(
-                message = context.getString(R.string.sign_in_error_check_id_or_password),
-            )
-
-            SignInSideEffect.PasswordMismatch -> toast.showErrorToast(
-                message = context.getString(R.string.sign_in_error_password_mismatch),
-            )
-
-            is SignInSideEffect.SignInSuccess -> {
-                availableFeatures.features = sideEffect.features
-                navigator.openAuthorizedNav()
-            }
-
-            SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
-                message = context.getString(R.string.sign_in_error_device_token_registering_failure),
-            )
-        }
-    }
-    val signInButtonEnabled = state.signInButtonEnabled
-
-    Column(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        Spacer(Modifier.height(92.dp))
-        Banner()
-        Spacer(Modifier.height(60.dp))
-        UserInformationInputs(
-            accountIdValue = state.accountId,
-            passwordValue = state.password,
-            autoSignInValue = state.autoSignIn,
-            onAccountIdChange = { newAccountId: String ->
-                signInViewModel.postIntent(SignInIntent.UpdateAccountId(newAccountId))
-            },
-            onPasswordChange = { newPassword: String ->
-                signInViewModel.postIntent(SignInIntent.UpdatePassword(newPassword))
-            },
-            onAutoSignInOptionChanged = { newAutoSignInOption: Boolean ->
-                signInViewModel.postIntent(SignInIntent.UpdateAutoSignInOption(newAutoSignInOption))
-            },
-            idError = state.idError,
-            passwordError = state.passwordError,
-        )
-        Spacer(Modifier.height(12.dp))
-        AuthActions(
-            onSignUpClicked = navigator::openSignUpNav,
-            onFindIdClicked = navigator::openFindId,
-            onResetPasswordClicked = navigator::openResetPasswordNav,
-        )
-        Spacer(Modifier.weight(1f))
-        DormContainedLargeButton(
-            modifier = Modifier.padding(
-                horizontal = 16.dp,
-            ),
-            text = stringResource(R.string.sign_in),
-            color = DormButtonColor.Blue,
-            enabled = signInButtonEnabled,
-            onClick = { signInViewModel.postIntent(SignInIntent.SignIn) },
-        )
-        Spacer(Modifier.height(57.dp))
-    }*/
 }
 
 @Composable
-private fun Banner() {
+private fun Banner(
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = 16.dp,
-            ),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
     ) {
-        AppLogo()
-        Spacer(Modifier.height(8.dp))
+        AppLogo(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         Body2(
-            text = stringResource(R.string.app_description),
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = stringResource(R.string.app_description)
         )
     }
 }
