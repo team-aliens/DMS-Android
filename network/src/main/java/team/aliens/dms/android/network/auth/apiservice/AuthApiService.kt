@@ -8,7 +8,6 @@ import team.aliens.dms.android.network.auth.model.CheckIdExistsResponse
 import team.aliens.dms.android.network.auth.model.SendEmailVerificationCodeRequest
 import team.aliens.dms.android.network.auth.model.SignInRequest
 import team.aliens.dms.android.network.auth.model.SignInResponse
-import team.aliens.dms.android.shared.model.EmailVerificationType
 
 internal abstract class AuthApiService {
 
@@ -22,7 +21,7 @@ internal abstract class AuthApiService {
     abstract suspend fun checkEmailVerificationCode(
         @Query("email") email: String,
         @Query("auth_code") authCode: String,
-        @Query("type") type: EmailVerificationType,
+        @Query("type") type: String,
     )
 
     @GET("/auth/account-id")

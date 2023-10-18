@@ -1,4 +1,4 @@
-package team.aliens.dms.android.shared.model
+package team.aliens.dms.android.data.auth.model
 
 enum class EmailVerificationType {
     SIGNUP, PASSWORD,

@@ -1,7 +1,7 @@
 package team.aliens.dms.android.data.auth.repository
 
 import team.aliens.dms.android.data.auth.model.CheckIdExistsOutput
-import team.aliens.dms.android.shared.model.EmailVerificationType
+import team.aliens.dms.android.data.auth.model.EmailVerificationType
 
 abstract class AuthRepository {
 
