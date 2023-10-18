@@ -1,6 +1,5 @@
 package team.aliens.dms.android.data.school.repository
 
-import team.aliens.dms.android.data.school.model.FetchSchoolVerificationQuestionOutput
 import team.aliens.dms.android.data.school.model.School
 import team.aliens.dms.android.data.school.model.SchoolId
 import team.aliens.dms.android.network.school.datasource.NetworkSchoolDataSource
@@ -15,7 +14,7 @@ internal class SchoolRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchSchoolVerificationQuestion(schoolId: UUID): FetchSchoolVerificationQuestionOutput {
+    override suspend fun fetchSchoolVerificationQuestion(schoolId: UUID): String {
         TODO("Not yet implemented")
     }
 
