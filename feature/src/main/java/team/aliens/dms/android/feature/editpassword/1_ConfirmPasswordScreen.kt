@@ -37,12 +37,12 @@ import team.aliens.dms.android.feature.resetpassword.ChangePasswordViewModel
 
 @Destination
 @Composable
-fun ConfirmPasswordScreen(
+internal fun ConfirmPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
-    changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
 ) {
-
+    val viewModel: EditPasswordViewModel = hiltViewModel()
+/*
     val focusManager = LocalFocusManager.current
 
     val context = LocalContext.current
@@ -135,7 +135,7 @@ fun ConfirmPasswordScreen(
                 changePasswordViewModel.comparePassword()
             }
         }
-    }
+    }*/
 }
 
 private fun getStringFromEvent(
