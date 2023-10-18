@@ -25,7 +25,7 @@ import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
 import team.aliens.dms.android.designsystem.modifier.innerShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.typography.DormTypography
 import team.aliens.dms.android.designsystem.typography.OverLine
@@ -93,7 +93,7 @@ private fun RoomDescription(
         modifier = modifier,
         text = text,
         style = DormTypography.roomDescription,
-        color = DormTheme.colors.secondary,
+        color = DmsTheme.colors.secondary,
     )
 }
 
@@ -117,7 +117,7 @@ fun RoomDetail(
         )
         .border(
             width = 1.dp,
-            color = DormTheme.colors.primary,
+            color = DmsTheme.colors.primary,
             shape = RoomBoxShape,
         ), content = {
         SeatListContent(
@@ -321,7 +321,7 @@ private fun SeatListContent(
                                 modifier = Modifier
                                     .size(SeatSize)
                                     .clip(CircleShape)
-                                    .background(color = DormTheme.colors.secondaryVariant),
+                                    .background(color = DmsTheme.colors.secondaryVariant),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 OverLine(
@@ -352,9 +352,9 @@ fun RoomItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .dormShadow(color = DormTheme.colors.primaryVariant)
+            .dormShadow(color = DmsTheme.colors.primaryVariant)
             .clip(RoundedCornerShape(10.dp))
-            .background(color = DormTheme.colors.surface),
+            .background(color = DmsTheme.colors.surface),
     ) {
         Column(
             modifier = Modifier
@@ -375,7 +375,7 @@ fun RoomItem(
                 // floor
                 Body5(
                     text = position,
-                    color = DormTheme.colors.primary,
+                    color = DmsTheme.colors.primary,
                 )
 
 
@@ -394,7 +394,7 @@ fun RoomItem(
                 // reserved seat
                 Body5(
                     text = "$currentNumber / $maxNumber",
-                    color = DormTheme.colors.primaryVariant,
+                    color = DmsTheme.colors.primaryVariant,
                 )
             }
 
@@ -405,7 +405,7 @@ fun RoomItem(
                 // available gender
                 Body5(
                     text = condition,
-                    color = DormTheme.colors.primary,
+                    color = DmsTheme.colors.primary,
                 )
 
                 Space(
@@ -416,8 +416,8 @@ fun RoomItem(
                     LastAppliedItem(
                         text = "신청함",
                         modifier = StudyRoomAppliedTagSize,
-                        backgroundColor = DormTheme.colors.primary,
-                        textColor = DormTheme.colors.onError,
+                        backgroundColor = DmsTheme.colors.primary,
+                        textColor = DmsTheme.colors.onError,
                     )
                 }
             }

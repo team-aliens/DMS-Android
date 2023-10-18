@@ -26,7 +26,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.ui.composables.AppLogo
 import team.aliens.dms.android.designsystem.button.DormTextCheckBox
 import team.aliens.dms.android.designsystem.textfield.DormTextField
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R
@@ -159,19 +159,19 @@ private fun AuthActions(
         Caption(
             text = stringResource(R.string.do_sign_up),
             onClick = onSignUpClicked,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
         AuthActionDivider()
         Caption(
             text = stringResource(R.string.sign_in_find_id),
             onClick = onFindIdClicked,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
         AuthActionDivider()
         Caption(
             text = stringResource(R.string.change_password),
             onClick = onResetPasswordClicked,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
     }
 }
@@ -180,6 +180,6 @@ private fun AuthActions(
 private fun AuthActionDivider() {
     Caption(
         text = "|",
-        color = DormTheme.colors.primaryVariant,
+        color = DmsTheme.colors.primaryVariant,
     )
 }

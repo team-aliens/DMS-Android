@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body1
 import team.aliens.dms.android.feature.R
 
@@ -30,9 +30,9 @@ fun TopBar(
     Row(
         modifier = Modifier
             .height(56.dp)
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.primaryVariant)
             .fillMaxWidth()
-            .background(DormTheme.colors.surface)
+            .background(DmsTheme.colors.surface)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -44,7 +44,7 @@ fun TopBar(
                 ) { if (onPrevious != null) onPrevious() },
             painter = painterResource(DormIcon.BackArrow.drawableId),
             contentDescription = stringResource(R.string.top_bar_back_button),
-            tint = DormTheme.colors.onSurface,
+            tint = DmsTheme.colors.onSurface,
         )
         Spacer(Modifier.width(16.dp))
         Body1(

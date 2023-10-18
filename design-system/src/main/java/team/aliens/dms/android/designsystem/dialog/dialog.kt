@@ -35,7 +35,7 @@ import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Body3
 import team.aliens.dms.android.designsystem.typography.Body5
@@ -151,7 +151,7 @@ fun DormBottomAlignedContainedLargeButtonDialog(
         Column(
             modifier = Modifier
                 .background(
-                    color = DormTheme.colors.surface,
+                    color = DmsTheme.colors.surface,
                 )
                 .padding(
                     horizontal = 16.dp,
@@ -174,7 +174,7 @@ fun DormBottomAlignedContainedLargeButtonDialog(
 fun DormBottomAlignedSingleButtonDialog(
     btnText: String,
     onBtnClick: () -> Unit,
-    btnTextColor: Color = DormTheme.colors.onBackground,
+    btnTextColor: Color = DmsTheme.colors.onBackground,
     onBackgroundPress: () -> Unit,
     content: @Composable () -> Unit,
 ) {
@@ -187,7 +187,7 @@ fun DormBottomAlignedSingleButtonDialog(
         contentAlignment = Alignment.BottomCenter,
     ) {
         Column(
-            Modifier.background(DormTheme.colors.background),
+            Modifier.background(DmsTheme.colors.background),
         ) {
             content()
             Divider(
@@ -219,14 +219,14 @@ fun DormDoubleButtonDialog(
     subBtnText: String,
     onMainBtnClick: () -> Unit,
     onSubBtnClick: () -> Unit,
-    mainBtnTextColor: Color = DormTheme.colors.error,
-    subBtnTextColor: Color = DormTheme.colors.onSurface,
+    mainBtnTextColor: Color = DmsTheme.colors.error,
+    subBtnTextColor: Color = DmsTheme.colors.onSurface,
 ) {
     Column(
         modifier = Modifier
             .wrapContentSize()
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = DormDoubleButtonDialogShape,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -236,12 +236,12 @@ fun DormDoubleButtonDialog(
             text = content,
         )
         Divider(
-            color = DormTheme.colors.secondaryVariant,
+            color = DmsTheme.colors.secondaryVariant,
             thickness = 1.dp,
         )
         Row(
             modifier = Modifier.background(
-                color = DormTheme.colors.secondaryVariant,
+                color = DmsTheme.colors.secondaryVariant,
                 shape = RoundedCornerShape(
                     bottomStart = 10.dp,
                     bottomEnd = 10.dp,
@@ -254,7 +254,7 @@ fun DormDoubleButtonDialog(
                 modifier = Modifier
                     .weight(1f)
                     .background(
-                        color = DormTheme.colors.surface,
+                        color = DmsTheme.colors.surface,
                         shape = DormDoubleButtonDialogSubButtonShape,
                     )
                     .clip(DormDoubleButtonDialogSubButtonShape)
@@ -271,7 +271,7 @@ fun DormDoubleButtonDialog(
                 modifier = Modifier
                     .weight(1f)
                     .background(
-                        color = DormTheme.colors.surface,
+                        color = DmsTheme.colors.surface,
                         shape = DormDoubleButtonDialogMainButtonShape,
                     )
                     .clip(DormDoubleButtonDialogMainButtonShape)
@@ -294,14 +294,14 @@ fun DormSingleButtonDialog(
     content: String,
     mainBtnText: String,
     onMainBtnClick: () -> Unit,
-    mainBtnTextColor: Color = DormTheme.colors.error,
+    mainBtnTextColor: Color = DmsTheme.colors.error,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(160.dp)
             .background(
-                DormTheme.colors.surface,
+                DmsTheme.colors.surface,
                 DormDoubleButtonDialogShape,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -318,7 +318,7 @@ fun DormSingleButtonDialog(
         Divider(
             modifier = Modifier
                 .background(
-                    DormTheme.colors.secondaryVariant,
+                    DmsTheme.colors.secondaryVariant,
                 )
                 .height(1.dp),
         )

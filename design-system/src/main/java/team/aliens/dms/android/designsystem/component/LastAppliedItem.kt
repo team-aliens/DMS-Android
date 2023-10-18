@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.ButtonText
 
 val DefaultAppliedTagSize = Modifier.defaultMinSize(
@@ -25,8 +25,8 @@ val StudyRoomAppliedTagSize = Modifier.defaultMinSize(
 fun LastAppliedItem(
     modifier: Modifier = Modifier,
     text: String,
-    backgroundColor: Color = DormTheme.colors.secondary,
-    textColor: Color = DormTheme.colors.primary,
+    backgroundColor: Color = DmsTheme.colors.secondary,
+    textColor: Color = DmsTheme.colors.primary,
 ) {
     Box(
         modifier = modifier

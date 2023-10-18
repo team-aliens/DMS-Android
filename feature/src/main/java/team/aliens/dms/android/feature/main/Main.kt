@@ -22,7 +22,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.BottomNavItemLabel
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.OneDay
@@ -215,10 +215,10 @@ private object NavigationItemsWrapper {
 }
 
 private val selectedColor: Color
-    @Composable get() = DormTheme.colors.onSurface
+    @Composable get() = DmsTheme.colors.onSurface
 
 private val unselectedColor: Color
-    @Composable get() = DormTheme.colors.primaryVariant
+    @Composable get() = DmsTheme.colors.primaryVariant
 
 @Composable
 private fun BottomNavBar(
@@ -227,7 +227,7 @@ private fun BottomNavBar(
     navigationItems: List<HomeBottomNavigationItem>,
 ) {
     BottomNavigation(
-        backgroundColor = DormTheme.colors.surface,
+        backgroundColor = DmsTheme.colors.surface,
         modifier = Modifier.graphicsLayer {
             clip = true
             shape = RoundedCornerShape(

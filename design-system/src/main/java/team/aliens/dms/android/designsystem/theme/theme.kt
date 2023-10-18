@@ -11,7 +11,7 @@ import team.aliens.dms.android.designsystem.color.LocalColors
 
 @Composable
 fun DmsTheme(
-    colors: Colors = DormTheme.colors,
+    colors: Colors = DmsTheme.colors,
     content: @Composable () -> Unit,
 ) {
     val rememberedColors = remember { colors.copy() }
@@ -26,7 +26,7 @@ fun DmsTheme(
 }
 
 @Stable
-object DormTheme {
+object DmsTheme {
 
     val colors: Colors
         @Composable

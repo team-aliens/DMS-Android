@@ -23,7 +23,7 @@ import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body3
 import team.aliens.dms.android.designsystem.utils.runIf
 
@@ -155,10 +155,10 @@ fun DormCheckBox(
         round = round,
         checked = checked,
         onCheckedChange = onCheckedChange,
-        selectedColor = DormTheme.colors.primary,
-        unSelectedColor = DormTheme.colors.primaryVariant,
-        disabledSelectedColor = DormTheme.colors.secondary,
-        disabledUnSelectedColor = DormTheme.colors.secondaryVariant,
+        selectedColor = DmsTheme.colors.primary,
+        unSelectedColor = DmsTheme.colors.primaryVariant,
+        disabledSelectedColor = DmsTheme.colors.secondary,
+        disabledUnSelectedColor = DmsTheme.colors.secondaryVariant,
         enabled = enabled,
         icon = DormIcon.Check
     )
@@ -201,7 +201,7 @@ fun DormTextCheckBox(
         ) {
             Body3(
                 text = text,
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
             )
         }
     }

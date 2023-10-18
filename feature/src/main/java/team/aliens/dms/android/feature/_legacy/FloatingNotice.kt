@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.R
 import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Caption
 
 @Composable
@@ -34,11 +34,11 @@ fun FloatingNotice(
                 minHeight = 50.dp,
             )
             .dormShadow(
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
                 offsetY = 1.dp,
             )
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(100),
             )
     ) {

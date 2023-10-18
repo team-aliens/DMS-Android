@@ -40,7 +40,7 @@ import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.typography.Title3
 import team.aliens.dms.android.feature.R
@@ -208,14 +208,14 @@ private fun RemainsOptionCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .dormShadow(
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
                 offsetY = 8.dp,
             )
             .clip(
                 shape = RoundedCornerShape(10.dp),
             )
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(10.dp),
             )
             .dormClickable {
@@ -223,7 +223,7 @@ private fun RemainsOptionCard(
             }
             .border(
                 width = 1.dp,
-                color = if (selected) DormTheme.colors.primary else Color.Transparent,
+                color = if (selected) DmsTheme.colors.primary else Color.Transparent,
                 shape = RoundedCornerShape(10.dp),
             )
             .padding(
@@ -243,7 +243,7 @@ private fun RemainsOptionCard(
                     vertical = 2.dp,
                 ),
                 text = remainsOption.title,
-                color = if (selected) DormTheme.colors.primary else DormTheme.colors.onSurface,
+                color = if (selected) DmsTheme.colors.primary else DmsTheme.colors.onSurface,
             )
             if (currentApplied) LastAppliedItem(
                 text = stringResource(R.string.application_completed),

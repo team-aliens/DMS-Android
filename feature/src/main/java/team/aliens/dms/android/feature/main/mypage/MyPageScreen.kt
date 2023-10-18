@@ -31,7 +31,7 @@ import team.aliens.dms.android.designsystem.component.DefaultAppliedTagSize
 import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.typography.Headline3
@@ -265,7 +265,7 @@ private fun PhraseCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(
-                DormTheme.colors.secondary,
+                DmsTheme.colors.secondary,
             )
             .padding(
                 vertical = 12.dp,
@@ -287,23 +287,23 @@ private fun PointCard(
     point: Int,
 ) {
     val textColor = when (type) {
-        PointCardType.BONUS -> DormTheme.colors.primary
-        PointCardType.MINUS -> DormTheme.colors.error
+        PointCardType.BONUS -> DmsTheme.colors.primary
+        PointCardType.MINUS -> DmsTheme.colors.error
     }
     Column(
         modifier = modifier
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.primaryVariant)
             .clip(RoundedCornerShape(10.dp))
             .border(
                 color = when (type) {
-                    PointCardType.BONUS -> DormTheme.colors.primary
-                    PointCardType.MINUS -> DormTheme.colors.error
+                    PointCardType.BONUS -> DmsTheme.colors.primary
+                    PointCardType.MINUS -> DmsTheme.colors.error
                 },
                 width = 1.dp,
                 shape = RoundedCornerShape(10.dp),
             )
             .background(
-                color = DormTheme.colors.surface, // todo
+                color = DmsTheme.colors.surface, // todo
             )
             .padding(
                 vertical = 14.dp,
@@ -346,9 +346,9 @@ private fun Options(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .dormShadow(DormTheme.colors.primaryVariant)
+                    .dormShadow(DmsTheme.colors.primaryVariant)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(DormTheme.colors.surface),
+                    .background(DmsTheme.colors.surface),
             ) {
                 Row(
                     modifier = Modifier
@@ -366,7 +366,7 @@ private fun Options(
                 }
                 Divider(
                     modifier = Modifier.padding(horizontal = 10.dp),
-                    color = DormTheme.colors.secondaryVariant,
+                    color = DmsTheme.colors.secondaryVariant,
                 )
                 Row(
                     modifier = Modifier
@@ -387,9 +387,9 @@ private fun Options(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .dormShadow(DormTheme.colors.primaryVariant)
+                    .dormShadow(DmsTheme.colors.primaryVariant)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(DormTheme.colors.surface),
+                    .background(DmsTheme.colors.surface),
             ) {
                 Row(
                     modifier = Modifier
@@ -409,9 +409,9 @@ private fun Options(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .dormShadow(DormTheme.colors.primaryVariant)
+                .dormShadow(DmsTheme.colors.primaryVariant)
                 .clip(RoundedCornerShape(10.dp))
-                .background(DormTheme.colors.surface),
+                .background(DmsTheme.colors.surface),
         ) {
             Row(
                 modifier = Modifier
@@ -424,16 +424,16 @@ private fun Options(
             ) {
                 Body5(
                     text = stringResource(R.string.my_page_sign_out),
-                    color = DormTheme.colors.error,
+                    color = DmsTheme.colors.error,
                 )
             }
         }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .dormShadow(DormTheme.colors.primaryVariant)
+                .dormShadow(DmsTheme.colors.primaryVariant)
                 .clip(RoundedCornerShape(10.dp))
-                .background(DormTheme.colors.surface),
+                .background(DmsTheme.colors.surface),
         ) {
             Row(
                 modifier = Modifier
@@ -446,7 +446,7 @@ private fun Options(
             ) {
                 Body5(
                     text = stringResource(R.string.my_page_withdrawal),
-                    color = DormTheme.colors.error,
+                    color = DmsTheme.colors.error,
                 )
             }
         }

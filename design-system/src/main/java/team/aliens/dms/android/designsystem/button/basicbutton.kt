@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.ButtonText
 import team.aliens.dms.android.designsystem.utils.runIf
 
@@ -47,7 +47,7 @@ private fun BasicButton(
 
     Surface(
         modifier = modifier
-            .background(DormTheme.colors.background)
+            .background(DmsTheme.colors.background)
             .clip(shape),
     ) {
         Box(

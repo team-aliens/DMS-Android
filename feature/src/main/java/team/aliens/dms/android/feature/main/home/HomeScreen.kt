@@ -60,7 +60,7 @@ import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature._legacy.FloatingNotice
@@ -167,7 +167,7 @@ private fun HomeScreenAppLogo(
                 .dormClickable(onClick = onNavigateToNotificationBox),
             painter = painterResource(DormIcon.Bell.drawableId),
             contentDescription = null,
-            tint = DormTheme.colors.primaryVariant,
+            tint = DmsTheme.colors.primaryVariant,
         )
     }
 }
@@ -271,14 +271,14 @@ private fun DateTextButton(
 ) {
     Row(
         modifier = Modifier
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.primaryVariant)
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(5.dp),
             )
             .border(
                 width = 1.dp,
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
                 shape = RoundedCornerShape(5.dp),
             )
             .clip(
@@ -410,7 +410,7 @@ private fun ColumnScope.MealCards(
                     )
                 }
                 .padding(8.dp)
-                .dormShadow(color = DormTheme.colors.primaryVariant),
+                .dormShadow(color = DmsTheme.colors.primaryVariant),
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -493,7 +493,7 @@ private fun MealCard(
                 horizontal = 8.dp,
             )
             .background(
-                color = DormTheme.colors.background,
+                color = DmsTheme.colors.background,
                 shape = RoundedCornerShape(20.dp),
             )
             .clip(
@@ -501,7 +501,7 @@ private fun MealCard(
             )
             .border(
                 width = 1.dp,
-                color = DormTheme.colors.primary,
+                color = DmsTheme.colors.primary,
                 shape = RoundedCornerShape(20.dp),
             ),
         shape = RoundedCornerShape(20.dp),
@@ -559,7 +559,7 @@ private fun Dishes(
                     id = icon.drawableId,
                 ),
                 contentDescription = null,
-                tint = DormTheme.colors.primaryVariant,
+                tint = DmsTheme.colors.primaryVariant,
             )
         }
         items(dishes) { menu ->
@@ -571,7 +571,7 @@ private fun Dishes(
         item {
             Caption(
                 text = kcal,
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
             )
         }
     }

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.color.DormColor
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body1
 import team.aliens.dms.android.designsystem.typography.Body2
 
@@ -51,7 +51,7 @@ fun DormBottomSheetDialog(
                 sheetContent = sheetContent,
             )
         },
-        sheetBackgroundColor = DormTheme.colors.background,
+        sheetBackgroundColor = DmsTheme.colors.background,
         scrimColor = DormColor.Gray1000.copy(alpha = 0.4f),
     ) {
         content()
@@ -105,7 +105,7 @@ private fun DormBottomSheetHandle(
                     .size(BottomSheetHandleSize)
                     .clip(BottomSheetHandleShape)
                     .background(
-                        color = DormTheme.colors.primaryVariant,
+                        color = DmsTheme.colors.primaryVariant,
                     ),
             )
         }

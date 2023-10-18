@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.utils.runIf
@@ -60,9 +60,9 @@ fun DormTextField(
     var passwordVisible by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
 
-    val borderColor = if (error) DormTheme.colors.error
-    else if (isFocused) DormTheme.colors.primary
-    else DormTheme.colors.primaryVariant
+    val borderColor = if (error) DmsTheme.colors.error
+    else if (isFocused) DmsTheme.colors.primary
+    else DmsTheme.colors.primaryVariant
 
     val borderWidth = if (isFocused) 2.dp
     else 1.dp
@@ -114,19 +114,19 @@ fun DormTextField(
                     visualTransformation = if (!passwordVisible && isPassword) PasswordVisualTransformation() else VisualTransformation.None,
                     maxLines = 1,
                     textStyle = TextStyle(
-                        color = DormTheme.colors.onSurface,
+                        color = DmsTheme.colors.onSurface,
                     ),
                     decorationBox = { innerTextField ->
                         if (value.isEmpty() && hint != null) {
                             Body2(
                                 modifier = Modifier.padding(top = 1.dp),
                                 text = hint,
-                                color = DormTheme.colors.primaryVariant,
+                                color = DmsTheme.colors.primaryVariant,
                             )
                         }
                         innerTextField()
                     },
-                    cursorBrush = SolidColor(DormTheme.colors.primaryVariant)
+                    cursorBrush = SolidColor(DmsTheme.colors.primaryVariant)
                 )
                 if (isPassword) {
                     Image(
@@ -154,7 +154,7 @@ fun DormTextField(
                     top = 6.dp,
                 ),
             ) {
-                Caption(text = errorDescription, color = DormTheme.colors.error)
+                Caption(text = errorDescription, color = DmsTheme.colors.error)
             }
         }
     }

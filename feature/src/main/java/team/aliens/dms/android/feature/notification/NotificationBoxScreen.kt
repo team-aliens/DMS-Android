@@ -22,7 +22,7 @@ import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body3
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R
@@ -99,13 +99,13 @@ private fun Notification(
 ) {
     Row(
         modifier = modifier
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.primaryVariant)
             .fillMaxWidth()
             .background(
                 color = if (!notification.read) {
-                    DormTheme.colors.surface
+                    DmsTheme.colors.surface
                 } else {
-                    DormTheme.colors.surface
+                    DmsTheme.colors.surface
                 },
                 shape = RoundedCornerShape(10.dp),
             )
@@ -128,9 +128,9 @@ private fun Notification(
             ),
             contentDescription = null,
             tint = if (!notification.read) {
-                DormTheme.colors.primary
+                DmsTheme.colors.primary
             } else {
-                DormTheme.colors.onBackground
+                DmsTheme.colors.onBackground
             },
         )
         Column(

@@ -39,7 +39,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body3
 import kotlin.coroutines.resume
 
@@ -226,10 +226,10 @@ private fun DormToast(
                     )
                     .fillMaxWidth()
                     .dormShadow(
-                        color = DormTheme.colors.primaryVariant,
+                        color = DmsTheme.colors.primaryVariant,
                     )
                     .background(
-                        color = DormTheme.colors.surface,
+                        color = DmsTheme.colors.surface,
                         shape = RoundedCornerShape(4.dp),
                     )
                     .padding(
@@ -262,8 +262,8 @@ enum class ToastType(
 
     val color: Color
         @Composable get() = when (this) {
-            INFORMATION -> DormTheme.colors.onBackground
-            ERROR -> DormTheme.colors.error
-            SUCCESS -> DormTheme.colors.onSecondary
+            INFORMATION -> DmsTheme.colors.onBackground
+            ERROR -> DmsTheme.colors.error
+            SUCCESS -> DmsTheme.colors.onSecondary
         }
 }

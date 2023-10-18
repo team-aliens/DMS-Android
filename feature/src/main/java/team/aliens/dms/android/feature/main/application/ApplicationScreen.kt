@@ -28,7 +28,7 @@ import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DormTheme
+import team.aliens.dms.android.designsystem.theme.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.typography.SubTitle2
 import team.aliens.dms.android.feature.R
@@ -155,10 +155,10 @@ private fun ApplicationCard(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .dormShadow(
-                DormTheme.colors.primaryVariant,
+                DmsTheme.colors.primaryVariant,
             )
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(10.dp),
             )
             .padding(20.dp),
