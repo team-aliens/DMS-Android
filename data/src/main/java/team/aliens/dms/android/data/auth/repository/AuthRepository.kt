@@ -1,7 +1,7 @@
 package team.aliens.dms.android.data.auth.repository
 
-import team.aliens.dms.android.data.auth.model.CheckIdExistsOutput
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
+import team.aliens.dms.android.data.auth.model.HashedEmail
 
 abstract class AuthRepository {
 
@@ -21,5 +21,5 @@ abstract class AuthRepository {
         type: EmailVerificationType,
     )
 
-    abstract suspend fun checkIdExists(accountId: String): CheckIdExistsOutput
+    abstract suspend fun checkIdExists(accountId: String): HashedEmail
 }
