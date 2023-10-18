@@ -49,6 +49,8 @@ android {
 
 dependencies {
 
+    implementation(project(ProjectPaths.Shared.model))
+
     implementation(project(ProjectPaths.Core.ui))
 
     implementation(project(ProjectPaths.designSystem))
