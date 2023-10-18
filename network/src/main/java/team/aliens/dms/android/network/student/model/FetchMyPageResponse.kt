@@ -7,7 +7,7 @@ data class FetchMyPageResponse(
     @SerializedName("name") val studentName: String,
     @SerializedName("gcn") val gradeClassNumber: String,
     @SerializedName("profile_image_url") val profileImageUrl: String,
-    @SerializedName("sex") val sex: Sex,
+    @SerializedName("sex") val sex: String,
     @SerializedName("bonus_point") val bonusPoint: Int,
     @SerializedName("minus_point") val minusPoint: Int,
     @SerializedName("phrase") val phrase: String,
