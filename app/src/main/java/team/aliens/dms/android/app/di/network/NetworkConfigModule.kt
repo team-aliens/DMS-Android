@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.dms.android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
 import team.aliens.dms.android.core.network.HttpMethod
 import team.aliens.dms.android.core.network.HttpRequest
@@ -22,6 +23,7 @@ object NetworkConfigModule {
 
     @Provides
     @Singleton
+    @TokenReissueUrl
     fun provideTokenReissueUrl(@BaseUrl baseUrl: String): String = "$baseUrl/auth/reissue"
 
     @Provides
