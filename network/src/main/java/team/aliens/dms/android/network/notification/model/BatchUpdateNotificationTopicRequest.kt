@@ -1,13 +1,12 @@
 package team.aliens.dms.android.network.notification.model
 
 import com.google.gson.annotations.SerializedName
-import team.aliens.dms.android.shared.model.NotificationTopic
 
 data class BatchUpdateNotificationTopicRequest(
     @SerializedName("topics_to_subscribe") val topics: List<NotificationTopicRequest>,
 ) {
     data class NotificationTopicRequest(
-        @SerializedName("topic") val topic: NotificationTopic,
+        @SerializedName("topic") val topic: String,
         @SerializedName("is_subscribed") val subscribed: Boolean,
     )
 }

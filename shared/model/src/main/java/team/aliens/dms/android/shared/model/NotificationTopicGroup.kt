@@ -10,7 +10,7 @@ enum class NotificationTopicGroup {
         val topicSubscriptions: List<TopicSubscription>,
     ) {
         data class TopicSubscription(
-            val topic: NotificationTopic,
+            val topic: team.aliens.dms.android.data.notification.model.NotificationTopic,
             val title: String,
             val description: String,
             val subscribed: Boolean,
