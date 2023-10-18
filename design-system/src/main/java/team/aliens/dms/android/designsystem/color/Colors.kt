@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
 
@@ -276,3 +277,5 @@ fun darkColors(
     line = line,
     isLight = false,
 )
+
+internal val LocalColors = staticCompositionLocalOf { lightColors() }
