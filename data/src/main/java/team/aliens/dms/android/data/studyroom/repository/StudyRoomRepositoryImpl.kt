@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.studyroom.repository
 
-import team.aliens.dms.android.data.studyroom.model.FetchAppliedStudyRoomOutput
+import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
 import team.aliens.dms.android.data.studyroom.model.Timeslot
@@ -41,7 +41,7 @@ internal class StudyRoomRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchAppliedStudyRoom(): FetchAppliedStudyRoomOutput {
+    override suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom {
         TODO("Not yet implemented")
     }
 

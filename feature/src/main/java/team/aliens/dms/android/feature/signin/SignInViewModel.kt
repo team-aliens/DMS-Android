@@ -11,9 +11,9 @@ import team.aliens.dms.android.feature._legacy.base.BaseMviViewModel
 import team.aliens.dms.android.feature._legacy.base.MviIntent
 import team.aliens.dms.android.feature._legacy.base.MviSideEffect
 import team.aliens.dms.android.feature._legacy.base.MviState
-import team.aliens.dms.android.domain.exception.AuthException
-import team.aliens.dms.android.domain.exception.RemoteException
-import team.aliens.dms.android.domain.model._common.toModel
+import team.aliens.dms.android.domain._legacy.exception.AuthException
+import team.aliens.dms.android.domain._legacy.exception.RemoteException
+import team.aliens.dms.android.domain._legacy.model._common.toModel
 import team.aliens.dms.android.domain.model.auth.SignInInput
 import team.aliens.dms.android.domain.model.notification.RegisterDeviceNotificationTokenInput
 import team.aliens.dms.android.domain.model.student.Features
@@ -73,9 +73,9 @@ internal class SignInViewModel @Inject constructor(
                 // TODO: this@SignInViewModel.registerDeviceNotificationToken()
             }.onFailure {
                 when (it) {
-                    RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
-                    AuthException.UserNotFound -> postSideEffect(SignInSideEffect.IdNotFound)
-                    AuthException.PasswordMismatch -> postSideEffect(SignInSideEffect.PasswordMismatch)
+                    team.aliens.dms.android.domain._legacy.exception.RemoteException.BadRequest -> postSideEffect(SignInSideEffect.BadRequest)
+                    team.aliens.dms.android.domain._legacy.exception.AuthException.UserNotFound -> postSideEffect(SignInSideEffect.IdNotFound)
+                    team.aliens.dms.android.domain._legacy.exception.AuthException.PasswordMismatch -> postSideEffect(SignInSideEffect.PasswordMismatch)
                 }
             }
         }

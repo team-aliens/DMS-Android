@@ -1,8 +1,8 @@
 package team.aliens.dms.android.data.student.repository
 
-import team.aliens.dms.android.data.student.model.ExamineStudentNumberOutput
-import team.aliens.dms.android.data.student.model.FindIdOutput
+import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
+import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
 import java.util.UUID
 import javax.inject.Inject
@@ -31,7 +31,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): ExamineStudentNumberOutput {
+    ): StudentName {
         TODO("Not yet implemented")
     }
 
@@ -41,7 +41,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): FindIdOutput {
+    ): HashedEmail {
         TODO("Not yet implemented")
     }
 

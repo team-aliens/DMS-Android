@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.feature._legacy.base.BaseViewModel2
 import team.aliens.dms.android.feature._legacy.util.extractHourFromDate
-import team.aliens.dms.android.domain.exception.RemoteException
+import team.aliens.dms.android.domain._legacy.exception.RemoteException
 import team.aliens.dms.android.domain.model.studyroom.FetchAvailableStudyRoomTimesOutput
 import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomsInput
 import team.aliens.dms.android.domain.model.studyroom.FetchStudyRoomsOutput
@@ -80,7 +80,7 @@ class StudyRoomListViewModel @Inject constructor(
             } else {
                 val exception = result.exceptionOrNull()
 
-                if (exception !is RemoteException.NotFound) {
+                if (exception !is team.aliens.dms.android.domain._legacy.exception.RemoteException.NotFound) {
 
                     emitErrorEventFromThrowable(exception)
                 }

@@ -1,8 +1,8 @@
 package team.aliens.dms.android.data.auth.repository
 
-import team.aliens.dms.android.data.auth.model.CheckIdExistsOutput
+import team.aliens.dms.android.data.auth.model.EmailVerificationType
+import team.aliens.dms.android.data.auth.model.HashedEmail
 import team.aliens.dms.android.network.auth.datasource.NetworkAuthDataSource
-import team.aliens.dms.android.shared.model.EmailVerificationType
 import javax.inject.Inject
 
 internal class AuthRepositoryImpl @Inject constructor(
@@ -30,7 +30,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun checkIdExists(accountId: String): CheckIdExistsOutput {
+    override suspend fun checkIdExists(accountId: String): HashedEmail {
         TODO("Not yet implemented")
     }
 }

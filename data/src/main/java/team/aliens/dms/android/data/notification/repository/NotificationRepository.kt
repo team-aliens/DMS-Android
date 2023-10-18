@@ -1,8 +1,8 @@
 package team.aliens.dms.android.data.notification.repository
 
-import team.aliens.dms.android.shared.model.Notification
-import team.aliens.dms.android.shared.model.NotificationTopic
-import team.aliens.dms.android.shared.model.NotificationTopicGroup
+import team.aliens.dms.android.data.notification.model.Notification
+import team.aliens.dms.android.data.notification.model.NotificationTopic
+import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
 
 abstract class NotificationRepository {
 
