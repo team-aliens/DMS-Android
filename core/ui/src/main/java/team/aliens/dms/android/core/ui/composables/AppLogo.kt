@@ -21,7 +21,7 @@ fun AppLogo(
                 id = if (darkIcon) {
                     R.drawable.ic_logo_dark
                 } else {
-                    R.drawable.ic_logo
+                    R.drawable.ic_logo_light
                 },
             ),
             contentDescription = null,
