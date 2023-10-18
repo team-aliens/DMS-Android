@@ -36,23 +36,23 @@ data class StudyRoom(
         val row: Int,
         val column: Int,
         val number: Int?,
-        val type: SeatType?,
-        val status: SeatStatus,
+        val type: Type?,
+        val status: Status,
         val isMine: Boolean?,
-        val student: StudentInformation?,
+        val student: Student?,
     ) {
-        data class SeatType(
+        data class Type(
             val id: UUID,
             val name: String,
             val color: String,
         )
 
-        enum class SeatStatus {
+        enum class Status {
             AVAILABLE, UNAVAILABLE, IN_USE, EMPTY,
             ;
         }
 
-        data class StudentInformation(
+        data class Student(
             val id: UUID,
             val name: String,
         )
