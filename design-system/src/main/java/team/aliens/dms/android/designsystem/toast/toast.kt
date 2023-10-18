@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import java.lang.ref.WeakReference
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -39,8 +38,9 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body3
+import java.lang.ref.WeakReference
 import kotlin.coroutines.resume
 
 @Deprecated("Legacy")
@@ -86,7 +86,8 @@ interface ToastData {
 }
 
 enum class ToastResult {
-    DISMISSED, ;
+    DISMISSED,
+    ;
 }
 
 class ToastState {
@@ -226,7 +227,7 @@ private fun DormToast(
                     )
                     .fillMaxWidth()
                     .dormShadow(
-                        color = DmsTheme.colors.primaryVariant,
+                        color = DmsTheme.colors.line,
                     )
                     .background(
                         color = DmsTheme.colors.surface,
@@ -258,12 +259,13 @@ private fun DormToast(
 enum class ToastType(
     val icon: DormIcon,
 ) {
-    INFORMATION(DormIcon.Information), ERROR(DormIcon.Warning), SUCCESS(DormIcon.Check), ;
+    INFORMATION(DormIcon.Information), ERROR(DormIcon.Warning), SUCCESS(DormIcon.Check),
+    ;
 
     val color: Color
         @Composable get() = when (this) {
             INFORMATION -> DmsTheme.colors.onBackground
             ERROR -> DmsTheme.colors.error
-            SUCCESS -> DmsTheme.colors.onSecondary
+            SUCCESS -> DmsTheme.colors.primary
         }
 }

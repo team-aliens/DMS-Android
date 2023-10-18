@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.R
 import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Caption
 
 @Composable

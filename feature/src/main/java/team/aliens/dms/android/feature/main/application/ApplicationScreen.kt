@@ -28,7 +28,7 @@ import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.typography.SubTitle2
 import team.aliens.dms.android.feature.R

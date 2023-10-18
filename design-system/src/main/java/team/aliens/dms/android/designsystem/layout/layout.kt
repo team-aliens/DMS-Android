@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.modifier.dormGradientBackground
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 
 private val topFadeBrush: Brush
     @Composable inline get() = Brush.verticalGradient(

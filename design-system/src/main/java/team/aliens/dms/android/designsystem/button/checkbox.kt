@@ -23,7 +23,7 @@ import team.aliens.dms.android.designsystem.extension.Space
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body3
 import team.aliens.dms.android.designsystem.utils.runIf
 

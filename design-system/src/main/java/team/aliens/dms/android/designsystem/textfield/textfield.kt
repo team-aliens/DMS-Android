@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.icon.DormIcon
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.utils.runIf
@@ -62,7 +62,7 @@ fun DormTextField(
 
     val borderColor = if (error) DmsTheme.colors.error
     else if (isFocused) DmsTheme.colors.primary
-    else DmsTheme.colors.primaryVariant
+    else DmsTheme.colors.primaryContainer
 
     val borderWidth = if (isFocused) 2.dp
     else 1.dp
@@ -121,7 +121,7 @@ fun DormTextField(
                             Body2(
                                 modifier = Modifier.padding(top = 1.dp),
                                 text = hint,
-                                color = DmsTheme.colors.primaryVariant,
+                                color = DmsTheme.colors.p,
                             )
                         }
                         innerTextField()

@@ -31,7 +31,7 @@ import team.aliens.dms.android.designsystem.component.DefaultAppliedTagSize
 import team.aliens.dms.android.designsystem.component.LastAppliedItem
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body5
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.designsystem.typography.Headline3

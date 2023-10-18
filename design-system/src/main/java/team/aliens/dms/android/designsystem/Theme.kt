@@ -1,4 +1,4 @@
-package team.aliens.dms.android.designsystem.theme
+package team.aliens.dms.android.designsystem
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -6,8 +6,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import team.aliens.dms.android.designsystem.LocalShapes
-import team.aliens.dms.android.designsystem.Shapes
 import team.aliens.dms.android.designsystem.color.Colors
 import team.aliens.dms.android.designsystem.color.LocalColors
 

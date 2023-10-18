@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import team.aliens.dms.android.designsystem.R
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.designsystem.modifier.dormClickable
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 
 val NotoSansFamily = FontFamily(
     Font(R.font.noto_sans_kr_black, FontWeight.Black),

@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.annotation.DormDeprecated
-import team.aliens.dms.android.designsystem.color.DormColor
 import team.aliens.dms.android.designsystem.toast.rememberToast
 
 enum class DormButtonColor(

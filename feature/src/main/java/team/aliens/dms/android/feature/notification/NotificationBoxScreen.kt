@@ -22,7 +22,7 @@ import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.designsystem.modifier.dormClickable
 import team.aliens.dms.android.designsystem.modifier.dormShadow
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body3
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R

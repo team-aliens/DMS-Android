@@ -26,7 +26,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.ui.composables.AppLogo
 import team.aliens.dms.android.designsystem.button.DormTextCheckBox
 import team.aliens.dms.android.designsystem.textfield.DormTextField
-import team.aliens.dms.android.designsystem.theme.DmsTheme
+import team.aliens.dms.android.designsystem.DmsTheme
 import team.aliens.dms.android.designsystem.typography.Body2
 import team.aliens.dms.android.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R
