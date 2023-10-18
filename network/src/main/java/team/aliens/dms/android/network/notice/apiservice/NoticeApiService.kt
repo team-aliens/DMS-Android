@@ -7,7 +7,6 @@ import team.aliens.dms.android.core.jwt.RequiresAccessToken
 import team.aliens.dms.android.network.notice.model.FetchNoticeDetailsResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
 import team.aliens.dms.android.network.notice.model.FetchWhetherNewNoticesExistResponse
-import team.aliens.dms.android.network.notice.model.Order
 import java.util.UUID
 
 internal abstract class NoticeApiService {
@@ -22,5 +21,5 @@ internal abstract class NoticeApiService {
 
     @GET("/notices")
     @RequiresAccessToken
-    abstract suspend fun fetchNotices(@Query("order") order: Order): FetchNoticesResponse
+    abstract suspend fun fetchNotices(@Query("order") order: String): FetchNoticesResponse
 }
