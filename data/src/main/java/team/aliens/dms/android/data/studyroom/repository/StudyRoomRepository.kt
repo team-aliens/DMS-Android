@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.studyroom.repository
 
-import team.aliens.dms.android.data.studyroom.model.FetchAppliedStudyRoomOutput
+import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
 import team.aliens.dms.android.data.studyroom.model.Timeslot
@@ -27,7 +27,7 @@ abstract class StudyRoomRepository {
         timeslot: UUID,
     ): List<StudyRoom.Details>
 
-    abstract suspend fun fetchAppliedStudyRoom(): FetchAppliedStudyRoomOutput
+    abstract suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom
 
     abstract suspend fun fetchSeatTypes(studyRoomId: UUID): StudyRoom.Seat.Type
 
