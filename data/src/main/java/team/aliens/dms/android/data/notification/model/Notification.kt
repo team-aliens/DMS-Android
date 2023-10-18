@@ -1,5 +1,6 @@
-package team.aliens.dms.android.shared.model
+package team.aliens.dms.android.data.notification.model
 
+import team.aliens.dms.android.shared.model.NotificationTopic
 import java.util.UUID
 
 data class Notification(
