@@ -1,21 +1,8 @@
 package team.aliens.dms.android.feature.point
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.data.point.model.Point
-import team.aliens.dms.android.data.point.model.PointType
-import team.aliens.dms.android.designsystem.layout.VerticallyFadedLazyColumn
-import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 
 @Destination
