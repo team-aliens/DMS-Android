@@ -60,6 +60,7 @@ dependencies {
 
     implementation(project(ProjectPaths.Core.database))
     implementation(project(ProjectPaths.Core.dataStore))
+    implementation(project(ProjectPaths.Core.designSystem))
     implementation(project(ProjectPaths.Core.jwt))
     implementation(project(ProjectPaths.Core.network))
     implementation(project(ProjectPaths.Core.project))
@@ -68,7 +69,6 @@ dependencies {
 
     implementation(project(ProjectPaths.data))
     implementation(project(ProjectPaths.database))
-    implementation(project(ProjectPaths.designSystem))
     implementation(project(ProjectPaths.domain))
     implementation(project(ProjectPaths.feature))
     implementation(project(ProjectPaths.network))

@@ -53,7 +53,7 @@ dependencies {
 
     implementation(project(ProjectPaths.Core.ui))
 
-    implementation(project(ProjectPaths.designSystem))
+    implementation(project(ProjectPaths.Core.designSystem))
     implementation(project(ProjectPaths.data))
 
     implementation(libs.androidx.core)
