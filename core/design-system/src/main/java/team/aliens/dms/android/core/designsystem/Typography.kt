@@ -129,6 +129,26 @@ class Typography internal constructor(
         overline = overline,
         button = button,
     )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Typography) return false
+
+        if (headline1 != other.headline1) return false
+        if (headline2 != other.headline2) return false
+        if (headline3 != other.headline3) return false
+        if (title1 != other.title1) return false
+        if (title2 != other.title2) return false
+        if (title3 != other.title3) return false
+        if (body1 != other.body1) return false
+        if (body2 != other.body2) return false
+        if (body3 != other.body3) return false
+        if (caption != other.caption) return false
+        if (overline != other.overline) return false
+        if (button != other.button) return false
+
+        return true
+    }
 }
 
 private val notoSansFontFamily: FontFamily = FontFamily(
