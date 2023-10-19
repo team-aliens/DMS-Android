@@ -399,6 +399,32 @@ object ButtonDefaults {
     )
 
     @Composable
+    fun textGrayButtonColors(
+        containerColor: Color = Color.Transparent,
+        contentColor: Color = DmsTheme.colors.backgroundVariant,
+        disabledContainerColor: Color = containerColor,
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun textErrorButtonColors(
+        containerColor: Color = Color.Transparent,
+        contentColor: Color = DmsTheme.colors.error,
+        disabledContainerColor: Color = containerColor,
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
     fun roundedButtonColors(
         containerColor: Color = DmsTheme.colors.primaryContainer,
         contentColor: Color = DmsTheme.colors.onPrimaryContainer,
@@ -596,7 +622,7 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = { },
         ) {
-            Text(text = "Text Button")
+            Text(text = "Text Default Button")
         }
         TextButton(
             modifier = Modifier
@@ -608,8 +634,60 @@ private fun ButtonPreview() {
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
-            Text(text = "Text Button")
+            Text(text = "Text Default Button")
         }
+
+        TextButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.textGrayButtonColors()
+        ) {
+            Text(text = "Text Gray Button")
+        }
+        TextButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.textGrayButtonColors()
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Text Gray Button")
+        }
+
+        TextButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.textErrorButtonColors()
+        ) {
+            Text(text = "Text Error Button")
+        }
+        TextButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.textErrorButtonColors()
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Text Error Button")
+        }
+
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+        )
 
         RoundedButton(
             modifier = Modifier
@@ -617,7 +695,7 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = { },
         ) {
-            Text(text = "Text Button")
+            Text(text = "Rounded Default Button")
         }
         RoundedButton(
             modifier = Modifier
@@ -629,7 +707,7 @@ private fun ButtonPreview() {
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
-            Text(text = "Text Button")
+            Text(text = "Round Default Button")
         }
 
         Divider(
