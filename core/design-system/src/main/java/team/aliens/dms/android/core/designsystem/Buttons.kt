@@ -71,7 +71,7 @@ fun Button(
                         )
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.spacedBy(
-                        space = 4.dp,
+                        space = ButtonDefaults.ContentSpacing,
                         alignment = Alignment.CenterHorizontally,
                     ),
                     verticalAlignment = Alignment.CenterVertically,
@@ -249,7 +249,7 @@ object ButtonDefaults {
 
     val IconSize = 18.dp
 
-    val IconSpacing = 8.dp
+    val ContentSpacing = 8.dp
 
     val OutlineWidth = 1.0.dp
 
