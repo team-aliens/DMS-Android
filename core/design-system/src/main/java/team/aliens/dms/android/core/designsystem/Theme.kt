@@ -23,6 +23,8 @@ fun DmsTheme(
 
     CompositionLocalProvider(
         LocalColors provides colorScheme,
+        LocalShapes provides DmsTheme.shapes,
+        LocalTypography provides DmsTheme.typography,
     ) {
         MaterialTheme(
             content = content,
