@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
@@ -38,19 +39,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ButtonPreview() {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Button(onClick = {}) {}
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = {},
+        ) {
+            Text(text = "Base Button")
+        }
 
-        ContainedButton(onClick = {}) {
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = {},
+        ) {
             Text(text = "Contained Button")
         }
 
-        OutlinedButton(onClick = { }) {
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
             Text(text = "Outlined Button")
         }
     }
