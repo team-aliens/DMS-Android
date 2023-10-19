@@ -350,7 +350,7 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onClick = {},
+            onClick = { },
         ) {
             Text(text = "Contained Button")
         }
@@ -358,7 +358,7 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onClick = {},
+            onClick = { },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
@@ -434,7 +434,7 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onClick = { /*TODO*/ },
+            onClick = { },
         ) {
             Text(text = "Material3 Button")
         }
