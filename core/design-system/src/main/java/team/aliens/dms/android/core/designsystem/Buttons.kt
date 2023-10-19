@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
@@ -383,6 +386,9 @@ object ButtonDefaults {
 @Composable
 private fun ButtonPreview() {
     Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         ContainedButton(
@@ -391,7 +397,7 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = { },
         ) {
-            Text(text = "Contained Button")
+            Text(text = "Contained Default Button")
         }
         ContainedButton(
             modifier = Modifier
@@ -403,7 +409,7 @@ private fun ButtonPreview() {
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
-            Text(text = "Contained Button")
+            Text(text = "Contained Default Button")
         }
 
         ContainedButton(
@@ -427,6 +433,52 @@ private fun ButtonPreview() {
                 contentDescription = null,
             )
             Text(text = "Contained Gray Button")
+        }
+
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.containedErrorButtonColors(),
+        ) {
+            Text(text = "Contained Error Button")
+        }
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.containedErrorButtonColors(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Contained Error Button")
+        }
+
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.containedRefuseButtonColors(),
+        ) {
+            Text(text = "Contained Refuse Button")
+        }
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.containedRefuseButtonColors(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Contained Refuse Button")
         }
 
         OutlinedButton(
