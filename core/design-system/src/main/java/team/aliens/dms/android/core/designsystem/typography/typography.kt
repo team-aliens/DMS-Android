@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import team.aliens.dms.android.designsystem.R
+import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.annotation.DormDeprecated
 import team.aliens.dms.android.core.designsystem.modifier.dormClickable
 import team.aliens.dms.android.core.designsystem.DmsTheme

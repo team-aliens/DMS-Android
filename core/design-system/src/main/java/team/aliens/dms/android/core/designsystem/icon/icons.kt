@@ -3,7 +3,7 @@ package team.aliens.dms.android.core.designsystem.icon
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import team.aliens.dms.android.designsystem.R
+import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.annotation.DormDeprecated
 
 @DormDeprecated
