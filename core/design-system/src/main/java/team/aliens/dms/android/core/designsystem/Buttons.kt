@@ -39,7 +39,7 @@ fun Button(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    elevation: Dp = 0.dp,
+    elevation: Dp = 0.dp, // TODO: elevation 구현 고민
     shape: Shape = DmsTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -111,7 +111,7 @@ fun OutlinedButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: Dp = 0.dp,
     shape: Shape = DmsTheme.shapes.small,
-    border: BorderStroke? = null,
+    border: BorderStroke? = ButtonDefaults.outlinedButtonBorder,
     colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit,
@@ -204,11 +204,23 @@ object ButtonDefaults {
 
     val IconSpacing = 8.dp
 
+    val OutlineWidth = 1.0.dp
+
     const val DisabledContainerOpacity = 0.12f
 
     const val DisabledContentOpacity = 0.38f
 
     const val DisabledTextOpacity = 0.38f
+
+    val OutlineColor: Color
+        @Composable get() = DmsTheme.colors.primary
+
+    val outlinedButtonBorder: BorderStroke
+        @Composable
+        get() = BorderStroke(
+            width = OutlineWidth,
+            color = OutlineColor,
+        )
 
     val containedShape: Shape
         @Composable get() = DmsTheme.shapes.small
