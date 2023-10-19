@@ -24,6 +24,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -78,61 +79,42 @@ fun TextField(
     }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
 
-    // CompositionLocalProvider(LocalTextSelectionColors provides colors.selectionColors) {
-    BasicTextField(
-        value = value,
-        modifier = if (label != null) {
-            modifier
-                .semantics(mergeDescendants = true) {}
-                .padding(top = TextFieldDefaults.TopPadding)
-        } else {
-            modifier
-        }.defaultMinSize(
-            minWidth = TextFieldDefaults.MinWidth, minHeight = TextFieldDefaults.MinHeight
-        ),
-        onValueChange = onValueChange,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = mergedTextStyle,
-        cursorBrush = SolidColor(colors.cursorColor(isError).value),
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        interactionSource = interactionSource,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        minLines = minLines,
-        decorationBox = @Composable { innerTextField ->
-            Column {
-                TextFieldDefaults.DecorationBox(
-                    enabled = enabled,
-                    isError = isError,
-                    interactionSource = interactionSource,
-                    colors = colors,
-                    content = innerTextField,
-                )
-                val supportingTextColor =
-                    colors.supportingTextColor(enabled, isError, interactionSource).value
-                val decoratedSupporting: @Composable (() -> Unit)? = supportingText?.let {
-                    @Composable {
-                        Decoration(
-                            contentColor = supportingTextColor,
-                            typography = DmsTheme.typography.body2,
-                            content = it
-                        )
-                    }
-                }
-
-                supportingText?.let { it() }
-            }
-        },
-    )
-    // }
-}
-
-@Composable
-internal fun TextFieldLayout() {
-
+    Surface {
+        ProvideTextStyle(value = DmsTheme.typography.body2) {
+            BasicTextField(
+                value = value,
+                modifier = if (label != null) {
+                    modifier
+                        .semantics(mergeDescendants = true) {}
+                        .padding(top = TextFieldDefaults.TopPadding)
+                } else {
+                    modifier
+                }.defaultMinSize(minWidth = TextFieldDefaults.MinWidth),
+                onValueChange = onValueChange,
+                enabled = enabled,
+                readOnly = readOnly,
+                textStyle = mergedTextStyle,
+                cursorBrush = SolidColor(colors.cursorColor(isError).value),
+                visualTransformation = visualTransformation,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                interactionSource = interactionSource,
+                singleLine = singleLine,
+                maxLines = maxLines,
+                minLines = minLines,
+                decorationBox = @Composable { innerTextField ->
+                    TextFieldDefaults.TextFieldLayout(
+                        enabled = enabled,
+                        isError = isError,
+                        interactionSource = interactionSource,
+                        colors = colors,
+                        content = innerTextField,
+                        supportingText = supportingText,
+                    )
+                },
+            )
+        }
+    }
 }
 
 @Immutable
@@ -329,7 +311,7 @@ class TextFieldColors(
 object TextFieldDefaults {
 
     private val HorizontalPadding = 16.dp
-    private val VerticalPadding =12.dp
+    private val VerticalPadding = 12.dp
 
     val ContentPadding = PaddingValues(
         start = HorizontalPadding,
@@ -340,8 +322,6 @@ object TextFieldDefaults {
 
     val shape: Shape
         @Composable get() = DmsTheme.shapes.small
-
-    val MinHeight = 56.dp
 
     val MinWidth = 280.dp
 
@@ -383,8 +363,7 @@ object TextFieldDefaults {
         errorTrailingIconColor: Color = focusedTrailingIconColor,
         focusedSupportingTextColor: Color = DmsTheme.colorScheme.onSurface,
         unfocusedSupportingTextColor: Color = focusedSupportingTextColor,
-        disabledSupportingTextColor: Color = focusedSupportingTextColor
-            .copy(alpha = DisabledSupportingOpacity),
+        disabledSupportingTextColor: Color = focusedSupportingTextColor.copy(alpha = DisabledSupportingOpacity),
         errorSupportingTextColor: Color = DmsTheme.colorScheme.error,
     ): TextFieldColors = TextFieldColors(
         focusedTextColor = focusedTextColor,
@@ -412,13 +391,48 @@ object TextFieldDefaults {
     )
 
     @Composable
+    fun TextFieldLayout(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource,
+        colors: TextFieldColors,
+        supportingText: (@Composable () -> Unit)? = null,
+        focusedBorderThickness: Dp = FocusedBorderThickness,
+        unfocusedBorderThickness: Dp = UnfocusedBorderThickness,
+        content: @Composable () -> Unit,
+    ) = Column {
+        DecorationBox(
+            enabled = enabled,
+            isError = isError,
+            interactionSource = interactionSource,
+            colors = colors,
+            content = content,
+            focusedBorderThickness = focusedBorderThickness,
+            unfocusedBorderThickness = unfocusedBorderThickness,
+        )
+        val supportingTextColor = colors.supportingTextColor(
+            enabled = enabled,
+            isError = isError,
+            interactionSource = interactionSource,
+        ).value
+
+        if (supportingText != null) {
+            ProvideTextStyle(
+                value = DmsTheme.typography.caption.copy(color = supportingTextColor),
+            ) {
+                supportingText()
+            }
+        }
+    }
+
+    @Composable
     fun DecorationBox(
         enabled: Boolean,
         isError: Boolean,
         interactionSource: InteractionSource,
         colors: TextFieldColors,
-        focusedBorderThickness: Dp = FocusedBorderThickness,
-        unfocusedBorderThickness: Dp = UnfocusedBorderThickness,
+        focusedBorderThickness: Dp,
+        unfocusedBorderThickness: Dp,
         content: @Composable () -> Unit,
     ) {
         val borderStroke = animateBorderStrokeAsState(
@@ -430,15 +444,18 @@ object TextFieldDefaults {
             unfocusedBorderThickness = unfocusedBorderThickness,
         )
 
-        Box(
-            modifier = Modifier
-                .border(
-                    border = borderStroke.value,
-                    shape = DmsTheme.shapes.small,
-                )
-                .padding(ContentPadding),
-        ) {
-            content()
+        ProvideTextStyle(value = DmsTheme.typography.body2) {
+            Box(
+                modifier = Modifier
+                    .defaultMinSize(minWidth = MinWidth)
+                    .border(
+                        border = borderStroke.value,
+                        shape = DmsTheme.shapes.small,
+                    )
+                    .padding(ContentPadding),
+            ) {
+                content()
+            }
         }
     }
 }
@@ -508,8 +525,8 @@ private fun TextFieldPreview() {
         TextField(
             value = value,
             onValueChange = onValueChange,
-            isError = false,
-            supportingText = { Text(text = "ASDFakjhkjhkjhsdf") }
+            isError = true,
+            supportingText = { Text(text = "ASDFakjhkjhkjhsdf") },
         )
     }
 }
