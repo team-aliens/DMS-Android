@@ -37,6 +37,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@Preview
+@Composable
+private fun ButtonPreview() {
+    Button(onClick = {}) {
+        Text(
+            color = Color.White,
+            text = "저는 안드로이드입니다",
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Button(
@@ -81,17 +92,6 @@ fun Button(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun ButtonPreview() {
-    Button(onClick = {}) {
-        Text(
-            color = Color.White,
-            text = "저는 안드로이드입니다",
-        )
     }
 }
 
