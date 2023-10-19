@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -81,7 +82,18 @@ fun ContainedButton(
 )
 
 @Composable
-fun OutlinedButton() {
+fun OutlinedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    elevation: Dp? = null,
+    shape: Shape = DmsTheme.shapes.small,
+    border: BorderStroke? = null,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    content: @Composable RowScope.() -> Unit,
+) {
 
 }
 
@@ -193,6 +205,45 @@ object ButtonDefaults {
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         disabledBackgroundColor = disabledBackgroundColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun outlinedButtonColors(
+        backgroundColor: Color = DmsTheme.colors.surface,
+        contentColor: Color = DmsTheme.colors.primary,
+        disabledContentColor: Color = DmsTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+    ): ButtonColors = DefaultButtonColors(
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        disabledBackgroundColor = backgroundColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun textButtonColors(
+        backgroundColor: Color = Color.Transparent,
+        contentColor: Color = DmsTheme.colors.primary,
+        disabledContentColor: Color = DmsTheme.colors.onSurface
+            .copy(alpha = ContentAlpha.disabled)
+    ): ButtonColors = DefaultButtonColors(
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        disabledBackgroundColor = backgroundColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    //TODO
+    @Composable
+    fun roundedButtonColors(
+        backgroundColor: Color = Color.Transparent,
+        contentColor: Color = DmsTheme.colors.primary,
+        disabledContentColor: Color = DmsTheme.colors.onSurface
+            .copy(alpha = ContentAlpha.disabled)
+    ): ButtonColors = DefaultButtonColors(
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        disabledBackgroundColor = backgroundColor,
         disabledContentColor = disabledContentColor
     )
 }
