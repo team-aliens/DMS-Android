@@ -1,6 +1,7 @@
 package team.aliens.dms.android.core.designsystem
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -67,7 +68,10 @@ fun Button(
             ProvideTextStyle(value = DmsTheme.typography.button) {
                 Row(
                     modifier = Modifier
-                        .defaultMinSize(minWidth = ButtonDefaults.MinWidth)
+                        .defaultMinSize(
+                            minWidth = ButtonDefaults.MinWidth,
+                            minHeight = ButtonDefaults.MinHeight,
+                        )
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.spacedBy(
                         space = ButtonDefaults.ContentSpacing,
@@ -243,6 +247,8 @@ object ButtonDefaults {
     )
 
     val MinWidth = 50.dp
+
+    val MinHeight = 48.dp
 
     val IconSize = 18.dp
 
@@ -479,6 +485,7 @@ object ButtonDefaults {
 private fun ButtonPreview() {
     Column(
         modifier = Modifier
+            .background(color = DmsTheme.colorScheme.background)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
