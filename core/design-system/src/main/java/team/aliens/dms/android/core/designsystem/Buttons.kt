@@ -234,14 +234,14 @@ class ButtonColors(
 
 object ButtonDefaults {
 
-    private val ButtonHorizontalPadding = 16.dp
-    private val ButtonVerticalPadding = 8.dp
+    private val HorizontalPadding = 16.dp
+    private val VerticalPadding = 8.dp
 
     val ContentPadding = PaddingValues(
-        start = ButtonHorizontalPadding,
-        top = ButtonVerticalPadding,
-        end = ButtonHorizontalPadding,
-        bottom = ButtonVerticalPadding,
+        start = HorizontalPadding,
+        top = VerticalPadding,
+        end = HorizontalPadding,
+        bottom = VerticalPadding,
     )
 
     val MinWidth = 50.dp
