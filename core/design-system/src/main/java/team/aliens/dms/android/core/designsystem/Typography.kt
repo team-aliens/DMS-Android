@@ -3,7 +3,9 @@ package team.aliens.dms.android.core.designsystem
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -24,7 +26,7 @@ class Typography internal constructor(
     val button: TextStyle,
 ) {
     constructor(
-        defaultFontFamily: FontFamily = FontFamily.Default,// TODO: NOTOSANS
+        defaultFontFamily: FontFamily = notoSansFontFamily,
         headline1: TextStyle = TextStyle(
             fontWeight = FontWeight.Medium,
             fontSize = 36.sp,
@@ -100,6 +102,39 @@ class Typography internal constructor(
         button = button.withDefaultFontFamily(defaultFontFamily),
     )
 }
+
+private val notoSansFontFamily: FontFamily = FontFamily(
+    Font(
+        resId = R.font.noto_sans_kr_black,
+        weight = FontWeight.Black,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.noto_sans_kr_bold,
+        weight = FontWeight.Bold,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.noto_sans_kr_light,
+        weight = FontWeight.Light,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.noto_sans_kr_medium,
+        weight = FontWeight.Medium,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.noto_sans_kr_regular,
+        weight = FontWeight.Normal,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.noto_sans_kr_thin,
+        weight = FontWeight.Thin,
+        style = FontStyle.Normal,
+    ),
+)
 
 private fun TextStyle.withDefaultFontFamily(default: FontFamily): TextStyle =
     if (fontFamily != null) {
