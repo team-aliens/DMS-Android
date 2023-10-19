@@ -2,7 +2,7 @@
 
 package team.aliens.dms.android.core.designsystem.typography
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
