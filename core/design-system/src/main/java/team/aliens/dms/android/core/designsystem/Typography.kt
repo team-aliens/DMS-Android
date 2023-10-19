@@ -149,6 +149,22 @@ class Typography internal constructor(
 
         return true
     }
+
+    override fun hashCode(): Int {
+        var result = headline1.hashCode()
+        result = 31 * result + headline2.hashCode()
+        result = 31 * result + headline3.hashCode()
+        result = 31 * result + title1.hashCode()
+        result = 31 * result + title2.hashCode()
+        result = 31 * result + title3.hashCode()
+        result = 31 * result + body1.hashCode()
+        result = 31 * result + body2.hashCode()
+        result = 31 * result + body3.hashCode()
+        result = 31 * result + caption.hashCode()
+        result = 31 * result + overline.hashCode()
+        result = 31 * result + button.hashCode()
+        return result
+    }
 }
 
 private val notoSansFontFamily: FontFamily = FontFamily(
