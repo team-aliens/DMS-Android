@@ -67,7 +67,7 @@ fun Button(
                         )
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp,
+                        space = 4.dp,
                         alignment = Alignment.CenterHorizontally,
                     ),
                     verticalAlignment = Alignment.CenterVertically,
@@ -129,9 +129,29 @@ fun OutlinedButton(
 )
 
 @Composable
-fun TextButton() {
-
-}
+fun TextButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    elevation: Dp = 0.dp,
+    shape: Shape = DmsTheme.shapes.small,
+    border: BorderStroke? = null,
+    colors: ButtonColors = ButtonDefaults.textButtonColors(),
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    content: @Composable RowScope.() -> Unit,
+) = Button(
+    onClick = onClick,
+    modifier = modifier,
+    enabled = enabled,
+    interactionSource = interactionSource,
+    elevation = elevation,
+    shape = shape,
+    border = border,
+    colors = colors,
+    contentPadding = contentPadding,
+    content = content,
+)
 
 @Composable
 fun RoundedButton() {
@@ -306,15 +326,14 @@ private fun ButtonPreview() {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Button(
+        ContainedButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = {},
         ) {
-            Text(text = "Default Button")
+            Text(text = "Contained Button")
         }
-
         ContainedButton(
             modifier = Modifier
                 .fillMaxWidth()
@@ -323,7 +342,7 @@ private fun ButtonPreview() {
         ) {
             Text(text = "Contained Button")
             Icon(
-                painter = painterResource(id = R.drawable.ic_back),
+                painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
         }
@@ -335,6 +354,39 @@ private fun ButtonPreview() {
             onClick = { },
         ) {
             Text(text = "Outlined Button")
+        }
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
+            Text(text = "Outlined Button")
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+        }
+
+        TextButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
+            Text(text = "Text Button")
+        }
+        TextButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
+            Text(text = "Text Button")
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
         }
 
         androidx.compose.material3.Button(
