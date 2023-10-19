@@ -28,7 +28,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 private val topFadeBrush: Brush
     @Composable inline get() = Brush.verticalGradient(
         colors = listOf(
-            DmsTheme.colors.background,
+            DmsTheme.colorScheme.background,
             Color.Transparent,
         ),
     )
@@ -37,7 +37,7 @@ private val bottomFadeBrush: Brush
     @Composable inline get() = Brush.verticalGradient(
         colors = listOf(
             Color.Transparent,
-            DmsTheme.colors.background,
+            DmsTheme.colorScheme.background,
         ),
     )
 

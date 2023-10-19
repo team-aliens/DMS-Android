@@ -261,7 +261,7 @@ object ButtonDefaults {
     const val DisabledTextOpacity = 0.38f
 
     val outlineColor: Color
-        @Composable get() = DmsTheme.colors.primary
+        @Composable get() = DmsTheme.colorScheme.primary
 
     val outlinedButtonBorder: BorderStroke
         @Composable
@@ -284,8 +284,8 @@ object ButtonDefaults {
 
     @Composable
     fun buttonColors(
-        containerColor: Color = DmsTheme.colors.primary,
-        contentColor: Color = DmsTheme.colors.onPrimary,
+        containerColor: Color = DmsTheme.colorScheme.primary,
+        contentColor: Color = DmsTheme.colorScheme.onPrimary,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(
@@ -297,8 +297,8 @@ object ButtonDefaults {
 
     @Composable
     fun containedButtonColors(
-        containerColor: Color = DmsTheme.colors.primary,
-        contentColor: Color = DmsTheme.colors.onPrimary,
+        containerColor: Color = DmsTheme.colorScheme.primary,
+        contentColor: Color = DmsTheme.colorScheme.onPrimary,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(
@@ -310,8 +310,8 @@ object ButtonDefaults {
 
     @Composable
     fun containedGrayButtonColors(
-        containerColor: Color = DmsTheme.colors.backgroundVariant,
-        contentColor: Color = DmsTheme.colors.onBackgroundVariant,
+        containerColor: Color = DmsTheme.colorScheme.backgroundVariant,
+        contentColor: Color = DmsTheme.colorScheme.onBackgroundVariant,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = containedButtonColors(
@@ -323,8 +323,8 @@ object ButtonDefaults {
 
     @Composable
     fun containedErrorButtonColors(
-        containerColor: Color = DmsTheme.colors.error,
-        contentColor: Color = DmsTheme.colors.onError,
+        containerColor: Color = DmsTheme.colorScheme.error,
+        contentColor: Color = DmsTheme.colorScheme.onError,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = containedButtonColors(
@@ -336,8 +336,8 @@ object ButtonDefaults {
 
     @Composable
     fun containedRefuseButtonColors(
-        containerColor: Color = DmsTheme.colors.errorContainer,
-        contentColor: Color = DmsTheme.colors.onErrorContainer,
+        containerColor: Color = DmsTheme.colorScheme.errorContainer,
+        contentColor: Color = DmsTheme.colorScheme.onErrorContainer,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = containedButtonColors(
@@ -350,7 +350,7 @@ object ButtonDefaults {
     @Composable
     fun outlinedButtonColors(
         containerColor: Color = Color.Transparent,
-        contentColor: Color = DmsTheme.colors.primary,
+        contentColor: Color = DmsTheme.colorScheme.primary,
         disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
     ): ButtonColors = ButtonColors(
@@ -363,7 +363,7 @@ object ButtonDefaults {
     @Composable
     fun outlinedGrayButtonColors(
         containerColor: Color = Color.Transparent,
-        contentColor: Color = DmsTheme.colors.backgroundVariant,
+        contentColor: Color = DmsTheme.colorScheme.backgroundVariant,
         disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
     ): ButtonColors = ButtonColors(
@@ -376,7 +376,7 @@ object ButtonDefaults {
     @Composable
     fun outlinedErrorButtonColors(
         containerColor: Color = Color.Transparent,
-        contentColor: Color = DmsTheme.colors.error,
+        contentColor: Color = DmsTheme.colorScheme.error,
         disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
     ): ButtonColors = ButtonColors(
@@ -389,7 +389,7 @@ object ButtonDefaults {
     @Composable
     fun textButtonColors(
         containerColor: Color = Color.Transparent,
-        contentColor: Color = DmsTheme.colors.primary,
+        contentColor: Color = DmsTheme.colorScheme.primary,
         disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
     ): ButtonColors = ButtonColors(
@@ -402,7 +402,7 @@ object ButtonDefaults {
     @Composable
     fun textGrayButtonColors(
         containerColor: Color = Color.Transparent,
-        contentColor: Color = DmsTheme.colors.backgroundVariant,
+        contentColor: Color = DmsTheme.colorScheme.backgroundVariant,
         disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
     ): ButtonColors = ButtonColors(
@@ -415,7 +415,7 @@ object ButtonDefaults {
     @Composable
     fun textErrorButtonColors(
         containerColor: Color = Color.Transparent,
-        contentColor: Color = DmsTheme.colors.error,
+        contentColor: Color = DmsTheme.colorScheme.error,
         disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
     ): ButtonColors = ButtonColors(
@@ -427,8 +427,8 @@ object ButtonDefaults {
 
     @Composable
     fun roundedButtonColors(
-        containerColor: Color = DmsTheme.colors.primaryContainer,
-        contentColor: Color = DmsTheme.colors.onPrimaryContainer,
+        containerColor: Color = DmsTheme.colorScheme.primaryContainer,
+        contentColor: Color = DmsTheme.colorScheme.onPrimaryContainer,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(
@@ -440,8 +440,8 @@ object ButtonDefaults {
 
     @Composable
     fun roundedGrayButtonColors(
-        containerColor: Color = DmsTheme.colors.backgroundVariant,
-        contentColor: Color = DmsTheme.colors.onBackgroundVariant,
+        containerColor: Color = DmsTheme.colorScheme.backgroundVariant,
+        contentColor: Color = DmsTheme.colorScheme.onBackgroundVariant,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(
@@ -453,8 +453,8 @@ object ButtonDefaults {
 
     @Composable
     fun roundedErrorButtonColors(
-        containerColor: Color = DmsTheme.colors.error,
-        contentColor: Color = DmsTheme.colors.onError,
+        containerColor: Color = DmsTheme.colorScheme.error,
+        contentColor: Color = DmsTheme.colorScheme.onError,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(
@@ -466,8 +466,8 @@ object ButtonDefaults {
 
     @Composable
     fun roundedRefuseButtonColors(
-        containerColor: Color = DmsTheme.colors.errorContainer,
-        contentColor: Color = DmsTheme.colors.onErrorContainer,
+        containerColor: Color = DmsTheme.colorScheme.errorContainer,
+        contentColor: Color = DmsTheme.colorScheme.onErrorContainer,
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(

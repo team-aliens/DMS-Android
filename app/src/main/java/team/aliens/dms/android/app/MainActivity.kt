@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
             DmsTheme {
                 Surface(
-                    color = DmsTheme.colors.background,
+                    color = DmsTheme.colorScheme.background,
                 ) {
                     ToastLayout(
                         modifier = Modifier.fillMaxSize(),

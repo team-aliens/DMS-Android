@@ -99,13 +99,13 @@ private fun Notification(
 ) {
     Row(
         modifier = modifier
-            .dormShadow(DmsTheme.colors.line)
+            .dormShadow(DmsTheme.colorScheme.line)
             .fillMaxWidth()
             .background(
                 color = if (!notification.read) {
-                    DmsTheme.colors.surface
+                    DmsTheme.colorScheme.surface
                 } else {
-                    DmsTheme.colors.surface
+                    DmsTheme.colorScheme.surface
                 },
                 shape = RoundedCornerShape(10.dp),
             )
@@ -128,9 +128,9 @@ private fun Notification(
             ),
             contentDescription = null,
             tint = if (!notification.read) {
-                DmsTheme.colors.primary
+                DmsTheme.colorScheme.primary
             } else {
-                DmsTheme.colors.onBackground
+                DmsTheme.colorScheme.onBackground
             },
         )
         Column(

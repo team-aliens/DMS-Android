@@ -8,7 +8,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 internal val listFadeBrush: Brush
     @Composable get() = Brush.verticalGradient(
         colors = listOf(
-            DmsTheme.colors.background,
+            DmsTheme.colorScheme.background,
             Color.Transparent,
         ),
     )

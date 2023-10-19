@@ -33,7 +33,7 @@ fun DmsTheme(
 @Stable
 object DmsTheme {
 
-    val colors: Colors
+    val colorScheme: Colors
         @Composable
         @ReadOnlyComposable
         get() = LocalColors.current

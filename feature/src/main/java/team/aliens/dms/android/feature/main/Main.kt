@@ -215,10 +215,10 @@ private object NavigationItemsWrapper {
 }
 
 private val selectedColor: Color
-    @Composable get() = DmsTheme.colors.onSurface
+    @Composable get() = DmsTheme.colorScheme.onSurface
 
 private val unselectedColor: Color
-    @Composable get() = DmsTheme.colors.line
+    @Composable get() = DmsTheme.colorScheme.line
 
 @Composable
 private fun BottomNavBar(
@@ -227,7 +227,7 @@ private fun BottomNavBar(
     navigationItems: List<HomeBottomNavigationItem>,
 ) {
     BottomNavigation(
-        backgroundColor = DmsTheme.colors.surface,
+        backgroundColor = DmsTheme.colorScheme.surface,
         modifier = Modifier.graphicsLayer {
             clip = true
             shape = RoundedCornerShape(

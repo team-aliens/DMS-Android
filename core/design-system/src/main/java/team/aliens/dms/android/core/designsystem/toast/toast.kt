@@ -227,10 +227,10 @@ private fun DormToast(
                     )
                     .fillMaxWidth()
                     .dormShadow(
-                        color = DmsTheme.colors.line,
+                        color = DmsTheme.colorScheme.line,
                     )
                     .background(
-                        color = DmsTheme.colors.surface,
+                        color = DmsTheme.colorScheme.surface,
                         shape = RoundedCornerShape(4.dp),
                     )
                     .padding(
@@ -264,8 +264,8 @@ enum class ToastType(
 
     val color: Color
         @Composable get() = when (this) {
-            INFORMATION -> DmsTheme.colors.onBackground
-            ERROR -> DmsTheme.colors.error
-            SUCCESS -> DmsTheme.colors.primary
+            INFORMATION -> DmsTheme.colorScheme.onBackground
+            ERROR -> DmsTheme.colorScheme.error
+            SUCCESS -> DmsTheme.colorScheme.primary
         }
 }
