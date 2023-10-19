@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import team.aliens.dms.android.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTheme
 
 @Stable
 val verticalFadeOutBrush: Brush

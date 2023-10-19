@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.ui.composables.AppLogo
-import team.aliens.dms.android.designsystem.typography.Body2
+import team.aliens.dms.android.core.designsystem.typography.Body2
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.findid.navigator.FindIdNavigator
 

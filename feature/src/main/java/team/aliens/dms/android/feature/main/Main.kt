@@ -22,8 +22,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.designsystem.DmsTheme
-import team.aliens.dms.android.designsystem.typography.BottomNavItemLabel
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.typography.BottomNavItemLabel
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.OneDay
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Announcement
