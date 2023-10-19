@@ -42,4 +42,9 @@ object DmsTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalShapes.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
 }
