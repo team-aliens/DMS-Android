@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,6 +12,7 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,10 +21,12 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -41,7 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextField(
     value: String,
@@ -108,11 +111,28 @@ fun TextField(
                     colors = colors,
                     content = innerTextField,
                 )
+                val supportingTextColor =
+                    colors.supportingTextColor(enabled, isError, interactionSource).value
+                val decoratedSupporting: @Composable (() -> Unit)? = supportingText?.let {
+                    @Composable {
+                        Decoration(
+                            contentColor = supportingTextColor,
+                            typography = DmsTheme.typography.body2,
+                            content = it
+                        )
+                    }
+                }
+
                 supportingText?.let { it() }
             }
         },
     )
     // }
+}
+
+@Composable
+internal fun TextFieldLayout() {
+
 }
 
 @Immutable
@@ -308,6 +328,16 @@ class TextFieldColors(
 
 object TextFieldDefaults {
 
+    private val HorizontalPadding = 16.dp
+    private val VerticalPadding =12.dp
+
+    val ContentPadding = PaddingValues(
+        start = HorizontalPadding,
+        top = VerticalPadding,
+        end = HorizontalPadding,
+        bottom = VerticalPadding,
+    )
+
     val shape: Shape
         @Composable get() = DmsTheme.shapes.small
 
@@ -401,10 +431,12 @@ object TextFieldDefaults {
         )
 
         Box(
-            modifier = Modifier.border(
-                border = borderStroke.value,
-                shape = DmsTheme.shapes.small,
-            ),
+            modifier = Modifier
+                .border(
+                    border = borderStroke.value,
+                    shape = DmsTheme.shapes.small,
+                )
+                .padding(ContentPadding),
         ) {
             content()
         }
@@ -441,6 +473,25 @@ private fun animateBorderStrokeAsState(
     )
 }
 
+@Composable
+internal fun Decoration(
+    contentColor: Color,
+    typography: TextStyle? = null,
+    content: @Composable () -> Unit,
+) {
+    val contentWithColor: @Composable () -> Unit = @Composable {
+        CompositionLocalProvider(
+            LocalContentColor provides contentColor,
+            content = content,
+        )
+    }
+    if (typography != null) {
+        ProvideTextStyle(typography, contentWithColor)
+    } else {
+        contentWithColor()
+    }
+}
+
 @Preview
 @Composable
 private fun TextFieldPreview() {
@@ -449,6 +500,7 @@ private fun TextFieldPreview() {
 
     Column(
         modifier = Modifier
+            .background(DmsTheme.colorScheme.background)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
