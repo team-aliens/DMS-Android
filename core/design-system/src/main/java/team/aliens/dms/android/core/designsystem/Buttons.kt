@@ -252,14 +252,14 @@ object ButtonDefaults {
 
     const val DisabledTextOpacity = 0.38f
 
-    val OutlineColor: Color
+    val outlineColor: Color
         @Composable get() = DmsTheme.colors.primary
 
     val outlinedButtonBorder: BorderStroke
         @Composable
         get() = BorderStroke(
             width = OutlineWidth,
-            color = OutlineColor,
+            color = outlineColor,
         )
 
     val containedShape: Shape
@@ -294,6 +294,45 @@ object ButtonDefaults {
         disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
         disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
     ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun containedGrayButtonColors(
+        containerColor: Color = DmsTheme.colors.backgroundVariant,
+        contentColor: Color = DmsTheme.colors.onBackgroundVariant,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = containedButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun containedErrorButtonColors(
+        containerColor: Color = DmsTheme.colors.error,
+        contentColor: Color = DmsTheme.colors.onError,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = containedButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun containedRefuseButtonColors(
+        containerColor: Color = DmsTheme.colors.errorContainer,
+        contentColor: Color = DmsTheme.colors.onErrorContainer,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = containedButtonColors(
         containerColor = containerColor,
         contentColor = contentColor,
         disabledContainerColor = disabledContainerColor,
@@ -365,6 +404,29 @@ private fun ButtonPreview() {
                 contentDescription = null,
             )
             Text(text = "Contained Button")
+        }
+
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.containedGrayButtonColors(),
+        ) {
+            Text(text = "Contained Gray Button")
+        }
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.containedGrayButtonColors(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Contained Gray Button")
         }
 
         OutlinedButton(
