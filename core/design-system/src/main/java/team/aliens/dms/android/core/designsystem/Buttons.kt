@@ -436,6 +436,45 @@ object ButtonDefaults {
         disabledContainerColor = disabledContainerColor,
         disabledContentColor = disabledContentColor,
     )
+
+    @Composable
+    fun roundedGrayButtonColors(
+        containerColor: Color = DmsTheme.colors.backgroundVariant,
+        contentColor: Color = DmsTheme.colors.onBackgroundVariant,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun roundedErrorButtonColors(
+        containerColor: Color = DmsTheme.colors.error,
+        contentColor: Color = DmsTheme.colors.onError,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun roundedRefuseButtonColors(
+        containerColor: Color = DmsTheme.colors.errorContainer,
+        contentColor: Color = DmsTheme.colors.onErrorContainer,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
 }
 
 @Preview(showSystemUi = true)
@@ -707,7 +746,76 @@ private fun ButtonPreview() {
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
-            Text(text = "Round Default Button")
+            Text(text = "Rounded Default Button")
+        }
+
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.roundedGrayButtonColors(),
+        ) {
+            Text(text = "Rounded Gray Button")
+        }
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.roundedGrayButtonColors(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Rounded Gray Button")
+        }
+
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            colors = ButtonDefaults.roundedErrorButtonColors(),
+            onClick = { },
+        ) {
+            Text(text = "Rounded Error Button")
+        }
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.roundedErrorButtonColors(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Rounded Error Button")
+        }
+
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.roundedRefuseButtonColors(),
+        ) {
+            Text(text = "Rounded Refuse Button")
+        }
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.roundedRefuseButtonColors(),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Rounded Refuse Button")
         }
 
         Divider(
