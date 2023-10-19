@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -50,6 +49,10 @@ private fun ButtonPreview() {
         ContainedButton(onClick = {}) {
             Text(text = "Contained Button")
         }
+
+        OutlinedButton(onClick = { }) {
+            Text(text = "Outlined Button")
+        }
     }
 }
 
@@ -59,25 +62,26 @@ fun ContainedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    elevation: Dp? = null,
+    elevation: Dp = 0.dp,
     shape: Shape = DmsTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    textStyle: TextStyle = DmsTheme.typography.button.copy(
+        color = DmsTheme.colors.onPrimary,
+    ),
     content: @Composable RowScope.() -> Unit,
 ) = Button(
     onClick = onClick,
     modifier = modifier,
     enabled = enabled,
     interactionSource = interactionSource,
-    elevation = elevation ?: 0.dp,
+    elevation = elevation,
     shape = shape,
     border = border,
     colors = colors,
     contentPadding = contentPadding,
-    textStyle = DmsTheme.typography.button.copy(
-        color = DmsTheme.colors.onPrimary,
-    ),
+    textStyle = textStyle,
     content = content,
 )
 
@@ -87,15 +91,28 @@ fun OutlinedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    elevation: Dp? = null,
+    elevation: Dp = 0.dp,
     shape: Shape = DmsTheme.shapes.small,
-    border: BorderStroke? = null,
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    border: BorderStroke = ButtonDefaults.outlinedBorder,
+    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    textStyle: TextStyle = DmsTheme.typography.button.copy(
+        color = DmsTheme.colors.primary,
+    ),
     content: @Composable RowScope.() -> Unit,
-) {
-
-}
+) = Button(
+    onClick = onClick,
+    modifier = modifier,
+    enabled = enabled,
+    interactionSource = interactionSource,
+    elevation = elevation,
+    shape = shape,
+    border = border,
+    colors = colors,
+    contentPadding = contentPadding,
+    textStyle = textStyle,
+    content = content,
+)
 
 @Composable
 fun TextButton() {
@@ -142,7 +159,8 @@ fun Button(
                 Row(
                     modifier = Modifier
                         .defaultMinSize(
-                            minWidth = ButtonDefaults.MinWidth, minHeight = ButtonDefaults.MinHeight
+                            minWidth = ButtonDefaults.MinWidth,
+                            minHeight = ButtonDefaults.MinHeight,
                         )
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.Center,
@@ -210,8 +228,8 @@ object ButtonDefaults {
 
     @Composable
     fun outlinedButtonColors(
-        backgroundColor: Color = DmsTheme.colors.surface,
-        contentColor: Color = DmsTheme.colors.primary,
+        backgroundColor: Color = Color.Transparent,
+        contentColor: Color = Color.Transparent,
         disabledContentColor: Color = DmsTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
     ): ButtonColors = DefaultButtonColors(
         backgroundColor = backgroundColor,
@@ -225,7 +243,7 @@ object ButtonDefaults {
         backgroundColor: Color = Color.Transparent,
         contentColor: Color = DmsTheme.colors.primary,
         disabledContentColor: Color = DmsTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.disabled)
+            .copy(alpha = ContentAlpha.disabled),
     ): ButtonColors = DefaultButtonColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
@@ -239,13 +257,23 @@ object ButtonDefaults {
         backgroundColor: Color = Color.Transparent,
         contentColor: Color = DmsTheme.colors.primary,
         disabledContentColor: Color = DmsTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.disabled)
+            .copy(alpha = ContentAlpha.disabled),
     ): ButtonColors = DefaultButtonColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         disabledBackgroundColor = backgroundColor,
         disabledContentColor = disabledContentColor
     )
+
+    const val OutlinedBorderOpacity = 1f
+    val OutlinedBorderSize = 1.dp
+
+    val outlinedBorder: BorderStroke
+        @Composable
+        get() = BorderStroke(
+            width = OutlinedBorderSize,
+            color = DmsTheme.colors.primary.copy(alpha = OutlinedBorderOpacity),
+        )
 }
 
 @Immutable
