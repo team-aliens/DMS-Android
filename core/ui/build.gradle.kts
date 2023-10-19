@@ -28,6 +28,14 @@ android {
         }
     }
 
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
+
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -39,7 +47,8 @@ android {
 }
 
 dependencies {
-    implementation(project(ProjectPaths.designSystem))
+
+    implementation(project(ProjectPaths.Core.designSystem))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

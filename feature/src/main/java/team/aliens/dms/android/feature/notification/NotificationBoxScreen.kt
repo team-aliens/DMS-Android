@@ -11,27 +11,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
-import team.aliens.dms.android.design_system.layout.VerticallyFadedLazyColumn
-import team.aliens.dms.android.design_system.modifier.dormClickable
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Body3
-import team.aliens.dms.android.design_system.typography.Caption
+import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.modifier.dormClickable
+import team.aliens.dms.android.core.designsystem.modifier.dormShadow
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.typography.Body3
+import team.aliens.dms.android.core.designsystem.typography.Caption
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.Now
-import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature._legacy.util.toDate
 import team.aliens.dms.android.feature.notification.navigation.NotificationNavigation
 
@@ -104,13 +99,13 @@ private fun Notification(
 ) {
     Row(
         modifier = modifier
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.line)
             .fillMaxWidth()
             .background(
                 color = if (!notification.read) {
-                    DormTheme.colors.surface
+                    DmsTheme.colors.surface
                 } else {
-                    DormTheme.colors.surface
+                    DmsTheme.colors.surface
                 },
                 shape = RoundedCornerShape(10.dp),
             )
@@ -133,9 +128,9 @@ private fun Notification(
             ),
             contentDescription = null,
             tint = if (!notification.read) {
-                DormTheme.colors.primary
+                DmsTheme.colors.primary
             } else {
-                DormTheme.colors.onBackground
+                DmsTheme.colors.onBackground
             },
         )
         Column(

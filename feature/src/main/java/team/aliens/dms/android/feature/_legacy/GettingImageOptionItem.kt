@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,9 +9,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import team.aliens.dms.android.design_system.extension.Space
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Body2
+import team.aliens.dms.android.designsystem.extension.Space
+import team.aliens.dms.android.designsystem.DmsTheme
+import team.aliens.dms.android.designsystem.typography.Body2
 
 @Composable
 internal fun GettingImageOptionItem(
@@ -33,7 +34,7 @@ internal fun GettingImageOptionItem(
             painter = painterResource(
                 id = icon,
             ),
-            tint = DormTheme.colors.primaryVariant,
+            tint = DmsTheme.colors.primaryVariant,
             contentDescription = null,
         )
 
@@ -41,7 +42,8 @@ internal fun GettingImageOptionItem(
 
         Body2(
             text = text,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
     }
 }
+*/

@@ -1,54 +1,9 @@
 package team.aliens.dms.android.feature.main.mypage
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.color.DormColor
-import team.aliens.dms.android.design_system.component.DefaultAppliedTagSize
-import team.aliens.dms.android.design_system.component.LastAppliedItem
-import team.aliens.dms.android.design_system.dialog.DormCustomDialog
-import team.aliens.dms.android.design_system.dialog.DormDoubleButtonDialog
-import team.aliens.dms.android.design_system.modifier.dormClickable
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Body5
-import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms.android.design_system.typography.Headline3
-import team.aliens.dms.android.design_system.typography.Title1
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.editprofile.dialog.SelectImageTypeDialog
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
-import team.aliens.dms.android.shared.model.Sex
 
 @Destination
 @Composable
@@ -157,7 +112,7 @@ internal fun MyPageScreen(
         )
     }*/
 }
-
+/*
 @Composable
 private fun UserInformation(
     modifier: Modifier = Modifier,
@@ -225,7 +180,7 @@ private fun UserInformation(
             )
         }
     }
-}
+}*//*
 
 private enum class PointCardType {
     BONUS, MINUS,
@@ -263,8 +218,8 @@ private fun PointsInformation(
             )
         }
     }
-}
-
+}*/
+/*
 @Composable
 private fun PhraseCard(
     modifier: Modifier = Modifier,
@@ -275,7 +230,7 @@ private fun PhraseCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(
-                DormTheme.colors.secondary,
+                DmsTheme.colors.secondary,
             )
             .padding(
                 vertical = 12.dp,
@@ -288,8 +243,8 @@ private fun PhraseCard(
             color = DormColor.Gray1000,
         )
     }
-}
-
+}*/
+/*
 @Composable
 private fun PointCard(
     modifier: Modifier = Modifier,
@@ -297,23 +252,23 @@ private fun PointCard(
     point: Int,
 ) {
     val textColor = when (type) {
-        PointCardType.BONUS -> DormTheme.colors.primary
-        PointCardType.MINUS -> DormTheme.colors.error
+        PointCardType.BONUS -> DmsTheme.colors.primary
+        PointCardType.MINUS -> DmsTheme.colors.error
     }
     Column(
         modifier = modifier
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.primaryVariant)
             .clip(RoundedCornerShape(10.dp))
             .border(
                 color = when (type) {
-                    PointCardType.BONUS -> DormTheme.colors.primary
-                    PointCardType.MINUS -> DormTheme.colors.error
+                    PointCardType.BONUS -> DmsTheme.colors.primary
+                    PointCardType.MINUS -> DmsTheme.colors.error
                 },
                 width = 1.dp,
                 shape = RoundedCornerShape(10.dp),
             )
             .background(
-                color = DormTheme.colors.surface, // todo
+                color = DmsTheme.colors.surface, // todo
             )
             .padding(
                 vertical = 14.dp,
@@ -337,7 +292,8 @@ private fun PointCard(
             color = textColor,
         )
     }
-}
+}*/
+/*
 
 // TODO 리스트 디자인시스템으로 커버 필요
 @Composable
@@ -356,9 +312,9 @@ private fun Options(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .dormShadow(DormTheme.colors.primaryVariant)
+                    .dormShadow(DmsTheme.colors.primaryVariant)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(DormTheme.colors.surface),
+                    .background(DmsTheme.colors.surface),
             ) {
                 Row(
                     modifier = Modifier
@@ -376,7 +332,7 @@ private fun Options(
                 }
                 Divider(
                     modifier = Modifier.padding(horizontal = 10.dp),
-                    color = DormTheme.colors.secondaryVariant,
+                    color = DmsTheme.colors.secondaryVariant,
                 )
                 Row(
                     modifier = Modifier
@@ -397,9 +353,9 @@ private fun Options(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .dormShadow(DormTheme.colors.primaryVariant)
+                    .dormShadow(DmsTheme.colors.primaryVariant)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(DormTheme.colors.surface),
+                    .background(DmsTheme.colors.surface),
             ) {
                 Row(
                     modifier = Modifier
@@ -419,9 +375,9 @@ private fun Options(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .dormShadow(DormTheme.colors.primaryVariant)
+                .dormShadow(DmsTheme.colors.primaryVariant)
                 .clip(RoundedCornerShape(10.dp))
-                .background(DormTheme.colors.surface),
+                .background(DmsTheme.colors.surface),
         ) {
             Row(
                 modifier = Modifier
@@ -434,16 +390,16 @@ private fun Options(
             ) {
                 Body5(
                     text = stringResource(R.string.my_page_sign_out),
-                    color = DormTheme.colors.error,
+                    color = DmsTheme.colors.error,
                 )
             }
         }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .dormShadow(DormTheme.colors.primaryVariant)
+                .dormShadow(DmsTheme.colors.primaryVariant)
                 .clip(RoundedCornerShape(10.dp))
-                .background(DormTheme.colors.surface),
+                .background(DmsTheme.colors.surface),
         ) {
             Row(
                 modifier = Modifier
@@ -456,9 +412,10 @@ private fun Options(
             ) {
                 Body5(
                     text = stringResource(R.string.my_page_withdrawal),
-                    color = DormTheme.colors.error,
+                    color = DmsTheme.colors.error,
                 )
             }
         }
     }
 }
+*/

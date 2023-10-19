@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature._legacy
+/*
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.designsystem.R
-import team.aliens.dms.android.design_system.extension.Space
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Caption
+import team.aliens.dms.android.designsystem.extension.Space
+import team.aliens.dms.android.designsystem.modifier.dormShadow
+import team.aliens.dms.android.designsystem.DmsTheme
+import team.aliens.dms.android.designsystem.typography.Caption
 
 @Composable
 fun FloatingNotice(
@@ -34,11 +35,11 @@ fun FloatingNotice(
                 minHeight = 50.dp,
             )
             .dormShadow(
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
                 offsetY = 1.dp,
             )
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(100),
             )
     ) {
@@ -61,4 +62,4 @@ fun FloatingNotice(
             Caption(text = text)
         }
     }
-}
+}*/

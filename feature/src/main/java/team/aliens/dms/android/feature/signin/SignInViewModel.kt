@@ -1,4 +1,37 @@
 package team.aliens.dms.android.feature.signin
+
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import javax.inject.Inject
+
+@HiltViewModel
+internal class SignInViewModel @Inject constructor(
+
+) : BaseMviViewModel<SignInUiState, SignInIntent, SignInSideEffect>(
+    initialState = SignInUiState.initial(),
+) {
+
+}
+
+internal data class SignInUiState(
+    val accountId: String,
+    val password: String,
+) : UiState() {
+    companion object {
+        fun initial() = SignInUiState(
+            accountId = "",
+            password = "",
+        )
+    }
+}
+
+internal sealed class SignInIntent : Intent()
+
+internal sealed class SignInSideEffect : SideEffect()
+
 /*
 
 import androidx.lifecycle.viewModelScope

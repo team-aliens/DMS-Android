@@ -2,39 +2,19 @@ package team.aliens.dms.android.feature.signin
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.button.DormTextCheckBox
-import team.aliens.dms.android.design_system.textfield.DormTextField
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.toast.LocalToast
-import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.design_system.typography.Caption
+import team.aliens.dms.android.core.ui.composable.AppLogo
+import team.aliens.dms.android.core.designsystem.typography.Body2
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
 @Destination
@@ -42,95 +22,38 @@ import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
     navigator: SignInNavigator,
-    // signInViewModel: SignInViewModel = hiltViewModel(),
-) {/*
-    val state by signInViewModel.stateFlow.collectAsStateWithLifecycle()
-    val availableFeatures = LocalAvailableFeatures.current
-    val toast = LocalToast.current
-    val context = LocalContext.current // todo need to be discussed
+) {
+    val viewModel: SignInViewModel = hiltViewModel()
 
-    signInViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
-        when (sideEffect) {
-            SignInSideEffect.IdNotFound -> toast.showErrorToast(
-                message = context.getString(R.string.sign_in_error_id_not_found),
-            )
-
-            SignInSideEffect.BadRequest -> toast.showErrorToast(
-                message = context.getString(R.string.sign_in_error_check_id_or_password),
-            )
-
-            SignInSideEffect.PasswordMismatch -> toast.showErrorToast(
-                message = context.getString(R.string.sign_in_error_password_mismatch),
-            )
-
-            is SignInSideEffect.SignInSuccess -> {
-                availableFeatures.features = sideEffect.features
-                navigator.openAuthorizedNav()
-            }
-
-            SignInSideEffect.DeviceTokenRegisteringFailure -> toast.showInformationToast(
-                message = context.getString(R.string.sign_in_error_device_token_registering_failure),
-            )
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+        ) {
+            Banner(modifier.fillMaxWidth())
         }
     }
-    val signInButtonEnabled = state.signInButtonEnabled
-
-    Column(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        Spacer(Modifier.height(92.dp))
-        Banner()
-        Spacer(Modifier.height(60.dp))
-        UserInformationInputs(
-            accountIdValue = state.accountId,
-            passwordValue = state.password,
-            autoSignInValue = state.autoSignIn,
-            onAccountIdChange = { newAccountId: String ->
-                signInViewModel.postIntent(SignInIntent.UpdateAccountId(newAccountId))
-            },
-            onPasswordChange = { newPassword: String ->
-                signInViewModel.postIntent(SignInIntent.UpdatePassword(newPassword))
-            },
-            onAutoSignInOptionChanged = { newAutoSignInOption: Boolean ->
-                signInViewModel.postIntent(SignInIntent.UpdateAutoSignInOption(newAutoSignInOption))
-            },
-            idError = state.idError,
-            passwordError = state.passwordError,
-        )
-        Spacer(Modifier.height(12.dp))
-        AuthActions(
-            onSignUpClicked = navigator::openSignUpNav,
-            onFindIdClicked = navigator::openFindId,
-            onResetPasswordClicked = navigator::openResetPasswordNav,
-        )
-        Spacer(Modifier.weight(1f))
-        DormContainedLargeButton(
-            modifier = Modifier.padding(
-                horizontal = 16.dp,
-            ),
-            text = stringResource(R.string.sign_in),
-            color = DormButtonColor.Blue,
-            enabled = signInButtonEnabled,
-            onClick = { signInViewModel.postIntent(SignInIntent.SignIn) },
-        )
-        Spacer(Modifier.height(57.dp))
-    }*/
 }
 
 @Composable
-private fun Banner() {
+private fun Banner(
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = 16.dp,
-            ),
-        horizontalAlignment = Alignment.Start,
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        AppLogo()
-        Spacer(Modifier.height(8.dp))
+        AppLogo(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+        )
         Body2(
-            text = stringResource(R.string.app_description),
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = stringResource(R.string.app_description)
         )
     }
 }
@@ -145,7 +68,7 @@ private fun UserInformationInputs(
     onAutoSignInOptionChanged: (Boolean) -> Unit,
     idError: Boolean,
     passwordError: Boolean,
-) {
+) {/*
     val focusManager = LocalFocusManager.current
 
     // 아이디
@@ -165,8 +88,8 @@ private fun UserInformationInputs(
             },
         ),
         error = idError,
-        /*
-                errorDescription = idErrorMessage,*/
+        *//*
+                errorDescription = idErrorMessage,*//*
     )
     Spacer(Modifier.height(32.dp))
     // 비밀번호
@@ -187,8 +110,8 @@ private fun UserInformationInputs(
             },
         ),
         error = passwordError,
-        /*
-                errorDescription = passwordErrorMessage,*/
+        *//*
+                errorDescription = passwordErrorMessage,*//*
     )
     Spacer(Modifier.height(28.dp))
     DormTextCheckBox(
@@ -199,8 +122,8 @@ private fun UserInformationInputs(
         checked = autoSignInValue,
         onCheckedChange = onAutoSignInOptionChanged,
     )
-    Spacer(Modifier.height(28.dp))
-}
+    Spacer(Modifier.height(28.dp))*/
+}/*
 
 @Composable
 private fun AuthActions(
@@ -221,19 +144,19 @@ private fun AuthActions(
         Caption(
             text = stringResource(R.string.do_sign_up),
             onClick = onSignUpClicked,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
         AuthActionDivider()
         Caption(
             text = stringResource(R.string.sign_in_find_id),
             onClick = onFindIdClicked,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
         AuthActionDivider()
         Caption(
             text = stringResource(R.string.change_password),
             onClick = onResetPasswordClicked,
-            color = DormTheme.colors.primaryVariant,
+            color = DmsTheme.colors.primaryVariant,
         )
     }
 }
@@ -242,6 +165,7 @@ private fun AuthActions(
 private fun AuthActionDivider() {
     Caption(
         text = "|",
-        color = DormTheme.colors.primaryVariant,
+        color = DmsTheme.colors.primaryVariant,
     )
 }
+*/

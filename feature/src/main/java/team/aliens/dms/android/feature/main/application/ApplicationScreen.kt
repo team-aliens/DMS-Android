@@ -1,45 +1,10 @@
 package team.aliens.dms.android.feature.main.application
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.component.DefaultAppliedTagSize
-import team.aliens.dms.android.design_system.component.LastAppliedItem
-import team.aliens.dms.android.design_system.layout.VerticallyFadedLazyColumn
-import team.aliens.dms.android.design_system.modifier.dormGradientBackground
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Body1
-import team.aliens.dms.android.design_system.typography.Body5
-import team.aliens.dms.android.design_system.typography.SubTitle2
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.listFadeBrush
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
+/*
 
 private sealed class ApplicationCardItem(
     @StringRes val titleRes: Int,
@@ -70,6 +35,7 @@ private sealed class ApplicationCardItem(
         currentAppliedOption = currentAppliedOption,
     )
 }
+*/
 
 @Destination
 @Composable
@@ -115,7 +81,7 @@ internal fun ApplicationScreen(
         ApplicationCards(applicationItems)
     }*/
 }
-
+/*
 @Composable
 private fun ColumnScope.ApplicationCards(
     applicationItems: List<ApplicationCardItem>,
@@ -146,7 +112,8 @@ private fun ColumnScope.ApplicationCards(
                 .dormGradientBackground(listFadeBrush),
         )
     }
-}
+}*/
+/*
 
 @Composable
 private fun ApplicationCard(
@@ -161,10 +128,10 @@ private fun ApplicationCard(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .dormShadow(
-                DormTheme.colors.primaryVariant,
+                DmsTheme.colors.primaryVariant,
             )
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(10.dp),
             )
             .padding(20.dp),
@@ -195,3 +162,4 @@ private fun ApplicationCard(
         )
     }
 }
+*/

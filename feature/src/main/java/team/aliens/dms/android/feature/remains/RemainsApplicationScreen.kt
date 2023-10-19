@@ -1,58 +1,9 @@
 package team.aliens.dms.android.feature.remains
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import org.threeten.bp.DayOfWeek
-import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
-import team.aliens.dms.android.data.remains.model.RemainsOption
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.component.LastAppliedItem
-import team.aliens.dms.android.design_system.icon.DormIcon
-import team.aliens.dms.android.design_system.modifier.dormClickable
-import team.aliens.dms.android.design_system.modifier.dormGradientBackground
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms.android.design_system.typography.Title3
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.FloatingNotice
-import team.aliens.dms.android.feature._legacy.listFadeBrush
-import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
-import java.util.UUID
 
 @Destination
 @Composable
@@ -119,6 +70,7 @@ internal fun RemainsApplicationScreen(
         }
     }*/
 }
+/*
 
 @Composable
 private fun RemainsApplicationTime.toFormattedString(): String {
@@ -213,14 +165,14 @@ private fun RemainsOptionCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .dormShadow(
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
                 offsetY = 8.dp,
             )
             .clip(
                 shape = RoundedCornerShape(10.dp),
             )
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(10.dp),
             )
             .dormClickable {
@@ -228,7 +180,7 @@ private fun RemainsOptionCard(
             }
             .border(
                 width = 1.dp,
-                color = if (selected) DormTheme.colors.primary else Color.Transparent,
+                color = if (selected) DmsTheme.colors.primary else Color.Transparent,
                 shape = RoundedCornerShape(10.dp),
             )
             .padding(
@@ -248,7 +200,7 @@ private fun RemainsOptionCard(
                     vertical = 2.dp,
                 ),
                 text = remainsOption.title,
-                color = if (selected) DormTheme.colors.primary else DormTheme.colors.onSurface,
+                color = if (selected) DmsTheme.colors.primary else DmsTheme.colors.onSurface,
             )
             if (currentApplied) LastAppliedItem(
                 text = stringResource(R.string.application_completed),
@@ -280,3 +232,4 @@ private fun RemainsOptionCard(
         }
     }
 }
+*/

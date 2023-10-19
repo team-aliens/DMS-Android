@@ -1,4 +1,5 @@
 package team.aliens.dms.android.feature.editprofile.dialog
+/*
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import team.aliens.dms.android.design_system.dialog.DormBottomAlignedSingleButtonDialog
-import team.aliens.dms.android.design_system.dialog.DormCustomDialog
-import team.aliens.dms.android.design_system.icon.DormIcon
-import team.aliens.dms.android.design_system.toast.rememberToast
+import team.aliens.dms.android.designsystem.dialog.DormBottomAlignedSingleButtonDialog
+import team.aliens.dms.android.designsystem.dialog.DormCustomDialog
+import team.aliens.dms.android.designsystem.icon.DormIcon
+import team.aliens.dms.android.designsystem.toast.rememberToast
 import team.aliens.dms.android.feature._legacy.GettingImageOptionItem
 import team.aliens.dms.android.feature.R
 
@@ -28,7 +29,9 @@ internal fun SelectImageTypeDialog(
 
     DormCustomDialog(
         onDismissRequest = {
-            /* explicit blank */
+            */
+/* explicit blank *//*
+
         },
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
@@ -64,4 +67,4 @@ internal fun SelectImageTypeDialog(
             }
         }
     }
-}
+}*/

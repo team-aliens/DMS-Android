@@ -1,45 +1,8 @@
 package team.aliens.dms.android.feature.signup
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.extension.RatioSpace
-import team.aliens.dms.android.design_system.extension.Space
-import team.aliens.dms.android.design_system.modifier.dormClickable
-import team.aliens.dms.android.design_system.textfield.DormTextField
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.toast.LocalToast
-import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.design_system.typography.Body3
-import team.aliens.dms.android.design_system.typography.ButtonText
-import team.aliens.dms.android.feature._legacy.AppLogo
-import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
 @Destination

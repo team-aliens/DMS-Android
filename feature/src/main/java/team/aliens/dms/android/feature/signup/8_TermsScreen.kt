@@ -1,43 +1,8 @@
 package team.aliens.dms.android.feature.signup
 
-import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormCheckBox
-import team.aliens.dms.android.design_system.button.DormContainedLargeButton
-import team.aliens.dms.android.design_system.dialog.DormCustomDialog
-import team.aliens.dms.android.design_system.dialog.DormSingleButtonDialog
-import team.aliens.dms.android.design_system.extension.RatioSpace
-import team.aliens.dms.android.design_system.extension.Space
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.toast.LocalToast
-import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.AppLogo
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
 @Destination

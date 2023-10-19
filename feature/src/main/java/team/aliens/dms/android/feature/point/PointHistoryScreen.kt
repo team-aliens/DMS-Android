@@ -1,41 +1,8 @@
 package team.aliens.dms.android.feature.point
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.data.point.model.Point
-import team.aliens.dms.android.data.point.model.PointType
-import team.aliens.dms.android.design_system.button.DormButtonColor
-import team.aliens.dms.android.design_system.button.DormContainedDefaultButton
-import team.aliens.dms.android.design_system.button.DormOutlinedDefaultButton
-import team.aliens.dms.android.design_system.layout.VerticallyFadedLazyColumn
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Body4
-import team.aliens.dms.android.design_system.typography.Body5
-import team.aliens.dms.android.design_system.typography.Headline2
-import team.aliens.dms.android.design_system.typography.OverLine
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.util.TopBar
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 
 @Destination
@@ -85,7 +52,7 @@ internal fun PointHistoryScreen(
             },
         )
     }*/
-}
+}/*
 
 @Stable
 private val filterButtons = listOf(
@@ -140,7 +107,7 @@ private fun PointTypeRadioGroup(
                     text = button.text,
                     color = DormButtonColor.Blue,
                     onClick = {
-                        /* explicit blank */
+                        *//* explicit blank *//*
                     },
                 )
             } else {
@@ -177,7 +144,7 @@ private fun Points(
 private fun PointInformation(
     modifier: Modifier = Modifier,
     point: Point,
-) {/*
+) {*//*
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -229,5 +196,6 @@ private fun PointInformation(
                 // explicit blank
             }
         }
-    }*/
+    }*//*
 }
+*/

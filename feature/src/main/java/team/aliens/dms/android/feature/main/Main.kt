@@ -3,26 +3,14 @@ package team.aliens.dms.android.feature.main
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -32,20 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.design_system.component.DormCalendarLayout
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.BottomNavItemLabel
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.typography.BottomNavItemLabel
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.OneDay
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Announcement
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Application
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Home
 import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.MyPage
-import team.aliens.dms.android.feature.main.NavigationItemsWrapper.navigationItems
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.Date
 
@@ -231,10 +215,10 @@ private object NavigationItemsWrapper {
 }
 
 private val selectedColor: Color
-    @Composable get() = DormTheme.colors.onSurface
+    @Composable get() = DmsTheme.colors.onSurface
 
 private val unselectedColor: Color
-    @Composable get() = DormTheme.colors.primaryVariant
+    @Composable get() = DmsTheme.colors.line
 
 @Composable
 private fun BottomNavBar(
@@ -243,7 +227,7 @@ private fun BottomNavBar(
     navigationItems: List<HomeBottomNavigationItem>,
 ) {
     BottomNavigation(
-        backgroundColor = DormTheme.colors.surface,
+        backgroundColor = DmsTheme.colors.surface,
         modifier = Modifier.graphicsLayer {
             clip = true
             shape = RoundedCornerShape(

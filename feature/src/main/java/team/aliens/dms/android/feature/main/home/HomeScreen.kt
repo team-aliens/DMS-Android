@@ -14,7 +14,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -53,32 +52,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.design_system.color.DormColor
-import team.aliens.dms.android.design_system.icon.DormIcon
-import team.aliens.dms.android.design_system.modifier.dormClickable
-import team.aliens.dms.android.design_system.modifier.dormGradientBackground
-import team.aliens.dms.android.design_system.modifier.dormShadow
-import team.aliens.dms.android.design_system.theme.DormTheme
-import team.aliens.dms.android.design_system.typography.Body2
-import team.aliens.dms.android.design_system.typography.Body5
-import team.aliens.dms.android.design_system.typography.Caption
-import team.aliens.dms.android.design_system.typography.Title1
-import team.aliens.dms.android.feature._legacy.AppLogo
-import team.aliens.dms.android.feature._legacy.FloatingNotice
-import team.aliens.dms.android.feature._legacy.listFadeBrush
-import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
-import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
-import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.absoluteValue
-
+/*
 @Stable
 private val defaultBackgroundBrush = Brush.verticalGradient(
     colors = listOf(
@@ -88,7 +69,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
             alpha = 0.1f,
         ),
     ),
-)
+)*/
 
 @Destination
 @Composable
@@ -149,7 +130,7 @@ internal fun HomeScreen(
             Spacer(Modifier.height(80.dp))
         }
     }*/
-}
+}/*
 
 @Composable
 private fun HomeScreenAppLogo(
@@ -172,11 +153,11 @@ private fun HomeScreenAppLogo(
                 .dormClickable(onClick = onNavigateToNotificationBox),
             painter = painterResource(DormIcon.Bell.drawableId),
             contentDescription = null,
-            tint = DormTheme.colors.primaryVariant,
+            tint = DmsTheme.colors.primaryVariant,
         )
     }
-}
-
+}*/
+/*
 @Composable
 private fun ColumnScope.NoticeCard(
     visible: Boolean,
@@ -219,8 +200,8 @@ private fun ColumnScope.NoticeCard(
             )
         }
     }
-}
-
+}*/
+/*
 @Composable
 private fun DateCard(
     selectedDate: Date,
@@ -249,7 +230,7 @@ private fun DateCard(
             onClick = onNextDay,
         )
     }
-}
+}*//*
 
 @Composable
 private fun CalendarArrow(
@@ -267,8 +248,8 @@ private fun CalendarArrow(
         painter = painterResource(type.icon.drawableId),
         contentDescription = null,
     )
-}
-
+}*/
+/*
 @Composable
 private fun DateTextButton(
     selectedDate: Date,
@@ -276,14 +257,14 @@ private fun DateTextButton(
 ) {
     Row(
         modifier = Modifier
-            .dormShadow(DormTheme.colors.primaryVariant)
+            .dormShadow(DmsTheme.colors.primaryVariant)
             .background(
-                color = DormTheme.colors.surface,
+                color = DmsTheme.colors.surface,
                 shape = RoundedCornerShape(5.dp),
             )
             .border(
                 width = 1.dp,
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
                 shape = RoundedCornerShape(5.dp),
             )
             .clip(
@@ -294,16 +275,16 @@ private fun DateTextButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        /*Image(
+        *//*Image(
             painter = painterResource(R.drawable.ic_calendar),
             contentDescription = null,
         )
         Body5(
             text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
-        )*/
+        )*//*
     }
-}
-
+}*/
+/*
 @Composable
 private fun Date.getDayOfWeek(): String {
     val digit = this.getDigitOfDayOfWeek()
@@ -415,7 +396,7 @@ private fun ColumnScope.MealCards(
                     )
                 }
                 .padding(8.dp)
-                .dormShadow(color = DormTheme.colors.primaryVariant),
+                .dormShadow(color = DmsTheme.colors.primaryVariant),
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -449,8 +430,8 @@ private fun ColumnScope.MealCards(
             },
         )
     }
-}
-
+}*/
+/*
 private enum class DragDirection {
     LEFT, RIGHT,
     ;
@@ -480,7 +461,7 @@ private fun MealCard(
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> { /* explicit blank */
+                            null -> { *//* explicit blank *//*
                             }
                         }
                     },
@@ -498,7 +479,7 @@ private fun MealCard(
                 horizontal = 8.dp,
             )
             .background(
-                color = DormTheme.colors.background,
+                color = DmsTheme.colors.background,
                 shape = RoundedCornerShape(20.dp),
             )
             .clip(
@@ -506,7 +487,7 @@ private fun MealCard(
             )
             .border(
                 width = 1.dp,
-                color = DormTheme.colors.primary,
+                color = DmsTheme.colors.primary,
                 shape = RoundedCornerShape(20.dp),
             ),
         shape = RoundedCornerShape(20.dp),
@@ -535,14 +516,17 @@ private fun MealCard(
             }
         }
     }
-}
+}*/
+/*
 
 @Suppress("DEPRECATION")
 private fun vibrateOnMealCardPaging(
     context: Context,
-) {/* TODO
+) {*/
+/* TODO
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(3L)*/
+    vibrator.vibrate(3L)*//*
+
 }
 
 @Composable
@@ -564,7 +548,7 @@ private fun Dishes(
                     id = icon.drawableId,
                 ),
                 contentDescription = null,
-                tint = DormTheme.colors.primaryVariant,
+                tint = DmsTheme.colors.primaryVariant,
             )
         }
         items(dishes) { menu ->
@@ -576,7 +560,7 @@ private fun Dishes(
         item {
             Caption(
                 text = kcal,
-                color = DormTheme.colors.primaryVariant,
+                color = DmsTheme.colors.primaryVariant,
             )
         }
     }
@@ -596,3 +580,4 @@ private fun getProperMeal(): Int {
         else -> Breakfast
     }
 }
+*/
