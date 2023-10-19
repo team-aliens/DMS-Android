@@ -66,10 +66,8 @@ fun Button(
         CompositionLocalProvider(LocalContentColor provides contentColor) {
             ProvideTextStyle(value = DmsTheme.typography.button) {
                 Row(
-                    Modifier
-                        .defaultMinSize(
-                            minWidth = ButtonDefaults.MinWidth, minHeight = ButtonDefaults.MinHeight
-                        )
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = ButtonDefaults.MinWidth)
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.spacedBy(
                         space = ButtonDefaults.ContentSpacing,
@@ -245,8 +243,6 @@ object ButtonDefaults {
     )
 
     val MinWidth = 50.dp
-
-    val MinHeight = 46.dp
 
     val IconSize = 18.dp
 
