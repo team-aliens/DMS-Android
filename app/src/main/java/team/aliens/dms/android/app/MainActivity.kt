@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// TODO: useless wrapper
 @Composable
 private fun DmsApp(
     modifier: Modifier = Modifier,
