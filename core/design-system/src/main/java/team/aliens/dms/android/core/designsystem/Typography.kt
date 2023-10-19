@@ -101,6 +101,34 @@ class Typography internal constructor(
         overline = overline.withDefaultFontFamily(defaultFontFamily),
         button = button.withDefaultFontFamily(defaultFontFamily),
     )
+
+    fun copy(
+        headline1: TextStyle = this.headline1,
+        headline2: TextStyle = this.headline2,
+        headline3: TextStyle = this.headline3,
+        title1: TextStyle = this.title1,
+        title2: TextStyle = this.title2,
+        title3: TextStyle = this.title3,
+        body1: TextStyle = this.body1,
+        body2: TextStyle = this.body2,
+        body3: TextStyle = this.body3,
+        caption: TextStyle = this.caption,
+        overline: TextStyle = this.overline,
+        button: TextStyle = this.button,
+    ): Typography = Typography(
+        headline1 = headline1,
+        headline2 = headline2,
+        headline3 = headline3,
+        title1 = title1,
+        title2 = title2,
+        title3 = title3,
+        body1 = body1,
+        body2 = body2,
+        body3 = body3,
+        caption = caption,
+        overline = overline,
+        button = button,
+    )
 }
 
 private val notoSansFontFamily: FontFamily = FontFamily(
