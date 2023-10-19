@@ -25,7 +25,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,7 +57,7 @@ fun TextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = DmsTheme.typography.body2,
     label: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
@@ -94,11 +93,7 @@ fun TextField(
                 .padding(top = TextFieldDefaults.TopPadding)
         } else {
             modifier
-        }
-            .defaultMinSize(
-                minWidth = TextFieldDefaults.MinWidth,
-                minHeight = TextFieldDefaults.MinHeight,
-            ),
+        },
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -117,9 +112,9 @@ fun TextField(
                 isError = isError,
                 interactionSource = interactionSource,
                 colors = colors,
-                content = innerTextField,
                 supportingText = supportingText,
                 shape = shape,
+                content = innerTextField,
             )
         },
     )
@@ -422,16 +417,21 @@ object TextFieldDefaults {
         shape: Shape,
         content: @Composable () -> Unit,
     ) = Column {
-        DecorationBox(
-            enabled = enabled,
-            isError = isError,
-            interactionSource = interactionSource,
-            colors = colors,
-            content = content,
-            focusedBorderThickness = focusedBorderThickness,
-            unfocusedBorderThickness = unfocusedBorderThickness,
-            shape = shape,
-        )
+
+        ProvideTextStyle(
+            value = DmsTheme.typography.body2,
+        ) {
+            DecorationBox(
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+                colors = colors,
+                focusedBorderThickness = focusedBorderThickness,
+                unfocusedBorderThickness = unfocusedBorderThickness,
+                shape = shape,
+                content = content,
+            )
+        }
         val supportingTextColor = colors.supportingTextColor(
             enabled = enabled,
             isError = isError,
@@ -473,17 +473,17 @@ object TextFieldDefaults {
 
         Box(
             modifier = Modifier
-                .defaultMinSize(minWidth = MinWidth)
+                .defaultMinSize(
+                    minWidth = MinWidth,
+                    minHeight = MinHeight,
+                )
                 .border(
                     border = borderStroke.value,
                     shape = shape,
                 )
                 .padding(ContentPadding),
         ) {
-            ProvideTextStyle(
-                value = DmsTheme.typography.headline1,
-                content = content,
-            )
+            content()
         }
     }
 }
