@@ -4,10 +4,12 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,11 +18,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -39,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextField(
     value: String,
@@ -73,54 +76,42 @@ fun TextField(
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
 
     // CompositionLocalProvider(LocalTextSelectionColors provides colors.selectionColors) {
-        BasicTextField(
-            value = value,
-            modifier = if (label != null) {
-                modifier
-                    .semantics(mergeDescendants = true) {}
-                    .padding(top = TextFieldDefaults.TopPadding)
-            } else {
-                modifier
-            }.defaultMinSize(
-                minWidth = TextFieldDefaults.MinWidth, minHeight = TextFieldDefaults.MinHeight
-            ),
-            onValueChange = onValueChange,
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = mergedTextStyle,
-            cursorBrush = SolidColor(colors.cursorColor(isError).value),
-            visualTransformation = visualTransformation,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            interactionSource = interactionSource,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            minLines = minLines,
-            decorationBox = @Composable { innerTextField ->
+    BasicTextField(
+        value = value,
+        modifier = if (label != null) {
+            modifier
+                .semantics(mergeDescendants = true) {}
+                .padding(top = TextFieldDefaults.TopPadding)
+        } else {
+            modifier
+        }.defaultMinSize(
+            minWidth = TextFieldDefaults.MinWidth, minHeight = TextFieldDefaults.MinHeight
+        ),
+        onValueChange = onValueChange,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = mergedTextStyle,
+        cursorBrush = SolidColor(colors.cursorColor(isError).value),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        minLines = minLines,
+        decorationBox = @Composable { innerTextField ->
+            Column {
                 TextFieldDefaults.DecorationBox(
-                    value = value,
-                    visualTransformation = visualTransformation,
-                    innerTextField = innerTextField,
-                    placeholder = placeholder,
-                    label = label,
-                    leadingIcon = leadingIcon,
-                    trailingIcon = trailingIcon,
-                    prefix = prefix,
-                    suffix = suffix,
-                    supportingText = supportingText,
-                    singleLine = singleLine,
                     enabled = enabled,
                     isError = isError,
                     interactionSource = interactionSource,
                     colors = colors,
-                    container = {
-                        TextFieldDefaults.ContainerBox(
-                            enabled, isError, interactionSource, colors, shape
-                        )
-                    },
+                    content = innerTextField,
                 )
-            },
-        )
+                supportingText?.let { it() }
+            }
+        },
+    )
     // }
 }
 
@@ -191,6 +182,27 @@ class TextFieldColors(
         } else {
             rememberUpdatedState(targetValue)
         }
+    }
+
+    @Composable
+    internal fun containerColor(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource,
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledContainerColor
+            isError -> errorContainerColor
+            focused -> focusedContainerColor
+            else -> unfocusedContainerColor
+        }
+        return animateColorAsState(
+            targetValue = targetValue,
+            animationSpec = tween(durationMillis = TextFieldDefaults.AnimationDuration),
+            label = "Text field container",
+        )
     }
 
     @Composable
@@ -368,6 +380,35 @@ object TextFieldDefaults {
         disabledSupportingTextColor = disabledSupportingTextColor,
         errorSupportingTextColor = errorSupportingTextColor,
     )
+
+    @Composable
+    fun DecorationBox(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource,
+        colors: TextFieldColors,
+        focusedBorderThickness: Dp = FocusedBorderThickness,
+        unfocusedBorderThickness: Dp = UnfocusedBorderThickness,
+        content: @Composable () -> Unit,
+    ) {
+        val borderStroke = animateBorderStrokeAsState(
+            enabled = enabled,
+            isError = isError,
+            interactionSource = interactionSource,
+            colors = colors,
+            focusedBorderThickness = focusedBorderThickness,
+            unfocusedBorderThickness = unfocusedBorderThickness,
+        )
+
+        Box(
+            modifier = Modifier.border(
+                border = borderStroke.value,
+                shape = DmsTheme.shapes.small,
+            ),
+        ) {
+            content()
+        }
+    }
 }
 
 @Composable
@@ -415,6 +456,8 @@ private fun TextFieldPreview() {
         TextField(
             value = value,
             onValueChange = onValueChange,
+            isError = false,
+            supportingText = { Text(text = "ASDFakjhkjhkjhsdf") }
         )
     }
 }
