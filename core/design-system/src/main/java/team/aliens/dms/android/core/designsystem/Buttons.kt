@@ -42,7 +42,7 @@ fun Button(
     elevation: Dp = 0.dp,
     shape: Shape = DmsTheme.shapes.small,
     border: BorderStroke? = null,
-    colors: ButtonColors = ButtonDefaults.containedButtonColors(),
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit,
 ) {
@@ -75,39 +75,7 @@ fun Button(
                 )
             }
         }
-    }/*
-        Surface(
-            onClick = onClick,
-            modifier = modifier.semantics { role = Role.Button },
-            enabled = enabled,
-            shape = shape,
-            color = colors.backgroundColor(enabled).value,
-            contentColor = contentColor.copy(alpha = 1f),
-            border = border,
-            elevation = elevation,
-            interactionSource = interactionSource,
-        ) {
-            CompositionLocalProvider(LocalContentAlpha provides contentColor.alpha) {
-                ProvideTextStyle(
-                    value = textStyle,
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .defaultMinSize(
-                                minWidth = ButtonDefaults.MinWidth,
-                                minHeight = ButtonDefaults.MinHeight,
-                            )
-                            .padding(contentPadding),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 8.dp,
-                            alignment = Alignment.CenterHorizontally,
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        content = content,
-                    )
-                }
-            }
-        }*/
+    }
 }
 
 @Composable
@@ -255,6 +223,19 @@ object ButtonDefaults {
         @Composable get() = DmsTheme.shapes.circle
 
     @Composable
+    fun buttonColors(
+        containerColor: Color = DmsTheme.colors.primary,
+        contentColor: Color = DmsTheme.colors.onPrimary,
+        disabledContainerColor: Color = containerColor.copy(alpha = DisabledContainerOpacity),
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledContentOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
     fun containedButtonColors(
         containerColor: Color = DmsTheme.colors.primary,
         contentColor: Color = DmsTheme.colors.onPrimary,
@@ -319,7 +300,7 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = {},
         ) {
-            Text(text = "Base Button")
+            Text(text = "Default Button")
         }
 
         ContainedButton(
