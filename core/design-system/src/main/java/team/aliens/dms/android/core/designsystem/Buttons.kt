@@ -154,9 +154,29 @@ fun TextButton(
 )
 
 @Composable
-fun RoundedButton() {
-
-}
+fun RoundedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    elevation: Dp = 0.dp,
+    shape: Shape = DmsTheme.shapes.circle,
+    border: BorderStroke? = null,
+    colors: ButtonColors = ButtonDefaults.roundedButtonColors(),
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    content: @Composable RowScope.() -> Unit,
+) = Button(
+    onClick = onClick,
+    modifier = modifier,
+    enabled = enabled,
+    interactionSource = interactionSource,
+    elevation = elevation,
+    shape = shape,
+    border = border,
+    colors = colors,
+    contentPadding = contentPadding,
+    content = content,
+)
 
 @Stable
 class ButtonColors(
@@ -340,11 +360,11 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = {},
         ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
             Text(text = "Contained Button")
-            Icon(
-                painter = painterResource(id = R.drawable.ic_camera),
-                contentDescription = null,
-            )
         }
 
         OutlinedButton(
@@ -361,11 +381,11 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = { },
         ) {
-            Text(text = "Outlined Button")
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
+            Text(text = "Outlined Button")
         }
 
         TextButton(
@@ -382,11 +402,32 @@ private fun ButtonPreview() {
                 .padding(horizontal = 16.dp),
             onClick = { },
         ) {
-            Text(text = "Text Button")
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
+            Text(text = "Text Button")
+        }
+
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
+            Text(text = "Text Button")
+        }
+        RoundedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Text Button")
         }
 
         androidx.compose.material3.Button(
