@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
@@ -356,6 +357,32 @@ object ButtonDefaults {
     )
 
     @Composable
+    fun outlinedGrayButtonColors(
+        containerColor: Color = Color.Transparent,
+        contentColor: Color = DmsTheme.colors.backgroundVariant,
+        disabledContainerColor: Color = containerColor,
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
+    fun outlinedErrorButtonColors(
+        containerColor: Color = Color.Transparent,
+        contentColor: Color = DmsTheme.colors.error,
+        disabledContainerColor: Color = containerColor,
+        disabledContentColor: Color = contentColor.copy(alpha = DisabledTextOpacity),
+    ): ButtonColors = ButtonColors(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        disabledContainerColor = disabledContainerColor,
+        disabledContentColor = disabledContentColor,
+    )
+
+    @Composable
     fun textButtonColors(
         containerColor: Color = Color.Transparent,
         contentColor: Color = DmsTheme.colors.primary,
@@ -481,13 +508,19 @@ private fun ButtonPreview() {
             Text(text = "Contained Refuse Button")
         }
 
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+        )
+
         OutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
         ) {
-            Text(text = "Outlined Button")
+            Text(text = "Outlined Default Button")
         }
         OutlinedButton(
             modifier = Modifier
@@ -499,8 +532,60 @@ private fun ButtonPreview() {
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = null,
             )
-            Text(text = "Outlined Button")
+            Text(text = "Outlined Default Button")
         }
+
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.outlinedGrayButtonColors()
+        ) {
+            Text(text = "Outlined Gray Button")
+        }
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.outlinedGrayButtonColors()
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Outlined Gray Button")
+        }
+
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.outlinedErrorButtonColors()
+        ) {
+            Text(text = "Outlined Error Button")
+        }
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+            colors = ButtonDefaults.outlinedErrorButtonColors()
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_camera),
+                contentDescription = null,
+            )
+            Text(text = "Outlined Error Button")
+        }
+
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+        )
 
         TextButton(
             modifier = Modifier
@@ -543,6 +628,12 @@ private fun ButtonPreview() {
             )
             Text(text = "Text Button")
         }
+
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+        )
 
         androidx.compose.material3.Button(
             modifier = Modifier
