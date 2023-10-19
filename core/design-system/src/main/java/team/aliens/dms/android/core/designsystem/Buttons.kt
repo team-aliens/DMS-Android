@@ -115,8 +115,11 @@ fun OutlinedButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: Dp = 0.dp,
     shape: Shape = DmsTheme.shapes.small,
-    border: BorderStroke? = ButtonDefaults.outlinedButtonBorder,
     colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
+    border: BorderStroke? = BorderStroke(
+        width = ButtonDefaults.OutlineWidth,
+        color = colors.contentColor,
+    ),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit,
 ) = Button(
@@ -184,10 +187,10 @@ fun RoundedButton(
 
 @Stable
 class ButtonColors(
-    private val containerColor: Color,
-    private val contentColor: Color,
-    private val disabledContainerColor: Color,
-    private val disabledContentColor: Color,
+    val containerColor: Color,
+    val contentColor: Color,
+    val disabledContainerColor: Color,
+    val disabledContentColor: Color,
 ) {
     @Composable
     internal fun containerColor(enabled: Boolean): State<Color> = rememberUpdatedState(
