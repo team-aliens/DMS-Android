@@ -29,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -109,49 +108,6 @@ fun Button(
                 }
             }
         }*/
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun ButtonPreview() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            onClick = {},
-        ) {
-            Text(text = "Base Button")
-        }
-
-        ContainedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            onClick = {},
-        ) {
-            Text(text = "Contained Button")
-            Icon(
-                painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = null,
-            )
-        }
-
-        OutlinedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            onClick = { },
-        ) {
-            Text(text = "Outlined Button")
-        }
-
-        androidx.compose.material3.Button(onClick = { /*TODO*/ }) {
-
-        }
-    }
 }
 
 @Composable
@@ -349,4 +305,52 @@ object ButtonDefaults {
         disabledContainerColor = disabledContainerColor,
         disabledContentColor = disabledContentColor,
     )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun ButtonPreview() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = {},
+        ) {
+            Text(text = "Base Button")
+        }
+
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = {},
+        ) {
+            Text(text = "Contained Button")
+            Icon(
+                painter = painterResource(id = R.drawable.ic_back),
+                contentDescription = null,
+            )
+        }
+
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { },
+        ) {
+            Text(text = "Outlined Button")
+        }
+
+        androidx.compose.material3.Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { /*TODO*/ },
+        ) {
+            Text(text = "Material3 Button")
+        }
+    }
 }
