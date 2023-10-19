@@ -13,8 +13,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
@@ -24,7 +27,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -41,11 +43,14 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+// TODO: Body text typography
 @Composable
 fun TextField(
     value: String,
@@ -55,18 +60,18 @@ fun TextField(
     readOnly: Boolean = false,
     textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    prefix: @Composable (() -> Unit)? = null,
-    suffix: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
-    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    maxLines: Int = if (singleLine) {
+        1
+    } else {
+        Int.MAX_VALUE
+    },
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.shape,
@@ -74,47 +79,50 @@ fun TextField(
 ) {
     val textColor = textStyle.color.takeOrElse {
         colors.textColor(
-            enabled, isError, interactionSource
+            enabled = enabled,
+            isError = isError,
+            interactionSource = interactionSource,
         ).value
     }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
 
-    Surface {
-        ProvideTextStyle(value = DmsTheme.typography.body2) {
-            BasicTextField(
-                value = value,
-                modifier = if (label != null) {
-                    modifier
-                        .semantics(mergeDescendants = true) {}
-                        .padding(top = TextFieldDefaults.TopPadding)
-                } else {
-                    modifier
-                }.defaultMinSize(minWidth = TextFieldDefaults.MinWidth),
-                onValueChange = onValueChange,
-                enabled = enabled,
-                readOnly = readOnly,
-                textStyle = mergedTextStyle,
-                cursorBrush = SolidColor(colors.cursorColor(isError).value),
-                visualTransformation = visualTransformation,
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
-                interactionSource = interactionSource,
-                singleLine = singleLine,
-                maxLines = maxLines,
-                minLines = minLines,
-                decorationBox = @Composable { innerTextField ->
-                    TextFieldDefaults.TextFieldLayout(
-                        enabled = enabled,
-                        isError = isError,
-                        interactionSource = interactionSource,
-                        colors = colors,
-                        content = innerTextField,
-                        supportingText = supportingText,
-                    )
-                },
-            )
+    BasicTextField(
+        value = value,
+        modifier = if (label != null) {
+            modifier
+                .semantics(mergeDescendants = true) {}
+                .padding(top = TextFieldDefaults.TopPadding)
+        } else {
+            modifier
         }
-    }
+            .defaultMinSize(
+                minWidth = TextFieldDefaults.MinWidth,
+                minHeight = TextFieldDefaults.MinHeight,
+            ),
+        onValueChange = onValueChange,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = mergedTextStyle,
+        cursorBrush = SolidColor(colors.cursorColor(isError).value),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        minLines = minLines,
+        decorationBox = @Composable { innerTextField ->
+            TextFieldDefaults.TextFieldLayout(
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+                colors = colors,
+                content = innerTextField,
+                supportingText = supportingText,
+                shape = shape,
+            )
+        },
+    )
 }
 
 @Immutable
@@ -157,7 +165,7 @@ class TextFieldColors(
                 isError -> errorTrailingIconColor
                 focused -> focusedTrailingIconColor
                 else -> unfocusedTrailingIconColor
-            }
+            },
         )
     }
 
@@ -182,7 +190,7 @@ class TextFieldColors(
                 label = "Text field indicator",
             )
         } else {
-            rememberUpdatedState(targetValue)
+            rememberUpdatedState(newValue = targetValue)
         }
     }
 
@@ -238,7 +246,7 @@ class TextFieldColors(
                 isError -> errorSupportingTextColor
                 focused -> focusedSupportingTextColor
                 else -> unfocusedSupportingTextColor
-            }
+            },
         )
     }
 
@@ -320,10 +328,22 @@ object TextFieldDefaults {
         bottom = VerticalPadding,
     )
 
+    private val SupportingTextHorizontalPadding = 4.dp
+    private val SupportingTextVerticalPadding = 2.dp
+
+    val SupportingTextPadding = PaddingValues(
+        start = SupportingTextHorizontalPadding,
+        top = SupportingTextVerticalPadding,
+        end = SupportingTextHorizontalPadding,
+        bottom = SupportingTextVerticalPadding,
+    )
+
     val shape: Shape
         @Composable get() = DmsTheme.shapes.small
 
     val MinWidth = 280.dp
+
+    val MinHeight = 52.dp
 
     val UnfocusedBorderThickness = 1.dp
 
@@ -399,6 +419,7 @@ object TextFieldDefaults {
         supportingText: (@Composable () -> Unit)? = null,
         focusedBorderThickness: Dp = FocusedBorderThickness,
         unfocusedBorderThickness: Dp = UnfocusedBorderThickness,
+        shape: Shape,
         content: @Composable () -> Unit,
     ) = Column {
         DecorationBox(
@@ -409,6 +430,7 @@ object TextFieldDefaults {
             content = content,
             focusedBorderThickness = focusedBorderThickness,
             unfocusedBorderThickness = unfocusedBorderThickness,
+            shape = shape,
         )
         val supportingTextColor = colors.supportingTextColor(
             enabled = enabled,
@@ -417,10 +439,14 @@ object TextFieldDefaults {
         ).value
 
         if (supportingText != null) {
-            ProvideTextStyle(
-                value = DmsTheme.typography.caption.copy(color = supportingTextColor),
+            Row(
+                modifier = Modifier.padding(SupportingTextPadding),
             ) {
-                supportingText()
+                ProvideTextStyle(
+                    value = DmsTheme.typography.caption.copy(color = supportingTextColor),
+                ) {
+                    supportingText()
+                }
             }
         }
     }
@@ -433,6 +459,7 @@ object TextFieldDefaults {
         colors: TextFieldColors,
         focusedBorderThickness: Dp,
         unfocusedBorderThickness: Dp,
+        shape: Shape,
         content: @Composable () -> Unit,
     ) {
         val borderStroke = animateBorderStrokeAsState(
@@ -444,18 +471,19 @@ object TextFieldDefaults {
             unfocusedBorderThickness = unfocusedBorderThickness,
         )
 
-        ProvideTextStyle(value = DmsTheme.typography.body2) {
-            Box(
-                modifier = Modifier
-                    .defaultMinSize(minWidth = MinWidth)
-                    .border(
-                        border = borderStroke.value,
-                        shape = DmsTheme.shapes.small,
-                    )
-                    .padding(ContentPadding),
-            ) {
-                content()
-            }
+        Box(
+            modifier = Modifier
+                .defaultMinSize(minWidth = MinWidth)
+                .border(
+                    border = borderStroke.value,
+                    shape = shape,
+                )
+                .padding(ContentPadding),
+        ) {
+            ProvideTextStyle(
+                value = DmsTheme.typography.headline1,
+                content = content,
+            )
         }
     }
 }
@@ -470,7 +498,11 @@ private fun animateBorderStrokeAsState(
     unfocusedBorderThickness: Dp,
 ): State<BorderStroke> {
     val focused by interactionSource.collectIsFocusedAsState()
-    val indicatorColor = colors.indicatorColor(enabled, isError, interactionSource)
+    val indicatorColor = colors.indicatorColor(
+        enabled = enabled,
+        isError = isError,
+        interactionSource = interactionSource,
+    )
     val targetThickness = if (focused) {
         focusedBorderThickness
     } else {
@@ -483,10 +515,13 @@ private fun animateBorderStrokeAsState(
             label = "text field border stroke",
         )
     } else {
-        rememberUpdatedState(unfocusedBorderThickness)
+        rememberUpdatedState(newValue = unfocusedBorderThickness)
     }
     return rememberUpdatedState(
-        BorderStroke(animatedThickness.value, SolidColor(indicatorColor.value))
+        BorderStroke(
+            width = animatedThickness.value,
+            brush = SolidColor(indicatorColor.value),
+        ),
     )
 }
 
@@ -503,7 +538,10 @@ internal fun Decoration(
         )
     }
     if (typography != null) {
-        ProvideTextStyle(typography, contentWithColor)
+        ProvideTextStyle(
+            value = typography,
+            content = contentWithColor,
+        )
     } else {
         contentWithColor()
     }
@@ -514,6 +552,8 @@ internal fun Decoration(
 private fun TextFieldPreview() {
 
     val (value, onValueChange) = remember { mutableStateOf("") }
+    val (error, onErrorChange) = remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier
@@ -525,8 +565,38 @@ private fun TextFieldPreview() {
         TextField(
             value = value,
             onValueChange = onValueChange,
-            isError = true,
-            supportingText = { Text(text = "ASDFakjhkjhkjhsdf") },
+            isError = error,
+            supportingText = {
+                if (error) {
+                    Text(text = "ASDFakjhkjhkjhsdf")
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Text,
+            ),
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        ContainedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onClick = { onErrorChange(!error) },
+            colors = if (error) {
+                ButtonDefaults.containedErrorButtonColors()
+            } else {
+                ButtonDefaults.containedButtonColors()
+            },
+        ) {
+            Text(
+                text = if (error) {
+                    "오류 완화하기"
+                } else {
+                    "오류 발생시키기"
+                },
+            )
+        }
     }
 }
