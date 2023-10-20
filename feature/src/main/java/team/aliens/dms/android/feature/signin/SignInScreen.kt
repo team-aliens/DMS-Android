@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,6 +49,7 @@ import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
 @Destination
@@ -57,6 +59,16 @@ internal fun SignInScreen(
     navigator: SignInNavigator,
 ) {
     val viewModel: SignInViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val sideEffect = viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            SignInSideEffect.Failure -> {}
+            is SignInSideEffect.IdError -> {}
+            SignInSideEffect.Loading -> {}
+            is SignInSideEffect.PasswordError -> {}
+            SignInSideEffect.Success -> {}
+        }
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -66,8 +78,42 @@ internal fun SignInScreen(
                 .fillMaxSize()
                 .padding(padValues),
         ) {
+            Spacer(modifier = Modifier.weight(1f))
             Banner(Modifier.fillMaxWidth())
-            //UserInformationInputs(modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.weight(1f))
+            UserInformationInputs(
+                modifier = Modifier.fillMaxWidth(),
+                id = uiState.id,
+                password = uiState.password,
+                onIdChange = { id ->
+                    viewModel.postIntent(SignInIntent.UpdateId(id))
+                },
+                onPasswordChange = { password ->
+                    viewModel.postIntent(SignInIntent.UpdatePassword(password))
+                },
+                autoSignIn = uiState.autoSignIn,
+                onAutoSignInChange = { autoSignIn ->
+                    viewModel.postIntent(SignInIntent.UpdateAutoSignInOption(autoSignIn))
+                },
+            )
+            UnauthorizedActions(
+                modifier = Modifier.fillMaxWidth(),
+                onSignUp = {},
+                onFindId = {},
+                onResetPassword = {},
+            )
+            Spacer(modifier = Modifier.weight(5f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = { /* TODO */ },
+                // TODO
+                enabled = true,
+            ) {
+                Text(text = "로그인")
+            }
         }
     }
 }
@@ -94,7 +140,7 @@ private fun Banner(
 private fun UserInformationInputs(
     modifier: Modifier = Modifier,
     id: String,
-    idChange: (String) -> Unit,
+    onIdChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
     autoSignIn: Boolean,
@@ -113,7 +159,7 @@ private fun UserInformationInputs(
                 .fillMaxWidth()
                 .horizontalPadding(),
             value = id,
-            onValueChange = idChange,
+            onValueChange = onIdChange,
             hint = { Text(text = "아이디") },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         )
@@ -241,7 +287,7 @@ private fun SignInPreview() {
                 modifier = Modifier.fillMaxWidth(),
                 id = id,
                 password = password,
-                idChange = onIdChange,
+                onIdChange = onIdChange,
                 onPasswordChange = onPasswordChange,
                 autoSignIn = autoSignIn,
                 onAutoSignInChange = onAutoSignInChange,
