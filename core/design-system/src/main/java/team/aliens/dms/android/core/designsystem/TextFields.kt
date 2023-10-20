@@ -19,11 +19,14 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -35,17 +38,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasurePolicy
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.MeasureScope
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -113,6 +123,7 @@ fun TextField(
                 interactionSource = interactionSource,
                 colors = colors,
                 supportingText = supportingText,
+                trailingIcon = trailingIcon,
                 shape = shape,
                 content = innerTextField,
             )
@@ -323,6 +334,11 @@ object TextFieldDefaults {
         bottom = VerticalPadding,
     )
 
+    val IconDefaultSizeModifier = Modifier.size(
+        width = 24.dp,
+        height = 24.dp,
+    )
+
     private val SupportingTextHorizontalPadding = 4.dp
     private val SupportingTextVerticalPadding = 2.dp
 
@@ -335,8 +351,6 @@ object TextFieldDefaults {
 
     val shape: Shape
         @Composable get() = DmsTheme.shapes.small
-
-    val MinWidth = 280.dp
 
     val MinHeight = 52.dp
 
@@ -412,41 +426,54 @@ object TextFieldDefaults {
         interactionSource: InteractionSource,
         colors: TextFieldColors,
         supportingText: (@Composable () -> Unit)? = null,
+        trailingIcon: @Composable (() -> Unit)? = null,
         focusedBorderThickness: Dp = FocusedBorderThickness,
         unfocusedBorderThickness: Dp = UnfocusedBorderThickness,
         shape: Shape,
         content: @Composable () -> Unit,
     ) = Column {
 
-        ProvideTextStyle(
-            value = DmsTheme.typography.body2,
-        ) {
-            DecorationBox(
-                enabled = enabled,
-                isError = isError,
-                interactionSource = interactionSource,
-                colors = colors,
-                focusedBorderThickness = focusedBorderThickness,
-                unfocusedBorderThickness = unfocusedBorderThickness,
-                shape = shape,
-                content = content,
-            )
-        }
-        val supportingTextColor = colors.supportingTextColor(
+        val trailingIconColor = colors.trailingIconColor(
             enabled = enabled,
             isError = isError,
             interactionSource = interactionSource,
         ).value
+        val decoratedTrailing: @Composable (() -> Unit)? = trailingIcon?.let {
+            @Composable {
+                Decoration(
+                    contentColor = trailingIconColor,
+                    content = it,
+                )
+            }
+        }
+
+        DecorationBox(
+            enabled = enabled,
+            isError = isError,
+            interactionSource = interactionSource,
+            colors = colors,
+            focusedBorderThickness = focusedBorderThickness,
+            unfocusedBorderThickness = unfocusedBorderThickness,
+            trailing = decoratedTrailing,
+            shape = shape,
+            content = content,
+        )
 
         if (supportingText != null) {
+            val supportingTextColor = colors.supportingTextColor(
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+            ).value
+
             Row(
                 modifier = Modifier.padding(SupportingTextPadding),
             ) {
-                ProvideTextStyle(
-                    value = DmsTheme.typography.caption.copy(color = supportingTextColor),
-                ) {
-                    supportingText()
-                }
+                Decoration(
+                    contentColor = supportingTextColor,
+                    typography = DmsTheme.typography.caption,
+                    content = supportingText,
+                )
             }
         }
     }
@@ -459,6 +486,7 @@ object TextFieldDefaults {
         colors: TextFieldColors,
         focusedBorderThickness: Dp,
         unfocusedBorderThickness: Dp,
+        trailing: @Composable (() -> Unit)? = null,
         shape: Shape,
         content: @Composable () -> Unit,
     ) {
@@ -471,20 +499,46 @@ object TextFieldDefaults {
             unfocusedBorderThickness = unfocusedBorderThickness,
         )
 
-        Box(
-            modifier = Modifier
-                .defaultMinSize(
-                    minWidth = MinWidth,
-                    minHeight = MinHeight,
-                )
-                .border(
-                    border = borderStroke.value,
-                    shape = shape,
-                )
-                .padding(ContentPadding),
+
+        Decoration(
+            contentColor = DmsTheme.colorScheme.onSurface,
+            typography = DmsTheme.typography.caption,
         ) {
-            content()
+            Row(
+                modifier = Modifier
+                    .defaultMinSize(minHeight = MinHeight)
+                    .border(
+                        border = borderStroke.value,
+                        shape = shape,
+                    )
+                    .padding(ContentPadding),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                content()
+
+                if (trailing != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(
+                        modifier = IconDefaultSizeModifier,
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        trailing()
+                    }
+                }
+            }
         }
+    }
+}
+
+private class TextFieldMeasurePolicy(
+    private val isError: Boolean,
+    private val trailing: (() -> Unit)?,
+) : MeasurePolicy {
+    override fun MeasureScope.measure(
+        measurables: List<Measurable>,
+        constraints: Constraints,
+    ): MeasureResult {
+        TODO("Not yet implemented")
     }
 }
 
@@ -568,13 +622,19 @@ private fun TextFieldPreview() {
             isError = error,
             supportingText = {
                 if (error) {
-                    Text(text = "ASDFakjhkjhkjhsdf")
+                    Text(text = "Please check the ID")
                 }
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Text,
             ),
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_password_visible),
+                    contentDescription = null,
+                )
+            },
         )
 
         Spacer(modifier = Modifier.weight(1f))
