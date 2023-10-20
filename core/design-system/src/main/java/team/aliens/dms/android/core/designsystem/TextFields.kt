@@ -574,10 +574,7 @@ object TextFieldDefaults {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
-                    modifier = Modifier.weight(
-                        weight = 1f,
-                        fill = true,
-                    ),
+                    modifier = Modifier.weight(1f),
                     contentAlignment = Alignment.CenterStart,
                 ) {
                     if (hint != null) {
