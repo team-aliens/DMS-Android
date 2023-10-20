@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,18 +25,14 @@ class MainActivity : ComponentActivity() {
             val toast = rememberToastState()
 
             DmsTheme {
-                Surface(
-                    color = DmsTheme.colorScheme.background,
+                ToastLayout(
+                    modifier = Modifier.fillMaxSize(),
+                    toastState = toast,
                 ) {
-                    ToastLayout(
+                    DmsApp(
                         modifier = Modifier.fillMaxSize(),
-                        toastState = toast,
-                    ) {
-                        DmsApp(
-                            modifier = Modifier.fillMaxSize(),
-                            autoSignIn = autoSignIn,
-                        )
-                    }
+                        autoSignIn = autoSignIn,
+                    )
                 }
             }
         }
