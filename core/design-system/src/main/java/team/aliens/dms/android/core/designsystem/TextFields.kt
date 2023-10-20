@@ -120,6 +120,7 @@ fun TextField(
             TextFieldDefaults.TextFieldLayout(
                 enabled = enabled,
                 inputState = inputState,
+                isTextEmpty = value.isNotBlank(),
                 isError = isError,
                 interactionSource = interactionSource,
                 colors = colors,
@@ -456,6 +457,7 @@ object TextFieldDefaults {
     fun TextFieldLayout(
         enabled: Boolean,
         inputState: InputPhase,
+        isTextEmpty: Boolean,
         isError: Boolean,
         interactionSource: InteractionSource,
         colors: TextFieldColors,
@@ -486,6 +488,7 @@ object TextFieldDefaults {
         DecorationBox(
             enabled = enabled,
             inputState = inputState,
+            isTextEmpty = isTextEmpty,
             isError = isError,
             interactionSource = interactionSource,
             colors = colors,
@@ -520,6 +523,7 @@ object TextFieldDefaults {
     fun DecorationBox(
         enabled: Boolean,
         inputState: InputPhase,
+        isTextEmpty: Boolean,
         isError: Boolean,
         interactionSource: InteractionSource,
         colors: TextFieldColors,
@@ -540,11 +544,15 @@ object TextFieldDefaults {
         )
 
         val hintColor: @Composable (InputPhase) -> Color = {
-            colors.hintColor(
-                enabled = enabled,
-                isError = isError,
-                interactionSource = interactionSource,
-            ).value
+            if (!isTextEmpty) {
+                colors.hintColor(
+                    enabled = enabled,
+                    isError = isError,
+                    interactionSource = interactionSource,
+                ).value
+            } else {
+                Color.Transparent
+            }
         }
 
         Decoration(
@@ -671,6 +679,27 @@ private fun TextFieldPreview() {
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            value = value,
+            onValueChange = onValueChange,
+            isError = error,
+            hint = {
+                Text(text = "Default Text Field")
+            },
+            supportingText = {
+                if (error) {
+                    Text(text = "Please check the ID")
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Text,
+            ),
+        )
+
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
