@@ -54,6 +54,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import team.aliens.dms.android.core.designsystem.TextFieldDefaults.IconDefaultSizeModifier
 
 @Composable
 fun TextField(
@@ -723,6 +724,7 @@ private fun TextFieldPreview() {
             trailingIcon = {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
+                        modifier = IconDefaultSizeModifier,
                         painter = painterResource(id = R.drawable.ic_password_visible),
                         contentDescription = null,
                     )
