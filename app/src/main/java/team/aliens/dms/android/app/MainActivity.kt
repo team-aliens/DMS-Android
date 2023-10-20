@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     toastState = toast,
                 ) {
-                    DmsApp(
+                    DmsNavHost(
                         modifier = Modifier.fillMaxSize(),
                         autoSignIn = autoSignIn,
                     )
@@ -37,16 +36,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-// TODO: useless wrapper
-@Composable
-private fun DmsApp(
-    modifier: Modifier = Modifier,
-    autoSignIn: Boolean,
-) {
-    DmsNavHost(
-        modifier = modifier,
-        autoSignIn = autoSignIn,
-    )
 }
