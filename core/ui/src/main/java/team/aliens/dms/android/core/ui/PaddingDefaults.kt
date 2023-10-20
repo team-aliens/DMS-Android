@@ -81,3 +81,7 @@ fun Modifier.horizontalPadding(
 fun Modifier.verticalPadding(
     value: Dp = PaddingDefaults.Small,
 ): Modifier = padding(vertical = value)
+
+val DefaultVerticalSpace = PaddingDefaults.Small
+
+val DefaultHorizontalSpace = PaddingDefaults.Small
