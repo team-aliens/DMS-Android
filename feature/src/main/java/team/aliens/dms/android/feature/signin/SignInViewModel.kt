@@ -5,32 +5,76 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SignInViewModel @Inject constructor(
-
+    private val authRepository: AuthRepository,
 ) : BaseMviViewModel<SignInUiState, SignInIntent, SignInSideEffect>(
     initialState = SignInUiState.initial(),
 ) {
+    override fun processIntent(intent: SignInIntent) {
+        when (intent) {
+            SignInIntent.SignIn -> {}
+            is SignInIntent.UpdateAutoSignInOption -> reduce(
+                newState = stateFlow.value.copy(
+                    autoSignIn = intent.autoSignIn,
+                ),
+            )
 
+            is SignInIntent.UpdateId -> reduce(
+                newState = stateFlow.value.copy(
+                    id = intent.id,
+                ),
+            )
+
+            is SignInIntent.UpdatePassword -> reduce(
+                newState = stateFlow.value.copy(
+                    password = intent.password,
+                ),
+            )
+        }
+    }
 }
 
 internal data class SignInUiState(
-    val accountId: String,
+    val id: String,
     val password: String,
+    val autoSignIn: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = SignInUiState(
-            accountId = "",
+            id = "",
             password = "",
+            autoSignIn = false,
         )
     }
 }
 
-internal sealed class SignInIntent : Intent()
+internal sealed class SignInIntent : Intent() {
 
-internal sealed class SignInSideEffect : SideEffect()
+    class UpdateId(val id: String) : SignInIntent()
+
+    class UpdatePassword(val password: String) : SignInIntent()
+
+    class UpdateAutoSignInOption(val autoSignIn: Boolean) : SignInIntent()
+
+    data object SignIn : SignInIntent()
+}
+
+internal sealed class SignInSideEffect : SideEffect() {
+
+    data object Loading : SignInSideEffect()
+
+    data object Failure : SignInSideEffect()
+
+    data object Success : SignInSideEffect()
+
+    class IdError(val error: Exception) : SignInSideEffect()
+
+    class PasswordError(val error: Exception) : SignInSideEffect()
+}
 
 /*
 
