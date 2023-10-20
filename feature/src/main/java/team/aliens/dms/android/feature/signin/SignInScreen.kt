@@ -37,6 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.Checkbox
 import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.clickable
@@ -70,9 +71,8 @@ internal fun SignInScreen(
         }
     }
 
-    Scaffold(
+    DmsScaffold(
         modifier = modifier.fillMaxSize(),
-        contentColor = DmsTheme.colorScheme.background,
     ) { padValues ->
         Column(
             modifier = Modifier
