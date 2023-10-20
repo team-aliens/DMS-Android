@@ -15,10 +15,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
@@ -26,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +39,8 @@ fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    passwordShowing: Boolean,
+    onPasswordShowingChange: (Boolean) -> Unit,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = DmsTheme.typography.body2,
@@ -50,7 +51,11 @@ fun PasswordTextField(
     ),
     supportingText: String? = null,
     isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
+    visualTransformation: VisualTransformation = if (passwordShowing) {
+        VisualTransformation.None
+    } else {
+        PasswordVisualTransformation()
+    },
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Password,
         imeAction = ImeAction.Done,
@@ -67,8 +72,6 @@ fun PasswordTextField(
     shape: Shape = TextFieldDefaults.shape,
     colors: TextFieldColors = TextFieldDefaults.colors(),
 ) {
-    var passwordShowing by remember { mutableStateOf(false) }
-
     TextField(
         value = value,
         onValueChange = onValueChange,
@@ -79,7 +82,7 @@ fun PasswordTextField(
         hint = { Text(text = hintText) },
         trailingIcon = {
             IconButton(
-                onClick = { passwordShowing = !passwordShowing },
+                onClick = { onPasswordShowingChange(!passwordShowing) },
             ) {
                 Icon(
                     painter = if (passwordShowing) {
@@ -113,6 +116,7 @@ fun PasswordTextField(
 @Composable
 private fun PasswordTextFieldPreview() {
     val (value, onValueChange) = remember { mutableStateOf("") }
+    val (passwordShowing, onPasswordShowingChange) = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -127,6 +131,8 @@ private fun PasswordTextFieldPreview() {
                 .padding(horizontal = 16.dp),
             value = value,
             onValueChange = onValueChange,
+            passwordShowing = passwordShowing,
+            onPasswordShowingChange = onPasswordShowingChange,
         )
     }
 }
