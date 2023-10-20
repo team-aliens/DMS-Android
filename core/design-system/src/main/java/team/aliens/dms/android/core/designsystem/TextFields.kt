@@ -118,6 +118,7 @@ fun TextField(
         minLines = minLines,
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.TextFieldLayout(
+                modifier = Modifier.fillMaxWidth(),
                 enabled = enabled,
                 inputState = inputState,
                 isTextEmpty = value.isNotBlank(),
@@ -455,6 +456,7 @@ object TextFieldDefaults {
 
     @Composable
     fun TextFieldLayout(
+        modifier: Modifier = Modifier,
         enabled: Boolean,
         inputState: InputPhase,
         isTextEmpty: Boolean,
@@ -486,6 +488,7 @@ object TextFieldDefaults {
         }
 
         DecorationBox(
+            modifier = modifier,
             enabled = enabled,
             inputState = inputState,
             isTextEmpty = isTextEmpty,
@@ -521,6 +524,7 @@ object TextFieldDefaults {
 
     @Composable
     fun DecorationBox(
+        modifier: Modifier = Modifier,
         enabled: Boolean,
         inputState: InputPhase,
         isTextEmpty: Boolean,
@@ -560,7 +564,7 @@ object TextFieldDefaults {
             typography = DmsTheme.typography.caption,
         ) {
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .defaultMinSize(minHeight = MinHeight)
                     .border(
                         border = borderStroke.value,
@@ -572,7 +576,7 @@ object TextFieldDefaults {
                 Box(
                     modifier = Modifier.weight(
                         weight = 1f,
-                        fill = false,
+                        fill = true,
                     ),
                     contentAlignment = Alignment.CenterStart,
                 ) {
