@@ -12,6 +12,7 @@ import team.aliens.dms.android.core.network.HttpMethod
 import team.aliens.dms.android.core.network.HttpRequest
 import team.aliens.dms.android.core.network.di.BaseUrl
 import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
+import team.aliens.dms.android.core.network.httpclient.GlobalInterceptors
 import javax.inject.Singleton
 
 @Module
@@ -100,6 +101,12 @@ object NetworkConfigModule {
     @Provides
     @Singleton
     fun provideDefaultInterceptors(): DefaultInterceptors = object : DefaultInterceptors {
+        override val interceptors: List<Interceptor> = emptyList()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGlobalInterceptors(): GlobalInterceptors = object : GlobalInterceptors {
         override val interceptors: List<Interceptor> = emptyList()
     }
 }
