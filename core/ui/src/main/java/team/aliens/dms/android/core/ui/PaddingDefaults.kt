@@ -7,7 +7,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 // TODO: 스크린 방향 대응
-// ScreenTop, ScreenStart, ScreenEnd, ScreenBottom 등 dp 추가
 object PaddingDefaults {
 
     val None = 0.dp
@@ -81,6 +80,22 @@ fun Modifier.horizontalPadding(
 fun Modifier.verticalPadding(
     value: Dp = PaddingDefaults.Small,
 ): Modifier = padding(vertical = value)
+
+fun Modifier.startPadding(
+    value: Dp = PaddingDefaults.Large,
+): Modifier = padding(start = value)
+
+fun Modifier.topPadding(
+    value: Dp = PaddingDefaults.Medium,
+): Modifier = padding(top = value)
+
+fun Modifier.endPadding(
+    value: Dp = PaddingDefaults.Large,
+): Modifier = padding(end = value)
+
+fun Modifier.bottomPadding(
+    value: Dp = PaddingDefaults.Medium,
+): Modifier = padding(bottom = value)
 
 val DefaultVerticalSpace = PaddingDefaults.Small
 
