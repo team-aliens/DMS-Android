@@ -408,7 +408,7 @@ object TextFieldDefaults {
         focusedHintColor: Color = Color.Transparent,
         unfocusedHintColor: Color = DmsTheme.colorScheme.onSurfaceVariant,
         disabledHintColor: Color = unfocusedHintColor.copy(alpha = DisabledHintTextOpacity),
-        errorHintColor: Color = unfocusedHintColor.copy(alpha = DisabledHintTextOpacity),
+        errorHintColor: Color = Color.Transparent,
         cursorColor: Color = DmsTheme.colorScheme.onSurface,
         errorCursorColor: Color = cursorColor,
         focusedIndicatorColor: Color = DmsTheme.colorScheme.primary,
