@@ -9,7 +9,6 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 fun Modifier.clickable(
     enabled: Boolean = true,
@@ -26,7 +25,7 @@ fun Modifier.clickable(
         onClickLabel = onClickLabel,
         indication = rememberRipple(
             color = rippleColor ?: DmsTheme.colorScheme.line,
-            radius = rippleRadius ?: 4.dp,
+            radius = rippleRadius ?: Dp.Unspecified,
         )
             .takeIf { ripple },
         interactionSource = remember { MutableInteractionSource() },
