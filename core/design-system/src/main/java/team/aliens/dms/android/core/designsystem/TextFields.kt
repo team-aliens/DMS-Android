@@ -514,7 +514,14 @@ object TextFieldDefaults {
                     .padding(ContentPadding),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                content()
+                Box(
+                    modifier = Modifier.weight(
+                        weight = 1f,
+                        fill = false,
+                    ),
+                ) {
+                    content()
+                }
 
                 if (trailing != null) {
                     Spacer(modifier = Modifier.width(8.dp))
