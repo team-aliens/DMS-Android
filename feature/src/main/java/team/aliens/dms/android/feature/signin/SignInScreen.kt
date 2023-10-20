@@ -5,15 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.designsystem.typography.Body2
+import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
