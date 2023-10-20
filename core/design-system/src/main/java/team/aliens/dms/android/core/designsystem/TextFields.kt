@@ -63,7 +63,7 @@ fun TextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = DmsTheme.typography.body2,
-    label: @Composable (() -> Unit)? = null,
+    hint: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
@@ -123,7 +123,7 @@ fun TextField(
                 isError = isError,
                 interactionSource = interactionSource,
                 colors = colors,
-                label = label,
+                hint = hint,
                 supportingText = supportingText,
                 trailingIcon = trailingIcon,
                 shape = shape,
@@ -272,7 +272,7 @@ class TextFieldColors(
     )
 
     @Composable
-    internal fun labelColor(
+    internal fun hintColor(
         enabled: Boolean,
         isError: Boolean,
         interactionSource: InteractionSource,
@@ -459,7 +459,7 @@ object TextFieldDefaults {
         isError: Boolean,
         interactionSource: InteractionSource,
         colors: TextFieldColors,
-        label: @Composable (() -> Unit)?,
+        hint: @Composable (() -> Unit)?,
         supportingText: (@Composable () -> Unit)? = null,
         trailingIcon: @Composable (() -> Unit)? = null,
         focusedBorderThickness: Dp = FocusedBorderThickness,
@@ -491,7 +491,7 @@ object TextFieldDefaults {
             colors = colors,
             focusedBorderThickness = focusedBorderThickness,
             unfocusedBorderThickness = unfocusedBorderThickness,
-            label = label,
+            hint = hint,
             trailing = decoratedTrailing,
             shape = shape,
             content = content,
@@ -525,7 +525,7 @@ object TextFieldDefaults {
         colors: TextFieldColors,
         focusedBorderThickness: Dp,
         unfocusedBorderThickness: Dp,
-        label: @Composable (() -> Unit)?,
+        hint: @Composable (() -> Unit)?,
         trailing: @Composable (() -> Unit)? = null,
         shape: Shape,
         content: @Composable () -> Unit,
@@ -539,8 +539,8 @@ object TextFieldDefaults {
             unfocusedBorderThickness = unfocusedBorderThickness,
         )
 
-        val labelColor: @Composable (InputPhase) -> Color = {
-            colors.labelColor(
+        val hintColor: @Composable (InputPhase) -> Color = {
+            colors.hintColor(
                 enabled = enabled,
                 isError = isError,
                 interactionSource = interactionSource,
@@ -568,12 +568,12 @@ object TextFieldDefaults {
                     ),
                     contentAlignment = Alignment.CenterStart,
                 ) {
-                    if (label != null) {
+                    if (hint != null) {
                         Decoration(
-                            contentColor = labelColor(inputState),
+                            contentColor = hintColor(inputState),
                             typography = DmsTheme.typography.body2,
                         ) {
-                            label()
+                            hint()
                         }
                     }
                     content()
@@ -672,10 +672,13 @@ private fun TextFieldPreview() {
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             value = value,
             onValueChange = onValueChange,
             isError = error,
-            label = {
+            hint = {
                 Text(text = "Default Text Field")
             },
             supportingText = {
