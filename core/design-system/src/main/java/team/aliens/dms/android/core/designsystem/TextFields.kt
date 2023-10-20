@@ -27,6 +27,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -45,7 +46,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -80,6 +81,17 @@ fun TextField(
     shape: Shape = TextFieldDefaults.shape,
     colors: TextFieldColors = TextFieldDefaults.colors(),
 ) {
+    val transformedText = remember(value, visualTransformation) {
+        visualTransformation.filter(AnnotatedString(value))
+    }.text.text
+    val isFocused = interactionSource.collectIsFocusedAsState().value
+
+    val inputState = when {
+        isFocused -> InputPhase.Focused
+        transformedText.isEmpty() -> InputPhase.UnfocusedEmpty
+        else -> InputPhase.UnfocusedNotEmpty
+    }
+
     val textColor = textStyle.color.takeOrElse {
         colors.textColor(
             enabled = enabled,
@@ -91,13 +103,7 @@ fun TextField(
 
     BasicTextField(
         value = value,
-        modifier = if (label != null) {
-            modifier
-                .semantics(mergeDescendants = true) {}
-                .padding(top = TextFieldDefaults.TopPadding)
-        } else {
-            modifier
-        },
+        modifier = modifier,
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -113,9 +119,11 @@ fun TextField(
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.TextFieldLayout(
                 enabled = enabled,
+                inputState = inputState,
                 isError = isError,
                 interactionSource = interactionSource,
                 colors = colors,
+                label = label,
                 supportingText = supportingText,
                 trailingIcon = trailingIcon,
                 shape = shape,
@@ -135,6 +143,10 @@ class TextFieldColors(
     val unfocusedContainerColor: Color,
     val disabledContainerColor: Color,
     val errorContainerColor: Color,
+    val focusedHintColor: Color,
+    val unfocusedHintColor: Color,
+    val disabledHintColor: Color,
+    val errorHintColor: Color,
     val cursorColor: Color,
     val errorCursorColor: Color,
     val focusedIndicatorColor: Color,
@@ -259,6 +271,23 @@ class TextFieldColors(
         },
     )
 
+    @Composable
+    internal fun labelColor(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource,
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledHintColor
+            isError -> errorHintColor
+            focused -> focusedHintColor
+            else -> unfocusedHintColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || other !is TextFieldColors) return false
@@ -358,6 +387,8 @@ object TextFieldDefaults {
 
     const val DisabledInputOpacity = 0.38f
 
+    const val DisabledHintTextOpacity = 0.38f
+
     const val DisabledActiveIndicatorOpacity = 0.38f
 
     const val DisabledTrailingIconOpacity = 0.38f
@@ -374,6 +405,10 @@ object TextFieldDefaults {
         unfocusedContainerColor: Color = focusedContainerColor,
         disabledContainerColor: Color = focusedContainerColor,
         errorContainerColor: Color = focusedContainerColor,
+        focusedHintColor: Color = Color.Transparent,
+        unfocusedHintColor: Color = DmsTheme.colorScheme.onSurfaceVariant,
+        disabledHintColor: Color = unfocusedHintColor.copy(alpha = DisabledHintTextOpacity),
+        errorHintColor: Color = unfocusedHintColor.copy(alpha = DisabledHintTextOpacity),
         cursorColor: Color = DmsTheme.colorScheme.onSurface,
         errorCursorColor: Color = cursorColor,
         focusedIndicatorColor: Color = DmsTheme.colorScheme.primary,
@@ -397,6 +432,10 @@ object TextFieldDefaults {
         unfocusedContainerColor = unfocusedContainerColor,
         disabledContainerColor = disabledContainerColor,
         errorContainerColor = errorContainerColor,
+        focusedHintColor = focusedHintColor,
+        unfocusedHintColor = unfocusedHintColor,
+        disabledHintColor = disabledHintColor,
+        errorHintColor = errorHintColor,
         cursorColor = cursorColor,
         errorCursorColor = errorCursorColor,
         focusedIndicatorColor = focusedIndicatorColor,
@@ -416,9 +455,11 @@ object TextFieldDefaults {
     @Composable
     fun TextFieldLayout(
         enabled: Boolean,
+        inputState: InputPhase,
         isError: Boolean,
         interactionSource: InteractionSource,
         colors: TextFieldColors,
+        label: @Composable (() -> Unit)?,
         supportingText: (@Composable () -> Unit)? = null,
         trailingIcon: @Composable (() -> Unit)? = null,
         focusedBorderThickness: Dp = FocusedBorderThickness,
@@ -432,6 +473,7 @@ object TextFieldDefaults {
             isError = isError,
             interactionSource = interactionSource,
         ).value
+
         val decoratedTrailing: @Composable (() -> Unit)? = trailingIcon?.let {
             @Composable {
                 Decoration(
@@ -443,11 +485,13 @@ object TextFieldDefaults {
 
         DecorationBox(
             enabled = enabled,
+            inputState = inputState,
             isError = isError,
             interactionSource = interactionSource,
             colors = colors,
             focusedBorderThickness = focusedBorderThickness,
             unfocusedBorderThickness = unfocusedBorderThickness,
+            label = label,
             trailing = decoratedTrailing,
             shape = shape,
             content = content,
@@ -475,11 +519,13 @@ object TextFieldDefaults {
     @Composable
     fun DecorationBox(
         enabled: Boolean,
+        inputState: InputPhase,
         isError: Boolean,
         interactionSource: InteractionSource,
         colors: TextFieldColors,
         focusedBorderThickness: Dp,
         unfocusedBorderThickness: Dp,
+        label: @Composable (() -> Unit)?,
         trailing: @Composable (() -> Unit)? = null,
         shape: Shape,
         content: @Composable () -> Unit,
@@ -493,6 +539,13 @@ object TextFieldDefaults {
             unfocusedBorderThickness = unfocusedBorderThickness,
         )
 
+        val labelColor: @Composable (InputPhase) -> Color = {
+            colors.labelColor(
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+            ).value
+        }
 
         Decoration(
             contentColor = DmsTheme.colorScheme.onSurface,
@@ -513,7 +566,16 @@ object TextFieldDefaults {
                         weight = 1f,
                         fill = false,
                     ),
+                    contentAlignment = Alignment.CenterStart,
                 ) {
+                    if (label != null) {
+                        Decoration(
+                            contentColor = labelColor(inputState),
+                            typography = DmsTheme.typography.body2,
+                        ) {
+                            label()
+                        }
+                    }
                     content()
                 }
 
@@ -529,6 +591,10 @@ object TextFieldDefaults {
             }
         }
     }
+}
+
+enum class InputPhase {
+    Focused, UnfocusedEmpty, UnfocusedNotEmpty,
 }
 
 @Composable
@@ -609,6 +675,9 @@ private fun TextFieldPreview() {
             value = value,
             onValueChange = onValueChange,
             isError = error,
+            label = {
+                Text(text = "Default Text Field")
+            },
             supportingText = {
                 if (error) {
                     Text(text = "Please check the ID")
@@ -619,10 +688,12 @@ private fun TextFieldPreview() {
                 keyboardType = KeyboardType.Text,
             ),
             trailingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_password_visible),
-                    contentDescription = null,
-                )
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_password_visible),
+                        contentDescription = null,
+                    )
+                }
             },
         )
 
