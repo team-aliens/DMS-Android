@@ -73,3 +73,11 @@ fun Modifier.screenPadding(
     horizontal = horizontal,
     vertical = vertical,
 )
+
+fun Modifier.horizontalPadding(
+    value: Dp = PaddingDefaults.Large,
+): Modifier = padding(horizontal = value)
+
+fun Modifier.verticalPadding(
+    value: Dp = PaddingDefaults.Small,
+): Modifier = padding(vertical = value)
