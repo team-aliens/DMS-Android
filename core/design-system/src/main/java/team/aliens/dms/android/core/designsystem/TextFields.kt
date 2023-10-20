@@ -44,10 +44,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.MeasurePolicy
-import androidx.compose.ui.layout.MeasureResult
-import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -55,11 +51,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-// TODO: Body text typography
 @Composable
 fun TextField(
     value: String,
@@ -534,18 +528,6 @@ object TextFieldDefaults {
                 }
             }
         }
-    }
-}
-
-private class TextFieldMeasurePolicy(
-    private val isError: Boolean,
-    private val trailing: (() -> Unit)?,
-) : MeasurePolicy {
-    override fun MeasureScope.measure(
-        measurables: List<Measurable>,
-        constraints: Constraints,
-    ): MeasureResult {
-        TODO("Not yet implemented")
     }
 }
 
