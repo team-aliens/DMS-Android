@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,10 +24,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
@@ -33,7 +38,9 @@ import team.aliens.dms.android.core.designsystem.Checkbox
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.TextField
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.typography.Body2
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -145,6 +152,62 @@ private fun UserInformationInputs(
     }
 }
 
+@Composable
+private fun UnauthorizedActions(
+    modifier: Modifier = Modifier,
+    onSignUp: () -> Unit,
+    onFindId: () -> Unit,
+    onResetPassword: () -> Unit,
+) {
+    ProvideTextStyle(
+        value = DmsTheme.typography.caption.copy(
+            color = DmsTheme.colorScheme.onSurfaceVariant,
+        ),
+    ) {
+        Row(
+            modifier = Modifier.padding(top = PaddingDefaults.Medium) then modifier,
+            horizontalArrangement = Arrangement.spacedBy(
+                space = DefaultHorizontalSpace,
+                alignment = Alignment.CenterHorizontally,
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                modifier = Modifier
+                    .clip(DmsTheme.shapes.small)
+                    .clickable(onClick = onSignUp),
+                text = "회원가입",
+            )
+            Divider(
+                modifier = Modifier.size(
+                    width = 1.dp,
+                    height = 12.dp,
+                ),
+                color = DmsTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                modifier = Modifier
+                    .clip(DmsTheme.shapes.small)
+                    .clickable(onClick = onFindId),
+                text = "아이디 찾기",
+            )
+            Divider(
+                modifier = Modifier.size(
+                    width = 1.dp,
+                    height = 12.dp,
+                ),
+                color = DmsTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                modifier = Modifier
+                    .clip(DmsTheme.shapes.small)
+                    .clickable(onClick = onResetPassword),
+                text = "비밀번호 변경",
+            )
+        }
+    }
+}
+
 @Preview(showSystemUi = true)
 @Composable
 private fun SignInPreview() {
@@ -175,12 +238,19 @@ private fun SignInPreview() {
             Banner(Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
+                modifier = Modifier.fillMaxWidth(),
                 id = id,
                 password = password,
                 idChange = onIdChange,
                 onPasswordChange = onPasswordChange,
                 autoSignIn = autoSignIn,
                 onAutoSignInChange = onAutoSignInChange,
+            )
+            UnauthorizedActions(
+                modifier = Modifier.fillMaxWidth(),
+                onSignUp = {},
+                onFindId = {},
+                onResetPassword = {},
             )
             Spacer(modifier = Modifier.weight(5f))
             ContainedButton(
