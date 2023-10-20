@@ -7,13 +7,13 @@ import retrofit2.http.Query
 import team.aliens.dms.android.core.jwt.RequiresAccessToken
 import team.aliens.dms.android.network.user.model.EditPasswordRequest
 
-internal abstract class UserApiService {
+internal interface UserApiService {
 
     @PATCH("/users/password")
     @RequiresAccessToken
-    abstract suspend fun editPassword(@Body request: EditPasswordRequest)
+    suspend fun editPassword(@Body request: EditPasswordRequest)
 
     @GET("/users/password")
     @RequiresAccessToken
-    abstract suspend fun comparePassword(@Query("password") password: String)
+    suspend fun comparePassword(@Query("password") password: String)
 }
