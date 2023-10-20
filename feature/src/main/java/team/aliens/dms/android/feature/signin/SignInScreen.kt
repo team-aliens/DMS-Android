@@ -60,7 +60,7 @@ internal fun SignInScreen(
 ) {
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    val sideEffect = viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
             SignInSideEffect.Failure -> {}
             is SignInSideEffect.IdError -> {}
@@ -72,6 +72,7 @@ internal fun SignInScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        contentColor = DmsTheme.colorScheme.background,
     ) { padValues ->
         Column(
             modifier = Modifier
@@ -127,10 +128,10 @@ private fun Banner(
         verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
     ) {
         AppLogo(
-            modifier = Modifier.padding(start = PaddingDefaults.Medium),
+            modifier = Modifier.padding(start = PaddingDefaults.Large),
         )
         Body2(
-            modifier = Modifier.padding(start = PaddingDefaults.Medium),
+            modifier = Modifier.padding(start = PaddingDefaults.Large),
             text = stringResource(R.string.app_description),
         )
     }
