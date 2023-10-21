@@ -6,8 +6,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.DMS.Android.NoActionBar.Light" parent="Theme.DMS.Android.DayNight.NoActionBar" />
+    <style name="Theme.DMS.Android.NoActionBar.Light" parent="Theme.DMS.Android.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>
