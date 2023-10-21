@@ -41,7 +41,6 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.clickable
-import team.aliens.dms.android.core.designsystem.typography.Body2
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -84,10 +83,10 @@ internal fun SignInScreen(
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
                 modifier = Modifier.fillMaxWidth(),
-                id = uiState.id,
+                accountId = uiState.accountId,
                 password = uiState.password,
-                onIdChange = { id ->
-                    viewModel.postIntent(SignInIntent.UpdateId(id))
+                onAccountIdChange = { accountId ->
+                    viewModel.postIntent(SignInIntent.UpdateId(accountId))
                 },
                 onPasswordChange = { password ->
                     viewModel.postIntent(SignInIntent.UpdatePassword(password))
@@ -110,8 +109,7 @@ internal fun SignInScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = { /* TODO */ },
-                // TODO
-                enabled = true,
+                enabled = uiState.signInButtonAvailable.also { println("ITIT $it") },
             ) {
                 Text(text = "로그인")
             }
@@ -130,9 +128,10 @@ private fun Banner(
         AppLogo(
             modifier = Modifier.padding(start = PaddingDefaults.Large),
         )
-        Body2(
+        Text(
             modifier = Modifier.padding(start = PaddingDefaults.Large),
             text = stringResource(R.string.app_description),
+            style = DmsTheme.typography.body2,
         )
     }
 }
@@ -140,8 +139,8 @@ private fun Banner(
 @Composable
 private fun UserInformationInputs(
     modifier: Modifier = Modifier,
-    id: String,
-    onIdChange: (String) -> Unit,
+    accountId: String,
+    onAccountIdChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
     autoSignIn: Boolean,
@@ -159,8 +158,8 @@ private fun UserInformationInputs(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalPadding(),
-            value = id,
-            onValueChange = onIdChange,
+            value = accountId,
+            onValueChange = onAccountIdChange,
             hint = { Text(text = "아이디") },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         )
@@ -286,9 +285,9 @@ private fun SignInPreview() {
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
                 modifier = Modifier.fillMaxWidth(),
-                id = id,
+                accountId = id,
                 password = password,
-                onIdChange = onIdChange,
+                onAccountIdChange = onIdChange,
                 onPasswordChange = onPasswordChange,
                 autoSignIn = autoSignIn,
                 onAutoSignInChange = onAutoSignInChange,
