@@ -1,6 +1,7 @@
 package team.aliens.dms.android.core.ui.mvi
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,25 +35,14 @@ abstract class BaseMviViewModel<S : UiState, I : Intent, E : SideEffect>(
             .launchIn(viewModelScope)
     }
 
-    fun postIntent(intent: I) {
-        viewModelScope.launch {
-            stateChannel.send(intent)
-        }
-    }
+    fun postIntent(intent: I): Job = viewModelScope.launch { stateChannel.send(intent) }
 
-    protected open fun processIntent(intent: I) {
-        throw NotImplementedError()
-    }
+    protected open fun processIntent(intent: I): Unit = throw NotImplementedError()
 
-    protected fun reduce(newState: S) {
-        _stateFlow.tryEmit(newState)
-    }
+    protected fun reduce(newState: S): Boolean = _stateFlow.tryEmit(newState)
 
-    protected fun postSideEffect(sideEffect: E) {
-        viewModelScope.launch {
-            sideEffectChannel.send(sideEffect)
-        }
-    }
+    protected fun postSideEffect(sideEffect: E): Job =
+        viewModelScope.launch { sideEffectChannel.send(sideEffect) }
 
     override fun onCleared() {
         stateChannel.close()
