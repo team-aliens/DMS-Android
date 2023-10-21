@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.DMS.Android.DayNight.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar" android:fitsSystemWindows="true">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="Theme.DMS" parent="android:Theme.Material.NoActionBar" android:fitsSystemWindows="true">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.DMS.Android.NoActionBar.Light" parent="Theme.DMS.Android.DayNight.NoActionBar">
+    <style name="Theme.DMS.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

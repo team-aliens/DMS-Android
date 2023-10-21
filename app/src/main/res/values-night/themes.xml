@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.DMS.Android.NoActionBar.Dark" parent="Theme.DMS.Android.DayNight.NoActionBar">
+    <style name="Theme.DMS.NoActionBar" parent="Theme.DMS">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

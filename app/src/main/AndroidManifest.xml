@@ -21,20 +21,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DMS.Android.DayNight.NoActionBar"
+        android:theme="@style/Theme.DMS.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
 
         <activity
             android:name=".splash.SplashActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DMS.Android.DayNight.NoActionBar" />
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.DMS.Android.DayNight.NoActionBar">
+            android:screenOrientation="fullSensor">
 
             <meta-data
                 android:name="android.app.lib_name"
