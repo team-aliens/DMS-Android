@@ -8,6 +8,7 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.exception.AuthException
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import javax.inject.Inject
 
@@ -53,18 +54,8 @@ internal class SignInViewModel @Inject constructor(
     }
 
     private fun signIn() {
+        updateSignInButtonAvailable(false)
         val uiState = stateFlow.value
-        /*
-        if (!idEntered) {
-            postSideEffect(sideEffect = SignInSideEffect.IdError(error = SignInError.IdNotEntered))
-            return
-        }
-
-        if (!passwordEntered) {
-            postSideEffect(sideEffect = SignInSideEffect.PasswordError(error = SignInError.PasswordNotEntered))
-            return
-        }*/
-
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 authRepository.signIn(
@@ -72,6 +63,17 @@ internal class SignInViewModel @Inject constructor(
                     password = uiState.password.trim(),
                     autoSignIn = uiState.autoSignIn,
                 )
+            }.onSuccess {
+                postSideEffect(SignInSideEffect.Success)
+            }.onFailure { error ->
+                /*when (error) {
+                    is
+                }*/
+
+                error.printStackTrace()
+                postSideEffect(SignInSideEffect.Failure)
+            }.also {
+                updateSignInButtonAvailable(true)
             }
         }
     }
@@ -112,12 +114,7 @@ internal sealed class SignInSideEffect : SideEffect() {
 
     data object Success : SignInSideEffect()
 
-    class IdError(val error: SignInError) : SignInSideEffect()
+    class IdError(val error: AuthException) : SignInSideEffect()
 
-    class PasswordError(val error: SignInError) : SignInSideEffect()
-}
-
-internal sealed class SignInError : RuntimeException() {
-    data object IdNotFound : SignInError()
-    data object PasswordMismatch : SignInError()
+    class PasswordError(val error: AuthException) : SignInSideEffect()
 }
