@@ -3,6 +3,7 @@ package team.aliens.dms.android.app.navigation
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
@@ -43,7 +44,7 @@ class DmsNavigator(
 ) : AuthorizedNavigator,
     UnauthorizedNavigator {
     override fun openEditPasswordSetPasswordNav() {
-        navController.navigate(EditPasswordSetPasswordScreenDestination within navGraph)
+        navController.navigate(EditPasswordSetPasswordScreenDestination)
     }
 
     override fun openSignIn() {
@@ -95,7 +96,7 @@ class DmsNavigator(
     }
 
     override fun openEditPasswordNav() {
-        navController.navigate(EditPasswordNavGraph within navGraph) {
+        navController.navigate(EditPasswordNavGraph) {
             restoreState = true
             launchSingleTop = true
         }
@@ -116,7 +117,7 @@ class DmsNavigator(
 
     override fun openAuthorizedNav() {
         navController.navigate(AuthorizedNavGraph) {
-            popUpTo(UnauthorizedNavGraph.route) {
+            popUpTo(UnauthorizedNavGraph) {
                 inclusive = true
             }
         }
@@ -124,22 +125,22 @@ class DmsNavigator(
 
     override fun openUnauthorizedNav() {
         navController.navigate(UnauthorizedNavGraph) {
-            popUpTo(AuthorizedNavGraph.route) {
+            popUpTo(AuthorizedNavGraph) {
                 inclusive = true
             }
         }
     }
 
     override fun openSignUpNav() {
-        navController.navigate(SignUpNavGraph within navGraph)
+        navController.navigate(SignUpNavGraph)
     }
 
     override fun openFindId() {
-        navController.navigate(FindIdScreenDestination within navGraph)
+        navController.navigate(FindIdScreenDestination within UnauthorizedNavGraph)
     }
 
     override fun openResetPasswordNav() {
-        navController.navigate(ResetPasswordNavGraph within navGraph)
+        navController.navigate(ResetPasswordNavGraph)
     }
 
     override fun openEnterSchoolVerificationQuestion() {
