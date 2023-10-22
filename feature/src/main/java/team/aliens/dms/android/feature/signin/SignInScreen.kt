@@ -266,7 +266,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onSignUp),
-                text = "회원가입",
+                text = stringResource(id = R.string.sign_in_sign_up),
             )
             Divider(
                 modifier = Modifier.size(
@@ -279,7 +279,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onFindId),
-                text = "아이디 찾기",
+                text = stringResource(id = R.string.sign_in_find_id),
             )
             Divider(
                 modifier = Modifier.size(
@@ -292,7 +292,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onResetPassword),
-                text = "비밀번호 변경",
+                text = stringResource(id = R.string.sign_in_edit_password),
             )
         }
     }
