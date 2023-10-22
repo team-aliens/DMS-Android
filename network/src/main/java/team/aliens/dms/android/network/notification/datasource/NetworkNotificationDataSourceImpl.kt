@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.notification.datasource
 
-import team.aliens.dms.android.core.network.util.sendHttpRequest
+import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.notification.apiservice.NotificationApiService
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.CancelFcmDeviceTokenRegistrationRequest
@@ -16,23 +16,23 @@ internal class NetworkNotificationDataSourceImpl @Inject constructor(
     private val notificationApiService: NotificationApiService,
 ) : NetworkNotificationDataSource() {
     override suspend fun registerFcmDeviceToken(request: RegisterFcmDeviceTokenRequest) =
-        sendHttpRequest { notificationApiService.registerFcmDeviceToken(request) }
+        handleNetworkRequest { notificationApiService.registerFcmDeviceToken(request) }
 
     override suspend fun cancelFcmDeviceTokenRegistration(request: CancelFcmDeviceTokenRegistrationRequest) =
-        sendHttpRequest { notificationApiService.cancelFcmDeviceTokenRegistration(request) }
+        handleNetworkRequest { notificationApiService.cancelFcmDeviceTokenRegistration(request) }
 
     override suspend fun subscribeNotificationTopic(request: SubscribeNotificationTopicRequest) =
-        sendHttpRequest { notificationApiService.subscribeNotificationTopic(request) }
+        handleNetworkRequest { notificationApiService.subscribeNotificationTopic(request) }
 
     override suspend fun unsubscribeNotificationTopic(request: UnsubscribeNotificationTopicRequest) =
-        sendHttpRequest { notificationApiService.unsubscribeNotificationTopic(request) }
+        handleNetworkRequest { notificationApiService.unsubscribeNotificationTopic(request) }
 
     override suspend fun batchUpdateNotificationTopic(request: BatchUpdateNotificationTopicRequest) =
-        sendHttpRequest { notificationApiService.batchUpdateNotificationTopic(request) }
+        handleNetworkRequest { notificationApiService.batchUpdateNotificationTopic(request) }
 
     override suspend fun fetchNotificationTopicStatus(request: FetchNotificationTopicStatusRequest): FetchNotificationTopicStatusResponse =
-        sendHttpRequest { notificationApiService.fetchNotificationTopicStatus(request) }
+        handleNetworkRequest { notificationApiService.fetchNotificationTopicStatus(request) }
 
     override suspend fun fetchNotifications(): FetchNotificationsResponse =
-        sendHttpRequest { notificationApiService.fetchNotifications() }
+        handleNetworkRequest { notificationApiService.fetchNotifications() }
 }

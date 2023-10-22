@@ -11,7 +11,7 @@ import team.aliens.dms.android.core.network.exception.UnAuthorizedException
 import team.aliens.dms.android.core.network.exception.UnknownException
 import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
 
-suspend inline fun <T> sendHttpRequest(
+suspend inline fun <T> handleNetworkRequest(
     on400: (message: String?) -> Nothing = { throw BadRequestException() },
     on401: (message: String?) -> Nothing = { throw UnAuthorizedException() },
     on403: (message: String?) -> Nothing = { throw ForbiddenException() },
