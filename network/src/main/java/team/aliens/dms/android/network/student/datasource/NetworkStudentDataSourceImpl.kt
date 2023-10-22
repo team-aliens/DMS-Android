@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.student.datasource
 
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
-import team.aliens.dms.android.core.network.util.sendHttpRequest
+import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.student.apiservice.StudentApiService
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
@@ -16,7 +16,7 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
     private val studentApiService: StudentApiService,
 ) : NetworkStudentDataSource() {
     override suspend fun signUp(request: SignUpRequest): TokensResponse =
-        sendHttpRequest { studentApiService.signUp(request) }
+        handleNetworkRequest { studentApiService.signUp(request) }
 
     override suspend fun examineStudentNumber(
         schoolId: UUID,
@@ -45,19 +45,19 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
     )
 
     override suspend fun resetPassword(request: ResetPasswordRequest) =
-        sendHttpRequest { studentApiService.resetPassword(request) }
+        handleNetworkRequest { studentApiService.resetPassword(request) }
 
     override suspend fun checkIdDuplication(accountId: String) =
-        sendHttpRequest { studentApiService.checkIdDuplication(accountId) }
+        handleNetworkRequest { studentApiService.checkIdDuplication(accountId) }
 
     override suspend fun checkEmailDuplication(email: String) =
-        sendHttpRequest { studentApiService.checkEmailDuplication(email) }
+        handleNetworkRequest { studentApiService.checkEmailDuplication(email) }
 
     override suspend fun fetchMyPage(): FetchMyPageResponse =
-        sendHttpRequest { studentApiService.fetchMyPage() }
+        handleNetworkRequest { studentApiService.fetchMyPage() }
 
     override suspend fun editProfile(request: EditProfileRequest) =
-        sendHttpRequest { studentApiService.editProfile(request) }
+        handleNetworkRequest { studentApiService.editProfile(request) }
 
-    override suspend fun withdraw() = sendHttpRequest { studentApiService.withdraw() }
+    override suspend fun withdraw() = handleNetworkRequest { studentApiService.withdraw() }
 }

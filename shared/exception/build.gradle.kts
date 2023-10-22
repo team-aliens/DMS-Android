@@ -4,12 +4,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "team.aliens.dms.android.core.network"
+    namespace = "team.aliens.dms.android.shared.exception"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -29,16 +27,10 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
     }
-
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
@@ -46,22 +38,8 @@ android {
 
 dependencies {
 
-    implementation(project(ProjectPaths.Shared.exception))
-
-    implementation(project(ProjectPaths.Core.project))
-
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-
-    implementation(libs.javax.inject)
-
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
-
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.interceptor.logging)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

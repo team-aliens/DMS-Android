@@ -21,6 +21,7 @@ rootProject.name = "dms-android"
 include(":app")
 
 include(":shared:date")
+include(":shared:exception")
 include(":shared:model")
 
 include(":core:database")

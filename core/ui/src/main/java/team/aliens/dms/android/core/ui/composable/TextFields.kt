@@ -49,7 +49,7 @@ fun PasswordTextField(
         painterResource(id = R.drawable.ic_password_invisible),
         painterResource(id = R.drawable.ic_password_visible),
     ),
-    supportingText: String? = null,
+    supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = if (passwordShowing) {
         VisualTransformation.None
@@ -94,11 +94,7 @@ fun PasswordTextField(
                 )
             }
         },
-        supportingText = if (supportingText != null) {
-            { Text(text = supportingText) }
-        } else {
-            null
-        },
+        supportingText = supportingText,
         isError = isError,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,

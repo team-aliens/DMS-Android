@@ -248,17 +248,19 @@
     <!--sign in-->
     <string name="sign_in">로그인</string>
     <string name="sign_in_auto_sign_in">자동 로그인</string>
-    <string name="sign_in_sign_up">회원 가입하기</string>
+    <string name="sign_in_sign_up">회원가입</string>
     <string name="sign_in_find_id">아이디 찾기</string>
+    <string name="sign_in_edit_password">비밀번호 변경</string>
 
+    <string name="sign_in_error">로그인 실패</string>
     <string name="sign_in_error_enter_id">아이디를 입력해 주세요</string>
     <string name="sign_in_error_enter_password">비밀번호를 입력해 주세요</string>
 
     <string name="sign_in_error_unauthorized">인증에 실패하였습니다</string>
-    <string name="sign_in_error_id_not_found">해당 아이디는 존재하지 않는 아이디입니다</string>
+    <string name="sign_in_error_user_not_found">존재하지 않는 아이디입니다</string>
     <string name="sign_in_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
-    <string name="sign_in_error_check_id_or_password">아이디 또는 비밀번호를 확인해주세요.</string>
-    <string name="sign_in_error_device_token_registering_failure">알림 기기 등록에 실패하였습니다.</string>
+    <string name="sign_in_error_check_format">잘못된 형식입니다</string>
+    <string name="sign_in_error_device_token_registering_failure">알림 기기 등록에 실패하였습니다</string>
 
     <!--sign up-->
     <string name="sign_up">회원가입</string>

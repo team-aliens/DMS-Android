@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,6 +50,10 @@ import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.data.auth.exception.AuthException
+import team.aliens.dms.android.data.auth.exception.BadRequestException
+import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
+import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
@@ -63,21 +68,13 @@ internal fun SignInScreen(
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     val toast = LocalToast.current
+    val context = LocalContext.current
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-
-            SignInSideEffect.Failure -> {
-                // TODO
-                toast.showErrorToast("실패")
-            }
-
-            is SignInSideEffect.IdError -> {}
+            SignInSideEffect.Failure -> toast.showErrorToast(context.getString(R.string.sign_in_error))
             SignInSideEffect.Loading -> {}
-            is SignInSideEffect.PasswordError -> {}
-            SignInSideEffect.Success -> {
-                navigator.openFindId()
-            }
+            SignInSideEffect.Success -> navigator.openAuthorizedNav()
         }
     }
 
@@ -106,6 +103,8 @@ internal fun SignInScreen(
                 onAutoSignInChange = { autoSignIn ->
                     viewModel.postIntent(SignInIntent.UpdateAutoSignInOption(autoSignIn))
                 },
+                accountIdError = uiState.accountIdError,
+                passwordError = uiState.passwordError,
             )
             UnauthorizedActions(
                 modifier = Modifier.fillMaxWidth(),
@@ -122,7 +121,7 @@ internal fun SignInScreen(
                 onClick = { viewModel.postIntent(SignInIntent.SignIn) },
                 enabled = uiState.signInButtonAvailable,
             ) {
-                Text(text = "로그인")
+                Text(text = stringResource(id = R.string.sign_in))
             }
         }
     }
@@ -156,8 +155,8 @@ private fun UserInformationInputs(
     onPasswordChange: (String) -> Unit,
     autoSignIn: Boolean,
     onAutoSignInChange: (Boolean) -> Unit,
-    idError: Exception? = null,
-    passwordError: Exception? = null,
+    accountIdError: AuthException? = null,
+    passwordError: AuthException? = null,
 ) {
     val (passwordShowing, onPasswordShowingChange) = remember { mutableStateOf(false) }
 
@@ -165,13 +164,32 @@ private fun UserInformationInputs(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
     ) {
+        val shouldShowAccountIdError = accountIdError != null
+        val shouldShowPasswordError = passwordError != null
+
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalPadding(),
             value = accountId,
+            isError = shouldShowAccountIdError,
+            supportingText = if (shouldShowAccountIdError) {
+                {
+                    Text(
+                        text = stringResource(
+                            id = when (accountIdError) {
+                                is UserNotFoundException -> R.string.sign_in_error_user_not_found
+                                is BadRequestException -> R.string.sign_in_error_check_format
+                                else -> R.string.error_unknown
+                            },
+                        ),
+                    )
+                }
+            } else {
+                null
+            },
             onValueChange = onAccountIdChange,
-            hint = { Text(text = "아이디") },
+            hint = { Text(text = stringResource(id = R.string.id)) },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         )
 
@@ -180,8 +198,24 @@ private fun UserInformationInputs(
                 .fillMaxWidth()
                 .horizontalPadding(),
             value = password,
+            isError = shouldShowPasswordError,
+            supportingText = if (shouldShowPasswordError) {
+                {
+                    Text(
+                        text = stringResource(
+                            id = when (passwordError) {
+                                is PasswordMismatchException -> R.string.sign_in_error_password_mismatch
+                                is BadRequestException -> R.string.sign_in_error_check_format
+                                else -> R.string.error_unknown
+                            },
+                        )
+                    )
+                }
+            } else {
+                null
+            },
             onValueChange = onPasswordChange,
-            hintText = "비밀번호",
+            hintText = stringResource(id = R.string.password),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done,
@@ -201,7 +235,7 @@ private fun UserInformationInputs(
                 onCheckedChange = onAutoSignInChange,
             )
             Text(
-                text = "자동 로그인",
+                text = stringResource(id = R.string.sign_in_auto_sign_in),
                 style = DmsTheme.typography.body2,
                 color = DmsTheme.colorScheme.onSurfaceVariant,
             )
@@ -233,7 +267,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onSignUp),
-                text = "회원가입",
+                text = stringResource(id = R.string.sign_in_sign_up),
             )
             Divider(
                 modifier = Modifier.size(
@@ -246,7 +280,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onFindId),
-                text = "아이디 찾기",
+                text = stringResource(id = R.string.sign_in_find_id),
             )
             Divider(
                 modifier = Modifier.size(
@@ -259,7 +293,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onResetPassword),
-                text = "비밀번호 변경",
+                text = stringResource(id = R.string.sign_in_edit_password),
             )
         }
     }
@@ -323,50 +357,3 @@ private fun SignInPreview() {
         }
     }
 }
-
-/*
-
-@Composable
-private fun AuthActions(
-    onSignUpClicked: () -> Unit,
-    onFindIdClicked: () -> Unit,
-    onResetPasswordClicked: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentWidth(CenterHorizontally)
-            .padding(
-                horizontal = 10.dp,
-            ),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Caption(
-            text = stringResource(R.string.do_sign_up),
-            onClick = onSignUpClicked,
-            color = DmsTheme.colors.primaryVariant,
-        )
-        AuthActionDivider()
-        Caption(
-            text = stringResource(R.string.sign_in_find_id),
-            onClick = onFindIdClicked,
-            color = DmsTheme.colors.primaryVariant,
-        )
-        AuthActionDivider()
-        Caption(
-            text = stringResource(R.string.change_password),
-            onClick = onResetPasswordClicked,
-            color = DmsTheme.colors.primaryVariant,
-        )
-    }
-}
-
-@Composable
-private fun AuthActionDivider() {
-    Caption(
-        text = "|",
-        color = DmsTheme.colors.primaryVariant,
-    )
-}
-*/

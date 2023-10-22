@@ -1,5 +1,9 @@
 package team.aliens.dms.android.data.auth.repository
 
+import team.aliens.dms.android.core.network.util.statusMapping
+import team.aliens.dms.android.data.auth.exception.BadRequestException
+import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
+import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.model.HashedEmail
 import team.aliens.dms.android.network.auth.datasource.NetworkAuthDataSource
@@ -15,12 +19,18 @@ internal class AuthRepositoryImpl @Inject constructor(
         password: String,
         autoSignIn: Boolean,
     ) {
-        networkAuthDataSource.signIn(
-            request = SignInRequest(
-                accountId = accountId,
-                password = password,
-            ),
-        )
+        statusMapping(
+            onBadRequest = { throw BadRequestException() },
+            onUnauthorized = { throw PasswordMismatchException() },
+            onNotFound = { throw UserNotFoundException() },
+        ) {
+            networkAuthDataSource.signIn(
+                request = SignInRequest(
+                    accountId = accountId,
+                    password = password,
+                ),
+            )
+        }
     }
 
     override suspend fun sendEmailVerificationCode(
