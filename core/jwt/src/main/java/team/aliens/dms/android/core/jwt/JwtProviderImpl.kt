@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.network.TokenReissueManager
 import team.aliens.dms.android.shared.date.util.now
@@ -35,7 +36,7 @@ internal class JwtProviderImpl @Inject constructor(
 
     private var _cachedRefreshToken: RefreshToken? = null
     override val cachedRefreshToken: RefreshToken
-        get() = if (checkCachedAccessTokenAvailable().also(::updateCachedRefreshTokenAvailable)) {
+        get() = if (checkCachedRefreshTokenAvailable().also(::updateCachedRefreshTokenAvailable)) {
             _cachedRefreshToken!!
         } else {
             this.fetchTokens().refreshToken
@@ -50,14 +51,23 @@ internal class JwtProviderImpl @Inject constructor(
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
-        initTokens()
+        loadTokens()
     }
 
     private fun checkCachedAccessTokenAvailable(): Boolean {
         val con1 = _cachedAccessToken != null
-        val con2 = now.isBefore(cachedAccessTokenExpiration)
+        val con2 = _cachedRefreshTokenExpiration != null
+        val con3 = now.isBefore(_cachedAccessTokenExpiration)
 
-        return con1 && con2
+        return con1 && con2 && con3
+    }
+
+    private fun checkCachedRefreshTokenAvailable(): Boolean {
+        val con1 = _cachedRefreshToken != null
+        val con2 = _cachedRefreshTokenExpiration != null
+        val con3 = now.isBefore(_cachedRefreshTokenExpiration)
+
+        return con1 && con2 && con3
     }
 
     private fun updateCachedAccessTokenAvailable(available: Boolean) {
@@ -68,38 +78,29 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch { _isCachedRefreshTokenAvailable.emit(available) }
     }
 
-    // FIXME: 수정 필요
-    override fun initTokens() {
-        runCatching {
-            loadTokens()
-        }.onFailure {
-            runCatching {
-                fetchTokens()
-            }
-        }
-    }
-
     override fun saveTokens(tokens: Tokens) {
         CoroutineScope(Dispatchers.Default).launch { jwtDataStoreDataSource.storeTokens(tokens) }
     }
 
-    private fun loadTokens(): Tokens {
-        val tokens = jwtDataStoreDataSource.loadTokens()
-        return tokens.also(::updateTokens)
-    }
+    private fun loadTokens(): Tokens = jwtDataStoreDataSource.loadTokens().also(::updateTokens)
 
-    private fun fetchTokens(): Tokens {
-        val refreshToken = jwtDataStoreDataSource.loadRefreshToken()
-        return tokenReissueManager(refreshToken).toModel().also(::updateTokens)
-    }
+    private fun fetchTokens(): Tokens =
+        tokenReissueManager(refreshToken = jwtDataStoreDataSource.loadRefreshToken())
+            .toModel()
+            .also(::updateTokens)
 
     private fun updateTokens(tokens: Tokens) {
         this._cachedAccessToken = tokens.accessToken
         this._cachedAccessTokenExpiration = tokens.accessTokenExpiration
+        this._cachedRefreshToken = tokens.refreshToken
+        this._cachedRefreshTokenExpiration = tokens.refreshTokenExpiration
+
         CoroutineScope(Dispatchers.IO).launch {
-            updateCachedAccessTokenAvailable(true)
-            updateCachedRefreshTokenAvailable(true)
             jwtDataStoreDataSource.storeTokens(tokens)
+            withContext(Dispatchers.Default) {
+                updateCachedAccessTokenAvailable(true)
+                updateCachedRefreshTokenAvailable(true)
+            }
         }
     }
 }
