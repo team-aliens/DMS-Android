@@ -22,17 +22,17 @@ class TokenReissueManager(
     }
 
     operator fun invoke(refreshToken: String): TokensResponse {
-        val tokenReissueRequest = buildTokenReissueRequest(refreshToken)
-        val response = client.newCall(tokenReissueRequest).execute()
+        val request = buildTokenReissueRequest(refreshToken)
+        val response = client.newCall(request).execute()
 
         return if (response.isSuccessful) {
-            response.body.toAuthenticationResponse()
+            response.body.toTokensResponse()
         } else {
             throw CannotReissueTokenException()
         }
     }
 
-    private fun ResponseBody?.toAuthenticationResponse(): TokensResponse {
+    private fun ResponseBody?.toTokensResponse(): TokensResponse {
         requireNotNull(this)
         return Gson().fromJson(
             this.string(),
@@ -44,7 +44,7 @@ class TokenReissueManager(
         Request.Builder().url(reissueUrl).put(
             body = String().toRequestBody("application/json".toMediaType()),
         ).addHeader(
-            name = "refreshToken",
+            name = "refresh-token",
             value = refreshToken,
         ).build()
 }
