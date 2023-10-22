@@ -7,7 +7,7 @@ data class SignInResponse(
     @SerializedName("access_token_expired_at") val accessTokenExpiration: String,
     @SerializedName("refresh_token") val refreshToken: String,
     @SerializedName("refresh_token_expired_at") val refreshTokenExpiration: String,
-    @SerializedName("features") val features: List<FeaturesResponse>,
+    @SerializedName("features") val features: FeaturesResponse,
 ) {
     data class FeaturesResponse(
         @SerializedName("meal_service") val mealService: Boolean,
