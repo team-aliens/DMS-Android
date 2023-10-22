@@ -19,7 +19,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         password: String,
         autoSignIn: Boolean,
     ) {
-        statusMapping(
+        val signInResponse = statusMapping(
             onBadRequest = { throw BadRequestException() },
             onUnauthorized = { throw PasswordMismatchException() },
             onNotFound = { throw UserNotFoundException() },
