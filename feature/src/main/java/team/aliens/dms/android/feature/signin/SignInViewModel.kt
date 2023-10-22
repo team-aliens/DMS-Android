@@ -9,7 +9,11 @@ import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.auth.exception.AuthException
+import team.aliens.dms.android.data.auth.exception.BadRequestException
+import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
+import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.shared.exception.UnknownException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,12 +34,22 @@ internal class SignInViewModel @Inject constructor(
 
     private fun updateId(accountId: String): Boolean {
         updateSignInButtonAvailable(checkSignInAvailable())
-        return reduce(newState = stateFlow.value.copy(accountId = accountId))
+        return reduce(
+            newState = stateFlow.value.copy(
+                accountId = accountId,
+                accountIdError = null,
+            ),
+        )
     }
 
     private fun updatePassword(password: String): Boolean {
         updateSignInButtonAvailable(checkSignInAvailable())
-        return reduce(newState = stateFlow.value.copy(password = password))
+        return reduce(
+            newState = stateFlow.value.copy(
+                password = password,
+                passwordError = null,
+            ),
+        )
     }
 
     private fun updateAutoSignIn(autoSignIn: Boolean): Boolean =
@@ -66,17 +80,23 @@ internal class SignInViewModel @Inject constructor(
             }.onSuccess {
                 postSideEffect(SignInSideEffect.Success)
             }.onFailure { error ->
-                /*when (error) {
-                    is
-                }*/
-
-                error.printStackTrace()
-                postSideEffect(SignInSideEffect.Failure)
+                when (error) {
+                    is BadRequestException -> postSideEffect(SignInSideEffect.BadRequest)
+                    is UserNotFoundException -> updateIdError(error)
+                    is PasswordMismatchException -> updatePasswordError(error)
+                    else -> throw UnknownException()
+                }
             }.also {
                 updateSignInButtonAvailable(true)
             }
         }
     }
+
+    private fun updateIdError(exception: AuthException): Boolean =
+        reduce(newState = stateFlow.value.copy(accountIdError = exception))
+
+    private fun updatePasswordError(exception: AuthException): Boolean =
+        reduce(newState = stateFlow.value.copy(passwordError = exception))
 }
 
 internal data class SignInUiState(
@@ -84,6 +104,8 @@ internal data class SignInUiState(
     val password: String,
     val autoSignIn: Boolean,
     val signInButtonAvailable: Boolean,
+    val accountIdError: AuthException?,
+    val passwordError: AuthException?,
 ) : UiState() {
     companion object {
         fun initial() = SignInUiState(
@@ -91,6 +113,8 @@ internal data class SignInUiState(
             password = "",
             autoSignIn = false,
             signInButtonAvailable = false,
+            accountIdError = null,
+            passwordError = null,
         )
     }
 }
@@ -114,7 +138,5 @@ internal sealed class SignInSideEffect : SideEffect() {
 
     data object Success : SignInSideEffect()
 
-    class IdError(val error: AuthException) : SignInSideEffect()
-
-    class PasswordError(val error: AuthException) : SignInSideEffect()
+    object BadRequest : SignInSideEffect()
 }
