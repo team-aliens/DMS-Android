@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,14 +17,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.data.notification.model.Notification
-import team.aliens.dms.android.data.notification.model.NotificationTopic
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.designsystem.modifier.dormClickable
 import team.aliens.dms.android.core.designsystem.modifier.dormShadow
-import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.typography.Body3
 import team.aliens.dms.android.core.designsystem.typography.Caption
+import team.aliens.dms.android.data.notification.model.Notification
+import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.Now
 import team.aliens.dms.android.feature._legacy.util.toDate
@@ -99,13 +99,13 @@ private fun Notification(
 ) {
     Row(
         modifier = modifier
-            .dormShadow(DmsTheme.colors.line)
+            .dormShadow(DmsTheme.colorScheme.line)
             .fillMaxWidth()
             .background(
                 color = if (!notification.read) {
-                    DmsTheme.colors.surface
+                    DmsTheme.colorScheme.surface
                 } else {
-                    DmsTheme.colors.surface
+                    DmsTheme.colorScheme.surface
                 },
                 shape = RoundedCornerShape(10.dp),
             )
@@ -128,9 +128,9 @@ private fun Notification(
             ),
             contentDescription = null,
             tint = if (!notification.read) {
-                DmsTheme.colors.primary
+                DmsTheme.colorScheme.primary
             } else {
-                DmsTheme.colors.onBackground
+                DmsTheme.colorScheme.onBackground
             },
         )
         Column(

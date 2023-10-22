@@ -24,7 +24,7 @@ fun Modifier.dormClickable(
         clickable(
             onClick = onClick!!,
             indication = rememberRipple(
-                color = rippleColor ?: DmsTheme.colors.line,
+                color = rippleColor ?: DmsTheme.colorScheme.line,
             ).takeIf { rippleEnabled },
             interactionSource = remember { MutableInteractionSource() },
         )

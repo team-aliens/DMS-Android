@@ -3,16 +3,24 @@ package team.aliens.dms.android.data.auth.repository
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.model.HashedEmail
 import team.aliens.dms.android.network.auth.datasource.NetworkAuthDataSource
+import team.aliens.dms.android.network.auth.model.SignInRequest
 import javax.inject.Inject
 
 internal class AuthRepositoryImpl @Inject constructor(
     private val networkAuthDataSource: NetworkAuthDataSource,
 ) : AuthRepository() {
+
     override suspend fun signIn(
         accountId: String,
         password: String,
+        autoSignIn: Boolean,
     ) {
-        TODO("Not yet implemented")
+        networkAuthDataSource.signIn(
+            request = SignInRequest(
+                accountId = accountId,
+                password = password,
+            ),
+        )
     }
 
     override suspend fun sendEmailVerificationCode(

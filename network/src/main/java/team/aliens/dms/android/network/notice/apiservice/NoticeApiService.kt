@@ -9,17 +9,17 @@ import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
 import team.aliens.dms.android.network.notice.model.FetchWhetherNewNoticesExistResponse
 import java.util.UUID
 
-internal abstract class NoticeApiService {
+internal interface NoticeApiService {
 
     @GET("/notices/status")
     @RequiresAccessToken
-    abstract suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse
+    suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse
 
     @GET("/notices/{notice-id}")
     @RequiresAccessToken
-    abstract suspend fun fetchNoticeDetails(@Path("notice-id") noticeId: UUID): FetchNoticeDetailsResponse
+    suspend fun fetchNoticeDetails(@Path("notice-id") noticeId: UUID): FetchNoticeDetailsResponse
 
     @GET("/notices")
     @RequiresAccessToken
-    abstract suspend fun fetchNotices(@Query("order") order: String): FetchNoticesResponse
+    suspend fun fetchNotices(@Query("order") order: String): FetchNoticesResponse
 }

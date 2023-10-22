@@ -17,13 +17,13 @@ import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import java.util.UUID
 
-internal abstract class StudentApiService {
+internal interface StudentApiService {
 
     @POST("/students/signup")
-    abstract suspend fun signUp(@Body request: SignUpRequest): TokensResponse
+    suspend fun signUp(@Body request: SignUpRequest): TokensResponse
 
     @GET("/students/name")
-    abstract suspend fun examineStudentNumber(
+    suspend fun examineStudentNumber(
         @Query("school_id") schoolId: UUID,
         @Query("grade") grade: Int,
         @Query("class_room") classRoom: Int,
@@ -31,7 +31,7 @@ internal abstract class StudentApiService {
     ): ExamineStudentNumberResponse
 
     @GET("/students/account-id/{school-id}")
-    abstract suspend fun findId(
+    suspend fun findId(
         @Path("school-id") schoolId: UUID,
         @Query("name") studentName: String,
         @Query("grade") grade: Int,
@@ -40,23 +40,23 @@ internal abstract class StudentApiService {
     ): FindIdResponse
 
     @PATCH("/students/password/initialization")
-    abstract suspend fun resetPassword(@Body request: ResetPasswordRequest)
+    suspend fun resetPassword(@Body request: ResetPasswordRequest)
 
     @GET("/students/account-id/duplication")
-    abstract suspend fun checkIdDuplication(@Query("account_id") accountId: String)
+    suspend fun checkIdDuplication(@Query("account_id") accountId: String)
 
     @GET("/students/email/duplication")
-    abstract suspend fun checkEmailDuplication(@Query("email") email: String)
+    suspend fun checkEmailDuplication(@Query("email") email: String)
 
     @GET("/students/profile")
     @RequiresAccessToken
-    abstract suspend fun fetchMyPage(): FetchMyPageResponse
+    suspend fun fetchMyPage(): FetchMyPageResponse
 
     @PATCH("/students/profile")
     @RequiresAccessToken
-    abstract suspend fun editProfile(@Body request: EditProfileRequest)
+    suspend fun editProfile(@Body request: EditProfileRequest)
 
     @DELETE("/students")
     @RequiresAccessToken
-    abstract suspend fun withdraw()
+    suspend fun withdraw()
 }

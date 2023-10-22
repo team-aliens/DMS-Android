@@ -1,35 +1,11 @@
 package team.aliens.dms.android.feature.main
 
 import android.annotation.SuppressLint
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.typography.BottomNavItemLabel
-import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.util.OneDay
-import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Announcement
-import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Application
-import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.Home
-import team.aliens.dms.android.feature.main.HomeBottomNavigationItem.MyPage
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.Date
 
@@ -44,7 +20,6 @@ internal fun Date.minusOneDay(): Date {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @RootNavGraph(start = true)
 @Destination
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun Main(
     modifier: Modifier = Modifier,
@@ -203,6 +178,7 @@ internal fun Main(
         }
     }*/
 }
+/*
 
 @Stable
 private object NavigationItemsWrapper {
@@ -215,10 +191,10 @@ private object NavigationItemsWrapper {
 }
 
 private val selectedColor: Color
-    @Composable get() = DmsTheme.colors.onSurface
+    @Composable get() = DmsTheme.colorScheme.onSurface
 
 private val unselectedColor: Color
-    @Composable get() = DmsTheme.colors.line
+    @Composable get() = DmsTheme.colorScheme.line
 
 @Composable
 private fun BottomNavBar(
@@ -227,7 +203,7 @@ private fun BottomNavBar(
     navigationItems: List<HomeBottomNavigationItem>,
 ) {
     BottomNavigation(
-        backgroundColor = DmsTheme.colors.surface,
+        backgroundColor = DmsTheme.colorScheme.surface,
         modifier = Modifier.graphicsLayer {
             clip = true
             shape = RoundedCornerShape(
@@ -283,7 +259,6 @@ private fun NavHostController.navigateTo(
     }
 }
 
-
 internal sealed class HomeBottomNavigationItem(
     val route: String,
     @DrawableRes val iconResId: Int,
@@ -313,3 +288,4 @@ internal sealed class HomeBottomNavigationItem(
         titleResId = R.string.bottom_nav_my_page,
     )
 }
+*/

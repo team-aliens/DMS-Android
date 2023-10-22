@@ -9,21 +9,21 @@ import team.aliens.dms.android.network.remains.model.FetchRemainsApplicationTime
 import team.aliens.dms.android.network.remains.model.FetchRemainsOptionsResponse
 import java.util.UUID
 
-internal abstract class RemainsApiService {
+internal interface RemainsApiService {
 
     @PUT("/remains/{remain-option-id}")
     @RequiresAccessToken
-    abstract suspend fun updateRemainsOption(@Path("remains-option-id") optionId: UUID)
+    suspend fun updateRemainsOption(@Path("remains-option-id") optionId: UUID)
 
     @GET("/remains/my")
     @RequiresAccessToken
-    abstract suspend fun fetchAppliedRemainsOption(): FetchAppliedRemainsOptionResponse
+    suspend fun fetchAppliedRemainsOption(): FetchAppliedRemainsOptionResponse
 
     @GET("/remains/available-time")
     @RequiresAccessToken
-    abstract suspend fun fetchRemainsApplicationTime(): FetchRemainsApplicationTimeResponse
+    suspend fun fetchRemainsApplicationTime(): FetchRemainsApplicationTimeResponse
 
     @GET("/remains/options")
     @RequiresAccessToken
-    abstract suspend fun fetchRemainsOptions(): FetchRemainsOptionsResponse
+    suspend fun fetchRemainsOptions(): FetchRemainsOptionsResponse
 }

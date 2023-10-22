@@ -6,9 +6,9 @@ import retrofit2.http.Path
 import team.aliens.dms.android.core.jwt.RequiresAccessToken
 import team.aliens.dms.android.network.meal.model.FetchMealsResponse
 
-internal abstract class MealApiService {
+internal interface MealApiService {
 
     @GET("/meals/{date}")
     @RequiresAccessToken
-    abstract suspend fun fetchMeals(@Path("date") date: LocalDate): FetchMealsResponse
+    suspend fun fetchMeals(@Path("date") date: LocalDate): FetchMealsResponse
 }

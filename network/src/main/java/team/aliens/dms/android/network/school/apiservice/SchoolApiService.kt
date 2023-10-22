@@ -8,20 +8,20 @@ import team.aliens.dms.android.network.school.model.FetchSchoolVerificationQuest
 import team.aliens.dms.android.network.school.model.FetchSchoolsResponse
 import java.util.UUID
 
-internal abstract class SchoolApiService {
+internal interface SchoolApiService {
 
     @GET("/schools")
-    abstract suspend fun fetchSchools(): FetchSchoolsResponse
+    suspend fun fetchSchools(): FetchSchoolsResponse
 
     @GET("/schools/question/{school-id}")
-    abstract suspend fun fetchSchoolVerificationQuestion(@Path("school-id") schoolId: UUID): FetchSchoolVerificationQuestionResponse
+    suspend fun fetchSchoolVerificationQuestion(@Path("school-id") schoolId: UUID): FetchSchoolVerificationQuestionResponse
 
     @GET("/schools/answer/{school-id}")
-    abstract suspend fun examineSchoolVerificationQuestion(
+    suspend fun examineSchoolVerificationQuestion(
         @Path("school-id") schoolId: UUID,
         @Query("answer") answer: String,
     )
 
     @GET("/schools/code")
-    abstract suspend fun examineSchoolVerificationCode(@Query("school_code") schoolCode: String): ExamineSchoolVerificationCodeResponse
+    suspend fun examineSchoolVerificationCode(@Query("school_code") schoolCode: String): ExamineSchoolVerificationCodeResponse
 }

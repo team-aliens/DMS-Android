@@ -10,7 +10,7 @@ junitAndroid = "1.1.5"
 coroutines = "1.7.3"
 lifecycle = "2.6.2"
 material = "1.9.0"
-materialCompose = "1.5.3"
+materialCompose = "1.1.2"
 agp = "8.1.2"
 kotlin = "1.9.10"
 hilt = "2.48"
@@ -46,7 +46,7 @@ androidx-compose-util = { group = "androidx.compose.ui", name = "ui-util", versi
 androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
 androidx-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
 androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
-androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "materialCompose" }
+androidx-compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestination" }

@@ -2,7 +2,7 @@
 
 package team.aliens.dms.android.core.designsystem.typography
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
@@ -189,7 +189,7 @@ fun Headline1(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -207,7 +207,7 @@ fun Headline2(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -225,7 +225,7 @@ fun Headline3(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -243,7 +243,7 @@ fun Title1(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -261,7 +261,7 @@ fun Title2(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -279,7 +279,7 @@ fun Title3(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -297,7 +297,7 @@ fun SubTitle1(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -315,7 +315,7 @@ fun SubTitle2(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -333,7 +333,7 @@ fun Body1(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -351,7 +351,7 @@ fun Body2(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -369,7 +369,7 @@ fun Body3(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -388,7 +388,7 @@ fun Body4(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -406,7 +406,7 @@ fun Body5(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -425,7 +425,7 @@ fun Body5(
 fun Caption(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
     textAlign: TextAlign? = null,
     rippleEnabled: Boolean = false,
     onClick: (() -> Unit)? = null,
@@ -449,7 +449,7 @@ fun OverLine(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,
@@ -467,7 +467,7 @@ fun ButtonText(
     modifier: Modifier = Modifier,
     text: String,
     textAlign: TextAlign? = null,
-    color: Color = DmsTheme.colors.onBackground,
+    color: Color = DmsTheme.colorScheme.onBackground,
 ) {
     Text(
         modifier = modifier,

@@ -1,7 +1,7 @@
 package team.aliens.dms.android.core.designsystem
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -23,6 +23,8 @@ fun DmsTheme(
 
     CompositionLocalProvider(
         LocalColors provides colorScheme,
+        LocalShapes provides DmsTheme.shapes,
+        LocalTypography provides DmsTheme.typography,
     ) {
         MaterialTheme(
             content = content,
@@ -33,7 +35,7 @@ fun DmsTheme(
 @Stable
 object DmsTheme {
 
-    val colors: Colors
+    val colorScheme: Colors
         @Composable
         @ReadOnlyComposable
         get() = LocalColors.current
@@ -42,4 +44,9 @@ object DmsTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalShapes.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
 }

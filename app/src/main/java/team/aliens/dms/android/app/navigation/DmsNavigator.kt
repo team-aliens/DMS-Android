@@ -1,6 +1,6 @@
 package team.aliens.dms.android.app.navigation
 
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popUpTo
@@ -40,11 +40,11 @@ import java.util.UUID
 
 class DmsNavigator(
     private val navGraph: NavGraphSpec,
-    private val navController: NavHostController,
+    private val navController: NavController,
 ) : AuthorizedNavigator,
     UnauthorizedNavigator {
     override fun openEditPasswordSetPasswordNav() {
-        navController.navigate(EditPasswordSetPasswordScreenDestination within navGraph)
+        navController.navigate(EditPasswordSetPasswordScreenDestination)
     }
 
     override fun openSignIn() {
@@ -112,7 +112,7 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordSetPassword() {
-        navController.navigate(ResetPasswordSetPasswordScreenDestination)
+        navController.navigate(ResetPasswordSetPasswordScreenDestination within navGraph)
     }
 
     override fun openAuthorizedNav() {
@@ -136,7 +136,7 @@ class DmsNavigator(
     }
 
     override fun openFindId() {
-        navController.navigate(FindIdScreenDestination within navGraph)
+        navController.navigate(FindIdScreenDestination within UnauthorizedNavGraph)
     }
 
     override fun openResetPasswordNav() {

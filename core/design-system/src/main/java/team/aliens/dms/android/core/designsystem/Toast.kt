@@ -1,7 +1,5 @@
-package team.aliens.dms.android.core.designsystem.toast
+package team.aliens.dms.android.core.designsystem
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,8 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -28,7 +25,6 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellableContinuation
@@ -38,40 +34,8 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import team.aliens.dms.android.core.designsystem.icon.DormIcon
 import team.aliens.dms.android.core.designsystem.modifier.dormShadow
-import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.typography.Body3
-import java.lang.ref.WeakReference
 import kotlin.coroutines.resume
-
-@Deprecated("Legacy")
-class ToastWrapper(context: Context) {
-    private val contextWrapper = WeakReference(context)
-    private val _context get() = contextWrapper.get()!!
-
-    private val toastInstance = Toast.makeText(_context, "", Toast.LENGTH_SHORT)
-
-    operator fun invoke(
-        message: Any,
-        length: Int = Toast.LENGTH_SHORT,
-    ) = toastInstance.run {
-        setText(message.toString())
-        duration = length
-        show()
-    }
-}
-
-@Deprecated("Legacy")
-@Composable
-fun rememberToast(): ToastWrapper {
-    val context = LocalContext.current.applicationContext
-    return remember(
-        key1 = context,
-    ) {
-        ToastWrapper(
-            context = context,
-        )
-    }
-}
 
 val LocalToast = staticCompositionLocalOf<ToastState> {
     error("LocalToast not Implemented")
@@ -194,11 +158,7 @@ fun ToastLayout(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter,
         ) {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                content()
-            }
+            content()
             toastHost(toastState)
         }
     }
@@ -222,15 +182,15 @@ private fun DormToast(
             Row(
                 modifier = Modifier
                     .padding(
-                        vertical = 12.dp,
+                        vertical = 36.dp,
                         horizontal = 14.dp,
                     )
                     .fillMaxWidth()
                     .dormShadow(
-                        color = DmsTheme.colors.line,
+                        color = DmsTheme.colorScheme.line,
                     )
                     .background(
-                        color = DmsTheme.colors.surface,
+                        color = DmsTheme.colorScheme.surface,
                         shape = RoundedCornerShape(4.dp),
                     )
                     .padding(
@@ -264,8 +224,8 @@ enum class ToastType(
 
     val color: Color
         @Composable get() = when (this) {
-            INFORMATION -> DmsTheme.colors.onBackground
-            ERROR -> DmsTheme.colors.error
-            SUCCESS -> DmsTheme.colors.primary
+            INFORMATION -> DmsTheme.colorScheme.onBackground
+            ERROR -> DmsTheme.colorScheme.error
+            SUCCESS -> DmsTheme.colorScheme.primary
         }
 }
