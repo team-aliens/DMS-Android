@@ -182,7 +182,7 @@ private fun DormToast(
             Row(
                 modifier = Modifier
                     .padding(
-                        vertical = 12.dp,
+                        vertical = 36.dp,
                         horizontal = 14.dp,
                     )
                     .fillMaxWidth()
