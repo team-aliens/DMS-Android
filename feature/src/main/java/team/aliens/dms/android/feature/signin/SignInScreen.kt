@@ -39,6 +39,7 @@ import team.aliens.dms.android.core.designsystem.Checkbox
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
@@ -60,13 +61,23 @@ internal fun SignInScreen(
 ) {
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
+    val toast = LocalToast.current
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            SignInSideEffect.Failure -> {}
+
+            SignInSideEffect.Failure -> {
+                // TODO
+                toast.showErrorToast("실패")
+            }
+
             is SignInSideEffect.IdError -> {}
             SignInSideEffect.Loading -> {}
             is SignInSideEffect.PasswordError -> {}
-            SignInSideEffect.Success -> {}
+            SignInSideEffect.Success -> {
+                navigator.openFindId()
+            }
         }
     }
 
@@ -98,18 +109,18 @@ internal fun SignInScreen(
             )
             UnauthorizedActions(
                 modifier = Modifier.fillMaxWidth(),
-                onSignUp = {},
-                onFindId = {},
-                onResetPassword = {},
+                onSignUp = navigator::openSignUpNav,
+                onFindId = navigator::openFindId,
+                onResetPassword = navigator::openResetPasswordNav,
             )
-            Spacer(modifier = Modifier.weight(4f))
+            Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = { viewModel.postIntent(SignInIntent.SignIn) },
-                enabled = uiState.signInButtonAvailable.also { println("ITIT $it") },
+                enabled = uiState.signInButtonAvailable,
             ) {
                 Text(text = "로그인")
             }
