@@ -72,11 +72,9 @@ internal fun SignInScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-
             SignInSideEffect.Failure -> toast.showErrorToast(context.getString(R.string.sign_in_error))
             SignInSideEffect.Loading -> {}
             SignInSideEffect.Success -> navigator.openAuthorizedNav()
-            SignInSideEffect.BadRequest -> {}
         }
     }
 

@@ -13,7 +13,6 @@ import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
 import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.data.auth.repository.AuthRepository
-import team.aliens.dms.android.shared.exception.UnknownException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,6 +66,7 @@ internal class SignInViewModel @Inject constructor(
         return idEntered && passwordEntered
     }
 
+    // TODO: Check id and password format before request
     private fun signIn() {
         updateSignInButtonAvailable(false)
         val uiState = stateFlow.value
@@ -81,10 +81,14 @@ internal class SignInViewModel @Inject constructor(
                 postSideEffect(SignInSideEffect.Success)
             }.onFailure { error ->
                 when (error) {
-                    is BadRequestException -> postSideEffect(SignInSideEffect.BadRequest)
-                    is UserNotFoundException -> updateIdError(error)
-                    is PasswordMismatchException -> updatePasswordError(error)
-                    else -> throw UnknownException()
+                    is BadRequestException -> updateError(
+                        accountIdError = error,
+                        passwordError = error,
+                    )
+
+                    is UserNotFoundException -> updateError(accountIdError = error)
+                    is PasswordMismatchException -> updateError(passwordError = error)
+                    else -> postSideEffect(SignInSideEffect.Failure)
                 }
             }.also {
                 updateSignInButtonAvailable(true)
@@ -92,11 +96,15 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun updateIdError(exception: AuthException): Boolean =
-        reduce(newState = stateFlow.value.copy(accountIdError = exception))
-
-    private fun updatePasswordError(exception: AuthException): Boolean =
-        reduce(newState = stateFlow.value.copy(passwordError = exception))
+    private fun updateError(
+        accountIdError: AuthException? = null,
+        passwordError: AuthException? = null,
+    ): Boolean = reduce(
+        newState = stateFlow.value.copy(
+            accountIdError = accountIdError,
+            passwordError = passwordError,
+        ),
+    )
 }
 
 internal data class SignInUiState(
@@ -137,6 +145,4 @@ internal sealed class SignInSideEffect : SideEffect() {
     data object Failure : SignInSideEffect()
 
     data object Success : SignInSideEffect()
-
-    object BadRequest : SignInSideEffect()
 }
