@@ -165,21 +165,28 @@ private fun UserInformationInputs(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
     ) {
+        val shouldShowAccountIdError = accountIdError != null
+        val shouldShowPasswordError = passwordError != null
+
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalPadding(),
             value = accountId,
-            isError = accountIdError != null,
-            supportingText = {
-                Text(
-                    text = stringResource(
-                        id = when (accountIdError) {
-                            is UserNotFoundException -> R.string.sign_in_error_user_not_found
-                            else -> R.string.error_unknown
-                        },
-                    ),
-                )
+            isError = shouldShowAccountIdError,
+            supportingText = if (shouldShowAccountIdError) {
+                {
+                    Text(
+                        text = stringResource(
+                            id = when (accountIdError) {
+                                is UserNotFoundException -> R.string.sign_in_error_user_not_found
+                                else -> R.string.error_unknown
+                            },
+                        ),
+                    )
+                }
+            } else {
+                null
             },
             onValueChange = onAccountIdChange,
             hint = { Text(text = stringResource(id = R.string.id)) },
@@ -191,13 +198,21 @@ private fun UserInformationInputs(
                 .fillMaxWidth()
                 .horizontalPadding(),
             value = password,
-            isError = passwordError != null,
-            supportingText = stringResource(
-                id = when (passwordError) {
-                    is PasswordMismatchException -> R.string.sign_in_error_password_mismatch
-                    else -> R.string.error_unknown
-                },
-            ),
+            isError = shouldShowPasswordError,
+            supportingText = if (shouldShowPasswordError) {
+                {
+                    Text(
+                        text = stringResource(
+                            id = when (passwordError) {
+                                is PasswordMismatchException -> R.string.sign_in_error_password_mismatch
+                                else -> R.string.error_unknown
+                            },
+                        )
+                    )
+                }
+            } else {
+                null
+            },
             onValueChange = onPasswordChange,
             hintText = stringResource(id = R.string.password),
             keyboardOptions = KeyboardOptions(
