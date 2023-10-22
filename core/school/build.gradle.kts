@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation(project(ProjectPaths.Core.dataStore))
+    implementation(project(ProjectPaths.Core.jwt))
     implementation(project(ProjectPaths.Core.network))
 
     implementation(libs.androidx.core)
