@@ -9,8 +9,9 @@ import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.jwt.exception.CannotReissueTokenException
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
+import javax.inject.Inject
 
-class TokenReissueManager(
+class TokenReissueManager @Inject constructor(
     private val reissueUrl: String,
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,
@@ -34,10 +35,7 @@ class TokenReissueManager(
 
     private fun ResponseBody?.toTokensResponse(): TokensResponse {
         requireNotNull(this)
-        return Gson().fromJson(
-            this.string(),
-            TokensResponse::class.java,
-        )
+        return Gson().fromJson(this.string(), TokensResponse::class.java)
     }
 
     private fun buildTokenReissueRequest(refreshToken: String): Request =
