@@ -1,9 +1,8 @@
 package team.aliens.dms.android.app.navigation
 
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
@@ -40,7 +39,7 @@ import java.util.UUID
 
 class DmsNavigator(
     private val navGraph: NavGraphSpec,
-    private val navController: NavHostController,
+    private val navController: NavController,
 ) : AuthorizedNavigator,
     UnauthorizedNavigator {
     override fun openEditPasswordSetPasswordNav() {
@@ -96,7 +95,7 @@ class DmsNavigator(
     }
 
     override fun openEditPasswordNav() {
-        navController.navigate(EditPasswordNavGraph) {
+        navController.navigate(EditPasswordNavGraph within navGraph) {
             restoreState = true
             launchSingleTop = true
         }
@@ -112,12 +111,12 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordSetPassword() {
-        navController.navigate(ResetPasswordSetPasswordScreenDestination)
+        navController.navigate(ResetPasswordSetPasswordScreenDestination within navGraph)
     }
 
     override fun openAuthorizedNav() {
         navController.navigate(AuthorizedNavGraph) {
-            popUpTo(UnauthorizedNavGraph) {
+            popUpTo(UnauthorizedNavGraph.route) {
                 inclusive = true
             }
         }
@@ -125,14 +124,14 @@ class DmsNavigator(
 
     override fun openUnauthorizedNav() {
         navController.navigate(UnauthorizedNavGraph) {
-            popUpTo(AuthorizedNavGraph) {
+            popUpTo(AuthorizedNavGraph.route) {
                 inclusive = true
             }
         }
     }
 
     override fun openSignUpNav() {
-        navController.navigate(SignUpNavGraph)
+        navController.navigate(SignUpNavGraph within navGraph)
     }
 
     override fun openFindId() {
@@ -140,7 +139,7 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordNav() {
-        navController.navigate(ResetPasswordNavGraph)
+        navController.navigate(ResetPasswordNavGraph within navGraph)
     }
 
     override fun openEnterSchoolVerificationQuestion() {
