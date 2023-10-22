@@ -1,3 +1,10 @@
 package team.aliens.dms.android.core.school.datastore.store
 
-abstract class FeaturesStore
+import team.aliens.dms.android.core.school.Features
+
+abstract class FeaturesStore {
+
+    abstract fun loadFeatures(): Features
+
+    abstract suspend fun storeFeatures(features: Features)
+}
