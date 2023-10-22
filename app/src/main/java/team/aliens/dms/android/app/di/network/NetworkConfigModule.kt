@@ -6,11 +6,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
+import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
 import team.aliens.dms.android.core.network.HttpMethod
 import team.aliens.dms.android.core.network.HttpRequest
 import team.aliens.dms.android.core.network.di.BaseUrl
+import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
+import team.aliens.dms.android.core.network.di.GlobalHttpLoggingInterceptor
 import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
 import team.aliens.dms.android.core.network.httpclient.GlobalInterceptors
 import javax.inject.Singleton
@@ -100,13 +103,21 @@ object NetworkConfigModule {
 
     @Provides
     @Singleton
-    fun provideDefaultInterceptors(): DefaultInterceptors = object : DefaultInterceptors {
-        override val interceptors: List<Interceptor> = emptyList()
+    fun provideDefaultInterceptors(
+        @DefaultHttpLoggingInterceptor defaultHttpLoggingInterceptor: HttpLoggingInterceptor,
+    ): DefaultInterceptors = object : DefaultInterceptors {
+        override val interceptors: List<Interceptor> = listOf(
+            defaultHttpLoggingInterceptor,
+        )
     }
 
     @Provides
     @Singleton
-    fun provideGlobalInterceptors(): GlobalInterceptors = object : GlobalInterceptors {
-        override val interceptors: List<Interceptor> = emptyList()
+    fun provideGlobalInterceptors(
+        @GlobalHttpLoggingInterceptor globalHttpLoggingInterceptor: HttpLoggingInterceptor,
+    ): GlobalInterceptors = object : GlobalInterceptors {
+        override val interceptors: List<Interceptor> = listOf(
+            globalHttpLoggingInterceptor,
+        )
     }
 }
