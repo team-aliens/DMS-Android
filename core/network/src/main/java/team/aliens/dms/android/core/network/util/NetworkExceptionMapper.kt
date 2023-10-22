@@ -9,19 +9,19 @@ import team.aliens.dms.android.core.network.exception.RequestTimeoutException
 import team.aliens.dms.android.core.network.exception.TooManyRequestsException
 import team.aliens.dms.android.core.network.exception.UnAuthorizedException
 import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
-import team.aliens.dms.android.shared.exception.UnknownException
+import team.aliens.dms.android.shared.exception.NotDefinedException
 
 suspend inline fun <T> statusMapping(
-    onBadRequest: () -> Nothing = { throw BadRequestException() },
-    onUnauthorized: () -> Nothing = { throw UnAuthorizedException() },
-    onForbidden: () -> Nothing = { throw ForbiddenException() },
-    onNotFound: () -> Nothing = { throw NotFoundException() },
-    onRequestTimeout: () -> Nothing = { throw RequestTimeoutException() },
-    onConflict: () -> Nothing = { throw ConflictException() },
-    onUnsupportedMediaType: () -> Nothing = { throw UnsupportedMediaTypeException() },
-    onTooManyRequests: () -> Nothing = { throw TooManyRequestsException() },
-    onInternalServerError: () -> Nothing = { throw InternalServerError() },
-    onUnknownException: () -> Nothing = { throw UnknownException() },
+    onBadRequest: () -> Nothing = { throw NotDefinedException() },
+    onUnauthorized: () -> Nothing = { throw NotDefinedException() },
+    onForbidden: () -> Nothing = { throw NotDefinedException() },
+    onNotFound: () -> Nothing = { throw NotDefinedException() },
+    onRequestTimeout: () -> Nothing = { throw NotDefinedException() },
+    onConflict: () -> Nothing = { throw NotDefinedException() },
+    onUnsupportedMediaType: () -> Nothing = { throw NotDefinedException() },
+    onTooManyRequests: () -> Nothing = { throw NotDefinedException() },
+    onInternalServerError: () -> Nothing = { throw NotDefinedException() },
+    onUnknownException: () -> Nothing = { throw NotDefinedException() },
     crossinline block: suspend () -> T,
 ): T = try {
     block()
