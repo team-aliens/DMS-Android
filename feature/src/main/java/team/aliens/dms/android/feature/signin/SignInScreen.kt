@@ -51,6 +51,7 @@ import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.data.auth.exception.AuthException
+import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
 import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.feature.R
@@ -180,6 +181,7 @@ private fun UserInformationInputs(
                         text = stringResource(
                             id = when (accountIdError) {
                                 is UserNotFoundException -> R.string.sign_in_error_user_not_found
+                                is BadRequestException -> R.string.sign_in_error_check_format
                                 else -> R.string.error_unknown
                             },
                         ),
@@ -205,6 +207,7 @@ private fun UserInformationInputs(
                         text = stringResource(
                             id = when (passwordError) {
                                 is PasswordMismatchException -> R.string.sign_in_error_password_mismatch
+                                is BadRequestException -> R.string.sign_in_error_check_format
                                 else -> R.string.error_unknown
                             },
                         )
