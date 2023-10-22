@@ -8,8 +8,8 @@ import team.aliens.dms.android.core.network.exception.NotFoundException
 import team.aliens.dms.android.core.network.exception.RequestTimeoutException
 import team.aliens.dms.android.core.network.exception.TooManyRequestsException
 import team.aliens.dms.android.core.network.exception.UnAuthorizedException
-import team.aliens.dms.android.core.network.exception.UnknownException
 import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
+import team.aliens.dms.android.shared.exception.UnknownException
 
 suspend inline fun <T> statusMapping(
     onBadRequest: () -> Nothing = { throw BadRequestException() },
