@@ -79,6 +79,10 @@ internal class JwtProviderImpl @Inject constructor(
         }
     }
 
+    override fun saveTokens(tokens: Tokens) {
+        CoroutineScope(Dispatchers.Default).launch { jwtDataStoreDataSource.storeTokens(tokens) }
+    }
+
     private fun loadTokens(): Tokens {
         val tokens = jwtDataStoreDataSource.loadTokens()
         return tokens.also(::updateTokens)
