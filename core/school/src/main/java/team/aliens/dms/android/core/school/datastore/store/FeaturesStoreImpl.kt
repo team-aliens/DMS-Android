@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.school.store
+package team.aliens.dms.android.core.school.datastore.store
 
 import team.aliens.dms.android.core.school.datastore.FeaturesDataStoreDataSource
 import team.aliens.dms.android.core.school.network.FeaturesManager
