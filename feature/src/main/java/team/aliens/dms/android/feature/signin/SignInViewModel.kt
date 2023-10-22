@@ -118,12 +118,6 @@ internal sealed class SignInSideEffect : SideEffect() {
 }
 
 internal sealed class SignInError : RuntimeException() {
-
-    data object IdNotEntered : SignInError()
-
     data object IdNotFound : SignInError()
-
-    data object PasswordNotEntered : SignInError()
-
     data object PasswordMismatch : SignInError()
 }

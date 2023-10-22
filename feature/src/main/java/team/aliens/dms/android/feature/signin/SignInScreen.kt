@@ -102,13 +102,13 @@ internal fun SignInScreen(
                 onFindId = {},
                 onResetPassword = {},
             )
-            Spacer(modifier = Modifier.weight(5f))
+            Spacer(modifier = Modifier.weight(4f))
             ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { /* TODO */ },
+                onClick = { viewModel.postIntent(SignInIntent.SignIn) },
                 enabled = uiState.signInButtonAvailable.also { println("ITIT $it") },
             ) {
                 Text(text = "로그인")
