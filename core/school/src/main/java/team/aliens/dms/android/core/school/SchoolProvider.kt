@@ -7,5 +7,5 @@ abstract class SchoolProvider {
     abstract val features: Features
     abstract val isFeaturesAvailable: StateFlow<Boolean>
 
-    abstract fun saveFeatures(features: Features)
+    abstract fun updateFeatures(features: Features)
 }
