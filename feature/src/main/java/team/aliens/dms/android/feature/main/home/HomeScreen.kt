@@ -55,6 +55,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -63,6 +64,7 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
@@ -123,7 +125,6 @@ internal fun HomeScreen(
                 visible = uiState.newNoticesExist,
                 onNavigateToAnnouncementList = onNavigateToAnnouncementList,
             )
-
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.meal_todays_meal),
@@ -131,7 +132,6 @@ internal fun HomeScreen(
                 style = DmsTheme.typography.title1,
                 color = DmsTheme.colorScheme.onSurface,
             )
-
             DateCard(
                 modifier = Modifier.fillMaxWidth(),
                 selectedDate = selectedCalendarDate,
@@ -139,7 +139,6 @@ internal fun HomeScreen(
                 onPreviousDay = { /*TODO*/ },
                 onShowCalendar = onShowCalendar,
             )
-
             MealCards(
                 currentDate = selectedCalendarDate,
                 breakfast = uiState.mealOfDate?.breakfast
@@ -156,53 +155,7 @@ internal fun HomeScreen(
                 onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
             )
         }
-    }/*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
-    // LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .dormGradientBackground(defaultBackgroundBrush),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        HomeScreenAppLogo(
-            onNavigateToNotificationBox = navigator::openNotificationBox,
-        )
-        NoticeCard(
-            visible = state.newNotices,
-            onIconClicked = navigator::openAnnouncementList,
-        )
-        Column(
-            modifier = Modifier.animateContentSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(Modifier.weight(0.05f))
-            Title1(
-                text = stringResource(R.string.meal_todays_meal),
-            )
-            Spacer(Modifier.weight(0.05f))
-            *//*DateCard(
-                selectedDate = state.selectedDate,
-                onNextDay = onNextDay,
-                onPreviousDay = onPreviousDay,
-                onShowCalendar = onShowCalendar,
-            )*//*
-            Spacer(Modifier.weight(0.1f))
-            *//*MealCards(
-                currentDate = calendarDate,
-                breakfast = state.breakfast,
-                kcalOfBreakfast = state.kcalOfBreakfast
-                    ?: stringResource(R.string.meal_not_exists),
-                lunch = state.lunch,
-                kcalOfLunch = state.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
-                dinner = state.dinner,
-                kcalOfDinner = state.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
-                onNextDay = onNextDay,
-                onPreviousDay = onPreviousDay,
-            )*//*
-            Spacer(Modifier.height(80.dp))
-        }
-    }*/
+    }
 }
 
 @Composable
@@ -247,7 +200,7 @@ private fun DateCard(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
-            space = 12.dp,
+            space = DefaultHorizontalSpace,
             alignment = Alignment.CenterHorizontally,
         ),
     ) {
@@ -270,9 +223,8 @@ private fun DateCard(
                 tint = DmsTheme.colorScheme.onSurface,
                 contentDescription = null,
             )
-            // TODO: 요일
             Text(
-                text = "$selectedDate",
+                text = "$selectedDate (${selectedDate.dayOfWeek.text})",
                 style = DmsTheme.typography.button,
                 color = DmsTheme.colorScheme.onSurface,
             )
@@ -284,14 +236,28 @@ private fun DateCard(
     }
 }
 
-// TODO
+private val DayOfWeek.text: String
+    @Composable inline get() = stringResource(
+        when (this) {
+            DayOfWeek.SUNDAY -> R.string.sunday_abb
+            DayOfWeek.MONDAY -> R.string.monday_abb
+            DayOfWeek.TUESDAY -> R.string.tuesday_abb
+            DayOfWeek.WEDNESDAY -> R.string.wednesday_abb
+            DayOfWeek.THURSDAY -> R.string.thursday_abb
+            DayOfWeek.FRIDAY -> R.string.friday_abb
+            DayOfWeek.SATURDAY -> R.string.saturday_abb
+            else -> throw IllegalArgumentException()
+        },
+    )
+
 @Composable
 private fun CalendarArrow(
+    modifier: Modifier = Modifier,
     type: ArrowType,
     onClick: () -> Unit,
 ) {
     Image(
-        modifier = Modifier
+        modifier = modifier
             .padding(PaddingDefaults.ExtraSmall)
             .size(32.dp)
             .clip(DmsTheme.shapes.medium)
@@ -305,37 +271,15 @@ private fun CalendarArrow(
 private enum class ArrowType(
     @DrawableRes val iconRes: Int,
 ) {
-    BACKWARD(iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_backward), FORWARD(
-        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_forward
+    BACKWARD(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_backward,
+    ),
+    FORWARD(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_forward,
     ),
     ;
 }
 
-/*
-@Composable
-private fun Date.getDayOfWeek(): String {
-    val digit = this.getDigitOfDayOfWeek()
-    return stringResource(
-        when (digit) {
-            Calendar.SUNDAY -> R.string.sunday_abb
-            Calendar.MONDAY -> R.string.monday_abb
-            Calendar.TUESDAY -> R.string.tuesday_abb
-            Calendar.WEDNESDAY -> R.string.wednesday_abb
-            Calendar.THURSDAY -> R.string.thursday_abb
-            Calendar.FRIDAY -> R.string.friday_abb
-            Calendar.SATURDAY -> R.string.saturday_abb
-            else -> throw IllegalArgumentException()
-        },
-    )
-}
-
-private fun Date.getDigitOfDayOfWeek(): Int {
-    val calendar = Calendar.getInstance().apply {
-        time = this@getDigitOfDayOfWeek
-    }
-    return calendar.get(Calendar.DAY_OF_WEEK)
-}
-*/
 @Immutable
 private enum class MealCardType(
     @DrawableRes val iconRes: Int,
