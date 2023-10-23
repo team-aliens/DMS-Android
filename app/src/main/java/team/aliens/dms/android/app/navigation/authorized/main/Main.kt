@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
@@ -24,6 +23,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -60,13 +60,12 @@ internal fun Main(
             )
         },
     ) {
-        /* DestinationsNavHost(
-             modifier = Modifier.padding(padValues),
-             engine = engine,
-             navGraph = MainNavGraph,
-             navController = navController,
-             dependenciesContainerBuilder = { dependency(currentNavigator()) },
-         )*/
+        DestinationsNavHost(
+            engine = engine,
+            navGraph = MainNavGraph,
+            navController = navController,
+            // dependenciesContainerBuilder = { dependency(currentNavigator()) },
+        )
     }
 }
 

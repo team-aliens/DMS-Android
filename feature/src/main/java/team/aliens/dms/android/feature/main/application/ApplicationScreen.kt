@@ -42,7 +42,7 @@ private sealed class ApplicationCardItem(
 @Composable
 internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
-    navigator: ApplicationNavigator,
+    // navigator: ApplicationNavigator,
     // TODO: implement cacher
     // studyRoomServiceEnabled: Boolean = false,
     // remainsServiceEnabled: Boolean = false,

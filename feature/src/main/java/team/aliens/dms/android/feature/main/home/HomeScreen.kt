@@ -23,7 +23,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigator: HomeNavigator,
+    // navigator: HomeNavigator,
     // homeViewModel: HomeViewModel = hiltViewModel(),
     // calendarDate: Date,
     // onNextDay: () -> Unit,

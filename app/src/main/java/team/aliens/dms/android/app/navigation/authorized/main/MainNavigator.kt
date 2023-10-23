@@ -26,7 +26,7 @@ import team.aliens.dms.android.feature.main.mypage.navigation.MyPageNavigator
 import java.util.UUID
 
 class MainNavigator(
-    private val baseNavGraph: NavGraphSpec,
+    private val navGraph: NavGraphSpec,
     private val navController: NavController,
 ) :
     MainSectionNavigator,
@@ -36,39 +36,39 @@ class MainNavigator(
     MyPageNavigator {
 
     override fun openHome() {
-        navController.navigate(HomeScreenDestination within baseNavGraph)
+        navController.navigate(HomeScreenDestination within navGraph)
     }
 
     override fun openApplication() {
-        navController.navigate(ApplicationScreenDestination within baseNavGraph)
+        navController.navigate(ApplicationScreenDestination within navGraph)
     }
 
     override fun openAnnouncementList() {
-        navController.navigate(AnnouncementListScreenDestination within baseNavGraph)
+        navController.navigate(AnnouncementListScreenDestination within navGraph)
     }
 
     override fun openMyPage() {
-        navController.navigate(MyPageScreenDestination within baseNavGraph)
+        navController.navigate(MyPageScreenDestination within navGraph)
     }
 
     override fun openNoticeDetails(noticeId: UUID) {
-        navController.navigate(NoticeDetailsScreenDestination(noticeId = noticeId) within baseNavGraph)
+        navController.navigate(NoticeDetailsScreenDestination(noticeId = noticeId) within navGraph)
     }
 
     override fun openStudyRoomList() {
-        navController.navigate(StudyRoomListScreenDestination within baseNavGraph)
+        navController.navigate(StudyRoomListScreenDestination within navGraph)
     }
 
     override fun openRemainsApplication() {
-        navController.navigate(RemainsApplicationScreenDestination within baseNavGraph)
+        navController.navigate(RemainsApplicationScreenDestination within navGraph)
     }
 
     override fun openNotificationBox() {
-        navController.navigate(NotificationBoxScreenDestination within baseNavGraph)
+        navController.navigate(NotificationBoxScreenDestination within navGraph)
     }
 
     override fun openPointHistory() {
-        navController.navigate(PointHistoryScreenDestination within baseNavGraph)
+        navController.navigate(PointHistoryScreenDestination within navGraph)
     }
 
     override fun openEditPasswordNav() {
@@ -80,7 +80,7 @@ class MainNavigator(
 
     override fun openEditProfileImage(selectImageType: SelectImageType) {
         // TODO
-        navController.navigate(EditProfileImageScreenDestination(selectImageType) within baseNavGraph)
+        navController.navigate(EditProfileImageScreenDestination(selectImageType) within navGraph)
     }
 
     override fun openUnauthorizedNav() {

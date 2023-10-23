@@ -19,7 +19,7 @@ private val Order.text: String
 @Composable
 internal fun AnnouncementListScreen(
     modifier: Modifier = Modifier,
-    navigator: AnnouncementNavigator,
+    // navigator: AnnouncementNavigator,
     // announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
 ) {/*
     val uiState by announcementsViewModel.stateFlow.collectAsStateWithLifecycle()

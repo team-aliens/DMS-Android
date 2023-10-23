@@ -9,8 +9,7 @@ import team.aliens.dms.android.feature.main.mypage.navigation.MyPageNavigator
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
-    // myPageViewModel: MyPageViewModel = hiltViewModel(),
-    navigator: MyPageNavigator,
+    // navigator: MyPageNavigator,
     // onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     // onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     // pointServiceEnabled: Boolean,
