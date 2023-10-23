@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -115,6 +117,16 @@ private fun DmsBottomAppBar(
                         contentDescription = stringResource(id = section.labelRes),
                     )
                 },
+                label = {
+                    Text(text = stringResource(id = section.labelRes))
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = DmsTheme.colorScheme.onSurface,
+                    selectedTextColor = DmsTheme.colorScheme.onSurface,
+                    indicatorColor = DmsTheme.colorScheme.surface,
+                    unselectedIconColor = DmsTheme.colorScheme.onSurfaceVariant,
+                    unselectedTextColor = DmsTheme.colorScheme.onSurfaceVariant,
+                ),
             )
         }
     }
