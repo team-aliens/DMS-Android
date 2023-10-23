@@ -2,11 +2,15 @@ package team.aliens.dms.android.feature.main.navigation
 
 interface MainNavigator {
 
-    fun openHome()
+    fun openNotificationBox()
 
-    fun openApplication()
+    fun openUnauthorizedNav()
 
-    fun openAnnouncementList()
+    fun openStudyRoomList()
 
-    fun openMyPage()
+    fun openRemainsApplication()
+
+    fun openPointHistory()
+
+    fun openEditPassword()
 }
