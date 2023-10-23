@@ -1,20 +1,21 @@
 package team.aliens.dms.android.feature.main.navigation
 
-import team.aliens.dms.android.feature._legacy.util.SelectImageType
-import java.util.UUID
+import team.aliens.dms.android.feature.main.announcement.navigation.AnnouncementNavigator
+import team.aliens.dms.android.feature.main.application.navigation.ApplicationNavigator
+import team.aliens.dms.android.feature.main.home.navigation.HomeNavigator
+import team.aliens.dms.android.feature.main.mypage.navigation.MyPageNavigator
 
-interface MainNavigator {
+internal interface MainNavigator :
+    AnnouncementNavigator,
+    ApplicationNavigator,
+    HomeNavigator,
+    MyPageNavigator {
+
     fun openHome()
-    fun openApplication()
-    fun openAnnouncementList()
-    fun openMyPage()
-    fun openNoticeDetails(noticeId: UUID)
-    fun openStudyRoomList()
-    fun openRemainsApplication()
-    fun openNotificationBox()
-    fun openPointHistory()
-    fun openEditPasswordNav()
-    fun openEditProfileImage(selectImageType: SelectImageType = SelectImageType.NONE)
 
-    fun openUnauthorizedNav()
+    fun openApplication()
+
+    fun openAnnouncementList()
+
+    fun openMyPage()
 }
