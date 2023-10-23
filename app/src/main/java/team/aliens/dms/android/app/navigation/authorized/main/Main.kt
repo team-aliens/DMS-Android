@@ -7,12 +7,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -50,7 +55,6 @@ internal fun Main(
             )
         },
     ) { padValues ->
-
         DestinationsNavHost(
             modifier = Modifier.padding(padValues),
             engine = engine,
@@ -84,38 +88,62 @@ private fun DmsBottomAppBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ) {
+    val currentDestination = navController.appCurrentDestinationAsState().value
+        ?: NavGraphs.root.startAppDestination
+
     BottomAppBar(
         modifier = modifier,
     ) {
+        MainSections.entries.forEach { section ->
+            val selected = currentDestination == section.direction
+            NavigationBarItem(
+                selected = selected,
+                onClick = {
+                    navController.navigate(section.direction.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
 
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = section.iconRes),
+                        contentDescription = stringResource(id = section.labelRes),
+                    )
+                },
+            )
+        }
     }
 }
 
 @Immutable
 private enum class MainSections(
-    private val direction: DirectionDestinationSpec,
-    @DrawableRes private val iconRes: Int,
-    @StringRes private val label: Int,
+    val direction: DirectionDestinationSpec,
+    @DrawableRes val iconRes: Int,
+    @StringRes val labelRes: Int,
 ) {
     HOME(
         direction = HomeScreenDestination,
         iconRes = R.drawable.ic_home,
-        label = team.aliens.dms.android.feature.R.string.bottom_nav_home,
+        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_home,
     ),
     APPLICATION(
         direction = ApplicationScreenDestination,
         iconRes = R.drawable.ic_applicate,
-        label = team.aliens.dms.android.feature.R.string.bottom_nav_application,
+        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_application,
     ),
     ANNOUNCEMENT_LIST(
         direction = AnnouncementListScreenDestination,
         iconRes = R.drawable.ic_notice,
-        label = team.aliens.dms.android.feature.R.string.bottom_nav_announcement_list,
+        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_announcement_list,
     ),
     MY_PAGE(
         direction = MyPageScreenDestination,
         iconRes = R.drawable.ic_mypage,
-        label = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
+        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
     ),
     ;
 }
