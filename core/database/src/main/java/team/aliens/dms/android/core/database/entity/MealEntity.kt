@@ -9,6 +9,9 @@ import org.threeten.bp.LocalDate
 data class MealEntity(
     @PrimaryKey @ColumnInfo("date") val date: LocalDate,
     @ColumnInfo(name = "breakfast") val breakfast: List<String>,
+    @ColumnInfo(name = "kcal_breakfast") val kcalOfBreakfast: String,
     @ColumnInfo(name = "lunch") val lunch: List<String>,
+    @ColumnInfo(name = "kcal_lunch") val kcalOfLunch: String,
     @ColumnInfo(name = "dinner") val dinner: List<String>,
+    @ColumnInfo(name = "kcal_dinner") val kcalOfDinner: String,
 )
