@@ -1,8 +1,8 @@
-package team.aliens.dms.android.core.school.datastore
+package team.aliens.dms.android.core.school.datastore.store
 
 import team.aliens.dms.android.core.school.Features
 
-internal abstract class FeaturesDataStoreDataSource {
+abstract class FeaturesStore {
 
     abstract fun loadFeatures(): Features
 

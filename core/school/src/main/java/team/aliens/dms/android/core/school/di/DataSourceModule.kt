@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms.android.core.school.store.FeaturesStore
-import team.aliens.dms.android.core.school.store.FeaturesStoreImpl
+import team.aliens.dms.android.core.school.datastore.FeaturesDataStoreDataSource
+import team.aliens.dms.android.core.school.datastore.FeaturesDataStoreDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -14,5 +14,5 @@ internal abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindFeaturesStore(impl: FeaturesStoreImpl): FeaturesStore
+    abstract fun bindFeaturesDataSource(impl: FeaturesDataStoreDataSourceImpl): FeaturesDataStoreDataSource
 }

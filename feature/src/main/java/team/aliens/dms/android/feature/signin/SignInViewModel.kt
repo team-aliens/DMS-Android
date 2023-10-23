@@ -31,25 +31,19 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun updateId(accountId: String): Boolean {
-        updateSignInButtonAvailable(checkSignInAvailable())
-        return reduce(
-            newState = stateFlow.value.copy(
-                accountId = accountId,
-                accountIdError = null,
-            ),
-        )
-    }
+    private fun updateId(accountId: String): Boolean = reduce(
+        newState = stateFlow.value.copy(
+            accountId = accountId,
+            accountIdError = null,
+        ),
+    ).also { updateSignInButtonAvailable(checkSignInAvailable()) }
 
-    private fun updatePassword(password: String): Boolean {
-        updateSignInButtonAvailable(checkSignInAvailable())
-        return reduce(
-            newState = stateFlow.value.copy(
-                password = password,
-                passwordError = null,
-            ),
-        )
-    }
+    private fun updatePassword(password: String): Boolean = reduce(
+        newState = stateFlow.value.copy(
+            password = password,
+            passwordError = null,
+        ),
+    ).also { updateSignInButtonAvailable(checkSignInAvailable()) }
 
     private fun updateAutoSignIn(autoSignIn: Boolean): Boolean =
         reduce(newState = stateFlow.value.copy(autoSignIn = autoSignIn))

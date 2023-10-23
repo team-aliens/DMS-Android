@@ -8,19 +8,19 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.dms.android.core.jwt.RequiresAccessToken
-import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
+import team.aliens.dms.android.network.student.model.SignUpResponse
 import java.util.UUID
 
 internal interface StudentApiService {
 
     @POST("/students/signup")
-    suspend fun signUp(@Body request: SignUpRequest): TokensResponse
+    suspend fun signUp(@Body request: SignUpRequest): SignUpResponse
 
     @GET("/students/name")
     suspend fun examineStudentNumber(

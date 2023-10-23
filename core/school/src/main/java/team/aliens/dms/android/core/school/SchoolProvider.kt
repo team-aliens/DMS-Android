@@ -1,11 +1,11 @@
 package team.aliens.dms.android.core.school
 
-import team.aliens.dms.android.core.school.store.FeaturesStore
-import javax.inject.Inject
+import kotlinx.coroutines.flow.StateFlow
 
-object SchoolProvider : SchoolProviderInjectionDelegation()
+abstract class SchoolProvider {
 
-abstract class SchoolProviderInjectionDelegation {
-    @Inject
-    lateinit var featuresStore: FeaturesStore
+    abstract val features: Features
+    abstract val isFeaturesAvailable: StateFlow<Boolean>
+
+    abstract fun updateFeatures(features: Features)
 }

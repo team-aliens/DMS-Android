@@ -44,6 +44,7 @@ internal object HttpClientModule {
         client = globalOkHttpClient,
         baseUrl = baseUrl,
         gsonConverter = true,
+        gsonLenient = true,
     )
 
     @Provides

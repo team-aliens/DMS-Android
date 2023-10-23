@@ -1,5 +1,6 @@
 package team.aliens.dms.android.core.network.util
 
+import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -8,13 +9,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun Retrofit(
     client: OkHttpClient,
     baseUrl: String,
-    gsonConverter: Boolean = false,
+    gsonConverter: Boolean = true,
+    gsonLenient: Boolean = true,
 ): Retrofit = Retrofit.Builder()
     .baseUrl(baseUrl)
     .apply {
         client(client)
         if (gsonConverter) {
-            addConverterFactory(GsonConverterFactory.create())
+            val builder = GsonBuilder().apply {
+                if (gsonLenient) {
+                    setLenient()
+                }
+            }
+            addConverterFactory(GsonConverterFactory.create(builder.create()))
         }
     }.build()
 
