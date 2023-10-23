@@ -438,7 +438,6 @@ private fun MealCard(
     Card(
         modifier = modifier
             .fillMaxSize()
-            .shadow()
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
@@ -459,16 +458,10 @@ private fun MealCard(
                     }
                 }
             }
-            .padding(
-                horizontal = 8.dp,
-            )
-            .background(
-                color = DmsTheme.colorScheme.background,
-                shape = RoundedCornerShape(20.dp),
-            )
-            .clip(
-                RoundedCornerShape(20.dp),
-            )
+            .horizontalPadding(value = PaddingDefaults.Small)
+            .background(color = DmsTheme.colorScheme.background)
+            .shadow(shape = DmsTheme.shapes.extraLarge)
+            .clip(shape = DmsTheme.shapes.extraLarge)
             .border(
                 width = 1.dp,
                 color = DmsTheme.colorScheme.primary,
