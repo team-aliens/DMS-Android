@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -126,6 +127,7 @@ internal fun HomeScreen(
                 visible = uiState.newNoticesExist,
                 onNavigateToAnnouncementList = onNavigateToAnnouncementList,
             )
+            Spacer(modifier = Modifier.weight(2f))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.meal_todays_meal),
@@ -133,6 +135,7 @@ internal fun HomeScreen(
                 style = DmsTheme.typography.title1,
                 color = DmsTheme.colorScheme.onSurface,
             )
+            Spacer(modifier = Modifier.weight(2f))
             DateCard(
                 modifier = Modifier.fillMaxWidth(),
                 selectedDate = selectedCalendarDate,
@@ -140,7 +143,9 @@ internal fun HomeScreen(
                 onPreviousDay = { /*TODO*/ },
                 onShowCalendar = onShowCalendar,
             )
+            Spacer(modifier = Modifier.weight(1f))
             MealCards(
+                modifier = Modifier.weight(20f),
                 currentDate = selectedCalendarDate,
                 breakfast = uiState.mealOfDate?.breakfast
                     ?: emptyList(), // TODO: make viewmodel handle empty list
@@ -155,6 +160,7 @@ internal fun HomeScreen(
                 onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
                 onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
             )
+            Spacer(modifier = Modifier.weight(5f))
         }
     }
 }
@@ -260,7 +266,7 @@ private fun CalendarArrow(
     Image(
         modifier = modifier
             .padding(PaddingDefaults.ExtraSmall)
-            .size(32.dp)
+            .size(28.dp)
             .clip(DmsTheme.shapes.medium)
             .clickable(onClick = onClick),
         painter = painterResource(id = type.iconRes),
@@ -280,6 +286,8 @@ private enum class ArrowType(
     ),
     ;
 }
+
+// TODO __-----------------------------
 
 @Immutable
 private enum class MealCardType(
@@ -429,6 +437,7 @@ private fun MealCard(
 
     Card(
         modifier = modifier
+            .fillMaxSize()
             .shadow()
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
@@ -505,7 +514,7 @@ private fun Dishes(
 ) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .animateContentSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
