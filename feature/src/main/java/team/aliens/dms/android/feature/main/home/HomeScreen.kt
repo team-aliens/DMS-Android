@@ -1,5 +1,3 @@
-@file:Suppress("ConstPropertyName")
-
 package team.aliens.dms.android.feature.main.home
 
 import android.content.Context
@@ -53,6 +51,7 @@ import androidx.compose.ui.util.lerp
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature.main.home.navigation.HomeNavigator
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import java.util.Calendar
 import java.util.Date
@@ -73,7 +72,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigator: MainNavigator,
+    navigator: HomeNavigator,
     // homeViewModel: HomeViewModel = hiltViewModel(),
     // calendarDate: Date,
     // onNextDay: () -> Unit,
