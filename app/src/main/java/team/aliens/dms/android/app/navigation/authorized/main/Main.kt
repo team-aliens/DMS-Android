@@ -5,7 +5,9 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -13,22 +15,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.scope.DestinationScopeWithNoDependencies
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
+import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.feature.destinations.AnnouncementListScreenDestination
 import team.aliens.dms.android.feature.destinations.ApplicationScreenDestination
@@ -41,7 +46,7 @@ import team.aliens.dms.android.feature.destinations.MyPageScreenDestination
 @Composable
 internal fun Main(
     modifier: Modifier = Modifier,
-    navigator: MainSectionNavigator,
+    // navigator: MainSectionNavigator,
 ) {
     val engine = rememberAnimatedNavHostEngine()
     val navController = engine.rememberNavController()
@@ -54,20 +59,21 @@ internal fun Main(
                 navController = navController,
             )
         },
-    ) { padValues ->
-        DestinationsNavHost(
-            modifier = Modifier.padding(padValues),
-            engine = engine,
-            navGraph = MainNavGraph,
-            navController = navController,
-            dependenciesContainerBuilder = { dependency(currentNavigator()) },
-        )
+    ) {
+        /* DestinationsNavHost(
+             modifier = Modifier.padding(padValues),
+             engine = engine,
+             navGraph = MainNavGraph,
+             navController = navController,
+             dependenciesContainerBuilder = { dependency(currentNavigator()) },
+         )*/
     }
 }
 
 private fun DestinationScopeWithNoDependencies<*>.currentNavigator(): MainNavigator =
     MainNavigator(
-        baseNavGraph = navBackStackEntry.destination.navGraph(),
+        // navGraph = navBackStackEntry.destination.navGraph().also { println("GRAPHGRAPH : $it") }, // todo:
+        navGraph = AuthorizedNavGraph,
         navController = navController,
     )
 
@@ -92,24 +98,33 @@ private fun DmsBottomAppBar(
         ?: NavGraphs.root.startAppDestination
 
     BottomAppBar(
-        modifier = modifier,
+        containerColor = DmsTheme.colorScheme.surface,
+        modifier = modifier
+            .graphicsLayer {
+                clip = true
+                shape = RoundedCornerShape(
+                    topStart = 24.dp,
+                    topEnd = 24.dp,
+                )
+                shadowElevation = 20f
+            },
     ) {
         MainSections.entries.forEach { section ->
             val selected = currentDestination == section.direction
             NavigationBarItem(
                 selected = selected,
                 onClick = {
-                    navController.navigate(section.direction.route) {
+                    navController.navigate(section.direction) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
-
                         launchSingleTop = true
                         restoreState = true
                     }
                 },
                 icon = {
                     Icon(
+                        modifier = Modifier.size(24.dp),
                         painter = painterResource(id = section.iconRes),
                         contentDescription = stringResource(id = section.labelRes),
                     )
