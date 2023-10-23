@@ -5,33 +5,32 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.viewinterop.AndroidView
 import team.aliens.dms.android.shared.date.util.dateOf
 import java.util.Date
 
 @Composable
 fun DmsCalendar(
-    modifier: Modifier = Modifier,
-    darkTheme: Boolean = isSystemInDarkTheme(),
     selectedDate: Date,
     onSelectedDateChange: (newDate: Date) -> Unit,
+    modifier: Modifier = Modifier,
+    darkTheme: Boolean = isSystemInDarkTheme(),
 ) {
     AndroidView(
-        modifier = modifier.clip(DmsTheme.shapes.large),
-        factory = {
-            val weekDayTheme = if (!darkTheme) {
-                R.style.CalendarWeekLight
-            } else {
+        modifier = modifier,
+        factory = { context ->
+            val weekDayTheme = if (darkTheme) {
                 R.style.CalendarWeekDark
-            }
-            val calTheme = if (!darkTheme) {
-                R.style.CalendarLight
             } else {
+                R.style.CalendarWeekLight
+            }
+            val calendarTheme = if (darkTheme) {
                 R.style.CalendarDark
+            } else {
+                R.style.CalendarLight
             }
 
-            CalendarView(ContextThemeWrapper(it, calTheme)).apply {
+            CalendarView(ContextThemeWrapper(context, calendarTheme)).apply {
                 weekDayTextAppearance = weekDayTheme
             }
         },
