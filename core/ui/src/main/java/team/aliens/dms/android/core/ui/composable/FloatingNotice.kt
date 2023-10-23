@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.verticalPadding
@@ -26,6 +27,7 @@ fun FloatingNotice(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .shadow(shape = DmsTheme.shapes.circle)
             .clip(DmsTheme.shapes.circle)
             .background(DmsTheme.colorScheme.surface)
             .verticalPadding()
