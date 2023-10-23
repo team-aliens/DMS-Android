@@ -14,12 +14,13 @@ import team.aliens.dms.android.network.student.model.FetchMyPageResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
+import team.aliens.dms.android.network.student.model.SignUpResponse
 import java.util.UUID
 
 internal interface StudentApiService {
 
     @POST("/students/signup")
-    suspend fun signUp(@Body request: SignUpRequest) // TODO: Fix : TokensResponse
+    suspend fun signUp(@Body request: SignUpRequest): SignUpResponse
 
     @GET("/students/name")
     suspend fun examineStudentNumber(
