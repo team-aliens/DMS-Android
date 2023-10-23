@@ -51,7 +51,10 @@ internal class JwtProviderImpl @Inject constructor(
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
-        loadTokens()
+        try {
+            loadTokens()
+        } catch (_: Exception) {
+        }
     }
 
     private fun checkCachedAccessTokenAvailable(): Boolean {
