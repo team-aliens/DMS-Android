@@ -1,15 +1,23 @@
 package team.aliens.dms.android.core.designsystem
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun DmsScaffold(
@@ -30,22 +38,40 @@ fun DmsScaffold(
     content = content,
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@ReadOnlyComposable
-fun contentColorFor(backgroundColor: Color) =
-    DmsTheme.colorScheme.contentColorFor(backgroundColor).takeOrElse {
-        LocalContentColor.current
-    }
-
-fun Colors.contentColorFor(backgroundColor: Color): Color =
-    when (backgroundColor) {
-        primary -> onPrimary
-        primaryContainer -> onPrimaryContainer
-        background -> onBackground
-        backgroundVariant -> onBackgroundVariant
-        surface -> onSurface
-        surfaceVariant -> onSurfaceVariant
-        error -> onError
-        errorContainer -> onErrorContainer
-        else -> Color.Unspecified
-    }
+fun DmsBottomSheetScaffold(
+    sheetContent: @Composable ColumnScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+    sheetPeekHeight: Dp = BottomSheetDefaults.SheetPeekHeight,
+    sheetShape: Shape = BottomSheetDefaults.ExpandedShape,
+    sheetContainerColor: Color = BottomSheetDefaults.ContainerColor,
+    sheetContentColor: Color = contentColorFor(sheetContainerColor),
+    sheetTonalElevation: Dp = BottomSheetDefaults.Elevation,
+    sheetShadowElevation: Dp = BottomSheetDefaults.Elevation,
+    sheetDragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
+    sheetSwipeEnabled: Boolean = true,
+    topBar: @Composable (() -> Unit)? = null,
+    snackbarHost: @Composable (SnackbarHostState) -> Unit = { SnackbarHost(it) },
+    containerColor: Color = DmsTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(containerColor),
+    content: @Composable (PaddingValues) -> Unit,
+) = BottomSheetScaffold(
+    sheetContent = sheetContent,
+    modifier = modifier,
+    scaffoldState = scaffoldState,
+    sheetPeekHeight = sheetPeekHeight,
+    sheetShape = sheetShape,
+    sheetContainerColor = sheetContainerColor,
+    sheetContentColor = sheetContentColor,
+    sheetTonalElevation = sheetTonalElevation,
+    sheetShadowElevation = sheetShadowElevation,
+    sheetDragHandle = sheetDragHandle,
+    sheetSwipeEnabled = sheetSwipeEnabled,
+    topBar = topBar,
+    snackbarHost = snackbarHost,
+    containerColor = containerColor,
+    contentColor = contentColor,
+    content = content,
+)
