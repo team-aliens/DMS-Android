@@ -1,6 +1,5 @@
 package team.aliens.dms.android.network.student.datasource
 
-import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.student.apiservice.StudentApiService
 import team.aliens.dms.android.network.student.model.EditProfileRequest
@@ -9,13 +8,14 @@ import team.aliens.dms.android.network.student.model.FetchMyPageResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
+import team.aliens.dms.android.network.student.model.SignUpResponse
 import java.util.UUID
 import javax.inject.Inject
 
 internal class NetworkStudentDataSourceImpl @Inject constructor(
     private val studentApiService: StudentApiService,
 ) : NetworkStudentDataSource() {
-    override suspend fun signUp(request: SignUpRequest): TokensResponse =
+    override suspend fun signUp(request: SignUpRequest): SignUpResponse =
         handleNetworkRequest { studentApiService.signUp(request) }
 
     override suspend fun examineStudentNumber(
