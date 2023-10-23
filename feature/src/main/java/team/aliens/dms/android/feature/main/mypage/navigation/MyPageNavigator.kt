@@ -2,7 +2,7 @@ package team.aliens.dms.android.feature.main.mypage.navigation
 
 import team.aliens.dms.android.feature._legacy.util.SelectImageType
 
-internal interface MyPageNavigator {
+interface MyPageNavigator {
 
     fun openEditPasswordNav()
 

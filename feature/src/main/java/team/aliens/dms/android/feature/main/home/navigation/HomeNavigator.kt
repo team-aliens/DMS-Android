@@ -1,6 +1,6 @@
 package team.aliens.dms.android.feature.main.home.navigation
 
-internal interface HomeNavigator {
+interface HomeNavigator {
 
     fun openNotificationBox()
 

@@ -5,7 +5,7 @@ import team.aliens.dms.android.feature.main.application.navigation.ApplicationNa
 import team.aliens.dms.android.feature.main.home.navigation.HomeNavigator
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageNavigator
 
-internal interface MainNavigator :
+interface MainNavigator :
     AnnouncementNavigator,
     ApplicationNavigator,
     HomeNavigator,
