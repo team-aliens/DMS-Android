@@ -49,6 +49,7 @@ android {
 
 dependencies {
 
+    implementation(project(ProjectPaths.Shared.date))
     implementation(project(ProjectPaths.Shared.exception))
     implementation(project(ProjectPaths.Shared.model))
 
