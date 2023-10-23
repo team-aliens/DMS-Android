@@ -10,7 +10,6 @@ import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestina
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
-import team.aliens.dms.android.feature.main.navigation.MainNavGraph
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavGraph
 
 object AuthorizedNavGraph : NavGraphSpec {
