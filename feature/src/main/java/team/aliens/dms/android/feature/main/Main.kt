@@ -4,7 +4,12 @@ package team.aliens.dms.android.feature.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,7 +38,10 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
-import team.aliens.dms.android.feature.main.home.HomeScreen
+import team.aliens.dms.android.core.designsystem.slideInFromEnd
+import team.aliens.dms.android.core.designsystem.slideInFromStart
+import team.aliens.dms.android.core.designsystem.slideOutFromEnd
+import team.aliens.dms.android.core.designsystem.slideOutFromStart
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 
 @RootNavGraph(start = true)
@@ -56,22 +64,98 @@ internal fun Main(
         NavHost(
             navController = navController,
             startDestination = MainSections.HOME.route,
+            enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
+            exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
         ) {
-            composable(MainSections.HOME.route) {
-                HomeScreen(
-
+            composable(
+                route = MainSections.HOME.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
+                        else -> null
+                    }
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(color = DmsTheme.colorScheme.error)
+                        .fillMaxSize(),
                 )
             }
 
-            composable(MainSections.APPLICATION.route) {
-
+            composable(
+                route = MainSections.APPLICATION.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route -> slideInFromEnd()
+                        MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route -> slideOutFromStart()
+                        MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
+                        else -> null
+                    }
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(color = DmsTheme.colorScheme.primary)
+                        .fillMaxSize(),
+                )
             }
 
-            composable(MainSections.ANNOUNCEMENT_LIST.route) {
-
+            composable(
+                route = MainSections.ANNOUNCEMENT_LIST.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route -> slideInFromEnd()
+                        MainSections.MY_PAGE.route -> slideInFromStart()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route -> slideOutFromStart()
+                        MainSections.MY_PAGE.route -> slideOutFromEnd()
+                        else -> null
+                    }
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(color = DmsTheme.colorScheme.line)
+                        .fillMaxSize(),
+                )
             }
-            composable(MainSections.MY_PAGE.route) {
-
+            composable(
+                route = MainSections.MY_PAGE.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideInFromEnd()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideOutFromStart()
+                        else -> null
+                    }
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(color = DmsTheme.colorScheme.onPrimaryContainer)
+                        .fillMaxSize(),
+                )
             }
         }
     }
@@ -87,15 +171,14 @@ private fun DmsBottomAppBar(
 
     BottomAppBar(
         containerColor = DmsTheme.colorScheme.surface,
-        modifier = modifier
-            .graphicsLayer {
-                clip = true
-                shape = RoundedCornerShape(
-                    topStart = 24.dp,
-                    topEnd = 24.dp,
-                )
-                shadowElevation = 20f
-            },
+        modifier = modifier.graphicsLayer {
+            clip = true
+            shape = RoundedCornerShape(
+                topStart = 24.dp,
+                topEnd = 24.dp,
+            )
+            shadowElevation = 20f
+        },
     ) {
         MainSections.entries.forEach { section ->
             val selected = currentRoute == section.route
