@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.threeten.bp.LocalDate
 import java.util.Date
 
 /*
@@ -88,8 +89,8 @@ fun DormCalendarLayout(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DmsCalendarScaffold(
-    selectedDate: Date,
-    onSelectedDateChange: (newDate: Date) -> Unit,
+    selectedDate: LocalDate,
+    onSelectedDateChange: (newDate: LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
     sheetPeekHeight: Dp = 0.dp,
@@ -112,8 +113,9 @@ fun DmsCalendarScaffold(
                 .fillMaxWidth()
                 .padding(bottom = 100.dp),
             selectedDate = selectedDate,
-            onSelectedDateChange = onSelectedDateChange,
+            onSelectedDateChange = { onSelectedDateChange(it) },
         )
+        val d = Date()
     },
     modifier = modifier,
     scaffoldState = scaffoldState,
