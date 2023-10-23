@@ -120,6 +120,7 @@ internal fun Main(
                         onShowCalendar = { scope.launch { scaffoldState.bottomSheetState.expand() } },
                         selectedCalendarDate = selectedCalendarDate,
                         onSelectedCalendarDateChange = onSelectedCalendarDateChange,
+                        onNavigateToAnnouncementList = { navController.navigateTo(MainSections.ANNOUNCEMENT_LIST.route) }
                     )
                 }
 
