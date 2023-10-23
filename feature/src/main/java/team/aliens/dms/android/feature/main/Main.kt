@@ -59,7 +59,7 @@ import team.aliens.dms.android.core.designsystem.typography.NotoSansFamily
 import team.aliens.dms.android.core.designsystem.typography.toSp
 import team.aliens.dms.android.feature.main.home.HomeScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
-import java.util.Date
+import team.aliens.dms.android.shared.date.util.today
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
@@ -69,7 +69,7 @@ internal fun Main(
     modifier: Modifier = Modifier,
     mainNavigator: MainNavigator,
 ) {
-    val (selectedCalendarDate, onSelectedCalendarDateChange) = remember { mutableStateOf(Date()) }
+    val (selectedCalendarDate, onSelectedCalendarDateChange) = remember { mutableStateOf(today) }
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
