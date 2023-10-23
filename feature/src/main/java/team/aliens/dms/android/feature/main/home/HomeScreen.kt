@@ -29,6 +29,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -365,8 +366,7 @@ private fun MealCards(
                         fraction = 1f - pagerOffset.coerceIn(0f, 1f),
                     )
                 }
-                .padding(8.dp)
-                .shadow(),
+                .padding(8.dp),
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -429,14 +429,14 @@ private fun MealCard(
 
     Card(
         modifier = modifier
-            .fillMaxSize()
+            .shadow()
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> {/* explicit blank */
+                            null -> { /* explicit blank */
                             }
                         }
                     },
@@ -466,6 +466,10 @@ private fun MealCard(
                 shape = RoundedCornerShape(20.dp),
             ),
         shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.surface,
+        ),
     ) {
         Box(
             modifier = Modifier.padding(16.dp),
