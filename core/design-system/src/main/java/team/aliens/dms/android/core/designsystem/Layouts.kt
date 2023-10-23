@@ -85,7 +85,7 @@ fun DormCalendarLayout(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DmsCalendarLayout(
+fun DmsCalendarScaffold(
     selectedDate: Date,
     onSelectedDateChange: (newDate: Date) -> Unit,
     modifier: Modifier = Modifier,
