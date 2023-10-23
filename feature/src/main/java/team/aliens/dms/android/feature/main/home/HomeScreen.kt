@@ -1,37 +1,68 @@
 package team.aliens.dms.android.feature.main.home
 
+import android.content.Context
+import android.os.Vibrator
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
@@ -39,6 +70,11 @@ import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
+import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
+import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
+import team.aliens.dms.android.shared.date.util.now
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -48,12 +84,12 @@ internal fun HomeScreen(
     onShowCalendar: () -> Unit,
     selectedCalendarDate: LocalDate,
     onSelectedCalendarDateChange: (newDate: LocalDate) -> Unit,
+    onNavigateToAnnouncementList: () -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-
             else -> {}
         }
     }
@@ -80,21 +116,45 @@ internal fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .animateContentSize()
                 .padding(padValues),
         ) {
             AnnouncementCard(
                 visible = uiState.newNoticesExist,
-                onNavigateToAnnouncementList = { },
+                onNavigateToAnnouncementList = onNavigateToAnnouncementList,
             )
 
-            ContainedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalPadding(),
-                onClick = { },
-            ) {
-                Text(text = "HIHI")
-            }
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.meal_todays_meal),
+                textAlign = TextAlign.Center,
+                style = DmsTheme.typography.title1,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+
+            DateCard(
+                modifier = Modifier.fillMaxWidth(),
+                selectedDate = selectedCalendarDate,
+                onNextDay = { /*TODO*/ },
+                onPreviousDay = { /*TODO*/ },
+                onShowCalendar = onShowCalendar,
+            )
+
+            MealCards(
+                currentDate = selectedCalendarDate,
+                breakfast = uiState.mealOfDate?.breakfast
+                    ?: emptyList(), // TODO: make viewmodel handle empty list
+                kcalOfBreakfast = uiState.mealOfDate?.kcalOfBreakfast
+                    ?: stringResource(R.string.meal_not_exists),
+                lunch = uiState.mealOfDate?.lunch ?: emptyList(),
+                kcalOfLunch = uiState.mealOfDate?.kcalOfLunch
+                    ?: stringResource(R.string.meal_not_exists),
+                dinner = uiState.mealOfDate?.dinner ?: emptyList(),
+                kcalOfDinner = uiState.mealOfDate?.kcalOfDinner
+                    ?: stringResource(R.string.meal_not_exists),
+                onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
+                onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
+            )
         }
     }/*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
     // LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
@@ -143,33 +203,7 @@ internal fun HomeScreen(
             Spacer(Modifier.height(80.dp))
         }
     }*/
-}/*
-
-@Composable
-private fun HomeScreenAppLogo(
-    modifier: Modifier = Modifier,
-    onNavigateToNotificationBox: () -> Unit,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        AppLogo()
-        Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            modifier = Modifier
-                .padding(8.dp)
-                .size(24.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .dormClickable(onClick = onNavigateToNotificationBox),
-            painter = painterResource(DormIcon.Bell.drawableId),
-            contentDescription = null,
-            tint = DmsTheme.colors.primaryVariant,
-        )
-    }
-}*/
+}
 
 @Composable
 private fun AnnouncementCard(
@@ -199,16 +233,18 @@ private fun AnnouncementCard(
             )
         }
     }
-}/*
+}
+
 @Composable
 private fun DateCard(
-    selectedDate: Date,
+    modifier: Modifier = Modifier,
+    selectedDate: LocalDate,
     onNextDay: () -> Unit,
     onPreviousDay: () -> Unit,
     onShowCalendar: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
             space = 12.dp,
@@ -219,17 +255,36 @@ private fun DateCard(
             type = ArrowType.BACKWARD,
             onClick = onPreviousDay,
         )
-        DateTextButton(
-            selectedDate = selectedDate,
-            onShowCalendar = onShowCalendar,
-        )
+        OutlinedButton(
+            onClick = onShowCalendar,
+            contentPadding = PaddingValues(
+                horizontal = PaddingDefaults.Small,
+                vertical = PaddingDefaults.ExtraSmall,
+            ),
+            fillMinSize = false,
+            colors = ButtonDefaults.outlinedGrayButtonColors(),
+        ) {
+            Icon(
+                modifier = Modifier.size(16.dp),
+                painter = painterResource(id = R.drawable.ic_calendar),
+                tint = DmsTheme.colorScheme.onSurface,
+                contentDescription = null,
+            )
+            // TODO: 요일
+            Text(
+                text = "$selectedDate",
+                style = DmsTheme.typography.button,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+        }
         CalendarArrow(
             type = ArrowType.FORWARD,
             onClick = onNextDay,
         )
     }
-}*//*
+}
 
+// TODO
 @Composable
 private fun CalendarArrow(
     type: ArrowType,
@@ -237,50 +292,26 @@ private fun CalendarArrow(
 ) {
     Image(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(PaddingDefaults.ExtraSmall)
             .size(32.dp)
-            .clip(
-                RoundedCornerShape(8.dp),
-            )
-            .dormClickable(onClick = onClick),
-        painter = painterResource(type.icon.drawableId),
+            .clip(DmsTheme.shapes.medium)
+            .clickable(onClick = onClick),
+        painter = painterResource(id = type.iconRes),
         contentDescription = null,
     )
-}*//*
-@Composable
-private fun DateTextButton(
-    selectedDate: Date,
-    onShowCalendar: () -> Unit,
+}
+
+@Immutable
+private enum class ArrowType(
+    @DrawableRes val iconRes: Int,
 ) {
-    Row(
-        modifier = Modifier
-            .dormShadow(DmsTheme.colors.primaryVariant)
-            .background(
-                color = DmsTheme.colors.surface,
-                shape = RoundedCornerShape(5.dp),
-            )
-            .border(
-                width = 1.dp,
-                color = DmsTheme.colors.primaryVariant,
-                shape = RoundedCornerShape(5.dp),
-            )
-            .clip(
-                shape = RoundedCornerShape(5.dp),
-            )
-            .dormClickable(onClick = onShowCalendar)
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        *//*Image(
-            painter = painterResource(R.drawable.ic_calendar),
-            contentDescription = null,
-        )
-        Body5(
-            text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
-        )*//*
-    }
-}*//*
+    BACKWARD(iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_backward), FORWARD(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_forward
+    ),
+    ;
+}
+
+/*
 @Composable
 private fun Date.getDayOfWeek(): String {
     val digit = this.getDigitOfDayOfWeek()
@@ -304,20 +335,20 @@ private fun Date.getDigitOfDayOfWeek(): Int {
     }
     return calendar.get(Calendar.DAY_OF_WEEK)
 }
-
-@Immutable
-private enum class ArrowType(
-    val icon: DormIcon,
-) {
-    BACKWARD(DormIcon.Backward), FORWARD(DormIcon.Forward),
-    ;
-}
-
+*/
 @Immutable
 private enum class MealCardType(
-    val icon: DormIcon,
+    @DrawableRes val iconRes: Int,
 ) {
-    BREAKFAST(DormIcon.Breakfast), LUNCH(DormIcon.Lunch), DINNER(DormIcon.Dinner),
+    BREAKFAST(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_breakfast,
+    ),
+    LUNCH(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_lunch,
+    ),
+    DINNER(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_dinner,
+    ),
     ;
 }
 
@@ -336,8 +367,9 @@ private const val Dinner = 2
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ColumnScope.MealCards(
-    currentDate: Date,
+private fun MealCards(
+    modifier: Modifier = Modifier,
+    currentDate: LocalDate,
     breakfast: List<String>,
     kcalOfBreakfast: String,
     lunch: List<String>,
@@ -349,7 +381,7 @@ private fun ColumnScope.MealCards(
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
-        pageCount = { MealCardType.values().size },
+        pageCount = { MealCardType.entries.size },
     )
 
     val scope = rememberCoroutineScope()
@@ -362,9 +394,7 @@ private fun ColumnScope.MealCards(
     }
 
     HorizontalPager(
-        modifier = Modifier
-            .fillMaxSize()
-            .weight(1f),
+        modifier = modifier,
         state = pagerState,
         contentPadding = PaddingValues(
             horizontal = 56.dp,
@@ -392,7 +422,7 @@ private fun ColumnScope.MealCards(
                     )
                 }
                 .padding(8.dp)
-                .dormShadow(color = DmsTheme.colors.primaryVariant),
+                .shadow(),
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -426,10 +456,16 @@ private fun ColumnScope.MealCards(
             },
         )
     }
-}*//*
-private enum class DragDirection {
-    LEFT, RIGHT,
-    ;
+}
+
+private const val BreakfastStartTime: Int = 9
+private const val LunchStartTime: Int = 13
+private const val DinnerStartTime: Int = 19
+
+private fun getProperMeal(): Int = when (now.hour) {
+    in BreakfastStartTime until LunchStartTime -> Lunch
+    in LunchStartTime until DinnerStartTime -> Dinner
+    else -> Breakfast
 }
 
 @Composable
@@ -456,7 +492,7 @@ private fun MealCard(
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> { *//* explicit blank *//*
+                            null -> {/* explicit blank */
                             }
                         }
                     },
@@ -474,7 +510,7 @@ private fun MealCard(
                 horizontal = 8.dp,
             )
             .background(
-                color = DmsTheme.colors.background,
+                color = DmsTheme.colorScheme.background,
                 shape = RoundedCornerShape(20.dp),
             )
             .clip(
@@ -482,7 +518,7 @@ private fun MealCard(
             )
             .border(
                 width = 1.dp,
-                color = DmsTheme.colors.primary,
+                color = DmsTheme.colorScheme.primary,
                 shape = RoundedCornerShape(20.dp),
             ),
         shape = RoundedCornerShape(20.dp),
@@ -492,39 +528,30 @@ private fun MealCard(
         ) {
             when (currentCardType) {
                 BREAKFAST -> Dishes(
-                    icon = BREAKFAST.icon,
+                    iconRes = BREAKFAST.iconRes,
                     dishes = breakfast,
                     kcal = kcalOfBreakfast,
                 )
 
                 LUNCH -> Dishes(
-                    icon = LUNCH.icon,
+                    iconRes = LUNCH.iconRes,
                     dishes = lunch,
                     kcal = kcalOfLunch,
                 )
 
                 DINNER -> Dishes(
-                    icon = DINNER.icon,
+                    iconRes = DINNER.iconRes,
                     dishes = dinner,
                     kcal = kcalOfDinner,
                 )
             }
         }
     }
-}*//*
-
-@Suppress("DEPRECATION")
-private fun vibrateOnMealCardPaging(
-    context: Context,
-) {*//* TODO
-    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(3L)*//*
-
 }
 
 @Composable
 private fun Dishes(
-    icon: DormIcon,
+    iconRes: Int,
     dishes: List<String>,
     kcal: String,
 ) {
@@ -537,40 +564,35 @@ private fun Dishes(
     ) {
         item {
             Icon(
-                painter = painterResource(
-                    id = icon.drawableId,
-                ),
+                painter = painterResource(id = iconRes),
                 contentDescription = null,
-                tint = DmsTheme.colors.primaryVariant,
+                tint = DmsTheme.colorScheme.primary,
             )
         }
         items(dishes) { menu ->
-            Body2(
+            Text(
                 text = menu,
                 textAlign = TextAlign.Center,
             )
         }
         item {
-            Caption(
+            Text(
                 text = kcal,
-                color = DmsTheme.colors.primaryVariant,
+                color = DmsTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
 }
 
-private const val BreakfastStartTime: Int = 9
-private const val LunchStartTime: Int = 13
-private const val DinnerStartTime: Int = 19
-
-private fun getProperMeal(): Int {
-    val calendar = Calendar.getInstance().apply {
-        time = Date()
-    }
-    return when (calendar.get(Calendar.HOUR_OF_DAY)) {
-        in BreakfastStartTime until LunchStartTime -> Lunch
-        in LunchStartTime until DinnerStartTime -> Dinner
-        else -> Breakfast
-    }
+private enum class DragDirection {
+    LEFT, RIGHT,
+    ;
 }
-*/
+
+@Suppress("DEPRECATION")
+private fun vibrateOnMealCardPaging(
+    context: Context,
+) {
+    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    vibrator.vibrate(3L)
+}
