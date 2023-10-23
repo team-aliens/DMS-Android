@@ -21,7 +21,6 @@ internal class HomeViewModel @Inject constructor(
 ) : BaseMviViewModel<HomeUiState, HomeIntent, HomeSideEffect>(
     initialState = HomeUiState.initial(),
 ) {
-
     init {
         fetchWhetherNewNoticeExists()
     }
