@@ -13,6 +13,9 @@ import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScree
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
+import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
+import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.ResetPasswordEnterEmailVerificationCodeScreenDestination
 import team.aliens.dms.android.feature.destinations.ResetPasswordSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.SetIdScreenDestination
@@ -21,7 +24,9 @@ import team.aliens.dms.android.feature.destinations.SignInScreenDestination
 import team.aliens.dms.android.feature.destinations.SignUpEnterEmailVerificationCodeScreenDestination
 import team.aliens.dms.android.feature.destinations.SignUpSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
+import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 import java.util.UUID
@@ -31,6 +36,35 @@ class DmsNavigator(
     private val navController: NavController,
 ) : AuthorizedNavigator,
     UnauthorizedNavigator {
+
+    override fun openNotificationBox() {
+        navController.navigate(NotificationBoxScreenDestination within navGraph)
+    }
+
+    override fun openUnauthorizedNav() {
+        navController.navigate(UnauthorizedNavGraph) {
+            popUpTo(AuthorizedNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun openStudyRoomList() {
+        navController.navigate(StudyRoomListScreenDestination within navGraph)
+    }
+
+    override fun openRemainsApplication() {
+        navController.navigate(RemainsApplicationScreenDestination within navGraph)
+    }
+
+    override fun openPointHistory() {
+        navController.navigate(PointHistoryScreenDestination within navGraph)
+    }
+
+    override fun openEditPassword() {
+        navController.navigate(EditPasswordNavGraph within navGraph)
+    }
+
     override fun openEditPasswordSetPasswordNav() {
         navController.navigate(EditPasswordSetPasswordScreenDestination)
     }
@@ -57,9 +91,7 @@ class DmsNavigator(
 
     override fun openAuthorizedNav() {
         navController.navigate(AuthorizedNavGraph) {
-            popUpTo(UnauthorizedNavGraph) {
-                inclusive = true
-            }
+            popUpTo(UnauthorizedNavGraph) { inclusive = true }
         }
     }
 
