@@ -250,7 +250,7 @@
     <string name="sign_in_auto_sign_in">자동 로그인</string>
     <string name="sign_in_sign_up">회원가입</string>
     <string name="sign_in_find_id">아이디 찾기</string>
-    <string name="sign_in_edit_password">비밀번호 변경</string>
+    <string name="sign_in_reset_password">비밀번호 변경</string>
 
     <string name="sign_in_error">로그인 실패</string>
     <string name="sign_in_error_enter_id">아이디를 입력해 주세요</string>
