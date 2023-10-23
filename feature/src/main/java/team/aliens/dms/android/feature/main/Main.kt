@@ -14,16 +14,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +46,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.designsystem.DmsCalendarScaffold
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
@@ -49,8 +57,11 @@ import team.aliens.dms.android.core.designsystem.slideOutFromEnd
 import team.aliens.dms.android.core.designsystem.slideOutFromStart
 import team.aliens.dms.android.core.designsystem.typography.NotoSansFamily
 import team.aliens.dms.android.core.designsystem.typography.toSp
+import team.aliens.dms.android.feature.main.home.HomeScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
+import java.util.Date
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
@@ -58,111 +69,128 @@ internal fun Main(
     modifier: Modifier = Modifier,
     mainNavigator: MainNavigator,
 ) {
+    val (selectedCalendarDate, onSelectedCalendarDateChange) = remember { mutableStateOf(Date()) }
+
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(
+            initialValue = SheetValue.Hidden,
+            skipHiddenState = false,
+        ),
+    )
     val navController = rememberNavController()
-    DmsScaffold(
-        modifier = modifier.background(Color.Cyan),
-        bottomBar = {
-            DmsBottomAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                navController = navController,
-            )
-        },
+    DmsCalendarScaffold(
+        modifier = modifier,
+        scaffoldState = scaffoldState,
+        selectedDate = selectedCalendarDate,
+        onSelectedDateChange = onSelectedCalendarDateChange,
     ) {
-        NavHost(
-            navController = navController,
-            startDestination = MainSections.HOME.route,
-            enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
-            exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
+        DmsScaffold(
+            modifier = Modifier.fillMaxSize(),
+            bottomBar = {
+                DmsBottomAppBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    navController = navController,
+                )
+            },
         ) {
-            composable(
-                route = MainSections.HOME.route,
-                enterTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
-                        else -> null
-                    }
-                },
+            NavHost(
+                navController = navController,
+                startDestination = MainSections.HOME.route,
+                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
+                exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
             ) {
-                Box(
-                    modifier = Modifier
-                        .background(color = DmsTheme.colorScheme.error)
-                        .fillMaxSize(),
-                )
-            }
+                composable(
+                    route = MainSections.HOME.route,
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
+                            else -> null
+                        }
+                    },
+                ) {
+                    val scope = rememberCoroutineScope()
 
-            composable(
-                route = MainSections.APPLICATION.route,
-                enterTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.HOME.route -> slideInFromEnd()
-                        MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.HOME.route -> slideOutFromStart()
-                        MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
-                        else -> null
-                    }
-                },
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(color = DmsTheme.colorScheme.primary)
-                        .fillMaxSize(),
-                )
-            }
+                    HomeScreen(
+                        onShowCalendar = { scope.launch { scaffoldState.bottomSheetState.expand() } },
+                        selectedCalendarDate = selectedCalendarDate,
+                        onSelectedCalendarDateChange = onSelectedCalendarDateChange,
+                    )
+                }
 
-            composable(
-                route = MainSections.ANNOUNCEMENT_LIST.route,
-                enterTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.HOME.route, MainSections.APPLICATION.route -> slideInFromEnd()
-                        MainSections.MY_PAGE.route -> slideInFromStart()
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.HOME.route, MainSections.APPLICATION.route -> slideOutFromStart()
-                        MainSections.MY_PAGE.route -> slideOutFromEnd()
-                        else -> null
-                    }
-                },
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(color = DmsTheme.colorScheme.line)
-                        .fillMaxSize(),
-                )
-            }
-            composable(
-                route = MainSections.MY_PAGE.route,
-                enterTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideInFromEnd()
-                        else -> null
-                    }
-                },
-                exitTransition = {
-                    when (targetState.destination.route) {
-                        MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideOutFromStart()
-                        else -> null
-                    }
-                },
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(color = DmsTheme.colorScheme.onPrimaryContainer)
-                        .fillMaxSize(),
-                )
+                composable(
+                    route = MainSections.APPLICATION.route,
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.HOME.route -> slideInFromEnd()
+                            MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.HOME.route -> slideOutFromStart()
+                            MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
+                            else -> null
+                        }
+                    },
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(color = DmsTheme.colorScheme.primary)
+                            .fillMaxSize(),
+                    )
+                }
+
+                composable(
+                    route = MainSections.ANNOUNCEMENT_LIST.route,
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.HOME.route, MainSections.APPLICATION.route -> slideInFromEnd()
+                            MainSections.MY_PAGE.route -> slideInFromStart()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.HOME.route, MainSections.APPLICATION.route -> slideOutFromStart()
+                            MainSections.MY_PAGE.route -> slideOutFromEnd()
+                            else -> null
+                        }
+                    },
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(color = DmsTheme.colorScheme.line)
+                            .fillMaxSize(),
+                    )
+                }
+                composable(
+                    route = MainSections.MY_PAGE.route,
+                    enterTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideInFromEnd()
+                            else -> null
+                        }
+                    },
+                    exitTransition = {
+                        when (targetState.destination.route) {
+                            MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideOutFromStart()
+                            else -> null
+                        }
+                    },
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(color = DmsTheme.colorScheme.onPrimaryContainer)
+                            .fillMaxSize(),
+                    )
+                }
             }
         }
     }
