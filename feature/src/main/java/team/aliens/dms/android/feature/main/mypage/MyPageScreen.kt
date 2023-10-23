@@ -3,14 +3,14 @@ package team.aliens.dms.android.feature.main.mypage
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.feature.main.navigation.MainNavigator
+import team.aliens.dms.android.feature.main.mypage.navigation.MyPageNavigator
 
 @Destination
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
     // myPageViewModel: MyPageViewModel = hiltViewModel(),
-    navigator: MainNavigator,
+    navigator: MyPageNavigator,
     // onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
     // onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
     // pointServiceEnabled: Boolean,
