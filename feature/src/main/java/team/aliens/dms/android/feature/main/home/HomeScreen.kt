@@ -15,15 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -34,9 +37,8 @@ import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
-import java.util.Date
+import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -44,12 +46,20 @@ import java.util.Date
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     onShowCalendar: () -> Unit,
-    selectedCalendarDate: Date,
-    onSelectedCalendarDateChange: (newDate: Date) -> Unit,
+    selectedCalendarDate: LocalDate,
+    onSelectedCalendarDateChange: (newDate: LocalDate) -> Unit,
 ) {
-    // TODO
-    val (visible, onVisibleChange) = remember {
-        mutableStateOf(false)
+    val viewModel: HomeViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+
+            else -> {}
+        }
+    }
+
+    LaunchedEffect(selectedCalendarDate) {
+        viewModel.postIntent(HomeIntent.UpdateSelectedDate(selectedDate = selectedCalendarDate))
     }
 
     DmsScaffold(
@@ -73,7 +83,7 @@ internal fun HomeScreen(
                 .padding(padValues),
         ) {
             AnnouncementCard(
-                visible = visible,
+                visible = uiState.newNoticesExist,
                 onNavigateToAnnouncementList = { },
             )
 
@@ -81,7 +91,7 @@ internal fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                onClick = { onVisibleChange(!visible) },
+                onClick = { },
             ) {
                 Text(text = "HIHI")
             }
