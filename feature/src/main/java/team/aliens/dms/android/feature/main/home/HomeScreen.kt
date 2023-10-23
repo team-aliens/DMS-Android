@@ -2,15 +2,21 @@ package team.aliens.dms.android.feature.main.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -40,25 +47,43 @@ internal fun HomeScreen(
     selectedCalendarDate: Date,
     onSelectedCalendarDateChange: (newDate: Date) -> Unit,
 ) {
-    DmsScaffold(modifier = modifier, topBar = {
-        DmsTopAppBar(
-            title = {
-                AppLogo(
-                    modifier = Modifier.size(
-                        width = 77.dp,
-                        height = 28.dp,
-                    ),
-                )
-            },
-        )
-    }) { padValues ->
+    // TODO
+    val (visible, onVisibleChange) = remember {
+        mutableStateOf(false)
+    }
+
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {
+                    AppLogo(
+                        modifier = Modifier.size(
+                            width = 77.dp,
+                            height = 28.dp,
+                        ),
+                    )
+                },
+            )
+        },
+    ) { padValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues),
         ) {
-            AnnouncementCard(visible = true) {
+            AnnouncementCard(
+                visible = visible,
+                onNavigateToAnnouncementList = { },
+            )
 
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                onClick = { onVisibleChange(!visible) },
+            ) {
+                Text(text = "HIHI")
             }
         }
     }/*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -143,9 +168,10 @@ private fun AnnouncementCard(
     onNavigateToAnnouncementList: () -> Unit,
 ) {
     AnimatedVisibility(
-        modifier = modifier.topPadding(),
+        modifier = modifier,
         visible = visible,
         enter = slideInVertically() + fadeIn(),
+        exit = slideOutVertically() + fadeOut(),
     ) {
         Box(
             modifier = Modifier.horizontalPadding(),
