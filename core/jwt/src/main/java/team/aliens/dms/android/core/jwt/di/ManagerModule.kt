@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object HttpClientModule {
+internal object ManagerModule {
 
     @Provides
     @Singleton
