@@ -293,7 +293,7 @@ private fun UnauthorizedActions(
                 modifier = Modifier
                     .clip(DmsTheme.shapes.small)
                     .clickable(onClick = onResetPassword),
-                text = stringResource(id = R.string.sign_in_edit_password),
+                text = stringResource(id = R.string.sign_in_reset_password),
             )
         }
     }

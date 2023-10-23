@@ -250,7 +250,7 @@
     <string name="sign_in_auto_sign_in">자동 로그인</string>
     <string name="sign_in_sign_up">회원가입</string>
     <string name="sign_in_find_id">아이디 찾기</string>
-    <string name="sign_in_edit_password">비밀번호 변경</string>
+    <string name="sign_in_reset_password">비밀번호 변경</string>
 
     <string name="sign_in_error">로그인 실패</string>
     <string name="sign_in_error_enter_id">아이디를 입력해 주세요</string>
@@ -428,7 +428,7 @@
     <!--bottom nav-->
     <string name="bottom_nav_home">홈</string>
     <string name="bottom_nav_application">신청</string>
-    <string name="bottom_nav_announcement">안내</string>
+    <string name="bottom_nav_announcement_list">안내</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 
     <!--notification-->

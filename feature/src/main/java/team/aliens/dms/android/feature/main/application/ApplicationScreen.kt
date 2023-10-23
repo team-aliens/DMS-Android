@@ -3,7 +3,8 @@ package team.aliens.dms.android.feature.main.application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.feature.main.navigation.MainNavigator
+import team.aliens.dms.android.feature.main.application.navigation.ApplicationNavigator
+
 /*
 
 private sealed class ApplicationCardItem(
@@ -41,7 +42,7 @@ private sealed class ApplicationCardItem(
 @Composable
 internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
-    navigator: MainNavigator,
+    // navigator: ApplicationNavigator,
     // TODO: implement cacher
     // studyRoomServiceEnabled: Boolean = false,
     // remainsServiceEnabled: Boolean = false,

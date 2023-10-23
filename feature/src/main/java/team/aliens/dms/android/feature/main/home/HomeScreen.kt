@@ -1,62 +1,11 @@
-@file:Suppress("ConstPropertyName")
-
 package team.aliens.dms.android.feature.main.home
 
-import android.content.Context
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import com.ramcosta.composedestinations.annotation.Destination
-import kotlinx.coroutines.launch
-import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.main.navigation.MainNavigator
-import java.util.Calendar
-import java.util.Date
-import kotlin.math.absoluteValue
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import team.aliens.dms.android.feature.main.home.navigation.HomeNavigator
+
 /*
 @Stable
 private val defaultBackgroundBrush = Brush.verticalGradient(
@@ -73,7 +22,7 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigator: MainNavigator,
+    // navigator: HomeNavigator,
     // homeViewModel: HomeViewModel = hiltViewModel(),
     // calendarDate: Date,
     // onNextDay: () -> Unit,

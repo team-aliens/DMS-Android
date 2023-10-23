@@ -10,7 +10,7 @@ import team.aliens.dms.android.feature.destinations.ResetPasswordSetPasswordScre
 
 object ResetPasswordNavGraph : NavGraphSpec {
     override val route: String = "reset_password"
-    override val startRoute: Route = AccountVerificationScreenDestination
+    override val startRoute: Route = AccountVerificationScreenDestination routedIn this
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
         listOf(
             AccountVerificationScreenDestination,

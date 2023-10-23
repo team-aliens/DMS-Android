@@ -10,9 +10,9 @@ import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
 
 interface AuthorizedNavigator :
+    MainNavigator,
     EditPasswordNavigator,
     EditProfileNavigator,
-    MainNavigator,
     NoticeNavigator,
     NotificationNavigation,
     PointHistoryNavigator,
