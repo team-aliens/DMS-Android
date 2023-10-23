@@ -2,9 +2,11 @@ package team.aliens.dms.android.data.auth.repository
 
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.network.util.statusMapping
+import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
 import team.aliens.dms.android.data.auth.exception.UserNotFoundException
+import team.aliens.dms.android.data.auth.mapper.extractFeatures
 import team.aliens.dms.android.data.auth.mapper.extractTokens
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.model.HashedEmail
@@ -15,6 +17,7 @@ import javax.inject.Inject
 internal class AuthRepositoryImpl @Inject constructor(
     private val networkAuthDataSource: NetworkAuthDataSource,
     private val jwtProvider: JwtProvider,
+    private val schoolProvider: SchoolProvider,
 ) : AuthRepository() {
 
     override suspend fun signIn(
@@ -37,7 +40,9 @@ internal class AuthRepositoryImpl @Inject constructor(
 
         if (autoSignIn) {
             val tokens = signInResponse.extractTokens()
-            jwtProvider.saveTokens(tokens)
+            val features = signInResponse.extractFeatures()
+            jwtProvider.updateTokens(tokens)
+            schoolProvider.updateFeatures(features)
         }
     }
 
