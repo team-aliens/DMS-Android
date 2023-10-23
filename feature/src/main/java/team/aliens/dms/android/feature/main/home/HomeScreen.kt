@@ -1,36 +1,92 @@
 package team.aliens.dms.android.feature.main.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.feature.main.home.navigation.HomeNavigator
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.composable.AppLogo
+import team.aliens.dms.android.core.ui.composable.FloatingNotice
+import team.aliens.dms.android.core.ui.endPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.feature.R
+import java.util.Date
 
-/*
-@Stable
-private val defaultBackgroundBrush = Brush.verticalGradient(
-    colors = listOf(
-        Color.Transparent,
-        Color.Transparent,
-        DormColor.DormPrimary.copy(
-            alpha = 0.1f,
-        ),
-    ),
-)*/
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    // navigator: HomeNavigator,
-    // homeViewModel: HomeViewModel = hiltViewModel(),
-    // calendarDate: Date,
-    // onNextDay: () -> Unit,
-    // onPreviousDay: () -> Unit,
-    // onShowCalendar: () -> Unit,
+    onShowCalendar: () -> Unit,
+    selectedCalendarDate: Date,
+    onSelectedCalendarDateChange: (newDate: Date) -> Unit,
 ) {
-    /*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
+    // TODO
+    val (visible, onVisibleChange) = remember {
+        mutableStateOf(false)
+    }
 
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {
+                    AppLogo(
+                        modifier = Modifier.size(
+                            width = 77.dp,
+                            height = 28.dp,
+                        ),
+                    )
+                },
+            )
+        },
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+        ) {
+            AnnouncementCard(
+                visible = visible,
+                onNavigateToAnnouncementList = { },
+            )
+
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                onClick = { onVisibleChange(!visible) },
+            ) {
+                Text(text = "HIHI")
+            }
+        }
+    }/*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
     // LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
 
     Column(
@@ -104,51 +160,36 @@ private fun HomeScreenAppLogo(
         )
     }
 }*/
-/*
+
 @Composable
-private fun ColumnScope.NoticeCard(
+private fun AnnouncementCard(
+    modifier: Modifier = Modifier,
     visible: Boolean,
-    onIconClicked: () -> Unit,
+    onNavigateToAnnouncementList: () -> Unit,
 ) {
     AnimatedVisibility(
+        modifier = modifier,
         visible = visible,
         enter = slideInVertically() + fadeIn(),
+        exit = slideOutVertically() + fadeOut(),
     ) {
         Box(
-            contentAlignment = Alignment.TopCenter,
+            modifier = Modifier.horizontalPadding(),
+            contentAlignment = Alignment.CenterEnd,
         ) {
-            Box(
-                modifier = Modifier.padding(
-                    vertical = 16.dp,
-                    horizontal = 16.dp,
-                ),
-                contentAlignment = Alignment.CenterEnd,
-            ) {
-                FloatingNotice(
-                    text = stringResource(R.string.notice_new_notice_exists),
-                )
-                Image(
-                    modifier = Modifier
-                        .padding(end = 10.dp)
-                        .size(32.dp)
-                        .dormClickable(
-                            rippleEnabled = false,
-                            onClick = onIconClicked,
-                        ),
-                    painter = painterResource(R.drawable.ic_next),
-                    contentDescription = stringResource(R.string.notice),
-                )
-            }
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-                    .dormGradientBackground(listFadeBrush),
+            FloatingNotice(text = stringResource(R.string.notice_new_notice_exists))
+            Image(
+                modifier = Modifier
+                    .endPadding(value = PaddingDefaults.Small)
+                    .size(32.dp)
+                    .clip(DmsTheme.shapes.circle)
+                    .clickable(onClick = onNavigateToAnnouncementList),
+                painter = painterResource(R.drawable.ic_next),
+                contentDescription = stringResource(R.string.notice),
             )
         }
     }
-}*/
-/*
+}/*
 @Composable
 private fun DateCard(
     selectedDate: Date,
@@ -195,8 +236,7 @@ private fun CalendarArrow(
         painter = painterResource(type.icon.drawableId),
         contentDescription = null,
     )
-}*/
-/*
+}*//*
 @Composable
 private fun DateTextButton(
     selectedDate: Date,
@@ -230,8 +270,7 @@ private fun DateTextButton(
             text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
         )*//*
     }
-}*/
-/*
+}*//*
 @Composable
 private fun Date.getDayOfWeek(): String {
     val digit = this.getDigitOfDayOfWeek()
@@ -377,8 +416,7 @@ private fun ColumnScope.MealCards(
             },
         )
     }
-}*/
-/*
+}*//*
 private enum class DragDirection {
     LEFT, RIGHT,
     ;
@@ -463,14 +501,12 @@ private fun MealCard(
             }
         }
     }
-}*/
-/*
+}*//*
 
 @Suppress("DEPRECATION")
 private fun vibrateOnMealCardPaging(
     context: Context,
-) {*/
-/* TODO
+) {*//* TODO
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     vibrator.vibrate(3L)*//*
 

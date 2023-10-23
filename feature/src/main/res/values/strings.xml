@@ -368,7 +368,7 @@
     <string name="notice">공지</string>
     <string name="announcement">안내</string>
 
-    <string name="notice_new_notice_exists">새로운 공지가 있습니다</string>
+    <string name="notice_new_notice_exists">새로운 공지사항이 있습니다</string>
     <string name="notice_notices_not_exists">공지사항이 없습니다</string>
 
     <!--my page-->

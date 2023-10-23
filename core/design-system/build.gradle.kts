@@ -48,7 +48,12 @@ android {
 }
 
 dependencies {
+
+    implementation(project(ProjectPaths.Shared.date))
+
     implementation(libs.material)
+
+    implementation(libs.threetenbp)
 
     implementation(libs.coil.compose)
 

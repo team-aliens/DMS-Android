@@ -205,7 +205,7 @@ fun lightColors(
     onError: Color = Gray1,
     errorContainer: Color = ErrorLighten2,
     onErrorContainer: Color = ErrorDarken2,
-    background: Color = Gray1,
+    background: Color = Gray2,
     onBackground: Color = Gray10,
     backgroundVariant: Color = Gray7,
     onBackgroundVariant: Color = Gray3,
