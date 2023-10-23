@@ -20,13 +20,17 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -43,6 +47,8 @@ import team.aliens.dms.android.core.designsystem.slideInFromEnd
 import team.aliens.dms.android.core.designsystem.slideInFromStart
 import team.aliens.dms.android.core.designsystem.slideOutFromEnd
 import team.aliens.dms.android.core.designsystem.slideOutFromStart
+import team.aliens.dms.android.core.designsystem.typography.NotoSansFamily
+import team.aliens.dms.android.core.designsystem.typography.toSp
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 
 @RootNavGraph(start = true)
@@ -194,7 +200,10 @@ private fun DmsBottomAppBar(
                     )
                 },
                 label = {
-                    Text(text = stringResource(id = section.labelRes))
+                    Text(
+                        text = stringResource(id = section.labelRes),
+                        style = bottomAppBarLabelTextStyle,
+                    )
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = DmsTheme.colorScheme.onSurface,
@@ -207,6 +216,15 @@ private fun DmsBottomAppBar(
         }
     }
 }
+
+@Stable
+private val bottomAppBarLabelTextStyle: TextStyle
+    @Composable inline get() = TextStyle(
+        fontFamily = NotoSansFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.dp.toSp(),
+        lineHeight = 16.sp,
+    )
 
 private fun NavController.navigateTo(route: String) = navigate(route) {
     popUpTo(this@navigateTo.graph.findStartDestination().id) {
