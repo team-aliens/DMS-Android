@@ -6,13 +6,13 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.shared.date.util.dateOf
-import java.util.Date
 
 @Composable
 fun DmsCalendar(
-    selectedDate: Date,
-    onSelectedDateChange: (newDate: Date) -> Unit,
+    selectedDate: LocalDate,
+    onSelectedDateChange: (newDate: LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     darkTheme: Boolean = isSystemInDarkTheme(),
 ) {
@@ -36,12 +36,12 @@ fun DmsCalendar(
         },
         update = { calendar ->
             calendar.run {
-                date = selectedDate.time
+                date = selectedDate.toEpochDay()
                 setOnDateChangeListener { _, year, month, dayOfMonth ->
                     val date = dateOf(
                         year = year,
                         month = month,
-                        dayOfMonth = dayOfMonth,
+                        day = dayOfMonth,
                     )
                     onSelectedDateChange(date)
                 }
