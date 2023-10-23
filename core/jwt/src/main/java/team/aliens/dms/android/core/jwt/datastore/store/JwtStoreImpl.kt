@@ -69,13 +69,12 @@ internal class JwtStoreImpl @Inject constructor(
 
     override suspend fun storeAccessToken(token: AccessToken) {
         transform(
-            block = {
-                preferencesDataStore.edit { preferences ->
-                    preferences[ACCESS_TOKEN] = token
-                }
-            },
             onFailure = { throw CannotStoreAccessTokenException() },
-        )
+        ) {
+            preferencesDataStore.edit { preferences ->
+                preferences[ACCESS_TOKEN] = token
+            }
+        }
     }
 
     override fun loadAccessTokenExpiration(): AccessTokenExpiration = runBlocking {
@@ -89,13 +88,12 @@ internal class JwtStoreImpl @Inject constructor(
 
     override suspend fun storeAccessTokenExpiration(expiration: AccessTokenExpiration) {
         transform(
-            block = {
-                preferencesDataStore.edit { preferences ->
-                    preferences[ACCESS_TOKEN_EXPIRATION] = expiration.toEpochMilli()
-                }
-            },
             onFailure = { throw CannotStoreAccessTokenExpirationException() },
-        )
+        ) {
+            preferencesDataStore.edit { preferences ->
+                preferences[ACCESS_TOKEN_EXPIRATION] = expiration.toEpochMilli()
+            }
+        }
     }
 
     override fun loadRefreshToken(): RefreshToken = runBlocking {
@@ -106,13 +104,12 @@ internal class JwtStoreImpl @Inject constructor(
 
     override suspend fun storeRefreshToken(token: RefreshToken) {
         transform(
-            block = {
-                preferencesDataStore.edit { preferences ->
-                    preferences[REFRESH_TOKEN] = token
-                }
-            },
             onFailure = { throw CannotStoreRefreshTokenException() },
-        )
+        ) {
+            preferencesDataStore.edit { preferences ->
+                preferences[REFRESH_TOKEN] = token
+            }
+        }
     }
 
     override fun loadRefreshTokenExpiration(): RefreshTokenExpiration = runBlocking {
@@ -126,13 +123,12 @@ internal class JwtStoreImpl @Inject constructor(
 
     override suspend fun storeRefreshTokenExpiration(expiration: RefreshTokenExpiration) {
         transform(
-            block = {
-                preferencesDataStore.edit { preferences ->
-                    preferences[REFRESH_TOKEN_EXPIRATION] = expiration.toEpochMilli()
-                }
-            },
             onFailure = { throw CannotStoreRefreshTokenExpirationException() },
-        )
+        ) {
+            preferencesDataStore.edit { preferences ->
+                preferences[REFRESH_TOKEN_EXPIRATION] = expiration.toEpochMilli()
+            }
+        }
     }
 
     private companion object {
