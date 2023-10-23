@@ -1,8 +1,9 @@
-package team.aliens.dms.android.app.navigation.authorized.main
+// TODO: migrate to compose destinations
+
+package team.aliens.dms.android.feature.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -12,45 +13,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.scope.DestinationScopeWithNoDependencies
-import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
-import com.ramcosta.composedestinations.spec.NavGraphSpec
-import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
-import team.aliens.dms.android.feature.destinations.AnnouncementListScreenDestination
-import team.aliens.dms.android.feature.destinations.ApplicationScreenDestination
-import team.aliens.dms.android.feature.destinations.HomeScreenDestination
-import team.aliens.dms.android.feature.destinations.MyPageScreenDestination
+import team.aliens.dms.android.feature.main.home.HomeScreen
+import team.aliens.dms.android.feature.main.navigation.MainNavigator
 
-@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
 internal fun Main(
     modifier: Modifier = Modifier,
-    // navigator: MainSectionNavigator,
+    mainNavigator: MainNavigator,
 ) {
-    val engine = rememberAnimatedNavHostEngine()
-    val navController = engine.rememberNavController()
-
+    val navController = rememberNavController()
     DmsScaffold(
         modifier = modifier.background(Color.Cyan),
         bottomBar = {
@@ -60,32 +51,28 @@ internal fun Main(
             )
         },
     ) {
-        DestinationsNavHost(
-            engine = engine,
-            navGraph = MainNavGraph,
+        NavHost(
             navController = navController,
-            // dependenciesContainerBuilder = { dependency(currentNavigator()) },
-        )
-    }
-}
+            startDestination = MainSections.HOME.route,
+        ) {
+            composable(MainSections.HOME.route) {
+                HomeScreen(
 
-private fun DestinationScopeWithNoDependencies<*>.currentNavigator(): MainNavigator =
-    MainNavigator(
-        // navGraph = navBackStackEntry.destination.navGraph().also { println("GRAPHGRAPH : $it") }, // todo:
-        navGraph = AuthorizedNavGraph,
-        navController = navController,
-    )
+                )
+            }
 
-private fun NavDestination.navGraph(): NavGraphSpec {
-    hierarchy.forEach { destination ->
-        MainNavGraph.nestedNavGraphs.forEach { navGraph ->
-            if (destination.route == navGraph.route) {
-                return navGraph
+            composable(MainSections.APPLICATION.route) {
+
+            }
+
+            composable(MainSections.ANNOUNCEMENT_LIST.route) {
+
+            }
+            composable(MainSections.MY_PAGE.route) {
+
             }
         }
     }
-
-    throw RuntimeException("Unknown nav graph for destination $route")
 }
 
 @Composable
@@ -93,8 +80,8 @@ private fun DmsBottomAppBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ) {
-    val currentDestination = navController.appCurrentDestinationAsState().value
-        ?: NavGraphs.root.startAppDestination
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
 
     BottomAppBar(
         containerColor = DmsTheme.colorScheme.surface,
@@ -109,11 +96,11 @@ private fun DmsBottomAppBar(
             },
     ) {
         MainSections.entries.forEach { section ->
-            val selected = currentDestination == section.direction
+            val selected = currentRoute == section.route
             NavigationBarItem(
                 selected = selected,
                 onClick = {
-                    navController.navigate(section.direction) {
+                    navController.navigate(section.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
@@ -135,27 +122,27 @@ private fun DmsBottomAppBar(
 
 @Immutable
 private enum class MainSections(
-    val direction: DirectionDestinationSpec,
+    val route: String,
     @DrawableRes val iconRes: Int,
     @StringRes val labelRes: Int,
 ) {
     HOME(
-        direction = HomeScreenDestination,
+        route = "home",
         iconRes = R.drawable.ic_home,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_home,
     ),
     APPLICATION(
-        direction = ApplicationScreenDestination,
+        route = "application",
         iconRes = R.drawable.ic_applicate,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_application,
     ),
     ANNOUNCEMENT_LIST(
-        direction = AnnouncementListScreenDestination,
+        route = "announcement_list",
         iconRes = R.drawable.ic_notice,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_announcement_list,
     ),
     MY_PAGE(
-        direction = MyPageScreenDestination,
+        route = "my_page",
         iconRes = R.drawable.ic_mypage,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
     ),
