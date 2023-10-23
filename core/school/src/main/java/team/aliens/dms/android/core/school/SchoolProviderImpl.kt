@@ -29,6 +29,13 @@ internal class SchoolProviderImpl @Inject constructor(
     private val _isFeaturesAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isFeaturesAvailable: StateFlow<Boolean> = _isFeaturesAvailable.asStateFlow()
 
+    init {
+        try {
+            loadFeatures()
+        } catch (_: Exception) {
+        }
+    }
+
     private fun loadFeatures(): Features =
         featuresDataStoreDataSource.loadFeatures().also(::updateFeatures)
 
