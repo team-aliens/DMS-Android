@@ -1,17 +1,17 @@
 package team.aliens.dms.android.core.designsystem
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.DefaultShadowColor
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 fun Modifier.shadow(
-    elevation: Dp = ShadowDefaults.MediumElevation,
-    shape: Shape = RectangleShape,
+    elevation: Dp = ShadowDefaults.SmallElevation,
+    shape: Shape = ShadowDefaults.RoundedShape,
     clip: Boolean = elevation > 0.dp,
     ambientColor: Color = DefaultShadowColor,
     spotColor: Color = DefaultShadowColor,
@@ -27,4 +27,6 @@ object ShadowDefaults {
     val SmallElevation = 4.dp
     val MediumElevation = 8.dp
     val LargeElevation = 12.dp
+
+    val RoundedShape = RoundedCornerShape(8.dp)
 }
