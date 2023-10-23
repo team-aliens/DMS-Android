@@ -18,7 +18,6 @@ private val defaultBackgroundBrush = Brush.verticalGradient(
     ),
 )*/
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
 internal fun HomeScreen(
