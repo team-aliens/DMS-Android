@@ -5,4 +5,4 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
-annotation class FetchUrl
+annotation class FeaturesFetchingUrl
