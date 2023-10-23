@@ -50,6 +50,8 @@ android {
 dependencies {
     implementation(libs.material)
 
+    implementation(libs.threetenbp)
+
     implementation(libs.coil.compose)
 
     implementation(libs.androidx.activity.compose)
