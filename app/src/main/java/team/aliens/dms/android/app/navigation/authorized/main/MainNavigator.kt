@@ -1,5 +1,6 @@
 package team.aliens.dms.android.app.navigation.authorized.main
 
+import androidx.navigation.NavController
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popUpTo
@@ -26,6 +27,7 @@ import java.util.UUID
 
 class MainNavigator(
     private val baseNavGraph: NavGraphSpec,
+    private val navController: NavController,
 ) :
     MainSectionNavigator,
     AnnouncementNavigator,
