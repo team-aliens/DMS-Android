@@ -1,40 +1,126 @@
-package team.aliens.dms.android.feature.main
+package team.aliens.dms.android.app.navigation.authorized.main
 
-import android.annotation.SuppressLint
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.feature._legacy.util.OneDay
-import team.aliens.dms.android.feature.main.navigation.MainNavigator
-import java.util.Date
+import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.scope.DestinationScopeWithNoDependencies
+import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
+import com.ramcosta.composedestinations.spec.NavGraphSpec
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.R
+import team.aliens.dms.android.feature.destinations.AnnouncementListScreenDestination
+import team.aliens.dms.android.feature.destinations.ApplicationScreenDestination
+import team.aliens.dms.android.feature.destinations.HomeScreenDestination
+import team.aliens.dms.android.feature.destinations.MyPageScreenDestination
 
-internal fun Date.plusOneDay(): Date {
-    return Date(this.time.plus(OneDay))
-}
-
-internal fun Date.minusOneDay(): Date {
-    return Date(this.time.minus(OneDay))
-}
-
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
 internal fun Main(
     modifier: Modifier = Modifier,
-    navigator: MainNavigator,
-    /*
-    onNavigateToStudyRooms: () -> Unit,
-    onNavigateToRemainsApplication: () -> Unit,
-    onNavigateToNoticeDetails: (UUID) -> Unit,
-    onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
-    onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
-    onNavigateToPointHistory: () -> Unit,
-    onNavigateToEditPasswordNav: () -> Unit,
-    onNavigateToAuthNav: () -> Unit,
-    onNavigateToNotificationBox: () -> Unit,*/
-) {/*
+    navigator: MainSectionNavigator,
+) {
+    val engine = rememberAnimatedNavHostEngine()
+    val navController = engine.rememberNavController()
+
+    DmsScaffold(
+        modifier = modifier.background(Color.Cyan),
+        bottomBar = {
+            DmsBottomAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                navController = navController,
+            )
+        },
+    ) { padValues ->
+
+        DestinationsNavHost(
+            modifier = Modifier.padding(padValues),
+            engine = engine,
+            navGraph = MainNavGraph,
+            navController = navController,
+            dependenciesContainerBuilder = { dependency(currentNavigator()) },
+        )
+    }
+}
+
+private fun DestinationScopeWithNoDependencies<*>.currentNavigator(): MainNavigator =
+    MainNavigator(
+        baseNavGraph = navBackStackEntry.destination.navGraph(),
+        navController = navController,
+    )
+
+private fun NavDestination.navGraph(): NavGraphSpec {
+    hierarchy.forEach { destination ->
+        MainNavGraph.nestedNavGraphs.forEach { navGraph ->
+            if (destination.route == navGraph.route) {
+                return navGraph
+            }
+        }
+    }
+
+    throw RuntimeException("Unknown nav graph for destination $route")
+}
+
+@Composable
+private fun DmsBottomAppBar(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+) {
+    BottomAppBar(
+        modifier = modifier,
+    ) {
+
+    }
+}
+
+@Immutable
+private enum class MainSections(
+    private val direction: DirectionDestinationSpec,
+    @DrawableRes private val iconRes: Int,
+    @StringRes private val label: Int,
+) {
+    HOME(
+        direction = HomeScreenDestination,
+        iconRes = R.drawable.ic_home,
+        label = team.aliens.dms.android.feature.R.string.bottom_nav_home,
+    ),
+    APPLICATION(
+        direction = ApplicationScreenDestination,
+        iconRes = R.drawable.ic_applicate,
+        label = team.aliens.dms.android.feature.R.string.bottom_nav_application,
+    ),
+    ANNOUNCEMENT_LIST(
+        direction = AnnouncementListScreenDestination,
+        iconRes = R.drawable.ic_notice,
+        label = team.aliens.dms.android.feature.R.string.bottom_nav_announcement_list,
+    ),
+    MY_PAGE(
+        direction = MyPageScreenDestination,
+        iconRes = R.drawable.ic_mypage,
+        label = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
+    ),
+    ;
+}
+
+/*
     val bottomNavController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -176,9 +262,7 @@ internal fun Main(
                 }
             }*//*
         }
-    }*/
-}
-/*
+    }*//*
 
 @Stable
 private object NavigationItemsWrapper {
