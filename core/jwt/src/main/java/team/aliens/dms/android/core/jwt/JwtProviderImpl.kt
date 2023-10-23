@@ -78,10 +78,6 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch { _isCachedRefreshTokenAvailable.emit(available) }
     }
 
-    override fun saveTokens(tokens: Tokens) {
-        CoroutineScope(Dispatchers.Default).launch { jwtDataStoreDataSource.storeTokens(tokens) }
-    }
-
     private fun loadTokens(): Tokens = jwtDataStoreDataSource.loadTokens().also(::updateTokens)
 
     private fun fetchTokens(): Tokens =
@@ -89,7 +85,7 @@ internal class JwtProviderImpl @Inject constructor(
             .toModel()
             .also(::updateTokens)
 
-    private fun updateTokens(tokens: Tokens) {
+    override fun updateTokens(tokens: Tokens) {
         this._cachedAccessToken = tokens.accessToken
         this._cachedAccessTokenExpiration = tokens.accessTokenExpiration
         this._cachedRefreshToken = tokens.refreshToken
