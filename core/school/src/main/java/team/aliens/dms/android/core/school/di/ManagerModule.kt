@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.network.di.DefaultHttpClient
 import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
-import team.aliens.dms.android.core.school.FetchUrl
+import team.aliens.dms.android.core.school.FeaturesFetchingUrl
 import team.aliens.dms.android.core.school.network.FeaturesFetchingManager
 import javax.inject.Singleton
 
@@ -19,7 +19,7 @@ internal object ManagerModule {
     @Provides
     @Singleton
     fun provideFeaturesFetchingManager(
-        @FetchUrl fetchUrl: String,
+        @FeaturesFetchingUrl fetchUrl: String,
         @DefaultHttpLoggingInterceptor defaultHttpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient baseHttpClient: OkHttpClient,
     ): FeaturesFetchingManager = FeaturesFetchingManager(

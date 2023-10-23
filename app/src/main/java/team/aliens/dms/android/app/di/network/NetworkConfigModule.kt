@@ -16,6 +16,7 @@ import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
 import team.aliens.dms.android.core.network.di.GlobalHttpLoggingInterceptor
 import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
 import team.aliens.dms.android.core.network.httpclient.GlobalInterceptors
+import team.aliens.dms.android.core.school.FeaturesFetchingUrl
 import javax.inject.Singleton
 
 @Module
@@ -31,6 +32,12 @@ object NetworkConfigModule {
     @Singleton
     @TokenReissueUrl
     fun provideTokenReissueUrl(@BaseUrl baseUrl: String): String = "$baseUrl/auth/reissue"
+
+    @Provides
+    @Singleton
+    @FeaturesFetchingUrl
+    fun provideFeaturesFetchingUrl(@BaseUrl baseUrl: String): String =
+        "$baseUrl/schools/available-features"
 
     @Provides
     @Singleton
