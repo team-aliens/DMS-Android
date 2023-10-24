@@ -71,6 +71,7 @@ import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
@@ -292,8 +293,6 @@ private enum class ArrowType(
     ;
 }
 
-// TODO __-----------------------------
-
 @Immutable
 private enum class MealCardType(
     @DrawableRes val iconRes: Int,
@@ -308,15 +307,6 @@ private enum class MealCardType(
         iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_dinner,
     ),
     ;
-}
-
-private fun Int.asMealCardType(): MealCardType {
-    return when (this) {
-        0 -> BREAKFAST
-        1 -> LUNCH
-        2 -> DINNER
-        else -> throw IllegalArgumentException()
-    }
 }
 
 private const val Breakfast = 0
@@ -354,9 +344,7 @@ private fun MealCards(
     HorizontalPager(
         modifier = modifier,
         state = pagerState,
-        contentPadding = PaddingValues(
-            horizontal = 56.dp,
-        ),
+        contentPadding = PaddingValues(horizontal = 52.dp),
         userScrollEnabled = false,
     ) { page ->
         val currentCardType = page.asMealCardType()
@@ -368,18 +356,26 @@ private fun MealCards(
                         ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
                     lerp(
-                        start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
+                        start = 0.85f,
+                        stop = 1f,
+                        fraction = 1f - pagerOffset.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = 1f,
+                        ),
                     ).also { scale ->
                         scaleX = scale
                         scaleY = scale
                     }
+
                     alpha = lerp(
-                        start = 0.5f,
+                        start = 0.4f,
                         stop = 1f,
-                        fraction = 1f - pagerOffset.coerceIn(0f, 1f),
+                        fraction = 1f - pagerOffset.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = 1f,
+                        ),
                     )
-                }
-                .padding(8.dp),
+                },
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -415,6 +411,15 @@ private fun MealCards(
     }
 }
 
+private fun Int.asMealCardType(): MealCardType {
+    return when (this) {
+        0 -> BREAKFAST
+        1 -> LUNCH
+        2 -> DINNER
+        else -> throw IllegalArgumentException()
+    }
+}
+
 private const val BreakfastStartTime: Int = 9
 private const val LunchStartTime: Int = 13
 private const val DinnerStartTime: Int = 19
@@ -443,6 +448,7 @@ private fun MealCard(
     OutlinedCard(
         modifier = modifier
             .fillMaxSize()
+            .verticalPadding(PaddingDefaults.Small)
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
