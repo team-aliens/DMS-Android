@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -57,6 +58,7 @@ import team.aliens.dms.android.core.designsystem.slideOutFromEnd
 import team.aliens.dms.android.core.designsystem.slideOutFromStart
 import team.aliens.dms.android.core.designsystem.typography.NotoSansFamily
 import team.aliens.dms.android.core.designsystem.typography.toSp
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.feature.main.home.HomeScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import team.aliens.dms.android.shared.date.util.today
@@ -215,6 +217,11 @@ private fun DmsBottomAppBar(
             )
             shadowElevation = 20f
         },
+        contentPadding = PaddingValues(
+            top = PaddingDefaults.ExtraSmall,
+            start = PaddingDefaults.Small,
+            end = PaddingDefaults.Small,
+        ),
     ) {
         MainSections.entries.forEach { section ->
             val selected = currentRoute == section.route
