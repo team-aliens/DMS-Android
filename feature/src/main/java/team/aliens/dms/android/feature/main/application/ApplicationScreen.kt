@@ -58,7 +58,6 @@ internal fun ApplicationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues),
-            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             ApplicationCard(
                 title = stringResource(id = R.string.study_room),
