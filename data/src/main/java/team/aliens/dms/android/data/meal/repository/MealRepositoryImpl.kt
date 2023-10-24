@@ -15,10 +15,14 @@ internal class MealRepositoryImpl @Inject constructor(
 ) : MealRepository() {
     override suspend fun fetchMeal(date: LocalDate): Meal = try {
         databaseMealDataSource.queryMeal(date).toModel()
-    } catch (e: Exception) {
-        networkMealDataSource.fetchMeals(date).toModel().also { meals ->
-            databaseMealDataSource.saveMeals(meals.toEntity())
+    } catch (_: Exception) {
+        try {
+            networkMealDataSource.fetchMeals(date).toModel().also { meals ->
+                databaseMealDataSource.saveMeals(meals.toEntity())
+            }
+                .find { it.date == date }!!
+        } catch (_: Exception) {
+            throw CannotFindMealException()
         }
-            .find { it.date == date } ?: throw CannotFindMealException()
     }
 }
