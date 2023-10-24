@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import org.threeten.bp.LocalDate
-import team.aliens.dms.android.shared.date.toDate
+import team.aliens.dms.android.shared.date.toEpochMilli
 import team.aliens.dms.android.shared.date.util.dateOf
 
 @Composable
@@ -37,11 +37,7 @@ fun DmsCalendar(
         },
     ) { calendar ->
         calendar.run {
-            date = LocalDate.of(
-                selectedDate.year,
-                selectedDate.month - 1,
-                selectedDate.dayOfMonth,
-            ).toDate().time
+            date = selectedDate.atStartOfDay().toEpochMilli()
 
             setOnDateChangeListener { _, year, month, dayOfMonth ->
                 val date = dateOf(
