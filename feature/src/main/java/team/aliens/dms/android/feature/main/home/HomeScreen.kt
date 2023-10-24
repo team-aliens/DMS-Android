@@ -119,47 +119,53 @@ internal fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .animateContentSize()
                 .padding(padValues),
         ) {
             AnnouncementCard(
+                modifier = Modifier.fillMaxWidth(),
                 visible = uiState.newNoticesExist,
                 onNavigateToAnnouncementList = onNavigateToAnnouncementList,
             )
-            Spacer(modifier = Modifier.weight(2f))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.meal_todays_meal),
-                textAlign = TextAlign.Center,
-                style = DmsTheme.typography.title1,
-                color = DmsTheme.colorScheme.onSurface,
-            )
-            Spacer(modifier = Modifier.weight(2f))
-            DateCard(
-                modifier = Modifier.fillMaxWidth(),
-                selectedDate = selectedCalendarDate,
-                onNextDay = { /*TODO*/ },
-                onPreviousDay = { /*TODO*/ },
-                onShowCalendar = onShowCalendar,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            MealCards(
-                modifier = Modifier.weight(20f),
-                currentDate = selectedCalendarDate,
-                breakfast = uiState.mealOfDate?.breakfast
-                    ?: emptyList(), // TODO: make viewmodel handle empty list
-                kcalOfBreakfast = uiState.mealOfDate?.kcalOfBreakfast
-                    ?: stringResource(R.string.meal_not_exists),
-                lunch = uiState.mealOfDate?.lunch ?: emptyList(),
-                kcalOfLunch = uiState.mealOfDate?.kcalOfLunch
-                    ?: stringResource(R.string.meal_not_exists),
-                dinner = uiState.mealOfDate?.dinner ?: emptyList(),
-                kcalOfDinner = uiState.mealOfDate?.kcalOfDinner
-                    ?: stringResource(R.string.meal_not_exists),
-                onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
-                onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
-            )
-            Spacer(modifier = Modifier.weight(5f))
+            Column(
+                modifier = Modifier.animateContentSize(),
+            ) {
+                Spacer(modifier = Modifier.weight(2f))
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.meal_todays_meal),
+                    textAlign = TextAlign.Center,
+                    style = DmsTheme.typography.title1,
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+                Spacer(modifier = Modifier.weight(2f))
+                DateCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateContentSize(),
+                    selectedDate = selectedCalendarDate,
+                    onNextDay = { /*TODO*/ },
+                    onPreviousDay = { /*TODO*/ },
+                    onShowCalendar = onShowCalendar,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                MealCards(
+                    modifier = Modifier.weight(20f),
+                    currentDate = selectedCalendarDate,
+                    breakfast = uiState.mealOfDate?.breakfast
+                        ?: emptyList(), // TODO: make viewmodel handle empty list
+                    kcalOfBreakfast = uiState.mealOfDate?.kcalOfBreakfast
+                        ?: stringResource(R.string.meal_not_exists),
+                    lunch = uiState.mealOfDate?.lunch ?: emptyList(),
+                    kcalOfLunch = uiState.mealOfDate?.kcalOfLunch
+                        ?: stringResource(R.string.meal_not_exists),
+                    dinner = uiState.mealOfDate?.dinner ?: emptyList(),
+                    kcalOfDinner = uiState.mealOfDate?.kcalOfDinner
+                        ?: stringResource(R.string.meal_not_exists),
+                    onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
+                )
+                Spacer(modifier = Modifier.weight(5f))
+            }
         }
     }
 }
