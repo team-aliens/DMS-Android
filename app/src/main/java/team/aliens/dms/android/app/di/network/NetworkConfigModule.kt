@@ -9,6 +9,7 @@ import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
+import team.aliens.dms.android.core.jwt.network.interceptor.JwtInterceptor
 import team.aliens.dms.android.core.network.HttpMethod
 import team.aliens.dms.android.core.network.HttpRequest
 import team.aliens.dms.android.core.network.di.BaseUrl
@@ -122,9 +123,11 @@ object NetworkConfigModule {
     @Singleton
     fun provideGlobalInterceptors(
         @GlobalHttpLoggingInterceptor globalHttpLoggingInterceptor: HttpLoggingInterceptor,
+        jwtInterceptor: JwtInterceptor,
     ): GlobalInterceptors = object : GlobalInterceptors {
         override val interceptors: List<Interceptor> = listOf(
             globalHttpLoggingInterceptor,
+            jwtInterceptor,
         )
     }
 }
