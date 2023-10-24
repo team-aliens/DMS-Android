@@ -146,9 +146,9 @@ internal fun HomeScreen(
                         .fillMaxWidth()
                         .animateContentSize(),
                     selectedDate = selectedCalendarDate,
-                    onNextDay = { /*TODO*/ },
-                    onPreviousDay = { /*TODO*/ },
                     onShowCalendar = onShowCalendar,
+                    onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 MealCards(
