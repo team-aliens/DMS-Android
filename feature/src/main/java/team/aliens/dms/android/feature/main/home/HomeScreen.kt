@@ -64,6 +64,7 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.rememberToastState
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -93,15 +94,15 @@ internal fun HomeScreen(
     onSelectedCalendarDateChange: (newDate: LocalDate) -> Unit,
     onNavigateToAnnouncementList: () -> Unit,
 ) {
+    val toast = rememberToastState()
+    val context = LocalContext.current
+
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
-        /* TODO
         when (sideEffect) {
-            else -> {
-            }
+            HomeSideEffect.CannotFindMeal -> toast.showErrorToast(context.getString(R.string.meal_error_not_found)) // FIXME: toast not showing
         }
-        */
     }
 
     LaunchedEffect(selectedCalendarDate) {
@@ -115,7 +116,7 @@ internal fun HomeScreen(
                 title = {
                     AppLogo(
                         modifier = Modifier.size(
-                            width = 77.dp,
+                            width = 78.dp,
                             height = 28.dp,
                         ),
                     )
@@ -441,7 +442,7 @@ private fun MealCard(
 
     OutlinedCard(
         modifier = modifier
-            .verticalPadding(PaddingDefaults.Small)
+            .padding(PaddingDefaults.Small)
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
