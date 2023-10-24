@@ -19,14 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
@@ -67,7 +70,7 @@ internal fun AnnouncementListScreen(
             )
             NoticeList(
                 modifier = Modifier.weight(1f),
-                notices = emptyList(),
+                notices = listOf(Notice(UUID.randomUUID(), "asdf", "asdf", LocalDateTime.now())),
                 onNavigateToNoticeDetails = onNavigateToNoticeDetails,
             )
         }
@@ -110,6 +113,7 @@ private fun NoticeList(
             NoticeCard(
                 modifier = Modifier.fillMaxWidth(),
                 notice = notice,
+                onClick = onNavigateToNoticeDetails,
             )
         }
     }
@@ -119,10 +123,12 @@ private fun NoticeList(
 private fun NoticeCard(
     modifier: Modifier = Modifier,
     notice: Notice,
+    onClick: (noticeId: UUID) -> Unit,
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onClick(notice.id) }
             .horizontalPadding()
             .verticalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
@@ -136,12 +142,20 @@ private fun NoticeCard(
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             Text(
-                text = "제목제목제목" /*notice.title*/,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .topPadding(),
+                text = notice.title,
                 color = DmsTheme.colorScheme.onSurface,
                 style = DmsTheme.typography.body2,
             )
             Text(
-                text = "2023-05-08:12:23" /*"${notice.createdAt}"*/,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                text = "${notice.createdAt}",
                 color = DmsTheme.colorScheme.onSurfaceVariant,
                 style = DmsTheme.typography.caption,
             )
