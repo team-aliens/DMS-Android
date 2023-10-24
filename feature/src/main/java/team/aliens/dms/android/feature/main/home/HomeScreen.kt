@@ -480,10 +480,10 @@ private fun MealCard(
                     }
                 }
             },
-        shape = DmsTheme.shapes.surface,
+        shape = DmsTheme.shapes.surfaceMedium,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
-            contentColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
         ),
         border = BorderStroke(
             width = 1.dp,
