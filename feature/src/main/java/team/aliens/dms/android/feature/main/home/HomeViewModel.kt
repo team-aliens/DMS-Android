@@ -25,7 +25,6 @@ internal class HomeViewModel @Inject constructor(
 ) {
     init {
         fetchWhetherNewNoticeExists()
-        updateMeal(date = today)
     }
 
     override fun processIntent(intent: HomeIntent) {
