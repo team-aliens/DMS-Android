@@ -14,9 +14,6 @@ class JwtInterceptor @Inject constructor(
     private val ignoreRequests: IgnoreRequests,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-
-        chain.proceed(chain.request())
-
         val interceptedRequest: Request = chain.request()
 
         return chain.proceed(
