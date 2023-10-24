@@ -15,7 +15,9 @@ class Shapes(
     val large: CornerBasedShape = RoundedCornerShape(12.dp),
     val extraLarge: CornerBasedShape = RoundedCornerShape(16.dp),
     val circle: CornerBasedShape = CircleShape,
-    val surface: CornerBasedShape = RoundedCornerShape(24.dp),
+    val surfaceSmall: CornerBasedShape = RoundedCornerShape(16.dp),
+    val surfaceMedium: CornerBasedShape = RoundedCornerShape(20.dp),
+    val surfaceLarge: CornerBasedShape = RoundedCornerShape(24.dp),
 ) {
     fun copy(
         extraSmall: CornerBasedShape = this.small,
@@ -24,7 +26,9 @@ class Shapes(
         large: CornerBasedShape = this.large,
         extraLarge: CornerBasedShape = this.large,
         circle: CornerBasedShape = this.circle,
-        surface: CornerBasedShape = this.surface,
+        surfaceSmall: CornerBasedShape = this.surfaceSmall,
+        surfaceMedium: CornerBasedShape = this.surfaceMedium,
+        surfaceLarge: CornerBasedShape = this.surfaceLarge,
     ): Shapes = Shapes(
         extraSmall = extraSmall,
         small = small,
@@ -32,7 +36,9 @@ class Shapes(
         large = large,
         extraLarge = extraLarge,
         circle = circle,
-        surface = surface,
+        surfaceSmall = surfaceSmall,
+        surfaceMedium = surfaceMedium,
+        surfaceLarge = surfaceLarge,
     )
 
     override fun equals(other: Any?): Boolean {
@@ -61,7 +67,13 @@ class Shapes(
         if (circle != other.circle) {
             return false
         }
-        if (surface != other.surface) {
+        if (surfaceSmall != other.surfaceSmall) {
+            return false
+        }
+        if (surfaceMedium != other.surfaceMedium) {
+            return false
+        }
+        if (surfaceLarge != other.surfaceLarge) {
             return false
         }
 
@@ -75,7 +87,9 @@ class Shapes(
         result = 31 * result + large.hashCode()
         result = 31 * result + extraLarge.hashCode()
         result = 31 * result + circle.hashCode()
-        result = 31 * result + surface.hashCode()
+        result = 31 * result + surfaceSmall.hashCode()
+        result = 31 * result + surfaceMedium.hashCode()
+        result = 31 * result + surfaceLarge.hashCode()
         return result
     }
 
