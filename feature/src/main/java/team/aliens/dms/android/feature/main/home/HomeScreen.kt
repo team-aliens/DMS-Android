@@ -65,11 +65,14 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
@@ -227,18 +230,18 @@ private fun DateCard(
                 vertical = PaddingDefaults.ExtraSmall,
             ),
             fillMinSize = false,
-            colors = ButtonDefaults.outlinedGrayButtonColors(),
+            colors = ButtonDefaults.outlinedGrayButtonColors(
+                contentColor = DmsTheme.colorScheme.line,
+            ),
         ) {
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.ic_calendar),
-                tint = DmsTheme.colorScheme.onSurface,
                 contentDescription = null,
             )
             Text(
                 text = "$selectedDate (${selectedDate.dayOfWeek.text})",
                 style = DmsTheme.typography.button,
-                color = DmsTheme.colorScheme.onSurface,
             )
         }
         CalendarArrow(
@@ -268,7 +271,7 @@ private fun CalendarArrow(
     type: ArrowType,
     onClick: () -> Unit,
 ) {
-    Image(
+    Icon(
         modifier = modifier
             .padding(PaddingDefaults.ExtraSmall)
             .size(28.dp)
@@ -276,6 +279,7 @@ private fun CalendarArrow(
             .clickable(onClick = onClick),
         painter = painterResource(id = type.iconRes),
         contentDescription = null,
+        tint = DmsTheme.colorScheme.line,
     )
 }
 
@@ -471,7 +475,7 @@ private fun MealCard(
                     }
                 }
             },
-        shape = DmsTheme.shapes.extraLarge,
+        shape = DmsTheme.shapes.surface,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.surface,
@@ -498,6 +502,11 @@ private fun MealCard(
     }
 }
 
+private enum class DragDirection {
+    LEFT, RIGHT,
+    ;
+}
+
 @Composable
 private fun Dishes(
     modifier: Modifier = Modifier,
@@ -505,41 +514,45 @@ private fun Dishes(
     dishes: List<String>,
     kcal: String,
 ) {
-    LazyColumn(
+    Column(
         modifier = modifier
+            .fillMaxWidth()
             .horizontalPadding()
-            .verticalPadding()
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.SpaceBetween,
+            .topPadding(PaddingDefaults.ExtraLarge)
+            .bottomPadding(),
+        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item {
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = null,
-                tint = DmsTheme.colorScheme.primary,
-            )
+        Icon(
+            modifier = Modifier.size(40.dp),
+            painter = painterResource(id = iconRes),
+            contentDescription = null,
+            tint = DmsTheme.colorScheme.onSurface,
+        )
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingDefaults.Vertical,
+        ) {
+            items(dishes) { menu ->
+                Text(
+                    text = menu,
+                    textAlign = TextAlign.Center,
+                    color = DmsTheme.colorScheme.onSurface,
+                    style = DmsTheme.typography.body1,
+                )
+            }
         }
-        items(dishes) { menu ->
-            Text(
-                text = menu,
-                textAlign = TextAlign.Center,
-            )
-        }
-        item {
-            Text(
-                text = kcal,
-                color = DmsTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        Text(
+            text = kcal,
+            color = DmsTheme.colorScheme.onSurfaceVariant,
+            style = DmsTheme.typography.caption,
+        )
     }
 }
 
-private enum class DragDirection {
-    LEFT, RIGHT,
-    ;
-}
-
+// TODO
 @Suppress("DEPRECATION")
 private fun vibrateOnMealCardPaging(
     context: Context,
