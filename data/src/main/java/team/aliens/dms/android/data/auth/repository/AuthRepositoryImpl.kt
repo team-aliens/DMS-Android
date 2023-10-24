@@ -38,6 +38,7 @@ internal class AuthRepositoryImpl @Inject constructor(
             )
         }
 
+        // FIXME: 만약 자동 로그인을 하지 않은 상태에서 토큰 재발급은 어떻게 처리하는가?
         if (autoSignIn) {
             val tokens = signInResponse.extractTokens()
             val features = signInResponse.extractFeatures()
