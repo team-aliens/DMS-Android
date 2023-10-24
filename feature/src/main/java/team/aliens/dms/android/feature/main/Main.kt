@@ -59,6 +59,7 @@ import team.aliens.dms.android.core.designsystem.slideOutFromStart
 import team.aliens.dms.android.core.designsystem.typography.NotoSansFamily
 import team.aliens.dms.android.core.designsystem.typography.toSp
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms.android.feature.main.application.ApplicationScreen
 import team.aliens.dms.android.feature.main.home.HomeScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
@@ -167,10 +168,8 @@ internal fun Main(
                         }
                     },
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(color = DmsTheme.colorScheme.line)
-                            .fillMaxSize(),
+                    AnnouncementListScreen(
+                        onNavigateToNoticeDetails = mainNavigator::openNoticeDetails,
                     )
                 }
                 composable(
