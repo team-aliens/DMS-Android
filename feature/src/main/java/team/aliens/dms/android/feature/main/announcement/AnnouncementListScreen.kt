@@ -128,7 +128,6 @@ private fun NoticeCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick(notice.id) }
             .horizontalPadding()
             .verticalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
@@ -139,6 +138,9 @@ private fun NoticeCard(
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick(notice.id) },
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             Text(
