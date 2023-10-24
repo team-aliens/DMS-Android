@@ -241,7 +241,8 @@ private fun DateCard(
             ),
             fillMinSize = false,
             colors = ButtonDefaults.outlinedGrayButtonColors(
-                contentColor = DmsTheme.colorScheme.line,
+                containerColor = DmsTheme.colorScheme.surface,
+                contentColor = DmsTheme.colorScheme.onSurface,
             ),
         ) {
             Icon(
@@ -289,7 +290,7 @@ private fun CalendarArrow(
             .clickable(onClick = onClick),
         painter = painterResource(id = type.iconRes),
         contentDescription = null,
-        tint = DmsTheme.colorScheme.line,
+        tint = DmsTheme.colorScheme.onSurface,
     )
 }
 
