@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
+import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.datastore.FeaturesDataStoreDataSource
 import team.aliens.dms.android.core.school.network.FeaturesFetchingManager
 import javax.inject.Inject
 
 internal class SchoolProviderImpl @Inject constructor(
     private val featuresDataStoreDataSource: FeaturesDataStoreDataSource,
-    private val jwtDataStoreDataSource: JwtDataStoreDataSource,
+    private val jwtProvider: JwtProvider,
     private val featuresFetchingManager: FeaturesFetchingManager,
 ) : SchoolProvider() {
 
@@ -40,7 +40,7 @@ internal class SchoolProviderImpl @Inject constructor(
         featuresDataStoreDataSource.loadFeatures().also(::updateFeatures)
 
     private fun fetchFeatures(): Features =
-        featuresFetchingManager(accessToken = jwtDataStoreDataSource.loadRefreshToken()).toModel()
+        featuresFetchingManager(accessToken = jwtProvider.cachedRefreshToken).toModel()
             .also(::updateFeatures)
 
     private fun checkFeaturesAvailable(): Boolean = _features != null
