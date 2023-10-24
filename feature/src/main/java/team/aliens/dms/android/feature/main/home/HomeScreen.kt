@@ -1,42 +1,86 @@
 package team.aliens.dms.android.feature.main.home
 
+import android.content.Context
+import android.os.Vibrator
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.ContainedButton
+import kotlinx.coroutines.launch
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDate
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
-import java.util.Date
+import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
+import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
+import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
+import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
+import team.aliens.dms.android.shared.date.util.now
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -44,12 +88,20 @@ import java.util.Date
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     onShowCalendar: () -> Unit,
-    selectedCalendarDate: Date,
-    onSelectedCalendarDateChange: (newDate: Date) -> Unit,
+    selectedCalendarDate: LocalDate,
+    onSelectedCalendarDateChange: (newDate: LocalDate) -> Unit,
+    onNavigateToAnnouncementList: () -> Unit,
 ) {
-    // TODO
-    val (visible, onVisibleChange) = remember {
-        mutableStateOf(false)
+    val viewModel: HomeViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            else -> {}
+        }
+    }
+
+    LaunchedEffect(selectedCalendarDate) {
+        viewModel.postIntent(HomeIntent.UpdateSelectedDate(selectedDate = selectedCalendarDate))
     }
 
     DmsScaffold(
@@ -73,93 +125,53 @@ internal fun HomeScreen(
                 .padding(padValues),
         ) {
             AnnouncementCard(
-                visible = visible,
-                onNavigateToAnnouncementList = { },
+                modifier = Modifier.fillMaxWidth(),
+                visible = uiState.newNoticesExist,
+                onNavigateToAnnouncementList = onNavigateToAnnouncementList,
             )
-
-            ContainedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalPadding(),
-                onClick = { onVisibleChange(!visible) },
+            Column(
+                modifier = Modifier.animateContentSize(),
             ) {
-                Text(text = "HIHI")
+                Spacer(modifier = Modifier.weight(2f))
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.meal_todays_meal),
+                    textAlign = TextAlign.Center,
+                    style = DmsTheme.typography.title1,
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+                Spacer(modifier = Modifier.weight(2f))
+                DateCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateContentSize(),
+                    selectedDate = selectedCalendarDate,
+                    onShowCalendar = onShowCalendar,
+                    onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                MealCards(
+                    modifier = Modifier.weight(20f),
+                    currentDate = selectedCalendarDate,
+                    breakfast = uiState.mealOfDate?.breakfast
+                        ?: emptyList(), // TODO: make viewmodel handle empty list
+                    kcalOfBreakfast = uiState.mealOfDate?.kcalOfBreakfast
+                        ?: stringResource(R.string.meal_not_exists),
+                    lunch = uiState.mealOfDate?.lunch ?: emptyList(),
+                    kcalOfLunch = uiState.mealOfDate?.kcalOfLunch
+                        ?: stringResource(R.string.meal_not_exists),
+                    dinner = uiState.mealOfDate?.dinner ?: emptyList(),
+                    kcalOfDinner = uiState.mealOfDate?.kcalOfDinner
+                        ?: stringResource(R.string.meal_not_exists),
+                    onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
+                )
+                Spacer(modifier = Modifier.weight(5f))
             }
         }
-    }/*val state by homeViewModel.stateFlow.collectAsStateWithLifecycle()
-    // LaunchedEffect(calendarDate) { homeViewModel.postIntent(HomeIntent.UpdateDate(calendarDate)) }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .dormGradientBackground(defaultBackgroundBrush),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        HomeScreenAppLogo(
-            onNavigateToNotificationBox = navigator::openNotificationBox,
-        )
-        NoticeCard(
-            visible = state.newNotices,
-            onIconClicked = navigator::openAnnouncementList,
-        )
-        Column(
-            modifier = Modifier.animateContentSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(Modifier.weight(0.05f))
-            Title1(
-                text = stringResource(R.string.meal_todays_meal),
-            )
-            Spacer(Modifier.weight(0.05f))
-            *//*DateCard(
-                selectedDate = state.selectedDate,
-                onNextDay = onNextDay,
-                onPreviousDay = onPreviousDay,
-                onShowCalendar = onShowCalendar,
-            )*//*
-            Spacer(Modifier.weight(0.1f))
-            *//*MealCards(
-                currentDate = calendarDate,
-                breakfast = state.breakfast,
-                kcalOfBreakfast = state.kcalOfBreakfast
-                    ?: stringResource(R.string.meal_not_exists),
-                lunch = state.lunch,
-                kcalOfLunch = state.kcalOfLunch ?: stringResource(R.string.meal_not_exists),
-                dinner = state.dinner,
-                kcalOfDinner = state.kcalOfDinner ?: stringResource(R.string.meal_not_exists),
-                onNextDay = onNextDay,
-                onPreviousDay = onPreviousDay,
-            )*//*
-            Spacer(Modifier.height(80.dp))
-        }
-    }*/
-}/*
-
-@Composable
-private fun HomeScreenAppLogo(
-    modifier: Modifier = Modifier,
-    onNavigateToNotificationBox: () -> Unit,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        AppLogo()
-        Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            modifier = Modifier
-                .padding(8.dp)
-                .size(24.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .dormClickable(onClick = onNavigateToNotificationBox),
-            painter = painterResource(DormIcon.Bell.drawableId),
-            contentDescription = null,
-            tint = DmsTheme.colors.primaryVariant,
-        )
     }
-}*/
+}
 
 @Composable
 private fun AnnouncementCard(
@@ -189,19 +201,21 @@ private fun AnnouncementCard(
             )
         }
     }
-}/*
+}
+
 @Composable
 private fun DateCard(
-    selectedDate: Date,
+    modifier: Modifier = Modifier,
+    selectedDate: LocalDate,
     onNextDay: () -> Unit,
     onPreviousDay: () -> Unit,
     onShowCalendar: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
-            space = 12.dp,
+            space = DefaultHorizontalSpace,
             alignment = Alignment.CenterHorizontally,
         ),
     ) {
@@ -209,115 +223,93 @@ private fun DateCard(
             type = ArrowType.BACKWARD,
             onClick = onPreviousDay,
         )
-        DateTextButton(
-            selectedDate = selectedDate,
-            onShowCalendar = onShowCalendar,
-        )
+        OutlinedButton(
+            onClick = onShowCalendar,
+            contentPadding = PaddingValues(
+                horizontal = PaddingDefaults.Small,
+                vertical = PaddingDefaults.ExtraSmall,
+            ),
+            fillMinSize = false,
+            colors = ButtonDefaults.outlinedGrayButtonColors(
+                contentColor = DmsTheme.colorScheme.line,
+            ),
+        ) {
+            Icon(
+                modifier = Modifier.size(16.dp),
+                painter = painterResource(id = R.drawable.ic_calendar),
+                contentDescription = null,
+            )
+            Text(
+                text = "$selectedDate (${selectedDate.dayOfWeek.text})",
+                style = DmsTheme.typography.button,
+            )
+        }
         CalendarArrow(
             type = ArrowType.FORWARD,
             onClick = onNextDay,
         )
     }
-}*//*
+}
 
-@Composable
-private fun CalendarArrow(
-    type: ArrowType,
-    onClick: () -> Unit,
-) {
-    Image(
-        modifier = Modifier
-            .padding(8.dp)
-            .size(32.dp)
-            .clip(
-                RoundedCornerShape(8.dp),
-            )
-            .dormClickable(onClick = onClick),
-        painter = painterResource(type.icon.drawableId),
-        contentDescription = null,
-    )
-}*//*
-@Composable
-private fun DateTextButton(
-    selectedDate: Date,
-    onShowCalendar: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .dormShadow(DmsTheme.colors.primaryVariant)
-            .background(
-                color = DmsTheme.colors.surface,
-                shape = RoundedCornerShape(5.dp),
-            )
-            .border(
-                width = 1.dp,
-                color = DmsTheme.colors.primaryVariant,
-                shape = RoundedCornerShape(5.dp),
-            )
-            .clip(
-                shape = RoundedCornerShape(5.dp),
-            )
-            .dormClickable(onClick = onShowCalendar)
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        *//*Image(
-            painter = painterResource(R.drawable.ic_calendar),
-            contentDescription = null,
-        )
-        Body5(
-            text = "${selectedDate.toMealFormattedString()} (${selectedDate.getDayOfWeek()})",
-        )*//*
-    }
-}*//*
-@Composable
-private fun Date.getDayOfWeek(): String {
-    val digit = this.getDigitOfDayOfWeek()
-    return stringResource(
-        when (digit) {
-            Calendar.SUNDAY -> R.string.sunday_abb
-            Calendar.MONDAY -> R.string.monday_abb
-            Calendar.TUESDAY -> R.string.tuesday_abb
-            Calendar.WEDNESDAY -> R.string.wednesday_abb
-            Calendar.THURSDAY -> R.string.thursday_abb
-            Calendar.FRIDAY -> R.string.friday_abb
-            Calendar.SATURDAY -> R.string.saturday_abb
+private val DayOfWeek.text: String
+    @Composable inline get() = stringResource(
+        when (this) {
+            DayOfWeek.SUNDAY -> R.string.sunday_abb
+            DayOfWeek.MONDAY -> R.string.monday_abb
+            DayOfWeek.TUESDAY -> R.string.tuesday_abb
+            DayOfWeek.WEDNESDAY -> R.string.wednesday_abb
+            DayOfWeek.THURSDAY -> R.string.thursday_abb
+            DayOfWeek.FRIDAY -> R.string.friday_abb
+            DayOfWeek.SATURDAY -> R.string.saturday_abb
             else -> throw IllegalArgumentException()
         },
     )
-}
 
-private fun Date.getDigitOfDayOfWeek(): Int {
-    val calendar = Calendar.getInstance().apply {
-        time = this@getDigitOfDayOfWeek
-    }
-    return calendar.get(Calendar.DAY_OF_WEEK)
+@Composable
+private fun CalendarArrow(
+    modifier: Modifier = Modifier,
+    type: ArrowType,
+    onClick: () -> Unit,
+) {
+    Icon(
+        modifier = modifier
+            .padding(PaddingDefaults.ExtraSmall)
+            .size(28.dp)
+            .clip(DmsTheme.shapes.medium)
+            .clickable(onClick = onClick),
+        painter = painterResource(id = type.iconRes),
+        contentDescription = null,
+        tint = DmsTheme.colorScheme.line,
+    )
 }
 
 @Immutable
 private enum class ArrowType(
-    val icon: DormIcon,
+    @DrawableRes val iconRes: Int,
 ) {
-    BACKWARD(DormIcon.Backward), FORWARD(DormIcon.Forward),
+    BACKWARD(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_backward,
+    ),
+    FORWARD(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_forward,
+    ),
     ;
 }
 
 @Immutable
 private enum class MealCardType(
-    val icon: DormIcon,
+    @DrawableRes val iconRes: Int,
 ) {
-    BREAKFAST(DormIcon.Breakfast), LUNCH(DormIcon.Lunch), DINNER(DormIcon.Dinner),
+    BREAKFAST(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_breakfast,
+    ),
+    LUNCH(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_lunch,
+    ),
+    DINNER(
+        iconRes = team.aliens.dms.android.core.designsystem.R.drawable.ic_dinner,
+    ),
     ;
-}
-
-private fun Int.asMealCardType(): MealCardType {
-    return when (this) {
-        0 -> BREAKFAST
-        1 -> LUNCH
-        2 -> DINNER
-        else -> throw IllegalArgumentException()
-    }
 }
 
 private const val Breakfast = 0
@@ -326,8 +318,9 @@ private const val Dinner = 2
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ColumnScope.MealCards(
-    currentDate: Date,
+private fun MealCards(
+    modifier: Modifier = Modifier,
+    currentDate: LocalDate,
     breakfast: List<String>,
     kcalOfBreakfast: String,
     lunch: List<String>,
@@ -339,7 +332,7 @@ private fun ColumnScope.MealCards(
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
-        pageCount = { MealCardType.values().size },
+        pageCount = { MealCardType.entries.size },
     )
 
     val scope = rememberCoroutineScope()
@@ -352,37 +345,41 @@ private fun ColumnScope.MealCards(
     }
 
     HorizontalPager(
-        modifier = Modifier
-            .fillMaxSize()
-            .weight(1f),
+        modifier = modifier,
         state = pagerState,
-        contentPadding = PaddingValues(
-            horizontal = 56.dp,
-        ),
+        contentPadding = PaddingValues(horizontal = 52.dp),
         userScrollEnabled = false,
     ) { page ->
         val currentCardType = page.asMealCardType()
 
         MealCard(
             modifier = Modifier
+                .fillMaxSize()
                 .graphicsLayer {
                     val pagerOffset =
                         ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
                     lerp(
-                        start = 0.875f, stop = 1f, fraction = 1f - pagerOffset.coerceIn(0f, 1f)
+                        start = 0.85f,
+                        stop = 1f,
+                        fraction = 1f - pagerOffset.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = 1f,
+                        ),
                     ).also { scale ->
                         scaleX = scale
                         scaleY = scale
                     }
+
                     alpha = lerp(
-                        start = 0.5f,
+                        start = 0.4f,
                         stop = 1f,
-                        fraction = 1f - pagerOffset.coerceIn(0f, 1f),
+                        fraction = 1f - pagerOffset.coerceIn(
+                            minimumValue = 0f,
+                            maximumValue = 1f,
+                        ),
                     )
-                }
-                .padding(8.dp)
-                .dormShadow(color = DmsTheme.colors.primaryVariant),
+                },
             currentCardType = currentCardType,
             breakfast = breakfast,
             kcalOfBreakfast = kcalOfBreakfast,
@@ -393,10 +390,10 @@ private fun ColumnScope.MealCards(
             onSwipeToRight = {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        when (page) {
-                            BREAKFAST.ordinal -> LUNCH.ordinal
-                            LUNCH.ordinal -> DINNER.ordinal
-                            DINNER.ordinal -> BREAKFAST.ordinal.also { onNextDay() }
+                        page = when (page) {
+                            Breakfast -> Lunch
+                            Lunch -> Dinner
+                            Dinner -> Breakfast.also { onNextDay() }
                             else -> throw IllegalStateException()
                         },
                     )
@@ -405,10 +402,10 @@ private fun ColumnScope.MealCards(
             onSwipeToLeft = {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        when (page) {
-                            BREAKFAST.ordinal -> DINNER.ordinal.also { onPreviousDay() }
-                            LUNCH.ordinal -> BREAKFAST.ordinal
-                            DINNER.ordinal -> LUNCH.ordinal
+                        page = when (page) {
+                            Breakfast -> Dinner.also { onPreviousDay() }
+                            Lunch -> Breakfast
+                            Dinner -> Lunch
                             else -> throw IllegalStateException()
                         },
                     )
@@ -416,10 +413,25 @@ private fun ColumnScope.MealCards(
             },
         )
     }
-}*//*
-private enum class DragDirection {
-    LEFT, RIGHT,
-    ;
+}
+
+private fun Int.asMealCardType(): MealCardType {
+    return when (this) {
+        0 -> BREAKFAST
+        1 -> LUNCH
+        2 -> DINNER
+        else -> throw IllegalArgumentException()
+    }
+}
+
+private const val BreakfastStartTime: Int = 9
+private const val LunchStartTime: Int = 13
+private const val DinnerStartTime: Int = 19
+
+private fun getProperMeal(): Int = when (now.hour) {
+    in BreakfastStartTime until LunchStartTime -> Lunch
+    in LunchStartTime until DinnerStartTime -> Dinner
+    else -> Breakfast
 }
 
 @Composable
@@ -437,130 +449,114 @@ private fun MealCard(
 ) {
     var dragDirection: DragDirection? by remember { mutableStateOf(null) }
 
-    Card(
+    OutlinedCard(
         modifier = modifier
-            .fillMaxSize()
+            .verticalPadding(PaddingDefaults.Small)
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> { *//* explicit blank *//*
-                            }
+                            null -> {}
                         }
                     },
                 ) { _, dragAmount ->
-                    if (currentCardType == LUNCH) when {
-                        dragAmount > 0 -> onSwipeToLeft()
-                        dragAmount < 0 -> onSwipeToRight()
-                    } else when {
-                        dragAmount > 0 -> dragDirection = DragDirection.LEFT
-                        dragAmount < 0 -> dragDirection = DragDirection.RIGHT
+                    if (currentCardType == LUNCH) {
+                        when {
+                            dragAmount > 0 -> onSwipeToLeft()
+                            dragAmount < 0 -> onSwipeToRight()
+                        }
+                    } else {
+                        when {
+                            dragAmount > 0 -> dragDirection = DragDirection.LEFT
+                            dragAmount < 0 -> dragDirection = DragDirection.RIGHT
+                        }
                     }
                 }
-            }
-            .padding(
-                horizontal = 8.dp,
-            )
-            .background(
-                color = DmsTheme.colors.background,
-                shape = RoundedCornerShape(20.dp),
-            )
-            .clip(
-                RoundedCornerShape(20.dp),
-            )
-            .border(
-                width = 1.dp,
-                color = DmsTheme.colors.primary,
-                shape = RoundedCornerShape(20.dp),
-            ),
-        shape = RoundedCornerShape(20.dp),
+            },
+        shape = DmsTheme.shapes.surface,
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.surface,
+        ),
+        border = BorderStroke(
+            width = 1.dp,
+            color = DmsTheme.colorScheme.primary,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
-        Box(
-            modifier = Modifier.padding(16.dp),
-        ) {
-            when (currentCardType) {
-                BREAKFAST -> Dishes(
-                    icon = BREAKFAST.icon,
-                    dishes = breakfast,
-                    kcal = kcalOfBreakfast,
-                )
-
-                LUNCH -> Dishes(
-                    icon = LUNCH.icon,
-                    dishes = lunch,
-                    kcal = kcalOfLunch,
-                )
-
-                DINNER -> Dishes(
-                    icon = DINNER.icon,
-                    dishes = dinner,
-                    kcal = kcalOfDinner,
-                )
-            }
-        }
+        Dishes(
+            iconRes = currentCardType.iconRes,
+            dishes = when (currentCardType) {
+                BREAKFAST -> breakfast
+                LUNCH -> lunch
+                DINNER -> dinner
+            },
+            kcal = when (currentCardType) {
+                BREAKFAST -> kcalOfBreakfast
+                LUNCH -> kcalOfLunch
+                DINNER -> kcalOfDinner
+            },
+        )
     }
-}*//*
+}
 
-@Suppress("DEPRECATION")
-private fun vibrateOnMealCardPaging(
-    context: Context,
-) {*//* TODO
-    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(3L)*//*
-
+private enum class DragDirection {
+    LEFT, RIGHT,
+    ;
 }
 
 @Composable
 private fun Dishes(
-    icon: DormIcon,
+    modifier: Modifier = Modifier,
+    iconRes: Int,
     dishes: List<String>,
     kcal: String,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .animateContentSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalPadding()
+            .topPadding(PaddingDefaults.ExtraLarge)
+            .bottomPadding(),
+        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item {
-            Icon(
-                painter = painterResource(
-                    id = icon.drawableId,
-                ),
-                contentDescription = null,
-                tint = DmsTheme.colors.primaryVariant,
-            )
+        Icon(
+            modifier = Modifier.size(40.dp),
+            painter = painterResource(id = iconRes),
+            contentDescription = null,
+            tint = DmsTheme.colorScheme.onSurface,
+        )
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingDefaults.Vertical,
+        ) {
+            items(dishes) { menu ->
+                Text(
+                    text = menu,
+                    textAlign = TextAlign.Center,
+                    color = DmsTheme.colorScheme.onSurface,
+                    style = DmsTheme.typography.body1,
+                )
+            }
         }
-        items(dishes) { menu ->
-            Body2(
-                text = menu,
-                textAlign = TextAlign.Center,
-            )
-        }
-        item {
-            Caption(
-                text = kcal,
-                color = DmsTheme.colors.primaryVariant,
-            )
-        }
+        Text(
+            text = kcal,
+            color = DmsTheme.colorScheme.onSurfaceVariant,
+            style = DmsTheme.typography.caption,
+        )
     }
 }
 
-private const val BreakfastStartTime: Int = 9
-private const val LunchStartTime: Int = 13
-private const val DinnerStartTime: Int = 19
-
-private fun getProperMeal(): Int {
-    val calendar = Calendar.getInstance().apply {
-        time = Date()
-    }
-    return when (calendar.get(Calendar.HOUR_OF_DAY)) {
-        in BreakfastStartTime until LunchStartTime -> Lunch
-        in LunchStartTime until DinnerStartTime -> Dinner
-        else -> Breakfast
-    }
+// TODO
+@Suppress("DEPRECATION")
+private fun vibrateOnMealCardPaging(
+    context: Context,
+) {
+    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    vibrator.vibrate(3L)
 }
-*/

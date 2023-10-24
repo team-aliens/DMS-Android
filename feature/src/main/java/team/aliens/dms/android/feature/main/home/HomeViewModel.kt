@@ -1,4 +1,77 @@
 package team.aliens.dms.android.feature.main.home
+
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.meal.model.Meal
+import team.aliens.dms.android.data.meal.repository.MealRepository
+import team.aliens.dms.android.data.notice.repository.NoticeRepository
+import javax.inject.Inject
+
+@HiltViewModel
+internal class HomeViewModel @Inject constructor(
+    private val mealRepository: MealRepository,
+    private val noticeRepository: NoticeRepository,
+) : BaseMviViewModel<HomeUiState, HomeIntent, HomeSideEffect>(
+    initialState = HomeUiState.initial(),
+) {
+    init {
+        fetchWhetherNewNoticeExists()
+    }
+
+    override fun processIntent(intent: HomeIntent) {
+        when (intent) {
+            is HomeIntent.UpdateSelectedDate -> updateMeal(intent.selectedDate)
+        }
+    }
+
+    private fun fetchWhetherNewNoticeExists() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                noticeRepository.fetchWhetherNewNoticesExist()
+            }.onSuccess { newNoticesExist ->
+                reduce(newState = stateFlow.value.copy(newNoticesExist = newNoticesExist))
+            }
+        }
+    }
+
+    private fun updateMeal(date: LocalDate) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                mealRepository.fetchMeal(date)
+            }.onSuccess { meal ->
+                reduce(newState = stateFlow.value.copy(mealOfDate = meal))
+            }
+        }
+    }
+}
+
+internal data class HomeUiState(
+    val newNoticesExist: Boolean,
+    val mealOfDate: Meal?,
+) : UiState() {
+    companion object {
+        fun initial() = HomeUiState(
+            newNoticesExist = false,
+            mealOfDate = null,
+        )
+    }
+}
+
+internal sealed class HomeIntent : Intent() {
+    class UpdateSelectedDate(val selectedDate: LocalDate) : HomeIntent()
+}
+
+internal sealed class HomeSideEffect : SideEffect() {
+
+}
+
 /*
 
 import androidx.lifecycle.viewModelScope

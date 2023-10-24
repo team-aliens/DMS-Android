@@ -2,9 +2,7 @@ package team.aliens.dms.android.shared.date.util
 
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import org.threeten.bp.format.DateTimeFormatter
 
 val today: LocalDate
     inline get() = LocalDate.now()
@@ -15,8 +13,10 @@ val now: LocalDateTime
 fun dateOf(
     year: Int,
     month: Int,
-    dayOfMonth: Int,
-): Date {
-    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    return sdf.parse("$year-${month + 1}-$dayOfMonth")!!
-}
+    day: Int,
+): LocalDate = LocalDate.parse(
+    year.toString().padStart(4, '0')
+            + '-' + month.toString().padStart(2, '0')
+            + '-' + day.toString().padStart(2, '0'),
+    DateTimeFormatter.ISO_DATE,
+)

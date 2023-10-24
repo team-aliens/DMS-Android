@@ -49,6 +49,7 @@ fun Button(
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    fillMinSize: Boolean = true,
     content: @Composable RowScope.() -> Unit,
 ) {
     val containerColor = colors.containerColor(enabled).value
@@ -67,12 +68,16 @@ fun Button(
         CompositionLocalProvider(LocalContentColor provides contentColor) {
             ProvideTextStyle(value = DmsTheme.typography.button) {
                 Row(
-                    modifier = Modifier
-                        .defaultMinSize(
-                            minWidth = ButtonDefaults.MinWidth,
-                            minHeight = ButtonDefaults.MinHeight,
-                        )
-                        .padding(contentPadding),
+                    modifier = if (fillMinSize) {
+                        Modifier
+                            .defaultMinSize(
+                                minWidth = ButtonDefaults.MinWidth,
+                                minHeight = ButtonDefaults.MinHeight,
+                            )
+                            .padding(contentPadding)
+                    } else {
+                        Modifier.padding(contentPadding)
+                    },
                     horizontalArrangement = Arrangement.spacedBy(
                         space = ButtonDefaults.ContentSpacing,
                         alignment = Alignment.CenterHorizontally,
@@ -96,6 +101,7 @@ fun ContainedButton(
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.containedButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    fillMinSize: Boolean = true,
     content: @Composable RowScope.() -> Unit,
 ) = Button(
     onClick = onClick,
@@ -107,6 +113,7 @@ fun ContainedButton(
     border = border,
     colors = colors,
     contentPadding = contentPadding,
+    fillMinSize = fillMinSize,
     content = content,
 )
 
@@ -124,6 +131,7 @@ fun OutlinedButton(
         color = colors.contentColor,
     ),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    fillMinSize: Boolean = true,
     content: @Composable RowScope.() -> Unit,
 ) = Button(
     onClick = onClick,
@@ -135,6 +143,7 @@ fun OutlinedButton(
     border = border,
     colors = colors,
     contentPadding = contentPadding,
+    fillMinSize = fillMinSize,
     content = content,
 )
 
@@ -149,6 +158,7 @@ fun TextButton(
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.textButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    fillMinSize: Boolean = true,
     content: @Composable RowScope.() -> Unit,
 ) = Button(
     onClick = onClick,
@@ -160,6 +170,7 @@ fun TextButton(
     border = border,
     colors = colors,
     contentPadding = contentPadding,
+    fillMinSize = fillMinSize,
     content = content,
 )
 
@@ -174,6 +185,7 @@ fun RoundedButton(
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.roundedButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    fillMinSize: Boolean = true,
     content: @Composable RowScope.() -> Unit,
 ) = Button(
     onClick = onClick,
@@ -185,6 +197,7 @@ fun RoundedButton(
     border = border,
     colors = colors,
     contentPadding = contentPadding,
+    fillMinSize = fillMinSize,
     content = content,
 )
 
@@ -266,8 +279,7 @@ object ButtonDefaults {
         @Composable get() = DmsTheme.colorScheme.primary
 
     val outlinedButtonBorder: BorderStroke
-        @Composable
-        get() = BorderStroke(
+        @Composable get() = BorderStroke(
             width = OutlineWidth,
             color = outlineColor,
         )

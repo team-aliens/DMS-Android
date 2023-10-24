@@ -8,7 +8,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import org.threeten.bp.ZoneOffset
 import team.aliens.dms.android.core.database.DmsDatabase
+import team.aliens.dms.android.core.database.converter.DateTypeConverter
 import team.aliens.dms.android.core.database.converter.StringListTypeConverter
 import team.aliens.dms.android.core.database.converter.UuidTypeConverter
 import team.aliens.dms.android.core.database.dao.MealDao
@@ -24,6 +26,7 @@ internal object DatabaseModule {
     @Singleton
     fun provideDmsDataBase(
         @ApplicationContext context: Context,
+        zoneOffset: ZoneOffset,
         moshi: Moshi,
     ): DmsDatabase = Room.databaseBuilder(
         context = context,
@@ -32,6 +35,7 @@ internal object DatabaseModule {
     ).addTypeConverters(
         StringListTypeConverter(moshi),
         UuidTypeConverter(),
+        DateTypeConverter(zoneOffset),
     ).build()
 
     @Provides

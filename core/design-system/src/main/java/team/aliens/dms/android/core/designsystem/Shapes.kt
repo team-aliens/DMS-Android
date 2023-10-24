@@ -15,6 +15,7 @@ class Shapes(
     val large: CornerBasedShape = RoundedCornerShape(12.dp),
     val extraLarge: CornerBasedShape = RoundedCornerShape(16.dp),
     val circle: CornerBasedShape = CircleShape,
+    val surface: CornerBasedShape = RoundedCornerShape(24.dp),
 ) {
     fun copy(
         extraSmall: CornerBasedShape = this.small,
@@ -22,14 +23,16 @@ class Shapes(
         medium: CornerBasedShape = this.medium,
         large: CornerBasedShape = this.large,
         extraLarge: CornerBasedShape = this.large,
-        round: CornerBasedShape = this.circle,
+        circle: CornerBasedShape = this.circle,
+        surface: CornerBasedShape = this.surface,
     ): Shapes = Shapes(
         extraSmall = extraSmall,
         small = small,
         medium = medium,
         large = large,
         extraLarge = extraLarge,
-        circle = round,
+        circle = circle,
+        surface = surface,
     )
 
     override fun equals(other: Any?): Boolean {
@@ -40,6 +43,9 @@ class Shapes(
             return false
         }
 
+        if (extraSmall != other.extraSmall) {
+            return false
+        }
         if (small != other.small) {
             return false
         }
@@ -47,6 +53,15 @@ class Shapes(
             return false
         }
         if (large != other.large) {
+            return false
+        }
+        if (extraLarge != other.extraLarge) {
+            return false
+        }
+        if (circle != other.circle) {
+            return false
+        }
+        if (surface != other.surface) {
             return false
         }
 
@@ -60,6 +75,7 @@ class Shapes(
         result = 31 * result + large.hashCode()
         result = 31 * result + extraLarge.hashCode()
         result = 31 * result + circle.hashCode()
+        result = 31 * result + surface.hashCode()
         return result
     }
 
