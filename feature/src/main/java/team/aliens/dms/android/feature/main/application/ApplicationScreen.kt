@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -26,6 +27,7 @@ import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -49,18 +51,18 @@ internal fun ApplicationScreen(
         ) {
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             ApplicationCard(
-                title = "자습실",
-                appliedTitle = "1층 나온실",
-                description = "어쩌구저쩌구 네가 잔류하든 말든 나는 기숙사를 지킨다~어쩌구저쩌구 네가 잔류하든 말든 나는 기숙사를 지킨다~",
-                buttonText = "자습실 신청하기",
-                onButtonClick = {},
+                title = stringResource(id = R.string.study_room),
+                appliedTitle = "1층 나온실", // TODO
+                description = stringResource(id = R.string.study_room_description),
+                buttonText = stringResource(id = R.string.study_room_application),
+                onButtonClick = onNavigateToStudyRoomList,
             )
             ApplicationCard(
-                title = "잔류",
-                appliedTitle = "금요귀사",
-                description = "어쩌구저쩌구 네가 잔류하든 말든 나는 기숙사를 지킨다~어쩌구저쩌구 네가 잔류하든 말든 나는 기숙사를 지킨다~",
-                buttonText = "잔류 신청하기",
-                onButtonClick = {},
+                title = stringResource(id = R.string.remains_application),
+                appliedTitle = "금요귀사", // TODO
+                description = stringResource(id = R.string.remains_description),
+                buttonText = stringResource(id = R.string.remains_application),
+                onButtonClick = onNavigateToRemains,
             )
         }
     }
