@@ -115,7 +115,6 @@ fun DmsCalendarScaffold(
             selectedDate = selectedDate,
             onSelectedDateChange = { onSelectedDateChange(it) },
         )
-        val d = Date()
     },
     modifier = modifier,
     scaffoldState = scaffoldState,
