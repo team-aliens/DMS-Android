@@ -13,9 +13,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -37,6 +40,9 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
 ) {
+    val viewModel: ApplicationViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
@@ -52,14 +58,20 @@ internal fun ApplicationScreen(
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             ApplicationCard(
                 title = stringResource(id = R.string.study_room),
-                appliedTitle = "1층 나온실", // TODO
+                appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
+                    stringResource(
+                        id = R.string.study_room_applied_text_format,
+                        studyRoom.floor,
+                        studyRoom.name,
+                    )
+                },
                 description = stringResource(id = R.string.study_room_description),
                 buttonText = stringResource(id = R.string.study_room_application),
                 onButtonClick = onNavigateToStudyRoomList,
             )
             ApplicationCard(
                 title = stringResource(id = R.string.remains_application),
-                appliedTitle = "금요귀사", // TODO
+                appliedTitle = uiState.appliedRemainsOption?.title,
                 description = stringResource(id = R.string.remains_description),
                 buttonText = stringResource(id = R.string.remains_application),
                 onButtonClick = onNavigateToRemains,
@@ -73,7 +85,7 @@ private fun ApplicationCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
-    appliedTitle: String,
+    appliedTitle: String?,
     buttonText: String,
     onButtonClick: () -> Unit,
 ) {
@@ -105,11 +117,13 @@ private fun ApplicationCard(
                     color = DmsTheme.colorScheme.onSurface,
                     style = DmsTheme.typography.title2,
                 )
-                RoundedButton(
-                    onClick = { /*TODO*/ },
-                    fillMinSize = false,
-                ) {
-                    Text(text = appliedTitle)
+                if (appliedTitle != null) {
+                    RoundedButton(
+                        onClick = { /*TODO*/ },
+                        fillMinSize = false,
+                    ) {
+                        Text(text = appliedTitle)
+                    }
                 }
             }
             Text(
