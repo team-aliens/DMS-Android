@@ -8,17 +8,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
 import team.aliens.dms.android.core.datastore.util.transform
-import team.aliens.dms.android.core.jwt.AccessToken
-import team.aliens.dms.android.core.jwt.AccessTokenExpiration
-import team.aliens.dms.android.core.jwt.RefreshToken
-import team.aliens.dms.android.core.jwt.RefreshTokenExpiration
 import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.core.jwt.exception.AccessTokenExpirationNotFoundException
 import team.aliens.dms.android.core.jwt.exception.AccessTokenNotFoundException
-import team.aliens.dms.android.core.jwt.exception.CannotStoreAccessTokenException
-import team.aliens.dms.android.core.jwt.exception.CannotStoreAccessTokenExpirationException
-import team.aliens.dms.android.core.jwt.exception.CannotStoreRefreshTokenException
-import team.aliens.dms.android.core.jwt.exception.CannotStoreRefreshTokenExpirationException
 import team.aliens.dms.android.core.jwt.exception.CannotStoreTokensException
 import team.aliens.dms.android.core.jwt.exception.RefreshTokenExpirationNotFoundException
 import team.aliens.dms.android.core.jwt.exception.RefreshTokenNotFoundException
@@ -57,76 +49,6 @@ internal class JwtStoreImpl @Inject constructor(
                 preferences[ACCESS_TOKEN_EXPIRATION] = tokens.accessTokenExpiration.toEpochMilli()
                 preferences[REFRESH_TOKEN] = tokens.refreshToken
                 preferences[REFRESH_TOKEN_EXPIRATION] = tokens.refreshTokenExpiration.toEpochMilli()
-            }
-        }
-    }
-
-    override fun loadAccessToken(): AccessToken = runBlocking {
-        preferencesDataStore.data.map { preferences ->
-            preferences[ACCESS_TOKEN] ?: throw AccessTokenNotFoundException()
-        }.first()
-    }
-
-    override suspend fun storeAccessToken(token: AccessToken) {
-        transform(
-            onFailure = { throw CannotStoreAccessTokenException() },
-        ) {
-            preferencesDataStore.edit { preferences ->
-                preferences[ACCESS_TOKEN] = token
-            }
-        }
-    }
-
-    override fun loadAccessTokenExpiration(): AccessTokenExpiration = runBlocking {
-        preferencesDataStore.data.map { preferences ->
-            val longValue = preferences[ACCESS_TOKEN_EXPIRATION]
-                ?: throw AccessTokenExpirationNotFoundException()
-
-            return@map longValue.toLocalDateTime()
-        }.first()
-    }
-
-    override suspend fun storeAccessTokenExpiration(expiration: AccessTokenExpiration) {
-        transform(
-            onFailure = { throw CannotStoreAccessTokenExpirationException() },
-        ) {
-            preferencesDataStore.edit { preferences ->
-                preferences[ACCESS_TOKEN_EXPIRATION] = expiration.toEpochMilli()
-            }
-        }
-    }
-
-    override fun loadRefreshToken(): RefreshToken = runBlocking {
-        preferencesDataStore.data.map { preferences ->
-            preferences[REFRESH_TOKEN] ?: throw RefreshTokenNotFoundException()
-        }.first()
-    }
-
-    override suspend fun storeRefreshToken(token: RefreshToken) {
-        transform(
-            onFailure = { throw CannotStoreRefreshTokenException() },
-        ) {
-            preferencesDataStore.edit { preferences ->
-                preferences[REFRESH_TOKEN] = token
-            }
-        }
-    }
-
-    override fun loadRefreshTokenExpiration(): RefreshTokenExpiration = runBlocking {
-        preferencesDataStore.data.map { preferences ->
-            val longValue = preferences[REFRESH_TOKEN_EXPIRATION]
-                ?: throw RefreshTokenExpirationNotFoundException()
-
-            return@map longValue.toLocalDateTime()
-        }.first()
-    }
-
-    override suspend fun storeRefreshTokenExpiration(expiration: RefreshTokenExpiration) {
-        transform(
-            onFailure = { throw CannotStoreRefreshTokenExpirationException() },
-        ) {
-            preferencesDataStore.edit { preferences ->
-                preferences[REFRESH_TOKEN_EXPIRATION] = expiration.toEpochMilli()
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import org.threeten.bp.LocalDate
+import team.aliens.dms.android.shared.date.toEpochMilli
 import team.aliens.dms.android.shared.date.util.dateOf
 
 @Composable
@@ -34,18 +35,18 @@ fun DmsCalendar(
                 weekDayTextAppearance = weekDayTheme
             }
         },
-        update = { calendar ->
-            calendar.run {
-                date = selectedDate.toEpochDay()
-                setOnDateChangeListener { _, year, month, dayOfMonth ->
-                    val date = dateOf(
-                        year = year,
-                        month = month,
-                        day = dayOfMonth,
-                    )
-                    onSelectedDateChange(date)
-                }
+    ) { calendar ->
+        calendar.run {
+            date = selectedDate.atStartOfDay().toEpochMilli()
+
+            setOnDateChangeListener { _, year, month, dayOfMonth ->
+                val date = dateOf(
+                    year = year,
+                    month = month + 1,
+                    day = dayOfMonth,
+                )
+                onSelectedDateChange(date)
             }
-        },
-    )
+        }
+    }
 }

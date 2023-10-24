@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.okhttp.interceptor.logging)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit.adapter.rxjava2)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

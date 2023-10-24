@@ -6,13 +6,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
+import team.aliens.dms.android.core.jwt.exception.CannotUseTokensException
 import team.aliens.dms.android.core.jwt.network.TokenReissueManager
 import team.aliens.dms.android.shared.date.util.now
 import javax.inject.Inject
 
-// TODO: JWT Repository 구현 고민
 internal class JwtProviderImpl @Inject constructor(
     private val jwtDataStoreDataSource: JwtDataStoreDataSource,
     private val tokenReissueManager: TokenReissueManager,
@@ -26,9 +27,8 @@ internal class JwtProviderImpl @Inject constructor(
             this.fetchTokens().accessToken
         }
 
-    private var _cachedAccessTokenExpiration: AccessTokenExpiration? = null
-    override val cachedAccessTokenExpiration: AccessTokenExpiration
-        get() = _cachedAccessTokenExpiration ?: this.fetchTokens().accessTokenExpiration
+    override lateinit var cachedAccessTokenExpiration: AccessTokenExpiration
+        private set
 
     private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isCachedAccessTokenAvailable: StateFlow<Boolean> =
@@ -39,12 +39,11 @@ internal class JwtProviderImpl @Inject constructor(
         get() = if (checkCachedRefreshTokenAvailable().also(::updateCachedRefreshTokenAvailable)) {
             _cachedRefreshToken!!
         } else {
-            this.fetchTokens().refreshToken
+            throw CannotUseTokensException()
         }
 
-    private var _cachedRefreshTokenExpiration: RefreshTokenExpiration? = null
-    override val cachedRefreshTokenExpiration: RefreshTokenExpiration
-        get() = _cachedRefreshTokenExpiration ?: this.fetchTokens().refreshTokenExpiration
+    override lateinit var cachedRefreshTokenExpiration: RefreshTokenExpiration
+        private set
 
     private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isCachedRefreshTokenAvailable: StateFlow<Boolean> =
@@ -59,18 +58,14 @@ internal class JwtProviderImpl @Inject constructor(
 
     private fun checkCachedAccessTokenAvailable(): Boolean {
         val con1 = _cachedAccessToken != null
-        val con2 = _cachedRefreshTokenExpiration != null
-        val con3 = now.isBefore(_cachedAccessTokenExpiration)
-
-        return con1 && con2 && con3
+        val con2 = now.isBefore(cachedAccessTokenExpiration)
+        return con1 && con2
     }
 
     private fun checkCachedRefreshTokenAvailable(): Boolean {
         val con1 = _cachedRefreshToken != null
-        val con2 = _cachedRefreshTokenExpiration != null
-        val con3 = now.isBefore(_cachedRefreshTokenExpiration)
-
-        return con1 && con2 && con3
+        val con2 = now.isBefore(cachedRefreshTokenExpiration)
+        return con1 && con2
     }
 
     private fun updateCachedAccessTokenAvailable(available: Boolean) {
@@ -84,17 +79,16 @@ internal class JwtProviderImpl @Inject constructor(
     private fun loadTokens(): Tokens = jwtDataStoreDataSource.loadTokens().also(::updateTokens)
 
     private fun fetchTokens(): Tokens =
-        tokenReissueManager(refreshToken = jwtDataStoreDataSource.loadRefreshToken())
-            .toModel()
+        tokenReissueManager(refreshToken = cachedRefreshToken).toModel()
             .also(::updateTokens)
 
     override fun updateTokens(tokens: Tokens) {
         this._cachedAccessToken = tokens.accessToken
-        this._cachedAccessTokenExpiration = tokens.accessTokenExpiration
+        this.cachedAccessTokenExpiration = tokens.accessTokenExpiration
         this._cachedRefreshToken = tokens.refreshToken
-        this._cachedRefreshTokenExpiration = tokens.refreshTokenExpiration
+        this.cachedRefreshTokenExpiration = tokens.refreshTokenExpiration
 
-        CoroutineScope(Dispatchers.IO).launch {
+        runBlocking {
             jwtDataStoreDataSource.storeTokens(tokens)
             withContext(Dispatchers.Default) {
                 updateCachedAccessTokenAvailable(true)

@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.remains.repository
 
+import team.aliens.dms.android.data.remains.mapper.toModel
 import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
 import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
 import team.aliens.dms.android.data.remains.model.RemainsOption
@@ -15,9 +16,8 @@ internal class RemainsRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchAppliedRemainsOption(): AppliedRemainsOption {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchAppliedRemainsOption(): AppliedRemainsOption =
+        networkRemainsDataSource.fetchAppliedRemainsOption().toModel()
 
     override suspend fun fetchRemainsApplicationTime(): RemainsApplicationTime {
         TODO("Not yet implemented")

@@ -25,11 +25,6 @@ annotation class DefaultHttpLoggingInterceptor
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
-annotation class GlobalHttpLoggingInterceptor
-
-@Qualifier
-@MustBeDocumented
-@Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingLevel
 
 @Qualifier

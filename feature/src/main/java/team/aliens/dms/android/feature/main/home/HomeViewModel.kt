@@ -9,9 +9,11 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.meal.exception.CannotFindMealException
 import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.data.meal.repository.MealRepository
 import team.aliens.dms.android.data.notice.repository.NoticeRepository
+import team.aliens.dms.android.shared.date.util.today
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,6 +49,10 @@ internal class HomeViewModel @Inject constructor(
                 mealRepository.fetchMeal(date)
             }.onSuccess { meal ->
                 reduce(newState = stateFlow.value.copy(mealOfDate = meal))
+            }.onFailure { exception ->
+                when (exception) {
+                    is CannotFindMealException -> postSideEffect(HomeSideEffect.CannotFindMeal)
+                }
             }
         }
     }
@@ -54,12 +60,20 @@ internal class HomeViewModel @Inject constructor(
 
 internal data class HomeUiState(
     val newNoticesExist: Boolean,
-    val mealOfDate: Meal?,
+    val mealOfDate: Meal,
 ) : UiState() {
     companion object {
         fun initial() = HomeUiState(
             newNoticesExist = false,
-            mealOfDate = null,
+            mealOfDate = Meal(
+                date = today,
+                breakfast = emptyList(),
+                kcalOfBreakfast = null,
+                lunch = emptyList(),
+                kcalOfLunch = null,
+                dinner = emptyList(),
+                kcalOfDinner = null,
+            ),
         )
     }
 }
@@ -69,7 +83,7 @@ internal sealed class HomeIntent : Intent() {
 }
 
 internal sealed class HomeSideEffect : SideEffect() {
-
+    data object CannotFindMeal : HomeSideEffect()
 }
 
 /*

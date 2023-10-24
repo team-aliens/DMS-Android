@@ -4,11 +4,13 @@ import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
+import team.aliens.dms.android.feature.destinations.AnnouncementListScreenDestination
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
+import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavGraph
 
@@ -24,11 +26,12 @@ object AuthorizedNavGraph : NavGraphSpec {
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
         listOf<DestinationSpec<*>>(
             MainDestination,
-            NoticeDetailsScreenDestination,
+            AnnouncementListScreenDestination,
+            RemainsApplicationScreenDestination,
+            StudyRoomListScreenDestination,
             NoticeDetailsScreenDestination,
             NotificationBoxScreenDestination,
             PointHistoryScreenDestination,
-            RemainsApplicationScreenDestination,
         )
             .routedIn(navGraphSpec = this)
             .associateBy { it.route }

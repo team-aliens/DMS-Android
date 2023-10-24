@@ -22,7 +22,7 @@ fun DmsTopAppBar(
         containerColor = DmsTheme.colorScheme.surface,
         scrolledContainerColor = DmsTheme.colorScheme.surface,
         navigationIconContentColor = DmsTheme.colorScheme.onSurfaceVariant,
-        titleContentColor = DmsTheme.colorScheme.surface,
+        titleContentColor = DmsTheme.colorScheme.onSurface,
         actionIconContentColor = DmsTheme.colorScheme.onSurfaceVariant,
     ),
     scrollBehavior: TopAppBarScrollBehavior? = null,

@@ -364,6 +364,8 @@
     <string name="meal_todays_meal">오늘의 급식</string>
     <string name="meal_not_exists">급식이 없습니다</string>
 
+    <string name="meal_error_not_found">급식을 불러올 수 없습니다</string>
+
     <!--notice-->
     <string name="notice">공지</string>
     <string name="announcement">안내</string>
@@ -398,10 +400,10 @@
     <!--study room-->
     <string name="study_room_time">시간</string>
     <string name="study_room">자습실</string>
-    <string name="study_room_apply">자습실 신청하기</string>
-    <string name="study_room_application">자습실 신청</string>
+    <string name="study_room_application">자습실 신청하기</string>
+    <string name="study_room_applied_text_format">%d층 %s</string>
 
-    <string name="study_room_description">자습실 사용이 필요한 경우, 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
+    <string name="study_room_description">자습실 사용이 필요한 경우 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
 
     <string name="study_room_apply_time">자습실 신청 가능 시간 : %s</string>
 
@@ -414,14 +416,14 @@
     <string name="study_room_seat_not_found">존재하지 않는 자리입니다.</string>
 
     <!--remains-->
-    <string name="remains_stay">잔류</string>
-    <string name="remains_apply">잔류 신청</string>
+    <string name="remains">잔류</string>
+    <string name="remains_application">잔류 신청하기</string>
     <string name="remains_do_apply">%s 신청하기</string>
     <string name="remains_change_to">%s로 변경하기</string>
 
-    <string name="remains_description">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요</string>
+    <string name="remains_description">주말 기숙사 잔류 여부를 확인하고 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
 
-    <string name="remains_available_remains_application_time_is">잔류 신청 시간은 %s 까지 입니다.</string>
+    <string name="remains_available_remains_application_time_is">잔류 신청 시간은 %s 까지 입니다</string>
 
     <string name="remains_error_not_remains_application_time">잔류 신청 시간이 아닙니다</string>
 

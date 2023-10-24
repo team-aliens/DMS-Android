@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 fun Retrofit(
@@ -11,6 +12,7 @@ fun Retrofit(
     baseUrl: String,
     gsonConverter: Boolean = true,
     gsonLenient: Boolean = true,
+    rxJava2CallAdapter: Boolean = true,
 ): Retrofit = Retrofit.Builder()
     .baseUrl(baseUrl)
     .apply {
@@ -22,6 +24,9 @@ fun Retrofit(
                 }
             }
             addConverterFactory(GsonConverterFactory.create(builder.create()))
+        }
+        if (rxJava2CallAdapter) {
+            addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         }
     }.build()
 

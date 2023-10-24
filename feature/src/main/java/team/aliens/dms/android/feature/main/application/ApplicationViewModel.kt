@@ -1,74 +1,64 @@
 package team.aliens.dms.android.feature.main.application
-/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.feature._legacy.base.BaseMviViewModel
-import team.aliens.dms.android.feature._legacy.base.MviIntent
-import team.aliens.dms.android.feature._legacy.base.MviSideEffect
-import team.aliens.dms.android.feature._legacy.base.MviState
-import team.aliens.dms.android.domain.model.remains.CurrentAppliedRemainsOption
-import team.aliens.dms.android.domain.model.studyroom.CurrentAppliedStudyRoom
-import team.aliens.dms.android.domain.usecase.remain.FetchCurrentAppliedRemainsOptionUseCase
-import team.aliens.dms.android.domain.usecase.studyroom.FetchCurrentAppliedStudyRoomUseCase
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
+import team.aliens.dms.android.data.remains.repository.RemainsRepository
+import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
+import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
 import javax.inject.Inject
 
 @HiltViewModel
 internal class ApplicationViewModel @Inject constructor(
-    private val fetchCurrentAppliedStudyRoomUseCase: FetchCurrentAppliedStudyRoomUseCase,
-    private val fetchCurrentAppliedRemainsOptionUseCase: FetchCurrentAppliedRemainsOptionUseCase,
-) : BaseMviViewModel<ApplicationIntent, ApplicationState, ApplicationSideEffect>(
-    initialState = ApplicationState.initial(),
+    private val studyRoomRepository: StudyRoomRepository,
+    private val remainsRepository: RemainsRepository,
+) : BaseMviViewModel<ApplicationUiState, ApplicationIntent, ApplicationSideEffect>(
+    initialState = ApplicationUiState.initial(),
 ) {
     init {
-        fetchCurrentAppliedStudyRoom()
-        fetchCurrentAppliedRemainsOption()
+        fetchAppliedStudyRoom()
+        fetchAppliedRemainsOption()
     }
 
-    private fun fetchCurrentAppliedStudyRoom() {
+    private fun fetchAppliedStudyRoom() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                fetchCurrentAppliedStudyRoomUseCase()
-            }.onSuccess { fetchedCurrentAppliedStudyRoom ->
-                reduce(
-                    newState = stateFlow.value.copy(
-                        currentAppliedStudyRoom = fetchedCurrentAppliedStudyRoom,
-                    ),
-                )
+            runCatching {
+                studyRoomRepository.fetchAppliedStudyRoom()
+            }.onSuccess { appliedStudyRoom ->
+                reduce(newState = stateFlow.value.copy(appliedStudyRoom = appliedStudyRoom))
             }
         }
     }
 
-    private fun fetchCurrentAppliedRemainsOption() {
+    private fun fetchAppliedRemainsOption() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                fetchCurrentAppliedRemainsOptionUseCase()
-            }.onSuccess { currentAppliedRemainsOption ->
-                reduce(
-                    newState = stateFlow.value.copy(
-                        currentAppliedRemainsOption = currentAppliedRemainsOption,
-                    ),
-                )
+            runCatching {
+                remainsRepository.fetchAppliedRemainsOption()
+            }.onSuccess { appliedRemainsOption ->
+                reduce(newState = stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption))
             }
         }
     }
 }
 
-internal sealed class ApplicationIntent : MviIntent
-
-internal data class ApplicationState(
-    val currentAppliedStudyRoom: CurrentAppliedStudyRoom?,
-    val currentAppliedRemainsOption: CurrentAppliedRemainsOption?,
-) : MviState {
+internal data class ApplicationUiState(
+    val appliedStudyRoom: AppliedStudyRoom?,
+    val appliedRemainsOption: AppliedRemainsOption?,
+) : UiState() {
     companion object {
-        fun initial() = ApplicationState(
-            currentAppliedStudyRoom = null,
-            currentAppliedRemainsOption = null,
+        fun initial() = ApplicationUiState(
+            appliedStudyRoom = null,
+            appliedRemainsOption = null,
         )
     }
 }
 
-internal sealed class ApplicationSideEffect : MviSideEffect
-*/
+internal sealed class ApplicationIntent : Intent()
+
+internal sealed class ApplicationSideEffect : SideEffect()

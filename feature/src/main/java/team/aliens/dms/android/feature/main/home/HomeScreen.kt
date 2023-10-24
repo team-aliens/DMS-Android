@@ -12,6 +12,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +45,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -62,8 +66,10 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.PrimaryDefault
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.rememberToastState
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -73,7 +79,7 @@ import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
-import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
@@ -92,11 +98,14 @@ internal fun HomeScreen(
     onSelectedCalendarDateChange: (newDate: LocalDate) -> Unit,
     onNavigateToAnnouncementList: () -> Unit,
 ) {
+    val toast = rememberToastState()
+    val context = LocalContext.current
+
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            else -> {}
+            HomeSideEffect.CannotFindMeal -> toast.showErrorToast(context.getString(R.string.meal_error_not_found)) // FIXME: toast not showing
         }
     }
 
@@ -111,7 +120,7 @@ internal fun HomeScreen(
                 title = {
                     AppLogo(
                         modifier = Modifier.size(
-                            width = 77.dp,
+                            width = 78.dp,
                             height = 28.dp,
                         ),
                     )
@@ -121,6 +130,7 @@ internal fun HomeScreen(
     ) { padValues ->
         Column(
             modifier = Modifier
+                .background(brush = HomeBackgroundBrush)
                 .fillMaxSize()
                 .padding(padValues),
         ) {
@@ -154,16 +164,7 @@ internal fun HomeScreen(
                 MealCards(
                     modifier = Modifier.weight(20f),
                     currentDate = selectedCalendarDate,
-                    breakfast = uiState.mealOfDate?.breakfast
-                        ?: emptyList(), // TODO: make viewmodel handle empty list
-                    kcalOfBreakfast = uiState.mealOfDate?.kcalOfBreakfast
-                        ?: stringResource(R.string.meal_not_exists),
-                    lunch = uiState.mealOfDate?.lunch ?: emptyList(),
-                    kcalOfLunch = uiState.mealOfDate?.kcalOfLunch
-                        ?: stringResource(R.string.meal_not_exists),
-                    dinner = uiState.mealOfDate?.dinner ?: emptyList(),
-                    kcalOfDinner = uiState.mealOfDate?.kcalOfDinner
-                        ?: stringResource(R.string.meal_not_exists),
+                    meal = uiState.mealOfDate,
                     onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
                     onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
                 )
@@ -172,6 +173,15 @@ internal fun HomeScreen(
         }
     }
 }
+
+@Stable
+private val HomeBackgroundBrush: Brush = Brush.verticalGradient(
+    colors = listOf(
+        Color.Transparent,
+        Color.Transparent,
+        PrimaryDefault.copy(alpha = 0.1f),
+    ),
+)
 
 @Composable
 private fun AnnouncementCard(
@@ -231,7 +241,8 @@ private fun DateCard(
             ),
             fillMinSize = false,
             colors = ButtonDefaults.outlinedGrayButtonColors(
-                contentColor = DmsTheme.colorScheme.line,
+                containerColor = DmsTheme.colorScheme.surface,
+                contentColor = DmsTheme.colorScheme.onSurface,
             ),
         ) {
             Icon(
@@ -279,7 +290,7 @@ private fun CalendarArrow(
             .clickable(onClick = onClick),
         painter = painterResource(id = type.iconRes),
         contentDescription = null,
-        tint = DmsTheme.colorScheme.line,
+        tint = DmsTheme.colorScheme.onSurface,
     )
 }
 
@@ -321,12 +332,7 @@ private const val Dinner = 2
 private fun MealCards(
     modifier: Modifier = Modifier,
     currentDate: LocalDate,
-    breakfast: List<String>,
-    kcalOfBreakfast: String,
-    lunch: List<String>,
-    kcalOfLunch: String,
-    dinner: List<String>,
-    kcalOfDinner: String,
+    meal: Meal,
     onNextDay: () -> Unit,
     onPreviousDay: () -> Unit,
 ) {
@@ -381,12 +387,12 @@ private fun MealCards(
                     )
                 },
             currentCardType = currentCardType,
-            breakfast = breakfast,
-            kcalOfBreakfast = kcalOfBreakfast,
-            lunch = lunch,
-            kcalOfLunch = kcalOfLunch,
-            dinner = dinner,
-            kcalOfDinner = kcalOfDinner,
+            breakfast = meal.breakfast,
+            kcalOfBreakfast = meal.kcalOfBreakfast,
+            lunch = meal.lunch,
+            kcalOfLunch = meal.kcalOfLunch,
+            dinner = meal.dinner,
+            kcalOfDinner = meal.kcalOfDinner,
             onSwipeToRight = {
                 scope.launch {
                     pagerState.animateScrollToPage(
@@ -439,11 +445,11 @@ private fun MealCard(
     modifier: Modifier = Modifier,
     currentCardType: MealCardType,
     breakfast: List<String>,
-    kcalOfBreakfast: String,
+    kcalOfBreakfast: String?,
     lunch: List<String>,
-    kcalOfLunch: String,
+    kcalOfLunch: String?,
     dinner: List<String>,
-    kcalOfDinner: String,
+    kcalOfDinner: String?,
     onSwipeToLeft: () -> Unit,
     onSwipeToRight: () -> Unit,
 ) {
@@ -451,7 +457,7 @@ private fun MealCard(
 
     OutlinedCard(
         modifier = modifier
-            .verticalPadding(PaddingDefaults.Small)
+            .padding(PaddingDefaults.Small)
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
@@ -475,10 +481,10 @@ private fun MealCard(
                     }
                 }
             },
-        shape = DmsTheme.shapes.surface,
+        shape = DmsTheme.shapes.surfaceMedium,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
-            contentColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
         ),
         border = BorderStroke(
             width = 1.dp,
@@ -497,7 +503,7 @@ private fun MealCard(
                 BREAKFAST -> kcalOfBreakfast
                 LUNCH -> kcalOfLunch
                 DINNER -> kcalOfDinner
-            },
+            } ?: stringResource(R.string.meal_not_exists),
         )
     }
 }
