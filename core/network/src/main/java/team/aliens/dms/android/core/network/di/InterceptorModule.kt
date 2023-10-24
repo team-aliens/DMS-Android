@@ -38,11 +38,4 @@ internal object InterceptorModule {
     fun provideDefaultHttpLoggingInterceptor(
         @DefaultHttpLoggingLevel defaultLoggingLevel: HttpLoggingInterceptor.Level,
     ): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(defaultLoggingLevel)
-
-    @Provides
-    @Singleton
-    @GlobalHttpLoggingInterceptor
-    fun provideGlobalHttpLoggingInterceptor(
-        @GlobalHttpLoggingLevel globalLoggingLevel: HttpLoggingInterceptor.Level,
-    ): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(globalLoggingLevel)
 }
