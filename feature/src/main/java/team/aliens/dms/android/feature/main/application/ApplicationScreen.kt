@@ -1,5 +1,7 @@
 package team.aliens.dms.android.feature.main.application
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -91,6 +93,7 @@ private fun ApplicationCard(
 ) {
     Card(
         modifier = modifier
+            .animateContentSize()
             .fillMaxWidth()
             .horizontalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
@@ -105,6 +108,7 @@ private fun ApplicationCard(
         ) {
             Row(
                 modifier = Modifier
+                    .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding()
                     .topPadding(),
@@ -117,17 +121,20 @@ private fun ApplicationCard(
                     color = DmsTheme.colorScheme.onSurface,
                     style = DmsTheme.typography.title2,
                 )
-                if (appliedTitle != null) {
-                    RoundedButton(
-                        onClick = { /*TODO*/ },
-                        fillMinSize = false,
-                    ) {
-                        Text(text = appliedTitle)
+                AnimatedVisibility(visible = appliedTitle != null) {
+                    if (appliedTitle != null) {
+                        RoundedButton(
+                            onClick = {},
+                            fillMinSize = false,
+                        ) {
+                            Text(text = appliedTitle)
+                        }
                     }
                 }
             }
             Text(
                 modifier = Modifier
+                    .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding(),
                 text = description,
@@ -136,6 +143,7 @@ private fun ApplicationCard(
             )
             ContainedButton(
                 modifier = Modifier
+                    .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
