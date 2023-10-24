@@ -9,10 +9,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,10 +28,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -64,8 +63,8 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
-import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.composable.AppLogo
@@ -435,7 +434,7 @@ private fun MealCard(
 ) {
     var dragDirection: DragDirection? by remember { mutableStateOf(null) }
 
-    Card(
+    OutlinedCard(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(currentCardType) {
@@ -457,21 +456,17 @@ private fun MealCard(
                         dragAmount < 0 -> dragDirection = DragDirection.RIGHT
                     }
                 }
-            }
-            .horizontalPadding(value = PaddingDefaults.Small)
-            .background(color = DmsTheme.colorScheme.background)
-            .shadow(shape = DmsTheme.shapes.extraLarge)
-            .clip(shape = DmsTheme.shapes.extraLarge)
-            .border(
-                width = 1.dp,
-                color = DmsTheme.colorScheme.primary,
-                shape = RoundedCornerShape(20.dp),
-            ),
+            },
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(
+        colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.surface,
         ),
+        border = BorderStroke(
+            width = 1.dp,
+            color = DmsTheme.colorScheme.primary,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Box(
             modifier = Modifier.padding(16.dp),
