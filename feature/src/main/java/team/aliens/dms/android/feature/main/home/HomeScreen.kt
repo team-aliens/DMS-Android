@@ -482,44 +482,34 @@ private fun MealCard(
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
-        Box(
-            modifier = Modifier
-                .horizontalPadding()
-                .verticalPadding(),
-        ) {
-            when (currentCardType) {
-                BREAKFAST -> Dishes(
-                    iconRes = BREAKFAST.iconRes,
-                    dishes = breakfast,
-                    kcal = kcalOfBreakfast,
-                )
-
-                LUNCH -> Dishes(
-                    iconRes = LUNCH.iconRes,
-                    dishes = lunch,
-                    kcal = kcalOfLunch,
-                )
-
-                DINNER -> Dishes(
-                    iconRes = DINNER.iconRes,
-                    dishes = dinner,
-                    kcal = kcalOfDinner,
-                )
-            }
-        }
+        Dishes(
+            iconRes = currentCardType.iconRes,
+            dishes = when (currentCardType) {
+                BREAKFAST -> breakfast
+                LUNCH -> lunch
+                DINNER -> dinner
+            },
+            kcal = when (currentCardType) {
+                BREAKFAST -> kcalOfBreakfast
+                LUNCH -> kcalOfLunch
+                DINNER -> kcalOfDinner
+            },
+        )
     }
 }
 
 @Composable
 private fun Dishes(
+    modifier: Modifier = Modifier,
     iconRes: Int,
     dishes: List<String>,
     kcal: String,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize(),
+        modifier = modifier
+            .horizontalPadding()
+            .verticalPadding()
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
