@@ -59,6 +59,7 @@ import team.aliens.dms.android.core.designsystem.slideOutFromStart
 import team.aliens.dms.android.core.designsystem.typography.NotoSansFamily
 import team.aliens.dms.android.core.designsystem.typography.toSp
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.feature.main.application.ApplicationScreen
 import team.aliens.dms.android.feature.main.home.HomeScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import team.aliens.dms.android.shared.date.util.today
@@ -143,10 +144,9 @@ internal fun Main(
                         }
                     },
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(color = DmsTheme.colorScheme.primary)
-                            .fillMaxSize(),
+                    ApplicationScreen(
+                        onNavigateToStudyRoomList = { /*TODO*/ },
+                        onNavigateToRemains = { },
                     )
                 }
 
