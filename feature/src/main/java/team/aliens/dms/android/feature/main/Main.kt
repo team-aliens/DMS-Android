@@ -145,8 +145,8 @@ internal fun Main(
                     },
                 ) {
                     ApplicationScreen(
-                        onNavigateToStudyRoomList = { /*TODO*/ },
-                        onNavigateToRemains = { },
+                        onNavigateToStudyRoomList = { mainNavigator.openStudyRoomList() },
+                        onNavigateToRemains = { mainNavigator.openRemainsApplication() },
                     )
                 }
 
