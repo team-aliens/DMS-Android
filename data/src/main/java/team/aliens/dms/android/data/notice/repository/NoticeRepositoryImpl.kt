@@ -10,9 +10,8 @@ internal class NoticeRepositoryImpl @Inject constructor(
     private val networkNoticeDataSource: NetworkNoticeDataSource,
 ) : NoticeRepository() {
 
-    override suspend fun fetchWhetherNewNoticesExist(): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchWhetherNewNoticesExist(): Boolean =
+        networkNoticeDataSource.fetchWhetherNewNoticesExist().whetherNewNotices
 
     override suspend fun fetchNoticeDetails(noticeId: UUID): Notice {
         TODO("Not yet implemented")
