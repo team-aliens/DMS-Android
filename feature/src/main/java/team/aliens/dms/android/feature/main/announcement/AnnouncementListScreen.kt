@@ -70,7 +70,11 @@ internal fun AnnouncementListScreen(
             )
             NoticeList(
                 modifier = Modifier.weight(1f),
-                notices = listOf(Notice(UUID.randomUUID(), "asdf", "asdf", LocalDateTime.now())),
+                notices = listOf(
+                    Notice(
+                        UUID.randomUUID(), "asdf", "asdf", LocalDateTime.now()
+                    )
+                ), // TODO
                 onNavigateToNoticeDetails = onNavigateToNoticeDetails,
             )
         }
@@ -157,10 +161,13 @@ private fun NoticeCard(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                text = "${notice.createdAt}",
+                text = notice.createdAt.text,
                 color = DmsTheme.colorScheme.onSurfaceVariant,
                 style = DmsTheme.typography.caption,
             )
         }
     }
 }
+
+private val LocalDateTime.text: String
+    @Composable inline get() = "${this.year}-${this.monthValue}-${this.dayOfMonth} ${this.hour}:${this.minute}"
