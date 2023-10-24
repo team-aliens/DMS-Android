@@ -35,18 +35,22 @@ fun DmsCalendar(
                 weekDayTextAppearance = weekDayTheme
             }
         },
-        update = { calendar ->
-            calendar.run {
-                date = selectedDate.toDate().time
-                setOnDateChangeListener { _, year, month, dayOfMonth ->
-                    val date = dateOf(
-                        year = year,
-                        month = month,
-                        day = dayOfMonth,
-                    )
-                    onSelectedDateChange(date)
-                }
+    ) { calendar ->
+        calendar.run {
+            date = LocalDate.of(
+                selectedDate.year,
+                selectedDate.month - 1,
+                selectedDate.dayOfMonth,
+            ).toDate().time
+
+            setOnDateChangeListener { _, year, month, dayOfMonth ->
+                val date = dateOf(
+                    year = year,
+                    month = month + 1,
+                    day = dayOfMonth,
+                )
+                onSelectedDateChange(date)
             }
-        },
-    )
+        }
+    }
 }
