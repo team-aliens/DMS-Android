@@ -74,6 +74,7 @@ import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
@@ -95,9 +96,12 @@ internal fun HomeScreen(
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        /* TODO
         when (sideEffect) {
-            else -> {}
+            else -> {
+            }
         }
+        */
     }
 
     LaunchedEffect(selectedCalendarDate) {
@@ -154,16 +158,7 @@ internal fun HomeScreen(
                 MealCards(
                     modifier = Modifier.weight(20f),
                     currentDate = selectedCalendarDate,
-                    breakfast = uiState.mealOfDate?.breakfast
-                        ?: emptyList(), // TODO: make viewmodel handle empty list
-                    kcalOfBreakfast = uiState.mealOfDate?.kcalOfBreakfast
-                        ?: stringResource(R.string.meal_not_exists),
-                    lunch = uiState.mealOfDate?.lunch ?: emptyList(),
-                    kcalOfLunch = uiState.mealOfDate?.kcalOfLunch
-                        ?: stringResource(R.string.meal_not_exists),
-                    dinner = uiState.mealOfDate?.dinner ?: emptyList(),
-                    kcalOfDinner = uiState.mealOfDate?.kcalOfDinner
-                        ?: stringResource(R.string.meal_not_exists),
+                    meal = uiState.mealOfDate,
                     onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
                     onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
                 )
@@ -321,12 +316,7 @@ private const val Dinner = 2
 private fun MealCards(
     modifier: Modifier = Modifier,
     currentDate: LocalDate,
-    breakfast: List<String>,
-    kcalOfBreakfast: String,
-    lunch: List<String>,
-    kcalOfLunch: String,
-    dinner: List<String>,
-    kcalOfDinner: String,
+    meal: Meal,
     onNextDay: () -> Unit,
     onPreviousDay: () -> Unit,
 ) {
@@ -381,12 +371,12 @@ private fun MealCards(
                     )
                 },
             currentCardType = currentCardType,
-            breakfast = breakfast,
-            kcalOfBreakfast = kcalOfBreakfast,
-            lunch = lunch,
-            kcalOfLunch = kcalOfLunch,
-            dinner = dinner,
-            kcalOfDinner = kcalOfDinner,
+            breakfast = meal.breakfast,
+            kcalOfBreakfast = meal.kcalOfBreakfast,
+            lunch = meal.lunch,
+            kcalOfLunch = meal.kcalOfLunch,
+            dinner = meal.dinner,
+            kcalOfDinner = meal.kcalOfDinner,
             onSwipeToRight = {
                 scope.launch {
                     pagerState.animateScrollToPage(
@@ -439,11 +429,11 @@ private fun MealCard(
     modifier: Modifier = Modifier,
     currentCardType: MealCardType,
     breakfast: List<String>,
-    kcalOfBreakfast: String,
+    kcalOfBreakfast: String?,
     lunch: List<String>,
-    kcalOfLunch: String,
+    kcalOfLunch: String?,
     dinner: List<String>,
-    kcalOfDinner: String,
+    kcalOfDinner: String?,
     onSwipeToLeft: () -> Unit,
     onSwipeToRight: () -> Unit,
 ) {
@@ -497,7 +487,7 @@ private fun MealCard(
                 BREAKFAST -> kcalOfBreakfast
                 LUNCH -> kcalOfLunch
                 DINNER -> kcalOfDinner
-            },
+            } ?: stringResource(R.string.meal_not_exists),
         )
     }
 }
