@@ -416,14 +416,15 @@
     <string name="study_room_seat_not_found">존재하지 않는 자리입니다.</string>
 
     <!--remains-->
-    <string name="remains_stay">잔류</string>
-    <string name="remains_apply">잔류 신청</string>
+    <string name="remains">잔류</string>
+    <string name="remains_apply">잔류하기</string>
+    <string name="remains_application">잔류 신청</string>
     <string name="remains_do_apply">%s 신청하기</string>
     <string name="remains_change_to">%s로 변경하기</string>
 
-    <string name="remains_description">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요</string>
+    <string name="remains_description">주말 기숙사 잔류 여부를 확인하고 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
 
-    <string name="remains_available_remains_application_time_is">잔류 신청 시간은 %s 까지 입니다.</string>
+    <string name="remains_available_remains_application_time_is">잔류 신청 시간은 %s 까지 입니다</string>
 
     <string name="remains_error_not_remains_application_time">잔류 신청 시간이 아닙니다</string>
 
