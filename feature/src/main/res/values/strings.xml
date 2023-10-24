@@ -364,6 +364,8 @@
     <string name="meal_todays_meal">오늘의 급식</string>
     <string name="meal_not_exists">급식이 없습니다</string>
 
+    <string name="meal_error_not_found">급식을 불러올 수 없습니다</string>
+
     <!--notice-->
     <string name="notice">공지</string>
     <string name="announcement">안내</string>
