@@ -48,8 +48,8 @@ internal class ApplicationViewModel @Inject constructor(
 }
 
 internal data class ApplicationUiState(
-    private val appliedStudyRoom: AppliedStudyRoom?,
-    private val appliedRemainsOption: AppliedRemainsOption?,
+    val appliedStudyRoom: AppliedStudyRoom?,
+    val appliedRemainsOption: AppliedRemainsOption?,
 ) : UiState() {
     companion object {
         fun initial() = ApplicationUiState(
