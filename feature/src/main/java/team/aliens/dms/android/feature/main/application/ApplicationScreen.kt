@@ -2,6 +2,10 @@ package team.aliens.dms.android.feature.main.application
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,7 +52,7 @@ internal fun ApplicationScreen(
     DmsScaffold(
         modifier = modifier,
         topBar = {
-            DmsTopAppBar(title = { Text(text = "신청") })
+            DmsTopAppBar(title = { Text(text = stringResource(id = R.string.application)) })
         },
     ) { padValues ->
         Column(
@@ -121,7 +125,11 @@ private fun ApplicationCard(
                     color = DmsTheme.colorScheme.onSurface,
                     style = DmsTheme.typography.title2,
                 )
-                AnimatedVisibility(visible = appliedTitle != null) {
+                AnimatedVisibility(
+                    visible = appliedTitle != null,
+                    enter = slideInVertically() + fadeIn(),
+                    exit = slideOutVertically() + fadeOut(),
+                ) {
                     if (appliedTitle != null) {
                         RoundedButton(
                             onClick = {},
