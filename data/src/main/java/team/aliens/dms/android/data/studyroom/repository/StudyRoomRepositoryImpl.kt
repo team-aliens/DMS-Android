@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.studyroom.repository
 
+import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.data.studyroom.mapper.toModel
 import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
@@ -42,8 +43,9 @@ internal class StudyRoomRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom =
+    override suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom = handleNetworkRequest {
         networkStudyRoomDataSource.fetchAppliedStudyRoom().toModel()
+    }
 
     override suspend fun fetchSeatTypes(studyRoomId: UUID): StudyRoom.Seat.Type {
         TODO("Not yet implemented")
