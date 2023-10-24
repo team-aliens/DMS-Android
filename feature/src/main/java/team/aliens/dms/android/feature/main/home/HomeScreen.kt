@@ -27,7 +27,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -351,6 +350,7 @@ private fun MealCards(
 
         MealCard(
             modifier = Modifier
+                .fillMaxSize()
                 .graphicsLayer {
                     val pagerOffset =
                         ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
@@ -386,10 +386,10 @@ private fun MealCards(
             onSwipeToRight = {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        when (page) {
-                            BREAKFAST.ordinal -> LUNCH.ordinal
-                            LUNCH.ordinal -> DINNER.ordinal
-                            DINNER.ordinal -> BREAKFAST.ordinal.also { onNextDay() }
+                        page = when (page) {
+                            Breakfast -> Lunch
+                            Lunch -> Dinner
+                            Dinner -> Breakfast.also { onNextDay() }
                             else -> throw IllegalStateException()
                         },
                     )
@@ -398,10 +398,10 @@ private fun MealCards(
             onSwipeToLeft = {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        when (page) {
-                            BREAKFAST.ordinal -> DINNER.ordinal.also { onPreviousDay() }
-                            LUNCH.ordinal -> BREAKFAST.ordinal
-                            DINNER.ordinal -> LUNCH.ordinal
+                        page = when (page) {
+                            Breakfast -> Dinner.also { onPreviousDay() }
+                            Lunch -> Breakfast
+                            Dinner -> Lunch
                             else -> throw IllegalStateException()
                         },
                     )
@@ -447,7 +447,6 @@ private fun MealCard(
 
     OutlinedCard(
         modifier = modifier
-            .fillMaxSize()
             .verticalPadding(PaddingDefaults.Small)
             .pointerInput(currentCardType) {
                 detectHorizontalDragGestures(
@@ -455,21 +454,24 @@ private fun MealCard(
                         when (dragDirection) {
                             DragDirection.LEFT -> onSwipeToLeft()
                             DragDirection.RIGHT -> onSwipeToRight()
-                            null -> { /* explicit blank */
-                            }
+                            null -> {}
                         }
                     },
                 ) { _, dragAmount ->
-                    if (currentCardType == LUNCH) when {
-                        dragAmount > 0 -> onSwipeToLeft()
-                        dragAmount < 0 -> onSwipeToRight()
-                    } else when {
-                        dragAmount > 0 -> dragDirection = DragDirection.LEFT
-                        dragAmount < 0 -> dragDirection = DragDirection.RIGHT
+                    if (currentCardType == LUNCH) {
+                        when {
+                            dragAmount > 0 -> onSwipeToLeft()
+                            dragAmount < 0 -> onSwipeToRight()
+                        }
+                    } else {
+                        when {
+                            dragAmount > 0 -> dragDirection = DragDirection.LEFT
+                            dragAmount < 0 -> dragDirection = DragDirection.RIGHT
+                        }
                     }
                 }
             },
-        shape = RoundedCornerShape(20.dp),
+        shape = DmsTheme.shapes.extraLarge,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.surface,
@@ -481,7 +483,9 @@ private fun MealCard(
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Box(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .horizontalPadding()
+                .verticalPadding(),
         ) {
             when (currentCardType) {
                 BREAKFAST -> Dishes(
