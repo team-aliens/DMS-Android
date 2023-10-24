@@ -15,6 +15,8 @@ internal fun MealEntity.toModel() = Meal(
     kcalOfDinner = this.kcalOfDinner,
 )
 
+internal fun List<Meal>.toEntity() = this.map(Meal::toEntity)
+
 internal fun Meal.toEntity() = MealEntity(
     date = this.date,
     breakfast = this.breakfast,
@@ -24,8 +26,6 @@ internal fun Meal.toEntity() = MealEntity(
     dinner = this.dinner,
     kcalOfDinner = this.kcalOfDinner,
 )
-
-internal fun List<Meal>.toEntity() = this.map(Meal::toEntity)
 
 internal fun FetchMealsResponse.toModel(): List<Meal> = this.meals.toModel()
 
