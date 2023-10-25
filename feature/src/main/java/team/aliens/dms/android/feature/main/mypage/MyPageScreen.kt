@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -311,33 +312,55 @@ private fun Options(
 ) {
     Column(
         modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(LargeVerticalSpace),
     ) {
         OptionLayout(
-            options = listOf(
-                Option(R.string.sign_in_find_id, Option.DefaultTitleColor) {},
-                Option(R.string.sign_in_find_id, Option.DefaultTitleColor) {},
-                Option(R.string.sign_in_find_id, Option.ErrorTitleColor) {},
-            ),
+            options = userOptions,
+            titleColor = Option.DefaultTitleColor,
+        )
+        OptionLayout(
+            options = signOutOption,
+            titleColor = Option.ErrorTitleColor,
         )
     }
 }
+
+@Stable
+private val userOptions: List<Option> = listOf(
+    Option(
+        titleRes = R.string.my_page_check_point_history,
+        onClick = {},
+    ),
+    Option(
+        titleRes = R.string.my_page_edit_password,
+        onClick = {},
+    ),
+)
+
+@Stable
+private val signOutOption: List<Option> = listOf(
+    Option(
+        titleRes = R.string.my_page_sign_out,
+        onClick = {},
+    ),
+)
 
 @Composable
 private fun OptionLayout(
     modifier: Modifier = Modifier,
     options: List<Option>,
+    titleColor: Color,
 ) {
     Card(
         modifier = modifier.horizontalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
-            contentColor = DmsTheme.colorScheme.onSurface,
+            contentColor = titleColor,
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
-        LazyColumn(
-        ) {
+        LazyColumn {
             itemsIndexed(options) { index, option ->
                 Text(
                     modifier = Modifier
@@ -347,7 +370,6 @@ private fun OptionLayout(
                         .verticalPadding(PaddingDefaults.Medium),
                     text = stringResource(id = option.titleRes),
                     style = DmsTheme.typography.body2,
-                    color = DmsTheme.colorScheme.onSurface,
                 )
                 if (index != options.lastIndex) {
                     Divider(
@@ -362,9 +384,9 @@ private fun OptionLayout(
     }
 }
 
+@Immutable
 private class Option(
     @StringRes val titleRes: Int,
-    val titleColor: Color,
     val onClick: () -> Unit,
 ) {
     companion object {
