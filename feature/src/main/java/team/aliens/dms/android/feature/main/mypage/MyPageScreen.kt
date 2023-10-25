@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -174,12 +174,12 @@ private fun UserInformation(
             modifier = Modifier.size(64.dp),
             contentAlignment = Alignment.BottomEnd,
         ) {
-            AsyncImage(
+            Image(
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
                     .clickable { /* TODO */ },
-                model = profileImageUrl ?: painterResource(id = R.drawable.img_profile_default),
+                painter = rememberAsyncImagePainter(model = R.drawable.img_profile_default),
                 contentDescription = stringResource(id = R.string.profile_image),
             )
             Image(
