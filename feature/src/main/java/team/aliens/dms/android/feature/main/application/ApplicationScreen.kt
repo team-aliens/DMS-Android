@@ -60,7 +60,9 @@ internal fun ApplicationScreen(
                 .padding(padValues),
         ) {
             ApplicationCard(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
                 title = stringResource(id = R.string.study_room),
                 appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
                     stringResource(
