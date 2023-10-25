@@ -8,13 +8,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -80,6 +84,7 @@ internal fun MyPageScreen(
     ) { padValues ->
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
                 .padding(padValues),
             verticalArrangement = Arrangement.spacedBy(LargeVerticalSpace),
@@ -107,6 +112,8 @@ internal fun MyPageScreen(
             Options(
                 modifier = Modifier.fillMaxWidth(),
             )
+            // TODO: measure navigation bar height
+            Spacer(modifier = Modifier.height(84.dp))
         }
     }
 }
@@ -409,25 +416,23 @@ private fun OptionLayout(
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
-        LazyColumn {
-            itemsIndexed(options) { index, option ->
-                Text(
+        options.forEachIndexed { index, option ->
+            Text(
+                modifier = Modifier
+                    .clickable { }
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .verticalPadding(PaddingDefaults.Medium),
+                text = stringResource(id = option.titleRes),
+                style = DmsTheme.typography.body2,
+            )
+            if (index != options.lastIndex) {
+                Divider(
                     modifier = Modifier
-                        .clickable { }
                         .fillMaxWidth()
-                        .horizontalPadding()
-                        .verticalPadding(PaddingDefaults.Medium),
-                    text = stringResource(id = option.titleRes),
-                    style = DmsTheme.typography.body2,
+                        .horizontalPadding(),
+                    color = DmsTheme.colorScheme.line,
                 )
-                if (index != options.lastIndex) {
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalPadding(),
-                        color = DmsTheme.colorScheme.line,
-                    )
-                }
             }
         }
     }
