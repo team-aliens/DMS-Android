@@ -60,6 +60,7 @@ internal fun ApplicationScreen(
                 .padding(padValues),
         ) {
             ApplicationCard(
+                modifier = Modifier.fillMaxWidth(),
                 title = stringResource(id = R.string.study_room),
                 appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
                     stringResource(
@@ -73,6 +74,7 @@ internal fun ApplicationScreen(
                 onButtonClick = onNavigateToStudyRoomList,
             )
             ApplicationCard(
+                modifier = Modifier.fillMaxWidth(),
                 title = stringResource(id = R.string.remains_application),
                 appliedTitle = uiState.appliedRemainsOption?.title,
                 description = stringResource(id = R.string.remains_description),
@@ -95,7 +97,6 @@ private fun ApplicationCard(
     Card(
         modifier = modifier
             .animateContentSize()
-            .fillMaxWidth()
             .horizontalPadding()
             .verticalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
@@ -111,7 +112,6 @@ private fun ApplicationCard(
             Row(
                 modifier = Modifier
                     .animateContentSize()
-                    .fillMaxWidth()
                     .horizontalPadding()
                     .topPadding(),
                 horizontalArrangement = Arrangement.SpaceBetween,
