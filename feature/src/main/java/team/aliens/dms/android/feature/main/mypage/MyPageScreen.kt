@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.main.mypage
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,14 +13,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
@@ -33,7 +37,10 @@ import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
@@ -74,6 +81,11 @@ internal fun MyPageScreen(
             PhraseCard(
                 modifier = Modifier.fillMaxWidth(),
                 phrase = "벌점이 12점이예요. 더 바른 생활을 위해 노력해주세요~",
+            )
+            PointCards(
+                modifier = Modifier.fillMaxWidth(),
+                bonusPoint = 17,
+                minusPoint = -5,
             )
         }
     }
@@ -179,6 +191,108 @@ private fun PhraseCard(
     }
 }
 
+@Composable
+private fun PointCards(
+    modifier: Modifier = Modifier,
+    bonusPoint: Int,
+    minusPoint: Int,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+    ) {
+        PointCard(
+            modifier = Modifier
+                .weight(1f)
+                .startPadding(),
+            type = PointCardType.BONUS,
+            point = bonusPoint,
+        )
+        PointCard(
+            modifier = Modifier
+                .weight(1f)
+                .endPadding(),
+            type = PointCardType.MINUS,
+            point = minusPoint,
+        )
+    }
+}
+
+@Composable
+private fun PointCard(
+    modifier: Modifier = Modifier,
+    type: PointCardType,
+    point: Int,
+) {
+    OutlinedCard(
+        modifier = modifier,
+        shape = DmsTheme.shapes.surfaceMedium,
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = type.containerColor,
+            contentColor = type.contentColor,
+        ),
+        border = BorderStroke(
+            width = 1.dp,
+            color = type.borderColor,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding()
+                    .topPadding(),
+                text = type.text,
+                style = DmsTheme.typography.caption,
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .endPadding()
+                    .bottomPadding(),
+                text = "$point",
+                style = DmsTheme.typography.headline3,
+                textAlign = TextAlign.End,
+            )
+        }
+    }
+}
+
+@Immutable
+private enum class PointCardType {
+    BONUS, MINUS,
+    ;
+
+    val containerColor: Color
+        @Composable inline get() = when (this) {
+            BONUS -> DmsTheme.colorScheme.primaryContainer
+            MINUS -> DmsTheme.colorScheme.errorContainer
+        }
+
+    val contentColor: Color
+        @Composable inline get() = when (this) {
+            BONUS -> DmsTheme.colorScheme.primary
+            MINUS -> DmsTheme.colorScheme.error
+        }
+
+    val borderColor: Color
+        @Composable inline get() = when (this) {
+            BONUS -> DmsTheme.colorScheme.primary
+            MINUS -> DmsTheme.colorScheme.error
+        }
+
+    val text: String
+        @Composable inline get() = stringResource(
+            id = when (this) {
+                BONUS -> R.string.bonus_point
+                MINUS -> R.string.minus_point
+            },
+        )
+}
+
 /*
     val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
@@ -275,8 +389,7 @@ private fun PhraseCard(
             onSignOutClicked = { signOutDialogState = !signOutDialogState },
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )
-    }*/
-/*
+    }*//*
 @Composable
 private fun UserInformation(
     modifier: Modifier = Modifier,
@@ -382,8 +495,7 @@ private fun PointsInformation(
             )
         }
     }
-}*/
-/*
+}*//*
 @Composable
 private fun PhraseCard(
     modifier: Modifier = Modifier,
@@ -407,8 +519,7 @@ private fun PhraseCard(
             color = DormColor.Gray1000,
         )
     }
-}*/
-/*
+}*//*
 @Composable
 private fun PointCard(
     modifier: Modifier = Modifier,
@@ -456,8 +567,7 @@ private fun PointCard(
             color = textColor,
         )
     }
-}*/
-/*
+}*//*
 
 // TODO 리스트 디자인시스템으로 커버 필요
 @Composable
