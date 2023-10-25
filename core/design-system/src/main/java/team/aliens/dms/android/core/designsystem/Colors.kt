@@ -238,14 +238,14 @@ fun lightColors(
 )
 
 fun darkColors(
-    primary: Color = PrimaryDarken2,
+    primary: Color = PrimaryDefault,
     onPrimary: Color = Gray1,
-    primaryContainer: Color = PrimaryLighten1,
-    onPrimaryContainer: Color = PrimaryDarken2,
+    primaryContainer: Color = PrimaryDarken1,
+    onPrimaryContainer: Color = PrimaryLighten2,
     error: Color = ErrorDefault,
     onError: Color = Gray1,
-    errorContainer: Color = ErrorLighten1,
-    onErrorContainer: Color = ErrorDarken2,
+    errorContainer: Color = ErrorDarken1,
+    onErrorContainer: Color = ErrorLighten2,
     background: Color = Gray9,
     onBackground: Color = Gray1,
     backgroundVariant: Color = Gray3,
