@@ -1,19 +1,128 @@
 package team.aliens.dms.android.feature.main.mypage
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.feature.main.mypage.navigation.MyPageNavigator
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.RoundedButton
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.shared.model.Sex
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
-    // navigator: MyPageNavigator,
-    // onNavigateToUploadProfileImageWithTakingPhoto: () -> Unit,
-    // onNavigateToUploadProfileImageWithSelectingPhoto: () -> Unit,
-    // pointServiceEnabled: Boolean,
-) {/*
+) {
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = { },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                ),
+            )
+        },
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+        ) {
+            // TODO
+            UserInformation(
+                modifier = Modifier.fillMaxWidth(),
+                gradeClassNumber = "2211",
+                studentName = "박준수",
+                sex = Sex.MALE,
+                schoolName = "대덕소프트웨어마이스터고등학교",
+                profileImageUrl = "https://avatars.githubusercontent.com/u/101160207?v=4"
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserInformation(
+    modifier: Modifier = Modifier,
+    gradeClassNumber: String,
+    studentName: String,
+    sex: Sex,
+    schoolName: String,
+    profileImageUrl: String,
+) {
+    Row(
+        modifier = modifier
+            .horizontalPadding()
+            .topPadding(),
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(
+                        id = R.string.my_page_format_gcn_name,
+                        gradeClassNumber,
+                        studentName,
+                    ),
+                    style = DmsTheme.typography.title1,
+                    color = DmsTheme.colorScheme.onBackground,
+                )
+                RoundedButton(
+                    onClick = {},
+                    colors = when (sex) {
+                        Sex.MALE -> ButtonDefaults.roundedButtonColors()
+                        Sex.FEMALE -> ButtonDefaults.roundedRefuseButtonColors()
+                        Sex.ALL -> throw IllegalArgumentException()
+                    },
+                    fillMinSize = false,
+                    contentPadding = PaddingValues(
+                        horizontal = PaddingDefaults.Medium,
+                        vertical = PaddingDefaults.ExtraSmall,
+                    ),
+                ) {
+                    Text(text = sex.text)
+                }
+            }
+        }
+    }
+}
+
+private val Sex.text: String
+    @Composable inline get() = stringResource(
+        id = when (this) {
+            Sex.MALE -> R.string.male
+            Sex.FEMALE -> R.string.female
+            Sex.ALL -> throw IllegalStateException()
+        },
+    )
+
+/*
     val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
     val myPageInformation = uiState.myPage
     var signOutDialogState by remember { mutableStateOf(false) }
@@ -110,7 +219,6 @@ internal fun MyPageScreen(
             onWithdrawClicked = { withdrawDialogState = !withdrawDialogState },
         )
     }*/
-}
 /*
 @Composable
 private fun UserInformation(
