@@ -138,7 +138,7 @@ private fun NoticeCard(
             .horizontalPadding()
             .verticalPadding(PaddingDefaults.ExtraSmall),
         shape = DmsTheme.shapes.surfaceSmall,
-        colors = CardDefaults.outlinedCardColors(
+        colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
