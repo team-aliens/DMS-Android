@@ -36,7 +36,7 @@ val ErrorLighten2 = Color(0xfffff0f0)
 val ErrorDarken1 = Color(0xffc23535)
 
 @Stable
-val ErrorDarken2 = Color(0xff852424)
+val ErrorDarken2 = Color(0xFFA02727)
 
 @Stable
 val Gray1 = Color(0xffffffff)
