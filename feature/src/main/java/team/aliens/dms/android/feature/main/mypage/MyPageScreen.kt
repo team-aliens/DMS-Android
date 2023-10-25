@@ -26,6 +26,7 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -125,7 +126,8 @@ private fun UserInformation(
         AsyncImage(
             modifier = Modifier
                 .size(64.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .clickable { /* TODO */ },
             model = profileImageUrl,
             contentDescription = stringResource(id = R.string.profile_image),
         )
