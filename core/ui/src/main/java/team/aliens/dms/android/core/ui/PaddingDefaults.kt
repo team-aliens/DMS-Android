@@ -99,4 +99,8 @@ fun Modifier.bottomPadding(
 
 val DefaultVerticalSpace = PaddingDefaults.Small
 
+val LargeVerticalSpace = PaddingDefaults.Medium
+
 val DefaultHorizontalSpace = PaddingDefaults.Small
+
+val LargeHorizontalSpace = PaddingDefaults.Medium
