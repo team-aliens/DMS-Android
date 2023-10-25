@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,11 +28,14 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.shared.model.Sex
 
@@ -55,6 +60,7 @@ internal fun MyPageScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             // TODO
             UserInformation(
@@ -64,6 +70,10 @@ internal fun MyPageScreen(
                 sex = Sex.MALE,
                 schoolName = "대덕소프트웨어마이스터고등학교",
                 profileImageUrl = "https://avatars.githubusercontent.com/u/101160207?v=4"
+            )
+            PhraseCard(
+                modifier = Modifier.fillMaxWidth(),
+                phrase = "벌점이 12점이예요. 더 바른 생활을 위해 노력해주세요~",
             )
         }
     }
@@ -142,6 +152,32 @@ private val Sex.text: String
             Sex.ALL -> throw IllegalStateException()
         },
     )
+
+@Composable
+private fun PhraseCard(
+    modifier: Modifier = Modifier,
+    phrase: String,
+) {
+    Card(
+        modifier = modifier
+            .horizontalPadding()
+            .verticalPadding(PaddingDefaults.ExtraSmall),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = DmsTheme.colorScheme.primaryContainer,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+    ) {
+        Text(
+            modifier = Modifier
+                .horizontalPadding()
+                .verticalPadding(),
+            text = phrase,
+            style = DmsTheme.typography.caption,
+        )
+    }
+}
 
 /*
     val uiState by myPageViewModel.stateFlow.collectAsStateWithLifecycle()
