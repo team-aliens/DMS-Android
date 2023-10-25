@@ -36,11 +36,11 @@ import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.Gray10
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
-import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.LargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -189,7 +189,7 @@ private fun PhraseCard(
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.primaryContainer,
-            contentColor = DmsTheme.colorScheme.onSurface,
+            contentColor = Gray10,
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
@@ -286,14 +286,14 @@ private enum class PointCardType {
 
     val contentColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.primary
-            MINUS -> DmsTheme.colorScheme.error
+            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
+            MINUS -> DmsTheme.colorScheme.onErrorContainer
         }
 
     val borderColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.primary
-            MINUS -> DmsTheme.colorScheme.error
+            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
+            MINUS -> DmsTheme.colorScheme.onErrorContainer
         }
 
     val text: String
