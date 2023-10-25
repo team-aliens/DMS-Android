@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.student.repository
 
+import team.aliens.dms.android.data.student.mapper.toModel
 import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.model.StudentName
@@ -63,9 +64,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchMyPage(): MyPage {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchMyPage(): MyPage = networkStudentDataSource.fetchMyPage().toModel()
 
     override suspend fun editProfile(profileImageUrl: String) {
         TODO("Not yet implemented")
