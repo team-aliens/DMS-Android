@@ -40,6 +40,8 @@ internal class AnnouncementListViewModel @Inject constructor(
                 noticesAscByDate = notices
                 noticesDescByDate = notices.reversed()
                 reduce(newState = stateFlow.value.copy(notices = notices))
+            }.onFailure {
+                it.printStackTrace()
             }
         }
     }
