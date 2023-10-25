@@ -326,6 +326,10 @@ private fun Options(
             options = withdrawalOption,
             titleColor = Option.ErrorTitleColor,
         )
+        OptionLayout(
+            options = themeOption,
+            titleColor = Option.DefaultTitleColor,
+        )
     }
 }
 
@@ -355,6 +359,14 @@ private val withdrawalOption: List<Option> = listOf(
         titleRes = R.string.my_page_withdrawal,
         onClick = {},
     ),
+)
+
+@Stable
+private val themeOption: List<Option> = listOf(
+    Option(
+        titleRes = R.string.my_page_theme_settings,
+        onClick = {},
+    )
 )
 
 @Composable
