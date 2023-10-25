@@ -2,6 +2,7 @@ package team.aliens.dms.android.feature.main.mypage
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,13 +25,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
@@ -59,6 +64,9 @@ import team.aliens.dms.android.shared.model.Sex
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
 ) {
+    val viewModel: MyPageViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
@@ -76,23 +84,25 @@ internal fun MyPageScreen(
                 .padding(padValues),
             verticalArrangement = Arrangement.spacedBy(LargeVerticalSpace),
         ) {
-            // TODO
             UserInformation(
                 modifier = Modifier.fillMaxWidth(),
-                gradeClassNumber = "2211",
-                studentName = "박준수",
-                sex = Sex.MALE,
-                schoolName = "대덕소프트웨어마이스터고등학교",
-                profileImageUrl = "https://avatars.githubusercontent.com/u/101160207?v=4"
+                gradeClassNumber = uiState.myPage?.gradeClassNumber,
+                studentName = uiState.myPage?.studentName,
+                sex = uiState.myPage?.sex,
+                schoolName = uiState.myPage?.schoolName,
+                profileImageUrl = uiState.myPage?.profileImageUrl,
+                onNavigateToEditProfile = {
+                    /* TODO */
+                },
             )
             PhraseCard(
                 modifier = Modifier.fillMaxWidth(),
-                phrase = "벌점이 12점이예요. 더 바른 생활을 위해 노력해주세요~",
+                phrase = uiState.myPage?.phrase,
             )
             PointCards(
                 modifier = Modifier.fillMaxWidth(),
-                bonusPoint = 17,
-                minusPoint = -5,
+                bonusPoint = uiState.myPage?.bonusPoint,
+                minusPoint = uiState.myPage?.minusPoint,
             )
             Options(
                 modifier = Modifier.fillMaxWidth(),
@@ -104,11 +114,12 @@ internal fun MyPageScreen(
 @Composable
 private fun UserInformation(
     modifier: Modifier = Modifier,
-    gradeClassNumber: String,
-    studentName: String,
-    sex: Sex,
-    schoolName: String,
-    profileImageUrl: String,
+    gradeClassNumber: String?,
+    studentName: String?,
+    sex: Sex?,
+    schoolName: String?,
+    profileImageUrl: String?,
+    onNavigateToEditProfile: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -123,11 +134,12 @@ private fun UserInformation(
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                // TODO: fix
                 Text(
                     text = stringResource(
                         id = R.string.my_page_format_gcn_name,
-                        gradeClassNumber,
-                        studentName,
+                        gradeClassNumber ?: 2211,
+                        studentName ?: "박준수",
                     ),
                     style = DmsTheme.typography.title1,
                     color = DmsTheme.colorScheme.onBackground,
@@ -138,6 +150,8 @@ private fun UserInformation(
                         Sex.MALE -> ButtonDefaults.roundedButtonColors()
                         Sex.FEMALE -> ButtonDefaults.roundedRefuseButtonColors()
                         Sex.ALL -> throw IllegalArgumentException()
+                        // TODO: fix
+                        null -> ButtonDefaults.roundedGrayButtonColors()
                     },
                     fillMinSize = false,
                     contentPadding = PaddingValues(
@@ -145,12 +159,13 @@ private fun UserInformation(
                         vertical = PaddingDefaults.ExtraSmall,
                     ),
                 ) {
-                    Text(text = sex.text)
+                    // TODO: Fix
+                    Text(text = sex?.text ?: "성별")
                 }
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = schoolName,
+                text = schoolName ?: "대덕소프트웨어마이스터고등학교",
                 style = DmsTheme.typography.body2,
                 color = DmsTheme.colorScheme.surfaceVariant,
             )
@@ -164,8 +179,16 @@ private fun UserInformation(
                     .size(64.dp)
                     .clip(CircleShape)
                     .clickable { /* TODO */ },
-                model = profileImageUrl,
+                model = profileImageUrl ?: painterResource(id = R.drawable.img_profile_default),
                 contentDescription = stringResource(id = R.string.profile_image),
+            )
+            Image(
+                modifier = Modifier
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .clickable { },
+                painter = painterResource(id = R.drawable.ic_my_page_edit),
+                contentDescription = null,
             )
         }
     }
@@ -183,7 +206,7 @@ private val Sex.text: String
 @Composable
 private fun PhraseCard(
     modifier: Modifier = Modifier,
-    phrase: String,
+    phrase: String?,
 ) {
     Card(
         modifier = modifier.horizontalPadding(),
@@ -198,7 +221,7 @@ private fun PhraseCard(
             modifier = Modifier
                 .horizontalPadding()
                 .verticalPadding(PaddingDefaults.Medium),
-            text = phrase,
+            text = phrase ?: "힘 내십쇼",
             style = DmsTheme.typography.caption,
         )
     }
@@ -207,8 +230,8 @@ private fun PhraseCard(
 @Composable
 private fun PointCards(
     modifier: Modifier = Modifier,
-    bonusPoint: Int,
-    minusPoint: Int,
+    bonusPoint: Int?,
+    minusPoint: Int?,
 ) {
     Row(
         modifier = modifier,
@@ -219,14 +242,16 @@ private fun PointCards(
                 .weight(1f)
                 .startPadding(),
             type = PointCardType.BONUS,
-            point = bonusPoint,
+            // TODO: fix
+            point = bonusPoint ?: 50,
         )
         PointCard(
             modifier = Modifier
                 .weight(1f)
                 .endPadding(),
             type = PointCardType.MINUS,
-            point = minusPoint,
+            // TODO: fix
+            point = minusPoint ?: -50,
         )
     }
 }
