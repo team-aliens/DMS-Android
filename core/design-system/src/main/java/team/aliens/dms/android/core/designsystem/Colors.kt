@@ -36,7 +36,7 @@ val ErrorLighten2 = Color(0xfffff0f0)
 val ErrorDarken1 = Color(0xffc23535)
 
 @Stable
-val ErrorDarken2 = Color(0xFFA02727)
+val ErrorDarken2 = Color(0xffc23535)
 
 @Stable
 val Gray1 = Color(0xffffffff)
@@ -240,12 +240,12 @@ fun lightColors(
 fun darkColors(
     primary: Color = PrimaryDefault,
     onPrimary: Color = Gray1,
-    primaryContainer: Color = PrimaryDarken1,
-    onPrimaryContainer: Color = PrimaryLighten2,
+    primaryContainer: Color = PrimaryLighten1,
+    onPrimaryContainer: Color = PrimaryDarken2,
     error: Color = ErrorDefault,
     onError: Color = Gray1,
-    errorContainer: Color = ErrorDarken1,
-    onErrorContainer: Color = ErrorLighten2,
+    errorContainer: Color = ErrorLighten1,
+    onErrorContainer: Color = ErrorDarken2,
     background: Color = Gray9,
     onBackground: Color = Gray1,
     backgroundVariant: Color = Gray3,
