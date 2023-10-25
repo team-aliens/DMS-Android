@@ -24,7 +24,7 @@ fun Modifier.clickable(
         enabled = enabled,
         onClickLabel = onClickLabel,
         indication = rememberRipple(
-            color = rippleColor ?: DmsTheme.colorScheme.line,
+            color = rippleColor ?: DmsTheme.colorScheme.surfaceVariant,
             radius = rippleRadius ?: Dp.Unspecified,
         )
             .takeIf { ripple },
