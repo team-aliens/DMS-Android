@@ -8,6 +8,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
@@ -134,6 +136,10 @@ private fun ApplicationCard(
                         RoundedButton(
                             onClick = {},
                             fillMinSize = false,
+                            contentPadding = PaddingValues(
+                                horizontal = PaddingDefaults.Medium,
+                                vertical = PaddingDefaults.Small,
+                            ),
                         ) {
                             Text(text = appliedTitle)
                         }
