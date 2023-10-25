@@ -13,11 +13,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
@@ -45,13 +44,20 @@ internal fun AnnouncementListScreen(
     modifier: Modifier = Modifier,
     onNavigateToNoticeDetails: (noticeId: UUID) -> Unit,
 ) {
-    var order by remember { mutableStateOf(Order.NEW) }
-    val onOrderChange = {
-        order = when (order) {
-            Order.NEW -> Order.OLD
-            Order.OLD -> Order.NEW
-        }
+    val viewModel: AnnouncementListViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
+    val onOrderChange: () -> Unit = {
+        viewModel.postIntent(
+            AnnouncementIntent.UpdateOrder(
+                order = when (uiState.selectedOrder) {
+                    Order.NEW -> Order.OLD
+                    Order.OLD -> Order.NEW
+                },
+            ),
+        )
     }
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
@@ -65,16 +71,12 @@ internal fun AnnouncementListScreen(
             verticalArrangement = Arrangement.spacedBy(PaddingDefaults.Small),
         ) {
             OrderButton(
-                order = order,
+                order = uiState.selectedOrder,
                 onOrderChange = onOrderChange,
             )
             NoticeList(
                 modifier = Modifier.weight(1f),
-                notices = listOf(
-                    Notice(
-                        UUID.randomUUID(), "asdf", "asdf", LocalDateTime.now()
-                    )
-                ), // TODO
+                notices = uiState.notices,
                 onNavigateToNoticeDetails = onNavigateToNoticeDetails,
             )
         }
