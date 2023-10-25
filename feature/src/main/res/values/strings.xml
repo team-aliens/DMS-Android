@@ -380,6 +380,7 @@
     <!--my page-->
     <string name="my_page_sign_out">로그아웃</string>
     <string name="my_page_withdrawal">회원 탈퇴</string>
+    <string name="my_page_theme_settings">테마 설정</string>
     <string name="my_page_set_profile">프로필 설정</string>
     <string name="my_page_format_gcn_name">%s %s</string>
     <string name="my_page_edit_profile">프로필 수정</string>
