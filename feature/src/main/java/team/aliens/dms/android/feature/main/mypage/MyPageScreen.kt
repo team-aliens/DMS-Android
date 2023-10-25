@@ -1,7 +1,9 @@
 package team.aliens.dms.android.feature.main.mypage
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,9 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -36,6 +41,7 @@ import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.LargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.endPadding
@@ -67,7 +73,7 @@ internal fun MyPageScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues),
-            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+            verticalArrangement = Arrangement.spacedBy(LargeVerticalSpace),
         ) {
             // TODO
             UserInformation(
@@ -86,6 +92,9 @@ internal fun MyPageScreen(
                 modifier = Modifier.fillMaxWidth(),
                 bonusPoint = 17,
                 minusPoint = -5,
+            )
+            Options(
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
@@ -145,14 +154,19 @@ private fun UserInformation(
                 color = DmsTheme.colorScheme.surfaceVariant,
             )
         }
-        AsyncImage(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(CircleShape)
-                .clickable { /* TODO */ },
-            model = profileImageUrl,
-            contentDescription = stringResource(id = R.string.profile_image),
-        )
+        Box(
+            modifier = Modifier.size(64.dp),
+            contentAlignment = Alignment.BottomEnd,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .clickable { /* TODO */ },
+                model = profileImageUrl,
+                contentDescription = stringResource(id = R.string.profile_image),
+            )
+        }
     }
 }
 
@@ -171,11 +185,9 @@ private fun PhraseCard(
     phrase: String,
 ) {
     Card(
-        modifier = modifier
-            .horizontalPadding()
-            .verticalPadding(PaddingDefaults.ExtraSmall),
+        modifier = modifier.horizontalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
-        colors = CardDefaults.outlinedCardColors(
+        colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.primaryContainer,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
@@ -184,7 +196,7 @@ private fun PhraseCard(
         Text(
             modifier = Modifier
                 .horizontalPadding()
-                .verticalPadding(),
+                .verticalPadding(PaddingDefaults.Medium),
             text = phrase,
             style = DmsTheme.typography.caption,
         )
@@ -238,7 +250,7 @@ private fun PointCard(
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+            verticalArrangement = Arrangement.spacedBy(LargeVerticalSpace),
         ) {
             Text(
                 modifier = Modifier
@@ -291,6 +303,77 @@ private enum class PointCardType {
                 MINUS -> R.string.minus_point
             },
         )
+}
+
+@Composable
+private fun Options(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+    ) {
+        OptionLayout(
+            options = listOf(
+                Option(R.string.sign_in_find_id, Option.DefaultTitleColor) {},
+                Option(R.string.sign_in_find_id, Option.DefaultTitleColor) {},
+                Option(R.string.sign_in_find_id, Option.ErrorTitleColor) {},
+            ),
+        )
+    }
+}
+
+@Composable
+private fun OptionLayout(
+    modifier: Modifier = Modifier,
+    options: List<Option>,
+) {
+    Card(
+        modifier = modifier.horizontalPadding(),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+    ) {
+        LazyColumn(
+        ) {
+            itemsIndexed(options) { index, option ->
+                Text(
+                    modifier = Modifier
+                        .clickable { }
+                        .fillMaxWidth()
+                        .horizontalPadding()
+                        .verticalPadding(PaddingDefaults.Medium),
+                    text = stringResource(id = option.titleRes),
+                    style = DmsTheme.typography.body2,
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+                if (index != options.lastIndex) {
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .horizontalPadding(),
+                        color = DmsTheme.colorScheme.line,
+                    )
+                }
+            }
+        }
+    }
+}
+
+private class Option(
+    @StringRes val titleRes: Int,
+    val titleColor: Color,
+    val onClick: () -> Unit,
+) {
+    companion object {
+        val DefaultTitleColor: Color
+            @Composable inline get() = DmsTheme.colorScheme.onSurface
+
+        val ErrorTitleColor: Color
+            @Composable inline get() = DmsTheme.colorScheme.error
+    }
 }
 
 /*
