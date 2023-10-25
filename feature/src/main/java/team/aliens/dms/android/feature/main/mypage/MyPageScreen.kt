@@ -322,6 +322,10 @@ private fun Options(
             options = signOutOption,
             titleColor = Option.ErrorTitleColor,
         )
+        OptionLayout(
+            options = withdrawalOption,
+            titleColor = Option.ErrorTitleColor,
+        )
     }
 }
 
@@ -341,6 +345,14 @@ private val userOptions: List<Option> = listOf(
 private val signOutOption: List<Option> = listOf(
     Option(
         titleRes = R.string.my_page_sign_out,
+        onClick = {},
+    ),
+)
+
+@Stable
+private val withdrawalOption: List<Option> = listOf(
+    Option(
+        titleRes = R.string.my_page_withdrawal,
         onClick = {},
     ),
 )
