@@ -15,7 +15,7 @@ val PrimaryDefault = Color(0xff3d8aff)
 val PrimaryLighten1 = Color(0xffb1d0ff)
 
 @Stable
-val PrimaryLighten2 = Color(0xfff5f9ff)
+val PrimaryLighten2 = Color(0xFFE6F0FF)
 
 @Stable
 val PrimaryDarken1 = Color(0xff1070ff)
