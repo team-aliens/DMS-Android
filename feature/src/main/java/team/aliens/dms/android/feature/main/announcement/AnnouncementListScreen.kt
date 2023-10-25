@@ -75,7 +75,9 @@ internal fun AnnouncementListScreen(
                 onOrderChange = onOrderChange,
             )
             NoticeList(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 notices = uiState.notices,
                 onNavigateToNoticeDetails = onNavigateToNoticeDetails,
             )
@@ -133,7 +135,6 @@ private fun NoticeCard(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
             .horizontalPadding()
             .verticalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
@@ -145,7 +146,6 @@ private fun NoticeCard(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .clickable { onClick(notice.id) },
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
