@@ -77,7 +77,7 @@ value class DormIcon private constructor(
 
         @Stable
         val MyPage = DormIcon(
-            drawableId = R.drawable.ic_mypage,
+            drawableId = R.drawable.ic_my_page,
         )
 
         @Stable
