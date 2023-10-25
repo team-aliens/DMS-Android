@@ -3,6 +3,7 @@ package team.aliens.dms.android.data.notice.mapper
 import team.aliens.dms.android.core.database.entity.NoticeEntity
 import team.aliens.dms.android.data.notice.model.Notice
 import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
+import team.aliens.dms.android.shared.date.toLocalDateTime
 
 internal fun List<NoticeEntity>.toModel() = this.map(NoticeEntity::toModel)
 
@@ -29,5 +30,5 @@ internal fun FetchNoticesResponse.NoticeResponse.toModel(): Notice = Notice(
     id = this.id,
     title = this.title,
     content = null,
-    createdAt = this.createdAt,
+    createdAt = this.createdAt.toLocalDateTime(),
 )
