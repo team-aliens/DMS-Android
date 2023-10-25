@@ -22,6 +22,13 @@ internal class MyPageViewModel @Inject constructor(
         fetchMyPage()
     }
 
+    override fun processIntent(intent: MyPageIntent) {
+        when (intent) {
+            MyPageIntent.SignOut -> TODO()
+            MyPageIntent.Withdraw -> TODO()
+        }
+    }
+
     private fun fetchMyPage() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
