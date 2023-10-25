@@ -213,8 +213,8 @@ fun lightColors(
     onSurface: Color = Gray9,
     surfaceVariant: Color = Gray6,
     onSurfaceVariant: Color = Gray5,
-    icon: Color = Gray6,
-    line: Color = Gray6,
+    icon: Color = Gray5,
+    line: Color = Gray3,
 ): Colors = Colors(
     primary = primary,
     onPrimary = onPrimary,
