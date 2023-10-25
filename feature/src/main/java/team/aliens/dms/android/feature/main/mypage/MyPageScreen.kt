@@ -7,14 +7,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -76,6 +81,7 @@ private fun UserInformation(
         modifier = modifier
             .horizontalPadding()
             .topPadding(),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
             modifier = Modifier.weight(1f),
@@ -109,7 +115,20 @@ private fun UserInformation(
                     Text(text = sex.text)
                 }
             }
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = schoolName,
+                style = DmsTheme.typography.body2,
+                color = DmsTheme.colorScheme.surfaceVariant,
+            )
         }
+        AsyncImage(
+            modifier = Modifier
+                .size(64.dp)
+                .clip(CircleShape),
+            model = profileImageUrl,
+            contentDescription = stringResource(id = R.string.profile_image),
+        )
     }
 }
 
