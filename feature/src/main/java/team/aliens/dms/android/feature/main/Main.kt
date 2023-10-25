@@ -62,6 +62,7 @@ import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms.android.feature.main.application.ApplicationScreen
 import team.aliens.dms.android.feature.main.home.HomeScreen
+import team.aliens.dms.android.feature.main.mypage.MyPageScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import team.aliens.dms.android.shared.date.util.today
 
@@ -187,11 +188,7 @@ internal fun Main(
                         }
                     },
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(color = DmsTheme.colorScheme.onPrimaryContainer)
-                            .fillMaxSize(),
-                    )
+                    MyPageScreen()
                 }
             }
         }
