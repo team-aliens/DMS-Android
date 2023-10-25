@@ -64,7 +64,7 @@ internal fun ApplicationScreen(
                 title = stringResource(id = R.string.study_room),
                 appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
                     stringResource(
-                        id = R.string.study_room_applied_text_format,
+                        id = R.string.format_study_room_applied_text,
                         studyRoom.floor,
                         studyRoom.name,
                     )
