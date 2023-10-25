@@ -13,6 +13,7 @@ import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScree
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
+import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
@@ -63,6 +64,10 @@ class DmsNavigator(
 
     override fun openEditPassword() {
         navController.navigate(EditPasswordNavGraph within navGraph)
+    }
+
+    override fun openNoticeDetails(noticeId: UUID) {
+        navController.navigate(NoticeDetailsScreenDestination(noticeId) within navGraph)
     }
 
     override fun openEditPasswordSetPasswordNav() {

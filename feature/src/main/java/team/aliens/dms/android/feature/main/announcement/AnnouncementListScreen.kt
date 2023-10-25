@@ -1,36 +1,56 @@
 package team.aliens.dms.android.feature.main.announcement
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.feature.main.announcement.navigation.AnnouncementNavigator
+import org.threeten.bp.LocalDateTime
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.notice.model.Notice
+import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.shared.model.Order
+import java.util.UUID
 
-/*
-
-private val Order.text: String
-    @Composable inline get() = when (this) {
-        Order.NEW -> stringResource(R.string.latest_order)
-        Order.OLD -> stringResource(R.string.oldest_order)
-        else -> throw IllegalArgumentException()
-    }
-*/
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun AnnouncementListScreen(
     modifier: Modifier = Modifier,
-    // navigator: AnnouncementNavigator,
-    // announcementsViewModel: AnnouncementsViewModel = hiltViewModel(),
-) {/*
-    val uiState by announcementsViewModel.stateFlow.collectAsStateWithLifecycle()
-    val listState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
+    onNavigateToNoticeDetails: (noticeId: UUID) -> Unit,
+) {
+    val viewModel: AnnouncementListViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    val onOrderButtonClick = {
-        scope.launch { listState.animateScrollToItem(0) }
-        announcementsViewModel.postIntent(
-            AnnouncementsIntent.SetOrder(
-                order = when (uiState.order) {
+    val onOrderChange: () -> Unit = {
+        viewModel.postIntent(
+            AnnouncementIntent.UpdateOrder(
+                order = when (uiState.selectedOrder) {
                     Order.NEW -> Order.OLD
                     Order.OLD -> Order.NEW
                 },
@@ -38,122 +58,118 @@ internal fun AnnouncementListScreen(
         )
     }
 
-    Column(
-        modifier = modifier
-            .background(DormTheme.colors.background)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(Modifier.height(24.dp))
-        Body1(text = stringResource(R.string.notice))
-        OrderButton(
-            text = uiState.order.text,
-            onClick = onOrderButtonClick,
-        )
-        Notices(
-            modifier = Modifier.weight(1f),
-            notices = uiState.notices,
-            listState = listState,
-            onNoticeClick = navigator::openNoticeDetails,
-        )
-    }*/
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(title = { Text(text = stringResource(id = R.string.announcement)) })
+        },
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(PaddingDefaults.Small),
+        ) {
+            OrderButton(
+                order = uiState.selectedOrder,
+                onOrderChange = onOrderChange,
+            )
+            NoticeList(
+                modifier = Modifier.weight(1f),
+                notices = uiState.notices,
+                onNavigateToNoticeDetails = onNavigateToNoticeDetails,
+            )
+        }
+    }
 }
-/*
 
 @Composable
 private fun OrderButton(
-    text: String,
-    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    order: Order,
+    onOrderChange: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.Start,
+    OutlinedButton(
+        modifier = modifier
+            .horizontalPadding()
+            .topPadding(),
+        onClick = onOrderChange,
+        colors = ButtonDefaults.outlinedGrayButtonColors(),
     ) {
-        DormOutlinedDefaultButton(
-            text = text,
-            color = DormButtonColor.Gray,
-            onClick = onClick,
-        )
+        Text(text = order.text)
     }
 }
 
+private val Order.text: String
+    @Composable inline get() = when (this) {
+        Order.NEW -> stringResource(R.string.order_latest)
+        Order.OLD -> stringResource(R.string.order_oldest)
+    }
+
 @Composable
-private fun Notices(
+private fun NoticeList(
     modifier: Modifier = Modifier,
     notices: List<Notice>,
-    listState: LazyListState,
-    onNoticeClick: (noticeId: UUID) -> Unit,
+    onNavigateToNoticeDetails: (noticeId: UUID) -> Unit,
 ) {
-    VerticallyFadedLazyColumn(
-        modifier = modifier.fillMaxSize(),
-        state = listState,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+    LazyColumn(
+        modifier = modifier,
     ) {
         items(notices) { notice ->
-            Notice(
+            NoticeCard(
+                modifier = Modifier.fillMaxWidth(),
                 notice = notice,
-                onNoticeClick = onNoticeClick,
+                onClick = onNavigateToNoticeDetails,
             )
-        }
-        // todo add loading effect
-        if (notices.isEmpty()) {
-            item {
-                Body3(text = stringResource(R.string.TheresNoNotices))
-            }
         }
     }
 }
 
 @Composable
-private fun Notice(
+private fun NoticeCard(
     modifier: Modifier = Modifier,
     notice: Notice,
-    onNoticeClick: (UUID) -> Unit,
+    onClick: (noticeId: UUID) -> Unit,
 ) {
-    Box(
+    Card(
         modifier = modifier
-            .padding(horizontal = 16.dp)
-            .dormShadow(
-                color = DormTheme.colors.primaryVariant,
-            )
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
-            .background(
-                color = DormTheme.colors.surface,
-            )
-            .dormClickable {
-                onNoticeClick(notice.id!!)
-            },
-        contentAlignment = Alignment.CenterStart,
+            .horizontalPadding()
+            .verticalPadding(),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick(notice.id) },
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            Body4(
-                modifier = Modifier.padding(top = 12.dp),
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .topPadding(),
                 text = notice.title,
+                color = DmsTheme.colorScheme.onSurface,
+                style = DmsTheme.typography.body2,
             )
-            Space(space = 4.dp)
-            OverLine(
-                modifier = Modifier.padding(bottom = 12.dp),
-                text = notice.createdAt.toNoticeDate(),
-                color = DormTheme.colors.primaryVariant,
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                text = notice.createdAt.text,
+                color = DmsTheme.colorScheme.onSurfaceVariant,
+                style = DmsTheme.typography.caption,
             )
         }
     }
 }
 
-internal fun String.toNoticeDate() = StringBuilder().apply {
-    with(this@toNoticeDate.split("T")) {
-        if (this@toNoticeDate.isNotEmpty()) {
-            append(this[0])
-            append(" ")
-            append(this[1].split(":")[0].toInt())
-            append(":")
-            append(this[1].split(":")[1])
-        }
-    }
-}.toString()
-*/
+private val LocalDateTime.text: String
+    @Composable inline get() = "${this.year}-${this.monthValue}-${this.dayOfMonth} ${this.hour}:${this.minute}"

@@ -217,8 +217,8 @@
     <string name="yes">네</string>
     <string name="no">아니오</string>
     <string name="next">다음</string>
-    <string name="latest_order">최신 순</string>
-    <string name="oldest_order">오래된 순</string>
+    <string name="order_latest">최신 순</string>
+    <string name="order_oldest">오래된 순</string>
     <string name="take_photo">사진 촬영</string>
     <string name="select_photo">사진 선택</string>
     <string name="sunday_abb">일</string>
