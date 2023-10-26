@@ -1,5 +1,7 @@
 package team.aliens.dms.android.data.student.repository
 
+import team.aliens.dms.android.core.jwt.JwtProvider
+import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.student.mapper.toModel
 import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
@@ -10,6 +12,8 @@ import javax.inject.Inject
 
 internal class StudentRepositoryImpl @Inject constructor(
     private val networkStudentDataSource: NetworkStudentDataSource,
+    private val jwtProvider: JwtProvider,
+    private val schoolProvider: SchoolProvider,
 ) : StudentRepository() {
 
     override suspend fun signUp(
@@ -71,6 +75,8 @@ internal class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun withdraw() {
-        TODO("Not yet implemented")
+        networkStudentDataSource.withdraw()
+        jwtProvider.clearCaches()
+        schoolProvider.clearCaches()
     }
 }
