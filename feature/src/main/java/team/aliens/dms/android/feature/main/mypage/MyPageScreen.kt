@@ -121,12 +121,14 @@ internal fun MyPageScreen(
                 onNavigateToPointHistory = onNavigateToPointHistory,
                 onNavigateToEditPassword = onNavigateToEditPassword,
                 onSignOutClick = {
-
-                },
-                onThemeSettingsClick = {
-
+                    // TODO: sign out modal
+                    viewModel.postIntent(MyPageIntent.SignOut)
                 },
                 onWithdrawalClick = {
+                    // TODO: withdrawal modal
+                    viewModel.postIntent(MyPageIntent.Withdraw)
+                },
+                onThemeSettingsClick = {
 
                 },
             )
@@ -364,8 +366,8 @@ private fun Options(
     onNavigateToPointHistory: () -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onSignOutClick: () -> Unit,
-    onThemeSettingsClick: () -> Unit,
     onWithdrawalClick: () -> Unit,
+    onThemeSettingsClick: () -> Unit,
 ) {
     val userOptions = remember {
         listOf(
@@ -387,19 +389,20 @@ private fun Options(
             ),
         )
     }
-    val themeOption = remember {
-        listOf(
-            Option(
-                titleRes = R.string.my_page_theme_settings,
-                onClick = onThemeSettingsClick,
-            ),
-        )
-    }
     val withdrawalOption = remember {
         listOf(
             Option(
                 titleRes = R.string.my_page_withdrawal,
                 onClick = onWithdrawalClick,
+            ),
+        )
+    }
+
+    val themeOption = remember {
+        listOf(
+            Option(
+                titleRes = R.string.my_page_theme_settings,
+                onClick = onThemeSettingsClick,
             ),
         )
     }
