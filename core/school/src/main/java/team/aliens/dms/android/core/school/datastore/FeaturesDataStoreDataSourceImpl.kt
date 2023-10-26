@@ -12,4 +12,8 @@ internal class FeaturesDataStoreDataSourceImpl @Inject constructor(
     override suspend fun storeFeatures(features: Features) {
         featuresStore.storeFeatures(features)
     }
+
+    override suspend fun clearFeatures() {
+        featuresStore.clearFeatures()
+    }
 }
