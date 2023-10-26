@@ -58,6 +58,7 @@ import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.shared.model.Sex
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,6 +73,12 @@ internal fun MyPageScreen(
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            MyPageSideEffect.SignOutSuccess -> onNavigateToUnauthorizedNav()
+            MyPageSideEffect.WithdrawalSuccess -> onNavigateToUnauthorizedNav()
+        }
+    }
 
     DmsScaffold(
         modifier = modifier,
