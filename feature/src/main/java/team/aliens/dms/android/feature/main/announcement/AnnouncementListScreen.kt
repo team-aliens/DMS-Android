@@ -2,8 +2,10 @@ package team.aliens.dms.android.feature.main.announcement
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -75,7 +78,9 @@ internal fun AnnouncementListScreen(
                 onOrderChange = onOrderChange,
             )
             NoticeList(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 notices = uiState.notices,
                 onNavigateToNoticeDetails = onNavigateToNoticeDetails,
             )
@@ -122,6 +127,10 @@ private fun NoticeList(
                 onClick = onNavigateToNoticeDetails,
             )
         }
+        // TODO: measure navigation bar height
+        item {
+            Spacer(modifier = Modifier.height(84.dp))
+        }
     }
 }
 
@@ -133,11 +142,10 @@ private fun NoticeCard(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
             .horizontalPadding()
-            .verticalPadding(),
+            .verticalPadding(PaddingDefaults.ExtraSmall),
         shape = DmsTheme.shapes.surfaceSmall,
-        colors = CardDefaults.outlinedCardColors(
+        colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
@@ -145,7 +153,6 @@ private fun NoticeCard(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .clickable { onClick(notice.id) },
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {

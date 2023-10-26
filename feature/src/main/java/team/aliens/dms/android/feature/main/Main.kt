@@ -7,8 +7,6 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,6 +60,7 @@ import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms.android.feature.main.application.ApplicationScreen
 import team.aliens.dms.android.feature.main.home.HomeScreen
+import team.aliens.dms.android.feature.main.mypage.MyPageScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import team.aliens.dms.android.shared.date.util.today
 
@@ -187,10 +186,12 @@ internal fun Main(
                         }
                     },
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(color = DmsTheme.colorScheme.onPrimaryContainer)
-                            .fillMaxSize(),
+                    MyPageScreen(
+                        modifier = Modifier,
+                        onNavigateToEditProfileImage = mainNavigator::openEditProfileImage,
+                        onNavigateToPointHistory = mainNavigator::openPointHistory,
+                        onNavigateToEditPassword = mainNavigator::openEditPassword,
+                        onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
                     )
                 }
             }
@@ -292,7 +293,7 @@ private enum class MainSections(
     ),
     MY_PAGE(
         route = "my_page",
-        iconRes = R.drawable.ic_mypage,
+        iconRes = R.drawable.ic_my_page,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
     ),
     ;

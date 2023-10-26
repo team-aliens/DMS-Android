@@ -20,8 +20,8 @@ fun Modifier.shadow(
         elevation = elevation,
         shape = shape,
         clip = clip,
-        ambientColor = ambientColor ?: DmsTheme.colorScheme.line,
-        spotColor = spotColor ?: DmsTheme.colorScheme.line,
+        ambientColor = ambientColor ?: DmsTheme.colorScheme.surfaceVariant,
+        spotColor = spotColor ?: DmsTheme.colorScheme.surfaceVariant,
     )
 }
 

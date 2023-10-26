@@ -15,7 +15,7 @@ val PrimaryDefault = Color(0xff3d8aff)
 val PrimaryLighten1 = Color(0xffb1d0ff)
 
 @Stable
-val PrimaryLighten2 = Color(0xfff5f9ff)
+val PrimaryLighten2 = Color(0xFFE6F0FF)
 
 @Stable
 val PrimaryDarken1 = Color(0xff1070ff)
@@ -36,7 +36,7 @@ val ErrorLighten2 = Color(0xfffff0f0)
 val ErrorDarken1 = Color(0xffc23535)
 
 @Stable
-val ErrorDarken2 = Color(0xff852424)
+val ErrorDarken2 = Color(0xffc23535)
 
 @Stable
 val Gray1 = Color(0xffffffff)
@@ -213,8 +213,8 @@ fun lightColors(
     onSurface: Color = Gray9,
     surfaceVariant: Color = Gray6,
     onSurfaceVariant: Color = Gray5,
-    icon: Color = Gray6,
-    line: Color = Gray6,
+    icon: Color = Gray5,
+    line: Color = Gray3,
 ): Colors = Colors(
     primary = primary,
     onPrimary = onPrimary,
@@ -238,7 +238,7 @@ fun lightColors(
 )
 
 fun darkColors(
-    primary: Color = PrimaryDarken2,
+    primary: Color = PrimaryDefault,
     onPrimary: Color = Gray1,
     primaryContainer: Color = PrimaryLighten1,
     onPrimaryContainer: Color = PrimaryDarken2,

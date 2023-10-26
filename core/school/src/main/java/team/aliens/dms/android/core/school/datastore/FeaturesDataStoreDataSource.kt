@@ -7,4 +7,6 @@ internal abstract class FeaturesDataStoreDataSource {
     abstract fun loadFeatures(): Features
 
     abstract suspend fun storeFeatures(features: Features)
+
+    abstract suspend fun clearFeatures()
 }

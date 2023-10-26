@@ -96,4 +96,14 @@ internal class JwtProviderImpl @Inject constructor(
             }
         }
     }
+
+    override fun clearCaches() {
+        runBlocking {
+            jwtDataStoreDataSource.clearTokens()
+            withContext(Dispatchers.Default) {
+                updateCachedAccessTokenAvailable(false)
+                updateCachedRefreshTokenAvailable(false)
+            }
+        }
+    }
 }

@@ -53,6 +53,12 @@ internal class JwtStoreImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearTokens() {
+        transform {
+            preferencesDataStore.edit { preferences -> preferences.clear() }
+        }
+    }
+
     private companion object {
         val ACCESS_TOKEN = stringPreferencesKey("access-token")
         val ACCESS_TOKEN_EXPIRATION = longPreferencesKey("access-token-expiration")

@@ -7,4 +7,6 @@ internal abstract class JwtStore {
     abstract fun loadTokens(): Tokens
 
     abstract suspend fun storeTokens(tokens: Tokens)
+
+    abstract suspend fun clearTokens()
 }

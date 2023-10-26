@@ -24,7 +24,7 @@ fun DmsScaffold(
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     containerColor: Color = DmsTheme.colorScheme.background,
-    contentColor: Color = DmsTheme.colorScheme.background,
+    contentColor: Color = DmsTheme.colorScheme.onBackground,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     content: @Composable (PaddingValues) -> Unit,
 ) = Scaffold(

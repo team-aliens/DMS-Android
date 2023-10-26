@@ -23,4 +23,6 @@ abstract class AuthRepository {
     )
 
     abstract suspend fun checkIdExists(accountId: String): HashedEmail
+
+    abstract suspend fun signOut()
 }

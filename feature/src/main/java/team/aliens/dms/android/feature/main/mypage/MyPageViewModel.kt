@@ -1,27 +1,24 @@
 package team.aliens.dms.android.feature.main.mypage
-/*
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.feature._legacy.base.BaseMviViewModel
-import team.aliens.dms.android.feature._legacy.base.MviIntent
-import team.aliens.dms.android.feature._legacy.base.MviSideEffect
-import team.aliens.dms.android.feature._legacy.base.MviState
-import team.aliens.dms.android.domain.model.mypage.MyPage
-import team.aliens.dms.android.domain.usecase.auth.SignOutUseCase
-import team.aliens.dms.android.domain.usecase.student.FetchMyPageUseCase
-import team.aliens.dms.android.domain.usecase.student.WithdrawUseCase
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.data.student.model.MyPage
+import team.aliens.dms.android.data.student.repository.StudentRepository
 import javax.inject.Inject
 
 @HiltViewModel
 internal class MyPageViewModel @Inject constructor(
-    private val fetchMyPageUseCase: FetchMyPageUseCase,
-    private val signOutUseCase: SignOutUseCase,
-    private val withdrawUseCase: WithdrawUseCase,
-) : BaseMviViewModel<MyPageIntent, MyPageState, MyPageSideEffect>(
-    initialState = MyPageState.initial(),
+    private val authRepository: AuthRepository,
+    private val studentRepository: StudentRepository,
+) : BaseMviViewModel<MyPageUiState, MyPageIntent, MyPageSideEffect>(
+    initialState = MyPageUiState.initial(),
 ) {
     init {
         fetchMyPage()
@@ -36,55 +33,55 @@ internal class MyPageViewModel @Inject constructor(
 
     private fun fetchMyPage() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                fetchMyPageUseCase()
-            }.onSuccess { fetchedMyPage ->
-                reduce(
-                    newState = stateFlow.value.copy(
-                        myPage = fetchedMyPage,
-                    ),
-                )
+            runCatching {
+                studentRepository.fetchMyPage()
+            }.onSuccess { myPage ->
+                reduce(newState = stateFlow.value.copy(myPage = myPage))
             }
         }
     }
 
     private fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                signOutUseCase()
+            runCatching {
+                authRepository.signOut()
             }.onSuccess {
-
+                postSideEffect(MyPageSideEffect.SignOutSuccess)
             }
         }
     }
 
     private fun withdraw() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                withdrawUseCase()
+            runCatching {
+                studentRepository.withdraw()
             }.onSuccess {
-
+                postSideEffect(MyPageSideEffect.WithdrawalSuccess)
             }
         }
     }
 }
 
-internal sealed class MyPageIntent : MviIntent {
-    object SignOut : MyPageIntent()
-    object Withdraw : MyPageIntent()
-}
-
-internal data class MyPageState(
+internal data class MyPageUiState(
     val myPage: MyPage?,
-) : MviState {
+) : UiState() {
     companion object {
-        fun initial(): MyPageState {
-            return MyPageState(
-                myPage = null,
-            )
-        }
+        fun initial() = MyPageUiState(
+            myPage = null,
+        )
     }
 }
 
-internal sealed class MyPageSideEffect : MviSideEffect
-*/
+internal sealed class MyPageIntent : Intent() {
+
+    data object SignOut : MyPageIntent()
+
+    data object Withdraw : MyPageIntent()
+}
+
+internal sealed class MyPageSideEffect : SideEffect() {
+
+    data object SignOutSuccess : MyPageSideEffect()
+
+    data object WithdrawalSuccess : MyPageSideEffect()
+}

@@ -65,4 +65,9 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun checkIdExists(accountId: String): HashedEmail {
         TODO("Not yet implemented")
     }
+
+    override suspend fun signOut() {
+        jwtProvider.clearCaches()
+        schoolProvider.clearCaches()
+    }
 }

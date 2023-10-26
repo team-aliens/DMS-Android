@@ -8,6 +8,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
@@ -60,10 +62,13 @@ internal fun ApplicationScreen(
                 .padding(padValues),
         ) {
             ApplicationCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
                 title = stringResource(id = R.string.study_room),
                 appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
                     stringResource(
-                        id = R.string.study_room_applied_text_format,
+                        id = R.string.format_study_room_applied_text,
                         studyRoom.floor,
                         studyRoom.name,
                     )
@@ -73,6 +78,7 @@ internal fun ApplicationScreen(
                 onButtonClick = onNavigateToStudyRoomList,
             )
             ApplicationCard(
+                modifier = Modifier.fillMaxWidth(),
                 title = stringResource(id = R.string.remains_application),
                 appliedTitle = uiState.appliedRemainsOption?.title,
                 description = stringResource(id = R.string.remains_description),
@@ -95,7 +101,6 @@ private fun ApplicationCard(
     Card(
         modifier = modifier
             .animateContentSize()
-            .fillMaxWidth()
             .horizontalPadding()
             .verticalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
@@ -111,7 +116,6 @@ private fun ApplicationCard(
             Row(
                 modifier = Modifier
                     .animateContentSize()
-                    .fillMaxWidth()
                     .horizontalPadding()
                     .topPadding(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -132,6 +136,10 @@ private fun ApplicationCard(
                         RoundedButton(
                             onClick = {},
                             fillMinSize = false,
+                            contentPadding = PaddingValues(
+                                horizontal = PaddingDefaults.Medium,
+                                vertical = PaddingDefaults.Small,
+                            ),
                         ) {
                             Text(text = appliedTitle)
                         }

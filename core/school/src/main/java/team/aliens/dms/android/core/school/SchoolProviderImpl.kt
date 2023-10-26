@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.datastore.FeaturesDataStoreDataSource
@@ -57,6 +58,12 @@ internal class SchoolProviderImpl @Inject constructor(
             withContext(Dispatchers.Default) {
                 updateFeaturesAvailable(true)
             }
+        }
+    }
+
+    override fun clearCaches() {
+        runBlocking {
+            featuresDataStoreDataSource.clearFeatures()
         }
     }
 }

@@ -160,7 +160,11 @@ internal fun HomeScreen(
                     onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
                     onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
                 )
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                )
                 MealCards(
                     modifier = Modifier.weight(20f),
                     currentDate = selectedCalendarDate,
@@ -493,6 +497,7 @@ private fun MealCard(
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Dishes(
+            modifier = Modifier.fillMaxWidth(),
             iconRes = currentCardType.iconRes,
             dishes = when (currentCardType) {
                 BREAKFAST -> breakfast
@@ -522,7 +527,6 @@ private fun Dishes(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
             .horizontalPadding()
             .topPadding(PaddingDefaults.ExtraLarge)
             .bottomPadding(),
