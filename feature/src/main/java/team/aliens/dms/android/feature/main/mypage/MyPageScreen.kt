@@ -26,8 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -111,6 +111,17 @@ internal fun MyPageScreen(
             )
             Options(
                 modifier = Modifier.fillMaxWidth(),
+                onNavigateToPointHistory = onNavigateToPointHistory,
+                onNavigateToEditPassword = onNavigateToEditPassword,
+                onSignOutClick = {
+
+                },
+                onThemeSettingsClick = {
+
+                },
+                onWithdrawalClick = {
+
+                },
             )
             // TODO: measure navigation bar height
             Spacer(modifier = Modifier.height(84.dp))
@@ -343,7 +354,49 @@ private enum class PointCardType {
 @Composable
 private fun Options(
     modifier: Modifier = Modifier,
+    onNavigateToPointHistory: () -> Unit,
+    onNavigateToEditPassword: () -> Unit,
+    onSignOutClick: () -> Unit,
+    onThemeSettingsClick: () -> Unit,
+    onWithdrawalClick: () -> Unit,
 ) {
+    val userOptions = remember {
+        listOf(
+            Option(
+                titleRes = R.string.my_page_check_point_history,
+                onClick = onNavigateToPointHistory,
+            ),
+            Option(
+                titleRes = R.string.my_page_edit_password,
+                onClick = onNavigateToEditPassword,
+            ),
+        )
+    }
+    val signOutOption = remember {
+        listOf(
+            Option(
+                titleRes = R.string.my_page_sign_out,
+                onClick = onSignOutClick,
+            ),
+        )
+    }
+    val themeOption = remember {
+        listOf(
+            Option(
+                titleRes = R.string.my_page_theme_settings,
+                onClick = onThemeSettingsClick,
+            ),
+        )
+    }
+    val withdrawalOption = remember {
+        listOf(
+            Option(
+                titleRes = R.string.my_page_withdrawal,
+                onClick = onWithdrawalClick,
+            ),
+        )
+    }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(LargeVerticalSpace),
@@ -366,42 +419,6 @@ private fun Options(
         )
     }
 }
-
-@Stable
-private val userOptions: List<Option> = listOf(
-    Option(
-        titleRes = R.string.my_page_check_point_history,
-        onClick = {},
-    ),
-    Option(
-        titleRes = R.string.my_page_edit_password,
-        onClick = {},
-    ),
-)
-
-@Stable
-private val signOutOption: List<Option> = listOf(
-    Option(
-        titleRes = R.string.my_page_sign_out,
-        onClick = {},
-    ),
-)
-
-@Stable
-private val withdrawalOption: List<Option> = listOf(
-    Option(
-        titleRes = R.string.my_page_withdrawal,
-        onClick = {},
-    ),
-)
-
-@Stable
-private val themeOption: List<Option> = listOf(
-    Option(
-        titleRes = R.string.my_page_theme_settings,
-        onClick = {},
-    )
-)
 
 @Composable
 private fun OptionLayout(
