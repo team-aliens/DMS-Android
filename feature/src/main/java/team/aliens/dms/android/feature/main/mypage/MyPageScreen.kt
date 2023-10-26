@@ -397,7 +397,6 @@ private fun Options(
             ),
         )
     }
-
     val themeOption = remember {
         listOf(
             Option(
@@ -448,7 +447,7 @@ private fun OptionLayout(
         options.forEachIndexed { index, option ->
             Text(
                 modifier = Modifier
-                    .clickable { }
+                    .clickable(onClick = option.onClick)
                     .fillMaxWidth()
                     .horizontalPadding()
                     .verticalPadding(PaddingDefaults.Medium),
