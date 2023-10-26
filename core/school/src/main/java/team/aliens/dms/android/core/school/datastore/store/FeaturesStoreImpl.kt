@@ -48,6 +48,12 @@ internal class FeaturesStoreImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearFeatures() {
+        transform {
+            preferencesDataStore.edit { preferences -> preferences.clear() }
+        }
+    }
+
     private companion object {
         val MEAL_SERVICE = booleanPreferencesKey("meal-service")
         val NOTICE_SERVICE = booleanPreferencesKey("notice-service")
