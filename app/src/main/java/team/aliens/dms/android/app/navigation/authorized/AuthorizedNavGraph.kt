@@ -1,6 +1,7 @@
 package team.aliens.dms.android.app.navigation.authorized
 
 import com.ramcosta.composedestinations.dynamic.routedIn
+import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
