@@ -96,4 +96,8 @@ internal class JwtProviderImpl @Inject constructor(
             }
         }
     }
+
+    override fun clearCaches() {
+        jwtDataStoreDataSource.clearTokens()
+    }
 }
