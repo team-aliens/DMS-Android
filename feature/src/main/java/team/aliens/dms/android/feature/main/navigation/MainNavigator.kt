@@ -12,6 +12,8 @@ interface MainNavigator {
 
     fun openRemainsApplication()
 
+    fun openEditProfileImage()
+
     fun openPointHistory()
 
     fun openEditPassword()
