@@ -8,4 +8,6 @@ abstract class SchoolProvider {
     abstract val isFeaturesAvailable: StateFlow<Boolean>
 
     abstract fun updateFeatures(features: Features)
+
+    abstract fun clearCaches()
 }
