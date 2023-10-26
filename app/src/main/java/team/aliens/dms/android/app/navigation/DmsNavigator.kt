@@ -68,7 +68,7 @@ class DmsNavigator(
     }
 
     override fun openEditPassword() {
-        navController.navigate(EditPasswordNavGraph within navGraph)
+        navController.navigate(EditPasswordNavGraph)
     }
 
     override fun openNoticeDetails(noticeId: UUID) {
