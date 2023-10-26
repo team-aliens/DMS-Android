@@ -12,10 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -67,6 +65,10 @@ import team.aliens.dms.android.shared.model.Sex
 @Composable
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
+    onNavigateToEditProfileImage: () -> Unit,
+    onNavigateToPointHistory: () -> Unit,
+    onNavigateToEditPassword: () -> Unit,
+    onNavigateToUnauthorizedNav: () -> Unit,
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -96,9 +98,7 @@ internal fun MyPageScreen(
                 sex = uiState.myPage?.sex,
                 schoolName = uiState.myPage?.schoolName,
                 profileImageUrl = uiState.myPage?.profileImageUrl,
-                onNavigateToEditProfile = {
-                    /* TODO */
-                },
+                onNavigateToEditProfileImage = onNavigateToEditProfileImage,
             )
             PhraseCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -126,7 +126,7 @@ private fun UserInformation(
     sex: Sex?,
     schoolName: String?,
     profileImageUrl: String?,
-    onNavigateToEditProfile: () -> Unit,
+    onNavigateToEditProfileImage: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -185,15 +185,17 @@ private fun UserInformation(
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
-                    .clickable { /* TODO */ },
-                painter = rememberAsyncImagePainter(model = R.drawable.img_profile_default),
+                    .clickable(onClick = onNavigateToEditProfileImage),
+                painter = rememberAsyncImagePainter(
+                    model = profileImageUrl ?: R.drawable.img_profile_default
+                ),
                 contentDescription = stringResource(id = R.string.profile_image),
             )
             Image(
                 modifier = Modifier
                     .size(20.dp)
                     .clip(CircleShape)
-                    .clickable { },
+                    .clickable(onClick = onNavigateToEditProfileImage),
                 painter = painterResource(id = R.drawable.ic_my_page_edit),
                 contentDescription = null,
             )

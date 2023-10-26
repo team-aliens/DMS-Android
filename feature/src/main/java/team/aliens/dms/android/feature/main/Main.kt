@@ -186,7 +186,13 @@ internal fun Main(
                         }
                     },
                 ) {
-                    MyPageScreen()
+                    MyPageScreen(
+                        modifier = Modifier,
+                        onNavigateToEditProfileImage = mainNavigator::openEditProfileImage,
+                        onNavigateToPointHistory = mainNavigator::openPointHistory,
+                        onNavigateToEditPassword = mainNavigator::openEditPassword,
+                        onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
+                    )
                 }
             }
         }
