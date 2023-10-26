@@ -10,6 +10,7 @@ import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavigator
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
+import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
@@ -56,6 +57,10 @@ class DmsNavigator(
 
     override fun openRemainsApplication() {
         navController.navigate(RemainsApplicationScreenDestination within navGraph)
+    }
+
+    override fun openEditProfileImage() {
+        navController.navigate(EditProfileImageScreenDestination() within navGraph)
     }
 
     override fun openPointHistory() {
