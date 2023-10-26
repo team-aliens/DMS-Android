@@ -161,11 +161,11 @@ private fun UserInformation(
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // TODO: fix
                 Text(
                     text = stringResource(
                         id = R.string.my_page_format_gcn_name,
                         gradeClassNumber ?: 2211,
+                        // TODO: fix
                         studentName ?: "박준수",
                     ),
                     style = DmsTheme.typography.title1,
@@ -192,6 +192,7 @@ private fun UserInformation(
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),
+                // TODO: Fix
                 text = schoolName ?: "대덕소프트웨어마이스터고등학교",
                 style = DmsTheme.typography.body2,
                 color = DmsTheme.colorScheme.surfaceVariant,
@@ -250,6 +251,7 @@ private fun PhraseCard(
             modifier = Modifier
                 .horizontalPadding()
                 .verticalPadding(PaddingDefaults.Medium),
+            // TODO
             text = phrase ?: "힘 내십쇼",
             style = DmsTheme.typography.caption,
         )
