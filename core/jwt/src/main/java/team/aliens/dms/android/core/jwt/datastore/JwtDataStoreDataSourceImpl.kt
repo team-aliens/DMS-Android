@@ -13,4 +13,8 @@ internal class JwtDataStoreDataSourceImpl @Inject constructor(
     override suspend fun storeTokens(tokens: Tokens) {
         jwtStore.storeTokens(tokens)
     }
+
+    override suspend fun clearTokens() {
+        jwtStore.clearTokens()
+    }
 }
