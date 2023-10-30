@@ -1,74 +1,82 @@
 package team.aliens.dms.android.feature.remains
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.ui.composable.FloatingNotice
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.data.remains.model.RemainsOption
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun RemainsApplicationScreen(
     modifier: Modifier = Modifier,
     navigator: RemainsNavigator,
-    // remainsApplicationViewModel: RemainsApplicationViewModel = hiltViewModel(),
-) {/*
-    val uiState by remainsApplicationViewModel.uiState.collectAsStateWithLifecycle()
-    val remainsApplicationTime = uiState.remainsApplicationTime
-
-    val onRemainsApplicationClicked = {
-        remainsApplicationViewModel.onEvent(RemainsApplicationUiEvent.UpdateRemainsOption)
-    }
-    val onRemainsOptionSelected = { selectedRemainsOption: RemainsOption ->
-        remainsApplicationViewModel.onEvent(
-            RemainsApplicationUiEvent.SelectRemainsOption(selectedRemainsOption),
-        )
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DormTheme.colors.background),
-        verticalArrangement = Arrangement.Center,
-    ) {
-        TopBar(
-            title = stringResource(R.string.remains_apply),
-            onPrevious = navigator::popBackStack,
-        )
-
-        if (remainsApplicationTime != null) {
-            RemainsApplicationTimeCard(remainsApplicationTime)
-        }
-
-        Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.BottomCenter,
-        ) {
-            RemainsItems(
-                remainsOptions = uiState.remainsOptions,
-                selectedRemainsOptionId = uiState.selectedRemainsOption?.id,
-                onRemainsOptionSelected = onRemainsOptionSelected,
+) {
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = { Text(text = stringResource(id = R.string.point_history)) },
+                navigationIcon = {
+                    IconButton(onClick = navigator::popBackStack) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
             )
-
-            val applicationButtonEnabled = uiState.applicationButtonEnabled
-
-            if (uiState.selectedRemainsOption != null) {
-                DormContainedLargeButton(
-                    modifier = Modifier.padding(
-                        bottom = 57.dp,
-                        start = 16.dp,
-                        end = 16.dp,
-                    ),
-                    text = if (applicationButtonEnabled) String.format(
-                        stringResource(R.string.application_apply_of),
-                        uiState.selectedRemainsOption?.title ?: throw IllegalStateException(),
-                    ) else stringResource(R.string.application_completed),
-                    color = DormButtonColor.Blue,
-                    enabled = applicationButtonEnabled,
-                    onClick = onRemainsApplicationClicked,
-                )
-            }
         }
-    }*/
+    ) { padValues ->
+        Column(
+            modifier = Modifier.padding(padValues),
+        ) {
+            FloatingNotice(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                text = stringResource(
+                    id = R.string.format_remains_available_remains_application_time,
+                    "화",
+                    "12:30",
+                    "목",
+                    "15:50",
+                ),
+            )
+            RemainsOptionList(
+                modifier = Modifier.fillMaxWidth(),
+                options = listOf(),
+            )
+        }
+    }
+}
+
+@Composable
+private fun RemainsOptionList(
+    modifier: Modifier = Modifier,
+    options:List<RemainsOption>
+) {
+    LazyColumn(
+        modifier = modifier,
+    ){
+
+    }
 }
 /*
 
