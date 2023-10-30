@@ -1,11 +1,15 @@
 package team.aliens.dms.android.feature.remains
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
+import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
 import team.aliens.dms.android.data.remains.model.RemainsOption
 import team.aliens.dms.android.data.remains.repository.RemainsRepository
 import javax.inject.Inject
@@ -16,15 +20,63 @@ internal class RemainsApplicationViewModel @Inject constructor(
 ) : BaseMviViewModel<RemainsApplicationUiState, RemainsApplicationIntent, RemainsApplicationSideEffect>(
     initialState = RemainsApplicationUiState.initial(),
 ) {
+    init {
+        fetchRemainsApplicationTime()
+        fetchRemainsOptions()
+        fetchAppliedRemainsOption()
+    }
 
+    private fun fetchRemainsApplicationTime() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchRemainsApplicationTime()
+            }.onSuccess { fetchedRemainsApplicationTime ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        remainsApplicationTime = fetchedRemainsApplicationTime,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun fetchRemainsOptions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchRemainsOptions()
+            }.onSuccess { fetchedRemainsOptions ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        remainsOptions = fetchedRemainsOptions,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun fetchAppliedRemainsOption() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchAppliedRemainsOption()
+            }.onSuccess { fetchedAppliedRemainsOption ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        appliedRemainsOption = fetchedAppliedRemainsOption,
+                    ),
+                )
+            }
+        }
+    }
 }
 
 internal data class RemainsApplicationUiState(
+    val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
     val remainsOptions: List<RemainsOption>,
 ) : UiState() {
     companion object {
         fun initial() = RemainsApplicationUiState(
+            remainsApplicationTime = null,
             appliedRemainsOption = null,
             remainsOptions = emptyList(),
         )
