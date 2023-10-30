@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,21 +21,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -90,8 +97,23 @@ internal fun PointHistoryScreen(
                 color = DmsTheme.colorScheme.surfaceVariant,
             )
             PointList(
-                modifier = Modifier.fillMaxWidth(),
-                points = listOf(),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                points = listOf(
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", -2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", -2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
+                ),
             )
         }
     }
@@ -144,10 +166,13 @@ private fun PointList(
     points: List<Point>,
 ) {
     LazyColumn(
-        modifier = modifier.horizontalPadding(),
+        modifier = modifier,
     ) {
         items(points) { point ->
-
+            PointCard(
+                modifier = Modifier.fillMaxWidth(),
+                point = point,
+            )
         }
     }
 }
@@ -155,11 +180,54 @@ private fun PointList(
 @Composable
 private fun PointCard(
     modifier: Modifier = Modifier,
+    point: Point,
 ) {
     Card(
-
+        modifier = modifier
+            .horizontalPadding()
+            .verticalPadding(PaddingDefaults.ExtraSmall),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
-
+        Column(
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .topPadding(),
+                text = "${point.date}",
+                color = DmsTheme.colorScheme.onSurfaceVariant,
+                style = DmsTheme.typography.caption,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = point.name,
+                    color = DmsTheme.colorScheme.onSurface,
+                    style = DmsTheme.typography.body2,
+                )
+                Text(
+                    text = "${point.score}",
+                    color = when (point.type) {
+                        PointType.ALL -> throw IllegalStateException()
+                        PointType.BONUS -> DmsTheme.colorScheme.primary
+                        PointType.MINUS -> DmsTheme.colorScheme.error
+                    },
+                    style = DmsTheme.typography.body2,
+                )
+            }
+        }
     }
 }
 
