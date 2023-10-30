@@ -1,4 +1,39 @@
 package team.aliens.dms.android.feature.point
+
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.point.model.Point
+import team.aliens.dms.android.data.point.model.PointType
+import javax.inject.Inject
+
+@HiltViewModel
+internal class PointHistoryViewModel @Inject constructor(
+
+) : BaseMviViewModel<PointHistoryUiState, PointHistoryIntent, PointHistorySideEffect>(
+    initialState = PointHistoryUiState.initial(),
+) {
+
+}
+
+internal data class PointHistoryUiState(
+    val selectedPointType: PointType,
+    val points: List<Point>,
+) : UiState() {
+    companion object {
+        fun initial() = PointHistoryUiState(
+            selectedPointType = PointType.ALL,
+            points = emptyList(),
+        )
+    }
+}
+
+internal sealed class PointHistoryIntent : Intent()
+
+internal sealed class PointHistorySideEffect : SideEffect()
+
 /*
 
 import androidx.lifecycle.viewModelScope
