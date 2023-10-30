@@ -54,8 +54,8 @@ internal class PointHistoryViewModel @Inject constructor(
                 val minusPoints = pointStatus.points.filter { it.type == PointType.MINUS }
                 this@PointHistoryViewModel.minusPoints = minusPoints
                 this@PointHistoryViewModel.scoreOfMinusPoints = minusPoints.sumOf { it.score }
-            }.onFailure {
-                it.printStackTrace()
+
+                updatePoints(PointType.ALL)
             }
         }
     }
