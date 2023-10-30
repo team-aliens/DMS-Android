@@ -12,9 +12,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -34,6 +38,13 @@ internal fun NoticeDetailsScreen(
     navigator: NoticeNavigator,
     noticeId: UUID,
 ) {
+    val viewModel: NoticeDetailsViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
+    LaunchedEffect(noticeId) {
+        viewModel.postIntent(NoticeDetailsIntent.FetchNoticeDetails(noticeId))
+    }
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
@@ -54,39 +65,50 @@ internal fun NoticeDetailsScreen(
             modifier = Modifier.padding(padValues),
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            // TODO
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalPadding()
-                    .topPadding(),
-                text = "공지 제목",
-                style = DmsTheme.typography.title2,
-                color = DmsTheme.colorScheme.onSurface,
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalPadding(),
-                text = "2023-05-08 17:16",
-                style = DmsTheme.typography.caption,
-                color = DmsTheme.colorScheme.onSurfaceVariant,
-            )
+            if (uiState.title != null) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding()
+                        .topPadding(),
+                    text = uiState.title!!,
+                    style = DmsTheme.typography.title2,
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+            } else {
+                // TODO handle null
+            }
+            if (uiState.createdAt != null) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    text = uiState.createdAt.toString(),
+                    style = DmsTheme.typography.caption,
+                    color = DmsTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                // TODO handle null
+            }
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
                 color = DmsTheme.colorScheme.line,
             )
-            Text(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxWidth()
-                    .horizontalPadding(),
-                text = "공지사항",
-                style = DmsTheme.typography.body3,
-                color = DmsTheme.colorScheme.onSurface,
-            )
+            if (uiState.content != null) {
+                Text(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    text = uiState.content!!,
+                    style = DmsTheme.typography.body3,
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+            } else {
+                // TODO handle null
+            }
         }
     }
 }
