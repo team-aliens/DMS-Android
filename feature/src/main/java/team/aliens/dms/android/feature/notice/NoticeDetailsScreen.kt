@@ -88,55 +88,5 @@ internal fun NoticeDetailsScreen(
                 color = DmsTheme.colorScheme.onSurface,
             )
         }
-    }/*
-    val uiState by noticeDetailsViewModel.stateFlow.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        // noticeDetailsViewModel.postIntent(NoticeDetailsIntent.FetchNoticeDetails(noticeId))
     }
-
-    Column(
-        modifier = modifier
-            .background(DormTheme.colors.background)
-            .fillMaxSize(),
-    ) {
-        TopBar(
-            title = stringResource(R.string.Announcement),
-            onPrevious = navigator::popBackStack,
-        )
-        Column(
-            modifier = Modifier
-                .padding(
-                    top = 40.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                )
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.Start,
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Title3(text = uiState.title)
-                Caption(
-                    text = uiState.createdAt.toNoticeDate(),
-                    color = DormTheme.colors.primaryVariant,
-                )
-                Divider(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = DormTheme.colors.secondaryVariant,
-                )
-            }
-            Body5(
-                modifier = Modifier
-                    .verticalScroll(
-                        rememberScrollState(),
-                    )
-                    .padding(
-                        top = 8.dp,
-                    ),
-                text = uiState.content,
-            )
-        }
-    }*/
 }
