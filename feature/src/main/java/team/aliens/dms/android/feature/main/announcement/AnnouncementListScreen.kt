@@ -100,6 +100,7 @@ private fun OrderButton(
             .topPadding(),
         onClick = onOrderChange,
         colors = ButtonDefaults.outlinedGrayButtonColors(),
+        fillMinSize = false,
     ) {
         Text(text = order.text)
     }
