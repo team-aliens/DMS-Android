@@ -1,7 +1,10 @@
 package team.aliens.dms.android.feature.notice
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.threeten.bp.LocalDate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -16,10 +19,25 @@ internal class NoticeDetailsViewModel @Inject constructor(
 ) : BaseMviViewModel<NoticeDetailsUiState, NoticeDetailsIntent, NoticeDetailsSideEffect>(
     initialState = NoticeDetailsUiState.initial(),
 ) {
-
     override fun processIntent(intent: NoticeDetailsIntent) {
         when (intent) {
-            is NoticeDetailsIntent.FetchNoticeDetails -> TODO()
+            is NoticeDetailsIntent.FetchNoticeDetails -> this.fetchNoticeDetails(intent.noticeId)
+        }
+    }
+
+    private fun fetchNoticeDetails(noticeId: UUID) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                noticeRepository.fetchNoticeDetails(noticeId)
+            }.onSuccess { notice ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        title = notice.title,
+                        content = notice.content,
+                        createdAt = notice.createdAt,
+                    ),
+                )
+            }
         }
     }
 }
@@ -27,7 +45,7 @@ internal class NoticeDetailsViewModel @Inject constructor(
 internal data class NoticeDetailsUiState(
     val title: String?,
     val content: String?,
-    val createdAt: LocalDate?,
+    val createdAt: LocalDateTime?,
 ) : UiState() {
     companion object {
         fun initial() = NoticeDetailsUiState(
