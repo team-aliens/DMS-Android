@@ -2,6 +2,7 @@ package team.aliens.dms.android.feature.remains
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -68,7 +69,7 @@ internal fun RemainsApplicationScreen(
                     }
                 },
             )
-        }
+        },
     ) { padValues ->
         Column(
             modifier = Modifier.padding(padValues),
@@ -91,6 +92,10 @@ internal fun RemainsApplicationScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 options = uiState.remainsOptions,
+                indexOfSelectedRemainsOption = uiState.indexOfSelectedRemainsOption,
+                onRemainsOptionSelected = { index ->
+                    viewModel.postIntent(RemainsApplicationIntent.UpdateSelectedRemainsOption(index))
+                },
             )
         }
     }
@@ -100,14 +105,18 @@ internal fun RemainsApplicationScreen(
 private fun RemainsOptionList(
     modifier: Modifier = Modifier,
     options: List<RemainsOption>,
+    indexOfSelectedRemainsOption: Int?,
+    onRemainsOptionSelected: (index: Int) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
     ) {
-        items(options) { option ->
+        itemsIndexed(options) { index, option ->
             RemainsOptionCard(
                 modifier = Modifier.fillMaxWidth(),
                 remainsOption = option,
+                selected = index == indexOfSelectedRemainsOption,
+                onClick = { onRemainsOptionSelected(index) },
             )
         }
     }
@@ -117,6 +126,8 @@ private fun RemainsOptionList(
 private fun RemainsOptionCard(
     modifier: Modifier = Modifier,
     remainsOption: RemainsOption,
+    selected: Boolean,
+    onClick: () -> Unit,
 ) {
     // TODO: expanded index
     val (expanded, onExpand) = remember { mutableStateOf(false) }
@@ -138,11 +149,17 @@ private fun RemainsOptionCard(
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+        border = if (selected) {
+            BorderStroke(
+                width = 1.dp,
+                color = DmsTheme.colorScheme.primary,
+            )
+        } else {
+            null
+        },
     ) {
         Column(
-            modifier = Modifier
-                // TODO
-                .clickable { },
+            modifier = Modifier.clickable(onClick = onClick),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -155,8 +172,11 @@ private fun RemainsOptionCard(
                         .verticalPadding(),
                     text = remainsOption.title,
                     style = DmsTheme.typography.title2,
-                    // TODO color
-                    color = DmsTheme.colorScheme.onSurface,
+                    color = if (selected) {
+                        DmsTheme.colorScheme.primary
+                    } else {
+                        DmsTheme.colorScheme.onSurface
+                    },
                 )
                 IconButton(onClick = { onExpand(!expanded) }) {
                     Icon(
@@ -164,8 +184,7 @@ private fun RemainsOptionCard(
                             .size(24.dp)
                             .rotate(rotate),
                         painter = painterResource(
-                            id =
-                            team.aliens.dms.android.core.designsystem.R.drawable.ic_down
+                            id = team.aliens.dms.android.core.designsystem.R.drawable.ic_down
                         ),
                         contentDescription = stringResource(id = R.string.remains_expand_remains_option_card),
                     )
@@ -178,7 +197,9 @@ private fun RemainsOptionCard(
                 visible = expanded,
             ) {
                 Text(
-                    modifier = Modifier.bottomPadding(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .bottomPadding(),
                     text = remainsOption.description,
                     style = DmsTheme.typography.body3,
                     color = DmsTheme.colorScheme.surfaceVariant,
