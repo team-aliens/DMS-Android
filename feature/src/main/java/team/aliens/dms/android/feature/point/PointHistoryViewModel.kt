@@ -1,6 +1,9 @@
 package team.aliens.dms.android.feature.point
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -37,18 +40,31 @@ internal class PointHistoryViewModel @Inject constructor(
     }
 
     private fun fetchPoints() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                pointRepository.fetchPoints(type = PointType.ALL)
+            }.onSuccess { pointStatus ->
+                this@PointHistoryViewModel.allPoints = pointStatus.points
+                this@PointHistoryViewModel.scoreOfAllPoints = pointStatus.totalPoints
 
+                val bonusPoints = pointStatus.points.filter { it.type == PointType.BONUS }
+                this@PointHistoryViewModel.bonusPoints = bonusPoints
+                this@PointHistoryViewModel.scoreOfBonusPoints = bonusPoints.sumOf { it.score }
+
+                val minusPoints = pointStatus.points.filter { it.type == PointType.MINUS }
+                this@PointHistoryViewModel.minusPoints = minusPoints
+                this@PointHistoryViewModel.scoreOfMinusPoints = minusPoints.sumOf { it.score }
+            }
+        }
     }
 
     private fun updatePoints(pointType: PointType): Boolean = reduce(
         newState = stateFlow.value.copy(
-            selectedPointType = pointType,
-            totalPoints = when (pointType) {
+            selectedPointType = pointType, totalPoints = when (pointType) {
                 PointType.ALL -> scoreOfAllPoints
                 PointType.BONUS -> scoreOfBonusPoints
                 PointType.MINUS -> scoreOfMinusPoints
-            },
-            points = when (pointType) {
+            }, points = when (pointType) {
                 PointType.ALL -> allPoints
                 PointType.BONUS -> bonusPoints
                 PointType.MINUS -> minusPoints
