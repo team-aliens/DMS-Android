@@ -88,11 +88,7 @@ internal fun PointHistoryScreen(
                 modifier = Modifier.startPadding(),
                 text = stringResource(
                     id = R.string.format_point,
-                    when (uiState.selectedPointType) {
-                        PointType.ALL -> 23
-                        PointType.BONUS -> 52
-                        PointType.MINUS -> -25
-                    },
+                    uiState.totalPoints ?: 0, // TODO
                 ),
                 style = DmsTheme.typography.headline1,
                 color = DmsTheme.colorScheme.surfaceVariant,
