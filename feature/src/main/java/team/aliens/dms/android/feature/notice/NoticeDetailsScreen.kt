@@ -1,5 +1,12 @@
 package team.aliens.dms.android.feature.notice
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -10,7 +17,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.notice.navigation.NoticeNavigator
 import java.util.UUID
@@ -37,11 +48,47 @@ internal fun NoticeDetailsScreen(
                     }
                 },
             )
-        }
+        },
     ) { padValues ->
-
-    }
-    /*
+        Column(
+            modifier = Modifier.padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+        ) {
+            // TODO
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .topPadding(),
+                text = "공지 제목",
+                style = DmsTheme.typography.title2,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                text = "2023-05-08 17:16",
+                style = DmsTheme.typography.caption,
+                color = DmsTheme.colorScheme.onSurfaceVariant,
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                color = DmsTheme.colorScheme.line,
+            )
+            Text(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                text = "공지사항",
+                style = DmsTheme.typography.body3,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+        }
+    }/*
     val uiState by noticeDetailsViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
