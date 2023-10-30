@@ -11,10 +11,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import team.aliens.dms.android.app.navigation.DmsNavHost
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.ToastLayout
-import team.aliens.dms.android.core.designsystem.rememberToastState
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,21 +22,14 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            // TODO: flow 로직 수정 필요
             val autoSignIn by viewModel.autoSignInAvailable.collectAsStateWithLifecycle()
-            val toast = rememberToastState()
 
             DmsTheme {
-                ToastLayout(
+                DmsNavHost(
                     modifier = Modifier.fillMaxSize(),
-                    toastState = toast,
-                ) {
-                    DmsScaffold {
-                        DmsNavHost(
-                            modifier = Modifier.fillMaxSize(),
-                            autoSignIn = autoSignIn,
-                        )
-                    }
-                }
+                    autoSignIn = autoSignIn,
+                )
             }
         }
     }
