@@ -43,6 +43,7 @@ internal class NoticeDetailsViewModel @Inject constructor(
 }
 
 internal data class NoticeDetailsUiState(
+    // TODO: notice model로 변경
     val title: String?,
     val content: String?,
     val createdAt: LocalDateTime?,
