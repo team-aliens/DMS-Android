@@ -428,6 +428,7 @@
     <string name="remains_do_application">잔류 신청하기</string>
     <string name="remains_do_apply">%s 신청하기</string>
     <string name="remains_change_to">%s로 변경하기</string>
+    <string name="remains_expand_remains_option_card">잔류 카드 확장</string>
 
     <string name="remains_description">주말 기숙사 잔류 여부를 확인하고 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
 
