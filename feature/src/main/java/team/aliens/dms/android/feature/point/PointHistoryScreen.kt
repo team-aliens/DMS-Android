@@ -15,13 +15,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -41,7 +41,6 @@ import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -50,8 +49,8 @@ internal fun PointHistoryScreen(
     modifier: Modifier = Modifier,
     navigator: PointHistoryNavigator,
 ) {
-    // TODO: remove
-    val (selectedPointType, onSelectedPointTypeChange) = remember { mutableStateOf(PointType.ALL) }
+    val viewModel: PointHistoryViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     DmsScaffold(
         modifier = modifier,
@@ -80,14 +79,16 @@ internal fun PointHistoryScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .topPadding(),
-                selectedType = selectedPointType,
-                onPointTypeSelected = onSelectedPointTypeChange,
+                selectedType = uiState.selectedPointType,
+                onPointTypeSelected = { type ->
+                    viewModel.postIntent(PointHistoryIntent.UpdateSelectedPointType(type))
+                },
             )
             Text(
                 modifier = Modifier.startPadding(),
                 text = stringResource(
                     id = R.string.format_point,
-                    when (selectedPointType) {
+                    when (uiState.selectedPointType) {
                         PointType.ALL -> 23
                         PointType.BONUS -> 52
                         PointType.MINUS -> -25
@@ -100,20 +101,7 @@ internal fun PointHistoryScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                points = listOf(
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", -2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", -2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.MINUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                    Point(UUID.randomUUID(), LocalDate.now(), PointType.BONUS, "어쩌구", 2),
-                ),
+                points = uiState.points,
             )
         }
     }
