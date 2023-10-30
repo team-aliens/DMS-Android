@@ -74,7 +74,6 @@ internal fun PointHistoryScreen(
                 .padding(padValues),
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            // TODO
             PointFilter(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -202,7 +201,13 @@ private fun PointCard(
                     style = DmsTheme.typography.body2,
                 )
                 Text(
-                    text = "${point.score}",
+                    text = "${
+                        if (point.type == PointType.MINUS) {
+                            point.score * -1
+                        } else {
+                            point.score
+                        }
+                    }",
                     color = when (point.type) {
                         PointType.ALL -> throw IllegalStateException()
                         PointType.BONUS -> DmsTheme.colorScheme.primary
