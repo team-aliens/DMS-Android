@@ -113,12 +113,19 @@ private fun RemainsOptionList(
         modifier = modifier,
     ) {
         itemsIndexed(options) { index, option ->
+            val expanded = index == expandedIndex
             RemainsOptionCard(
                 modifier = Modifier.fillMaxWidth(),
                 remainsOption = option,
                 selected = index == indexOfSelectedRemainsOption,
-                expanded = index == expandedIndex,
-                onExpand = { onExpandedIndexChange(index) },
+                expanded = expanded,
+                onExpand = {
+                    if (expanded) {
+                        onExpandedIndexChange(null)
+                    } else {
+                        onExpandedIndexChange(index)
+                    }
+                },
                 onClick = { onRemainsOptionSelected(index) },
             )
         }
