@@ -26,9 +26,11 @@ fun DmsTheme(
         LocalShapes provides DmsTheme.shapes,
         LocalTypography provides DmsTheme.typography,
     ) {
-        MaterialTheme(
-            content = content,
-        )
+        ToastLayout(toastState = rememberToastState()) {
+            MaterialTheme(
+                content = content,
+            )
+        }
     }
 }
 
