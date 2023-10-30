@@ -38,5 +38,5 @@ internal fun FetchNoticeDetailsResponse.toModel(): Notice = Notice(
     id = this.noticeId,
     title = this.title,
     content = this.content,
-    createdAt = this.createdAt,
+    createdAt = this.createdAt.toLocalDateTime(),
 )
