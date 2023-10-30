@@ -70,12 +70,14 @@ internal class RemainsApplicationViewModel @Inject constructor(
 }
 
 internal data class RemainsApplicationUiState(
+    val selectedRemainsOption: RemainsOption?,
     val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
     val remainsOptions: List<RemainsOption>,
 ) : UiState() {
     companion object {
         fun initial() = RemainsApplicationUiState(
+            selectedRemainsOption = null,
             remainsApplicationTime = null,
             appliedRemainsOption = null,
             remainsOptions = emptyList(),
