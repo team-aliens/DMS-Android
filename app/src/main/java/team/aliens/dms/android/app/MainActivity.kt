@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            // TODO: flow 로직 수정 필요
             val autoSignIn by viewModel.autoSignInAvailable.collectAsStateWithLifecycle()
 
             DmsTheme {
