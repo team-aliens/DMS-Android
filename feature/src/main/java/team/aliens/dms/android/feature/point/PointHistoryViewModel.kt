@@ -7,30 +7,73 @@ import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.data.point.repository.PointRepository
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 internal class PointHistoryViewModel @Inject constructor(
-
+    private val pointRepository: PointRepository,
 ) : BaseMviViewModel<PointHistoryUiState, PointHistoryIntent, PointHistorySideEffect>(
     initialState = PointHistoryUiState.initial(),
 ) {
+    private lateinit var allPoints: List<Point>
+    private var scoreOfAllPoints by Delegates.notNull<Int>()
 
+    private lateinit var bonusPoints: List<Point>
+    private var scoreOfBonusPoints by Delegates.notNull<Int>()
+
+    private lateinit var minusPoints: List<Point>
+    private var scoreOfMinusPoints by Delegates.notNull<Int>()
+
+    init {
+        fetchPoints()
+    }
+
+    override fun processIntent(intent: PointHistoryIntent) {
+        when (intent) {
+            is PointHistoryIntent.UpdateSelectedPointType -> updatePoints(pointType = intent.pointType)
+        }
+    }
+
+    private fun fetchPoints() {
+
+    }
+
+    private fun updatePoints(pointType: PointType): Boolean = reduce(
+        newState = stateFlow.value.copy(
+            selectedPointType = pointType,
+            totalPoints = when (pointType) {
+                PointType.ALL -> scoreOfAllPoints
+                PointType.BONUS -> scoreOfBonusPoints
+                PointType.MINUS -> scoreOfMinusPoints
+            },
+            points = when (pointType) {
+                PointType.ALL -> allPoints
+                PointType.BONUS -> bonusPoints
+                PointType.MINUS -> minusPoints
+            }
+        ),
+    )
 }
 
 internal data class PointHistoryUiState(
     val selectedPointType: PointType,
+    val totalPoints: Int?,
     val points: List<Point>,
 ) : UiState() {
     companion object {
         fun initial() = PointHistoryUiState(
             selectedPointType = PointType.ALL,
+            totalPoints = null,
             points = emptyList(),
         )
     }
 }
 
-internal sealed class PointHistoryIntent : Intent()
+internal sealed class PointHistoryIntent : Intent() {
+    class UpdateSelectedPointType(val pointType: PointType) : PointHistoryIntent()
+}
 
 internal sealed class PointHistorySideEffect : SideEffect()
 
