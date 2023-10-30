@@ -81,6 +81,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
 }
 
 internal data class RemainsApplicationUiState(
+    // TODO UUID
     val indexOfSelectedRemainsOption: Int?,
     val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
