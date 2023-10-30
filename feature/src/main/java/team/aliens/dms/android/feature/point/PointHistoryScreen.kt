@@ -1,58 +1,169 @@
 package team.aliens.dms.android.feature.point
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.data.point.model.Point
+import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun PointHistoryScreen(
     modifier: Modifier = Modifier,
     navigator: PointHistoryNavigator,
-    // pointHistoryViewModel: PointHistoryViewModel = hiltViewModel(),
-) {/*
-    val uiState by pointHistoryViewModel.stateFlow.collectAsStateWithLifecycle()
-    val selectedType = uiState.selectedType
+) {
+    // TODO: remove
+    val (selectedPointType, onSelectedPointTypeChange) = remember { mutableStateOf(PointType.ALL) }
 
-    Column(
-        modifier = modifier
-            .background(DormTheme.colors.background)
-            .fillMaxSize(),
-    ) {
-        TopBar(
-            title = stringResource(R.string.my_page_check_point_history),
-            onPrevious = navigator::popBackStack,
-        )
-        Spacer(Modifier.height(18.dp))
-        PointFilter(
-            selectedType = selectedType,
-            onFilterChange = { pointType: PointType ->
-                pointHistoryViewModel.postIntent(PointHistoryIntent.UpdateFilter(pointType))
-            },
-        )
-        Spacer(Modifier.height(18.dp))
-        Headline2(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            text = String.format(
-                stringResource(R.string.my_page_points_of),
-                when (selectedType) {
-                    PointType.ALL -> uiState.totalAllPoints
-                    PointType.BONUS -> uiState.totalBonusPoints
-                    PointType.MINUS -> uiState.totalMinusPoints
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = { Text(text = stringResource(id = R.string.point_history)) },
+                navigationIcon = {
+                    IconButton(onClick = navigator::popBackStack) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
                 },
-            ),
-        )
-        Points(
-            modifier = Modifier.weight(1f),
-            points = when (selectedType) {
-                PointType.ALL -> uiState.allPoints
-                PointType.BONUS -> uiState.bonusPoints
-                PointType.MINUS -> uiState.minusPoints
-            },
-        )
-    }*/
-}/*
+            )
+        },
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+        ) {
+            // TODO
+            PointFilter(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
+                selectedType = selectedPointType,
+                onPointTypeSelected = onSelectedPointTypeChange,
+            )
+            Text(
+                modifier = Modifier.startPadding(),
+                text = stringResource(
+                    id = R.string.format_point,
+                    when (selectedPointType) {
+                        PointType.ALL -> 23
+                        PointType.BONUS -> 52
+                        PointType.MINUS -> -25
+                    },
+                ),
+                style = DmsTheme.typography.headline1,
+                color = DmsTheme.colorScheme.surfaceVariant,
+            )
+            PointList(
+                modifier = Modifier.fillMaxWidth(),
+                points = listOf(),
+            )
+        }
+    }
+}
+
+@Composable
+private fun PointFilter(
+    modifier: Modifier = Modifier,
+    selectedType: PointType,
+    onPointTypeSelected: (PointType) -> Unit,
+) {
+    Row(
+        modifier = modifier.horizontalPadding(),
+        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+    ) {
+        PointType.entries.forEach { type ->
+            val selected = selectedType == type
+            if (selected) {
+                ContainedButton(
+                    onClick = { },
+                    fillMinSize = false,
+                ) {
+                    Text(text = type.text)
+                }
+            } else {
+                OutlinedButton(
+                    onClick = { onPointTypeSelected(type) },
+                    colors = ButtonDefaults.outlinedGrayButtonColors(),
+                    fillMinSize = false,
+                ) {
+                    Text(text = type.text)
+                }
+            }
+        }
+    }
+}
+
+private val PointType.text: String
+    @Composable inline get() = stringResource(
+        id = when (this) {
+            PointType.ALL -> R.string.all_point
+            PointType.BONUS -> R.string.bonus_point
+            PointType.MINUS -> R.string.minus_point
+        },
+    )
+
+@Composable
+private fun PointList(
+    modifier: Modifier = Modifier,
+    points: List<Point>,
+) {
+    LazyColumn(
+        modifier = modifier.horizontalPadding(),
+    ) {
+        items(points) { point ->
+
+        }
+    }
+}
+
+@Composable
+private fun PointCard(
+    modifier: Modifier = Modifier,
+) {
+    Card(
+
+    ) {
+
+    }
+}
+
+/*
 
 @Stable
 private val filterButtons = listOf(
