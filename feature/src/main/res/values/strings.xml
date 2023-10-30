@@ -390,6 +390,10 @@
     <string name="my_page_points_of">%d 점</string>
     <string name="my_page_date_of">%d월 %d일</string>
 
+    <!--point history-->
+    <string name="point_history">상벌점 내역</string>
+    <string name="format_point">%d점</string>
+
     <string name="my_page_are_you_sure_you_sign_out">정말 로그아웃 하시겠습니까?</string>
     <string name="my_page_are_you_sure_you_withdraw">정말 탈퇴 하시겠습니까?</string>
 
