@@ -1,22 +1,45 @@
 package team.aliens.dms.android.feature.remains
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.remains.model.RemainsOption
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
@@ -28,11 +51,14 @@ internal fun RemainsApplicationScreen(
     modifier: Modifier = Modifier,
     navigator: RemainsNavigator,
 ) {
+    val viewModel: RemainsApplicationViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
-                title = { Text(text = stringResource(id = R.string.point_history)) },
+                title = { Text(text = stringResource(id = R.string.remains_application)) },
                 navigationIcon = {
                     IconButton(onClick = navigator::popBackStack) {
                         Icon(
@@ -47,6 +73,7 @@ internal fun RemainsApplicationScreen(
         Column(
             modifier = Modifier.padding(padValues),
         ) {
+            // TODO
             FloatingNotice(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,8 +87,10 @@ internal fun RemainsApplicationScreen(
                 ),
             )
             RemainsOptionList(
-                modifier = Modifier.fillMaxWidth(),
-                options = listOf(),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                options = uiState.remainsOptions,
             )
         }
     }
@@ -70,14 +99,95 @@ internal fun RemainsApplicationScreen(
 @Composable
 private fun RemainsOptionList(
     modifier: Modifier = Modifier,
-    options:List<RemainsOption>
+    options: List<RemainsOption>,
 ) {
     LazyColumn(
         modifier = modifier,
-    ){
-
+    ) {
+        items(options) { option ->
+            RemainsOptionCard(
+                modifier = Modifier.fillMaxWidth(),
+                remainsOption = option,
+            )
+        }
     }
 }
+
+@Composable
+private fun RemainsOptionCard(
+    modifier: Modifier = Modifier,
+    remainsOption: RemainsOption,
+) {
+    // TODO: expanded index
+    val (expanded, onExpand) = remember { mutableStateOf(false) }
+    val rotate by animateFloatAsState(
+        targetValue = if (expanded) {
+            180f
+        } else {
+            0f
+        },
+        label = "rotate",
+    )
+    Card(
+        modifier = modifier
+            .horizontalPadding()
+            .verticalPadding(PaddingDefaults.ExtraSmall),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+    ) {
+        Column(
+            modifier = Modifier
+                // TODO
+                .clickable { },
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .startPadding()
+                        .verticalPadding(),
+                    text = remainsOption.title,
+                    style = DmsTheme.typography.title2,
+                    // TODO color
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+                IconButton(onClick = { onExpand(!expanded) }) {
+                    Icon(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(rotate),
+                        painter = painterResource(
+                            id =
+                            team.aliens.dms.android.core.designsystem.R.drawable.ic_down
+                        ),
+                        contentDescription = stringResource(id = R.string.remains_expand_remains_option_card),
+                    )
+                }
+            }
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                visible = expanded,
+            ) {
+                Text(
+                    modifier = Modifier.bottomPadding(),
+                    text = remainsOption.description,
+                    style = DmsTheme.typography.body3,
+                    color = DmsTheme.colorScheme.surfaceVariant,
+                )
+            }
+        }
+    }
+}
+
 /*
 
 @Composable
