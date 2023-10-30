@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -75,18 +77,20 @@ internal fun RemainsApplicationScreen(
             modifier = Modifier.padding(padValues),
         ) {
             // TODO
-            FloatingNotice(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalPadding(),
-                text = stringResource(
-                    id = R.string.format_remains_available_remains_application_time,
-                    "화",
-                    "12:30",
-                    "목",
-                    "15:50",
-                ),
-            )
+            uiState.remainsApplicationTime?.let { applicationTime ->
+                FloatingNotice(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    text = stringResource(
+                        id = R.string.format_remains_available_remains_application_time,
+                        applicationTime.startDayOfWeek.text,
+                        applicationTime.startTime,
+                        applicationTime.endDayOfWeek.text,
+                        applicationTime.endTime,
+                    ),
+                )
+            }
             RemainsOptionList(
                 modifier = Modifier
                     .weight(1f)
@@ -100,6 +104,21 @@ internal fun RemainsApplicationScreen(
         }
     }
 }
+
+// TODO move to util in core-ui
+@Stable
+private val DayOfWeek.text: String
+    @Composable inline get() = stringResource(
+        id = when (this) {
+            DayOfWeek.MONDAY -> R.string.monday_abb
+            DayOfWeek.TUESDAY -> R.string.tuesday_abb
+            DayOfWeek.WEDNESDAY -> R.string.wednesday_abb
+            DayOfWeek.THURSDAY -> R.string.thursday_abb
+            DayOfWeek.FRIDAY -> R.string.friday_abb
+            DayOfWeek.SATURDAY -> R.string.saturday_abb
+            DayOfWeek.SUNDAY -> R.string.sunday_abb
+        },
+    )
 
 @Composable
 private fun RemainsOptionList(
