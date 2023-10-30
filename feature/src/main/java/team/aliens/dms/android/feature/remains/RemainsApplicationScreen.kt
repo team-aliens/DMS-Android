@@ -108,6 +108,7 @@ private fun RemainsOptionList(
     indexOfSelectedRemainsOption: Int?,
     onRemainsOptionSelected: (index: Int) -> Unit,
 ) {
+    val (expandedIndex, onExpandedIndexChange) = remember { mutableStateOf<Int?>(null) }
     LazyColumn(
         modifier = modifier,
     ) {
@@ -116,6 +117,8 @@ private fun RemainsOptionList(
                 modifier = Modifier.fillMaxWidth(),
                 remainsOption = option,
                 selected = index == indexOfSelectedRemainsOption,
+                expanded = index == expandedIndex,
+                onExpand = { onExpandedIndexChange(index) },
                 onClick = { onRemainsOptionSelected(index) },
             )
         }
@@ -127,10 +130,10 @@ private fun RemainsOptionCard(
     modifier: Modifier = Modifier,
     remainsOption: RemainsOption,
     selected: Boolean,
+    expanded: Boolean,
+    onExpand: () -> Unit,
     onClick: () -> Unit,
 ) {
-    // TODO: expanded index
-    val (expanded, onExpand) = remember { mutableStateOf(false) }
     val rotate by animateFloatAsState(
         targetValue = if (expanded) {
             180f
@@ -178,7 +181,7 @@ private fun RemainsOptionCard(
                         DmsTheme.colorScheme.onSurface
                     },
                 )
-                IconButton(onClick = { onExpand(!expanded) }) {
+                IconButton(onClick = onExpand) {
                     Icon(
                         modifier = Modifier
                             .size(24.dp)
