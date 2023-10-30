@@ -5,7 +5,7 @@ import team.aliens.dms.android.data.point.model.PointType
 
 abstract class PointRepository {
 
-    abstract fun fetchPoints(
+    abstract suspend fun fetchPoints(
         type: PointType,
         page: Long? = null,
         size: Long? = null,

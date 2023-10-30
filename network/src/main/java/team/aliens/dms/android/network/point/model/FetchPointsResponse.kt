@@ -1,7 +1,6 @@
 package team.aliens.dms.android.network.point.model
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDate
 import java.util.UUID
 
 data class FetchPointsResponse(
@@ -10,7 +9,7 @@ data class FetchPointsResponse(
 ) {
     data class PointResponse(
         @SerializedName("point_history_id") val id: UUID,
-        @SerializedName("date") val date: LocalDate,
+        @SerializedName("date") val date: String,
         @SerializedName("type") val type: String,
         @SerializedName("name") val name: String,
         @SerializedName("score") val score: Int,

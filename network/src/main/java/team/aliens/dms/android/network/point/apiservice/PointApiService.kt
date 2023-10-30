@@ -7,7 +7,7 @@ import team.aliens.dms.android.network.point.model.FetchPointsResponse
 
 internal interface PointApiService {
 
-    @GET("points")
+    @GET("/points")
     @RequiresAccessToken
     suspend fun fetchPoints(
         @Query("type") type: String,
