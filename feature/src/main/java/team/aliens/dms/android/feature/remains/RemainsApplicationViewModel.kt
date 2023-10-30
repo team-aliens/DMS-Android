@@ -26,6 +26,13 @@ internal class RemainsApplicationViewModel @Inject constructor(
         fetchAppliedRemainsOption()
     }
 
+    override fun processIntent(intent: RemainsApplicationIntent) {
+        when (intent) {
+            is RemainsApplicationIntent.UpdateSelectedRemainsOption ->
+                updateSelectedRemainsOption(intent.index)
+        }
+    }
+
     private fun fetchRemainsApplicationTime() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -67,17 +74,21 @@ internal class RemainsApplicationViewModel @Inject constructor(
             }
         }
     }
+
+    private fun updateSelectedRemainsOption(index: Int): Boolean = reduce(
+        newState = stateFlow.value.copy(indexOfSelectedRemainsOption = index),
+    )
 }
 
 internal data class RemainsApplicationUiState(
-    val selectedRemainsOption: RemainsOption?,
+    val indexOfSelectedRemainsOption: Int?,
     val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
     val remainsOptions: List<RemainsOption>,
 ) : UiState() {
     companion object {
         fun initial() = RemainsApplicationUiState(
-            selectedRemainsOption = null,
+            indexOfSelectedRemainsOption = null,
             remainsApplicationTime = null,
             appliedRemainsOption = null,
             remainsOptions = emptyList(),
@@ -85,7 +96,9 @@ internal data class RemainsApplicationUiState(
     }
 }
 
-internal sealed class RemainsApplicationIntent : Intent()
+internal sealed class RemainsApplicationIntent : Intent() {
+    class UpdateSelectedRemainsOption(val index: Int) : RemainsApplicationIntent()
+}
 
 internal sealed class RemainsApplicationSideEffect : SideEffect()
 
