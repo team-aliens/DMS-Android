@@ -152,7 +152,7 @@ private fun ApplicationCard(
                     .fillMaxWidth()
                     .horizontalPadding(),
                 text = description,
-                style = DmsTheme.typography.body2,
+                style = DmsTheme.typography.body3,
                 color = DmsTheme.colorScheme.onSurface,
             )
             ContainedButton(
