@@ -1,4 +1,40 @@
 package team.aliens.dms.android.feature.remains
+
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
+import team.aliens.dms.android.data.remains.model.RemainsOption
+import team.aliens.dms.android.data.remains.repository.RemainsRepository
+import javax.inject.Inject
+
+@HiltViewModel
+internal class RemainsApplicationViewModel @Inject constructor(
+    private val remainsRepository: RemainsRepository,
+) : BaseMviViewModel<RemainsApplicationUiState, RemainsApplicationIntent, RemainsApplicationSideEffect>(
+    initialState = RemainsApplicationUiState.initial(),
+) {
+
+}
+
+internal data class RemainsApplicationUiState(
+    val appliedRemainsOption: AppliedRemainsOption?,
+    val remainsOptions: List<RemainsOption>,
+) : UiState() {
+    companion object {
+        fun initial() = RemainsApplicationUiState(
+            appliedRemainsOption = null,
+            remainsOptions = emptyList(),
+        )
+    }
+}
+
+internal sealed class RemainsApplicationIntent : Intent()
+
+internal sealed class RemainsApplicationSideEffect : SideEffect()
+
 /*
 
 import androidx.lifecycle.viewModelScope
