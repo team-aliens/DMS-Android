@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import team.aliens.dms.android.core.network.di.DefaultRetrofitClient
 import team.aliens.dms.android.network.point.apiservice.PointApiService
 import javax.inject.Singleton
 
@@ -14,6 +15,6 @@ internal object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun providePointApiService(retrofit: Retrofit): PointApiService =
+    fun providePointApiService(@DefaultRetrofitClient retrofit: Retrofit): PointApiService =
         retrofit.create(PointApiService::class.java)
 }
