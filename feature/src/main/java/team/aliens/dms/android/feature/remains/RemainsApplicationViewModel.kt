@@ -30,6 +30,8 @@ internal class RemainsApplicationViewModel @Inject constructor(
         when (intent) {
             is RemainsApplicationIntent.UpdateSelectedRemainsOption ->
                 updateSelectedRemainsOption(intent.option)
+
+            RemainsApplicationIntent.UpdateRemainsOption -> updateRemainsOption()
         }
     }
 
@@ -82,6 +84,18 @@ internal class RemainsApplicationViewModel @Inject constructor(
             applicationButtonEnabled = option.id != stateFlow.value.appliedRemainsOption?.id,
         ),
     )
+
+    private fun updateRemainsOption() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.updateRemainsOption(
+                    remainsOption = stateFlow.value.selectedRemainsOption!!.id,
+                )
+            }.onSuccess {
+                postSideEffect(RemainsApplicationSideEffect.UpdateSuccess)
+            }
+        }
+    }
 }
 
 internal data class RemainsApplicationUiState(
@@ -104,9 +118,12 @@ internal data class RemainsApplicationUiState(
 
 internal sealed class RemainsApplicationIntent : Intent() {
     class UpdateSelectedRemainsOption(val option: RemainsOption) : RemainsApplicationIntent()
+    data object UpdateRemainsOption : RemainsApplicationIntent()
 }
 
-internal sealed class RemainsApplicationSideEffect : SideEffect()
+internal sealed class RemainsApplicationSideEffect : SideEffect() {
+    data object UpdateSuccess : RemainsApplicationSideEffect()
+}
 
 /*
 

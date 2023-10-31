@@ -108,7 +108,7 @@ internal fun RemainsApplicationScreen(
                         .fillMaxWidth()
                         .horizontalPadding()
                         .bottomPadding(),
-                    onClick = { /*TODO*/ },
+                    onClick = { viewModel.postIntent(RemainsApplicationIntent.UpdateRemainsOption) },
                     enabled = uiState.applicationButtonEnabled,
                 ) {
                     // TODO string resource
