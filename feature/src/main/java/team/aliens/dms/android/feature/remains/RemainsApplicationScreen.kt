@@ -109,6 +109,7 @@ internal fun RemainsApplicationScreen(
                         .horizontalPadding()
                         .bottomPadding(),
                     onClick = { /*TODO*/ },
+                    enabled = uiState.applicationButtonEnabled,
                 ) {
                     // TODO string resource
                     Text(
