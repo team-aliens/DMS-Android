@@ -96,7 +96,7 @@ internal fun RemainsApplicationScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 options = uiState.remainsOptions,
-                indexOfSelectedRemainsOption = uiState.indexOfSelectedRemainsOption,
+                selectedRemainsOption = uiState.selectedRemainsOption,
                 onRemainsOptionSelected = { index ->
                     viewModel.postIntent(RemainsApplicationIntent.UpdateSelectedRemainsOption(index))
                 },
@@ -124,8 +124,8 @@ private val DayOfWeek.text: String
 private fun RemainsOptionList(
     modifier: Modifier = Modifier,
     options: List<RemainsOption>,
-    indexOfSelectedRemainsOption: Int?,
-    onRemainsOptionSelected: (index: Int) -> Unit,
+    selectedRemainsOption: RemainsOption?,
+    onRemainsOptionSelected: (RemainsOption) -> Unit,
 ) {
     val (expandedIndex, onExpandedIndexChange) = remember { mutableStateOf<Int?>(null) }
     LazyColumn(
@@ -136,7 +136,7 @@ private fun RemainsOptionList(
             RemainsOptionCard(
                 modifier = Modifier.fillMaxWidth(),
                 remainsOption = option,
-                selected = index == indexOfSelectedRemainsOption,
+                selected = option.id == selectedRemainsOption?.id,
                 expanded = expanded,
                 onExpand = {
                     onExpandedIndexChange(
@@ -147,7 +147,7 @@ private fun RemainsOptionList(
                         }
                     )
                 },
-                onClick = { onRemainsOptionSelected(index) },
+                onClick = { onRemainsOptionSelected(option) },
             )
         }
     }

@@ -29,7 +29,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
     override fun processIntent(intent: RemainsApplicationIntent) {
         when (intent) {
             is RemainsApplicationIntent.UpdateSelectedRemainsOption ->
-                updateSelectedRemainsOption(intent.index)
+                updateSelectedRemainsOption(intent.option)
         }
     }
 
@@ -75,21 +75,20 @@ internal class RemainsApplicationViewModel @Inject constructor(
         }
     }
 
-    private fun updateSelectedRemainsOption(index: Int): Boolean = reduce(
-        newState = stateFlow.value.copy(indexOfSelectedRemainsOption = index),
+    private fun updateSelectedRemainsOption(option: RemainsOption): Boolean = reduce(
+        newState = stateFlow.value.copy(selectedRemainsOption = option),
     )
 }
 
 internal data class RemainsApplicationUiState(
-    // TODO UUID
-    val indexOfSelectedRemainsOption: Int?,
+    val selectedRemainsOption: RemainsOption?,
     val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
     val remainsOptions: List<RemainsOption>,
 ) : UiState() {
     companion object {
         fun initial() = RemainsApplicationUiState(
-            indexOfSelectedRemainsOption = null,
+            selectedRemainsOption = null,
             remainsApplicationTime = null,
             appliedRemainsOption = null,
             remainsOptions = emptyList(),
@@ -98,7 +97,7 @@ internal data class RemainsApplicationUiState(
 }
 
 internal sealed class RemainsApplicationIntent : Intent() {
-    class UpdateSelectedRemainsOption(val index: Int) : RemainsApplicationIntent()
+    class UpdateSelectedRemainsOption(val option: RemainsOption) : RemainsApplicationIntent()
 }
 
 internal sealed class RemainsApplicationSideEffect : SideEffect()
