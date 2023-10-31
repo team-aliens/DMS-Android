@@ -1,5 +1,37 @@
 package team.aliens.dms.android.feature.editpassword
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.user.repository.UserRepository
+import javax.inject.Inject
+
+@HiltViewModel
+internal class EditPasswordViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : BaseMviViewModel<EditPasswordUiState, EditPasswordIntent, EditPasswordSideEffect>(
+    initialState = EditPasswordUiState.initial(),
+)
+
+internal data class EditPasswordUiState(
+    // TODO
+    val temp: Int?,
+) : UiState() {
+    companion object {
+        fun initial() = EditPasswordUiState(
+            temp = null,
+        )
+    }
+}
+
+internal sealed class EditPasswordIntent : Intent()
+
+internal sealed class EditPasswordSideEffect : SideEffect()
+
+/*
+
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -111,3 +143,4 @@ internal sealed class EditPasswordSideEffect : SideEffect() {
     data object CurrentPasswordIncorrect : EditPasswordSideEffect()
     data object ConfirmationSuccess : EditPasswordSideEffect()
 }
+*/
