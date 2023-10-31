@@ -390,6 +390,9 @@
     <string name="my_page_points_of">%d 점</string>
     <string name="my_page_date_of">%d월 %d일</string>
 
+    <!--edit password-->
+    <string name="edit_password">비밀번호 변경</string>
+
     <!--point history-->
     <string name="point_history">상벌점 내역</string>
     <string name="format_point">%d점</string>
