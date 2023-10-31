@@ -179,7 +179,14 @@ private fun RemainsOptionCard(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+        elevation = CardDefaults.outlinedCardElevation(
+            defaultElevation =
+            if (selected) {
+                ShadowDefaults.MediumElevation
+            } else {
+                ShadowDefaults.SmallElevation
+            },
+        ),
         border = if (selected) {
             BorderStroke(
                 width = 1.dp,
