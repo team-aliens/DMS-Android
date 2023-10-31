@@ -47,6 +47,7 @@ import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.remains.model.RemainsOption
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -97,12 +98,12 @@ internal fun RemainsApplicationScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 options = uiState.remainsOptions,
-                selectedRemainsOption = uiState.selectedRemainsOption,
-                onRemainsOptionSelected = { index ->
-                    viewModel.postIntent(RemainsApplicationIntent.UpdateSelectedRemainsOption(index))
+                selectedOptionId = uiState.selectedRemainsOptionId,
+                onRemainsOptionSelected = { optionId ->
+                    viewModel.postIntent(RemainsApplicationIntent.UpdateSelectedRemainsOption(optionId))
                 },
             )
-            uiState.selectedRemainsOption?.let { remainsOption ->
+            uiState.selectedRemainsOptionId?.let { remainsOption ->
                 ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -111,13 +112,7 @@ internal fun RemainsApplicationScreen(
                     onClick = { viewModel.postIntent(RemainsApplicationIntent.UpdateRemainsOption) },
                     enabled = uiState.applicationButtonEnabled,
                 ) {
-                    // TODO string resource
-                    Text(
-                        text = stringResource(
-                            id = R.string.format_remains_apply,
-                            remainsOption.title,
-                        ),
-                    )
+                    Text(text = stringResource(id = R.string.remains_apply))
                 }
             }
         }
@@ -143,8 +138,8 @@ private val DayOfWeek.text: String
 private fun RemainsOptionList(
     modifier: Modifier = Modifier,
     options: List<RemainsOption>,
-    selectedRemainsOption: RemainsOption?,
-    onRemainsOptionSelected: (RemainsOption) -> Unit,
+    selectedOptionId: UUID?,
+    onRemainsOptionSelected: (UUID) -> Unit,
 ) {
     val (expandedIndex, onExpandedIndexChange) = remember { mutableStateOf<Int?>(null) }
     LazyColumn(
@@ -155,7 +150,7 @@ private fun RemainsOptionList(
             RemainsOptionCard(
                 modifier = Modifier.fillMaxWidth(),
                 remainsOption = option,
-                selected = option.id == selectedRemainsOption?.id,
+                selected = option.id == selectedOptionId,
                 expanded = expanded,
                 onExpand = {
                     onExpandedIndexChange(
@@ -166,7 +161,7 @@ private fun RemainsOptionList(
                         }
                     )
                 },
-                onClick = { onRemainsOptionSelected(option) },
+                onClick = { onRemainsOptionSelected(option.id) },
             )
         }
     }

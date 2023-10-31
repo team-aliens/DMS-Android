@@ -12,6 +12,7 @@ import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
 import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
 import team.aliens.dms.android.data.remains.model.RemainsOption
 import team.aliens.dms.android.data.remains.repository.RemainsRepository
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +30,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
     override fun processIntent(intent: RemainsApplicationIntent) {
         when (intent) {
             is RemainsApplicationIntent.UpdateSelectedRemainsOption ->
-                updateSelectedRemainsOption(intent.option)
+                updateSelectedRemainsOption(intent.optionId)
 
             RemainsApplicationIntent.UpdateRemainsOption -> updateRemainsOption()
         }
@@ -57,7 +58,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
                 reduce(
                     newState = stateFlow.value.copy(
                         remainsOptions = fetchedRemainsOptions,
-                        selectedRemainsOption = fetchedRemainsOptions.find { it.applied },
+                        selectedRemainsOptionId = fetchedRemainsOptions.find { it.applied }?.id,
                     ),
                 )
             }
@@ -74,14 +75,17 @@ internal class RemainsApplicationViewModel @Inject constructor(
                         appliedRemainsOption = fetchedAppliedRemainsOption,
                     ),
                 )
+                this@RemainsApplicationViewModel.updateSelectedRemainsOption(
+                    fetchedAppliedRemainsOption.id
+                )
             }
         }
     }
 
-    private fun updateSelectedRemainsOption(option: RemainsOption): Boolean = reduce(
+    private fun updateSelectedRemainsOption(optionId: UUID): Boolean = reduce(
         newState = stateFlow.value.copy(
-            selectedRemainsOption = option,
-            applicationButtonEnabled = option.id != stateFlow.value.appliedRemainsOption?.id,
+            selectedRemainsOptionId = optionId,
+            applicationButtonEnabled = optionId != stateFlow.value.appliedRemainsOption?.id,
         ),
     )
 
@@ -89,9 +93,11 @@ internal class RemainsApplicationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 remainsRepository.updateRemainsOption(
-                    remainsOption = stateFlow.value.selectedRemainsOption!!.id,
+                    optionId = stateFlow.value.selectedRemainsOptionId!!,
                 )
             }.onSuccess {
+                this@RemainsApplicationViewModel.fetchRemainsOptions()
+                this@RemainsApplicationViewModel.fetchAppliedRemainsOption()
                 postSideEffect(RemainsApplicationSideEffect.UpdateSuccess)
             }
         }
@@ -99,7 +105,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
 }
 
 internal data class RemainsApplicationUiState(
-    val selectedRemainsOption: RemainsOption?,
+    val selectedRemainsOptionId: UUID?,
     val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
     val applicationButtonEnabled: Boolean,
@@ -107,7 +113,7 @@ internal data class RemainsApplicationUiState(
 ) : UiState() {
     companion object {
         fun initial() = RemainsApplicationUiState(
-            selectedRemainsOption = null,
+            selectedRemainsOptionId = null,
             remainsApplicationTime = null,
             appliedRemainsOption = null,
             applicationButtonEnabled = false,
@@ -117,7 +123,7 @@ internal data class RemainsApplicationUiState(
 }
 
 internal sealed class RemainsApplicationIntent : Intent() {
-    class UpdateSelectedRemainsOption(val option: RemainsOption) : RemainsApplicationIntent()
+    class UpdateSelectedRemainsOption(val optionId: UUID) : RemainsApplicationIntent()
     data object UpdateRemainsOption : RemainsApplicationIntent()
 }
 
