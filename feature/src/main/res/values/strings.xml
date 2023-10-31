@@ -426,7 +426,7 @@
     <string name="remains">잔류</string>
     <string name="remains_application">잔류 신청</string>
     <string name="remains_do_application">잔류 신청하기</string>
-    <string name="remains_do_apply">%s 신청하기</string>
+    <string name="format_remains_apply">%s 신청하기</string>
     <string name="remains_change_to">%s로 변경하기</string>
     <string name="remains_expand_remains_option_card">잔류 카드 확장</string>
 
