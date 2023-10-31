@@ -9,7 +9,7 @@ import team.aliens.dms.android.network.remains.model.FetchRemainsOptionsResponse
 
 internal fun FetchAppliedRemainsOptionResponse.toModel(): AppliedRemainsOption =
     AppliedRemainsOption(
-        remainsOptionId = this.remainsOptionId,
+        id = this.remainsOptionId,
         title = this.title,
     )
 
