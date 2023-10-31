@@ -56,7 +56,10 @@ class DmsNavigator(
     }
 
     override fun openRemainsApplication() {
-        navController.navigate(RemainsApplicationScreenDestination within navGraph)
+        navController.navigate(RemainsApplicationScreenDestination within navGraph) {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     override fun openEditProfileImage() {
