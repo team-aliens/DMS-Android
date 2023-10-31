@@ -55,6 +55,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
                 reduce(
                     newState = stateFlow.value.copy(
                         remainsOptions = fetchedRemainsOptions,
+                        selectedRemainsOption = fetchedRemainsOptions.find { it.applied },
                     ),
                 )
             }
@@ -76,7 +77,10 @@ internal class RemainsApplicationViewModel @Inject constructor(
     }
 
     private fun updateSelectedRemainsOption(option: RemainsOption): Boolean = reduce(
-        newState = stateFlow.value.copy(selectedRemainsOption = option),
+        newState = stateFlow.value.copy(
+            selectedRemainsOption = option,
+            applicationButtonEnabled = option.id != stateFlow.value.appliedRemainsOption?.id,
+        ),
     )
 }
 
@@ -84,6 +88,7 @@ internal data class RemainsApplicationUiState(
     val selectedRemainsOption: RemainsOption?,
     val remainsApplicationTime: RemainsApplicationTime?,
     val appliedRemainsOption: AppliedRemainsOption?,
+    val applicationButtonEnabled: Boolean,
     val remainsOptions: List<RemainsOption>,
 ) : UiState() {
     companion object {
@@ -91,6 +96,7 @@ internal data class RemainsApplicationUiState(
             selectedRemainsOption = null,
             remainsApplicationTime = null,
             appliedRemainsOption = null,
+            applicationButtonEnabled = false,
             remainsOptions = emptyList(),
         )
     }
