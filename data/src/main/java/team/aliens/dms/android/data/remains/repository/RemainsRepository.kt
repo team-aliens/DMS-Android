@@ -7,7 +7,7 @@ import java.util.UUID
 
 abstract class RemainsRepository {
 
-    abstract suspend fun updateRemainsOption(remainsOption: UUID)
+    abstract suspend fun updateRemainsOption(optionId: UUID)
 
     abstract suspend fun fetchAppliedRemainsOption(): AppliedRemainsOption
 

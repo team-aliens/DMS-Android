@@ -11,7 +11,7 @@ import java.util.UUID
 
 internal interface RemainsApiService {
 
-    @PUT("/remains/{remain-option-id}")
+    @PUT("/remains/{remains-option-id}")
     @RequiresAccessToken
     suspend fun updateRemainsOption(@Path("remains-option-id") optionId: UUID)
 

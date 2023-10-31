@@ -1,4 +1,136 @@
 package team.aliens.dms.android.feature.remains
+
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
+import team.aliens.dms.android.data.remains.model.RemainsApplicationTime
+import team.aliens.dms.android.data.remains.model.RemainsOption
+import team.aliens.dms.android.data.remains.repository.RemainsRepository
+import java.util.UUID
+import javax.inject.Inject
+
+@HiltViewModel
+internal class RemainsApplicationViewModel @Inject constructor(
+    private val remainsRepository: RemainsRepository,
+) : BaseMviViewModel<RemainsApplicationUiState, RemainsApplicationIntent, RemainsApplicationSideEffect>(
+    initialState = RemainsApplicationUiState.initial(),
+) {
+    init {
+        fetchRemainsApplicationTime()
+        fetchRemainsOptions()
+        fetchAppliedRemainsOption()
+    }
+
+    override fun processIntent(intent: RemainsApplicationIntent) {
+        when (intent) {
+            is RemainsApplicationIntent.UpdateSelectedRemainsOption ->
+                updateSelectedRemainsOption(intent.optionId)
+
+            RemainsApplicationIntent.UpdateRemainsOption -> updateRemainsOption()
+        }
+    }
+
+    private fun fetchRemainsApplicationTime() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchRemainsApplicationTime()
+            }.onSuccess { fetchedRemainsApplicationTime ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        remainsApplicationTime = fetchedRemainsApplicationTime,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun fetchRemainsOptions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchRemainsOptions()
+            }.onSuccess { fetchedRemainsOptions ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        remainsOptions = fetchedRemainsOptions,
+                        selectedRemainsOptionId = fetchedRemainsOptions.find { it.applied }?.id,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun fetchAppliedRemainsOption() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchAppliedRemainsOption()
+            }.onSuccess { fetchedAppliedRemainsOption ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        appliedRemainsOption = fetchedAppliedRemainsOption,
+                    ),
+                )
+                this@RemainsApplicationViewModel.updateSelectedRemainsOption(
+                    fetchedAppliedRemainsOption.id
+                )
+            }
+        }
+    }
+
+    private fun updateSelectedRemainsOption(optionId: UUID): Boolean = reduce(
+        newState = stateFlow.value.copy(
+            selectedRemainsOptionId = optionId,
+            applicationButtonEnabled = optionId != stateFlow.value.appliedRemainsOption?.id,
+        ),
+    )
+
+    private fun updateRemainsOption() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.updateRemainsOption(
+                    optionId = stateFlow.value.selectedRemainsOptionId!!,
+                )
+            }.onSuccess {
+                this@RemainsApplicationViewModel.fetchRemainsOptions()
+                this@RemainsApplicationViewModel.fetchAppliedRemainsOption()
+                postSideEffect(RemainsApplicationSideEffect.UpdateSuccess)
+            }
+        }
+    }
+}
+
+internal data class RemainsApplicationUiState(
+    val selectedRemainsOptionId: UUID?,
+    val remainsApplicationTime: RemainsApplicationTime?,
+    val appliedRemainsOption: AppliedRemainsOption?,
+    val applicationButtonEnabled: Boolean,
+    val remainsOptions: List<RemainsOption>,
+) : UiState() {
+    companion object {
+        fun initial() = RemainsApplicationUiState(
+            selectedRemainsOptionId = null,
+            remainsApplicationTime = null,
+            appliedRemainsOption = null,
+            applicationButtonEnabled = false,
+            remainsOptions = emptyList(),
+        )
+    }
+}
+
+internal sealed class RemainsApplicationIntent : Intent() {
+    class UpdateSelectedRemainsOption(val optionId: UUID) : RemainsApplicationIntent()
+    data object UpdateRemainsOption : RemainsApplicationIntent()
+}
+
+internal sealed class RemainsApplicationSideEffect : SideEffect() {
+    data object UpdateSuccess : RemainsApplicationSideEffect()
+}
+
 /*
 
 import androidx.lifecycle.viewModelScope

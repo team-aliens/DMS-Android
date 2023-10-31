@@ -79,10 +79,10 @@ internal fun ApplicationScreen(
             )
             ApplicationCard(
                 modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.remains_application),
+                title = stringResource(id = R.string.remains_do_application),
                 appliedTitle = uiState.appliedRemainsOption?.title,
                 description = stringResource(id = R.string.remains_description),
-                buttonText = stringResource(id = R.string.remains_application),
+                buttonText = stringResource(id = R.string.remains_do_application),
                 onButtonClick = onNavigateToRemains,
             )
         }
@@ -104,7 +104,7 @@ private fun ApplicationCard(
             .horizontalPadding()
             .verticalPadding(),
         shape = DmsTheme.shapes.surfaceSmall,
-        colors = CardDefaults.outlinedCardColors(
+        colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
@@ -152,7 +152,7 @@ private fun ApplicationCard(
                     .fillMaxWidth()
                     .horizontalPadding(),
                 text = description,
-                style = DmsTheme.typography.body2,
+                style = DmsTheme.typography.body3,
                 color = DmsTheme.colorScheme.onSurface,
             )
             ContainedButton(
