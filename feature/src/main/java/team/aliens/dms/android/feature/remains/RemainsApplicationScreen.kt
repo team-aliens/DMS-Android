@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.DayOfWeek
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -101,6 +102,23 @@ internal fun RemainsApplicationScreen(
                     viewModel.postIntent(RemainsApplicationIntent.UpdateSelectedRemainsOption(index))
                 },
             )
+            uiState.selectedRemainsOption?.let { remainsOption ->
+                ContainedButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding()
+                        .bottomPadding(),
+                    onClick = { /*TODO*/ },
+                ) {
+                    // TODO string resource
+                    Text(
+                        text = stringResource(
+                            id = R.string.format_remains_apply,
+                            remainsOption.title,
+                        ),
+                    )
+                }
+            }
         }
     }
 }
