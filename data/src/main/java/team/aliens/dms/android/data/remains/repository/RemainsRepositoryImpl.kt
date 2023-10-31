@@ -12,8 +12,8 @@ internal class RemainsRepositoryImpl @Inject constructor(
     private val networkRemainsDataSource: NetworkRemainsDataSource,
 ) : RemainsRepository() {
 
-    override suspend fun updateRemainsOption(remainsOption: UUID) {
-        TODO("Not yet implemented")
+    override suspend fun updateRemainsOption(optionId: UUID) {
+        networkRemainsDataSource.updateRemainsOption(optionId)
     }
 
     override suspend fun fetchAppliedRemainsOption(): AppliedRemainsOption =
