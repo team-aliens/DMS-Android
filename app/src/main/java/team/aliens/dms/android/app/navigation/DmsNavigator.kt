@@ -70,7 +70,7 @@ class DmsNavigator(
         navController.navigate(PointHistoryScreenDestination within navGraph)
     }
 
-    override fun openEditPassword() {
+    override fun openEditPasswordNav() {
         navController.navigate(EditPasswordNavGraph)
     }
 
