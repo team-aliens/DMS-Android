@@ -392,6 +392,7 @@
 
     <!--edit password-->
     <string name="edit_password">비밀번호 변경</string>
+    <string name="edit_password_old_password">기존 비밀번호</string>
 
     <!--point history-->
     <string name="point_history">상벌점 내역</string>
