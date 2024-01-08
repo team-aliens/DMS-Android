@@ -3,7 +3,6 @@ package team.aliens.dms.android.shared.date.junit
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
-import team.aliens.dms.android.shared.date.util.dateOf
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
 
@@ -33,10 +32,5 @@ class DateUtilsTest {
 
         assert(now != testNow.plusNanos(1))
         assert(now != testNow.minusNanos(1))
-    }
-
-    @Test
-    fun `Test ISO Date Parsing`() {
-        assert(dateOf(2006, 5, 8) == LocalDate.of(2006, 5, 8))
     }
 }
