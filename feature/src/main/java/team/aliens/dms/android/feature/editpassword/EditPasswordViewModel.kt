@@ -13,22 +13,39 @@ internal class EditPasswordViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : BaseMviViewModel<EditPasswordUiState, EditPasswordIntent, EditPasswordSideEffect>(
     initialState = EditPasswordUiState.initial(),
-)
+) {
+    override fun processIntent(intent: EditPasswordIntent) {
+        when (intent) {
+            is EditPasswordIntent.UpdateCurrentPassword -> TODO()
+            is EditPasswordIntent.UpdateNewPassword -> TODO()
+            is EditPasswordIntent.UpdateNewPasswordConfirmation -> TODO()
+        }
+    }
+}
 
 internal data class EditPasswordUiState(
-    // TODO
-    val temp: Int?,
+    val currentPassword: String,
+    val newPassword: String,
+    val newPasswordConfirmation: String,
 ) : UiState() {
     companion object {
         fun initial() = EditPasswordUiState(
-            temp = null,
+            currentPassword = "",
+            newPassword = "",
+            newPasswordConfirmation = "",
         )
     }
 }
 
-internal sealed class EditPasswordIntent : Intent()
+internal sealed class EditPasswordIntent : Intent() {
+    class UpdateCurrentPassword(val password: String) : EditPasswordIntent()
+    class UpdateNewPassword(val password: String) : EditPasswordIntent()
+    class UpdateNewPasswordConfirmation(val password: String) : EditPasswordIntent()
+}
 
-internal sealed class EditPasswordSideEffect : SideEffect()
+internal sealed class EditPasswordSideEffect : SideEffect() {
+
+}
 
 /*
 
