@@ -5,7 +5,6 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
-import java.util.Calendar
 import java.util.Date
 
 fun LocalDateTime.toEpochMilli(zone: ZoneOffset = ZoneOffset.UTC): EpochMillis =
@@ -14,7 +13,8 @@ fun LocalDateTime.toEpochMilli(zone: ZoneOffset = ZoneOffset.UTC): EpochMillis =
 fun EpochMillis.toLocalDateTime(zone: ZoneOffset = ZoneOffset.UTC): LocalDateTime =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this), zone)
 
-fun EpochSecond.toLocalDate(zone:ZoneOffset = ZoneOffset.UTC): LocalDate = Instant.ofEpochSecond(this).atZone(zone).toLocalDate()
+fun EpochSecond.toLocalDate(zone: ZoneOffset = ZoneOffset.UTC): LocalDate =
+    Instant.ofEpochSecond(this).atZone(zone).toLocalDate()
 
 fun String.toLocalDateTime(format: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME): LocalDateTime =
     LocalDateTime.parse(this, format)
@@ -22,21 +22,19 @@ fun String.toLocalDateTime(format: DateTimeFormatter = DateTimeFormatter.ISO_LOC
 fun String.toLocalDate(format: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE): LocalDate =
     LocalDate.parse(this, format)
 
-fun LocalDate.toDate(): Date = Calendar.getInstance().apply {
-    set(
-        this@toDate.year,
-        this@toDate.monthValue,
-        this@toDate.dayOfMonth,
-    )
-}.time
+@Suppress("DEPRECATION")
+fun LocalDate.toDate(): Date = Date(
+    this@toDate.year,
+    this@toDate.monthValue,
+    this@toDate.dayOfMonth,
+)
 
-fun LocalDateTime.toDate(): Date = Calendar.getInstance().apply {
-    set(
-        this@toDate.year,
-        this@toDate.monthValue,
-        this@toDate.dayOfMonth,
-        this@toDate.hour,
-        this@toDate.minute,
-        this@toDate.second,
-    )
-}.time
+@Suppress("DEPRECATION")
+fun LocalDateTime.toDate(): Date = Date(
+    this@toDate.year,
+    this@toDate.monthValue,
+    this@toDate.dayOfMonth,
+    this@toDate.hour,
+    this@toDate.minute,
+    this@toDate.second,
+)
