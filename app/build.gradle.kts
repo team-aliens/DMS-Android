@@ -100,9 +100,6 @@ dependencies {
 
     implementation(libs.javax.inject)
 
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
-
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor.logging)
     implementation(libs.retrofit)
@@ -114,6 +111,11 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.threetenbp)
+
+    implementation(libs.hilt)
+    testImplementation(libs.hilt.testing)
+    ksp(libs.hilt.compiler)
+    kspTest(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
