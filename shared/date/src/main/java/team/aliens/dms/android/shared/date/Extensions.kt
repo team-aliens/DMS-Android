@@ -8,13 +8,13 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 
-fun LocalDateTime.toEpochMilli(zone: ZoneOffset = ZoneOffset.UTC): Long =
+fun LocalDateTime.toEpochMilli(zone: ZoneOffset = ZoneOffset.UTC): EpochMillis =
     this.toInstant(zone).toEpochMilli()
 
-fun Long.toLocalDateTime(zone: ZoneOffset = ZoneOffset.UTC): LocalDateTime =
+fun EpochMillis.toLocalDateTime(zone: ZoneOffset = ZoneOffset.UTC): LocalDateTime =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this), zone)
 
-fun Long.toLocalDate(): LocalDate = LocalDate.ofEpochDay(this)
+fun EpochSecond.toLocalDate(zone:ZoneOffset = ZoneOffset.UTC): LocalDate = Instant.ofEpochSecond(this).atZone(zone).toLocalDate()
 
 fun String.toLocalDateTime(format: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME): LocalDateTime =
     LocalDateTime.parse(this, format)
