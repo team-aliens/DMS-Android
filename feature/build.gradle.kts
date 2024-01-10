@@ -85,7 +85,6 @@ dependencies {
     implementation(libs.composeDestinations)
     ksp(libs.composeDestinations.ksp)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso)
 }
