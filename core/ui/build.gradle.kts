@@ -70,7 +70,6 @@ dependencies {
 
     implementation(libs.threetenbp)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso)
 }

@@ -1,0 +1,13 @@
+{
+  "access_token": "access.access.access",
+  "access_token_expired_at": "2022-02-27'T'12:12:12",
+  "refresh_token": "refresh.refresh.refresh",
+  "refresh_token_expired_at": "2022-02-27'T'12:12:12",
+  "features": {
+    "meal_service": false,
+    "notice_service": true,
+    "point_service": true,
+    "study_room_service": true,
+    "remain_service": true
+  }
+}
