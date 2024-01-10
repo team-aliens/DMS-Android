@@ -72,7 +72,7 @@ class AuthApiServiceTest {
         this.server.shutdown()
     }
 
-    // TODO: read text
+    // TODO: read text util
     fun Context.readJsonFromRawResources(@RawRes id: Int): String =
         this.resources.openRawResource(id).bufferedReader().use(BufferedReader::readText)
 }
