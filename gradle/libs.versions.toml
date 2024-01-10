@@ -1,9 +1,9 @@
 [versions]
-activity = "1.8.0"
+activity = "1.8.2"
 appcompat = "1.6.1"
 core = "1.12.0"
 datastorePreferences = "1.0.0"
-espresso = "3.5.0"
+espresso = "3.5.1"
 javaxInject = "1"
 junit = "4.13.2"
 junitAndroid = "1.1.5"
@@ -11,7 +11,7 @@ coroutines = "1.7.3"
 lifecycle = "2.6.2"
 material = "1.9.0"
 materialCompose = "1.1.2"
-agp = "8.1.2"
+agp = "8.1.4"
 kotlin = "1.9.10"
 hilt = "2.48"
 google = "4.4.0"
@@ -19,24 +19,26 @@ ksp = "1.9.10-1.0.13"
 moshiKotlin = "1.14.0"
 okhttp = "4.11.0"
 retrofit = "2.9.0"
-room = "2.5.2"
+room = "2.6.1"
 threetenbp = "1.6.8"
-compose = "1.5.3"
+compose = "1.5.4"
 composeDestination = "1.9.54"
-navigation = "2.7.4"
-hiltNavigation = "1.0.0"
+navigation = "2.7.6"
+hiltNavigation = "1.1.0"
 coil = "2.4.0"
 compileSdk = "34"
 minSdk = "23"
 targetSdk = "33"
 java = "17"
+junitKtx = "1.1.5"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitAndroid" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitAndroid" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 androidx-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -52,7 +54,10 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestination" }
 composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
+
+# Deprecated
 junit = { module = "junit:junit", version.ref = "junit" }
+
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
