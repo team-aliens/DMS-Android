@@ -15,7 +15,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "team.aliens.dms.android.network.auth.NetworkTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -80,13 +80,12 @@ dependencies {
     implementation(libs.javax.inject)
 
     implementation(libs.hilt)
-    testImplementation(libs.hilt.testing)
     ksp(libs.hilt.compiler)
-    kspTest(libs.hilt.compiler)
 
-    testImplementation(libs.okhttp.mockwebserver)
-    testImplementation(libs.androidx.junit)
-    testImplementation(libs.androidx.junit.ktx)
+    kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.hilt.testing)
+    androidTestImplementation(libs.okhttp.mockwebserver)
+    androidTestImplementation(libs.androidx.junit.ktx)
     androidTestImplementation(libs.androidx.espresso)
 }
 
