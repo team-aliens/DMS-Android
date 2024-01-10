@@ -80,10 +80,11 @@ dependencies {
     implementation(libs.javax.inject)
 
     implementation(libs.hilt)
+    testImplementation(libs.hilt.testing)
     ksp(libs.hilt.compiler)
+    kspTest(libs.hilt.compiler)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.junit.ktx)
     androidTestImplementation(libs.androidx.espresso)
 }
 
