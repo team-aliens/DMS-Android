@@ -1,9 +1,11 @@
 package team.aliens.dms.android.data.studyroom.mapper
 
 import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
+import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
 import team.aliens.dms.android.network.studyroom.model.FetchAppliedStudyRoomResponse
+import team.aliens.dms.android.network.studyroom.model.FetchAvailableStudyRoomTimesResponse
 import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomApplicationTimeResponse
 import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomsResponse
 import team.aliens.dms.android.shared.model.Sex
@@ -32,3 +34,13 @@ fun FetchAppliedStudyRoomResponse.toModel(): AppliedStudyRoom = AppliedStudyRoom
     floor = this.floor,
     name = this.name,
 )
+
+fun FetchAvailableStudyRoomTimesResponse.toModel(): List<AvailableStudyRoomTime> =
+    this.availableStudyRoomTimes.map(FetchAvailableStudyRoomTimesResponse.AvailableStudyRoomTimeResponse::toModel)
+
+fun FetchAvailableStudyRoomTimesResponse.AvailableStudyRoomTimeResponse.toModel(): AvailableStudyRoomTime =
+    AvailableStudyRoomTime(
+        id = this.id,
+        startTime = this.startTime,
+        endTime = this.endTime,
+    )
