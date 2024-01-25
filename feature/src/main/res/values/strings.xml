@@ -228,8 +228,10 @@
     <string name="thursday_abb">목</string>
     <string name="friday_abb">금</string>
     <string name="saturday_abb">토</string>
-    <string name="male">남</string>
-    <string name="female">여</string>
+    <string name="sex_male">남</string>
+    <string name="sex_female">여</string>
+    <string name="sex_all">전체</string>
+    <string name="sex_both">남녀</string>
     <string name="bonus_point">상점</string>
     <string name="minus_point">벌점</string>
     <string name="all_point">전체</string>
@@ -412,11 +414,14 @@
     <string name="study_room_time">시간</string>
     <string name="study_room">자습실</string>
     <string name="study_room_application">자습실 신청하기</string>
+
     <string name="format_study_room_applied_text">%d층 %s</string>
+    <string name="format_study_room_application_time">자습실 신청 시간은 %s ~ %s 입니다</string>
+    <string name="format_study_room_floor">%d층</string>
+    <string name="format_study_room_headcount">%d/%d</string>
+    <string name="format_study_room_available_for">%d학년 %s</string>
 
     <string name="study_room_description">자습실 사용이 필요한 경우 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
-
-    <string name="format_study_room_application_time">자습실 신청 시간은 %s ~ %s 입니다</string>
 
     <string name="study_room_please_first_select">자리를 먼저 선택해주세요.</string>
     <string name="study_room_error_no_available_study_room">신청 가능한 자습실이 없습니다</string>
