@@ -1,4 +1,86 @@
 package team.aliens.dms.android.feature.studyroom.list
+
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.studyroom.model.StudyRoom
+import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
+import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
+import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
+import java.util.UUID
+import javax.inject.Inject
+
+@HiltViewModel
+internal class StudyRoomListViewModel @Inject constructor(
+    private val studyRoomRepository: StudyRoomRepository,
+) : BaseMviViewModel<StudyRoomListUiState, StudyRoomListIntent, StudyRoomListSideEffect>(
+    initialState = StudyRoomListUiState.initial(),
+) {
+    init {
+        fetchStudyRoomApplicationTime()
+        initStudyRooms()
+    }
+
+    private fun fetchStudyRoomApplicationTime() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                studyRoomRepository.fetchStudyRoomApplicationTime()
+            }.onSuccess { fetchedStudyRoomApplicationTime ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        studyRoomApplicationTime = fetchedStudyRoomApplicationTime,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun initStudyRooms() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                studyRoomRepository.fetchAvailableStudyRoomTimes()
+            }.onSuccess { fetchedAvailableStudyRoomTimes ->
+                if (fetchedAvailableStudyRoomTimes.isNotEmpty()) {
+                    val firstOfAvailableStudyRoomTime = fetchedAvailableStudyRoomTimes.firstOrNull()?.id
+                    val studyRooms = firstOfAvailableStudyRoomTime?.let { studyRoomRepository.fetchStudyRooms(it) }
+                    reduce(
+                        newState = stateFlow.value.copy(
+                            availableStudyRoomTimes = fetchedAvailableStudyRoomTimes,
+                            selectedAvailableStudyRoomTimeId = firstOfAvailableStudyRoomTime,
+                            studyRooms = studyRooms,
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
+
+internal data class StudyRoomListUiState(
+    val studyRoomApplicationTime: StudyRoomApplicationTime?,
+    val availableStudyRoomTimes: List<AvailableStudyRoomTime>?,
+    val selectedAvailableStudyRoomTimeId: UUID?,
+    val studyRooms: List<StudyRoom>?,
+) : UiState() {
+    companion object {
+        fun initial() = StudyRoomListUiState(
+            studyRoomApplicationTime = null,
+            availableStudyRoomTimes = null,
+            selectedAvailableStudyRoomTimeId = null,
+            studyRooms = null,
+        )
+    }
+}
+
+internal sealed class StudyRoomListIntent : Intent()
+
+internal sealed class StudyRoomListSideEffect : SideEffect()
+
 /*
 
 import androidx.lifecycle.viewModelScope
