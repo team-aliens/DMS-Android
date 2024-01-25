@@ -1,5 +1,54 @@
 package team.aliens.dms.android.feature.editpassword
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.user.repository.UserRepository
+import javax.inject.Inject
+
+@HiltViewModel
+internal class EditPasswordViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : BaseMviViewModel<EditPasswordUiState, EditPasswordIntent, EditPasswordSideEffect>(
+    initialState = EditPasswordUiState.initial(),
+) {
+    override fun processIntent(intent: EditPasswordIntent) {
+        when (intent) {
+            is EditPasswordIntent.UpdateCurrentPassword -> TODO()
+            is EditPasswordIntent.UpdateNewPassword -> TODO()
+            is EditPasswordIntent.UpdateNewPasswordConfirmation -> TODO()
+        }
+    }
+}
+
+internal data class EditPasswordUiState(
+    val currentPassword: String,
+    val newPassword: String,
+    val newPasswordConfirmation: String,
+) : UiState() {
+    companion object {
+        fun initial() = EditPasswordUiState(
+            currentPassword = "",
+            newPassword = "",
+            newPasswordConfirmation = "",
+        )
+    }
+}
+
+internal sealed class EditPasswordIntent : Intent() {
+    class UpdateCurrentPassword(val password: String) : EditPasswordIntent()
+    class UpdateNewPassword(val password: String) : EditPasswordIntent()
+    class UpdateNewPasswordConfirmation(val password: String) : EditPasswordIntent()
+}
+
+internal sealed class EditPasswordSideEffect : SideEffect() {
+
+}
+
+/*
+
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -111,3 +160,4 @@ internal sealed class EditPasswordSideEffect : SideEffect() {
     data object CurrentPasswordIncorrect : EditPasswordSideEffect()
     data object ConfirmationSuccess : EditPasswordSideEffect()
 }
+*/

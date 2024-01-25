@@ -390,6 +390,10 @@
     <string name="my_page_points_of">%d 점</string>
     <string name="my_page_date_of">%d월 %d일</string>
 
+    <!--edit password-->
+    <string name="edit_password">비밀번호 변경</string>
+    <string name="edit_password_old_password">기존 비밀번호</string>
+
     <!--point history-->
     <string name="point_history">상벌점 내역</string>
     <string name="format_point">%d점</string>
@@ -425,6 +429,7 @@
     <!--remains-->
     <string name="remains">잔류</string>
     <string name="remains_application">잔류 신청</string>
+    <string name="remains_applied">신청 완료</string>
     <string name="remains_do_application">잔류 신청하기</string>
     <string name="remains_apply">신청하기</string>
     <string name="remains_change_to">%s로 변경하기</string>

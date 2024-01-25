@@ -190,7 +190,7 @@ internal fun Main(
                         modifier = Modifier,
                         onNavigateToEditProfileImage = mainNavigator::openEditProfileImage,
                         onNavigateToPointHistory = mainNavigator::openPointHistory,
-                        onNavigateToEditPassword = mainNavigator::openEditPassword,
+                        onNavigateToEditPassword = mainNavigator::openEditPasswordNav,
                         onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
                     )
                 }

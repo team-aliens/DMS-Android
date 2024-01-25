@@ -5,7 +5,9 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -32,12 +34,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.DayOfWeek
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
@@ -100,7 +105,11 @@ internal fun RemainsApplicationScreen(
                 options = uiState.remainsOptions,
                 selectedOptionId = uiState.selectedRemainsOptionId,
                 onRemainsOptionSelected = { optionId ->
-                    viewModel.postIntent(RemainsApplicationIntent.UpdateSelectedRemainsOption(optionId))
+                    viewModel.postIntent(
+                        RemainsApplicationIntent.UpdateSelectedRemainsOption(
+                            optionId
+                        )
+                    )
                 },
             )
             uiState.selectedRemainsOptionId?.let { remainsOption ->
@@ -215,7 +224,7 @@ private fun RemainsOptionCard(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
@@ -230,6 +239,20 @@ private fun RemainsOptionCard(
                         DmsTheme.colorScheme.onSurface
                     },
                 )
+                if (remainsOption.applied) {
+                    RoundedButton(
+                        onClick = {},
+                        colors = ButtonDefaults.roundedButtonColors(),
+                        fillMinSize = false,
+                        contentPadding = PaddingValues(
+                            horizontal = PaddingDefaults.Medium,
+                            vertical = PaddingDefaults.ExtraSmall,
+                        ),
+                    ) {
+                        Text(text = stringResource(id = R.string.remains_applied))
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f))
                 IconButton(onClick = onExpand) {
                     Icon(
                         modifier = Modifier

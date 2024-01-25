@@ -16,7 +16,7 @@ interface MainNavigator {
 
     fun openPointHistory()
 
-    fun openEditPassword()
+    fun openEditPasswordNav()
 
     fun openNoticeDetails(noticeId: UUID)
 }
