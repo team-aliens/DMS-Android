@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +41,7 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -151,7 +151,7 @@ private fun RemainsOptionList(
     onRemainsOptionSelected: (UUID) -> Unit,
 ) {
     val (expandedIndex, onExpandedIndexChange) = remember { mutableStateOf<Int?>(null) }
-    LazyColumn(
+    VerticallyFadedLazyColumn(
         modifier = modifier,
     ) {
         itemsIndexed(options) { index, option ->
