@@ -227,8 +227,8 @@ private fun UserInformation(
 private val Sex.text: String
     @Composable inline get() = stringResource(
         id = when (this) {
-            Sex.MALE -> R.string.male
-            Sex.FEMALE -> R.string.female
+            Sex.MALE -> R.string.sex_male
+            Sex.FEMALE -> R.string.sex_female
             Sex.ALL -> throw IllegalStateException()
         },
     )
