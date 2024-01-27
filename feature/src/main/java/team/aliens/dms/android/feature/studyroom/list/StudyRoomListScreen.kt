@@ -16,6 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,7 +30,6 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
-import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -53,6 +55,14 @@ internal fun StudyRoomListScreen(
 ) {
     // TODO: val toastState = rememberToastState()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+
+    var shouldShowSelectedAvailableStudyRoomTimePickDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if (shouldShowSelectedAvailableStudyRoomTimePickDialog) {
+
+    }
 
     DmsScaffold(
         modifier = modifier,
@@ -90,20 +100,25 @@ internal fun StudyRoomListScreen(
                 )
             }
             AvailableStudyRoomTimeFilter(
-                modifier = Modifier.fillMaxWidth(),
-                availableStudyRoomTimes = uiState.availableStudyRoomTimes,
-                selectedAvailableStudyRoomTime = uiState.selectedAvailableStudyRoomTime,
-                onFilterButtonClick = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                availableStudyRoomTime = uiState.selectedAvailableStudyRoomTime,
+                onFilterButtonClick = {
+
+                },
             )
             uiState.studyRooms?.let { studyRooms ->
                 VerticallyFadedLazyColumn(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    items(studyRooms) { studyRoom ->
-                        StudyRoomCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            studyRoom = studyRoom,
-                        )
+                    repeat(5) {
+                        items(studyRooms) { studyRoom ->
+                            StudyRoomCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                studyRoom = studyRoom,
+                            )
+                        }
                     }
                 }
             }
@@ -114,16 +129,14 @@ internal fun StudyRoomListScreen(
 @Composable
 private fun AvailableStudyRoomTimeFilter(
     modifier: Modifier = Modifier,
-    availableStudyRoomTimes: List<AvailableStudyRoomTime>?,
-    selectedAvailableStudyRoomTime: AvailableStudyRoomTime?,
+    availableStudyRoomTime: AvailableStudyRoomTime?,
     onFilterButtonClick: () -> Unit,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TextButton(
+        IconButton(
             onClick = onFilterButtonClick,
         ) {
             Icon(
@@ -131,13 +144,17 @@ private fun AvailableStudyRoomTimeFilter(
                 tint = DmsTheme.colorScheme.primary,
                 contentDescription = null,
             )
-            selectedAvailableStudyRoomTime?.let {
-                // TODO
-                Text(
-                    text = "${it.startTime} ~ ${it.endTime}",
-
-                    )
-            }
+        }
+        availableStudyRoomTime?.let {
+            Text(
+                text = stringResource(
+                    id = R.string.format_study_room_available_study_room_time,
+                    it.startTime,
+                    it.endTime,
+                ),
+                color = DmsTheme.colorScheme.primary,
+                style = DmsTheme.typography.button,
+            )
         }
     }
 }
