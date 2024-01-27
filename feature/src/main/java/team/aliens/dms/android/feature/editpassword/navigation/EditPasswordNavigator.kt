@@ -4,5 +4,5 @@ interface EditPasswordNavigator {
     fun openEditPasswordSetPasswordNav()
     fun openSignIn()
 
-    fun popBackStack()
+    fun navigateUp()
 }

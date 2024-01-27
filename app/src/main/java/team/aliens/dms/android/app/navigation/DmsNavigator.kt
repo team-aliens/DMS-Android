@@ -86,10 +86,6 @@ class DmsNavigator(
         navController.navigate(SignInScreenDestination within navGraph)
     }
 
-    override fun popBackStack() {
-        navController.popBackStack()
-    }
-
     override fun navigateUp() {
         navController.navigateUp()
     }

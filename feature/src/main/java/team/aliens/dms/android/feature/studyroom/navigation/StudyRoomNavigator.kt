@@ -5,5 +5,5 @@ import java.util.UUID
 interface StudyRoomNavigator {
     fun openStudyRoomDetails(studyRoomId: UUID, timeslot: UUID)
 
-    fun popBackStack()
+    fun navigateUp()
 }
