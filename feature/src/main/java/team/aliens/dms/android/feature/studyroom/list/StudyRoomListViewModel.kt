@@ -8,11 +8,10 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
-import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
 import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,12 +45,13 @@ internal class StudyRoomListViewModel @Inject constructor(
                 studyRoomRepository.fetchAvailableStudyRoomTimes()
             }.onSuccess { fetchedAvailableStudyRoomTimes ->
                 if (fetchedAvailableStudyRoomTimes.isNotEmpty()) {
-                    val firstOfAvailableStudyRoomTime = fetchedAvailableStudyRoomTimes.firstOrNull()?.id
-                    val studyRooms = firstOfAvailableStudyRoomTime?.let { studyRoomRepository.fetchStudyRooms(it) }
+                    val firstOfAvailableStudyRoomTime = fetchedAvailableStudyRoomTimes.firstOrNull()
+                    val studyRooms =
+                        firstOfAvailableStudyRoomTime?.let { studyRoomRepository.fetchStudyRooms(it.id) }
                     reduce(
                         newState = stateFlow.value.copy(
                             availableStudyRoomTimes = fetchedAvailableStudyRoomTimes,
-                            selectedAvailableStudyRoomTimeId = firstOfAvailableStudyRoomTime,
+                            selectedAvailableStudyRoomTime = firstOfAvailableStudyRoomTime,
                             studyRooms = studyRooms,
                         )
                     )
@@ -64,14 +64,14 @@ internal class StudyRoomListViewModel @Inject constructor(
 internal data class StudyRoomListUiState(
     val studyRoomApplicationTime: StudyRoomApplicationTime?,
     val availableStudyRoomTimes: List<AvailableStudyRoomTime>?,
-    val selectedAvailableStudyRoomTimeId: UUID?,
+    val selectedAvailableStudyRoomTime: AvailableStudyRoomTime?,
     val studyRooms: List<StudyRoom>?,
 ) : UiState() {
     companion object {
         fun initial() = StudyRoomListUiState(
             studyRoomApplicationTime = null,
             availableStudyRoomTimes = null,
-            selectedAvailableStudyRoomTimeId = null,
+            selectedAvailableStudyRoomTime = null,
             studyRooms = null,
         )
     }
