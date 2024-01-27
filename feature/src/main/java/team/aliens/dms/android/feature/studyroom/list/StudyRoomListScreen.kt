@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,8 +27,8 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
-import team.aliens.dms.android.core.designsystem.rememberToastState
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
@@ -36,6 +37,7 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
@@ -49,24 +51,27 @@ internal fun StudyRoomListScreen(
     navigator: StudyRoomNavigator,
     viewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {
-    val toastState = rememberToastState()
+    // TODO: val toastState = rememberToastState()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    DmsScaffold(modifier = modifier, topBar = {
-        DmsTopAppBar(
-            navigationIcon = {
-                IconButton(onClick = navigator::popBackStack) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                        contentDescription = stringResource(id = R.string.top_bar_back_button),
-                    )
-                }
-            },
-            title = {
-                Text(text = stringResource(id = R.string.study_room_application))
-            },
-        )
-    }) { padValues ->
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = navigator::popBackStack) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
+                title = {
+                    Text(text = stringResource(id = R.string.study_room_application))
+                },
+            )
+        },
+    ) { padValues ->
         Column(
             modifier = Modifier
                 .padding(padValues)
@@ -84,6 +89,12 @@ internal fun StudyRoomListScreen(
                     ),
                 )
             }
+            AvailableStudyRoomTimeFilter(
+                modifier = Modifier.fillMaxWidth(),
+                availableStudyRoomTimes = uiState.availableStudyRoomTimes,
+                selectedAvailableStudyRoomTime = uiState.selectedAvailableStudyRoomTime,
+                onFilterButtonClick = {},
+            )
             uiState.studyRooms?.let { studyRooms ->
                 VerticallyFadedLazyColumn(
                     modifier = Modifier.fillMaxWidth(),
@@ -95,6 +106,37 @@ internal fun StudyRoomListScreen(
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AvailableStudyRoomTimeFilter(
+    modifier: Modifier = Modifier,
+    availableStudyRoomTimes: List<AvailableStudyRoomTime>?,
+    selectedAvailableStudyRoomTime: AvailableStudyRoomTime?,
+    onFilterButtonClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        TextButton(
+            onClick = onFilterButtonClick,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_filter),
+                tint = DmsTheme.colorScheme.primary,
+                contentDescription = null,
+            )
+            selectedAvailableStudyRoomTime?.let {
+                // TODO
+                Text(
+                    text = "${it.startTime} ~ ${it.endTime}",
+
+                    )
             }
         }
     }
