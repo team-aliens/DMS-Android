@@ -1,8 +1,10 @@
 package team.aliens.dms.android.feature.notice
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,15 +19,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedColumn
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.notice.navigation.NoticeNavigator
 import java.util.UUID
@@ -63,7 +68,6 @@ internal fun NoticeDetailsScreen(
     ) { padValues ->
         Column(
             modifier = Modifier.padding(padValues),
-            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             if (uiState.title != null) {
                 Text(
@@ -79,6 +83,7 @@ internal fun NoticeDetailsScreen(
                 // TODO handle null
             }
             if (uiState.createdAt != null) {
+                Spacer(modifier = Modifier.height(DefaultVerticalSpace))
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -90,24 +95,32 @@ internal fun NoticeDetailsScreen(
             } else {
                 // TODO handle null
             }
+
+            Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
                 color = DmsTheme.colorScheme.line,
             )
-            if (uiState.content != null) {
-                Text(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .fillMaxWidth()
-                        .horizontalPadding(),
-                    text = uiState.content!!,
-                    style = DmsTheme.typography.body3,
-                    color = DmsTheme.colorScheme.onSurface,
-                )
-            } else {
-                // TODO handle null
+
+            VerticallyFadedColumn(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                if (uiState.content != null) {
+                    Text(
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .fillMaxWidth()
+                            .horizontalPadding()
+                            .verticalPadding(12.dp),
+                        text = uiState.content!!,
+                        style = DmsTheme.typography.body3,
+                        color = DmsTheme.colorScheme.onSurface,
+                    )
+                } else {
+                    // TODO: handle null
+                }
             }
         }
     }
