@@ -145,11 +145,13 @@ class DmsNavigator(
 
     override fun openStudyRoomDetails(
         studyRoomId: UUID,
+        studyRoomName: String,
         timeslot: UUID,
     ) {
         navController.navigate(
             StudyRoomDetailsScreenDestination(
                 studyRoomId = studyRoomId,
+                studyRoomName = studyRoomName,
                 timeslot = timeslot,
             ) within navGraph,
         )

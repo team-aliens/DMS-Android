@@ -215,6 +215,7 @@ internal fun StudyRoomListScreen(
                                 onClick = {
                                     navigator.openStudyRoomDetails(
                                         studyRoomId = studyRoom.id,
+                                        studyRoomName = studyRoom.name,
                                         timeslot = uiState.selectedAvailableStudyRoomTime!!.id,
                                     )
                                 },

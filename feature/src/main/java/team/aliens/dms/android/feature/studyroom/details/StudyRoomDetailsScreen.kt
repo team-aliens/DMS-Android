@@ -1,20 +1,58 @@
 package team.aliens.dms.android.feature.studyroom.details
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
 import java.util.UUID
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 fun StudyRoomDetailsScreen(
     modifier: Modifier = Modifier,
     navigator: StudyRoomNavigator,
     studyRoomId: UUID,
+    // TODO: change to custom navigation argument type
+    studyRoomName: String,
     timeslot: UUID,
 ) {
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = { Text(text = studyRoomName) },
+                navigationIcon = {
+                    IconButton(onClick = navigator::navigateUp) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                }
+            )
+        }
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+        ) {
 
+        }
+    }
 }
 /*
 
