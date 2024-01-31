@@ -206,21 +206,18 @@ internal fun StudyRoomListScreen(
                 VerticallyFadedLazyColumn(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    // tODO: remove
-                    repeat(5) {
-                        items(studyRooms) { studyRoom ->
-                            StudyRoomCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                studyRoom = studyRoom,
-                                onClick = {
-                                    navigator.openStudyRoomDetails(
-                                        studyRoomId = studyRoom.id,
-                                        studyRoomName = studyRoom.name,
-                                        timeslot = uiState.selectedAvailableStudyRoomTime!!.id,
-                                    )
-                                },
-                            )
-                        }
+                    items(studyRooms) { studyRoom ->
+                        StudyRoomCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            studyRoom = studyRoom,
+                            onClick = {
+                                navigator.openStudyRoomDetails(
+                                    studyRoomId = studyRoom.id,
+                                    studyRoomName = studyRoom.name,
+                                    timeslot = uiState.selectedAvailableStudyRoomTime!!.id,
+                                )
+                            },
+                        )
                     }
                 }
             }
