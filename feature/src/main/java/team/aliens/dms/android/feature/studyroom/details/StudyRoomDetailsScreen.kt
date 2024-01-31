@@ -4,12 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
+import java.util.UUID
 
 @Destination
 @Composable
 fun StudyRoomDetailsScreen(
     modifier: Modifier = Modifier,
     navigator: StudyRoomNavigator,
+    studyRoomId: UUID,
+    timeslot: UUID,
 ) {
 
 }

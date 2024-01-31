@@ -85,6 +85,7 @@ internal fun StudyRoomListScreen(
     DmsBottomSheetScaffold(
         modifier = modifier,
         scaffoldState = scaffoldState,
+        sheetSwipeEnabled = false,
         sheetContent = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -211,6 +212,12 @@ internal fun StudyRoomListScreen(
                             StudyRoomCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 studyRoom = studyRoom,
+                                onClick = {
+                                    navigator.openStudyRoomDetails(
+                                        studyRoomId = studyRoom.id,
+                                        timeslot = uiState.selectedAvailableStudyRoomTime!!.id,
+                                    )
+                                },
                             )
                         }
                     }
@@ -253,10 +260,12 @@ private fun AvailableStudyRoomTimeFilter(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StudyRoomCard(
     modifier: Modifier = Modifier,
     studyRoom: StudyRoom,
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -268,6 +277,7 @@ private fun StudyRoomCard(
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+        onClick = onClick,
     ) {
         Column {
             Row(
