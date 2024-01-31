@@ -36,8 +36,7 @@ import java.util.UUID
 class DmsNavigator(
     private val navGraph: NavGraphSpec,
     private val navController: NavController,
-) : AuthorizedNavigator,
-    UnauthorizedNavigator {
+) : AuthorizedNavigator, UnauthorizedNavigator {
 
     override fun openNotificationBox() {
         navController.navigate(NotificationBoxScreenDestination within navGraph)
@@ -149,10 +148,10 @@ class DmsNavigator(
         timeslot: UUID,
     ) {
         navController.navigate(
-            StudyRoomDetailsScreenDestination/*(
+            StudyRoomDetailsScreenDestination(
                 studyRoomId = studyRoomId,
                 timeslot = timeslot,
-            )*/ within navGraph,
+            ) within navGraph,
         )
     }
 }
