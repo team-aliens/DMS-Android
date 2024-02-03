@@ -9,6 +9,8 @@ interface StudyRoomNavigator {
         studyRoomId: UUID,
         studyRoomName: String,
         timeslot: UUID,
+        studyRoomApplicationStartTime: String,
+        studyRoomApplicationEndTime: String,
     )
 
     fun navigateUp()

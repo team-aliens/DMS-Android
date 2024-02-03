@@ -207,6 +207,8 @@ internal fun StudyRoomListScreen(
                                     studyRoomId = studyRoom.id,
                                     studyRoomName = studyRoom.name,
                                     timeslot = uiState.selectedAvailableStudyRoomTime!!.id,
+                                    studyRoomApplicationStartTime = uiState.studyRoomApplicationTime!!.startAt,
+                                    studyRoomApplicationEndTime = uiState.studyRoomApplicationTime!!.endAt,
                                 )
                             },
                         )
