@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
 data class FetchStudyRoomDetailsResponse(
+    @SerializedName("id") val id: UUID,
     @SerializedName("floor") val floor: Int,
     @SerializedName("name") val name: String,
     @SerializedName("start_time") val startTime: String,
