@@ -1,7 +1,9 @@
 package team.aliens.dms.android.feature.studyroom.details
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,7 +16,11 @@ import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.composable.FloatingNotice
+import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature.studyroom.StudyRoomCard
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
 import java.util.UUID
 
@@ -28,6 +34,8 @@ fun StudyRoomDetailsScreen(
     // TODO: change to custom navigation argument type
     studyRoomName: String,
     timeslot: UUID,
+    studyRoomApplicationStartTime: String,
+    studyRoomApplicationEndTime: String,
 ) {
     DmsScaffold(
         modifier = modifier,
@@ -41,19 +49,36 @@ fun StudyRoomDetailsScreen(
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { padValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-
+            FloatingNotice(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                text = stringResource(
+                    id = R.string.format_study_room_application_time,
+                    studyRoomApplicationStartTime,
+                    studyRoomApplicationEndTime,
+                ),
+            )
+            /*
+            StudyRoomCard(
+                studyRoom =,
+                onClick = {},
+            )
+            */
         }
     }
 }
+
 /*
 
 import android.annotation.SuppressLint
@@ -108,8 +133,7 @@ fun StudyRoomDetailsScreen(
     studyRoomDetailsViewModel: StudyRoomDetailsViewModel = hiltViewModel(),
 ) {
 
-        */
-/*val availableTime = LaunchedEffect(Unit) {
+        *//*val availableTime = LaunchedEffect(Unit) {
         studyRoomDetailsViewModel.initStudyRoom(
             roomId = roomId, // todo refactor
             timeslot = timeslot,
@@ -124,8 +148,7 @@ fun StudyRoomDetailsScreen(
     val currentSeat = uiState.currentSeat.collectAsState(null)
 
     val onCancel: () -> Unit = {
-        */
-/*studyRoomDetailsViewModel.onEvent(
+        *//*studyRoomDetailsViewModel.onEvent(
             event = StudyRoomDetailsViewModel.UiEvent.CancelApplySeat(
                 seatId = currentSeat.value!!,
                 timeSlot = timeSlot,
@@ -135,8 +158,7 @@ fun StudyRoomDetailsScreen(
     }
 
     val onApply: () -> Unit = {
-       */
-/* if (currentSeat.value == null) {
+       *//* if (currentSeat.value == null) {
             toast(
                 context.getString(R.string.study_room_please_first_select),
             )
