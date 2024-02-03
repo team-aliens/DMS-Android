@@ -25,7 +25,7 @@ abstract class StudyRoomRepository {
     abstract suspend fun fetchStudyRoomDetails(
         studyRoomId: UUID,
         timeslot: UUID,
-    ): List<StudyRoom.Details>
+    ): StudyRoom.Details
 
     abstract suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom
 

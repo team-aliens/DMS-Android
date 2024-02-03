@@ -2,9 +2,9 @@ package team.aliens.dms.android.data.studyroom.repository
 
 import team.aliens.dms.android.data.studyroom.mapper.toModel
 import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
+import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
-import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
 import team.aliens.dms.android.network.studyroom.datasource.NetworkStudyRoomDataSource
 import java.util.UUID
 import javax.inject.Inject
@@ -36,9 +36,10 @@ internal class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun fetchStudyRoomDetails(
         studyRoomId: UUID,
         timeslot: UUID,
-    ): List<StudyRoom.Details> {
-        TODO("Not yet implemented")
-    }
+    ): StudyRoom.Details = networkStudyRoomDataSource.fetchStudyRoomDetails(
+        studyRoomId = studyRoomId,
+        timeslot = timeslot,
+    ).toModel()
 
     override suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom =
         networkStudyRoomDataSource.fetchAppliedStudyRoom().toModel()
