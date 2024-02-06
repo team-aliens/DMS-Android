@@ -44,9 +44,8 @@ internal class StudyRoomRepositoryImpl @Inject constructor(
     override suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom =
         networkStudyRoomDataSource.fetchAppliedStudyRoom().toModel()
 
-    override suspend fun fetchSeatTypes(studyRoomId: UUID): StudyRoom.Seat.Type {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchSeatTypes(studyRoomId: UUID): List<StudyRoom.Seat.Type> =
+        networkStudyRoomDataSource.fetchSeatTypes(studyRoomId = studyRoomId).toModel()
 
     override suspend fun fetchAvailableStudyRoomTimes(): List<AvailableStudyRoomTime> =
         networkStudyRoomDataSource.fetchAvailableStudyRoomTimes().toModel()

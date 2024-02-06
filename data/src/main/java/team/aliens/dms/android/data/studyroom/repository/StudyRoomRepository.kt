@@ -29,7 +29,7 @@ abstract class StudyRoomRepository {
 
     abstract suspend fun fetchAppliedStudyRoom(): AppliedStudyRoom
 
-    abstract suspend fun fetchSeatTypes(studyRoomId: UUID): StudyRoom.Seat.Type
+    abstract suspend fun fetchSeatTypes(studyRoomId: UUID): List<StudyRoom.Seat.Type>
 
     abstract suspend fun fetchAvailableStudyRoomTimes(): List<AvailableStudyRoomTime>
 }
