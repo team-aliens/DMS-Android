@@ -1,4 +1,71 @@
 package team.aliens.dms.android.feature.studyroom.details
+
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.studyroom.model.StudyRoom
+import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
+import java.util.UUID
+import javax.inject.Inject
+
+@HiltViewModel
+internal class StudyRoomDetailsViewModel @Inject constructor(
+    private val studyRoomRepository: StudyRoomRepository,
+) : BaseMviViewModel<StudyRoomDetailsUiState, StudyRoomDetailsIntent, StudyRoomDetailsSideEffect>(
+    initialState = StudyRoomDetailsUiState.initial(),
+) {
+    override fun processIntent(intent: StudyRoomDetailsIntent) {
+        when (intent) {
+            is StudyRoomDetailsIntent.FetchStudyRoomDetails -> fetchStudyRoomDetails(
+                studyRoomId = intent.studyRoomId,
+                timeslot = intent.timeslot,
+            )
+        }
+    }
+
+    private fun fetchStudyRoomDetails(
+        studyRoomId: UUID,
+        timeslot: UUID,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studyRoomRepository.fetchStudyRoomDetails(
+                studyRoomId = studyRoomId,
+                timeslot = timeslot,
+            )
+        }.onSuccess { fetchedStudyRoomDetails ->
+            reduce(
+                newState = stateFlow.value.copy(
+                    studyRoomDetails = fetchedStudyRoomDetails,
+                ),
+            )
+        }
+    }
+}
+
+internal data class StudyRoomDetailsUiState(
+    val studyRoomDetails: StudyRoom.Details?,
+) : UiState() {
+    companion object {
+        fun initial() = StudyRoomDetailsUiState(
+            studyRoomDetails = null,
+        )
+    }
+}
+
+internal sealed class StudyRoomDetailsIntent : Intent() {
+    class FetchStudyRoomDetails(
+        val studyRoomId: UUID,
+        val timeslot: UUID,
+    ) : StudyRoomDetailsIntent()
+}
+
+internal sealed class StudyRoomDetailsSideEffect : SideEffect()
+
 /*
 
 import androidx.lifecycle.viewModelScope
