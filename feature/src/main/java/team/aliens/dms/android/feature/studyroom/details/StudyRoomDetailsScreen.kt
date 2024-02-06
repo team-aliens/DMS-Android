@@ -3,6 +3,7 @@ package team.aliens.dms.android.feature.studyroom.details
 import androidx.annotation.ColorInt
 import androidx.annotation.Size
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +26,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -227,21 +232,30 @@ private fun SeatList(
         }
     }
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+    Box(
+        modifier = modifier
+            .horizontalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
-        formedSeats.forEach { column ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                column.forEach { seat ->
-                    if (seat != null) {
-                        Seat(
-                            seat = seat,
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.size(40.dp))
+        Column(
+            modifier = Modifier.padding(
+                horizontal = 40.dp,
+                vertical = 40.dp,
+            ),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            formedSeats.forEach { column ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    column.forEach { seat ->
+                        if (seat != null) {
+                            Seat(
+                                seat = seat,
+                            )
+                        } else {
+                            Spacer(modifier = Modifier.size(DefaultSeatIconSize))
+                        }
                     }
                 }
             }
@@ -249,12 +263,19 @@ private fun SeatList(
     }
 }
 
+// TODO: move to StudyRoomDefaults
+@Stable
+val DefaultSeatIconSize = DpSize(
+    width = 48.dp,
+    height = 48.dp,
+)
+
 @Composable
 private fun Seat(
     seat: StudyRoom.Seat,
 ) {
     ElevatedCard(
-        modifier = Modifier.size(40.dp),
+        modifier = Modifier.size(DefaultSeatIconSize),
         shape = CircleShape,
         colors = CardDefaults.elevatedCardColors(
             contentColor = DmsTheme.colorScheme.onSurface, // TODO: determine by container color
