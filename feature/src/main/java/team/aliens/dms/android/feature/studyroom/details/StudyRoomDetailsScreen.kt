@@ -278,7 +278,7 @@ private fun Seat(
         modifier = Modifier.size(DefaultSeatIconSize),
         shape = CircleShape,
         colors = CardDefaults.elevatedCardColors(
-            contentColor = DmsTheme.colorScheme.onSurface, // TODO: determine by container color
+            contentColor = DmsTheme.colorScheme.onPrimary, // TODO: determine by container color
             containerColor = Color(seat.type?.color?.let(::parseColor) ?: 0x000000),
         ),
         elevation = CardDefaults.elevatedCardElevation(
