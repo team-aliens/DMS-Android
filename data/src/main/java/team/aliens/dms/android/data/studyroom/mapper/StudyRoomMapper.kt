@@ -6,6 +6,7 @@ import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.data.studyroom.model.StudyRoomApplicationTime
 import team.aliens.dms.android.network.studyroom.model.FetchAppliedStudyRoomResponse
 import team.aliens.dms.android.network.studyroom.model.FetchAvailableStudyRoomTimesResponse
+import team.aliens.dms.android.network.studyroom.model.FetchSeatTypesResponse
 import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomApplicationTimeResponse
 import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomDetailsResponse
 import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomsResponse
@@ -80,6 +81,15 @@ fun FetchStudyRoomDetailsResponse.SeatResponse.StudentResponse.toModel(): StudyR
 fun FetchAppliedStudyRoomResponse.toModel(): AppliedStudyRoom = AppliedStudyRoom(
     floor = this.floor,
     name = this.name,
+)
+
+fun FetchSeatTypesResponse.toModel(): List<StudyRoom.Seat.Type> =
+    this.types.map(FetchSeatTypesResponse.SeatTypeResponse::toModel)
+
+fun FetchSeatTypesResponse.SeatTypeResponse.toModel(): StudyRoom.Seat.Type = StudyRoom.Seat.Type(
+    id = this.id,
+    name = this.name,
+    color = this.color,
 )
 
 fun FetchAvailableStudyRoomTimesResponse.toModel(): List<AvailableStudyRoomTime> =
