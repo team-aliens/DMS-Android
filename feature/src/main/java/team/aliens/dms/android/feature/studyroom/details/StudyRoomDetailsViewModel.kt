@@ -21,10 +21,15 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
 ) {
     override fun processIntent(intent: StudyRoomDetailsIntent) {
         when (intent) {
-            is StudyRoomDetailsIntent.FetchStudyRoomDetails -> fetchStudyRoomDetails(
-                studyRoomId = intent.studyRoomId,
-                timeslot = intent.timeslot,
-            )
+            is StudyRoomDetailsIntent.FetchStudyRoomDetails -> {
+                this.fetchStudyRoomDetails(
+                    studyRoomId = intent.studyRoomId,
+                    timeslot = intent.timeslot,
+                )
+                this.fetchSeatTypes(
+                    studyRoomId = intent.studyRoomId,
+                )
+            }
         }
     }
 
@@ -45,14 +50,30 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
             )
         }
     }
+
+    private fun fetchSeatTypes(
+        studyRoomId: UUID,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studyRoomRepository.fetchSeatTypes(studyRoomId = studyRoomId)
+        }.onSuccess { fetchedSeatTypes ->
+            reduce(
+                newState = stateFlow.value.copy(
+                    seatTypes = fetchedSeatTypes,
+                ),
+            )
+        }
+    }
 }
 
 internal data class StudyRoomDetailsUiState(
     val studyRoomDetails: StudyRoom.Details?,
+    val seatTypes: List<StudyRoom.Seat.Type>?,
 ) : UiState() {
     companion object {
         fun initial() = StudyRoomDetailsUiState(
             studyRoomDetails = null,
+            seatTypes = null,
         )
     }
 }
