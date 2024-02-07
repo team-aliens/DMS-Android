@@ -19,9 +19,18 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
 ) : BaseMviViewModel<StudyRoomDetailsUiState, StudyRoomDetailsIntent, StudyRoomDetailsSideEffect>(
     initialState = StudyRoomDetailsUiState.initial(),
 ) {
+    private lateinit var studyRoomId: UUID
+    private lateinit var timeslot: UUID
+
     override fun processIntent(intent: StudyRoomDetailsIntent) {
         when (intent) {
+            is StudyRoomDetailsIntent.InitStudyRoomDetails -> this.initStudyRoomDetails(
+                studyRoomId = intent.studyRoomId,
+                timeslot = intent.timeslot,
+            )
+
             is StudyRoomDetailsIntent.FetchStudyRoomDetails -> {
+                this.timeslot = intent.timeslot
                 this.fetchStudyRoomDetails(
                     studyRoomId = intent.studyRoomId,
                     timeslot = intent.timeslot,
@@ -32,12 +41,28 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
             }
 
             is StudyRoomDetailsIntent.SelectSeat -> this.updateSelectedSeat(seat = intent.seat)
+            is StudyRoomDetailsIntent.UpdateSeat -> this.updateSeat()
         }
     }
 
-    private fun fetchStudyRoomDetails(
+    private fun initStudyRoomDetails(
         studyRoomId: UUID,
         timeslot: UUID,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        this@StudyRoomDetailsViewModel.studyRoomId = studyRoomId
+        this@StudyRoomDetailsViewModel.timeslot = timeslot
+        this@StudyRoomDetailsViewModel.fetchStudyRoomDetails(
+            studyRoomId = studyRoomId,
+            timeslot = timeslot,
+        )
+    }
+
+    /**
+     * [studyRoomId] and [timeslot] must be initialized when using default parameters.
+     */
+    private fun fetchStudyRoomDetails(
+        studyRoomId: UUID = this.studyRoomId,
+        timeslot: UUID = this.timeslot,
     ) = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
             studyRoomRepository.fetchStudyRoomDetails(
@@ -72,9 +97,56 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
     ) = viewModelScope.launch(Dispatchers.IO) {
         reduce(
             newState = stateFlow.value.copy(
-                selectedSeat = seat,
+                selectedSeat = seat, mainButtonState = when {
+                    seat.isMine -> StudyRoomDetailsMainButtonState.CANCEL_SEAT
+                    else -> StudyRoomDetailsMainButtonState.UPDATE_SEAT
+                }
             ),
         )
+    }
+
+    private fun updateSeat(
+        seat: StudyRoom.Seat = stateFlow.value.selectedSeat ?: throw IllegalStateException(),
+        buttonState: StudyRoomDetailsMainButtonState = stateFlow.value.mainButtonState
+            ?: throw IllegalStateException(),
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        when (buttonState) {
+            StudyRoomDetailsMainButtonState.UPDATE_SEAT ->
+                this@StudyRoomDetailsViewModel.applySeat(seat)
+
+            StudyRoomDetailsMainButtonState.CANCEL_SEAT ->
+                this@StudyRoomDetailsViewModel.cancelSeat(seat)
+        }
+    }
+
+    private fun applySeat(
+        seat: StudyRoom.Seat,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studyRoomRepository.applySeat(
+                seatId = seat.id,
+                timeslot = timeslot,
+            )
+        }.onSuccess {
+            this@StudyRoomDetailsViewModel.fetchStudyRoomDetails()
+        }.also { // TODO: remove
+            it.exceptionOrNull()?.printStackTrace()
+        }
+    }
+
+    private fun cancelSeat(
+        seat: StudyRoom.Seat,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studyRoomRepository.cancelSeat(
+                seatId = seat.id,
+                timeslot = timeslot,
+            )
+        }.onSuccess {
+            this@StudyRoomDetailsViewModel.fetchStudyRoomDetails()
+        }.also { // TODO: remove
+            it.exceptionOrNull()?.printStackTrace()
+        }
     }
 }
 
@@ -82,17 +154,30 @@ internal data class StudyRoomDetailsUiState(
     val studyRoomDetails: StudyRoom.Details?,
     val seatTypes: List<StudyRoom.Seat.Type>?,
     val selectedSeat: StudyRoom.Seat?,
+    val appliedSeat: StudyRoom.Seat?,
+    val mainButtonState: StudyRoomDetailsMainButtonState?,
 ) : UiState() {
     companion object {
         fun initial() = StudyRoomDetailsUiState(
             studyRoomDetails = null,
             seatTypes = null,
             selectedSeat = null,
+            appliedSeat = null,
+            mainButtonState = null,
         )
     }
 }
 
+internal enum class StudyRoomDetailsMainButtonState {
+    UPDATE_SEAT, CANCEL_SEAT, ;
+}
+
 internal sealed class StudyRoomDetailsIntent : Intent() {
+    class InitStudyRoomDetails(
+        val studyRoomId: UUID,
+        val timeslot: UUID,
+    ) : StudyRoomDetailsIntent()
+
     class FetchStudyRoomDetails(
         val studyRoomId: UUID,
         val timeslot: UUID,
@@ -101,6 +186,8 @@ internal sealed class StudyRoomDetailsIntent : Intent() {
     class SelectSeat(
         val seat: StudyRoom.Seat, // TODO: UUID로만 핸들링 가능하도록 변경하기
     ) : StudyRoomDetailsIntent()
+
+    data object UpdateSeat : StudyRoomDetailsIntent()
 }
 
 internal sealed class StudyRoomDetailsSideEffect : SideEffect()
