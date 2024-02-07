@@ -7,6 +7,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -44,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -160,6 +164,8 @@ internal fun StudyRoomDetailsScreen(
                             eastDescription = studyRoomDetails.eastDescription,
                             westDescription = studyRoomDetails.westDescription,
                             southDescription = studyRoomDetails.southDescription,
+                            selectedSeat = null, // TODO
+                            onSelectSeat = {}, // TODO
                         )
                         Button(
                             modifier = Modifier
@@ -248,6 +254,8 @@ private fun SeatLayout(
     eastDescription: String,
     westDescription: String,
     southDescription: String,
+    selectedSeat: StudyRoom.Seat?,
+    onSelectSeat: (seat: StudyRoom.Seat) -> Unit,
 ) {
     OutlinedCard(
         modifier = modifier,
@@ -308,6 +316,8 @@ private fun SeatLayout(
                     seats = seats,
                     countOfColumns = countOfColumns,
                     countOfRows = countOfRows,
+                    selectedSeat = selectedSeat,
+                    onSelectSeat = onSelectSeat,
                 )
             }
         }
@@ -320,6 +330,8 @@ private fun SeatList(
     seats: List<StudyRoom.Seat>,
     countOfColumns: Int,
     countOfRows: Int,
+    selectedSeat: StudyRoom.Seat?,
+    onSelectSeat: (seat: StudyRoom.Seat) -> Unit,
 ) {
     // FIXME: 리컴포지션 방지하도록 작성하기
     val formedSeats: List<Array<StudyRoom.Seat?>> = List(
@@ -352,11 +364,15 @@ private fun SeatList(
                 ) {
                     column.forEach { seat ->
                         if (seat != null) {
+                            val selected = seat.id == selectedSeat?.id
+
                             Seat(
                                 seat = seat,
+                                onClick = onSelectSeat,
+                                selected = selected,
                             )
                         } else {
-                            Spacer(modifier = Modifier.size(DefaultSeatIconSize))
+                            Spacer(modifier = Modifier.size(DefaultSeatButtonSize))
                         }
                     }
                 }
@@ -365,39 +381,51 @@ private fun SeatList(
     }
 }
 
-// TODO: move to StudyRoomDefaults
-@Stable
-val DefaultSeatIconSize = DpSize(
-    width = 48.dp,
-    height = 48.dp,
-)
-
 @Composable
 private fun Seat(
     seat: StudyRoom.Seat,
+    onClick: (seat: StudyRoom.Seat) -> Unit,
+    selected: Boolean,
 ) {
-    ElevatedCard(
-        modifier = Modifier.size(DefaultSeatIconSize),
+    val buttonEnabled = seat.student == null && !seat.isMine
+
+    Button(
+        modifier = Modifier.size(DefaultSeatButtonSize),
         shape = CircleShape,
-        colors = CardDefaults.elevatedCardColors(
+        colors = ButtonDefaults.buttonColors(
             contentColor = DmsTheme.colorScheme.onPrimary, // TODO: determine by container color
             containerColor = Color(seat.type?.color?.let(::parseColor) ?: 0x000000),
         ),
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = ShadowDefaults.SmallElevation,
-        ),
+        onClick = {
+            if (buttonEnabled && !selected) {
+                onClick(seat)
+            }
+        },
+        enabled = buttonEnabled,
+        contentPadding = NoPadding,
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = seat.student?.name ?: "gh",
+                text = seat.student?.name ?: seat.number.toString(),
                 style = DmsTheme.typography.overline,
             )
         }
     }
 }
+
+// TODO: move to StudyRoomDefaults
+@Stable
+val DefaultSeatButtonSize = DpSize(
+    width = 48.dp,
+    height = 48.dp,
+)
+
+// TODO: move to StudyRoomDefaults
+@Stable
+val NoPadding = PaddingValues(0.dp)
 
 /**
  * copied from https://stackoverflow.com/questions/60247480/color-from-hex-string-in-jetpack-compose
@@ -452,7 +480,7 @@ private fun SeatLayoutPreview() {
             row = 1,
             column = 2,
             type = SEAT_TYPE_POWER,
-            number = 1,
+            number = 2,
             status = StudyRoom.Seat.Status.AVAILABLE,
             isMine = true,
             student = StudyRoom.Seat.Student(
@@ -465,28 +493,26 @@ private fun SeatLayoutPreview() {
             row = 4,
             column = 5,
             type = SEAT_TYPE_NORMAL,
-            number = 1,
+            number = 62,
             status = StudyRoom.Seat.Status.UNAVAILABLE,
             isMine = false,
-            student = StudyRoom.Seat.Student(
-                id = UUID.randomUUID(),
-                name = "박준수",
-            ),
+            student = null,
         ),
         StudyRoom.Seat(
             id = UUID.randomUUID(),
             row = 5,
             column = 6,
             type = SEAT_TYPE_POWER,
-            number = 1,
+            number = 412,
             status = StudyRoom.Seat.Status.AVAILABLE,
             isMine = false,
-            student = StudyRoom.Seat.Student(
-                id = UUID.randomUUID(),
-                name = "준박수",
-            ),
+            student = null,
         ),
     )
+
+    val (selectedSeat, onSelectSeat) = remember {
+        mutableStateOf<StudyRoom.Seat?>(null)
+    }
     SeatLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -498,6 +524,9 @@ private fun SeatLayoutPreview() {
         westDescription = "중국",
         southDescription = "일본",
         countOfRows = 10,
-        countOfColumns = 10
+        countOfColumns = 10,
+        selectedSeat = selectedSeat,
+        onSelectSeat = onSelectSeat,
     )
+    Text(text = "selected: ${selectedSeat?.number}")
 }
