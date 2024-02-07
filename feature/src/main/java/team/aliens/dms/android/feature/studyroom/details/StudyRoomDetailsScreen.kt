@@ -23,6 +23,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,10 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
@@ -119,16 +123,49 @@ internal fun StudyRoomDetailsScreen(
                     studyRoom = studyRoomDetails.toStudyRoom(),
                     onClick = {},
                 )
+                ElevatedCard(
+                    colors = CardDefaults.cardColors(
+                        containerColor = DmsTheme.colorScheme.surface,
+                        contentColor = DmsTheme.colorScheme.onSurface,
+                    ),
+                    elevation = CardDefaults.outlinedCardElevation(
+                        defaultElevation = ShadowDefaults.SmallElevation,
+                    ),
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+                    ) {
+                        uiState.seatTypes?.let { seatTypes ->
+                            SeatTypeList(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalPadding()
+                                    .topPadding(),
+                                seatTypes = seatTypes,
+                            )
+                        }
+                        SeatLayout(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .horizontalPadding(),
+                            seats = studyRoomDetails.seats,
+                            countOfColumns = studyRoomDetails.totalWidthSize,
+                            countOfRows = studyRoomDetails.totalHeightSize,
+                            northDescription = studyRoomDetails.northDescription,
+                            eastDescription = studyRoomDetails.eastDescription,
+                            westDescription = studyRoomDetails.westDescription,
+                            southDescription = studyRoomDetails.southDescription,
+                        )
+                        Button(onClick = { /*TODO*/ }) {
+                            Text(text = "신청하기")
+                        }
+                    }
+                }
             }
-            SeatLayout(
-                seats = uiState.studyRoomDetails?.seats,
-                countOfColumns = uiState.studyRoomDetails?.totalWidthSize ?: 0,
-                countOfRows = uiState.studyRoomDetails?.totalHeightSize ?: 0,
-                northDescription = uiState.studyRoomDetails?.northDescription ?: "",
-                eastDescription = uiState.studyRoomDetails?.eastDescription ?: "",
-                westDescription = uiState.studyRoomDetails?.westDescription ?: "",
-                southDescription = uiState.studyRoomDetails?.southDescription ?: "",
-            )
         }
     }
 }
@@ -138,7 +175,58 @@ private fun SeatTypeList(
     modifier: Modifier = Modifier,
     seatTypes: List<StudyRoom.Seat.Type>,
 ) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+    ) {
+        seatTypes.forEach { seatType ->
+            SeatType(
+                indicator = {
+                    SeatTypeIndicator(color = Color(parseColor(seatType.color)))
+                },
+                text = {
+                    Text(text = seatType.name)
+                },
+            )
+        }
+    }
+}
 
+@Composable
+private fun SeatTypeIndicator(
+    color: Color,
+    size: DpSize = DpSize(
+        width = 10.dp,
+        height = 10.dp,
+    ),
+) {
+    Surface(
+        modifier = Modifier.size(size),
+        shape = CircleShape,
+        color = color,
+    ) {}
+}
+
+@Composable
+private fun SeatType(
+    modifier: Modifier = Modifier,
+    indicator: @Composable () -> Unit,
+    text: @Composable () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        indicator()
+        ProvideTextStyle(
+            value = DmsTheme.typography.overline.copy(
+                color = DmsTheme.colorScheme.onSurface,
+            ),
+        ) {
+            text()
+        }
+    }
 }
 
 @Composable
@@ -153,15 +241,18 @@ private fun SeatLayout(
     southDescription: String,
 ) {
     OutlinedCard(
-        modifier = modifier, colors = CardDefaults.cardColors(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
-        ), elevation = CardDefaults.outlinedCardElevation(
+        ),
+        elevation = CardDefaults.outlinedCardElevation(
             defaultElevation = ShadowDefaults.SmallElevation,
-        ), border = BorderStroke(
+        ),
+        border = BorderStroke(
             width = 1.dp,
             color = DmsTheme.colorScheme.primary,
-        )
+        ),
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -220,6 +311,7 @@ private fun SeatList(
     countOfColumns: Int,
     countOfRows: Int,
 ) {
+    // FIXME: 리컴포지션 방지하도록 작성하기
     val formedSeats: List<Array<StudyRoom.Seat?>> = List(
         size = countOfRows
     ) { indexOfRows ->
