@@ -30,6 +30,8 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
                     studyRoomId = intent.studyRoomId,
                 )
             }
+
+            is StudyRoomDetailsIntent.SelectSeat -> this.updateSelectedSeat(seat = intent.seat)
         }
     }
 
@@ -64,16 +66,28 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
             )
         }
     }
+
+    private fun updateSelectedSeat(
+        seat: StudyRoom.Seat,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        reduce(
+            newState = stateFlow.value.copy(
+                selectedSeat = seat,
+            ),
+        )
+    }
 }
 
 internal data class StudyRoomDetailsUiState(
     val studyRoomDetails: StudyRoom.Details?,
     val seatTypes: List<StudyRoom.Seat.Type>?,
+    val selectedSeat: StudyRoom.Seat?,
 ) : UiState() {
     companion object {
         fun initial() = StudyRoomDetailsUiState(
             studyRoomDetails = null,
             seatTypes = null,
+            selectedSeat = null,
         )
     }
 }
@@ -82,6 +96,10 @@ internal sealed class StudyRoomDetailsIntent : Intent() {
     class FetchStudyRoomDetails(
         val studyRoomId: UUID,
         val timeslot: UUID,
+    ) : StudyRoomDetailsIntent()
+
+    class SelectSeat(
+        val seat: StudyRoom.Seat, // TODO: UUID로만 핸들링 가능하도록 변경하기
     ) : StudyRoomDetailsIntent()
 }
 
