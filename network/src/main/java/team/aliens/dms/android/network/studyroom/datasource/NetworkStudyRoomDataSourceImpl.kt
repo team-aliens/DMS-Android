@@ -21,12 +21,16 @@ internal class NetworkStudyRoomDataSourceImpl @Inject constructor(
     override suspend fun applySeat(
         seatId: UUID,
         timeslot: UUID,
-    ) = handleNetworkRequest { studyRoomApiService.applySeat(seatId, timeslot) }
+    ) {
+        handleNetworkRequest { studyRoomApiService.applySeat(seatId, timeslot) }
+    }
 
     override suspend fun cancelSeat(
         seatId: UUID,
         timeslot: UUID,
-    ) = handleNetworkRequest { studyRoomApiService.cancelSeat(seatId, timeslot) }
+    ) {
+        handleNetworkRequest { studyRoomApiService.cancelSeat(seatId, timeslot) }
+    }
 
     override suspend fun fetchStudyRooms(timeslot: UUID): FetchStudyRoomsResponse =
         handleNetworkRequest { studyRoomApiService.fetchStudyRooms(timeslot) }
