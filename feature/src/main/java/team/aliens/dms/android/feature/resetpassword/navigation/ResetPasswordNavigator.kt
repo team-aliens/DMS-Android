@@ -5,5 +5,5 @@ interface ResetPasswordNavigator {
     fun openResetPasswordSetPassword()
     fun openSignIn()
 
-    fun popBackStack()
+    fun navigateUp()
 }

@@ -3,7 +3,15 @@ package team.aliens.dms.android.feature.studyroom.navigation
 import java.util.UUID
 
 interface StudyRoomNavigator {
-    fun openStudyRoomDetails(studyRoomId: UUID, timeslot: UUID)
 
-    fun popBackStack()
+    // TODO: fix to custom navigation argument type
+    fun openStudyRoomDetails(
+        studyRoomId: UUID,
+        studyRoomName: String,
+        timeslot: UUID,
+        studyRoomApplicationStartTime: String,
+        studyRoomApplicationEndTime: String,
+    )
+
+    fun navigateUp()
 }

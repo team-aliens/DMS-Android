@@ -43,7 +43,7 @@ internal fun ConfirmPasswordScreen(
             DmsTopAppBar(
                 title = { Text(text = stringResource(id = R.string.edit_password)) },
                 navigationIcon = {
-                    IconButton(onClick = navigator::popBackStack) {
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),

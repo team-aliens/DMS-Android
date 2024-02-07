@@ -228,8 +228,10 @@
     <string name="thursday_abb">목</string>
     <string name="friday_abb">금</string>
     <string name="saturday_abb">토</string>
-    <string name="male">남</string>
-    <string name="female">여</string>
+    <string name="sex_male">남</string>
+    <string name="sex_female">여</string>
+    <string name="sex_all">전체</string>
+    <string name="sex_both">남녀</string>
     <string name="bonus_point">상점</string>
     <string name="minus_point">벌점</string>
     <string name="all_point">전체</string>
@@ -412,13 +414,20 @@
     <string name="study_room_time">시간</string>
     <string name="study_room">자습실</string>
     <string name="study_room_application">자습실 신청하기</string>
+
     <string name="format_study_room_applied_text">%d층 %s</string>
+    <string name="format_study_room_application_time">자습실 신청 시간은 %s ~ %s 입니다</string>
+    <string name="format_study_room_floor">%d층</string>
+    <string name="format_study_room_headcount">%d/%d</string>
+    <string name="format_study_room_available_for">%d학년 %s</string>
+    <string name="format_study_room_available_study_room_time">%s ~ %s</string>
 
     <string name="study_room_description">자습실 사용이 필요한 경우 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
 
-    <string name="study_room_apply_time">자습실 신청 가능 시간 : %s</string>
+    <string name="study_room_button_please_select_seat_before_application">자리를 선택해 주세요</string>
+    <string name="study_room_button_cancel_seat">취소하기</string>
+    <string name="study_room_button_apply_seat">신청하기</string>
 
-    <string name="study_room_please_first_select">자리를 먼저 선택해주세요.</string>
     <string name="study_room_error_no_available_study_room">신청 가능한 자습실이 없습니다</string>
     <string name="study_room_error_please_select_seat">자리를 선택해주세요</string>
     <string name="study_room_error_seat_already_in_use">이미 사용중인 자리입니다</string>
@@ -437,7 +446,7 @@
 
     <string name="remains_description">주말 기숙사 잔류 여부를 확인하고 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
 
-    <string name="format_remains_available_remains_application_time">잔류 신청 시간은 %s %s ~ %s %s 까지 입니다</string>
+    <string name="format_remains_available_remains_application_time">잔류 신청 시간은 %s %s ~ %s %s 입니다</string>
 
     <string name="remains_error_not_remains_application_time">잔류 신청 시간이 아닙니다</string>
 

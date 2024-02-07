@@ -269,7 +269,7 @@ object ButtonDefaults {
 
     val OutlineWidth = 1.0.dp
 
-    const val DisabledContainerOpacity = 0.12f
+    const val DisabledContainerOpacity = 0.38f
 
     const val DisabledContentOpacity = 0.38f
 

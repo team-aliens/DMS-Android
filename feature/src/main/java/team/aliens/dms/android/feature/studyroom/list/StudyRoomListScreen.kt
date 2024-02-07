@@ -1,289 +1,253 @@
 package team.aliens.dms.android.feature.studyroom.list
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
+import team.aliens.dms.android.core.designsystem.DmsBottomSheetScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.composable.FloatingNotice
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.data.studyroom.model.AvailableStudyRoomTime
+import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature.studyroom.StudyRoomCard
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun StudyRoomListScreen(
+internal fun StudyRoomListScreen(
     modifier: Modifier = Modifier,
     navigator: StudyRoomNavigator,
-    // studyRoomListViewModel: StudyRoomListViewModel = hiltViewModel(),
-) {/*
+    viewModel: StudyRoomListViewModel = hiltViewModel(),
+) {
+    // TODO: val toastState = rememberToastState()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    val toast = rememberToast()
+    val scope = rememberCoroutineScope()
 
-    val studyRoomState = studyRoomListViewModel.uiState.collectAsState().value
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(
+            skipHiddenState = false,
+            initialValue = SheetValue.Hidden,
+        ),
+    )
 
-    val studyRoomAvailableTimeList = studyRoomState.studyRoomAvailableTime
-
-    var selectedAvailableTimeItemIndex by remember { mutableStateOf(0) }
-
-    var selectedAvailableTime by remember { mutableStateOf("") }
-
-    var showTimeFilterDialogState by remember { mutableStateOf(false) }
-
-    LaunchedEffect(studyRoomAvailableTimeList) {
-        if (studyRoomAvailableTimeList.isNotEmpty()) {
-            selectedAvailableTime = makeTimeRange(studyRoomAvailableTimeList.first())
-        }
+    var newlySelectedAvailableStudyRoomTime by remember {
+        mutableStateOf<AvailableStudyRoomTime?>(null)
     }
 
-    val onStudyRoomFilterDialogDismiss = {
-        showTimeFilterDialogState = false
-    }
-
-    LaunchedEffect(Unit) {
-        with(studyRoomListViewModel) {
-            onEvent(event = StudyRoomListViewModel.UiEvent.FetchStudyRoomAvailableTimes)
-            errorState.collect {
-                toast(it)
-            }
-        }
-    }
-
-    LaunchedEffect(studyRoomAvailableTimeList) {
-        if (studyRoomAvailableTimeList.isNotEmpty()) {
-
-            val studyRoomFirstEntity = studyRoomAvailableTimeList.first()
-
-            selectedAvailableTime = makeTimeRange(studyRoomFirstEntity)
-
-            studyRoomListViewModel.onEvent(
-                event = StudyRoomListViewModel.UiEvent.FetchStudyRooms(
-                    timeSlot = studyRoomAvailableTimeList.first().id,
-                )
-            )
-        }
-    }
-
-    if (showTimeFilterDialogState) {
-        DormCustomDialog(
-            onDismissRequest = {
-                showTimeFilterDialogState = false
-            },
-            properties = DialogProperties(
-                usePlatformDefaultWidth = false,
-            ),
-        ) {
-            DormBottomAlignedContainedLargeButtonDialog(
-                btnText = stringResource(
-                    id = R.string.accept,
-                ),
-                btnColor = DormButtonColor.Blue,
-                onBtnClick = {
-                    showTimeFilterDialogState = false
-                    selectedAvailableTime =
-                        makeTimeRange(studyRoomAvailableTimeList[selectedAvailableTimeItemIndex])
-                    studyRoomListViewModel.onEvent(
-                        event = StudyRoomListViewModel.UiEvent.FetchStudyRooms(
-                            timeSlot = studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
-                        ),
-                    )
-                },
-                onDismissRequest = onStudyRoomFilterDialogDismiss,
+    DmsBottomSheetScaffold(
+        modifier = modifier,
+        scaffoldState = scaffoldState,
+        sheetSwipeEnabled = false,
+        sheetContent = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
             ) {
-
-                Title3(
-                    text = stringResource(R.string.study_room_time),
+                Text(
+                    modifier = Modifier.startPadding(),
+                    text = stringResource(id = R.string.study_room_time),
+                    style = DmsTheme.typography.title2,
                 )
-
-                // TODO refactor this spacer
-                Spacer(
-                    modifier = Modifier.height(24.dp),
-                )
-
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    content = {
-                        itemsIndexed(
-                            items = studyRoomAvailableTimeList,
-                        ) { index, items ->
-                            DormTimeChip(
-                                selected = (selectedAvailableTimeItemIndex == index),
-                                text = makeTimeRange(
-                                    studyRoomAvailableTimeList = items,
-                                ),
-                                onClick = {
-                                    selectedAvailableTimeItemIndex = index
-                                },
-                            )
+                uiState.availableStudyRoomTimes?.let { availableStudyRoomTimes ->
+                    LazyRow(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+                        contentPadding = PaddingDefaults.Horizontal,
+                    ) {
+                        items(availableStudyRoomTimes) { availableStudyRoomTime ->
+                            val selected =
+                                availableStudyRoomTime == uiState.selectedAvailableStudyRoomTime
+                            if (selected) {
+                                Button(
+                                    onClick = { /* explicit blank */ },
+                                ) {
+                                    Text(
+                                        text = stringResource(
+                                            id = R.string.format_study_room_available_study_room_time,
+                                            availableStudyRoomTime.startTime,
+                                            availableStudyRoomTime.endTime,
+                                        ),
+                                    )
+                                }
+                            } else {
+                                OutlinedButton(
+                                    onClick = {
+                                        newlySelectedAvailableStudyRoomTime = availableStudyRoomTime
+                                    },
+                                    colors = ButtonDefaults.outlinedGrayButtonColors(),
+                                ) {
+                                    Text(
+                                        text = stringResource(
+                                            id = R.string.format_study_room_available_study_room_time,
+                                            availableStudyRoomTime.startTime,
+                                            availableStudyRoomTime.endTime,
+                                        ),
+                                    )
+                                }
+                            }
                         }
+                    }
+                }
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    onClick = {
+                        if (newlySelectedAvailableStudyRoomTime != null) {
+                            if (newlySelectedAvailableStudyRoomTime != uiState.selectedAvailableStudyRoomTime) {
+                                viewModel.postIntent(
+                                    StudyRoomListIntent.UpdateSelectedAvailableStudyRoomTime(
+                                        availableStudyRoomTime = newlySelectedAvailableStudyRoomTime!!,
+                                    ),
+                                )
+                            }
+                        }
+                        scope.launch { scaffoldState.bottomSheetState.hide() }
                     },
-                )
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+                Spacer(modifier = Modifier.height(52.dp))
             }
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DormTheme.colors.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-
-        TopBar(
-            title = stringResource(
-                id = R.string.ApplicateStudyRoom,
-            ),
-            onPrevious = navigator::popBackStack,
-        )
-
-
+        },
+        topBar = {
+            DmsTopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = navigator::navigateUp) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
+                title = {
+                    Text(text = stringResource(id = R.string.study_room_application))
+                },
+            )
+        },
+    ) { padValues ->
         Column(
             modifier = Modifier
+                .padding(padValues)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            AnimatedVisibility(
-                visible = studyRoomState.hasApplyTime,
-            ) {
-                StudyRoomsApplicationTimeCard(
+            uiState.studyRoomApplicationTime?.let { studyRoomApplicationTime ->
+                FloatingNotice(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
                     text = stringResource(
-                        id = R.string.study_room_apply_time,
-                        "${studyRoomState.startAt} ~ ${studyRoomState.endAt}",
+                        id = R.string.format_study_room_application_time,
+                        studyRoomApplicationTime.startAt,
+                        studyRoomApplicationTime.endAt,
                     ),
                 )
             }
-            if (studyRoomAvailableTimeList.isNotEmpty()) {
-                Spacer(Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+            AvailableStudyRoomTimeFilter(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                availableStudyRoomTime = uiState.selectedAvailableStudyRoomTime,
+                onFilterButtonClick = {
+                    scope.launch {
+                        scaffoldState.bottomSheetState.expand()
+                    }
+                },
+            )
+            uiState.studyRooms?.let { studyRooms ->
+                VerticallyFadedLazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Image(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .dormClickable {
-                                showTimeFilterDialogState = true
+                    items(studyRooms) { studyRoom ->
+                        StudyRoomCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            studyRoom = studyRoom,
+                            onClick = {
+                                navigator.openStudyRoomDetails(
+                                    studyRoomId = studyRoom.id,
+                                    studyRoomName = studyRoom.name,
+                                    timeslot = uiState.selectedAvailableStudyRoomTime!!.id,
+                                    studyRoomApplicationStartTime = uiState.studyRoomApplicationTime!!.startAt,
+                                    studyRoomApplicationEndTime = uiState.studyRoomApplicationTime!!.endAt,
+                                )
                             },
-                        painter = painterResource(
-                            id = R.drawable.ic_slider,
-                        ),
-                        contentDescription = null,
-                    )
-                    Body3(
-                        text = selectedAvailableTime,
-                        color = DormTheme.colors.primary,
-                    )
+                        )
+                    }
                 }
             }
-            ListStudyRooms(
-                studyRooms = studyRoomState.studyRooms,
-                onClick = { seatId -> // todo refactor
-                    navigator.openStudyRoomDetails(
-                        studyRoomId = seatId,
-                        timeslot = studyRoomAvailableTimeList[selectedAvailableTimeItemIndex].id,
-                    )
-                },
-            )
         }
     }
 }
 
 @Composable
-private fun StudyRoomsApplicationTimeCard(
-    text: String,
-) {
-    FloatingNotice(
-        modifier = Modifier.padding(
-            top = 8.dp,
-            bottom = 30.dp,
-            start = 16.dp,
-            end = 16.dp,
-        ),
-        text = text,
-    )*/
-}
-/*
-
-@Composable
-private fun ListStudyRooms(
+private fun AvailableStudyRoomTimeFilter(
     modifier: Modifier = Modifier,
-    studyRooms: List<StudyRoomInformation>,
-    onClick: (UUID) -> Unit,
+    availableStudyRoomTime: AvailableStudyRoomTime?,
+    onFilterButtonClick: () -> Unit,
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(
-            horizontal = 16.dp,
-            vertical = 16.dp,
-        ),
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-
-        if (studyRooms.isNotEmpty()) {
-            items(
-                items = studyRooms,
-            ) { studyRoom ->
-                RoomItem(
-                    roomId = studyRoom.roomId.toString(),
-                    position = studyRoom.position,
-                    title = studyRoom.title,
-                    currentNumber = studyRoom.currentNumber,
-                    maxNumber = studyRoom.maxNumber,
-                    condition = studyRoom.condition,
-                    isMine = studyRoom.isMine,
-                ) {
-                    onClick(studyRoom.roomId)
-                }
-            }
-        } else {
-            item {
-                Body3(
-                    text = stringResource(R.string.study_room_error_no_available_study_room),
-                )
-            }
+        IconButton(
+            onClick = onFilterButtonClick,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_filter),
+                tint = DmsTheme.colorScheme.primary,
+                contentDescription = null,
+            )
+        }
+        availableStudyRoomTime?.let {
+            Text(
+                text = stringResource(
+                    id = R.string.format_study_room_available_study_room_time,
+                    it.startTime,
+                    it.endTime,
+                ),
+                color = DmsTheme.colorScheme.primary,
+                style = DmsTheme.typography.button,
+            )
         }
     }
 }
-
-// todo move to design-system layer
-private val DormTimeChipShape: Shape = RoundedCornerShape(5.dp)
-
-// todo move to design-system layer
-@Composable
-fun DormTimeChip(
-    selected: Boolean,
-    text: String,
-    onClick: () -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .wrapContentWidth()
-            .background(
-                color = when {
-                    selected -> DormTheme.colors.primary
-                    else -> Color.Transparent
-                },
-                shape = DormTimeChipShape,
-            )
-            .clip(
-                shape = DormTimeChipShape,
-            )
-            .border(
-                border = BorderStroke(
-                    width = 1.dp, color = if (!selected) DormColor.Gray400
-                    else Color.Transparent
-                ),
-                shape = DormTimeChipShape,
-            )
-            .dormClickable {
-                onClick()
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-        ButtonText(
-            text = text,
-            modifier = Modifier.padding(8.dp),
-            color = if (selected) DormTheme.colors.onPrimary else DormColor.Gray400
-        )
-    }
-}
-*/

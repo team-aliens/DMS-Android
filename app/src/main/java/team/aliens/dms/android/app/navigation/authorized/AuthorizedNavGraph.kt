@@ -1,7 +1,6 @@
 package team.aliens.dms.android.app.navigation.authorized
 
 import com.ramcosta.composedestinations.dynamic.routedIn
-import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
@@ -12,6 +11,7 @@ import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestinati
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
+import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavGraph
@@ -32,6 +32,7 @@ object AuthorizedNavGraph : NavGraphSpec {
             AnnouncementListScreenDestination,
             RemainsApplicationScreenDestination,
             StudyRoomListScreenDestination,
+            StudyRoomDetailsScreenDestination,
             NoticeDetailsScreenDestination,
             NotificationBoxScreenDestination,
             PointHistoryScreenDestination,

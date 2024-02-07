@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,6 +28,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -58,7 +58,7 @@ internal fun PointHistoryScreen(
             DmsTopAppBar(
                 title = { Text(text = stringResource(id = R.string.point_history)) },
                 navigationIcon = {
-                    IconButton(onClick = navigator::popBackStack) {
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
@@ -148,7 +148,7 @@ private fun PointList(
     modifier: Modifier = Modifier,
     points: List<Point>,
 ) {
-    LazyColumn(
+    VerticallyFadedLazyColumn(
         modifier = modifier,
     ) {
         items(points) { point ->

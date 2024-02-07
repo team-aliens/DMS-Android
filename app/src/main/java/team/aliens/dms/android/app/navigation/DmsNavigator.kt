@@ -36,8 +36,7 @@ import java.util.UUID
 class DmsNavigator(
     private val navGraph: NavGraphSpec,
     private val navController: NavController,
-) : AuthorizedNavigator,
-    UnauthorizedNavigator {
+) : AuthorizedNavigator, UnauthorizedNavigator {
 
     override fun openNotificationBox() {
         navController.navigate(NotificationBoxScreenDestination within navGraph)
@@ -84,10 +83,6 @@ class DmsNavigator(
 
     override fun openSignIn() {
         navController.navigate(SignInScreenDestination within navGraph)
-    }
-
-    override fun popBackStack() {
-        navController.popBackStack()
     }
 
     override fun navigateUp() {
@@ -149,14 +144,21 @@ class DmsNavigator(
     }
 
     override fun openStudyRoomDetails(
+        // TODO: make custom navigation argument
         studyRoomId: UUID,
+        studyRoomName: String,
         timeslot: UUID,
+        studyRoomApplicationStartTime: String,
+        studyRoomApplicationEndTime: String,
     ) {
         navController.navigate(
-            StudyRoomDetailsScreenDestination/*(
+            StudyRoomDetailsScreenDestination(
                 studyRoomId = studyRoomId,
+                studyRoomName = studyRoomName,
                 timeslot = timeslot,
-            )*/ within navGraph,
+                studyRoomApplicationStartTime = studyRoomApplicationStartTime,
+                studyRoomApplicationEndTime = studyRoomApplicationEndTime,
+            ) within navGraph,
         )
     }
 }

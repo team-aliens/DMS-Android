@@ -14,6 +14,7 @@ data class StudyRoom(
     val isMine: Boolean,
 ) {
     data class Details(
+        val id: UUID,
         val floor: Int,
         val name: String,
         val startTime: String,
@@ -38,7 +39,7 @@ data class StudyRoom(
         val number: Int?,
         val type: Type?,
         val status: Status,
-        val isMine: Boolean?,
+        val isMine: Boolean,
         val student: Student?,
     ) {
         data class Type(
@@ -58,3 +59,16 @@ data class StudyRoom(
         )
     }
 }
+
+fun StudyRoom.Details.toStudyRoom(
+    isMine: Boolean = false,
+): StudyRoom = StudyRoom(
+    id = this.id,
+    floor = this.floor,
+    name = this.name,
+    availableGrade = this.availableGrade,
+    availableSex = this.availableSex,
+    inUseHeadcount = this.inUseHeadcount,
+    totalAvailableSeat = this.totalAvailableSeat,
+    isMine = isMine,
+)

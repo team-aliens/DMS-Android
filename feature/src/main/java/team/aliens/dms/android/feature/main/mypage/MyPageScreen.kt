@@ -164,9 +164,9 @@ private fun UserInformation(
                 Text(
                     text = stringResource(
                         id = R.string.my_page_format_gcn_name,
-                        gradeClassNumber ?: 2211,
+                        gradeClassNumber ?: "",
                         // TODO: fix
-                        studentName ?: "박준수",
+                        studentName ?: "",
                     ),
                     style = DmsTheme.typography.title1,
                     color = DmsTheme.colorScheme.onBackground,
@@ -187,13 +187,13 @@ private fun UserInformation(
                     ),
                 ) {
                     // TODO: Fix
-                    Text(text = sex?.text ?: "성별")
+                    Text(text = sex?.text ?: "")
                 }
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 // TODO: Fix
-                text = schoolName ?: "대덕소프트웨어마이스터고등학교",
+                text = schoolName ?: "",
                 style = DmsTheme.typography.body2,
                 color = DmsTheme.colorScheme.surfaceVariant,
             )
@@ -227,8 +227,8 @@ private fun UserInformation(
 private val Sex.text: String
     @Composable inline get() = stringResource(
         id = when (this) {
-            Sex.MALE -> R.string.male
-            Sex.FEMALE -> R.string.female
+            Sex.MALE -> R.string.sex_male
+            Sex.FEMALE -> R.string.sex_female
             Sex.ALL -> throw IllegalStateException()
         },
     )
@@ -252,7 +252,7 @@ private fun PhraseCard(
                 .horizontalPadding()
                 .verticalPadding(PaddingDefaults.Medium),
             // TODO
-            text = phrase ?: "힘 내십쇼",
+            text = phrase ?: "",
             style = DmsTheme.typography.caption,
         )
     }
@@ -274,7 +274,7 @@ private fun PointCards(
                 .startPadding(),
             type = PointCardType.BONUS,
             // TODO: fix
-            point = bonusPoint ?: 50,
+            point = bonusPoint ?: 0,
         )
         PointCard(
             modifier = Modifier
@@ -282,7 +282,7 @@ private fun PointCards(
                 .endPadding(),
             type = PointCardType.MINUS,
             // TODO: fix
-            point = minusPoint ?: -50,
+            point = minusPoint ?: 0,
         )
     }
 }

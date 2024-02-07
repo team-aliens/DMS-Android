@@ -142,7 +142,7 @@ fun DormToastHost(
 fun rememberToastState(): ToastState {
     val state = ToastState()
     return remember(state.currentToastData) {
-        ToastState()
+        state
     }
 }
 
