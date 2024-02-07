@@ -20,14 +20,14 @@ internal interface StudyRoomApiService {
     @RequiresAccessToken
     suspend fun fetchStudyRoomApplicationTime(): FetchStudyRoomApplicationTimeResponse
 
-    @PUT("/study-rooms/{seat-id}")
+    @PUT("/study-rooms/seats/{seat-id}")
     @RequiresAccessToken
     suspend fun applySeat(
         @Path("seat-id") seatId: UUID,
         @Query("time_slot") timeslot: UUID,
     )
 
-    @DELETE("/study-rooms/{seat-id}")
+    @DELETE("/study-rooms/seats/{seat-id}")
     @RequiresAccessToken
     suspend fun cancelSeat(
         @Path("seat-id") seatId: UUID,
