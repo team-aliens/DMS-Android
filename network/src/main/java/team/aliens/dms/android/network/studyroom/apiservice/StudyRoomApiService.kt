@@ -1,5 +1,6 @@
 package team.aliens.dms.android.network.studyroom.apiservice
 
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -25,14 +26,14 @@ internal interface StudyRoomApiService {
     suspend fun applySeat(
         @Path("seat-id") seatId: UUID,
         @Query("time_slot") timeslot: UUID,
-    )
+    ): Response<Unit>
 
     @DELETE("/study-rooms/seats/{seat-id}")
     @RequiresAccessToken
     suspend fun cancelSeat(
         @Path("seat-id") seatId: UUID,
         @Query("time_slot") timeslot: UUID,
-    )
+    ): Response<Unit>
 
     @GET("/study-rooms/list/students")
     @RequiresAccessToken
