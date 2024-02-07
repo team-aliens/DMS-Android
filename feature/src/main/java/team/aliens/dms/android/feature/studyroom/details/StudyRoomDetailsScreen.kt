@@ -84,7 +84,7 @@ internal fun StudyRoomDetailsScreen(
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.postIntent(
-            StudyRoomDetailsIntent.FetchStudyRoomDetails(
+            StudyRoomDetailsIntent.InitStudyRoomDetails(
                 studyRoomId = studyRoomId,
                 timeslot = timeslot,
             ),
@@ -167,9 +167,7 @@ internal fun StudyRoomDetailsScreen(
                             selectedSeat = uiState.selectedSeat,
                             onSelectSeat = { seat ->
                                 viewModel.postIntent(
-                                    StudyRoomDetailsIntent.SelectSeat(
-                                        seat = seat,
-                                    ),
+                                    StudyRoomDetailsIntent.SelectSeat(seat = seat),
                                 )
                             },
                         )
@@ -178,9 +176,24 @@ internal fun StudyRoomDetailsScreen(
                                 .fillMaxWidth()
                                 .horizontalPadding()
                                 .bottomPadding(),
-                            onClick = { /*TODO*/ },
+                            onClick = {
+                                viewModel.postIntent(StudyRoomDetailsIntent.UpdateSeat)
+                            },
+                            enabled = uiState.mainButtonState != null,
+                            colors = when (uiState.mainButtonState) {
+                                StudyRoomDetailsMainButtonState.CANCEL_SEAT -> ButtonDefaults.containedRefuseButtonColors()
+                                else -> ButtonDefaults.containedButtonColors()
+                            }
                         ) {
-                            Text(text = "신청하기") // TODO: string 설정
+                            Text(
+                                text = stringResource(
+                                    id = when (uiState.mainButtonState) {
+                                        StudyRoomDetailsMainButtonState.CANCEL_SEAT -> R.string.study_room_button_cancel_seat
+                                        null -> R.string.study_room_button_please_select_seat_before_application
+                                        else -> R.string.study_room_button_apply_seat
+                                    },
+                                )
+                            )
                         }
                     }
                 }
@@ -371,7 +384,6 @@ private fun SeatList(
                     column.forEach { seat ->
                         if (seat != null) {
                             val selected = seat == selectedSeat
-                            println(selectedSeat) // tODO: remove
                             Seat(
                                 seat = seat,
                                 onClick = onSelectSeat,
@@ -406,7 +418,7 @@ private fun Seat(
         colors = ButtonDefaults.buttonColors(
             // TODO: determine by container color
             contentColor = if (seat.isMine) {
-                DmsTheme.colorScheme.onPrimary
+                baseColor
             } else {
                 if (selected) {
                     baseColor
@@ -415,7 +427,7 @@ private fun Seat(
                 }
             },
             containerColor = if (seat.isMine) {
-                baseColor
+                DmsTheme.colorScheme.onPrimary
             } else {
                 if (selected) {
                     DmsTheme.colorScheme.onPrimary
@@ -451,7 +463,11 @@ private fun Seat(
         },
     ) {
         Text(
-            text = seat.student?.name ?: seat.number.toString(),
+            text = if (seat.isMine || (seat.student == null)) {
+                seat.number.toString()
+            } else {
+                seat.student!!.name
+            }
         )
     }
 }
