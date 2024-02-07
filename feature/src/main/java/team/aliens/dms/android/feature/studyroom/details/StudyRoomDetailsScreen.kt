@@ -393,8 +393,8 @@ private fun Seat(
     onClick: (seat: StudyRoom.Seat) -> Unit,
     selected: Boolean,
 ) {
-    val buttonEnabled = seat.student == null && !seat.isMine
-    val seatColor = try {
+    val enabled = seat.student == null || seat.isMine
+    val baseColor = try {
         Color(parseColor(seat.type?.color!!))
     } catch (_: Exception) {
         DmsTheme.colorScheme.onPrimary
@@ -405,27 +405,49 @@ private fun Seat(
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
             // TODO: determine by container color
-            contentColor = if (selected) {
-                seatColor
-            } else {
+            contentColor = if (seat.isMine) {
                 DmsTheme.colorScheme.onPrimary
+            } else {
+                if (selected) {
+                    baseColor
+                } else {
+                    DmsTheme.colorScheme.onPrimary
+                }
             },
-            containerColor = if (selected) {
-                DmsTheme.colorScheme.onPrimary
+            containerColor = if (seat.isMine) {
+                baseColor
             } else {
-                seatColor
+                if (selected) {
+                    DmsTheme.colorScheme.onPrimary
+                } else {
+                    baseColor
+                }
             },
         ),
         onClick = { onClick(seat) },
-        enabled = buttonEnabled,
+        enabled = enabled,
         contentPadding = NoPadding,
-        border = if (selected) {
-            BorderStroke(
-                width = 1.dp,
-                color = seatColor
-            )
+        border = if (seat.isMine) {
+            if (selected) {
+                BorderStroke(
+                    width = 1.dp,
+                    color = DmsTheme.colorScheme.primary,
+                )
+            } else {
+                BorderStroke(
+                    width = 2.dp,
+                    color = baseColor,
+                )
+            }
         } else {
-            null
+            if (selected) {
+                BorderStroke(
+                    width = 1.dp,
+                    color = DmsTheme.colorScheme.primary,
+                )
+            } else {
+                null
+            }
         },
     ) {
         Text(
