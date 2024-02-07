@@ -26,7 +26,6 @@ internal class SignInViewModel @Inject constructor(
         when (intent) {
             is SignInIntent.UpdateId -> updateId(intent.id)
             is SignInIntent.UpdatePassword -> updatePassword(intent.password)
-            is SignInIntent.UpdateAutoSignInOption -> updateAutoSignIn(intent.autoSignIn)
             SignInIntent.SignIn -> signIn()
         }
     }
@@ -44,9 +43,6 @@ internal class SignInViewModel @Inject constructor(
             passwordError = null,
         ),
     ).also { updateSignInButtonAvailable(checkSignInAvailable()) }
-
-    private fun updateAutoSignIn(autoSignIn: Boolean): Boolean =
-        reduce(newState = stateFlow.value.copy(autoSignIn = autoSignIn))
 
     private fun updateSignInButtonAvailable(signInButtonAvailable: Boolean): Boolean =
         reduce(newState = stateFlow.value.copy(signInButtonAvailable = signInButtonAvailable))
@@ -69,7 +65,6 @@ internal class SignInViewModel @Inject constructor(
                 authRepository.signIn(
                     accountId = uiState.accountId.trim(),
                     password = uiState.password.trim(),
-                    autoSignIn = uiState.autoSignIn,
                 )
             }.onSuccess {
                 postSideEffect(SignInSideEffect.Success)
@@ -104,7 +99,6 @@ internal class SignInViewModel @Inject constructor(
 internal data class SignInUiState(
     val accountId: String,
     val password: String,
-    val autoSignIn: Boolean,
     val signInButtonAvailable: Boolean,
     val accountIdError: AuthException?,
     val passwordError: AuthException?,
@@ -113,7 +107,6 @@ internal data class SignInUiState(
         fun initial() = SignInUiState(
             accountId = "",
             password = "",
-            autoSignIn = false,
             signInButtonAvailable = false,
             accountIdError = null,
             passwordError = null,
@@ -126,8 +119,6 @@ internal sealed class SignInIntent : Intent() {
     class UpdateId(val id: String) : SignInIntent()
 
     class UpdatePassword(val password: String) : SignInIntent()
-
-    class UpdateAutoSignInOption(val autoSignIn: Boolean) : SignInIntent()
 
     data object SignIn : SignInIntent()
 }
