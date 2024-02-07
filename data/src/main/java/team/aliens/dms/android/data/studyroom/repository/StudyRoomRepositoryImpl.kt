@@ -30,7 +30,10 @@ internal class StudyRoomRepositoryImpl @Inject constructor(
         seatId: UUID,
         timeslot: UUID,
     ) {
-        TODO("Not yet implemented")
+        networkStudyRoomDataSource.cancelSeat(
+            seatId = seatId,
+            timeslot = timeslot,
+        )
     }
 
     override suspend fun fetchStudyRooms(timeslot: UUID): List<StudyRoom> =
