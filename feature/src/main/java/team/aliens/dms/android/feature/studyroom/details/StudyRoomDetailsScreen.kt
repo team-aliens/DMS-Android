@@ -128,6 +128,7 @@ internal fun StudyRoomDetailsScreen(
                         containerColor = DmsTheme.colorScheme.surface,
                         contentColor = DmsTheme.colorScheme.onSurface,
                     ),
+                    shape = DmsTheme.shapes.surfaceLarge,
                     elevation = CardDefaults.outlinedCardElevation(
                         defaultElevation = ShadowDefaults.SmallElevation,
                     ),
@@ -160,7 +161,13 @@ internal fun StudyRoomDetailsScreen(
                             westDescription = studyRoomDetails.westDescription,
                             southDescription = studyRoomDetails.southDescription,
                         )
-                        Button(onClick = { /*TODO*/ }) {
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalPadding()
+                                .bottomPadding(),
+                            onClick = { /*TODO*/ },
+                        ) {
                             Text(text = "신청하기")
                         }
                     }
@@ -176,7 +183,7 @@ private fun SeatTypeList(
     seatTypes: List<StudyRoom.Seat.Type>,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
     ) {
         seatTypes.forEach { seatType ->
@@ -246,6 +253,7 @@ private fun SeatLayout(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
+        shape = DmsTheme.shapes.surfaceLarge,
         elevation = CardDefaults.outlinedCardElevation(
             defaultElevation = ShadowDefaults.SmallElevation,
         ),
