@@ -8,7 +8,7 @@ abstract class AuthRepository {
     abstract suspend fun signIn(
         accountId: String,
         password: String,
-        autoSignIn: Boolean,
+        autoSignIn: Boolean = true,
     )
 
     abstract suspend fun sendEmailVerificationCode(
