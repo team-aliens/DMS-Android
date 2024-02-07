@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -143,7 +144,6 @@ internal fun StudyRoomDetailsScreen(
                             SeatTypeList(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .horizontalPadding()
                                     .topPadding(),
                                 seatTypes = seatTypes,
                             )
@@ -186,6 +186,7 @@ private fun SeatTypeList(
         modifier = modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
     ) {
+        Spacer(modifier = Modifier.width(DefaultHorizontalSpace))
         seatTypes.forEach { seatType ->
             SeatType(
                 indicator = {
@@ -196,6 +197,7 @@ private fun SeatTypeList(
                 },
             )
         }
+        Spacer(modifier = Modifier.width(DefaultHorizontalSpace))
     }
 }
 
