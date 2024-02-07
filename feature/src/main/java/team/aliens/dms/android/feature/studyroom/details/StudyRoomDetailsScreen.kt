@@ -364,8 +364,8 @@ private fun SeatList(
                 ) {
                     column.forEach { seat ->
                         if (seat != null) {
-                            val selected = seat.id == selectedSeat?.id
-
+                            val selected = seat == selectedSeat
+                            println(selectedSeat) // tODO: remove
                             Seat(
                                 seat = seat,
                                 onClick = onSelectSeat,
@@ -388,21 +388,39 @@ private fun Seat(
     selected: Boolean,
 ) {
     val buttonEnabled = seat.student == null && !seat.isMine
+    val seatColor = try {
+        Color(parseColor(seat.type?.color!!))
+    } catch (_: Exception) {
+        DmsTheme.colorScheme.onPrimary
+    }
 
     Button(
         modifier = Modifier.size(DefaultSeatButtonSize),
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
-            contentColor = DmsTheme.colorScheme.onPrimary, // TODO: determine by container color
-            containerColor = Color(seat.type?.color?.let(::parseColor) ?: 0x000000),
+            // TODO: determine by container color
+            contentColor = if (selected) {
+                seatColor
+            } else {
+                DmsTheme.colorScheme.onPrimary
+            },
+            containerColor = if (selected) {
+                DmsTheme.colorScheme.onPrimary
+            } else {
+                seatColor
+            },
         ),
-        onClick = {
-            if (buttonEnabled && !selected) {
-                onClick(seat)
-            }
-        },
+        onClick = { onClick(seat) },
         enabled = buttonEnabled,
         contentPadding = NoPadding,
+        border = if (selected) {
+            BorderStroke(
+                width = 1.dp,
+                color = seatColor
+            )
+        } else {
+            null
+        },
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -461,72 +479,78 @@ private fun SeatLayoutPreview() {
         name = "전기 콘센트",
         color = "#FF88FF04",
     )
-    val seats = listOf(
-        StudyRoom.Seat(
-            id = UUID.randomUUID(),
-            row = 1,
-            column = 1,
-            type = SEAT_TYPE_NORMAL,
-            number = 1,
-            status = StudyRoom.Seat.Status.AVAILABLE,
-            isMine = false,
-            student = StudyRoom.Seat.Student(
-                id = UUID.randomUUID(),
-                name = "박준수",
+    val seats by remember {
+        mutableStateOf(
+            listOf(
+                StudyRoom.Seat(
+                    id = UUID.randomUUID(),
+                    row = 1,
+                    column = 1,
+                    type = SEAT_TYPE_NORMAL,
+                    number = 1,
+                    status = StudyRoom.Seat.Status.AVAILABLE,
+                    isMine = false,
+                    student = StudyRoom.Seat.Student(
+                        id = UUID.randomUUID(),
+                        name = "박준수",
+                    ),
+                ),
+                StudyRoom.Seat(
+                    id = UUID.randomUUID(),
+                    row = 1,
+                    column = 2,
+                    type = SEAT_TYPE_POWER,
+                    number = 2,
+                    status = StudyRoom.Seat.Status.AVAILABLE,
+                    isMine = true,
+                    student = StudyRoom.Seat.Student(
+                        id = UUID.randomUUID(),
+                        name = "준박수",
+                    ),
+                ),
+                StudyRoom.Seat(
+                    id = UUID.randomUUID(),
+                    row = 4,
+                    column = 5,
+                    type = SEAT_TYPE_NORMAL,
+                    number = 62,
+                    status = StudyRoom.Seat.Status.UNAVAILABLE,
+                    isMine = false,
+                    student = null,
+                ),
+                StudyRoom.Seat(
+                    id = UUID.randomUUID(),
+                    row = 5,
+                    column = 6,
+                    type = SEAT_TYPE_POWER,
+                    number = 412,
+                    status = StudyRoom.Seat.Status.AVAILABLE,
+                    isMine = false,
+                    student = null,
+                ),
             ),
-        ),
-        StudyRoom.Seat(
-            id = UUID.randomUUID(),
-            row = 1,
-            column = 2,
-            type = SEAT_TYPE_POWER,
-            number = 2,
-            status = StudyRoom.Seat.Status.AVAILABLE,
-            isMine = true,
-            student = StudyRoom.Seat.Student(
-                id = UUID.randomUUID(),
-                name = "준박수",
-            ),
-        ),
-        StudyRoom.Seat(
-            id = UUID.randomUUID(),
-            row = 4,
-            column = 5,
-            type = SEAT_TYPE_NORMAL,
-            number = 62,
-            status = StudyRoom.Seat.Status.UNAVAILABLE,
-            isMine = false,
-            student = null,
-        ),
-        StudyRoom.Seat(
-            id = UUID.randomUUID(),
-            row = 5,
-            column = 6,
-            type = SEAT_TYPE_POWER,
-            number = 412,
-            status = StudyRoom.Seat.Status.AVAILABLE,
-            isMine = false,
-            student = null,
-        ),
-    )
+        )
+    }
 
     val (selectedSeat, onSelectSeat) = remember {
         mutableStateOf<StudyRoom.Seat?>(null)
     }
-    SeatLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalPadding()
-            .height(450.dp),
-        seats = seats,
-        northDescription = "북한",
-        eastDescription = "러시아",
-        westDescription = "중국",
-        southDescription = "일본",
-        countOfRows = 10,
-        countOfColumns = 10,
-        selectedSeat = selectedSeat,
-        onSelectSeat = onSelectSeat,
-    )
-    Text(text = "selected: ${selectedSeat?.number}")
+    Column {
+        SeatLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalPadding()
+                .height(450.dp),
+            seats = seats,
+            northDescription = "북한",
+            eastDescription = "러시아",
+            westDescription = "중국",
+            southDescription = "일본",
+            countOfRows = 10,
+            countOfColumns = 10,
+            selectedSeat = selectedSeat,
+            onSelectSeat = onSelectSeat,
+        )
+        Text(text = "selected: ${selectedSeat?.number}")
+    }
 }
