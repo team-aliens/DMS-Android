@@ -164,8 +164,14 @@ internal fun StudyRoomDetailsScreen(
                             eastDescription = studyRoomDetails.eastDescription,
                             westDescription = studyRoomDetails.westDescription,
                             southDescription = studyRoomDetails.southDescription,
-                            selectedSeat = null, // TODO
-                            onSelectSeat = {}, // TODO
+                            selectedSeat = uiState.selectedSeat,
+                            onSelectSeat = { seat ->
+                                viewModel.postIntent(
+                                    StudyRoomDetailsIntent.SelectSeat(
+                                        seat = seat,
+                                    ),
+                                )
+                            },
                         )
                         Button(
                             modifier = Modifier
@@ -174,7 +180,7 @@ internal fun StudyRoomDetailsScreen(
                                 .bottomPadding(),
                             onClick = { /*TODO*/ },
                         ) {
-                            Text(text = "신청하기")
+                            Text(text = "신청하기") // TODO: string 설정
                         }
                     }
                 }
@@ -422,23 +428,17 @@ private fun Seat(
             null
         },
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = seat.student?.name ?: seat.number.toString(),
-                style = DmsTheme.typography.overline,
-            )
-        }
+        Text(
+            text = seat.student?.name ?: seat.number.toString(),
+        )
     }
 }
 
 // TODO: move to StudyRoomDefaults
 @Stable
 val DefaultSeatButtonSize = DpSize(
-    width = 48.dp,
-    height = 48.dp,
+    width = 52.dp,
+    height = 52.dp,
 )
 
 // TODO: move to StudyRoomDefaults
