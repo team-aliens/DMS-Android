@@ -39,7 +39,7 @@ data class StudyRoom(
         val number: Int?,
         val type: Type?,
         val status: Status,
-        val isMine: Boolean?,
+        val isMine: Boolean,
         val student: Student?,
     ) {
         data class Type(

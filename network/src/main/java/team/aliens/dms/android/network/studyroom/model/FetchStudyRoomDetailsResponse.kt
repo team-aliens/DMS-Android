@@ -28,7 +28,7 @@ data class FetchStudyRoomDetailsResponse(
         @SerializedName("number") val number: Int?,
         @SerializedName("type") val type: SeatTypeResponse?,
         @SerializedName("status") val status: String,
-        @SerializedName("is_mine") val isMine: Boolean?,
+        @SerializedName("is_mine") val isMine: Boolean,
         @SerializedName("student") val student: StudentResponse?,
     ) {
 
