@@ -27,7 +27,7 @@ class JwtInterceptor @Inject constructor(
 
     private fun Builder.addAccessToken(): Builder = this@addAccessToken.addHeader(
         name = "authorization",
-        value = "Bearer ${jwtProvider.cachedAccessToken}",
+        value = "Bearer ${jwtProvider.cachedAccessToken.value}",
     )
 
     private fun Request.shouldBeIgnored(): Boolean = ignoreRequests.requests.any { ignoreRequest ->
