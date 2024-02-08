@@ -26,7 +26,7 @@ internal class JwtProviderImpl @Inject constructor(
             if (this._cachedAccessToken!!.isExpired()) {
                 this.reissueTokens()
             }
-            return _cachedAccessToken!!.also { println("LOGLOGLOG :$it") } // TODO: Remove
+            return _cachedAccessToken!!
         }
 
     private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -42,7 +42,7 @@ internal class JwtProviderImpl @Inject constructor(
             if (_cachedRefreshToken!!.isExpired()) {
                 throw CannotUseRefreshTokenException()
             }
-            return _cachedRefreshToken!!.also { println("LOGLOGLOG :$it") } // TODO: Remove
+            return _cachedRefreshToken!!
         }
 
     private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -94,14 +94,14 @@ internal class JwtProviderImpl @Inject constructor(
         if (_cachedAccessToken == null) {
             return false
         }
-        return _cachedAccessToken!!.isExpired()
+        return !_cachedAccessToken!!.isExpired()
     }
 
     private fun checkIsRefreshTokenAvailable(): Boolean {
         if (_cachedRefreshToken == null) {
             return false
         }
-        return _cachedRefreshToken!!.isExpired()
+        return !_cachedRefreshToken!!.isExpired()
     }
 
     private fun reissueTokens() = runBlocking {
