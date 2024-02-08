@@ -1,15 +1,21 @@
 package team.aliens.dms.android.data.auth.mapper
 
+import team.aliens.dms.android.core.jwt.AccessToken
+import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.core.school.Features
 import team.aliens.dms.android.network.auth.model.SignInResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
 
 fun SignInResponse.extractTokens(): Tokens = Tokens(
-    accessToken = this.accessToken,
-    accessTokenExpiration = this.accessTokenExpiration.toLocalDateTime(),
-    refreshToken = this.refreshToken,
-    refreshTokenExpiration = this.refreshTokenExpiration.toLocalDateTime(),
+    accessToken = AccessToken(
+        value = this.accessToken,
+        expiration = this.accessTokenExpiration.toLocalDateTime(),
+    ),
+    refreshToken = RefreshToken(
+        value = this.refreshToken,
+        expiration = this.refreshTokenExpiration.toLocalDateTime(),
+    ),
 )
 
 fun SignInResponse.extractFeatures(): Features = Features(

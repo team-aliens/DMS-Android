@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.jwt.exception
+package team.aliens.dms.android.core.jwt.datastore.store.exception
 
 import team.aliens.dms.android.core.datastore.exception.LoadFailureException
 

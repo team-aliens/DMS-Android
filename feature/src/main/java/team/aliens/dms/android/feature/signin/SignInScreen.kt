@@ -63,8 +63,8 @@ import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 internal fun SignInScreen(
     modifier: Modifier = Modifier,
     navigator: SignInNavigator,
+    viewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     val toast = LocalToast.current
@@ -98,10 +98,6 @@ internal fun SignInScreen(
                 },
                 onPasswordChange = { password ->
                     viewModel.postIntent(SignInIntent.UpdatePassword(password))
-                },
-                autoSignIn = uiState.autoSignIn,
-                onAutoSignInChange = { autoSignIn ->
-                    viewModel.postIntent(SignInIntent.UpdateAutoSignInOption(autoSignIn))
                 },
                 accountIdError = uiState.accountIdError,
                 passwordError = uiState.passwordError,
@@ -153,8 +149,6 @@ private fun UserInformationInputs(
     onAccountIdChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
-    autoSignIn: Boolean,
-    onAutoSignInChange: (Boolean) -> Unit,
     accountIdError: AuthException? = null,
     passwordError: AuthException? = null,
 ) {
@@ -223,23 +217,6 @@ private fun UserInformationInputs(
             passwordShowing = passwordShowing,
             onPasswordShowingChange = onPasswordShowingChange,
         )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalPadding(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Checkbox(
-                checked = autoSignIn,
-                onCheckedChange = onAutoSignInChange,
-            )
-            Text(
-                text = stringResource(id = R.string.sign_in_auto_sign_in),
-                style = DmsTheme.typography.body2,
-                color = DmsTheme.colorScheme.onSurfaceVariant,
-            )
-        }
     }
 }
 
@@ -304,7 +281,6 @@ private fun UnauthorizedActions(
 private fun SignInPreview() {
     val (id, onIdChange) = remember { mutableStateOf("") }
     val (password, onPasswordChange) = remember { mutableStateOf("") }
-    val (autoSignIn, onAutoSignInChange) = remember { mutableStateOf(false) }
     var buttonAvailable by remember { mutableStateOf(true) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -334,8 +310,6 @@ private fun SignInPreview() {
                 password = password,
                 onAccountIdChange = onIdChange,
                 onPasswordChange = onPasswordChange,
-                autoSignIn = autoSignIn,
-                onAutoSignInChange = onAutoSignInChange,
             )
             UnauthorizedActions(
                 modifier = Modifier.fillMaxWidth(),

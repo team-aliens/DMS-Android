@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            // TODO: flow 로직 수정 필요
+            // FIXME: app 전역 state로 관리하도록 변경
             val autoSignIn by viewModel.autoSignInAvailable.collectAsStateWithLifecycle()
 
             DmsTheme {
