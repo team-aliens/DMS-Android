@@ -9,11 +9,6 @@ abstract class JwtProvider {
      */
     abstract val cachedAccessToken: AccessToken
 
-    /**
-     * represents if the cached access token is available
-     * @see cachedAccessToken
-     */
-    abstract val isCachedAccessTokenAvailable: StateFlow<Boolean>
 
     /**
      * represents cached refresh token
@@ -21,9 +16,9 @@ abstract class JwtProvider {
     abstract val cachedRefreshToken: RefreshToken
 
     /**
-     * represents if the cached refresh token is available
+     * represents if the cached tokens are available
      */
-    abstract val isCachedRefreshTokenAvailable: StateFlow<Boolean>
+    abstract val isCachedTokensAvailable: StateFlow<Boolean>
 
     /**
      * updates tokens on [JwtProvider] itself and device's local storage
