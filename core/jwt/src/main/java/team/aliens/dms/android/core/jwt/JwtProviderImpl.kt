@@ -94,14 +94,14 @@ internal class JwtProviderImpl @Inject constructor(
         if (_cachedAccessToken == null) {
             return false
         }
-        return cachedAccessToken.isExpired()
+        return _cachedAccessToken!!.isExpired()
     }
 
     private fun checkIsRefreshTokenAvailable(): Boolean {
         if (_cachedRefreshToken == null) {
             return false
         }
-        return cachedRefreshToken.isExpired()
+        return _cachedRefreshToken!!.isExpired()
     }
 
     private fun reissueTokens() = runBlocking {
