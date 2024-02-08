@@ -7,6 +7,123 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
+import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
+import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
+import team.aliens.dms.android.core.jwt.network.JwtReissueManager
+import javax.inject.Inject
+
+internal class JwtProviderImpl @Inject constructor(
+    private val jwtDataStoreDataSource: JwtDataStoreDataSource,
+    private val jwtReissueManager: JwtReissueManager
+) : JwtProvider() {
+    private var _cachedAccessToken: AccessToken? = null
+    override val cachedAccessToken: AccessToken
+        get() {
+            if (this._cachedAccessToken == null) {
+                throw CannotUseAccessTokenException()
+            }
+            if (this._cachedAccessToken!!.isExpired()) {
+                this.reissueTokens()
+            }
+            return _cachedAccessToken!!
+        }
+
+    private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val isCachedAccessTokenAvailable: StateFlow<Boolean> =
+        _isCachedAccessTokenAvailable.asStateFlow()
+
+    private var _cachedRefreshToken: RefreshToken? = null
+    override val cachedRefreshToken: RefreshToken
+        get() {
+            if (_cachedRefreshToken == null) {
+                throw CannotUseRefreshTokenException()
+            }
+            if (_cachedRefreshToken!!.isExpired()) {
+                throw CannotUseRefreshTokenException()
+            }
+            return _cachedRefreshToken!!
+        }
+
+    private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val isCachedRefreshTokenAvailable: StateFlow<Boolean> =
+        _isCachedRefreshTokenAvailable.asStateFlow()
+
+    init {
+        loadTokens()
+    }
+
+    private fun loadTokens() {
+        runCatching {
+            jwtDataStoreDataSource.loadTokens()
+        }.onSuccess { tokens ->
+            this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
+            this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
+        }.onFailure {
+            // TODO: handle when token not found
+        }
+        this.updateTokensAbility()
+    }
+
+    override fun updateTokens(tokens: Tokens) {
+        this._cachedAccessToken = tokens.accessToken
+        this._cachedRefreshToken = tokens.refreshToken
+        CoroutineScope(Dispatchers.Default).launch {
+            jwtDataStoreDataSource.storeTokens(tokens = tokens)
+        }
+        this.updateTokensAbility()
+    }
+
+    override fun clearCaches() {
+        this._cachedAccessToken = null
+        this._cachedRefreshToken = null
+        CoroutineScope(Dispatchers.Default).launch {
+            jwtDataStoreDataSource.clearTokens()
+        }
+        this.updateTokensAbility()
+    }
+
+    private fun updateTokensAbility() {
+        CoroutineScope(Dispatchers.Default).launch {
+            _isCachedAccessTokenAvailable.emit(this@JwtProviderImpl.checkIsAccessTokenAvailable())
+            _isCachedRefreshTokenAvailable.emit(this@JwtProviderImpl.checkIsRefreshTokenAvailable())
+        }
+    }
+
+    private fun checkIsAccessTokenAvailable(): Boolean {
+        if (_cachedAccessToken == null) {
+            return false
+        }
+        return cachedAccessToken.isExpired()
+    }
+
+    private fun checkIsRefreshTokenAvailable(): Boolean {
+        if (_cachedRefreshToken == null) {
+            return false
+        }
+        return cachedRefreshToken.isExpired()
+    }
+
+    private fun reissueTokens() = runBlocking {
+        runCatching {
+            this@JwtProviderImpl.clearCaches()
+            jwtReissueManager(refreshToken = cachedRefreshToken.value)
+        }.onSuccess { tokens ->
+            this@JwtProviderImpl.updateTokens(tokens = tokens)
+        }
+        this@JwtProviderImpl.updateTokensAbility()
+    }
+}
+
+/*
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.exception.CannotUseTokensException
@@ -102,8 +219,11 @@ internal class JwtProviderImpl @Inject constructor(
             jwtDataStoreDataSource.clearTokens()
             withContext(Dispatchers.Default) {
                 updateCachedAccessTokenAvailable(false)
+
+
                 updateCachedRefreshTokenAvailable(false)
             }
         }
     }
 }
+*/
