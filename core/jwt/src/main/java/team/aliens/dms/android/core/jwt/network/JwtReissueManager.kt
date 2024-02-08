@@ -7,7 +7,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms.android.core.jwt.exception.CannotReissueTokenException
+import team.aliens.dms.android.core.jwt.network.exception.CannotReissueTokenException
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import javax.inject.Inject
 
