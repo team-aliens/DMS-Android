@@ -41,7 +41,7 @@ internal class SchoolProviderImpl @Inject constructor(
         featuresDataStoreDataSource.loadFeatures().also(::updateFeatures)
 
     private fun fetchFeatures(): Features =
-        featuresFetchingManager(accessToken = jwtProvider.cachedRefreshToken).toModel()
+        featuresFetchingManager(accessToken = jwtProvider.cachedRefreshToken.value).toModel()
             .also(::updateFeatures)
 
     private fun checkFeaturesAvailable(): Boolean = _features != null
