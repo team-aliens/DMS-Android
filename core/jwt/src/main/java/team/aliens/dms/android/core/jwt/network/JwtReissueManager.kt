@@ -7,8 +7,10 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.core.jwt.network.exception.CannotReissueTokenException
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
+import team.aliens.dms.android.core.jwt.toModel
 import javax.inject.Inject
 
 class JwtReissueManager @Inject constructor(
@@ -22,12 +24,12 @@ class JwtReissueManager @Inject constructor(
         }.build()
     }
 
-    operator fun invoke(refreshToken: String): TokensResponse {
+    operator fun invoke(refreshToken: String): Tokens {
         val request = buildTokenReissueRequest(refreshToken)
         val response = client.newCall(request).execute()
 
         return if (response.isSuccessful) {
-            response.body.toTokensResponse()
+            response.body.toTokensResponse().toModel()
         } else {
             throw CannotReissueTokenException()
         }
