@@ -11,11 +11,11 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class DatabaseMealDataSourceTest {
 
-    @get:Rule
+    /*@get:Rule
     val rule = HiltAndroidRule(this)
 
     @Before
     fun setup() {
         rule.inject()
-    }
+    }*/
 }
