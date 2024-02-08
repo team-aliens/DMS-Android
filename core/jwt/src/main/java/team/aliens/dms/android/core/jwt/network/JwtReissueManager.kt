@@ -11,7 +11,7 @@ import team.aliens.dms.android.core.jwt.exception.CannotReissueTokenException
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import javax.inject.Inject
 
-class TokenReissueManager @Inject constructor(
+class JwtReissueManager @Inject constructor(
     private val reissueUrl: String,
     private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,

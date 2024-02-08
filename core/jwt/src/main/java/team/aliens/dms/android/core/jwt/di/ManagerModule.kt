@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import team.aliens.dms.android.core.jwt.network.TokenReissueManager
+import team.aliens.dms.android.core.jwt.network.JwtReissueManager
 import team.aliens.dms.android.core.network.di.DefaultHttpClient
 import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
 import javax.inject.Singleton
@@ -21,7 +21,7 @@ internal object ManagerModule {
         @TokenReissueUrl reissueUrl: String,
         @DefaultHttpLoggingInterceptor defaultHttpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient baseHttpClient: OkHttpClient,
-    ): TokenReissueManager = TokenReissueManager(
+    ): JwtReissueManager = JwtReissueManager(
         reissueUrl = reissueUrl,
         httpLoggingInterceptor = defaultHttpLoggingInterceptor,
         baseHttpClient = baseHttpClient,
