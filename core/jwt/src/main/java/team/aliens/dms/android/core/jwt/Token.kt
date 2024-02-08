@@ -2,22 +2,28 @@ package team.aliens.dms.android.core.jwt
 
 import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
+import team.aliens.dms.android.shared.date.util.now
 
 data class Tokens(
     val accessToken: AccessToken,
     val refreshToken: RefreshToken,
 )
 
-sealed class Token
+sealed class Token {
+    abstract val value: String
+    abstract val expiration: LocalDateTime
+
+    fun isExpired(then: LocalDateTime = now): Boolean = then.isAfter(expiration)
+}
 
 data class AccessToken(
-    val value: String,
-    val expiration: LocalDateTime,
+    override val value: String,
+    override val expiration: LocalDateTime,
 ) : Token()
 
 data class RefreshToken(
-    val value: String,
-    val expiration: LocalDateTime,
+    override val value: String,
+    override val expiration: LocalDateTime,
 ) : Token()
 
 
