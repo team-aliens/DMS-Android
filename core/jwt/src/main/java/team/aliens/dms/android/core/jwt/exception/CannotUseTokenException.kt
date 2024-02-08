@@ -1,3 +1,7 @@
 package team.aliens.dms.android.core.jwt.exception
 
-class CannotUseTokenException : RuntimeException("Cannot use token")
+sealed class CannotUseTokenException(message: String?) : RuntimeException(message)
+
+class CannotUseAccessTokenException : CannotUseTokenException("Cannot use access token")
+
+class CannotUseRefreshTokenException : CannotUseTokenException("Cannot use refresh token")
