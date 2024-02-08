@@ -1,12 +1,13 @@
 package team.aliens.dms.android.core.jwt
 
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 
 data class Tokens(
-    val accessToken: AccessToken,
-    val accessTokenExpiration: AccessTokenExpiration,
-    val refreshToken: RefreshToken,
-    val refreshTokenExpiration: RefreshTokenExpiration,
+    val accessToken: String,
+    val accessTokenExpiration: LocalDateTime,
+    val refreshToken: String,
+    val refreshTokenExpiration: LocalDateTime,
 )
 
 internal fun TokensResponse.toModel(): Tokens = Tokens(
