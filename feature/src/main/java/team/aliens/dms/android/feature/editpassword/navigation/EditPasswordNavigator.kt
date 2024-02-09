@@ -1,7 +1,7 @@
 package team.aliens.dms.android.feature.editpassword.navigation
 
 interface EditPasswordNavigator {
-    fun openEditPasswordSetPasswordNav()
+    fun openEditPasswordSetPassword()
     fun openSignIn()
 
     fun navigateUp()

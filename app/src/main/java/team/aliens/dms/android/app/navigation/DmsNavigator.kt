@@ -77,8 +77,8 @@ class DmsNavigator(
         navController.navigate(NoticeDetailsScreenDestination(noticeId) within navGraph)
     }
 
-    override fun openEditPasswordSetPasswordNav() {
-        navController.navigate(EditPasswordSetPasswordScreenDestination)
+    override fun openEditPasswordSetPassword() {
+        navController.navigate(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph)
     }
 
     override fun openSignIn() {
