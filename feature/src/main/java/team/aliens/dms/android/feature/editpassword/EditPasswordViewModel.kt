@@ -8,6 +8,7 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
 import team.aliens.dms.android.data.user.repository.UserRepository
 import javax.inject.Inject
 
@@ -38,9 +39,8 @@ internal class EditPasswordViewModel @Inject constructor(
             postSideEffect(EditPasswordSideEffect.PasswordConfirmed)
         }.onFailure {
             when (it) {
-// TODO
+                is PasswordMismatchException -> postSideEffect(EditPasswordSideEffect.PasswordMismatch)
             }
-            postSideEffect(EditPasswordSideEffect.PasswordMismatch)
         }
     }
 
