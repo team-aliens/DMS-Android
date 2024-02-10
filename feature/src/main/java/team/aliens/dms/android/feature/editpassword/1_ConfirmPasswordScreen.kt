@@ -52,7 +52,8 @@ internal fun ConfirmPasswordScreen(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
 
-            EditPasswordSideEffect.SetPasswordPasswordIncorrect -> TODO()
+            else -> {/* explicit blank */
+            }
         }
     }
 
