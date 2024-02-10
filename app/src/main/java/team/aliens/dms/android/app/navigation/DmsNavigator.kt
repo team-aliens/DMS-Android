@@ -3,6 +3,7 @@ package team.aliens.dms.android.app.navigation
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
@@ -78,7 +79,12 @@ class DmsNavigator(
     }
 
     override fun openEditPasswordSetPassword() {
-        navController.navigate(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph)
+        navController.navigate(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph) {
+            navController.popBackStack(
+                route = EditPasswordNavGraph.startRoute,
+                inclusive = true,
+            )
+        }
     }
 
     override fun openSignIn() {
