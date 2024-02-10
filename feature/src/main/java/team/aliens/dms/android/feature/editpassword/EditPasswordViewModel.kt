@@ -54,7 +54,7 @@ internal class EditPasswordViewModel @Inject constructor(
 
     private fun updateNewPasswordRepeat(value: String) = reduce(
         newState = stateFlow.value.copy(
-            newPassword = value,
+            newPasswordRepeat = value,
         ),
     )
 
