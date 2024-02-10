@@ -397,6 +397,8 @@
     <string name="edit_password_old_password">기존 비밀번호</string>
     <string name="edit_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
     <string name="edit_password_please_enter_current_password">기존 비밀번호를 입력해 주세요</string>
+    <string name="edit_password_please_enter_new_password">새로운 비밀번호를 입력해 주세요</string>
+    <string name="edit_password_please_enter_new_password_repeat">비밀번호를 한 번 더 입력해 주세요</string>
 
     <!--point history-->
     <string name="point_history">상벌점 내역</string>
