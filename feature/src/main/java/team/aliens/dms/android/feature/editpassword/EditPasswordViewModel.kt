@@ -22,13 +22,15 @@ internal class EditPasswordViewModel @Inject constructor(
         when (intent) {
             is EditPasswordIntent.UpdateCurrentPassword -> this.updateCurrentPassword(value = intent.value)
             EditPasswordIntent.ConfirmPassword -> this.confirmPassword()
+            EditPasswordIntent.SetPassword -> TODO()
+            is EditPasswordIntent.UpdateNewPassword -> TODO()
+            is EditPasswordIntent.UpdateNewPasswordRepeat -> TODO()
         }
     }
 
     private fun updateCurrentPassword(value: String) = reduce(
         newState = stateFlow.value.copy(
             currentPassword = value,
-            confirmButtonAvailable = this.checkConfirmButtonAvailable(),
         ),
     )
 
@@ -36,36 +38,40 @@ internal class EditPasswordViewModel @Inject constructor(
         runCatching {
             userRepository.comparePassword(password = stateFlow.value.currentPassword)
         }.onSuccess {
-            postSideEffect(EditPasswordSideEffect.PasswordConfirmed)
+            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed)
         }.onFailure {
             when (it) {
-                is PasswordMismatchException -> postSideEffect(EditPasswordSideEffect.PasswordMismatch)
+                is PasswordMismatchException -> postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordMismatch)
             }
         }
     }
-
-    private fun checkConfirmButtonAvailable() = stateFlow.value.currentPassword.isNotBlank()
 }
 
 internal data class EditPasswordUiState(
     val currentPassword: String,
-    val confirmButtonAvailable: Boolean,
+    val newPassword: String,
+    val newPasswordRepeat: String,
 ) : UiState() {
     companion object {
         fun initial() = EditPasswordUiState(
             currentPassword = "",
-            confirmButtonAvailable = false,
+            newPassword = "",
+            newPasswordRepeat = "",
         )
     }
 }
 
 internal sealed class EditPasswordIntent : Intent() {
     class UpdateCurrentPassword(val value: String) : EditPasswordIntent()
+    class UpdateNewPassword(val value: String) : EditPasswordIntent()
+    class UpdateNewPasswordRepeat(val value: String) : EditPasswordIntent()
 
     data object ConfirmPassword : EditPasswordIntent()
+    data object SetPassword : EditPasswordIntent()
 }
 
 internal sealed class EditPasswordSideEffect : SideEffect() {
-    data object PasswordConfirmed : EditPasswordSideEffect()
-    data object PasswordMismatch : EditPasswordSideEffect()
+    data object ConfirmPasswordPasswordConfirmed : EditPasswordSideEffect()
+    data object ConfirmPasswordPasswordMismatch : EditPasswordSideEffect()
+    data object SetPasswordPasswordIncorrect : EditPasswordSideEffect()
 }

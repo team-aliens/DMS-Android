@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.editpassword
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +21,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
-import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.rememberToastState
-import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
-import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
@@ -40,8 +36,8 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavig
 @Composable
 internal fun ConfirmPasswordScreen(
     modifier: Modifier = Modifier,
-    viewModel: EditPasswordViewModel = hiltViewModel(),
     navigator: EditPasswordNavigator,
+    viewModel: EditPasswordViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val toast = rememberToastState()
@@ -51,10 +47,12 @@ internal fun ConfirmPasswordScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            EditPasswordSideEffect.PasswordConfirmed -> navigator.openEditPasswordSetPassword()
-            EditPasswordSideEffect.PasswordMismatch -> toast.showErrorToast(
+            EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed -> navigator.openEditPasswordSetPassword()
+            EditPasswordSideEffect.ConfirmPasswordPasswordMismatch -> toast.showErrorToast(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
+
+            EditPasswordSideEffect.SetPasswordPasswordIncorrect -> TODO()
         }
     }
 
@@ -110,21 +108,5 @@ internal fun ConfirmPasswordScreen(
                 Text(text = stringResource(id = R.string.next))
             }
         }
-    }
-}
-
-@Composable
-private fun Banner(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
-    ) {
-        AppLogo()
-        Text(
-            text = stringResource(R.string.edit_password_old_password),
-            style = DmsTheme.typography.body2,
-        )
     }
 }
