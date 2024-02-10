@@ -22,9 +22,9 @@ internal class EditPasswordViewModel @Inject constructor(
         when (intent) {
             is EditPasswordIntent.UpdateCurrentPassword -> this.updateCurrentPassword(value = intent.value)
             EditPasswordIntent.ConfirmPassword -> this.confirmPassword()
-            EditPasswordIntent.SetPassword -> TODO()
-            is EditPasswordIntent.UpdateNewPassword -> TODO()
-            is EditPasswordIntent.UpdateNewPasswordRepeat -> TODO()
+            is EditPasswordIntent.UpdateNewPassword -> this.updateNewPassword(value = intent.value)
+            is EditPasswordIntent.UpdateNewPasswordRepeat -> this.updateNewPasswordRepeat(value = intent.value)
+            EditPasswordIntent.SetPassword -> this.setPassword()
         }
     }
 
@@ -43,6 +43,29 @@ internal class EditPasswordViewModel @Inject constructor(
             when (it) {
                 is PasswordMismatchException -> postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordMismatch)
             }
+        }
+    }
+
+    private fun updateNewPassword(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            newPassword = value,
+        ),
+    )
+
+    private fun updateNewPasswordRepeat(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            newPassword = value,
+        ),
+    )
+
+    private fun setPassword() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            userRepository.editPassword(
+                currentPassword = stateFlow.value.currentPassword,
+                newPassword = stateFlow.value.newPassword,
+            )
+        }.onSuccess {
+
         }
     }
 }
@@ -73,5 +96,6 @@ internal sealed class EditPasswordIntent : Intent() {
 internal sealed class EditPasswordSideEffect : SideEffect() {
     data object ConfirmPasswordPasswordConfirmed : EditPasswordSideEffect()
     data object ConfirmPasswordPasswordMismatch : EditPasswordSideEffect()
+    data object SetPasswordPasswordEdited : EditPasswordSideEffect()
     data object SetPasswordPasswordIncorrect : EditPasswordSideEffect()
 }
