@@ -15,7 +15,7 @@ internal class UserRepositoryImpl @Inject constructor(
         networkUserDataSource.editPassword(
             request = EditPasswordRequest(
                 currentPassword = currentPassword,
-                newPassword = newPassword
+                newPassword = newPassword,
             ),
         )
     }
