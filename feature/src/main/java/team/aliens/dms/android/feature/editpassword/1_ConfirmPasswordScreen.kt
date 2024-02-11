@@ -22,7 +22,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
-import team.aliens.dms.android.core.designsystem.rememberToastState
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -40,7 +40,7 @@ internal fun ConfirmPasswordScreen(
     viewModel: EditPasswordViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    val toast = rememberToastState()
+    val toast = LocalToast.current
     val context = LocalContext.current
 
     val (showPassword, onShowPasswordChange) = remember { mutableStateOf(false) }
