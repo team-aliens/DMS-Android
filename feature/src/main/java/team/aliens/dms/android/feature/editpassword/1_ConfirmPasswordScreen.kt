@@ -47,7 +47,10 @@ internal fun ConfirmPasswordScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed -> navigator.openEditPasswordSetPassword()
+            EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed -> navigator.openEditPasswordSetPassword(
+                currentPassword = uiState.currentPassword,
+            )
+
             EditPasswordSideEffect.ConfirmPasswordPasswordMismatch -> toast.showErrorToast(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
