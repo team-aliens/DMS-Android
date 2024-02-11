@@ -115,6 +115,7 @@ class DmsNavigator(
     override fun openAuthorizedNav() {
         navController.navigate(AuthorizedNavGraph) {
             popUpTo(UnauthorizedNavGraph) { inclusive = true }
+            launchSingleTop = true
         }
     }
 
