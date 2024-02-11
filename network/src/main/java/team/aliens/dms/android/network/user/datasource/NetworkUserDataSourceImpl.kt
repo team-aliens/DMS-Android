@@ -9,11 +9,11 @@ import javax.inject.Inject
 internal class NetworkUserDataSourceImpl @Inject constructor(
     private val userApiService: UserApiService,
 ) : NetworkUserDataSource() {
-    override suspend fun editPassword(request: EditPasswordRequest) =
+    override suspend fun editPassword(request: EditPasswordRequest) {
         handleNetworkRequest { userApiService.editPassword(request) }
+    }
 
-    override suspend fun comparePassword(password: String) =
-        handleNetworkRequest(
-            on401 = { throw PasswordMismatchException() },
-        ) { userApiService.comparePassword(password) }
+    override suspend fun comparePassword(password: String) = handleNetworkRequest(
+        on401 = { throw PasswordMismatchException() },
+    ) { userApiService.comparePassword(password) }
 }
