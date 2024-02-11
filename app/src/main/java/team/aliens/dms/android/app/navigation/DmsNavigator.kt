@@ -15,6 +15,7 @@ import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestin
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
+import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
@@ -93,6 +94,12 @@ class DmsNavigator(
 
     override fun navigateUp() {
         navController.navigateUp()
+    }
+
+    override fun openMainNav() {
+        navController.navigate(MainDestination within navGraph) {
+            launchSingleTop = true
+        }
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
