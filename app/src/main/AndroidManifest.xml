@@ -26,10 +26,6 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".splash.SplashActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="unspecified">
