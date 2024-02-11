@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.androidx.compose.util)
     implementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.material.window)
     androidTestImplementation(libs.androidx.compose.test.junit)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)

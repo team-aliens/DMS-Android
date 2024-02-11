@@ -49,6 +49,7 @@ androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling",
 androidx-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
 androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 androidx-compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "materialCompose" }
+androidx-compose-material-window = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestination" }
