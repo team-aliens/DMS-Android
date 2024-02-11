@@ -3,6 +3,7 @@ package team.aliens.dms.android.app.navigation
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
@@ -14,6 +15,7 @@ import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestin
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
+import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
@@ -77,8 +79,15 @@ class DmsNavigator(
         navController.navigate(NoticeDetailsScreenDestination(noticeId) within navGraph)
     }
 
-    override fun openEditPasswordSetPasswordNav() {
-        navController.navigate(EditPasswordSetPasswordScreenDestination)
+    override fun openEditPasswordSetPassword(currentPassword: String) {
+        navController.navigate(
+            EditPasswordSetPasswordScreenDestination(currentPassword = currentPassword) within EditPasswordNavGraph,
+        ) {
+            navController.popBackStack(
+                route = EditPasswordNavGraph.startRoute,
+                inclusive = true,
+            )
+        }
     }
 
     override fun openSignIn() {
@@ -100,6 +109,7 @@ class DmsNavigator(
     override fun openAuthorizedNav() {
         navController.navigate(AuthorizedNavGraph) {
             popUpTo(UnauthorizedNavGraph) { inclusive = true }
+            launchSingleTop = true
         }
     }
 

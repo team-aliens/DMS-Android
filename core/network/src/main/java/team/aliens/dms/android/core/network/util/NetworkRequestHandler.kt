@@ -11,6 +11,7 @@ import team.aliens.dms.android.core.network.exception.UnAuthorizedException
 import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
 import team.aliens.dms.android.shared.exception.UnknownException
 
+// FIXME: 에러 코드를 Key, (message: String?) -> Nothing을 Value로 가진 Map으로 구현 가능
 suspend inline fun <T> handleNetworkRequest(
     on400: (message: String?) -> Nothing = { throw BadRequestException() },
     on401: (message: String?) -> Nothing = { throw UnAuthorizedException() },

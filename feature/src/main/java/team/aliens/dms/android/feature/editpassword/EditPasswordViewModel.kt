@@ -1,6 +1,9 @@
 package team.aliens.dms.android.feature.editpassword
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -16,148 +19,82 @@ internal class EditPasswordViewModel @Inject constructor(
 ) {
     override fun processIntent(intent: EditPasswordIntent) {
         when (intent) {
-            is EditPasswordIntent.UpdateCurrentPassword -> TODO()
-            is EditPasswordIntent.UpdateNewPassword -> TODO()
-            is EditPasswordIntent.UpdateNewPasswordConfirmation -> TODO()
-        }
-    }
-}
-
-internal data class EditPasswordUiState(
-    val currentPassword: String,
-    val newPassword: String,
-    val newPasswordConfirmation: String,
-) : UiState() {
-    companion object {
-        fun initial() = EditPasswordUiState(
-            currentPassword = "",
-            newPassword = "",
-            newPasswordConfirmation = "",
-        )
-    }
-}
-
-internal sealed class EditPasswordIntent : Intent() {
-    class UpdateCurrentPassword(val password: String) : EditPasswordIntent()
-    class UpdateNewPassword(val password: String) : EditPasswordIntent()
-    class UpdateNewPasswordConfirmation(val password: String) : EditPasswordIntent()
-}
-
-internal sealed class EditPasswordSideEffect : SideEffect() {
-
-}
-
-/*
-
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
-import team.aliens.dms.android.core.ui.mvi.SideEffect
-import team.aliens.dms.android.core.ui.mvi.UiState
-import team.aliens.dms.android.data.user.repository.UserRepository
-import javax.inject.Inject
-
-internal class EditPasswordViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-) : BaseMviViewModel<EditPasswordUiState, EditPasswordIntent, EditPasswordSideEffect>(
-    initialState = EditPasswordUiState.initial(),
-) {
-    override fun processIntent(intent: EditPasswordIntent) {
-        when (intent) {
-            EditPasswordIntent.ComparePassword -> comparePassword()
-
-            is EditPasswordIntent.UpdateCurrentPassword -> updateCurrentPassword(intent.password)
-            is EditPasswordIntent.UpdateCurrentPasswordShowing ->
-                updateCurrentPasswordShowing(intent.shouldShow)
-
-            is EditPasswordIntent.UpdateNewPassword -> updateNewPassword(intent.password)
-            is EditPasswordIntent.UpdateNewPasswordShowing -> updateNewPasswordShowing(intent.shouldShow)
-
-            is EditPasswordIntent.UpdateNewPasswordConfirmation ->
-                updateNewPasswordConfirmation(intent.password)
-
-            is EditPasswordIntent.UpdateNewPasswordConfirmationShowing ->
-                updateNewPasswordConfirmationShowing(intent.shouldShow)
+            is EditPasswordIntent.UpdateCurrentPassword -> this.updateCurrentPassword(value = intent.value)
+            EditPasswordIntent.ConfirmPassword -> this.confirmPassword()
+            is EditPasswordIntent.UpdateNewPassword -> this.updateNewPassword(value = intent.value)
+            is EditPasswordIntent.UpdateNewPasswordRepeat -> this.updateNewPasswordRepeat(value = intent.value)
+            EditPasswordIntent.SetPassword -> this.setPassword()
         }
     }
 
-    private fun comparePassword() {
-        val password = stateFlow.value.currentPassword
-        if (password.isBlank()) {
-            postSideEffect(EditPasswordSideEffect.CurrentPasswordEmpty)
-            return
-        }
+    private fun updateCurrentPassword(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            currentPassword = value,
+        ),
+    )
 
-        postSideEffect(EditPasswordSideEffect.Loading)
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = runCatching {
-                userRepository.comparePassword(password)
-            }
-            postSideEffect(
-                if (result.isSuccess) {
-                    EditPasswordSideEffect.ConfirmationSuccess
-                } else {
-                    EditPasswordSideEffect.CurrentPasswordIncorrect
-                }
+    private fun confirmPassword() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            userRepository.comparePassword(password = stateFlow.value.currentPassword)
+        }.onSuccess {
+            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed)
+        }.onFailure {
+            // FIXME: Handle Throwable
+            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordMismatch)
+        }
+    }
+
+    private fun updateNewPassword(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            newPassword = value,
+        ),
+    )
+
+    private fun updateNewPasswordRepeat(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            newPasswordRepeat = value,
+        ),
+    )
+
+    private fun setPassword() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            userRepository.editPassword(
+                currentPassword = stateFlow.value.currentPassword,
+                newPassword = stateFlow.value.newPassword,
             )
+        }.onSuccess {
+            // FIXME: Handle Throwable
+            postSideEffect(EditPasswordSideEffect.SetPasswordPasswordEdited)
         }
     }
-
-    private fun updateCurrentPassword(password: String) =
-        reduce(stateFlow.value.copy(currentPassword = password))
-
-    private fun updateCurrentPasswordShowing(shouldShow: Boolean) =
-        reduce(stateFlow.value.copy(currentPasswordShowing = shouldShow))
-
-    private fun updateNewPassword(password: String) =
-        reduce(stateFlow.value.copy(newPassword = password))
-
-    private fun updateNewPasswordShowing(shouldShow: Boolean) =
-        reduce(stateFlow.value.copy(newPasswordShowing = shouldShow))
-
-    private fun updateNewPasswordConfirmation(password: String) =
-        reduce(stateFlow.value.copy(newPasswordConfirmation = password))
-
-    private fun updateNewPasswordConfirmationShowing(shouldShow: Boolean) =
-        reduce(stateFlow.value.copy(newPasswordConfirmationShowing = shouldShow))
 }
 
 internal data class EditPasswordUiState(
     val currentPassword: String,
-    val currentPasswordShowing: Boolean,
     val newPassword: String,
-    val newPasswordShowing: Boolean,
-    val newPasswordConfirmation: String,
-    val newPasswordConfirmationShowing: Boolean,
+    val newPasswordRepeat: String,
 ) : UiState() {
     companion object {
         fun initial() = EditPasswordUiState(
             currentPassword = "",
-            currentPasswordShowing = false,
             newPassword = "",
-            newPasswordShowing = false,
-            newPasswordConfirmation = "",
-            newPasswordConfirmationShowing = false,
+            newPasswordRepeat = "",
         )
     }
 }
 
 internal sealed class EditPasswordIntent : Intent() {
-    class UpdateCurrentPassword(val password: String) : EditPasswordIntent()
-    class UpdateCurrentPasswordShowing(val shouldShow: Boolean) : EditPasswordIntent()
-    class UpdateNewPassword(val password: String) : EditPasswordIntent()
-    class UpdateNewPasswordShowing(val shouldShow: Boolean) : EditPasswordIntent()
-    class UpdateNewPasswordConfirmation(val password: String) : EditPasswordIntent()
-    class UpdateNewPasswordConfirmationShowing(val shouldShow: Boolean) : EditPasswordIntent()
-    data object ComparePassword : EditPasswordIntent()
+    class UpdateCurrentPassword(val value: String) : EditPasswordIntent()
+    class UpdateNewPassword(val value: String) : EditPasswordIntent()
+    class UpdateNewPasswordRepeat(val value: String) : EditPasswordIntent()
+
+    data object ConfirmPassword : EditPasswordIntent()
+    data object SetPassword : EditPasswordIntent()
 }
 
 internal sealed class EditPasswordSideEffect : SideEffect() {
-    data object Loading : EditPasswordSideEffect()
-    data object CurrentPasswordEmpty : EditPasswordSideEffect()
-    data object CurrentPasswordIncorrect : EditPasswordSideEffect()
-    data object ConfirmationSuccess : EditPasswordSideEffect()
+    data object ConfirmPasswordPasswordConfirmed : EditPasswordSideEffect()
+    data object ConfirmPasswordPasswordMismatch : EditPasswordSideEffect()
+    data object SetPasswordPasswordEdited : EditPasswordSideEffect()
+    data object SetPasswordPasswordIncorrect : EditPasswordSideEffect()
 }
-*/

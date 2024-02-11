@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.editpassword
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,23 +9,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
-import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
-import team.aliens.dms.android.core.ui.DefaultVerticalSpace
-import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.ui.bottomPadding
-import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,9 +36,30 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavig
 @Composable
 internal fun ConfirmPasswordScreen(
     modifier: Modifier = Modifier,
-    viewModel: EditPasswordViewModel = hiltViewModel(),
     navigator: EditPasswordNavigator,
+    viewModel: EditPasswordViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
+    val context = LocalContext.current
+
+    val (showPassword, onShowPasswordChange) = remember { mutableStateOf(false) }
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+        when (sideEffect) {
+            EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed -> navigator.openEditPasswordSetPassword(
+                currentPassword = uiState.currentPassword,
+            )
+
+            EditPasswordSideEffect.ConfirmPasswordPasswordMismatch -> toast.showErrorToast(
+                message = context.getString(R.string.edit_password_error_password_mismatch),
+            )
+
+            else -> {/* explicit blank */
+            }
+        }
+    }
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
@@ -67,10 +90,13 @@ internal fun ConfirmPasswordScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = "asdf",
-                onValueChange = {},
-                passwordShowing = true,
-                onPasswordShowingChange = {},
+                value = uiState.currentPassword,
+                onValueChange = { value ->
+                    viewModel.postIntent(EditPasswordIntent.UpdateCurrentPassword(value))
+                },
+                passwordShowing = showPassword,
+                onPasswordShowingChange = onShowPasswordChange,
+                hintText = stringResource(id = R.string.edit_password_please_enter_current_password)
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -78,29 +104,13 @@ internal fun ConfirmPasswordScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { /*TODO*/ },
+                onClick = {
+                    viewModel.postIntent(EditPasswordIntent.ConfirmPassword)
+                },
+                enabled = uiState.currentPassword.isNotBlank(),
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
         }
-    }
-}
-
-@Composable
-private fun Banner(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
-    ) {
-        AppLogo(
-            modifier = Modifier.padding(start = PaddingDefaults.Large),
-        )
-        Text(
-            modifier = Modifier.padding(start = PaddingDefaults.Large),
-            text = stringResource(R.string.edit_password_old_password),
-            style = DmsTheme.typography.body2,
-        )
     }
 }
