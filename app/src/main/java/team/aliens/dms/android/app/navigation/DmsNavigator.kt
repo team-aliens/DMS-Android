@@ -98,12 +98,6 @@ class DmsNavigator(
         navController.navigateUp()
     }
 
-    override fun openMainNav() {
-        navController.navigate(MainDestination within navGraph) {
-            launchSingleTop = true
-        }
-    }
-
     override fun openResetPasswordEnterEmailVerificationCode() {
         navController.navigate(ResetPasswordEnterEmailVerificationCodeScreenDestination within navGraph)
     }
