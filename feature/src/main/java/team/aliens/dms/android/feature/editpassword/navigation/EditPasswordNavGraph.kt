@@ -7,6 +7,7 @@ import com.ramcosta.composedestinations.spec.Route
 import team.aliens.dms.android.feature.destinations.ConfirmPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 
+// TODO: Make to use shared viewmodel
 object EditPasswordNavGraph : NavGraphSpec {
     override val route: String = "edit_password"
     override val startRoute: Route = ConfirmPasswordScreenDestination routedIn this
