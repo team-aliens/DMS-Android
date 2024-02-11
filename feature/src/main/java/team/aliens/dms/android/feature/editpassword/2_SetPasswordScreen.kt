@@ -24,6 +24,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.rememberToastState
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -59,12 +60,18 @@ internal fun EditPasswordSetPasswordScreen(
         )
     }
 
-    val toast = rememberToastState()
+    val toast = LocalToast.current
     val context = LocalContext.current
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            EditPasswordSideEffect.SetPasswordPasswordEdited -> navigator.openMainNav()
+            EditPasswordSideEffect.SetPasswordPasswordEdited -> {
+                navigator.navigateUp()
+                toast.showSuccessToast(
+                    message = context.getString(R.string.edit_password_success_password_has_set),
+                )
+            }
+
             EditPasswordSideEffect.SetPasswordPasswordIncorrect -> toast.showErrorToast(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
