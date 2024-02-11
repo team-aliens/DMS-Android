@@ -11,6 +11,8 @@ import team.aliens.dms.android.core.network.exception.UnAuthorizedException
 import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
 import team.aliens.dms.android.shared.exception.NotDefinedException
 
+// TODO: remove
+@Deprecated("can cover in network module")
 suspend inline fun <T> statusMapping(
     onBadRequest: () -> Nothing = { throw NotDefinedException() },
     onUnauthorized: () -> Nothing = { throw NotDefinedException() },
