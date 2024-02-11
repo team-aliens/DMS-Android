@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,7 @@ internal fun EditPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
     viewModel: EditPasswordViewModel = hiltViewModel(),
+    currentPassword: String,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val (showNewPassword, onShowNewPasswordChange) = remember { mutableStateOf(false) }
@@ -62,7 +64,7 @@ internal fun EditPasswordSetPasswordScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
-            EditPasswordSideEffect.SetPasswordPasswordEdited -> navigator.navigateUp()
+            EditPasswordSideEffect.SetPasswordPasswordEdited -> navigator.openMainNav()
             EditPasswordSideEffect.SetPasswordPasswordIncorrect -> toast.showErrorToast(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
@@ -70,6 +72,10 @@ internal fun EditPasswordSetPasswordScreen(
             else -> {/* explicit blank */
             }
         }
+    }
+
+    LaunchedEffect(currentPassword) {
+        viewModel.postIntent(EditPasswordIntent.UpdateCurrentPassword(value = currentPassword))
     }
 
     DmsScaffold(
