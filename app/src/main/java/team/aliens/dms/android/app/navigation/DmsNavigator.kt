@@ -79,8 +79,10 @@ class DmsNavigator(
         navController.navigate(NoticeDetailsScreenDestination(noticeId) within navGraph)
     }
 
-    override fun openEditPasswordSetPassword() {
-        navController.navigate(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph) {
+    override fun openEditPasswordSetPassword(currentPassword: String) {
+        navController.navigate(
+            EditPasswordSetPasswordScreenDestination(currentPassword = currentPassword) within EditPasswordNavGraph,
+        ) {
             navController.popBackStack(
                 route = EditPasswordNavGraph.startRoute,
                 inclusive = true,
