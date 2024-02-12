@@ -7,6 +7,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.window.layout.DisplayFeature
@@ -19,6 +21,7 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.scope.DestinationScopeWithNoDependencies
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.NavHostEngine
+import kotlinx.coroutines.flow.StateFlow
 import team.aliens.dms.android.app.navigation.DmsNavGraph
 import team.aliens.dms.android.app.navigation.DmsNavigator
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
@@ -29,16 +32,19 @@ fun DmsApp(
     windowSizeClass: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     engine: NavHostEngine = rememberDmsNavHostEngine(),
+    isJwtAvailable: StateFlow<Boolean>,
     appState: DmsAppState = rememberDmsAppState(
         navController = engine.rememberNavController(),
+        isJwtAvailable = isJwtAvailable,
     ),
 ) {
+    val autoSignIn by appState.isJwtAvailable.collectAsStateWithLifecycle()
     DestinationsNavHost(
         engine = engine,
-        navGraph = DmsNavGraph.root(autoSignIn = false), // FIXME: auto sign in
+        navGraph = DmsNavGraph.root(autoSignIn = autoSignIn),
         navController = appState.navController,
         dependenciesContainerBuilder = {
-            dependency(currentNavigator(autoSignIn = false)) // FIXME: auto sign in
+            dependency(currentNavigator(autoSignIn = autoSignIn))
         },
     )
 }
