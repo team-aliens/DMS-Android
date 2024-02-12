@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 internal class JwtProviderImpl @Inject constructor(
     private val jwtDataStoreDataSource: JwtDataStoreDataSource,
-    private val jwtReissueManager: JwtReissueManager
+    private val jwtReissueManager: JwtReissueManager,
 ) : JwtProvider() {
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
@@ -50,6 +50,7 @@ internal class JwtProviderImpl @Inject constructor(
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
+        // TODO: reissue token after loading
         loadTokens()
     }
 
