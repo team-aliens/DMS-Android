@@ -23,8 +23,6 @@ import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.spec.NavHostEngine
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
-import team.aliens.dms.android.core.jwt.JwtProvider
-import javax.inject.Inject
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -42,7 +40,8 @@ fun rememberDmsAppState(
                         animationSpec = tween(delayMillis = 10),
                     )
                 },
-            ), UnauthorizedNavGraph to NestedNavGraphDefaultAnimations(
+            ),
+            UnauthorizedNavGraph to NestedNavGraphDefaultAnimations(
                 enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) },
                 exitTransition = { fadeOut(tween(delayMillis = 10)) },
                 popEnterTransition = { EnterTransition.None },
@@ -52,7 +51,7 @@ fun rememberDmsAppState(
                         animationSpec = tween(delayMillis = 10),
                     )
                 },
-            )
+            ),
         ),
     ),
     navController: NavHostController = engine.rememberNavController(),
@@ -71,12 +70,6 @@ class DmsAppState(
     var isOnline by mutableStateOf(checkIfOnline())
         private set
 
-    var isSignedIn by mutableStateOf(checkIfSignedIn())
-        private set
-
-    @Inject
-    lateinit var jwtManager: JwtProvider
-
     /**
      * copied from jetcaster, android compose samples
      * https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/ui/JetcasterAppState.kt
@@ -92,13 +85,5 @@ class DmsAppState(
 
     fun refreshOnline() {
         this.isOnline = checkIfOnline()
-    }
-
-    private fun checkIfSignedIn(): Boolean = jwtManager.run {
-        isCachedAccessTokenAvailable.value && isCachedRefreshTokenAvailable.value
-    }
-
-    fun refreshSignedIn() {
-        this.isSignedIn = checkIfSignedIn()
     }
 }
