@@ -78,6 +78,8 @@ dependencies {
     implementation(libs.androidx.window)
     implementation(libs.androidx.activity.compose)
 
+    implementation(libs.accompanist.adaptive)
+
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.util)
     implementation(libs.androidx.compose.tooling)
