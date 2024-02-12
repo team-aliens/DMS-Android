@@ -17,41 +17,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.ramcosta.composedestinations.animations.defaults.NestedNavGraphDefaultAnimations
 import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.spec.NavHostEngine
-import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
-import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun rememberDmsAppState(
     engine: NavHostEngine = rememberAnimatedNavHostEngine(
-        rootDefaultAnimations = RootNavGraphDefaultAnimations.ACCOMPANIST_FADING,
-        defaultAnimationsForNestedNavGraph = mapOf(
-            AuthorizedNavGraph to NestedNavGraphDefaultAnimations(
-                enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) },
-                exitTransition = { fadeOut(tween(delayMillis = 10)) },
-                popEnterTransition = { EnterTransition.None },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(delayMillis = 10),
-                    )
-                },
-            ),
-            UnauthorizedNavGraph to NestedNavGraphDefaultAnimations(
-                enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) },
-                exitTransition = { fadeOut(tween(delayMillis = 10)) },
-                popEnterTransition = { EnterTransition.None },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(delayMillis = 10),
-                    )
-                },
-            ),
+        rootDefaultAnimations = RootNavGraphDefaultAnimations(
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                )
+            },
+            exitTransition = { fadeOut(tween()) },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                )
+            },
         ),
     ),
     navController: NavHostController = engine.rememberNavController(),
