@@ -25,7 +25,7 @@ internal class HomeViewModel @Inject constructor(
 ) {
     init {
         fetchWhetherNewNoticeExists()
-        updateMeal()
+        updateMeal(date = stateFlow.value.selectedDate)
     }
 
     override fun processIntent(intent: HomeIntent) {
@@ -44,9 +44,7 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateMeal(
-        date: LocalDate = stateFlow.value.selectedDate,
-    ) {
+    private fun updateMeal(date: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 mealRepository.fetchMeal(date)
