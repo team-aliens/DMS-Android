@@ -75,8 +75,9 @@ internal class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun withdraw() {
-        networkStudentDataSource.withdraw()
+        // TODO: remove docs
+        /*networkStudentDataSource.withdraw()
         jwtProvider.clearCaches()
-        schoolProvider.clearCaches()
+        schoolProvider.clearCaches()*/
     }
 }
