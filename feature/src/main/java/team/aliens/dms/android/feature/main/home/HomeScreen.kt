@@ -109,7 +109,6 @@ internal fun HomeScreen(
         }
     }
 
-    val selectedDate by remember(uiState.selectedDate) { mutableStateOf(uiState.selectedDate) }
     val onSelectedDateChange = remember {
         { selectedDate: LocalDate ->
             viewModel.postIntent(HomeIntent.UpdateSelectedDate(selectedDate))
@@ -128,7 +127,7 @@ internal fun HomeScreen(
         ) {
             DmsCalendar(
                 modifier = Modifier.fillMaxWidth(),
-                selectedDate = selectedDate,
+                selectedDate = uiState.selectedDate,
                 onSelectedDateChange = onSelectedDateChange,
             )
         }
@@ -176,13 +175,13 @@ internal fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateContentSize(),
-                    selectedDate = selectedDate,
+                    selectedDate = uiState.selectedDate,
                     onShowCalendar = {
                         onShouldShowCalendarChange(true)
                         onChangeBottomAppBarVisibility(false)
                     },
-                    onNextDay = { onSelectedDateChange(selectedDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedDateChange(selectedDate.minusDays(1)) },
+                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
                 )
                 Spacer(
                     modifier = Modifier
@@ -191,10 +190,10 @@ internal fun HomeScreen(
                 )
                 MealCards(
                     modifier = Modifier.weight(20f),
-                    currentDate = selectedDate,
+                    currentDate = uiState.selectedDate,
                     meal = uiState.currentMeal,
-                    onNextDay = { onSelectedDateChange(selectedDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedDateChange(selectedDate.minusDays(1)) },
+                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
                 )
                 Spacer(modifier = Modifier.weight(5f))
             }

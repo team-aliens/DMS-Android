@@ -54,6 +54,7 @@ internal class HomeViewModel @Inject constructor(
                         currentMeal = meal,
                     ),
                 )
+                also { println("SDIESDIE ${stateFlow.value}") }
             }.onFailure { exception ->
                 when (exception) {
                     is CannotFindMealException -> postSideEffect(HomeSideEffect.CannotFindMeal)
