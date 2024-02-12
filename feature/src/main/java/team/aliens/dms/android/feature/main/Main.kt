@@ -4,30 +4,26 @@ package team.aliens.dms.android.feature.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -45,8 +41,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.designsystem.DmsCalendarScaffold
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
@@ -62,9 +56,7 @@ import team.aliens.dms.android.feature.main.application.ApplicationScreen
 import team.aliens.dms.android.feature.main.home.HomeScreen
 import team.aliens.dms.android.feature.main.mypage.MyPageScreen
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
-import team.aliens.dms.android.shared.date.util.today
 
-@OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
 @Destination
 @Composable
@@ -72,128 +64,116 @@ internal fun Main(
     modifier: Modifier = Modifier,
     mainNavigator: MainNavigator,
 ) {
-    val (selectedCalendarDate, onSelectedCalendarDateChange) = remember { mutableStateOf(today) }
-
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            initialValue = SheetValue.Hidden,
-            skipHiddenState = false,
-        ),
-    )
     val navController = rememberNavController()
-    DmsCalendarScaffold(
+    val (isBottomAppBarVisible, onChangeBottomAppBarVisibility) = remember { mutableStateOf(true) }
+    DmsScaffold(
         modifier = modifier,
-        scaffoldState = scaffoldState,
-        selectedDate = selectedCalendarDate,
-        onSelectedDateChange = onSelectedCalendarDateChange,
-    ) {
-        DmsScaffold(
-            modifier = Modifier.fillMaxSize(),
-            bottomBar = {
+        bottomBar = {
+            AnimatedVisibility(
+                visible = isBottomAppBarVisible,
+                enter = fadeIn(),
+                exit = slideOutVertically(),
+            ) {
                 DmsBottomAppBar(
                     modifier = Modifier.fillMaxWidth(),
                     navController = navController,
                 )
-            },
+            }
+        },
+    ) {
+        NavHost(
+            navController = navController,
+            startDestination = MainSections.HOME.route,
+            enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
+            exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
         ) {
-            NavHost(
-                navController = navController,
-                startDestination = MainSections.HOME.route,
-                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 80)) },
-                exitTransition = { fadeOut(animationSpec = tween(durationMillis = 80)) },
+            composable(
+                route = MainSections.HOME.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
+                        else -> null
+                    }
+                },
             ) {
-                composable(
-                    route = MainSections.HOME.route,
-                    enterTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
-                            else -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
-                            else -> null
-                        }
-                    },
-                ) {
-                    val scope = rememberCoroutineScope()
+                HomeScreen(
+                    onChangeBottomAppBarVisibility = onChangeBottomAppBarVisibility,
+                    onNavigateToAnnouncementList = { navController.navigateTo(MainSections.ANNOUNCEMENT_LIST.route) },
+                )
+            }
 
-                    HomeScreen(
-                        onShowCalendar = { scope.launch { scaffoldState.bottomSheetState.expand() } },
-                        selectedCalendarDate = selectedCalendarDate,
-                        onSelectedCalendarDateChange = onSelectedCalendarDateChange,
-                        onNavigateToAnnouncementList = { navController.navigateTo(MainSections.ANNOUNCEMENT_LIST.route) }
-                    )
-                }
+            composable(
+                route = MainSections.APPLICATION.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route -> slideInFromEnd()
+                        MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route -> slideOutFromStart()
+                        MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
+                        else -> null
+                    }
+                },
+            ) {
+                ApplicationScreen(
+                    onNavigateToStudyRoomList = { mainNavigator.openStudyRoomList() },
+                    onNavigateToRemains = { mainNavigator.openRemainsApplication() },
+                )
+            }
 
-                composable(
-                    route = MainSections.APPLICATION.route,
-                    enterTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.HOME.route -> slideInFromEnd()
-                            MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideInFromStart()
-                            else -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.HOME.route -> slideOutFromStart()
-                            MainSections.ANNOUNCEMENT_LIST.route, MainSections.MY_PAGE.route -> slideOutFromEnd()
-                            else -> null
-                        }
-                    },
-                ) {
-                    ApplicationScreen(
-                        onNavigateToStudyRoomList = { mainNavigator.openStudyRoomList() },
-                        onNavigateToRemains = { mainNavigator.openRemainsApplication() },
-                    )
-                }
-
-                composable(
-                    route = MainSections.ANNOUNCEMENT_LIST.route,
-                    enterTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.HOME.route, MainSections.APPLICATION.route -> slideInFromEnd()
-                            MainSections.MY_PAGE.route -> slideInFromStart()
-                            else -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.HOME.route, MainSections.APPLICATION.route -> slideOutFromStart()
-                            MainSections.MY_PAGE.route -> slideOutFromEnd()
-                            else -> null
-                        }
-                    },
-                ) {
-                    AnnouncementListScreen(
-                        onNavigateToNoticeDetails = mainNavigator::openNoticeDetails,
-                    )
-                }
-                composable(
-                    route = MainSections.MY_PAGE.route,
-                    enterTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideInFromEnd()
-                            else -> null
-                        }
-                    },
-                    exitTransition = {
-                        when (targetState.destination.route) {
-                            MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideOutFromStart()
-                            else -> null
-                        }
-                    },
-                ) {
-                    MyPageScreen(
-                        modifier = Modifier,
-                        onNavigateToEditProfileImage = mainNavigator::openEditProfileImage,
-                        onNavigateToPointHistory = mainNavigator::openPointHistory,
-                        onNavigateToEditPassword = mainNavigator::openEditPasswordNav,
-                        onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
-                    )
-                }
+            composable(
+                route = MainSections.ANNOUNCEMENT_LIST.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route -> slideInFromEnd()
+                        MainSections.MY_PAGE.route -> slideInFromStart()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route -> slideOutFromStart()
+                        MainSections.MY_PAGE.route -> slideOutFromEnd()
+                        else -> null
+                    }
+                },
+            ) {
+                AnnouncementListScreen(
+                    onNavigateToNoticeDetails = mainNavigator::openNoticeDetails,
+                )
+            }
+            composable(
+                route = MainSections.MY_PAGE.route,
+                enterTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideInFromEnd()
+                        else -> null
+                    }
+                },
+                exitTransition = {
+                    when (targetState.destination.route) {
+                        MainSections.HOME.route, MainSections.APPLICATION.route, MainSections.ANNOUNCEMENT_LIST.route -> slideOutFromStart()
+                        else -> null
+                    }
+                },
+            ) {
+                MyPageScreen(
+                    modifier = Modifier,
+                    onNavigateToEditProfileImage = mainNavigator::openEditProfileImage,
+                    onNavigateToPointHistory = mainNavigator::openPointHistory,
+                    onNavigateToEditPassword = mainNavigator::openEditPasswordNav,
+                    onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
+                )
             }
         }
     }

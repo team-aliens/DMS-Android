@@ -1,34 +1,44 @@
 package team.aliens.dms.android.app
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dagger.hilt.android.AndroidEntryPoint
-import team.aliens.dms.android.app.navigation.DmsNavHost
+import kotlinx.coroutines.flow.StateFlow
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.jwt.di.IsJwtAvailable
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainActivityViewModel by viewModels()
 
+    @IsJwtAvailable
+    @Inject
+    lateinit var isJwtAvailable: StateFlow<Boolean>
+
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        )
 
         setContent {
-            // FIXME: app 전역 state로 관리하도록 변경
-            val autoSignIn by viewModel.autoSignInAvailable.collectAsStateWithLifecycle()
+            val windowSizeClass = calculateWindowSizeClass(activity = this)
+            val displayFeatures = calculateDisplayFeatures(activity = this)
 
             DmsTheme {
-                DmsNavHost(
-                    modifier = Modifier.fillMaxSize(),
-                    autoSignIn = autoSignIn,
+                DmsApp(
+                    windowSizeClass = windowSizeClass,
+                    displayFeatures = displayFeatures,
+                    isJwtAvailable = isJwtAvailable,
                 )
             }
         }

@@ -75,13 +75,16 @@ dependencies {
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-
+    implementation(libs.androidx.window)
     implementation(libs.androidx.activity.compose)
+
+    implementation(libs.accompanist.adaptive)
 
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.util)
     implementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.material.window)
     androidTestImplementation(libs.androidx.compose.test.junit)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)

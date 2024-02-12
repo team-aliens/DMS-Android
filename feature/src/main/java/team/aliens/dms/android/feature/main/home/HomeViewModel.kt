@@ -48,7 +48,12 @@ internal class HomeViewModel @Inject constructor(
             runCatching {
                 mealRepository.fetchMeal(date)
             }.onSuccess { meal ->
-                reduce(newState = stateFlow.value.copy(mealOfDate = meal))
+                reduce(
+                    newState = stateFlow.value.copy(
+                        selectedDate = date,
+                        currentMeal = meal,
+                    ),
+                )
             }.onFailure { exception ->
                 when (exception) {
                     is CannotFindMealException -> postSideEffect(HomeSideEffect.CannotFindMeal)
@@ -60,21 +65,29 @@ internal class HomeViewModel @Inject constructor(
 
 internal data class HomeUiState(
     val newNoticesExist: Boolean,
-    val mealOfDate: Meal,
+    val selectedDate: LocalDate,
+    val currentMeal: Meal,
 ) : UiState() {
     companion object {
-        fun initial() = HomeUiState(
-            newNoticesExist = false,
-            mealOfDate = Meal(
-                date = today,
-                breakfast = emptyList(),
-                kcalOfBreakfast = null,
-                lunch = emptyList(),
-                kcalOfLunch = null,
-                dinner = emptyList(),
-                kcalOfDinner = null,
-            ),
-        )
+        fun initial(): HomeUiState {
+            /**
+             * to avoid difference between [HomeUiState.selectedDate] and [HomeUiState.currentMeal]'s date
+             */
+            val today = today
+            return HomeUiState(
+                newNoticesExist = false,
+                selectedDate = today,
+                currentMeal = Meal(
+                    date = today,
+                    breakfast = emptyList(),
+                    kcalOfBreakfast = null,
+                    lunch = emptyList(),
+                    kcalOfLunch = null,
+                    dinner = emptyList(),
+                    kcalOfDinner = null,
+                ),
+            )
+        }
     }
 }
 

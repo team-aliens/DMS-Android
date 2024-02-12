@@ -21,13 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DMS.NoActionBar"
+        android:theme="@style/Theme.DMS"
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
-
-        <activity
-            android:name=".splash.SplashActivity"
-            android:exported="false" />
 
         <activity
             android:name=".MainActivity"

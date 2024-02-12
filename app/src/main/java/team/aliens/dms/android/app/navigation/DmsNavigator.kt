@@ -1,10 +1,12 @@
 package team.aliens.dms.android.app.navigation
 
 import androidx.navigation.NavController
+import androidx.navigation.NavOptionsBuilder
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.navigation.popUpTo
+import com.ramcosta.composedestinations.spec.Direction
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
@@ -15,7 +17,6 @@ import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestin
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
-import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
@@ -41,11 +42,11 @@ class DmsNavigator(
 ) : AuthorizedNavigator, UnauthorizedNavigator {
 
     override fun openNotificationBox() {
-        navController.navigate(NotificationBoxScreenDestination within navGraph)
+        navController.navigateSingleTop(NotificationBoxScreenDestination within navGraph)
     }
 
     override fun openUnauthorizedNav() {
-        navController.navigate(UnauthorizedNavGraph) {
+        navController.navigateSingleTop(UnauthorizedNavGraph) {
             popUpTo(AuthorizedNavGraph) {
                 inclusive = true
             }
@@ -53,34 +54,34 @@ class DmsNavigator(
     }
 
     override fun openStudyRoomList() {
-        navController.navigate(StudyRoomListScreenDestination within navGraph)
+        navController.navigateSingleTop(StudyRoomListScreenDestination within navGraph)
     }
 
     override fun openRemainsApplication() {
-        navController.navigate(RemainsApplicationScreenDestination within navGraph) {
+        navController.navigateSingleTop(RemainsApplicationScreenDestination within navGraph) {
             launchSingleTop = true
             restoreState = true
         }
     }
 
     override fun openEditProfileImage() {
-        navController.navigate(EditProfileImageScreenDestination() within AuthorizedNavGraph)
+        navController.navigateSingleTop(EditProfileImageScreenDestination() within AuthorizedNavGraph)
     }
 
     override fun openPointHistory() {
-        navController.navigate(PointHistoryScreenDestination within navGraph)
+        navController.navigateSingleTop(PointHistoryScreenDestination within navGraph)
     }
 
     override fun openEditPasswordNav() {
-        navController.navigate(EditPasswordNavGraph)
+        navController.navigateSingleTop(EditPasswordNavGraph)
     }
 
     override fun openNoticeDetails(noticeId: UUID) {
-        navController.navigate(NoticeDetailsScreenDestination(noticeId) within navGraph)
+        navController.navigateSingleTop(NoticeDetailsScreenDestination(noticeId) within navGraph)
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
-        navController.navigate(
+        navController.navigateSingleTop(
             EditPasswordSetPasswordScreenDestination(currentPassword = currentPassword) within EditPasswordNavGraph,
         ) {
             navController.popBackStack(
@@ -91,7 +92,7 @@ class DmsNavigator(
     }
 
     override fun openSignIn() {
-        navController.navigate(SignInScreenDestination within navGraph)
+        navController.navigateSingleTop(SignInScreenDestination within navGraph)
     }
 
     override fun navigateUp() {
@@ -99,58 +100,58 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
-        navController.navigate(ResetPasswordEnterEmailVerificationCodeScreenDestination within navGraph)
+        navController.navigateSingleTop(ResetPasswordEnterEmailVerificationCodeScreenDestination within navGraph)
     }
 
     override fun openResetPasswordSetPassword() {
-        navController.navigate(ResetPasswordSetPasswordScreenDestination within navGraph)
+        navController.navigateSingleTop(ResetPasswordSetPasswordScreenDestination within navGraph)
     }
 
     override fun openAuthorizedNav() {
-        navController.navigate(AuthorizedNavGraph) {
+        navController.navigateSingleTop(AuthorizedNavGraph) {
             popUpTo(UnauthorizedNavGraph) { inclusive = true }
             launchSingleTop = true
         }
     }
 
     override fun openSignUpNav() {
-        navController.navigate(SignUpNavGraph)
+        navController.navigateSingleTop(SignUpNavGraph)
     }
 
     override fun openFindId() {
-        navController.navigate(FindIdScreenDestination within UnauthorizedNavGraph)
+        navController.navigateSingleTop(FindIdScreenDestination within UnauthorizedNavGraph)
     }
 
     override fun openResetPasswordNav() {
-        navController.navigate(ResetPasswordNavGraph)
+        navController.navigateSingleTop(ResetPasswordNavGraph)
     }
 
     override fun openEnterSchoolVerificationQuestion() {
-        navController.navigate(EnterSchoolVerificationQuestionScreenDestination within navGraph)
+        navController.navigateSingleTop(EnterSchoolVerificationQuestionScreenDestination within navGraph)
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
-        navController.navigate(EnterEmailScreenDestination within navGraph)
+        navController.navigateSingleTop(EnterEmailScreenDestination within navGraph)
     }
 
     override fun openSignUpEnterEmailVerificationCode() {
-        navController.navigate(SignUpEnterEmailVerificationCodeScreenDestination within navGraph)
+        navController.navigateSingleTop(SignUpEnterEmailVerificationCodeScreenDestination within navGraph)
     }
 
     override fun openSetId() {
-        navController.navigate(SetIdScreenDestination within navGraph)
+        navController.navigateSingleTop(SetIdScreenDestination within navGraph)
     }
 
     override fun openSignUpSetPassword() {
-        navController.navigate(SignUpSetPasswordScreenDestination within navGraph)
+        navController.navigateSingleTop(SignUpSetPasswordScreenDestination within navGraph)
     }
 
     override fun openSetProfileImage() {
-        navController.navigate(SetProfileImageScreenDestination within navGraph)
+        navController.navigateSingleTop(SetProfileImageScreenDestination within navGraph)
     }
 
     override fun openTerms() {
-        navController.navigate(TermsScreenDestination within navGraph)
+        navController.navigateSingleTop(TermsScreenDestination within navGraph)
     }
 
     override fun openStudyRoomDetails(
@@ -161,7 +162,7 @@ class DmsNavigator(
         studyRoomApplicationStartTime: String,
         studyRoomApplicationEndTime: String,
     ) {
-        navController.navigate(
+        navController.navigateSingleTop(
             StudyRoomDetailsScreenDestination(
                 studyRoomId = studyRoomId,
                 studyRoomName = studyRoomName,
@@ -171,4 +172,12 @@ class DmsNavigator(
             ) within navGraph,
         )
     }
+}
+
+private fun NavController.navigateSingleTop(
+    direction: Direction,
+    navOptionsBuilder: NavOptionsBuilder.() -> Unit = {},
+) = this.navigate(direction) {
+    navOptionsBuilder()
+    launchSingleTop = true
 }

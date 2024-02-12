@@ -11,3 +11,8 @@ annotation class TokenReissueHttpClient
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
 annotation class TokenReissueUrl
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+annotation class IsJwtAvailable

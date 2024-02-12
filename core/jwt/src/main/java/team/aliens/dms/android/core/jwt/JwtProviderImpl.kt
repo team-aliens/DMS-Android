@@ -62,7 +62,7 @@ internal class JwtProviderImpl @Inject constructor(
         }.onFailure {
             // TODO: handle when token not found
         }
-        this.updateTokensAbility()
+        this.refreshTokenAbility()
     }
 
     override fun updateTokens(tokens: Tokens) {
@@ -71,7 +71,7 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch {
             jwtDataStoreDataSource.storeTokens(tokens = tokens)
         }
-        this.updateTokensAbility()
+        this.refreshTokenAbility()
     }
 
     override fun clearCaches() {
@@ -80,10 +80,10 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch {
             jwtDataStoreDataSource.clearTokens()
         }
-        this.updateTokensAbility()
+        this.refreshTokenAbility()
     }
 
-    private fun updateTokensAbility() {
+    private fun refreshTokenAbility() {
         CoroutineScope(Dispatchers.Default).launch {
             _isCachedAccessTokenAvailable.emit(this@JwtProviderImpl.checkIsAccessTokenAvailable())
             _isCachedRefreshTokenAvailable.emit(this@JwtProviderImpl.checkIsRefreshTokenAvailable())
@@ -111,6 +111,6 @@ internal class JwtProviderImpl @Inject constructor(
         }.onSuccess { tokens ->
             this@JwtProviderImpl.updateTokens(tokens = tokens)
         }
-        this@JwtProviderImpl.updateTokensAbility()
+        this@JwtProviderImpl.refreshTokenAbility()
     }
 }
