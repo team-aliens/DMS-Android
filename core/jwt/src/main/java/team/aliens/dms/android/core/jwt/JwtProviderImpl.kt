@@ -29,7 +29,8 @@ internal class JwtProviderImpl @Inject constructor(
             return _cachedAccessToken!!
         }
 
-    private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> =
+        MutableStateFlow(checkIsAccessTokenAvailable())
     override val isCachedAccessTokenAvailable: StateFlow<Boolean> =
         _isCachedAccessTokenAvailable.asStateFlow()
 
@@ -45,7 +46,8 @@ internal class JwtProviderImpl @Inject constructor(
             return _cachedRefreshToken!!
         }
 
-    private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> =
+        MutableStateFlow(checkIsRefreshTokenAvailable())
     override val isCachedRefreshTokenAvailable: StateFlow<Boolean> =
         _isCachedRefreshTokenAvailable.asStateFlow()
 
@@ -67,10 +69,10 @@ internal class JwtProviderImpl @Inject constructor(
     override fun updateTokens(tokens: Tokens) {
         this._cachedAccessToken = tokens.accessToken
         this._cachedRefreshToken = tokens.refreshToken
+        this.refreshTokenAbility()
         CoroutineScope(Dispatchers.Default).launch {
             jwtDataStoreDataSource.storeTokens(tokens = tokens)
         }
-        this.refreshTokenAbility()
     }
 
     override fun clearCaches() {
@@ -105,7 +107,6 @@ internal class JwtProviderImpl @Inject constructor(
 
     private fun reissueTokens() = runBlocking {
         runCatching {
-            this@JwtProviderImpl.clearCaches()
             jwtReissueManager(refreshToken = cachedRefreshToken.value)
         }.onSuccess { tokens ->
             this@JwtProviderImpl.updateTokens(tokens = tokens)
