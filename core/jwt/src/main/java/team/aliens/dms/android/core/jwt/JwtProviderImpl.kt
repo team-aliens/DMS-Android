@@ -60,8 +60,6 @@ internal class JwtProviderImpl @Inject constructor(
         }.onSuccess { tokens ->
             this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
             this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
-        }.onFailure {
-            // TODO: handle when token not found
         }
         this.refreshTokenAbility()
     }
@@ -92,14 +90,14 @@ internal class JwtProviderImpl @Inject constructor(
     }
 
     private fun checkIsAccessTokenAvailable(): Boolean {
-        if (_cachedAccessToken == null) {
+        if (this._cachedAccessToken == null) {
             return false
         }
         return !_cachedAccessToken!!.isExpired()
     }
 
     private fun checkIsRefreshTokenAvailable(): Boolean {
-        if (_cachedRefreshToken == null) {
+        if (this._cachedRefreshToken == null) {
             return false
         }
         return !_cachedRefreshToken!!.isExpired()
