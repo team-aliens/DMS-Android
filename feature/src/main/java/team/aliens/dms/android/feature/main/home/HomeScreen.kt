@@ -31,6 +31,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,6 +63,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
+import team.aliens.dms.android.core.designsystem.DmsCalendar
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -93,15 +95,13 @@ import kotlin.math.absoluteValue
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    onShowCalendar: () -> Unit,
-    selectedCalendarDate: LocalDate,
-    onSelectedCalendarDateChange: (newDate: LocalDate) -> Unit,
+    viewModel: HomeViewModel = hiltViewModel(),
+    onChangeBottomAppBarVisibility: (visible: Boolean) -> Unit,
     onNavigateToAnnouncementList: () -> Unit,
 ) {
     val toast = rememberToastState()
     val context = LocalContext.current
 
-    val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
         when (sideEffect) {
@@ -109,8 +109,29 @@ internal fun HomeScreen(
         }
     }
 
-    LaunchedEffect(selectedCalendarDate) {
-        viewModel.postIntent(HomeIntent.UpdateSelectedDate(selectedDate = selectedCalendarDate))
+    val selectedDate by remember(uiState.selectedDate) { mutableStateOf(uiState.selectedDate) }
+    val onSelectedDateChange = remember {
+        { selectedDate: LocalDate ->
+            viewModel.postIntent(HomeIntent.UpdateSelectedDate(selectedDate))
+            Unit
+        }
+    }
+
+    val (shouldShowCalendar, onShouldShowCalendarChange) = remember { mutableStateOf(false) }
+
+    if (shouldShowCalendar) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                onShouldShowCalendarChange(false)
+                onChangeBottomAppBarVisibility(true)
+            },
+        ) {
+            DmsCalendar(
+                modifier = Modifier.fillMaxWidth(),
+                selectedDate = selectedDate,
+                onSelectedDateChange = onSelectedDateChange,
+            )
+        }
     }
 
     DmsScaffold(
@@ -155,10 +176,13 @@ internal fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateContentSize(),
-                    selectedDate = selectedCalendarDate,
-                    onShowCalendar = onShowCalendar,
-                    onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
+                    selectedDate = selectedDate,
+                    onShowCalendar = {
+                        onShouldShowCalendarChange(true)
+                        onChangeBottomAppBarVisibility(false)
+                    },
+                    onNextDay = { onSelectedDateChange(selectedDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedDateChange(selectedDate.minusDays(1)) },
                 )
                 Spacer(
                     modifier = Modifier
@@ -167,10 +191,10 @@ internal fun HomeScreen(
                 )
                 MealCards(
                     modifier = Modifier.weight(20f),
-                    currentDate = selectedCalendarDate,
-                    meal = uiState.mealOfDate,
-                    onNextDay = { onSelectedCalendarDateChange(selectedCalendarDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedCalendarDateChange(selectedCalendarDate.minusDays(1)) },
+                    currentDate = selectedDate,
+                    meal = uiState.currentMeal,
+                    onNextDay = { onSelectedDateChange(selectedDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedDateChange(selectedDate.minusDays(1)) },
                 )
                 Spacer(modifier = Modifier.weight(5f))
             }
