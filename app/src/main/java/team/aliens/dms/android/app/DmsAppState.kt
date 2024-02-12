@@ -20,6 +20,7 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.spec.NavHostEngine
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -41,16 +42,19 @@ fun rememberDmsAppState(
         ),
     ),
     navController: NavHostController = engine.rememberNavController(),
+    isJwtAvailable: StateFlow<Boolean>,
     context: Context = LocalContext.current,
 ) = remember(navController, context) {
     DmsAppState(
         navController = navController,
+        isJwtAvailable = isJwtAvailable,
         context = context,
     )
 }
 
 class DmsAppState(
     val navController: NavHostController,
+    val isJwtAvailable: StateFlow<Boolean>,
     private val context: Context,
 ) {
     var isOnline by mutableStateOf(checkIfOnline())
