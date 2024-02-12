@@ -26,11 +26,12 @@ internal class JwtStoreImpl @Inject constructor(
 
     override fun loadTokens(): Tokens = runBlocking {
         preferencesDataStore.data.map { preferences ->
-            val accessTokenValue = preferences[ACCESS_TOKEN] ?: throw AccessTokenNotFoundException()
+            val accessTokenValue = preferences[ACCESS_TOKEN]
+                ?: throw AccessTokenNotFoundException()
             val accessTokenExpiration = preferences[ACCESS_TOKEN_EXPIRATION]
                 ?: throw AccessTokenExpirationNotFoundException()
-            val refreshTokenValue =
-                preferences[REFRESH_TOKEN] ?: throw RefreshTokenNotFoundException()
+            val refreshTokenValue = preferences[REFRESH_TOKEN]
+                ?: throw RefreshTokenNotFoundException()
             val refreshTokenExpiration = preferences[REFRESH_TOKEN_EXPIRATION]
                 ?: throw RefreshTokenExpirationNotFoundException()
 
@@ -63,9 +64,7 @@ internal class JwtStoreImpl @Inject constructor(
     }
 
     override suspend fun clearTokens() {
-        transform {
-            preferencesDataStore.edit { preferences -> preferences.clear() }
-        }
+        transform { preferencesDataStore.edit { preferences -> preferences.clear() } }
     }
 
     private companion object {
