@@ -11,11 +11,12 @@ import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.core.jwt.network.exception.CannotReissueTokenException
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import team.aliens.dms.android.core.jwt.toModel
+import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
 import javax.inject.Inject
 
 class JwtReissueManager @Inject constructor(
     private val reissueUrl: String,
-    private val httpLoggingInterceptor: HttpLoggingInterceptor,
+    @DefaultHttpLoggingInterceptor private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,
 ) {
     private val client: OkHttpClient by lazy {
