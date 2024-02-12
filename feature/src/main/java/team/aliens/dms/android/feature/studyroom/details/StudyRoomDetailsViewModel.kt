@@ -48,12 +48,15 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
     private fun initStudyRoomDetails(
         studyRoomId: UUID,
         timeslot: UUID,
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        this@StudyRoomDetailsViewModel.studyRoomId = studyRoomId
-        this@StudyRoomDetailsViewModel.timeslot = timeslot
-        this@StudyRoomDetailsViewModel.fetchStudyRoomDetails(
+    ) {
+        this.studyRoomId = studyRoomId
+        this.timeslot = timeslot
+        this.fetchStudyRoomDetails(
             studyRoomId = studyRoomId,
             timeslot = timeslot,
+        )
+        this.fetchSeatTypes(
+            studyRoomId = studyRoomId,
         )
     }
 

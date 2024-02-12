@@ -144,11 +144,10 @@ internal fun StudyRoomDetailsScreen(
                             .fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
                     ) {
+                        Spacer(modifier = Modifier.topPadding())
                         uiState.seatTypes?.let { seatTypes ->
                             SeatTypeList(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .topPadding(),
+                                modifier = Modifier.fillMaxWidth(),
                                 seatTypes = seatTypes,
                             )
                         }
