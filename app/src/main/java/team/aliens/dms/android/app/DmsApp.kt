@@ -35,10 +35,10 @@ fun DmsApp(
 ) {
     DestinationsNavHost(
         engine = engine,
-        navGraph = DmsNavGraph.root(autoSignIn = true), // FIXME: auto sign in
+        navGraph = DmsNavGraph.root(autoSignIn = false), // FIXME: auto sign in
         navController = appState.navController,
         dependenciesContainerBuilder = {
-            dependency(currentNavigator(autoSignIn = true)) // FIXME: auto sign in
+            dependency(currentNavigator(autoSignIn = false)) // FIXME: auto sign in
         },
     )
 }
