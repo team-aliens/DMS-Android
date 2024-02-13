@@ -27,8 +27,8 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
-import team.aliens.dms.android.core.ui.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
@@ -62,7 +62,7 @@ internal fun EditPasswordSetPasswordScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             EditPasswordSideEffect.SetPasswordPasswordEdited -> {
                 navigator.navigateUp()
