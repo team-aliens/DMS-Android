@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
@@ -20,23 +19,14 @@ internal class JwtProviderImpl @Inject constructor(
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
         get() {
-            if (this@JwtProviderImpl._cachedAccessToken == null) {
+            if (this._cachedAccessToken == null) {
                 throw CannotUseAccessTokenException()
             }
-            if (this@JwtProviderImpl._cachedAccessToken!!.isExpired()) {
-                this@JwtProviderImpl.reissueTokens()
+            if (this._cachedAccessToken!!.isExpired()) {
+                this.reissueTokens()
             }
             return _cachedAccessToken!!
         }
-    /* {
-           if (this._cachedAccessToken == null) {
-               throw CannotUseAccessTokenException()
-           }
-           if (this._cachedAccessToken!!.isExpired()) {
-               this.reissueTokens()
-           }
-           return _cachedAccessToken!!
-       }*/
 
     private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> =
         MutableStateFlow(checkIsAccessTokenAvailable())
