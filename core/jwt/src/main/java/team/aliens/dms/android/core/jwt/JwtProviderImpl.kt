@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 internal class JwtProviderImpl @Inject constructor(
     private val jwtDataStoreDataSource: JwtDataStoreDataSource,
-    private val jwtReissueManager: JwtReissueManager
+    private val jwtReissueManager: JwtReissueManager,
 ) : JwtProvider() {
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
@@ -29,7 +28,8 @@ internal class JwtProviderImpl @Inject constructor(
             return _cachedAccessToken!!
         }
 
-    private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> =
+        MutableStateFlow(checkIsAccessTokenAvailable())
     override val isCachedAccessTokenAvailable: StateFlow<Boolean> =
         _isCachedAccessTokenAvailable.asStateFlow()
 
@@ -45,12 +45,17 @@ internal class JwtProviderImpl @Inject constructor(
             return _cachedRefreshToken!!
         }
 
-    private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _isCachedRefreshTokenAvailable: MutableStateFlow<Boolean> =
+        MutableStateFlow(checkIsRefreshTokenAvailable())
     override val isCachedRefreshTokenAvailable: StateFlow<Boolean> =
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
-        loadTokens()
+        runCatching {
+            this.loadTokens()
+        }.onSuccess {
+            this.reissueTokens()
+        }
     }
 
     private fun loadTokens() {
@@ -59,8 +64,6 @@ internal class JwtProviderImpl @Inject constructor(
         }.onSuccess { tokens ->
             this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
             this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
-        }.onFailure {
-            // TODO: handle when token not found
         }
         this.refreshTokenAbility()
     }
@@ -68,10 +71,10 @@ internal class JwtProviderImpl @Inject constructor(
     override fun updateTokens(tokens: Tokens) {
         this._cachedAccessToken = tokens.accessToken
         this._cachedRefreshToken = tokens.refreshToken
+        this.refreshTokenAbility()
         CoroutineScope(Dispatchers.Default).launch {
             jwtDataStoreDataSource.storeTokens(tokens = tokens)
         }
-        this.refreshTokenAbility()
     }
 
     override fun clearCaches() {
@@ -91,22 +94,21 @@ internal class JwtProviderImpl @Inject constructor(
     }
 
     private fun checkIsAccessTokenAvailable(): Boolean {
-        if (_cachedAccessToken == null) {
+        if (this._cachedAccessToken == null) {
             return false
         }
         return !_cachedAccessToken!!.isExpired()
     }
 
     private fun checkIsRefreshTokenAvailable(): Boolean {
-        if (_cachedRefreshToken == null) {
+        if (this._cachedRefreshToken == null) {
             return false
         }
         return !_cachedRefreshToken!!.isExpired()
     }
 
-    private fun reissueTokens() = runBlocking {
+    private fun reissueTokens() {
         runCatching {
-            this@JwtProviderImpl.clearCaches()
             jwtReissueManager(refreshToken = cachedRefreshToken.value)
         }.onSuccess { tokens ->
             this@JwtProviderImpl.updateTokens(tokens = tokens)

@@ -2,6 +2,7 @@ package team.aliens.dms.android.core.jwt
 
 import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
+import team.aliens.dms.android.shared.date.toLocalDateTime
 import team.aliens.dms.android.shared.date.util.now
 
 data class Tokens(
@@ -30,10 +31,10 @@ data class RefreshToken(
 internal fun TokensResponse.toModel(): Tokens = Tokens(
     accessToken = AccessToken(
         value = this.accessToken,
-        expiration = this.accessTokenExpiration,
+        expiration = this.accessTokenExpiration.toLocalDateTime(),
     ),
     refreshToken = RefreshToken(
         value = this.refreshToken,
-        expiration = this.refreshTokenExpiration,
+        expiration = this.refreshTokenExpiration.toLocalDateTime(),
     ),
 )
