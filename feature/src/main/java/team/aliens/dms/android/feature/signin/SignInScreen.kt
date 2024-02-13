@@ -36,7 +36,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.designsystem.Checkbox
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -47,6 +46,7 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -55,7 +55,6 @@ import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
 import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
 @Destination
@@ -70,7 +69,7 @@ internal fun SignInScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             SignInSideEffect.Failure -> toast.showErrorToast(context.getString(R.string.sign_in_error))
             SignInSideEffect.Loading -> {}

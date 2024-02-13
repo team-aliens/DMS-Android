@@ -52,13 +52,13 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.LargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.shared.model.Sex
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +73,7 @@ internal fun MyPageScreen(
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             MyPageSideEffect.SignOutSuccess -> onNavigateToUnauthorizedNav()
             MyPageSideEffect.WithdrawalSuccess -> onNavigateToUnauthorizedNav()

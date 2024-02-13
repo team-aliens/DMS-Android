@@ -26,8 +26,6 @@ import team.aliens.dms.android.core.designsystem.typography.Caption
 import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.util.Now
-import team.aliens.dms.android.feature._legacy.util.toDate
 import team.aliens.dms.android.feature.notification.navigation.NotificationNavigation
 
 @Destination
@@ -154,11 +152,6 @@ private fun Notification(
 
 @Composable
 private fun createdAtDateToFormattedString(createdAt: String): String {
-    val formattedDate = createdAt.toDate()
-    val now = Now()
-
-    when (formattedDate.time - now.time) {
-
-    }
+    // TODO
     return "8일 전"
 }

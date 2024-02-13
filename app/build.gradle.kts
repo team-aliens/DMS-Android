@@ -69,7 +69,6 @@ dependencies {
 
     implementation(project(ProjectPaths.data))
     implementation(project(ProjectPaths.database))
-    implementation(project(ProjectPaths.domain))
     implementation(project(ProjectPaths.feature))
     implementation(project(ProjectPaths.network))
 

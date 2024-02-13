@@ -3,7 +3,6 @@ package team.aliens.dms.android.feature.editprofile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.feature._legacy.util.SelectImageType
 import team.aliens.dms.android.feature.editprofile.navigation.EditProfileNavigator
 
 @Destination
@@ -12,7 +11,6 @@ internal fun EditProfileImageScreen(
     modifier: Modifier = Modifier,
     navigator: EditProfileNavigator,
     // editProfileImageViewModel: EditProfileImageViewModel = hiltViewModel(),
-    selectImageType: SelectImageType? = null,
 ) {/*
     val uiState by editProfileImageViewModel.stateFlow.collectAsStateWithLifecycle()
     editProfileImageViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->

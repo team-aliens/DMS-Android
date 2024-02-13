@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
  */
 @SuppressLint("ComposableNaming")
 @Composable
-internal fun <T> Flow<T>.collectInLaunchedEffectWithLifecycle(
+fun <T> Flow<T>.collectInLaunchedEffectWithLifecycle(
     vararg keys: Any?,
     lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,

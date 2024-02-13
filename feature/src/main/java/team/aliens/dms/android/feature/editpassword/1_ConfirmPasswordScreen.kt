@@ -24,11 +24,11 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +45,7 @@ internal fun ConfirmPasswordScreen(
 
     val (showPassword, onShowPasswordChange) = remember { mutableStateOf(false) }
 
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed -> navigator.openEditPasswordSetPassword(
                 currentPassword = uiState.currentPassword,
