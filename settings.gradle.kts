@@ -34,7 +34,6 @@ include(":core:school")
 
 include(":core:ui")
 include(":data")
-include(":domain")
 include(":network")
 include(":database")
 

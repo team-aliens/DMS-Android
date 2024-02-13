@@ -2,7 +2,6 @@ object ProjectPaths {
     const val app = ":app"
     const val data = ":data"
     const val database = ":database"
-    const val domain = ":domain"
     const val feature = ":feature"
     const val network = ":network"
 
