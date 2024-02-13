@@ -5,7 +5,7 @@ import org.threeten.bp.LocalDateTime
 
 data class TokensResponse(
     @SerializedName("access_token") val accessToken: String,
-    @SerializedName("access_token_expired_at") val accessTokenExpiration: LocalDateTime,
+    @SerializedName("access_token_expired_at") val accessTokenExpiration: String,
     @SerializedName("refresh_token") val refreshToken: String,
-    @SerializedName("refresh_token_expired_at") val refreshTokenExpiration: LocalDateTime,
+    @SerializedName("refresh_token_expired_at") val refreshTokenExpiration: String,
 )
