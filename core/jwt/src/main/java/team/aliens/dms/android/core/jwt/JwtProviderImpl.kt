@@ -20,14 +20,23 @@ internal class JwtProviderImpl @Inject constructor(
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
         get() {
-            if (this._cachedAccessToken == null) {
+            if (this@JwtProviderImpl._cachedAccessToken == null) {
                 throw CannotUseAccessTokenException()
             }
-            if (this._cachedAccessToken!!.isExpired()) {
-                this.reissueTokens()
+            if (this@JwtProviderImpl._cachedAccessToken!!.isExpired()) {
+                this@JwtProviderImpl.reissueTokens()
             }
             return _cachedAccessToken!!
         }
+    /* {
+           if (this._cachedAccessToken == null) {
+               throw CannotUseAccessTokenException()
+           }
+           if (this._cachedAccessToken!!.isExpired()) {
+               this.reissueTokens()
+           }
+           return _cachedAccessToken!!
+       }*/
 
     private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> =
         MutableStateFlow(checkIsAccessTokenAvailable())
@@ -52,8 +61,11 @@ internal class JwtProviderImpl @Inject constructor(
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
-        // TODO: reissue token after loading
-        loadTokens()
+        runCatching {
+            this.loadTokens()
+        }.onSuccess {
+            this.reissueTokens()
+        }
     }
 
     private fun loadTokens() {
@@ -105,7 +117,7 @@ internal class JwtProviderImpl @Inject constructor(
         return !_cachedRefreshToken!!.isExpired()
     }
 
-    private fun reissueTokens() = runBlocking {
+    private fun reissueTokens() {
         runCatching {
             jwtReissueManager(refreshToken = cachedRefreshToken.value)
         }.onSuccess { tokens ->
