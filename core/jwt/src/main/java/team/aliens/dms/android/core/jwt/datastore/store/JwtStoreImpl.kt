@@ -49,9 +49,7 @@ internal class JwtStoreImpl @Inject constructor(
     }
 
     override suspend fun storeTokens(tokens: Tokens) {
-        transform(
-            onFailure = { throw CannotStoreTokensException() },
-        ) {
+        transform(onFailure = { throw CannotStoreTokensException() },) {
             preferencesDataStore.edit { preferences ->
                 val accessToken = tokens.accessToken
                 val refreshToken = tokens.refreshToken
