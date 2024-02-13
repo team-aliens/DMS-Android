@@ -76,6 +76,7 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
@@ -83,7 +84,6 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature._legacy.extension.collectInLaunchedEffectWithLifeCycle
 import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
 import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
 import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
@@ -103,7 +103,7 @@ internal fun HomeScreen(
     val context = LocalContext.current
 
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             HomeSideEffect.CannotFindMeal -> toast.showErrorToast(context.getString(R.string.meal_error_not_found)) // FIXME: toast not showing
         }
