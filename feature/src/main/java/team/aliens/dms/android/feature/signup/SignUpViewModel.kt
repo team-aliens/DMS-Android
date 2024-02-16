@@ -1,4 +1,33 @@
 package team.aliens.dms.android.feature.signup
+
+import dagger.hilt.android.lifecycle.HiltViewModel
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import javax.inject.Inject
+
+@HiltViewModel
+ class SignUpViewModel @Inject constructor(
+
+)  : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
+    initialState = SignUpUiState.initial(),
+)
+
+data class SignUpUiState(
+    val id: String,
+) : UiState() {
+    companion object {
+        fun initial() = SignUpUiState(
+            id = "",
+        )
+    }
+}
+
+sealed class SignUpIntent : Intent()
+
+sealed class SignUpSideEffect : SideEffect()
+
 /*
 
 import android.net.Uri

@@ -8,6 +8,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -26,6 +28,8 @@ import team.aliens.dms.android.app.navigation.DmsNavGraph
 import team.aliens.dms.android.app.navigation.DmsNavigator
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
+import team.aliens.dms.android.feature.signup.SignUpViewModel
+import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 
 @Composable
 fun DmsApp(
@@ -45,6 +49,15 @@ fun DmsApp(
         navController = appState.navController,
         dependenciesContainerBuilder = {
             dependency(currentNavigator(autoSignIn = autoSignIn))
+
+            dependency(SignUpNavGraph) {
+                val parentEntry = remember(navBackStackEntry) {
+                    navController.getBackStackEntry(SignUpNavGraph.route)
+                }
+                // TODO
+
+                hiltViewModel<SignUpViewModel>(parentEntry)
+            }
         },
     )
 }

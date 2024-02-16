@@ -1,8 +1,12 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.feature.editpassword.Banner
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
 @Destination
@@ -10,8 +14,14 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun EnterSchoolVerificationCodeScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel = hiltViewModel(),
-) {/*
+    viewModel: SignUpViewModel,
+) {
+    DmsScaffold(
+
+    ) {
+
+    }
+    /*
 
     val uiState by signUpViewModel.stateFlow.collectAsState()
 
