@@ -1,12 +1,25 @@
 package team.aliens.dms.android.feature.signup
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.editpassword.Banner
+import team.aliens.dms.android.feature.signin.SignInIntent
+import team.aliens.dms.android.feature.signin.UnauthorizedActions
+import team.aliens.dms.android.feature.signin.UserInformationInputs
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
 @Destination
@@ -17,9 +30,29 @@ internal fun EnterSchoolVerificationCodeScreen(
     viewModel: SignUpViewModel,
 ) {
     DmsScaffold(
-
-    ) {
-
+        modifier = modifier,
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues),
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            Banner(Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.weight(1f))
+            VerificationCodeInput()
+            Spacer(modifier = Modifier.weight(3f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = { viewModel.postIntent(SignInIntent.SignIn) },
+                enabled = uiState.signInButtonAvailable,
+            ) {
+                Text(text = stringResource(id = R.string.sign_up_authorize))
+            }
+        }
     }
     /*
 

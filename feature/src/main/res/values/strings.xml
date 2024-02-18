@@ -274,6 +274,7 @@
     <string name="sign_up_complete">회원가입이 완료되었습니다</string>
     <string name="sign_up_go_to_sign_in">로그인 화면으로 가기</string>
     <string name="sign_up_are_you_sure_finish_sign_up">회원가입을 종료 하시겠습니까?</string>
+    <string name="sign_up_authorize">인증</string>
 
     <string name="sign_up_policy_agree_policy">회원가입 약관 동의</string>
     <string name="sign_up_policy_agree_all_policy">전체 약관 동의</string>
