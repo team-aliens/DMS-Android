@@ -8,23 +8,41 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import javax.inject.Inject
 
 @HiltViewModel
- class SignUpViewModel @Inject constructor(
+class SignUpViewModel @Inject constructor(
 
-)  : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
+) : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
     initialState = SignUpUiState.initial(),
-)
+) {
+
+    override fun processIntent(intent: SignUpIntent) {
+        when (intent) {
+            is SignUpIntent.UpdateSchoolVerificationCode -> updateSchoolVerificationCode(value = intent.value)
+        }
+    }
+
+    // EnterSchoolVerificationCode
+    private fun updateSchoolVerificationCode(value: String) = reduce(
+        newState = stateFlow.value.copy(schoolVerificationCode = value),
+    )
+}
 
 data class SignUpUiState(
+    // EnterSchoolVerificationCode
+    val schoolVerificationCode: String,
+
     val id: String,
 ) : UiState() {
     companion object {
         fun initial() = SignUpUiState(
+            schoolVerificationCode = "",
             id = "",
         )
     }
 }
 
-sealed class SignUpIntent : Intent()
+sealed class SignUpIntent : Intent() {
+    class UpdateSchoolVerificationCode(val value: String) : SignUpIntent()
+}
 
 sealed class SignUpSideEffect : SideEffect()
 
