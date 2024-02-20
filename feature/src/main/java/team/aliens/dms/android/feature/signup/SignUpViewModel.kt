@@ -21,9 +21,14 @@ class SignUpViewModel @Inject constructor(
     }
 
     // EnterSchoolVerificationCode
-    private fun updateSchoolVerificationCode(value: String) = reduce(
-        newState = stateFlow.value.copy(schoolVerificationCode = value),
-    )
+    private fun updateSchoolVerificationCode(value: String) = run {
+        if (value.length > 8) {
+            return@run false
+        }
+        reduce(
+            newState = stateFlow.value.copy(schoolVerificationCode = value),
+        )
+    }
 }
 
 data class SignUpUiState(
