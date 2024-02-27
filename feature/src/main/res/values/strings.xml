@@ -284,7 +284,7 @@
     <string name="sign_up_error_check_name">학번과 이름을 확인해 주세요</string>
     <string name="sign_up_error_id_format">아이디는 20자 이내로 입력해 주세요</string>
 
-    <string name="sign_up_email_enter_email_address">이메일 주소 입력</string>
+    <string name="sign_up_enter_email">이메일 주소 입력</string>
     <string name="sign_up_email_enter_code">인증코드 입력</string>
     <string name="sign_up_email_send_verification_code">인증코드 발송</string>
     <string name="sign_up_email_resend_verification_code"><u>인증코드 재발송</u></string>
@@ -308,8 +308,8 @@
 
     <string name="sign_up_confirm_school_do_you_have_account_already">이미 계정이 있으신가요?</string>
 
-    <string name="sign_up_confirm_school_enter_verification_code">학교 인증코드 입력</string>
-    <string name="sign_up_confirm_school_please_enter_school_verification_code">소속된 학교의 인증코드 8자리를 입력해 주세요</string>
+    <string name="sign_up_enter_school_verification_code">학교 인증코드 입력</string>
+    <string name="sign_up_enter_school_verification_question">소속된 학교의 인증코드 8자리를 입력해 주세요</string>
 
     <string name="sign_up_confirm_school_error_incorrect_answer">답변이 일치하지 않습니다</string>
     <string name="sign_up_confirm_school_error_incorrect_school_verification_code">학교 인증코드가 일치하지 않습니다</string>
