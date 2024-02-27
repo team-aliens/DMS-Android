@@ -68,7 +68,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .startPadding(),
                 message = {
                     BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_enter_school_verification_question),
+                        text = stringResource(id = R.string.sign_up_enter_school_verification_code),
                     )
                 }
             )
