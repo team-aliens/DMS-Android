@@ -85,12 +85,15 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = "asdf",
+                value = "",
+                hint = {
+                    Text(text = "답변")
+                },
                 onValueChange = {},
                 supportingText = {
                     Text(text = "오류오류")
                 },
-                isError = true,
+                isError = false,
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
