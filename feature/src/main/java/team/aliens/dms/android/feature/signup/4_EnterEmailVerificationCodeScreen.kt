@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,8 +22,10 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.VerificationCodeInput
+import team.aliens.dms.android.core.designsystem.VerificationCodeInputDefaults
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
@@ -83,9 +86,10 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     // viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
                 },
                 supportingText = {
-
+                    VerificationCodeInputDefaults.SupportingText(text = "텍스트 어쩌구")
                 },
             )
+            Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
