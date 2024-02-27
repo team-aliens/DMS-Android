@@ -130,7 +130,9 @@ class DmsNavigator(
     }
 
     override fun openEnterSchoolVerificationQuestion() {
-        navController.navigateSingleTop(EnterSchoolVerificationQuestionScreenDestination within navGraph)
+        navController.navigateSingleTop(EnterSchoolVerificationQuestionScreenDestination within SignUpNavGraph) {
+            launchSingleTop = true
+        }
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
