@@ -107,7 +107,7 @@ internal fun SignUpSetPasswordScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 // FIXME: 서버 연동
-                onClick = navigator::openSignUpEnterEmailVerificationCode,
+                onClick = navigator::openTerms,
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
