@@ -1,17 +1,151 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.TextButton
+import team.aliens.dms.android.core.designsystem.TextField
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.endPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun SetIdScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
     // signUpViewModel: SignUpViewModel,
-) {/*
+) {
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = navigator::navigateUp) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
+            )
+        },
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues)
+                .imePadding(),
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(
+                        text = stringResource(id = R.string.sign_up_set_id),
+                    )
+                },
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = DefaultHorizontalSpace,
+                ),
+            ) {
+                TextField(
+                    modifier = Modifier.weight(1f),
+                    value = "",
+                    hint = { Text(text = "학년") },
+                    onValueChange = {},
+                    supportingText = {},
+                    isError = false,
+                )
+                TextField(
+                    modifier = Modifier.weight(1f),
+                    value = "",
+                    hint = { Text(text = "반") },
+                    onValueChange = {},
+                    supportingText = {},
+                    isError = false,
+                )
+                TextField(
+                    modifier = Modifier.weight(1f),
+                    value = "",
+                    hint = { Text(text = "번호") },
+                    onValueChange = {},
+                    supportingText = {},
+                    isError = false,
+                )
+            }
+            Spacer(modifier = Modifier.height(DefaultVerticalSpace))
+            AccountInformationCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                name = "박준수",
+                onConfirmClick = {},
+            )
+            Spacer(modifier = Modifier.height(DefaultVerticalSpace))
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                value = "",
+                hint = { Text(text = "아이디를 입력해 주세요") },
+                onValueChange = {},
+                supportingText = {},
+                isError = false,
+            )
+            Spacer(modifier = Modifier.weight(3f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                // FIXME: 서버 연동
+                onClick = navigator::openSignUpEnterEmailVerificationCode,
+            ) {
+                Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
+            }
+        }
+    }/*
 
     val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
@@ -191,4 +325,38 @@ internal fun SetIdScreen(
             }
         }
     }*/
+}
+
+@Composable
+private fun AccountInformationCard(
+    modifier: Modifier = Modifier,
+    name: String,
+    onConfirmClick: () -> Unit,
+) {
+    Card(
+        modifier = modifier,
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                modifier = Modifier.startPadding(),
+                text = name + "님이 맞으신가요?",
+            )
+            TextButton(
+                modifier = Modifier.endPadding(),
+                onClick = onConfirmClick,
+            ) {
+                Text(text = stringResource(id = R.string.accept))
+            }
+        }
+    }
 }
