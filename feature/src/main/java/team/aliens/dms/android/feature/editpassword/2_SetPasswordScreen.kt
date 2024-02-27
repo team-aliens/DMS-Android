@@ -109,6 +109,11 @@ internal fun EditPasswordSetPasswordScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(
+                        text = stringResource(id = R.string.edit_password_new_password),
+                    )
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             PasswordTextField(
