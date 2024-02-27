@@ -102,7 +102,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 // FIXME: 서버 연동
                 onClick = navigator::openEnterEmail,
             ) {
-                Text(text = stringResource(id = R.string.accept))
+                Text(text = stringResource(id = R.string.verify))
             }
         }
     }

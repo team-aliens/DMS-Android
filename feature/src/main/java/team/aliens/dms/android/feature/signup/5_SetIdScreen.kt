@@ -140,9 +140,9 @@ internal fun SetIdScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 // FIXME: 서버 연동
-                onClick = navigator::openSignUpEnterEmailVerificationCode,
+                onClick = navigator::openSignUpSetPassword,
             ) {
-                Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
+                Text(text = stringResource(id = R.string.next))
             }
         }
     }/*

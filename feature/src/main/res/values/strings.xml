@@ -211,7 +211,7 @@
     <!--common-->
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
-    <string name="verification">인증</string>
+    <string name="verify">인증</string>
     <string name="accept">확인</string>
     <string name="cancel">취소</string>
     <string name="yes">네</string>
@@ -327,8 +327,8 @@
     <string name="sign_up_id_error_id_conflict">이미 사용중인 아이디입니다</string>
 
     <string name="sign_up_set_password">비밀번호 설정</string>
-    <string name="sign_up_enter_password">비밀번호 입력</string>
-    <string name="sign_up_re_enter_password">비밀번호 재입력</string>
+    <string name="sign_up_enter_password">비밀번호를 입력해 주세요</string>
+    <string name="sign_up_enter_password_repeat">비밀번호를 한 번 더 입력해 주세요</string>
 
     <string name="sign_up_success_reset_password">비밀번호가 재설정 되었습니다</string>
     <string name="sign_up_password_warning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>

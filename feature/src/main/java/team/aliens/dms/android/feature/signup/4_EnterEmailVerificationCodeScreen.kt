@@ -106,7 +106,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 // FIXME: 서버 연동
                 onClick = navigator::openSetId,
             ) {
-                Text(text = stringResource(id = R.string.next))
+                Text(text = stringResource(id = R.string.verify))
             }
         }
     }
