@@ -92,7 +92,10 @@ class DmsNavigator(
     }
 
     override fun openSignIn() {
-        navController.navigateSingleTop(SignInScreenDestination within navGraph)
+        navController.navigateSingleTop(SignInScreenDestination within navGraph) {
+            popUpTo(UnauthorizedNavGraph) { inclusive = true }
+            launchSingleTop = true
+        }
     }
 
     override fun navigateUp() {
