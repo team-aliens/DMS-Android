@@ -9,4 +9,5 @@ interface SignUpNavigator {
     fun openSignUpSetPassword()
     fun openSetProfileImage()
     fun openTerms()
+    fun navigateUp()
 }
