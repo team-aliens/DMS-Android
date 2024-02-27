@@ -3,6 +3,7 @@ package team.aliens.dms.android.core.designsystem
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 
@@ -66,7 +68,12 @@ fun VerificationCodeInput(
                     }
                 }
                 if (supportingText != null) {
-                    supportingText()
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        supportingText()
+                    }
                 }
             }
         },
@@ -87,15 +94,17 @@ object VerificationCodeInputDefaults {
         text: String,
         isError: Boolean = false,
         style: TextStyle = DmsTheme.typography.caption,
+        textAlign: TextAlign = TextAlign.Center,
         color: Color = if (isError) {
-            DmsTheme.colorScheme.onSurface
-        } else {
             DmsTheme.colorScheme.error
+        } else {
+            DmsTheme.colorScheme.onSurface
         },
     ) = Text(
         modifier = modifier,
         text = text,
         style = style,
         color = color,
+        textAlign = textAlign,
     )
 }
