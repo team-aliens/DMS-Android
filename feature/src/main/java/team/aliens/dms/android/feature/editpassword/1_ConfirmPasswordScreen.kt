@@ -84,6 +84,11 @@ internal fun ConfirmPasswordScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(
+                        text = stringResource(id = R.string.edit_password_old_password),
+                    )
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             PasswordTextField(
