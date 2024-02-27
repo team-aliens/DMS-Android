@@ -136,27 +136,27 @@ class DmsNavigator(
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
-        navController.navigateSingleTop(EnterEmailScreenDestination within navGraph)
+        navController.navigateSingleTop(EnterEmailScreenDestination within SignUpNavGraph)
     }
 
     override fun openSignUpEnterEmailVerificationCode() {
-        navController.navigateSingleTop(SignUpEnterEmailVerificationCodeScreenDestination within navGraph)
+        navController.navigateSingleTop(SignUpEnterEmailVerificationCodeScreenDestination within SignUpNavGraph)
     }
 
     override fun openSetId() {
-        navController.navigateSingleTop(SetIdScreenDestination within navGraph)
+        navController.navigateSingleTop(SetIdScreenDestination within SignUpNavGraph)
     }
 
     override fun openSignUpSetPassword() {
-        navController.navigateSingleTop(SignUpSetPasswordScreenDestination within navGraph)
+        navController.navigateSingleTop(SignUpSetPasswordScreenDestination within SignUpNavGraph)
     }
 
     override fun openSetProfileImage() {
-        navController.navigateSingleTop(SetProfileImageScreenDestination within navGraph)
+        navController.navigateSingleTop(SetProfileImageScreenDestination within SignUpNavGraph)
     }
 
     override fun openTerms() {
-        navController.navigateSingleTop(TermsScreenDestination within navGraph)
+        navController.navigateSingleTop(TermsScreenDestination within SignUpNavGraph)
     }
 
     override fun openStudyRoomDetails(
