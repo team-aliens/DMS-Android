@@ -88,7 +88,7 @@ internal fun EnterEmailScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 // FIXME: 서버 연동
-                onClick = navigator::openEnterEmail,
+                onClick = navigator::openSignUpEnterEmailVerificationCode,
             ) {
                 Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
             }
