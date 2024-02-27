@@ -43,7 +43,7 @@ internal fun EnterSchoolVerificationCodeScreen(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
-                title = { Text(text = stringResource(id = R.string.announcement)) },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
@@ -68,7 +68,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                     .startPadding(),
                 message = {
                     BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_confirm_school_please_enter_school_verification_code),
+                        text = stringResource(id = R.string.sign_up_enter_school_verification_code),
                     )
                 }
             )
