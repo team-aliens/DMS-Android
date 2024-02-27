@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -67,7 +68,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     .startPadding(),
                 message = {
                     BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_enter_school_verification_code),
+                        text = stringResource(id = R.string.sign_up_enter_email_verification_code),
                     )
                 }
             )
@@ -86,6 +87,8 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 },
             )
             Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
                 text = "3:00",
                 style = DmsTheme.typography.caption,
                 color = DmsTheme.colorScheme.primary,
