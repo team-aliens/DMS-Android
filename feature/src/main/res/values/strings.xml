@@ -286,7 +286,7 @@
 
     <string name="sign_up_enter_email">이메일 주소 입력</string>
     <string name="sign_up_email_enter_code">인증코드 입력</string>
-    <string name="sign_up_email_send_verification_code">인증코드 발송</string>
+    <string name="sign_up_send_email_verification_code">인증코드 발송</string>
     <string name="sign_up_email_resend_verification_code"><u>인증코드 재발송</u></string>
     <string name="sign_up_email_resent">이메일이 재전송되었습니다</string>
     <string name="sign_up_email_please_enter_verification_code">이메일로 전송된 인증코드 6자리를 입력해 주세요</string>

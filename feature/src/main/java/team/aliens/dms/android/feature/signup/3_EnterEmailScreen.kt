@@ -1,10 +1,33 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.TextField
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun EnterEmailScreen(
@@ -12,106 +35,63 @@ internal fun EnterEmailScreen(
     navigator: SignUpNavigator,
     // signUpViewModel: SignUpViewModel,
 ) {
-/*
-    val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
-
-    val focusManager = LocalFocusManager.current
-
-    var showQuitSignUpDialog by remember { mutableStateOf(false) }
-
-    val toast = LocalToast.current
-    val duplicateEmailErrorMessage = stringResource(id = R.string.sign_up_email_error_conflict)
-
-    val onEmailChange = { email: String ->
-        signUpViewModel.postIntent(
-            SignUpIntent.SendEmail.SetEmail(
-                email = email,
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = navigator::navigateUp) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
             )
-        )
-    }
-
-    if (showQuitSignUpDialog) {
-        DormCustomDialog(onDismissRequest = { *//*TODO*//* }) {
-            DormDoubleButtonDialog(
-                content = stringResource(id = R.string.FinishSignUp),
-                mainBtnText = stringResource(id = R.string.Yes),
-                subBtnText = stringResource(id = R.string.No),
-                onMainBtnClick = navigator::openSignIn,
-                onSubBtnClick = { showQuitSignUpDialog = false },
+        },
+    ) { padValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padValues)
+                .imePadding(),
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(
+                        text = stringResource(id = R.string.sign_up_enter_email),
+                    )
+                }
             )
-        }
-    }
-
-
-    BackHandler(enabled = true) {
-        showQuitSignUpDialog = true
-    }
-
-    LaunchedEffect(Unit) {
-        signUpViewModel.sideEffectFlow.collect {
-            when (it) {
-                is SignUpSideEffect.SendEmail.AvailableEmail -> {
-                    signUpViewModel.postIntent(SignUpIntent.SendEmail.SendEmailVerificationCode)
-                }
-
-                is SignUpSideEffect.SendEmail.DuplicatedEmail -> {
-                    toast.showErrorToast(duplicateEmailErrorMessage)
-                }
-
-                is SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode -> {
-                    navigator.openSignUpEnterEmailVerificationCode()
-                }
-
-                else -> {}
+            Spacer(modifier = Modifier.weight(1f))
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                value = "",
+                hint = {
+                    Text(text = "이메일 주소 입력")
+                },
+                onValueChange = {},
+                supportingText = {},
+                isError = false,
+            )
+            Spacer(modifier = Modifier.weight(3f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                // FIXME: 서버 연동
+                onClick = navigator::openEnterEmail,
+            ) {
+                Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
             }
         }
     }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                DormTheme.colors.surface,
-            )
-            .padding(
-                top = 108.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
-                focusManager.clearFocus()
-            },
-    ) {
-        AppLogo(
-            darkIcon = isSystemInDarkTheme(),
-        )
-        Space(space = 8.dp)
-        Body2(text = stringResource(id = R.string.sign_up_email_enter_email_address))
-        Space(space = 86.dp)
-        DormTextField(
-            value = uiState.email,
-            onValueChange = onEmailChange,
-            hint = stringResource(id = R.string.sign_up_email_enter_email_address),
-            error = uiState.emailFormatError,
-            errorDescription = stringResource(id = R.string.sign_up_email_error_invalid_format),
-            keyboardActions = KeyboardActions {
-                focusManager.clearFocus()
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Email,
-            ),
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        DormContainedLargeButton(
-            text = stringResource(id = R.string.sign_up_email_send_verification_code),
-            color = DormButtonColor.Blue,
-            enabled = uiState.sendEmailButtonEnabled,
-        ) {
-            signUpViewModel.postIntent(SignUpIntent.SendEmail.CheckEmailDuplication)
-        }
-        Spacer(modifier = Modifier.height(82.dp))
-    }*/
 }

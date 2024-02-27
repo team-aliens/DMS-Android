@@ -87,12 +87,10 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .horizontalPadding(),
                 value = "",
                 hint = {
-                    Text(text = "답변")
+                    Text(text = "답변 입력")
                 },
                 onValueChange = {},
-                supportingText = {
-                    Text(text = "오류오류")
-                },
+                supportingText = {},
                 isError = false,
             )
             Spacer(modifier = Modifier.weight(3f))
@@ -104,7 +102,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 // FIXME: 서버 연동
                 onClick = navigator::openEnterEmail,
             ) {
-                Text(text = stringResource(id = R.string.next))
+                Text(text = stringResource(id = R.string.accept))
             }
         }
     }
