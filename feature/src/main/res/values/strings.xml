@@ -312,7 +312,7 @@
     <string name="sign_up_enter_school_verification_question">학교 확인 질문 입력</string>
 
     <string name="sign_up_confirm_school_error_incorrect_answer">답변이 일치하지 않습니다</string>
-    <string name="sign_up_confirm_school_error_incorrect_school_verification_code">학교 인증코드가 일치하지 않습니다</string>
+    <string name="sign_up_error_school_verification_code_incorrect">학교 인증 코드가 일치하지 않습니다</string>
     <string name="sign_up_confirm_school_error_please_check_school_verification_code">학교 인증코드를 확인해주세요</string>
 
     <string name="sign_up_set_id">아이디 설정</string>
