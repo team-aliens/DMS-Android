@@ -25,7 +25,6 @@ internal class SchoolRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun examineSchoolVerificationCode(code: String): SchoolId {
-        TODO("Not yet implemented")
-    }
+    override suspend fun examineSchoolVerificationCode(code: String): SchoolId =
+        networkSchoolDataSource.examineSchoolVerificationCode(code = code).schoolId
 }
