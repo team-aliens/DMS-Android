@@ -1,22 +1,30 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.school.repository.SchoolRepository
+import team.aliens.dms.android.data.student.repository.StudentRepository
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-
+    private val studentRepository: StudentRepository,
+    private val schoolRepository: SchoolRepository,
 ) : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
     initialState = SignUpUiState.initial(),
 ) {
-
+    private lateinit var schoolId: UUID
     override fun processIntent(intent: SignUpIntent) {
         when (intent) {
             is SignUpIntent.UpdateSchoolVerificationCode -> updateSchoolVerificationCode(value = intent.value)
+            SignUpIntent.ExamineSchoolVerificationCode -> examineSchoolVerificationCode()
         }
     }
 
@@ -28,6 +36,17 @@ class SignUpViewModel @Inject constructor(
         reduce(
             newState = stateFlow.value.copy(schoolVerificationCode = value),
         )
+    }
+
+    private fun examineSchoolVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            schoolRepository.examineSchoolVerificationCode(code = stateFlow.value.schoolVerificationCode)
+        }.onSuccess { schoolId ->
+            this@SignUpViewModel.schoolId = schoolId
+            postSideEffect(SignUpSideEffect.SchoolVerificationCodeExamined)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.SchoolVerificationCodeIncorrect)
+        }
     }
 }
 
@@ -47,9 +66,13 @@ data class SignUpUiState(
 
 sealed class SignUpIntent : Intent() {
     class UpdateSchoolVerificationCode(val value: String) : SignUpIntent()
+    data object ExamineSchoolVerificationCode : SignUpIntent()
 }
 
-sealed class SignUpSideEffect : SideEffect()
+sealed class SignUpSideEffect : SideEffect() {
+    data object SchoolVerificationCodeExamined : SignUpSideEffect()
+    data object SchoolVerificationCodeIncorrect : SignUpSideEffect()
+}
 
 /*
 
