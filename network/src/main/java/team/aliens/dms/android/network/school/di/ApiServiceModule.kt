@@ -15,7 +15,6 @@ internal object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideSchoolApiService(
-        @GlobalRetrofitClient retrofit: Retrofit,
-    ): SchoolApiService = retrofit.create(SchoolApiService::class.java)
+    fun provideSchoolApiService(@GlobalRetrofitClient retrofit: Retrofit): SchoolApiService =
+        retrofit.create(SchoolApiService::class.java)
 }
