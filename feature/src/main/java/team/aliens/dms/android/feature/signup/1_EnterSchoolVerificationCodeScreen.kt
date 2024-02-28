@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -20,10 +21,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.VerificationCodeInput
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
@@ -38,6 +41,17 @@ internal fun EnterSchoolVerificationCodeScreen(
     viewModel: SignUpViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
+    val context = LocalContext.current
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect){
+            SignUpSideEffect.SchoolVerificationCodeExamined -> navigator.openEnterSchoolVerificationQuestion()
+            SignUpSideEffect.SchoolVerificationCodeIncorrect ->  toast.showErrorToast(
+                message = context.getString(R.string.sign_up_error_school_verification_code_incorrect),
+            )
+        }
+    }
 
     DmsScaffold(
         modifier = modifier,
@@ -77,7 +91,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                totalLength = 8,
+                totalLength = VERIFICATION_CODE_LENGTH,
                 text = uiState.schoolVerificationCode,
                 onValueChange = { code ->
                     viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
@@ -89,11 +103,15 @@ internal fun EnterSchoolVerificationCodeScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                // FIXME: 서버 연동
-                onClick = navigator::openEnterSchoolVerificationQuestion,
+                onClick = {
+                    viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationCode)
+                },
+                enabled = uiState.schoolVerificationCode.length == VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
         }
     }
 }
+
+private const val VERIFICATION_CODE_LENGTH = 8
