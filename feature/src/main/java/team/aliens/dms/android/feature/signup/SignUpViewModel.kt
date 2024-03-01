@@ -25,6 +25,8 @@ class SignUpViewModel @Inject constructor(
         when (intent) {
             is SignUpIntent.UpdateSchoolVerificationCode -> updateSchoolVerificationCode(value = intent.value)
             SignUpIntent.ExamineSchoolVerificationCode -> examineSchoolVerificationCode()
+            is SignUpIntent.UpdateSchoolVerificationAnswer -> updateSchoolVerificationQuestion(value = intent.value)
+            SignUpIntent.ExamineSchoolVerificationAnswer -> examineSchoolVerificationQuestion()
         }
     }
 
@@ -43,10 +45,38 @@ class SignUpViewModel @Inject constructor(
             schoolRepository.examineSchoolVerificationCode(code = stateFlow.value.schoolVerificationCode)
         }.onSuccess { schoolId ->
             this@SignUpViewModel.schoolId = schoolId
+            this@SignUpViewModel.fetchSchoolVerificationQuestion()
             postSideEffect(SignUpSideEffect.SchoolVerificationCodeExamined)
         }.onFailure {
             postSideEffect(SignUpSideEffect.SchoolVerificationCodeIncorrect)
         }
+    }
+
+    // EnterSchoolVerificationQuestion
+    private fun fetchSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            schoolRepository.fetchSchoolVerificationQuestion(
+                schoolId = this@SignUpViewModel.schoolId,
+            )
+        }.onSuccess { fetchedSchoolVerificationQuestion ->
+            reduce(
+                newState = stateFlow.value.copy(
+                    schoolVerificationQuestion = fetchedSchoolVerificationQuestion,
+                ),
+            )
+        }.onFailure {
+            // TODO
+        }
+    }
+
+    private fun updateSchoolVerificationQuestion(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            schoolVerificationAnswer = value,
+        ),
+    )
+
+    private fun examineSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
+
     }
 
     companion object {
@@ -58,24 +88,41 @@ data class SignUpUiState(
     // EnterSchoolVerificationCode
     val schoolVerificationCode: String,
 
+    // EnterSchoolVerificationQuestion
+    val schoolVerificationQuestion: String?,
+    val schoolVerificationAnswer: String,
+
     val id: String,
 ) : UiState() {
     companion object {
         fun initial() = SignUpUiState(
             schoolVerificationCode = "",
+            schoolVerificationQuestion = null,
+            schoolVerificationAnswer = "",
             id = "",
         )
     }
 }
 
 sealed class SignUpIntent : Intent() {
+    // EnterSchoolVerificationCode
     class UpdateSchoolVerificationCode(val value: String) : SignUpIntent()
     data object ExamineSchoolVerificationCode : SignUpIntent()
+
+    // EnterSchoolVerificationQuestion
+    class UpdateSchoolVerificationAnswer(val value: String) : SignUpIntent()
+    data object ExamineSchoolVerificationAnswer : SignUpIntent()
 }
 
 sealed class SignUpSideEffect : SideEffect() {
+
+    // EnterSchoolVerificationCode
     data object SchoolVerificationCodeExamined : SignUpSideEffect()
     data object SchoolVerificationCodeIncorrect : SignUpSideEffect()
+
+    // EnterSchoolVerificationQuestion
+    data object SchoolVerificationQuestionExamined : SignUpSideEffect()
+    data object SchoolVerificationQuestionIncorrect : SignUpSideEffect()
 }
 
 /*
