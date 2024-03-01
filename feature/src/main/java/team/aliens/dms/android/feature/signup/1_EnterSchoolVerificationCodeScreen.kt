@@ -50,6 +50,9 @@ internal fun EnterSchoolVerificationCodeScreen(
             SignUpSideEffect.SchoolVerificationCodeIncorrect -> toast.showErrorToast(
                 message = context.getString(R.string.sign_up_error_school_verification_code_incorrect),
             )
+
+            else -> {/* explicit blank */
+            }
         }
     }
 
@@ -76,16 +79,13 @@ internal fun EnterSchoolVerificationCodeScreen(
                 .imePadding(),
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            Banner(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .startPadding(),
-                message = {
-                    BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_enter_school_verification_code),
-                    )
-                }
-            )
+            Banner(modifier = Modifier
+                .fillMaxWidth()
+                .startPadding(), message = {
+                BannerDefaults.DefaultText(
+                    text = stringResource(id = R.string.sign_up_enter_school_verification_code),
+                )
+            })
             Spacer(modifier = Modifier.weight(1f))
             VerificationCodeInput(
                 modifier = Modifier
