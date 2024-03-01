@@ -212,6 +212,7 @@
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
     <string name="verify">인증</string>
+    <string name="loading">…</string>
     <string name="accept">확인</string>
     <string name="cancel">취소</string>
     <string name="yes">네</string>
@@ -310,6 +311,7 @@
 
     <string name="sign_up_enter_school_verification_code">학교 인증 코드 입력</string>
     <string name="sign_up_enter_school_verification_question">학교 확인 질문 입력</string>
+    <string name="sign_up_hint_answer_school_verification_question">답변 입력</string>
 
     <string name="sign_up_confirm_school_error_incorrect_answer">답변이 일치하지 않습니다</string>
     <string name="sign_up_error_school_verification_code_incorrect">학교 인증 코드가 일치하지 않습니다</string>
