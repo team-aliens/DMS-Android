@@ -12,9 +12,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -35,9 +37,9 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun EnterSchoolVerificationQuestionScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel,
+    viewModel: SignUpViewModel,
 ) {
-    // val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     DmsScaffold(
         modifier = modifier,
@@ -67,30 +69,32 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .fillMaxWidth()
                     .startPadding(),
                 message = {
-                    BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_enter_school_verification_code),
-                    )
-                }
+                    BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_enter_school_verification_code))
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
-            // FIXME
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .startPadding(),
-                text = "우리 학교 학생 수는?",
+                text = uiState.schoolVerificationQuestion ?: stringResource(id = R.string.loading),
             )
             Spacer(modifier = Modifier.height(DefaultHorizontalSpace))
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = "",
+                value = uiState.schoolVerificationAnswer,
                 hint = {
-                    Text(text = "답변 입력")
+                    Text(text = stringResource(id = R.string.sign_up_hint_answer_school_verification_question))
                 },
-                onValueChange = {},
-                supportingText = {},
+                onValueChange = {
+                    viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationAnswer(value = it))
+                },
+                supportingText = {
+                    // TODO
+                },
+                // TODO
                 isError = false,
             )
             Spacer(modifier = Modifier.weight(3f))
@@ -99,8 +103,10 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                // FIXME: 서버 연동
-                onClick = navigator::openEnterEmail,
+                onClick = {
+                    viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationAnswer)
+                    // navigator::openEnterEmail
+                },
             ) {
                 Text(text = stringResource(id = R.string.verify))
             }
