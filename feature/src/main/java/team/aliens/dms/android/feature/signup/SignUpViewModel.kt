@@ -30,7 +30,7 @@ class SignUpViewModel @Inject constructor(
 
     // EnterSchoolVerificationCode
     private fun updateSchoolVerificationCode(value: String) = run {
-        if (value.length > 8) {
+        if (value.length > VERIFICATION_CODE_LENGTH) {
             return@run false
         }
         reduce(
@@ -47,6 +47,10 @@ class SignUpViewModel @Inject constructor(
         }.onFailure {
             postSideEffect(SignUpSideEffect.SchoolVerificationCodeIncorrect)
         }
+    }
+
+    companion object {
+        const val VERIFICATION_CODE_LENGTH = 8
     }
 }
 

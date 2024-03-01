@@ -45,9 +45,9 @@ internal fun EnterSchoolVerificationCodeScreen(
     val context = LocalContext.current
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
-        when (sideEffect){
+        when (sideEffect) {
             SignUpSideEffect.SchoolVerificationCodeExamined -> navigator.openEnterSchoolVerificationQuestion()
-            SignUpSideEffect.SchoolVerificationCodeIncorrect ->  toast.showErrorToast(
+            SignUpSideEffect.SchoolVerificationCodeIncorrect -> toast.showErrorToast(
                 message = context.getString(R.string.sign_up_error_school_verification_code_incorrect),
             )
         }
@@ -91,7 +91,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                totalLength = VERIFICATION_CODE_LENGTH,
+                totalLength = SignUpViewModel.VERIFICATION_CODE_LENGTH,
                 text = uiState.schoolVerificationCode,
                 onValueChange = { code ->
                     viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
@@ -106,12 +106,10 @@ internal fun EnterSchoolVerificationCodeScreen(
                 onClick = {
                     viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationCode)
                 },
-                enabled = uiState.schoolVerificationCode.length == VERIFICATION_CODE_LENGTH,
+                enabled = uiState.schoolVerificationCode.length == SignUpViewModel.VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
         }
     }
 }
-
-private const val VERIFICATION_CODE_LENGTH = 8
