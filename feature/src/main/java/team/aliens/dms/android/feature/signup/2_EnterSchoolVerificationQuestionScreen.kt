@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -21,11 +22,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
@@ -40,6 +43,20 @@ internal fun EnterSchoolVerificationQuestionScreen(
     viewModel: SignUpViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
+    val context = LocalContext.current
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            SignUpSideEffect.SchoolVerificationQuestionExamined -> navigator.openEnterEmail()
+            SignUpSideEffect.SchoolVerificationQuestionIncorrect -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_enter_school_verification_question_error_question_incorrect),
+            )
+
+            else -> {/* explicit blank */
+            }
+        }
+    }
 
     DmsScaffold(
         modifier = modifier,
@@ -105,7 +122,6 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .bottomPadding(),
                 onClick = {
                     viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationAnswer)
-                    // navigator::openEnterEmail
                 },
             ) {
                 Text(text = stringResource(id = R.string.verify))

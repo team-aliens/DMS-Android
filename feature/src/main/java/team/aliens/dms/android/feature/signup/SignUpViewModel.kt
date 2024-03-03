@@ -76,7 +76,18 @@ class SignUpViewModel @Inject constructor(
     )
 
     private fun examineSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
-
+        runCatching {
+            schoolRepository.examineSchoolVerificationQuestion(
+                schoolId = this@SignUpViewModel.schoolId,
+                answer = stateFlow.value.schoolVerificationAnswer,
+            )
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.SchoolVerificationQuestionExamined)
+        }.onFailure {
+            it.printStackTrace()
+            // TODO: handle error type
+            postSideEffect(SignUpSideEffect.SchoolVerificationQuestionIncorrect)
+        }
     }
 
     companion object {
