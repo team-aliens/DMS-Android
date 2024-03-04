@@ -65,7 +65,7 @@ internal class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkEmailDuplication(email: String) {
-        TODO("Not yet implemented")
+        networkStudentDataSource.checkEmailDuplication(email = email)
     }
 
     override suspend fun fetchMyPage(): MyPage = networkStudentDataSource.fetchMyPage().toModel()

@@ -91,7 +91,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                totalLength = SignUpViewModel.VERIFICATION_CODE_LENGTH,
+                totalLength = SignUpViewModel.SCHOOL_VERIFICATION_CODE_LENGTH,
                 text = uiState.schoolVerificationCode,
                 onValueChange = { code ->
                     viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
@@ -106,7 +106,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                 onClick = {
                     viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationCode)
                 },
-                enabled = uiState.schoolVerificationCode.length == SignUpViewModel.VERIFICATION_CODE_LENGTH,
+                enabled = uiState.schoolVerificationCode.length == SignUpViewModel.SCHOOL_VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.next))
             }

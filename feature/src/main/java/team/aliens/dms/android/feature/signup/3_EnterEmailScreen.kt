@@ -11,17 +11,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
@@ -33,8 +38,25 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun EnterEmailScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel,
+    viewModel: SignUpViewModel,
 ) {
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
+    val context = LocalContext.current
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            SignUpSideEffect.EmailAvailable -> navigator.openSignUpEnterEmailVerificationCode()
+            // TODO
+            SignUpSideEffect.EmailFormatError -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_enter_email_error_invalid_format),
+            )
+
+            else -> {/* explicit blank */
+            }
+        }
+    }
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
@@ -63,22 +85,22 @@ internal fun EnterEmailScreen(
                     .fillMaxWidth()
                     .startPadding(),
                 message = {
-                    BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_enter_email),
-                    )
-                }
+                    BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_enter_email))
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = "",
+                value = uiState.email,
                 hint = {
-                    Text(text = "이메일 주소 입력")
+                    Text(text = stringResource(id = R.string.sign_up_enter_email))
                 },
-                onValueChange = {},
+                onValueChange = { viewModel.postIntent(SignUpIntent.UpdateEmail(value = it)) },
+                // TODO
                 supportingText = {},
+                // TODO
                 isError = false,
             )
             Spacer(modifier = Modifier.weight(3f))
@@ -88,7 +110,9 @@ internal fun EnterEmailScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 // FIXME: 서버 연동
-                onClick = navigator::openSignUpEnterEmailVerificationCode,
+                onClick = {
+                    viewModel.postIntent(SignUpIntent.VerifyEmail)
+                },
             ) {
                 Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
             }

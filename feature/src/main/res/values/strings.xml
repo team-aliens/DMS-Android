@@ -285,7 +285,7 @@
     <string name="sign_up_error_check_name">학번과 이름을 확인해 주세요</string>
     <string name="sign_up_error_id_format">아이디는 20자 이내로 입력해 주세요</string>
 
-    <string name="sign_up_enter_email">이메일 주소 입력</string>
+    <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
     <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
     <string name="sign_up_send_email_verification_code">인증코드 발송</string>
     <string name="sign_up_email_resend_verification_code"><u>인증코드 재발송</u></string>
@@ -300,7 +300,7 @@
     <string name="sign_up_email_error_time_out">인증 시간이 만료되었습니다</string>
     <string name="sign_up_email_error_too_many_requests">인증 횟수가 초과되었습니다</string>
     <string name="sign_up_email_error_please_retry_later">잠시 후에 다시 시도해 주세요</string>
-    <string name="sign_up_email_error_invalid_format">올바른 이메일 형식이 아닙니다</string>
+    <string name="sign_up_enter_email_error_invalid_format">올바른 이메일 형식이 아닙니다</string>
 
     <string name="sign_up_email_error_verification_code_timeout">이메일 인증 코드 유효시간이 초과되었습니다</string>
 

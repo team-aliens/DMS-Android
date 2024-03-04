@@ -8,6 +8,8 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.model.EmailVerificationType
+import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import java.util.UUID
@@ -17,6 +19,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val studentRepository: StudentRepository,
     private val schoolRepository: SchoolRepository,
+    private val authRepository: AuthRepository,
 ) : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
     initialState = SignUpUiState.initial(),
 ) {
@@ -27,12 +30,14 @@ class SignUpViewModel @Inject constructor(
             SignUpIntent.ExamineSchoolVerificationCode -> examineSchoolVerificationCode()
             is SignUpIntent.UpdateSchoolVerificationAnswer -> updateSchoolVerificationQuestion(value = intent.value)
             SignUpIntent.ExamineSchoolVerificationAnswer -> examineSchoolVerificationQuestion()
+            is SignUpIntent.UpdateEmail -> updateEmail(value = intent.value)
+            SignUpIntent.VerifyEmail -> checkEmailAvailable()
         }
     }
 
     // EnterSchoolVerificationCode
     private fun updateSchoolVerificationCode(value: String) = run {
-        if (value.length > VERIFICATION_CODE_LENGTH) {
+        if (value.length > SCHOOL_VERIFICATION_CODE_LENGTH) {
             return@run false
         }
         reduce(
@@ -90,8 +95,30 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun updateEmail(value: String) = reduce(newState = stateFlow.value.copy(email = value))
+
+    private fun checkEmailAvailable() = viewModelScope.launch(Dispatchers.IO) {
+        val email = stateFlow.value.email
+        runCatching {
+            studentRepository.checkEmailDuplication(email)
+        }.onSuccess {
+            runCatching {
+                authRepository.sendEmailVerificationCode(
+                    email = email,
+                    type = EmailVerificationType.SIGNUP,
+                )
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.EmailAvailable)
+            }.recover { throw it }
+        }.onFailure {
+            // TODO: handle error type
+            postSideEffect(SignUpSideEffect.EmailFormatError)
+        }
+    }
+
     companion object {
-        const val VERIFICATION_CODE_LENGTH = 8
+        const val SCHOOL_VERIFICATION_CODE_LENGTH = 8
+        const val EMAIL_VERIFICATION_CODE_LENGTH = 6
     }
 }
 
@@ -103,6 +130,10 @@ data class SignUpUiState(
     val schoolVerificationQuestion: String?,
     val schoolVerificationAnswer: String,
 
+    // EnterEmail
+    val email: String,
+
+
     val id: String,
 ) : UiState() {
     companion object {
@@ -110,6 +141,8 @@ data class SignUpUiState(
             schoolVerificationCode = "",
             schoolVerificationQuestion = null,
             schoolVerificationAnswer = "",
+            email = "",
+
             id = "",
         )
     }
@@ -123,6 +156,10 @@ sealed class SignUpIntent : Intent() {
     // EnterSchoolVerificationQuestion
     class UpdateSchoolVerificationAnswer(val value: String) : SignUpIntent()
     data object ExamineSchoolVerificationAnswer : SignUpIntent()
+
+    // EnterEmail
+    class UpdateEmail(val value: String) : SignUpIntent()
+    data object VerifyEmail : SignUpIntent()
 }
 
 sealed class SignUpSideEffect : SideEffect() {
@@ -134,6 +171,10 @@ sealed class SignUpSideEffect : SideEffect() {
     // EnterSchoolVerificationQuestion
     data object SchoolVerificationQuestionExamined : SignUpSideEffect()
     data object SchoolVerificationQuestionIncorrect : SignUpSideEffect()
+
+    // EnterEmail
+    data object EmailAvailable : SignUpSideEffect()
+    data object EmailFormatError : SignUpSideEffect()
 }
 
 /*

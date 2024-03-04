@@ -11,6 +11,7 @@ import team.aliens.dms.android.data.auth.mapper.extractTokens
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.model.HashedEmail
 import team.aliens.dms.android.network.auth.datasource.NetworkAuthDataSource
+import team.aliens.dms.android.network.auth.model.SendEmailVerificationCodeRequest
 import team.aliens.dms.android.network.auth.model.SignInRequest
 import javax.inject.Inject
 
@@ -51,7 +52,12 @@ internal class AuthRepositoryImpl @Inject constructor(
         email: String,
         type: EmailVerificationType,
     ) {
-        TODO("Not yet implemented")
+        networkAuthDataSource.sendEmailVerificationCode(
+            request = SendEmailVerificationCodeRequest(
+                email = email,
+                type = type.name,
+            ),
+        )
     }
 
     override suspend fun examineEmailVerificationCode(
