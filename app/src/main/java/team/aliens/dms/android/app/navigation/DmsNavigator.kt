@@ -136,7 +136,11 @@ class DmsNavigator(
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
-        navController.navigateSingleTop(EnterEmailScreenDestination within SignUpNavGraph)
+        navController.navigateSingleTop(EnterEmailScreenDestination within SignUpNavGraph) {
+            popUpTo(SignUpNavGraph) {
+                inclusive = true
+            }
+        }
     }
 
     override fun openSignUpEnterEmailVerificationCode() {

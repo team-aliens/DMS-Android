@@ -63,7 +63,10 @@ internal fun EnterEmailScreen(
             DmsTopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
+                    IconButton(
+                        // TODO: 뒤로가기 확인 모달
+                        onClick = navigator::navigateUp,
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
