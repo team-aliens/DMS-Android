@@ -12,10 +12,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
@@ -38,9 +40,9 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun SignUpEnterEmailVerificationCodeScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel,
+    viewModel: SignUpViewModel,
 ) {
-    // val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     DmsScaffold(
         modifier = modifier,
@@ -70,23 +72,25 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     .fillMaxWidth()
                     .startPadding(),
                 message = {
-                    BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_enter_email_verification_code),
-                    )
-                }
+                    BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_enter_email_verification_code))
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             VerificationCodeInput(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                totalLength = 6,
-                text = "",
-                onValueChange = { code ->
-                    // viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
+                totalLength = SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
+                text = uiState.emailVerificationCode,
+                onValueChange = { verificationCode ->
+                    viewModel.postIntent(SignUpIntent.UpdateEmailVerificationCode(value = verificationCode))
                 },
                 supportingText = {
-                    VerificationCodeInputDefaults.SupportingText(text = "텍스트 어쩌구")
+                    VerificationCodeInputDefaults.SupportingText(
+                        text = stringResource(
+                            id = R.string.sign_up_enter_email_verification_code_please_enter_6_digit_code_sent_to_email,
+                        ),
+                    )
                 },
             )
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
@@ -109,8 +113,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 Text(text = stringResource(id = R.string.verify))
             }
         }
-    }
-    /*
+    }/*
 
     val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 

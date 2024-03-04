@@ -23,6 +23,7 @@ import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.VerificationCodeInput
+import team.aliens.dms.android.core.designsystem.VerificationCodeInputDefaults
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -79,13 +80,14 @@ internal fun EnterSchoolVerificationCodeScreen(
                 .imePadding(),
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            Banner(modifier = Modifier
-                .fillMaxWidth()
-                .startPadding(), message = {
-                BannerDefaults.DefaultText(
-                    text = stringResource(id = R.string.sign_up_enter_school_verification_code),
-                )
-            })
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_enter_school_verification_code))
+                },
+            )
             Spacer(modifier = Modifier.weight(1f))
             VerificationCodeInput(
                 modifier = Modifier
@@ -95,6 +97,13 @@ internal fun EnterSchoolVerificationCodeScreen(
                 text = uiState.schoolVerificationCode,
                 onValueChange = { code ->
                     viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
+                },
+                supportingText = {
+                    VerificationCodeInputDefaults.SupportingText(
+                        text = stringResource(
+                            id = R.string.sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code,
+                        ),
+                    )
                 },
             )
             Spacer(modifier = Modifier.weight(3f))

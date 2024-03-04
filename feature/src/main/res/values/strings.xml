@@ -309,6 +309,9 @@
 
     <string name="sign_up_confirm_school_do_you_have_account_already">이미 계정이 있으신가요?</string>
 
+    <string name="sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code">학교 인증 코드 8자리를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code_please_enter_6_digit_code_sent_to_email">이메일로 전송된 인증 코드 6자리를 입력해 주세요</string>
+
     <string name="sign_up_enter_school_verification_code">학교 인증 코드 입력</string>
     <string name="sign_up_enter_school_verification_question">학교 확인 질문 입력</string>
     <string name="sign_up_enter_school_verification_question_error_question_incorrect">확인 질문이 일치하지 않습니다</string>
