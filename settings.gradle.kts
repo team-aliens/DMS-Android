@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":Timer")
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()

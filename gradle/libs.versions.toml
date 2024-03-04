@@ -15,7 +15,8 @@ lifecycle = "2.7.0"
 material = "1.11.0"
 materialCompose = "1.2.0"
 agp = "8.2.2"
-kotlin = "1.9.20"
+kotlinAndroid = "1.9.20"
+kotlinJvm = "1.9.20"
 hilt = "2.48"
 google = "4.4.1"
 ksp = "1.9.10-1.0.13"
@@ -83,7 +84,8 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "google" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvm" }
