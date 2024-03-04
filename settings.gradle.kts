@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":Timer")
+include(":shared:timer")
+
 
 
 pluginManagement {
