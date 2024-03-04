@@ -159,6 +159,13 @@ class DmsNavigator(
         navController.navigateSingleTop(TermsScreenDestination within SignUpNavGraph)
     }
 
+    override fun popUpSignUp() {
+        navController.popBackStack(
+            route = SignUpNavGraph,
+            inclusive = true,
+        )
+    }
+
     override fun openStudyRoomDetails(
         // TODO: make custom navigation argument
         studyRoomId: UUID,
