@@ -32,10 +32,15 @@ class SignUpViewModel @Inject constructor(
             SignUpIntent.ExamineSchoolVerificationAnswer -> examineSchoolVerificationQuestion()
             is SignUpIntent.UpdateEmail -> updateEmail(value = intent.value)
             SignUpIntent.VerifyEmail -> checkEmailAvailable()
+            is SignUpIntent.UpdateEmailVerificationCode -> updateEmailVerificationCode(value = intent.value)
+            SignUpIntent.ExamineEmailVerificationCode -> examineEmailVerificationCode()
+            is SignUpIntent.UpdateClass -> updateClass(value = intent.value)
+            is SignUpIntent.UpdateGrade -> updateGrade(value = intent.value)
+            is SignUpIntent.UpdateNumber -> updateNumber(value = intent.value)
+            is SignUpIntent.UpdateId -> updateId(value = intent.value)
         }
     }
 
-    // EnterSchoolVerificationCode
     private fun updateSchoolVerificationCode(value: String) = run {
         if (value.length > SCHOOL_VERIFICATION_CODE_LENGTH) {
             return@run false
@@ -57,7 +62,6 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    // EnterSchoolVerificationQuestion
     private fun fetchSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
             schoolRepository.fetchSchoolVerificationQuestion(
@@ -116,6 +120,48 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun updateEmailVerificationCode(value: String) =
+        reduce(newState = stateFlow.value.copy(emailVerificationCode = value))
+
+    private fun examineEmailVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        runCatching {
+            authRepository.examineEmailVerificationCode(
+                email = capturedState.email,
+                code = capturedState.emailVerificationCode,
+                type = EmailVerificationType.SIGNUP,
+            )
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.EmailVerificationCodeExamined)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.EmailVerificationCodeIncorrect)
+        }
+    }
+
+    private fun updateGrade(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            grade = value,
+        ),
+    )
+
+    private fun updateClass(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            `class` = value,
+        ),
+    )
+
+    private fun updateNumber(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            number = value,
+        ),
+    )
+
+    private fun updateId(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            id = value,
+        ),
+    )
+
     companion object {
         const val SCHOOL_VERIFICATION_CODE_LENGTH = 8
         const val EMAIL_VERIFICATION_CODE_LENGTH = 6
@@ -133,7 +179,13 @@ data class SignUpUiState(
     // EnterEmail
     val email: String,
 
+    // EnterEmailVerificationCode
+    val emailVerificationCode: String,
 
+    // SetId
+    val grade: String,
+    val `class`: String,
+    val number: String,
     val id: String,
 ) : UiState() {
     companion object {
@@ -142,7 +194,10 @@ data class SignUpUiState(
             schoolVerificationQuestion = null,
             schoolVerificationAnswer = "",
             email = "",
-
+            emailVerificationCode = "",
+            grade = "",
+            `class` = "",
+            number = "",
             id = "",
         )
     }
@@ -160,6 +215,16 @@ sealed class SignUpIntent : Intent() {
     // EnterEmail
     class UpdateEmail(val value: String) : SignUpIntent()
     data object VerifyEmail : SignUpIntent()
+
+    // EnterEmailVerificationCode
+    class UpdateEmailVerificationCode(val value: String) : SignUpIntent()
+    data object ExamineEmailVerificationCode : SignUpIntent()
+
+    // SetId
+    class UpdateGrade(val value: String) : SignUpIntent()
+    class UpdateClass(val value: String) : SignUpIntent()
+    class UpdateNumber(val value: String) : SignUpIntent()
+    class UpdateId(val value: String) : SignUpIntent()
 }
 
 sealed class SignUpSideEffect : SideEffect() {
@@ -175,6 +240,16 @@ sealed class SignUpSideEffect : SideEffect() {
     // EnterEmail
     data object EmailAvailable : SignUpSideEffect()
     data object EmailFormatError : SignUpSideEffect()
+
+    // EnterEmailVerificationCode
+    data object EmailVerificationCodeExamined : SignUpSideEffect()
+    data object EmailVerificationCodeIncorrect : SignUpSideEffect()
+
+    // SetId
+    class UserFound(val studentName: String) : SignUpSideEffect()
+    data object UserNotFound : SignUpSideEffect()
+    data object IdAvailable : SignUpSideEffect()
+    data object IdDuplicated : SignUpSideEffect()
 }
 
 /*
