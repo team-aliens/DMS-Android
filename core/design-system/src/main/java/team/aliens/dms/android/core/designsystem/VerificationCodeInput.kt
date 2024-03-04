@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.BasicTextField
@@ -88,6 +89,8 @@ object VerificationCodeInputDefaults {
 
     val DefaultIndicatorSpace = 20.dp
 
+    private val DefaultSupportingTextTopPadding = 8.dp
+
     @Composable
     fun SupportingText(
         modifier: Modifier = Modifier,
@@ -101,7 +104,7 @@ object VerificationCodeInputDefaults {
             DmsTheme.colorScheme.onSurface
         },
     ) = Text(
-        modifier = modifier,
+        modifier = modifier.padding(top = DefaultSupportingTextTopPadding),
         text = text,
         style = style,
         color = color,
