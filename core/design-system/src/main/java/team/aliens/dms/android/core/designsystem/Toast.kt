@@ -4,15 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -33,7 +31,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import team.aliens.dms.android.core.designsystem.icon.DormIcon
-import team.aliens.dms.android.core.designsystem.modifier.dormShadow
 import team.aliens.dms.android.core.designsystem.typography.Body3
 import kotlin.coroutines.resume
 
@@ -182,22 +179,22 @@ private fun DormToast(
             Row(
                 modifier = Modifier
                     .padding(
-                        vertical = 36.dp,
-                        horizontal = 14.dp,
+                        top = 92.dp,
+                        start = 16.dp,
+                        end = 16.dp,
                     )
                     .fillMaxWidth()
-                    .dormShadow(
-                        color = DmsTheme.colorScheme.line,
-                    )
+                    .shadow()
                     .background(
                         color = DmsTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(4.dp),
+                        shape = DmsTheme.shapes.medium,
                     )
                     .padding(
-                        vertical = 12.dp,
-                        horizontal = 14.dp,
+                        vertical = 8.dp,
+                        horizontal = 8.dp,
                     ),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 val toastType = toastData.toastType
                 Icon(
@@ -206,7 +203,6 @@ private fun DormToast(
                     contentDescription = null,
                     tint = toastType.color,
                 )
-                Spacer(Modifier.width(8.dp))
                 Body3(
                     text = toastData.message,
                     color = toastType.color,
@@ -219,11 +215,19 @@ private fun DormToast(
 enum class ToastType(
     val icon: DormIcon,
 ) {
-    INFORMATION(DormIcon.Information), ERROR(DormIcon.Warning), SUCCESS(DormIcon.Check),
+    INFORMATION(
+        icon = DormIcon.Information,
+    ),
+    ERROR(
+        icon = DormIcon.Warning,
+    ),
+    SUCCESS(
+        icon = DormIcon.Check,
+    ),
     ;
 
     val color: Color
-        @Composable get() = when (this) {
+        @Composable inline get() = when (this) {
             INFORMATION -> DmsTheme.colorScheme.onBackground
             ERROR -> DmsTheme.colorScheme.error
             SUCCESS -> DmsTheme.colorScheme.primary
