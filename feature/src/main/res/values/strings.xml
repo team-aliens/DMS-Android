@@ -288,6 +288,7 @@
 
     <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
     <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
+    <string name="sign_up_enter_email_verification_code_error_cannot_resend_email">인증 세션이 만료되었습니다</string>
     <string name="sign_up_enter_email_verification_code_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
     <string name="sign_up_enter_email_verification_code_error_timeout">인증 시간이 만료되었습니다</string>
     <string name="sign_up_send_email_verification_code">인증코드 발송</string>
@@ -321,7 +322,7 @@
     <string name="sign_up_hint_answer_school_verification_question">답변 입력</string>
 
     <string name="sign_up_confirm_school_error_incorrect_answer">답변이 일치하지 않습니다</string>
-    <string name="sign_up_error_school_verification_code_not_found">학교 인증 코드를 찾을 수 없습니다</string>
+    <string name="sign_up_error_school_verification_code_not_found">학교 인증 코드가 존재하지 않습니다</string>
     <string name="sign_up_confirm_school_error_please_check_school_verification_code">학교 인증코드를 확인해주세요</string>
 
     <string name="sign_up_set_id">아이디 설정</string>
