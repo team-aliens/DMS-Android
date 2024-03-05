@@ -38,6 +38,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpIntent.UpdateGrade -> updateGrade(value = intent.value)
             is SignUpIntent.UpdateNumber -> updateNumber(value = intent.value)
             is SignUpIntent.UpdateId -> updateId(value = intent.value)
+            SignUpIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
         }
     }
 
@@ -45,9 +46,7 @@ class SignUpViewModel @Inject constructor(
         if (value.length > SCHOOL_VERIFICATION_CODE_LENGTH) {
             return@run false
         }
-        reduce(
-            newState = stateFlow.value.copy(schoolVerificationCode = value),
-        )
+        reduce(newState = stateFlow.value.copy(schoolVerificationCode = value))
     }
 
     private fun examineSchoolVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
@@ -58,7 +57,7 @@ class SignUpViewModel @Inject constructor(
             this@SignUpViewModel.fetchSchoolVerificationQuestion()
             postSideEffect(SignUpSideEffect.SchoolVerificationCodeExamined)
         }.onFailure {
-            postSideEffect(SignUpSideEffect.SchoolVerificationCodeIncorrect)
+            postSideEffect(SignUpSideEffect.SchoolVerificationCodeNotFound)
         }
     }
 
@@ -78,11 +77,8 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateSchoolVerificationQuestion(value: String) = reduce(
-        newState = stateFlow.value.copy(
-            schoolVerificationAnswer = value,
-        ),
-    )
+    private fun updateSchoolVerificationQuestion(value: String) =
+        reduce(newState = stateFlow.value.copy(schoolVerificationAnswer = value))
 
     private fun examineSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
@@ -107,10 +103,7 @@ class SignUpViewModel @Inject constructor(
             studentRepository.checkEmailDuplication(email)
         }.onSuccess {
             runCatching {
-                authRepository.sendEmailVerificationCode(
-                    email = email,
-                    type = EmailVerificationType.SIGNUP,
-                )
+                this@SignUpViewModel.sendEmailVerificationCode(email = email)
             }.onSuccess {
                 postSideEffect(SignUpSideEffect.EmailAvailable)
             }.recover { throw it }
@@ -120,8 +113,18 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateEmailVerificationCode(value: String) =
+    private suspend fun sendEmailVerificationCode(email: String) =
+        authRepository.sendEmailVerificationCode(
+            email = email,
+            type = EmailVerificationType.SIGNUP,
+        )
+
+    private fun updateEmailVerificationCode(value: String) = run {
+        if (value.length > EMAIL_VERIFICATION_CODE_LENGTH) {
+            return@run false
+        }
         reduce(newState = stateFlow.value.copy(emailVerificationCode = value))
+    }
 
     private fun examineEmailVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
         val capturedState = stateFlow.value
@@ -135,6 +138,16 @@ class SignUpViewModel @Inject constructor(
             postSideEffect(SignUpSideEffect.EmailVerificationCodeExamined)
         }.onFailure {
             postSideEffect(SignUpSideEffect.EmailVerificationCodeIncorrect)
+        }
+    }
+
+    private fun resetEmailVerificationSession() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            this@SignUpViewModel.sendEmailVerificationCode(email = stateFlow.value.email)
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.EmailVerificationSessionReset)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.EmailVerificationSessionResetFailed)
         }
     }
 
@@ -180,6 +193,7 @@ data class SignUpUiState(
     val email: String,
 
     // EnterEmailVerificationCode
+    val sessionId: UUID,
     val emailVerificationCode: String,
 
     // SetId
@@ -194,6 +208,7 @@ data class SignUpUiState(
             schoolVerificationQuestion = null,
             schoolVerificationAnswer = "",
             email = "",
+            sessionId = UUID.randomUUID(),
             emailVerificationCode = "",
             grade = "",
             `class` = "",
@@ -219,6 +234,7 @@ sealed class SignUpIntent : Intent() {
     // EnterEmailVerificationCode
     class UpdateEmailVerificationCode(val value: String) : SignUpIntent()
     data object ExamineEmailVerificationCode : SignUpIntent()
+    data object ResetEmailVerificationSession : SignUpIntent()
 
     // SetId
     class UpdateGrade(val value: String) : SignUpIntent()
@@ -231,7 +247,7 @@ sealed class SignUpSideEffect : SideEffect() {
 
     // EnterSchoolVerificationCode
     data object SchoolVerificationCodeExamined : SignUpSideEffect()
-    data object SchoolVerificationCodeIncorrect : SignUpSideEffect()
+    data object SchoolVerificationCodeNotFound : SignUpSideEffect()
 
     // EnterSchoolVerificationQuestion
     data object SchoolVerificationQuestionExamined : SignUpSideEffect()
@@ -244,6 +260,8 @@ sealed class SignUpSideEffect : SideEffect() {
     // EnterEmailVerificationCode
     data object EmailVerificationCodeExamined : SignUpSideEffect()
     data object EmailVerificationCodeIncorrect : SignUpSideEffect()
+    data object EmailVerificationSessionReset : SignUpSideEffect()
+    data object EmailVerificationSessionResetFailed : SignUpSideEffect()
 
     // SetId
     class UserFound(val studentName: String) : SignUpSideEffect()

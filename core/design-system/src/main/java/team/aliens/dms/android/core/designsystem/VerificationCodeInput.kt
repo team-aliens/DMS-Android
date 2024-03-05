@@ -28,7 +28,7 @@ fun VerificationCodeInput(
     totalLength: Int,
     text: String,
     onValueChange: (String) -> Unit,
-    enabled: Boolean = false,
+    enabled: Boolean = true,
     filledTextColor: Color = DmsTheme.colorScheme.onSurface,
     defaultTextColor: Color = DmsTheme.colorScheme.onSurfaceVariant,
     supportingText: @Composable (() -> Unit)? = null,
@@ -36,7 +36,7 @@ fun VerificationCodeInput(
     BasicTextField(
         modifier = modifier,
         value = text,
-        enabled = !enabled,
+        enabled = enabled,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.NumberPassword,
