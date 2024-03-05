@@ -16,7 +16,7 @@ abstract class AuthRepository {
         type: EmailVerificationType,
     )
 
-    abstract suspend fun examineEmailVerificationCode(
+    abstract suspend fun checkEmailVerificationCode(
         email: String,
         code: String,
         type: EmailVerificationType,

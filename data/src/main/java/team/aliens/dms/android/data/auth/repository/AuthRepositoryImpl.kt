@@ -60,12 +60,16 @@ internal class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun examineEmailVerificationCode(
+    override suspend fun checkEmailVerificationCode(
         email: String,
         code: String,
         type: EmailVerificationType,
     ) {
-        TODO("Not yet implemented")
+        networkAuthDataSource.checkEmailVerificationCode(
+            email = email,
+            code = code,
+            type = type.name,
+        )
     }
 
     override suspend fun checkIdExists(accountId: String): HashedEmail {
