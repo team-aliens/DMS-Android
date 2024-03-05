@@ -13,7 +13,7 @@ abstract class NetworkAuthDataSource {
 
     abstract suspend fun checkEmailVerificationCode(
         email: String,
-        authCode: String,
+        code: String,
         type: String,
     )
 
