@@ -63,6 +63,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
     var isVerificationInputAvailable by remember { mutableStateOf(true) }
+    var isSessionExpired by remember { mutableStateOf(false) }
     val timer: CountDownTimer = remember {
         object : CountDownTimer(TIMER_TOTAL_SECONDS, TIMER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
@@ -73,6 +74,8 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
 
             override fun onFinish() {
                 isVerificationInputAvailable = false
+                isSessionExpired = true
+                viewModel.postIntent(SignUpIntent.UpdateEmailVerificationCode(value = ""))
             }
         }
     }
@@ -83,7 +86,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            SignUpSideEffect.EmailVerificationCodeExamined -> {
+            SignUpSideEffect.EmailVerificationCodeChecked -> {
                 timer.cancel()
                 navigator.openSetId()
             }
@@ -162,7 +165,13 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 text = if (isVerificationInputAvailable) {
                     timerText
                 } else {
-                    stringResource(id = R.string.sign_up_enter_email_verification_code_error_verification_code_incorrect)
+                    stringResource(
+                        id = if (isSessionExpired) {
+                            R.string.sign_up_enter_email_verification_code_error_timeout
+                        } else {
+                            R.string.sign_up_enter_email_verification_code_error_verification_code_incorrect
+                        },
+                    )
                 },
                 style = DmsTheme.typography.caption,
                 color = if (isVerificationInputAvailable) {
@@ -187,7 +196,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { viewModel.postIntent(SignUpIntent.ExamineEmailVerificationCode) },
+                onClick = { viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode) },
                 enabled = uiState.emailVerificationCode.length == SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.verify))
