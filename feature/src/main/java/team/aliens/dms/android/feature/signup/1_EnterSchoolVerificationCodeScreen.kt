@@ -48,8 +48,8 @@ internal fun EnterSchoolVerificationCodeScreen(
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             SignUpSideEffect.SchoolVerificationCodeExamined -> navigator.openEnterSchoolVerificationQuestion()
-            SignUpSideEffect.SchoolVerificationCodeIncorrect -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_error_school_verification_code_incorrect),
+            SignUpSideEffect.SchoolVerificationCodeNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_error_school_verification_code_not_found),
             )
 
             else -> {/* explicit blank */
@@ -99,11 +99,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                     viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
                 },
                 supportingText = {
-                    VerificationCodeInputDefaults.SupportingText(
-                        text = stringResource(
-                            id = R.string.sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code,
-                        ),
-                    )
+                    VerificationCodeInputDefaults.SupportingText(text = stringResource(id = R.string.sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code))
                 },
             )
             Spacer(modifier = Modifier.weight(3f))
