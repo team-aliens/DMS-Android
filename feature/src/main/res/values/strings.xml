@@ -209,7 +209,7 @@
     <string name="app_description">더 편한 기숙사 생활을 위해</string>
 
     <!--common-->
-    <string name="format_timer">%d:%d</string>
+    <string name="format_timer">%d:%02d</string>
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
     <string name="verify">인증</string>
