@@ -16,6 +16,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,6 +37,7 @@ import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
@@ -45,8 +50,34 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun SetIdScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel,
+    viewModel: SignUpViewModel,
 ) {
+
+    var shouldShowUserConfirmationCard by remember {
+        mutableStateOf(false)
+    }
+
+    val (studentName, setStudentName) = remember { mutableStateOf("") }
+
+    val onShouldShowUserConfirmationCardChange = remember {
+        { studentName: String ->
+            setStudentName(studentName)
+            shouldShowUserConfirmationCard = true
+        }
+    }
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            is SignUpSideEffect.UserFound -> onShouldShowUserConfirmationCardChange(sideEffect.studentName)
+            SignUpSideEffect.UserNotFound -> TODO()
+
+            SignUpSideEffect.IdAvailable -> TODO()
+            SignUpSideEffect.IdDuplicated -> TODO()
+            else -> {/* explicit blank */
+            }
+        }
+    }
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
