@@ -33,7 +33,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpIntent.UpdateEmail -> updateEmail(value = intent.value)
             SignUpIntent.VerifyEmail -> checkEmailAvailable()
             is SignUpIntent.UpdateEmailVerificationCode -> updateEmailVerificationCode(value = intent.value)
-            SignUpIntent.ExamineEmailVerificationCode -> examineEmailVerificationCode()
+            SignUpIntent.CheckEmailVerificationCode -> checkEmailVerificationCode()
             is SignUpIntent.UpdateClass -> updateClass(value = intent.value)
             is SignUpIntent.UpdateGrade -> updateGrade(value = intent.value)
             is SignUpIntent.UpdateNumber -> updateNumber(value = intent.value)
@@ -58,6 +58,7 @@ class SignUpViewModel @Inject constructor(
             postSideEffect(SignUpSideEffect.SchoolVerificationCodeExamined)
         }.onFailure {
             postSideEffect(SignUpSideEffect.SchoolVerificationCodeNotFound)
+            reduce(newState = stateFlow.value.copy(schoolVerificationCode = ""))
         }
     }
 
@@ -126,18 +127,19 @@ class SignUpViewModel @Inject constructor(
         reduce(newState = stateFlow.value.copy(emailVerificationCode = value))
     }
 
-    private fun examineEmailVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
+    private fun checkEmailVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
         val capturedState = stateFlow.value
         runCatching {
-            authRepository.examineEmailVerificationCode(
+            authRepository.checkEmailVerificationCode(
                 email = capturedState.email,
                 code = capturedState.emailVerificationCode,
                 type = EmailVerificationType.SIGNUP,
             )
         }.onSuccess {
-            postSideEffect(SignUpSideEffect.EmailVerificationCodeExamined)
+            postSideEffect(SignUpSideEffect.EmailVerificationCodeChecked)
         }.onFailure {
             postSideEffect(SignUpSideEffect.EmailVerificationCodeIncorrect)
+            reduce(newState = stateFlow.value.copy(emailVerificationCode = ""))
         }
     }
 
@@ -146,6 +148,7 @@ class SignUpViewModel @Inject constructor(
             this@SignUpViewModel.sendEmailVerificationCode(email = stateFlow.value.email)
         }.onSuccess {
             postSideEffect(SignUpSideEffect.EmailVerificationSessionReset)
+            reduce(newState = stateFlow.value.copy(emailVerificationCode = ""))
         }.onFailure {
             postSideEffect(SignUpSideEffect.EmailVerificationSessionResetFailed)
         }
@@ -233,7 +236,7 @@ sealed class SignUpIntent : Intent() {
 
     // EnterEmailVerificationCode
     class UpdateEmailVerificationCode(val value: String) : SignUpIntent()
-    data object ExamineEmailVerificationCode : SignUpIntent()
+    data object CheckEmailVerificationCode : SignUpIntent()
     data object ResetEmailVerificationSession : SignUpIntent()
 
     // SetId
@@ -258,7 +261,7 @@ sealed class SignUpSideEffect : SideEffect() {
     data object EmailFormatError : SignUpSideEffect()
 
     // EnterEmailVerificationCode
-    data object EmailVerificationCodeExamined : SignUpSideEffect()
+    data object EmailVerificationCodeChecked : SignUpSideEffect()
     data object EmailVerificationCodeIncorrect : SignUpSideEffect()
     data object EmailVerificationSessionReset : SignUpSideEffect()
     data object EmailVerificationSessionResetFailed : SignUpSideEffect()
