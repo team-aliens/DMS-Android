@@ -112,10 +112,7 @@ internal fun EnterEmailScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                // FIXME: 서버 연동
-                onClick = {
-                    viewModel.postIntent(SignUpIntent.VerifyEmail)
-                },
+                onClick = { viewModel.postIntent(SignUpIntent.VerifyEmail) },
             ) {
                 Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
             }
