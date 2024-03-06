@@ -16,19 +16,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.TextField
@@ -52,13 +56,11 @@ internal fun SetIdScreen(
     navigator: SignUpNavigator,
     viewModel: SignUpViewModel,
 ) {
-
-    var shouldShowUserConfirmationCard by remember {
-        mutableStateOf(false)
-    }
-
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    var shouldShowUserConfirmationCard by remember { mutableStateOf(false) }
     val (studentName, setStudentName) = remember { mutableStateOf("") }
-
+    val toast = LocalToast.current
+    val context = LocalContext.current
     val onShouldShowUserConfirmationCardChange = remember {
         { studentName: String ->
             setStudentName(studentName)
@@ -66,13 +68,21 @@ internal fun SetIdScreen(
         }
     }
 
+    val (gradeClassNumberError, setGradeClassNumberError) = remember { mutableStateOf(false) }
+
+    LaunchedEffect(uiState.grade, uiState.`class`, uiState.number) {
+        setGradeClassNumberError(false)
+    }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             is SignUpSideEffect.UserFound -> onShouldShowUserConfirmationCardChange(sideEffect.studentName)
-            SignUpSideEffect.UserNotFound -> TODO()
+            SignUpSideEffect.UserNotFound -> setGradeClassNumberError(true)
+            SignUpSideEffect.IdAvailable -> navigator.openSignUpSetPassword()
+            SignUpSideEffect.IdDuplicated -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_set_id_error_student_not_found),
+            )
 
-            SignUpSideEffect.IdAvailable -> TODO()
-            SignUpSideEffect.IdDuplicated -> TODO()
             else -> {/* explicit blank */
             }
         }
@@ -105,44 +115,41 @@ internal fun SetIdScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .startPadding(),
-                message = {
-                    BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_set_id),
-                    )
-                },
+                message = { BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_set_id)) },
             )
             Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = DefaultHorizontalSpace,
-                ),
+                horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
             ) {
                 TextField(
                     modifier = Modifier.weight(1f),
-                    value = "",
-                    hint = { Text(text = "학년") },
-                    onValueChange = {},
+                    value = stringResource(id = R.string.format_int, uiState.grade),
+                    hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_grade)) },
+                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdateGrade(value = it)) },
                     supportingText = {},
-                    isError = false,
+                    isError = gradeClassNumberError,
+                    enabled = uiState.isStudentConfirmed,
                 )
                 TextField(
                     modifier = Modifier.weight(1f),
-                    value = "",
-                    hint = { Text(text = "반") },
-                    onValueChange = {},
+                    value = stringResource(id = R.string.format_int, uiState.`class`),
+                    hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_class)) },
+                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdateClass(value = it)) },
                     supportingText = {},
-                    isError = false,
+                    isError = gradeClassNumberError,
+                    enabled = uiState.isStudentConfirmed,
                 )
                 TextField(
                     modifier = Modifier.weight(1f),
-                    value = "",
-                    hint = { Text(text = "번호") },
-                    onValueChange = {},
+                    value = stringResource(id = R.string.format_int, uiState.number),
+                    hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_number)) },
+                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdateNumber(value = it)) },
                     supportingText = {},
-                    isError = false,
+                    isError = gradeClassNumberError,
+                    enabled = uiState.isStudentConfirmed,
                 )
             }
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
@@ -150,19 +157,17 @@ internal fun SetIdScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                name = "박준수",
-                onConfirmClick = {},
+                name = studentName,
+                onConfirmClick = { viewModel.postIntent(SignUpIntent.ConfirmStudent) },
             )
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = "",
-                hint = { Text(text = "아이디를 입력해 주세요") },
-                onValueChange = {},
-                supportingText = {},
-                isError = false,
+                value = uiState.id,
+                hint = { Text(text = stringResource(id = R.string.sign_up_set_id_please_enter_id)) },
+                onValueChange = { viewModel.postIntent(SignUpIntent.UpdateId(value = it)) },
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -170,8 +175,7 @@ internal fun SetIdScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                // FIXME: 서버 연동
-                onClick = navigator::openSignUpSetPassword,
+                onClick = {},
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
