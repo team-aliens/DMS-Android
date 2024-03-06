@@ -210,6 +210,7 @@
 
     <!--common-->
     <string name="format_timer">%d:%02d</string>
+    <string name="format_int">%d</string>
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
     <string name="verify">인증</string>
@@ -326,14 +327,15 @@
     <string name="sign_up_confirm_school_error_please_check_school_verification_code">학교 인증코드를 확인해주세요</string>
 
     <string name="sign_up_set_id">아이디 설정</string>
+    <string name="sign_up_set_id_please_enter_id">아이디를 입력해 주세요</string>
     <string name="sign_up_id_enter">아이디 입력</string>
 
     <string name="sign_up_id_grade">학년</string>
     <string name="sign_up_id_class">반</string>
     <string name="sign_up_id_number">번호</string>
 
-    <string name="sign_up_id_error_not_found_student">존재하지 않는 학생 입니다</string>
-    <string name="sign_up_id_error_conflict_student">이미 존재하는 학생 입니다</string>
+    <string name="sign_up_set_id_error_student_not_found">존재하지 않는 학생 입니다</string>
+    <string name="sign_up_set_id_error_student_duplicated">이미 가입된 학생입니다</string>
     <string name="sign_up_id_error_id_conflict">이미 사용중인 아이디입니다</string>
 
     <string name="sign_up_set_password">비밀번호 설정</string>
@@ -481,4 +483,7 @@
     <string name="notification_group_notice_title">공지사항</string>
     <string name="notification_channel_notice_title">공지사항</string>
     <string name="notification_channel_notice_description">공지사항에 관한 알림을 설정합니다.</string>
+    <string name="sign_up_set_id_hint_grade">학년</string>
+    <string name="sign_up_set_id_hint_class">반</string>
+    <string name="sign_up_set_id_hint_number">번호</string>
 </resources>
