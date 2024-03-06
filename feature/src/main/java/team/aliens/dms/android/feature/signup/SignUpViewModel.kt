@@ -41,6 +41,9 @@ class SignUpViewModel @Inject constructor(
             is SignUpIntent.UpdateId -> updateId(value = intent.value)
             SignUpIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
             SignUpIntent.ConfirmId -> confirmId()
+            is SignUpIntent.UpdatePassword -> updatePassword(value = intent.value)
+            is SignUpIntent.UpdatePasswordRepeat -> updatePasswordRepeat(value = intent.value)
+            SignUpIntent.ConfirmPassword -> confirmPassword()
         }
     }
 
@@ -203,6 +206,31 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun updatePassword(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            password = value,
+        ),
+    )
+
+    private fun updatePasswordRepeat(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            passwordRepeat = value,
+        ),
+    )
+
+    private fun confirmPassword() {
+        val capturedState = stateFlow.value
+        val password = capturedState.password
+        val passwordRepeat = capturedState.passwordRepeat
+        postSideEffect(
+            sideEffect = if (password != passwordRepeat) {
+                SignUpSideEffect.PasswordMismatch
+            } else {
+                SignUpSideEffect.PasswordSet
+            },
+        )
+    }
+
     companion object {
         const val SCHOOL_VERIFICATION_CODE_LENGTH = 8
         const val EMAIL_VERIFICATION_CODE_LENGTH = 6
@@ -229,6 +257,10 @@ data class SignUpUiState(
     val classroom: String,
     val number: String,
     val id: String,
+
+    // SetPassword
+    val password: String,
+    val passwordRepeat: String,
 ) : UiState() {
     companion object {
         fun initial() = SignUpUiState(
@@ -242,6 +274,8 @@ data class SignUpUiState(
             classroom = "",
             number = "",
             id = "",
+            password = "",
+            passwordRepeat = "",
         )
     }
 }
@@ -271,6 +305,11 @@ sealed class SignUpIntent : Intent() {
     data object ExamineStudent : SignUpIntent()
     class UpdateId(val value: String) : SignUpIntent()
     data object ConfirmId : SignUpIntent()
+
+    // SetPassword
+    class UpdatePassword(val value: String) : SignUpIntent()
+    class UpdatePasswordRepeat(val value: String) : SignUpIntent()
+    data object ConfirmPassword : SignUpIntent()
 }
 
 sealed class SignUpSideEffect : SideEffect() {
@@ -298,4 +337,8 @@ sealed class SignUpSideEffect : SideEffect() {
     data object UserNotFound : SignUpSideEffect()
     data object IdAvailable : SignUpSideEffect()
     data object IdDuplicated : SignUpSideEffect()
+
+    // Set Password
+    data object PasswordSet : SignUpSideEffect()
+    data object PasswordMismatch : SignUpSideEffect()
 }
