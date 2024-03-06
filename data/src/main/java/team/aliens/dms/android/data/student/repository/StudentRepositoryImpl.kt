@@ -34,11 +34,14 @@ internal class StudentRepositoryImpl @Inject constructor(
     override suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
-        classRoom: Int,
+        classroom: Int,
         number: Int,
-    ): StudentName {
-        TODO("Not yet implemented")
-    }
+    ): StudentName = networkStudentDataSource.examineStudentNumber(
+        schoolId = schoolId,
+        grade = grade,
+        classroom = classroom,
+        number = number,
+    ).studentName
 
     override suspend fun findId(
         schoolId: UUID,

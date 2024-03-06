@@ -23,7 +23,7 @@ abstract class StudentRepository {
     abstract suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
-        classRoom: Int,
+        classroom: Int,
         number: Int,
     ): StudentName
 
