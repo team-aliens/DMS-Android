@@ -37,6 +37,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpIntent.UpdateClass -> updateClass(value = intent.value)
             is SignUpIntent.UpdateGrade -> updateGrade(value = intent.value)
             is SignUpIntent.UpdateNumber -> updateNumber(value = intent.value)
+            SignUpIntent.ConfirmStudent -> confirmStudent()
             is SignUpIntent.UpdateId -> updateId(value = intent.value)
             SignUpIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
         }
@@ -172,6 +173,12 @@ class SignUpViewModel @Inject constructor(
         ),
     )
 
+    private fun confirmStudent() = reduce(
+        newState = stateFlow.value.copy(
+            isStudentConfirmed = true,
+        ),
+    )
+
     private fun updateId(value: String) = reduce(
         newState = stateFlow.value.copy(
             id = value,
@@ -203,6 +210,7 @@ data class SignUpUiState(
     val grade: String,
     val `class`: String,
     val number: String,
+    val isStudentConfirmed: Boolean,
     val id: String,
 ) : UiState() {
     companion object {
@@ -216,6 +224,7 @@ data class SignUpUiState(
             grade = "",
             `class` = "",
             number = "",
+            isStudentConfirmed = false,
             id = "",
         )
     }
@@ -243,6 +252,7 @@ sealed class SignUpIntent : Intent() {
     class UpdateGrade(val value: String) : SignUpIntent()
     class UpdateClass(val value: String) : SignUpIntent()
     class UpdateNumber(val value: String) : SignUpIntent()
+    data object ConfirmStudent : SignUpIntent()
     class UpdateId(val value: String) : SignUpIntent()
 }
 
