@@ -93,7 +93,7 @@ internal fun SetIdScreen(
             SignUpSideEffect.UserNotFound -> setGradeClassNumberError(true)
             SignUpSideEffect.IdAvailable -> navigator.openSignUpSetPassword()
             SignUpSideEffect.IdDuplicated -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_set_id_error_student_not_found),
+                message = context.getString(R.string.sign_up_set_id_error_student_duplicated),
             )
 
             else -> {/* explicit blank */
@@ -208,7 +208,8 @@ internal fun SetIdScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = {},
+                onClick = { viewModel.postIntent(SignUpIntent.ConfirmId) },
+                enabled = uiState.id.isNotEmpty(),
             ) {
                 Text(text = stringResource(id = R.string.next))
             }

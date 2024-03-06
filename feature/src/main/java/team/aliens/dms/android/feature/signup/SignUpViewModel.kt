@@ -40,7 +40,7 @@ class SignUpViewModel @Inject constructor(
             SignUpIntent.ExamineStudent -> examineStudent()
             is SignUpIntent.UpdateId -> updateId(value = intent.value)
             SignUpIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
-            SignUpIntent.ConfirmId -> confirmid()
+            SignUpIntent.ConfirmId -> confirmId()
         }
     }
 
@@ -192,6 +192,16 @@ class SignUpViewModel @Inject constructor(
             id = value,
         ),
     )
+
+    private fun confirmId() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studentRepository.checkIdDuplication(id = stateFlow.value.id)
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.IdAvailable)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.IdDuplicated)
+        }
+    }
 
     companion object {
         const val SCHOOL_VERIFICATION_CODE_LENGTH = 8
