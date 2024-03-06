@@ -486,4 +486,5 @@
     <string name="sign_up_set_id_hint_grade">학년</string>
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>
+    <string name="sign_up_set_id_format_authentication_information_student_name">%s 님이 맞으신가요?</string>
 </resources>
