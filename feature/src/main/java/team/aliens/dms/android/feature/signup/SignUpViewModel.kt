@@ -3,6 +3,7 @@ package team.aliens.dms.android.feature.signup
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
@@ -37,7 +38,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpIntent.UpdateClass -> updateClass(value = intent.value)
             is SignUpIntent.UpdateGrade -> updateGrade(value = intent.value)
             is SignUpIntent.UpdateNumber -> updateNumber(value = intent.value)
-            SignUpIntent.ConfirmStudent -> confirmStudent()
+            SignUpIntent.ExamineStudent -> examineStudent()
             is SignUpIntent.UpdateId -> updateId(value = intent.value)
             SignUpIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
         }
@@ -69,11 +70,7 @@ class SignUpViewModel @Inject constructor(
                 schoolId = this@SignUpViewModel.schoolId,
             )
         }.onSuccess { fetchedSchoolVerificationQuestion ->
-            reduce(
-                newState = stateFlow.value.copy(
-                    schoolVerificationQuestion = fetchedSchoolVerificationQuestion,
-                ),
-            )
+            reduce(newState = stateFlow.value.copy(schoolVerificationQuestion = fetchedSchoolVerificationQuestion))
         }.onFailure {
             // TODO
         }
@@ -83,15 +80,15 @@ class SignUpViewModel @Inject constructor(
         reduce(newState = stateFlow.value.copy(schoolVerificationAnswer = value))
 
     private fun examineSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
         runCatching {
             schoolRepository.examineSchoolVerificationQuestion(
                 schoolId = this@SignUpViewModel.schoolId,
-                answer = stateFlow.value.schoolVerificationAnswer,
+                answer = capturedState.schoolVerificationAnswer,
             )
         }.onSuccess {
             postSideEffect(SignUpSideEffect.SchoolVerificationQuestionExamined)
         }.onFailure {
-            it.printStackTrace()
             // TODO: handle error type
             postSideEffect(SignUpSideEffect.SchoolVerificationQuestionIncorrect)
         }
@@ -163,7 +160,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun updateClass(value: String) = reduce(
         newState = stateFlow.value.copy(
-            `class` = value,
+            classroom = value,
         ),
     )
 
@@ -173,11 +170,22 @@ class SignUpViewModel @Inject constructor(
         ),
     )
 
-    private fun confirmStudent() = reduce(
-        newState = stateFlow.value.copy(
-            isStudentConfirmed = true,
-        ),
-    )
+    private fun examineStudent() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            val capturedState = stateFlow.value
+            studentRepository.examineStudentNumber(
+                schoolId = schoolId,
+                grade = capturedState.grade.toInt(),
+                classroom = capturedState.classroom.toInt(),
+                number = capturedState.number.toInt(),
+            )
+        }.onSuccess { studentName ->
+            postSideEffect(SignUpSideEffect.UserFound(studentName = studentName))
+        }.onFailure {
+            it.printStackTrace()
+            postSideEffect(SignUpSideEffect.UserNotFound)
+        }
+    }
 
     private fun updateId(value: String) = reduce(
         newState = stateFlow.value.copy(
@@ -208,9 +216,8 @@ data class SignUpUiState(
 
     // SetId
     val grade: String,
-    val `class`: String,
+    val classroom: String,
     val number: String,
-    val isStudentConfirmed: Boolean,
     val id: String,
 ) : UiState() {
     companion object {
@@ -222,9 +229,8 @@ data class SignUpUiState(
             sessionId = UUID.randomUUID(),
             emailVerificationCode = "",
             grade = "",
-            `class` = "",
+            classroom = "",
             number = "",
-            isStudentConfirmed = false,
             id = "",
         )
     }
@@ -252,7 +258,7 @@ sealed class SignUpIntent : Intent() {
     class UpdateGrade(val value: String) : SignUpIntent()
     class UpdateClass(val value: String) : SignUpIntent()
     class UpdateNumber(val value: String) : SignUpIntent()
-    data object ConfirmStudent : SignUpIntent()
+    data object ExamineStudent : SignUpIntent()
     class UpdateId(val value: String) : SignUpIntent()
 }
 
