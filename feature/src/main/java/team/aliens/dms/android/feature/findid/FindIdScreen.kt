@@ -244,24 +244,3 @@ fun FindIdScreen(
         }
     }*/
 }
-
-@Composable
-fun FindIdHeader() {
-    Column(
-        modifier = Modifier
-            .wrapContentWidth()
-            .height(60.dp),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-
-        AppLogo(
-            darkIcon = isSystemInDarkTheme(),
-        )
-
-        Body2(
-            text = stringResource(
-                id = R.string.FindId,
-            ),
-        )
-    }
-}
