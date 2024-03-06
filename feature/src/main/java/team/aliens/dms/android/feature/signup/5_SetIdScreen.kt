@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,8 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.delay
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -57,21 +62,29 @@ internal fun SetIdScreen(
     viewModel: SignUpViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    var shouldShowUserConfirmationCard by remember { mutableStateOf(false) }
     val (studentName, setStudentName) = remember { mutableStateOf("") }
-    val toast = LocalToast.current
-    val context = LocalContext.current
+    var shouldShowUserConfirmationCard by remember { mutableStateOf(false) }
     val onShouldShowUserConfirmationCardChange = remember {
         { studentName: String ->
             setStudentName(studentName)
             shouldShowUserConfirmationCard = true
         }
     }
+    val toast = LocalToast.current
+    val context = LocalContext.current
+
+    val (studentConfirmed, onStudentConfirmedChange) = remember { mutableStateOf(false) }
 
     val (gradeClassNumberError, setGradeClassNumberError) = remember { mutableStateOf(false) }
 
-    LaunchedEffect(uiState.grade, uiState.`class`, uiState.number) {
-        setGradeClassNumberError(false)
+    LaunchedEffect(uiState.grade, uiState.classroom, uiState.number) {
+        if (gradeClassNumberError) {
+            setGradeClassNumberError(false)
+        }
+        if (uiState.grade.isNotEmpty() && uiState.classroom.isNotEmpty() && uiState.number.isNotEmpty()) {
+            delay(300L)
+            viewModel.postIntent(SignUpIntent.ExamineStudent)
+        }
     }
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
@@ -126,40 +139,60 @@ internal fun SetIdScreen(
             ) {
                 TextField(
                     modifier = Modifier.weight(1f),
-                    value = stringResource(id = R.string.format_int, uiState.grade),
+                    value = uiState.grade,
                     hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_grade)) },
                     onValueChange = { viewModel.postIntent(SignUpIntent.UpdateGrade(value = it)) },
                     supportingText = {},
                     isError = gradeClassNumberError,
-                    enabled = uiState.isStudentConfirmed,
+                    enabled = !studentConfirmed,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.NumberPassword,
+                    ),
                 )
                 TextField(
                     modifier = Modifier.weight(1f),
-                    value = stringResource(id = R.string.format_int, uiState.`class`),
+                    value = uiState.classroom,
                     hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_class)) },
                     onValueChange = { viewModel.postIntent(SignUpIntent.UpdateClass(value = it)) },
                     supportingText = {},
                     isError = gradeClassNumberError,
-                    enabled = uiState.isStudentConfirmed,
+                    enabled = !studentConfirmed,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.NumberPassword,
+                    ),
                 )
                 TextField(
                     modifier = Modifier.weight(1f),
-                    value = stringResource(id = R.string.format_int, uiState.number),
+                    value = uiState.number,
                     hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_number)) },
                     onValueChange = { viewModel.postIntent(SignUpIntent.UpdateNumber(value = it)) },
                     supportingText = {},
                     isError = gradeClassNumberError,
-                    enabled = uiState.isStudentConfirmed,
+                    enabled = !studentConfirmed,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.NumberPassword,
+                    ),
                 )
             }
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
-            AccountInformationCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalPadding(),
-                name = studentName,
-                onConfirmClick = { viewModel.postIntent(SignUpIntent.ConfirmStudent) },
-            )
+            AnimatedVisibility(
+                modifier = Modifier.fillMaxWidth(),
+                visible = shouldShowUserConfirmationCard,
+            ) {
+                StudentInformationCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    studentName = studentName,
+                    onConfirmClick = {
+                        onStudentConfirmedChange(true)
+                        shouldShowUserConfirmationCard = false
+                    },
+                )
+            }
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             TextField(
                 modifier = Modifier
@@ -363,9 +396,9 @@ internal fun SetIdScreen(
 }
 
 @Composable
-private fun AccountInformationCard(
+private fun StudentInformationCard(
     modifier: Modifier = Modifier,
-    name: String,
+    studentName: String,
     onConfirmClick: () -> Unit,
 ) {
     Card(
@@ -384,7 +417,10 @@ private fun AccountInformationCard(
         ) {
             Text(
                 modifier = Modifier.startPadding(),
-                text = name + "님이 맞으신가요?",
+                text = stringResource(
+                    id = R.string.sign_up_set_id_format_authentication_information_student_name,
+                    studentName
+                ),
             )
             TextButton(
                 modifier = Modifier.endPadding(),
