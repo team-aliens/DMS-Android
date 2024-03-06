@@ -30,7 +30,7 @@ abstract class NetworkStudentDataSource {
 
     abstract suspend fun resetPassword(request: ResetPasswordRequest)
 
-    abstract suspend fun checkIdDuplication(accountId: String)
+    abstract suspend fun checkIdDuplication(id: String)
 
     abstract suspend fun checkEmailDuplication(email: String)
 

@@ -64,7 +64,7 @@ internal class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkIdDuplication(id: String) {
-        TODO("Not yet implemented")
+        networkStudentDataSource.checkIdDuplication(id = id)
     }
 
     override suspend fun checkEmailDuplication(email: String) {
