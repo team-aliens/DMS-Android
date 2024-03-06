@@ -57,9 +57,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
     viewModel: SignUpViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    var timerText: String by remember {
-        mutableStateOf("")
-    }
+    var timerText: String by remember { mutableStateOf("") }
     val toast = LocalToast.current
     val context = LocalContext.current
     var isVerificationInputAvailable by remember { mutableStateOf(true) }
@@ -196,7 +194,10 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode) },
+                onClick = {
+                    // TODO: viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode)
+                    navigator.openSetId()
+                },
                 enabled = uiState.emailVerificationCode.length == SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.verify))
