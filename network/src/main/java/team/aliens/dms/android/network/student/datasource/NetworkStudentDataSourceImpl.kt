@@ -21,12 +21,12 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
     override suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
-        classRoom: Int,
+        classroom: Int,
         number: Int,
     ): ExamineStudentNumberResponse = studentApiService.examineStudentNumber(
         schoolId = schoolId,
         grade = grade,
-        classRoom = classRoom,
+        classRoom = classroom,
         number = number,
     )
 
