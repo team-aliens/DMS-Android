@@ -2,7 +2,6 @@ package team.aliens.dms.android.app.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
-import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
@@ -16,7 +15,6 @@ import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavigator
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
-import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationCodeScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
@@ -61,7 +59,6 @@ class DmsNavigator(
 
     override fun openRemainsApplication() {
         navController.navigateSingleTop(RemainsApplicationScreenDestination within navGraph) {
-            launchSingleTop = true
             restoreState = true
         }
     }
@@ -133,20 +130,12 @@ class DmsNavigator(
 
     override fun openEnterSchoolVerificationQuestion() {
         navController.navigateSingleTop(EnterSchoolVerificationQuestionScreenDestination within SignUpNavGraph) {
-            this.
-            launchSingleTop = true
+            this.launchSingleTop = true
         }
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
-        navController.run {
-            navigateSingleTop(EnterEmailScreenDestination within SignUpNavGraph)
-            /* TODO
-            popBackStack(
-                route = EnterSchoolVerificationCodeScreenDestination routedIn SignUpNavGraph,
-                inclusive = true,
-            )*/
-        }
+        navController.navigateSingleTop(EnterEmailScreenDestination within SignUpNavGraph)
     }
 
     override fun openSignUpEnterEmailVerificationCode() {
