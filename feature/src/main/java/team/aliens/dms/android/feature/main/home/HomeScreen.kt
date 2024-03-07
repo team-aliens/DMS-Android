@@ -508,7 +508,7 @@ private fun MealCard(
                     }
                 }
             },
-        shape = DmsTheme.shapes.surfaceMedium,
+        shape = DmsTheme.shapes.surfaceLarge,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
