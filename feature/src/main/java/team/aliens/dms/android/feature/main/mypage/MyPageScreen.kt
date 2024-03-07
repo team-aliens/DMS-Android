@@ -27,6 +27,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -47,6 +49,7 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Gray10
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.LargeVerticalSpace
@@ -73,6 +76,57 @@ internal fun MyPageScreen(
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val (shouldShowSignOutDialog, onShouldShowSignOutDialogChange) = remember {
+        mutableStateOf(false)
+    }
+    val (shouldShowWithdrawDialog, onShouldShowWithdrawDialogChange) = remember {
+        mutableStateOf(false)
+    }
+
+    if (shouldShowSignOutDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.my_page_sign_out)) },
+            text = { Text(text = stringResource(id = R.string.my_page_are_you_sure_you_sign_out)) },
+            onDismissRequest = { onShouldShowSignOutDialogChange(false) },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.postIntent(MyPageIntent.SignOut) },
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onShouldShowSignOutDialogChange(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
+
+    if (shouldShowWithdrawDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.my_page_withdrawal)) },
+            text = { Text(text = stringResource(id = R.string.my_page_are_you_sure_you_withdraw)) },
+            onDismissRequest = { onShouldShowWithdrawDialogChange(false) },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.postIntent(MyPageIntent.Withdraw) },
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onShouldShowWithdrawDialogChange(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             MyPageSideEffect.SignOutSuccess -> onNavigateToUnauthorizedNav()
@@ -120,16 +174,10 @@ internal fun MyPageScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onNavigateToPointHistory = onNavigateToPointHistory,
                 onNavigateToEditPassword = onNavigateToEditPassword,
-                onSignOutClick = {
-                    // TODO: sign out modal
-                    viewModel.postIntent(MyPageIntent.SignOut)
-                },
-                onWithdrawalClick = {
-                    // TODO: withdrawal modal
-                    viewModel.postIntent(MyPageIntent.Withdraw)
-                },
+                onSignOutClick = { onShouldShowSignOutDialogChange(true) },
+                onWithdrawalClick = { onShouldShowWithdrawDialogChange(true) },
                 onThemeSettingsClick = {
-
+                    // TODO Theme
                 },
             )
             // TODO: measure navigation bar height
@@ -332,8 +380,7 @@ private fun PointCard(
 
 @Immutable
 private enum class PointCardType {
-    BONUS, MINUS,
-    ;
+    BONUS, MINUS, ;
 
     val containerColor: Color
         @Composable inline get() = when (this) {
