@@ -41,10 +41,10 @@ android {
 }
 
 dependencies {
-    implementation(project(ProjectPaths.Shared.date))
+    implementation(project(ProjectPaths.Shared.DATE))
 
-    implementation(project(ProjectPaths.Core.dataStore))
-    implementation(project(ProjectPaths.Core.network))
+    implementation(project(ProjectPaths.Core.DATASTORE))
+    implementation(project(ProjectPaths.Core.NETWORK))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

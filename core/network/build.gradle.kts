@@ -46,9 +46,9 @@ android {
 
 dependencies {
 
-    implementation(project(ProjectPaths.Shared.exception))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
 
-    implementation(project(ProjectPaths.Core.project))
+    implementation(project(ProjectPaths.Core.PROJECT))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

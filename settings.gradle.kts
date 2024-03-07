@@ -1,9 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":shared:timer")
-
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -27,6 +23,8 @@ include(":app")
 include(":shared:date")
 include(":shared:exception")
 include(":shared:model")
+include(":shared:validator")
+include(":shared:timer")
 
 include(":core:database")
 include(":core:datastore")

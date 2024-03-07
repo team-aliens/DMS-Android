@@ -49,14 +49,14 @@ android {
 
 dependencies {
 
-    implementation(project(ProjectPaths.Shared.date))
-    implementation(project(ProjectPaths.Shared.exception))
-    implementation(project(ProjectPaths.Shared.model))
+    implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
+    implementation(project(ProjectPaths.Shared.MODEL))
 
-    implementation(project(ProjectPaths.Core.ui))
+    implementation(project(ProjectPaths.Core.UI))
 
-    implementation(project(ProjectPaths.Core.designSystem))
-    implementation(project(ProjectPaths.data))
+    implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
+    implementation(project(ProjectPaths.DATA))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

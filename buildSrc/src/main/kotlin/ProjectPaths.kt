@@ -1,24 +1,26 @@
 object ProjectPaths {
-    const val app = ":app"
-    const val data = ":data"
-    const val database = ":database"
-    const val feature = ":feature"
-    const val network = ":network"
+    const val APP = ":app"
+    const val DATA = ":data"
+    const val DATABASE = ":database"
+    const val FEATURE = ":feature"
+    const val NETWORK = ":network"
 
     object Core {
-        const val database = ":core:database"
-        const val dataStore = ":core:datastore"
-        const val designSystem = ":core:design-system"
-        const val jwt = ":core:jwt"
-        const val network = ":core:network"
-        const val project = ":core:project"
-        const val school = ":core:school"
-        const val ui = ":core:ui"
+        const val DATABASE = ":core:database"
+        const val DATASTORE = ":core:datastore"
+        const val DESIGN_SYSTEM = ":core:design-system"
+        const val JWT = ":core:jwt"
+        const val NETWORK = ":core:network"
+        const val PROJECT = ":core:project"
+        const val SCHOOL = ":core:school"
+        const val UI = ":core:ui"
     }
 
     object Shared {
-        const val date = ":shared:date"
-        const val exception = ":shared:exception"
-        const val model = ":shared:model"
+        const val DATE = ":shared:date"
+        const val EXCEPTION = ":shared:exception"
+        const val MODEL = ":shared:model"
+        const val VALIDATOR = ":shared:validator"
+        const val TIMER = ":shared:timer"
     }
 }

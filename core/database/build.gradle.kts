@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(project(ProjectPaths.Shared.date))
+    implementation(project(ProjectPaths.Shared.DATE))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

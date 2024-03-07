@@ -49,7 +49,7 @@ android {
 
 dependencies {
 
-    implementation(project(ProjectPaths.Shared.date))
+    implementation(project(ProjectPaths.Shared.DATE))
 
     implementation(libs.material)
 
