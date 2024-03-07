@@ -201,6 +201,7 @@ internal fun SetIdScreen(
                 value = uiState.id,
                 hint = { Text(text = stringResource(id = R.string.sign_up_set_id_please_enter_id)) },
                 onValueChange = { viewModel.postIntent(SignUpIntent.UpdateId(value = it)) },
+                enabled = studentConfirmed,
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -209,7 +210,7 @@ internal fun SetIdScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = { viewModel.postIntent(SignUpIntent.ConfirmId) },
-                enabled = uiState.id.isNotEmpty(),
+                enabled = uiState.id.isNotEmpty() && studentConfirmed,
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
