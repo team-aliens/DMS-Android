@@ -2,6 +2,7 @@ package team.aliens.dms.android.app.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
+import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
@@ -59,7 +60,6 @@ class DmsNavigator(
 
     override fun openRemainsApplication() {
         navController.navigateSingleTop(RemainsApplicationScreenDestination within navGraph) {
-            launchSingleTop = true
             restoreState = true
         }
     }
@@ -92,7 +92,10 @@ class DmsNavigator(
     }
 
     override fun openSignIn() {
-        navController.navigateSingleTop(SignInScreenDestination within navGraph)
+        navController.navigateSingleTop(SignInScreenDestination within navGraph) {
+            popUpTo(UnauthorizedNavGraph) { inclusive = true }
+            launchSingleTop = true
+        }
     }
 
     override fun navigateUp() {
@@ -127,31 +130,72 @@ class DmsNavigator(
     }
 
     override fun openEnterSchoolVerificationQuestion() {
-        navController.navigateSingleTop(EnterSchoolVerificationQuestionScreenDestination within navGraph)
+        navController.navigateSingleTop(EnterSchoolVerificationQuestionScreenDestination within SignUpNavGraph) {
+            this.launchSingleTop = true
+        }
     }
 
     override fun openEnterEmail(clearStack: Boolean) {
-        navController.navigateSingleTop(EnterEmailScreenDestination within navGraph)
+        navController.navigateSingleTop(EnterEmailScreenDestination within SignUpNavGraph)
     }
 
     override fun openSignUpEnterEmailVerificationCode() {
-        navController.navigateSingleTop(SignUpEnterEmailVerificationCodeScreenDestination within navGraph)
+        navController.navigateSingleTop(SignUpEnterEmailVerificationCodeScreenDestination within SignUpNavGraph)
     }
 
     override fun openSetId() {
-        navController.navigateSingleTop(SetIdScreenDestination within navGraph)
+        navController.navigateSingleTop(SetIdScreenDestination within SignUpNavGraph)
     }
 
     override fun openSignUpSetPassword() {
-        navController.navigateSingleTop(SignUpSetPasswordScreenDestination within navGraph)
+        navController.navigateSingleTop(SignUpSetPasswordScreenDestination within SignUpNavGraph)
     }
 
     override fun openSetProfileImage() {
-        navController.navigateSingleTop(SetProfileImageScreenDestination within navGraph)
+        navController.navigateSingleTop(SetProfileImageScreenDestination within SignUpNavGraph)
     }
 
     override fun openTerms() {
-        navController.navigateSingleTop(TermsScreenDestination within navGraph)
+        navController.navigateSingleTop(TermsScreenDestination within SignUpNavGraph)
+    }
+
+    override fun popUpToSignUp() {
+        navController.popBackStack(
+            route = SignUpNavGraph,
+            inclusive = true,
+        )
+    }
+
+    override fun popUpToEnterEmail() {
+        navController.navigate(EnterEmailScreenDestination within SignUpNavGraph) {
+            popUpTo(EnterEmailScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun popUpToSetId() {
+        navController.navigate(SetIdScreenDestination within SignUpNavGraph) {
+            popUpTo(SetIdScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun popUpToSetPassword() {
+        navController.navigate(SignUpSetPasswordScreenDestination within SignUpNavGraph) {
+            popUpTo(SignUpSetPasswordScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun popUpToSetProfileImage() {
+        navController.navigate(SignUpSetPasswordScreenDestination within SignUpNavGraph) {
+            popUpTo(SignUpSetPasswordScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
     }
 
     override fun openStudyRoomDetails(

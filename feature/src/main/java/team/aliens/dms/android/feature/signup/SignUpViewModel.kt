@@ -1,968 +1,379 @@
 package team.aliens.dms.android.feature.signup
-/*
 
-import android.net.Uri
-import android.util.Patterns
-import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.UUID
-import java.util.regex.Pattern
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import team.aliens.dms.android.feature._legacy.base.BaseMviViewModel
-import team.aliens.dms.android.feature._legacy.base.MviIntent
-import team.aliens.dms.android.feature._legacy.base.MviSideEffect
-import team.aliens.dms.android.feature._legacy.base.MviState
-import team.aliens.dms.android.domain._legacy.exception.RemoteException
-import team.aliens.dms.android.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.dms.android.domain.model._common.EmailVerificationType
-import team.aliens.dms.android.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.dms.android.domain.model.file.UploadFileInput
-import team.aliens.dms.android.domain.model.school.ExamineSchoolVerificationCodeInput
-import team.aliens.dms.android.domain.model.school.ExamineSchoolVerificationQuestionInput
-import team.aliens.dms.android.domain.model.school.FetchSchoolVerificationQuestionInput
-import team.aliens.dms.android.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.dms.android.domain.model.student.CheckIdDuplicationInput
-import team.aliens.dms.android.domain.model.student.ExamineStudentNumberInput
-import team.aliens.dms.android.domain.model.student.SignUpInput
-import team.aliens.dms.android.domain.usecase.auth.CheckEmailVerificationCodeUseCase
-import team.aliens.dms.android.domain.usecase.auth.SendEmailVerificationCodeUseCase
-import team.aliens.dms.android.domain.usecase.file.UploadFileUseCase
-import team.aliens.dms.android.domain.usecase.school.ExamineSchoolVerificationCodeUseCase
-import team.aliens.dms.android.domain.usecase.school.ExamineSchoolVerificationQuestionUseCase
-import team.aliens.dms.android.domain.usecase.school.FetchSchoolVerificationQuestionUseCase
-import team.aliens.dms.android.domain.usecase.student.CheckEmailDuplicationUseCase
-import team.aliens.dms.android.domain.usecase.student.CheckIdDuplicationUseCase
-import team.aliens.dms.android.domain.usecase.student.ExamineStudentNumberUseCase
-import team.aliens.dms.android.domain.usecase.student.SignUpUseCase
-
-private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
-const val defaultProfileUrl =
-    "https://image-dms.s3.ap-northeast-2.amazonaws.com/59fd0067-93ef-4bcb-8722-5bc8786c5156%7C%7C%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.png"
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.model.EmailVerificationType
+import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.data.school.repository.SchoolRepository
+import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.shared.validator.checkIfEmailValid
+import java.util.UUID
+import javax.inject.Inject
 
 @HiltViewModel
-internal class SignUpViewModel @Inject constructor(
-    private val examineSchoolVerificationCodeUseCase: ExamineSchoolVerificationCodeUseCase,
-    private val fetchSchoolVerificationQuestionUseCase: FetchSchoolVerificationQuestionUseCase,
-    private val examineSchoolVerificationQuestionUseCase: ExamineSchoolVerificationQuestionUseCase,
-    private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
-    private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
-    private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
-    private val examineStudentNumberUseCase: ExamineStudentNumberUseCase,
-    private val checkIdDuplicationUseCase: CheckIdDuplicationUseCase,
-    private val uploadFileUseCase: UploadFileUseCase,
-    private val signUpUseCase: SignUpUseCase,
-) : BaseMviViewModel<SignUpIntent, SignUpState, SignUpSideEffect>(
-    initialState = SignUpState.initial(),
+class SignUpViewModel @Inject constructor(
+    private val studentRepository: StudentRepository,
+    private val schoolRepository: SchoolRepository,
+    private val authRepository: AuthRepository,
+) : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
+    initialState = SignUpUiState.initial(),
 ) {
-
-    override fun processIntent(
-        intent: SignUpIntent,
-    ) {
+    private lateinit var schoolId: UUID
+    override fun processIntent(intent: SignUpIntent) {
         when (intent) {
-            is SignUpIntent.VerifySchool -> {
-                when (intent) {
-                    is SignUpIntent.VerifySchool.SetSchoolVerificationCode -> {
-                        setSchoolCode(schoolCode = intent.schoolCode)
-                    }
-
-                    is SignUpIntent.VerifySchool.ExamineSchoolVerificationCode -> {
-                        examineSchoolVerificationCode()
-                    }
-                }
-            }
-
-            is SignUpIntent.SchoolQuestion -> {
-                when (intent) {
-                    is SignUpIntent.SchoolQuestion.FetchSchoolQuestion -> {
-                        fetchSchoolQuestion()
-                    }
-
-                    is SignUpIntent.SchoolQuestion.SetSchoolAnswer -> {
-                        setSchoolAnswer(schoolAnswer = intent.schoolAnswer)
-                    }
-
-                    is SignUpIntent.SchoolQuestion.ExamineSchoolAnswer -> {
-                        examineSchoolAnswer()
-                    }
-                }
-            }
-
-            is SignUpIntent.SendEmail -> {
-                when (intent) {
-                    is SignUpIntent.SendEmail.SetEmail -> {
-                        setEmail(email = intent.email)
-                    }
-
-                    is SignUpIntent.SendEmail.CheckEmailDuplication -> {
-                        checkEmailDuplication()
-                    }
-
-                    is SignUpIntent.SendEmail.SendEmailVerificationCode -> {
-                        sendEmailVerificationCode()
-                    }
-
-                    is SignUpIntent.SendEmail.SetEmailExpirationTime -> {
-                        setEmailExpirationTime(emailExpirationTime = intent.emailExpirationTime)
-                    }
-
-                    is SignUpIntent.SendEmail.SetEmailTimerWorked -> {
-                        setEmailTimerWorked(emailTimerWorked = intent.emailTimerWorked)
-                    }
-                }
-            }
-
-            is SignUpIntent.VerifyEmail -> {
-                when (intent) {
-                    is SignUpIntent.VerifyEmail.SetAuthCode -> {
-                        setAuthCode(authCode = intent.authCode)
-                    }
-
-                    is SignUpIntent.VerifyEmail.CheckEmailVerificationCode -> {
-                        checkEmailVerificationCode()
-                    }
-                }
-            }
-
-            is SignUpIntent.SetId -> {
-                when (intent) {
-                    is SignUpIntent.SetId.SetGrade -> {
-                        setGrade(grade = intent.grade)
-                    }
-
-                    is SignUpIntent.SetId.SetClassRoom -> {
-                        setClassRoom(classRoom = intent.classRoom)
-                    }
-
-                    is SignUpIntent.SetId.SetNumber -> {
-                        setNumber(number = intent.number)
-                    }
-
-                    is SignUpIntent.SetId.SetAccountId -> {
-                        setAccountId(accountId = intent.accountId)
-                    }
-
-                    is SignUpIntent.SetId.SetStudentName -> {
-                        setStudentName(studentName = intent.studentName)
-                    }
-
-                    is SignUpIntent.SetId.ExamineStudentNumber -> {
-                        examineStudentNumber()
-                    }
-
-                    is SignUpIntent.SetId.CheckIdDuplication -> {
-                        checkIdDuplication()
-                    }
-
-                    is SignUpIntent.SetId.SetCheckedStudentName -> {
-                        this.setCheckedStudentName(intent.checkedStudentName)
-                    }
-                }
-            }
-
-            is SignUpIntent.SetPassword -> {
-                when (intent) {
-                    is SignUpIntent.SetPassword.SetPassword -> {
-                        setPassword(intent.password)
-                    }
-
-                    is SignUpIntent.SetPassword.SetPasswordRepeat -> {
-                        setPasswordRepeat(intent.passwordRepeat)
-                    }
-
-                    is SignUpIntent.SetPassword.CheckPassword -> {
-                        checkPassword()
-                    }
-                }
-            }
-
-            is SignUpIntent.SetProfileImage -> {
-                when (intent) {
-                    is SignUpIntent.SetProfileImage.SelectProfileImage -> {
-                        setProfileImageUri(intent.profileImageUri)
-                    }
-
-                    is SignUpIntent.SetProfileImage.UploadImage -> {
-                        uploadImage()
-                    }
-                }
-            }
-
-            is SignUpIntent.Terms -> {
-                when (intent) {
-                    is SignUpIntent.Terms.SetCheckedPolicy -> {
-                        setCheckedPolicy(intent.checkedPolicy)
-                    }
-
-                    is SignUpIntent.Terms.SignUp -> {
-                        signUp()
-                    }
-                }
-            }
+            is SignUpIntent.UpdateSchoolVerificationCode -> updateSchoolVerificationCode(value = intent.value)
+            SignUpIntent.ExamineSchoolVerificationCode -> examineSchoolVerificationCode()
+            is SignUpIntent.UpdateSchoolVerificationAnswer -> updateSchoolVerificationQuestion(value = intent.value)
+            SignUpIntent.ExamineSchoolVerificationAnswer -> examineSchoolVerificationQuestion()
+            is SignUpIntent.UpdateEmail -> updateEmail(value = intent.value)
+            SignUpIntent.VerifyEmail -> checkEmailAvailable()
+            is SignUpIntent.UpdateEmailVerificationCode -> updateEmailVerificationCode(value = intent.value)
+            SignUpIntent.CheckEmailVerificationCode -> checkEmailVerificationCode()
+            is SignUpIntent.UpdateClass -> updateClass(value = intent.value)
+            is SignUpIntent.UpdateGrade -> updateGrade(value = intent.value)
+            is SignUpIntent.UpdateNumber -> updateNumber(value = intent.value)
+            SignUpIntent.ExamineStudent -> examineStudent()
+            is SignUpIntent.UpdateId -> updateId(value = intent.value)
+            SignUpIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
+            SignUpIntent.ConfirmId -> confirmId()
+            is SignUpIntent.UpdatePassword -> updatePassword(value = intent.value)
+            is SignUpIntent.UpdatePasswordRepeat -> updatePasswordRepeat(value = intent.value)
+            SignUpIntent.ConfirmPassword -> confirmPassword()
+            SignUpIntent.SignUp -> signUp()
         }
     }
 
-    private fun examineSchoolVerificationCode() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                examineSchoolVerificationCodeUseCase(
-                    examineSchoolVerificationCodeInput = ExamineSchoolVerificationCodeInput(
-                        schoolCode = stateFlow.value.schoolCode
-                    )
-                )
+    private fun updateSchoolVerificationCode(value: String) = run {
+        if (value.length > SCHOOL_VERIFICATION_CODE_LENGTH) {
+            return@run false
+        }
+        reduce(newState = stateFlow.value.copy(schoolVerificationCode = value))
+    }
+
+    private fun examineSchoolVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            schoolRepository.examineSchoolVerificationCode(code = stateFlow.value.schoolVerificationCode)
+        }.onSuccess { schoolId ->
+            this@SignUpViewModel.schoolId = schoolId
+            this@SignUpViewModel.fetchSchoolVerificationQuestion()
+            postSideEffect(SignUpSideEffect.SchoolVerificationCodeExamined)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.SchoolVerificationCodeNotFound)
+            reduce(newState = stateFlow.value.copy(schoolVerificationCode = ""))
+        }
+    }
+
+    private fun fetchSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            schoolRepository.fetchSchoolVerificationQuestion(
+                schoolId = this@SignUpViewModel.schoolId,
+            )
+        }.onSuccess { fetchedSchoolVerificationQuestion ->
+            reduce(newState = stateFlow.value.copy(schoolVerificationQuestion = fetchedSchoolVerificationQuestion))
+        }.onFailure {
+            // TODO
+        }
+    }
+
+    private fun updateSchoolVerificationQuestion(value: String) =
+        reduce(newState = stateFlow.value.copy(schoolVerificationAnswer = value))
+
+    private fun examineSchoolVerificationQuestion() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        runCatching {
+            schoolRepository.examineSchoolVerificationQuestion(
+                schoolId = this@SignUpViewModel.schoolId,
+                answer = capturedState.schoolVerificationAnswer,
+            )
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.SchoolVerificationQuestionExamined)
+        }.onFailure {
+            // TODO: handle error type
+            postSideEffect(SignUpSideEffect.SchoolVerificationQuestionIncorrect)
+        }
+    }
+
+    private fun updateEmail(value: String) = reduce(newState = stateFlow.value.copy(email = value))
+
+    private fun checkEmailAvailable() = viewModelScope.launch(Dispatchers.IO) {
+        val email = stateFlow.value.email
+        if (!checkIfEmailValid(email)) {
+            postSideEffect(SignUpSideEffect.EmailFormatError)
+        }
+        runCatching {
+            studentRepository.checkEmailDuplication(email)
+        }.onSuccess {
+            runCatching {
+                this@SignUpViewModel.sendEmailVerificationCode(email = email)
             }.onSuccess {
-                postSideEffect(SignUpSideEffect.VerifySchool.SuccessVerifySchoolCode)
-                setSchoolId(schoolId = it.schoolId)
-            }.onFailure {
-                setSchoolCodeMismatchError(it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized)
-            }
+                postSideEffect(SignUpSideEffect.EmailAvailable)
+            }.recover { throw it }
+        }.onFailure {
+            // TODO: handle error type
+            postSideEffect(SignUpSideEffect.EmailNotAvailable)
         }
     }
 
-    private fun fetchSchoolQuestion() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                fetchSchoolVerificationQuestionUseCase(
-                    fetchSchoolVerificationQuestionInput = FetchSchoolVerificationQuestionInput(
-                        schoolId = stateFlow.value.schoolId!!,
-                    )
-                )
-            }.onSuccess {
-                setSchoolQuestion(schoolQuestion = it.question)
-            }.onFailure {
+    private suspend fun sendEmailVerificationCode(email: String) =
+        authRepository.sendEmailVerificationCode(
+            email = email,
+            type = EmailVerificationType.SIGNUP,
+        )
 
-            }
+    private fun updateEmailVerificationCode(value: String) = run {
+        if (value.length > EMAIL_VERIFICATION_CODE_LENGTH) {
+            return@run false
+        }
+        reduce(newState = stateFlow.value.copy(emailVerificationCode = value))
+    }
+
+    private fun checkEmailVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        runCatching {
+            authRepository.checkEmailVerificationCode(
+                email = capturedState.email,
+                code = capturedState.emailVerificationCode,
+                type = EmailVerificationType.SIGNUP,
+            )
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.EmailVerificationCodeChecked)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.EmailVerificationCodeIncorrect)
+            reduce(newState = stateFlow.value.copy(emailVerificationCode = ""))
         }
     }
 
-    private fun examineSchoolAnswer() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                examineSchoolVerificationQuestionUseCase(
-                    examineSchoolVerificationQuestionInput = ExamineSchoolVerificationQuestionInput(
-                        schoolId = stateFlow.value.schoolId!!,
-                        answer = stateFlow.value.schoolAnswer,
-                    )
-                )
-            }.onSuccess {
-                postSideEffect(sideEffect = SignUpSideEffect.SchoolQuestion.SuccessVerifySchoolAnswer)
-            }.onFailure {
-                setSchoolAnswerMismatchError(it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized)
-            }
+    private fun resetEmailVerificationSession() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            this@SignUpViewModel.sendEmailVerificationCode(email = stateFlow.value.email)
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.EmailVerificationSessionReset)
+            reduce(newState = stateFlow.value.copy(emailVerificationCode = ""))
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.EmailVerificationSessionResetFailed)
         }
     }
 
-    private fun checkEmailDuplication() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                checkEmailDuplicationUseCase(
-                    checkEmailDuplicationInput = CheckEmailDuplicationInput(stateFlow.value.email)
-                )
-            }.onSuccess {
-                postSideEffect(sideEffect = SignUpSideEffect.SendEmail.AvailableEmail)
-            }.onFailure {
-                setSendEmailButtonEnabled(false)
-                if (it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict) {
-                    postSideEffect(sideEffect = SignUpSideEffect.SendEmail.DuplicatedEmail)
-                }
-            }
-        }
-    }
+    private fun updateGrade(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            grade = value,
+        ),
+    )
 
-    private fun sendEmailVerificationCode() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                sendEmailVerificationCodeUseCase(
-                    sendEmailVerificationCodeInput = SendEmailVerificationCodeInput(
-                        email = stateFlow.value.email,
-                        type = EmailVerificationType.SIGNUP,
-                    )
-                )
-            }.onSuccess {
-                postSideEffect(sideEffect = SignUpSideEffect.SendEmail.SuccessSendEmailVerificationCode)
-            }.onFailure {
+    private fun updateClass(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            classroom = value,
+        ),
+    )
 
-            }
-        }
-    }
+    private fun updateNumber(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            number = value,
+        ),
+    )
 
-    private fun checkEmailVerificationCode() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                checkEmailVerificationCodeUseCase(
-                    checkEmailVerificationCodeInput = CheckEmailVerificationCodeInput(
-                        email = stateFlow.value.email,
-                        authCode = stateFlow.value.authCode,
-                        type = EmailVerificationType.SIGNUP,
-                    )
-                )
-            }.onSuccess {
-                postSideEffect(sideEffect = SignUpSideEffect.VerifyEmail.SuccessVerifyEmail)
-            }.onFailure {
-                setAuthCodeButtonEnabled(true)
-                when(it){
-                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized -> {
-                        setAuthCodeMismatchError()
-                    }
-
-                    is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> {
-                        postSideEffect(SignUpSideEffect.VerifyEmail.ConflictEmail)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun examineStudentNumber() {
-        viewModelScope.launch(Dispatchers.IO) {
-            with(stateFlow.value) {
-                kotlin.runCatching {
-                    examineStudentNumberUseCase(
-                        examineStudentNumberInput = ExamineStudentNumberInput(
-                            schoolId = schoolId!!,
-                            grade = grade.toInt(),
-                            classRoom = classRoom.toInt(),
-                            number = number.toInt(),
-                        )
-                    )
-                }.onSuccess {
-                    setCheckedStudentName(true)
-                    setStudentNumberMismatchError(false)
-                    setStudentName(studentName = it.name)
-                }.onFailure {
-                    setCheckedStudentName(false)
-                    setStudentNumberMismatchError(true)
-                    when (it) {
-                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.NotFound -> {
-
-                        }
-
-                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> {
-                            postSideEffect(SignUpSideEffect.SetId.ConflictStudent)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun checkIdDuplication() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                checkIdDuplicationUseCase(
-                    checkIdDuplicationInput = CheckIdDuplicationInput(
-                        accountId = stateFlow.value.accountId,
-                    )
-                )
-            }.onSuccess {
-                postSideEffect(SignUpSideEffect.SetId.SuccessVerifyStudent)
-            }.onFailure {
-                setConflictAccountIdError(it is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict)
-            }
-        }
-    }
-
-    private fun uploadProfile(): String {
-        return runBlocking(Dispatchers.IO) {
-            uploadFileUseCase(
-                uploadFileInput = UploadFileInput(
-                    file = stateFlow.value.profileImageUri!!.toFile(), // not-null asserted
-                ),
-            )
-        }.fileUrl
-    }
-
-    private fun uploadImage() {
-        if (stateFlow.value.profileImageUri == null) {
-            postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageNotSelected)
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                uploadProfile()
-            }.onSuccess {
-                postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageSuccess)
-                setProfileImageUrl(it)
-            }.onFailure {
-                postSideEffect(SignUpSideEffect.SetProfileImage.UploadImageFailed)
-            }
-        }
-    }
-    
-    private fun signUp() {
-        viewModelScope.launch(Dispatchers.IO) {
-            with(stateFlow.value) {
-                kotlin.runCatching {
-                    signUpUseCase(
-                        signUpInput = SignUpInput(
-                            schoolVerificationCode = schoolCode,
-                            schoolVerificationAnswer = schoolAnswer,
-                            email = email,
-                            emailVerificationCode = authCode,
-                            grade = grade.toInt(),
-                            classRoom = classRoom.toInt(),
-                            number = number.toInt(),
-                            accountId = accountId,
-                            password = password,
-                            profileImageUrl = profileImageUrl,
-                        )
-                    )
-                }.onSuccess {
-                    postSideEffect(SignUpSideEffect.Terms.SuccessSignUp)
-                }.onFailure {
-                    when (it) {
-                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.Unauthorized -> {
-                            postSideEffect(SignUpSideEffect.Terms.EmailNotVerified)
-                        }
-
-                        is team.aliens.dms.android.domain._legacy.exception.RemoteException.Conflict -> {
-                            postSideEffect(SignUpSideEffect.Terms.AlreadyExistsStudent)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setSchoolCode(
-        schoolCode: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolCode = schoolCode,
-            )
-        )
-        if (schoolCode.length == 8) examineSchoolVerificationCode()
-        setSchoolCodeButtonEnabled(schoolCode.isNotEmpty() && !stateFlow.value.schoolCodeMismatchError)
-    }
-
-    private fun setSchoolQuestion(
-        schoolQuestion: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolQuestion = schoolQuestion,
-            )
-        )
-    }
-
-    private fun setSchoolAnswer(
-        schoolAnswer: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolAnswer = schoolAnswer,
-            )
-        )
-        setSchoolAnswerButtonEnabled(schoolAnswer.isNotBlank())
-    }
-    
-    private fun setEmail(
-        email: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                email = email,
-            )
-        )
-        setSendEmailButtonEnabled(email.isNotEmpty())
-        setEmailFormatError(!Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), email))
-    }
-
-    private fun setEmailExpirationTime(
-        emailExpirationTime: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                emailExpirationTime = emailExpirationTime,
-            )
-        )
-    }
-
-    private fun setEmailTimerWorked(
-        emailTimerWorked: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                emailTimerWorked = emailTimerWorked,
-            )
-        )
-    }
-
-    private fun setAuthCode(
-        authCode: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                authCode = authCode,
-            )
-        )
-        setAuthCodeButtonEnabled(authCode.isNotEmpty())
-    }
-
-    private fun setGrade(
-        grade: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                grade = grade,
-            )
-        )
-        setIdButtonEnabled()
-    }
-
-    private fun setClassRoom(
-        classRoom: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                classRoom = classRoom,
-            )
-        )
-        setIdButtonEnabled()
-    }
-
-    private fun setNumber(
-        number: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                number = number,
-            )
-        )
-        setIdButtonEnabled()
-    }
-
-    private fun setAccountId(
-        accountId: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                accountId = accountId,
-            )
-        )
-        setIdButtonEnabled()
-    }
-
-    private fun setStudentName(
-        studentName: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                studentName = studentName,
-            )
-        )
-    }
-
-    private fun setCheckedStudentName(
-        checkedStudentName: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                checkedStudentName = checkedStudentName,
-            )
-        )
-    }
-
-    private fun setPassword(
-        password: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                password = password,
-            )
-        )
-        setPasswordFormatError(!Pattern.matches(passwordFormat, password))
-    }
-
-    private fun setPasswordRepeat(
-        passwordRepeat: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordRepeat = passwordRepeat,
-            )
-        )
-        setPasswordMismatchError(stateFlow.value.password != passwordRepeat)
-    }
-
-    private fun checkPassword() {
-        if (!stateFlow.value.passwordFormatError && !stateFlow.value.passwordMismatchError) {
-            setPasswordButtonEnabled(true)
-            postSideEffect(SignUpSideEffect.SetPassword.SuccessCheckPassword)
-        }
-    }
-    
-    private fun setProfileImageUri(
-        profileImageUri: Uri?,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                profileImageUri = profileImageUri,
-            )
-        )
-        setProfileImageEnabled(profileImageUri != null)
-    }
-
-    private fun setSchoolId(
-        schoolId: UUID,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
+    private fun examineStudent() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            val capturedState = stateFlow.value
+            studentRepository.examineStudentNumber(
                 schoolId = schoolId,
+                grade = capturedState.grade.toInt(),
+                classroom = capturedState.classroom.toInt(),
+                number = capturedState.number.toInt(),
             )
+        }.onSuccess { studentName ->
+            postSideEffect(SignUpSideEffect.UserFound(studentName = studentName))
+        }.onFailure {
+            it.printStackTrace()
+            postSideEffect(SignUpSideEffect.UserNotFound)
+        }
+    }
+
+    private fun updateId(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            id = value,
+        ),
+    )
+
+    private fun confirmId() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studentRepository.checkIdDuplication(id = stateFlow.value.id)
+        }.onSuccess {
+            postSideEffect(SignUpSideEffect.IdAvailable)
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.IdDuplicated)
+        }
+    }
+
+    private fun updatePassword(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            password = value,
+        ),
+    )
+
+    private fun updatePasswordRepeat(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            passwordRepeat = value,
+        ),
+    )
+
+    private fun confirmPassword() {
+        val capturedState = stateFlow.value
+        val password = capturedState.password
+        val passwordRepeat = capturedState.passwordRepeat
+        postSideEffect(
+            sideEffect = if (password != passwordRepeat) {
+                SignUpSideEffect.PasswordMismatch
+            } else {
+                SignUpSideEffect.PasswordSet
+            },
         )
     }
 
-    private fun setProfileImageUrl(
-        profileImageUrl: String,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                profileImageUrl = profileImageUrl,
-            )
-        )
-    }
-
-    private fun setCheckedPolicy(
-        checkedPolicy: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                checkedPolicy = checkedPolicy,
-            )
-        )
-    }
-
-    private fun setSchoolCodeMismatchError(
-        schoolCodeMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolCodeMismatchError = schoolCodeMismatchError,
-            )
-        )
-    }
-
-    private fun setSchoolAnswerMismatchError(
-        schoolAnswerMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolAnswerMismatchError = schoolAnswerMismatchError
-            )
-        )
-        setSchoolAnswerButtonEnabled(!schoolAnswerMismatchError)
-    }
-
-    private fun setEmailFormatError(
-        emailFormatError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                emailFormatError = emailFormatError,
-            )
-        )
-        setSendEmailButtonEnabled(!emailFormatError)
-    }
-
-    private fun setAuthCodeMismatchError() {
-        reduce(
-            newState = stateFlow.value.copy(
-                authCodeMismatchError = true,
-            )
-        )
-        setAuthCodeButtonEnabled(false)
-    }
-
-    private fun setStudentNumberMismatchError(
-        studentNumberMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                studentNumberMismatchError = studentNumberMismatchError,
-            )
-        )
-        setIdButtonEnabled()
-    }
-
-    private fun setConflictAccountIdError(
-        conflictAccountIdError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                conflictAccountIdError = conflictAccountIdError,
-            )
-        )
-    }
-
-    private fun setPasswordFormatError(
-        passwordFormatError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordFormatError = passwordFormatError,
-            )
-        )
-        setPasswordButtonEnabled(!passwordFormatError && !stateFlow.value.passwordMismatchError)
-    }
-
-    private fun setPasswordMismatchError(
-        passwordMismatchError: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordMismatchError = passwordMismatchError,
-            )
-        )
-        setPasswordButtonEnabled(!stateFlow.value.passwordFormatError && !passwordMismatchError)
-    }
-
-    private fun setSchoolCodeButtonEnabled(
-        schoolCodeButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolCodeButtonEnabled = schoolCodeButtonEnabled,
-            )
-        )
-    }
-
-    private fun setSchoolAnswerButtonEnabled(
-        schoolAnswerButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                schoolAnswerButtonEnabled = schoolAnswerButtonEnabled,
-            )
-        )
-    }
-
-    private fun setSendEmailButtonEnabled(
-        sendEmailButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                sendEmailButtonEnabled = sendEmailButtonEnabled,
-            )
-        )
-    }
-
-    private fun setAuthCodeButtonEnabled(
-        authCodeButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                authCodeButtonEnabled = authCodeButtonEnabled,
-            )
-        )
-    }
-
-    private fun setIdButtonEnabled() {
-        with(stateFlow.value) {
-            reduce(
-                newState = copy(
-                    idButtonEnabled = !studentNumberMismatchError && grade.isNotBlank() && classRoom.isNotBlank() && number.isNotBlank() && accountId.isNotBlank(),
-                )
+    private fun signUp() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            val capturedState = stateFlow.value
+            studentRepository.signUp(
+                schoolVerificationCode = capturedState.schoolVerificationCode,
+                schoolVerificationAnswer = capturedState.schoolVerificationAnswer,
+                email = capturedState.email,
+                emailVerificationCode = capturedState.emailVerificationCode,
+                grade = capturedState.grade.toInt(),
+                classRoom = capturedState.classroom.toInt(),
+                number = capturedState.number.toInt(),
+                accountId = capturedState.id,
+                password = capturedState.password,
+                profileImageUrl = capturedState.profileImageUrl,
             )
         }
     }
 
-    private fun setPasswordButtonEnabled(
-        passwordButtonEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                passwordButtonEnabled = passwordButtonEnabled,
-            )
-        )
-    }
-
-    private fun setProfileImageEnabled(
-        ProfileImageEnabled: Boolean,
-    ) {
-        reduce(
-            newState = stateFlow.value.copy(
-                profileImageButtonEnabled = ProfileImageEnabled,
-            )
-        )
+    companion object {
+        const val SCHOOL_VERIFICATION_CODE_LENGTH = 8
+        const val EMAIL_VERIFICATION_CODE_LENGTH = 6
     }
 }
 
-sealed class SignUpIntent : MviIntent {
-    
-    sealed class VerifySchool : SignUpIntent() {
-        class SetSchoolVerificationCode(val schoolCode: String) : VerifySchool()
-        object ExamineSchoolVerificationCode : VerifySchool()
-    }
+data class SignUpUiState(
+    // EnterSchoolVerificationCode
+    val schoolVerificationCode: String,
 
-    sealed class SchoolQuestion : SignUpIntent() {
-        object FetchSchoolQuestion : SchoolQuestion()
-        class SetSchoolAnswer(val schoolAnswer: String) : SchoolQuestion()
-        object ExamineSchoolAnswer : SchoolQuestion()
-    }
+    // EnterSchoolVerificationQuestion
+    val schoolVerificationQuestion: String?,
+    val schoolVerificationAnswer: String,
 
-    sealed class SendEmail : SignUpIntent() {
-        class SetEmail(val email: String) : SendEmail()
-        object CheckEmailDuplication : SendEmail()
-        object SendEmailVerificationCode : SendEmail()
-        class SetEmailExpirationTime(val emailExpirationTime: String) : SendEmail()
-        class SetEmailTimerWorked(val emailTimerWorked: Boolean) : SendEmail()
-    }
-
-    sealed class VerifyEmail : SignUpIntent() {
-        class SetAuthCode(val authCode: String) : VerifyEmail()
-        object CheckEmailVerificationCode : VerifyEmail()
-    }
-
-    sealed class SetId : SignUpIntent() {
-        class SetGrade(val grade: String) : SetId()
-        class SetClassRoom(val classRoom: String) : SetId()
-        class SetNumber(val number: String) : SetId()
-        class SetAccountId(val accountId: String) : SetId()
-        class SetStudentName(val studentName: String) : SetId()
-        class SetCheckedStudentName(val checkedStudentName: Boolean) : SetId()
-        object ExamineStudentNumber : SetId()
-        object CheckIdDuplication : SetId()
-    }
-
-    sealed class SetPassword : SignUpIntent() {
-        class SetPassword(val password: String) : SignUpIntent.SetPassword()
-        class SetPasswordRepeat(val passwordRepeat: String) : SignUpIntent.SetPassword()
-        object CheckPassword : SignUpIntent.SetPassword()
-    }
-
-    sealed class SetProfileImage : SignUpIntent() {
-        class SelectProfileImage(val profileImageUri: Uri) : SetProfileImage()
-        object UploadImage : SetProfileImage()
-    }
-
-    sealed class Terms : SignUpIntent() {
-        class SetCheckedPolicy(val checkedPolicy: Boolean) : Terms()
-        object SignUp : Terms()
-    }
-}
-
-data class SignUpState(
-    val schoolCode: String,
-    val schoolQuestion: String,
-    val schoolAnswer: String,
+    // EnterEmail
     val email: String,
-    val emailExpirationTime: String,
-    val emailTimerWorked: Boolean,
-    val authCode: String,
+
+    // EnterEmailVerificationCode
+    val sessionId: UUID,
+    val emailVerificationCode: String,
+
+    // SetId
     val grade: String,
-    val classRoom: String,
+    val classroom: String,
     val number: String,
-    val accountId: String,
-    val studentName: String,
-    val checkedStudentName: Boolean,
+    val id: String,
+
+    // SetPassword
     val password: String,
     val passwordRepeat: String,
-    val profileImageUri: Uri?,
-    val profileImageUrl: String,
-    val schoolId: UUID?,
-    val checkedPolicy: Boolean,
-    val schoolCodeMismatchError: Boolean,
-    val schoolAnswerMismatchError: Boolean,
-    val emailFormatError: Boolean,
-    val authCodeMismatchError: Boolean,
-    val studentNumberMismatchError: Boolean,
-    val conflictAccountIdError: Boolean,
-    val passwordFormatError: Boolean,
-    val passwordMismatchError: Boolean,
-    val schoolCodeButtonEnabled: Boolean,
-    val schoolAnswerButtonEnabled: Boolean,
-    val sendEmailButtonEnabled: Boolean,
-    val authCodeButtonEnabled: Boolean,
-    val idButtonEnabled: Boolean,
-    val passwordButtonEnabled: Boolean,
-    val profileImageButtonEnabled: Boolean,
-) : MviState {
+
+    // SetProfileImage
+    val profileImageUrl: String?,
+) : UiState() {
     companion object {
-        fun initial(): SignUpState {
-            return SignUpState(
-                schoolCode = "",
-                schoolQuestion = "",
-                schoolAnswer = "",
-                email = "",
-                emailExpirationTime = "",
-                emailTimerWorked = false,
-                authCode = "",
-                grade = "",
-                classRoom = "",
-                number = "",
-                accountId = "",
-                studentName = "",
-                checkedStudentName = false,
-                password = "",
-                passwordRepeat = "",
-                profileImageUri = null,
-                profileImageUrl = defaultProfileUrl,
-                schoolId = null,
-                checkedPolicy = false,
-                schoolCodeMismatchError = false,
-                schoolAnswerMismatchError = false,
-                emailFormatError = false,
-                authCodeMismatchError = false,
-                studentNumberMismatchError = false,
-                conflictAccountIdError = false,
-                passwordFormatError = false,
-                passwordMismatchError = false,
-                schoolCodeButtonEnabled = false,
-                schoolAnswerButtonEnabled = false,
-                sendEmailButtonEnabled = false,
-                authCodeButtonEnabled = false,
-                idButtonEnabled = false,
-                passwordButtonEnabled = false,
-                profileImageButtonEnabled = false,
-            )
-        }
+        fun initial() = SignUpUiState(
+            schoolVerificationCode = "",
+            schoolVerificationQuestion = null,
+            schoolVerificationAnswer = "",
+            email = "",
+            sessionId = UUID.randomUUID(),
+            emailVerificationCode = "",
+            grade = "",
+            classroom = "",
+            number = "",
+            id = "",
+            password = "",
+            passwordRepeat = "",
+            profileImageUrl = null,
+        )
     }
 }
 
-sealed class SignUpSideEffect : MviSideEffect {
-    
-    sealed class VerifySchool : SignUpSideEffect() {
-        object SuccessVerifySchoolCode : VerifySchool()
-    }
+sealed class SignUpIntent : Intent() {
+    // EnterSchoolVerificationCode
+    class UpdateSchoolVerificationCode(val value: String) : SignUpIntent()
+    data object ExamineSchoolVerificationCode : SignUpIntent()
 
-    sealed class SchoolQuestion : SignUpSideEffect() {
-        object SuccessVerifySchoolAnswer : SchoolQuestion()
-    }
+    // EnterSchoolVerificationQuestion
+    class UpdateSchoolVerificationAnswer(val value: String) : SignUpIntent()
+    data object ExamineSchoolVerificationAnswer : SignUpIntent()
 
-    sealed class SendEmail : SignUpSideEffect() {
-        object AvailableEmail : SendEmail()
-        object DuplicatedEmail : SendEmail()
-        object SuccessSendEmailVerificationCode : SendEmail()
-    }
+    // EnterEmail
+    class UpdateEmail(val value: String) : SignUpIntent()
+    data object VerifyEmail : SignUpIntent()
 
-    sealed class VerifyEmail : SignUpSideEffect() {
-        object SuccessVerifyEmail : VerifyEmail()
-        object ConflictEmail : VerifyEmail()
-    }
+    // EnterEmailVerificationCode
+    class UpdateEmailVerificationCode(val value: String) : SignUpIntent()
+    data object CheckEmailVerificationCode : SignUpIntent()
+    data object ResetEmailVerificationSession : SignUpIntent()
 
-    sealed class SetId : SignUpSideEffect() {
-        object NotFoundStudent: SetId()
-        object ConflictStudent : SetId()
-        object SuccessVerifyStudent : SetId()
-    }
+    // SetId
+    class UpdateGrade(val value: String) : SignUpIntent()
+    class UpdateClass(val value: String) : SignUpIntent()
+    class UpdateNumber(val value: String) : SignUpIntent()
+    data object ExamineStudent : SignUpIntent()
+    class UpdateId(val value: String) : SignUpIntent()
+    data object ConfirmId : SignUpIntent()
 
-    sealed class SetPassword : SignUpSideEffect() {
-        object SuccessCheckPassword : SetPassword()
-    }
+    // SetPassword
+    class UpdatePassword(val value: String) : SignUpIntent()
+    class UpdatePasswordRepeat(val value: String) : SignUpIntent()
+    data object ConfirmPassword : SignUpIntent()
 
-    sealed class SetProfileImage : SignUpSideEffect() {
-        object UploadImageSuccess : SetProfileImage()
-        object UploadImageFailed : SetProfileImage()
-        object UploadImageNotSelected : SetProfileImage()
-    }
+    // Terms
+    data object SignUp : SignUpIntent()
+}
 
-    sealed class Terms : SignUpSideEffect() {
-        object SuccessSignUp : Terms()
-        object EmailNotVerified : Terms()
-        object AlreadyExistsStudent : Terms()
-    }
-}*/
+sealed class SignUpSideEffect : SideEffect() {
+
+    // EnterSchoolVerificationCode
+    data object SchoolVerificationCodeExamined : SignUpSideEffect()
+    data object SchoolVerificationCodeNotFound : SignUpSideEffect()
+
+    // EnterSchoolVerificationQuestion
+    data object SchoolVerificationQuestionExamined : SignUpSideEffect()
+    data object SchoolVerificationQuestionIncorrect : SignUpSideEffect()
+
+    // EnterEmail
+    data object EmailAvailable : SignUpSideEffect()
+    data object EmailFormatError : SignUpSideEffect()
+    data object EmailNotAvailable : SignUpSideEffect()
+
+    // EnterEmailVerificationCode
+    data object EmailVerificationCodeChecked : SignUpSideEffect()
+    data object EmailVerificationCodeIncorrect : SignUpSideEffect()
+    data object EmailVerificationSessionReset : SignUpSideEffect()
+    data object EmailVerificationSessionResetFailed : SignUpSideEffect()
+
+    // SetId
+    class UserFound(val studentName: String) : SignUpSideEffect()
+    data object UserNotFound : SignUpSideEffect()
+    data object IdAvailable : SignUpSideEffect()
+    data object IdDuplicated : SignUpSideEffect()
+
+    // SetPassword
+    data object PasswordSet : SignUpSideEffect()
+    data object PasswordMismatch : SignUpSideEffect()
+
+    // Terms
+    data object SignedUp : SignUpSideEffect()
+    data object SignUpFailure : SignUpSideEffect()
+}

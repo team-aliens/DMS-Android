@@ -24,7 +24,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="3dp"
         android:lineSpacingExtra="1dp"
-        android:text="@string/MealNotFound"
+        android:text="not found"
         android:textColor="@color/gray_600"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -1,105 +1,169 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.AlertDialog
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.TextButton
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.composable.PasswordTextField
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
+// FIXME 비밀번호 정규식 검사
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun SignUpSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel,
+    viewModel: SignUpViewModel,
 ) {
-/*
-    val uiState by signUpViewModel.stateFlow.collectAsState()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    val focusManager = LocalFocusManager.current
+    val (showPassword, onShowPasswordChange) = remember { mutableStateOf(false) }
+    val (showPasswordRepeat, onShowPasswordRepeatChange) = remember { mutableStateOf(false) }
 
-    val onPasswordChange = { password: String ->
-        signUpViewModel.postIntent(SignUpIntent.SetPassword.SetPassword(password))
+    val toast = LocalToast.current
+    val context = LocalContext.current
+
+    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
+        mutableStateOf(false)
     }
-
-    val onPasswordRepeatChange = { passwordRepeat: String ->
-        signUpViewModel.postIntent(SignUpIntent.SetPassword.SetPasswordRepeat(passwordRepeat))
-    }
-
-    LaunchedEffect(Unit) {
-        signUpViewModel.sideEffectFlow.collect {
-            when (it) {
-                is SignUpSideEffect.SetPassword.SuccessCheckPassword -> {
-                    navigator.openSetProfileImage()
+    if (shouldShowQuitSignUpDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.sign_up)) },
+            text = { Text(text = stringResource(id = R.string.sign_up_info_are_you_sure_you_quit_sign_up)) },
+            onDismissRequest = { /* explicit blank */ },
+            confirmButton = {
+                TextButton(
+                    onClick = navigator::popUpToSignUp,
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
                 }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onShouldShowQuitSignUpDialogChange(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
 
-                else -> {}
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            // FIXME: 이미지 업로드 구현
+            SignUpSideEffect.PasswordSet -> navigator.openTerms()
+            SignUpSideEffect.PasswordMismatch -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_set_password_error_password_mismatch),
+            )
+
+            else -> {/* explicit blank */
             }
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                DormTheme.colors.surface,
+    DmsScaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = navigator::popUpToSetId) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
             )
-            .padding(
-                top = 108.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
-                focusManager.clearFocus()
-            },
-    ) {
-        AppLogo(darkIcon = isSystemInDarkTheme())
-        Space(space = 8.dp)
-        Body2(text = stringResource(id = R.string.SetPassword))
-        Space(space = 4.dp)
-        Caption(
-            text = stringResource(id = R.string.PasswordWarning),
-            color = DormTheme.colors.primaryVariant,
-        )
+        },
+    ) { padValues ->
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.824f)
-                .padding(top = 60.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .fillMaxSize()
+                .padding(padValues)
+                .imePadding(),
         ) {
-            Box(
-                modifier = Modifier.fillMaxHeight(0.17f),
+            Spacer(modifier = Modifier.weight(1f))
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(BannerDefaults.DefaultTopSpace)
+                    .startPadding(),
+                message = { BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_set_password)) },
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
             ) {
-                DormTextField(
+                PasswordTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
                     value = uiState.password,
-                    onValueChange = onPasswordChange,
-                    hint = stringResource(id = R.string.EnterPassword),
-                    isPassword = true,
-                    error = uiState.passwordFormatError,
-                    errorDescription = stringResource(id = R.string.CheckPasswordFormat),
-                    imeAction = ImeAction.Next,
+                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdatePassword(value = it)) },
+                    passwordShowing = showPassword,
+                    onPasswordShowingChange = onShowPasswordChange,
+                    hintText = stringResource(id = R.string.sign_up_set_password_please_enter_password)
+                )
+                PasswordTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    value = uiState.passwordRepeat,
+                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdatePasswordRepeat(value = it)) },
+                    passwordShowing = showPasswordRepeat,
+                    onPasswordShowingChange = onShowPasswordRepeatChange,
+                    hintText = stringResource(id = R.string.sign_up_set_password_please_enter_password_again)
                 )
             }
-            DormTextField(
-                value = uiState.passwordRepeat,
-                onValueChange = onPasswordRepeatChange,
-                hint = stringResource(id = R.string.ReEnterPassword),
-                isPassword = true,
-                error = uiState.passwordMismatchError,
-                errorDescription = stringResource(id = R.string.CheckPassword),
-                keyboardActions = KeyboardActions {
-                    focusManager.clearFocus()
-                },
-                imeAction = ImeAction.Done,
-            )
+            Spacer(modifier = Modifier.weight(3f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = { viewModel.postIntent(SignUpIntent.ConfirmPassword) },
+            ) {
+                Text(text = stringResource(id = R.string.next))
+            }
         }
-        DormContainedLargeButton(
-            text = stringResource(id = R.string.Next),
-            color = DormButtonColor.Blue,
-            enabled = uiState.passwordButtonEnabled,
-        ) {
-            signUpViewModel.postIntent(SignUpIntent.SetPassword.CheckPassword)
-        }
-    }*/
+    }
+    BackHandler {
+        onShouldShowQuitSignUpDialogChange(true)
+    }
 }

@@ -19,9 +19,9 @@ internal class NetworkAuthDataSourceImpl @Inject constructor(
 
     override suspend fun checkEmailVerificationCode(
         email: String,
-        authCode: String,
+        code: String,
         type: String,
-    ) = handleNetworkRequest { authApiService.checkEmailVerificationCode(email, authCode, type) }
+    ) = handleNetworkRequest { authApiService.checkEmailVerificationCode(email, code, type) }
 
     override suspend fun checkIdExists(accountId: String): CheckIdExistsResponse =
         handleNetworkRequest { authApiService.checkIdExists(accountId) }

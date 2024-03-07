@@ -13,11 +13,12 @@ junitAndroid = "1.1.5"
 coroutines = "1.7.3"
 lifecycle = "2.7.0"
 material = "1.11.0"
-materialCompose = "1.1.2"
+materialCompose = "1.2.0"
 agp = "8.2.2"
-kotlin = "1.9.20"
+kotlinAndroid = "1.9.20"
+kotlinJvm = "1.9.20"
 hilt = "2.48"
-google = "4.4.0"
+google = "4.4.1"
 ksp = "1.9.10-1.0.13"
 moshiKotlin = "1.14.0"
 okhttp = "4.12.0"
@@ -54,7 +55,7 @@ androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling",
 androidx-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
 androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 androidx-compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "materialCompose" }
-androidx-compose-material-window = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "materialCompose" }
+androidx-compose-material-window = { group = "androidx.compose.material3", name = "material3-window-size-class-android", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestination" }
@@ -64,7 +65,8 @@ javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInjec
 # Deprecated
 junit = { module = "junit:junit", version.ref = "junit" }
 
-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
 moshi-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshiKotlin" }
@@ -83,7 +85,8 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "google" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvm" }

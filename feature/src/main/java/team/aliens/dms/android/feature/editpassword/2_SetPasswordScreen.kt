@@ -25,6 +25,8 @@ import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
@@ -109,6 +111,11 @@ internal fun EditPasswordSetPasswordScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(
+                        text = stringResource(id = R.string.edit_password_new_password),
+                    )
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             PasswordTextField(

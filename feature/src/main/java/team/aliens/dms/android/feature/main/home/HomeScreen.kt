@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +32,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,6 +67,7 @@ import team.aliens.dms.android.core.designsystem.DmsCalendar
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.PrimaryDefault
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
@@ -150,56 +151,55 @@ internal fun HomeScreen(
     ) { padValues ->
         Column(
             modifier = Modifier
+                .animateContentSize()
                 .background(brush = HomeBackgroundBrush)
                 .fillMaxSize()
                 .padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(DefaultHomeScreenVerticalSpace),
         ) {
-            AnnouncementCard(
-                modifier = Modifier.fillMaxWidth(),
-                visible = uiState.newNoticesExist,
-                onNavigateToAnnouncementList = onNavigateToAnnouncementList,
-            )
-            Column(
-                modifier = Modifier.animateContentSize(),
-            ) {
-                Spacer(modifier = Modifier.weight(2f))
-                Text(
+            if (uiState.newNoticesExist) {
+                AnnouncementCard(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.meal_todays_meal),
-                    textAlign = TextAlign.Center,
-                    style = DmsTheme.typography.title1,
-                    color = DmsTheme.colorScheme.onSurface,
+                    visible = true,
+                    onNavigateToAnnouncementList = onNavigateToAnnouncementList,
                 )
-                Spacer(modifier = Modifier.weight(2f))
-                DateCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(),
-                    selectedDate = uiState.selectedDate,
-                    onShowCalendar = {
-                        onShouldShowCalendarChange(true)
-                        onChangeBottomAppBarVisibility(false)
-                    },
-                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                )
-                MealCards(
-                    modifier = Modifier.weight(20f),
-                    currentDate = uiState.selectedDate,
-                    meal = uiState.currentMeal,
-                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
-                )
-                Spacer(modifier = Modifier.weight(5f))
+            } else {
+                Spacer(modifier = Modifier.height(DefaultHomeScreenVerticalSpace))
             }
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.meal_todays_meal),
+                textAlign = TextAlign.Center,
+                style = DmsTheme.typography.title1,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+            DateCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize(),
+                selectedDate = uiState.selectedDate,
+                onShowCalendar = {
+                    onShouldShowCalendarChange(true)
+                    onChangeBottomAppBarVisibility(false)
+                },
+                onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+            )
+
+            MealCards(
+                modifier = Modifier.weight(1f),
+                currentDate = uiState.selectedDate,
+                meal = uiState.currentMeal,
+                onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+            )
+            Spacer(modifier = Modifier.height(92.dp))
         }
     }
 }
+
+@Stable
+private val DefaultHomeScreenVerticalSpace = 24.dp
 
 @Stable
 private val HomeBackgroundBrush: Brush = Brush.verticalGradient(
@@ -508,7 +508,7 @@ private fun MealCard(
                     }
                 }
             },
-        shape = DmsTheme.shapes.surfaceMedium,
+        shape = DmsTheme.shapes.surfaceLarge,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,

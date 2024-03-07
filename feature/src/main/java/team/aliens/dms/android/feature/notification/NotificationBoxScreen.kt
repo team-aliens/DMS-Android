@@ -18,11 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
-import team.aliens.dms.android.core.designsystem.modifier.dormClickable
-import team.aliens.dms.android.core.designsystem.modifier.dormShadow
-import team.aliens.dms.android.core.designsystem.typography.Body3
-import team.aliens.dms.android.core.designsystem.typography.Caption
+import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
 import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.feature.R
@@ -53,6 +49,7 @@ internal fun NotificationBoxScreen(
         )
     }*/
 }
+/*
 
 // todo move to design system
 @Composable
@@ -155,3 +152,4 @@ private fun createdAtDateToFormattedString(createdAt: String): String {
     // TODO
     return "8일 전"
 }
+*/

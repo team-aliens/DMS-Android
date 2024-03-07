@@ -26,7 +26,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
-import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedColumn
+import team.aliens.dms.android.core.designsystem.VerticallyFadedColumn
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding

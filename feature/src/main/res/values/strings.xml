@@ -1,220 +1,20 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-
-    // 앱 이름
-    <string name="Dms">DMS</string>
-
-    // 로그인
-    <string name="Login">로그인</string>
-    <string name="ID">아이디</string>
-    <string name="Password">비밀번호</string>
-    <string name="AutoLogin">자동로그인</string>
-    <string name="DoRegister">회원가입하기</string>
-    <string name="FindId">아이디 찾기</string>
-    <string name="PleaseEnterId">아이디를 입력해 주세요</string>
-    <string name="PleaseEnterPassword">비밀번호를 입력해 주세요</string>
-
-    // 회원가입
-    <string name="SignUpConflict">이미 회원가입 된 학생입니다</string>
-    <string name="CompleteRegister">회원가입이 완료되었습니다.</string>
-    <string name="GoLogin">로그인 화면으로 가기</string>
-    <string name="SignUpUnAuthorized">이메일이 인증되지 않음</string>
-    <string name="AgreeAllPolicy">전체 약관 동의</string>
-    <string name="FinishSignUp">회원가입을 종료하시겠습니까?</string>
-    <string name="CheckName">학번과 이름이 맞는지 확인해주세요.</string>
-    <string name="IdError">아이디는 20자 이내로 입력해주세요</string>
-
-    // 약관
-    <string name="CheckRegisterPolicy">회원가입 약관 동의</string>
-    <string name="CheckAllPolicy">전체 약관 동의</string>
-
-    // 이메일 입력
-    <string name="NotValidEmailFormat">올바른 이메일 형식이 아닙니다.</string>
-    <string name="EnterEmailAddress">이메일 주소 입력</string>
-    <string name="SendVerificationCode">인증코드 발송</string>
-
-    // 이메일 인증
-    <string name="ResendVerificationCode"><u>인증코드 재발송</u></string>
-    <string name="Verification">인증</string>
-    <string name="SendSuccess">성공적으로 이메일을 보냈습니다.</string>
-    <string name="EmailTooManyRequest" tools:ignore="ExtraTranslation">잠시 후에 다시 이메일을 보내주세요</string>
-    <string name="NoSameCode">인증코드가 일치하지 않습니다.</string>
-    <string name="ConflictEmail">이미 존재하는 이메일 입니다.</string>
-    <string name="AuthenticationTimeout">인증 시간이 만료되었습니다 재발송해주세요.</string>
-    <string name="VerificationCode">인증코드 입력</string>
-    <string name="ChangeEmail">인증 횟수가 초과되었습니다. 다른 이메일로 다시 시도해주세요.</string>
-    <string name="Retry">인증 횟수가 초과되었습니다. 잠시 후에 다시 시도해주세요.</string>
-    <string name="EmailSixCode">이메일로 전송된 인증코드 6자리를 입력해주세요.</string>
-    <string name="CancelEmailVerify">이메일 입력 화면으로 돌아가시겠습니까?</string>
-    <string name="ResendEmail">이메일이 재전송 되었습니다.</string>
-    <string name="EmailTimeOut">이메일 인증 코드 유효시간이 초과되었습니다. 다시 시도해주세요.</string>
-
-    // 아이디 설정
-    <string name="SetId">아이디 설정</string>
-    <string name="EnterId">아이디 입력</string>
-
-    <string name="Grade">학년</string>
-    <string name="ClassRoom">반</string>
-    <string name="Number">번호</string>
-
-    <string name="CheckGrade">학번을 확인해주세요.</string>
-    <string name="UsingId">사용중인 아이디입니다.</string>
-
-    // 학교 확인
-    <string name="QuestionConfirmSchool">학교 확인 질문</string>
-    <string name="InconsistentSchoolReply">학교 인증 질문과 답변이 일치하지 않습니다!</string>
-    <string name="Reply">답변</string>
-    <string name="AlreadyAccount">이미 계정이 있으신가요?</string>
-
-    // 학교 인증
-    <string name="SchoolVerificationCode">학교 인증코드 입력</string>
-    <string name="EmailEightCode">소속된 학교의 인증코드 8자리를 입력해주세요.</string>
-    <string name="SchoolUnAuthorized">학교 인증코드가 일치하지 않습니다.</string>
-    <string name="CheckSchoolCode">학교 인증코드를 확인해주세요.</string>
-
-    // 비밀번호 설정
-    <string name="SetPassword">비밀번호 설정</string>
-    <string name="SetNewPassword">비밀번호 설정</string>
-    <string name="EnterPassword">비밀번호 입력</string>
-    <string name="ReEnterPassword">비밀번호 재입력</string>
-    <string name="CheckPassword">비밀번호를 확인해주세요.</string>
-    <string name="SuccessResetPassword">비밀번호가 재설정 되었습니다.</string>
-    <string name="PasswordWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
-    <string name="FinishResetPassword">비밀번호 재설정을 종료하시겠습니까?</string>
-    <string name="CheckPasswordFormat">비밀번호 형식을 확인해주세요</string>
-
-    // 비밀번호 변경
-    <string name="ScanNewPassword">새 비밀번호 입력</string>
-    <string name="CheckScanNewPassword">새 비밀번호 재 확인</string>
-    <string name="MismatchRepeatPassword">비밀번호와 비밀번호 확인이 일치하지 않습니다</string>
-    <string name="ChangePassword">비밀번호 변경</string>
-    <string name="PwWarning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다.</string>
-    <string name="OriginPw">기존 비밀번호</string>
-    <string name="Identification">계정 본인인증</string>
-    <string name="SuccessChangePassword">비밀번호가 변경되었습니다.</string>
-    <string name="NotExistId">일치하는 아이디가 존재하지 않습니다.</string>
-    <string name="MatchEmailToId">아이디와 일치하는 이메일입니다.</string>
-    <string name="EnterName">이름 입력</string>
-
-    // 급식
-    <string name="TodayCafeteria">오늘의 급식</string>
-    <string name="MealNotFound">급식이 없습니다</string>
-
-    // 공지
-    <string name="Announcement">공지</string>
-    <string name="Notice">공지사항</string>
-    <string name="NewNotice">새로운 공지 있어요!</string>
-    <string name="LatestOrder">최신순</string>
-    <string name="OldestOrder">오래된 순</string>
-
-    // 마이페이지
-    <string name="PlusPoint">상점</string>
-    <string name="MinusPoint">벌점</string>
-    <string name="CheckPointList">상벌점 내역 확인</string>
-    <string name="Logout">로그아웃</string>
-    <string name="AreYouSureYouLogOut">정말 로그아웃 하시겠습니까?</string>
-    <string name="TakePhoto">사진 촬영</string>
-    <string name="SelectPhoto">사진 선택</string>
-    <string name="SetProfile">프로필 설정</string>
-    <string name="EditProfile">프로필 수정</string>
-    <string name="Withdrawal">회원 탈퇴</string>
-    <string name="AreYouSureYouWithdraw">정말 탈퇴 하시겠습니까?</string>
-
-    // 상벌점 목록
-    <string name="CheckPoint">상벌점 확인</string>
-
-    // 프로필 이미지 설정
-    <string name="ProfileImage">프로필 사진</string>
-    <string name="SettingLater"><u>다음에 설정하기</u></string>
-    <string name="LoadImageError">이미지를 가져오던 중 오류가 발생하였습니다.</string>
-
-    // 전역
-    <string name="Next">다음</string>
-    <string name="Check">확인</string>
-    <string name="Cancel">취소</string>역
-    <string name="Yes">네</string>
-    <string name="No">아니오</string>
-    <string name="AppDescription">더 편한 기숙사 생활을 위해</string>
-
-    // 에러 처리
-    <string name="Forbidden">접근 권한이 없습니다.</string>
-    <string name="BadRequest">잘못된 형식의 요청입니다. 다시 시도해주세요.</string>
-    <string name="UnAuthorized">토큰이 만료되었습니다. 재로그인해주세요.</string>
-    <string name="TooManyRequest">너무 많은 요청이 감지되었습니다. 잠시뒤에 다시 시도해주세요.</string>
-    <string name="NoInternetException">네트워크 연결을 확인해주세요.</string>
-    <string name="UnKnownException">알 수 없는 에러가 발생하였습니다.</string>
-    <string name="ServerException">서버와의 통신에서 오류가 발생하였습니다. 잠시 후에 다시 시도해주세요.</string>
-    <string name="NotFound">찾을 수 없음</string>
-
-    // 인증 실패
-    <string name="LoginUnauthorized">인증에 실패하였습니다.</string>
-    <string name="CompareSchoolNotFound">학교를 찾을 수 없습니다.</string>
-    <string name="CertificationInfoNotFound">인증 정보를 찾을 수 없습니다.</string>
-    <string name="LoginNotFound">해당 아이디는 존재하지 않는 아이디입니다.</string>
-    <string name="ChangePasswordNotFound">해당 사용자를 찾을 수 없습니다.</string>
-
-    // 설명
-    <string name="BackButton">backButton</string>
-    <string name="NextButton">NextButton</string>
-    <string name="MainLogo">MainLogo</string>
-    <string name="ContainAddImage">ContainAddImage</string>
-    <string name="AddImageButton">AddImageButton</string>
-    <string name="CameraIcon">CameraIcon</string>
-    <string name="PhotoIcon">PhotoIcon</string>
-    <string name="IcNotice">NoticeIcon</string>
-    <string name="Later">laterPager</string>
-    <string name="Now">nowPager</string>
-    <string name="Ago">agoPager</string>
-    <string name="TomorrowButton">TomorrowButton</string>
-    <string name="CafeteriaBackground">CafeteriaBackGround</string>
-
-    // 신청
-    <string name="Application">신청</string>
-    <string name="DoApply">신청하기</string>
-    <string name="CompleteApplication">신청 완료</string>
-    <string name="ChangeTo">로 변경하기</string>
-    <string name="CompleteApply">신청이 완료되었습니다!</string>
-    <string name="ForbiddenApplyRemain">잔류 신청 시간이 아닙니다.</string>
-    <string name="StudyRoom">자습실</string>
-    <string name="ApplicateStudyRoom">자습실 신청</string>
-    <string name="Stay">잔류</string>
-    <string name="RemainApplication">잔류 신청</string>
-    <string name="StudyRoomApplyDescription">자습실 사용이 필요한 경우, 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
-    <string name="RemainApplyDescription">주말 기숙사 잔류 여부를 확인하고, 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
-    <string name="DoApplyStudyRoom">자습실 신청하기</string>
-    <string name="DoApplyRemain">잔류 신청하기</string>
-    <string name="PleaseSelectSeatFirst">자리를 먼저 선택해주세요.</string>
-    <string name="Time">시간</string>
-    <string name="NoAvailableStudyRoom">신청 가능한 자습실이 없습니다.</string>
-    <string name="SeatAlreadyBeenUsed">이미 사용중인 자리입니다.</string>
-    <string name="NotAvailableSeat">신청할 수 없는 자리입니다.</string>
-    <string name="NotStudyRoomApplicateTime">현재 자습실 신청 시간이 아닙니다.</string>
-
-
-    // 바텀 내비게이션
-    <string name="Home">홈</string>
-    <string name="Guide">안내</string>
-    <string name="MyPage">마이페이지</string>
-    <string name="TheresNoNotices">공지사항이 없습니다.</string>
-
-    // 아이디 찾기
-    <string name="SelectSchool">학교를 선택해주세요.</string>
-    <string name="Name">이름</string>
-    <string name="GoLoginScreen">로그인 화면으로</string>
-    <string name="SendIdToEmail">%s 으로 아이디가 전송되었어요.</string>
-    <string name="NeedAccount">위 정보로 가입된 계정이 없습니다.</string>
-    <string name="MissMatchAccountInfo">학생 정보가 일치하지 않습니다.</string>
-
+<resources>
     <!-- app -->
-    <string name="app_name">DMS(Old)</string>
+    <string name="app_name">DMS</string>
     <string name="app_description">더 편한 기숙사 생활을 위해</string>
 
     <!--common-->
+    <string name="format_timer_m_s">%d:%02d</string>
+    <string name="format_timer_h_m_s">%d:%02d:%02d</string>
+    <string name="format_int">%d</string>
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
-    <string name="verification">인증</string>
+    <string name="verify">인증</string>
+    <string name="loading">…</string>
     <string name="accept">확인</string>
     <string name="cancel">취소</string>
     <string name="yes">네</string>
+    <string name="agree">동의</string>
     <string name="no">아니오</string>
     <string name="next">다음</string>
     <string name="order_latest">최신 순</string>
@@ -270,23 +70,35 @@
 
     <!--sign up-->
     <string name="sign_up">회원가입</string>
+    <string name="sign_up_quit_sign_up">회원가입 종료</string>
+    <string name="sign_up_info_are_you_sure_you_quit_sign_up">현재까지 입력한 정보가 파기됩니다. 회원가입을 종료하시겠습니까?</string>
     <string name="do_sign_up">회원가입하기</string>
     <string name="sign_up_complete">회원가입이 완료되었습니다</string>
     <string name="sign_up_go_to_sign_in">로그인 화면으로 가기</string>
     <string name="sign_up_are_you_sure_finish_sign_up">회원가입을 종료 하시겠습니까?</string>
+    <string name="sign_up_authorize">인증</string>
 
-    <string name="sign_up_policy_agree_policy">회원가입 약관 동의</string>
-    <string name="sign_up_policy_agree_all_policy">전체 약관 동의</string>
+    <string name="sign_up_agree_all_terms">전체 약관 동의</string>
 
     <string name="sign_up_error_conflict">이미 회원가입된 학생입니다</string>
     <string name="sign_up_error_unauthorized">이메일이 인증되지 않았습니다</string>
     <string name="sign_up_error_check_name">학번과 이름을 확인해 주세요</string>
     <string name="sign_up_error_id_format">아이디는 20자 이내로 입력해 주세요</string>
+    <string name="sign_up_terms_error_sign_up_failure">회원가입에 실패하였습니다</string>
 
-    <string name="sign_up_email_enter_email_address">이메일 주소 입력</string>
-    <string name="sign_up_email_enter_code">인증코드 입력</string>
-    <string name="sign_up_email_send_verification_code">인증코드 발송</string>
-    <string name="sign_up_email_resend_verification_code"><u>인증코드 재발송</u></string>
+    <!--
+    일반: 화면이름_메시지
+    오류: 화면이름_error_메시지
+    성공: 화면이름_success_메시지
+    안내: 화면이름_info_메시지
+    -->
+    <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
+    <string name="sign_up_enter_email_verification_code_success_resent_email">인증 코드가 재발송되었습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_cannot_resend_verification_code">인증 코드를 재발송할 수 없습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_timeout">인증 시간이 만료되었습니다</string>
+    <string name="sign_up_send_email_verification_code">인증 코드 발송</string>
     <string name="sign_up_email_resent">이메일이 재전송되었습니다</string>
     <string name="sign_up_email_please_enter_verification_code">이메일로 전송된 인증코드 6자리를 입력해 주세요</string>
     <string name="sign_up_email_verify_email_verification_code_sent">이메일로 인증 코드를 전송하였습니다</string>
@@ -298,7 +110,8 @@
     <string name="sign_up_email_error_time_out">인증 시간이 만료되었습니다</string>
     <string name="sign_up_email_error_too_many_requests">인증 횟수가 초과되었습니다</string>
     <string name="sign_up_email_error_please_retry_later">잠시 후에 다시 시도해 주세요</string>
-    <string name="sign_up_email_error_invalid_format">올바른 이메일 형식이 아닙니다</string>
+    <string name="sign_up_enter_email_error_invalid_format">이메일 형식이 올바르지 않습니다</string>
+    <string name="sign_up_enter_email_error_email_not_available">사용할 수 없는 이메일입니다</string>
 
     <string name="sign_up_email_error_verification_code_timeout">이메일 인증 코드 유효시간이 초과되었습니다</string>
 
@@ -307,27 +120,37 @@
 
     <string name="sign_up_confirm_school_do_you_have_account_already">이미 계정이 있으신가요?</string>
 
-    <string name="sign_up_confirm_school_enter_verification_code">학교 인증코드 입력</string>
-    <string name="sign_up_confirm_school_please_enter_school_verification_code">소속된 학교의 인증코드 8자리를 입력해 주세요</string>
+    <string name="sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code">학교 인증 코드 8자리를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code_please_enter_6_digit_code_sent_to_email">이메일로 전송된 인증 코드 6자리를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code_resend_verification_code">인증 코드 재전송</string>
+
+    <string name="sign_up_enter_school_verification_code">학교 인증 코드 입력</string>
+    <string name="sign_up_enter_school_verification_question">학교 확인 질문 입력</string>
+    <string name="sign_up_enter_school_verification_question_error_question_incorrect">확인 질문이 일치하지 않습니다</string>
+    <string name="sign_up_hint_answer_school_verification_question">답변 입력</string>
 
     <string name="sign_up_confirm_school_error_incorrect_answer">답변이 일치하지 않습니다</string>
-    <string name="sign_up_confirm_school_error_incorrect_school_verification_code">학교 인증코드가 일치하지 않습니다</string>
+    <string name="sign_up_error_school_verification_code_not_found">학교 인증 코드가 존재하지 않습니다</string>
     <string name="sign_up_confirm_school_error_please_check_school_verification_code">학교 인증코드를 확인해주세요</string>
 
-    <string name="sign_up_id_set">아이디 설정</string>
+    <string name="sign_up_set_id">아이디 설정</string>
+    <string name="sign_up_set_id_please_enter_id">아이디를 입력해 주세요</string>
     <string name="sign_up_id_enter">아이디 입력</string>
 
     <string name="sign_up_id_grade">학년</string>
     <string name="sign_up_id_class">반</string>
     <string name="sign_up_id_number">번호</string>
 
-    <string name="sign_up_id_error_not_found_student">존재하지 않는 학생 입니다</string>
-    <string name="sign_up_id_error_conflict_student">이미 존재하는 학생 입니다</string>
+    <string name="sign_up_set_id_error_student_not_found">존재하지 않는 학생 입니다</string>
+    <string name="sign_up_set_id_error_student_duplicated">이미 가입된 학생입니다</string>
     <string name="sign_up_id_error_id_conflict">이미 사용중인 아이디입니다</string>
 
     <string name="sign_up_set_password">비밀번호 설정</string>
-    <string name="sign_up_enter_password">비밀번호 입력</string>
-    <string name="sign_up_re_enter_password">비밀번호 재입력</string>
+    <string name="sign_up_terms">이용약관 확인</string>
+    <string name="sign_up_set_password_please_enter_password">비밀번호를 입력해 주세요</string>
+    <string name="sign_up_set_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="sign_up_set_password_">비밀번호를 입력해 주세요</string>
+    <string name="sign_up_set_password_please_enter_password_again">비밀번호를 한 번 더 입력해 주세요</string>
 
     <string name="sign_up_success_reset_password">비밀번호가 재설정 되었습니다</string>
     <string name="sign_up_password_warning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
@@ -338,6 +161,8 @@
 
     <string name="sign_up_profile_image">프로필 사진</string>
     <string name="sign_up_profile__set_later"><u>다음에 설정하기</u></string>
+
+    <string name="sign_up_terms_finish_sign_up">회원가입 마치기</string>
 
     <string name="sign_up_profile_error_load_image_error">이미지를 불러올 수 없습니다</string>
     <string name="sign_up_profile_error_image_not_selected">이미지를 선택해주세요</string>
@@ -395,6 +220,7 @@
     <!--edit password-->
     <string name="edit_password">비밀번호 변경</string>
     <string name="edit_password_old_password">기존 비밀번호</string>
+    <string name="edit_password_new_password">새로운 비밀번호</string>
     <string name="edit_password_success_password_has_set">비밀번호를 변경했습니다</string>
     <string name="edit_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
     <string name="edit_password_please_enter_current_password">기존 비밀번호를 입력해 주세요</string>
@@ -405,8 +231,8 @@
     <string name="point_history">상벌점 내역</string>
     <string name="format_point">%d점</string>
 
-    <string name="my_page_are_you_sure_you_sign_out">정말 로그아웃 하시겠습니까?</string>
-    <string name="my_page_are_you_sure_you_withdraw">정말 탈퇴 하시겠습니까?</string>
+    <string name="my_page_are_you_sure_you_sign_out">사용자 정보가 기기에서 지워집니다. 정말 로그아웃 하시겠습니까?</string>
+    <string name="my_page_are_you_sure_you_withdraw">회원 탈퇴 시 복구할 수 없습니다. 정말 탈퇴 하시겠습니까?</string>
 
     <!--application-->
     <string name="application">신청</string>
@@ -468,4 +294,8 @@
     <string name="notification_group_notice_title">공지사항</string>
     <string name="notification_channel_notice_title">공지사항</string>
     <string name="notification_channel_notice_description">공지사항에 관한 알림을 설정합니다.</string>
+    <string name="sign_up_set_id_hint_grade">학년</string>
+    <string name="sign_up_set_id_hint_class">반</string>
+    <string name="sign_up_set_id_hint_number">번호</string>
+    <string name="sign_up_set_id_format_authentication_information_student_name">%s 님이 맞으신가요?</string>
 </resources>

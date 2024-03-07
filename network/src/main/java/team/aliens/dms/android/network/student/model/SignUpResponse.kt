@@ -1,6 +1,11 @@
 package team.aliens.dms.android.network.student.model
 
 import com.google.gson.annotations.SerializedName
+import team.aliens.dms.android.core.jwt.AccessToken
+import team.aliens.dms.android.core.jwt.RefreshToken
+import team.aliens.dms.android.core.jwt.Tokens
+import team.aliens.dms.android.core.school.Features
+import team.aliens.dms.android.shared.date.toLocalDateTime
 
 data class SignUpResponse(
     @SerializedName("access_token") val accessToken: String,
@@ -15,5 +20,26 @@ data class SignUpResponse(
         @SerializedName("point_service") val pointService: Boolean,
         @SerializedName("study_room_service") val studyRoomService: Boolean,
         @SerializedName("remain_service") val remainsService: Boolean,
+    )
+}
+
+fun SignUpResponse.extractTokens(): Tokens = Tokens(
+    accessToken = AccessToken(
+        value = this.accessToken,
+        expiration = this.accessTokenExpiration.toLocalDateTime(),
+    ),
+    refreshToken = RefreshToken(
+        value = this.refreshToken,
+        expiration = this.refreshTokenExpiration.toLocalDateTime(),
+    ),
+)
+
+fun SignUpResponse.extractFeatures(): Features = features.run {
+    Features(
+        mealService = mealService,
+        noticeService = noticeService,
+        pointService = pointService,
+        studyRoomService = studyRoomService,
+        remainsService = remainsService,
     )
 }

@@ -41,16 +41,16 @@ android {
 
 dependencies {
 
-    implementation(project(ProjectPaths.Shared.date))
-    implementation(project(ProjectPaths.Shared.model))
+    implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.MODEL))
 
-    implementation(project(ProjectPaths.Core.database))
-    implementation(project(ProjectPaths.Core.jwt))
-    implementation(project(ProjectPaths.Core.network))
-    implementation(project(ProjectPaths.Core.school))
+    implementation(project(ProjectPaths.Core.DATABASE))
+    implementation(project(ProjectPaths.Core.JWT))
+    implementation(project(ProjectPaths.Core.NETWORK))
+    implementation(project(ProjectPaths.Core.SCHOOL))
 
-    implementation(project(ProjectPaths.database))
-    implementation(project(ProjectPaths.network))
+    implementation(project(ProjectPaths.DATABASE))
+    implementation(project(ProjectPaths.NETWORK))
 
     implementation(libs.androidx.core)
 
@@ -61,7 +61,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
-    implementation(libs.coroutines)
+    // TODO: remove dependency
+    implementation(libs.coroutines.android)
 
     implementation(libs.javax.inject)
 

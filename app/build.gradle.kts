@@ -17,8 +17,8 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
 
-        versionCode = 1
-        versionName = "1.1.2"
+        versionCode = 5
+        versionName = "1.1.2-beta02"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,22 +55,22 @@ android {
 
 dependencies {
 
-    implementation(project(ProjectPaths.Shared.date))
-    implementation(project(ProjectPaths.Shared.model))
+    implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.MODEL))
 
-    implementation(project(ProjectPaths.Core.database))
-    implementation(project(ProjectPaths.Core.dataStore))
-    implementation(project(ProjectPaths.Core.designSystem))
-    implementation(project(ProjectPaths.Core.jwt))
-    implementation(project(ProjectPaths.Core.network))
-    implementation(project(ProjectPaths.Core.project))
-    implementation(project(ProjectPaths.Core.school))
-    implementation(project(ProjectPaths.Core.ui))
+    implementation(project(ProjectPaths.Core.DATABASE))
+    implementation(project(ProjectPaths.Core.DATASTORE))
+    implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
+    implementation(project(ProjectPaths.Core.JWT))
+    implementation(project(ProjectPaths.Core.NETWORK))
+    implementation(project(ProjectPaths.Core.PROJECT))
+    implementation(project(ProjectPaths.Core.SCHOOL))
+    implementation(project(ProjectPaths.Core.UI))
 
-    implementation(project(ProjectPaths.data))
-    implementation(project(ProjectPaths.database))
-    implementation(project(ProjectPaths.feature))
-    implementation(project(ProjectPaths.network))
+    implementation(project(ProjectPaths.DATA))
+    implementation(project(ProjectPaths.DATABASE))
+    implementation(project(ProjectPaths.FEATURE))
+    implementation(project(ProjectPaths.NETWORK))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
