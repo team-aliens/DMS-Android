@@ -194,10 +194,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = {
-                    // TODO: viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode)
-                    navigator.openSetId()
-                },
+                onClick = { viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode) },
                 enabled = uiState.emailVerificationCode.length == SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.verify))
