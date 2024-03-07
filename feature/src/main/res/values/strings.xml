@@ -83,12 +83,19 @@
     <string name="sign_up_error_id_format">아이디는 20자 이내로 입력해 주세요</string>
     <string name="sign_up_terms_error_sign_up_failure">회원가입에 실패하였습니다</string>
 
+    <!--
+    일반: 화면이름_메시지
+    오류: 화면이름_error_메시지
+    성공: 화면이름_success_메시지
+    안내: 화면이름_info_메시지
+    -->
     <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
     <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
-    <string name="sign_up_enter_email_verification_code_error_cannot_resend_email">인증 세션이 만료되었습니다</string>
+    <string name="sign_up_enter_email_verification_code_success_resent_email">인증 코드 입력</string>
+    <string name="sign_up_enter_email_verification_code_error_cannot_resend_verification_code">인증 코드를 재발송할 수 없습니다</string>
     <string name="sign_up_enter_email_verification_code_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
     <string name="sign_up_enter_email_verification_code_error_timeout">인증 시간이 만료되었습니다</string>
-    <string name="sign_up_send_email_verification_code">인증코드 발송</string>
+    <string name="sign_up_send_email_verification_code">인증 코드 발송</string>
     <string name="sign_up_email_resent">이메일이 재전송되었습니다</string>
     <string name="sign_up_email_please_enter_verification_code">이메일로 전송된 인증코드 6자리를 입력해 주세요</string>
     <string name="sign_up_email_verify_email_verification_code_sent">이메일로 인증 코드를 전송하였습니다</string>

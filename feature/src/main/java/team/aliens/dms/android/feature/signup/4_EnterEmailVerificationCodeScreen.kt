@@ -99,10 +99,13 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     cancel()
                     start()
                 }
+                toast.showSuccessToast(
+                    message = context.getString(R.string.sign_up_enter_email_verification_code),
+                )
             }
 
             SignUpSideEffect.EmailVerificationSessionResetFailed -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_enter_email_verification_code_error_cannot_resend_email),
+                message = context.getString(R.string.sign_up_enter_email_verification_code_error_cannot_resend_verification_code),
             )
 
             else -> {/* explicit blank */
