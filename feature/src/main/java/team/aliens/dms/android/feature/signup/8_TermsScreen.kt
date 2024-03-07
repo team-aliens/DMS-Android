@@ -3,38 +3,33 @@ package team.aliens.dms.android.feature.signup
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.Checkbox
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
-import team.aliens.dms.android.core.ui.Banner
-import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
@@ -44,44 +39,32 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 internal fun TermsScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
-    // signUpViewModel: SignUpViewModel,
+    termsUrl: TermsUrl,
+    viewModel: SignUpViewModel,
 ) {
+    val (agreeOnTerm, onAgreeOnTermChange) = remember { mutableStateOf(false) }
+    val theme = if (isSystemInDarkTheme()) {
+        "dark"
+    } else {
+        "light"
+    }
+
     DmsScaffold(
         modifier = modifier,
         topBar = {
-            DmsTopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                            contentDescription = stringResource(id = R.string.top_bar_back_button),
-                        )
-                    }
-                },
-            )
+            DmsTopAppBar(title = { Text(text = stringResource(id = R.string.sign_up_terms)) })
         },
+        containerColor = DmsTheme.colorScheme.surface,
     ) { padValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues)
                 .imePadding(),
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            Spacer(modifier = Modifier.weight(1f))
-            Banner(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .startPadding(),
-                message = {
-                    BannerDefaults.DefaultText(
-                        text = stringResource(id = R.string.sign_up_terms),
-                    )
-                }
-            )
-            val policyUrl by remember { mutableStateOf("https://webview.aliens-dms.com/policy/privacy") }
             AndroidView(
-                modifier = Modifier.weight(5f),
+                modifier = Modifier.weight(1f),
                 factory = {
                     WebView(it).apply {
                         layoutParams = ViewGroup.LayoutParams(
@@ -92,21 +75,20 @@ internal fun TermsScreen(
 
                         settings.javaScriptEnabled = true
 
-                        loadUrl(policyUrl)
+                        loadUrl(termsUrl.value + "?theme=$theme")
                     }
-                },
-                update = {
-                    it.loadUrl(policyUrl)
                 },
             )
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = {},
+                    checked = agreeOnTerm,
+                    onCheckedChange = onAgreeOnTermChange,
                 )
                 Text(text = stringResource(id = R.string.sign_up_agree_all_terms))
             }
@@ -115,17 +97,19 @@ internal fun TermsScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                // FIXME: 서버 연동
-                onClick = navigator::openSignIn,
+                onClick = {
+
+                },
+                enabled = agreeOnTerm,
             ) {
-                Text(text = stringResource(id = R.string.agree))
+                Text(text = stringResource(id = R.string.sign_up_terms_finish_sign_up))
             }
         }
     }
     /*
         val uiState by signUpViewModel.stateFlow.collectAsStateWithLifecycle()
 
-        val policyUrl by remember { mutableStateOf("https://webview.aliens-dms.com/policy/privacy") }
+        val termsUrl by remember { mutableStateOf("https://webview.aliens-dms.com/policy/privacy") }
 
         var signUpDialogState by remember { mutableStateOf(false) }
 
@@ -202,11 +186,11 @@ internal fun TermsScreen(
 
                                 settings.javaScriptEnabled = true
 
-                                loadUrl(policyUrl)
+                                loadUrl(termsUrl)
                             }
                         },
                         update = {
-                            it.loadUrl(policyUrl)
+                            it.loadUrl(termsUrl)
                         },
                     )
                 }
