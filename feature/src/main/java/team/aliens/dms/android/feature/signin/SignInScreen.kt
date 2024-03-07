@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -40,6 +43,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.clickable
@@ -61,6 +65,7 @@ import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signin.navigation.SignInNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun SignInScreen(
@@ -83,6 +88,14 @@ internal fun SignInScreen(
 
     DmsScaffold(
         modifier = modifier.fillMaxSize(),
+        topBar = {
+            DmsTopAppBar(
+                title = { /* explicit blank */ },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                ),
+            )
+        },
     ) { padValues ->
         Column(
             modifier = Modifier
