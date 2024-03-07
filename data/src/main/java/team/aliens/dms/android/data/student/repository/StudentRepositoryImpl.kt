@@ -7,6 +7,10 @@ import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
+import team.aliens.dms.android.network.student.model.SignUpRequest
+import team.aliens.dms.android.network.student.model.SignUpResponse
+import team.aliens.dms.android.network.student.model.extractFeatures
+import team.aliens.dms.android.network.student.model.extractTokens
 import java.util.UUID
 import javax.inject.Inject
 
@@ -28,7 +32,25 @@ internal class StudentRepositoryImpl @Inject constructor(
         password: String,
         profileImageUrl: String?,
     ) {
-        TODO("Not yet implemented")
+        val response: SignUpResponse = networkStudentDataSource.signUp(
+            request = SignUpRequest(
+                schoolVerificationCode = schoolVerificationCode,
+                schoolVerificationAnswer = schoolVerificationAnswer,
+                email = email,
+                emailVerificationCode = emailVerificationCode,
+                grade = grade,
+                classRoom = classRoom,
+                number = number,
+                accountId = accountId,
+                password = password,
+                profileImageUrl = profileImageUrl,
+            ),
+        )
+        val tokens = response.extractTokens()
+        val features = response.extractFeatures()
+
+        jwtProvider.updateTokens(tokens = tokens)
+        schoolProvider.updateFeatures(features = features)
     }
 
     override suspend fun examineStudentNumber(
