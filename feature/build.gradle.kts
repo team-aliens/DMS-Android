@@ -52,6 +52,7 @@ dependencies {
     implementation(project(ProjectPaths.Shared.DATE))
     implementation(project(ProjectPaths.Shared.EXCEPTION))
     implementation(project(ProjectPaths.Shared.MODEL))
+    implementation(project(ProjectPaths.Shared.VALIDATOR))
 
     implementation(project(ProjectPaths.Core.UI))
 
