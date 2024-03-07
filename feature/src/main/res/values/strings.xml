@@ -70,6 +70,8 @@
 
     <!--sign up-->
     <string name="sign_up">회원가입</string>
+    <string name="sign_up_quit_sign_up">회원가입 종료</string>
+    <string name="sign_up_info_are_you_sure_you_quit_sign_up">현재까지 입력한 정보가 파기됩니다. 회원가입을 종료하시겠습니까?</string>
     <string name="do_sign_up">회원가입하기</string>
     <string name="sign_up_complete">회원가입이 완료되었습니다</string>
     <string name="sign_up_go_to_sign_in">로그인 화면으로 가기</string>
