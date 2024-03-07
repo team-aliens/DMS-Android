@@ -36,6 +36,7 @@ import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
+// FIXME 비밀번호 정규식 검사
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
