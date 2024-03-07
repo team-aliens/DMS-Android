@@ -81,6 +81,7 @@
     <string name="sign_up_error_unauthorized">이메일이 인증되지 않았습니다</string>
     <string name="sign_up_error_check_name">학번과 이름을 확인해 주세요</string>
     <string name="sign_up_error_id_format">아이디는 20자 이내로 입력해 주세요</string>
+    <string name="sign_up_terms_error_sign_up_failure">회원가입에 실패하였습니다</string>
 
     <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
     <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
