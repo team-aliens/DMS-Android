@@ -12,6 +12,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -31,6 +35,7 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
+import team.aliens.dms.android.shared.validator.checkIfEmailValid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -44,12 +49,32 @@ internal fun EnterEmailScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
+    val emailValid by remember(uiState.email) {
+        mutableStateOf(
+            uiState.email.run {
+                if (length < 5) {
+                    false
+                } else {
+                    checkIfEmailValid(uiState.email)
+                }
+            },
+        )
+    }
+
+    var isEmailFormatError by rememberSaveable(uiState.email) { mutableStateOf(false) }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             SignUpSideEffect.EmailAvailable -> navigator.openSignUpEnterEmailVerificationCode()
-            // TODO
-            SignUpSideEffect.EmailFormatError -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_enter_email_error_invalid_format),
+            SignUpSideEffect.EmailFormatError -> {
+                toast.showErrorToast(
+                    message = context.getString(R.string.sign_up_enter_email_error_invalid_format),
+                )
+                isEmailFormatError = true
+            }
+
+            SignUpSideEffect.EmailNotAvailable -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_enter_email_error_email_not_available),
             )
 
             else -> {/* explicit blank */
@@ -101,10 +126,12 @@ internal fun EnterEmailScreen(
                     Text(text = stringResource(id = R.string.sign_up_enter_email))
                 },
                 onValueChange = { viewModel.postIntent(SignUpIntent.UpdateEmail(value = it)) },
-                // TODO
-                supportingText = {},
-                // TODO
-                isError = false,
+                supportingText = if (isEmailFormatError) {
+                    { Text(text = stringResource(id = R.string.sign_up_enter_email_error_invalid_format)) }
+                } else {
+                    null
+                },
+                isError = isEmailFormatError,
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -113,6 +140,7 @@ internal fun EnterEmailScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = { viewModel.postIntent(SignUpIntent.VerifyEmail) },
+                enabled = emailValid,
             ) {
                 Text(text = stringResource(id = R.string.sign_up_send_email_verification_code))
             }
