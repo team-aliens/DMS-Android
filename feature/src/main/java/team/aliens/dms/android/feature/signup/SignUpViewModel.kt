@@ -12,6 +12,7 @@ import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.shared.validator.checkIfEmailValid
 import java.util.UUID
 import javax.inject.Inject
 
@@ -102,6 +103,9 @@ class SignUpViewModel @Inject constructor(
 
     private fun checkEmailAvailable() = viewModelScope.launch(Dispatchers.IO) {
         val email = stateFlow.value.email
+        if (!checkIfEmailValid(email)) {
+            postSideEffect(SignUpSideEffect.EmailFormatError)
+        }
         runCatching {
             studentRepository.checkEmailDuplication(email)
         }.onSuccess {
@@ -112,7 +116,7 @@ class SignUpViewModel @Inject constructor(
             }.recover { throw it }
         }.onFailure {
             // TODO: handle error type
-            postSideEffect(SignUpSideEffect.EmailFormatError)
+            postSideEffect(SignUpSideEffect.EmailNotAvailable)
         }
     }
 
@@ -351,6 +355,7 @@ sealed class SignUpSideEffect : SideEffect() {
     // EnterEmail
     data object EmailAvailable : SignUpSideEffect()
     data object EmailFormatError : SignUpSideEffect()
+    data object EmailNotAvailable : SignUpSideEffect()
 
     // EnterEmailVerificationCode
     data object EmailVerificationCodeChecked : SignUpSideEffect()
