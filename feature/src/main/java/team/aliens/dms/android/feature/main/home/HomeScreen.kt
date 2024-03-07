@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -150,56 +151,55 @@ internal fun HomeScreen(
     ) { padValues ->
         Column(
             modifier = Modifier
+                .animateContentSize()
                 .background(brush = HomeBackgroundBrush)
                 .fillMaxSize()
                 .padding(padValues),
+            verticalArrangement = Arrangement.spacedBy(DefaultHomeScreenVerticalSpace),
         ) {
-            AnnouncementCard(
-                modifier = Modifier.fillMaxWidth(),
-                visible = uiState.newNoticesExist,
-                onNavigateToAnnouncementList = onNavigateToAnnouncementList,
-            )
-            Column(
-                modifier = Modifier.animateContentSize(),
-            ) {
-                Spacer(modifier = Modifier.weight(2f))
-                Text(
+            if (uiState.newNoticesExist) {
+                AnnouncementCard(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.meal_todays_meal),
-                    textAlign = TextAlign.Center,
-                    style = DmsTheme.typography.title1,
-                    color = DmsTheme.colorScheme.onSurface,
+                    visible = true,
+                    onNavigateToAnnouncementList = onNavigateToAnnouncementList,
                 )
-                Spacer(modifier = Modifier.weight(2f))
-                DateCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(),
-                    selectedDate = uiState.selectedDate,
-                    onShowCalendar = {
-                        onShouldShowCalendarChange(true)
-                        onChangeBottomAppBarVisibility(false)
-                    },
-                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
-                )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                )
-                MealCards(
-                    modifier = Modifier.weight(20f),
-                    currentDate = uiState.selectedDate,
-                    meal = uiState.currentMeal,
-                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
-                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
-                )
-                Spacer(modifier = Modifier.weight(5f))
+            } else {
+                Spacer(modifier = Modifier.height(DefaultHomeScreenVerticalSpace))
             }
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.meal_todays_meal),
+                textAlign = TextAlign.Center,
+                style = DmsTheme.typography.title1,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+            DateCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize(),
+                selectedDate = uiState.selectedDate,
+                onShowCalendar = {
+                    onShouldShowCalendarChange(true)
+                    onChangeBottomAppBarVisibility(false)
+                },
+                onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+            )
+
+            MealCards(
+                modifier = Modifier.weight(1f),
+                currentDate = uiState.selectedDate,
+                meal = uiState.currentMeal,
+                onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+            )
+            Spacer(modifier = Modifier.height(92.dp))
         }
     }
 }
+
+@Stable
+private val DefaultHomeScreenVerticalSpace = 24.dp
 
 @Stable
 private val HomeBackgroundBrush: Brush = Brush.verticalGradient(
