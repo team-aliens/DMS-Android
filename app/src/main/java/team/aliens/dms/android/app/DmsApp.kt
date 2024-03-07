@@ -28,7 +28,9 @@ import team.aliens.dms.android.app.navigation.DmsNavGraph
 import team.aliens.dms.android.app.navigation.DmsNavigator
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
+import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.signup.SignUpViewModel
+import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 
 @Composable
@@ -54,10 +56,10 @@ fun DmsApp(
                 val parentEntry = remember(navBackStackEntry) {
                     navController.getBackStackEntry(SignUpNavGraph.route)
                 }
-                // TODO
-
                 hiltViewModel<SignUpViewModel>(parentEntry)
             }
+
+            dependency(TermsScreenDestination) { TermsUrl(value = "https://webview.dms-dsm.com/policy/privacy") }
         },
     )
 }
