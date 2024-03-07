@@ -73,7 +73,7 @@ internal fun EnterEmailScreen(
         AlertDialog(
             title = { Text(text = stringResource(id = R.string.sign_up)) },
             text = { Text(text = stringResource(id = R.string.sign_up_info_are_you_sure_you_quit_sign_up)) },
-            onDismissRequest = { onShouldShowQuitSignUpDialogChange(false) },
+            onDismissRequest = { /* explicit blank */ },
             confirmButton = {
                 TextButton(
                     onClick = navigator::popUpSignUp,
