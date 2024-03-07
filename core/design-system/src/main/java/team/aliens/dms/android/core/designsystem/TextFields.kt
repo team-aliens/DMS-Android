@@ -376,7 +376,7 @@ object TextFieldDefaults {
     )
 
     val shape: Shape
-        @Composable get() = DmsTheme.shapes.small
+        @Composable get() = DmsTheme.shapes.medium
 
     val MinHeight = 52.dp
 
