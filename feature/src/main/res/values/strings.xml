@@ -150,6 +150,8 @@
     <string name="sign_up_profile_image">프로필 사진</string>
     <string name="sign_up_profile__set_later"><u>다음에 설정하기</u></string>
 
+    <string name="sign_up_terms_finish_sign_up">회원가입 마치기</string>
+
     <string name="sign_up_profile_error_load_image_error">이미지를 불러올 수 없습니다</string>
     <string name="sign_up_profile_error_image_not_selected">이미지를 선택해주세요</string>
 
