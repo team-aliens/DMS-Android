@@ -18,7 +18,7 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
 
         versionCode = 2
-        versionName = "1.1.2"
+        versionName = "1.1.2-alpha08"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
