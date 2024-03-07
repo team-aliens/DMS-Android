@@ -123,6 +123,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
                 onClick = {
                     viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationAnswer)
                 },
+                enabled = uiState.schoolVerificationAnswer.isNotEmpty(),
             ) {
                 Text(text = stringResource(id = R.string.verify))
             }
