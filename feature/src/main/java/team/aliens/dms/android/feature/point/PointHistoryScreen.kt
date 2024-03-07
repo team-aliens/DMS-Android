@@ -28,7 +28,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
-import team.aliens.dms.android.core.designsystem.layout.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults

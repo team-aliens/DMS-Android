@@ -50,6 +50,7 @@ import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.data.auth.exception.AuthException
 import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
@@ -85,8 +86,11 @@ internal fun SignInScreen(
                 .fillMaxSize()
                 .padding(padValues),
         ) {
-            Spacer(modifier = Modifier.weight(1f))
-            Banner(Modifier.fillMaxWidth())
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
+            )
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
                 modifier = Modifier.fillMaxWidth(),
