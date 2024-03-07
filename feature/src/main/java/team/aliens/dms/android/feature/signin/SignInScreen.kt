@@ -7,15 +7,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,14 +42,16 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
-import team.aliens.dms.android.core.ui.composable.AppLogo
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.data.auth.exception.AuthException
 import team.aliens.dms.android.data.auth.exception.BadRequestException
@@ -89,7 +91,11 @@ internal fun SignInScreen(
             Banner(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .topPadding(),
+                    .startPadding()
+                    .topPadding(BannerDefaults.DefaultTopSpace),
+                message = {
+                    Text(text = stringResource(R.string.app_description))
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
@@ -111,7 +117,7 @@ internal fun SignInScreen(
                 onFindId = navigator::openFindId,
                 onResetPassword = navigator::openResetPasswordNav,
             )
-            Spacer(modifier = Modifier.weight(3f))
+            Spacer(modifier = Modifier.weight(2f))
             ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -123,25 +129,6 @@ internal fun SignInScreen(
                 Text(text = stringResource(id = R.string.sign_in))
             }
         }
-    }
-}
-
-@Composable
-private fun Banner(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
-    ) {
-        AppLogo(
-            modifier = Modifier.padding(start = PaddingDefaults.Large),
-        )
-        Text(
-            modifier = Modifier.padding(start = PaddingDefaults.Large),
-            text = stringResource(R.string.app_description),
-            style = DmsTheme.typography.body2,
-        )
     }
 }
 
@@ -249,11 +236,8 @@ private fun UnauthorizedActions(
                     .clickable(onClick = onSignUp),
                 text = stringResource(id = R.string.sign_in_sign_up),
             )
-            Divider(
-                modifier = Modifier.size(
-                    width = 1.dp,
-                    height = 12.dp,
-                ),
+            VerticalDivider(
+                modifier = Modifier.height(12.dp),
                 color = DmsTheme.colorScheme.onSurfaceVariant,
             )
             Text(
@@ -262,11 +246,8 @@ private fun UnauthorizedActions(
                     .clickable(onClick = onFindId),
                 text = stringResource(id = R.string.sign_in_find_id),
             )
-            Divider(
-                modifier = Modifier.size(
-                    width = 1.dp,
-                    height = 12.dp,
-                ),
+            VerticalDivider(
+                modifier = Modifier.height(12.dp),
                 color = DmsTheme.colorScheme.onSurfaceVariant,
             )
             Text(
@@ -305,7 +286,14 @@ private fun SignInPreview() {
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            Banner(Modifier.fillMaxWidth())
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(BannerDefaults.DefaultTopSpace),
+                message = {
+                    Text(text = stringResource(R.string.app_description))
+                },
+            )
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
                 modifier = Modifier.fillMaxWidth(),
