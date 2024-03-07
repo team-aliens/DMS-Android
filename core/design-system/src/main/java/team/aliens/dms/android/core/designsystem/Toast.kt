@@ -205,6 +205,7 @@ private fun DormToast(
                 )
                 Text(
                     text = toastData.message,
+                    style = DmsTheme.typography.body2,
                     color = toastType.color,
                 )
             }
