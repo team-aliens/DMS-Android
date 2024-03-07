@@ -100,7 +100,7 @@
     <string name="sign_up_email_error_time_out">인증 시간이 만료되었습니다</string>
     <string name="sign_up_email_error_too_many_requests">인증 횟수가 초과되었습니다</string>
     <string name="sign_up_email_error_please_retry_later">잠시 후에 다시 시도해 주세요</string>
-    <string name="sign_up_enter_email_error_invalid_format">올바른 이메일 형식이 아닙니다</string>
+    <string name="sign_up_enter_email_error_invalid_format">이메일 형식이 올바르지 않습니다</string>
 
     <string name="sign_up_email_error_verification_code_timeout">이메일 인증 코드 유효시간이 초과되었습니다</string>
 
