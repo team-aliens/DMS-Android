@@ -1,5 +1,6 @@
 package team.aliens.dms.android.core.designsystem
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -30,8 +32,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import team.aliens.dms.android.core.designsystem.icon.DormIcon
-import team.aliens.dms.android.core.designsystem.typography.Body3
 import kotlin.coroutines.resume
 
 val LocalToast = staticCompositionLocalOf<ToastState> {
@@ -199,11 +199,11 @@ private fun DormToast(
                 val toastType = toastData.toastType
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(toastType.icon.drawableId),
+                    painter = painterResource(toastType.icon),
                     contentDescription = null,
                     tint = toastType.color,
                 )
-                Body3(
+                Text(
                     text = toastData.message,
                     color = toastType.color,
                 )
@@ -213,16 +213,16 @@ private fun DormToast(
 }
 
 enum class ToastType(
-    val icon: DormIcon,
+    @DrawableRes val icon: Int,
 ) {
     INFORMATION(
-        icon = DormIcon.Information,
+        icon = R.drawable.ic_information,
     ),
     ERROR(
-        icon = DormIcon.Warning,
+        icon = R.drawable.ic_warning,
     ),
     SUCCESS(
-        icon = DormIcon.Check,
+        icon = R.drawable.ic_check,
     ),
     ;
 
