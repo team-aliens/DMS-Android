@@ -45,7 +45,7 @@ fun Button(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shadowElevation: Dp = 0.dp,
-    shape: Shape = DmsTheme.shapes.small,
+    shape: Shape = ButtonDefaults.containedShape,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
@@ -97,7 +97,7 @@ fun ContainedButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shadowElevation: Dp = 0.dp,
-    shape: Shape = DmsTheme.shapes.small,
+    shape: Shape = ButtonDefaults.containedShape,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.containedButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
@@ -124,7 +124,7 @@ fun OutlinedButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shadowElevation: Dp = 0.dp,
-    shape: Shape = DmsTheme.shapes.small,
+    shape: Shape = ButtonDefaults.outlinedShape,
     colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     border: BorderStroke? = BorderStroke(
         width = ButtonDefaults.OutlineWidth,
@@ -154,7 +154,7 @@ fun TextButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shadowElevation: Dp = 0.dp,
-    shape: Shape = DmsTheme.shapes.small,
+    shape: Shape = ButtonDefaults.textShape,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.textButtonColors(),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
@@ -285,13 +285,13 @@ object ButtonDefaults {
         )
 
     val containedShape: Shape
-        @Composable get() = DmsTheme.shapes.small
+        @Composable get() = DmsTheme.shapes.medium
 
     val outlinedShape: Shape
-        @Composable get() = DmsTheme.shapes.small
+        @Composable get() = DmsTheme.shapes.medium
 
     val textShape: Shape
-        @Composable get() = DmsTheme.shapes.small
+        @Composable get() = DmsTheme.shapes.medium
 
     val roundShape: Shape
         @Composable get() = DmsTheme.shapes.circle
