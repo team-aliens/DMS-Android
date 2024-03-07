@@ -53,9 +53,6 @@ internal fun EnterEmailScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
-    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
-        mutableStateOf(false)
-    }
     var isEmailFormatError by rememberSaveable(uiState.email) { mutableStateOf(false) }
     val emailValid by remember(uiState.email) {
         mutableStateOf(
@@ -69,6 +66,10 @@ internal fun EnterEmailScreen(
         )
     }
 
+    // TODO: 중복 코드 제거, Sign Up navigation을 구현하여 해결 가능할 듯
+    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
+        mutableStateOf(false)
+    }
     if (shouldShowQuitSignUpDialog) {
         AlertDialog(
             title = { Text(text = stringResource(id = R.string.sign_up)) },
@@ -76,7 +77,7 @@ internal fun EnterEmailScreen(
             onDismissRequest = { /* explicit blank */ },
             confirmButton = {
                 TextButton(
-                    onClick = navigator::popUpSignUp,
+                    onClick = navigator::popUpToSignUp,
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }

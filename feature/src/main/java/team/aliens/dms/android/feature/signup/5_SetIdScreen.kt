@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,13 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
+import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -88,6 +87,31 @@ internal fun SetIdScreen(
         }
     }
 
+    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
+        mutableStateOf(false)
+    }
+    if (shouldShowQuitSignUpDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.sign_up)) },
+            text = { Text(text = stringResource(id = R.string.sign_up_info_are_you_sure_you_quit_sign_up)) },
+            onDismissRequest = { /* explicit blank */ },
+            confirmButton = {
+                TextButton(
+                    onClick = navigator::popUpToSignUp,
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onShouldShowQuitSignUpDialogChange(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             is SignUpSideEffect.UserFound -> onShouldShowUserConfirmationCardChange(sideEffect.studentName)
@@ -107,14 +131,7 @@ internal fun SetIdScreen(
         topBar = {
             DmsTopAppBar(
                 title = {},
-                navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                            contentDescription = stringResource(id = R.string.top_bar_back_button),
-                        )
-                    }
-                },
+                navigationIcon = {},
             )
         },
     ) { padValues ->
@@ -216,6 +233,9 @@ internal fun SetIdScreen(
                 Text(text = stringResource(id = R.string.next))
             }
         }
+    }
+    BackHandler {
+        onShouldShowQuitSignUpDialogChange(true)
     }
 }
 

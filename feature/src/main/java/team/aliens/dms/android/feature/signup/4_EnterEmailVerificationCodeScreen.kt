@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.signup
 
 import android.os.CountDownTimer
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -120,7 +121,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
             DmsTopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
+                    IconButton(onClick = navigator::popUpToEnterEmail) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),

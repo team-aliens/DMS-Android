@@ -2,6 +2,7 @@ package team.aliens.dms.android.app.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
+import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.dynamic.within
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
@@ -158,11 +159,43 @@ class DmsNavigator(
         navController.navigateSingleTop(TermsScreenDestination within SignUpNavGraph)
     }
 
-    override fun popUpSignUp() {
+    override fun popUpToSignUp() {
         navController.popBackStack(
             route = SignUpNavGraph,
             inclusive = true,
         )
+    }
+
+    override fun popUpToEnterEmail() {
+        navController.navigate(EnterEmailScreenDestination within SignUpNavGraph) {
+            popUpTo(EnterEmailScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun popUpToSetId() {
+        navController.navigate(SetIdScreenDestination within SignUpNavGraph) {
+            popUpTo(SetIdScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun popUpToSetPassword() {
+        navController.navigate(SignUpSetPasswordScreenDestination within SignUpNavGraph) {
+            popUpTo(SignUpSetPasswordScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
+    }
+
+    override fun popUpToSetProfileImage() {
+        navController.navigate(SignUpSetPasswordScreenDestination within SignUpNavGraph) {
+            popUpTo(SignUpSetPasswordScreenDestination routedIn SignUpNavGraph) {
+                inclusive = true
+            }
+        }
     }
 
     override fun openStudyRoomDetails(

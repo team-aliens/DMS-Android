@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.signup
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,10 +22,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
@@ -54,6 +57,31 @@ internal fun SignUpSetPasswordScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
+    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
+        mutableStateOf(false)
+    }
+    if (shouldShowQuitSignUpDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.sign_up)) },
+            text = { Text(text = stringResource(id = R.string.sign_up_info_are_you_sure_you_quit_sign_up)) },
+            onDismissRequest = { /* explicit blank */ },
+            confirmButton = {
+                TextButton(
+                    onClick = navigator::popUpToSignUp,
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onShouldShowQuitSignUpDialogChange(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             // FIXME: 이미지 업로드 구현
@@ -73,7 +101,7 @@ internal fun SignUpSetPasswordScreen(
             DmsTopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
+                    IconButton(onClick = navigator::popUpToSetId) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
@@ -134,5 +162,8 @@ internal fun SignUpSetPasswordScreen(
                 Text(text = stringResource(id = R.string.next))
             }
         }
+    }
+    BackHandler {
+        onShouldShowQuitSignUpDialogChange(true)
     }
 }
