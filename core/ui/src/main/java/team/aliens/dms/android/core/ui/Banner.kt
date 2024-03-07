@@ -35,7 +35,7 @@ fun Banner(
 
 object BannerDefaults {
 
-    val DefaultTopSpace = 92.dp
+    val DefaultTopSpace = 72.dp
 
     @Composable
     fun DefaultText(
