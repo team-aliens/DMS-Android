@@ -67,7 +67,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
             override fun onTick(millisUntilFinished: Long) {
                 val minutes = millisUntilFinished / (1000 * 60)
                 val seconds = millisUntilFinished / 1000 % 60
-                timerText = context.getString(R.string.format_timer, minutes, seconds)
+                timerText = context.getString(R.string.format_timer_m_s, minutes, seconds)
             }
 
             override fun onFinish() {
@@ -100,7 +100,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                     start()
                 }
                 toast.showSuccessToast(
-                    message = context.getString(R.string.sign_up_enter_email_verification_code),
+                    message = context.getString(R.string.sign_up_enter_email_verification_code_success_resent_email),
                 )
             }
 

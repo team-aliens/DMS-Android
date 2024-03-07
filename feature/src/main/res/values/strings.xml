@@ -4,7 +4,8 @@
     <string name="app_description">더 편한 기숙사 생활을 위해</string>
 
     <!--common-->
-    <string name="format_timer">%d:%02d</string>
+    <string name="format_timer_m_s">%d:%02d</string>
+    <string name="format_timer_h_m_s">%d:%02d:%02d</string>
     <string name="format_int">%d</string>
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
@@ -91,7 +92,7 @@
     -->
     <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
     <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
-    <string name="sign_up_enter_email_verification_code_success_resent_email">인증 코드 입력</string>
+    <string name="sign_up_enter_email_verification_code_success_resent_email">인증 코드가 재발송되었습니다</string>
     <string name="sign_up_enter_email_verification_code_error_cannot_resend_verification_code">인증 코드를 재발송할 수 없습니다</string>
     <string name="sign_up_enter_email_verification_code_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
     <string name="sign_up_enter_email_verification_code_error_timeout">인증 시간이 만료되었습니다</string>
