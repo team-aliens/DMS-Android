@@ -41,6 +41,7 @@ import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
@@ -135,10 +136,10 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 .padding(padValues)
                 .imePadding(),
         ) {
-            Spacer(modifier = Modifier.weight(1f))
             Banner(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .topPadding(BannerDefaults.DefaultTopSpace)
                     .startPadding(),
                 message = {
                     BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_enter_email_verification_code))
