@@ -7,7 +7,7 @@ object EmailValidator : Validator<String>() {
     override fun validate(value: String): Boolean = value.matches(regex)
 }
 
-fun checkIsIfPasswordValid(value: String): Boolean {
+fun checkIsIfEmailValid(value: String): Boolean {
     if (value.isEmpty()) {
         return false
     }
