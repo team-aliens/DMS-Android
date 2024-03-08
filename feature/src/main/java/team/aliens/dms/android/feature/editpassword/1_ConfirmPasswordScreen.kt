@@ -39,7 +39,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavig
 internal fun ConfirmPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
-    viewModel: EditPasswordViewModel = hiltViewModel(),
+    viewModel: EditPasswordViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val toast = LocalToast.current

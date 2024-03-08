@@ -12,7 +12,7 @@ import team.aliens.dms.android.data.user.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
-internal class EditPasswordViewModel @Inject constructor(
+class EditPasswordViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : BaseMviViewModel<EditPasswordUiState, EditPasswordIntent, EditPasswordSideEffect>(
     initialState = EditPasswordUiState.initial(),
@@ -69,7 +69,7 @@ internal class EditPasswordViewModel @Inject constructor(
     }
 }
 
-internal data class EditPasswordUiState(
+data class EditPasswordUiState(
     val currentPassword: String,
     val newPassword: String,
     val newPasswordRepeat: String,
@@ -83,7 +83,7 @@ internal data class EditPasswordUiState(
     }
 }
 
-internal sealed class EditPasswordIntent : Intent() {
+sealed class EditPasswordIntent : Intent() {
     class UpdateCurrentPassword(val value: String) : EditPasswordIntent()
     class UpdateNewPassword(val value: String) : EditPasswordIntent()
     class UpdateNewPasswordRepeat(val value: String) : EditPasswordIntent()
@@ -92,7 +92,7 @@ internal sealed class EditPasswordIntent : Intent() {
     data object SetPassword : EditPasswordIntent()
 }
 
-internal sealed class EditPasswordSideEffect : SideEffect() {
+sealed class EditPasswordSideEffect : SideEffect() {
     data object ConfirmPasswordPasswordConfirmed : EditPasswordSideEffect()
     data object ConfirmPasswordPasswordMismatch : EditPasswordSideEffect()
     data object SetPasswordPasswordEdited : EditPasswordSideEffect()

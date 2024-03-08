@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
@@ -42,7 +41,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavig
 internal fun EditPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
-    viewModel: EditPasswordViewModel = hiltViewModel(),
+    viewModel: EditPasswordViewModel,
     currentPassword: String,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
