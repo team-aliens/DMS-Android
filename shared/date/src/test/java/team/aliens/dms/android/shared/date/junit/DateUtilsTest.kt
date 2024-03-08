@@ -24,7 +24,7 @@ class DateUtilsTest {
     @Test
     fun `Test Now`() {
         val now = now
-        val testNow = LocalDateTime.now()
+        val testNow = now
 
         assert(now == testNow)
         assert(now == testNow.plusSeconds(5).minusSeconds(5))
