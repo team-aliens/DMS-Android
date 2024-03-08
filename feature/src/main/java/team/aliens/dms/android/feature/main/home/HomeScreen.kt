@@ -193,7 +193,7 @@ internal fun HomeScreen(
                 onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
                 onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
             )
-            Spacer(modifier = Modifier.height(92.dp))
+            Spacer(modifier = Modifier.height(76.dp))
         }
     }
 }
