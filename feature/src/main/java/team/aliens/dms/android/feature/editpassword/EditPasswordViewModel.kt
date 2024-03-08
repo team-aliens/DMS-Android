@@ -73,6 +73,8 @@ class EditPasswordViewModel @Inject constructor(
             )
         }.onSuccess {
             postSideEffect(EditPasswordSideEffect.PasswordEdited)
+        }.onFailure {
+            postSideEffect(EditPasswordSideEffect.PasswordFormatError)
         }
     }
 }
