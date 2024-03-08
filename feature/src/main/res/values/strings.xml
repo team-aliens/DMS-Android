@@ -221,6 +221,8 @@
     <string name="edit_password">비밀번호 변경</string>
     <string name="edit_password_old_password">기존 비밀번호</string>
     <string name="edit_password_new_password">새로운 비밀번호</string>
+    <string name="edit_password_quitting_edit_password">비밀번호 변경 종료</string>
+    <string name="edit_password_info_are_you_sure_you_quit_edit_password">변경 사항이 저장되지 않습니다. 정말 종료하시겠습니까?</string>
     <string name="edit_password_success_password_has_set">비밀번호를 변경했습니다</string>
     <string name="edit_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
     <string name="edit_password_please_enter_current_password">기존 비밀번호를 입력해 주세요</string>
@@ -231,8 +233,8 @@
     <string name="point_history">상벌점 내역</string>
     <string name="format_point">%d점</string>
 
-    <string name="my_page_are_you_sure_you_sign_out">사용자 정보가 기기에서 지워집니다. 정말 로그아웃 하시겠습니까?</string>
-    <string name="my_page_are_you_sure_you_withdraw">회원 탈퇴 시 복구할 수 없습니다. 정말 탈퇴 하시겠습니까?</string>
+    <string name="my_page_are_you_sure_you_sign_out">사용자 정보가 기기에서 지워집니다. 정말 로그아웃하시겠습니까?</string>
+    <string name="my_page_are_you_sure_you_withdraw">회원 탈퇴 시 복구할 수 없습니다. 정말 탈퇴하시겠습니까?</string>
 
     <!--application-->
     <string name="application">신청</string>
