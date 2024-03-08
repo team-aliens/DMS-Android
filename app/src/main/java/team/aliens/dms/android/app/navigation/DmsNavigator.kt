@@ -83,7 +83,7 @@ class DmsNavigator(
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
         navController.navigateSingleTop(
-            EditPasswordSetPasswordScreenDestination(currentPassword = currentPassword) within EditPasswordNavGraph,
+            EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph,
         )
     }
 
