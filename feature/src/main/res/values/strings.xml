@@ -167,7 +167,7 @@
     <string name="sign_up_profile_error_load_image_error">이미지를 불러올 수 없습니다</string>
     <string name="sign_up_profile_error_image_not_selected">이미지를 선택해주세요</string>
 
-    <string name="edit_password_password_password_format">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
+    <string name="edit_password_info_password_format">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
 
     <!--find id-->
     <string name="find_id_go_login_screen">로그인 화면으로</string>
