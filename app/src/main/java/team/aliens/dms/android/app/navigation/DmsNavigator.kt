@@ -82,17 +82,14 @@ class DmsNavigator(
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
-        navController.navigateSingleTop(
-            EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph,
-        )
+        navController.navigateSingleTop(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph)
     }
 
     override fun popUpToMain() {
-        navController.navigateSingleTop(MainDestination within AuthorizedNavGraph) {
-            popUpTo(MainDestination routedIn AuthorizedNavGraph) {
-                inclusive = true
-            }
-        }
+        navController.popBackStack(
+            route = MainDestination routedIn AuthorizedNavGraph,
+            inclusive = false,
+        )
     }
 
     override fun openSignIn() {
