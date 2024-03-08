@@ -84,7 +84,6 @@ internal fun ConfirmPasswordScreen(
                 .padding(padValues)
                 .imePadding(),
         ) {
-            Spacer(modifier = Modifier.weight(1f))
             Banner(
                 modifier = Modifier
                     .fillMaxWidth()
