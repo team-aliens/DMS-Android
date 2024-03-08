@@ -10,7 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,10 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
@@ -42,31 +43,48 @@ internal fun EditPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: EditPasswordNavigator,
     viewModel: EditPasswordViewModel,
-    currentPassword: String,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val (showNewPassword, onShowNewPasswordChange) = remember { mutableStateOf(false) }
     val (showNewPasswordRepeat, onShowNewPasswordRepeatChange) = remember { mutableStateOf(false) }
 
-    val isSetPasswordAvailable by remember(
-        key1 = uiState.newPassword,
-        key2 = uiState.newPasswordRepeat,
-    ) {
+    val isSetPasswordAvailable by remember(uiState.newPassword, uiState.newPasswordRepeat) {
         mutableStateOf(
-            checkSetPasswordAvailable(
-                newPassword = uiState.newPassword,
-                newPasswordRepeat = uiState.newPasswordRepeat,
-            ),
+            false// TODO
         )
     }
 
+    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
+        mutableStateOf(false)
+    }
+    if (shouldShowQuitSignUpDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.edit_password_quitting_edit_password)) },
+            text = { Text(text = stringResource(id = R.string.edit_password_info_are_you_sure_you_quit_edit_password)) },
+            onDismissRequest = { /* explicit blank */ },
+            confirmButton = {
+                TextButton(
+                    onClick = navigator::popUpToMain,
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onShouldShowQuitSignUpDialogChange(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
     val toast = LocalToast.current
     val context = LocalContext.current
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             EditPasswordSideEffect.SetPasswordPasswordEdited -> {
-                navigator.navigateUp()
+                navigator.popUpToMain()
                 toast.showSuccessToast(
                     message = context.getString(R.string.edit_password_success_password_has_set),
                 )
@@ -81,17 +99,17 @@ internal fun EditPasswordSetPasswordScreen(
         }
     }
 
-    LaunchedEffect(currentPassword) {
-        viewModel.postIntent(EditPasswordIntent.UpdateCurrentPassword(value = currentPassword))
-    }
-
     DmsScaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
                 title = { Text(text = stringResource(id = R.string.edit_password)) },
                 navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
+                    IconButton(
+                        onClick = {
+                            onShouldShowQuitSignUpDialogChange(true)
+                        },
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
@@ -134,9 +152,7 @@ internal fun EditPasswordSetPasswordScreen(
                     .fillMaxWidth()
                     .horizontalPadding(),
                 value = uiState.newPasswordRepeat,
-                onValueChange = { value ->
-                    viewModel.postIntent(EditPasswordIntent.UpdateNewPasswordRepeat(value))
-                },
+                onValueChange = { viewModel.postIntent(EditPasswordIntent.UpdateNewPasswordRepeat(it)) },
                 passwordShowing = showNewPasswordRepeat,
                 onPasswordShowingChange = onShowNewPasswordRepeatChange,
                 hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat)
@@ -147,26 +163,11 @@ internal fun EditPasswordSetPasswordScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = {
-                    viewModel.postIntent(EditPasswordIntent.SetPassword)
-                },
+                onClick = { viewModel.postIntent(EditPasswordIntent.SetPassword) },
                 enabled = isSetPasswordAvailable,
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
         }
     }
-}
-
-private fun checkSetPasswordAvailable(
-    newPassword: String,
-    newPasswordRepeat: String,
-): Boolean {
-    if (newPassword.isBlank()) {
-        return false
-    }
-    if (newPasswordRepeat.isBlank()) {
-        return false
-    }
-    return newPassword == newPasswordRepeat
 }
