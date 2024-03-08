@@ -18,6 +18,7 @@ import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestin
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuestionScreenDestination
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
+import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
@@ -81,14 +82,14 @@ class DmsNavigator(
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
-        navController.navigateSingleTop(
-            EditPasswordSetPasswordScreenDestination(currentPassword = currentPassword) within EditPasswordNavGraph,
-        ) {
-            navController.popBackStack(
-                route = EditPasswordNavGraph.startRoute,
-                inclusive = true,
-            )
-        }
+        navController.navigateSingleTop(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph)
+    }
+
+    override fun popUpToMain() {
+        navController.popBackStack(
+            route = MainDestination routedIn AuthorizedNavGraph,
+            inclusive = false,
+        )
     }
 
     override fun openSignIn() {

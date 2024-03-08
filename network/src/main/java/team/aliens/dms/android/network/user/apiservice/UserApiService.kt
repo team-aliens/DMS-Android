@@ -12,7 +12,7 @@ internal interface UserApiService {
 
     @PATCH("/users/password")
     @RequiresAccessToken
-    suspend fun editPassword(@Body request: EditPasswordRequest): Response<Unit>
+    suspend fun editPassword(@Body request: EditPasswordRequest): Response<Unit>?
 
     @GET("/users/password")
     @RequiresAccessToken

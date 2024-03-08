@@ -9,10 +9,11 @@ import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.user.repository.UserRepository
+import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import javax.inject.Inject
 
 @HiltViewModel
-internal class EditPasswordViewModel @Inject constructor(
+class EditPasswordViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : BaseMviViewModel<EditPasswordUiState, EditPasswordIntent, EditPasswordSideEffect>(
     initialState = EditPasswordUiState.initial(),
@@ -23,7 +24,7 @@ internal class EditPasswordViewModel @Inject constructor(
             EditPasswordIntent.ConfirmPassword -> this.confirmPassword()
             is EditPasswordIntent.UpdateNewPassword -> this.updateNewPassword(value = intent.value)
             is EditPasswordIntent.UpdateNewPasswordRepeat -> this.updateNewPasswordRepeat(value = intent.value)
-            EditPasswordIntent.SetPassword -> this.setPassword()
+            EditPasswordIntent.SetPassword -> this.editPassword()
         }
     }
 
@@ -37,10 +38,10 @@ internal class EditPasswordViewModel @Inject constructor(
         runCatching {
             userRepository.comparePassword(password = stateFlow.value.currentPassword)
         }.onSuccess {
-            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed)
+            postSideEffect(EditPasswordSideEffect.PasswordConfirmed)
         }.onFailure {
             // FIXME: Handle Throwable
-            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordMismatch)
+            postSideEffect(EditPasswordSideEffect.PasswordIncorrect)
         }
     }
 
@@ -56,20 +57,32 @@ internal class EditPasswordViewModel @Inject constructor(
         ),
     )
 
-    private fun setPassword() = viewModelScope.launch(Dispatchers.IO) {
+    private fun editPassword() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        if (capturedState.newPassword != capturedState.newPasswordRepeat) {
+            postSideEffect(EditPasswordSideEffect.PasswordMismatch)
+            return@launch
+        }
+        if (!checkIfPasswordValid(capturedState.newPassword)) {
+            postSideEffect(EditPasswordSideEffect.PasswordFormatError)
+            return@launch
+        }
+
         runCatching {
             userRepository.editPassword(
-                currentPassword = stateFlow.value.currentPassword,
-                newPassword = stateFlow.value.newPassword,
+                currentPassword = capturedState.currentPassword,
+                newPassword = capturedState.newPassword,
             )
         }.onSuccess {
-            // FIXME: Handle Throwable
-            postSideEffect(EditPasswordSideEffect.SetPasswordPasswordEdited)
+            postSideEffect(EditPasswordSideEffect.PasswordEdited)
+        }.onFailure {
+            it.printStackTrace()
+            postSideEffect(EditPasswordSideEffect.PasswordFormatError)
         }
     }
 }
 
-internal data class EditPasswordUiState(
+data class EditPasswordUiState(
     val currentPassword: String,
     val newPassword: String,
     val newPasswordRepeat: String,
@@ -83,7 +96,7 @@ internal data class EditPasswordUiState(
     }
 }
 
-internal sealed class EditPasswordIntent : Intent() {
+sealed class EditPasswordIntent : Intent() {
     class UpdateCurrentPassword(val value: String) : EditPasswordIntent()
     class UpdateNewPassword(val value: String) : EditPasswordIntent()
     class UpdateNewPasswordRepeat(val value: String) : EditPasswordIntent()
@@ -92,9 +105,10 @@ internal sealed class EditPasswordIntent : Intent() {
     data object SetPassword : EditPasswordIntent()
 }
 
-internal sealed class EditPasswordSideEffect : SideEffect() {
-    data object ConfirmPasswordPasswordConfirmed : EditPasswordSideEffect()
-    data object ConfirmPasswordPasswordMismatch : EditPasswordSideEffect()
-    data object SetPasswordPasswordEdited : EditPasswordSideEffect()
-    data object SetPasswordPasswordIncorrect : EditPasswordSideEffect()
+sealed class EditPasswordSideEffect : SideEffect() {
+    data object PasswordConfirmed : EditPasswordSideEffect()
+    data object PasswordIncorrect : EditPasswordSideEffect()
+    data object PasswordEdited : EditPasswordSideEffect()
+    data object PasswordFormatError : EditPasswordSideEffect()
+    data object PasswordMismatch : EditPasswordSideEffect()
 }

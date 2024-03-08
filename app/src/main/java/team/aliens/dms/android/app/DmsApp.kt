@@ -29,6 +29,8 @@ import team.aliens.dms.android.app.navigation.DmsNavigator
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
+import team.aliens.dms.android.feature.editpassword.EditPasswordViewModel
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.signup.SignUpViewModel
 import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
@@ -60,6 +62,13 @@ fun DmsApp(
             }
 
             dependency(TermsScreenDestination) { TermsUrl(value = "https://webview.dms-dsm.com/policy/privacy") }
+
+            dependency(EditPasswordNavGraph) {
+                val parentEntry = remember(navBackStackEntry) {
+                    navController.getBackStackEntry(EditPasswordNavGraph.route)
+                }
+                hiltViewModel<EditPasswordViewModel>(parentEntry)
+            }
         },
     )
 }
@@ -79,8 +88,7 @@ private fun rememberDmsNavHostEngine() = rememberAnimatedNavHostEngine(
                     animationSpec = tween(delayMillis = 10),
                 )
             },
-        ),
-        UnauthorizedNavGraph to NestedNavGraphDefaultAnimations(
+        ), UnauthorizedNavGraph to NestedNavGraphDefaultAnimations(
             enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) },
             exitTransition = { fadeOut(tween(delayMillis = 10)) },
             popEnterTransition = { EnterTransition.None },
