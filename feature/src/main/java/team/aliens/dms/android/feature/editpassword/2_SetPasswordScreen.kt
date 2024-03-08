@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,6 +34,7 @@ import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavigator
 
@@ -120,13 +122,15 @@ internal fun EditPasswordSetPasswordScreen(
         },
     ) { padValues ->
         Column(
-            modifier = Modifier.padding(padValues),
+            modifier = Modifier
+                .padding(padValues)
+                .imePadding(),
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            Spacer(modifier = Modifier.weight(1f))
             Banner(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .topPadding(BannerDefaults.DefaultTopSpace)
                     .startPadding(),
                 message = {
                     BannerDefaults.DefaultText(
