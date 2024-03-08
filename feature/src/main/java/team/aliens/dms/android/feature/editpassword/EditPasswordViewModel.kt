@@ -9,6 +9,7 @@ import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.user.repository.UserRepository
+import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +24,7 @@ class EditPasswordViewModel @Inject constructor(
             EditPasswordIntent.ConfirmPassword -> this.confirmPassword()
             is EditPasswordIntent.UpdateNewPassword -> this.updateNewPassword(value = intent.value)
             is EditPasswordIntent.UpdateNewPasswordRepeat -> this.updateNewPasswordRepeat(value = intent.value)
-            EditPasswordIntent.SetPassword -> this.setPassword()
+            EditPasswordIntent.SetPassword -> this.editPassword()
         }
     }
 
@@ -37,10 +38,10 @@ class EditPasswordViewModel @Inject constructor(
         runCatching {
             userRepository.comparePassword(password = stateFlow.value.currentPassword)
         }.onSuccess {
-            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordConfirmed)
+            postSideEffect(EditPasswordSideEffect.PasswordConfirmed)
         }.onFailure {
             // FIXME: Handle Throwable
-            postSideEffect(EditPasswordSideEffect.ConfirmPasswordPasswordMismatch)
+            postSideEffect(EditPasswordSideEffect.PasswordIncorrect)
         }
     }
 
@@ -56,15 +57,22 @@ class EditPasswordViewModel @Inject constructor(
         ),
     )
 
-    private fun setPassword() = viewModelScope.launch(Dispatchers.IO) {
+    private fun editPassword() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        if (capturedState.newPassword != capturedState.newPasswordRepeat) {
+            postSideEffect(EditPasswordSideEffect.PasswordMismatch)
+        }
+        if (!checkIfPasswordValid(capturedState.newPassword)) {
+            postSideEffect(EditPasswordSideEffect.PasswordFormatError)
+        }
+
         runCatching {
             userRepository.editPassword(
-                currentPassword = stateFlow.value.currentPassword,
-                newPassword = stateFlow.value.newPassword,
+                currentPassword = capturedState.currentPassword,
+                newPassword = capturedState.newPassword,
             )
         }.onSuccess {
-            // FIXME: Handle Throwable
-            postSideEffect(EditPasswordSideEffect.SetPasswordPasswordEdited)
+            postSideEffect(EditPasswordSideEffect.PasswordEdited)
         }
     }
 }
@@ -93,8 +101,9 @@ sealed class EditPasswordIntent : Intent() {
 }
 
 sealed class EditPasswordSideEffect : SideEffect() {
-    data object ConfirmPasswordPasswordConfirmed : EditPasswordSideEffect()
-    data object ConfirmPasswordPasswordMismatch : EditPasswordSideEffect()
-    data object SetPasswordPasswordEdited : EditPasswordSideEffect()
-    data object SetPasswordPasswordIncorrect : EditPasswordSideEffect()
+    data object PasswordConfirmed : EditPasswordSideEffect()
+    data object PasswordIncorrect : EditPasswordSideEffect()
+    data object PasswordEdited : EditPasswordSideEffect()
+    data object PasswordFormatError : EditPasswordSideEffect()
+    data object PasswordMismatch : EditPasswordSideEffect()
 }
