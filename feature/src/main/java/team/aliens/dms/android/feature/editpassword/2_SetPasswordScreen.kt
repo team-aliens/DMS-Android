@@ -51,12 +51,6 @@ internal fun EditPasswordSetPasswordScreen(
     val (showNewPassword, onShowNewPasswordChange) = remember { mutableStateOf(false) }
     val (showNewPasswordRepeat, onShowNewPasswordRepeatChange) = remember { mutableStateOf(false) }
 
-    val isSetPasswordAvailable by remember(uiState.newPassword, uiState.newPasswordRepeat) {
-        mutableStateOf(
-            false// TODO
-        )
-    }
-
     val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
         mutableStateOf(false)
     }
@@ -86,14 +80,14 @@ internal fun EditPasswordSetPasswordScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            EditPasswordSideEffect.SetPasswordPasswordEdited -> {
+            EditPasswordSideEffect.PasswordEdited -> {
                 navigator.popUpToMain()
                 toast.showSuccessToast(
                     message = context.getString(R.string.edit_password_success_password_has_set),
                 )
             }
 
-            EditPasswordSideEffect.SetPasswordPasswordIncorrect -> toast.showErrorToast(
+            EditPasswordSideEffect.PasswordMismatch -> toast.showErrorToast(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
 
@@ -169,7 +163,7 @@ internal fun EditPasswordSetPasswordScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = { viewModel.postIntent(EditPasswordIntent.SetPassword) },
-                enabled = isSetPasswordAvailable,
+                enabled = uiState.newPassword.isNotBlank() && uiState.newPasswordRepeat.isNotBlank(),
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
