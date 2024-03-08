@@ -15,15 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextButton
@@ -75,6 +78,9 @@ internal fun EditPasswordSetPasswordScreen(
             },
         )
     }
+    var isPasswordFormatError by remember(uiState.newPassword, uiState.newPasswordRepeat) {
+        mutableStateOf(false)
+    }
     val toast = LocalToast.current
     val context = LocalContext.current
 
@@ -90,6 +96,8 @@ internal fun EditPasswordSetPasswordScreen(
             EditPasswordSideEffect.PasswordMismatch -> toast.showErrorToast(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
+
+            EditPasswordSideEffect.PasswordFormatError -> isPasswordFormatError = true
 
             else -> {/* explicit blank */
             }
@@ -144,7 +152,11 @@ internal fun EditPasswordSetPasswordScreen(
                 },
                 passwordShowing = showNewPassword,
                 onPasswordShowingChange = onShowNewPasswordChange,
-                hintText = stringResource(id = R.string.edit_password_please_enter_new_password)
+                hintText = stringResource(id = R.string.edit_password_please_enter_new_password),
+                isError = isPasswordFormatError,
+                supportingText = if (isPasswordFormatError) {
+                    { Text(text = stringResource(id = R.string.edit_password_error_password_format_invalid)) }
+                } else null,
             )
             PasswordTextField(
                 modifier = Modifier
@@ -154,7 +166,18 @@ internal fun EditPasswordSetPasswordScreen(
                 onValueChange = { viewModel.postIntent(EditPasswordIntent.UpdateNewPasswordRepeat(it)) },
                 passwordShowing = showNewPasswordRepeat,
                 onPasswordShowingChange = onShowNewPasswordRepeatChange,
-                hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat)
+                hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat),
+                isError = isPasswordFormatError,
+                supportingText = if (isPasswordFormatError) {
+                    { Text(text = stringResource(id = R.string.edit_password_error_password_format_invalid)) }
+                } else null,
+            )
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.edit_password_info_password_format),
+                textAlign = TextAlign.Center,
+                color = DmsTheme.colorScheme.onSurfaceVariant,
+                style = DmsTheme.typography.caption,
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(

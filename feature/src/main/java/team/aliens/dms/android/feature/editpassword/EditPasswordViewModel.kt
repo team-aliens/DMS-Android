@@ -61,9 +61,11 @@ class EditPasswordViewModel @Inject constructor(
         val capturedState = stateFlow.value
         if (capturedState.newPassword != capturedState.newPasswordRepeat) {
             postSideEffect(EditPasswordSideEffect.PasswordMismatch)
+            return@launch
         }
         if (!checkIfPasswordValid(capturedState.newPassword)) {
             postSideEffect(EditPasswordSideEffect.PasswordFormatError)
+            return@launch
         }
 
         runCatching {
@@ -74,6 +76,7 @@ class EditPasswordViewModel @Inject constructor(
         }.onSuccess {
             postSideEffect(EditPasswordSideEffect.PasswordEdited)
         }.onFailure {
+            it.printStackTrace()
             postSideEffect(EditPasswordSideEffect.PasswordFormatError)
         }
     }
