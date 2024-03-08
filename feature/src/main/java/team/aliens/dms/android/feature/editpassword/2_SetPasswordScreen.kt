@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.editpassword
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -173,5 +174,8 @@ internal fun EditPasswordSetPasswordScreen(
                 Text(text = stringResource(id = R.string.next))
             }
         }
+    }
+    BackHandler {
+        onShouldShowQuitSignUpDialogChange(true)
     }
 }
