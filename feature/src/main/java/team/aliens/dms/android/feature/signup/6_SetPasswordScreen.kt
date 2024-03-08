@@ -158,6 +158,7 @@ internal fun SignUpSetPasswordScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = { viewModel.postIntent(SignUpIntent.ConfirmPassword) },
+                enabled = uiState.password.isNotEmpty() && uiState.passwordRepeat.isNotEmpty(),
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
