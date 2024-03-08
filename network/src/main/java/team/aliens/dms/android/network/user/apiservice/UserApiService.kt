@@ -1,6 +1,5 @@
 package team.aliens.dms.android.network.user.apiservice
 
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -12,7 +11,7 @@ internal interface UserApiService {
 
     @PATCH("/users/password")
     @RequiresAccessToken
-    suspend fun editPassword(@Body request: EditPasswordRequest): Response<Unit>
+    suspend fun editPassword(@Body request: EditPasswordRequest)
 
     @GET("/users/password")
     @RequiresAccessToken
