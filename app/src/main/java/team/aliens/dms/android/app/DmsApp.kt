@@ -34,6 +34,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGr
 import team.aliens.dms.android.feature.signup.SignUpViewModel
 import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
+import team.aliens.dms.android.network.BuildConfig
 
 @Composable
 fun DmsApp(
@@ -61,7 +62,7 @@ fun DmsApp(
                 hiltViewModel<SignUpViewModel>(parentEntry)
             }
 
-            dependency(TermsScreenDestination) { TermsUrl(value = "https://webview.dms-dsm.com/policy/privacy") }
+            dependency(TermsScreenDestination) { TermsUrl(value = BuildConfig.TERMS_URL) }
 
             dependency(EditPasswordNavGraph) {
                 val parentEntry = remember(navBackStackEntry) {

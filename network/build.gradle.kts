@@ -28,10 +28,17 @@ android {
                 "proguard-rules.pro",
             )
 
+            // TODO: move to :app
             buildConfigField(
                 type = "String",
                 name = "BASE_URL",
                 value = localProperty("PROD_BASE_URL"),
+            )
+
+            buildConfigField(
+                type = "String",
+                name = "TERMS_URL",
+                value = localProperty("TERMS_URL"),
             )
         }
 
@@ -40,6 +47,11 @@ android {
                 type = "String",
                 name = "BASE_URL",
                 value = localProperty("DEV_BASE_URL"),
+            )
+            buildConfigField(
+                type = "String",
+                name = "TERMS_URL",
+                value = localProperty("TERMS_URL"),
             )
         }
     }
