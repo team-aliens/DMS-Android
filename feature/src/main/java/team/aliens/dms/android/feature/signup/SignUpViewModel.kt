@@ -234,7 +234,7 @@ class SignUpViewModel @Inject constructor(
             return
         }
 
-        if (checkIfPasswordValid(password)) {
+        if (!checkIfPasswordValid(password)) {
             postSideEffect(SignUpSideEffect.InvalidPassword)
             return
         }
