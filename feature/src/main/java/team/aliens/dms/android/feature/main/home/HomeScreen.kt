@@ -172,10 +172,6 @@ internal fun HomeScreen(
                 .padding(padValues),
             verticalArrangement = Arrangement.spacedBy(DefaultHomeScreenVerticalSpace),
         ) {
-            PullToRefreshContainer(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                state = pullToRefreshState,
-            )
             if (uiState.newNoticesExist) {
                 AnnouncementCard(
                     modifier = Modifier.fillMaxWidth(),
@@ -213,6 +209,14 @@ internal fun HomeScreen(
                 onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
             )
             Spacer(modifier = Modifier.height(92.dp))
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = padValues.calculateTopPadding()),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            PullToRefreshContainer(state = pullToRefreshState)
         }
     }
 }
