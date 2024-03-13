@@ -231,10 +231,12 @@ class SignUpViewModel @Inject constructor(
 
         if (password != passwordRepeat) {
             postSideEffect(SignUpSideEffect.PasswordMismatch)
+            return
         }
 
         if (checkIfPasswordValid(password)) {
             postSideEffect(SignUpSideEffect.InvalidPassword)
+            return
         }
 
         postSideEffect(SignUpSideEffect.PasswordSet)
