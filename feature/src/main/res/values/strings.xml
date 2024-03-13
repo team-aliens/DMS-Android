@@ -148,9 +148,9 @@
     <string name="sign_up_set_password">비밀번호 설정</string>
     <string name="sign_up_terms">이용약관 확인</string>
     <string name="sign_up_set_password_please_enter_password">비밀번호를 입력해 주세요</string>
-    <string name="sign_up_set_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
-    <string name="sign_up_set_password_">비밀번호를 입력해 주세요</string>
     <string name="sign_up_set_password_please_enter_password_again">비밀번호를 한 번 더 입력해 주세요</string>
+    <string name="sign_up_set_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="sign_up_set_password_invalid_password">올바르지 않은 비밀번호 형식입니다</string>
 
     <string name="sign_up_success_reset_password">비밀번호가 재설정 되었습니다</string>
     <string name="sign_up_password_warning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
