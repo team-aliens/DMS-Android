@@ -1,0 +1,4 @@
+<resources><!--
+    &lt;!&ndash; Base application theme. &ndash;&gt;
+    <style name="Theme.DMS_Android" parent="Theme.DMS_Android.NoActionBar.Light" />-->
+</resources>

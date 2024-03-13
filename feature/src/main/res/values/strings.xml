@@ -1,0 +1,290 @@
+<resources>
+    <!-- app -->
+    <string name="app_name">DMS</string>
+    <string name="app_description">더 편한 기숙사 생활을 위해</string>
+
+    <!--common-->
+    <string name="format_timer_m_s">%d:%02d</string>
+    <string name="format_timer_h_m_s">%d:%02d:%02d</string>
+    <string name="format_int">%d</string>
+    <string name="id">아이디</string>
+    <string name="password">비밀번호</string>
+    <string name="verify">인증</string>
+    <string name="loading">…</string>
+    <string name="accept">확인</string>
+    <string name="cancel">취소</string>
+    <string name="yes">네</string>
+    <string name="agree">동의</string>
+    <string name="no">아니오</string>
+    <string name="next">다음</string>
+    <string name="order_latest">최신 순</string>
+    <string name="order_oldest">오래된 순</string>
+    <string name="take_photo">사진 촬영</string>
+    <string name="select_photo">사진 선택</string>
+    <string name="sunday_abb">일</string>
+    <string name="monday_abb">월</string>
+    <string name="tuesday_abb">화</string>
+    <string name="wednesday_abb">수</string>
+    <string name="thursday_abb">목</string>
+    <string name="friday_abb">금</string>
+    <string name="saturday_abb">토</string>
+    <string name="sex_male">남</string>
+    <string name="sex_female">여</string>
+    <string name="sex_all">전체</string>
+    <string name="sex_both">남녀</string>
+    <string name="bonus_point">상점</string>
+    <string name="minus_point">벌점</string>
+    <string name="all_point">전체</string>
+    <string name="profile_image">프로필 사진</string>
+
+    <!--common error-->
+    <string name="error_bad_request">잘못된 형식의 요청입니다</string>
+    <string name="error_unauthorized">토큰이 만료되었습니다</string>
+    <string name="error_forbidden">접근 권한이 없습니다</string>
+    <string name="error_not_found">요청하신 정보를 찾을 수 없습니다</string>
+    <string name="error_too_many_request">너무 많은 요청이 감지되었습니다</string>
+    <string name="error_no_internet">네트워크 연결이 원활하지 않습니다</string>
+    <string name="error_internal_server">서버와의 통신에서 오류가 발생하였습니다</string>
+    <string name="error_unknown">알 수 없는 에러가 발생하였습니다</string>
+    <string name="error_timeout">요청 시간이 초과되었습니다</string>
+
+    <!--components-->
+    <string name="top_bar_back_button">뒤로 가기</string>
+
+    <!--sign in-->
+    <string name="sign_in">로그인</string>
+    <string name="sign_in_auto_sign_in">자동 로그인</string>
+    <string name="sign_in_sign_up">회원가입</string>
+    <string name="sign_in_find_id">아이디 찾기</string>
+    <string name="sign_in_reset_password">비밀번호 변경</string>
+
+    <string name="sign_in_error">로그인 실패</string>
+    <string name="sign_in_error_enter_id">아이디를 입력해 주세요</string>
+    <string name="sign_in_error_enter_password">비밀번호를 입력해 주세요</string>
+
+    <string name="sign_in_error_unauthorized">인증에 실패하였습니다</string>
+    <string name="sign_in_error_user_not_found">존재하지 않는 아이디입니다</string>
+    <string name="sign_in_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="sign_in_error_check_format">잘못된 형식입니다</string>
+    <string name="sign_in_error_device_token_registering_failure">알림 기기 등록에 실패하였습니다</string>
+
+    <!--sign up-->
+    <string name="sign_up">회원가입</string>
+    <string name="sign_up_quit_sign_up">회원가입 종료</string>
+    <string name="sign_up_info_are_you_sure_you_quit_sign_up">현재까지 입력한 정보가 파기됩니다. 회원가입을 종료하시겠습니까?</string>
+    <string name="do_sign_up">회원가입하기</string>
+    <string name="sign_up_complete">회원가입이 완료되었습니다</string>
+    <string name="sign_up_go_to_sign_in">로그인 화면으로 가기</string>
+    <string name="sign_up_are_you_sure_finish_sign_up">회원가입을 종료 하시겠습니까?</string>
+    <string name="sign_up_authorize">인증</string>
+
+    <string name="sign_up_agree_all_terms">전체 약관 동의</string>
+
+    <string name="sign_up_error_conflict">이미 회원가입된 학생입니다</string>
+    <string name="sign_up_error_unauthorized">이메일이 인증되지 않았습니다</string>
+    <string name="sign_up_error_check_name">학번과 이름을 확인해 주세요</string>
+    <string name="sign_up_error_id_format">아이디는 20자 이내로 입력해 주세요</string>
+    <string name="sign_up_terms_error_sign_up_failure">회원가입에 실패하였습니다</string>
+
+    <!--
+    일반: 화면이름_메시지
+    오류: 화면이름_error_메시지
+    성공: 화면이름_success_메시지
+    안내: 화면이름_info_메시지
+    -->
+    <string name="sign_up_enter_email">이메일 주소를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code">인증 코드 입력</string>
+    <string name="sign_up_enter_email_verification_code_success_resent_email">인증 코드가 재발송되었습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_cannot_resend_verification_code">인증 코드를 재발송할 수 없습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_timeout">인증 시간이 만료되었습니다</string>
+    <string name="sign_up_send_email_verification_code">인증 코드 발송</string>
+    <string name="sign_up_email_resent">이메일이 재전송되었습니다</string>
+    <string name="sign_up_email_please_enter_verification_code">이메일로 전송된 인증코드 6자리를 입력해 주세요</string>
+    <string name="sign_up_email_verify_email_verification_code_sent">이메일로 인증 코드를 전송하였습니다</string>
+
+    <string name="sign_up_email_are_you_sure_you_go_back_to_enter_email_screen">이메일 입력 화면으로 돌아가시겠습니까?</string>
+
+    <string name="sign_up_email_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
+    <string name="sign_up_email_error_conflict">이미 존재하는 이메일 입니다</string>
+    <string name="sign_up_email_error_time_out">인증 시간이 만료되었습니다</string>
+    <string name="sign_up_email_error_too_many_requests">인증 횟수가 초과되었습니다</string>
+    <string name="sign_up_email_error_please_retry_later">잠시 후에 다시 시도해 주세요</string>
+    <string name="sign_up_enter_email_error_invalid_format">이메일 형식이 올바르지 않습니다</string>
+    <string name="sign_up_enter_email_error_email_not_available">사용할 수 없는 이메일입니다</string>
+
+    <string name="sign_up_email_error_verification_code_timeout">이메일 인증 코드 유효시간이 초과되었습니다</string>
+
+    <string name="sign_up_confirm_school_question">학교 확인 질문</string>
+    <string name="sign_up_confirm_school_answer">답변</string>
+
+    <string name="sign_up_confirm_school_do_you_have_account_already">이미 계정이 있으신가요?</string>
+
+    <string name="sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code">학교 인증 코드 8자리를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code_please_enter_6_digit_code_sent_to_email">이메일로 전송된 인증 코드 6자리를 입력해 주세요</string>
+    <string name="sign_up_enter_email_verification_code_resend_verification_code">인증 코드 재전송</string>
+
+    <string name="sign_up_enter_school_verification_code">학교 인증 코드 입력</string>
+    <string name="sign_up_enter_school_verification_question">학교 확인 질문 입력</string>
+    <string name="sign_up_enter_school_verification_question_error_question_incorrect">확인 질문이 일치하지 않습니다</string>
+    <string name="sign_up_hint_answer_school_verification_question">답변 입력</string>
+
+    <string name="sign_up_confirm_school_error_incorrect_answer">답변이 일치하지 않습니다</string>
+    <string name="sign_up_error_school_verification_code_not_found">학교 인증 코드가 존재하지 않습니다</string>
+    <string name="sign_up_confirm_school_error_please_check_school_verification_code">학교 인증코드를 확인해주세요</string>
+
+    <string name="sign_up_set_id">아이디 설정</string>
+    <string name="sign_up_set_id_please_enter_id">아이디를 입력해 주세요</string>
+    <string name="sign_up_id_enter">아이디 입력</string>
+
+    <string name="sign_up_id_grade">학년</string>
+    <string name="sign_up_id_class">반</string>
+    <string name="sign_up_id_number">번호</string>
+
+    <string name="sign_up_set_id_error_student_not_found">존재하지 않는 학생 입니다</string>
+    <string name="sign_up_set_id_error_student_duplicated">이미 가입된 학생입니다</string>
+    <string name="sign_up_id_error_id_conflict">이미 사용중인 아이디입니다</string>
+
+    <string name="sign_up_set_password">비밀번호 설정</string>
+    <string name="sign_up_terms">이용약관 확인</string>
+    <string name="sign_up_set_password_please_enter_password">비밀번호를 입력해 주세요</string>
+    <string name="sign_up_set_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="sign_up_set_password_">비밀번호를 입력해 주세요</string>
+    <string name="sign_up_set_password_please_enter_password_again">비밀번호를 한 번 더 입력해 주세요</string>
+
+    <string name="sign_up_success_reset_password">비밀번호가 재설정 되었습니다</string>
+    <string name="sign_up_password_warning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
+    <string name="sign_up_finish_reset_password">비밀번호 재설정을 종료하시겠습니까?</string>
+
+    <string name="sign_up_error_check_password_format">비밀번호 형식을 확인해주세요</string>
+    <string name="sign_up_error_check_password">비밀번호를 확인해주세요</string>
+
+    <string name="sign_up_profile_image">프로필 사진</string>
+    <string name="sign_up_profile__set_later"><u>다음에 설정하기</u></string>
+
+    <string name="sign_up_terms_finish_sign_up">회원가입 마치기</string>
+
+    <string name="sign_up_profile_error_load_image_error">이미지를 불러올 수 없습니다</string>
+    <string name="sign_up_profile_error_image_not_selected">이미지를 선택해주세요</string>
+
+    <string name="edit_password_info_password_format">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
+
+    <!--find id-->
+    <string name="find_id_go_login_screen">로그인 화면으로</string>
+
+    <string name="find_id_send_id_to_email">%s 으로 아이디가 전송되었습니다</string>
+    <string name="find_id_select_school">학교를 선택해주세요</string>
+
+    <string name="find_id_error_account_not_found">위 정보로 가입된 계정이 없습니다</string>
+
+    <!--meal-->
+    <string name="meal_todays_meal">오늘의 급식</string>
+    <string name="meal_not_exists">급식이 없습니다</string>
+
+    <string name="meal_error_not_found">급식을 불러올 수 없습니다</string>
+
+    <!--notice-->
+    <string name="notice">공지</string>
+    <string name="announcement">안내</string>
+
+    <string name="notice_new_notice_exists">새로운 공지사항이 있습니다</string>
+    <string name="notice_notices_not_exists">공지사항이 없습니다</string>
+
+    <!--my page-->
+    <string name="my_page_sign_out">로그아웃</string>
+    <string name="my_page_withdrawal">회원 탈퇴</string>
+    <string name="my_page_theme_settings">테마 설정</string>
+    <string name="my_page_set_profile">프로필 설정</string>
+    <string name="my_page_format_gcn_name">%s %s</string>
+    <string name="my_page_edit_profile">프로필 수정</string>
+    <string name="my_page_check_point_history">상벌점 내역 확인</string>
+    <string name="my_page_edit_password">비밀번호 변경</string>
+    <string name="my_page_check_point">상벌점 확인</string>
+    <string name="my_page_points_of">%d 점</string>
+    <string name="my_page_date_of">%d월 %d일</string>
+
+    <!--edit password-->
+    <string name="edit_password">비밀번호 변경</string>
+    <string name="edit_password_old_password">기존 비밀번호</string>
+    <string name="edit_password_new_password">새로운 비밀번호</string>
+    <string name="edit_password_quitting_edit_password">비밀번호 변경 종료</string>
+    <string name="edit_password_info_are_you_sure_you_quit_edit_password">변경 사항이 저장되지 않습니다. 정말 종료하시겠습니까?</string>
+    <string name="edit_password_success_password_has_set">비밀번호를 변경했습니다</string>
+    <string name="edit_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="edit_password_error_password_format_invalid">유효하지 않은 형식입니다</string>
+    <string name="edit_password_please_enter_current_password">기존 비밀번호를 입력해 주세요</string>
+    <string name="edit_password_please_enter_new_password">새로운 비밀번호를 입력해 주세요</string>
+    <string name="edit_password_please_enter_new_password_repeat">비밀번호를 한 번 더 입력해 주세요</string>
+
+    <!--point history-->
+    <string name="point_history">상벌점 내역</string>
+    <string name="format_point">%d점</string>
+
+    <string name="my_page_are_you_sure_you_sign_out">사용자 정보가 기기에서 지워집니다. 정말 로그아웃하시겠습니까?</string>
+    <string name="my_page_are_you_sure_you_withdraw">회원 탈퇴 시 복구할 수 없습니다. 정말 탈퇴하시겠습니까?</string>
+
+    <!--application-->
+    <string name="application">신청</string>
+    <string name="application_apply_of">%s 신청하기</string>
+    <string name="application_completed">신청 완료</string>
+
+    <string name="application_success">신청이 완료되었습니다</string>
+
+    <!--study room-->
+    <string name="study_room_time">시간</string>
+    <string name="study_room">자습실</string>
+    <string name="study_room_application">자습실 신청하기</string>
+
+    <string name="format_study_room_applied_text">%d층 %s</string>
+    <string name="format_study_room_application_time">자습실 신청 시간은 %s ~ %s 입니다</string>
+    <string name="format_study_room_floor">%d층</string>
+    <string name="format_study_room_headcount">%d/%d</string>
+    <string name="format_study_room_available_for">%d학년 %s</string>
+    <string name="format_study_room_available_study_room_time">%s ~ %s</string>
+
+    <string name="study_room_description">자습실 사용이 필요한 경우 자습실 신청을 통해서 원하는 자리를 신청해 보세요.</string>
+
+    <string name="study_room_button_please_select_seat_before_application">자리를 선택해 주세요</string>
+    <string name="study_room_button_cancel_seat">취소하기</string>
+    <string name="study_room_button_apply_seat">신청하기</string>
+
+    <string name="study_room_error_no_available_study_room">신청 가능한 자습실이 없습니다</string>
+    <string name="study_room_error_please_select_seat">자리를 선택해주세요</string>
+    <string name="study_room_error_seat_already_in_use">이미 사용중인 자리입니다</string>
+    <string name="study_room_error_seat_not_available">사용할 수 없는 자리입니다</string>
+    <string name="study_room_error_not_study_room_application_time">현재 자습실 신청 시간이 아닙니다</string>
+    <string name="study_room_seat_not_found">존재하지 않는 자리입니다.</string>
+
+    <!--remains-->
+    <string name="remains">잔류</string>
+    <string name="remains_application">잔류 신청</string>
+    <string name="remains_applied">신청 완료</string>
+    <string name="remains_do_application">잔류 신청하기</string>
+    <string name="remains_apply">신청하기</string>
+    <string name="remains_change_to">%s로 변경하기</string>
+    <string name="remains_expand_remains_option_card">잔류 카드 확장</string>
+
+    <string name="remains_description">주말 기숙사 잔류 여부를 확인하고 잔류 신청을 통해서 잔류 또는 귀가를 신청해 보세요.</string>
+
+    <string name="format_remains_available_remains_application_time">잔류 신청 시간은 %s %s ~ %s %s 입니다</string>
+
+    <string name="remains_error_not_remains_application_time">잔류 신청 시간이 아닙니다</string>
+
+    <!--bottom nav-->
+    <string name="bottom_nav_home">홈</string>
+    <string name="bottom_nav_application">신청</string>
+    <string name="bottom_nav_announcement_list">안내</string>
+    <string name="bottom_nav_my_page">마이페이지</string>
+
+    <!--notification-->
+    <string name="notification_channel_id">ch-dms-notification</string>
+
+    <string name="notification_group_notice_id">gr-dms-notification-notice</string>
+    <string name="notification_group_notice_title">공지사항</string>
+    <string name="notification_channel_notice_title">공지사항</string>
+    <string name="notification_channel_notice_description">공지사항에 관한 알림을 설정합니다.</string>
+    <string name="sign_up_set_id_hint_grade">학년</string>
+    <string name="sign_up_set_id_hint_class">반</string>
+    <string name="sign_up_set_id_hint_number">번호</string>
+    <string name="sign_up_set_id_format_authentication_information_student_name">%s 님이 맞으신가요?</string>
+</resources>
