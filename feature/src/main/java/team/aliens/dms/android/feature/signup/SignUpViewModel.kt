@@ -13,6 +13,7 @@ import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.shared.validator.checkIfEmailValid
+import team.aliens.dms.android.shared.validator.checkIfIdValid
 import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import java.util.UUID
 import javax.inject.Inject
@@ -202,13 +203,22 @@ class SignUpViewModel @Inject constructor(
         ),
     )
 
-    private fun confirmId() = viewModelScope.launch(Dispatchers.IO) {
-        runCatching {
-            studentRepository.checkIdDuplication(id = stateFlow.value.id)
-        }.onSuccess {
-            postSideEffect(SignUpSideEffect.IdAvailable)
-        }.onFailure {
-            postSideEffect(SignUpSideEffect.IdDuplicated)
+    private fun confirmId() = run {
+        val capturedId = stateFlow.value.id
+
+        if (!checkIfIdValid(capturedId)) {
+            postSideEffect(SignUpSideEffect.InvalidId)
+            return@run
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                studentRepository.checkIdDuplication(id = capturedId)
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.IdAvailable)
+            }.onFailure {
+                postSideEffect(SignUpSideEffect.IdDuplicated)
+            }
         }
     }
 
@@ -374,6 +384,7 @@ sealed class SignUpSideEffect : SideEffect() {
     data object UserNotFound : SignUpSideEffect()
     data object IdAvailable : SignUpSideEffect()
     data object IdDuplicated : SignUpSideEffect()
+    data object InvalidId : SignUpSideEffect()
 
     // SetPassword
     data object PasswordSet : SignUpSideEffect()
