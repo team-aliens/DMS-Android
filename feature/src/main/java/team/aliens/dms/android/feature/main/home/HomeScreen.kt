@@ -106,10 +106,15 @@ internal fun HomeScreen(
 ) {
     val toast = LocalToast.current
     val context = LocalContext.current
-
-    val onRefresh = remember { { viewModel.postIntent(HomeIntent.UpdateMeal); Unit } }
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pullToRefreshState = rememberPullToRefreshState()
+
+    val onRefresh = remember {
+        {
+            pullToRefreshState.startRefresh()
+            viewModel.postIntent(HomeIntent.UpdateMeal); Unit
+        }
+    }
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             HomeSideEffect.CannotFindMeal, HomeSideEffect.MealUpdateFailed -> toast.showErrorToast(
