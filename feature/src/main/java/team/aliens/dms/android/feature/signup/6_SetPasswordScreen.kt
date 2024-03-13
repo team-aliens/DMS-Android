@@ -60,6 +60,14 @@ internal fun SignUpSetPasswordScreen(
     val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
         mutableStateOf(false)
     }
+
+    val (isPasswordInvalid, onChangeIsPasswordInvalid) = remember(
+        uiState.password,
+        uiState.passwordRepeat
+    ) {
+        mutableStateOf(false)
+    }
+
     if (shouldShowQuitSignUpDialog) {
         AlertDialog(
             title = { Text(text = stringResource(id = R.string.sign_up)) },
@@ -89,6 +97,13 @@ internal fun SignUpSetPasswordScreen(
             SignUpSideEffect.PasswordMismatch -> toast.showErrorToast(
                 message = context.getString(R.string.sign_up_set_password_error_password_mismatch),
             )
+
+            SignUpSideEffect.InvalidPassword -> {
+                toast.showErrorToast(
+                    message = context.getString(R.string.sign_up_set_password_invalid_password),
+                )
+                onChangeIsPasswordInvalid(true)
+            }
 
             else -> {/* explicit blank */
             }

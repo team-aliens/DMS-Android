@@ -99,6 +99,10 @@ internal fun EditPasswordSetPasswordScreen(
 
             EditPasswordSideEffect.PasswordFormatError -> isPasswordFormatError = true
 
+            EditPasswordSideEffect.PasswordEditFailure -> toast.showErrorToast(
+                message = context.getString(R.string.edit_password_error_password_edit_failure),
+            )
+
             else -> {/* explicit blank */
             }
         }

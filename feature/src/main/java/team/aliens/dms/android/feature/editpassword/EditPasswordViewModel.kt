@@ -57,27 +57,30 @@ class EditPasswordViewModel @Inject constructor(
         ),
     )
 
-    private fun editPassword() = viewModelScope.launch(Dispatchers.IO) {
+    private fun editPassword() = run {
         val capturedState = stateFlow.value
-        if (capturedState.newPassword != capturedState.newPasswordRepeat) {
-            postSideEffect(EditPasswordSideEffect.PasswordMismatch)
-            return@launch
-        }
-        if (!checkIfPasswordValid(capturedState.newPassword)) {
-            postSideEffect(EditPasswordSideEffect.PasswordFormatError)
-            return@launch
-        }
+        val newPassword = capturedState.newPassword
+        val newPasswordRepeat = capturedState.newPasswordRepeat
 
-        runCatching {
-            userRepository.editPassword(
-                currentPassword = capturedState.currentPassword,
-                newPassword = capturedState.newPassword,
-            )
-        }.onSuccess {
-            postSideEffect(EditPasswordSideEffect.PasswordEdited)
-        }.onFailure {
-            it.printStackTrace()
+        if (newPassword != newPasswordRepeat) {
+            postSideEffect(EditPasswordSideEffect.PasswordMismatch)
+            return@run
+        }
+        if (!checkIfPasswordValid(newPassword)) {
             postSideEffect(EditPasswordSideEffect.PasswordFormatError)
+            return@run
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                userRepository.editPassword(
+                    currentPassword = capturedState.currentPassword,
+                    newPassword = newPassword,
+                )
+            }.onSuccess {
+                postSideEffect(EditPasswordSideEffect.PasswordEdited)
+            }.onFailure {
+                postSideEffect(EditPasswordSideEffect.PasswordEditFailure)
+            }
         }
     }
 }
@@ -111,4 +114,5 @@ sealed class EditPasswordSideEffect : SideEffect() {
     data object PasswordEdited : EditPasswordSideEffect()
     data object PasswordFormatError : EditPasswordSideEffect()
     data object PasswordMismatch : EditPasswordSideEffect()
+    data object PasswordEditFailure : EditPasswordSideEffect()
 }

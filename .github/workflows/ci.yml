@@ -25,10 +25,12 @@ jobs:
         run: |
           echo $PROD_BASE_URL >> ./local.properties
           echo $DEV_BASE_URL >> ./local.properties
+          echo $TERMS_URL >> ./local.properties
           cat
         env:
           PROD_BASE_URL: ${{secrets.PROD_BASE_URL}}
           DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
+          TERMS_URL: ${{secrets.TERMS_URL}}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
