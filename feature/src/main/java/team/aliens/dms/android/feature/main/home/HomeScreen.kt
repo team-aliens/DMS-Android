@@ -34,6 +34,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,6 +51,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -67,12 +70,13 @@ import team.aliens.dms.android.core.designsystem.DmsCalendar
 import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.PrimaryDefault
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
-import team.aliens.dms.android.core.designsystem.rememberToastState
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -100,13 +104,29 @@ internal fun HomeScreen(
     onChangeBottomAppBarVisibility: (visible: Boolean) -> Unit,
     onNavigateToAnnouncementList: () -> Unit,
 ) {
-    val toast = rememberToastState()
+    val toast = LocalToast.current
     val context = LocalContext.current
-
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    val onRefresh = remember {
+        {
+            pullToRefreshState.startRefresh()
+            viewModel.postIntent(HomeIntent.UpdateMeal); Unit
+        }
+    }
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            HomeSideEffect.CannotFindMeal -> toast.showErrorToast(context.getString(R.string.meal_error_not_found)) // FIXME: toast not showing
+            HomeSideEffect.CannotFindMeal, HomeSideEffect.MealUpdateFailed -> toast.showErrorToast(
+                context.getString(R.string.meal_error_not_found),
+            )
+
+            HomeSideEffect.MealUpdated -> {
+                pullToRefreshState.endRefresh()
+                toast.showSuccessToast(
+                    message = context.getString(R.string.home_success_meal_refreshed),
+                )
+            }
         }
     }
 
@@ -118,6 +138,12 @@ internal fun HomeScreen(
     }
 
     val (shouldShowCalendar, onShouldShowCalendarChange) = remember { mutableStateOf(false) }
+
+    LaunchedEffect(pullToRefreshState.isRefreshing) {
+        if (pullToRefreshState.isRefreshing) {
+            onRefresh()
+        }
+    }
 
     if (shouldShowCalendar) {
         ModalBottomSheet(
@@ -151,6 +177,7 @@ internal fun HomeScreen(
     ) { padValues ->
         Column(
             modifier = Modifier
+                .nestedScroll(pullToRefreshState.nestedScrollConnection)
                 .animateContentSize()
                 .background(brush = HomeBackgroundBrush)
                 .fillMaxSize()
@@ -192,8 +219,17 @@ internal fun HomeScreen(
                 meal = uiState.currentMeal,
                 onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
                 onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+                onRefresh = onRefresh,
             )
             Spacer(modifier = Modifier.height(92.dp))
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = padValues.calculateTopPadding()),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            PullToRefreshContainer(state = pullToRefreshState)
         }
     }
 }
@@ -362,6 +398,7 @@ private fun MealCards(
     meal: Meal,
     onNextDay: () -> Unit,
     onPreviousDay: () -> Unit,
+    onRefresh: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = getProperMeal(),
@@ -444,6 +481,7 @@ private fun MealCards(
                     )
                 }
             },
+            onRefresh = onRefresh,
         )
     }
 }
@@ -479,6 +517,7 @@ private fun MealCard(
     kcalOfDinner: String?,
     onSwipeToLeft: () -> Unit,
     onSwipeToRight: () -> Unit,
+    onRefresh: () -> Unit,
 ) {
     var dragDirection: DragDirection? by remember { mutableStateOf(null) }
 
@@ -519,14 +558,24 @@ private fun MealCard(
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
+        val dishes = when (currentCardType) {
+            BREAKFAST -> breakfast
+            LUNCH -> lunch
+            DINNER -> dinner
+        }
+        if (dishes.isEmpty()) {
+            TextButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = onRefresh,
+                colors = ButtonDefaults.textGrayButtonColors(),
+            ) {
+                Text(text = stringResource(id = R.string.refresh))
+            }
+        }
         Dishes(
             modifier = Modifier.fillMaxWidth(),
             iconRes = currentCardType.iconRes,
-            dishes = when (currentCardType) {
-                BREAKFAST -> breakfast
-                LUNCH -> lunch
-                DINNER -> dinner
-            },
+            dishes = dishes,
             kcal = when (currentCardType) {
                 BREAKFAST -> kcalOfBreakfast
                 LUNCH -> kcalOfLunch

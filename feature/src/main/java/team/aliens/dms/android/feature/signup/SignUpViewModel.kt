@@ -13,6 +13,8 @@ import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.shared.validator.checkIfEmailValid
+import team.aliens.dms.android.shared.validator.checkIfIdValid
+import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import java.util.UUID
 import javax.inject.Inject
 
@@ -201,13 +203,22 @@ class SignUpViewModel @Inject constructor(
         ),
     )
 
-    private fun confirmId() = viewModelScope.launch(Dispatchers.IO) {
-        runCatching {
-            studentRepository.checkIdDuplication(id = stateFlow.value.id)
-        }.onSuccess {
-            postSideEffect(SignUpSideEffect.IdAvailable)
-        }.onFailure {
-            postSideEffect(SignUpSideEffect.IdDuplicated)
+    private fun confirmId() = run {
+        val capturedId = stateFlow.value.id
+
+        if (!checkIfIdValid(capturedId)) {
+            postSideEffect(SignUpSideEffect.InvalidId)
+            return@run
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                studentRepository.checkIdDuplication(id = capturedId)
+            }.onSuccess {
+                postSideEffect(SignUpSideEffect.IdAvailable)
+            }.onFailure {
+                postSideEffect(SignUpSideEffect.IdDuplicated)
+            }
         }
     }
 
@@ -227,13 +238,18 @@ class SignUpViewModel @Inject constructor(
         val capturedState = stateFlow.value
         val password = capturedState.password
         val passwordRepeat = capturedState.passwordRepeat
-        postSideEffect(
-            sideEffect = if (password != passwordRepeat) {
-                SignUpSideEffect.PasswordMismatch
-            } else {
-                SignUpSideEffect.PasswordSet
-            },
-        )
+
+        if (password != passwordRepeat) {
+            postSideEffect(SignUpSideEffect.PasswordMismatch)
+            return
+        }
+
+        if (!checkIfPasswordValid(password)) {
+            postSideEffect(SignUpSideEffect.InvalidPassword)
+            return
+        }
+
+        postSideEffect(SignUpSideEffect.PasswordSet)
     }
 
     private fun signUp() = viewModelScope.launch(Dispatchers.IO) {
@@ -368,10 +384,12 @@ sealed class SignUpSideEffect : SideEffect() {
     data object UserNotFound : SignUpSideEffect()
     data object IdAvailable : SignUpSideEffect()
     data object IdDuplicated : SignUpSideEffect()
+    data object InvalidId : SignUpSideEffect()
 
     // SetPassword
     data object PasswordSet : SignUpSideEffect()
     data object PasswordMismatch : SignUpSideEffect()
+    data object InvalidPassword : SignUpSideEffect()
 
     // Terms
     data object SignedUp : SignUpSideEffect()

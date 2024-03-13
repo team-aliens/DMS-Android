@@ -148,9 +148,9 @@
     <string name="sign_up_set_password">비밀번호 설정</string>
     <string name="sign_up_terms">이용약관 확인</string>
     <string name="sign_up_set_password_please_enter_password">비밀번호를 입력해 주세요</string>
-    <string name="sign_up_set_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
-    <string name="sign_up_set_password_">비밀번호를 입력해 주세요</string>
     <string name="sign_up_set_password_please_enter_password_again">비밀번호를 한 번 더 입력해 주세요</string>
+    <string name="sign_up_set_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="sign_up_set_password_invalid_password">올바르지 않은 비밀번호 형식입니다</string>
 
     <string name="sign_up_success_reset_password">비밀번호가 재설정 되었습니다</string>
     <string name="sign_up_password_warning">비밀번호는 영문, 숫자, 기호를 포함한 8~20자이어야 합니다</string>
@@ -212,6 +212,7 @@
     <string name="edit_password_success_password_has_set">비밀번호를 변경했습니다</string>
     <string name="edit_password_error_password_mismatch">비밀번호가 일치하지 않습니다</string>
     <string name="edit_password_error_password_format_invalid">유효하지 않은 형식입니다</string>
+    <string name="edit_password_error_password_edit_failure">비밀번호를 변경할 수 없습니다</string>
     <string name="edit_password_please_enter_current_password">기존 비밀번호를 입력해 주세요</string>
     <string name="edit_password_please_enter_new_password">새로운 비밀번호를 입력해 주세요</string>
     <string name="edit_password_please_enter_new_password_repeat">비밀번호를 한 번 더 입력해 주세요</string>
@@ -287,4 +288,6 @@
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>
     <string name="sign_up_set_id_format_authentication_information_student_name">%s 님이 맞으신가요?</string>
+    <string name="refresh">새로고침</string>
+    <string name="home_success_meal_refreshed">급식을 다시 불러왔습니다</string>
 </resources>

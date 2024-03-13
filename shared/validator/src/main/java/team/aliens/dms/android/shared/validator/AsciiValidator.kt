@@ -6,12 +6,7 @@ object AsciiValidator : Validator<String>() {
     override fun validate(value: String): Boolean = value.matches(regex)
 }
 
-fun checkIfAscii(value: String): Boolean {
-    if (value.isEmpty()) {
-        return false
-    }
-    return AsciiValidator.validate(value)
-}
+fun checkIfAscii(value: String): Boolean = AsciiValidator.validate(value)
 
 val String.isAscii: Boolean
     inline get() = AsciiValidator.validate(this)
