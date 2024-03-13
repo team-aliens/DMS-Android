@@ -6,9 +6,4 @@ object IdValidator : Validator<String>() {
     override fun validate(value: String): Boolean = value.matches(regex)
 }
 
-fun checkIfIdValid(value: String): Boolean {
-    if (value.isEmpty()) {
-        return false
-    }
-    return IdValidator.validate(value)
-}
+fun checkIfIdValid(value: String): Boolean = IdValidator.validate(value)
