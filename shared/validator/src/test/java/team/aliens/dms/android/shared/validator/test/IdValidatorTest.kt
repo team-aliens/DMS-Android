@@ -4,7 +4,7 @@ import org.junit.Test
 import team.aliens.dms.android.shared.validator.IdValidator
 import team.aliens.dms.android.shared.validator.checkIfIdValid
 
-@Suppress("SimplifyBooleanWithConstants", "LocalVariableName")
+@Suppress("SimplifyBooleanWithConstants", "LocalVariableName", "ConvertToStringTemplate")
 class IdValidatorTest {
 
     @Test
@@ -65,10 +65,27 @@ class IdValidatorTest {
     }
 
     @Test
-    fun `Test id containing special character`() {
-        val `id with special character` = "abcd1234!"
+    fun `Test id containing not allowed spacial character`() {
+        val `id with not allowed special character` = "abcd1234!"
 
-        assert(IdValidator.validate(`id with special character`) == false)
-        assert(checkIfIdValid(`id with special character`) == false)
+        assert(IdValidator.validate(`id with not allowed special character`) == false)
+        assert(checkIfIdValid(`id with not allowed special character`) == false)
+    }
+
+    @Test
+    fun `Test id containing with allowed special character`() {
+        val `base id` = "abcd1234"
+        val case1 = `base id` + '.'
+        val case2 = `base id` + '_'
+        val case3 = `base id` + '-'
+
+        assert(IdValidator.validate(case1) == true)
+        assert(checkIfIdValid(case1) == true)
+
+        assert(IdValidator.validate(case2) == true)
+        assert(checkIfIdValid(case2) == true)
+
+        assert(IdValidator.validate(case3) == true)
+        assert(checkIfIdValid(case3) == true)
     }
 }
