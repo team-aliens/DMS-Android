@@ -6,4 +6,8 @@ plugins {
 java {
     sourceCompatibility = Versions.java
     targetCompatibility = Versions.java
+
+    dependencies {
+        implementation(libs.junit)
+    }
 }
