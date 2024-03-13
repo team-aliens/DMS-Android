@@ -13,6 +13,7 @@ import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.shared.validator.checkIfEmailValid
+import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import java.util.UUID
 import javax.inject.Inject
 
@@ -227,13 +228,16 @@ class SignUpViewModel @Inject constructor(
         val capturedState = stateFlow.value
         val password = capturedState.password
         val passwordRepeat = capturedState.passwordRepeat
-        postSideEffect(
-            sideEffect = if (password != passwordRepeat) {
-                SignUpSideEffect.PasswordMismatch
-            } else {
-                SignUpSideEffect.PasswordSet
-            },
-        )
+
+        if (password != passwordRepeat) {
+            postSideEffect(SignUpSideEffect.PasswordMismatch)
+        }
+
+        if (checkIfPasswordValid(password)) {
+            postSideEffect(SignUpSideEffect.InvalidPassword)
+        }
+
+        postSideEffect(SignUpSideEffect.PasswordSet)
     }
 
     private fun signUp() = viewModelScope.launch(Dispatchers.IO) {
@@ -372,6 +376,7 @@ sealed class SignUpSideEffect : SideEffect() {
     // SetPassword
     data object PasswordSet : SignUpSideEffect()
     data object PasswordMismatch : SignUpSideEffect()
+    data object InvalidPassword : SignUpSideEffect()
 
     // Terms
     data object SignedUp : SignUpSideEffect()
