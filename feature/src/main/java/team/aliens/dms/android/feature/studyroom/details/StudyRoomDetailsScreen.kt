@@ -352,17 +352,14 @@ private fun SeatList(
     onSelectSeat: (seat: StudyRoom.Seat) -> Unit,
 ) {
     // FIXME: 리컴포지션 방지하도록 작성하기
-    val formedSeats: List<Array<StudyRoom.Seat?>> = List(
-        size = countOfRows
-    ) { indexOfRows ->
-        arrayOfNulls<StudyRoom.Seat?>(size = countOfColumns)
-    }.apply {
-        seats.forEach { seat ->
-            val rowIndexOfSeat = seat.row - 1
-            val columnIndexOfSeat = seat.column - 1
-            this[rowIndexOfSeat][columnIndexOfSeat] = seat
+    val formedSeats: List<Array<StudyRoom.Seat?>> =
+        List(size = countOfRows) { arrayOfNulls<StudyRoom.Seat?>(size = countOfColumns).apply {} }.apply {
+            seats.forEach { seat ->
+                val rowIndexOfSeat = seat.column - 1
+                val columnIndexOfSeat = seat.row - 1
+                this[rowIndexOfSeat][columnIndexOfSeat] = seat
+            }
         }
-    }
 
     Box(
         modifier = modifier
