@@ -25,12 +25,13 @@ internal class HomeViewModel @Inject constructor(
 ) {
     init {
         fetchWhetherNewNoticeExists()
-        updateMeal(date = stateFlow.value.selectedDate)
+        updateDate(date = stateFlow.value.selectedDate)
     }
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.UpdateSelectedDate -> updateMeal(intent.selectedDate)
+            is HomeIntent.UpdateSelectedDate -> updateDate(intent.selectedDate)
+            HomeIntent.UpdateMeal -> updateMeal()
         }
     }
 
@@ -44,7 +45,7 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateMeal(date: LocalDate) {
+    private fun updateDate(date: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 mealRepository.fetchMeal(date)
@@ -62,6 +63,27 @@ internal class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    private fun updateMeal() =
+        viewModelScope.launch(Dispatchers.IO) {
+            println("LOGLOG1")
+            val capturedDate = stateFlow.value.selectedDate
+            runCatching {
+                mealRepository.updateMeal(capturedDate)
+            }.onSuccess { meal ->
+                reduce(
+                    newState = stateFlow.value.copy(
+                        selectedDate = capturedDate,
+                        currentMeal = meal,
+                    ),
+                )
+                postSideEffect(HomeSideEffect.MealUpdated)
+            }.onFailure {
+                postSideEffect(HomeSideEffect.MealUpdateFailed)
+            }.also {
+                println("LOGLOG ${it.isSuccess}")
+            }
+        }
 }
 
 internal data class HomeUiState(
@@ -94,10 +116,13 @@ internal data class HomeUiState(
 
 internal sealed class HomeIntent : Intent() {
     class UpdateSelectedDate(val selectedDate: LocalDate) : HomeIntent()
+    data object UpdateMeal : HomeIntent()
 }
 
 internal sealed class HomeSideEffect : SideEffect() {
     data object CannotFindMeal : HomeSideEffect()
+    data object MealUpdated : HomeSideEffect()
+    data object MealUpdateFailed : HomeSideEffect()
 }
 
 /*

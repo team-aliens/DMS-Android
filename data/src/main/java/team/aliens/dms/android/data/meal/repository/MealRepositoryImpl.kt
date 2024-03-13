@@ -17,12 +17,16 @@ internal class MealRepositoryImpl @Inject constructor(
         databaseMealDataSource.queryMeal(date).toModel()
     } catch (_: Exception) {
         try {
-            networkMealDataSource.fetchMeals(date).toModel().also { meals ->
-                databaseMealDataSource.saveMeals(meals.toEntity())
-            }
-                .find { it.date == date }!!
+            this.updateMeal(date = date)
         } catch (_: Exception) {
             throw CannotFindMealException()
         }
+    }
+
+    override suspend fun updateMeal(date: LocalDate): Meal {
+        return networkMealDataSource.fetchMeals(date).toModel().also { meals ->
+            databaseMealDataSource.saveMeals(meals.toEntity())
+        }
+            .find { it.date == date }!!
     }
 }
