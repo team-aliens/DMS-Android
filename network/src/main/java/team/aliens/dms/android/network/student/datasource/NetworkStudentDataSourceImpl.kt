@@ -44,7 +44,7 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
         number = number,
     )
 
-    override suspend fun resetPassword(request: ResetPasswordRequest) =
+    override suspend fun resetPassword(request: ResetPasswordRequest): Unit =
         handleNetworkRequest { studentApiService.resetPassword(request) }
 
     override suspend fun checkIdDuplication(id: String) =

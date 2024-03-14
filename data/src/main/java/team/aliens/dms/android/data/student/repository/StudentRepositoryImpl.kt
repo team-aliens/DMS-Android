@@ -6,7 +6,9 @@ import team.aliens.dms.android.data.student.mapper.toModel
 import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.model.StudentName
+import team.aliens.dms.android.network.auth.datasource.NetworkAuthDataSource
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
+import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
 import team.aliens.dms.android.network.student.model.extractFeatures
@@ -82,7 +84,15 @@ internal class StudentRepositoryImpl @Inject constructor(
         emailVerificationCode: String,
         newPassword: String,
     ) {
-        TODO("Not yet implemented")
+        networkStudentDataSource.resetPassword(
+            ResetPasswordRequest(
+                accountId = accountId,
+                studentName = studentName,
+                email = email,
+                emailVerificationCode = emailVerificationCode,
+                newPassword = newPassword,
+            ),
+        )
     }
 
     override suspend fun checkIdDuplication(id: String) {

@@ -1,5 +1,6 @@
 package team.aliens.dms.android.network.student.apiservice
 
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -40,7 +41,7 @@ internal interface StudentApiService {
     ): FindIdResponse
 
     @PATCH("/students/password/initialization")
-    suspend fun resetPassword(@Body request: ResetPasswordRequest)
+    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<Unit>?
 
     @GET("/students/account-id/duplication")
     suspend fun checkIdDuplication(@Query("account_id") accountId: String)
