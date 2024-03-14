@@ -104,11 +104,11 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
-        navController.navigateSingleTop(ResetPasswordEnterEmailVerificationCodeScreenDestination within navGraph)
+        navController.navigateSingleTop(ResetPasswordEnterEmailVerificationCodeScreenDestination within ResetPasswordNavGraph)
     }
 
     override fun openResetPasswordSetPassword() {
-        navController.navigateSingleTop(ResetPasswordSetPasswordScreenDestination within navGraph)
+        navController.navigateSingleTop(ResetPasswordSetPasswordScreenDestination within ResetPasswordNavGraph)
     }
 
     override fun openAuthorizedNav() {

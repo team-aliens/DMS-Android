@@ -31,6 +31,8 @@ import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.editpassword.EditPasswordViewModel
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.resetpassword.ResetPasswordViewModel
+import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.SignUpViewModel
 import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
@@ -69,6 +71,13 @@ fun DmsApp(
                     navController.getBackStackEntry(EditPasswordNavGraph.route)
                 }
                 hiltViewModel<EditPasswordViewModel>(parentEntry)
+            }
+
+            dependency(ResetPasswordNavGraph) {
+                val parentEntry = remember(navBackStackEntry) {
+                    navController.getBackStackEntry(ResetPasswordNavGraph.route)
+                }
+                hiltViewModel<ResetPasswordViewModel>(parentEntry)
             }
         },
     )
