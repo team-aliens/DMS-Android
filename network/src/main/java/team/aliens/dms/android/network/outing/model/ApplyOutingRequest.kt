@@ -1,0 +1,13 @@
+package team.aliens.dms.android.network.outing.model
+
+import com.google.gson.annotations.SerializedName
+import java.util.UUID
+
+data class ApplyOutingRequest(
+    @SerializedName("out_at") val date: String,
+    @SerializedName("outing_time") val startTime: String,
+    @SerializedName("arrival_time") val endTime: String,
+    @SerializedName("outing_type_title") val type: String,
+    @SerializedName("reason") val reason: String?,
+    @SerializedName("companion_ids") val followerIds: List<UUID>,
+)
