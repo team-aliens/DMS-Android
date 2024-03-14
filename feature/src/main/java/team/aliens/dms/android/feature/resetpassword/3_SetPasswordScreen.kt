@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
@@ -40,8 +39,6 @@ import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
-import team.aliens.dms.android.feature.signup.SignUpIntent
-import team.aliens.dms.android.feature.signup.SignUpSideEffect
 
 @Suppress("ConstPropertyName")
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
@@ -68,13 +65,13 @@ fun ResetPasswordSetPasswordScreen(
 
     if (shouldShowQuitSignUpDialog) {
         AlertDialog(
-            text = { Text(text = stringResource(id = R.string.reset_password_password_changed)) },
+            text = { Text(text = stringResource(id = R.string.reset_password_set_password_password_success_changed)) },
             onDismissRequest = { /* explicit blank */ },
             confirmButton = {
                 TextButton(
                     onClick = navigator::openSignIn,
                 ) {
-                    Text(text = stringResource(id = R.string.reset_password_go_sign_in_screen))
+                    Text(text = stringResource(id = R.string.reset_password_go_to_sign_in_screen))
                 }
             },
         )
@@ -138,7 +135,13 @@ fun ResetPasswordSetPasswordScreen(
                         .fillMaxWidth()
                         .horizontalPadding(),
                     value = uiState.newPassword,
-                    onValueChange = { viewModel.postIntent(ResetPasswordIntent.UpdateNewPassword(value = it)) },
+                    onValueChange = {
+                        viewModel.postIntent(
+                            ResetPasswordIntent.UpdateNewPassword(
+                                value = it
+                            )
+                        )
+                    },
                     passwordShowing = showPassword,
                     onPasswordShowingChange = onShowPasswordChange,
                     hintText = stringResource(id = R.string.edit_password_please_enter_new_password)
@@ -148,7 +151,13 @@ fun ResetPasswordSetPasswordScreen(
                         .fillMaxWidth()
                         .horizontalPadding(),
                     value = uiState.newPasswordRepeat,
-                    onValueChange = { viewModel.postIntent(ResetPasswordIntent.UpdateNewPasswordRepeat(value = it)) },
+                    onValueChange = {
+                        viewModel.postIntent(
+                            ResetPasswordIntent.UpdateNewPasswordRepeat(
+                                value = it
+                            )
+                        )
+                    },
                     passwordShowing = showPasswordRepeat,
                     onPasswordShowingChange = onShowPasswordRepeatChange,
                     hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat)

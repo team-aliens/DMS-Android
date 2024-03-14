@@ -77,7 +77,7 @@ fun AccountVerificationScreen(
             }
 
             ResetPasswordSideEffect.AccountIdNotExists -> toast.showErrorToast(
-                message = context.getString(R.string.reset_password_account_id_does_not_exist),
+                message = context.getString(R.string.reset_password_account_verification_account_id_does_not_exist),
             )
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
@@ -118,7 +118,7 @@ fun AccountVerificationScreen(
                     .topPadding(BannerDefaults.DefaultTopSpace)
                     .startPadding(),
                 message = {
-                    BannerDefaults.DefaultText(text = stringResource(id = R.string.reset_password_identification_verification))
+                    BannerDefaults.DefaultText(text = stringResource(id = R.string.reset_password_account_verification_identification_verification))
                 },
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -128,11 +128,11 @@ fun AccountVerificationScreen(
                     .horizontalPadding(),
                 value = uiState.accountId,
                 hint = {
-                    Text(text = stringResource(id = R.string.reset_password_enter_account_id))
+                    Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id))
                 },
                 onValueChange = { viewModel.postIntent(ResetPasswordIntent.UpdateAccountId(value = it)) },
                 supportingText = if (isAccountIdError) {
-                    { Text(text = stringResource(id = R.string.reset_password_enter_account_id_error_invalid_format)) }
+                    { Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id_invalid_format)) }
                 } else {
                     null
                 },
@@ -159,7 +159,7 @@ fun AccountVerificationScreen(
                             .horizontalPadding(),
                         value = uiState.studentName,
                         hint = {
-                            Text(text = stringResource(id = R.string.reset_password_enter_student_name))
+                            Text(text = stringResource(id = R.string.reset_password_account_verification_enter_student_name))
                         },
                         onValueChange = {
                             viewModel.postIntent(ResetPasswordIntent.UpdateStudentName(value = it))
@@ -171,7 +171,7 @@ fun AccountVerificationScreen(
                             .horizontalPadding(),
                         value = uiState.email,
                         hint = {
-                            Text(text = stringResource(id = R.string.reset_password_enter_email))
+                            Text(text = stringResource(id = R.string.reset_password_account_verification_enter_email))
                         },
                         onValueChange = {
                             viewModel.postIntent(ResetPasswordIntent.UpdateEmail(value = it))
@@ -224,7 +224,7 @@ private fun AccountAssertionCard(
         ) {
             Text(
                 modifier = Modifier.startPadding(),
-                text = stringResource(id = R.string.reset_password_account_id_match_email),
+                text = stringResource(id = R.string.reset_password_account_verification_success_account_id_matches_email),
             )
             Text(
                 modifier = Modifier.startPadding(),
