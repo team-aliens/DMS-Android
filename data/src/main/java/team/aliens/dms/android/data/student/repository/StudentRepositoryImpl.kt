@@ -91,7 +91,7 @@ internal class StudentRepositoryImpl @Inject constructor(
                 email = email,
                 emailVerificationCode = emailVerificationCode,
                 newPassword = newPassword,
-            )
+            ),
         )
     }
 
