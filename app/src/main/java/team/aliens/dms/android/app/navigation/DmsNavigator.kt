@@ -34,6 +34,7 @@ import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestin
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 import java.util.UUID
@@ -216,6 +217,10 @@ class DmsNavigator(
                 studyRoomApplicationEndTime = studyRoomApplicationEndTime,
             ) within navGraph,
         )
+    }
+
+    override fun openOutingApplication() {
+        navController.navigateSingleTop(OutingNavGraph within AuthorizedNavGraph)
     }
 }
 
