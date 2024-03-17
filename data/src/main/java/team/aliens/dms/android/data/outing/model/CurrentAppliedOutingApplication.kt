@@ -14,6 +14,10 @@ data class CurrentAppliedOutingApplication(
 ) {
     // TODO
     enum class OutingStatus {
-        DONE, REJECTED, ;
+        REQUESTED,
+        OUTING,
+        DONE, ;
     }
 }
+
+
