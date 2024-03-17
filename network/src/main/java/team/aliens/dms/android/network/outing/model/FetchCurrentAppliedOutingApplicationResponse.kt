@@ -11,5 +11,5 @@ data class FetchCurrentAppliedOutingApplicationResponse(
     @SerializedName("outing_time") val startTime: LocalDateTime,
     @SerializedName("arrival_time") val endTime: LocalDateTime,
     @SerializedName("reason") val reason: String?,
-    @SerializedName("outing_companions") val followerNames: List<String>,
+    @SerializedName("outing_companions") val companionNames: List<String>,
 )
