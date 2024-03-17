@@ -153,7 +153,7 @@ internal fun StudyRoomListScreen(
                     }
                 },
                 title = {
-                    Text(text = stringResource(id = R.string.study_room_application))
+                    Text(text = stringResource(id = R.string.study_room_do_application))
                 },
             )
         },
