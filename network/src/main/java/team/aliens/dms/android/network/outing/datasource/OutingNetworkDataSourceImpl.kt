@@ -14,8 +14,8 @@ import javax.inject.Inject
 class OutingNetworkDataSourceImpl @Inject constructor(
     private val outingApiService: OutingApiService,
 ) : OutingNetworkDataSource() {
-    override fun fetchOutingAvailableTime(type: String): OutingAvailableTimeResponse =
-        outingApiService.fetchOutingAvailableTime(type)
+    override fun fetchOutingAvailableTime(dayOfWeek: String): OutingAvailableTimeResponse =
+        outingApiService.fetchOutingAvailableTime(dayOfWeek)
 
     override fun applyOuting(req: ApplyOutingRequest): ApplyOutingResponse =
         outingApiService.applyOuting(req)

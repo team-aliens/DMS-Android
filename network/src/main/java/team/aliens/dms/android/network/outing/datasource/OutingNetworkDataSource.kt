@@ -10,7 +10,7 @@ import team.aliens.dms.android.network.outing.model.OutingAvailableTimeResponse
 import java.util.UUID
 
 abstract class OutingNetworkDataSource {
-    abstract fun fetchOutingAvailableTime(type: String): OutingAvailableTimeResponse
+    abstract fun fetchOutingAvailableTime(dayOfWeek: String): OutingAvailableTimeResponse
     abstract fun applyOuting(req: ApplyOutingRequest): ApplyOutingResponse
     abstract fun fetchOutingApplicationDetails(applicationId: UUID): FetchOutingApplicationDetailsResponse
     abstract fun fetchCurrentAppliedOutingApplication(): FetchCurrentAppliedOutingApplicationResponse
