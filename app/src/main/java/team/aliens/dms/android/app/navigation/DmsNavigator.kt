@@ -82,6 +82,12 @@ class DmsNavigator(
         navController.navigateSingleTop(NoticeDetailsScreenDestination(noticeId) within navGraph)
     }
 
+    override fun openOutingNav() {
+        navController.navigateSingleTop(OutingNavGraph) {
+            restoreState = true
+        }
+    }
+
     override fun openEditPasswordSetPassword(currentPassword: String) {
         navController.navigateSingleTop(EditPasswordSetPasswordScreenDestination within EditPasswordNavGraph)
     }
