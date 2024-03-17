@@ -5,6 +5,7 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.outing.model.CurrentAppliedOutingApplication
 import team.aliens.dms.android.data.outing.model.OutingApplicationTime
 import team.aliens.dms.android.data.outing.repository.OutingRepository
 import javax.inject.Inject
@@ -21,11 +22,12 @@ class OutingViewModel @Inject constructor(
 }
 
 data class OutingUiState(
-    val outingApplicationTime: OutingApplicationTime?,
+    // val outingApplicationTime: List<OutingApplicationTime>?,
+    val currentAppliedOutingApplication: CurrentAppliedOutingApplication?,
 ) : UiState() {
     companion object {
         fun initial() = OutingUiState(
-            outingApplicationTime = null,
+            currentAppliedOutingApplication  = null,
         )
     }
 }

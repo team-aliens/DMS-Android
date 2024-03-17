@@ -233,7 +233,8 @@
     <!--study room-->
     <string name="study_room_time">시간</string>
     <string name="study_room">자습실</string>
-    <string name="study_room_application">자습실 신청하기</string>
+    <string name="study_room_application">자습실 신청</string>
+    <string name="study_room_do_application">자습실 신청하기</string>
 
     <string name="format_study_room_applied_text">%d층 %s</string>
     <string name="format_study_room_application_time">자습실 신청 시간은 %s ~ %s 입니다</string>
@@ -290,4 +291,8 @@
 
     <!--outing-->
     <string name="outing_application">외출 신청</string>
+    <string name="outing_format_application_time">외출 신청 시간은 %s ~ %s 입니다</string>
+    <string name="outing_recent_application">신청 내역</string>
+    <string name="outing_do_application">외출 신청하기</string>
+    <string name="outing_description">기숙사에서 생활하는 동안 밖에 다녀올 일이 있다면 외출을 신청해 보세요.</string>
 </resources>
