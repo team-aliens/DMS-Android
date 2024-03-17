@@ -37,7 +37,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.slideInFromEnd
@@ -60,7 +60,7 @@ internal fun Main(
 ) {
     val navController = rememberNavController()
     val (isBottomAppBarVisible, onChangeBottomAppBarVisibility) = remember { mutableStateOf(true) }
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         bottomBar = {
             AnimatedVisibility(
