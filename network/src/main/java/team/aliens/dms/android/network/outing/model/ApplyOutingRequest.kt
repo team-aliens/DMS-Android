@@ -11,5 +11,5 @@ data class ApplyOutingRequest(
     @SerializedName("arrival_time") val endTime: LocalDateTime,
     @SerializedName("outing_type_title") val type: String,
     @SerializedName("reason") val reason: String?,
-    @SerializedName("companion_ids") val followerIds: List<UUID>,
+    @SerializedName("companion_ids") val companionIds: List<UUID>,
 )
