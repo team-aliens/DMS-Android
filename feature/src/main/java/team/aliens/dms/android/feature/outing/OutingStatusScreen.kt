@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.outing
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,9 +30,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.AlertDialog
+import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
@@ -38,13 +42,13 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
-import team.aliens.dms.android.shared.date.util.now
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,6 +62,8 @@ fun OutingStatusScreen(
     val (shouldShowCancelOutingApplicationDialog, onChangeShouldShowCancelOutingDialog) = remember {
         mutableStateOf(false)
     }
+    val toast = LocalToast.current
+    val context = LocalContext.current
     if (shouldShowCancelOutingApplicationDialog) {
         AlertDialog(
             title = { Text(text = stringResource(id = R.string.outing_cancel_application)) },
@@ -80,6 +86,14 @@ fun OutingStatusScreen(
         )
     }
 
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            OutingSideEffect.CurrentAppliedOutingApplicationNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.outing_failed_to_fetch_current_applied_outing_application),
+            )
+        }
+    }
+
     Scaffold(
         topBar = {
             DmsTopAppBar(
@@ -95,28 +109,50 @@ fun OutingStatusScreen(
             )
         },
     ) { padValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues),
+            contentAlignment = Alignment.BottomCenter,
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .startPadding()
-                    .topPadding(),
-                text = stringResource(id = R.string.outing_recent_application),
-                color = DmsTheme.colorScheme.icon,
-            )
-            OutingInformationCard(
-                outingId = UUID.randomUUID(),
-                title = "어쩌구",
-                date = now.toLocalDate(),
-                time = "22:40~25:50",
-                companionNames = listOf("박준수", "벅즁수", "박박수", "준박수"),
-                reason = "배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서",
-                onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) }
-            )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .startPadding()
+                        .verticalPadding(),
+                    text = stringResource(id = R.string.outing_recent_application),
+                    color = DmsTheme.colorScheme.icon,
+                )
+                uiState.currentAppliedOutingApplication?.let { outingApplication ->
+                    OutingInformationCard(
+                        outingId = UUID.randomUUID(),
+                        title = outingApplication.type,
+                        date = outingApplication.date,
+                        time = stringResource(
+                            id = R.string.outing_format_duration,
+                            outingApplication.startTime,
+                            outingApplication.endTime
+                        ),
+                        companionNames = outingApplication.companionNames,
+                        reason = outingApplication.reason,
+                        onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) })
+                }
+            }
+            if (uiState.currentAppliedOutingApplication == null) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .bottomPadding()
+                        .horizontalPadding(),
+                    onClick = {},
+                ) {
+                    Text(text = stringResource(id = R.string.outing_do_application))
+                }
+            }
         }
     }
 }

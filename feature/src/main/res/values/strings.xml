@@ -298,4 +298,6 @@
     <string name="outing_cancel_application">신청 취소</string>
     <string name="outing_companion_names">동행자: </string>
     <string name="outing_are_you_sure_you_cancel_application">작성한 정보가 파기됩니다. 계속하시겠습니까?</string>
+    <string name="outing_failed_to_fetch_current_applied_outing_application">외출 신청 정보를 조회할 수 없습니다</string>
+    <string name="outing_format_duration">%s ~ %s</string>
 </resources>
