@@ -16,6 +16,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
+import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -52,6 +55,30 @@ fun OutingStatusScreen(
     viewModel: OutingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val (shouldShowCancelOutingApplicationDialog, onChangeShouldShowCancelOutingDialog) = remember {
+        mutableStateOf(false)
+    }
+    if (shouldShowCancelOutingApplicationDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.outing_cancel_application)) },
+            text = { Text(text = stringResource(id = R.string.outing_are_you_sure_you_cancel_application)) },
+            onDismissRequest = { onChangeShouldShowCancelOutingDialog(false) },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.postIntent(OutingIntent.CancelCurrentApplication) },
+                ) {
+                    Text(text = stringResource(id = R.string.accept))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onChangeShouldShowCancelOutingDialog(false) },
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -88,7 +115,8 @@ fun OutingStatusScreen(
                 time = "22:40~25:50",
                 companionNames = listOf("박준수", "벅즁수", "박박수", "준박수"),
                 reason = "배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서배고파서",
-            ) {}
+                onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) }
+            )
         }
     }
 }
@@ -102,7 +130,7 @@ private fun OutingInformationCard(
     time: String,
     companionNames: List<String>,
     reason: String?,
-    onCancelApplication: (id: UUID) -> Unit,
+    onCancelApplication: () -> Unit,
 ) {
 
     Card(
@@ -135,7 +163,7 @@ private fun OutingInformationCard(
                     color = DmsTheme.colorScheme.primary,
                 )
                 TextButton(
-                    onClick = { onCancelApplication(outingId) },
+                    onClick = onCancelApplication,
                     colors = ButtonDefaults.textErrorButtonColors(),
                 ) {
                     Text(text = stringResource(id = R.string.outing_cancel_application))
