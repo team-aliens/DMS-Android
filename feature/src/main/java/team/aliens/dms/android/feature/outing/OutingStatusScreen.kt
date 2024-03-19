@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
@@ -56,7 +55,7 @@ import java.util.UUID
 @Composable
 fun OutingStatusScreen(
     navigator: OutingNavigator,
-    viewModel: OutingViewModel = hiltViewModel(),
+    viewModel: OutingViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val (shouldShowCancelOutingApplicationDialog, onChangeShouldShowCancelOutingDialog) = remember {
@@ -133,7 +132,7 @@ fun OutingStatusScreen(
                         title = outingApplication.type,
                         date = outingApplication.date,
                         time = stringResource(
-                            id = R.string.outing_format_duration,
+                            id = R.string.outing_format_duration_h_m,
                             outingApplication.startTime,
                             outingApplication.endTime
                         ),
@@ -148,7 +147,7 @@ fun OutingStatusScreen(
                         .fillMaxWidth()
                         .bottomPadding()
                         .horizontalPadding(),
-                    onClick = {},
+                    onClick = navigator::openOutingApplication,
                 ) {
                     Text(text = stringResource(id = R.string.outing_do_application))
                 }
