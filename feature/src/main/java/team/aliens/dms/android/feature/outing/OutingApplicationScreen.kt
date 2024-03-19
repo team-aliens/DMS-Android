@@ -26,6 +26,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.core.designsystem.AlertDialog
+import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
@@ -45,8 +47,10 @@ import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
@@ -304,6 +308,33 @@ fun OutingApplicationScreen(
                         },
                     )
                 }
+            }
+
+            OutingInput(
+                modifier = Modifier
+                    .weight(1f)
+                    .horizontalPadding(),
+            ) {
+                var a by remember {
+                    mutableStateOf("")
+                }
+                TextField(
+                    modifier = Modifier.fillMaxSize(),
+                    value = a,
+                    onValueChange = { a = it },
+                    singleLine = false,
+                )
+            }
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding()
+                    .endPadding()
+                    .bottomPadding(),
+                onClick = { /*TODO*/ },
+            ) {
+                Text(text = stringResource(id = R.string.outing_do_application))
             }
         }
     }
