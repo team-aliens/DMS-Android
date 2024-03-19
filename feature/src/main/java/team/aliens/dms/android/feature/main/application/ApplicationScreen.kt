@@ -89,7 +89,6 @@ internal fun ApplicationScreen(
             ApplicationCard(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(id = R.string.outing_application),
-                appliedTitle = uiState.appliedRemainsOption?.title,
                 description = stringResource(id = R.string.outing_description),
                 buttonText = stringResource(id = R.string.outing_do_application),
                 onButtonClick = onNavigateToOuting,
@@ -103,7 +102,7 @@ private fun ApplicationCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
-    appliedTitle: String?,
+    appliedTitle: String? = null,
     buttonText: String,
     onButtonClick: () -> Unit,
 ) {
