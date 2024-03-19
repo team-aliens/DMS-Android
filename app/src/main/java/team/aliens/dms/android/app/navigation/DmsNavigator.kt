@@ -21,6 +21,7 @@ import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms.android.feature.destinations.OutingApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.ResetPasswordEnterEmailVerificationCodeScreenDestination
@@ -226,7 +227,7 @@ class DmsNavigator(
     }
 
     override fun openOutingApplication() {
-        navController.navigateSingleTop(OutingNavGraph within AuthorizedNavGraph)
+        navController.navigateSingleTop(OutingApplicationScreenDestination within OutingNavGraph)
     }
 }
 
