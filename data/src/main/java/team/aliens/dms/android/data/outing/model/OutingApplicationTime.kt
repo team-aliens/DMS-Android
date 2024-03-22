@@ -21,9 +21,9 @@ fun List<OutingAvailableTimeResponse.AvailableTimeResponse>.toModel(): List<Outi
 
 fun OutingAvailableTimeResponse.AvailableTimeResponse.toModel(): OutingApplicationTime =
     OutingApplicationTime(
-        id = this.id,
+        id = UUID.fromString(this.id),
         startTime = this.startTime,
         endTime = this.endTime,
         available = this.available,
-        dayOfWeek = this.dayOfWeek,
+        dayOfWeek = DayOfWeek.valueOf(this.dayOfWeek),
     )
