@@ -26,7 +26,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -315,13 +314,10 @@ fun OutingApplicationScreen(
                     .weight(1f)
                     .horizontalPadding(),
             ) {
-                var a by remember {
-                    mutableStateOf("")
-                }
                 TextField(
                     modifier = Modifier.fillMaxSize(),
-                    value = a,
-                    onValueChange = { a = it },
+                    value = uiState.reason,
+                    onValueChange = { viewModel.postIntent(OutingIntent.UpdateReason(value = it)) },
                     singleLine = false,
                 )
             }

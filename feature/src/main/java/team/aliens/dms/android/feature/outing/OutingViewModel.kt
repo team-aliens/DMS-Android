@@ -12,6 +12,7 @@ import team.aliens.dms.android.data.outing.model.CurrentAppliedOutingApplication
 import team.aliens.dms.android.data.outing.model.OutingApplicationTime
 import team.aliens.dms.android.data.outing.repository.OutingRepository
 import team.aliens.dms.android.shared.date.util.now
+import team.aliens.dms.android.shared.date.util.today
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,19 +31,21 @@ class OutingViewModel @Inject constructor(
         when (intent) {
             is OutingIntent.CancelCurrentApplication -> cancelApplication()
             is OutingIntent.UpdateSelectedOutingType -> updateSelectedOutingType(value = intent.value)
+            is OutingIntent.UpdateReason -> updateReason(value = intent.value)
         }
     }
 
     private fun fetchOutingApplicationTime() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
-            outingRepository.fetchOutingApplicationTimes(dayOfWeek = now.dayOfWeek)
-        }.onSuccess {
-            val outingApplicationTime = it.first()
+            outingRepository.fetchOutingApplicationTimes(dayOfWeek = today.dayOfWeek)
+        }.onSuccess { fetchedApplicationTime ->
             reduce(
                 newState = stateFlow.value.copy(
-                    outingApplicationTime = outingApplicationTime,
+                    outingApplicationTime = fetchedApplicationTime.first(),
                 ),
             )
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 
@@ -66,7 +69,7 @@ class OutingViewModel @Inject constructor(
 
     private fun fetchOutingTypes() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
-            outingRepository.fetchOutingTypes("")
+            outingRepository.fetchOutingTypes(null)
         }.onSuccess { fetchedOutingTypes ->
             reduce(
                 newState = stateFlow.value.copy(
@@ -81,6 +84,12 @@ class OutingViewModel @Inject constructor(
             selectedOutingType = value,
         ),
     )
+
+    private fun updateReason(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            reason = value,
+        ),
+    )
 }
 
 data class OutingUiState(
@@ -88,6 +97,7 @@ data class OutingUiState(
     val currentAppliedOutingApplication: CurrentAppliedOutingApplication?,
     val outingTypes: List<String>?,
     val selectedOutingType: String?,
+    val reason: String,
 ) : UiState() {
     companion object {
         fun initial() = OutingUiState(
@@ -95,6 +105,7 @@ data class OutingUiState(
             currentAppliedOutingApplication = null,
             outingTypes = null,
             selectedOutingType = null,
+            reason = "",
         )
     }
 }
@@ -102,6 +113,7 @@ data class OutingUiState(
 sealed class OutingIntent : Intent() {
     data object CancelCurrentApplication : OutingIntent()
     class UpdateSelectedOutingType(val value: String) : OutingIntent()
+    class UpdateReason(val value: String) : OutingIntent()
 }
 
 sealed class OutingSideEffect : SideEffect() {
