@@ -53,7 +53,6 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
-import team.aliens.dms.android.shared.date.util.now
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,16 +62,25 @@ fun OutingApplicationScreen(
     viewModel: OutingViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val (outingTypeMenuExpanded, onChangeOutingTypeMenuExpanded) = remember {
+        mutableStateOf(false)
+    }
 
+
+    val startTimePickerState = rememberTimePickerState()
     val (shouldShowStartTimePicker, onChangeShouldShowStartTimePicker) = remember {
         mutableStateOf(false)
     }
-    val startTimePickerState = rememberTimePickerState()
 
     if (shouldShowStartTimePicker) {
         AlertDialog(
             confirmButton = {
-                TextButton(onClick = { onChangeShouldShowStartTimePicker(false) }) {
+                TextButton(
+                    onClick = {
+                        viewModel.postIntent(OutingIntent.UpdateOutingStartTime(value = "${startTimePickerState.hour}:${startTimePickerState.minute}"))
+                        onChangeShouldShowStartTimePicker(false)
+                    },
+                ) {
                     Text(text = stringResource(id = R.string.close))
                 }
             },
@@ -81,15 +89,20 @@ fun OutingApplicationScreen(
         )
     }
 
+    val endTimePickerState = rememberTimePickerState()
     val (shouldShowEndTimePicker, onChangeShouldShowEndTimePicker) = remember {
         mutableStateOf(false)
     }
-    val endTimePickerState = rememberTimePickerState()
 
     if (shouldShowEndTimePicker) {
         AlertDialog(
             confirmButton = {
-                TextButton(onClick = { onChangeShouldShowEndTimePicker(false) }) {
+                TextButton(
+                    onClick = {
+                        viewModel.postIntent(OutingIntent.UpdateOutingEndTime(value = "${endTimePickerState.hour}:${endTimePickerState.minute}"))
+                        onChangeShouldShowEndTimePicker(false)
+                    },
+                ) {
                     Text(text = stringResource(id = R.string.close))
                 }
             },
@@ -148,7 +161,6 @@ fun OutingApplicationScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
             ) {
-                val capturedNow = remember { now }
                 Text(
                     modifier = Modifier.startPadding(),
                     fontWeight = FontWeight.Bold,
@@ -158,10 +170,10 @@ fun OutingApplicationScreen(
                     modifier = Modifier.endPadding(),
                     text = stringResource(
                         id = R.string.format_date_yyyy_mm_dd_day_of_week,
-                        capturedNow.year,
-                        capturedNow.month.value,
-                        capturedNow.dayOfMonth,
-                        capturedNow.dayOfWeek.text,
+                        uiState.capturedNow.year,
+                        uiState.capturedNow.month.value,
+                        uiState.capturedNow.dayOfMonth,
+                        uiState.capturedNow.dayOfWeek.text,
                     ),
                 )
             }
@@ -177,6 +189,9 @@ fun OutingApplicationScreen(
                     text = { Text(text = stringResource(id = R.string.outing_start_time)) },
                     indicator = { OutingInputDefaults.Indicator() },
                 ) {
+                    val time = remember(uiState.selectedOutingStartTime) {
+                        uiState.selectedOutingStartTime.split(':').map(String::toInt)
+                    }
                     TextField(
                         trailingIcon = {
                             IconButton(
@@ -193,8 +208,8 @@ fun OutingApplicationScreen(
                         },
                         value = stringResource(
                             id = R.string.outing_format_duration_h_m,
-                            startTimePickerState.hour,
-                            startTimePickerState.minute,
+                            time[0].toInt(),
+                            time[1].toInt(),
                         ),
                         onValueChange = {},
                         readOnly = true,
@@ -207,6 +222,9 @@ fun OutingApplicationScreen(
                     text = { Text(text = stringResource(id = R.string.outing_end_time)) },
                     indicator = { OutingInputDefaults.Indicator() },
                 ) {
+                    val time = remember(uiState.selectedOutingEndTime) {
+                        uiState.selectedOutingEndTime.split(':').map(String::toInt)
+                    }
                     TextField(
                         trailingIcon = {
                             IconButton(
@@ -223,17 +241,13 @@ fun OutingApplicationScreen(
                         },
                         value = stringResource(
                             id = R.string.outing_format_duration_h_m,
-                            endTimePickerState.hour,
-                            endTimePickerState.minute,
+                            time[0],
+                            time[1],
                         ),
                         onValueChange = {},
                         readOnly = true,
                     )
                 }
-            }
-
-            val (outingTypeMenuExpanded, onChangeOutingTypeMenuExpanded) = remember {
-                mutableStateOf(false)
             }
 
             Row(
