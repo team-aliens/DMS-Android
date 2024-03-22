@@ -13,8 +13,8 @@ abstract class OutingRepository {
 
     abstract suspend fun applyOuting(
         date: LocalDate,
-        startTime: LocalDateTime,
-        endTime: LocalDateTime,
+        startTime: String,
+        endTime: String,
         type: String,
         reason: String?,
         companionIds: List<UUID>,
