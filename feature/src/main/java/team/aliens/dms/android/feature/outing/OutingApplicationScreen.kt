@@ -287,6 +287,7 @@ fun OutingApplicationScreen(
                                             viewModel.postIntent(
                                                 OutingIntent.UpdateSelectedOutingType(outingType),
                                             )
+                                            onChangeOutingTypeMenuExpanded(false)
                                         },
                                     )
                                 }
@@ -333,6 +334,9 @@ fun OutingApplicationScreen(
                     value = uiState.reason,
                     onValueChange = { viewModel.postIntent(OutingIntent.UpdateReason(value = it)) },
                     singleLine = false,
+                    hint = {
+                        Text(text = stringResource(id = R.string.outing_hint_please_enter_description))
+                    },
                 )
             }
 
