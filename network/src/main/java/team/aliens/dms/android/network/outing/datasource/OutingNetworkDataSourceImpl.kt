@@ -14,21 +14,21 @@ import javax.inject.Inject
 class OutingNetworkDataSourceImpl @Inject constructor(
     private val outingApiService: OutingApiService,
 ) : OutingNetworkDataSource() {
-    override fun fetchOutingAvailableTime(dayOfWeek: String): OutingAvailableTimeResponse =
+    override suspend fun fetchOutingAvailableTime(dayOfWeek: String): OutingAvailableTimeResponse =
         outingApiService.fetchOutingAvailableTime(dayOfWeek)
 
-    override fun applyOuting(req: ApplyOutingRequest): ApplyOutingResponse =
+    override suspend fun applyOuting(req: ApplyOutingRequest): ApplyOutingResponse =
         outingApiService.applyOuting(req)
 
-    override fun fetchOutingApplicationDetails(applicationId: UUID): FetchOutingApplicationDetailsResponse =
+    override suspend fun fetchOutingApplicationDetails(applicationId: UUID): FetchOutingApplicationDetailsResponse =
         outingApiService.fetchOutingApplicationDetails(applicationId)
 
-    override fun fetchCurrentAppliedOutingApplication(): FetchCurrentAppliedOutingApplicationResponse =
+    override suspend fun fetchCurrentAppliedOutingApplication(): FetchCurrentAppliedOutingApplicationResponse =
         outingApiService.fetchCurrentAppliedOutingApplication()
 
-    override fun cancelOuting(applicationId: UUID): Response<Unit?> =
+    override suspend fun cancelOuting(applicationId: UUID): Response<Unit?> =
         outingApiService.cancelOuting(applicationId)
 
-    override fun fetchOutingTypes(keyword: String?): FetchOutingTypesResponse =
+    override suspend fun fetchOutingTypes(keyword: String?): FetchOutingTypesResponse =
         outingApiService.fetchOutingTypes(keyword)
 }

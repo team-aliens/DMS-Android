@@ -9,9 +9,9 @@ import team.aliens.dms.android.data.outing.model.OutingApplicationTime
 import java.util.UUID
 
 abstract class OutingRepository {
-    abstract fun fetchOutingApplicationTimes(dayOfWeek: DayOfWeek): List<OutingApplicationTime>
+    abstract suspend fun fetchOutingApplicationTimes(dayOfWeek: DayOfWeek): List<OutingApplicationTime>
 
-    abstract fun applyOuting(
+    abstract suspend fun applyOuting(
         date: LocalDate,
         startTime: LocalDateTime,
         endTime: LocalDateTime,
@@ -20,9 +20,9 @@ abstract class OutingRepository {
         companionIds: List<UUID>,
     ): OutingApplicationId
 
-    abstract fun fetchCurrentAppliedOutingApplication(): CurrentAppliedOutingApplication
+    abstract suspend fun fetchCurrentAppliedOutingApplication(): CurrentAppliedOutingApplication
 
-    abstract fun cancelOuting(applicationId: UUID)
+    abstract suspend fun cancelOuting(applicationId: UUID)
 
-    abstract fun fetchOutingTypes(keyword: String): List<String>
+    abstract suspend fun fetchOutingTypes(keyword: String): List<String>
 }

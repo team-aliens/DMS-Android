@@ -15,10 +15,10 @@ import javax.inject.Inject
 class OutingRepositoryImpl @Inject constructor(
     private val outingNetworkDataSource: OutingNetworkDataSource,
 ) : OutingRepository() {
-    override fun fetchOutingApplicationTimes(dayOfWeek: DayOfWeek): List<OutingApplicationTime> =
+    override suspend fun fetchOutingApplicationTimes(dayOfWeek: DayOfWeek): List<OutingApplicationTime> =
         outingNetworkDataSource.fetchOutingAvailableTime(dayOfWeek = dayOfWeek.name).toModel()
 
-    override fun applyOuting(
+    override suspend fun applyOuting(
         date: LocalDate,
         startTime: LocalDateTime,
         endTime: LocalDateTime,
@@ -36,13 +36,13 @@ class OutingRepositoryImpl @Inject constructor(
         ),
     ).applicationId
 
-    override fun fetchCurrentAppliedOutingApplication(): CurrentAppliedOutingApplication =
+    override suspend fun fetchCurrentAppliedOutingApplication(): CurrentAppliedOutingApplication =
         outingNetworkDataSource.fetchCurrentAppliedOutingApplication().toModel()
 
-    override fun cancelOuting(applicationId: UUID) {
+    override suspend fun cancelOuting(applicationId: UUID) {
         outingNetworkDataSource.cancelOuting(applicationId = applicationId)
     }
 
-    override fun fetchOutingTypes(keyword: String): List<String> =
+    override suspend fun fetchOutingTypes(keyword: String): List<String> =
         outingNetworkDataSource.fetchOutingTypes(keyword = keyword).titles
 }

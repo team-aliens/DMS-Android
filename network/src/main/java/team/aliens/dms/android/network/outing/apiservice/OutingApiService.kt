@@ -1,6 +1,7 @@
 package team.aliens.dms.android.network.outing.apiservice
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -17,26 +18,30 @@ import java.util.UUID
 interface OutingApiService {
 
     @GET("/outings/available-time")
-    fun fetchOutingAvailableTime(type: String): OutingAvailableTimeResponse
+    suspend fun fetchOutingAvailableTime(
+        @Query("dayOfWeek") dayOfWeek: String,
+    ): OutingAvailableTimeResponse
 
     @POST("/outings")
-    fun applyOuting(req: ApplyOutingRequest): ApplyOutingResponse
+    suspend fun applyOuting(
+        @Body req: ApplyOutingRequest,
+    ): ApplyOutingResponse
 
     @POST("/outings/{outing-application-id}")
-    fun fetchOutingApplicationDetails(
+    suspend fun fetchOutingApplicationDetails(
         @Path("outing-application-id") applicationId: UUID,
     ): FetchOutingApplicationDetailsResponse
 
     @GET("/outings/my")
-    fun fetchCurrentAppliedOutingApplication(): FetchCurrentAppliedOutingApplicationResponse
+    suspend fun fetchCurrentAppliedOutingApplication(): FetchCurrentAppliedOutingApplicationResponse
 
     @DELETE("/outing/{outing-application-id}")
-    fun cancelOuting(
+    suspend fun cancelOuting(
         @Path("outing-application-id") applicationId: UUID,
     ): Response<Unit?>
 
     @GET("/outing/types")
-    fun fetchOutingTypes(
+    suspend fun fetchOutingTypes(
         @Query("keyword") keyword: String?,
     ): FetchOutingTypesResponse
 }
