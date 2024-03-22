@@ -43,8 +43,6 @@ internal object HttpClientModule {
     ): Retrofit = Retrofit(
         client = globalOkHttpClient,
         baseUrl = baseUrl,
-        gsonConverter = true,
-        gsonLenient = true,
     )
 
     @Provides

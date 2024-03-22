@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 
@@ -16,7 +16,7 @@ fun Retrofit(
     nullConverter: Boolean = true,
     gsonConverter: Boolean = true,
     gsonLenient: Boolean = true,
-    rxJava2CallAdapter: Boolean = true,
+    rxJava3CallAdapter: Boolean = true,
 ): Retrofit = Retrofit.Builder().baseUrl(baseUrl).apply {
     client(client)
     if (nullConverter) {
@@ -30,8 +30,8 @@ fun Retrofit(
         }
         addConverterFactory(GsonConverterFactory.create(builder.create()))
     }
-    if (rxJava2CallAdapter) {
-        addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+    if (rxJava3CallAdapter) {
+        addCallAdapterFactory(RxJava3CallAdapterFactory.create())
     }
 }.build()
 
