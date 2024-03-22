@@ -35,13 +35,11 @@ interface OutingApiService {
     @GET("/outings/my")
     suspend fun fetchCurrentAppliedOutingApplication(): FetchCurrentAppliedOutingApplicationResponse
 
-    @DELETE("/outing/{outing-application-id}")
+    @DELETE("/outings/{outing-application-id}")
     suspend fun cancelOuting(
         @Path("outing-application-id") applicationId: UUID,
     ): Response<Unit?>
 
-    @GET("/outing/types")
-    suspend fun fetchOutingTypes(
-        @Query("keyword") keyword: String?,
-    ): FetchOutingTypesResponse
+    @GET("/outings/types")
+    suspend fun fetchOutingTypes(): FetchOutingTypesResponse
 }

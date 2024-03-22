@@ -30,5 +30,5 @@ class OutingNetworkDataSourceImpl @Inject constructor(
         outingApiService.cancelOuting(applicationId)
 
     override suspend fun fetchOutingTypes(keyword: String?): FetchOutingTypesResponse =
-        outingApiService.fetchOutingTypes(keyword)
+        outingApiService.fetchOutingTypes()
 }

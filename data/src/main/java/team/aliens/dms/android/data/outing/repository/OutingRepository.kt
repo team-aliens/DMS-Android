@@ -24,5 +24,5 @@ abstract class OutingRepository {
 
     abstract suspend fun cancelOuting(applicationId: UUID)
 
-    abstract suspend fun fetchOutingTypes(keyword: String): List<String>
+    abstract suspend fun fetchOutingTypes(keyword: String?): List<String>
 }

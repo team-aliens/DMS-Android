@@ -43,6 +43,6 @@ class OutingRepositoryImpl @Inject constructor(
         outingNetworkDataSource.cancelOuting(applicationId = applicationId)
     }
 
-    override suspend fun fetchOutingTypes(keyword: String): List<String> =
+    override suspend fun fetchOutingTypes(keyword: String?): List<String> =
         outingNetworkDataSource.fetchOutingTypes(keyword = keyword).titles
 }
