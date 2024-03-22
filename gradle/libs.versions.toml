@@ -75,7 +75,7 @@ okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver",
 okhttp-interceptor-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
-retrofit-adapter-rxjava2 = { group = "com.squareup.retrofit2", name = "adapter-rxjava2", version.ref = "retrofit" }
+retrofit-adapter-rxjava2 = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
 threetenbp = { module = "org.threeten:threetenbp", version.ref = "threetenbp" }
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
