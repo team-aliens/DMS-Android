@@ -11,6 +11,7 @@ import team.aliens.dms.android.core.jwt.RequiresAccessToken
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
+import team.aliens.dms.android.network.student.model.FetchStudentsResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
@@ -59,4 +60,7 @@ internal interface StudentApiService {
     @DELETE("/students")
     @RequiresAccessToken
     suspend fun withdraw()
+
+    @GET("/students")
+    suspend fun fetchStudents(): FetchStudentsResponse
 }
