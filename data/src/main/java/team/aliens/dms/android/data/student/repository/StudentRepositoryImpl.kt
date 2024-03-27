@@ -5,6 +5,7 @@ import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.student.mapper.toModel
 import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
+import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
 import team.aliens.dms.android.network.student.model.SignUpRequest
@@ -100,9 +101,10 @@ internal class StudentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun withdraw() {
-        // TODO: remove docs
-        /*networkStudentDataSource.withdraw()
+        networkStudentDataSource.withdraw()
         jwtProvider.clearCaches()
-        schoolProvider.clearCaches()*/
+        schoolProvider.clearCaches()
     }
+
+    override suspend fun fetchStudents(): List<Student> =networkStudentDataSource.fetchStudents()
 }

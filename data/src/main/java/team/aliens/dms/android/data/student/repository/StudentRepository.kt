@@ -2,6 +2,7 @@ package team.aliens.dms.android.data.student.repository
 
 import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
+import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.model.StudentName
 import java.util.UUID
 
@@ -52,4 +53,6 @@ abstract class StudentRepository {
     abstract suspend fun editProfile(profileImageUrl: String)
 
     abstract suspend fun withdraw()
+
+    abstract suspend fun fetchStudents(): List<Student>
 }
