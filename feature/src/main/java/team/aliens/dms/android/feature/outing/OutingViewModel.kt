@@ -12,13 +12,17 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.outing.model.CurrentAppliedOutingApplication
 import team.aliens.dms.android.data.outing.model.OutingApplicationTime
 import team.aliens.dms.android.data.outing.repository.OutingRepository
+import team.aliens.dms.android.data.student.model.Student
+import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class OutingViewModel @Inject constructor(
     private val outingRepository: OutingRepository,
+    private val studentRepository: StudentRepository,
 ) : BaseMviViewModel<OutingUiState, OutingIntent, OutingSideEffect>(
     initialState = OutingUiState.initial(),
 ) {
@@ -26,6 +30,7 @@ class OutingViewModel @Inject constructor(
         fetchOutingApplicationTime()
         fetchCurrentAppliedOutingApplication()
         fetchOutingTypes()
+        fetchStudents()
     }
 
     override fun processIntent(intent: OutingIntent) {
@@ -35,6 +40,7 @@ class OutingViewModel @Inject constructor(
             is OutingIntent.UpdateReason -> updateReason(value = intent.value)
             is OutingIntent.UpdateOutingStartTime -> updateOutingStartTime(value = intent.value)
             is OutingIntent.UpdateOutingEndTime -> updateOutingEndTime(value = intent.value)
+            OutingIntent.ApplyOuting -> applyOuting()
         }
     }
 
@@ -106,6 +112,43 @@ class OutingViewModel @Inject constructor(
             selectedOutingEndTime = value,
         ),
     )
+
+    private fun applyOuting() = run {
+        val capturedState = stateFlow.value
+        if (capturedState.selectedOutingType == null) {
+            postSideEffect(OutingSideEffect.OutingTypeNotSelected)
+            return@run
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                /*outingRepository.applyOuting(
+                    date = capturedState.capturedNow.toLocalDate(),
+                    startTime = capturedState.selectedOutingStartTime + ":00",
+                    endTime = capturedState.selectedOutingEndTime + ":00",
+                    type = capturedState.selectedOutingType,
+                    reason = if (capturedState.reason.isBlank()) {
+                        null
+                    } else {
+                        capturedState.reason
+                    },
+                    companionIds =
+                )*/
+            }
+        }
+    }
+
+    private fun fetchStudents() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studentRepository.fetchStudents()
+        }.onSuccess { fetchedStudents ->
+            reduce(
+                newState = stateFlow.value.copy(
+                    students = fetchedStudents,
+                ),
+            )
+        }
+    }
 }
 
 data class OutingUiState(
@@ -117,6 +160,8 @@ data class OutingUiState(
     val capturedNow: LocalDateTime,
     val selectedOutingStartTime: String,
     val selectedOutingEndTime: String,
+    val companionIds: List<UUID>,
+    val students: List<Student>?,
 ) : UiState() {
     companion object {
         fun initial(): OutingUiState {
@@ -131,6 +176,8 @@ data class OutingUiState(
                 // TODO: remove hard-coded string resources from viewmodel
                 selectedOutingEndTime = "${capturedNow.hour}:${capturedNow.minute}",
                 selectedOutingStartTime = "${capturedNow.hour}:${capturedNow.minute}",
+                companionIds = emptyList(),
+                students = null,
             )
         }
     }
@@ -142,8 +189,10 @@ sealed class OutingIntent : Intent() {
     class UpdateReason(val value: String) : OutingIntent()
     class UpdateOutingStartTime(val value: String) : OutingIntent()
     class UpdateOutingEndTime(val value: String) : OutingIntent()
+    data object ApplyOuting : OutingIntent()
 }
 
 sealed class OutingSideEffect : SideEffect() {
     data object CurrentAppliedOutingApplicationNotFound : OutingSideEffect()
+    data object OutingTypeNotSelected : OutingSideEffect()
 }
