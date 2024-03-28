@@ -48,7 +48,6 @@ import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -90,6 +89,9 @@ fun OutingStatusScreen(
             OutingSideEffect.CurrentAppliedOutingApplicationNotFound -> toast.showErrorToast(
                 message = context.getString(R.string.outing_failed_to_fetch_current_applied_outing_application),
             )
+
+            else -> {/* explicit blank */
+            }
         }
     }
 
@@ -128,7 +130,6 @@ fun OutingStatusScreen(
                 )
                 uiState.currentAppliedOutingApplication?.let { outingApplication ->
                     OutingInformationCard(
-                        outingId = UUID.randomUUID(),
                         title = outingApplication.type,
                         date = outingApplication.date,
                         time = stringResource(
@@ -138,7 +139,8 @@ fun OutingStatusScreen(
                         ),
                         companionNames = outingApplication.companionNames,
                         reason = outingApplication.reason,
-                        onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) })
+                        onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) },
+                    )
                 }
             }
             if (uiState.currentAppliedOutingApplication == null) {
@@ -159,7 +161,6 @@ fun OutingStatusScreen(
 @Composable
 private fun OutingInformationCard(
     modifier: Modifier = Modifier,
-    outingId: UUID,
     title: String,
     date: LocalDate,
     time: String,
