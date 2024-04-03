@@ -41,6 +41,10 @@ class OutingViewModel @Inject constructor(
             is OutingIntent.UpdateOutingStartTime -> updateOutingStartTime(value = intent.value)
             is OutingIntent.UpdateOutingEndTime -> updateOutingEndTime(value = intent.value)
             OutingIntent.ApplyOuting -> applyOuting()
+            is OutingIntent.SelectStudent -> selectStudent(
+                student = intent.student,
+                select = intent.select,
+            )
         }
     }
 
@@ -140,14 +144,74 @@ class OutingViewModel @Inject constructor(
 
     private fun fetchStudents() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
-            studentRepository.fetchStudents()
+            // FIXME
+            // studentRepository.fetchStudents()
+            listOf(
+                Student(
+                    id = UUID.randomUUID(),
+                    name = "박준수",
+                    gradeClassNumber = "3211",
+                    profileImageUrl = "www.naver.com",
+                ),
+                Student(
+                    id = UUID.randomUUID(),
+                    name = "준박수",
+                    gradeClassNumber = "1234",
+                    profileImageUrl = "www.naver.com",
+                ),
+                Student(
+                    id = UUID.randomUUID(),
+                    name = "박준혁",
+                    gradeClassNumber = "2211",
+                    profileImageUrl = "www.naver.com",
+                ),
+                Student(
+                    id = UUID.randomUUID(),
+                    name = "수준봐",
+                    gradeClassNumber = "1111",
+                    profileImageUrl = "www.naver.com",
+                ),
+                Student(
+                    id = UUID.randomUUID(),
+                    name = "코딱지",
+                    gradeClassNumber = "4411",
+                    profileImageUrl = "www.naver.com",
+                ),
+                Student(
+                    id = UUID.randomUUID(),
+                    name = "빅준자",
+                    gradeClassNumber = "9213",
+                    profileImageUrl = "www.naver.com",
+                ),
+            )
         }.onSuccess { fetchedStudents ->
+            println(fetchedStudents)
             reduce(
                 newState = stateFlow.value.copy(
                     students = fetchedStudents,
                 ),
             )
         }
+    }
+
+    private fun selectStudent(
+        student: Student,
+        select: Boolean,
+    ) = run {
+        val capturedState = stateFlow.value
+        reduce(
+            newState = capturedState.copy(
+                selectedStudents = if (select) {
+                    capturedState.selectedStudents.toMutableList().apply {
+                        add(student)
+                    }
+                } else {
+                    capturedState.selectedStudents.toMutableList().apply {
+                        remove(student)
+                    }
+                },
+            )
+        )
     }
 }
 
@@ -162,6 +226,7 @@ data class OutingUiState(
     val selectedOutingEndTime: String,
     val companionIds: List<UUID>,
     val students: List<Student>?,
+    val selectedStudents: List<Student>,
 ) : UiState() {
     companion object {
         fun initial(): OutingUiState {
@@ -178,6 +243,7 @@ data class OutingUiState(
                 selectedOutingStartTime = "${capturedNow.hour}:${capturedNow.minute}",
                 companionIds = emptyList(),
                 students = null,
+                selectedStudents = emptyList(),
             )
         }
     }
@@ -190,6 +256,10 @@ sealed class OutingIntent : Intent() {
     class UpdateOutingStartTime(val value: String) : OutingIntent()
     class UpdateOutingEndTime(val value: String) : OutingIntent()
     data object ApplyOuting : OutingIntent()
+    class SelectStudent(
+        val student: Student,
+        val select: Boolean,
+    ) : OutingIntent()
 }
 
 sealed class OutingSideEffect : SideEffect() {

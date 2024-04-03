@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.outing
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,25 +10,34 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,22 +45,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.TextField
+import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
 
@@ -65,13 +85,12 @@ fun OutingApplicationScreen(
     val (outingTypeMenuExpanded, onChangeOutingTypeMenuExpanded) = remember {
         mutableStateOf(false)
     }
-
+    val scope = rememberCoroutineScope()
 
     val startTimePickerState = rememberTimePickerState()
     val (shouldShowStartTimePicker, onChangeShouldShowStartTimePicker) = remember {
         mutableStateOf(false)
     }
-
     if (shouldShowStartTimePicker) {
         AlertDialog(
             confirmButton = {
@@ -81,7 +100,7 @@ fun OutingApplicationScreen(
                         onChangeShouldShowStartTimePicker(false)
                     },
                 ) {
-                    Text(text = stringResource(id = R.string.close))
+                    Text(text = stringResource(id = R.string.accept))
                 }
             },
             onDismissRequest = { onChangeShouldShowStartTimePicker(false) },
@@ -93,7 +112,6 @@ fun OutingApplicationScreen(
     val (shouldShowEndTimePicker, onChangeShouldShowEndTimePicker) = remember {
         mutableStateOf(false)
     }
-
     if (shouldShowEndTimePicker) {
         AlertDialog(
             confirmButton = {
@@ -109,6 +127,108 @@ fun OutingApplicationScreen(
             onDismissRequest = { onChangeShouldShowEndTimePicker(false) },
             text = { TimePicker(state = endTimePickerState) },
         )
+    }
+
+    val (shouldShowCompanionListDialog, onShouldShowCompanionListDialogChange) = remember {
+        mutableStateOf(false)
+    }
+    val sheetState = rememberModalBottomSheetState()
+    if (shouldShowCompanionListDialog) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = { onShouldShowCompanionListDialogChange(false) },
+            properties = ModalBottomSheetDefaults.properties(
+                shouldDismissOnBackPress = false,
+            ),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(
+                        max = 640.dp,
+                    ),
+            ) {
+                // TODO: 딜레이 서치
+                val (studentFilterValue, onStudentFilterValueChange) = remember { mutableStateOf("") }
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding()
+                        .topPadding(),
+                    hint = { Text(text = stringResource(R.string.outing_application_search_with_number_or_name)) },
+                    value = studentFilterValue,
+                    onValueChange = onStudentFilterValueChange,
+                )
+
+                StudentList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 240.dp),
+                    students = uiState.students?.filter {
+                        it.name.contains(studentFilterValue)
+                                || it.gradeClassNumber.contains(studentFilterValue)
+                    },
+                    selectedStudents = uiState.selectedStudents,
+                    onSelectStudent = { student ->
+                        // TODO: Select를 Pair에 포함시켜서 탐색 시간 단축
+                        viewModel.postIntent(
+                            OutingIntent.SelectStudent(
+                                student = student,
+                                select = !uiState.selectedStudents.contains(student),
+                            ),
+                        )
+                    },
+                )
+                // TODO
+                Text(
+                    modifier = Modifier
+                        .startPadding()
+                        .topPadding(),
+                    text = stringResource(R.string.outing_application_selected_companions),
+                    style = DmsTheme.typography.caption,
+                )
+                StudentList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 240.dp),
+                    students = uiState.selectedStudents,
+                    // TODO: students 파라미터를 List<Pair<Boolean(selected), Student>>로 변경하기
+                    selectedStudents = emptyList(),
+                    onSelectStudent = { student ->
+                        viewModel.postIntent(
+                            OutingIntent.SelectStudent(
+                                student = student,
+                                select = false,
+                            ),
+                        )
+                    },
+                    selectedOnly = true,
+                )
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding()
+                        .bottomPadding(),
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                            onShouldShowCompanionListDialogChange(false)
+                        }
+                    },
+                ) {
+                    Text(
+                        text = if (uiState.selectedStudents.isEmpty()) {
+                            stringResource(id = R.string.close)
+                        } else {
+                            stringResource(
+                                id = R.string.outing_format_select_companions,
+                                uiState.selectedStudents.size,
+                            )
+                        },
+                    )
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -208,8 +328,8 @@ fun OutingApplicationScreen(
                         },
                         value = stringResource(
                             id = R.string.outing_format_duration_h_m,
-                            time[0].toInt(),
-                            time[1].toInt(),
+                            time[0],
+                            time[1],
                         ),
                         onValueChange = {},
                         readOnly = true,
@@ -313,7 +433,9 @@ fun OutingApplicationScreen(
                         onValueChange = { /* explicit blank */ },
                         readOnly = true,
                         trailingIcon = {
-                            IconButton(onClick = { /*TODO*/ }) {
+                            IconButton(
+                                onClick = { onShouldShowCompanionListDialogChange(true) },
+                            ) {
                                 Icon(
                                     painter = painterResource(id = team.aliens.dms.android.core.designsystem.R.drawable.ic_plus),
                                     contentDescription = stringResource(id = R.string.outing_add_companions),
@@ -343,13 +465,116 @@ fun OutingApplicationScreen(
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .startPadding()
-                    .endPadding()
+                    .horizontalPadding()
                     .bottomPadding(),
                 onClick = { /*TODO*/ },
             ) {
                 Text(text = stringResource(id = R.string.outing_do_application))
             }
+        }
+    }
+}
+
+@Composable
+private fun StudentList(
+    modifier: Modifier = Modifier,
+    students: List<Student>?,
+    selectedStudents: List<Student>,
+    selectedOnly: Boolean = false,
+    onSelectStudent: (Student) -> Unit,
+) {
+    VerticallyFadedLazyColumn(
+        modifier = modifier,
+        topFadeBrush = Brush.verticalGradient(
+            colors = listOf(
+                DmsTheme.colorScheme.surface,
+                Color.Transparent,
+            ),
+        ),
+        bottomFadeBrush = Brush.verticalGradient(
+            colors = listOf(
+                Color.Transparent,
+                DmsTheme.colorScheme.surface,
+            ),
+        ),
+        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+    ) {
+        if (students != null) {
+            items(students) { student ->
+                val selected = if (selectedOnly) {
+                    true
+                } else {
+                    selectedStudents.any { it == student }
+                }/*
+                AnimatedVisibility(
+                    visible = selected,
+                    enter = fadeIn(),
+                    exit = slideOutFromStart(),
+                ) {*/
+                StudentCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    student = student,
+                    selected = selected,
+                    onClick = onSelectStudent,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StudentCard(
+    modifier: Modifier = Modifier,
+    student: Student,
+    selected: Boolean,
+    onClick: (Student) -> Unit,
+) {
+    Card(
+        modifier = modifier.verticalPadding(PaddingDefaults.ExtraSmall),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        border = if (selected) {
+            BorderStroke(
+                width = 1.dp,
+                color = DmsTheme.colorScheme.primary,
+            )
+        } else {
+            null
+        },
+        elevation = CardDefaults.cardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+        onClick = { onClick(student) },
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .startPadding()
+                    .topPadding()
+                    .bottomPadding()
+                    .size(48.dp)
+                    .clip(CircleShape),
+                model = student.profileImageUrl,
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier
+                    .topPadding()
+                    .endPadding()
+                    .bottomPadding(),
+                text = stringResource(
+                    id = R.string.outing_application_format_grade_class_number_with_name,
+                    student.gradeClassNumber,
+                    student.name,
+                ),
+            )
         }
     }
 }
