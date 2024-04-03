@@ -311,5 +311,9 @@
     <string name="format_date_yyyy_mm_dd_day_of_week">%04d.%02d.%02d (%s)</string>
     <string name="outing_start_time">외출 시간</string>
     <string name="outing_end_time">복귀 시간</string>
-    <string name="outing_hint_please_enter_description">내용을 입력해 주세요</string>
+    <string name="outing_hint_please_enter_description">외출 사유를 입력해 주세요</string>
+    <string name="outing_format_select_companions">%d명 선택</string>
+    <string name="outing_application_search_with_number_or_name">학번/이름으로 검색해 보세요</string>
+    <string name="outing_application_selected_companions">선택한 학생</string>
+    <string name="outing_application_format_grade_class_number_with_name">%s %s</string>
 </resources>
