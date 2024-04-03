@@ -29,6 +29,8 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.DisposableEffectResult
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.core.designsystem.AlertDialog
@@ -429,7 +430,18 @@ fun OutingApplicationScreen(
                     text = { Text(text = stringResource(id = R.string.outing_companion_names)) },
                 ) {
                     TextField(
-                        value = stringResource(id = R.string.outing_add_companions),
+                        value = if (uiState.selectedStudents.isEmpty()) {
+                            stringResource(id = R.string.outing_add_companions)
+                        } else {
+                            StringBuilder().apply {
+                                uiState.selectedStudents.forEachIndexed { index, student ->
+                                    this.append("${student.gradeClassNumber} ${student.name} ")
+                                    if (index != uiState.selectedStudents.lastIndex) {
+                                        this.append(',')
+                                    }
+                                }
+                            }.toString()
+                        },
                         onValueChange = { /* explicit blank */ },
                         readOnly = true,
                         trailingIcon = {
@@ -558,7 +570,7 @@ private fun StudentCard(
                     .startPadding()
                     .topPadding()
                     .bottomPadding()
-                    .size(48.dp)
+                    .size(24.dp)
                     .clip(CircleShape),
                 model = student.profileImageUrl,
                 contentDescription = null,
