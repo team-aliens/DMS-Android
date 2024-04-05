@@ -6,7 +6,6 @@ import team.aliens.dms.android.data.student.mapper.toModel
 import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.model.StudentName
-import team.aliens.dms.android.network.auth.datasource.NetworkAuthDataSource
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
@@ -73,9 +72,14 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): HashedEmail {
-        TODO("Not yet implemented")
-    }
+    ): HashedEmail =
+        networkStudentDataSource.findId(
+            schoolId = schoolId,
+            studentName = studentName,
+            grade = grade,
+            classRoom = classRoom,
+            number = number,
+        ).email
 
     override suspend fun resetPassword(
         accountId: String,
