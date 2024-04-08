@@ -144,46 +144,7 @@ class OutingViewModel @Inject constructor(
 
     private fun fetchStudents() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
-            // FIXME
-            // studentRepository.fetchStudents()
-            listOf(
-                Student(
-                    id = UUID.randomUUID(),
-                    name = "박준수",
-                    gradeClassNumber = "3211",
-                    profileImageUrl = "www.naver.com",
-                ),
-                Student(
-                    id = UUID.randomUUID(),
-                    name = "준박수",
-                    gradeClassNumber = "1234",
-                    profileImageUrl = "www.naver.com",
-                ),
-                Student(
-                    id = UUID.randomUUID(),
-                    name = "박준혁",
-                    gradeClassNumber = "2211",
-                    profileImageUrl = "www.naver.com",
-                ),
-                Student(
-                    id = UUID.randomUUID(),
-                    name = "수준봐",
-                    gradeClassNumber = "1111",
-                    profileImageUrl = "www.naver.com",
-                ),
-                Student(
-                    id = UUID.randomUUID(),
-                    name = "코딱지",
-                    gradeClassNumber = "4411",
-                    profileImageUrl = "www.naver.com",
-                ),
-                Student(
-                    id = UUID.randomUUID(),
-                    name = "빅준자",
-                    gradeClassNumber = "9213",
-                    profileImageUrl = "www.naver.com",
-                ),
-            )
+            studentRepository.fetchStudents()
         }.onSuccess { fetchedStudents ->
             println(fetchedStudents)
             reduce(
