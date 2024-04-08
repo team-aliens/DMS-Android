@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -29,8 +31,6 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.DisposableEffectResult
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -529,7 +529,7 @@ private fun StudentList(
                         .horizontalPadding(),
                     student = student,
                     selected = selected,
-                    onClick = onSelectStudent,
+                    onClick = { onSelectStudent(student) },
                 )
             }
         }
@@ -541,7 +541,7 @@ private fun StudentCard(
     modifier: Modifier = Modifier,
     student: Student,
     selected: Boolean,
-    onClick: (Student) -> Unit,
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = modifier.verticalPadding(PaddingDefaults.ExtraSmall),
@@ -559,7 +559,7 @@ private fun StudentCard(
             null
         },
         elevation = CardDefaults.cardElevation(defaultElevation = ShadowDefaults.SmallElevation),
-        onClick = { onClick(student) },
+        onClick = onClick,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -587,6 +587,14 @@ private fun StudentCard(
                     student.name,
                 ),
             )
+            if (selected) {
+                IconButton(onClick = onClick) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = stringResource(id = R.string.cancel),
+                    )
+                }
+            }
         }
     }
 }
