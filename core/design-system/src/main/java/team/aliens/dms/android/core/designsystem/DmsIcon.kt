@@ -14,6 +14,7 @@ object DmsIcon {
     val Check = R.drawable.ic_check
     val Close = R.drawable.ic_close
     val Dinner = R.drawable.ic_dinner
+    val Up = R.drawable.ic_up
     val Down = R.drawable.ic_down
     val Forward = R.drawable.ic_forward
     val Home = R.drawable.ic_home

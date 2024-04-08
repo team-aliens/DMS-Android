@@ -174,9 +174,14 @@ private fun UserInformationInputs(
                 trailingIcon = {
                     IconButton(onClick = { isDropdownMenuExpanded = !isDropdownMenuExpanded }) {
                         Icon(
-                            painter = if (isDropdownMenuExpanded) painterResource(id = com.google.android.material.R.drawable.material_ic_menu_arrow_up_black_24dp)
-                            else painterResource(id = DmsIcon.Down),
-                            contentDescription = "down_icon",
+                            painter = painterResource(
+                                if (isDropdownMenuExpanded) {
+                                    DmsIcon.Down
+                                } else {
+                                    DmsIcon.Up
+                                }
+                            ),
+                            contentDescription = "dropdown_menu_icon",
                         )
                     }
                 }
