@@ -301,7 +301,7 @@
     <string name="outing_companion_names">동행자</string>
     <string name="outing_are_you_sure_you_cancel_application">작성한 정보가 파기됩니다. 계속하시겠습니까?</string>
     <string name="outing_failed_to_fetch_current_applied_outing_application">외출 신청 정보를 조회할 수 없습니다</string>
-    <string name="outing_format_duration_h_m">%02d:%02d</string>
+    <string name="outing_format_duration_h_m">%s:%s</string>
     <string name="outing_error_there_is_no_outing_types">외출 유형이 존재하지 않습니다</string>
     <string name="outing_select_outing_type">선택</string>
     <string name="outing_type">외출 유형</string>
@@ -316,4 +316,5 @@
     <string name="outing_application_search_with_number_or_name">학번/이름으로 검색해 보세요</string>
     <string name="outing_application_selected_companions">선택한 학생</string>
     <string name="outing_application_format_grade_class_number_with_name">%s %s</string>
+    <string name="outing_application_error_outing_type_not_selected">외출 유형이 선택되지 않았습니다.</string>
 </resources>
