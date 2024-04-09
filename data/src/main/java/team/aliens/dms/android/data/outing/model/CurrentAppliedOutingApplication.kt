@@ -3,19 +3,24 @@ package team.aliens.dms.android.data.outing.model
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.network.outing.model.FetchCurrentAppliedOutingApplicationResponse
+import team.aliens.dms.android.shared.date.toLocalDateTime
 
 data class CurrentAppliedOutingApplication(
-    val date: LocalDate,
+    val date: String,
     val type: String,
     val status: OutingStatus,
-    val startTime: LocalDateTime,
-    val endTime: LocalDateTime,
+    val startTime: String,
+    val endTime: String,
     val reason: String?,
     val companionNames: List<String>,
 ) {
     // TODO
     enum class OutingStatus {
-        REQUESTED, OUTING, DONE, ;
+        REQUESTED,
+        OUTING,
+        DONE,
+        APPROVED,
+        ;
     }
 }
 
