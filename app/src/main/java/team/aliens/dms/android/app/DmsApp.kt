@@ -24,6 +24,7 @@ import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.signup.SignUpViewModel
 import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
+import java.util.UUID
 
 @Composable
 fun DmsApp(
@@ -63,6 +64,11 @@ fun DmsApp(
                     navController.getBackStackEntry(OutingNavGraph.route)
                 }
                 hiltViewModel<OutingViewModel>(parentEntry)
+            }
+            dependency(OutingNavGraph) {
+                val parentEntry = remember(navBackStackEntry) {
+                    navController.getBackStackEntry(OutingNavGraph.route)
+                }
             }
         },
     )
