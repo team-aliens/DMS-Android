@@ -45,6 +45,8 @@ class OutingViewModel @Inject constructor(
                 student = intent.student,
                 select = intent.select,
             )
+
+            OutingIntent.FetchCurrentAppliedOutingApplication -> fetchCurrentAppliedOutingApplication()
         }
     }
 
@@ -73,6 +75,7 @@ class OutingViewModel @Inject constructor(
             )
         }.onFailure {
             postSideEffect(OutingSideEffect.CurrentAppliedOutingApplicationNotFound)
+            it.printStackTrace()
         }
     }
 
@@ -104,14 +107,14 @@ class OutingViewModel @Inject constructor(
         ),
     )
 
-    private fun updateOutingStartTime(value: String) = reduce(
+    private fun updateOutingStartTime(value: LocalDateTime) = reduce(
         newState = stateFlow.value.copy(
             selectedOutingStartTime = value,
         ),
     )
 
 
-    private fun updateOutingEndTime(value: String) = reduce(
+    private fun updateOutingEndTime(value: LocalDateTime) = reduce(
         newState = stateFlow.value.copy(
             selectedOutingEndTime = value,
         ),
@@ -126,18 +129,21 @@ class OutingViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                /*outingRepository.applyOuting(
+                outingRepository.applyOuting(
                     date = capturedState.capturedNow.toLocalDate(),
-                    startTime = capturedState.selectedOutingStartTime + ":00",
-                    endTime = capturedState.selectedOutingEndTime + ":00",
+                    startTime = capturedState.selectedOutingStartTime,
+                    endTime = capturedState.selectedOutingEndTime,
                     type = capturedState.selectedOutingType,
-                    reason = if (capturedState.reason.isBlank()) {
-                        null
-                    } else {
-                        capturedState.reason
-                    },
-                    companionIds =
-                )*/
+                    reason = capturedState.reason.ifBlank { null },
+                    companionIds = capturedState.selectedStudents.map { it.id },
+                )
+            }.onSuccess { applicationId ->
+                reduce(
+                    newState = capturedState.copy(
+                        applicationId = applicationId,
+                    ),
+                )
+                postSideEffect(OutingSideEffect.OutingApplicationSuccess(applicationId))
             }
         }
     }
@@ -146,7 +152,6 @@ class OutingViewModel @Inject constructor(
         runCatching {
             studentRepository.fetchStudents()
         }.onSuccess { fetchedStudents ->
-            println(fetchedStudents)
             reduce(
                 newState = stateFlow.value.copy(
                     students = fetchedStudents,
@@ -183,11 +188,12 @@ data class OutingUiState(
     val selectedOutingType: String?,
     val reason: String,
     val capturedNow: LocalDateTime,
-    val selectedOutingStartTime: String,
-    val selectedOutingEndTime: String,
+    val selectedOutingStartTime: LocalDateTime,
+    val selectedOutingEndTime: LocalDateTime,
     val companionIds: List<UUID>,
     val students: List<Student>?,
     val selectedStudents: List<Student>,
+    val applicationId: UUID?,
 ) : UiState() {
     companion object {
         fun initial(): OutingUiState {
@@ -200,11 +206,12 @@ data class OutingUiState(
                 reason = "",
                 capturedNow = capturedNow,
                 // TODO: remove hard-coded string resources from viewmodel
-                selectedOutingEndTime = "${capturedNow.hour}:${capturedNow.minute}",
-                selectedOutingStartTime = "${capturedNow.hour}:${capturedNow.minute}",
+                selectedOutingEndTime = now,
+                selectedOutingStartTime = now,
                 companionIds = emptyList(),
                 students = null,
                 selectedStudents = emptyList(),
+                applicationId = null,
             )
         }
     }
@@ -214,16 +221,19 @@ sealed class OutingIntent : Intent() {
     data object CancelCurrentApplication : OutingIntent()
     class UpdateSelectedOutingType(val value: String) : OutingIntent()
     class UpdateReason(val value: String) : OutingIntent()
-    class UpdateOutingStartTime(val value: String) : OutingIntent()
-    class UpdateOutingEndTime(val value: String) : OutingIntent()
+    class UpdateOutingStartTime(val value: LocalDateTime) : OutingIntent()
+    class UpdateOutingEndTime(val value: LocalDateTime) : OutingIntent()
     data object ApplyOuting : OutingIntent()
     class SelectStudent(
         val student: Student,
         val select: Boolean,
     ) : OutingIntent()
+
+    data object FetchCurrentAppliedOutingApplication : OutingIntent()
 }
 
 sealed class OutingSideEffect : SideEffect() {
     data object CurrentAppliedOutingApplicationNotFound : OutingSideEffect()
     data object OutingTypeNotSelected : OutingSideEffect()
+    class OutingApplicationSuccess(val applicationId: UUID) : OutingSideEffect()
 }
