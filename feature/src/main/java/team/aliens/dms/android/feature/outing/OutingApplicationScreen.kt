@@ -31,6 +31,7 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,20 +42,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
@@ -65,6 +72,7 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.endPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -74,6 +82,7 @@ import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +96,9 @@ fun OutingApplicationScreen(
         mutableStateOf(false)
     }
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val toast = LocalToast.current
+    val lifeCycleOwner = LocalLifecycleOwner.current
 
     val startTimePickerState = rememberTimePickerState()
     val (shouldShowStartTimePicker, onChangeShouldShowStartTimePicker) = remember {
@@ -97,7 +109,18 @@ fun OutingApplicationScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        viewModel.postIntent(OutingIntent.UpdateOutingStartTime(value = "${startTimePickerState.hour}:${startTimePickerState.minute}"))
+                        viewModel.postIntent(
+                            OutingIntent.UpdateOutingStartTime(
+                                value = LocalDateTime.of(
+                                    // TODO: 죄송합니다..
+                                    2006,
+                                    5,
+                                    8,
+                                    startTimePickerState.hour,
+                                    startTimePickerState.minute,
+                                ),
+                            )
+                        )
                         onChangeShouldShowStartTimePicker(false)
                     },
                 ) {
@@ -118,7 +141,18 @@ fun OutingApplicationScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        viewModel.postIntent(OutingIntent.UpdateOutingEndTime(value = "${endTimePickerState.hour}:${endTimePickerState.minute}"))
+                        viewModel.postIntent(
+                            OutingIntent.UpdateOutingEndTime(
+                                value = LocalDateTime.of(
+                                    // TODO: 죄송합니다..
+                                    2006,
+                                    5,
+                                    8,
+                                    endTimePickerState.hour,
+                                    endTimePickerState.minute,
+                                ),
+                            )
+                        )
                         onChangeShouldShowEndTimePicker(false)
                     },
                 ) {
@@ -166,8 +200,9 @@ fun OutingApplicationScreen(
                         .fillMaxWidth()
                         .heightIn(max = 240.dp),
                     students = uiState.students?.filter {
-                        it.name.contains(studentFilterValue)
-                                || it.gradeClassNumber.contains(studentFilterValue)
+                        it.name.contains(studentFilterValue) || it.gradeClassNumber.contains(
+                            studentFilterValue
+                        )
                     },
                     selectedStudents = uiState.selectedStudents,
                     onSelectStudent = { student ->
@@ -228,6 +263,17 @@ fun OutingApplicationScreen(
                         },
                     )
                 }
+            }
+        }
+    }
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            OutingSideEffect.OutingTypeNotSelected -> toast.showErrorToast(
+                message = context.getString(R.string.outing_application_error_outing_type_not_selected),
+            )
+
+            is OutingSideEffect.OutingApplicationSuccess -> navigator.navigateUp()
+            else -> {/* explicit blank */
             }
         }
     }
@@ -311,7 +357,7 @@ fun OutingApplicationScreen(
                     indicator = { OutingInputDefaults.Indicator() },
                 ) {
                     val time = remember(uiState.selectedOutingStartTime) {
-                        uiState.selectedOutingStartTime.split(':').map(String::toInt)
+                        uiState.selectedOutingStartTime
                     }
                     TextField(
                         trailingIcon = {
@@ -329,8 +375,8 @@ fun OutingApplicationScreen(
                         },
                         value = stringResource(
                             id = R.string.outing_format_duration_h_m,
-                            time[0],
-                            time[1],
+                            time.hour,
+                            time.minute,
                         ),
                         onValueChange = {},
                         readOnly = true,
@@ -344,7 +390,7 @@ fun OutingApplicationScreen(
                     indicator = { OutingInputDefaults.Indicator() },
                 ) {
                     val time = remember(uiState.selectedOutingEndTime) {
-                        uiState.selectedOutingEndTime.split(':').map(String::toInt)
+                        uiState.selectedOutingEndTime
                     }
                     TextField(
                         trailingIcon = {
@@ -362,8 +408,8 @@ fun OutingApplicationScreen(
                         },
                         value = stringResource(
                             id = R.string.outing_format_duration_h_m,
-                            time[0],
-                            time[1],
+                            time.hour,
+                            time.minute,
                         ),
                         onValueChange = {},
                         readOnly = true,
@@ -479,7 +525,7 @@ fun OutingApplicationScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { /*TODO*/ },
+                onClick = { viewModel.postIntent(OutingIntent.ApplyOuting) },
             ) {
                 Text(text = stringResource(id = R.string.outing_do_application))
             }
@@ -517,12 +563,7 @@ private fun StudentList(
                     true
                 } else {
                     selectedStudents.any { it == student }
-                }/*
-                AnimatedVisibility(
-                    visible = selected,
-                    enter = fadeIn(),
-                    exit = slideOutFromStart(),
-                ) {*/
+                }
                 StudentCard(
                     modifier = Modifier
                         .fillMaxWidth()

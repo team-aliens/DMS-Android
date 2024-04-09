@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -95,6 +96,10 @@ fun OutingStatusScreen(
         }
     }
 
+    LaunchedEffect(uiState.applicationId != null) {
+        viewModel.postIntent(OutingIntent.FetchCurrentAppliedOutingApplication)
+    }
+
     Scaffold(
         topBar = {
             DmsTopAppBar(
@@ -162,7 +167,7 @@ fun OutingStatusScreen(
 private fun OutingInformationCard(
     modifier: Modifier = Modifier,
     title: String,
-    date: LocalDate,
+    date: String,
     time: String,
     companionNames: List<String>,
     reason: String?,
@@ -194,7 +199,7 @@ private fun OutingInformationCard(
             ) {
                 // TODO
                 Text(
-                    text = date.toString(),
+                    text = date,
                     style = DmsTheme.typography.caption,
                     color = DmsTheme.colorScheme.primary,
                 )
