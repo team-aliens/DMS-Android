@@ -8,7 +8,7 @@ import java.util.UUID
 data class OutingAvailableTimeResponse(
     @SerializedName("outing_available_time") val availableTimes: List<AvailableTimeResponse>,
 ) {
-    data class AvailableTimeResponse(
+    data class  AvailableTimeResponse(
         @SerializedName("outing_available_time_id") val id: String,
         @SerializedName("outing_time") val startTime: LocalDateTime,
         @SerializedName("arrival_time") val endTime: LocalDateTime,
