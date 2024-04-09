@@ -14,7 +14,7 @@ data class OutingApplicationTime(
 )
 
 fun OutingAvailableTimeResponse.toModel(): List<OutingApplicationTime> =
-    this.availableTimes.map(OutingAvailableTimeResponse.AvailableTimeResponse::toModel)
+    this.availableTimes.toModel()
 
 fun List<OutingAvailableTimeResponse.AvailableTimeResponse>.toModel(): List<OutingApplicationTime> =
     this.map(OutingAvailableTimeResponse.AvailableTimeResponse::toModel)
