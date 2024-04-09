@@ -6,7 +6,7 @@ import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 data class ApplyOutingRequest(
-    @SerializedName("outing_date") val date: LocalDate,
+    @SerializedName("outing_date") val date: String,
     @SerializedName("outing_time") val startTime: String,
     @SerializedName("arrival_time") val endTime: String,
     @SerializedName("outing_type_title") val type: String,
