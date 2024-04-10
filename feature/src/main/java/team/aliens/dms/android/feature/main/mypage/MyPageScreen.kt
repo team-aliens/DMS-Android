@@ -54,6 +54,7 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.shared.model.Sex
 
@@ -63,7 +64,7 @@ import team.aliens.dms.android.shared.model.Sex
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
     onNavigateToEditProfileImage: () -> Unit,
-    onNavigateToPointHistory: () -> Unit,
+    onNavigateToPointHistory: (PointType) -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onNavigateToUnauthorizedNav: () -> Unit,
 ) {
@@ -162,6 +163,7 @@ internal fun MyPageScreen(
                 modifier = Modifier.fillMaxWidth(),
                 bonusPoint = uiState.myPage?.bonusPoint,
                 minusPoint = uiState.myPage?.minusPoint,
+                onNavigateToPointHistory = onNavigateToPointHistory,
             )
             Options(
                 modifier = Modifier.fillMaxWidth(),
@@ -305,6 +307,7 @@ private fun PhraseCard(
 @Composable
 private fun PointCards(
     modifier: Modifier = Modifier,
+    onNavigateToPointHistory: (PointType) -> Unit,
     bonusPoint: Int?,
     minusPoint: Int?,
 ) {
@@ -315,7 +318,10 @@ private fun PointCards(
         PointCard(
             modifier = Modifier
                 .weight(1f)
-                .startPadding(),
+                .startPadding()
+                .clickable(
+                    onClick = { onNavigateToPointHistory(PointType.BONUS) }
+                ),
             type = PointCardType.BONUS,
             // TODO: fix
             point = bonusPoint ?: 0,
@@ -323,7 +329,10 @@ private fun PointCards(
         PointCard(
             modifier = Modifier
                 .weight(1f)
-                .endPadding(),
+                .endPadding()
+                .clickable(
+                    onClick = { onNavigateToPointHistory(PointType.MINUS) }
+                ),
             type = PointCardType.MINUS,
             // TODO: fix
             point = minusPoint ?: 0,
@@ -408,7 +417,7 @@ private enum class PointCardType {
 @Composable
 private fun Options(
     modifier: Modifier = Modifier,
-    onNavigateToPointHistory: () -> Unit,
+    onNavigateToPointHistory: (PointType) -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onSignOutClick: () -> Unit,
     onWithdrawalClick: () -> Unit,
@@ -418,7 +427,7 @@ private fun Options(
         listOf(
             Option(
                 titleRes = R.string.my_page_check_point_history,
-                onClick = onNavigateToPointHistory,
+                onClick = { onNavigateToPointHistory(PointType.ALL) },
             ),
             Option(
                 titleRes = R.string.my_page_edit_password,
