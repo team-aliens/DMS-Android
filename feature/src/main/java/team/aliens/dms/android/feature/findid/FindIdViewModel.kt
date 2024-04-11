@@ -12,7 +12,6 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.school.model.School
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,19 +29,20 @@ internal class FindIdViewModel @Inject constructor(
     override fun processIntent(intent: FindIdIntent) {
         when (intent) {
             is FindIdIntent.UpdateSchoolId -> this.updateSchoolId(
-                schoolId = intent.schoolId,
-                schoolName = intent.schoolName
+                selectedSchool = intent.value
             )
 
             is FindIdIntent.UpdateName -> this.updateName(name = intent.value)
             is FindIdIntent.UpdateGrade -> this.updateGrade(grade = intent.value)
             is FindIdIntent.UpdateClass -> this.updateClassRoom(classRoom = intent.value)
             is FindIdIntent.UpdateNumber -> this.updateNumber(number = intent.value)
+
+            is FindIdIntent.FindId -> onButtonClick()
         }
     }
-    
-    private fun updateSchoolId(schoolId: UUID, schoolName: String): Boolean = reduce(
-        newState = stateFlow.value.copy(schoolId = schoolId, schoolName = schoolName)
+
+    private fun updateSchoolId(selectedSchool: School): Boolean = reduce(
+        newState = stateFlow.value.copy(selectedSchool = selectedSchool)
     ).also { updateButtonEnable(checkInAvailable()) }
 
     private fun updateName(name: String): Boolean = reduce(
@@ -65,32 +65,37 @@ internal class FindIdViewModel @Inject constructor(
         reduce(newState = stateFlow.value.copy(buttonEnabled = buttonEnabled))
 
     private fun checkInAvailable(): Boolean {
-        val uiState = stateFlow.value
+        val capturedState = stateFlow.value
 
-        val nameEntered = uiState.name.isNotBlank()
-        val gradeEntered = uiState.grade.isNotBlank()
-        val classRoomEntered = uiState.classRoom.isNotBlank()
-        val numberEntered = uiState.number.isNotBlank()
+        val nameEntered = capturedState.name.isNotBlank()
+        val gradeEntered = capturedState.grade.isNotBlank()
+        val classRoomEntered = capturedState.classRoom.isNotBlank()
+        val numberEntered = capturedState.number.isNotBlank()
 
         return nameEntered && gradeEntered && classRoomEntered && numberEntered
     }
 
-    internal fun onButtonClick() {
+    private fun onButtonClick() = run {
         with(stateFlow.value) {
-            viewModelScope.launch(Dispatchers.IO) {
-                runCatching {
-                    studentRepository.findId(
-                        schoolId = schoolId,
-                        studentName = name,
-                        grade = grade.toInt(),
-                        classRoom = classRoom.toInt(),
-                        number = number.toInt(),
-                    )
-                }.onSuccess { email ->
-                    reduce(newState = stateFlow.value.copy(email = email))
-                    postSideEffect(FindIdSideEffect.Success)
-                }.onFailure {
-                    postSideEffect(FindIdSideEffect.NotFound)
+            if (selectedSchool == null) {
+                postSideEffect(FindIdSideEffect.SchoolNotSelected)
+                return@run
+            } else {
+                viewModelScope.launch(Dispatchers.IO) {
+                    runCatching {
+                        studentRepository.findId(
+                            schoolId = selectedSchool.id,
+                            studentName = selectedSchool.name,
+                            grade = grade.toInt(),
+                            classRoom = classRoom.toInt(),
+                            number = number.toInt(),
+                        )
+                    }.onSuccess { email ->
+                        reduce(newState = stateFlow.value.copy(email = email))
+                        postSideEffect(FindIdSideEffect.UserFound)
+                    }.onFailure {
+                        postSideEffect(FindIdSideEffect.UserNotFound)
+                    }
                 }
             }
         }
@@ -100,10 +105,10 @@ internal class FindIdViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 schoolRepository.fetchSchools()
-            }.onSuccess {
-                reduce(newState = stateFlow.value.copy(schoolList = it))
+            }.onSuccess { fetchSchools ->
+                reduce(newState = stateFlow.value.copy(schoolList = fetchSchools))
             }.onFailure {
-                postSideEffect(FindIdSideEffect.NotFound)
+                postSideEffect(FindIdSideEffect.SchoolNotFound)
             }
         }
     }
@@ -111,10 +116,9 @@ internal class FindIdViewModel @Inject constructor(
 
 
 internal data class FindIdUiState(
-    val schoolList: List<School>,
+    val schoolList: List<School>?,
     val email: String,
-    val schoolId: UUID,
-    val schoolName: String,
+    val selectedSchool: School?,
     val name: String,
     val grade: String,
     val classRoom: String,
@@ -123,10 +127,9 @@ internal data class FindIdUiState(
 ) : UiState() {
     companion object {
         fun initial() = FindIdUiState(
-            schoolList = emptyList(),
+            schoolList = null,
             email = "",
-            schoolId = UUID.randomUUID(),
-            schoolName = "",
+            selectedSchool = null,
             name = "",
             grade = "",
             classRoom = "",
@@ -137,14 +140,17 @@ internal data class FindIdUiState(
 }
 
 internal sealed class FindIdIntent : Intent() {
-    class UpdateSchoolId(val schoolId: UUID, val schoolName: String) : FindIdIntent()
+    class UpdateSchoolId(val value: School) : FindIdIntent()
     class UpdateName(val value: String) : FindIdIntent()
     class UpdateGrade(val value: String) : FindIdIntent()
     class UpdateClass(val value: String) : FindIdIntent()
     class UpdateNumber(val value: String) : FindIdIntent()
+    data object FindId : FindIdIntent()
 }
 
 internal sealed class FindIdSideEffect : SideEffect() {
-    data object Success : FindIdSideEffect()
-    data object NotFound : FindIdSideEffect()
+    data object UserFound : FindIdSideEffect()
+    data object UserNotFound : FindIdSideEffect()
+    data object SchoolNotFound : FindIdSideEffect()
+    data object SchoolNotSelected : FindIdSideEffect()
 }

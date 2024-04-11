@@ -74,7 +74,7 @@ internal fun FindIdScreen(
                 Text(
                     text = String.format(
                         stringResource(id = R.string.find_id_send_id_to_email),
-                        uiState.email
+                        uiState.email,
                     )
                 )
             },
@@ -92,11 +92,13 @@ internal fun FindIdScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            FindIdSideEffect.Success -> {
+            FindIdSideEffect.UserFound -> {
                 isDialogShow = true
             }
 
-            FindIdSideEffect.NotFound -> toast.showErrorToast(context.getString(R.string.error_not_found))
+            FindIdSideEffect.UserNotFound -> toast.showErrorToast(context.getString(R.string.error_not_found))
+            FindIdSideEffect.SchoolNotFound -> toast.showErrorToast(context.getString(R.string.find_id_error_school_not_found))
+            FindIdSideEffect.SchoolNotSelected -> toast.showErrorToast(context.getString(R.string.find_id_select_school))
         }
     }
 
@@ -108,7 +110,7 @@ internal fun FindIdScreen(
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
@@ -121,7 +123,7 @@ internal fun FindIdScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .horizontalPadding()
-                .imePadding()
+                .imePadding(),
         ) {
             Banner(
                 modifier = Modifier
@@ -141,7 +143,7 @@ internal fun FindIdScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .bottomPadding(),
-                onClick = viewModel::onButtonClick,
+                onClick = { viewModel.postIntent(FindIdIntent.FindId) },
                 enabled = uiState.buttonEnabled,
             ) {
                 Text(text = stringResource(id = R.string.find_id))
@@ -167,7 +169,7 @@ private fun UserInformationInputs(
                 modifier = Modifier.clickable(
                     onClick = { isDropdownMenuExpanded = !isDropdownMenuExpanded }
                 ),
-                value = state.schoolName,
+                value = state.selectedSchool?.name ?: "",
                 onValueChange = { },
                 readOnly = true,
                 hint = { Text(text = stringResource(id = R.string.find_id_select_school)) },
@@ -181,7 +183,7 @@ private fun UserInformationInputs(
                                     DmsIcon.Up
                                 }
                             ),
-                            contentDescription = "dropdown_menu_icon",
+                            contentDescription = stringResource(id = R.string.find_id_show_menu),
                         )
                     }
                 }
@@ -192,15 +194,12 @@ private fun UserInformationInputs(
                 expanded = isDropdownMenuExpanded,
                 onDismissRequest = { isDropdownMenuExpanded = false },
             ) {
-                state.schoolList.forEach { item ->
+                state.schoolList?.forEach { school ->
                     DropdownMenuItem(
-                        text = { Text(text = item.name) },
+                        text = { Text(text = school.name) },
                         onClick = {
                             viewModel.postIntent(
-                                FindIdIntent.UpdateSchoolId(
-                                    schoolId = item.id,
-                                    schoolName = item.name,
-                                )
+                                FindIdIntent.UpdateSchoolId(value = school)
                             )
                             isDropdownMenuExpanded = false
                         },
