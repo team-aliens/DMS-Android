@@ -171,12 +171,20 @@
 
     <!--find id-->
     <string name="find_id_go_to_login_screen">로그인 화면으로</string>
+    
+    <string name="find_id_name">이름</string>
+    <string name="find_id_grade">학년</string>
+    <string name="find_id_class">반</string>
+    <string name="find_id_number">번호</string>
 
+    <string name="find_id">아이디 찾기</string>
     <string name="find_id_send_id_to_email">%s 으로 아이디가 전송되었습니다</string>
     <string name="find_id_select_school">학교를 선택해주세요</string>
 
-    <string name="find_id_error_account_not_found">위 정보로 가입된 계정이 없습니다</string>
+    <string name="find_id_show_menu">메뉴 보기</string>
 
+    <string name="find_id_error_account_not_found">위 정보로 가입된 계정이 없습니다</string>
+    <string name="find_id_error_school_not_found">학교 정보를 가져올 수 없습니다</string>
     <!--meal-->
     <string name="meal_todays_meal">오늘의 급식</string>
     <string name="meal_not_exists">급식이 없습니다</string>
