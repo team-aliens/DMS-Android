@@ -159,8 +159,10 @@
     <string name="sign_up_error_check_password_format">비밀번호 형식을 확인해주세요</string>
     <string name="sign_up_error_check_password">비밀번호를 확인해주세요</string>
 
+    <string name="sign_up_set_profile">프로필 설정</string>
     <string name="sign_up_profile_image">프로필 사진</string>
     <string name="sign_up_profile__set_later"><u>다음에 설정하기</u></string>
+    <string name="sign_up_profile_add">프로필 추가하기</string>
 
     <string name="sign_up_terms_finish_sign_up">회원가입 마치기</string>
 
