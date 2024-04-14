@@ -374,7 +374,7 @@ fun OutingApplicationScreen(
                             }
                         },
                         value = stringResource(
-                            id = R.string.outing_format_duration_h_m,
+                            id = R.string.outing_format_time_h_m,
                             time.hour,
                             time.minute,
                         ),
@@ -407,7 +407,7 @@ fun OutingApplicationScreen(
                             }
                         },
                         value = stringResource(
-                            id = R.string.outing_format_duration_h_m,
+                            id = R.string.outing_format_time_h_m,
                             time.hour,
                             time.minute,
                         ),
