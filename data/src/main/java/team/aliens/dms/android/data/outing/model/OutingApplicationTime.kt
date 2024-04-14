@@ -1,14 +1,13 @@
 package team.aliens.dms.android.data.outing.model
 
 import org.threeten.bp.DayOfWeek
-import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.network.outing.model.OutingAvailableTimeResponse
 import java.util.UUID
 
 data class OutingApplicationTime(
     val id: UUID,
-    val startTime: LocalDateTime,
-    val endTime: LocalDateTime,
+    val startTime: String,
+    val endTime: String,
     val available: Boolean,
     val dayOfWeek: DayOfWeek,
 )

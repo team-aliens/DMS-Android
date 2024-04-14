@@ -31,7 +31,6 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,8 +48,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
@@ -82,7 +79,6 @@ import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -303,12 +299,11 @@ fun OutingApplicationScreen(
                 val startTime = uiState.outingApplicationTime!!.startTime
                 val endTime = uiState.outingApplicationTime!!.endTime
                 FloatingNotice(
+                    modifier = Modifier.horizontalPadding(),
                     text = stringResource(
                         id = R.string.outing_format_application_time,
-                        startTime.hour,
-                        startTime.minute,
-                        endTime.hour,
-                        endTime.minute,
+                        startTime,
+                        endTime,
                     ),
                 )
             }
