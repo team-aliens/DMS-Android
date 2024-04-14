@@ -12,6 +12,7 @@
     <string name="verify">인증</string>
     <string name="loading">…</string>
     <string name="accept">확인</string>
+    <string name="close">닫기</string>
     <string name="cancel">취소</string>
     <string name="yes">네</string>
     <string name="agree">동의</string>
@@ -242,7 +243,8 @@
     <!--study room-->
     <string name="study_room_time">시간</string>
     <string name="study_room">자습실</string>
-    <string name="study_room_application">자습실 신청하기</string>
+    <string name="study_room_application">자습실 신청</string>
+    <string name="study_room_do_application">자습실 신청하기</string>
 
     <string name="format_study_room_applied_text">%d층 %s</string>
     <string name="format_study_room_application_time">자습실 신청 시간은 %s ~ %s 입니다</string>
@@ -296,19 +298,33 @@
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>
     <string name="sign_up_set_id_format_authentication_information_student_name">%s 님이 맞으신가요?</string>
-    <string name="refresh">새로고침</string>
-    <string name="home_success_meal_refreshed">급식을 다시 불러왔습니다</string>
 
-
-    <!--reset password-->
-    <string name="reset_password_account_verification_account_id_does_not_exist">일치하는 아이디가 존재하지 않습니다.</string>
-    <string name="reset_password_account_verification_enter_account_id">아이디 입력</string>
-    <string name="reset_password_account_verification_identification_verification">본인확인 인증</string>
-    <string name="reset_password_account_verification_success_account_id_matches_email">아이디와 일치하는 이메일입니다</string>
-    <string name="reset_password_account_verification_enter_account_id_invalid_format">아이디 형식이 일치하지 않습니다.</string>
-    <string name="reset_password_account_verification_enter_student_name">이름 입력</string>
-    <string name="reset_password_account_verification_enter_email">이메일 입력</string>
-    <string name="reset_password_set_password_password_success_changed">비밀번호가 변경되었습니다.</string>
-    <string name="reset_password_go_to_sign_in_screen">로그인 화면으로</string>
-
+    <!--outing-->
+    <string name="outing_application">외출 신청</string>
+    <string name="outing_application_select_outing_time">외출 시간 선택</string>
+    <string name="outing_format_application_time">외출 신청 시간은 %02d:%02d ~ %02d:%02d 입니다</string>
+    <string name="outing_recent_application">신청 내역</string>
+    <string name="outing_do_application">외출 신청하기</string>
+    <string name="outing_description">기숙사에서 생활하는 동안 밖에 다녀올 일이 있다면 외출을 신청해 보세요.</string>
+    <string name="outing_cancel_application">신청 취소</string>
+    <string name="outing_companion_names">동행자</string>
+    <string name="outing_are_you_sure_you_cancel_application">작성한 정보가 파기됩니다. 계속하시겠습니까?</string>
+    <string name="outing_failed_to_fetch_current_applied_outing_application">외출 신청 정보를 조회할 수 없습니다</string>
+    <string name="outing_format_duration_h_m">%s ~ %s</string>
+    <string name="outing_format_time_h_m">%02d:%02d</string>
+    <string name="outing_error_there_is_no_outing_types">외출 유형이 존재하지 않습니다</string>
+    <string name="outing_select_outing_type">선택</string>
+    <string name="outing_type">외출 유형</string>
+    <string name="outing_add_companions">동행자 추가</string>
+    <string name="outing_is_required">는 필수 입력 항목입니다</string>
+    <string name="outing_date">외출 일자</string>
+    <string name="format_date_yyyy_mm_dd_day_of_week">%04d.%02d.%02d (%s)</string>
+    <string name="outing_start_time">외출 시간</string>
+    <string name="outing_end_time">복귀 시간</string>
+    <string name="outing_hint_please_enter_description">외출 사유를 입력해 주세요</string>
+    <string name="outing_format_select_companions">%d명 선택</string>
+    <string name="outing_application_search_with_number_or_name">학번/이름으로 검색해 보세요</string>
+    <string name="outing_application_selected_companions">선택한 학생</string>
+    <string name="outing_application_format_grade_class_number_with_name">%s %s</string>
+    <string name="outing_application_error_outing_type_not_selected">외출 유형이 선택되지 않았습니다.</string>
 </resources>

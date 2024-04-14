@@ -26,9 +26,9 @@ fun Modifier.shadow(
 }
 
 object ShadowDefaults {
-    val SmallElevation = 4.dp
-    val MediumElevation = 8.dp
-    val LargeElevation = 12.dp
+    val SmallElevation = 2.dp
+    val MediumElevation = 4.dp
+    val LargeElevation = 8.dp
 
     val RoundedShape = RoundedCornerShape(8.dp)
 }

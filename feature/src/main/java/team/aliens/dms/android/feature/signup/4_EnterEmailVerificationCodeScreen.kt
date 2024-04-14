@@ -1,7 +1,6 @@
 package team.aliens.dms.android.feature.signup
 
 import android.os.CountDownTimer
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -115,7 +114,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
         }
     }
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(

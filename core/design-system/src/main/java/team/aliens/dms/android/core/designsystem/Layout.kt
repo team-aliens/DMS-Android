@@ -24,22 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-private val topFadeBrush: Brush
-    @Composable inline get() = Brush.verticalGradient(
-        colors = listOf(
-            DmsTheme.colorScheme.background,
-            Color.Transparent,
-        ),
-    )
-
-private val bottomFadeBrush: Brush
-    @Composable inline get() = Brush.verticalGradient(
-        colors = listOf(
-            Color.Transparent,
-            DmsTheme.colorScheme.background,
-        ),
-    )
-
 @Composable
 fun VerticallyFadedColumn(
     modifier: Modifier = Modifier,
@@ -47,6 +31,18 @@ fun VerticallyFadedColumn(
     bottomDisappearanceSize: Dp = 24.dp,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    topFadeBrush: Brush = Brush.verticalGradient(
+        colors = listOf(
+            DmsTheme.colorScheme.background,
+            Color.Transparent,
+        ),
+    ),
+    bottomFadeBrush: Brush = Brush.verticalGradient(
+        colors = listOf(
+            Color.Transparent,
+            DmsTheme.colorScheme.background,
+        ),
+    ),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Box(
@@ -91,6 +87,18 @@ fun VerticallyFadedLazyColumn(
     bottomDisappearanceSize: Dp = 24.dp,
     verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    topFadeBrush: Brush = Brush.verticalGradient(
+        colors = listOf(
+            DmsTheme.colorScheme.background,
+            Color.Transparent,
+        ),
+    ),
+    bottomFadeBrush: Brush = Brush.verticalGradient(
+        colors = listOf(
+            Color.Transparent,
+            DmsTheme.colorScheme.background,
+        ),
+    ),
     content: LazyListScope.() -> Unit,
 ) {
     Box(

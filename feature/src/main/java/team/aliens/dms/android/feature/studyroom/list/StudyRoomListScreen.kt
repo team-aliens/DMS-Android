@@ -3,10 +3,8 @@ package team.aliens.dms.android.feature.studyroom.list
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -15,28 +13,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.DmsBottomSheetScaffold
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
@@ -58,27 +55,18 @@ internal fun StudyRoomListScreen(
     navigator: StudyRoomNavigator,
     viewModel: StudyRoomListViewModel = hiltViewModel(),
 ) {
-    // TODO: val toastState = rememberToastState()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-
     val scope = rememberCoroutineScope()
-
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            skipHiddenState = false,
-            initialValue = SheetValue.Hidden,
-        ),
-    )
-
-    var newlySelectedAvailableStudyRoomTime by remember {
-        mutableStateOf<AvailableStudyRoomTime?>(null)
+    val (shouldShowTimeFilterBottomSheet, onShouldShowTimeFilterBottomSheetChange) = remember {
+        mutableStateOf(false)
     }
 
-    DmsBottomSheetScaffold(
-        modifier = modifier,
-        scaffoldState = scaffoldState,
-        sheetSwipeEnabled = false,
-        sheetContent = {
+    val sheetState = rememberModalBottomSheetState()
+    if (shouldShowTimeFilterBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { onShouldShowTimeFilterBottomSheetChange(false) },
+            sheetState = sheetState,
+        ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
@@ -112,7 +100,11 @@ internal fun StudyRoomListScreen(
                             } else {
                                 OutlinedButton(
                                     onClick = {
-                                        newlySelectedAvailableStudyRoomTime = availableStudyRoomTime
+                                        viewModel.postIntent(
+                                            StudyRoomListIntent.UpdateSelectedAvailableStudyRoomTime(
+                                                availableStudyRoomTime,
+                                            ),
+                                        )
                                     },
                                     colors = ButtonDefaults.outlinedGrayButtonColors(),
                                 ) {
@@ -133,23 +125,23 @@ internal fun StudyRoomListScreen(
                         .fillMaxWidth()
                         .horizontalPadding(),
                     onClick = {
-                        if (newlySelectedAvailableStudyRoomTime != null) {
-                            if (newlySelectedAvailableStudyRoomTime != uiState.selectedAvailableStudyRoomTime) {
-                                viewModel.postIntent(
-                                    StudyRoomListIntent.UpdateSelectedAvailableStudyRoomTime(
-                                        availableStudyRoomTime = newlySelectedAvailableStudyRoomTime!!,
-                                    ),
-                                )
-                            }
-                        }
-                        scope.launch { scaffoldState.bottomSheetState.hide() }
+                        scope.launch { sheetState.hide() }
                     },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
-                Spacer(modifier = Modifier.height(52.dp))
             }
-        },
+        }
+    }
+
+    LaunchedEffect(sheetState.currentValue) {
+        if (sheetState.currentValue == SheetValue.Hidden) {
+            onShouldShowTimeFilterBottomSheetChange(false)
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
         topBar = {
             DmsTopAppBar(
                 navigationIcon = {
@@ -161,7 +153,7 @@ internal fun StudyRoomListScreen(
                     }
                 },
                 title = {
-                    Text(text = stringResource(id = R.string.study_room_application))
+                    Text(text = stringResource(id = R.string.study_room_do_application))
                 },
             )
         },
@@ -188,11 +180,7 @@ internal fun StudyRoomListScreen(
                     .fillMaxWidth()
                     .horizontalPadding(),
                 availableStudyRoomTime = uiState.selectedAvailableStudyRoomTime,
-                onFilterButtonClick = {
-                    scope.launch {
-                        scaffoldState.bottomSheetState.expand()
-                    }
-                },
+                onFilterButtonClick = { onShouldShowTimeFilterBottomSheetChange(true) },
             )
             uiState.studyRooms?.let { studyRooms ->
                 VerticallyFadedLazyColumn(

@@ -20,4 +20,6 @@ interface MainNavigator {
     fun openEditPasswordNav()
 
     fun openNoticeDetails(noticeId: UUID)
+
+    fun openOutingNav()
 }

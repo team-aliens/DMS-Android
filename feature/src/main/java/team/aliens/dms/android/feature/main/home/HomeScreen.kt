@@ -67,7 +67,7 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsCalendar
-import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -160,7 +160,7 @@ internal fun HomeScreen(
         }
     }
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
@@ -221,7 +221,7 @@ internal fun HomeScreen(
                 onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
                 onRefresh = onRefresh,
             )
-            Spacer(modifier = Modifier.height(92.dp))
+            Spacer(modifier = Modifier.height(76.dp))
         }
         Box(
             modifier = Modifier

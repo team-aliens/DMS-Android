@@ -22,6 +22,7 @@ import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms.android.feature.destinations.OutingApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.ResetPasswordEnterEmailVerificationCodeScreenDestination
@@ -35,6 +36,7 @@ import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestin
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 import java.util.UUID
@@ -80,6 +82,12 @@ class DmsNavigator(
 
     override fun openNoticeDetails(noticeId: UUID) {
         navController.navigateSingleTop(NoticeDetailsScreenDestination(noticeId) within navGraph)
+    }
+
+    override fun openOutingNav() {
+        navController.navigateSingleTop(OutingNavGraph) {
+            restoreState = true
+        }
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
@@ -217,6 +225,10 @@ class DmsNavigator(
                 studyRoomApplicationEndTime = studyRoomApplicationEndTime,
             ) within navGraph,
         )
+    }
+
+    override fun openOutingApplication() {
+        navController.navigateSingleTop(OutingApplicationScreenDestination within OutingNavGraph)
     }
 }
 

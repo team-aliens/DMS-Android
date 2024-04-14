@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.VerticallyFadedColumn
@@ -50,7 +50,7 @@ internal fun NoticeDetailsScreen(
         viewModel.postIntent(NoticeDetailsIntent.FetchNoticeDetails(noticeId))
     }
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
