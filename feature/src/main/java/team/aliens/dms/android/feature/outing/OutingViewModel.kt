@@ -80,7 +80,18 @@ class OutingViewModel @Inject constructor(
     }
 
     private fun cancelApplication() = viewModelScope.launch(Dispatchers.IO) {
-
+        val capturedState = stateFlow.value
+        runCatching {
+            outingRepository.cancelOuting(
+                applicationId = capturedState.currentAppliedOutingApplication!!.id,
+            )
+        }.onSuccess {
+            reduce(
+                newState = capturedState.copy(
+                    currentAppliedOutingApplication = null,
+                ),
+            )
+        }
     }
 
     private fun fetchOutingTypes() = viewModelScope.launch(Dispatchers.IO) {

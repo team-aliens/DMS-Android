@@ -1,11 +1,10 @@
 package team.aliens.dms.android.data.outing.model
 
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.network.outing.model.FetchCurrentAppliedOutingApplicationResponse
-import team.aliens.dms.android.shared.date.toLocalDateTime
+import java.util.UUID
 
 data class CurrentAppliedOutingApplication(
+    val id: UUID,
     val date: String,
     val type: String,
     val status: OutingStatus,
@@ -26,6 +25,7 @@ data class CurrentAppliedOutingApplication(
 
 fun FetchCurrentAppliedOutingApplicationResponse.toModel(): CurrentAppliedOutingApplication =
     CurrentAppliedOutingApplication(
+        id = UUID.fromString(this.id),
         date = this.date,
         type = this.type,
         status = CurrentAppliedOutingApplication.OutingStatus.valueOf(this.status),

@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,9 +28,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
@@ -42,7 +44,6 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
-import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
@@ -70,7 +71,10 @@ fun OutingStatusScreen(
             onDismissRequest = { onChangeShouldShowCancelOutingDialog(false) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.postIntent(OutingIntent.CancelCurrentApplication) },
+                    onClick = {
+                        viewModel.postIntent(OutingIntent.CancelCurrentApplication)
+                        onChangeShouldShowCancelOutingDialog(false)
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
@@ -83,17 +87,6 @@ fun OutingStatusScreen(
                 }
             },
         )
-    }
-
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
-        when (sideEffect) {
-            OutingSideEffect.CurrentAppliedOutingApplicationNotFound -> toast.showErrorToast(
-                message = context.getString(R.string.outing_failed_to_fetch_current_applied_outing_application),
-            )
-
-            else -> {/* explicit blank */
-            }
-        }
     }
 
     LaunchedEffect(uiState.applicationId != null) {
@@ -146,7 +139,13 @@ fun OutingStatusScreen(
                         reason = outingApplication.reason,
                         onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) },
                     )
-                }
+                } ?: Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .topPadding(),
+                    textAlign = TextAlign.Center,
+                    text = stringResource(id = R.string.outing_failed_to_fetch_current_applied_outing_application)
+                )
             }
             if (uiState.currentAppliedOutingApplication == null) {
                 Button(
@@ -197,7 +196,6 @@ private fun OutingInformationCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // TODO
                 Text(
                     text = date,
                     style = DmsTheme.typography.caption,
@@ -264,6 +262,8 @@ private fun OutingInformationCard(
                         text = reason,
                     )
                 }
+            } else {
+                Spacer(modifier = Modifier.height(DefaultVerticalSpace))
             }
         }
     }
