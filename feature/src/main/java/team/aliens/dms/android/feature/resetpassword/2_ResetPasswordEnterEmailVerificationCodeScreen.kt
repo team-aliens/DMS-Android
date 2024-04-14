@@ -27,10 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.VerificationCodeInput
 import team.aliens.dms.android.core.designsystem.VerificationCodeInputDefaults
@@ -116,7 +116,7 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
         }
     }
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
