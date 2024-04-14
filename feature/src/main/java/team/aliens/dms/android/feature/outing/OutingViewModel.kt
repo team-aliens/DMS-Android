@@ -155,6 +155,8 @@ class OutingViewModel @Inject constructor(
                     ),
                 )
                 postSideEffect(OutingSideEffect.OutingApplicationSuccess(applicationId))
+            }.onSuccess {
+                postSideEffect(OutingSideEffect.OutingApplicationTimeError)
             }
         }
     }
@@ -247,4 +249,5 @@ sealed class OutingSideEffect : SideEffect() {
     data object CurrentAppliedOutingApplicationNotFound : OutingSideEffect()
     data object OutingTypeNotSelected : OutingSideEffect()
     class OutingApplicationSuccess(val applicationId: UUID) : OutingSideEffect()
+    data object OutingApplicationTimeError: OutingSideEffect()
 }

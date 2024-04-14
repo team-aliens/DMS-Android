@@ -268,6 +268,10 @@ fun OutingApplicationScreen(
                 message = context.getString(R.string.outing_application_error_outing_type_not_selected),
             )
 
+            OutingSideEffect.OutingApplicationTimeError -> toast.showErrorToast(
+                message = context.getString(R.string.outing_application_error_outing_application_time_error),
+            )
+
             is OutingSideEffect.OutingApplicationSuccess -> navigator.navigateUp()
             else -> {/* explicit blank */
             }
