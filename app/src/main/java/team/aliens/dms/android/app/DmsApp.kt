@@ -24,7 +24,7 @@ import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.signup.SignUpViewModel
 import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
-import java.util.UUID
+import team.aliens.dms.android.network.BuildConfig
 
 @Composable
 fun DmsApp(
