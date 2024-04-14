@@ -172,7 +172,7 @@
 
     <!--find id-->
     <string name="find_id_go_to_login_screen">로그인 화면으로</string>
-    
+
     <string name="find_id_name">이름</string>
     <string name="find_id_grade">학년</string>
     <string name="find_id_class">반</string>
