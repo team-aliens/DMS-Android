@@ -22,5 +22,6 @@ object ProjectPaths {
         const val MODEL = ":shared:model"
         const val VALIDATOR = ":shared:validator"
         const val TIMER = ":shared:timer"
+        const val FILE = ":shared:file"
     }
 }
