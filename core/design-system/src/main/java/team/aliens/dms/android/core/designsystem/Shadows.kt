@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 fun Modifier.shadow(
-    elevation: Dp = ShadowDefaults.SmallElevation,
+    elevation: Dp = ShadowDefaults.MediumElevation,
     shape: Shape = ShadowDefaults.RoundedShape,
     clip: Boolean = elevation > 0.dp,
     ambientColor: Color? = null,
@@ -20,8 +20,10 @@ fun Modifier.shadow(
         elevation = elevation,
         shape = shape,
         clip = clip,
-        ambientColor = ambientColor ?: DmsTheme.colorScheme.surfaceVariant,
-        spotColor = spotColor ?: DmsTheme.colorScheme.surfaceVariant,
+        ambientColor = ambientColor
+            ?: DmsTheme.colorScheme.onSurfaceVariant.copy(alpha = ShadowDefaults.DefaultAlpha),
+        spotColor = spotColor
+            ?: DmsTheme.colorScheme.onSurfaceVariant.copy(alpha = ShadowDefaults.DefaultAlpha),
     )
 }
 
@@ -30,5 +32,7 @@ object ShadowDefaults {
     val MediumElevation = 4.dp
     val LargeElevation = 8.dp
 
-    val RoundedShape = RoundedCornerShape(8.dp)
+    const val DefaultAlpha = 0.6f
+
+    val RoundedShape = RoundedCornerShape(12.dp)
 }

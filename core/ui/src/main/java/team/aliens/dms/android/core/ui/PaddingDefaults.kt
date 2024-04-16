@@ -97,7 +97,7 @@ fun Modifier.bottomPadding(
     value: Dp = PaddingDefaults.Medium,
 ): Modifier = padding(bottom = value)
 
-val DefaultVerticalSpace = PaddingDefaults.Small
+val DefaultVerticalSpace = PaddingDefaults.Medium
 
 val LargeVerticalSpace = PaddingDefaults.Medium
 
