@@ -389,20 +389,20 @@ private enum class PointCardType {
 
     val containerColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.primaryContainer
-            MINUS -> DmsTheme.colorScheme.errorContainer
+            BONUS -> DmsTheme.colorScheme.background
+            MINUS -> DmsTheme.colorScheme.background
         }
 
     val contentColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
-            MINUS -> DmsTheme.colorScheme.onErrorContainer
+            BONUS -> DmsTheme.colorScheme.error
+            MINUS -> DmsTheme.colorScheme.primary
         }
 
     val borderColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
-            MINUS -> DmsTheme.colorScheme.onErrorContainer
+            BONUS -> DmsTheme.colorScheme.error
+            MINUS -> DmsTheme.colorScheme.primary
         }
 
     val text: String
