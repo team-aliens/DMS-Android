@@ -6,7 +6,6 @@ import java.io.File
 
 abstract class FileRepository {
 
-    abstract suspend fun uploadFile(file: File) : FileUrl
-
-    abstract suspend fun fetchPresignedUrl(fileName: String) : PresignedFileUrl
+    abstract suspend fun fetchPresignedUrl(fileName: String): PresignedFileUrl
+    abstract suspend fun uploadFile(presignedUrl: String, file: File)
 }
