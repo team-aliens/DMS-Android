@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.aliens.dms.android.network.file.datasource.NetworkFileDataSource
 import team.aliens.dms.android.network.file.datasource.NetworkFileDataSourceImpl
 import javax.inject.Singleton
 
@@ -13,5 +14,5 @@ internal abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindNetworkFileDataSource(impl: NetworkFileDataSourceImpl)
+    abstract fun bindNetworkFileDataSource(impl: NetworkFileDataSourceImpl): NetworkFileDataSource
 }
