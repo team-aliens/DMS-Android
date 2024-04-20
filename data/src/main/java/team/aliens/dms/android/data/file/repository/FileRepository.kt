@@ -1,6 +1,5 @@
 package team.aliens.dms.android.data.file.repository
 
-import team.aliens.dms.android.data.file.model.FileUrl
 import team.aliens.dms.android.data.file.model.PresignedFileUrl
 import java.io.File
 
