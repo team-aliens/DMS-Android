@@ -7,6 +7,7 @@ import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
+import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
@@ -110,7 +111,7 @@ internal class StudentRepositoryImpl @Inject constructor(
     override suspend fun fetchMyPage(): MyPage = networkStudentDataSource.fetchMyPage().toModel()
 
     override suspend fun editProfile(profileImageUrl: String) {
-        TODO("Not yet implemented")
+        networkStudentDataSource.editProfile(request = EditProfileRequest(profileImageUrl))
     }
 
     override suspend fun withdraw() {
