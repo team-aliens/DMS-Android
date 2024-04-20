@@ -1,228 +1,236 @@
 package team.aliens.dms.android.feature.resetpassword
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.delay
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.TextField
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
 
 // TODO Pop backstack
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 fun AccountVerificationScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    // changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(), // fixme
-    // resetPasswordVerificationViewModel: ResetPasswordVerificationViewModel = hiltViewModel(), // fixme
-) {/*
-
-    val focusManager = LocalFocusManager.current
-
+    viewModel: ResetPasswordViewModel,
+) {
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
     val context = LocalContext.current
+    val (idChecked, onChangeIdChecked) = rememberSaveable { mutableStateOf(false) }
 
-    val toast = rememberToast()
-
-    val pattern = Patterns.EMAIL_ADDRESS
-
-    var id by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var userEmail by remember { mutableStateOf("") }
-
-    var isIdError by remember { mutableStateOf(false) }
-    var isNameError by remember { mutableStateOf(false) }
-    var isEmailError by remember { mutableStateOf(false) }
-
-    val onIdChange = { userId: String ->
-        if (userId.length != id.length) isIdError = false
-        id = userId
+    LaunchedEffect(uiState.accountId) {
+        if (uiState.accountId.isNotEmpty()) {
+            delay(300L)
+            viewModel.postIntent(ResetPasswordIntent.CheckAccountId)
+        }
     }
 
-    val onNameChange = { userName: String ->
-        if (userName.length != name.length) isNameError = false
-        name = userName
+    var isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) }
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            ResetPasswordSideEffect.AccountIdExists -> {
+                onChangeIdChecked(true)
+            }
+
+            ResetPasswordSideEffect.AccountIdNotExists -> toast.showErrorToast(
+                message = context.getString(R.string.reset_password_account_verification_account_id_does_not_exist),
+            )
+
+            ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
+
+            else -> {/* explicit blank */
+            }
+        }
     }
 
-    val onEmailChange = { value: String ->
-        if (value.length != userEmail.length) isEmailError = false
-        userEmail = value
-    }
-
-    var emailResponse by remember { mutableStateOf("") }
-
-    LaunchedEffect(Unit) {
-        changePasswordViewModel.editPasswordEffect.collect {
-            when (it) {
-                is ChangePasswordViewModel.Event.CheckIdSuccess -> {
-                    emailResponse = it.email
-                }
-
-                is ChangePasswordViewModel.Event.NotFoundException -> {
-                    isIdError = true
-                }
-
-                else -> {
-                    toast(
-                        getStringFromEvent(
-                            context = context,
-                            event = it,
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(
+                        onClick = { navigator.openSignIn() },
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
-                    )
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        resetPasswordVerificationViewModel.registerEmailEvent.collect {
-            when (it) {
-                is ResetPasswordVerificationEvent.SendEmailSuccess -> navigator::openResetPasswordEnterEmailVerificationCode
-                is ResetPasswordVerificationEvent.TooManyRequestsException -> {
-                    toast(context.getString(R.string.Retry))
-                }
-
-                else -> toast(
-                    getStringFromEmailEvent(
-                        context = context,
-                        event = it,
-                    )
-                )
-            }
-        }
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                DormTheme.colors.surface,
+                    }
+                },
             )
-            .fillMaxHeight(0.8f)
-            .padding(
-                top = 108.dp,
-                start = 16.dp,
-                end = 16.dp,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
-                focusManager.clearFocus()
-            }
-    ) {
-        AppLogo(
-            darkIcon = isSystemInDarkTheme(),
-        )
-        Space(space = 8.dp)
-        Body2(
-            text = stringResource(id = R.string.Identification),
-        )
+        },
+    ) { padValues ->
         Column(
             modifier = Modifier
-                .padding(top = 60.dp)
+                .fillMaxSize()
+                .padding(padValues)
+                .imePadding(),
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            Box(
-                modifier = Modifier.height(68.dp),
-            ) {
-                DormTextField(
-                    value = id,
-                    onValueChange = onIdChange,
-                    hint = stringResource(id = R.string.EnterId),
-                    error = isIdError,
-                    errorDescription = stringResource(id = R.string.NotExistId),
-                    keyboardActions = KeyboardActions {
-                        if (id.isNotBlank()) {
-                            changePasswordViewModel.checkId(
-                                accountId = id,
-                            )
-                            focusManager.clearFocus()
-                        }
-                    },
-                    imeAction = ImeAction.Done,
-                )
-            }
+            Banner(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(BannerDefaults.DefaultTopSpace)
+                    .startPadding(),
+                message = {
+                    BannerDefaults.DefaultText(text = stringResource(id = R.string.reset_password_account_verification_identification_verification))
+                },
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                value = uiState.accountId,
+                hint = {
+                    Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id))
+                },
+                onValueChange = { viewModel.postIntent(ResetPasswordIntent.UpdateAccountId(value = it)) },
+                supportingText = if (isAccountIdError) {
+                    { Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id_invalid_format)) }
+                } else {
+                    null
+                },
+                isError = isAccountIdError,
+            )
             AnimatedVisibility(
-                visible = emailResponse.isNotBlank()
+                modifier = Modifier.fillMaxWidth(),
+                visible = idChecked,
             ) {
                 Column(
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
                 ) {
-                    Column(
+                    AccountAssertionCard(
+                        modifier = Modifier
+                            .horizontalPadding()
+                            .verticalPadding()
+                            .fillMaxWidth(),
+                        hashedEmail = uiState.hashedEmail,
+                    )
+                    TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(
-                                DormTheme.colors.background,
-                            )
-                            .padding(
-                                horizontal = 16.dp,
-                                vertical = 12.dp,
-                            )
-                    ) {
-                        Body2(
-                            text = stringResource(id = R.string.MatchEmailToId),
-                        )
-                        Body2(
-                            modifier = Modifier.padding(
-                                top = 8.dp,
-                            ),
-                            text = emailResponse,
-                            color = DormTheme.colors.primary,
-                        )
-                    }
-                    Box(
-                        modifier = Modifier
-                            .height(68.dp)
-                            .padding(top = 24.dp)
-                    ) {
-                        DormTextField(
-                            value = name,
-                            onValueChange = onNameChange,
-                            hint = stringResource(id = R.string.EnterName),
-                            imeAction = ImeAction.Next,
-                        )
-                    }
-                    Space(space = 32.dp)
-                    Box(
-                        modifier = Modifier
-                            .height(68.dp)
-                    ) {
-                        DormTextField(
-                            value = userEmail,
-                            onValueChange = onEmailChange,
-                            hint = stringResource(id = R.string.EnterEmailAddress),
-                            error = isEmailError,
-                            keyboardType = KeyboardType.Email,
-                            errorDescription = context.getString(R.string.NotValidEmailFormat),
-                            keyboardActions = KeyboardActions {
-                                focusManager.clearFocus()
-                            },
-                            imeAction = ImeAction.Done,
-                        )
-                    }
-                }
-            }
-
-            RatioSpace(height = if (emailResponse.isEmpty()) 0.05f else 0.622f)
-
-            DormContainedLargeButton(
-                text = stringResource(id = R.string.Next),
-                color = DormButtonColor.Blue,
-                enabled = if (emailResponse.isEmpty()) id.isNotBlank() && !isIdError
-                else (id.isNotBlank() && name.isNotBlank() && userEmail.isNotBlank())
-            ) {
-                if (id.isNotBlank() && name.isNotBlank() && userEmail.isNotBlank()) {
-                    if (pattern.matcher(userEmail).find()) {
-                        resetPasswordVerificationViewModel.requestEmailCode(
-                            email = userEmail.trim(),
-                            type = EmailVerificationType.PASSWORD,
-                        )
-                    } else {
-                        isEmailError = true
-                    }
-                } else {
-                    changePasswordViewModel.checkId(
-                        accountId = id.trim(),
+                            .horizontalPadding(),
+                        value = uiState.studentName,
+                        hint = {
+                            Text(text = stringResource(id = R.string.reset_password_account_verification_enter_student_name))
+                        },
+                        onValueChange = {
+                            viewModel.postIntent(ResetPasswordIntent.UpdateStudentName(value = it))
+                        },
                     )
-                    focusManager.clearFocus()
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .horizontalPadding(),
+                        value = uiState.email,
+                        hint = {
+                            Text(text = stringResource(id = R.string.reset_password_account_verification_enter_email))
+                        },
+                        onValueChange = {
+                            viewModel.postIntent(ResetPasswordIntent.UpdateEmail(value = it))
+                        },
+                    )
                 }
+
+            }
+            Spacer(modifier = Modifier.weight(3f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = {
+                    viewModel.postIntent(
+                        ResetPasswordIntent.SendEmailVerificationCode(
+                            uiState.email
+                        )
+                    )
+                },
+                enabled = uiState.accountId.isNotEmpty() && uiState.studentName.isNotEmpty() && uiState.email.isNotEmpty(),
+            ) {
+                Text(text = stringResource(id = R.string.next))
             }
         }
-    }*/
+    }
+    BackHandler {
+        navigator.openSignIn()
+    }
+}
+
+@Composable
+private fun AccountAssertionCard(
+    modifier: Modifier = Modifier,
+    hashedEmail: String,
+) {
+    Card(
+        modifier = modifier,
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.cardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
+    ) {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+        ) {
+            Text(
+                modifier = Modifier.startPadding(),
+                text = stringResource(id = R.string.reset_password_account_verification_success_account_id_matches_email),
+            )
+            Text(
+                modifier = Modifier.startPadding(),
+                text = hashedEmail,
+                color = DmsTheme.colorScheme.primary,
+            )
+        }
+    }
 }

@@ -72,9 +72,10 @@ internal class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun checkIdExists(accountId: String): HashedEmail {
-        TODO("Not yet implemented")
-    }
+    override suspend fun checkIdExists(accountId: String): HashedEmail =
+        networkAuthDataSource.checkIdExists(
+            accountId = accountId,
+        ).email
 
     override suspend fun signOut() {
         jwtProvider.clearCaches()

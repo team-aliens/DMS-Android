@@ -36,14 +36,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Gray10
 import team.aliens.dms.android.core.designsystem.RoundedButton
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.LargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -54,6 +55,7 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.shared.model.Sex
 
@@ -63,7 +65,7 @@ import team.aliens.dms.android.shared.model.Sex
 internal fun MyPageScreen(
     modifier: Modifier = Modifier,
     onNavigateToEditProfileImage: () -> Unit,
-    onNavigateToPointHistory: () -> Unit,
+    onNavigateToPointHistory: (PointType) -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onNavigateToUnauthorizedNav: () -> Unit,
 ) {
@@ -127,7 +129,7 @@ internal fun MyPageScreen(
         }
     }
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
@@ -162,6 +164,7 @@ internal fun MyPageScreen(
                 modifier = Modifier.fillMaxWidth(),
                 bonusPoint = uiState.myPage?.bonusPoint,
                 minusPoint = uiState.myPage?.minusPoint,
+                onNavigateToPointHistory = onNavigateToPointHistory,
             )
             Options(
                 modifier = Modifier.fillMaxWidth(),
@@ -305,6 +308,7 @@ private fun PhraseCard(
 @Composable
 private fun PointCards(
     modifier: Modifier = Modifier,
+    onNavigateToPointHistory: (PointType) -> Unit,
     bonusPoint: Int?,
     minusPoint: Int?,
 ) {
@@ -315,7 +319,10 @@ private fun PointCards(
         PointCard(
             modifier = Modifier
                 .weight(1f)
-                .startPadding(),
+                .startPadding()
+                .clickable(
+                    onClick = { onNavigateToPointHistory(PointType.BONUS) }
+                ),
             type = PointCardType.BONUS,
             // TODO: fix
             point = bonusPoint ?: 0,
@@ -323,7 +330,10 @@ private fun PointCards(
         PointCard(
             modifier = Modifier
                 .weight(1f)
-                .endPadding(),
+                .endPadding()
+                .clickable(
+                    onClick = { onNavigateToPointHistory(PointType.MINUS) }
+                ),
             type = PointCardType.MINUS,
             // TODO: fix
             point = minusPoint ?: 0,
@@ -376,24 +386,25 @@ private fun PointCard(
 
 @Immutable
 private enum class PointCardType {
-    BONUS, MINUS, ;
+    BONUS, MINUS,
+    ;
 
     val containerColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.primaryContainer
-            MINUS -> DmsTheme.colorScheme.errorContainer
+            BONUS -> DmsTheme.colorScheme.background
+            MINUS -> DmsTheme.colorScheme.background
         }
 
     val contentColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
-            MINUS -> DmsTheme.colorScheme.onErrorContainer
+            BONUS -> DmsTheme.colorScheme.error
+            MINUS -> DmsTheme.colorScheme.primary
         }
 
     val borderColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
-            MINUS -> DmsTheme.colorScheme.onErrorContainer
+            BONUS -> DmsTheme.colorScheme.error
+            MINUS -> DmsTheme.colorScheme.primary
         }
 
     val text: String
@@ -408,7 +419,7 @@ private enum class PointCardType {
 @Composable
 private fun Options(
     modifier: Modifier = Modifier,
-    onNavigateToPointHistory: () -> Unit,
+    onNavigateToPointHistory: (PointType) -> Unit,
     onNavigateToEditPassword: () -> Unit,
     onSignOutClick: () -> Unit,
     onWithdrawalClick: () -> Unit,
@@ -418,7 +429,7 @@ private fun Options(
         listOf(
             Option(
                 titleRes = R.string.my_page_check_point_history,
-                onClick = onNavigateToPointHistory,
+                onClick = { onNavigateToPointHistory(PointType.ALL) },
             ),
             Option(
                 titleRes = R.string.my_page_edit_password,
@@ -484,13 +495,14 @@ private fun OptionLayout(
     titleColor: Color,
 ) {
     Card(
-        modifier = modifier.horizontalPadding(),
+        modifier = modifier
+            .horizontalPadding()
+            .shadow(),
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = titleColor,
         ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         options.forEachIndexed { index, option ->
             Text(

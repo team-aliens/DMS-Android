@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,12 +24,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
-import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -48,11 +49,16 @@ import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 internal fun PointHistoryScreen(
     modifier: Modifier = Modifier,
     navigator: PointHistoryNavigator,
+    pointType: PointType,
 ) {
     val viewModel: PointHistoryViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    DmsScaffold(
+    LaunchedEffect(Unit) {
+        viewModel.fetchPoints(pointType)
+    }
+
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
@@ -168,13 +174,13 @@ private fun PointCard(
     Card(
         modifier = modifier
             .horizontalPadding()
-            .verticalPadding(PaddingDefaults.ExtraSmall),
+            .verticalPadding(PaddingDefaults.ExtraSmall)
+            .shadow(),
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),

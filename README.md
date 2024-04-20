@@ -23,6 +23,9 @@ DMS는 기숙사를 위한 편의 시스템을 목표로 하고 있기 때문에
 </br>
 </br>
 
+# Project structure
+![image](https://github.com/team-aliens/DMS-Android/assets/101160207/f53fd04e-d29f-41d2-9cf3-60f16645ab4b)
+
 # Contributors
 
 </br>

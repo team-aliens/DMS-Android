@@ -14,6 +14,7 @@ import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDest
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavGraph
 
 object AuthorizedNavGraph : NavGraphSpec {
@@ -23,6 +24,7 @@ object AuthorizedNavGraph : NavGraphSpec {
         listOf(
             EditPasswordNavGraph,
             StudyRoomNavGraph,
+            OutingNavGraph,
         )
 
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =

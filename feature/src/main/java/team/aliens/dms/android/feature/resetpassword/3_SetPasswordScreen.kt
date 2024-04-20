@@ -1,205 +1,182 @@
 package team.aliens.dms.android.feature.resetpassword
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.AlertDialog
+import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.TextButton
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.composable.PasswordTextField
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
 
 @Suppress("ConstPropertyName")
 private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 fun ResetPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    // changePasswordViewModel: ChangePasswordViewModel = hiltViewModel(),
-) {/*
+    viewModel: ResetPasswordViewModel,
+) {
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
+    val (showPassword, onShowPasswordChange) = remember { mutableStateOf(false) }
+    val (showPasswordRepeat, onShowPasswordRepeatChange) = remember { mutableStateOf(false) }
+
+    val toast = LocalToast.current
     val context = LocalContext.current
 
-    val toast = rememberToast()
-
-    val focusManager = LocalFocusManager.current
-
-    var password by remember { mutableStateOf("") }
-    var repeatPassword by remember { mutableStateOf("") }
-
-    var isPasswordFormatError by remember { mutableStateOf(false) }
-    var isPasswordMatchError by remember { mutableStateOf(false) }
-
-    var isShowDialog by remember { mutableStateOf(false) }
-    var isPressedBackButton by remember { mutableStateOf(false) }
-
-    val onPasswordChange = { passwordValue: String ->
-        if (passwordValue.length != password.length) isPasswordFormatError = false
-        password = passwordValue
+    val (shouldShowQuitSignUpDialog, onShouldShowQuitSignUpDialogChange) = remember {
+        mutableStateOf(false)
     }
 
-    val onRepeatPasswordChange = { repeatPasswordValue: String ->
-        if (repeatPasswordValue.length != repeatPassword.length) isPasswordMatchError = false
-        repeatPassword = repeatPasswordValue
-    }
-
-    BackHandler(enabled = true) {
-        isPressedBackButton = true
-    }
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                color = DormTheme.colors.surface,
-            )
-            .dormClickable(
-                rippleEnabled = false,
-            ) {
-                focusManager.clearFocus()
+    if (shouldShowQuitSignUpDialog) {
+        AlertDialog(
+            text = { Text(text = stringResource(id = R.string.reset_password_set_password_password_success_changed)) },
+            onDismissRequest = { /* explicit blank */ },
+            confirmButton = {
+                TextButton(
+                    onClick = navigator::openSignIn,
+                ) {
+                    Text(text = stringResource(id = R.string.reset_password_go_to_sign_in_screen))
+                }
             },
-    ) {
-
-        TopBar(
-            title = stringResource(R.string.ChangePassword),
-            onPrevious = navigator::popBackStack,
         )
+    }
 
-        if (isShowDialog) {
-            DormCustomDialog(
-                onDismissRequest = {},
-            ) {
-                DormSingleButtonDialog(
-                    content = stringResource(id = R.string.SuccessChangePassword),
-                    mainBtnText = stringResource(id = R.string.GoLogin),
-                    onMainBtnClick = navigator::openSignIn,
-                    mainBtnTextColor = DormColor.DormPrimary,
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            ResetPasswordSideEffect.PasswordReset -> onShouldShowQuitSignUpDialogChange(true)
+            ResetPasswordSideEffect.PasswordMismatch -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_set_password_error_password_mismatch),
+            )
+
+            ResetPasswordSideEffect.InvalidPassword -> {
+                toast.showErrorToast(
+                    message = context.getString(R.string.sign_up_set_password_invalid_password),
                 )
             }
 
-            Image(
-                modifier = Modifier
-                    .padding(top = 32.dp, bottom = 7.dp)
-                    .height(85.dp)
-                    .width(85.dp),
-                painter = painterResource(team.aliens.dms.android.designsystem.R.drawable.ic_information),
-                contentDescription = stringResource(id = R.string.MainLogo),
-            )
-
-            Space(space = 1.dp)
-
-            Body4(
-                text = stringResource(id = R.string.SetNewPassword),
-            )
-        }
-
-        if (isPressedBackButton) {
-            DormCustomDialog(
-                onDismissRequest = { *//*TODO*//* },
-            ) {
-                DormDoubleButtonDialog(
-                    content = stringResource(id = R.string.FinishResetPassword),
-                    mainBtnText = stringResource(id = R.string.Yes),
-                    subBtnText = stringResource(id = R.string.No),
-                    onMainBtnClick = navigator::openSignIn,
-                    onSubBtnClick = { isPressedBackButton = false },
-                )
+            else -> {/* explicit blank */
             }
         }
+    }
 
-        LaunchedEffect(Unit) {
-            changePasswordViewModel.editPasswordEffect.collect {
-                when (it) {
-                    is ChangePasswordViewModel.Event.ResetPasswordSuccess -> {
-                        toast(context.getString(R.string.SuccessResetPassword))
-                        navigator.openSignIn()
-                    }
-
-                    else -> {
-                        toast(
-                            getStringFromEvent(
-                                context = context,
-                                event = it,
-                            )
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            DmsTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = { navigator.openSignIn() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
-                }
-            }
-        }
-
+                },
+            )
+        },
+    ) { padValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = 38.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                )
+                .padding(padValues)
+                .imePadding(),
         ) {
-            AppLogo()
-            Space(space = 8.dp)
-            Body2(
-                text = stringResource(id = R.string.ChangePassword),
-            )
-            Space(space = 4.dp)
-            Caption(
-                text = stringResource(id = R.string.PasswordWarning),
-                color = DormColor.Gray500,
-            )
-            Column(
+            Spacer(modifier = Modifier.weight(1f))
+            Banner(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 40.dp),
+                    .topPadding(BannerDefaults.DefaultTopSpace)
+                    .startPadding(),
+                message = { BannerDefaults.DefaultText(text = stringResource(id = R.string.edit_password_new_password)) },
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
             ) {
-                Box(modifier = Modifier.height(76.dp)) {
-                    DormTextField(
-                        value = password,
-                        onValueChange = onPasswordChange,
-                        error = isPasswordFormatError,
-                        isPassword = true,
-                        hint = stringResource(id = R.string.ScanNewPassword),
-                        errorDescription = stringResource(id = R.string.CheckPasswordFormat),
-                        imeAction = ImeAction.Next,
-                    )
-                }
-                Space(space = 7.dp)
-                Box(
-                    modifier = Modifier.height(76.dp),
-                ) {
-                    DormTextField(
-                        value = repeatPassword,
-                        onValueChange = onRepeatPasswordChange,
-                        error = isPasswordMatchError,
-                        isPassword = true,
-                        hint = stringResource(id = R.string.CheckScanNewPassword),
-                        errorDescription = stringResource(id = R.string.MismatchRepeatPassword),
-                        keyboardActions = KeyboardActions {
-                            focusManager.clearFocus()
-                        },
-                        imeAction = ImeAction.Done,
-                    )
-                }
-            }
-            RatioSpace(height = 0.742f)
-            DormContainedLargeButton(
-                text = stringResource(id = R.string.Check),
-                color = DormButtonColor.Blue,
-                enabled = (password.isNotBlank() && repeatPassword.isNotBlank())
-            ) {
-                if (password != repeatPassword) {
-                    isPasswordMatchError = true
-                } else if (!Pattern.compile(passwordFormat).matcher(password).find()) {
-                    isPasswordFormatError = true
-                } else {
-                    *//* todo
-                        navController.previousBackStackEntry?.arguments?.run {
-                        changePasswordViewModel.resetPassword(
-                            accountId = getString("accountId").toString(),
-                            emailVerificationCode = getString("authCode").toString(),
-                            email = getString("email").toString(),
-                            studentName = getString("name").toString(),
-                            newPassword = password,
+                PasswordTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    value = uiState.newPassword,
+                    onValueChange = {
+                        viewModel.postIntent(
+                            ResetPasswordIntent.UpdateNewPassword(
+                                value = it
+                            )
                         )
-                    }*//*
-                }
+                    },
+                    passwordShowing = showPassword,
+                    onPasswordShowingChange = onShowPasswordChange,
+                    hintText = stringResource(id = R.string.edit_password_please_enter_new_password)
+                )
+                PasswordTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding(),
+                    value = uiState.newPasswordRepeat,
+                    onValueChange = {
+                        viewModel.postIntent(
+                            ResetPasswordIntent.UpdateNewPasswordRepeat(
+                                value = it
+                            )
+                        )
+                    },
+                    passwordShowing = showPasswordRepeat,
+                    onPasswordShowingChange = onShowPasswordRepeatChange,
+                    hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat)
+                )
+            }
+            Spacer(modifier = Modifier.weight(3f))
+            ContainedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = { viewModel.postIntent(ResetPasswordIntent.SetPassword) },
+                enabled = uiState.newPassword.isNotEmpty() && uiState.newPasswordRepeat.isNotEmpty(),
+            ) {
+                Text(text = stringResource(id = R.string.next))
             }
         }
-    }*/
+    }
+    BackHandler {
+        onShouldShowQuitSignUpDialogChange(true)
+    }
 }

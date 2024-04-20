@@ -29,20 +29,16 @@ internal class PointHistoryViewModel @Inject constructor(
     private lateinit var minusPoints: List<Point>
     private var scoreOfMinusPoints by Delegates.notNull<Int>()
 
-    init {
-        fetchPoints()
-    }
-
     override fun processIntent(intent: PointHistoryIntent) {
         when (intent) {
             is PointHistoryIntent.UpdateSelectedPointType -> updatePoints(pointType = intent.pointType)
         }
     }
 
-    private fun fetchPoints() {
+    internal fun fetchPoints(pointType: PointType) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                pointRepository.fetchPoints(type = PointType.ALL)
+                pointRepository.fetchPoints(type = pointType)
             }.onSuccess { pointStatus ->
                 this@PointHistoryViewModel.allPoints = pointStatus.points
                 this@PointHistoryViewModel.scoreOfAllPoints = pointStatus.totalPoints
@@ -55,7 +51,7 @@ internal class PointHistoryViewModel @Inject constructor(
                 this@PointHistoryViewModel.minusPoints = minusPoints
                 this@PointHistoryViewModel.scoreOfMinusPoints = minusPoints.sumOf { it.score }
 
-                updatePoints(PointType.ALL)
+                updatePoints(pointType)
             }
         }
     }

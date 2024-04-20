@@ -1,338 +1,226 @@
 package team.aliens.dms.android.feature.resetpassword
-/*
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.domain.model._common.EmailVerificationType
-import team.aliens.dms.android.domain.model.auth.CheckEmailVerificationCodeInput
-import team.aliens.dms.android.feature._legacy.base.BaseViewModel1
-import team.aliens.dms.android.feature._legacy.util.MutableEventFlow
-import team.aliens.dms.android.feature._legacy.util.asEventFlow
-import team.aliens.dms.android.domain.model.auth.CheckIdExistsInput
-import team.aliens.dms.android.domain.model.auth.SendEmailVerificationCodeInput
-import team.aliens.dms.android.domain.model.student.CheckEmailDuplicationInput
-import team.aliens.dms.android.domain.model.student.ResetPasswordInput
-import team.aliens.dms.android.domain.model.user.ComparePasswordInput
-import team.aliens.dms.android.domain.model.user.EditPasswordInput
-import team.aliens.dms.android.domain.usecase.auth.CheckEmailVerificationCodeUseCase
-import team.aliens.dms.android.domain.usecase.auth.CheckIdExistsUseCase
-import team.aliens.dms.android.domain.usecase.auth.SendEmailVerificationCodeUseCase
-import team.aliens.dms.android.domain.usecase.student.CheckEmailDuplicationUseCase
-import team.aliens.dms.android.domain.usecase.student.ResetPasswordUseCase
-import team.aliens.dms.android.domain.usecase.user.ComparePasswordUseCase
-import team.aliens.dms.android.domain.usecase.user.EditPasswordUseCase
-import team.aliens.dms.android.feature._legacy.base.MviEvent
-import team.aliens.dms.android.feature._legacy.base._MviState
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.auth.model.EmailVerificationType
+import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.shared.validator.checkIfPasswordValid
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangePasswordViewModel @Inject constructor(
-    private val changePasswordUseCase: ResetPasswordUseCase,
-    private val editPasswordUseCase: EditPasswordUseCase,
-    private val comparePasswordUseCase: ComparePasswordUseCase,
-    private val checkIdUseCase: CheckIdExistsUseCase,
-) : BaseViewModel1<ChangePasswordState, ChangePasswordEvent>() {
+class ResetPasswordViewModel @Inject constructor(
+    private val studentRepository: StudentRepository,
+    private val authRepository: AuthRepository,
+) : BaseMviViewModel<ResetPasswordUiState, ResetPasswordIntent, ResetPasswordSideEffect>(
+    initialState = ResetPasswordUiState.initial()
+) {
+    /*디자인에서 처음 본인인증할때 아이디만을 사용해서 "아이디 존재 여부(비밀번호 재설정)"이라는 Api로 이에 해당하는 Email를 받습니다.
+       그다음 아이디를 입력 받은 다음에 "이메일 검증이라는 Api를 사용하여 이메일과 아이디를 서버에 보낸뒤 이 값들이 정보와 일치하는지 검사합니다."
+       검사에서 가능이 뜨게 된다면 "이메일 인증번호 보내기 APi"를 사용해서 사용자 이메일에 이메일을 발송합니다.
+       그리고 이메일 인증번호 확인 Api를 사용하여 인증을 완료하고 Students의 비밀번호 재설정 Api를 사용하여 재설정합니다.*/
 
-    */
-/*
-        디자인에서 처음 본인인증할때 아이디만을 사용해서 "아이디 존재 여부(비밀번호 재설정)"이라는 Api로 이에 해당하는 Email를 받습니다.
-        그다음 아이디를 입력 받은 다음에 "이메일 검증이라는 Api를 사용하여 이메일과 아이디를 서버에 보낸뒤 이 값들이 정보와 일치하는지 검사합니다."
-        검사에서 가능이 뜨게 된다면 "이메일 인증번호 보내기 APi"를 사용해서 사용자 이메일에 이메일을 발송합니다.
-        그리고 이메일 인증번호 확인 Api를 사용하여 인증을 완료하고 Students의 비밀번호 재설정 Api를 사용하여 재설정합니다.
-    *//*
-
-
-    override val initialState: ChangePasswordState
-        get() = ChangePasswordState.getDefaultInstance()
-
-    private val _editPasswordEffect = MutableEventFlow<Event>()
-    var editPasswordEffect = _editPasswordEffect.asEventFlow()
-
-    internal fun editPassword() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                with(state.value) {
-                    if (newPassword == repeatPassword) {
-                        editPasswordUseCase(
-                            editPasswordInput = EditPasswordInput(
-                                currentPassword = currentPassword,
-                                newPassword = newPassword,
-                            )
-                        )
-                    }
-                }
-            }.onSuccess {
-                event(Event.EditPasswordSuccess)
-            }.onFailure {
-                event(getEventFromThrowableChangePassword(it))
-            }
+    override fun processIntent(intent: ResetPasswordIntent) {
+        when (intent) {
+            ResetPasswordIntent.SetPassword -> resetPassword()
+            is ResetPasswordIntent.UpdateNewPassword -> this.updateNewPassword(value = intent.value)
+            is ResetPasswordIntent.UpdateEmailVerificationCode -> updateEmailVerificationCode(value = intent.value)
+            ResetPasswordIntent.CheckEmailVerificationCode -> checkEmailVerificationCode()
+            ResetPasswordIntent.ResetEmailVerificationSession -> resetEmailVerificationSession()
+            is ResetPasswordIntent.UpdateAccountId -> this.updateAccountId(value = intent.value)
+            is ResetPasswordIntent.CheckAccountId -> checkIdExists()
+            is ResetPasswordIntent.UpdateStudentName -> this.updateStudentName(value = intent.value)
+            is ResetPasswordIntent.UpdateEmail -> this.updateEmail(value = intent.value)
+            is ResetPasswordIntent.SendEmailVerificationCode -> this.sendEmailVerificationCode(email = intent.value)
+            is ResetPasswordIntent.UpdateNewPasswordRepeat -> updateNewPasswordRepeat(value = intent.value)
         }
     }
 
-    internal fun comparePassword() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                comparePasswordUseCase(
-                    comparePasswordInput = ComparePasswordInput(
-                        password = state.value.currentPassword,
-                    ),
+
+    private fun resetPassword() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        if (capturedState.newPassword != capturedState.newPasswordRepeat) {
+            postSideEffect(ResetPasswordSideEffect.PasswordMismatch)
+            return@launch
+        }
+
+        if (!checkIfPasswordValid(capturedState.newPassword)) {
+            postSideEffect(ResetPasswordSideEffect.PasswordFormatError)
+            return@launch
+        }
+
+        runCatching {
+            studentRepository.resetPassword(
+                accountId = capturedState.accountId,
+                studentName = capturedState.studentName,
+                email = capturedState.email,
+                emailVerificationCode = capturedState.emailVerificationCode,
+                newPassword = capturedState.newPassword,
+            )
+        }.onSuccess {
+            postSideEffect(ResetPasswordSideEffect.PasswordReset)
+        }.onFailure {
+            it.printStackTrace()
+            postSideEffect(ResetPasswordSideEffect.PasswordFormatError)
+        }
+    }
+
+    private fun checkIdExists() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+
+        runCatching {
+            authRepository.checkIdExists(
+                accountId = capturedState.accountId,
+            )
+        }.onSuccess {
+            reduce(
+                newState = stateFlow.value.copy(
+                    hashedEmail = it,
+                ),
+            )
+            postSideEffect(ResetPasswordSideEffect.AccountIdExists)
+        }.onFailure {
+            postSideEffect(ResetPasswordSideEffect.AccountIdNotExists)
+        }
+    }
+
+    private fun sendEmailVerificationCode(email: String) =
+        runCatching {
+            viewModelScope.launch(Dispatchers.IO) {
+                authRepository.sendEmailVerificationCode(
+                    email = email,
+                    type = EmailVerificationType.PASSWORD,
                 )
-            }.onSuccess {
-                event(Event.ComparePasswordSuccess)
-            }.onFailure {
-                event(getEventFromThrowableChangePassword(it))
             }
+        }.onSuccess {
+            postSideEffect(ResetPasswordSideEffect.SendEmailVerificationCodeSuccess)
+        }
+
+
+    private fun updateEmailVerificationCode(value: String) = run {
+        if (value.length > ResetPasswordViewModel.EMAIL_VERIFICATION_CODE_LENGTH) {
+            return@run false
+        }
+        reduce(newState = stateFlow.value.copy(emailVerificationCode = value))
+    }
+
+    private fun checkEmailVerificationCode() = viewModelScope.launch(Dispatchers.IO) {
+        val capturedState = stateFlow.value
+        runCatching {
+            authRepository.checkEmailVerificationCode(
+                email = capturedState.email,
+                code = capturedState.emailVerificationCode,
+                type = EmailVerificationType.PASSWORD,
+            )
+        }.onSuccess {
+            postSideEffect(ResetPasswordSideEffect.EmailVerificationCodeChecked)
+        }.onFailure {
+            postSideEffect(ResetPasswordSideEffect.EmailVerificationCodeIncorrect)
+            reduce(newState = stateFlow.value.copy(emailVerificationCode = ""))
         }
     }
 
-    internal fun checkId(
-        accountId: String,
-    ) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                checkIdUseCase(
-                    checkIdExistsInput = CheckIdExistsInput(
-                        accountId = accountId,
-                    ),
-                )
-            }.onSuccess {
-                event(Event.CheckIdSuccess(it.email))
-            }.onFailure {
-                event(getEventFromThrowableChangePassword(it))
-            }
+    private fun resetEmailVerificationSession() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            this@ResetPasswordViewModel.sendEmailVerificationCode(email = stateFlow.value.email)
+        }.onSuccess {
+            postSideEffect(ResetPasswordSideEffect.EmailVerificationSessionReset)
+            reduce(newState = stateFlow.value.copy(emailVerificationCode = ""))
+        }.onFailure {
+            postSideEffect(ResetPasswordSideEffect.EmailVerificationSessionResetFailed)
         }
     }
 
-    internal fun resetPassword(
-        accountId: String,
-        email: String,
-        emailVerificationCode: String,
-        studentName: String,
-        newPassword: String,
-    ) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                state.value.run {
-                    changePasswordUseCase(
-                        resetPasswordInput = ResetPasswordInput(
-                            accountId = accountId,
-                            studentName = studentName,
-                            email = email,
-                            emailVerificationCode = emailVerificationCode,
-                            newPassword = newPassword,
-                        ),
-                    )
-                }
-            }.onSuccess {
-                event(Event.ResetPasswordSuccess)
-            }.onFailure {
-                event(getEventFromThrowableChangePassword(it))
-            }
-        }
-    }
+    private fun updateNewPassword(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            newPassword = value,
+        )
+    )
 
-    internal fun setCurrentPassword(
-        currentPassword: String,
-    ) {
-        sendEvent(event = ChangePasswordEvent.SetCurrentPassword(currentPassword))
-    }
+    private fun updateAccountId(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            accountId = value,
+        )
+    )
 
-    internal fun setRepeatPassword(
-        repeatPassword: String,
-    ) {
-        sendEvent(event = ChangePasswordEvent.SetRepeatPassword(repeatPassword))
-    }
+    private fun updateStudentName(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            studentName = value
+        )
+    )
 
-    internal fun setNewPassword(
-        newPassword: String,
-    ) {
-        sendEvent(event = ChangePasswordEvent.SetNewPassword(newPassword))
-    }
+    private fun updateEmail(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            email = value,
+        )
+    )
 
-    override fun reduceEvent(oldState: ChangePasswordState, event: ChangePasswordEvent) {
-        when (event) {
-            is ChangePasswordEvent.SetCurrentPassword -> {
-                setState(state = oldState.copy(currentPassword = event.currentPassword))
-            }
-
-            is ChangePasswordEvent.SetRepeatPassword -> {
-                setState(state = oldState.copy(repeatPassword = event.repeatPassword))
-            }
-
-            is ChangePasswordEvent.SetNewPassword -> {
-                setState(state = oldState.copy(newPassword = event.newPassword))
-            }
-
-            else -> {}
-        }
-    }
-
-    private fun event(event: Event) {
-        viewModelScope.launch {
-            _editPasswordEffect.emit(event)
-        }
-    }
-
-    sealed class Event {
-        object EditPasswordSuccess : Event()
-        object ComparePasswordSuccess : Event()
-        data class CheckIdSuccess(val email: String) : Event()
-        object ResetPasswordSuccess : Event()
-
-        object BadRequestException : Event()
-        object NotFoundException : Event()
-        object UnauthorizedException : Event()
-        object ForbiddenException : Event()
-        object TooManyRequestException : Event()
-        object ServerException : Event()
-        object UnknownException : Event()
-    }
-}
-
-// TODO 추후에 리팩토링 필요
-private fun getEventFromThrowableChangePassword(
-    throwable: Throwable?,
-): ChangePasswordViewModel.Event {
-    return when (throwable) {
-        else -> ChangePasswordViewModel.Event.UnknownException
-    }
-}
-
-sealed class ChangePasswordEvent : MviEvent {
-    object ChangePasswordSuccess : ChangePasswordEvent()
-    object BadRequestException : ChangePasswordEvent()
-    object UnAuthorizedException : ChangePasswordEvent()
-    object NotFoundException : ChangePasswordEvent()
-    object TooManyRequestException : ChangePasswordEvent()
-    object InternalServerException : ChangePasswordEvent()
-    object UnKnownException : ChangePasswordEvent()
-
-    data class SetCurrentPassword(val currentPassword: String): ChangePasswordEvent()
-    data class SetRepeatPassword(val repeatPassword: String): ChangePasswordEvent()
-    data class SetNewPassword(val newPassword: String): ChangePasswordEvent()
-}
-
-data class ChangePasswordState(
-    val currentPassword: String,
-    val repeatPassword: String,
-    val newPassword: String,
-) : _MviState {
+    private fun updateNewPasswordRepeat(value: String) = reduce(
+        newState = stateFlow.value.copy(
+            newPasswordRepeat = value,
+        )
+    )
 
     companion object {
-        fun getDefaultInstance() =
-            ChangePasswordState(
-                currentPassword = "",
-                repeatPassword = "",
-                newPassword = "",
-            )
+        const val EMAIL_VERIFICATION_CODE_LENGTH = 6
     }
 }
 
-@HiltViewModel
-class ResetPasswordVerificationViewModel @Inject constructor(
-    private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase,
-    private val checkEmailVerificationCodeUseCase: CheckEmailVerificationCodeUseCase,
-    private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
-) : ViewModel() {
-
-    private val _resetPasswordVerificationEvent = MutableEventFlow<ResetPasswordVerificationEvent>()
-    val registerEmailEvent = _resetPasswordVerificationEvent.asEventFlow()
-
-    fun requestEmailCode(
-        email: String,
-        type: EmailVerificationType,
-    ) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                sendEmailVerificationCodeUseCase(
-                    sendEmailVerificationCodeInput = SendEmailVerificationCodeInput(
-                        email = email,
-                        type = type,
-                    ),
-                )
-            }.onSuccess {
-                event(ResetPasswordVerificationEvent.SendEmailSuccess)
-            }.onFailure {
-                // fixme 추후에 리팩토링 필요
-                when (it) {
-                    else -> event(ResetPasswordVerificationEvent.UnKnownException)
-                }
-            }
-        }
-    }
-
-    fun checkEmailCode(
-        email: String,
-        authCode: String,
-        type: EmailVerificationType,
-    ) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                checkEmailVerificationCodeUseCase(
-                    checkEmailVerificationCodeInput = CheckEmailVerificationCodeInput(
-                        email = email,
-                        type = type,
-                        authCode = authCode,
-                    ),
-                )
-            }.onSuccess {
-                event(ResetPasswordVerificationEvent.CheckEmailSuccess)
-            }.onFailure {
-                // fixme 추후에 리팩토링 필요
-                when (it) {
-                    else -> event(ResetPasswordVerificationEvent.InternalServerException)
-                }
-            }
-        }
-    }
-
-    internal fun checkEmailDuplicate(
-        email: String,
-    ) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                checkEmailDuplicationUseCase(
-                    checkEmailDuplicationInput = CheckEmailDuplicationInput(
-                        email = email,
-                    ),
-                )
-            }.onSuccess {
-                event(ResetPasswordVerificationEvent.AllowEmail)
-            }.onFailure {
-                event(getEventFromThrowable(it))
-            }
-        }
-    }
-
-    private fun event(event: ResetPasswordVerificationEvent) {
-        viewModelScope.launch {
-            _resetPasswordVerificationEvent.emit(event)
-        }
+data class ResetPasswordUiState(
+    val accountId: String,
+    val studentName: String,
+    val email: String,
+    val emailVerificationCode: String,
+    val newPassword: String,
+    val newPasswordRepeat: String,
+    val hashedEmail: String,
+    val sessionId: UUID,
+) : UiState() {
+    companion object {
+        fun initial() = ResetPasswordUiState(
+            accountId = "",
+            studentName = "",
+            email = "",
+            emailVerificationCode = "",
+            newPassword = "",
+            newPasswordRepeat = "",
+            hashedEmail = "",
+            sessionId = UUID.randomUUID(),
+        )
     }
 }
 
-// fixme 추후에 리팩토링 필요
-private fun getEventFromThrowable(
-    throwable: Throwable?,
-): ResetPasswordVerificationEvent =
-    when (throwable) {
-        else -> {
-            ResetPasswordVerificationEvent.UnKnownException
-        }
-    }
-sealed class ResetPasswordVerificationEvent : MviEvent {
-    object SendEmailSuccess : ResetPasswordVerificationEvent()
-    object CheckEmailSuccess : ResetPasswordVerificationEvent()
-    object BadRequestException : ResetPasswordVerificationEvent()
-    object CheckEmailNotFound : ResetPasswordVerificationEvent()
-    object CheckEmailUnauthorized : ResetPasswordVerificationEvent()
-    object TooManyRequestsException : ResetPasswordVerificationEvent()
-    object InternalServerException : ResetPasswordVerificationEvent()
-    object UnKnownException : ResetPasswordVerificationEvent()
-
-    object AllowEmail: ResetPasswordVerificationEvent()
-    object ConflictException: ResetPasswordVerificationEvent()
+sealed class ResetPasswordIntent : Intent() {
+    class UpdateNewPassword(val value: String) : ResetPasswordIntent()
+    class UpdateNewPasswordRepeat(val value: String) : ResetPasswordIntent()
+    data object SetPassword : ResetPasswordIntent()
+    class UpdateEmailVerificationCode(val value: String) : ResetPasswordIntent()
+    data object CheckEmailVerificationCode : ResetPasswordIntent()
+    data object ResetEmailVerificationSession : ResetPasswordIntent()
+    class UpdateAccountId(val value: String) : ResetPasswordIntent()
+    data object CheckAccountId : ResetPasswordIntent()
+    class UpdateStudentName(val value: String) : ResetPasswordIntent()
+    class UpdateEmail(val value: String) : ResetPasswordIntent()
+    class SendEmailVerificationCode(val value: String) : ResetPasswordIntent()
 }
-*/
+
+sealed class ResetPasswordSideEffect : SideEffect() {
+    data object PasswordMismatch : ResetPasswordSideEffect()
+    data object PasswordFormatError : ResetPasswordSideEffect()
+    data object PasswordReset : ResetPasswordSideEffect()
+    data object InvalidPassword : ResetPasswordSideEffect()
+    data object AccountIdExists : ResetPasswordSideEffect()
+    data object AccountIdNotExists : ResetPasswordSideEffect()
+    data object SendEmailVerificationCodeSuccess : ResetPasswordSideEffect()
+    data object EmailVerificationCodeChecked : ResetPasswordSideEffect()
+    data object EmailVerificationCodeIncorrect : ResetPasswordSideEffect()
+    data object EmailVerificationSessionReset : ResetPasswordSideEffect()
+    data object EmailVerificationSessionResetFailed : ResetPasswordSideEffect()
+}

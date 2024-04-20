@@ -67,16 +67,17 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsCalendar
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.PrimaryDefault
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -160,7 +161,7 @@ internal fun HomeScreen(
         }
     }
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
@@ -221,7 +222,7 @@ internal fun HomeScreen(
                 onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
                 onRefresh = onRefresh,
             )
-            Spacer(modifier = Modifier.height(92.dp))
+            Spacer(modifier = Modifier.height(76.dp))
         }
         Box(
             modifier = Modifier
@@ -546,7 +547,11 @@ private fun MealCard(
                         }
                     }
                 }
-            },
+            }
+            .shadow(
+                ambientColor = DmsTheme.colorScheme.primary.copy(alpha = ShadowDefaults.DefaultAlpha),
+                spotColor = DmsTheme.colorScheme.primary.copy(alpha = ShadowDefaults.DefaultAlpha),
+            ),
         shape = DmsTheme.shapes.surfaceLarge,
         colors = CardDefaults.outlinedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
@@ -556,7 +561,6 @@ private fun MealCard(
             width = 1.dp,
             color = DmsTheme.colorScheme.primary,
         ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         val dishes = when (currentCardType) {
             BREAKFAST -> breakfast

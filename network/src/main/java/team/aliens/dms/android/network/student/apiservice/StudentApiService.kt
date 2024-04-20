@@ -1,5 +1,6 @@
 package team.aliens.dms.android.network.student.apiservice
 
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -11,6 +12,7 @@ import team.aliens.dms.android.core.jwt.RequiresAccessToken
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
+import team.aliens.dms.android.network.student.model.FetchStudentsResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
@@ -40,7 +42,7 @@ internal interface StudentApiService {
     ): FindIdResponse
 
     @PATCH("/students/password/initialization")
-    suspend fun resetPassword(@Body request: ResetPasswordRequest)
+    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<Unit>?
 
     @GET("/students/account-id/duplication")
     suspend fun checkIdDuplication(@Query("account_id") accountId: String)
@@ -59,4 +61,7 @@ internal interface StudentApiService {
     @DELETE("/students")
     @RequiresAccessToken
     suspend fun withdraw()
+
+    @GET("/students")
+    suspend fun fetchStudents(): FetchStudentsResponse
 }

@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.school.repository
 
+import team.aliens.dms.android.data.school.mapper.toModel
 import team.aliens.dms.android.data.school.model.School
 import team.aliens.dms.android.data.school.model.SchoolId
 import team.aliens.dms.android.data.school.model.SchoolVerificationQuestion
@@ -11,9 +12,8 @@ internal class SchoolRepositoryImpl @Inject constructor(
     private val networkSchoolDataSource: NetworkSchoolDataSource,
 ) : SchoolRepository() {
 
-    override suspend fun fetchSchools(): List<School> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchSchools(): List<School> =
+        networkSchoolDataSource.fetchSchools().toModel()
 
     override suspend fun fetchSchoolVerificationQuestion(schoolId: UUID): SchoolVerificationQuestion =
         networkSchoolDataSource.fetchSchoolVerificationQuestion(schoolId = schoolId).question

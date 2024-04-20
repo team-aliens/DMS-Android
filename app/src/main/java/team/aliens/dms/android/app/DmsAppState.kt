@@ -46,6 +46,7 @@ fun rememberDmsAppState(
     context: Context = LocalContext.current,
 ) = remember(navController, context) {
     DmsAppState(
+        engine = engine,
         navController = navController,
         isJwtAvailable = isJwtAvailable,
         context = context,
@@ -53,6 +54,7 @@ fun rememberDmsAppState(
 }
 
 class DmsAppState(
+    val engine: NavHostEngine,
     val navController: NavHostController,
     val isJwtAvailable: StateFlow<Boolean>,
     private val context: Context,

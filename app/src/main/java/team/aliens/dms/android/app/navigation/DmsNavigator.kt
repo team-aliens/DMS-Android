@@ -13,6 +13,7 @@ import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavigator
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
@@ -21,6 +22,7 @@ import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms.android.feature.destinations.OutingApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.ResetPasswordEnterEmailVerificationCodeScreenDestination
@@ -34,6 +36,7 @@ import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestin
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 import java.util.UUID
@@ -69,8 +72,8 @@ class DmsNavigator(
         navController.navigateSingleTop(EditProfileImageScreenDestination() within AuthorizedNavGraph)
     }
 
-    override fun openPointHistory() {
-        navController.navigateSingleTop(PointHistoryScreenDestination within navGraph)
+    override fun openPointHistory(pointType: PointType) {
+        navController.navigateSingleTop(PointHistoryScreenDestination(pointType) within navGraph)
     }
 
     override fun openEditPasswordNav() {
@@ -79,6 +82,12 @@ class DmsNavigator(
 
     override fun openNoticeDetails(noticeId: UUID) {
         navController.navigateSingleTop(NoticeDetailsScreenDestination(noticeId) within navGraph)
+    }
+
+    override fun openOutingNav() {
+        navController.navigateSingleTop(OutingNavGraph) {
+            restoreState = true
+        }
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
@@ -104,11 +113,11 @@ class DmsNavigator(
     }
 
     override fun openResetPasswordEnterEmailVerificationCode() {
-        navController.navigateSingleTop(ResetPasswordEnterEmailVerificationCodeScreenDestination within navGraph)
+        navController.navigateSingleTop(ResetPasswordEnterEmailVerificationCodeScreenDestination within ResetPasswordNavGraph)
     }
 
     override fun openResetPasswordSetPassword() {
-        navController.navigateSingleTop(ResetPasswordSetPasswordScreenDestination within navGraph)
+        navController.navigateSingleTop(ResetPasswordSetPasswordScreenDestination within ResetPasswordNavGraph)
     }
 
     override fun openAuthorizedNav() {
@@ -216,6 +225,10 @@ class DmsNavigator(
                 studyRoomApplicationEndTime = studyRoomApplicationEndTime,
             ) within navGraph,
         )
+    }
+
+    override fun openOutingApplication() {
+        navController.navigateSingleTop(OutingApplicationScreenDestination within OutingNavGraph)
     }
 }
 

@@ -26,11 +26,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -46,11 +47,12 @@ internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
+    onNavigateToOuting: () -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(title = { Text(text = stringResource(id = R.string.application)) })
@@ -65,7 +67,7 @@ internal fun ApplicationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .topPadding(),
-                title = stringResource(id = R.string.study_room),
+                title = stringResource(id = R.string.study_room_application),
                 appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
                     stringResource(
                         id = R.string.format_study_room_applied_text,
@@ -74,16 +76,23 @@ internal fun ApplicationScreen(
                     )
                 },
                 description = stringResource(id = R.string.study_room_description),
-                buttonText = stringResource(id = R.string.study_room_application),
+                buttonText = stringResource(id = R.string.study_room_do_application),
                 onButtonClick = onNavigateToStudyRoomList,
             )
             ApplicationCard(
                 modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.remains_do_application),
+                title = stringResource(id = R.string.remains_application),
                 appliedTitle = uiState.appliedRemainsOption?.title,
                 description = stringResource(id = R.string.remains_description),
                 buttonText = stringResource(id = R.string.remains_do_application),
                 onButtonClick = onNavigateToRemains,
+            )
+            ApplicationCard(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(id = R.string.outing_application),
+                description = stringResource(id = R.string.outing_description),
+                buttonText = stringResource(id = R.string.outing_do_application),
+                onButtonClick = onNavigateToOuting,
             )
         }
     }
@@ -94,7 +103,7 @@ private fun ApplicationCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
-    appliedTitle: String?,
+    appliedTitle: String? = null,
     buttonText: String,
     onButtonClick: () -> Unit,
 ) {
@@ -102,13 +111,13 @@ private fun ApplicationCard(
         modifier = modifier
             .animateContentSize()
             .horizontalPadding()
-            .verticalPadding(),
+            .verticalPadding()
+            .shadow(),
         shape = DmsTheme.shapes.surfaceSmall,
-        colors = CardDefaults.cardColors(
+        colors = CardDefaults.elevatedCardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),

@@ -5,6 +5,7 @@ import team.aliens.dms.android.network.student.apiservice.StudentApiService
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
+import team.aliens.dms.android.network.student.model.FetchStudentsResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
@@ -44,7 +45,7 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
         number = number,
     )
 
-    override suspend fun resetPassword(request: ResetPasswordRequest) =
+    override suspend fun resetPassword(request: ResetPasswordRequest): Unit =
         handleNetworkRequest { studentApiService.resetPassword(request) }
 
     override suspend fun checkIdDuplication(id: String) =
@@ -60,4 +61,6 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
         handleNetworkRequest { studentApiService.editProfile(request) }
 
     override suspend fun withdraw() = handleNetworkRequest { studentApiService.withdraw() }
+    override suspend fun fetchStudents(): FetchStudentsResponse =
+        handleNetworkRequest { studentApiService.fetchStudents() }
 }

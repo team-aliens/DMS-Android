@@ -35,13 +35,14 @@ import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.DmsScaffold
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -64,7 +65,7 @@ internal fun RemainsApplicationScreen(
     val viewModel: RemainsApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    DmsScaffold(
+    Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
@@ -196,19 +197,12 @@ private fun RemainsOptionCard(
     Card(
         modifier = modifier
             .horizontalPadding()
-            .verticalPadding(PaddingDefaults.ExtraSmall),
+            .verticalPadding(PaddingDefaults.ExtraSmall)
+            .shadow(),
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
-        ),
-        elevation = CardDefaults.outlinedCardElevation(
-            defaultElevation =
-            if (selected) {
-                ShadowDefaults.MediumElevation
-            } else {
-                ShadowDefaults.SmallElevation
-            },
         ),
         border = if (selected) {
             BorderStroke(
