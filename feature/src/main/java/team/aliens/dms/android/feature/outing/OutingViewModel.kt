@@ -54,11 +54,13 @@ class OutingViewModel @Inject constructor(
         runCatching {
             outingRepository.fetchOutingApplicationTimes(dayOfWeek = today.dayOfWeek)
         }.onSuccess { fetchedApplicationTime ->
-            reduce(
-                newState = stateFlow.value.copy(
-                    outingApplicationTime = fetchedApplicationTime.first(),
-                ),
-            )
+            if (fetchedApplicationTime.isNotEmpty()) {
+                reduce(
+                    newState = stateFlow.value.copy(
+                        outingApplicationTime = fetchedApplicationTime.first(),
+                    ),
+                )
+            }
         }.onFailure {
             it.printStackTrace()
         }
@@ -249,5 +251,5 @@ sealed class OutingSideEffect : SideEffect() {
     data object CurrentAppliedOutingApplicationNotFound : OutingSideEffect()
     data object OutingTypeNotSelected : OutingSideEffect()
     class OutingApplicationSuccess(val applicationId: UUID) : OutingSideEffect()
-    data object OutingApplicationTimeError: OutingSideEffect()
+    data object OutingApplicationTimeError : OutingSideEffect()
 }

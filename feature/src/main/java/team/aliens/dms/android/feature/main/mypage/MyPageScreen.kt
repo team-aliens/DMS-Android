@@ -36,14 +36,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Gray10
 import team.aliens.dms.android.core.designsystem.RoundedButton
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.LargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -385,24 +386,25 @@ private fun PointCard(
 
 @Immutable
 private enum class PointCardType {
-    BONUS, MINUS, ;
+    BONUS, MINUS,
+    ;
 
     val containerColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.primaryContainer
-            MINUS -> DmsTheme.colorScheme.errorContainer
+            BONUS -> DmsTheme.colorScheme.background
+            MINUS -> DmsTheme.colorScheme.background
         }
 
     val contentColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
-            MINUS -> DmsTheme.colorScheme.onErrorContainer
+            BONUS -> DmsTheme.colorScheme.error
+            MINUS -> DmsTheme.colorScheme.primary
         }
 
     val borderColor: Color
         @Composable inline get() = when (this) {
-            BONUS -> DmsTheme.colorScheme.onPrimaryContainer
-            MINUS -> DmsTheme.colorScheme.onErrorContainer
+            BONUS -> DmsTheme.colorScheme.error
+            MINUS -> DmsTheme.colorScheme.primary
         }
 
     val text: String
@@ -493,13 +495,14 @@ private fun OptionLayout(
     titleColor: Color,
 ) {
     Card(
-        modifier = modifier.horizontalPadding(),
+        modifier = modifier
+            .horizontalPadding()
+            .shadow(),
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = titleColor,
         ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
         options.forEachIndexed { index, option ->
             Text(

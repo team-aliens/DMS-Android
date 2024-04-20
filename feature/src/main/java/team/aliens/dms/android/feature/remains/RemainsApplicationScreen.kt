@@ -42,6 +42,7 @@ import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -196,19 +197,12 @@ private fun RemainsOptionCard(
     Card(
         modifier = modifier
             .horizontalPadding()
-            .verticalPadding(PaddingDefaults.ExtraSmall),
+            .verticalPadding(PaddingDefaults.ExtraSmall)
+            .shadow(),
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
-        ),
-        elevation = CardDefaults.outlinedCardElevation(
-            defaultElevation =
-            if (selected) {
-                ShadowDefaults.MediumElevation
-            } else {
-                ShadowDefaults.SmallElevation
-            },
         ),
         border = if (selected) {
             BorderStroke(
