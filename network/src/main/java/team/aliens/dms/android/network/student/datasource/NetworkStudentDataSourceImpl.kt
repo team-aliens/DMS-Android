@@ -56,7 +56,7 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
     override suspend fun fetchMyPage(): FetchMyPageResponse =
         handleNetworkRequest { studentApiService.fetchMyPage() }
 
-    override suspend fun editProfile(request: EditProfileRequest) =
+    override suspend fun editProfile(request: EditProfileRequest): Unit =
         handleNetworkRequest { studentApiService.editProfile(request) }
 
     override suspend fun withdraw() = handleNetworkRequest { studentApiService.withdraw() }

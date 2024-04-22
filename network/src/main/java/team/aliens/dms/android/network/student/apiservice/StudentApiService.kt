@@ -55,7 +55,7 @@ internal interface StudentApiService {
 
     @PATCH("/students/profile")
     @RequiresAccessToken
-    suspend fun editProfile(@Body request: EditProfileRequest)
+    suspend fun editProfile(@Body request: EditProfileRequest): Response<Unit>?
 
     @DELETE("/students")
     @RequiresAccessToken
