@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.student.repository
 
+import android.util.Log
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.student.mapper.toModel
@@ -34,6 +35,8 @@ internal class StudentRepositoryImpl @Inject constructor(
         password: String,
         profileImageUrl: String?,
     ) {
+        Log.d("TEST1",profileImageUrl.toString())
+        Log.d("TEST1",password)
         val response: SignUpResponse = networkStudentDataSource.signUp(
             request = SignUpRequest(
                 schoolVerificationCode = schoolVerificationCode,
