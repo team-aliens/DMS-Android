@@ -269,7 +269,7 @@ class SignUpViewModel @Inject constructor(
         if (uri != null) {
             reduce(newState = stateFlow.value.copy(uri = uri))
             fetchPresignedUrl(
-                file = team.aliens.dms.android.shared.file.File.toFile(
+                file = team.aliens.dms.android.core.file.File.toFile(
                     context = context,
                     uri = uri,
                 )
