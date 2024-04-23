@@ -53,11 +53,11 @@ dependencies {
     implementation(project(ProjectPaths.Shared.EXCEPTION))
     implementation(project(ProjectPaths.Shared.MODEL))
     implementation(project(ProjectPaths.Shared.VALIDATOR))
-    implementation(project(ProjectPaths.Shared.FILE))
 
     implementation(project(ProjectPaths.Core.UI))
-
     implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
+    implementation(project(ProjectPaths.Core.FILE))
+
     implementation(project(ProjectPaths.DATA))
 
     implementation(libs.androidx.core)
