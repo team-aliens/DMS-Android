@@ -37,14 +37,16 @@ internal class EditProfileImageViewModel @Inject constructor(
         context: Context,
         uri: Uri?,
     ) {
-        uri?.run {
+        if (uri != null) {
             reduce(newState = stateFlow.value.copy(uri = uri))
             fetchPresignedUrl(
-                file = team.aliens.dms.android.shared.file.File.toFile(
+                file = team.aliens.dms.android.core.file.File.toFile(
                     context = context,
                     uri = uri,
                 )
             )
+        } else {
+            postSideEffect(EditProfileImageSideEffect.ProfileImageBadRequest)
         }
     }
 
@@ -110,4 +112,3 @@ sealed class EditProfileImageSideEffect : SideEffect() {
     data object ProfileImageSet : EditProfileImageSideEffect()
     data object ProfileImageBadRequest : EditProfileImageSideEffect()
 }
-
