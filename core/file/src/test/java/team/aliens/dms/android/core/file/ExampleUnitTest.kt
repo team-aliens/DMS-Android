@@ -1,4 +1,4 @@
-package team.aliens.dms.android.shared.file
+package team.aliens.dms.android.core.file
 
 import org.junit.Test
 

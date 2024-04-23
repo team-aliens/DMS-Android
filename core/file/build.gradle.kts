@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms.android.shared.file"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "team.aliens.dms.android.core.file"
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -24,11 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = Versions.java
-        targetCompatibility = Versions.java
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = Versions.java.toString()
+        jvmTarget = "1.8"
     }
 }
 

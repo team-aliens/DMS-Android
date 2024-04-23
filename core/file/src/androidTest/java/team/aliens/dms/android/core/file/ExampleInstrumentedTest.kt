@@ -1,4 +1,4 @@
-package team.aliens.dms.android.shared.file
+package team.aliens.dms.android.core.file
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("team.aliens.dms.android.shared.file.test", appContext.packageName)
+        assertEquals("team.aliens.dms.android.core.file.test", appContext.packageName)
     }
 }
