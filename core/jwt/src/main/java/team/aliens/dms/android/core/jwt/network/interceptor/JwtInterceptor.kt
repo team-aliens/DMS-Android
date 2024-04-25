@@ -7,6 +7,7 @@ import okhttp3.Response
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
 import team.aliens.dms.android.core.network.toHttpMethod
+import team.aliens.dms.android.core.network.util.ResourceKeys
 import javax.inject.Inject
 
 class JwtInterceptor @Inject constructor(
@@ -34,6 +35,10 @@ class JwtInterceptor @Inject constructor(
         val path = this@shouldBeIgnored.url.encodedPath
         val method = this@shouldBeIgnored.method.toHttpMethod()
 
-        path.contains(ignoreRequest.path) && method == ignoreRequest.method
+        path.contains(ignoreRequest.path) && method == ignoreRequest.method ||checkS3Request(url = this@shouldBeIgnored.url.toString())
+    }
+
+    private fun checkS3Request(url: String): Boolean {
+        return url.contains(ResourceKeys.IMAGE_URL)
     }
 }

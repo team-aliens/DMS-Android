@@ -1,110 +1,114 @@
 package team.aliens.dms.android.feature.editprofile
 
-/*
+import android.content.Context
 import android.net.Uri
-import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import team.aliens.dms.android.domain.model.file.UploadFileInput
-import team.aliens.dms.android.domain.model.student.EditProfileInput
-import team.aliens.dms.android.domain.usecase.file.UploadFileUseCase
-import team.aliens.dms.android.domain.usecase.student.EditProfileUseCase
-import team.aliens.dms.android.feature._legacy.base.BaseMviViewModel
-import team.aliens.dms.android.feature._legacy.base.MviIntent
-import team.aliens.dms.android.feature._legacy.base.MviSideEffect
-import team.aliens.dms.android.feature._legacy.base.MviState
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.file.repository.FileRepository
+import team.aliens.dms.android.data.student.repository.StudentRepository
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 internal class EditProfileImageViewModel @Inject constructor(
-    private val uploadFileUseCase: UploadFileUseCase,
-    private val editProfileUseCase: EditProfileUseCase,
-) : BaseMviViewModel<UploadProfileImageIntent, UploadProfileImageState, UploadProfileImageSideEffect>(
-    initialState = UploadProfileImageState.initial(),
+    private val studentRepository: StudentRepository,
+    private val fileRepository: FileRepository,
+) : BaseMviViewModel<EditProfileImageUiState, EditProfileImageIntent, EditProfileImageSideEffect>(
+    initialState = EditProfileImageUiState.initial(),
 ) {
-    override fun processIntent(intent: UploadProfileImageIntent) {
+    override fun processIntent(intent: EditProfileImageIntent) {
         when (intent) {
-            is UploadProfileImageIntent.SelectImage -> reduce(
-                newState = stateFlow.value.copy(
-                    selectedImageUri = intent.selectedImageUri,
-                ),
+            is EditProfileImageIntent.UpdateProfileImage -> updateProfileImage(
+                context = intent.context,
+                uri = intent.uri,
             )
 
-            UploadProfileImageIntent.UploadAndEditProfile -> uploadAndEditProfile()
+            is EditProfileImageIntent.EditProfile -> editProfile()
         }
     }
 
-    private fun uploadAndEditProfile() {
-        if (stateFlow.value.selectedImageUri == null) {
-            postSideEffect(UploadProfileImageSideEffect.ImageNotSelected)
-            return
-        }
-        disableUploadButton()
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = kotlin.runCatching {
-                uploadProfile()
-            }.onFailure {
-                postSideEffect(UploadProfileImageSideEffect.UploadProfileImageFailed)
-                return@launch
-            }
-
-            if (result.isSuccess) kotlin.runCatching {
-                editProfileUseCase(
-                    editProfileInput = EditProfileInput(
-                        profileImageUrl = result.getOrThrow(),
-                    ),
+    private fun updateProfileImage(
+        context: Context,
+        uri: Uri?,
+    ) {
+        if (uri != null) {
+            reduce(newState = stateFlow.value.copy(uri = uri))
+            fetchPresignedUrl(
+                file = team.aliens.dms.android.core.file.File.toFile(
+                    context = context,
+                    uri = uri,
                 )
-            }.onSuccess {
-                postSideEffect(UploadProfileImageSideEffect.EditProfileSucceed)
+            )
+        } else {
+            postSideEffect(EditProfileImageSideEffect.ProfileImageBadRequest)
+        }
+    }
+
+    private fun fetchPresignedUrl(
+        file: File,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                fileRepository.fetchPresignedUrl(fileName = file.name)
+            }.onSuccess { fileUrl ->
+                runCatching {
+                    fileRepository.uploadFile(
+                        presignedUrl = fileUrl.fileUploadUrl,
+                        file = file,
+                    )
+                }.onSuccess {
+                    reduce(
+                        newState = stateFlow.value.copy(
+                            profileImageUrl = fileUrl.fileUrl,
+                            buttonEnabled = true,
+                        )
+                    )
+                }
             }.onFailure {
-                postSideEffect(UploadProfileImageSideEffect.EditProfileFailed)
+                postSideEffect(EditProfileImageSideEffect.ProfileImageBadRequest)
             }
         }
     }
 
-    private fun uploadProfile(): String {
-        return runBlocking(Dispatchers.IO) {
-            uploadFileUseCase(
-                uploadFileInput = UploadFileInput(
-                    file = stateFlow.value.selectedImageUri!!.toFile(), // not-null asserted
-                ),
-            )
-        }.fileUrl
+    private fun editProfile() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studentRepository.editProfile(stateFlow.value.profileImageUrl!!)
+        }.onSuccess {
+            postSideEffect(EditProfileImageSideEffect.ProfileImageSet)
+            reduce(newState = stateFlow.value.copy(buttonEnabled = false))
+        }.onFailure {
+            postSideEffect(EditProfileImageSideEffect.ProfileImageBadRequest)
+        }
     }
 
-    private fun disableUploadButton() {
-        reduce(
-            newState = stateFlow.value.copy(
-                uploadButtonEnabled = false,
-            )
-        )
-    }
 }
 
-internal sealed class UploadProfileImageIntent : MviIntent {
-    class SelectImage(val selectedImageUri: Uri) : UploadProfileImageIntent()
-    object UploadAndEditProfile : UploadProfileImageIntent()
-}
-
-internal data class UploadProfileImageState(
-    val selectedImageUri: Uri?,
-    val uploadButtonEnabled: Boolean,
-) : MviState {
+data class EditProfileImageUiState(
+    val profileImageUrl: String?,
+    val uri: Uri?,
+    val buttonEnabled: Boolean,
+) : UiState() {
     companion object {
-        fun initial() = UploadProfileImageState(
-            selectedImageUri = null,
-            uploadButtonEnabled = false,
+        fun initial() = EditProfileImageUiState(
+            profileImageUrl = null,
+            uri = null,
+            buttonEnabled = false,
         )
     }
 }
 
-internal sealed class UploadProfileImageSideEffect : MviSideEffect {
-    object EditProfileSucceed : UploadProfileImageSideEffect()
-    object EditProfileFailed : UploadProfileImageSideEffect()
-    object ImageNotSelected : UploadProfileImageSideEffect()
-    object UploadProfileImageFailed : UploadProfileImageSideEffect()
+internal sealed class EditProfileImageIntent : Intent() {
+    class UpdateProfileImage(val uri: Uri?, val context: Context) : EditProfileImageIntent()
+    data object EditProfile : EditProfileImageIntent()
 }
-*/
+
+sealed class EditProfileImageSideEffect : SideEffect() {
+    data object ProfileImageSet : EditProfileImageSideEffect()
+    data object ProfileImageBadRequest : EditProfileImageSideEffect()
+}

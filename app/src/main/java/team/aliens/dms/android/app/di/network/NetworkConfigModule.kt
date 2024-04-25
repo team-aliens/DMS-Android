@@ -105,6 +105,12 @@ object NetworkConfigModule {
                 method = HttpMethod.GET,
                 path = "/schools/code",
             ),
+
+            // File
+            HttpRequest(
+                method = HttpMethod.GET,
+                path = "/files/url",
+            )
         )
     }
 

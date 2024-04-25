@@ -24,7 +24,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.DmsIcon
+import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.TextButton
@@ -93,7 +94,7 @@ internal fun SignUpSetPasswordScreen(
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             // FIXME: 이미지 업로드 구현
-            SignUpSideEffect.PasswordSet -> navigator.openTerms()
+            SignUpSideEffect.PasswordSet -> navigator.openSetProfileImage()
             SignUpSideEffect.PasswordMismatch -> toast.showErrorToast(
                 message = context.getString(R.string.sign_up_set_password_error_password_mismatch),
             )
@@ -114,11 +115,10 @@ internal fun SignUpSetPasswordScreen(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
-                title = {},
                 navigationIcon = {
                     IconButton(onClick = navigator::popUpToSetId) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
