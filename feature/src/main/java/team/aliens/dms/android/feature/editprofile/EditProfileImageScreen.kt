@@ -34,10 +34,10 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsIcon
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -45,7 +45,6 @@ import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.editprofile.navigation.EditProfileNavigator
-import team.aliens.dms.android.feature.signup.SignUpUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -85,7 +84,8 @@ internal fun EditProfileImageScreen(
             )
         }
     }
-    DmsScaffold(
+
+    Scaffold(
         topBar = {
             DmsTopAppBar(
                 title = { Text(text = stringResource(id = R.string.edit_profile)) },
