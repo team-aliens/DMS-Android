@@ -35,10 +35,10 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsIcon
-import team.aliens.dms.android.core.designsystem.DmsScaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
@@ -81,7 +81,8 @@ internal fun SetProfileImageScreen(
             }
         }
     }
-    DmsScaffold(
+    
+    Scaffold(
         topBar = {
             DmsTopAppBar(
                 navigationIcon = {
