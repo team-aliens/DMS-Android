@@ -38,7 +38,7 @@ internal class PointHistoryViewModel @Inject constructor(
     internal fun fetchPoints(pointType: PointType) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                pointRepository.fetchPoints(type = pointType)
+                pointRepository.fetchPoints(type = PointType.ALL)
             }.onSuccess { pointStatus ->
                 this@PointHistoryViewModel.allPoints = pointStatus.points
                 this@PointHistoryViewModel.scoreOfAllPoints = pointStatus.totalPoints
