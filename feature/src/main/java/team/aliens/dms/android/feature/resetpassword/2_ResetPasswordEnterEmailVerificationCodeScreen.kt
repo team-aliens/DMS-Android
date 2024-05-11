@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
@@ -56,7 +55,7 @@ private const val TIMER_INTERVAL: Long = 1000
 internal fun ResetPasswordEnterEmailVerificationCodeScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    viewModel: ResetPasswordViewModel = hiltViewModel(),
+    viewModel: ResetPasswordViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val toast = LocalToast.current

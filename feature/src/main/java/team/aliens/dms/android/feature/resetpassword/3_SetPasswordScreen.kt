@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
@@ -50,7 +49,7 @@ private const val passwordFormat = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+
 fun ResetPasswordSetPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    viewModel: ResetPasswordViewModel = hiltViewModel(),
+    viewModel: ResetPasswordViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 

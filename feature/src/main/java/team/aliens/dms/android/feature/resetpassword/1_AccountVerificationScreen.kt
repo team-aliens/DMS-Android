@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
@@ -55,7 +54,7 @@ import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNav
 fun AccountVerificationScreen(
     modifier: Modifier = Modifier,
     navigator: ResetPasswordNavigator,
-    viewModel: ResetPasswordViewModel = hiltViewModel(),
+    viewModel: ResetPasswordViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val toast = LocalToast.current
