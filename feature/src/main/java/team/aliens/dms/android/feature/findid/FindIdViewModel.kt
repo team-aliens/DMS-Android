@@ -85,7 +85,7 @@ internal class FindIdViewModel @Inject constructor(
                     runCatching {
                         studentRepository.findId(
                             schoolId = selectedSchool.id,
-                            studentName = selectedSchool.name,
+                            studentName = name,
                             grade = grade.toInt(),
                             classRoom = classRoom.toInt(),
                             number = number.toInt(),
