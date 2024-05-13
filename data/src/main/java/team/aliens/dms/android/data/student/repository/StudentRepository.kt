@@ -18,7 +18,7 @@ abstract class StudentRepository {
         number: Int,
         accountId: String,
         password: String,
-        profileImageUrl: String? = null,
+        profileImageUrl: String?,
     )
 
     abstract suspend fun examineStudentNumber(

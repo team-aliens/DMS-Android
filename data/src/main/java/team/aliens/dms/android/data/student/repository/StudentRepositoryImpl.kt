@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.student.repository
 
+import android.util.Log
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.student.mapper.toModel
@@ -9,6 +10,7 @@ import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.data.student.model.toModel
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
+import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
@@ -35,6 +37,8 @@ internal class StudentRepositoryImpl @Inject constructor(
         password: String,
         profileImageUrl: String?,
     ) {
+        Log.d("TEST1",profileImageUrl.toString())
+        Log.d("TEST1",password)
         val response: SignUpResponse = networkStudentDataSource.signUp(
             request = SignUpRequest(
                 schoolVerificationCode = schoolVerificationCode,
@@ -112,7 +116,7 @@ internal class StudentRepositoryImpl @Inject constructor(
     override suspend fun fetchMyPage(): MyPage = networkStudentDataSource.fetchMyPage().toModel()
 
     override suspend fun editProfile(profileImageUrl: String) {
-        TODO("Not yet implemented")
+        networkStudentDataSource.editProfile(request = EditProfileRequest(profileImageUrl))
     }
 
     override suspend fun withdraw() {
