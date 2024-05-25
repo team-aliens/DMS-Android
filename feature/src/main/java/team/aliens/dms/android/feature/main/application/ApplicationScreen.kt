@@ -39,6 +39,7 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.shared.date.util.today
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -136,24 +137,25 @@ private fun ApplicationCard(
                     color = DmsTheme.colorScheme.onSurface,
                     style = DmsTheme.typography.title2,
                 )
-                AnimatedVisibility(
-                    visible = appliedTitle != null,
-                    enter = slideInVertically() + fadeIn(),
-                    exit = slideOutVertically() + fadeOut(),
-                ) {
-                    if (appliedTitle != null) {
-                        RoundedButton(
-                            onClick = {},
-                            fillMinSize = false,
-                            contentPadding = PaddingValues(
-                                horizontal = PaddingDefaults.Medium,
-                                vertical = PaddingDefaults.Small,
-                            ),
-                        ) {
-                            Text(text = appliedTitle)
-                        }
-                    }
-                }
+                // TODO: 태그 업데이트 로직 추가
+//                AnimatedVisibility(
+//                    visible = appliedTitle != null,
+//                    enter = slideInVertically() + fadeIn(),
+//                    exit = slideOutVertically() + fadeOut(),
+//                ) {
+//                    if (appliedTitle != null) {
+//                        RoundedButton(
+//                            onClick = {},
+//                            fillMinSize = false,
+//                            contentPadding = PaddingValues(
+//                                horizontal = PaddingDefaults.Medium,
+//                                vertical = PaddingDefaults.Small,
+//                            ),
+//                        ) {
+//                            Text(text = appliedTitle)
+//                        }
+//                    }
+//                }
             }
             Text(
                 modifier = Modifier
