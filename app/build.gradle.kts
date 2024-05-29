@@ -121,4 +121,8 @@ dependencies {
 
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
 }
