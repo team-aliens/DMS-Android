@@ -66,6 +66,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.PROJECT))
     implementation(project(ProjectPaths.Core.SCHOOL))
     implementation(project(ProjectPaths.Core.UI))
+    implementation(project(ProjectPaths.Core.NOTIFICATION))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))
