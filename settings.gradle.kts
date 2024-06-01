@@ -1,5 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:notification")
+
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
