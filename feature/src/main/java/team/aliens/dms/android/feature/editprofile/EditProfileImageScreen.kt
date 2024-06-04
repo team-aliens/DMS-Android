@@ -1,117 +1,168 @@
 package team.aliens.dms.android.feature.editprofile
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
+import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.DmsIcon
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.editprofile.navigation.EditProfileNavigator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 internal fun EditProfileImageScreen(
     modifier: Modifier = Modifier,
     navigator: EditProfileNavigator,
-    // editProfileImageViewModel: EditProfileImageViewModel = hiltViewModel(),
-) {/*
-    val uiState by editProfileImageViewModel.stateFlow.collectAsStateWithLifecycle()
-    editProfileImageViewModel.sideEffectFlow.collectInLaunchedEffectWithLifeCycle { sideEffect ->
-        when (sideEffect) {
-            UploadProfileImageSideEffect.EditProfileFailed -> {}
-            UploadProfileImageSideEffect.EditProfileSucceed -> navigator.popBackStack()
-            UploadProfileImageSideEffect.ImageNotSelected -> {}
-            UploadProfileImageSideEffect.UploadProfileImageFailed -> {}
-        }
-    }
-
-    val takePhotoLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia()
-    ) { takenImage: Uri? ->
-        if (takenImage != null) {
-            editProfileImageViewModel.postIntent(
-                UploadProfileImageIntent.SelectImage(takenImage),
-            )
-        }
-    }
-    val selectImageFromGalleryLauncher = rememberLauncherForActivityResult(
+) {
+    val viewModel: EditProfileImageViewModel = hiltViewModel()
+    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val toast = LocalToast.current
+    val activityResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-    ) { selectedImage: Uri? ->
-        if (selectedImage != null) {
-            editProfileImageViewModel.postIntent(
-                UploadProfileImageIntent.SelectImage(selectedImage),
+        onResult = { imageUrl ->
+            viewModel.postIntent(
+                EditProfileImageIntent.UpdateProfileImage(
+                    uri = imageUrl,
+                    context = context,
+                )
+            )
+        }
+    )
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when (sideEffect) {
+            EditProfileImageSideEffect.ProfileImageSet -> toast.showSuccessToast(
+                message = context.getString(
+                    R.string.edit_profile_success
+                )
+            )
+
+            EditProfileImageSideEffect.ProfileImageBadRequest -> toast.showErrorToast(
+                message = context.getString(
+                    R.string.edit_profile_fail
+                )
             )
         }
     }
-    // todo
-    val onTakePhoto = {
-        *//*takePhotoLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.)
-        )*//*
-    }
-    val onSelectPhoto = {
-        selectImageFromGalleryLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
-        )
-    }
-    LaunchedEffect(Unit) {
-        if (selectImageType != null) when (selectImageType) {
-            SelectImageType.TAKE_PHOTO -> {
-                // TODO take Photo
-            }
 
-            SelectImageType.SELECT_FROM_GALLERY -> onSelectPhoto()
-            else -> {}
+    Scaffold(
+        topBar = {
+            DmsTopAppBar(
+                title = { Text(text = stringResource(id = R.string.edit_profile)) },
+                navigationIcon = {
+                    IconButton(onClick = navigator::navigateUp) {
+                        Icon(
+                            painter = painterResource(id = DmsIcon.Back),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                }
+            )
         }
-    }
-
-    var selectImageTypeDialogState by remember { mutableStateOf(false) }
-    val onSelectImageTypeDialogShow = { selectImageTypeDialogState = true }
-    val onSelectImageTypeDialogDismiss = { selectImageTypeDialogState = false }
-
-    if (selectImageTypeDialogState) {
-        SelectImageTypeDialog(
-            onCancel = onSelectImageTypeDialogDismiss,
-            onTakePhoto = {},
-            onSelectPhoto = onSelectPhoto,
-            onDialogDismiss = onSelectImageTypeDialogDismiss,
-        )
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DormTheme.colors.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        TopBar(
-            title = stringResource(R.string.my_page_edit_profile),
-            onPrevious = navigator::popBackStack,
-        )
-        Spacer(Modifier.weight(1f))
-        Box(
-            contentAlignment = Alignment.BottomEnd,
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .imePadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            AsyncImage(
+            Spacer(modifier = Modifier.weight(1f))
+            SetImage(
+                uiState = uiState,
+                onChangeImage = {
+                    val mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    val request = PickVisualMediaRequest(mediaType)
+                    activityResultLauncher.launch(request)
+                }
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
                 modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .dormClickable { onSelectImageTypeDialogShow() },
-                model = uiState.selectedImageUri,
-                contentDescription = null,
-            )
-            Image(
-                modifier = Modifier.size(30.dp),
-                painter = painterResource(R.drawable.ic_mypage_edit),
-                contentDescription = null,
-            )
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = {
+                    viewModel.postIntent(
+                        EditProfileImageIntent.EditProfile
+                    )
+                },
+                enabled = uiState.buttonEnabled,
+            ) {
+                Text(text = stringResource(id = R.string.next))
+            }
         }
-        Spacer(Modifier.height(80.dp))
-        DormContainedLargeButton(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            text = stringResource(R.string.Check),
-            color = DormButtonColor.Blue,
-            enabled = uiState.uploadButtonEnabled,
-        ) {
-            editProfileImageViewModel.postIntent(UploadProfileImageIntent.UploadAndEditProfile)
-        }
-        Spacer(Modifier.weight(1f))
-    }*/
+    }
+}
+
+@Composable
+private fun SetImage(
+    uiState: EditProfileImageUiState,
+    onChangeImage: () -> Unit,
+) {
+    Box(
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        AsyncImage(
+            modifier = Modifier
+                .size(150.dp)
+                .clip(CircleShape)
+                .clickable(
+                    onClick = onChangeImage
+                ),
+            contentScale = ContentScale.Crop,
+            model = uiState.uri ?: DmsIcon.ProfileDefault,
+            contentDescription = stringResource(id = R.string.edit_profile_profile_image),
+        )
+        Image(
+            modifier = Modifier
+                .size(46.dp)
+                .clip(CircleShape)
+                .background(DmsTheme.colorScheme.primary)
+                .padding(PaddingDefaults.Small)
+                .clickable(onClick = onChangeImage),
+            painter = painterResource(id = DmsIcon.Plus),
+            contentDescription = stringResource(id = R.string.edit_profile_profile_add),
+        )
+    }
 }

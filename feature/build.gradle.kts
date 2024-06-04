@@ -55,8 +55,9 @@ dependencies {
     implementation(project(ProjectPaths.Shared.VALIDATOR))
 
     implementation(project(ProjectPaths.Core.UI))
-
     implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
+    implementation(project(ProjectPaths.Core.FILE))
+
     implementation(project(ProjectPaths.DATA))
 
     implementation(libs.androidx.core)

@@ -256,7 +256,7 @@ private enum class MainSections(
     ),
     MY_PAGE(
         route = "my_page",
-        iconRes = R.drawable.ic_my_page,
+        iconRes = R.drawable.ic_person,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
     ),
     ;

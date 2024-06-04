@@ -1,5 +1,7 @@
 package team.aliens.dms.android.feature.signup
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,11 +12,13 @@ import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.data.file.repository.FileRepository
 import team.aliens.dms.android.data.school.repository.SchoolRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.shared.validator.checkIfEmailValid
 import team.aliens.dms.android.shared.validator.checkIfIdValid
 import team.aliens.dms.android.shared.validator.checkIfPasswordValid
+import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 
@@ -23,6 +27,7 @@ class SignUpViewModel @Inject constructor(
     private val studentRepository: StudentRepository,
     private val schoolRepository: SchoolRepository,
     private val authRepository: AuthRepository,
+    private val fileRepository: FileRepository,
 ) : BaseMviViewModel<SignUpUiState, SignUpIntent, SignUpSideEffect>(
     initialState = SignUpUiState.initial(),
 ) {
@@ -47,7 +52,12 @@ class SignUpViewModel @Inject constructor(
             is SignUpIntent.UpdatePassword -> updatePassword(value = intent.value)
             is SignUpIntent.UpdatePasswordRepeat -> updatePasswordRepeat(value = intent.value)
             SignUpIntent.ConfirmPassword -> confirmPassword()
-            SignUpIntent.SignUp -> signUp()
+            is SignUpIntent.UpdateProfileImage -> changeProfileImage(
+                uri = intent.uri,
+                context = intent.context
+            )
+
+            is SignUpIntent.SignUp -> signUp()
         }
     }
 
@@ -252,6 +262,49 @@ class SignUpViewModel @Inject constructor(
         postSideEffect(SignUpSideEffect.PasswordSet)
     }
 
+    private fun changeProfileImage(
+        context: Context,
+        uri: Uri?,
+    ) {
+        if (uri != null) {
+            reduce(newState = stateFlow.value.copy(uri = uri))
+            fetchPresignedUrl(
+                file = team.aliens.dms.android.core.file.File.toFile(
+                    context = context,
+                    uri = uri,
+                )
+            )
+        } else {
+            postSideEffect(SignUpSideEffect.ProfileImageBadRequest)
+        }
+    }
+
+    private fun fetchPresignedUrl(
+        file: File,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                fileRepository.fetchPresignedUrl(fileName = file.name)
+            }.onSuccess { fileUrl ->
+                runCatching {
+                    fileRepository.uploadFile(
+                        presignedUrl = fileUrl.fileUploadUrl,
+                        file = file,
+                    )
+                }.onSuccess {
+                    reduce(
+                        newState = stateFlow.value.copy(
+                            profileImageUrl = fileUrl.fileUrl,
+                            setProfileButtonEnabled = true,
+                        ),
+                    )
+                }
+            }.onFailure {
+                postSideEffect(SignUpSideEffect.ProfileImageBadRequest)
+            }
+        }
+    }
+
     private fun signUp() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
             val capturedState = stateFlow.value
@@ -303,6 +356,8 @@ data class SignUpUiState(
 
     // SetProfileImage
     val profileImageUrl: String?,
+    val uri: Uri?,
+    val setProfileButtonEnabled: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = SignUpUiState(
@@ -319,6 +374,8 @@ data class SignUpUiState(
             password = "",
             passwordRepeat = "",
             profileImageUrl = null,
+            uri = null,
+            setProfileButtonEnabled = false,
         )
     }
 }
@@ -353,6 +410,9 @@ sealed class SignUpIntent : Intent() {
     class UpdatePassword(val value: String) : SignUpIntent()
     class UpdatePasswordRepeat(val value: String) : SignUpIntent()
     data object ConfirmPassword : SignUpIntent()
+
+    // SetProfileImage
+    class UpdateProfileImage(val uri: Uri?, val context: Context) : SignUpIntent()
 
     // Terms
     data object SignUp : SignUpIntent()
@@ -390,6 +450,10 @@ sealed class SignUpSideEffect : SideEffect() {
     data object PasswordSet : SignUpSideEffect()
     data object PasswordMismatch : SignUpSideEffect()
     data object InvalidPassword : SignUpSideEffect()
+
+    // SetProfileImage
+    data object ProfileImageSet : SignUpSideEffect()
+    data object ProfileImageBadRequest : SignUpSideEffect()
 
     // Terms
     data object SignedUp : SignUpSideEffect()

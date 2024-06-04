@@ -22,7 +22,7 @@ object DmsIcon {
     val LogoDark = R.drawable.ic_logo_dark
     val LogoLight = R.drawable.ic_logo_light
     val Lunch = R.drawable.ic_lunch
-    val MyPage = R.drawable.ic_my_page
+    val MyPage = R.drawable.ic_person
     val Notice = R.drawable.ic_notice
     val Palette = R.drawable.ic_palette
     val PasswordInvisible = R.drawable.ic_password_invisible
@@ -34,4 +34,6 @@ object DmsIcon {
     val Visible = R.drawable.ic_visible
     val Warning = R.drawable.ic_warning
     val BlueNotice = R.drawable.ic_blue_notice
+    val Edit = R.drawable.ic_edit
+    val ProfileDefault = R.drawable.ic_profile_default
 }
