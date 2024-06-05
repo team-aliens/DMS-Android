@@ -28,6 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.TextField
@@ -46,8 +47,8 @@ fun PasswordTextField(
     textStyle: TextStyle = DmsTheme.typography.body2,
     hintText: String = "",
     trailingIcon: Pair<Painter, Painter> = Pair(
-        painterResource(id = R.drawable.ic_password_invisible),
-        painterResource(id = R.drawable.ic_password_visible),
+        painterResource(id = DmsIcon.PasswordVisible),
+        painterResource(id = DmsIcon.PasswordInvisible),
     ),
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
