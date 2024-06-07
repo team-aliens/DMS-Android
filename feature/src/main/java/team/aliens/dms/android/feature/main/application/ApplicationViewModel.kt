@@ -1,5 +1,7 @@
 package team.aliens.dms.android.feature.main.application
 
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,10 +22,14 @@ internal class ApplicationViewModel @Inject constructor(
     private val remainsRepository: RemainsRepository,
 ) : BaseMviViewModel<ApplicationUiState, ApplicationIntent, ApplicationSideEffect>(
     initialState = ApplicationUiState.initial(),
-) {
-    init {
-        fetchAppliedStudyRoom()
-        fetchAppliedRemainsOption()
+), DefaultLifecycleObserver {
+
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+        viewModelScope.launch {
+            fetchAppliedStudyRoom()
+            fetchAppliedRemainsOption()
+        }
     }
 
     private fun fetchAppliedStudyRoom() {
