@@ -26,6 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -76,6 +78,9 @@ internal fun SetIdScreen(
     }
     val toast = LocalToast.current
     val context = LocalContext.current
+
+    val classFocusRequest = remember { FocusRequester() }
+    val numberFocusRequest = remember { FocusRequester() }
 
     val (studentConfirmed, onStudentConfirmedChange) = remember { mutableStateOf(false) }
 
@@ -165,10 +170,14 @@ internal fun SetIdScreen(
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
             ) {
                 TextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f),
                     value = uiState.grade,
                     hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_grade)) },
-                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdateGrade(value = it)) },
+                    onValueChange = { grade ->
+                        viewModel.postIntent(SignUpIntent.UpdateGrade(value = grade))
+                        if (grade.isNotEmpty()) classFocusRequest.requestFocus()
+                    },
                     supportingText = {},
                     isError = gradeClassNumberError,
                     enabled = !studentConfirmed,
@@ -178,10 +187,15 @@ internal fun SetIdScreen(
                     ),
                 )
                 TextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(classFocusRequest),
                     value = uiState.classroom,
                     hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_class)) },
-                    onValueChange = { viewModel.postIntent(SignUpIntent.UpdateClass(value = it)) },
+                    onValueChange = { classRoom ->
+                        viewModel.postIntent(SignUpIntent.UpdateClass(value = classRoom))
+                        if (classRoom.isNotEmpty()) numberFocusRequest.requestFocus()
+                    },
                     supportingText = {},
                     isError = gradeClassNumberError,
                     enabled = !studentConfirmed,
@@ -191,7 +205,9 @@ internal fun SetIdScreen(
                     ),
                 )
                 TextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(numberFocusRequest),
                     value = uiState.number,
                     hint = { Text(text = stringResource(id = R.string.sign_up_set_id_hint_number)) },
                     onValueChange = { viewModel.postIntent(SignUpIntent.UpdateNumber(value = it)) },
