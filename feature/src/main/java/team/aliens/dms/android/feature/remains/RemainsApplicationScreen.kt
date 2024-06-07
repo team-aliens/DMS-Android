@@ -35,13 +35,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.DayOfWeek
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
-import team.aliens.dms.android.core.designsystem.ShadowDefaults
-import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -73,7 +73,7 @@ internal fun RemainsApplicationScreen(
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
