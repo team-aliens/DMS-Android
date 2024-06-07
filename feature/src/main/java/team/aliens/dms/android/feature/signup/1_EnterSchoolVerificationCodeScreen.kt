@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,9 +20,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.VerificationCodeInput
 import team.aliens.dms.android.core.designsystem.VerificationCodeInputDefaults
 import team.aliens.dms.android.core.ui.Banner
@@ -46,6 +48,12 @@ internal fun EnterSchoolVerificationCodeScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
+    LaunchedEffect(uiState.schoolVerificationCode) {
+        if (uiState.schoolVerificationCode.length == SignUpViewModel.SCHOOL_VERIFICATION_CODE_LENGTH) {
+            viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationCode)
+        }
+    }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             SignUpSideEffect.SchoolVerificationCodeExamined -> navigator.openEnterSchoolVerificationQuestion()
@@ -66,7 +74,7 @@ internal fun EnterSchoolVerificationCodeScreen(
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
