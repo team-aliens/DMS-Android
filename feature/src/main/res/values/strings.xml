@@ -201,6 +201,8 @@
 
     <string name="notice_new_notice_exists">새로운 공지사항이 있습니다</string>
     <string name="notice_notices_not_exists">공지사항이 없습니다</string>
+    
+    <string name="format_notice_time">%d/%d/%d %d:%d</string>
 
     <!--my page-->
     <string name="my_page_sign_out">로그아웃</string>

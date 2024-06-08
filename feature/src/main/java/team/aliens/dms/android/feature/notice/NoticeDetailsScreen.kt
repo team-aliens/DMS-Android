@@ -89,7 +89,7 @@ internal fun NoticeDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding(),
-                    text = uiState.createdAt.text,
+                    text = uiState.createdAt!!.text,
                     style = DmsTheme.typography.caption,
                     color = DmsTheme.colorScheme.onSurfaceVariant,
                 )
@@ -127,6 +127,13 @@ internal fun NoticeDetailsScreen(
     }
 }
 
-private val LocalDateTime?.text: String
-    @Composable inline get() = "${this?.year}-${this?.monthValue}-${this?.dayOfMonth} ${this?.hour}:${this?.minute}"
+private val LocalDateTime.text: String
+    @Composable inline get() = stringResource(
+        id = R.string.format_notice_time,
+        this.year,
+        this.monthValue,
+        this.dayOfMonth,
+        this.hour,
+        this.minute,
+    )
 

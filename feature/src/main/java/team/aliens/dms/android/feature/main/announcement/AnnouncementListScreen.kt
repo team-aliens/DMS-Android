@@ -181,4 +181,11 @@ private fun NoticeCard(
 }
 
 private val LocalDateTime.text: String
-    @Composable inline get() = "${this.year}-${this.monthValue}-${this.dayOfMonth} ${this.hour}:${this.minute}"
+    @Composable inline get() = stringResource(
+        id = R.string.format_notice_time,
+        this.year,
+        this.monthValue,
+        this.dayOfMonth,
+        this.hour,
+        this.minute,
+    )
