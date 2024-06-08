@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -79,6 +80,12 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
         }
     }
 
+    LaunchedEffect(uiState.emailVerificationCode) {
+        if (uiState.emailVerificationCode.length == SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH) {
+            viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode)
+        }
+    }
+
     LaunchedEffect(uiState.sessionId) {
         timer.start()
     }
@@ -122,7 +129,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 navigationIcon = {
                     IconButton(onClick = navigator::popUpToEnterEmail) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
