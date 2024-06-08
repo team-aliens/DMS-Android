@@ -4,7 +4,7 @@ accompanist = "0.34.0"
 androidx-window = "1.3.0-alpha02"
 activity = "1.8.2"
 appcompat = "1.6.1"
-appUpdateKtx = "2.1.0"
+appUpdate = "2.1.0"
 core = "1.12.0"
 datastorePreferences = "1.0.0"
 espresso = "3.5.1"
@@ -59,7 +59,7 @@ androidx-compose-material = { group = "androidx.compose.material3", name = "mate
 androidx-compose-material-window = { group = "androidx.compose.material3", name = "material3-window-size-class-android", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
-app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
+app-update-ktx = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestination" }
 composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
