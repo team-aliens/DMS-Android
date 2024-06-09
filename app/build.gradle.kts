@@ -122,5 +122,5 @@ dependencies {
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
 
-    implementation(libs.app.update.ktx)
+    implementation(libs.app.update)
 }
