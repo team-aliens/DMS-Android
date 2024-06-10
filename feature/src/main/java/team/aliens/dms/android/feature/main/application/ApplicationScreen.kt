@@ -148,17 +148,15 @@ private fun ApplicationCard(
                     enter = slideInVertically() + fadeIn(),
                     exit = slideOutVertically() + fadeOut(),
                 ) {
-                    if (appliedTitle != null) {
-                        RoundedButton(
-                            onClick = {},
-                            fillMinSize = false,
-                            contentPadding = PaddingValues(
-                                horizontal = PaddingDefaults.Medium,
-                                vertical = PaddingDefaults.Small,
-                            ),
-                        ) {
-                            Text(text = appliedTitle)
-                        }
+                    RoundedButton(
+                        onClick = { },
+                        fillMinSize = false,
+                        contentPadding = PaddingValues(
+                            horizontal = PaddingDefaults.Medium,
+                            vertical = PaddingDefaults.Small,
+                        ),
+                    ) {
+                        Text(text = appliedTitle!!)
                     }
                 }
             }
