@@ -121,4 +121,6 @@ dependencies {
 
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
+
+    implementation(libs.app.update)
 }
