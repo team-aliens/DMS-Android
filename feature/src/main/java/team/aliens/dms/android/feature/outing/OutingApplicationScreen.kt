@@ -54,6 +54,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -107,11 +108,7 @@ fun OutingApplicationScreen(
                     onClick = {
                         viewModel.postIntent(
                             OutingIntent.UpdateOutingStartTime(
-                                value = LocalDateTime.of(
-                                    // TODO: 죄송합니다..
-                                    2006,
-                                    5,
-                                    8,
+                                value = LocalTime.of(
                                     startTimePickerState.hour,
                                     startTimePickerState.minute,
                                 ),
@@ -139,14 +136,10 @@ fun OutingApplicationScreen(
                     onClick = {
                         viewModel.postIntent(
                             OutingIntent.UpdateOutingEndTime(
-                                value = LocalDateTime.of(
-                                    // TODO: 죄송합니다..
-                                    2006,
-                                    5,
-                                    8,
+                                value = LocalTime.of(
                                     endTimePickerState.hour,
                                     endTimePickerState.minute,
-                                ),
+                                )
                             )
                         )
                         onChangeShouldShowEndTimePicker(false)
@@ -336,10 +329,10 @@ fun OutingApplicationScreen(
                     modifier = Modifier.endPadding(),
                     text = stringResource(
                         id = R.string.format_date_yyyy_mm_dd_day_of_week,
-                        uiState.capturedNow.year,
-                        uiState.capturedNow.month.value,
-                        uiState.capturedNow.dayOfMonth,
-                        uiState.capturedNow.dayOfWeek.text,
+                        uiState.outingDate.year,
+                        uiState.outingDate.month.value,
+                        uiState.outingDate.dayOfMonth,
+                        uiState.outingDate.dayOfWeek.text,
                     ),
                 )
             }
