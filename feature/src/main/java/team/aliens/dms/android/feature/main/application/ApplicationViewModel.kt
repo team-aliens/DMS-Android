@@ -26,6 +26,7 @@ internal class ApplicationViewModel @Inject constructor(
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
+        // TODO: onDispose를 이용하여 이벤트 넘기기
         viewModelScope.launch {
             fetchAppliedStudyRoom()
             fetchAppliedRemainsOption()
