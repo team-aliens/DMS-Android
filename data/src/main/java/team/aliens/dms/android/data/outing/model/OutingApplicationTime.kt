@@ -6,6 +6,7 @@ import java.util.UUID
 
 data class OutingApplicationTime(
     val id: UUID,
+    val schoolId: UUID,
     val startTime: String,
     val endTime: String,
     val available: Boolean,
@@ -21,6 +22,7 @@ fun List<OutingAvailableTimeResponse.AvailableTimeResponse>.toModel(): List<Outi
 fun OutingAvailableTimeResponse.AvailableTimeResponse.toModel(): OutingApplicationTime =
     OutingApplicationTime(
         id = UUID.fromString(this.id),
+        schoolId = UUID.fromString(this.schoolId),
         startTime = this.startTime,
         endTime = this.endTime,
         available = this.available,

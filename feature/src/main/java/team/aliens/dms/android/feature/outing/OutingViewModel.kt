@@ -4,7 +4,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -15,6 +16,7 @@ import team.aliens.dms.android.data.outing.repository.OutingRepository
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.shared.date.util.now
+import team.aliens.dms.android.shared.date.util.timeNow
 import team.aliens.dms.android.shared.date.util.today
 import java.util.UUID
 import javax.inject.Inject
@@ -31,6 +33,7 @@ class OutingViewModel @Inject constructor(
         fetchCurrentAppliedOutingApplication()
         fetchOutingTypes()
         fetchStudents()
+        fetchOutingDate()
     }
 
     override fun processIntent(intent: OutingIntent) {
@@ -96,6 +99,15 @@ class OutingViewModel @Inject constructor(
         }
     }
 
+    private fun fetchOutingDate() {
+        val captureOutingDate: LocalDate = stateFlow.value.outingDate
+        if (now.hour >= 20) {
+            reduce(
+                newState = stateFlow.value.copy(outingDate = captureOutingDate.plusDays(1))
+            )
+        }
+    }
+
     private fun fetchOutingTypes() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
             outingRepository.fetchOutingTypes(null)
@@ -120,14 +132,13 @@ class OutingViewModel @Inject constructor(
         ),
     )
 
-    private fun updateOutingStartTime(value: LocalDateTime) = reduce(
+    private fun updateOutingStartTime(value: LocalTime) = reduce(
         newState = stateFlow.value.copy(
             selectedOutingStartTime = value,
         ),
     )
 
-
-    private fun updateOutingEndTime(value: LocalDateTime) = reduce(
+    private fun updateOutingEndTime(value: LocalTime) = reduce(
         newState = stateFlow.value.copy(
             selectedOutingEndTime = value,
         ),
@@ -143,7 +154,7 @@ class OutingViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 outingRepository.applyOuting(
-                    date = capturedState.capturedNow.toLocalDate(),
+                    date = capturedState.outingDate,
                     startTime = capturedState.selectedOutingStartTime,
                     endTime = capturedState.selectedOutingEndTime,
                     type = capturedState.selectedOutingType,
@@ -157,7 +168,7 @@ class OutingViewModel @Inject constructor(
                     ),
                 )
                 postSideEffect(OutingSideEffect.OutingApplicationSuccess(applicationId))
-            }.onSuccess {
+            }.onFailure {
                 postSideEffect(OutingSideEffect.OutingApplicationTimeError)
             }
         }
@@ -202,9 +213,9 @@ data class OutingUiState(
     val outingTypes: List<String>?,
     val selectedOutingType: String?,
     val reason: String,
-    val capturedNow: LocalDateTime,
-    val selectedOutingStartTime: LocalDateTime,
-    val selectedOutingEndTime: LocalDateTime,
+    val outingDate: LocalDate,
+    val selectedOutingStartTime: LocalTime,
+    val selectedOutingEndTime: LocalTime,
     val companionIds: List<UUID>,
     val students: List<Student>?,
     val selectedStudents: List<Student>,
@@ -212,17 +223,16 @@ data class OutingUiState(
 ) : UiState() {
     companion object {
         fun initial(): OutingUiState {
-            val capturedNow = now
             return OutingUiState(
                 outingApplicationTime = null,
                 currentAppliedOutingApplication = null,
                 outingTypes = null,
                 selectedOutingType = null,
                 reason = "",
-                capturedNow = capturedNow,
+                outingDate = today,
                 // TODO: remove hard-coded string resources from viewmodel
-                selectedOutingEndTime = now,
-                selectedOutingStartTime = now,
+                selectedOutingEndTime = timeNow,
+                selectedOutingStartTime = timeNow,
                 companionIds = emptyList(),
                 students = null,
                 selectedStudents = emptyList(),
@@ -236,8 +246,8 @@ sealed class OutingIntent : Intent() {
     data object CancelCurrentApplication : OutingIntent()
     class UpdateSelectedOutingType(val value: String) : OutingIntent()
     class UpdateReason(val value: String) : OutingIntent()
-    class UpdateOutingStartTime(val value: LocalDateTime) : OutingIntent()
-    class UpdateOutingEndTime(val value: LocalDateTime) : OutingIntent()
+    class UpdateOutingStartTime(val value: LocalTime) : OutingIntent()
+    class UpdateOutingEndTime(val value: LocalTime) : OutingIntent()
     data object ApplyOuting : OutingIntent()
     class SelectStudent(
         val student: Student,

@@ -6,7 +6,8 @@ data class OutingAvailableTimeResponse(
     @SerializedName("outing_available_times") val availableTimes: List<AvailableTimeResponse>,
 ) {
     data class AvailableTimeResponse(
-        @SerializedName("outing_available_time_id") val id: String,
+        @SerializedName("id") val id: String,
+        @SerializedName("school_id") val schoolId: String,
         @SerializedName("outing_time") val startTime: String,
         @SerializedName("arrival_time") val endTime: String,
         @SerializedName("enabled") val available: Boolean,
