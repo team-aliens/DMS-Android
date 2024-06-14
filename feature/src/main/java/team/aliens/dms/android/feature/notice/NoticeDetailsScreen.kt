@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -88,7 +89,7 @@ internal fun NoticeDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding(),
-                    text = uiState.createdAt.toString(),
+                    text = uiState.createdAt!!.text,
                     style = DmsTheme.typography.caption,
                     color = DmsTheme.colorScheme.onSurfaceVariant,
                 )
@@ -125,3 +126,14 @@ internal fun NoticeDetailsScreen(
         }
     }
 }
+
+private val LocalDateTime.text: String
+    @Composable inline get() = stringResource(
+        id = R.string.format_notice_time,
+        this.year,
+        this.monthValue,
+        this.dayOfMonth,
+        this.hour,
+        this.minute,
+    )
+
