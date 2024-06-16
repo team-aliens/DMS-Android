@@ -15,6 +15,7 @@ object ProjectPaths {
         const val SCHOOL = ":core:school"
         const val UI = ":core:ui"
         const val FILE = ":core:file"
+        const val WIDGET = ":core:widget"
     }
 
     object Shared {

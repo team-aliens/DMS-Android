@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "team.aliens.dms.android.core.widget"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -23,16 +23,28 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+
+    buildFeatures {
+        compose = true
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
+
+    compileOptions {
+        sourceCompatibility = Versions.java
+        targetCompatibility = Versions.java
+    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Versions.java.toString()
     }
 }
 
 dependencies {
+
+    implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
@@ -40,4 +52,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
+
+    implementation(libs.androidx.compose)
+    implementation(libs.androidx.compose.material)
+
+    implementation("androidx.glance:glance-appwidget:1.1.0")
+    implementation("androidx.glance:glance-material:1.1.0")
+    implementation("androidx.glance:glance-material3:1.1.0")
+
 }
