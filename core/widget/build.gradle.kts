@@ -46,6 +46,10 @@ dependencies {
 
     implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
 
+    implementation(project(ProjectPaths.DATA))
+
+    implementation(project(ProjectPaths.Shared.DATE))
+
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -60,4 +64,5 @@ dependencies {
     implementation("androidx.glance:glance-material:1.1.0")
     implementation("androidx.glance:glance-material3:1.1.0")
 
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }
