@@ -41,6 +41,7 @@
         
         <receiver
             android:name="team.aliens.dms.android.core.widget.meal.MealWidgetReceiver"
+            android:label="@string/today_meal"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
