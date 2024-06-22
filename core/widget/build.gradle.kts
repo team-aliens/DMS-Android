@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -60,9 +63,20 @@ dependencies {
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.material)
 
-    implementation("androidx.glance:glance-appwidget:1.1.0")
-    implementation("androidx.glance:glance-material:1.1.0")
-    implementation("androidx.glance:glance-material3:1.1.0")
+    implementation(libs.threetenbp)
 
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation(libs.hilt)
+    testImplementation(libs.hilt.testing)
+    ksp(libs.hilt.compiler)
+    kspTest(libs.hilt.compiler)
+
+    implementation(libs.androidx.glance.appwidget)
+
+    implementation(libs.androidx.work.runtime.ktx)
+
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
+
+    implementation (libs.kotlin.stdlib)
+    implementation(libs.kotlinx.serialization.json)
 }
