@@ -8,11 +8,13 @@ class MealWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget
         get() = MealGlanceWidget()
 
-    override fun onEnabled(context: Context?) {
+    override fun onEnabled(context: Context) {
         super.onEnabled(context)
+        MealWorker.enqueue(context)
     }
 
-    override fun onDisabled(context: Context?) {
+    override fun onDisabled(context: Context) {
         super.onDisabled(context)
+        MealWorker.cancel(context)
     }
 }

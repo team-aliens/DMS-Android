@@ -22,7 +22,6 @@
 
         <TextView
             android:id="@+id/str_meal_title"
-            style="@style/DMS.NotoSans.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -35,7 +34,6 @@
 
     <TextView
         android:id="@+id/str_kcal"
-        style="@style/DMS.NotoSans.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0 Kcal"
@@ -46,7 +44,6 @@
 
     <TextView
         android:id="@+id/str_meal"
-        style="@style/DMS.NotoSans.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
