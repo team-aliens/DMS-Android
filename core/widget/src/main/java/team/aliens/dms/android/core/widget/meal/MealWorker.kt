@@ -6,7 +6,7 @@ import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.appwidget.updateAll
-import androidx.hilt.work.hiltWorker
+import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -21,7 +21,7 @@ import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
 import java.time.Duration
 
-@dagger.hiltWorker
+@HiltWorker
 class MealWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParameters: WorkerParameters,
