@@ -34,7 +34,7 @@ class MealWorker @AssistedInject constructor(
         internal fun enqueue(context: Context) {
             val manager = WorkManager.getInstance(context)
             val requestBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                PeriodicWorkRequestBuilder<MealWorker>(Duration.ofHours(8))
+                PeriodicWorkRequestBuilder<MealWorker>(Duration.ofHours(1))
             } else {
                 TODO("VERSION.SDK_INT < O")
             }
@@ -64,7 +64,7 @@ class MealWorker @AssistedInject constructor(
             setWidgetState(glanceIds, MealInfo.Loading)
 
             try {
-                val mealDate = if (now.hour > 19) today.plusDays(1) else today
+                val mealDate = if (now.hour >= 19) today.plusDays(1) else today
                 val response = mealRepository.fetchMeal(mealDate)
                 setWidgetState(glanceIds, response.toEntity())
             } catch (e: Exception) {
