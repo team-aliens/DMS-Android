@@ -18,6 +18,7 @@ object MealInfoStateDefinition : GlanceStateDefinition<MealInfo> {
     private const val DATA_STORE_FILENAME = "mealInfo"
 
     private val Context.datastore by dataStore(DATA_STORE_FILENAME, MealInfoSerializer)
+
     override suspend fun getDataStore(context: Context, fileKey: String): DataStore<MealInfo> {
         return context.datastore
     }
@@ -46,6 +47,5 @@ object MealInfoStateDefinition : GlanceStateDefinition<MealInfo> {
                 )
             }
         }
-
     }
 }
