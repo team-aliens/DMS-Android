@@ -34,6 +34,7 @@ include(":core:project")
 include(":core:school")
 include(":core:file")
 include(":core:ui")
+include(":core:widget")
 
 include(":data")
 include(":network")

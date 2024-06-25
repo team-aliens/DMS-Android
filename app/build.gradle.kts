@@ -66,6 +66,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.PROJECT))
     implementation(project(ProjectPaths.Core.SCHOOL))
     implementation(project(ProjectPaths.Core.UI))
+    implementation(project(ProjectPaths.Core.WIDGET))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))
@@ -123,4 +124,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
 
     implementation(libs.app.update)
+
+    implementation(libs.androidx.work.runtime.ktx)
+
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 }
