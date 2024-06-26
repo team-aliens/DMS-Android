@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+// TODO: Button 접근제한자 internal로 변경
 @Composable
 fun Button(
     onClick: () -> Unit,
