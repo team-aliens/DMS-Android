@@ -4,15 +4,19 @@ import team.aliens.dms.android.network.notification.datasource.NetworkNotificati
 import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
+import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
 import javax.inject.Inject
 
 internal class NotificationRepositoryImpl @Inject constructor(
     private val networkNotificationDataSource: NetworkNotificationDataSource,
 ) : NotificationRepository() {
 
-    override suspend fun registerDeviceNotificationToken(deviceToken: String) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun registerDeviceNotificationToken(deviceToken: String) =
+        networkNotificationDataSource.registerFcmDeviceToken(
+            request = RegisterFcmDeviceTokenRequest(
+                deviceToken = deviceToken,
+            )
+        )
 
     override suspend fun cancelDeviceTokenRegistration(deviceToken: String) {
         TODO("Not yet implemented")
