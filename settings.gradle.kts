@@ -38,6 +38,7 @@ include(":core:project")
 include(":core:school")
 include(":core:file")
 include(":core:ui")
+include(":core:device")
 
 include(":data")
 include(":network")
