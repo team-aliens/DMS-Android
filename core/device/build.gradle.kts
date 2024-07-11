@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -23,16 +25,19 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
     }
+
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
 }
 
 dependencies {
+    implementation(project(ProjectPaths.Core.DATASTORE))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
@@ -40,4 +45,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
+
+    implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 }
