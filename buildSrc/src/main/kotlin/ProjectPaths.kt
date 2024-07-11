@@ -16,6 +16,7 @@ object ProjectPaths {
         const val UI = ":core:ui"
         const val FILE = ":core:file"
         const val NOTIFICATION = ":core:notification"
+        const val DEVICE = ":core:device"
     }
 
     object Shared {
