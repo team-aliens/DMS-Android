@@ -16,16 +16,13 @@ private object Notifications {
     const val CHANNEL_NAME = "dms"
     const val CHANNEL_DESCRIPTION = "dms notification channel"
 }
-@RequiresApi(Build.VERSION_CODES.N)
+
 class NotificationManager(
     private val context: Context,
 ) {
 
     init {
-        // TODO: 버전 대응하기
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel()
-        }
+        createNotificationChannel()
     }
 
     private val notificationManagerCompat: NotificationManagerCompat by lazy {
@@ -50,7 +47,7 @@ class NotificationManager(
 
     @SuppressLint("MissingPermission")
     fun sendNotification() {
-        if(notificationPermissionGranted(context = context)) {
+        if (notificationPermissionGranted(context = context)) {
             notificationManagerCompat.notify(
                 Notifications.NOTIFICATION_ID,
                 notificationBuilder.build(),
@@ -58,21 +55,19 @@ class NotificationManager(
         }
     }
 
-    // TODO: 버전 대응하기
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel =
-            NotificationChannel(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(
                 Notifications.NOTIFICATION_CHANNEL_ID,
                 Notifications.CHANNEL_NAME,
                 importance
             ).apply {
                 this.description = Notifications.CHANNEL_DESCRIPTION
             }
-
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }
