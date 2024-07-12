@@ -48,6 +48,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.JWT))
     implementation(project(ProjectPaths.Core.NETWORK))
     implementation(project(ProjectPaths.Core.SCHOOL))
+    implementation(project(ProjectPaths.Core.DEVICE))
 
     implementation(project(ProjectPaths.DATABASE))
     implementation(project(ProjectPaths.NETWORK))

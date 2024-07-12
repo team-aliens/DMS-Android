@@ -17,22 +17,34 @@ import team.aliens.dms.android.network.notification.model.UnsubscribeNotificatio
 internal interface NotificationApiService {
 
     @POST("/notifications/tokens")
-    suspend fun registerFcmDeviceToken(@Body request: RegisterFcmDeviceTokenRequest)
+    suspend fun registerFcmDeviceToken(
+        @Body request: RegisterFcmDeviceTokenRequest
+    )
 
     @DELETE("/notifications/token")
-    suspend fun cancelFcmDeviceTokenRegistration(@Body request: CancelFcmDeviceTokenRegistrationRequest)
+    suspend fun cancelFcmDeviceTokenRegistration(
+        @Body request: CancelFcmDeviceTokenRegistrationRequest
+    )
 
     @POST("/notifications/topic")
-    suspend fun subscribeNotificationTopic(@Body request: SubscribeNotificationTopicRequest)
+    suspend fun subscribeNotificationTopic(
+        @Body request: SubscribeNotificationTopicRequest
+    )
 
     @DELETE("/notifications/topic")
-    suspend fun unsubscribeNotificationTopic(@Body request: UnsubscribeNotificationTopicRequest)
+    suspend fun unsubscribeNotificationTopic(
+        @Body request: UnsubscribeNotificationTopicRequest
+    )
 
     @PATCH("/notifications/topic")
-    suspend fun batchUpdateNotificationTopic(@Body request: BatchUpdateNotificationTopicRequest)
+    suspend fun batchUpdateNotificationTopic(
+        @Body request: BatchUpdateNotificationTopicRequest
+    )
 
     @GET("/notifications/topic")
-    suspend fun fetchNotificationTopicStatus(@Body request: FetchNotificationTopicStatusRequest): FetchNotificationTopicStatusResponse
+    suspend fun fetchNotificationTopicStatus(
+        @Body request: FetchNotificationTopicStatusRequest
+    ): FetchNotificationTopicStatusResponse
 
     @GET("/notifications")
     suspend fun fetchNotifications(): FetchNotificationsResponse

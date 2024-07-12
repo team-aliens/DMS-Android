@@ -70,6 +70,7 @@
     <string name="sign_in_error_check_format">잘못된 형식입니다</string>
     <string name="sign_in_error_device_token_registering_failure">알림 기기 등록에 실패하였습니다</string>
 
+    <string name="sign_in_notification_revoked">알림을 받기 위해서 권한을 허용해주세요</string>
     <!--sign up-->
     <string name="sign_up">회원가입</string>
     <string name="sign_up_quit_sign_up">회원가입 종료</string>

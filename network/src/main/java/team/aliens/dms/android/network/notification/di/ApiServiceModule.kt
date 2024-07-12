@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import team.aliens.dms.android.core.network.di.GlobalRetrofitClient
 import team.aliens.dms.android.network.notification.apiservice.NotificationApiService
 import javax.inject.Singleton
 
@@ -14,6 +15,7 @@ internal object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideNotificationApiService(retrofit: Retrofit): NotificationApiService =
-        retrofit.create(NotificationApiService::class.java)
+    fun provideNotificationApiService(
+        @GlobalRetrofitClient retrofit: Retrofit
+    ): NotificationApiService = retrofit.create(NotificationApiService::class.java)
 }
