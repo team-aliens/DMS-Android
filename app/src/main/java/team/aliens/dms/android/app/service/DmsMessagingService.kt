@@ -23,10 +23,10 @@ class DmsMessagingService : FirebaseMessagingService() {
         NotificationManager(context = this)
     }
     
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
+    override fun onNewToken(deviceToken: String) {
+        super.onNewToken(deviceToken)
         CoroutineScope(Dispatchers.IO).launch {
-            // TODO: 디바이스 토큰 로컬에 저장 
+            deviceTokenManager.saveDeviceToken(deviceToken = deviceToken)
         }
     }
 

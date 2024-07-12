@@ -1,23 +1,27 @@
 package team.aliens.dms.android.core.notification
 
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
 import javax.inject.Inject
 
 class DeviceTokenManager @Inject constructor(
-    //디바이스 토큰 로컬 저장 provider
+    private val notificationRepository: NotificationRepository,
 ) {
-    fun getDeviceToken(): String? {
-        //디바이스 토큰 리턴
-        return null
+    suspend fun saveDeviceToken(deviceToken: String) {
+        notificationRepository.saveDeviceToken(deviceToken = deviceToken)
     }
 
-    fun fetchDeviceToken(deviceToken: String) {
+    suspend fun fetchDeviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                //Handle error
+                // TODO: Handle error
             }
-            // 디바이스 토큰 등록
+            CoroutineScope(Dispatchers.IO).launch {
+                notificationRepository.saveDeviceToken(deviceToken = task.result)
+            }
         }
     }
 }
