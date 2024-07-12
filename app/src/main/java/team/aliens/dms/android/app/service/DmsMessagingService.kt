@@ -12,7 +12,6 @@ import team.aliens.dms.android.core.notification.DeviceTokenManager
 import team.aliens.dms.android.core.notification.NotificationManager
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class DmsMessagingService : FirebaseMessagingService() {
 
@@ -30,8 +29,6 @@ class DmsMessagingService : FirebaseMessagingService() {
         }
     }
 
-    // TODO: 버전 대응
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         message.notification?.run {
