@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -141,7 +141,7 @@ internal fun SetProfileImageScreen(
                     style = DmsTheme.typography.button,
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding()

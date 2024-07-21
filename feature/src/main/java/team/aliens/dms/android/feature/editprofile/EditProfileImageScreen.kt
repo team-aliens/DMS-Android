@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -117,7 +117,7 @@ internal fun EditProfileImageScreen(
                 }
             )
             Spacer(modifier = Modifier.weight(1f))
-            Button(
+            ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding()

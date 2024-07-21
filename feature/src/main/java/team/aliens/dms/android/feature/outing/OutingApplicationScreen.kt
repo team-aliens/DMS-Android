@@ -54,7 +54,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalTime
-import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -128,7 +127,7 @@ fun OutingApplicationScreen(
                     endTime = uiState.selectedOutingEndTime,
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding()
@@ -238,7 +237,7 @@ fun OutingApplicationScreen(
                     },
                     selectedOnly = true,
                 )
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding()
