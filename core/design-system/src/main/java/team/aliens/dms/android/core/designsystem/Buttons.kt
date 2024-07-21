@@ -38,9 +38,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-// TODO: Button 접근제한자 internal로 변경
 @Composable
-fun Button(
+private fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -64,7 +63,7 @@ fun Button(
         contentColor = contentColor,
         shadowElevation = shadowElevation,
         border = border,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColor) {
             ProvideTextStyle(value = DmsTheme.typography.button) {
