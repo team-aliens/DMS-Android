@@ -5,7 +5,7 @@ import java.util.UUID
 
 interface MainNavigator {
 
-    fun openNotificationBox()
+    fun openSettingsNotification()
 
     fun openUnauthorizedNav()
 
