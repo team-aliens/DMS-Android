@@ -168,6 +168,7 @@ internal fun Main(
                     onNavigateToPointHistory = mainNavigator::openPointHistory,
                     onNavigateToEditPassword = mainNavigator::openEditPasswordNav,
                     onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
+                    onNavigateToNotificationSettings = mainNavigator::openSettingsNotification,
                 )
             }
         }
