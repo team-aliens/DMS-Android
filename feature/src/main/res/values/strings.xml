@@ -214,6 +214,7 @@
     <string name="my_page_edit_profile">프로필 수정</string>
     <string name="my_page_check_point_history">상벌점 내역 확인</string>
     <string name="my_page_edit_password">비밀번호 변경</string>
+    <string name="my_page_notification_settings">알림 설정</string>
     <string name="my_page_check_point">상벌점 확인</string>
     <string name="my_page_points_of">%d 점</string>
     <string name="my_page_date_of">%d월 %d일</string>
@@ -297,9 +298,22 @@
     <string name="notification_channel_id">ch-dms-notification</string>
 
     <string name="notification_group_notice_id">gr-dms-notification-notice</string>
-    <string name="notification_group_notice_title">공지사항</string>
-    <string name="notification_channel_notice_title">공지사항</string>
-    <string name="notification_channel_notice_description">공지사항에 관한 알림을 설정합니다.</string>
+    <string name="notification_settings">알림 설정</string>
+    <string name="notification_group_notice_title">공지</string>
+    <string name="notification_group_study_room_title">자습실</string>
+    <string name="notification_group_point_title">상벌점</string>
+    <string name="notification_group_outing_title">외출</string>
+    <string name="notification_channel_notice_title">공지 알림</string>
+    <string name="notification_channel_notice_description">기숙사 공지에 대한 알림입니다.</string>
+    <string name="notification_channel_use_study_room_title">이용 시간 알림</string>
+    <string name="notification_channel_use_study_room_description">자습실 이용 시작 10분 전에 알림을 받아요.</string>
+    <string name="notification_channel_application_time_study_room_title">신청 시간 알림</string>
+    <string name="notification_channel_application_time_study_room_description">자습실 신청 시간을 알리는 알림입니다.</string>
+    <string name="notification_channel_point_title">상벌점 알림</string>
+    <string name="notification_channel_point_description">상벌점이 부여되었을 때 알림을 받아요.</string>
+    <string name="notification_channel_application_outing_title">외출 신청 알림</string>
+    <string name="notification_channel_application_outing_description">동행자로 외출 신청되었을 때 알림을 받아요.</string>
+
     <string name="sign_up_set_id_hint_grade">학년</string>
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>
