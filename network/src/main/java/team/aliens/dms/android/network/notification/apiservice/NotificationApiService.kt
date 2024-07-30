@@ -3,6 +3,7 @@ package team.aliens.dms.android.network.notification.apiservice
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -31,7 +32,7 @@ internal interface NotificationApiService {
         @Body request: SubscribeNotificationTopicRequest
     )
 
-    @DELETE("/notifications/topic")
+    @HTTP(method = "DELETE", path = "/notifications/topic", hasBody = true)
     suspend fun unsubscribeNotificationTopic(
         @Body request: UnsubscribeNotificationTopicRequest
     )
