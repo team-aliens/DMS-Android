@@ -1,14 +1,12 @@
 package team.aliens.dms.android.data.notification.repository
 
 import team.aliens.dms.android.core.device.datastore.DeviceDataStoreDataSource
-import team.aliens.dms.android.network.notification.datasource.NetworkNotificationDataSource
 import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
 import team.aliens.dms.android.data.notification.model.toModel
+import team.aliens.dms.android.network.notification.datasource.NetworkNotificationDataSource
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
-import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusRequest
-import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
 import team.aliens.dms.android.network.notification.model.SubscribeNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.UnsubscribeNotificationTopicRequest
 import javax.inject.Inject
@@ -57,7 +55,6 @@ internal class NotificationRepositoryImpl @Inject constructor(
     override suspend fun fetchNotificationStatus(deviceToken: String): List<NotificationTopicGroup.Status> =
         networkNotificationDataSource.fetchNotificationTopicStatus(deviceToken = deviceToken)
             .toModel()
-
 
     override suspend fun fetchNotifications(): List<Notification> {
         TODO("Not yet implemented")
