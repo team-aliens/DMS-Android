@@ -314,6 +314,12 @@
     <string name="notification_channel_application_outing_title">외출 신청 알림</string>
     <string name="notification_channel_application_outing_description">동행자로 외출 신청되었을 때 알림을 받아요.</string>
 
+    <string name="notification_not_current">알림 설정을 가져오지 못했어요</string>
+    <string name="notification_subscribe_success">알림이 구독되었습니다</string>
+    <string name="notification_subscribe_fail">알림 구독을 실패했어요</string>
+    <string name="notification_unsubscribe_success">알림이 구독 취소 되었어요</string>
+    <string name="notification_unsubscribe_fail">알림 구독 취소를 실패했어요</string>
+
     <string name="sign_up_set_id_hint_grade">학년</string>
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>

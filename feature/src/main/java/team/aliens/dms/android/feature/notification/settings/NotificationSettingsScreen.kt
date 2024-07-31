@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -28,9 +29,11 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.Switch
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
@@ -47,7 +50,28 @@ internal fun NotificationSettingsScreen(
 ) {
     val viewModel: NotificationSettingsViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val toast = LocalToast.current
 
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when(sideEffect) {
+            NotificationSettingsSideEffect.CurrentNotificationsStatusNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.notification_not_current)
+            )
+            NotificationSettingsSideEffect.SubscribeNotificationSuccess -> toast.showSuccessToast(
+                message = context.getString(R.string.notification_subscribe_success)
+            )
+            NotificationSettingsSideEffect.SubscribeNotificationFailure -> toast.showErrorToast(
+                message = context.getString(R.string.notification_subscribe_fail)
+            )
+            NotificationSettingsSideEffect.UnSubscribeNotificationSuccess -> toast.showSuccessToast(
+                message = context.getString(R.string.notification_unsubscribe_success)
+            )
+            NotificationSettingsSideEffect.UnSubscribeNotificationFailure -> toast.showErrorToast(
+                message = context.getString(R.string.notification_unsubscribe_fail)
+            )
+        }
+    }
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -192,7 +216,6 @@ private fun NotificationLayout(
             }
         }
     }
-
 }
 
 private class Notification(
