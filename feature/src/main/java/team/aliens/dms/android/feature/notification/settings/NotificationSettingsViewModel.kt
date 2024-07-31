@@ -30,7 +30,6 @@ internal class NotificationSettingsViewModel @Inject constructor(
     }
 
     init {
-        fetchDeviceToken()
         fetchNotificationsStatus()
     }
 
@@ -43,16 +42,6 @@ internal class NotificationSettingsViewModel @Inject constructor(
                 reduce(newState = stateFlow.value.copy(status = it))
             }.onFailure {
                 postSideEffect(NotificationSettingsSideEffect.CurrentNotificationsStatusNotFound)
-            }
-        }
-    }
-
-    private fun fetchDeviceToken() {
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                notificationRepository.getDeviceToken()
-            }.onSuccess { deviceToken ->
-                reduce(newState = stateFlow.value.copy(deviceToken = deviceToken))
             }
         }
     }
@@ -116,13 +105,11 @@ internal class NotificationSettingsViewModel @Inject constructor(
 }
 
 internal data class NotificationSettingsUiState(
-    val deviceToken: String,
     val status: List<NotificationTopicGroup.Status>,
 ) : UiState() {
     companion object {
         fun initial(): NotificationSettingsUiState {
             return NotificationSettingsUiState(
-                deviceToken = "",
                 status = listOf(),
             )
         }
