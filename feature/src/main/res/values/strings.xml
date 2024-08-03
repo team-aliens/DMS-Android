@@ -320,6 +320,9 @@
     <string name="notification_unsubscribe_success">알림이 구독 취소 되었어요</string>
     <string name="notification_unsubscribe_fail">알림 구독 취소를 실패했어요</string>
 
+    <string name="notification_notification_icon">알림 아이콘</string>
+    <string name="notification_notice_off_notification">현재 기기 설정에서 DMS 알림이 꺼져 있습니다.\n알림을 받으려면 기기 설정에서\nDMS 알림을 활성화해주세요.</string>
+
     <string name="sign_up_set_id_hint_grade">학년</string>
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>

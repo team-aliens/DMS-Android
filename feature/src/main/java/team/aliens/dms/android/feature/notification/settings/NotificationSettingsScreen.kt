@@ -2,23 +2,30 @@ package team.aliens.dms.android.feature.notification.settings
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,7 +39,9 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.Switch
+import team.aliens.dms.android.core.notification.notificationPermissionGranted
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
@@ -72,6 +81,7 @@ internal fun NotificationSettingsScreen(
             )
         }
     }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -88,14 +98,20 @@ internal fun NotificationSettingsScreen(
             )
         },
     ) { paddingValues ->
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .background(DmsTheme.colorScheme.surface)
                 .padding(paddingValues)
-                .topPadding(PaddingDefaults.ExtraLarge),
-            verticalArrangement = Arrangement.spacedBy(34.dp),
+                .topPadding(PaddingDefaults.Large),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
+            if(!notificationPermissionGranted(context)) {
+                Notice()
+            }
             Notifications(
                 status = uiState.status,
                 viewModel = viewModel,
@@ -104,6 +120,28 @@ internal fun NotificationSettingsScreen(
     }
 }
 
+@Composable
+private fun Notice() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalPadding()
+            .clip(DmsTheme.shapes.medium)
+            .background(DmsTheme.colorScheme.primaryContainer)
+            .padding(PaddingDefaults.Large),
+        verticalArrangement = Arrangement.spacedBy(PaddingDefaults.Medium),
+    ) {
+        Icon(
+            painter = painterResource(id = DmsIcon.BlueBell),
+            contentDescription = stringResource(id = R.string.notification_notification_icon),
+            tint = DmsTheme.colorScheme.primary,
+        )
+        Text(
+            text = stringResource(id = R.string.notification_notice_off_notification),
+            style = DmsTheme.typography.body3,
+        )
+    }
+}
 @Composable
 private fun Notifications(
     status: List<NotificationTopicGroup.Status>,
@@ -172,7 +210,7 @@ private fun NotificationLayout(
     Column(
         modifier = modifier
             .horizontalPadding(),
-        verticalArrangement = Arrangement.spacedBy(PaddingDefaults.Large)
+        verticalArrangement = Arrangement.spacedBy(PaddingDefaults.Large),
     ) {
         Text(
             text = title,
