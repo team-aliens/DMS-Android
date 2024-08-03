@@ -68,6 +68,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.UI))
     implementation(project(ProjectPaths.Core.NOTIFICATION))
     implementation(project(ProjectPaths.Core.DEVICE))
+    implementation(project(ProjectPaths.Core.WIDGET))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))
@@ -129,4 +130,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)
+
+    implementation(libs.androidx.work.runtime.ktx)
+
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 }
