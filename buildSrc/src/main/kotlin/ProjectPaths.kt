@@ -15,6 +15,8 @@ object ProjectPaths {
         const val SCHOOL = ":core:school"
         const val UI = ":core:ui"
         const val FILE = ":core:file"
+        const val NOTIFICATION = ":core:notification"
+        const val DEVICE = ":core:device"
         const val WIDGET = ":core:widget"
     }
 

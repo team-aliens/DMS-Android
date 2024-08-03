@@ -13,20 +13,38 @@ import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.exception.PasswordMismatchException
 import team.aliens.dms.android.data.auth.exception.UserNotFoundException
 import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.data.notification.repository.NotificationRepository
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val notificationRepository: NotificationRepository,
 ) : BaseMviViewModel<SignInUiState, SignInIntent, SignInSideEffect>(
     initialState = SignInUiState.initial(),
 ) {
+
+    private lateinit var deviceToken: String
+
+    init {
+        getDeviceToken()
+    }
 
     override fun processIntent(intent: SignInIntent) {
         when (intent) {
             is SignInIntent.UpdateId -> updateId(intent.id)
             is SignInIntent.UpdatePassword -> updatePassword(intent.password)
             SignInIntent.SignIn -> signIn()
+        }
+    }
+
+    private fun getDeviceToken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                notificationRepository.getDeviceToken()
+            }.onSuccess {
+                deviceToken = it
+            }
         }
     }
 
@@ -65,6 +83,7 @@ internal class SignInViewModel @Inject constructor(
                 authRepository.signIn(
                     accountId = uiState.accountId.trim(),
                     password = uiState.password.trim(),
+                    deviceToken = deviceToken,
                 )
             }.onSuccess {
                 postSideEffect(SignInSideEffect.Success)

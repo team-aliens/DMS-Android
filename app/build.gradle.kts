@@ -17,8 +17,8 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
 
-        versionCode = 15
-        versionName = "1.3.6"
+        versionCode = 16
+        versionName = "1.3.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -66,6 +66,8 @@ dependencies {
     implementation(project(ProjectPaths.Core.PROJECT))
     implementation(project(ProjectPaths.Core.SCHOOL))
     implementation(project(ProjectPaths.Core.UI))
+    implementation(project(ProjectPaths.Core.NOTIFICATION))
+    implementation(project(ProjectPaths.Core.DEVICE))
     implementation(project(ProjectPaths.Core.WIDGET))
 
     implementation(project(ProjectPaths.DATA))
@@ -124,6 +126,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
 
     implementation(libs.app.update)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
 
     implementation(libs.androidx.work.runtime.ktx)
 

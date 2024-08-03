@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
@@ -27,9 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -42,30 +41,31 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
-import team.aliens.dms.android.core.designsystem.AlertDialog
-import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.ModalBottomSheet
+import team.aliens.dms.android.core.designsystem.Picker
+import team.aliens.dms.android.core.designsystem.PickerState
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
-import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
+import team.aliens.dms.android.core.designsystem.rememberPickerState
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -95,62 +95,70 @@ fun OutingApplicationScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val toast = LocalToast.current
-    val lifeCycleOwner = LocalLifecycleOwner.current
 
-    val startTimePickerState = rememberTimePickerState()
-    val (shouldShowStartTimePicker, onChangeShouldShowStartTimePicker) = remember {
+    val timeSheetState = rememberModalBottomSheetState()
+    val (shouldShowTimePicker, onChangeShouldShowTimePicker) = remember {
         mutableStateOf(false)
     }
-    if (shouldShowStartTimePicker) {
-        AlertDialog(
-            confirmButton = {
-                TextButton(
+    val startHourValuesPickerState = rememberPickerState()
+    val startMinuteValuesPickerState = rememberPickerState()
+    val endHourValuesPickerState = rememberPickerState()
+    val endMinuteValuesPickerState = rememberPickerState()
+
+    if (shouldShowTimePicker) {
+        ModalBottomSheet(
+            sheetState = timeSheetState,
+            onDismissRequest = { onChangeShouldShowTimePicker(false) },
+            properties = ModalBottomSheetDefaults.properties(
+                shouldDismissOnBackPress = false,
+            ),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 320.dp),
+            ) {
+                TimePickerSpinner(
+                    startHourValuesPickerState = startHourValuesPickerState,
+                    startMinuteValuesPickerState = startMinuteValuesPickerState,
+                    endHourValuesPickerState = endHourValuesPickerState,
+                    endMinuteValuesPickerState = endMinuteValuesPickerState,
+                    startTime = uiState.selectedOutingStartTime,
+                    endTime = uiState.selectedOutingEndTime,
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                ContainedButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalPadding()
+                        .bottomPadding(),
                     onClick = {
                         viewModel.postIntent(
                             OutingIntent.UpdateOutingStartTime(
                                 value = LocalTime.of(
-                                    startTimePickerState.hour,
-                                    startTimePickerState.minute,
-                                ),
+                                    startHourValuesPickerState.selectedItem.toInt(),
+                                    startMinuteValuesPickerState.selectedItem.toInt(),
+                                )
                             )
                         )
-                        onChangeShouldShowStartTimePicker(false)
+                        viewModel.postIntent(
+                            OutingIntent.UpdateOutingEndTime(
+                                value = LocalTime.of(
+                                    endHourValuesPickerState.selectedItem.toInt(),
+                                    endMinuteValuesPickerState.selectedItem.toInt(),
+                                )
+                            )
+                        )
+                        scope.launch {
+                            timeSheetState.hide()
+                            onChangeShouldShowTimePicker(false)
+                        }
                     },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
-            },
-            onDismissRequest = { onChangeShouldShowStartTimePicker(false) },
-            text = { TimePicker(state = startTimePickerState) },
-        )
-    }
-
-    val endTimePickerState = rememberTimePickerState()
-    val (shouldShowEndTimePicker, onChangeShouldShowEndTimePicker) = remember {
-        mutableStateOf(false)
-    }
-    if (shouldShowEndTimePicker) {
-        AlertDialog(
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        viewModel.postIntent(
-                            OutingIntent.UpdateOutingEndTime(
-                                value = LocalTime.of(
-                                    endTimePickerState.hour,
-                                    endTimePickerState.minute,
-                                )
-                            )
-                        )
-                        onChangeShouldShowEndTimePicker(false)
-                    },
-                ) {
-                    Text(text = stringResource(id = R.string.close))
-                }
-            },
-            onDismissRequest = { onChangeShouldShowEndTimePicker(false) },
-            text = { TimePicker(state = endTimePickerState) },
-        )
+            }
+        }
     }
 
     val (shouldShowCompanionListDialog, onShouldShowCompanionListDialogChange) = remember {
@@ -229,7 +237,7 @@ fun OutingApplicationScreen(
                     },
                     selectedOnly = true,
                 )
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding()
@@ -337,78 +345,43 @@ fun OutingApplicationScreen(
                 )
             }
             Spacer(modifier = Modifier.height(DefaultVerticalSpace))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
+            OutingInput(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding()
+                    .endPadding(),
+                text = { Text(text = stringResource(id = R.string.outing_start_time)) },
+                indicator = { OutingInputDefaults.Indicator() },
             ) {
-                OutingInput(
-                    modifier = Modifier
-                        .weight(1f)
-                        .startPadding(),
-                    text = { Text(text = stringResource(id = R.string.outing_start_time)) },
-                    indicator = { OutingInputDefaults.Indicator() },
-                ) {
-                    val time = remember(uiState.selectedOutingStartTime) {
-                        uiState.selectedOutingStartTime
-                    }
-                    TextField(
-                        trailingIcon = {
-                            IconButton(
-                                onClick = { onChangeShouldShowStartTimePicker(true) },
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_next),
-                                    contentDescription = stringResource(
-                                        id = R.string.outing_application_select_outing_time,
-                                    ),
-                                    tint = DmsTheme.colorScheme.icon,
-                                )
-                            }
-                        },
-                        value = stringResource(
-                            id = R.string.outing_format_time_h_m,
-                            time.hour,
-                            time.minute,
-                        ),
-                        onValueChange = {},
-                        readOnly = true,
-                    )
+                val startTime = remember(uiState.selectedOutingStartTime) {
+                    uiState.selectedOutingStartTime
                 }
-                OutingInput(
-                    modifier = Modifier
-                        .weight(1f)
-                        .endPadding(),
-                    text = { Text(text = stringResource(id = R.string.outing_end_time)) },
-                    indicator = { OutingInputDefaults.Indicator() },
-                ) {
-                    val time = remember(uiState.selectedOutingEndTime) {
-                        uiState.selectedOutingEndTime
-                    }
-                    TextField(
-                        trailingIcon = {
-                            IconButton(
-                                onClick = { onChangeShouldShowEndTimePicker(true) },
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_next),
-                                    contentDescription = stringResource(
-                                        id = R.string.outing_application_select_outing_time,
-                                    ),
-                                    tint = DmsTheme.colorScheme.icon,
-                                )
-                            }
-                        },
-                        value = stringResource(
-                            id = R.string.outing_format_time_h_m,
-                            time.hour,
-                            time.minute,
-                        ),
-                        onValueChange = {},
-                        readOnly = true,
-                    )
+                val endTime = remember(uiState.selectedOutingEndTime) {
+                    uiState.selectedOutingEndTime
                 }
+                TextField(
+                    trailingIcon = {
+                        IconButton(
+                            onClick = { onChangeShouldShowTimePicker(true) },
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_next),
+                                contentDescription = stringResource(id = R.string.outing_application_select_outing_time),
+                                tint = DmsTheme.colorScheme.icon,
+                            )
+                        }
+                    },
+                    value = stringResource(
+                        id = R.string.outing_format_time,
+                        startTime.hour,
+                        startTime.minute,
+                        endTime.hour,
+                        endTime.minute,
+                    ),
+                    onValueChange = { },
+                    readOnly = true,
+                )
             }
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
@@ -512,12 +485,14 @@ fun OutingApplicationScreen(
                 )
             }
 
-            Button(
+            ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding()
-                    .bottomPadding(),
+                    .bottomPadding()
+                    .imePadding(),
                 onClick = { viewModel.postIntent(OutingIntent.ApplyOuting) },
+                enabled = uiState.selectedOutingType != null,
             ) {
                 Text(text = stringResource(id = R.string.outing_do_application))
             }
@@ -655,14 +630,96 @@ private fun OutingInput(
     }
 }
 
+@Composable
+private fun TimePickerSpinner(
+    modifier: Modifier = Modifier,
+    startHourValuesPickerState: PickerState,
+    startMinuteValuesPickerState: PickerState,
+    endHourValuesPickerState: PickerState,
+    endMinuteValuesPickerState: PickerState,
+    startTime: LocalTime,
+    endTime: LocalTime,
+) {
+    val startHourValues = remember { (0..23).map { it.toString() } }
+    val startMinuteValues = remember { (0..5).map { (it * 10).toString() } }
+    val endHourValues = remember { (0..23).map { it.toString() } }
+    val endMinuteValues = remember { (0..5).map { (it * 10).toString() } }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Picker(
+            modifier = Modifier.weight(1f),
+            state = startHourValuesPickerState,
+            items = startHourValues,
+            visibleItemsCount = 5,
+            startIndex = startTime.hour,
+            textStyle = DmsTheme.typography.body1,
+            textModifier = Modifier.padding(vertical = 10.dp),
+        )
+        Text(
+            text = ":",
+            fontSize = 30.sp,
+            modifier = Modifier
+                .weight(1f),
+            textAlign = TextAlign.Center,
+            style = DmsTheme.typography.body1,
+        )
+        Picker(
+            modifier = Modifier.weight(1f),
+            state = startMinuteValuesPickerState,
+            items = startMinuteValues,
+            visibleItemsCount = 5,
+            startIndex = startTime.minute / 10,
+            textStyle = DmsTheme.typography.body1,
+            textModifier = Modifier.padding(vertical = 10.dp),
+        )
+        Text(
+            modifier = Modifier
+                .weight(2f),
+            text = "~",
+            textAlign = TextAlign.Center,
+        )
+        Picker(
+            modifier = Modifier.weight(1f),
+            state = endHourValuesPickerState,
+            items = endHourValues,
+            visibleItemsCount = 5,
+            startIndex = endTime.hour,
+            textStyle = DmsTheme.typography.body1,
+            textModifier = Modifier.padding(vertical = 10.dp),
+        )
+        Text(
+            modifier = Modifier
+                .weight(1f),
+            text = ":",
+            fontSize = 30.sp,
+            textAlign = TextAlign.Center,
+        )
+        Picker(
+            modifier = Modifier.weight(1f),
+            state = endMinuteValuesPickerState,
+            items = endMinuteValues,
+            visibleItemsCount = 5,
+            startIndex = endTime.minute / 10,
+            textStyle = DmsTheme.typography.body1,
+            textModifier = Modifier.padding(vertical = 10.dp),
+        )
+    }
+}
+
 object OutingInputDefaults {
 
-    val IndicatorSize = DpSize(
+    private val IndicatorSize = DpSize(
         width = 4.dp,
         height = 4.dp,
     )
 
-    val IndicatorColor: Color
+    private val IndicatorColor: Color
         @Composable get() = DmsTheme.colorScheme.primary
 
     @Composable

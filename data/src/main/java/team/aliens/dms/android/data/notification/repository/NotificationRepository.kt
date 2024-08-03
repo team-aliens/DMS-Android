@@ -30,4 +30,8 @@ abstract class NotificationRepository {
     abstract suspend fun fetchNotificationStatus(deviceToken: String): NotificationTopicGroup.Status
 
     abstract suspend fun fetchNotifications(): List<Notification>
+
+    abstract suspend fun saveDeviceToken(deviceToken: String)
+
+    abstract suspend fun getDeviceToken(): String
 }

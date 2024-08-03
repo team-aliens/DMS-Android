@@ -36,7 +36,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
-import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -80,7 +79,7 @@ internal fun FindIdScreen(
             },
             onDismissRequest = { /* explicit blank */ },
             confirmButton = {
-                Button(
+                ContainedButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = navigator::navigateUp,
                 ) {

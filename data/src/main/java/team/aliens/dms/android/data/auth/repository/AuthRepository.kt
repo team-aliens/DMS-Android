@@ -8,6 +8,7 @@ abstract class AuthRepository {
     abstract suspend fun signIn(
         accountId: String,
         password: String,
+        deviceToken: String,
         autoSignIn: Boolean = true,
     )
 
