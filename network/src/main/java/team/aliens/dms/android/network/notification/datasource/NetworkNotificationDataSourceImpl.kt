@@ -4,7 +4,6 @@ import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.notification.apiservice.NotificationApiService
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.CancelFcmDeviceTokenRegistrationRequest
-import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusRequest
 import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusResponse
 import team.aliens.dms.android.network.notification.model.FetchNotificationsResponse
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
@@ -30,8 +29,8 @@ internal class NetworkNotificationDataSourceImpl @Inject constructor(
     override suspend fun batchUpdateNotificationTopic(request: BatchUpdateNotificationTopicRequest) =
         handleNetworkRequest { notificationApiService.batchUpdateNotificationTopic(request) }
 
-    override suspend fun fetchNotificationTopicStatus(request: FetchNotificationTopicStatusRequest): FetchNotificationTopicStatusResponse =
-        handleNetworkRequest { notificationApiService.fetchNotificationTopicStatus(request) }
+    override suspend fun fetchNotificationTopicStatus(deviceToken: String): FetchNotificationTopicStatusResponse =
+        handleNetworkRequest { notificationApiService.fetchNotificationTopicStatus(deviceToken) }
 
     override suspend fun fetchNotifications(): FetchNotificationsResponse =
         handleNetworkRequest { notificationApiService.fetchNotifications() }

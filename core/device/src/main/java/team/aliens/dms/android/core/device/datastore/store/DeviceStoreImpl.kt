@@ -1,6 +1,5 @@
 package team.aliens.dms.android.core.device.datastore.store
 
-import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
@@ -17,7 +16,6 @@ internal class DeviceStoreImpl @Inject constructor(
 ) : DeviceStore() {
     override fun loadDeviceToken(): String = runBlocking {
         preferencesDataStore.data.map { preferences ->
-            Log.d("TEST2",preferences[DEVICE_TOKEN].toString())
             preferences[DEVICE_TOKEN] ?: throw DeviceTokenNotFoundException()
         }.first()
     }
@@ -26,7 +24,6 @@ internal class DeviceStoreImpl @Inject constructor(
         transform(
             onFailure = { throw CannotStoreDeviceTokenException() },
         ) {
-            Log.d("TEST1",deviceToken)
             preferencesDataStore.edit { preferences ->
                 preferences[DEVICE_TOKEN] = deviceToken
             }

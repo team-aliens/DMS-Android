@@ -3,11 +3,12 @@ package team.aliens.dms.android.network.notification.apiservice
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Query
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.CancelFcmDeviceTokenRegistrationRequest
-import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusRequest
 import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusResponse
 import team.aliens.dms.android.network.notification.model.FetchNotificationsResponse
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
@@ -31,7 +32,7 @@ internal interface NotificationApiService {
         @Body request: SubscribeNotificationTopicRequest
     )
 
-    @DELETE("/notifications/topic")
+    @HTTP(method = "DELETE", path = "/notifications/topic", hasBody = true)
     suspend fun unsubscribeNotificationTopic(
         @Body request: UnsubscribeNotificationTopicRequest
     )
@@ -43,7 +44,7 @@ internal interface NotificationApiService {
 
     @GET("/notifications/topic")
     suspend fun fetchNotificationTopicStatus(
-        @Body request: FetchNotificationTopicStatusRequest
+        @Query("device_token") deviceToken: String,
     ): FetchNotificationTopicStatusResponse
 
     @GET("/notifications")

@@ -5,6 +5,7 @@ object DmsIcon {
     val Back = R.drawable.ic_back
     val Backward = R.drawable.ic_backward
     val Bell = R.drawable.ic_bell
+    val BlueBell = R.drawable.ic_blue_bell
     val BlueBreakfast = R.drawable.ic_blue_breakfast
     val BlueDinner = R.drawable.ic_blue_dinner
     val BlueLaunch = R.drawable.ic_blue_lunch
