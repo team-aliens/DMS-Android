@@ -56,9 +56,8 @@ internal class NotificationRepositoryImpl @Inject constructor(
         networkNotificationDataSource.fetchNotificationTopicStatus(deviceToken = deviceToken)
             .toModel()
 
-    override suspend fun fetchNotifications(): List<Notification> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchNotifications(): List<Notification> =
+        networkNotificationDataSource.fetchNotifications().toModel()
 
     override suspend fun saveDeviceToken(deviceToken: String) {
         deviceDataStoreDataSource.storeDeviceToken(deviceToken)
