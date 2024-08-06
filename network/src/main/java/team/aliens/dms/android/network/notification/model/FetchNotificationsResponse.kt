@@ -13,7 +13,7 @@ data class FetchNotificationsResponse(
         @SerializedName("link_identifier") val linkId: UUID,
         @SerializedName("title") val title: String,
         @SerializedName("content") val content: String,
-        @SerializedName("created_at") val createdAt: LocalDateTime,
+        @SerializedName("created_at") val createdAt: String,
         @SerializedName("is_read") val isRead: Boolean,
     )
 }
