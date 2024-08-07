@@ -323,6 +323,15 @@
     <string name="notification_notification_icon">알림 아이콘</string>
     <string name="notification_notice_off_notification">현재 기기 설정에서 DMS 알림이 꺼져 있습니다.\n알림을 받으려면 기기 설정에서\nDMS 알림을 활성화해주세요.</string>
 
+    <string name="notification_box">알림함</string>
+
+    <string name="notification_box_read">읽음</string>
+    <string name="notification_box_not_read">읽지 않음</string>
+
+    <string name="notification_box_format_time">%d월 %d일</string>
+
+    <string name="notification_box_notifications_not_current">알림을 가져오지 못했어요</string>
+
     <string name="sign_up_set_id_hint_grade">학년</string>
     <string name="sign_up_set_id_hint_class">반</string>
     <string name="sign_up_set_id_hint_number">번호</string>
