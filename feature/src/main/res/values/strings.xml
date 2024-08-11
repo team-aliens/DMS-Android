@@ -327,6 +327,8 @@
 
     <string name="notification_box_read">읽음</string>
     <string name="notification_box_not_read">읽지 않음</string>
+    
+    <string name="notification_box_not_exist">알림이 존재하지 않습니다.</string>
 
     <string name="notification_box_format_time">%d월 %d일</string>
 
