@@ -2,7 +2,6 @@ package team.aliens.dms.android.feature.notification.settings
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,7 +38,6 @@ import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.Switch
 import team.aliens.dms.android.core.notification.notificationPermissionGranted
 import team.aliens.dms.android.core.ui.PaddingDefaults
-import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
@@ -63,19 +59,15 @@ internal fun NotificationSettingsScreen(
     val toast = LocalToast.current
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
-        when(sideEffect) {
+        when (sideEffect) {
             NotificationSettingsSideEffect.CurrentNotificationsStatusNotFound -> toast.showErrorToast(
                 message = context.getString(R.string.notification_not_current)
             )
-            NotificationSettingsSideEffect.SubscribeNotificationSuccess -> toast.showSuccessToast(
-                message = context.getString(R.string.notification_subscribe_success)
-            )
+
             NotificationSettingsSideEffect.SubscribeNotificationFailure -> toast.showErrorToast(
                 message = context.getString(R.string.notification_subscribe_fail)
             )
-            NotificationSettingsSideEffect.UnSubscribeNotificationSuccess -> toast.showSuccessToast(
-                message = context.getString(R.string.notification_unsubscribe_success)
-            )
+
             NotificationSettingsSideEffect.UnSubscribeNotificationFailure -> toast.showErrorToast(
                 message = context.getString(R.string.notification_unsubscribe_fail)
             )
@@ -109,7 +101,7 @@ internal fun NotificationSettingsScreen(
                 .topPadding(PaddingDefaults.Large),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            if(!notificationPermissionGranted(context)) {
+            if (!notificationPermissionGranted(context)) {
                 Notice()
             }
             Notifications(
@@ -142,6 +134,7 @@ private fun Notice() {
         )
     }
 }
+
 @Composable
 private fun Notifications(
     status: List<NotificationTopicGroup.Status>,

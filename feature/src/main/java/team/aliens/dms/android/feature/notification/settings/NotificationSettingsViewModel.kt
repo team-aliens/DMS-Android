@@ -77,8 +77,6 @@ internal class NotificationSettingsViewModel @Inject constructor(
                     deviceToken = deviceToken,
                     topic = topic,
                 )
-            }.onSuccess {
-                postSideEffect(NotificationSettingsSideEffect.SubscribeNotificationSuccess)
             }.onFailure {
                 postSideEffect(NotificationSettingsSideEffect.SubscribeNotificationFailure)
             }
@@ -95,8 +93,6 @@ internal class NotificationSettingsViewModel @Inject constructor(
                     deviceToken = deviceToken,
                     topic = topic,
                 )
-            }.onSuccess {
-                postSideEffect(NotificationSettingsSideEffect.UnSubscribeNotificationSuccess)
             }.onFailure {
                 postSideEffect(NotificationSettingsSideEffect.UnSubscribeNotificationFailure)
             }
@@ -125,8 +121,6 @@ internal sealed class NotificationSettingsIntent : Intent() {
 
 internal sealed class NotificationSettingsSideEffect : SideEffect() {
     data object CurrentNotificationsStatusNotFound : NotificationSettingsSideEffect()
-    data object SubscribeNotificationSuccess : NotificationSettingsSideEffect()
     data object SubscribeNotificationFailure : NotificationSettingsSideEffect()
-    data object UnSubscribeNotificationSuccess : NotificationSettingsSideEffect()
     data object UnSubscribeNotificationFailure : NotificationSettingsSideEffect()
 }
