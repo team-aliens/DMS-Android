@@ -21,6 +21,7 @@ import team.aliens.dms.android.feature.destinations.EnterSchoolVerificationQuest
 import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
+import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationSettingsScreenDestination
 import team.aliens.dms.android.feature.destinations.OutingApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
@@ -47,16 +48,20 @@ class DmsNavigator(
     private val navController: NavController,
 ) : AuthorizedNavigator, UnauthorizedNavigator {
 
-    override fun openSettingsNotification() {
-        navController.navigateSingleTop(NotificationSettingsScreenDestination within navGraph)
-    }
-
     override fun openUnauthorizedNav() {
         navController.navigateSingleTop(UnauthorizedNavGraph) {
             popUpTo(AuthorizedNavGraph) {
                 inclusive = true
             }
         }
+    }
+
+    override fun openSettingsNotification() {
+        navController.navigateSingleTop(NotificationSettingsScreenDestination within navGraph)
+    }
+
+    override fun openNotificationBox() {
+        navController.navigateSingleTop(NotificationBoxScreenDestination within navGraph)
     }
 
     override fun openStudyRoomList() {

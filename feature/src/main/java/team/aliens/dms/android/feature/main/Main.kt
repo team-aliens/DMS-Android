@@ -99,6 +99,7 @@ internal fun Main(
                 HomeScreen(
                     onChangeBottomAppBarVisibility = onChangeBottomAppBarVisibility,
                     onNavigateToAnnouncementList = { navController.navigateTo(MainSections.ANNOUNCEMENT_LIST.route) },
+                    onNavigateToNotificationBox = mainNavigator::openNotificationBox,
                 )
             }
 

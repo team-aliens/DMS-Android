@@ -4,6 +4,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavig
 import team.aliens.dms.android.feature.editprofile.navigation.EditProfileNavigator
 import team.aliens.dms.android.feature.main.navigation.MainNavigator
 import team.aliens.dms.android.feature.notice.navigation.NoticeNavigator
+import team.aliens.dms.android.feature.notification.navigation.NotificationBoxNavigator
 import team.aliens.dms.android.feature.notification.navigation.NotificationSettingsNavigator
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
@@ -15,6 +16,7 @@ interface AuthorizedNavigator :
     EditPasswordNavigator,
     EditProfileNavigator,
     NoticeNavigator,
+    NotificationBoxNavigator,
     NotificationSettingsNavigator,
     PointHistoryNavigator,
     RemainsNavigator,
