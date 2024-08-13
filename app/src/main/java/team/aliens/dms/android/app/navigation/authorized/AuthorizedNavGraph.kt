@@ -9,6 +9,7 @@ import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestin
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms.android.feature.destinations.NotificationSettingsScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
@@ -37,6 +38,7 @@ object AuthorizedNavGraph : NavGraphSpec {
             StudyRoomDetailsScreenDestination,
             NoticeDetailsScreenDestination,
             NotificationBoxScreenDestination,
+            NotificationSettingsScreenDestination,
             PointHistoryScreenDestination,
         )
             .routedIn(navGraphSpec = this)

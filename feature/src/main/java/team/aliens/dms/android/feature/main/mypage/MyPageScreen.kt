@@ -77,6 +77,7 @@ internal fun MyPageScreen(
     onNavigateToEditProfileImage: () -> Unit,
     onNavigateToPointHistory: (PointType) -> Unit,
     onNavigateToEditPassword: () -> Unit,
+    onNavigateToNotificationSettings: () -> Unit,
     onNavigateToUnauthorizedNav: () -> Unit,
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
@@ -180,6 +181,7 @@ internal fun MyPageScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onNavigateToPointHistory = onNavigateToPointHistory,
                 onNavigateToEditPassword = onNavigateToEditPassword,
+                onNavigateToNotificationSettings = onNavigateToNotificationSettings,
                 onSignOutClick = { onShouldShowSignOutDialogChange(true) },
                 onWithdrawalClick = { onShouldShowWithdrawDialogChange(true) },
                 onThemeSettingsClick = {
@@ -259,9 +261,9 @@ private fun UserInformation(
         ) {
             AsyncImage(
                 modifier = Modifier
-                .size(64.dp)
-                .clip(CircleShape)
-                .clickable(onClick = onNavigateToEditProfileImage),
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = onNavigateToEditProfileImage),
                 contentScale = ContentScale.Crop,
                 model = profileImageUrl ?: DmsIcon.ProfileDefault,
                 contentDescription =  stringResource(id = R.string.profile_image),
@@ -430,6 +432,7 @@ private fun Options(
     modifier: Modifier = Modifier,
     onNavigateToPointHistory: (PointType) -> Unit,
     onNavigateToEditPassword: () -> Unit,
+    onNavigateToNotificationSettings: () -> Unit,
     onSignOutClick: () -> Unit,
     onWithdrawalClick: () -> Unit,
     onThemeSettingsClick: () -> Unit,
@@ -443,6 +446,10 @@ private fun Options(
             Option(
                 titleRes = R.string.my_page_edit_password,
                 onClick = onNavigateToEditPassword,
+            ),
+            Option(
+                titleRes = R.string.my_page_notification_settings,
+                onClick = onNavigateToNotificationSettings,
             ),
         )
     }

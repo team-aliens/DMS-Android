@@ -56,6 +56,7 @@ class AuthApiServiceTest {
         val request = SignInRequest(
             accountId = "student",
             password = "rhqmffls13!",
+            deviceToken = "",
         )
         val response = Gson().fromJson(
             context.readJsonFromRawResources(R.raw.sign_in_response),

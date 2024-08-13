@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -17,8 +18,8 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
 
-        versionCode = 16
-        versionName = "1.3.7"
+        versionCode = 17
+        versionName = "1.3.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -66,6 +67,9 @@ dependencies {
     implementation(project(ProjectPaths.Core.PROJECT))
     implementation(project(ProjectPaths.Core.SCHOOL))
     implementation(project(ProjectPaths.Core.UI))
+    implementation(project(ProjectPaths.Core.NOTIFICATION))
+    implementation(project(ProjectPaths.Core.DEVICE))
+    implementation(project(ProjectPaths.Core.WIDGET))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))
@@ -123,4 +127,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
 
     implementation(libs.app.update)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+
+    implementation(libs.androidx.work.runtime.ktx)
+
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 }

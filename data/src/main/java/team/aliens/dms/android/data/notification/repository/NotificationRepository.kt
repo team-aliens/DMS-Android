@@ -27,7 +27,11 @@ abstract class NotificationRepository {
     abstract suspend fun batchUpdateNotificationTopic(subscriptions: List<NotificationTopic.Subscription>)
 
     // TODO device token 파라미터 고민
-    abstract suspend fun fetchNotificationStatus(deviceToken: String): NotificationTopicGroup.Status
+    abstract suspend fun fetchNotificationStatus(deviceToken: String): List<NotificationTopicGroup.Status>
 
     abstract suspend fun fetchNotifications(): List<Notification>
+
+    abstract suspend fun saveDeviceToken(deviceToken: String)
+
+    abstract suspend fun getDeviceToken(): String
 }

@@ -2,7 +2,6 @@ package team.aliens.dms.android.network.notification.datasource
 
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.CancelFcmDeviceTokenRegistrationRequest
-import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusRequest
 import team.aliens.dms.android.network.notification.model.FetchNotificationTopicStatusResponse
 import team.aliens.dms.android.network.notification.model.FetchNotificationsResponse
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
@@ -21,7 +20,7 @@ abstract class NetworkNotificationDataSource {
 
     abstract suspend fun batchUpdateNotificationTopic(request: BatchUpdateNotificationTopicRequest)
 
-    abstract suspend fun fetchNotificationTopicStatus(request: FetchNotificationTopicStatusRequest): FetchNotificationTopicStatusResponse
+    abstract suspend fun fetchNotificationTopicStatus(deviceToken: String): FetchNotificationTopicStatusResponse
 
     abstract suspend fun fetchNotifications(): FetchNotificationsResponse
 }

@@ -28,13 +28,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.OutlinedButton
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
@@ -86,7 +86,7 @@ internal fun StudyRoomListScreen(
                             val selected =
                                 availableStudyRoomTime == uiState.selectedAvailableStudyRoomTime
                             if (selected) {
-                                Button(
+                                ContainedButton(
                                     onClick = { /* explicit blank */ },
                                 ) {
                                     Text(
@@ -120,7 +120,7 @@ internal fun StudyRoomListScreen(
                         }
                     }
                 }
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding(),

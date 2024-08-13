@@ -46,11 +46,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.Button
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
@@ -170,7 +170,7 @@ internal fun StudyRoomDetailsScreen(
                                 )
                             },
                         )
-                        Button(
+                        ContainedButton(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .horizontalPadding()
@@ -408,7 +408,7 @@ private fun Seat(
         DmsTheme.colorScheme.onPrimary
     }
 
-    Button(
+    ContainedButton(
         modifier = Modifier.size(DefaultSeatButtonSize),
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(

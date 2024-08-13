@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
@@ -53,7 +54,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalTime
-import team.aliens.dms.android.core.designsystem.Button
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -126,7 +127,7 @@ fun OutingApplicationScreen(
                     endTime = uiState.selectedOutingEndTime,
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding()
@@ -236,7 +237,7 @@ fun OutingApplicationScreen(
                     },
                     selectedOnly = true,
                 )
-                Button(
+                ContainedButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalPadding()
@@ -484,12 +485,14 @@ fun OutingApplicationScreen(
                 )
             }
 
-            Button(
+            ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding()
-                    .bottomPadding(),
+                    .bottomPadding()
+                    .imePadding(),
                 onClick = { viewModel.postIntent(OutingIntent.ApplyOuting) },
+                enabled = uiState.selectedOutingType != null,
             ) {
                 Text(text = stringResource(id = R.string.outing_do_application))
             }

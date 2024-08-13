@@ -24,6 +24,7 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun signIn(
         accountId: String,
         password: String,
+        deviceToken: String,
         autoSignIn: Boolean,
     ) {
         val signInResponse = statusMapping(
@@ -35,6 +36,7 @@ internal class AuthRepositoryImpl @Inject constructor(
                 request = SignInRequest(
                     accountId = accountId,
                     password = password,
+                    deviceToken = deviceToken,
                 ),
             )
         }

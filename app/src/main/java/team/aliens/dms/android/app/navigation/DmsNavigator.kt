@@ -22,6 +22,7 @@ import team.aliens.dms.android.feature.destinations.FindIdScreenDestination
 import team.aliens.dms.android.feature.destinations.MainDestination
 import team.aliens.dms.android.feature.destinations.NoticeDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.NotificationBoxScreenDestination
+import team.aliens.dms.android.feature.destinations.NotificationSettingsScreenDestination
 import team.aliens.dms.android.feature.destinations.OutingApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestination
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
@@ -36,6 +37,7 @@ import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestin
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
+import team.aliens.dms.android.feature.notification.navigation.NotificationSettingsNavigator
 import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
@@ -46,16 +48,20 @@ class DmsNavigator(
     private val navController: NavController,
 ) : AuthorizedNavigator, UnauthorizedNavigator {
 
-    override fun openNotificationBox() {
-        navController.navigateSingleTop(NotificationBoxScreenDestination within navGraph)
-    }
-
     override fun openUnauthorizedNav() {
         navController.navigateSingleTop(UnauthorizedNavGraph) {
             popUpTo(AuthorizedNavGraph) {
                 inclusive = true
             }
         }
+    }
+
+    override fun openSettingsNotification() {
+        navController.navigateSingleTop(NotificationSettingsScreenDestination within navGraph)
+    }
+
+    override fun openNotificationBox() {
+        navController.navigateSingleTop(NotificationBoxScreenDestination within navGraph)
     }
 
     override fun openStudyRoomList() {

@@ -37,9 +37,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.R
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.slideInFromEnd
 import team.aliens.dms.android.core.designsystem.slideInFromStart
 import team.aliens.dms.android.core.designsystem.slideOutFromEnd
@@ -99,6 +99,7 @@ internal fun Main(
                 HomeScreen(
                     onChangeBottomAppBarVisibility = onChangeBottomAppBarVisibility,
                     onNavigateToAnnouncementList = { navController.navigateTo(MainSections.ANNOUNCEMENT_LIST.route) },
+                    onNavigateToNotificationBox = mainNavigator::openNotificationBox,
                 )
             }
 
@@ -168,6 +169,7 @@ internal fun Main(
                     onNavigateToPointHistory = mainNavigator::openPointHistory,
                     onNavigateToEditPassword = mainNavigator::openEditPasswordNav,
                     onNavigateToUnauthorizedNav = mainNavigator::openUnauthorizedNav,
+                    onNavigateToNotificationSettings = mainNavigator::openSettingsNotification,
                 )
             }
         }
@@ -241,22 +243,22 @@ private enum class MainSections(
 ) {
     HOME(
         route = "home",
-        iconRes = R.drawable.ic_home,
+        iconRes = DmsIcon.Home,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_home,
     ),
     APPLICATION(
         route = "application",
-        iconRes = R.drawable.ic_applicate,
+        iconRes = DmsIcon.Applicate,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_application,
     ),
     ANNOUNCEMENT_LIST(
         route = "announcement_list",
-        iconRes = R.drawable.ic_notice,
+        iconRes = DmsIcon.Notice,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_announcement_list,
     ),
     MY_PAGE(
         route = "my_page",
-        iconRes = R.drawable.ic_person,
+        iconRes = DmsIcon.Person,
         labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
     ),
     ;

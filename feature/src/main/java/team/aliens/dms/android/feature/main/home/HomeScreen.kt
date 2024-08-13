@@ -32,6 +32,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
@@ -67,6 +68,7 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsCalendar
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -94,6 +96,7 @@ import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
 import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
 import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
 import team.aliens.dms.android.shared.date.util.now
+import java.util.UUID
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,6 +107,7 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onChangeBottomAppBarVisibility: (visible: Boolean) -> Unit,
     onNavigateToAnnouncementList: () -> Unit,
+    onNavigateToNotificationBox: () -> Unit,
 ) {
     val toast = LocalToast.current
     val context = LocalContext.current
@@ -172,6 +176,15 @@ internal fun HomeScreen(
                             height = 28.dp,
                         ),
                     )
+                },
+                actions = {
+                    IconButton(onClick = onNavigateToNotificationBox) {
+                        Icon(
+                            painter = painterResource(id = DmsIcon.Bell),
+                            contentDescription = stringResource(id = R.string.notification_box),
+                            tint = DmsTheme.colorScheme.icon,
+                        )
+                    }
                 },
             )
         },
