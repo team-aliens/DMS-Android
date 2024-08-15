@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import team.aliens.dms.android.core.datastore.DeviceDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
 import team.aliens.dms.android.core.datastore.util.transform
 import team.aliens.dms.android.core.device.datastore.store.exception.CannotStoreDeviceTokenException
@@ -12,10 +13,11 @@ import team.aliens.dms.android.core.device.datastore.store.exception.DeviceToken
 import javax.inject.Inject
 
 internal class DeviceStoreImpl @Inject constructor(
-    private val preferencesDataStore: PreferencesDataStore,
+    @DeviceDataStore private val deviceDataStore: PreferencesDataStore,
 ) : DeviceStore() {
+
     override fun loadDeviceToken(): String = runBlocking {
-        preferencesDataStore.data.map { preferences ->
+        deviceDataStore.data.map { preferences ->
             preferences[DEVICE_TOKEN] ?: throw DeviceTokenNotFoundException()
         }.first()
     }
@@ -24,7 +26,7 @@ internal class DeviceStoreImpl @Inject constructor(
         transform(
             onFailure = { throw CannotStoreDeviceTokenException() },
         ) {
-            preferencesDataStore.edit { preferences ->
+            deviceDataStore.edit { preferences ->
                 preferences[DEVICE_TOKEN] = deviceToken
             }
         }
@@ -32,7 +34,7 @@ internal class DeviceStoreImpl @Inject constructor(
 
     override suspend fun clearDeviceToken() {
         transform {
-            preferencesDataStore.edit { preferences -> preferences.clear() }
+            deviceDataStore.edit { preferences -> preferences.clear() }
         }
     }
 

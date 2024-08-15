@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import team.aliens.dms.android.core.datastore.FeaturesDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
 import team.aliens.dms.android.core.datastore.util.transform
 import team.aliens.dms.android.core.school.Features
@@ -13,10 +14,10 @@ import team.aliens.dms.android.core.school.exception.FeaturesNotFoundException
 import javax.inject.Inject
 
 internal class FeaturesStoreImpl @Inject constructor(
-    private val preferencesDataStore: PreferencesDataStore,
+    @FeaturesDataStore private val featuresDataStore: PreferencesDataStore,
 ) : FeaturesStore() {
     override fun loadFeatures(): Features = runBlocking {
-        preferencesDataStore.data.map { preferences ->
+        featuresDataStore.data.map { preferences ->
             val mealService = preferences[MEAL_SERVICE] ?: throw FeaturesNotFoundException()
             val noticeService = preferences[NOTICE_SERVICE] ?: throw FeaturesNotFoundException()
             val pointService = preferences[POINT_SERVICE] ?: throw FeaturesNotFoundException()
@@ -38,7 +39,7 @@ internal class FeaturesStoreImpl @Inject constructor(
         transform(
             onFailure = { throw CannotStoreFeaturesException() },
         ) {
-            preferencesDataStore.edit { preferences ->
+            featuresDataStore.edit { preferences ->
                 preferences[MEAL_SERVICE] = features.mealService
                 preferences[NOTICE_SERVICE] = features.noticeService
                 preferences[POINT_SERVICE] = features.pointService
@@ -50,7 +51,7 @@ internal class FeaturesStoreImpl @Inject constructor(
 
     override suspend fun clearFeatures() {
         transform {
-            preferencesDataStore.edit { preferences -> preferences.clear() }
+            featuresDataStore.edit { preferences -> preferences.clear() }
         }
     }
 
