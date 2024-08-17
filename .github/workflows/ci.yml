@@ -53,3 +53,6 @@ jobs:
 
       - name: Run test
         run: ./gradlew test
+
+      - name: Check Ktlint
+        run: ./gradlew ktlintCheck
