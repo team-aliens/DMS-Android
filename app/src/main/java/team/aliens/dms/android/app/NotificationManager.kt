@@ -35,7 +35,10 @@ class NotificationManager(
     private val intent = Intent(context, MainActivity::class.java)
         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
     private val pendingIntent = PendingIntent.getActivity(
-        context, messageId, intent, PendingIntent.FLAG_IMMUTABLE
+        context,
+        messageId,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE,
     )
 
     private val notificationBuilder: NotificationCompat.Builder by lazy {
@@ -71,7 +74,7 @@ class NotificationManager(
             val channel = NotificationChannel(
                 Notifications.NOTIFICATION_CHANNEL_ID,
                 Notifications.CHANNEL_NAME,
-                importance
+                importance,
             ).apply {
                 this.description = Notifications.CHANNEL_DESCRIPTION
             }
