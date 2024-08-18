@@ -1,6 +1,5 @@
 package team.aliens.dms.android.app.di.network
 
-import team.aliens.dms.android.network.BuildConfig as NetworkBuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +17,7 @@ import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
 import team.aliens.dms.android.core.network.httpclient.GlobalInterceptors
 import team.aliens.dms.android.core.school.FeaturesFetchingUrl
 import javax.inject.Singleton
+import team.aliens.dms.android.network.BuildConfig as NetworkBuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -110,7 +110,7 @@ object NetworkConfigModule {
             HttpRequest(
                 method = HttpMethod.GET,
                 path = "/files/url",
-            )
+            ),
         )
     }
 
