@@ -1,6 +1,8 @@
 package team.aliens.dms.android.core.widget.meal
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -9,6 +11,8 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
@@ -61,7 +65,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                                     mealType = MealType.Breakfast,
                                     meal = mealInfo.breakfast,
                                     calories = mealInfo.kcalOfBreakfast,
-                                )
+                                ),
                             )
                         }
 
@@ -71,7 +75,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                                     mealType = MealType.Launch,
                                     meal = mealInfo.lunch,
                                     calories = mealInfo.kcalOfLunch,
-                                )
+                                ),
                             )
                         }
 
@@ -81,7 +85,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                                     mealType = MealType.Dinner,
                                     meal = mealInfo.dinner,
                                     calories = mealInfo.kcalOfDinner,
-                                )
+                                ),
                             )
                         }
                     }
@@ -92,11 +96,21 @@ class MealGlanceWidget : GlanceAppWidget() {
 
     @Composable
     private fun MealBig(
-        mealState: MealState
+        mealState: MealState,
     ) {
+        val context = LocalContext.current
+        val intent = Intent().setClassName(
+            context.packageName, "team.aliens.dms.android.app.MainActivity",
+        )
+        val pendingIntent = PendingIntent.getActivity(
+            context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
         Row(
             modifier = GlanceModifier
                 .fillMaxSize()
+                .clickable {
+                    pendingIntent.send()
+                }
                 .padding(
                     horizontal = 18.dp,
                     vertical = 16.dp,
@@ -104,7 +118,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                 .background(DmsTheme.colorScheme.background),
         ) {
             Column(
-                modifier = GlanceModifier.fillMaxHeight()
+                modifier = GlanceModifier.fillMaxHeight(),
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -120,7 +134,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                             color = WidgetTheme.colors.primary,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                        )
+                        ),
                     )
                 }
                 Spacer(GlanceModifier.defaultWeight())
@@ -130,7 +144,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                         color = WidgetTheme.colors.onSurfaceVariant,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal,
-                    )
+                    ),
                 )
             }
             LazyColumn(
@@ -146,7 +160,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                             color = WidgetTheme.colors.surfaceVariant,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Normal,
-                        )
+                        ),
                     )
                 }
             }
@@ -168,10 +182,9 @@ private fun Loading() {
                 color = WidgetTheme.colors.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-            )
+            ),
         )
     }
-
 }
 
 @Composable
@@ -188,7 +201,7 @@ private fun Unavailable() {
                 color = WidgetTheme.colors.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-            )
+            ),
         )
     }
 }
