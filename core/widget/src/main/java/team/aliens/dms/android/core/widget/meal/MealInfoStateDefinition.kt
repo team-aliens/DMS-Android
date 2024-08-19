@@ -34,7 +34,7 @@ object MealInfoStateDefinition : GlanceStateDefinition<MealInfo> {
         override suspend fun readFrom(input: InputStream): MealInfo = try {
             Json.decodeFromString(
                 MealInfo.serializer(),
-                input.readBytes().decodeToString()
+                input.readBytes().decodeToString(),
             )
         } catch (exception: SerializationException) {
             throw CorruptionException("Could not read meal data: ${exception.message}")
@@ -43,7 +43,7 @@ object MealInfoStateDefinition : GlanceStateDefinition<MealInfo> {
         override suspend fun writeTo(t: MealInfo, output: OutputStream) {
             output.use {
                 it.write(
-                    Json.encodeToString(MealInfo.serializer(), t).encodeToByteArray()
+                    Json.encodeToString(MealInfo.serializer(), t).encodeToByteArray(),
                 )
             }
         }
