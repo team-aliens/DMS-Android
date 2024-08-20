@@ -76,7 +76,7 @@ internal class RemainsApplicationViewModel @Inject constructor(
                     ),
                 )
                 this@RemainsApplicationViewModel.updateSelectedRemainsOption(
-                    fetchedAppliedRemainsOption.id
+                    fetchedAppliedRemainsOption.id,
                 )
             }
         }

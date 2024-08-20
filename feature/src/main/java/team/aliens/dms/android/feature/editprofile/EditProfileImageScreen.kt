@@ -64,23 +64,23 @@ internal fun EditProfileImageScreen(
                 EditProfileImageIntent.UpdateProfileImage(
                     uri = imageUrl,
                     context = context,
-                )
+                ),
             )
-        }
+        },
     )
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             EditProfileImageSideEffect.ProfileImageSet -> toast.showSuccessToast(
                 message = context.getString(
-                    R.string.edit_profile_success
-                )
+                    R.string.edit_profile_success,
+                ),
             )
 
             EditProfileImageSideEffect.ProfileImageBadRequest -> toast.showErrorToast(
                 message = context.getString(
-                    R.string.edit_profile_fail
-                )
+                    R.string.edit_profile_fail,
+                ),
             )
         }
     }
@@ -96,9 +96,9 @@ internal fun EditProfileImageScreen(
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -114,7 +114,7 @@ internal fun EditProfileImageScreen(
                     val mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                     val request = PickVisualMediaRequest(mediaType)
                     activityResultLauncher.launch(request)
-                }
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
@@ -124,7 +124,7 @@ internal fun EditProfileImageScreen(
                     .bottomPadding(),
                 onClick = {
                     viewModel.postIntent(
-                        EditProfileImageIntent.EditProfile
+                        EditProfileImageIntent.EditProfile,
                     )
                 },
                 enabled = uiState.buttonEnabled,
@@ -141,14 +141,14 @@ private fun SetImage(
     onChangeImage: () -> Unit,
 ) {
     Box(
-        contentAlignment = Alignment.BottomEnd
+        contentAlignment = Alignment.BottomEnd,
     ) {
         AsyncImage(
             modifier = Modifier
                 .size(150.dp)
                 .clip(CircleShape)
                 .clickable(
-                    onClick = onChangeImage
+                    onClick = onChangeImage,
                 ),
             contentScale = ContentScale.Crop,
             model = uiState.uri ?: DmsIcon.ProfileDefault,

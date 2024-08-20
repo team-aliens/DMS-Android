@@ -20,7 +20,7 @@ class ResetPasswordViewModel @Inject constructor(
     private val studentRepository: StudentRepository,
     private val authRepository: AuthRepository,
 ) : BaseMviViewModel<ResetPasswordUiState, ResetPasswordIntent, ResetPasswordSideEffect>(
-    initialState = ResetPasswordUiState.initial()
+    initialState = ResetPasswordUiState.initial(),
 ) {
     /*디자인에서 처음 본인인증할때 아이디만을 사용해서 "아이디 존재 여부(비밀번호 재설정)"이라는 Api로 이에 해당하는 Email를 받습니다.
        그다음 아이디를 입력 받은 다음에 "이메일 검증이라는 Api를 사용하여 이메일과 아이디를 서버에 보낸뒤 이 값들이 정보와 일치하는지 검사합니다."
@@ -42,7 +42,6 @@ class ResetPasswordViewModel @Inject constructor(
             is ResetPasswordIntent.UpdateNewPasswordRepeat -> updateNewPasswordRepeat(value = intent.value)
         }
     }
-
 
     private fun resetPassword() = viewModelScope.launch(Dispatchers.IO) {
         val capturedState = stateFlow.value
@@ -103,7 +102,6 @@ class ResetPasswordViewModel @Inject constructor(
             postSideEffect(ResetPasswordSideEffect.SendEmailVerificationCodeSuccess)
         }
 
-
     private fun updateEmailVerificationCode(value: String) = run {
         if (value.length > ResetPasswordViewModel.EMAIL_VERIFICATION_CODE_LENGTH) {
             return@run false
@@ -141,31 +139,31 @@ class ResetPasswordViewModel @Inject constructor(
     private fun updateNewPassword(value: String) = reduce(
         newState = stateFlow.value.copy(
             newPassword = value,
-        )
+        ),
     )
 
     private fun updateAccountId(value: String) = reduce(
         newState = stateFlow.value.copy(
             accountId = value,
-        )
+        ),
     )
 
     private fun updateStudentName(value: String) = reduce(
         newState = stateFlow.value.copy(
-            studentName = value
-        )
+            studentName = value,
+        ),
     )
 
     private fun updateEmail(value: String) = reduce(
         newState = stateFlow.value.copy(
             email = value,
-        )
+        ),
     )
 
     private fun updateNewPasswordRepeat(value: String) = reduce(
         newState = stateFlow.value.copy(
             newPasswordRepeat = value,
-        )
+        ),
     )
 
     companion object {

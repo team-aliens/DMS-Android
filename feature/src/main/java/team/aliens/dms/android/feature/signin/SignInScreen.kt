@@ -240,7 +240,7 @@ private fun UserInformationInputs(
                                 is BadRequestException -> R.string.sign_in_error_check_format
                                 else -> R.string.error_unknown
                             },
-                        )
+                        ),
                     )
                 }
             } else {

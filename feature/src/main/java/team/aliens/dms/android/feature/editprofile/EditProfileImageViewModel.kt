@@ -43,7 +43,7 @@ internal class EditProfileImageViewModel @Inject constructor(
                 file = team.aliens.dms.android.core.file.File.toFile(
                     context = context,
                     uri = uri,
-                )
+                ),
             )
         } else {
             postSideEffect(EditProfileImageSideEffect.ProfileImageBadRequest)
@@ -67,7 +67,7 @@ internal class EditProfileImageViewModel @Inject constructor(
                         newState = stateFlow.value.copy(
                             profileImageUrl = fileUrl.fileUrl,
                             buttonEnabled = true,
-                        )
+                        ),
                     )
                 }
             }.onFailure {
@@ -86,7 +86,6 @@ internal class EditProfileImageViewModel @Inject constructor(
             postSideEffect(EditProfileImageSideEffect.ProfileImageBadRequest)
         }
     }
-
 }
 
 data class EditProfileImageUiState(

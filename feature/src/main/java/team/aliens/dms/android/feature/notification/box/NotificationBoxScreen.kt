@@ -58,7 +58,7 @@ internal fun NotificationBoxScreen(
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             NotificationBoxSideEffect.CurrentNotificationsNotFound -> toast.showErrorToast(
-                message = context.getString(R.string.notification_box_notifications_not_current)
+                message = context.getString(R.string.notification_box_notifications_not_current),
             )
 
             is NotificationBoxSideEffect.MoveToDetail -> {
@@ -166,8 +166,8 @@ private fun NotificationListLayout(
                     onNavigateToNoticeDetails = {
                         viewModel.postIntent(
                             NotificationBoxIntent.DetailNotification(
-                                notification
-                            )
+                                notification,
+                            ),
                         )
                     },
                 )
@@ -203,7 +203,7 @@ private fun NotificationCard(
                 DmsTheme.colorScheme.onBackground
             } else {
                 DmsTheme.colorScheme.primary
-            }
+            },
         )
         Spacer(modifier = Modifier.width(PaddingDefaults.Small))
         Column {

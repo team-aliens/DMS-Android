@@ -103,7 +103,7 @@ class OutingViewModel @Inject constructor(
         val captureOutingDate: LocalDate = stateFlow.value.outingDate
         if (now.hour >= 20) {
             reduce(
-                newState = stateFlow.value.copy(outingDate = captureOutingDate.plusDays(1))
+                newState = stateFlow.value.copy(outingDate = captureOutingDate.plusDays(1)),
             )
         }
     }
@@ -202,7 +202,7 @@ class OutingViewModel @Inject constructor(
                         remove(student)
                     }
                 },
-            )
+            ),
         )
     }
 }

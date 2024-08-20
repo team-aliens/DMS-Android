@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,14 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
-import team.aliens.dms.android.core.designsystem.VerificationCodeInput
-import team.aliens.dms.android.core.designsystem.VerificationCodeInputDefaults
+import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -39,7 +38,7 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-internal fun EnterSchoolVerificationCodeScreen(
+internal fun EnterSchoolVerificationQuestionScreen(
     modifier: Modifier = Modifier,
     navigator: SignUpNavigator,
     viewModel: SignUpViewModel,
@@ -48,20 +47,14 @@ internal fun EnterSchoolVerificationCodeScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
 
-    LaunchedEffect(uiState.schoolVerificationCode) {
-        if (uiState.schoolVerificationCode.length == SignUpViewModel.SCHOOL_VERIFICATION_CODE_LENGTH) {
-            viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationCode)
-        }
-    }
-
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            SignUpSideEffect.SchoolVerificationCodeExamined -> navigator.openEnterSchoolVerificationQuestion()
-            SignUpSideEffect.SchoolVerificationCodeNotFound -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_error_school_verification_code_not_found),
+            SignUpSideEffect.SchoolVerificationQuestionExamined -> navigator.openEnterEmail()
+            SignUpSideEffect.SchoolVerificationQuestionIncorrect -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_enter_school_verification_question_error_question_incorrect),
             )
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -70,11 +63,11 @@ internal fun EnterSchoolVerificationCodeScreen(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
-                title = {},
+                title = { },
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
-                            painter = painterResource(id = DmsIcon.Back),
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
@@ -98,18 +91,29 @@ internal fun EnterSchoolVerificationCodeScreen(
                 },
             )
             Spacer(modifier = Modifier.weight(1f))
-            VerificationCodeInput(
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .startPadding(),
+                text = uiState.schoolVerificationQuestion ?: stringResource(id = R.string.loading),
+            )
+            Spacer(modifier = Modifier.height(DefaultHorizontalSpace))
+            TextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                totalLength = SignUpViewModel.SCHOOL_VERIFICATION_CODE_LENGTH,
-                text = uiState.schoolVerificationCode,
-                onValueChange = { code ->
-                    viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationCode(value = code))
+                value = uiState.schoolVerificationAnswer,
+                hint = {
+                    Text(text = stringResource(id = R.string.sign_up_hint_answer_school_verification_question))
+                },
+                onValueChange = {
+                    viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationAnswer(value = it))
                 },
                 supportingText = {
-                    VerificationCodeInputDefaults.SupportingText(text = stringResource(id = R.string.sign_up_enter_school_verification_code_please_enter_8_digit_school_verification_code))
+                    // TODO
                 },
+                // TODO
+                isError = false,
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -118,11 +122,11 @@ internal fun EnterSchoolVerificationCodeScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationCode)
+                    viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationAnswer)
                 },
-                enabled = uiState.schoolVerificationCode.length == SignUpViewModel.SCHOOL_VERIFICATION_CODE_LENGTH,
+                enabled = uiState.schoolVerificationAnswer.isNotEmpty(),
             ) {
-                Text(text = stringResource(id = R.string.next))
+                Text(text = stringResource(id = R.string.verify))
             }
         }
     }

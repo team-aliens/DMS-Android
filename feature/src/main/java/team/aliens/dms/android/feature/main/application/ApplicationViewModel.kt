@@ -22,7 +22,8 @@ internal class ApplicationViewModel @Inject constructor(
     private val remainsRepository: RemainsRepository,
 ) : BaseMviViewModel<ApplicationUiState, ApplicationIntent, ApplicationSideEffect>(
     initialState = ApplicationUiState.initial(),
-), DefaultLifecycleObserver {
+),
+    DefaultLifecycleObserver {
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)

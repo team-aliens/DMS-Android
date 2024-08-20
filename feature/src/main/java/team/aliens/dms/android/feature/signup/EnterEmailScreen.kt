@@ -25,9 +25,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.ui.Banner
@@ -106,7 +106,7 @@ internal fun EnterEmailScreen(
                 message = context.getString(R.string.sign_up_enter_email_error_email_not_available),
             )
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }

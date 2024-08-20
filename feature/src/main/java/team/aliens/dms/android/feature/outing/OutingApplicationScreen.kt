@@ -138,16 +138,16 @@ fun OutingApplicationScreen(
                                 value = LocalTime.of(
                                     startHourValuesPickerState.selectedItem.toInt(),
                                     startMinuteValuesPickerState.selectedItem.toInt(),
-                                )
-                            )
+                                ),
+                            ),
                         )
                         viewModel.postIntent(
                             OutingIntent.UpdateOutingEndTime(
                                 value = LocalTime.of(
                                     endHourValuesPickerState.selectedItem.toInt(),
                                     endMinuteValuesPickerState.selectedItem.toInt(),
-                                )
-                            )
+                                ),
+                            ),
                         )
                         scope.launch {
                             timeSheetState.hide()
@@ -198,7 +198,7 @@ fun OutingApplicationScreen(
                         .heightIn(max = 240.dp),
                     students = uiState.students?.filter {
                         it.name.contains(studentFilterValue) || it.gradeClassNumber.contains(
-                            studentFilterValue
+                            studentFilterValue,
                         )
                     },
                     selectedStudents = uiState.selectedStudents,
@@ -274,7 +274,7 @@ fun OutingApplicationScreen(
             )
 
             is OutingSideEffect.OutingApplicationSuccess -> navigator.navigateUp()
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -401,7 +401,7 @@ fun OutingApplicationScreen(
                             modifier = Modifier.menuAnchor(),
                             value = uiState.selectedOutingType
                                 ?: stringResource(id = R.string.outing_select_outing_type),
-                            onValueChange = {/* explicit blank */ },
+                            onValueChange = { /* explicit blank */ },
                             trailingIcon = {
                                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = outingTypeMenuExpanded)
                             },

@@ -96,7 +96,6 @@ import team.aliens.dms.android.feature.main.home.MealCardType.BREAKFAST
 import team.aliens.dms.android.feature.main.home.MealCardType.DINNER
 import team.aliens.dms.android.feature.main.home.MealCardType.LUNCH
 import team.aliens.dms.android.shared.date.util.now
-import java.util.UUID
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -424,8 +423,11 @@ private fun MealCards(
     val context = LocalContext.current
 
     LaunchedEffect(pagerState.currentPage) {
-        if (firstEnter) firstEnter = false
-        else vibrateOnMealCardPaging(context)
+        if (firstEnter) {
+            firstEnter = false
+        } else {
+            vibrateOnMealCardPaging(context)
+        }
     }
 
     HorizontalPager(

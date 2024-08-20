@@ -208,11 +208,11 @@ private fun PointCard(
                 )
                 Text(
                     text = "${
-                        if (point.type == PointType.MINUS) {
-                            point.score * -1
-                        } else {
-                            point.score
-                        }
+                    if (point.type == PointType.MINUS) {
+                        point.score * -1
+                    } else {
+                        point.score
+                    }
                     }",
                     color = when (point.type) {
                         PointType.ALL -> throw IllegalStateException()
