@@ -130,7 +130,7 @@ internal fun SetIdScreen(
                 message = context.getString(R.string.sign_up_set_id_error_student_duplicated),
             )
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -288,7 +288,7 @@ private fun StudentInformationCard(
                 modifier = Modifier.startPadding(),
                 text = stringResource(
                     id = R.string.sign_up_set_id_format_authentication_information_student_name,
-                    studentName
+                    studentName,
                 ),
             )
             TextButton(

@@ -20,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -58,7 +58,7 @@ internal fun ConfirmPasswordScreen(
                 message = context.getString(R.string.edit_password_error_password_mismatch),
             )
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -106,7 +106,7 @@ internal fun ConfirmPasswordScreen(
                 },
                 passwordShowing = showPassword,
                 onPasswordShowingChange = onShowPasswordChange,
-                hintText = stringResource(id = R.string.edit_password_please_enter_current_password)
+                hintText = stringResource(id = R.string.edit_password_please_enter_current_password),
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(

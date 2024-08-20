@@ -1,4 +1,4 @@
-package team.aliens.dms.android.feature.resetpassword
+package team.aliens.dms.android.feature.signup
 
 import android.os.CountDownTimer
 import androidx.compose.foundation.layout.Column
@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -43,7 +44,7 @@ import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
+import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 
 // Millisecond * Second * Minutes
 private const val TIMER_TOTAL_SECONDS: Long = 1000 * 60 * 3
@@ -52,19 +53,17 @@ private const val TIMER_INTERVAL: Long = 1000
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-internal fun ResetPasswordEnterEmailVerificationCodeScreen(
+internal fun SignUpEnterEmailVerificationCodeScreen(
     modifier: Modifier = Modifier,
-    navigator: ResetPasswordNavigator,
-    viewModel: ResetPasswordViewModel,
+    navigator: SignUpNavigator,
+    viewModel: SignUpViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    var timerText: String by remember { mutableStateOf("") }
     val toast = LocalToast.current
     val context = LocalContext.current
-    var timerText: String by remember { mutableStateOf("") }
-
     var isVerificationInputAvailable by remember { mutableStateOf(true) }
     var isSessionExpired by remember { mutableStateOf(false) }
-
     val timer: CountDownTimer = remember {
         object : CountDownTimer(TIMER_TOTAL_SECONDS, TIMER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
@@ -76,8 +75,14 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
             override fun onFinish() {
                 isVerificationInputAvailable = false
                 isSessionExpired = true
-                viewModel.postIntent(ResetPasswordIntent.UpdateEmailVerificationCode(value = ""))
+                viewModel.postIntent(SignUpIntent.UpdateEmailVerificationCode(value = ""))
             }
+        }
+    }
+
+    LaunchedEffect(uiState.emailVerificationCode) {
+        if (uiState.emailVerificationCode.length == SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH) {
+            viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode)
         }
     }
 
@@ -87,16 +92,16 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            ResetPasswordSideEffect.EmailVerificationCodeChecked -> {
+            SignUpSideEffect.EmailVerificationCodeChecked -> {
                 timer.cancel()
-                navigator.openResetPasswordSetPassword()
+                navigator.openSetId()
             }
 
-            ResetPasswordSideEffect.EmailVerificationCodeIncorrect -> toast.showErrorToast(
+            SignUpSideEffect.EmailVerificationCodeIncorrect -> toast.showErrorToast(
                 message = context.getString(R.string.sign_up_enter_email_verification_code_error_verification_code_incorrect),
             )
 
-            ResetPasswordSideEffect.EmailVerificationSessionReset -> {
+            SignUpSideEffect.EmailVerificationSessionReset -> {
                 isVerificationInputAvailable = true
                 with(timer) {
                     cancel()
@@ -107,11 +112,11 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
                 )
             }
 
-            ResetPasswordSideEffect.EmailVerificationSessionResetFailed -> toast.showErrorToast(
+            SignUpSideEffect.EmailVerificationSessionResetFailed -> toast.showErrorToast(
                 message = context.getString(R.string.sign_up_enter_email_verification_code_error_cannot_resend_verification_code),
             )
 
-            else -> {//* explicit blank *//*
+            else -> { /* explicit blank */
             }
         }
     }
@@ -122,9 +127,9 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
             DmsTopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = navigator::openSignIn) {
+                    IconButton(onClick = navigator::popUpToEnterEmail) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
@@ -152,10 +157,10 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                totalLength = ResetPasswordViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
+                totalLength = SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
                 text = uiState.emailVerificationCode,
                 onValueChange = { verificationCode ->
-                    viewModel.postIntent(ResetPasswordIntent.UpdateEmailVerificationCode(value = verificationCode))
+                    viewModel.postIntent(SignUpIntent.UpdateEmailVerificationCode(value = verificationCode))
                 },
                 supportingText = {
                     VerificationCodeInputDefaults.SupportingText(
@@ -191,7 +196,7 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                onClick = { viewModel.postIntent(ResetPasswordIntent.ResetEmailVerificationSession) },
+                onClick = { viewModel.postIntent(SignUpIntent.ResetEmailVerificationSession) },
                 colors = ButtonDefaults.textGrayButtonColors(),
             ) {
                 Text(text = stringResource(id = R.string.sign_up_enter_email_verification_code_resend_verification_code))
@@ -202,8 +207,8 @@ internal fun ResetPasswordEnterEmailVerificationCodeScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { viewModel.postIntent(ResetPasswordIntent.CheckEmailVerificationCode) },
-                enabled = uiState.emailVerificationCode.length == ResetPasswordViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
+                onClick = { viewModel.postIntent(SignUpIntent.CheckEmailVerificationCode) },
+                enabled = uiState.emailVerificationCode.length == SignUpViewModel.EMAIL_VERIFICATION_CODE_LENGTH,
             ) {
                 Text(text = stringResource(id = R.string.verify))
             }

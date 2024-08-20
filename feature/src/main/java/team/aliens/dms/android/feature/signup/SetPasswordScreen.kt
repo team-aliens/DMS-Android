@@ -64,7 +64,7 @@ internal fun SignUpSetPasswordScreen(
 
     val (isPasswordInvalid, onChangeIsPasswordInvalid) = remember(
         uiState.password,
-        uiState.passwordRepeat
+        uiState.passwordRepeat,
     ) {
         mutableStateOf(false)
     }
@@ -106,7 +106,7 @@ internal fun SignUpSetPasswordScreen(
                 onChangeIsPasswordInvalid(true)
             }
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -153,7 +153,7 @@ internal fun SignUpSetPasswordScreen(
                     onValueChange = { viewModel.postIntent(SignUpIntent.UpdatePassword(value = it)) },
                     passwordShowing = showPassword,
                     onPasswordShowingChange = onShowPasswordChange,
-                    hintText = stringResource(id = R.string.sign_up_set_password_please_enter_password)
+                    hintText = stringResource(id = R.string.sign_up_set_password_please_enter_password),
                 )
                 PasswordTextField(
                     modifier = Modifier
@@ -163,7 +163,7 @@ internal fun SignUpSetPasswordScreen(
                     onValueChange = { viewModel.postIntent(SignUpIntent.UpdatePasswordRepeat(value = it)) },
                     passwordShowing = showPasswordRepeat,
                     onPasswordShowingChange = onShowPasswordRepeatChange,
-                    hintText = stringResource(id = R.string.sign_up_set_password_please_enter_password_again)
+                    hintText = stringResource(id = R.string.sign_up_set_password_please_enter_password_again),
                 )
             }
             Spacer(modifier = Modifier.weight(3f))

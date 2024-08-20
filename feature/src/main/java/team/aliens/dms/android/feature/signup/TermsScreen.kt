@@ -27,10 +27,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.Checkbox
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -61,12 +61,12 @@ internal fun TermsScreen(
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             SignUpSideEffect.SignUpFailure -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_error_id_format)
+                message = context.getString(R.string.sign_up_error_id_format),
             )
 
             // TODO: 모달 구현
             SignUpSideEffect.SignedUp -> navigator.openSignIn()
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -102,7 +102,8 @@ internal fun TermsScreen(
                 factory = {
                     WebView(it).apply {
                         layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT,
                         )
                         webViewClient = WebViewClient()
 

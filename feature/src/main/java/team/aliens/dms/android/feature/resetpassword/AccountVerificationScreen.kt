@@ -82,7 +82,7 @@ fun AccountVerificationScreen(
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -178,7 +178,6 @@ fun AccountVerificationScreen(
                         },
                     )
                 }
-
             }
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -189,8 +188,8 @@ fun AccountVerificationScreen(
                 onClick = {
                     viewModel.postIntent(
                         ResetPasswordIntent.SendEmailVerificationCode(
-                            uiState.email
-                        )
+                            uiState.email,
+                        ),
                     )
                 },
                 enabled = uiState.accountId.isNotEmpty() && uiState.studentName.isNotEmpty() && uiState.email.isNotEmpty(),
