@@ -1,16 +1,15 @@
-package team.aliens.dms.android.app
+package team.aliens.dms.android.core.notification
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import team.aliens.dms.android.core.designsystem.DmsIcon
-import team.aliens.dms.android.core.notification.notificationPermissionGranted
 
 private object Notifications {
     const val NOTIFICATION_ID = 0
@@ -19,6 +18,7 @@ private object Notifications {
     const val CHANNEL_DESCRIPTION = "dms notification channel"
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 class NotificationManager(
     private val context: Context,
 ) {
@@ -31,18 +31,14 @@ class NotificationManager(
         NotificationManagerCompat.from(context)
     }
 
-    private val messageId = System.currentTimeMillis().toInt()
-    private val intent = Intent(context, MainActivity::class.java)
-        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-    private val pendingIntent = PendingIntent.getActivity(
-        context, messageId, intent, PendingIntent.FLAG_IMMUTABLE
-    )
-
     private val notificationBuilder: NotificationCompat.Builder by lazy {
         NotificationCompat.Builder(context, Notifications.NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(DmsIcon.Notification)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(pendingIntent)
+            .setColor(ContextCompat.getColor(context, R.color.primary))
+            .setAutoCancel(true)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
     }
 
     fun setNotificationContent(
@@ -67,7 +63,7 @@ class NotificationManager(
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(
                 Notifications.NOTIFICATION_CHANNEL_ID,
                 Notifications.CHANNEL_NAME,
