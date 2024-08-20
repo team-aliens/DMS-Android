@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.TextFieldColors
 import team.aliens.dms.android.core.designsystem.TextFieldDefaults
