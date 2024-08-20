@@ -177,23 +177,23 @@ class Colors(
     )
 
     override fun toString(): String = "Colors(" +
-            "primary=$primary, " +
-            "onPrimary=$onPrimary, " +
-            "primaryContainer=$primaryContainer, " +
-            "onPrimaryContainer=$onPrimaryContainer, " +
-            "error=$error, " +
-            "onError=$onError, " +
-            "errorContainer=$errorContainer, " +
-            "onErrorContainer=$onErrorContainer, " +
-            "background=$background, " +
-            "onBackground=$onBackground, " +
-            "backgroundVariant=$backgroundVariant, " +
-            "onBackgroundVariant=$onBackgroundVariant, " +
-            "surface=$surface, " +
-            "onSurface=$onSurface, " +
-            "surfaceVariant=$surfaceVariant, " +
-            "onSurfaceVariant=$onSurfaceVariant, " +
-            ")"
+        "primary=$primary, " +
+        "onPrimary=$onPrimary, " +
+        "primaryContainer=$primaryContainer, " +
+        "onPrimaryContainer=$onPrimaryContainer, " +
+        "error=$error, " +
+        "onError=$onError, " +
+        "errorContainer=$errorContainer, " +
+        "onErrorContainer=$onErrorContainer, " +
+        "background=$background, " +
+        "onBackground=$onBackground, " +
+        "backgroundVariant=$backgroundVariant, " +
+        "onBackgroundVariant=$onBackgroundVariant, " +
+        "surface=$surface, " +
+        "onSurface=$onSurface, " +
+        "surfaceVariant=$surfaceVariant, " +
+        "onSurfaceVariant=$onSurfaceVariant, " +
+        ")"
 }
 
 fun lightColors(

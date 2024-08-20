@@ -100,10 +100,11 @@ internal class StudyRoomDetailsViewModel @Inject constructor(
     ) = viewModelScope.launch(Dispatchers.IO) {
         reduce(
             newState = stateFlow.value.copy(
-                selectedSeat = seat, mainButtonState = when {
+                selectedSeat = seat,
+                mainButtonState = when {
                     seat.isMine -> StudyRoomDetailsMainButtonState.CANCEL_SEAT
                     else -> StudyRoomDetailsMainButtonState.UPDATE_SEAT
-                }
+                },
             ),
         )
     }

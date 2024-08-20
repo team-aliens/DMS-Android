@@ -20,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -68,7 +67,7 @@ fun AccountVerificationScreen(
         }
     }
 
-    var isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) }
+    val isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) }
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
@@ -82,7 +81,7 @@ fun AccountVerificationScreen(
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -178,7 +177,6 @@ fun AccountVerificationScreen(
                         },
                     )
                 }
-
             }
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -189,8 +187,8 @@ fun AccountVerificationScreen(
                 onClick = {
                     viewModel.postIntent(
                         ResetPasswordIntent.SendEmailVerificationCode(
-                            uiState.email
-                        )
+                            uiState.email,
+                        ),
                     )
                 },
                 enabled = uiState.accountId.isNotEmpty() && uiState.studentName.isNotEmpty() && uiState.email.isNotEmpty(),

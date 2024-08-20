@@ -27,7 +27,6 @@ suspend inline fun <T> handleNetworkRequest(
 ): T = try {
     request()
 } catch (httpException: retrofit2.HttpException) {
-
     val code = httpException.code()
     val message = httpException.message()
 

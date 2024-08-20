@@ -168,18 +168,18 @@ class Typography internal constructor(
 
     override fun toString(): String {
         return "Typography(headline1=$headline1, " +
-                "headline2=$headline1, " +
-                "headline3=$headline3, " +
-                "title1=$title1, " +
-                "title2=$title2, " +
-                "title3=$title3, " +
-                "body1=$body1, " +
-                "body2=$body2, " +
-                "body3=$body3, " +
-                "caption=$caption, " +
-                "overline=$overline, " +
-                "button=$button" +
-                ")"
+            "headline2=$headline1, " +
+            "headline3=$headline3, " +
+            "title1=$title1, " +
+            "title2=$title2, " +
+            "title3=$title3, " +
+            "body1=$body1, " +
+            "body2=$body2, " +
+            "body3=$body3, " +
+            "caption=$caption, " +
+            "overline=$overline, " +
+            "button=$button" +
+            ")"
     }
 }
 

@@ -1,7 +1,6 @@
 package team.aliens.dms.android.network.notification.model
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 data class FetchNotificationsResponse(

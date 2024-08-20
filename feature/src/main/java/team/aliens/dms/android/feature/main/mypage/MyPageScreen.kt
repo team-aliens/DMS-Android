@@ -266,7 +266,7 @@ private fun UserInformation(
                     .clickable(onClick = onNavigateToEditProfileImage),
                 contentScale = ContentScale.Crop,
                 model = profileImageUrl ?: DmsIcon.ProfileDefault,
-                contentDescription =  stringResource(id = R.string.profile_image),
+                contentDescription = stringResource(id = R.string.profile_image),
             )
             Image(
                 modifier = Modifier
@@ -332,7 +332,7 @@ private fun PointCards(
                 .weight(1f)
                 .startPadding()
                 .clickable(
-                    onClick = { onNavigateToPointHistory(PointType.BONUS) }
+                    onClick = { onNavigateToPointHistory(PointType.BONUS) },
                 ),
             type = PointCardType.BONUS,
             // TODO: fix
@@ -343,7 +343,7 @@ private fun PointCards(
                 .weight(1f)
                 .endPadding()
                 .clickable(
-                    onClick = { onNavigateToPointHistory(PointType.MINUS) }
+                    onClick = { onNavigateToPointHistory(PointType.MINUS) },
                 ),
             type = PointCardType.MINUS,
             // TODO: fix

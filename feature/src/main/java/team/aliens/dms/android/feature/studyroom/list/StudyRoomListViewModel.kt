@@ -28,7 +28,7 @@ internal class StudyRoomListViewModel @Inject constructor(
     override fun processIntent(intent: StudyRoomListIntent) {
         when (intent) {
             is StudyRoomListIntent.UpdateSelectedAvailableStudyRoomTime -> updateSelectedAvailableStudyRoomTime(
-                availableStudyRoomTime = intent.availableStudyRoomTime
+                availableStudyRoomTime = intent.availableStudyRoomTime,
             )
         }
     }

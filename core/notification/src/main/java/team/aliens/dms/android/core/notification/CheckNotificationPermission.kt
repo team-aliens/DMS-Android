@@ -7,9 +7,11 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 
 fun notificationPermissionGranted(context: Context): Boolean {
-    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+    return (
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) == PackageManager.PERMISSION_GRANTED) || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+            context,
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
+        ) || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
 }

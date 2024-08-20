@@ -19,27 +19,27 @@ internal interface NotificationApiService {
 
     @POST("/notifications/tokens")
     suspend fun registerFcmDeviceToken(
-        @Body request: RegisterFcmDeviceTokenRequest
+        @Body request: RegisterFcmDeviceTokenRequest,
     )
 
     @DELETE("/notifications/token")
     suspend fun cancelFcmDeviceTokenRegistration(
-        @Body request: CancelFcmDeviceTokenRegistrationRequest
+        @Body request: CancelFcmDeviceTokenRegistrationRequest,
     )
 
     @POST("/notifications/topic")
     suspend fun subscribeNotificationTopic(
-        @Body request: SubscribeNotificationTopicRequest
+        @Body request: SubscribeNotificationTopicRequest,
     )
 
     @HTTP(method = "DELETE", path = "/notifications/topic", hasBody = true)
     suspend fun unsubscribeNotificationTopic(
-        @Body request: UnsubscribeNotificationTopicRequest
+        @Body request: UnsubscribeNotificationTopicRequest,
     )
 
     @PATCH("/notifications/topic")
     suspend fun batchUpdateNotificationTopic(
-        @Body request: BatchUpdateNotificationTopicRequest
+        @Body request: BatchUpdateNotificationTopicRequest,
     )
 
     @GET("/notifications/topic")

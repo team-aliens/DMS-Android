@@ -25,10 +25,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
@@ -103,7 +103,7 @@ internal fun EditPasswordSetPasswordScreen(
                 message = context.getString(R.string.edit_password_error_password_edit_failure),
             )
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -160,7 +160,9 @@ internal fun EditPasswordSetPasswordScreen(
                 isError = isPasswordFormatError,
                 supportingText = if (isPasswordFormatError) {
                     { Text(text = stringResource(id = R.string.edit_password_error_password_format_invalid)) }
-                } else null,
+                } else {
+                    null
+                },
             )
             PasswordTextField(
                 modifier = Modifier
@@ -174,7 +176,9 @@ internal fun EditPasswordSetPasswordScreen(
                 isError = isPasswordFormatError,
                 supportingText = if (isPasswordFormatError) {
                     { Text(text = stringResource(id = R.string.edit_password_error_password_format_invalid)) }
-                } else null,
+                } else {
+                    null
+                },
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),

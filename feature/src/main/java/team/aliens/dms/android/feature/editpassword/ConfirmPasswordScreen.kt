@@ -1,10 +1,8 @@
-package team.aliens.dms.android.feature.signup
+package team.aliens.dms.android.feature.editpassword
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,6 +11,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -20,41 +20,45 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
-import team.aliens.dms.android.core.designsystem.TextField
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.Banner
 import team.aliens.dms.android.core.ui.BannerDefaults
-import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.composable.PasswordTextField
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-internal fun EnterSchoolVerificationQuestionScreen(
+internal fun ConfirmPasswordScreen(
     modifier: Modifier = Modifier,
-    navigator: SignUpNavigator,
-    viewModel: SignUpViewModel,
+    navigator: EditPasswordNavigator,
+    viewModel: EditPasswordViewModel,
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val toast = LocalToast.current
     val context = LocalContext.current
 
+    val (showPassword, onShowPasswordChange) = remember { mutableStateOf(false) }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            SignUpSideEffect.SchoolVerificationQuestionExamined -> navigator.openEnterEmail()
-            SignUpSideEffect.SchoolVerificationQuestionIncorrect -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_enter_school_verification_question_error_question_incorrect),
+            EditPasswordSideEffect.PasswordConfirmed -> navigator.openEditPasswordSetPassword(
+                currentPassword = uiState.currentPassword,
             )
 
-            else -> {/* explicit blank */
+            EditPasswordSideEffect.PasswordIncorrect -> toast.showErrorToast(
+                message = context.getString(R.string.edit_password_error_password_mismatch),
+            )
+
+            else -> { /* explicit blank */
             }
         }
     }
@@ -63,9 +67,9 @@ internal fun EnterSchoolVerificationQuestionScreen(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
-                title = { },
+                title = { Text(text = stringResource(id = R.string.edit_password)) },
                 navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
+                    IconButton(onClick = navigator::popUpToMain) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
@@ -77,7 +81,6 @@ internal fun EnterSchoolVerificationQuestionScreen(
     ) { padValues ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(padValues)
                 .imePadding(),
         ) {
@@ -87,33 +90,23 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .topPadding(BannerDefaults.DefaultTopSpace)
                     .startPadding(),
                 message = {
-                    BannerDefaults.DefaultText(text = stringResource(id = R.string.sign_up_enter_school_verification_code))
+                    BannerDefaults.DefaultText(
+                        text = stringResource(id = R.string.edit_password_old_password),
+                    )
                 },
             )
             Spacer(modifier = Modifier.weight(1f))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .startPadding(),
-                text = uiState.schoolVerificationQuestion ?: stringResource(id = R.string.loading),
-            )
-            Spacer(modifier = Modifier.height(DefaultHorizontalSpace))
-            TextField(
+            PasswordTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = uiState.schoolVerificationAnswer,
-                hint = {
-                    Text(text = stringResource(id = R.string.sign_up_hint_answer_school_verification_question))
+                value = uiState.currentPassword,
+                onValueChange = { value ->
+                    viewModel.postIntent(EditPasswordIntent.UpdateCurrentPassword(value))
                 },
-                onValueChange = {
-                    viewModel.postIntent(SignUpIntent.UpdateSchoolVerificationAnswer(value = it))
-                },
-                supportingText = {
-                    // TODO
-                },
-                // TODO
-                isError = false,
+                passwordShowing = showPassword,
+                onPasswordShowingChange = onShowPasswordChange,
+                hintText = stringResource(id = R.string.edit_password_please_enter_current_password),
             )
             Spacer(modifier = Modifier.weight(3f))
             ContainedButton(
@@ -122,11 +115,11 @@ internal fun EnterSchoolVerificationQuestionScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    viewModel.postIntent(SignUpIntent.ExamineSchoolVerificationAnswer)
+                    viewModel.postIntent(EditPasswordIntent.ConfirmPassword)
                 },
-                enabled = uiState.schoolVerificationAnswer.isNotEmpty(),
+                enabled = uiState.currentPassword.isNotBlank(),
             ) {
-                Text(text = stringResource(id = R.string.verify))
+                Text(text = stringResource(id = R.string.next))
             }
         }
     }

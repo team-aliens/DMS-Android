@@ -133,7 +133,7 @@ fun OutingStatusScreen(
                         time = stringResource(
                             id = R.string.outing_format_duration_h_m,
                             outingApplication.startTime,
-                            outingApplication.endTime
+                            outingApplication.endTime,
                         ),
                         companionNames = outingApplication.companionNames,
                         reason = outingApplication.reason,
@@ -144,7 +144,7 @@ fun OutingStatusScreen(
                         .fillMaxWidth()
                         .topPadding(),
                     textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.outing_failed_to_fetch_current_applied_outing_application)
+                    text = stringResource(id = R.string.outing_failed_to_fetch_current_applied_outing_application),
                 )
             }
             if (uiState.currentAppliedOutingApplication == null) {
@@ -172,7 +172,6 @@ private fun OutingInformationCard(
     reason: String?,
     onCancelApplication: () -> Unit,
 ) {
-
     Card(
         modifier = modifier
             .horizontalPadding()

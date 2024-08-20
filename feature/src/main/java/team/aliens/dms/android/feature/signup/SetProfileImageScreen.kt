@@ -67,21 +67,21 @@ internal fun SetProfileImageScreen(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { imageUrl ->
             viewModel.postIntent(SignUpIntent.UpdateProfileImage(uri = imageUrl, context = context))
-        }
+        },
     )
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             SignUpSideEffect.ProfileImageSet -> navigator.openTerms()
             SignUpSideEffect.ProfileImageBadRequest -> toast.showErrorToast(
-                message = context.getString(R.string.sign_up_profile_error_load_image_error)
+                message = context.getString(R.string.sign_up_profile_error_load_image_error),
             )
 
             else -> { /* explicit blank */
             }
         }
     }
-    
+
     Scaffold(
         topBar = {
             DmsTopAppBar(
@@ -92,9 +92,9 @@ internal fun SetProfileImageScreen(
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -123,13 +123,13 @@ internal fun SetProfileImageScreen(
                         val mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                         val request = PickVisualMediaRequest(mediaType)
                         activityResultLauncher.launch(request)
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.weight(2f))
                 Text(
                     modifier = Modifier
                         .clickable(
-                            onClick = navigator::openTerms
+                            onClick = navigator::openTerms,
                         )
                         .padding(
                             vertical = PaddingDefaults.Small,
@@ -162,7 +162,7 @@ private fun SetImage(
     onChangeImage: () -> Unit,
 ) {
     Box(
-        contentAlignment = Alignment.BottomEnd
+        contentAlignment = Alignment.BottomEnd,
     ) {
         AsyncImage(
             modifier = Modifier

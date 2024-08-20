@@ -45,7 +45,6 @@ import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.notification.navigation.NotificationSettingsNavigator
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
@@ -61,15 +60,15 @@ internal fun NotificationSettingsScreen(
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             NotificationSettingsSideEffect.CurrentNotificationsStatusNotFound -> toast.showErrorToast(
-                message = context.getString(R.string.notification_not_current)
+                message = context.getString(R.string.notification_not_current),
             )
 
             NotificationSettingsSideEffect.SubscribeNotificationFailure -> toast.showErrorToast(
-                message = context.getString(R.string.notification_subscribe_fail)
+                message = context.getString(R.string.notification_subscribe_fail),
             )
 
             NotificationSettingsSideEffect.UnSubscribeNotificationFailure -> toast.showErrorToast(
-                message = context.getString(R.string.notification_unsubscribe_fail)
+                message = context.getString(R.string.notification_unsubscribe_fail),
             )
         }
     }
@@ -240,7 +239,7 @@ private fun NotificationLayout(
                             NotificationSettingsIntent.UpdateNotificationTopic(
                                 isSubscribed = isChecked,
                                 topic = topic,
-                            )
+                            ),
                         )
                     },
                 )

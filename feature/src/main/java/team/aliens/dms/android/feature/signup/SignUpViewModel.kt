@@ -54,7 +54,7 @@ class SignUpViewModel @Inject constructor(
             SignUpIntent.ConfirmPassword -> confirmPassword()
             is SignUpIntent.UpdateProfileImage -> changeProfileImage(
                 uri = intent.uri,
-                context = intent.context
+                context = intent.context,
             )
 
             is SignUpIntent.SignUp -> signUp()
@@ -272,7 +272,7 @@ class SignUpViewModel @Inject constructor(
                 file = team.aliens.dms.android.core.file.File.toFile(
                     context = context,
                     uri = uri,
-                )
+                ),
             )
         } else {
             postSideEffect(SignUpSideEffect.ProfileImageBadRequest)

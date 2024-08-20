@@ -17,7 +17,7 @@ import javax.inject.Inject
 internal class NotificationSettingsViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
 ) : BaseMviViewModel<NotificationSettingsUiState, NotificationSettingsIntent, NotificationSettingsSideEffect>(
-    initialState = NotificationSettingsUiState.initial()
+    initialState = NotificationSettingsUiState.initial(),
 ) {
 
     override fun processIntent(intent: NotificationSettingsIntent) {

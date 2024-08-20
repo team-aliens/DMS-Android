@@ -22,7 +22,7 @@ fun AlertDialog(
     titleContentColor: Color = DmsTheme.colorScheme.onSurface,
     textContentColor: Color = DmsTheme.colorScheme.onSurface,
     tonalElevation: Dp = ShadowDefaults.MediumElevation,
-    properties: DialogProperties = DialogProperties()
+    properties: DialogProperties = DialogProperties(),
 ) = androidx.compose.material3.AlertDialog(
     onDismissRequest = onDismissRequest,
     confirmButton = confirmButton,

@@ -27,7 +27,6 @@ data class RefreshToken(
     override val expiration: LocalDateTime,
 ) : Token()
 
-
 internal fun TokensResponse.toModel(): Tokens = Tokens(
     accessToken = AccessToken(
         value = this.accessToken,

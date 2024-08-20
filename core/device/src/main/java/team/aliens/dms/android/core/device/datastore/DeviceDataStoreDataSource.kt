@@ -7,5 +7,4 @@ abstract class DeviceDataStoreDataSource {
     abstract suspend fun storeDeviceToken(deviceToken: String)
 
     abstract suspend fun clearDeviceToken()
-
 }

@@ -17,7 +17,6 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.screenPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 
 @Composable

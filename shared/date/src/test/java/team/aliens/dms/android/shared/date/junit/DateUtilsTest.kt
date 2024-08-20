@@ -2,7 +2,6 @@ package team.aliens.dms.android.shared.date.junit
 
 import org.junit.Test
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
 

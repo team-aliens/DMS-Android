@@ -18,7 +18,7 @@ import javax.inject.Inject
 internal class NotificationBoxViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
 ) : BaseMviViewModel<NotificationBoxUiState, NotificationBoxIntent, NotificationBoxSideEffect>(
-    initialState = NotificationBoxUiState.initial()
+    initialState = NotificationBoxUiState.initial(),
 ) {
 
     init {
@@ -26,7 +26,7 @@ internal class NotificationBoxViewModel @Inject constructor(
     }
 
     override fun processIntent(intent: NotificationBoxIntent) {
-        when(intent) {
+        when (intent) {
             is NotificationBoxIntent.DetailNotification -> detailNotification(intent.notification)
         }
     }
@@ -44,7 +44,7 @@ internal class NotificationBoxViewModel @Inject constructor(
     }
 
     private fun detailNotification(notification: Notification) {
-        when(notification.topic) {
+        when (notification.topic) {
             NotificationTopic.NOTICE -> {
                 postSideEffect(NotificationBoxSideEffect.MoveToDetail(notification.linkId))
             }
@@ -70,10 +70,10 @@ internal data class NotificationBoxUiState(
 }
 
 internal sealed class NotificationBoxIntent : Intent() {
-    class DetailNotification(val notification: Notification): NotificationBoxIntent()
+    class DetailNotification(val notification: Notification) : NotificationBoxIntent()
 }
 
 internal sealed class NotificationBoxSideEffect : SideEffect() {
-    data object CurrentNotificationsNotFound: NotificationBoxSideEffect()
-    data class MoveToDetail(val detailId: UUID): NotificationBoxSideEffect()
+    data object CurrentNotificationsNotFound : NotificationBoxSideEffect()
+    data class MoveToDetail(val detailId: UUID) : NotificationBoxSideEffect()
 }
