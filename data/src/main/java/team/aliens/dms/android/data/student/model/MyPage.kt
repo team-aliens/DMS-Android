@@ -2,7 +2,7 @@ package team.aliens.dms.android.data.student.model
 
 import team.aliens.dms.android.shared.model.Sex
 
-data class MyPage (
+data class MyPage(
     val schoolName: String,
     val studentName: String,
     val gradeClassNumber: String,

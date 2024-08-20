@@ -25,7 +25,7 @@ class OutingRepositoryImpl @Inject constructor(
         endTime: LocalTime,
         type: String,
         reason: String?,
-        companionIds: List<UUID>
+        companionIds: List<UUID>,
     ): OutingApplicationId = outingNetworkDataSource.applyOuting(
         req = ApplyOutingRequest(
             date = date.format(DateTimeFormatter.ISO_LOCAL_DATE),
