@@ -100,10 +100,14 @@ class MealGlanceWidget : GlanceAppWidget() {
     ) {
         val context = LocalContext.current
         val intent = Intent().setClassName(
-            context.packageName, "team.aliens.dms.android.app.MainActivity",
+            context.packageName,
+            "team.aliens.dms.android.app.MainActivity",
         )
         val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         Row(
             modifier = GlanceModifier

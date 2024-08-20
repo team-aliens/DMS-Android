@@ -9,9 +9,7 @@ object WidgetTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalColorProviders.current
-
 }
-
 
 @Composable
 fun WidgetTheme(
@@ -22,4 +20,3 @@ fun WidgetTheme(
         content()
     }
 }
-
