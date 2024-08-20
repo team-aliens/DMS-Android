@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.notification.DeviceTokenManager
-import team.aliens.dms.android.app.NotificationManager
+import team.aliens.dms.android.core.notification.NotificationManager
 import javax.inject.Inject
 
 @AndroidEntryPoint
