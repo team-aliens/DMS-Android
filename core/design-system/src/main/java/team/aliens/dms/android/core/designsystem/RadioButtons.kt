@@ -1,7 +1,5 @@
 package team.aliens.dms.android.core.designsystem
 
-import androidx.compose.material3.RadioButton as MaterialRadioButton
-import androidx.compose.material3.RadioButtonDefaults as MaterialRadioButtonDefaults
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.RadioButton as MaterialRadioButton
+import androidx.compose.material3.RadioButtonDefaults as MaterialRadioButtonDefaults
 
 @Composable
 fun RadioButton(
@@ -56,7 +56,6 @@ object RadioButtonDefaults {
 @Preview(showSystemUi = true)
 @Composable
 private fun RadioButtonPreview() {
-
     val selectedValue = remember { mutableStateOf("") }
     val label = "Item"
 
@@ -65,7 +64,7 @@ private fun RadioButtonPreview() {
     ) {
         RadioButton(
             selected = selectedValue.value == label,
-            onClick = { selectedValue.value = label }
+            onClick = { selectedValue.value = label },
         )
         Text(
             modifier = Modifier.fillMaxWidth(),

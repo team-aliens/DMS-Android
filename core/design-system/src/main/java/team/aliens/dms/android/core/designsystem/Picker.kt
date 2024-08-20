@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +38,7 @@ fun Picker(
     items: List<String>,
     state: PickerState = rememberPickerState(),
     modifier: Modifier = Modifier,
-    startIndex: Int  = 0,
+    startIndex: Int = 0,
     visibleItemsCount: Int = 3,
     textModifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -61,7 +60,7 @@ fun Picker(
         Brush.verticalGradient(
             0f to Color.Transparent,
             0.5f to Color.Black,
-            1f to Color.Transparent
+            1f to Color.Transparent,
         )
     }
 
@@ -80,7 +79,7 @@ fun Picker(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(itemHeightDp * visibleItemsCount)
-                .fadingEdge(fadingEdgeGradient)
+                .fadingEdge(fadingEdgeGradient),
         ) {
             items(listScrollCount) { index ->
                 Text(
@@ -90,7 +89,7 @@ fun Picker(
                     style = textStyle,
                     modifier = Modifier
                         .onSizeChanged { size -> itemHeightPixels.value = size.height }
-                        .then(textModifier)
+                        .then(textModifier),
                 )
             }
         }

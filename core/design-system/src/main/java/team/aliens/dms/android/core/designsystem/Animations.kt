@@ -29,7 +29,7 @@ fun slideOutFromStart(): ExitTransition {
         animationSpec = tween(
             durationMillis = slideOutDurationMillis,
             delayMillis = slideOutDelayMillis,
-        )
+        ),
     )
 }
 
@@ -38,6 +38,6 @@ fun slideOutFromEnd(): ExitTransition {
         animationSpec = tween(
             durationMillis = slideOutDurationMillis,
             delayMillis = slideOutDelayMillis,
-        )
+        ),
     )
 }
