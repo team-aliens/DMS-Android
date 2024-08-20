@@ -1,7 +1,6 @@
 package team.aliens.dms.android.core.jwt.network.model
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDateTime
 
 data class TokensResponse(
     @SerializedName("access_token") val accessToken: String,

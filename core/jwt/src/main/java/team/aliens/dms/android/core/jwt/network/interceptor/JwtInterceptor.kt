@@ -22,7 +22,7 @@ class JwtInterceptor @Inject constructor(
                 interceptedRequest
             } else {
                 interceptedRequest.newBuilder().addAccessToken().build()
-            }
+            },
         )
     }
 
@@ -35,7 +35,7 @@ class JwtInterceptor @Inject constructor(
         val path = this@shouldBeIgnored.url.encodedPath
         val method = this@shouldBeIgnored.method.toHttpMethod()
 
-        path.contains(ignoreRequest.path) && method == ignoreRequest.method ||checkS3Request(url = this@shouldBeIgnored.url.toString())
+        path.contains(ignoreRequest.path) && method == ignoreRequest.method || checkS3Request(url = this@shouldBeIgnored.url.toString())
     }
 
     private fun checkS3Request(url: String): Boolean {
