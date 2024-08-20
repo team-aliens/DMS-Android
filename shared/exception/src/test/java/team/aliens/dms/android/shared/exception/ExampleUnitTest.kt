@@ -1,6 +1,6 @@
 package team.aliens.dms.android.shared.exception
 
-import org.junit.Assert.*
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 /**
