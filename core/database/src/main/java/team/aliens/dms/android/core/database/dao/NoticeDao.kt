@@ -23,7 +23,7 @@ abstract class NoticeDao {
         """
             SELECT *
             FROM tbl_notices;
-        """
+        """,
     )
     abstract fun findAll(): List<NoticeEntity>
 
