@@ -13,7 +13,7 @@ import java.nio.file.Files
 import javax.inject.Inject
 
 internal class NetworkFileDataSourceImpl @Inject constructor(
-    private val fileApiService: FileApiService
+    private val fileApiService: FileApiService,
 ) : NetworkFileDataSource() {
     override suspend fun fetchPresignedUrl(fileName: String): FetchPresignedUrlResponse =
         handleNetworkRequest { fileApiService.fetchPresignedUrl(fileName) }
@@ -24,7 +24,7 @@ internal class NetworkFileDataSourceImpl @Inject constructor(
             fileApiService.uploadFile(
                 presignedUrl = presignedUrl,
                 file = Files.readAllBytes(file.toPath()).toRequestBody(
-                    contentType = RequestType.Binary.toMediaTypeOrNull()
+                    contentType = RequestType.Binary.toMediaTypeOrNull(),
                 ),
             )
         }

@@ -16,6 +16,6 @@ internal object ApiServiceModule {
     @Provides
     @Singleton
     fun provideNotificationApiService(
-        @GlobalRetrofitClient retrofit: Retrofit
+        @GlobalRetrofitClient retrofit: Retrofit,
     ): NotificationApiService = retrofit.create(NotificationApiService::class.java)
 }
