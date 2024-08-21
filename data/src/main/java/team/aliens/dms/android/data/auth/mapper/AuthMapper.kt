@@ -7,7 +7,7 @@ import team.aliens.dms.android.core.school.Features
 import team.aliens.dms.android.network.auth.model.SignInResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
 
-fun SignInResponse.extractTokens(): Tokens = Tokens(
+internal fun SignInResponse.extractTokens(): Tokens = Tokens(
     accessToken = AccessToken(
         value = this.accessToken,
         expiration = this.accessTokenExpiration.toLocalDateTime(),
@@ -18,7 +18,7 @@ fun SignInResponse.extractTokens(): Tokens = Tokens(
     ),
 )
 
-fun SignInResponse.extractFeatures(): Features = Features(
+internal fun SignInResponse.extractFeatures(): Features = Features(
     mealService = this.features.mealService,
     noticeService = this.features.noticeService,
     pointService = this.features.pointService,
