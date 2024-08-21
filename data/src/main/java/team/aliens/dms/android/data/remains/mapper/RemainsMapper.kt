@@ -24,7 +24,7 @@ internal fun FetchRemainsApplicationTimeResponse.toModel(): RemainsApplicationTi
 internal fun FetchRemainsOptionsResponse.toModel(): List<RemainsOption> =
     this.remainsOptionResponse.map(FetchRemainsOptionsResponse.RemainsOptionResponse::toModel)
 
-internal fun FetchRemainsOptionsResponse.RemainsOptionResponse.toModel(): RemainsOption =
+private fun FetchRemainsOptionsResponse.RemainsOptionResponse.toModel(): RemainsOption =
     RemainsOption(
         id = this.id,
         title = this.title,
