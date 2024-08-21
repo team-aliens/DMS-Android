@@ -11,10 +11,10 @@ internal fun FetchPointsResponse.toModel(): PointStatus = PointStatus(
     points = this.pointResponses.toModel(),
 )
 
-internal fun List<FetchPointsResponse.PointResponse>.toModel(): List<Point> =
+private fun List<FetchPointsResponse.PointResponse>.toModel(): List<Point> =
     this.map(FetchPointsResponse.PointResponse::toModel)
 
-internal fun FetchPointsResponse.PointResponse.toModel(): Point = Point(
+private fun FetchPointsResponse.PointResponse.toModel(): Point = Point(
     id = this.id,
     date = this.date.toLocalDate(),
     type = PointType.valueOf(this.type),
