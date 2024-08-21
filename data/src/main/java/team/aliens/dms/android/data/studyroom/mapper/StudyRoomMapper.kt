@@ -12,16 +12,16 @@ import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomDetailsResp
 import team.aliens.dms.android.network.studyroom.model.FetchStudyRoomsResponse
 import team.aliens.dms.android.shared.model.Sex
 
-fun FetchStudyRoomApplicationTimeResponse.toModel(): StudyRoomApplicationTime =
+internal fun FetchStudyRoomApplicationTimeResponse.toModel(): StudyRoomApplicationTime =
     StudyRoomApplicationTime(
         startAt = this.startAt,
         endAt = this.endAt,
     )
 
-fun FetchStudyRoomsResponse.toModel(): List<StudyRoom> =
+internal fun FetchStudyRoomsResponse.toModel(): List<StudyRoom> =
     this.studyRoomResponses.map(FetchStudyRoomsResponse.StudyRoomResponse::toModel)
 
-fun FetchStudyRoomsResponse.StudyRoomResponse.toModel(): StudyRoom = StudyRoom(
+private fun FetchStudyRoomsResponse.StudyRoomResponse.toModel(): StudyRoom = StudyRoom(
     id = this.id,
     floor = this.floor,
     name = this.name,
@@ -32,7 +32,7 @@ fun FetchStudyRoomsResponse.StudyRoomResponse.toModel(): StudyRoom = StudyRoom(
     isMine = this.isMine,
 )
 
-fun FetchStudyRoomDetailsResponse.toModel(): StudyRoom.Details = StudyRoom.Details(
+internal fun FetchStudyRoomDetailsResponse.toModel(): StudyRoom.Details = StudyRoom.Details(
     id = id,
     floor = floor,
     name = name,
@@ -51,10 +51,10 @@ fun FetchStudyRoomDetailsResponse.toModel(): StudyRoom.Details = StudyRoom.Detai
     seats = seats.toModel(),
 )
 
-fun List<FetchStudyRoomDetailsResponse.SeatResponse>.toModel(): List<StudyRoom.Seat> =
+private fun List<FetchStudyRoomDetailsResponse.SeatResponse>.toModel(): List<StudyRoom.Seat> =
     this.map(FetchStudyRoomDetailsResponse.SeatResponse::toModel)
 
-fun FetchStudyRoomDetailsResponse.SeatResponse.toModel(): StudyRoom.Seat = StudyRoom.Seat(
+private fun FetchStudyRoomDetailsResponse.SeatResponse.toModel(): StudyRoom.Seat = StudyRoom.Seat(
     id = this.id,
     row = this.row,
     column = this.column,
@@ -65,37 +65,37 @@ fun FetchStudyRoomDetailsResponse.SeatResponse.toModel(): StudyRoom.Seat = Study
     student = this.student?.toModel(),
 )
 
-fun FetchStudyRoomDetailsResponse.SeatResponse.SeatTypeResponse.toModel(): StudyRoom.Seat.Type =
+private fun FetchStudyRoomDetailsResponse.SeatResponse.SeatTypeResponse.toModel(): StudyRoom.Seat.Type =
     StudyRoom.Seat.Type(
         id = this.id,
         name = this.name,
         color = this.color,
     )
 
-fun FetchStudyRoomDetailsResponse.SeatResponse.StudentResponse.toModel(): StudyRoom.Seat.Student =
+private fun FetchStudyRoomDetailsResponse.SeatResponse.StudentResponse.toModel(): StudyRoom.Seat.Student =
     StudyRoom.Seat.Student(
         id = this.id,
         name = this.name,
     )
 
-fun FetchAppliedStudyRoomResponse.toModel(): AppliedStudyRoom = AppliedStudyRoom(
+internal fun FetchAppliedStudyRoomResponse.toModel(): AppliedStudyRoom = AppliedStudyRoom(
     floor = this.floor,
     name = this.name,
 )
 
-fun FetchSeatTypesResponse.toModel(): List<StudyRoom.Seat.Type> =
+internal fun FetchSeatTypesResponse.toModel(): List<StudyRoom.Seat.Type> =
     this.types.map(FetchSeatTypesResponse.SeatTypeResponse::toModel)
 
-fun FetchSeatTypesResponse.SeatTypeResponse.toModel(): StudyRoom.Seat.Type = StudyRoom.Seat.Type(
+private fun FetchSeatTypesResponse.SeatTypeResponse.toModel(): StudyRoom.Seat.Type = StudyRoom.Seat.Type(
     id = this.id,
     name = this.name,
     color = this.color,
 )
 
-fun FetchAvailableStudyRoomTimesResponse.toModel(): List<AvailableStudyRoomTime> =
+internal fun FetchAvailableStudyRoomTimesResponse.toModel(): List<AvailableStudyRoomTime> =
     this.availableStudyRoomTimes.map(FetchAvailableStudyRoomTimesResponse.AvailableStudyRoomTimeResponse::toModel)
 
-fun FetchAvailableStudyRoomTimesResponse.AvailableStudyRoomTimeResponse.toModel(): AvailableStudyRoomTime =
+private fun FetchAvailableStudyRoomTimesResponse.AvailableStudyRoomTimeResponse.toModel(): AvailableStudyRoomTime =
     AvailableStudyRoomTime(
         id = this.id,
         startTime = this.startTime,
