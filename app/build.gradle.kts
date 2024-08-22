@@ -27,12 +27,18 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+        }
+        debug {
+            splits.abi.isEnable = false
+            aaptOptions.cruncherEnabled = false
+            splits.density.isEnable = false
+            aaptOptions.cruncherEnabled = false
         }
     }
 
