@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
@@ -33,8 +34,8 @@ import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.widget.designsystem.WidgetTheme
+import team.aliens.dms.android.core.widget.R
+import team.aliens.dms.android.core.widget.designsystem.DmsWidgetGlanceColorScheme
 
 class MealGlanceWidget : GlanceAppWidget() {
 
@@ -43,51 +44,49 @@ class MealGlanceWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
-            MealWidget()
+            GlanceTheme(colors = DmsWidgetGlanceColorScheme.colors) {
+                MealWidget()
+            }
         }
     }
 
     @Composable
     internal fun MealWidget() {
-        val mealInfo = currentState<MealInfo>()
+        when (val mealInfo = currentState<MealInfo>()) {
+            MealInfo.Loading -> Loading()
 
-        GlanceTheme {
-            when (mealInfo) {
-                MealInfo.Loading -> Loading()
+            is MealInfo.Unavailable -> Unavailable()
 
-                is MealInfo.Unavailable -> Unavailable()
+            is MealInfo.Available -> {
+                when (MealType.getCurrentMealType()) {
+                    MealType.Breakfast -> {
+                        MealBig(
+                            mealState = MealState(
+                                mealType = MealType.Breakfast,
+                                meal = mealInfo.breakfast,
+                                calories = mealInfo.kcalOfBreakfast,
+                            ),
+                        )
+                    }
 
-                is MealInfo.Available -> {
-                    when (MealType.getCurrentMealType()) {
-                        MealType.Breakfast -> {
-                            MealBig(
-                                mealState = MealState(
-                                    mealType = MealType.Breakfast,
-                                    meal = mealInfo.breakfast,
-                                    calories = mealInfo.kcalOfBreakfast,
-                                ),
-                            )
-                        }
+                    MealType.Launch -> {
+                        MealBig(
+                            mealState = MealState(
+                                mealType = MealType.Launch,
+                                meal = mealInfo.lunch,
+                                calories = mealInfo.kcalOfLunch,
+                            ),
+                        )
+                    }
 
-                        MealType.Launch -> {
-                            MealBig(
-                                mealState = MealState(
-                                    mealType = MealType.Launch,
-                                    meal = mealInfo.lunch,
-                                    calories = mealInfo.kcalOfLunch,
-                                ),
-                            )
-                        }
-
-                        MealType.Dinner -> {
-                            MealBig(
-                                mealState = MealState(
-                                    mealType = MealType.Dinner,
-                                    meal = mealInfo.dinner,
-                                    calories = mealInfo.kcalOfDinner,
-                                ),
-                            )
-                        }
+                    MealType.Dinner -> {
+                        MealBig(
+                            mealState = MealState(
+                                mealType = MealType.Dinner,
+                                meal = mealInfo.dinner,
+                                calories = mealInfo.kcalOfDinner,
+                            ),
+                        )
                     }
                 }
             }
@@ -119,7 +118,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                     horizontal = 18.dp,
                     vertical = 16.dp,
                 )
-                .background(DmsTheme.colorScheme.background),
+                .background(GlanceTheme.colors.background),
         ) {
             Column(
                 modifier = GlanceModifier.fillMaxHeight(),
@@ -135,7 +134,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                     Text(
                         text = mealState.mealType.title,
                         style = TextStyle(
-                            color = WidgetTheme.colors.primary,
+                            color = GlanceTheme.colors.primary,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                         ),
@@ -145,7 +144,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                 Text(
                     text = mealState.calories,
                     style = TextStyle(
-                        color = WidgetTheme.colors.onSurfaceVariant,
+                        color = GlanceTheme.colors.onSurfaceVariant,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal,
                     ),
@@ -161,7 +160,7 @@ class MealGlanceWidget : GlanceAppWidget() {
                     Text(
                         text = it,
                         style = TextStyle(
-                            color = WidgetTheme.colors.surfaceVariant,
+                            color = GlanceTheme.colors.surfaceVariant,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Normal,
                         ),
@@ -177,13 +176,13 @@ private fun Loading() {
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(GlanceTheme.colors.background),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "로딩중...",
+            text = stringResource(id = R.string.loading),
             style = TextStyle(
-                color = WidgetTheme.colors.primary,
+                color = GlanceTheme.colors.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
             ),
@@ -196,13 +195,13 @@ private fun Unavailable() {
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(GlanceTheme.colors.background),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "급식을 불러오지 못했어요",
+            text = stringResource(id = R.string.can_not_bring_meal_info),
             style = TextStyle(
-                color = WidgetTheme.colors.primary,
+                color = GlanceTheme.colors.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
             ),

@@ -2,4 +2,7 @@
 <resources>
     <string name="today_meal">급식 메뉴</string>
     <string name="meal_widget_description">오늘 급식을 빠르게 확인해보세요</string>
+
+    <string name="can_not_bring_meal_info">"급식을 불러오지 못했어요"</string>
+    <string name="loading">로딩중...</string>
 </resources>
