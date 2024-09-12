@@ -156,9 +156,7 @@ fun OutingStatusScreen(
                     onClick = navigator::openOutingApplication,
                     enabled = uiState.isApplicationState,
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.outing_do_application)
-                    )
+                    Text(text = stringResource(id = R.string.outing_do_application))
                 }
             }
         }
