@@ -42,6 +42,7 @@ fun Picker(
     visibleItemsCount: Int = 3,
     textModifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
+    color: Color = Color.Unspecified,
 ) {
     val visibleItemsMiddle = visibleItemsCount / 2
     val listScrollCount = Integer.MAX_VALUE
@@ -59,7 +60,7 @@ fun Picker(
     val fadingEdgeGradient = remember {
         Brush.verticalGradient(
             0f to Color.Transparent,
-            0.5f to Color.Black,
+            0.5f to color,
             1f to Color.Transparent,
         )
     }
@@ -90,6 +91,7 @@ fun Picker(
                     modifier = Modifier
                         .onSizeChanged { size -> itemHeightPixels.value = size.height }
                         .then(textModifier),
+                    color = color,
                 )
             }
         }
