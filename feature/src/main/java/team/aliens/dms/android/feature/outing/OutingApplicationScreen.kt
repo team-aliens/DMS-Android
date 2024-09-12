@@ -219,6 +219,7 @@ fun OutingApplicationScreen(
                         .topPadding(),
                     text = stringResource(R.string.outing_application_selected_companions),
                     style = DmsTheme.typography.caption,
+                    color = DmsTheme.colorScheme.onSurface,
                 )
                 StudentList(
                     modifier = Modifier
@@ -300,18 +301,10 @@ fun OutingApplicationScreen(
                 .padding(padValues),
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
-            if (uiState.outingApplicationTime != null) {
-                val startTime = uiState.outingApplicationTime!!.startTime
-                val endTime = uiState.outingApplicationTime!!.endTime
-                FloatingNotice(
-                    modifier = Modifier.horizontalPadding(),
-                    text = stringResource(
-                        id = R.string.outing_format_application_time,
-                        startTime,
-                        endTime,
-                    ),
-                )
-            }
+            FloatingNotice(
+                modifier = Modifier.horizontalPadding(),
+                text = stringResource(id = R.string.outing_format_application_time),
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
@@ -352,6 +345,18 @@ fun OutingApplicationScreen(
                     .endPadding(),
                 text = { Text(text = stringResource(id = R.string.outing_start_time)) },
                 indicator = { OutingInputDefaults.Indicator() },
+                description = {
+                    if (uiState.outingApplicationTime != null) {
+                        Text(
+                            text = stringResource(id = R.string.outing_can_go_out_time,
+                                uiState.outingApplicationTime!!.startTime,
+                                uiState.outingApplicationTime!!.endTime,
+                            ),
+                            style = DmsTheme.typography.caption,
+                            color = DmsTheme.colorScheme.primary,
+                        )
+                    }
+                },
             ) {
                 val startTime = remember(uiState.selectedOutingStartTime) {
                     uiState.selectedOutingStartTime
@@ -612,6 +617,7 @@ private fun OutingInput(
     modifier: Modifier = Modifier,
     text: (@Composable () -> Unit)? = null,
     indicator: (@Composable () -> Unit)? = null,
+    description: @Composable () -> Unit = { },
     input: @Composable () -> Unit,
 ) {
     Column(
@@ -627,6 +633,7 @@ private fun OutingInput(
             }
         }
         input()
+        description()
     }
 }
 
@@ -660,6 +667,7 @@ private fun TimePickerSpinner(
             startIndex = startTime.hour,
             textStyle = DmsTheme.typography.body1,
             textModifier = Modifier.padding(vertical = 10.dp),
+            color = DmsTheme.colorScheme.onSurface,
         )
         Text(
             text = ":",
@@ -668,6 +676,7 @@ private fun TimePickerSpinner(
                 .weight(1f),
             textAlign = TextAlign.Center,
             style = DmsTheme.typography.body1,
+            color = DmsTheme.colorScheme.onSurface,
         )
         Picker(
             modifier = Modifier.weight(1f),
@@ -677,12 +686,14 @@ private fun TimePickerSpinner(
             startIndex = startTime.minute / 10,
             textStyle = DmsTheme.typography.body1,
             textModifier = Modifier.padding(vertical = 10.dp),
+            color = DmsTheme.colorScheme.onSurface,
         )
         Text(
             modifier = Modifier
                 .weight(2f),
             text = "~",
             textAlign = TextAlign.Center,
+            color = DmsTheme.colorScheme.onSurface,
         )
         Picker(
             modifier = Modifier.weight(1f),
@@ -692,6 +703,7 @@ private fun TimePickerSpinner(
             startIndex = endTime.hour,
             textStyle = DmsTheme.typography.body1,
             textModifier = Modifier.padding(vertical = 10.dp),
+            color = DmsTheme.colorScheme.onSurface,
         )
         Text(
             modifier = Modifier
@@ -699,6 +711,7 @@ private fun TimePickerSpinner(
             text = ":",
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
+            color = DmsTheme.colorScheme.onSurface,
         )
         Picker(
             modifier = Modifier.weight(1f),
@@ -708,6 +721,7 @@ private fun TimePickerSpinner(
             startIndex = endTime.minute / 10,
             textStyle = DmsTheme.typography.body1,
             textModifier = Modifier.padding(vertical = 10.dp),
+            color = DmsTheme.colorScheme.onSurface,
         )
     }
 }
