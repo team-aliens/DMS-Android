@@ -348,7 +348,8 @@ fun OutingApplicationScreen(
                 description = {
                     if (uiState.outingApplicationTime != null) {
                         Text(
-                            text = stringResource(id = R.string.outing_can_go_out_time,
+                            text = stringResource(
+                                id = R.string.outing_can_go_out_time,
                                 uiState.outingApplicationTime!!.startTime,
                                 uiState.outingApplicationTime!!.endTime,
                             ),

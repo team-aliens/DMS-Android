@@ -142,7 +142,7 @@ fun OutingStatusScreen(
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
-                    if(!uiState.isApplicationState) {
+                    if (!uiState.isApplicationState) {
                         Text(text = stringResource(id = R.string.outing_not_now_outing_application_time))
                     }
                 }
