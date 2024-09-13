@@ -342,14 +342,14 @@
     <!--outing-->
     <string name="outing_application">외출 신청</string>
     <string name="outing_application_select_outing_time">외출 시간 선택</string>
-    <string name="outing_format_application_time">외출 신청 시간은 %s ~ %s 입니다</string>
+    <string name="outing_format_application_time">외출 신청 시간은 20:00 ~ 11:00 입니다</string>
     <string name="outing_recent_application">신청 내역</string>
     <string name="outing_do_application">외출 신청하기</string>
     <string name="outing_description">기숙사에서 생활하는 동안 밖에 다녀올 일이 있다면 외출을 신청해 보세요.</string>
     <string name="outing_cancel_application">신청 취소</string>
     <string name="outing_companion_names">동행자</string>
     <string name="outing_are_you_sure_you_cancel_application">작성한 정보가 파기됩니다. 계속하시겠습니까?</string>
-    <string name="outing_failed_to_fetch_current_applied_outing_application">외출 신청 정보를 조회할 수 없습니다</string>
+    <string name="outing_not_now_outing_application_time">지금은 외출 신청 시간이 아닙니다.</string>
     <string name="outing_format_duration_h_m">%s ~ %s</string>
     <string name="outing_format_time">%02d:%02d ~ %02d:%02d</string>
     <string name="outing_error_there_is_no_outing_types">외출 유형이 존재하지 않습니다</string>
@@ -360,6 +360,7 @@
     <string name="outing_date">외출 일자</string>
     <string name="format_date_yyyy_mm_dd_day_of_week">%04d.%02d.%02d (%s)</string>
     <string name="outing_start_time">외출 시간</string>
+    <string name="outing_can_go_out_time">외출 가능 시간은 %s ~ %s까지 입니다.</string>
     <string name="outing_end_time">복귀 시간</string>
     <string name="outing_hint_please_enter_description">외출 사유를 입력해 주세요</string>
     <string name="outing_format_select_companions">%d명 선택</string>

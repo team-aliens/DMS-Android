@@ -28,12 +28,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.AlertDialog
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -44,6 +44,7 @@ import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.composable.FloatingNotice
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.startPadding
 import team.aliens.dms.android.core.ui.topPadding
@@ -100,7 +101,7 @@ fun OutingStatusScreen(
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            painter = painterResource(id = DmsIcon.Back),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
                         )
                     }
@@ -118,15 +119,12 @@ fun OutingStatusScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
             ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .startPadding()
-                        .verticalPadding(),
-                    text = stringResource(id = R.string.outing_recent_application),
-                    color = DmsTheme.colorScheme.icon,
+                FloatingNotice(
+                    modifier = Modifier.horizontalPadding(),
+                    text = stringResource(id = R.string.outing_format_application_time),
                 )
                 uiState.currentAppliedOutingApplication?.let { outingApplication ->
+                    Spacer(modifier = Modifier.height(PaddingDefaults.Large))
                     OutingInformationCard(
                         title = outingApplication.type,
                         date = outingApplication.date,
@@ -139,13 +137,15 @@ fun OutingStatusScreen(
                         reason = outingApplication.reason,
                         onCancelApplication = { onChangeShouldShowCancelOutingDialog(true) },
                     )
-                } ?: Text(
+                } ?: Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .topPadding(),
-                    textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.outing_failed_to_fetch_current_applied_outing_application),
-                )
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (!uiState.isApplicationState) {
+                        Text(text = stringResource(id = R.string.outing_not_now_outing_application_time))
+                    }
+                }
             }
             if (uiState.currentAppliedOutingApplication == null) {
                 ContainedButton(
@@ -154,6 +154,7 @@ fun OutingStatusScreen(
                         .bottomPadding()
                         .horizontalPadding(),
                     onClick = navigator::openOutingApplication,
+                    enabled = uiState.isApplicationState,
                 ) {
                     Text(text = stringResource(id = R.string.outing_do_application))
                 }
