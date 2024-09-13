@@ -1,7 +1,5 @@
 package team.aliens.dms.android.core.designsystem
 
-import androidx.compose.material3.Checkbox as MaterialCheckbox
-import androidx.compose.material3.CheckboxDefaults as MaterialCheckboxDefaults
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Checkbox as MaterialCheckbox
+import androidx.compose.material3.CheckboxDefaults as MaterialCheckboxDefaults
 
 @Composable
 fun Checkbox(

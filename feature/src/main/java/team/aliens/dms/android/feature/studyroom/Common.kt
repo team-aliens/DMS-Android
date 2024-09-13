@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -25,7 +23,6 @@ import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.studyroom.model.StudyRoom
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.shared.model.Sex
-
 
 @Composable
 fun StudyRoomCard(

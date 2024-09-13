@@ -624,7 +624,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.outlinedGrayButtonColors()
+            colors = ButtonDefaults.outlinedGrayButtonColors(),
         ) {
             Text(text = "Outlined Gray Button")
         }
@@ -633,7 +633,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.outlinedGrayButtonColors()
+            colors = ButtonDefaults.outlinedGrayButtonColors(),
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
@@ -647,7 +647,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.outlinedErrorButtonColors()
+            colors = ButtonDefaults.outlinedErrorButtonColors(),
         ) {
             Text(text = "Outlined Error Button")
         }
@@ -656,7 +656,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.outlinedErrorButtonColors()
+            colors = ButtonDefaults.outlinedErrorButtonColors(),
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
@@ -697,7 +697,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.textGrayButtonColors()
+            colors = ButtonDefaults.textGrayButtonColors(),
         ) {
             Text(text = "Text Gray Button")
         }
@@ -706,7 +706,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.textGrayButtonColors()
+            colors = ButtonDefaults.textGrayButtonColors(),
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
@@ -720,7 +720,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.textErrorButtonColors()
+            colors = ButtonDefaults.textErrorButtonColors(),
         ) {
             Text(text = "Text Error Button")
         }
@@ -729,7 +729,7 @@ private fun ButtonPreview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             onClick = { },
-            colors = ButtonDefaults.textErrorButtonColors()
+            colors = ButtonDefaults.textErrorButtonColors(),
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),

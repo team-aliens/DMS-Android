@@ -34,6 +34,7 @@ class OutingViewModel @Inject constructor(
         fetchOutingTypes()
         fetchStudents()
         fetchOutingDate()
+        fetchApplicationState()
     }
 
     override fun processIntent(intent: OutingIntent) {
@@ -103,9 +104,14 @@ class OutingViewModel @Inject constructor(
         val captureOutingDate: LocalDate = stateFlow.value.outingDate
         if (now.hour >= 20) {
             reduce(
-                newState = stateFlow.value.copy(outingDate = captureOutingDate.plusDays(1))
+                newState = stateFlow.value.copy(outingDate = captureOutingDate.plusDays(1)),
             )
         }
+    }
+
+    private fun fetchApplicationState() {
+        val isApplicationState = now.hour >= 20 || now.hour <= 11
+        reduce(newState = stateFlow.value.copy(isApplicationState = isApplicationState))
     }
 
     private fun fetchOutingTypes() = viewModelScope.launch(Dispatchers.IO) {
@@ -202,7 +208,7 @@ class OutingViewModel @Inject constructor(
                         remove(student)
                     }
                 },
-            )
+            ),
         )
     }
 }
@@ -220,6 +226,7 @@ data class OutingUiState(
     val students: List<Student>?,
     val selectedStudents: List<Student>,
     val applicationId: UUID?,
+    val isApplicationState: Boolean,
 ) : UiState() {
     companion object {
         fun initial(): OutingUiState {
@@ -237,6 +244,7 @@ data class OutingUiState(
                 students = null,
                 selectedStudents = emptyList(),
                 applicationId = null,
+                isApplicationState = false,
             )
         }
     }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.notification.DeviceTokenManager
-import team.aliens.dms.android.app.NotificationManager
+import team.aliens.dms.android.core.notification.NotificationManager
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -19,7 +19,7 @@ class DmsMessagingService : FirebaseMessagingService() {
     private val notificationManager: NotificationManager by lazy {
         NotificationManager(context = this)
     }
-    
+
     override fun onNewToken(deviceToken: String) {
         super.onNewToken(deviceToken)
         CoroutineScope(Dispatchers.IO).launch {

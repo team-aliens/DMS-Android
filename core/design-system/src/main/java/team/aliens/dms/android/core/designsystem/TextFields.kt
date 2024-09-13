@@ -472,7 +472,6 @@ object TextFieldDefaults {
         shape: Shape,
         content: @Composable () -> Unit,
     ) = Column {
-
         val trailingIconColor = colors.trailingIconColor(
             enabled = enabled,
             isError = isError,
@@ -669,10 +668,8 @@ internal fun Decoration(
 @Preview
 @Composable
 private fun TextFieldPreview() {
-
     val (value, onValueChange) = remember { mutableStateOf("") }
     val (error, onErrorChange) = remember { mutableStateOf(false) }
-
 
     Column(
         modifier = Modifier

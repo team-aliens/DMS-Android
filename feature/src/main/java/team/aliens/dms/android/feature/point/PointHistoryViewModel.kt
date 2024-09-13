@@ -58,15 +58,17 @@ internal class PointHistoryViewModel @Inject constructor(
 
     private fun updatePoints(pointType: PointType): Boolean = reduce(
         newState = stateFlow.value.copy(
-            selectedPointType = pointType, totalPoints = when (pointType) {
+            selectedPointType = pointType,
+            totalPoints = when (pointType) {
                 PointType.ALL -> scoreOfAllPoints
                 PointType.BONUS -> scoreOfBonusPoints
                 PointType.MINUS -> scoreOfMinusPoints
-            }, points = when (pointType) {
+            },
+            points = when (pointType) {
                 PointType.ALL -> allPoints
                 PointType.BONUS -> bonusPoints
                 PointType.MINUS -> minusPoints
-            }
+            },
         ),
     )
 }

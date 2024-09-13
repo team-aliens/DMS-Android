@@ -108,8 +108,8 @@ internal fun RemainsApplicationScreen(
                 onRemainsOptionSelected = { optionId ->
                     viewModel.postIntent(
                         RemainsApplicationIntent.UpdateSelectedRemainsOption(
-                            optionId
-                        )
+                            optionId,
+                        ),
                     )
                 },
             )
@@ -168,7 +168,7 @@ private fun RemainsOptionList(
                             null
                         } else {
                             index
-                        }
+                        },
                     )
                 },
                 onClick = { onRemainsOptionSelected(option.id) },
@@ -253,7 +253,7 @@ private fun RemainsOptionCard(
                             .size(24.dp)
                             .rotate(rotate),
                         painter = painterResource(
-                            id = team.aliens.dms.android.core.designsystem.R.drawable.ic_down
+                            id = team.aliens.dms.android.core.designsystem.R.drawable.ic_down,
                         ),
                         contentDescription = stringResource(id = R.string.remains_expand_remains_option_card),
                     )

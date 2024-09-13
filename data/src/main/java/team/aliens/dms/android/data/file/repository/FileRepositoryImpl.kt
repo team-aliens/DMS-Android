@@ -1,7 +1,6 @@
 package team.aliens.dms.android.data.file.repository
 
 import team.aliens.dms.android.data.file.mapper.toModel
-import team.aliens.dms.android.data.file.model.FileUrl
 import team.aliens.dms.android.data.file.model.PresignedFileUrl
 import team.aliens.dms.android.network.file.datasource.NetworkFileDataSource
 import java.io.File

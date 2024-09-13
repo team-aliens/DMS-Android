@@ -31,7 +31,7 @@ internal class NotificationRepositoryImpl @Inject constructor(
         request = SubscribeNotificationTopicRequest(
             deviceToken = deviceToken,
             topic = topic.name,
-        )
+        ),
     )
 
     override suspend fun unsubscribeNotificationTopic(
@@ -41,15 +41,15 @@ internal class NotificationRepositoryImpl @Inject constructor(
         request = UnsubscribeNotificationTopicRequest(
             deviceToken = deviceToken,
             topic = topic.name,
-        )
+        ),
     )
 
     override suspend fun batchUpdateNotificationTopic(
         subscriptions: List<NotificationTopic.Subscription>,
     ) = networkNotificationDataSource.batchUpdateNotificationTopic(
         request = BatchUpdateNotificationTopicRequest(
-            topics = subscriptions.toModel()
-        )
+            topics = subscriptions.toModel(),
+        ),
     )
 
     override suspend fun fetchNotificationStatus(deviceToken: String): List<NotificationTopicGroup.Status> =

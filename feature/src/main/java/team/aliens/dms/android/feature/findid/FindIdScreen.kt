@@ -74,7 +74,7 @@ internal fun FindIdScreen(
                     text = String.format(
                         stringResource(id = R.string.find_id_send_id_to_email),
                         uiState.email,
-                    )
+                    ),
                 )
             },
             onDismissRequest = { /* explicit blank */ },
@@ -115,7 +115,7 @@ internal fun FindIdScreen(
                     }
                 },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -130,7 +130,7 @@ internal fun FindIdScreen(
                     .topPadding(BannerDefaults.DefaultTopSpace),
                 message = {
                     Text(text = stringResource(id = R.string.find_id))
-                }
+                },
             )
             Spacer(modifier = Modifier.weight(1f))
             UserInformationInputs(
@@ -161,12 +161,12 @@ private fun UserInformationInputs(
     var isDropdownMenuExpanded by remember { mutableStateOf(false) }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace)
+        verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
     ) {
         Box {
             TextField(
                 modifier = Modifier.clickable(
-                    onClick = { isDropdownMenuExpanded = !isDropdownMenuExpanded }
+                    onClick = { isDropdownMenuExpanded = !isDropdownMenuExpanded },
                 ),
                 value = state.selectedSchool?.name ?: "",
                 onValueChange = { },
@@ -180,12 +180,12 @@ private fun UserInformationInputs(
                                     DmsIcon.Down
                                 } else {
                                     DmsIcon.Up
-                                }
+                                },
                             ),
                             contentDescription = stringResource(id = R.string.find_id_show_menu),
                         )
                     }
-                }
+                },
             )
             DropdownMenu(
                 modifier = Modifier
@@ -198,7 +198,7 @@ private fun UserInformationInputs(
                         text = { Text(text = school.name) },
                         onClick = {
                             viewModel.postIntent(
-                                FindIdIntent.UpdateSchoolId(value = school)
+                                FindIdIntent.UpdateSchoolId(value = school),
                             )
                             isDropdownMenuExpanded = false
                         },
@@ -212,10 +212,10 @@ private fun UserInformationInputs(
             onValueChange = { name ->
                 viewModel.postIntent(FindIdIntent.UpdateName(name))
             },
-            hint = { Text(text = stringResource(id = R.string.find_id_name)) }
+            hint = { Text(text = stringResource(id = R.string.find_id_name)) },
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace)
+            horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalSpace),
         ) {
             TextField(
                 modifier = Modifier

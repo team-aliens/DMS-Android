@@ -182,7 +182,7 @@ internal fun StudyRoomDetailsScreen(
                             colors = when (uiState.mainButtonState) {
                                 StudyRoomDetailsMainButtonState.CANCEL_SEAT -> ButtonDefaults.containedRefuseButtonColors()
                                 else -> ButtonDefaults.containedButtonColors()
-                            }
+                            },
                         ) {
                             Text(
                                 text = stringResource(
@@ -191,7 +191,7 @@ internal fun StudyRoomDetailsScreen(
                                         null -> R.string.study_room_button_please_select_seat_before_application
                                         else -> R.string.study_room_button_apply_seat
                                     },
-                                )
+                                ),
                             )
                         }
                     }
@@ -463,7 +463,7 @@ private fun Seat(
                 seat.number.toString()
             } else {
                 seat.student!!.name
-            }
+            },
         )
     }
 }
@@ -487,13 +487,17 @@ fun parseColor(@Size(min = 1) colorString: String): Int = if (colorString[0] == 
     var color = colorString.substring(1).toLong(16)
     if (colorString.length == 7) { // Set the alpha value
         color = color or -0x1000000
-    } else require(colorString.length == 9) { "Unknown color" }
+    } else {
+        require(colorString.length == 9) { "Unknown color" }
+    }
     color.toInt()
 } else {
     var color = colorString.toLong(16)
     if (colorString.length == 7) { // Set the alpha value
         color = color or -0x1000000
-    } else require(colorString.length == 9) { "Unknown color" }
+    } else {
+        require(colorString.length == 9) { "Unknown color" }
+    }
     color.toInt()
 }
 

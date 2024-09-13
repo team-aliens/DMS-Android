@@ -90,7 +90,7 @@ fun ResetPasswordSetPasswordScreen(
                 )
             }
 
-            else -> {/* explicit blank */
+            else -> { /* explicit blank */
             }
         }
     }
@@ -138,13 +138,13 @@ fun ResetPasswordSetPasswordScreen(
                     onValueChange = {
                         viewModel.postIntent(
                             ResetPasswordIntent.UpdateNewPassword(
-                                value = it
-                            )
+                                value = it,
+                            ),
                         )
                     },
                     passwordShowing = showPassword,
                     onPasswordShowingChange = onShowPasswordChange,
-                    hintText = stringResource(id = R.string.edit_password_please_enter_new_password)
+                    hintText = stringResource(id = R.string.edit_password_please_enter_new_password),
                 )
                 PasswordTextField(
                     modifier = Modifier
@@ -154,13 +154,13 @@ fun ResetPasswordSetPasswordScreen(
                     onValueChange = {
                         viewModel.postIntent(
                             ResetPasswordIntent.UpdateNewPasswordRepeat(
-                                value = it
-                            )
+                                value = it,
+                            ),
                         )
                     },
                     passwordShowing = showPasswordRepeat,
                     onPasswordShowingChange = onShowPasswordRepeatChange,
-                    hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat)
+                    hintText = stringResource(id = R.string.edit_password_please_enter_new_password_repeat),
                 )
             }
             Spacer(modifier = Modifier.weight(3f))

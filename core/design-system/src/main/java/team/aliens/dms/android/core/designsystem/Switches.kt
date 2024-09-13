@@ -1,7 +1,5 @@
 package team.aliens.dms.android.core.designsystem
 
-import androidx.compose.material3.Switch as MaterialSwitch
-import androidx.compose.material3.SwitchDefaults as MaterialSwitchDefaults
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Switch as MaterialSwitch
+import androidx.compose.material3.SwitchDefaults as MaterialSwitchDefaults
 
 @Composable
 fun Switch(
@@ -99,7 +99,7 @@ object SwitchDefaults {
 private fun SwitchPreview() {
     Column(
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         val (checked, onCheckedChange) = remember { mutableStateOf(false) }
         Switch(

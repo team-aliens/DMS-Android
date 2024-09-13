@@ -11,4 +11,4 @@ val now: LocalDateTime
     inline get() = LocalDateTime.now()
 
 val timeNow: LocalTime
-    inline  get() = LocalTime.now()
+    inline get() = LocalTime.now()

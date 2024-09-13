@@ -9,7 +9,6 @@ abstract class JwtProvider {
      */
     abstract val cachedAccessToken: AccessToken
 
-
     /**
      * represents if the cached access token is available
      */

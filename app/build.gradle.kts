@@ -8,30 +8,37 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.ktlint.gradle)
 }
 
 android {
     namespace = "team.aliens.dms.android.app"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = ProjectProperties.COMPILE_SDK
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        minSdk = ProjectProperties.MIN_SDK
+        targetSdk = ProjectProperties.TARGET_SDK
 
-        versionCode = 17
-        versionName = "1.3.8"
+        versionCode = ProjectProperties.VERSION_CODE
+        versionName = ProjectProperties.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+        }
+        debug {
+            splits.abi.isEnable = false
+            aaptOptions.cruncherEnabled = false
+            splits.density.isEnable = false
+            aaptOptions.cruncherEnabled = false
         }
     }
 

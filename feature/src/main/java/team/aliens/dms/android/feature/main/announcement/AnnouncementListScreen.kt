@@ -23,11 +23,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
-import team.aliens.dms.android.core.designsystem.ShadowDefaults
+import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace

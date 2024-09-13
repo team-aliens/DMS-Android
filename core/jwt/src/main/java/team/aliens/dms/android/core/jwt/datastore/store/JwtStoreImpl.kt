@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import team.aliens.dms.android.core.datastore.JwtDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
 import team.aliens.dms.android.core.datastore.util.transform
 import team.aliens.dms.android.core.jwt.AccessToken
@@ -21,11 +22,11 @@ import team.aliens.dms.android.shared.date.toLocalDateTime
 import javax.inject.Inject
 
 internal class JwtStoreImpl @Inject constructor(
-    private val preferencesDataStore: PreferencesDataStore,
+    @JwtDataStore private val jwtDataStore: PreferencesDataStore,
 ) : JwtStore() {
 
     override fun loadTokens(): Tokens = runBlocking {
-        preferencesDataStore.data.map { preferences ->
+        jwtDataStore.data.map { preferences ->
             val accessTokenValue = preferences[ACCESS_TOKEN]
                 ?: throw AccessTokenNotFoundException()
             val accessTokenExpiration = preferences[ACCESS_TOKEN_EXPIRATION]
@@ -49,8 +50,8 @@ internal class JwtStoreImpl @Inject constructor(
     }
 
     override suspend fun storeTokens(tokens: Tokens) {
-        transform(onFailure = { throw CannotStoreTokensException() },) {
-            preferencesDataStore.edit { preferences ->
+        transform(onFailure = { throw CannotStoreTokensException() }) {
+            jwtDataStore.edit { preferences ->
                 val accessToken = tokens.accessToken
                 val refreshToken = tokens.refreshToken
                 preferences[ACCESS_TOKEN] = accessToken.value
@@ -62,7 +63,7 @@ internal class JwtStoreImpl @Inject constructor(
     }
 
     override suspend fun clearTokens() {
-        transform { preferencesDataStore.edit { preferences -> preferences.clear() } }
+        transform { jwtDataStore.edit { preferences -> preferences.clear() } }
     }
 
     private companion object {

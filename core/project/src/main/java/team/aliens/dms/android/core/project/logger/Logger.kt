@@ -10,7 +10,9 @@ internal interface Logger {
     fun log(tag: String, type: LoggingType, message: String)
 
     fun info(tag: String, message: String) = log(
-        tag = tag, type = LoggingType.INFO, message = message
+        tag = tag,
+        type = LoggingType.INFO,
+        message = message,
     )
 
     fun error(tag: String, message: String) = log(

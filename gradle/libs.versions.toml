@@ -47,10 +47,12 @@ junitKtx = "1.1.5"
 workRuntime = "2.9.0"
 serialization = "2.0.0"
 firebase-crashlytics = "2.9.9"
+org-jlleitschuh-ktlint-gradle = "11.3.1"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glanceAppwidget" }
+androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glanceAppwidget" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
@@ -116,3 +118,4 @@ googleServices = { id = "com.google.gms.google-services", version.ref = "google"
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvm" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
+ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "org-jlleitschuh-ktlint-gradle"}

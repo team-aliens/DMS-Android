@@ -63,7 +63,7 @@ fun VerificationCodeInput(
                                         defaultTextColor
                                     } else {
                                         filledTextColor
-                                    }
+                                    },
                                 )
                             },
                         )

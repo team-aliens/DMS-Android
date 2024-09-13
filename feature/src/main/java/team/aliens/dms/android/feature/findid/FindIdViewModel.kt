@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.findid
 
-
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +28,7 @@ internal class FindIdViewModel @Inject constructor(
     override fun processIntent(intent: FindIdIntent) {
         when (intent) {
             is FindIdIntent.UpdateSchoolId -> this.updateSchoolId(
-                selectedSchool = intent.value
+                selectedSchool = intent.value,
             )
 
             is FindIdIntent.UpdateName -> this.updateName(name = intent.value)
@@ -42,23 +41,23 @@ internal class FindIdViewModel @Inject constructor(
     }
 
     private fun updateSchoolId(selectedSchool: School): Boolean = reduce(
-        newState = stateFlow.value.copy(selectedSchool = selectedSchool)
+        newState = stateFlow.value.copy(selectedSchool = selectedSchool),
     ).also { updateButtonEnable(checkInAvailable()) }
 
     private fun updateName(name: String): Boolean = reduce(
-        newState = stateFlow.value.copy(name = name)
+        newState = stateFlow.value.copy(name = name),
     ).also { updateButtonEnable(checkInAvailable()) }
 
     private fun updateGrade(grade: String): Boolean = reduce(
-        newState = stateFlow.value.copy(grade = grade)
+        newState = stateFlow.value.copy(grade = grade),
     ).also { updateButtonEnable(checkInAvailable()) }
 
     private fun updateClassRoom(classRoom: String): Boolean = reduce(
-        newState = stateFlow.value.copy(classRoom = classRoom)
+        newState = stateFlow.value.copy(classRoom = classRoom),
     ).also { updateButtonEnable(checkInAvailable()) }
 
     private fun updateNumber(number: String): Boolean = reduce(
-        newState = stateFlow.value.copy(number = number)
+        newState = stateFlow.value.copy(number = number),
     ).also { updateButtonEnable(checkInAvailable()) }
 
     private fun updateButtonEnable(buttonEnabled: Boolean): Boolean =
@@ -114,7 +113,6 @@ internal class FindIdViewModel @Inject constructor(
     }
 }
 
-
 internal data class FindIdUiState(
     val schoolList: List<School>?,
     val email: String,
@@ -123,7 +121,7 @@ internal data class FindIdUiState(
     val grade: String,
     val classRoom: String,
     val number: String,
-    val buttonEnabled: Boolean
+    val buttonEnabled: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = FindIdUiState(
