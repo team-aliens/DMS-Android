@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
+import org.threeten.bp.format.DateTimeFormatter
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -29,7 +30,6 @@ class OutingViewModel @Inject constructor(
     initialState = OutingUiState.initial(),
 ) {
     init {
-        fetchOutingApplicationTime()
         fetchCurrentAppliedOutingApplication()
         fetchOutingTypes()
         fetchStudents()
@@ -56,12 +56,14 @@ class OutingViewModel @Inject constructor(
 
     private fun fetchOutingApplicationTime() = viewModelScope.launch(Dispatchers.IO) {
         runCatching {
-            outingRepository.fetchOutingApplicationTimes(dayOfWeek = today.dayOfWeek)
+            outingRepository.fetchOutingApplicationTimes(dayOfWeek = stateFlow.value.outingDate.dayOfWeek)
         }.onSuccess { fetchedApplicationTime ->
             if (fetchedApplicationTime.isNotEmpty()) {
                 reduce(
                     newState = stateFlow.value.copy(
                         outingApplicationTime = fetchedApplicationTime.first(),
+                        selectedOutingStartTime = LocalTime.parse(fetchedApplicationTime.first().startTime),
+                        selectedOutingEndTime = LocalTime.parse(fetchedApplicationTime.first().endTime),
                     ),
                 )
             }
@@ -107,6 +109,7 @@ class OutingViewModel @Inject constructor(
                 newState = stateFlow.value.copy(outingDate = captureOutingDate.plusDays(1)),
             )
         }
+        fetchOutingApplicationTime()
     }
 
     private fun fetchApplicationState() {
