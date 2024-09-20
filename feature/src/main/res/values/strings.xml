@@ -381,7 +381,7 @@
     <string name="reset_password_go_to_sign_in_screen">로그인 화면으로</string>
 
     <string name="home_success_meal_refreshed">새로 고침 성공</string>
-    <string name="outing_application_error_outing_application_time_error">외출 신청 시간이 아닙니다.</string>
+    <string name="outing_application_error_outing_time_error">외출 가능 시간이 아닙니다.</string>
     <!--edit profile-->
     <string name="edit_profile">프로필 수정</string>
     <string name="edit_profile_profile_image">프로필 사진</string>
