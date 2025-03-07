@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-    namespace = "team.aliens.dms.android.app"
+    namespace = "team.aliens.dms"
     compileSdk = ProjectProperties.COMPILE_SDK
 
     defaultConfig {

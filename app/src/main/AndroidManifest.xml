@@ -8,7 +8,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -25,7 +24,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".android.app.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
 
@@ -38,7 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.DmsMessagingService"
+        <service android:name=".android.app.service.DmsMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
