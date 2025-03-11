@@ -389,4 +389,7 @@
     <string name="edit_profile_success">프로필이 변경되었습니다</string>
     <string name="edit_profile_fail">프로필 변경에 실패했습니다</string>
 
+    <!--registration-->
+    <string name="application_submit">신청</string>
+
 </resources>
