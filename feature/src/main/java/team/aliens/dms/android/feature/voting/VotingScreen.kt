@@ -1,11 +1,10 @@
-package team.aliens.dms.android.feature.registration
+package team.aliens.dms.android.feature.voting
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,7 +22,7 @@ import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RegistrationScreen(
+internal fun VotingScreen(
     modifier: Modifier = Modifier,
     navigator: PointHistoryNavigator,
 ) {
@@ -50,7 +49,9 @@ internal fun RegistrationScreen(
                 .fillMaxSize()
                 .padding(padValues)
         ) {
-
+//            HorizontalPager() { // TODO :: 투표함 컴포넌트화, 현재 페이지 표시
+//
+//            }
         }
     }
 }
