@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.voting.repository
 
+import team.aliens.dms.android.data.voting.mapper.toModel
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.network.voting.datasource.NetworkVotingDataSource
@@ -10,19 +11,17 @@ internal class VotingRepositoryImpl @Inject constructor(
     private val networkVotingDataSource: NetworkVotingDataSource,
 ): VotingRepository() {
     override suspend fun fetchAllVoteSearch(): List<AllVoteSearch> =
-        networkVotingDataSource.fetchAllVoteSearch()
+        networkVotingDataSource.fetchAllVoteSearch().toModel()
 
-
-    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): List<CheckVotingItem> {
-        
-    }
+    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): CheckVotingItem =
+        networkVotingDataSource.fetchCheckVotingItem(votingTopicId).toModel()
 
     override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID) {
-        
+        networkVotingDataSource.fetchCreateVotingItem(votingTopicId, selectedId)
     }
 
     override suspend fun fetchDeleteVotingItem(voteId: UUID) {
-        
+        networkVotingDataSource.fetchDeleteVotingItem(voteId)
     }
 
 }
