@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 internal class VotingRepositoryImpl @Inject constructor(
     private val networkVotingDataSource: NetworkVotingDataSource,
-): VotingRepository() {
+) : VotingRepository() {
     override suspend fun fetchAllVoteSearch(): List<AllVoteSearch> =
         networkVotingDataSource.fetchAllVoteSearch().toModel()
 
@@ -23,5 +23,4 @@ internal class VotingRepositoryImpl @Inject constructor(
     override suspend fun fetchDeleteVotingItem(voteId: UUID) {
         networkVotingDataSource.fetchDeleteVotingItem(voteId)
     }
-
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 internal class NetworkVotingDataSourceImpl @Inject constructor(
     private val votingApiService: VotingApiService,
-): NetworkVotingDataSource() {
+) : NetworkVotingDataSource() {
     override suspend fun fetchAllVoteSearch(): FetchAllVoteSearchResponse =
         handleNetworkRequest { votingApiService.fetchAllVoteSearch() }
 

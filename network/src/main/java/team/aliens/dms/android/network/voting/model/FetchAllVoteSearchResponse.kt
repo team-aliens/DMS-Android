@@ -3,7 +3,7 @@ package team.aliens.dms.android.network.voting.model
 import com.google.gson.annotations.SerializedName
 
 data class FetchAllVoteSearchResponse(
-    @SerializedName("voting_topics") val votingTopics: List<VoteSearchResponse>
+    @SerializedName("voting_topics") val votingTopics: List<VoteSearchResponse>,
 ) {
     data class VoteSearchResponse(
         @SerializedName("id") val id: String,

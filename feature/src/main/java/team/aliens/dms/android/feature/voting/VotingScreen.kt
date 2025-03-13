@@ -19,7 +19,6 @@ import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun VotingScreen(
@@ -30,14 +29,16 @@ internal fun VotingScreen(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
-                title = { Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    Text("My App")
-                } },
+                title = {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        Text("My App")
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(
                             painter = painterResource(id = team.aliens.dms.android.core.designsystem.R.drawable.chevronleft),
-                            contentDescription = stringResource(R.string.application_submit)
+                            contentDescription = stringResource(R.string.application_submit),
                         )
                     }
                 },
@@ -47,7 +48,7 @@ internal fun VotingScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(padValues)
+                .padding(padValues),
         ) {
 //            HorizontalPager() { // TODO :: 투표함 컴포넌트화, 현재 페이지 표시
 //

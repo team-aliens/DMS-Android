@@ -8,7 +8,7 @@ import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
 internal fun FetchAllVoteSearchResponse.toModel(): List<AllVoteSearch> =
     this.votingTopics.map(FetchAllVoteSearchResponse.VoteSearchResponse::toModel)
 
-private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSearch = 
+private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSearch =
     AllVoteSearch(
         id = this.id,
         topicName = this.topicName,
@@ -18,8 +18,7 @@ private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSear
         voteType = this.voteType,
     )
 
-internal fun FetchCheckVotingItemResponse.toModel(): CheckVotingItem =
-    CheckVotingItem(
+internal fun FetchCheckVotingItemResponse.toModel(): CheckVotingItem = CheckVotingItem(
         id = this.id,
-        optionName = this.optionName
+        optionName = this.optionName,
     )
