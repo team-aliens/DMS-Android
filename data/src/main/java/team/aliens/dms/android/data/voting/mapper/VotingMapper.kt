@@ -18,7 +18,8 @@ private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSear
         voteType = this.voteType,
     )
 
-internal fun FetchCheckVotingItemResponse.toModel(): CheckVotingItem = CheckVotingItem(
+internal fun FetchCheckVotingItemResponse.toModel(): CheckVotingItem =
+    CheckVotingItem(
         id = this.id,
         optionName = this.optionName,
     )
