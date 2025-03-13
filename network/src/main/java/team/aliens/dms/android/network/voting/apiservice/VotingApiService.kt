@@ -15,24 +15,24 @@ internal interface VotingApiService {
 
     @GET("/")
     @RequiresAccessToken
-    suspend fun fetchAllVoteSearchResponse(): List<FetchAllVoteSearchResponse>
+    suspend fun fetchAllVoteSearch(): FetchAllVoteSearchResponse
 
     @GET("/option/{voting-topic-id}")
     @RequiresAccessToken
     suspend fun fetchCheckVotingItem(
         @Path("voting-topic-id") votingTopicId: UUID
-    ): List<FetchCheckVotingItemResponse>
+    ): FetchCheckVotingItemResponse
 
     @POST("/student/{voting-topic-id}")
     @RequiresAccessToken
     suspend fun fetchCreateVotingItem(
         @Path("voting-topic-id") votingTopicId: UUID,
         @Query("selected_id") selectedId: UUID
-    ): Response<Unit>
+    ): Response<Unit>?
 
     @DELETE("/student/{vote_id}")
     @RequiresAccessToken
     suspend fun fetchDeleteVotingItem(
         @Path("vote_id") voteId: UUID
-    ): Response<Unit>
+    ): Response<Unit>?
 }
