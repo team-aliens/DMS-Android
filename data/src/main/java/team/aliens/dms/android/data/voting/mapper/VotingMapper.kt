@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.voting.mapper
 
-import team.aliens.dms.android.data.registration.model.Vote
+import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
