@@ -50,13 +50,13 @@ import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
+import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun VotingScreen(
     modifier: Modifier = Modifier,
-    navigator: PointHistoryNavigator,
+    navigator: VotingNavigator,
     viewModel: VotingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -104,15 +104,13 @@ internal fun VotingScreen(
                             .size(8.dp)
                     )
                 }
-
                 repeat(applicationList.size) {
-                    ApplicationCard(
+                    VoteCard(
                         appliedTitle = applicationList[it].id,
                         title = applicationList[it].topicName,
                         description = applicationList[it].description,
                         buttonText = "투표하기",
                         onButtonClick = {},
-                        isApplicationType = applicationList[it].voteType
                     )
                 }
             }
@@ -121,14 +119,13 @@ internal fun VotingScreen(
 }
 
 @Composable
-private fun ApplicationCard(
+private fun VoteCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
     appliedTitle: String? = null,
     buttonText: String,
     onButtonClick: () -> Unit,
-    isApplicationType: Vote,
 ) {
     Card(
         modifier = modifier

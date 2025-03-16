@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +10,7 @@ import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
+import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import javax.inject.Inject
 
@@ -19,7 +21,6 @@ internal class VotingViewModel @Inject constructor(
     initialState = VotingUiState.initial()
 ) {
     private fun allVoteSearch() {
-        val uiState = stateFlow.value
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchAllVoteSearch()
@@ -36,7 +37,7 @@ internal class VotingViewModel @Inject constructor(
 
 internal data class VotingUiState(
     val pageCountState: Int,
-    val voteList: List<AllVoteSearch>
+    val voteList: List<AllVoteSearch>,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(

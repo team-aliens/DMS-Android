@@ -8,9 +8,9 @@ import team.aliens.dms.android.data.voting.repository.VotingRepository
 import team.aliens.dms.android.data.voting.repository.VotingRepositoryImpl
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
-internal abstract class VotingModule {
+@InstallIn(SingletonComponent::class)
+internal abstract class RepositoryModule {
 
     @Binds
     @Singleton
