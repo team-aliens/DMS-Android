@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -48,11 +49,11 @@ import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
-import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Destination
 @Composable
 internal fun VotingScreen(
     modifier: Modifier = Modifier,
@@ -73,7 +74,7 @@ internal fun VotingScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = navigator::navigateUp){
                         Icon(
                             painter = painterResource(id = team.aliens.dms.android.core.designsystem.R.drawable.chevronleft),
                             contentDescription = stringResource(R.string.application_submit),
@@ -89,10 +90,11 @@ internal fun VotingScreen(
                 .padding(padValues),
         ) {
             HorizontalPager(
-                state = pagerState
+                state = pagerState,
             ) { page ->
                 repeat(pagerState.pageCount) {
-                    val color = if(pagerState.currentPage == it)
+                    val color =
+                    if(pagerState.currentPage == it)
                         DmsTheme.colorScheme.backgroundVariant
                     else
                         DmsTheme.colorScheme.background
@@ -101,7 +103,7 @@ internal fun VotingScreen(
                             .padding(8.dp)
                             .clip(CircleShape)
                             .background(color)
-                            .size(8.dp)
+                            .size(8.dp),
                     )
                 }
                 repeat(applicationList.size) {

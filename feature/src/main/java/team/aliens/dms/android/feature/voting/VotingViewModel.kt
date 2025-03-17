@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,15 +9,14 @@ import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import javax.inject.Inject
 
 @HiltViewModel
-internal class VotingViewModel @Inject constructor(
+class VotingViewModel @Inject constructor(
     private val votingRepository: VotingRepository,
 ) : BaseMviViewModel<VotingUiState, VotingIntent, VotingSideEffect>(
-    initialState = VotingUiState.initial()
+    initialState = VotingUiState.initial(),
 ) {
     private fun allVoteSearch() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -27,15 +25,15 @@ internal class VotingViewModel @Inject constructor(
             }.onSuccess { fetchedVoteSearch ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        voteList = fetchedVoteSearch
-                    )
+                        voteList = fetchedVoteSearch,
+                    ),
                 )
             }
         }
     }
 }
 
-internal data class VotingUiState(
+data class VotingUiState(
     val pageCountState: Int,
     val voteList: List<AllVoteSearch>,
 ) : UiState() {
@@ -47,10 +45,10 @@ internal data class VotingUiState(
     }
 }
 
-internal sealed class VotingIntent : Intent() {
+sealed class VotingIntent : Intent() {
     data object UpdateVotingItem : VotingIntent()
 }
 
-internal sealed class VotingSideEffect : SideEffect() {
+sealed class VotingSideEffect : SideEffect() {
     data object Error : VotingSideEffect()
 }

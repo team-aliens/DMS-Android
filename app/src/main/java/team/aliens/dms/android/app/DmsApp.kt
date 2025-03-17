@@ -26,6 +26,8 @@ import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNav
 import team.aliens.dms.android.feature.signup.SignUpViewModel
 import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
+import team.aliens.dms.android.feature.voting.VotingViewModel
+import team.aliens.dms.android.feature.voting.navigation.VotingNavGraph
 import team.aliens.dms.android.network.BuildConfig
 
 @Composable
@@ -73,6 +75,13 @@ fun DmsApp(
                     navController.getBackStackEntry(ResetPasswordNavGraph.route)
                 }
                 hiltViewModel<ResetPasswordViewModel>(parentEntry)
+            }
+
+            dependency(VotingNavGraph) {
+                val parentEntry = remember(navBackStackEntry) {
+                    navController.getBackStackEntry(VotingNavGraph.route)
+                }
+                hiltViewModel<VotingViewModel>(parentEntry)
             }
         },
     )
