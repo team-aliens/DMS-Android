@@ -109,6 +109,8 @@ internal fun VotingScreen(
                 repeat(applicationList.size) {
                     VoteCard(
                         appliedTitle = applicationList[it].id,
+                        topStartTimeTitle = applicationList[it].startTime.toString(),
+                        topEndTimeTitle = applicationList[it].endTime.toString(),
                         title = applicationList[it].topicName,
                         description = applicationList[it].description,
                         buttonText = "투표하기",
@@ -123,6 +125,8 @@ internal fun VotingScreen(
 @Composable
 private fun VoteCard(
     modifier: Modifier = Modifier,
+    topStartTimeTitle: String,
+    topEndTimeTitle: String,
     title: String,
     description: String,
     appliedTitle: String? = null,
