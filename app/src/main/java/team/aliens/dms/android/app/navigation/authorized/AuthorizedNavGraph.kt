@@ -14,6 +14,7 @@ import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestinatio
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingDetailScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
@@ -44,7 +45,7 @@ object AuthorizedNavGraph : NavGraphSpec {
             NotificationSettingsScreenDestination,
             PointHistoryScreenDestination,
             VotingScreenDestination,
-            VotingDetailDestination
+            VotingDetailScreenDestination
         )
             .routedIn(navGraphSpec = this)
             .associateBy { it.route }
