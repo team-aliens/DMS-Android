@@ -68,8 +68,6 @@ fun VotingDetailScreen(
                 .padding(padValues)
         ) {
             Text(
-                modifier = modifier
-                    .padding(start = 24.dp, top = 20.dp, bottom = 8.dp),
                 text = stringResource(R.string.voting_option_check),
                 style = DmsTheme.typography.headline3
             )
@@ -78,9 +76,12 @@ fun VotingDetailScreen(
 }
 
 @Composable
-fun StudentButton() {
+fun StudentButton(
+    modifier: Modifier = Modifier,
+    stringResource: Int,
+) {
     OutlinedButton(
-        modifier = Modifier,
+        modifier = modifier,
         onClick = {},
         colors = ButtonColors(
             containerColor = Color.White,
@@ -94,7 +95,7 @@ fun StudentButton() {
         Text(
             modifier = Modifier
                 .padding(vertical = 12.dp, horizontal = 14.dp),
-            text = "3학년"
+            text = stringResource(stringResource)
         )
     }
 }
@@ -103,6 +104,8 @@ fun StudentButton() {
 @Composable
 fun Preview() {
     DmsTheme {
-        StudentButton()
+        StudentButton(
+            stringResource = R.string.id
+        )
     }
 }

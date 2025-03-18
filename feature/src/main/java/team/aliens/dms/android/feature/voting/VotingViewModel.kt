@@ -24,6 +24,13 @@ class VotingViewModel @Inject constructor(
         fetchAllVoteSearch()
     }
 
+    override fun processIntent(intent: VotingIntent) {
+        when (intent) {
+            is VotingIntent.UpdateVotingItem ->
+                updateCheckVotingItem(intent.votingTopicId)
+        }
+    }
+
     private fun fetchAllVoteSearch() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -38,7 +45,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun fetchCheckVotingItem(votingTopicId: UUID) {
+    private fun updateCheckVotingItem(votingTopicId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchCheckVotingItem(
@@ -47,7 +54,7 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchCheckVotingItem ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        votingTopicList = fetchCheckVotingItem
+                        votingTopicList = listOf(fetchCheckVotingItem)
                     ),
                 )
             }
@@ -56,12 +63,14 @@ class VotingViewModel @Inject constructor(
 }
 
 data class VotingUiState(
+    val selectedVotingOptionId: UUID?,
     val pageCountState: Int,
     val voteList: List<AllVoteSearch>,
     val votingTopicList: List<CheckVotingItem>
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
+            selectedVotingOptionId = null,
             pageCountState = 0,
             voteList = emptyList(),
             votingTopicList = emptyList()
@@ -70,7 +79,7 @@ data class VotingUiState(
 }
 
 sealed class VotingIntent : Intent() {
-    data object UpdateVotingItem : VotingIntent()
+    class UpdateVotingItem(val votingTopicId: UUID) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
