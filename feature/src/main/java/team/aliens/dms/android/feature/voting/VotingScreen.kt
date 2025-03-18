@@ -49,6 +49,7 @@ import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 
@@ -70,14 +71,14 @@ internal fun VotingScreen(
             DmsTopAppBar(
                 title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text("My App")
+                        Text(stringResource(R.string.voting_submit))
                     }
                 },
                 navigationIcon = {
                     IconButton(onClick = navigator::navigateUp){
                         Icon(
                             painter = painterResource(id = team.aliens.dms.android.core.designsystem.R.drawable.chevronleft),
-                            contentDescription = stringResource(R.string.application_submit),
+                            contentDescription = stringResource(R.string.voting_submit),
                         )
                     }
                 },
@@ -115,6 +116,7 @@ internal fun VotingScreen(
                         description = applicationList[it].description,
                         buttonText = "투표하기",
                         onButtonClick = {},
+                        voteType = applicationList[it].voteType
                     )
                 }
             }
@@ -132,6 +134,7 @@ private fun VoteCard(
     appliedTitle: String? = null,
     buttonText: String,
     onButtonClick: () -> Unit,
+    voteType: Vote
 ) {
     Card(
         modifier = modifier
@@ -144,6 +147,7 @@ private fun VoteCard(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
+
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
