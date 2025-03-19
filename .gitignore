@@ -188,3 +188,8 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/android,androidstudio,kotlin
 feature/build
+app/.DS_Store
+
+app/debug/
+
+app/release/
