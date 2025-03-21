@@ -54,7 +54,7 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchCheckVotingItem ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        votingTopicList = listOf(fetchCheckVotingItem)
+                        votingTopicCheckList = listOf(fetchCheckVotingItem)
                     ),
                 )
             }
@@ -66,14 +66,16 @@ data class VotingUiState(
     val selectedVotingOptionId: UUID?,
     val pageCountState: Int,
     val voteList: List<AllVoteSearch>,
-    val votingTopicList: List<CheckVotingItem>
+    val votingTopicCheckList: List<CheckVotingItem>,
+    val classGradeValueList: List<String>
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
             selectedVotingOptionId = null,
             pageCountState = 0,
             voteList = emptyList(),
-            votingTopicList = emptyList()
+            votingTopicCheckList = emptyList(),
+            classGradeValueList = listOf("1학년", "2학년", "3학년")
         )
     }
 }

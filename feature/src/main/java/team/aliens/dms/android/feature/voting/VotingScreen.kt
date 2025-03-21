@@ -109,10 +109,10 @@ internal fun VotingScreen(
                 }
                 repeat(applicationList.size) {
                     VoteCard(
-                        appliedTitle = applicationList[it].id,
+                        title = applicationList[it].topicName,
+                        appliedTitle = "",
                         topStartTimeTitle = applicationList[it].startTime.toString(),
                         topEndTimeTitle = applicationList[it].endTime.toString(),
-                        title = applicationList[it].topicName,
                         description = applicationList[it].description,
                         buttonText = "투표하기",
                         onButtonClick = {},
@@ -132,10 +132,15 @@ private fun VoteCard(
     title: String,
     description: String,
     appliedTitle: String? = null,
-    buttonText: String,
+    buttonText: String = "투표하기",
     onButtonClick: () -> Unit,
     voteType: Vote
 ) {
+    Text(
+        text = "$topStartTimeTitle ~ $topEndTimeTitle",
+        style = DmsTheme.typography.body2,
+        color = DmsTheme.colorScheme.primary,
+    )
     Card(
         modifier = modifier
             .animateContentSize()
@@ -147,7 +152,6 @@ private fun VoteCard(
             containerColor = DmsTheme.colorScheme.surface,
             contentColor = DmsTheme.colorScheme.onSurface,
         ),
-
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),

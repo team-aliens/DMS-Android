@@ -1,11 +1,15 @@
 package team.aliens.dms.android.feature.voting
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -29,8 +33,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -71,6 +77,27 @@ fun VotingDetailScreen(
                 text = stringResource(R.string.voting_option_check),
                 style = DmsTheme.typography.headline3
             )
+            LazyRow {
+                items(uiState.classGradeValueList) {
+                    StudentButton(
+                        modifier = modifier,
+                        text = it
+                    )
+                }
+            }
+            LazyColumn {
+                items(uiState.votingTopicCheckList) {
+                    listOf(
+                        CheckVotingItem(
+                            id = it.id,
+                            optionName = it.optionName
+                        )
+                    )
+                }
+            }
+            Button(onClick = {}) {
+
+            }
         }
     }
 }
@@ -78,7 +105,7 @@ fun VotingDetailScreen(
 @Composable
 fun StudentButton(
     modifier: Modifier = Modifier,
-    stringResource: Int,
+    text: String,
 ) {
     OutlinedButton(
         modifier = modifier,
@@ -90,12 +117,12 @@ fun StudentButton(
             disabledContentColor = Color.White,
         ),
         border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(4.dp),
     ) {
         Text(
             modifier = Modifier
                 .padding(vertical = 12.dp, horizontal = 14.dp),
-            text = stringResource(stringResource)
+            text = text
         )
     }
 }
@@ -105,7 +132,7 @@ fun StudentButton(
 fun Preview() {
     DmsTheme {
         StudentButton(
-            stringResource = R.string.id
+            text = stringResource(R.string.id)
         )
     }
 }
