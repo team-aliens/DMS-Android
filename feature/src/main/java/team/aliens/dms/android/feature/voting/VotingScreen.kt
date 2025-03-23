@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -49,7 +52,6 @@ import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
-import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 
@@ -63,7 +65,6 @@ internal fun VotingScreen(
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
-    val applicationList = uiState.voteList
 
     Scaffold(
         modifier = modifier,
@@ -107,17 +108,25 @@ internal fun VotingScreen(
                             .size(8.dp),
                     )
                 }
-                repeat(applicationList.size) {
-                    VoteCard(
-                        title = applicationList[it].topicName,
-                        appliedTitle = "",
-                        topStartTimeTitle = applicationList[it].startTime.toString(),
-                        topEndTimeTitle = applicationList[it].endTime.toString(),
-                        description = applicationList[it].description,
-                        buttonText = "투표하기",
-                        onButtonClick = {},
-                        voteType = applicationList[it].voteType
-                    )
+                LazyColumn {
+                    items(uiState.modelStudentVoteList) {
+                        VoteCard(
+                            topStartTimeTitle = it.startTime,
+                            topEndTimeTitle = it.endTime,
+                            title = it.topicName,
+                            description = it.description,
+                            onButtonClick = {},
+                        )
+                    }
+                    items(uiState.selectedVoteList) {
+
+                    }
+                    items(uiState.studentVoteList) {
+
+                    }
+                    items(uiState.approvalVoteList) {
+
+                    }
                 }
             }
         }
@@ -127,14 +136,13 @@ internal fun VotingScreen(
 @Composable
 private fun VoteCard(
     modifier: Modifier = Modifier,
-    topStartTimeTitle: String,
-    topEndTimeTitle: String,
+    topStartTimeTitle: LocalDate,
+    topEndTimeTitle: LocalDate,
     title: String,
     description: String,
     appliedTitle: String? = null,
     buttonText: String = "투표하기",
     onButtonClick: () -> Unit,
-    voteType: Vote
 ) {
     Text(
         text = "$topStartTimeTitle ~ $topEndTimeTitle",

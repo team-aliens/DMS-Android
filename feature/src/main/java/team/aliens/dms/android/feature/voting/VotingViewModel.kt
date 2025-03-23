@@ -10,6 +10,7 @@ import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
+import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -38,7 +39,10 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchedVoteSearch ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        voteList = fetchedVoteSearch,
+                        modelStudentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.MODEL_STUDENT_VOTE },
+                        selectedVoteList = fetchedVoteSearch.filter { it.voteType == Vote.OPTION_VOTE },
+                        studentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.STUDENT_VOTE },
+                        approvalVoteList = fetchedVoteSearch.filter { it.voteType == Vote.APPROVAL_VOTE },
                     ),
                 )
             }
@@ -65,17 +69,21 @@ class VotingViewModel @Inject constructor(
 data class VotingUiState(
     val selectedVotingOptionId: UUID?,
     val pageCountState: Int,
-    val voteList: List<AllVoteSearch>,
+    val modelStudentVoteList: List<AllVoteSearch>,
+    val selectedVoteList: List<AllVoteSearch>,
+    val studentVoteList: List<AllVoteSearch>,
+    val approvalVoteList: List<AllVoteSearch>,
     val votingTopicCheckList: List<CheckVotingItem>,
-    val classGradeValueList: List<String>
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
             selectedVotingOptionId = null,
             pageCountState = 0,
-            voteList = emptyList(),
+            modelStudentVoteList = emptyList(),
+            selectedVoteList = emptyList(),
+            studentVoteList = emptyList(),
+            approvalVoteList = emptyList(),
             votingTopicCheckList = emptyList(),
-            classGradeValueList = listOf("1학년", "2학년", "3학년")
         )
     }
 }
