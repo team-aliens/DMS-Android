@@ -41,6 +41,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGr
 import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
+import team.aliens.dms.android.feature.voting.VotingModelStudentScreen
 import team.aliens.dms.android.feature.voting.navigation.VotingNavGraph
 import java.util.UUID
 
@@ -240,6 +241,22 @@ class DmsNavigator(
 
     override fun openVoting() {
         navController.navigateSingleTop(VotingScreenDestination within VotingNavGraph)
+    }
+
+    override fun openVotingApproval() {
+
+    }
+
+    override fun openVotingModelStudent() {
+
+    }
+
+    override fun openVotingSelected() {
+        
+    }
+
+    override fun openVotingStudent() {
+        
     }
 }
 
