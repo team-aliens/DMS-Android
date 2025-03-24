@@ -13,7 +13,7 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 fun VotingSelectedScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    votingDetailViewModel: VotingViewModel = hiltViewModel()
+    votingDetailViewModel: VotingViewModel = hiltViewModel(),
 ) {
     Log.d("TEST", "${votingDetailViewModel.stateFlow.collectAsState().value.selectedVoteList}")
 }

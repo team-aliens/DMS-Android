@@ -38,7 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.navOptions
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ContainedButton
@@ -57,7 +56,6 @@ import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Destination
@@ -71,16 +69,15 @@ internal fun VotingScreen(
     val pagerState = rememberPagerState(pageCount = { 2 })
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
-        when(sideEffect) {
+        when (sideEffect) {
             is VotingSideEffect.MoveToVoteDetail -> {
-                // 타입 분기처리
                 when (sideEffect.voteType) {
                     Vote.MODEL_STUDENT_VOTE -> navigator.openVotingModelStudent()
                     Vote.STUDENT_VOTE -> navigator.openVotingStudent()
                     Vote.OPTION_VOTE -> navigator.openVotingSelected()
                     Vote.APPROVAL_VOTE -> navigator.openVotingApproval()
                     else -> {
-
+                        // 처리 해야 할 작업 없음
                     }
                 }
             }
@@ -97,7 +94,7 @@ internal fun VotingScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp){
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             painter = painterResource(id = team.aliens.dms.android.core.designsystem.R.drawable.chevronleft),
                             contentDescription = stringResource(R.string.voting_submit),
@@ -116,8 +113,7 @@ internal fun VotingScreen(
                 state = pagerState,
             ) { page ->
                 repeat(pagerState.pageCount) {
-                    val color =
-                    if(pagerState.currentPage == it)
+                    val color = if (pagerState.currentPage == it)
                         DmsTheme.colorScheme.backgroundVariant
                     else
                         DmsTheme.colorScheme.background
@@ -132,7 +128,7 @@ internal fun VotingScreen(
                 LazyColumn(
                     modifier = Modifier
                         .horizontalPadding(),
-                    verticalArrangement = Arrangement.spacedBy(30.dp)
+                    verticalArrangement = Arrangement.spacedBy(30.dp),
                 ) {
                     items(uiState.modelStudentVoteList) {
                         VoteCard(

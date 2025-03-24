@@ -12,7 +12,6 @@ import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
-import team.aliens.dms.android.feature.notification.box.NotificationBoxSideEffect
 import java.util.UUID
 import javax.inject.Inject
 
@@ -56,12 +55,12 @@ class VotingViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchCheckVotingItem(
-                    votingTopicId = votingTopicId
+                    votingTopicId = votingTopicId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        votingTopicCheckList = listOf(fetchCheckVotingItem)
+                        votingTopicCheckList = listOf(fetchCheckVotingItem),
                     ),
                 )
             }

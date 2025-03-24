@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,7 +21,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
-import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 
@@ -34,7 +30,7 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    votingDetailViewModel: VotingViewModel = hiltViewModel()
+    votingDetailViewModel: VotingViewModel = hiltViewModel(),
 ) {
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
 
@@ -51,7 +47,7 @@ fun VotingApprovalScreen(
                     IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             painter = painterResource(team.aliens.dms.android.core.designsystem.R.drawable.chevronleft),
-                            contentDescription = stringResource(R.string.voting_submit)
+                            contentDescription = stringResource(R.string.voting_submit),
                         )
                     }
                 },
@@ -61,21 +57,12 @@ fun VotingApprovalScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(padValues)
+                .padding(padValues),
         ) {
             Text(
                 text = stringResource(R.string.voting_option_check),
-                style = DmsTheme.typography.headline3
+                style = DmsTheme.typography.headline3,
             )
-            LazyRow {
-
-            }
-            LazyColumn {
-
-            }
-            Button(onClick = {}) {
-
-            }
         }
     }
 }
