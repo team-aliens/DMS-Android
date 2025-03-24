@@ -6,13 +6,14 @@ import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
 import team.aliens.dms.android.shared.date.toLocalDate
+import java.util.UUID
 
 internal fun FetchAllVoteSearchResponse.toModel(): List<AllVoteSearch> =
     this.votingTopics.map(FetchAllVoteSearchResponse.VoteSearchResponse::toModel)
 
 private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSearch =
     AllVoteSearch(
-        id = this.id,
+        id = UUID.fromString(this.id),
         topicName = this.topicName,
         description = this.description,
         startTime = this.startTime.toLocalDate(),

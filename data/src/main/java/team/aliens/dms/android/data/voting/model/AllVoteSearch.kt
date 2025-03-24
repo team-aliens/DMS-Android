@@ -1,9 +1,10 @@
 package team.aliens.dms.android.data.voting.model
 
 import org.threeten.bp.LocalDate
+import java.util.UUID
 
 data class AllVoteSearch(
-    val id: String,
+    val id: UUID,
     val topicName: String,
     val description: String,
     val startTime: LocalDate,
