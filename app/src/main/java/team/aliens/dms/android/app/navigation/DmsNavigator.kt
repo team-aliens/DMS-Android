@@ -36,12 +36,15 @@ import team.aliens.dms.android.feature.destinations.SignUpSetPasswordScreenDesti
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingApprovalScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingModelStudentScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingSelectedScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingStudentScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
-import team.aliens.dms.android.feature.voting.VotingModelStudentScreen
 import team.aliens.dms.android.feature.voting.navigation.VotingNavGraph
 import java.util.UUID
 
@@ -244,19 +247,19 @@ class DmsNavigator(
     }
 
     override fun openVotingApproval() {
-
+        navController.navigateSingleTop(VotingApprovalScreenDestination within VotingNavGraph)
     }
 
     override fun openVotingModelStudent() {
-
+        navController.navigateSingleTop(VotingModelStudentScreenDestination within VotingNavGraph)
     }
 
     override fun openVotingSelected() {
-        
+        navController.navigateSingleTop(VotingSelectedScreenDestination within VotingNavGraph)
     }
 
     override fun openVotingStudent() {
-        
+        navController.navigateSingleTop(VotingStudentScreenDestination within VotingNavGraph)
     }
 }
 
