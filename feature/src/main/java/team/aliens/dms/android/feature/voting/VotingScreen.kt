@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.navOptions
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ContainedButton
@@ -49,11 +50,14 @@ import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Destination
@@ -65,6 +69,23 @@ internal fun VotingScreen(
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
+
+    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+        when(sideEffect) {
+            is VotingSideEffect.MoveToVoteDetail -> {
+                // 타입 분기처리
+                when (sideEffect.voteType) {
+                    Vote.MODEL_STUDENT_VOTE -> navigator.openVotingModelStudent()
+                    Vote.STUDENT_VOTE -> navigator.openVotingStudent()
+                    Vote.OPTION_VOTE -> navigator.openVotingSelected()
+                    Vote.APPROVAL_VOTE -> navigator.openVotingApproval()
+                    else -> {
+
+                    }
+                }
+            }
+        }
+    }
 
     Scaffold(
         modifier = modifier,
@@ -108,24 +129,53 @@ internal fun VotingScreen(
                             .size(8.dp),
                     )
                 }
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier
+                        .horizontalPadding(),
+                    verticalArrangement = Arrangement.spacedBy(30.dp)
+                ) {
                     items(uiState.modelStudentVoteList) {
                         VoteCard(
                             topStartTimeTitle = it.startTime,
                             topEndTimeTitle = it.endTime,
                             title = it.topicName,
                             description = it.description,
-                            onButtonClick = {},
+                            onButtonClick = navigator::openVotingModelStudent,
                         )
                     }
                     items(uiState.selectedVoteList) {
-
+                        VoteCard(
+                            topStartTimeTitle = it.startTime,
+                            topEndTimeTitle = it.endTime,
+                            title = it.topicName,
+                            description = it.description,
+                            onButtonClick = navigator::openVotingSelected,
+                        )
                     }
                     items(uiState.studentVoteList) {
-
+                        VoteCard(
+                            topStartTimeTitle = it.startTime,
+                            topEndTimeTitle = it.endTime,
+                            title = it.topicName,
+                            description = it.description,
+                            onButtonClick = navigator::openVotingStudent,
+                        )
                     }
                     items(uiState.approvalVoteList) {
-
+                        VoteCard(
+                            topStartTimeTitle = it.startTime,
+                            topEndTimeTitle = it.endTime,
+                            title = it.topicName,
+                            description = it.description,
+                            onButtonClick = {
+                                viewModel.postIntent(
+                                    VotingIntent.UpdateVotingItem(
+                                        it.id,
+                                        it.voteType,
+                                    ),
+                                )
+                            },
+                        )
                     }
                 }
             }

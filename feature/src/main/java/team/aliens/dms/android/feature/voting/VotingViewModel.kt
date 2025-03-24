@@ -12,6 +12,7 @@ import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
+import team.aliens.dms.android.feature.notification.box.NotificationBoxSideEffect
 import java.util.UUID
 import javax.inject.Inject
 
@@ -27,8 +28,10 @@ class VotingViewModel @Inject constructor(
 
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
-            is VotingIntent.UpdateVotingItem ->
-                updateCheckVotingItem(intent.votingTopicId)
+            is VotingIntent.UpdateVotingItem -> updateCheckVotingItem(
+                intent.votingTopicId,
+                intent.voteType,
+            )
         }
     }
 
@@ -49,7 +52,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun updateCheckVotingItem(votingTopicId: UUID) {
+    private fun updateCheckVotingItem(votingTopicId: UUID, voteType: Vote) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchCheckVotingItem(
@@ -89,9 +92,9 @@ data class VotingUiState(
 }
 
 sealed class VotingIntent : Intent() {
-    class UpdateVotingItem(val votingTopicId: UUID) : VotingIntent()
+    class UpdateVotingItem(val votingTopicId: UUID, val voteType: Vote) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
-    data object Error : VotingSideEffect()
+    data class MoveToVoteDetail(val voteId: UUID, val voteType: Vote) : VotingSideEffect()
 }
