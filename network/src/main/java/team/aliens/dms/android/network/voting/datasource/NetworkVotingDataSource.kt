@@ -2,6 +2,7 @@ package team.aliens.dms.android.network.voting.datasource
 
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
+import java.time.LocalDate
 import java.util.UUID
 
 abstract class NetworkVotingDataSource {
@@ -16,4 +17,6 @@ abstract class NetworkVotingDataSource {
     )
 
     abstract suspend fun fetchDeleteVotingItem(voteId: UUID)
+
+    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate)
 }

@@ -4,6 +4,7 @@ import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.voting.apiservice.VotingApiService
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
+import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
@@ -21,4 +22,10 @@ internal class NetworkVotingDataSourceImpl @Inject constructor(
 
     override suspend fun fetchDeleteVotingItem(voteId: UUID): Unit =
         handleNetworkRequest { votingApiService.fetchDeleteVotingItem(voteId) }
+
+    override suspend fun fetchModelStudentCandidates(requestDate: LocalDate) {
+        handleNetworkRequest { votingApiService.fetchModelStudentCandidates(requestDate) }
+    }
+
+
 }

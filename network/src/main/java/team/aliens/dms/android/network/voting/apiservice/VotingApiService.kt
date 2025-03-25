@@ -9,6 +9,7 @@ import retrofit2.http.Query
 import team.aliens.dms.android.core.jwt.RequiresAccessToken
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
+import team.aliens.dms.android.network.voting.model.FetchModelStudentCandidates
 import java.time.LocalDate
 import java.util.UUID
 
@@ -39,7 +40,7 @@ internal interface VotingApiService {
 
     @GET("/candidate-list/{requestDate}")
     @RequiresAccessToken
-    suspend fun modelStudentCandidates(
+    suspend fun fetchModelStudentCandidates(
         @Path("requestDate") requestDate: LocalDate,
-    )
+    ): FetchModelStudentCandidates
 }
