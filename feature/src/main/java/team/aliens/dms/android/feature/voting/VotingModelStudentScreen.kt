@@ -71,7 +71,7 @@ internal fun VotingModelStudentScreen(
                     }
                 },
             )
-        }
+        },
     ) { padValues ->
         Column(
             modifier = modifier
@@ -139,13 +139,13 @@ private fun ModelStudentCard(
     id: UUID,
     studentGcn: Long,
     name: String,
-    profileImageUrl: String
+    profileImageUrl: String,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .horizontalPadding()
-            .verticalPadding(14.dp)
+            .verticalPadding(14.dp),
     ) {
         AsyncImage(
             modifier = Modifier
@@ -159,5 +159,3 @@ private fun ModelStudentCard(
         )
     }
 }
-
-

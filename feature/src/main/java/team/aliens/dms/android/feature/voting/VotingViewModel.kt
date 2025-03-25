@@ -30,7 +30,7 @@ class VotingViewModel @Inject constructor(
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
             is VotingIntent.UpdateVotingItem -> updateCheckVotingItem(
-                intent.voteOption
+                intent.voteOption,
             )
         }
     }
@@ -67,7 +67,7 @@ class VotingViewModel @Inject constructor(
             }
         }
     }
-
+    // 뷰모델 확인
     private fun updateModelList(requestDate: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -77,18 +77,19 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchModelList ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        modelStudentCandidates = listOf(fetchModelList)
-                    )
+                        modelStudentCandidates = listOf(fetchModelList),
+                    ),
                 )
             }
         }
     }
 
-    private fun updateGradeInfo(id: UUID): Boolean = reduce(
-        newState = stateFlow.value.copy(
-              votingButtonEnabled = stateFlow.value.modelStudentCandidates.find { it.id == id }?.studentGcn!! >= 2000
-        ),
-    )
+    private fun updateGradeInfo(id: UUID): Boolean =
+        reduce(
+            newState = stateFlow.value.copy(
+                votingButtonEnabled = stateFlow.value.modelStudentCandidates.find { it.id == id }?.studentGcn!! >= 2000,
+            ),
+        )
 }
 
 data class VotingUiState(

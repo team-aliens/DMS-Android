@@ -166,7 +166,7 @@ internal fun VotingScreen(
                             onButtonClick = {
                                 viewModel.postIntent(
                                     VotingIntent.UpdateVotingItem(
-                                        it
+                                        it,
                                     ),
                                 )
                             },
