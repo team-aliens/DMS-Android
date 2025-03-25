@@ -71,7 +71,7 @@ internal fun VotingScreen(
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             is VotingSideEffect.MoveToVoteDetail -> {
-                when (sideEffect.voteType) {
+                when (sideEffect.voteOption.voteType) {
                     Vote.MODEL_STUDENT_VOTE -> navigator.openVotingModelStudent()
                     Vote.STUDENT_VOTE -> navigator.openVotingStudent()
                     Vote.OPTION_VOTE -> navigator.openVotingSelected()
@@ -111,7 +111,7 @@ internal fun VotingScreen(
         ) {
             HorizontalPager(
                 state = pagerState,
-            ) { page ->
+            ) { _ ->
                 repeat(pagerState.pageCount) {
                     val color = if (pagerState.currentPage == it)
                         DmsTheme.colorScheme.backgroundVariant
@@ -166,8 +166,7 @@ internal fun VotingScreen(
                             onButtonClick = {
                                 viewModel.postIntent(
                                     VotingIntent.UpdateVotingItem(
-                                        it.id,
-                                        it.voteType,
+                                        it
                                     ),
                                 )
                             },
