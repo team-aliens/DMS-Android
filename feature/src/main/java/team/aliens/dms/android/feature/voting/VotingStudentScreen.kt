@@ -8,7 +8,7 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 
 @Destination
 @Composable
-fun VotingStudentScreen(
+internal fun VotingStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
     votingDetailViewModel: VotingViewModel = hiltViewModel(),

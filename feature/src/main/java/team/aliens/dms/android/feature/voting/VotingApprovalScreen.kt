@@ -45,7 +45,7 @@ import java.util.UUID
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun VotingApprovalScreen(
+internal fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
     votingDetailViewModel: VotingViewModel = hiltViewModel(),
@@ -98,7 +98,7 @@ fun VotingApprovalScreen(
 }
 
 @Composable
-fun StudentButton(
+private fun StudentButton(
     modifier: Modifier = Modifier,
     text: String,
 ) {
@@ -118,32 +118,6 @@ fun StudentButton(
             modifier = Modifier
                 .padding(vertical = 12.dp, horizontal = 14.dp),
             text = text
-        )
-    }
-}
-
-@Composable
-fun ModelStudentCard(
-    id: UUID,
-    studentGcn: Long,
-    name: String,
-    profileImageUrl: String
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalPadding()
-    ) {
-        AsyncImage(
-            modifier = Modifier
-                .size(28.dp)
-                .clip(CircleShape),
-            model = profileImageUrl,
-            contentDescription = "student_image"
-        )
-
-        Text(
-            text = "$studentGcn $name"
         )
     }
 }
