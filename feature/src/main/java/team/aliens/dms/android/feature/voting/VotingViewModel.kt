@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.graphics.ColorSpace.Model
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +68,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun fetchModelList(requestDate: LocalDate) {
+    private fun updateModelList(requestDate: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchModelStudentCandidates(
@@ -78,41 +77,44 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchModelList ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        modelStudentCandidates = fetchModelList
+                        modelStudentCandidates = listOf(fetchModelList)
                     )
                 )
             }
         }
     }
+
+    private fun updateGradeInfo(id: UUID): Boolean = reduce(
+        newState = stateFlow.value.copy(
+              votingButtonEnabled = stateFlow.value.modelStudentCandidates.find { it.id == id }?.studentGcn!! >= 2000
+        ),
+    )
 }
 
 data class VotingUiState(
     val selectedVotingOptionId: UUID?,
     val pageCountState: Int,
     val uiStateTitle: String,
-    val modelStudentCandidates: ModelStudentCandidates,
+    val modelStudentCandidates: List<ModelStudentCandidates>,
     val modelStudentVoteList: List<AllVoteSearch>,
     val selectedVoteList: List<AllVoteSearch>,
     val studentVoteList: List<AllVoteSearch>,
     val approvalVoteList: List<AllVoteSearch>,
     val votingTopicCheckList: List<CheckVotingItem>,
+    val votingButtonEnabled: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
             selectedVotingOptionId = null,
             pageCountState = 0,
             uiStateTitle = "",
-            modelStudentCandidates = ModelStudentCandidates(
-                id = UUID.fromString(""),
-                studentGcn = 0,
-                name = "",
-                profileImageUrl = "",
-            ),
+            modelStudentCandidates = emptyList(),
             modelStudentVoteList = emptyList(),
             selectedVoteList = emptyList(),
             studentVoteList = emptyList(),
             approvalVoteList = emptyList(),
             votingTopicCheckList = emptyList(),
+            votingButtonEnabled = false,
         )
     }
 }
