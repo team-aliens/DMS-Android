@@ -26,7 +26,7 @@ internal class VotingRepositoryImpl @Inject constructor(
         networkVotingDataSource.fetchDeleteVotingItem(voteId)
     }
 
-    override suspend fun fetchModelStudentCandidates(requestDate: LocalDate): ModelStudentCandidates {
-        networkVotingDataSource.fetchModelStudentCandidates(requestDate)
-    }
+    override suspend fun fetchModelStudentCandidates(requestDate: LocalDate): ModelStudentCandidates =
+        networkVotingDataSource.fetchModelStudentCandidates(requestDate).toModel()
+
 }
