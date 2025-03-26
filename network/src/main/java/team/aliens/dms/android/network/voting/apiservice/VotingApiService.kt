@@ -15,30 +15,30 @@ import java.util.UUID
 
 internal interface VotingApiService {
 
-    @GET("/")
+    @GET("/votes")
     @RequiresAccessToken
     suspend fun fetchAllVoteSearch(): FetchAllVoteSearchResponse
 
-    @GET("/option/{voting-topic-id}")
+    @GET("/votes/option/{voting-topic-id}")
     @RequiresAccessToken
     suspend fun fetchCheckVotingItem(
         @Path("voting-topic-id") votingTopicId: UUID,
     ): FetchCheckVotingItemResponse
 
-    @POST("/student/{voting-topic-id}")
+    @POST("/votes/student/{voting-topic-id}")
     @RequiresAccessToken
     suspend fun fetchCreateVotingItem(
         @Path("voting-topic-id") votingTopicId: UUID,
         @Query("selected_id") selectedId: UUID,
     ): Response<Unit>?
 
-    @DELETE("/student/{vote_id}")
+    @DELETE("/votes/student/{vote_id}")
     @RequiresAccessToken
     suspend fun fetchDeleteVotingItem(
         @Path("vote_id") voteId: UUID,
     ): Response<Unit>?
 
-    @GET("/candidate-list/{requestDate}")
+    @GET("/votes/candidate-list/{requestDate}")
     @RequiresAccessToken
     suspend fun fetchModelStudentCandidates(
         @Path("requestDate") requestDate: LocalDate,
