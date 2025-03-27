@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.voting.datasource
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.voting.apiservice.VotingApiService
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
@@ -24,6 +24,6 @@ internal class NetworkVotingDataSourceImpl @Inject constructor(
     override suspend fun fetchDeleteVotingItem(voteId: UUID): Unit =
         handleNetworkRequest { votingApiService.fetchDeleteVotingItem(voteId) }
 
-    override suspend fun fetchModelStudentCandidates(requestDate: LocalDateTime): FetchModelStudentCandidates =
+    override suspend fun fetchModelStudentCandidates(requestDate: LocalDate): FetchModelStudentCandidates =
         handleNetworkRequest { votingApiService.fetchModelStudentCandidates(requestDate) }
 }

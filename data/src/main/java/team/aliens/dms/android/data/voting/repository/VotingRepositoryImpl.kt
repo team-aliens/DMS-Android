@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.voting.repository
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.data.voting.mapper.toModel
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
@@ -26,7 +26,7 @@ internal class VotingRepositoryImpl @Inject constructor(
         networkVotingDataSource.fetchDeleteVotingItem(voteId)
     }
 
-    override suspend fun fetchModelStudentCandidates(requestDate: LocalDateTime): ModelStudentCandidates =
+    override suspend fun fetchModelStudentCandidates(requestDate: LocalDate): ModelStudentCandidates =
         networkVotingDataSource.fetchModelStudentCandidates(requestDate).toModel()
 
 }
