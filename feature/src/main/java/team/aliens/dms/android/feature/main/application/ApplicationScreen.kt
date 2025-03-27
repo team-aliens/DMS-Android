@@ -1,18 +1,28 @@
 package team.aliens.dms.android.feature.main.application
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,11 +31,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -40,7 +53,7 @@ import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Destination
 @Composable
 internal fun ApplicationScreen(
@@ -51,8 +64,11 @@ internal fun ApplicationScreen(
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val pagerState = rememberPagerState(pageCount = { 2 })
 
     LocalLifecycleOwner.current.lifecycle.addObserver(viewModel)
+
+    Log.d("TEST", uiState.modelStudentVoteList.toString())
 
     Scaffold(
         modifier = modifier,
@@ -109,6 +125,93 @@ private fun ApplicationCard(
     buttonText: String,
     onButtonClick: () -> Unit,
 ) {
+    Card(
+        modifier = modifier
+            .animateContentSize()
+            .horizontalPadding()
+            .verticalPadding()
+            .shadow(),
+        shape = DmsTheme.shapes.surfaceSmall,
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = DmsTheme.colorScheme.surface,
+            contentColor = DmsTheme.colorScheme.onSurface,
+        ),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
+        ) {
+            Row(
+                modifier = Modifier
+                    .animateContentSize()
+                    .horizontalPadding()
+                    .topPadding(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = title,
+                    color = DmsTheme.colorScheme.onSurface,
+                    style = DmsTheme.typography.title2,
+                )
+                AnimatedVisibility(
+                    visible = appliedTitle != null,
+                    enter = slideInVertically() + fadeIn(),
+                    exit = slideOutVertically() + fadeOut(),
+                ) {
+                    if (appliedTitle != null) {
+                        RoundedButton(
+                            onClick = { },
+                            fillMinSize = false,
+                            contentPadding = PaddingValues(
+                                horizontal = PaddingDefaults.Medium,
+                                vertical = PaddingDefaults.Small,
+                            ),
+                        ) {
+                            Text(text = appliedTitle)
+                        }
+                    }
+                }
+            }
+            Text(
+                modifier = Modifier
+                    .animateContentSize()
+                    .fillMaxWidth()
+                    .horizontalPadding(),
+                text = description,
+                style = DmsTheme.typography.body3,
+                color = DmsTheme.colorScheme.onSurface,
+            )
+            ContainedButton(
+                modifier = Modifier
+                    .animateContentSize()
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = onButtonClick,
+            ) {
+                Text(text = buttonText)
+            }
+        }
+    }
+}
+
+@Composable
+private fun VoteCard(
+    modifier: Modifier = Modifier,
+    topStartTimeTitle: LocalDate,
+    topEndTimeTitle: LocalDate,
+    title: String,
+    description: String,
+    appliedTitle: String? = null,
+    buttonText: String = "투표하기",
+    onButtonClick: () -> Unit,
+) {
+    Text(
+        text = "$topStartTimeTitle ~ $topEndTimeTitle",
+        style = DmsTheme.typography.body2,
+        color = DmsTheme.colorScheme.primary,
+    )
     Card(
         modifier = modifier
             .animateContentSize()
