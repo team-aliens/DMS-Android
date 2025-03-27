@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -40,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -63,7 +65,7 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 internal fun VotingScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    viewModel: VotingViewModel = hiltViewModel(),
+    viewModel: VotingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
@@ -83,14 +85,24 @@ internal fun VotingScreen(
             }
         }
     }
-
     Scaffold(
         modifier = modifier,
         topBar = {
             DmsTopAppBar(
                 title = {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.voting_submit))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 32.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = when(pagerState.currentPage) {
+                                0 -> stringResource(R.string.application)
+                                else -> stringResource(R.string.voting_submit)
+                            },
+                            style = DmsTheme.typography.body2
+                        )
                     }
                 },
                 navigationIcon = {
@@ -110,67 +122,87 @@ internal fun VotingScreen(
                 .padding(padValues),
         ) {
             HorizontalPager(
+                modifier = modifier
+                    .fillMaxSize()
+                    .align(Alignment.Start),
                 state = pagerState,
-            ) { _ ->
-                repeat(pagerState.pageCount) {
-                    val color = if (pagerState.currentPage == it)
-                        DmsTheme.colorScheme.backgroundVariant
-                    else
-                        DmsTheme.colorScheme.background
-                    Box(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clip(CircleShape)
-                            .background(color)
-                            .size(8.dp),
-                    )
-                }
-                LazyColumn(
+            ) { page ->
+                Column(
                     modifier = Modifier
-                        .horizontalPadding(),
-                    verticalArrangement = Arrangement.spacedBy(30.dp),
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.Top
                 ) {
-                    items(uiState.modelStudentVoteList) {
-                        VoteCard(
-                            topStartTimeTitle = it.startTime,
-                            topEndTimeTitle = it.endTime,
-                            title = it.topicName,
-                            description = it.description,
-                            onButtonClick = navigator::openVotingModelStudent,
-                        )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        repeat(2) { index ->
+                            val color = if (pagerState.currentPage == index)
+                                DmsTheme.colorScheme.backgroundVariant
+                            else
+                                DmsTheme.colorScheme.onSurfaceVariant
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .clip(CircleShape)
+                                    .background(color)
+                                    .size(8.dp)
+                            )
+                        }
                     }
-                    items(uiState.selectedVoteList) {
-                        VoteCard(
-                            topStartTimeTitle = it.startTime,
-                            topEndTimeTitle = it.endTime,
-                            title = it.topicName,
-                            description = it.description,
-                            onButtonClick = navigator::openVotingSelected,
-                        )
-                    }
-                    items(uiState.studentVoteList) {
-                        VoteCard(
-                            topStartTimeTitle = it.startTime,
-                            topEndTimeTitle = it.endTime,
-                            title = it.topicName,
-                            description = it.description,
-                            onButtonClick = navigator::openVotingStudent,
-                        )
-                    }
-                    items(uiState.approvalVoteList) {
-                        VoteCard(
-                            topStartTimeTitle = it.startTime,
-                            topEndTimeTitle = it.endTime,
-                            title = it.topicName,
-                            description = it.description,
-                            onButtonClick = {
-                                viewModel.postIntent(
-                                    VotingIntent.UpdateVotingItem(
-                                        it,
-                                    ),
-                                )
-                            },
-                        )
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(30.dp),
+                    ) {
+                        when (page) {
+                            0 -> {
+                            }
+                            1 -> {
+                                items(uiState.modelStudentVoteList) {
+                                    VoteCard(
+                                        topStartTimeTitle = it.startTime,
+                                        topEndTimeTitle = it.endTime,
+                                        title = it.topicName,
+                                        description = it.description,
+                                        onButtonClick = navigator::openVotingModelStudent,
+                                    )
+                                }
+                                items(uiState.selectedVoteList) {
+                                    VoteCard(
+                                        topStartTimeTitle = it.startTime,
+                                        topEndTimeTitle = it.endTime,
+                                        title = it.topicName,
+                                        description = it.description,
+                                        onButtonClick = navigator::openVotingSelected,
+                                    )
+                                }
+                                items(uiState.studentVoteList) {
+                                    VoteCard(
+                                        topStartTimeTitle = it.startTime,
+                                        topEndTimeTitle = it.endTime,
+                                        title = it.topicName,
+                                        description = it.description,
+                                        onButtonClick = navigator::openVotingStudent,
+                                    )
+                                }
+                                items(uiState.approvalVoteList) {
+                                    VoteCard(
+                                        topStartTimeTitle = it.startTime,
+                                        topEndTimeTitle = it.endTime,
+                                        title = it.topicName,
+                                        description = it.description,
+                                        onButtonClick = {
+                                            viewModel.postIntent(
+                                                VotingIntent.UpdateVotingItem(it)
+                                            )
+                                        },
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -181,8 +213,8 @@ internal fun VotingScreen(
 @Composable
 private fun VoteCard(
     modifier: Modifier = Modifier,
-    topStartTimeTitle: LocalDate,
-    topEndTimeTitle: LocalDate,
+    topStartTimeTitle: LocalDateTime,
+    topEndTimeTitle: LocalDateTime,
     title: String,
     description: String,
     appliedTitle: String? = null,
@@ -190,6 +222,8 @@ private fun VoteCard(
     onButtonClick: () -> Unit,
 ) {
     Text(
+        modifier = modifier
+            .horizontalPadding(),
         text = "$topStartTimeTitle ~ $topEndTimeTitle",
         style = DmsTheme.typography.body2,
         color = DmsTheme.colorScheme.primary,

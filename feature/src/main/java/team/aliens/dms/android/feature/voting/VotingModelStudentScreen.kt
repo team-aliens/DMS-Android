@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -82,9 +83,14 @@ internal fun VotingModelStudentScreen(
                 text = "모범학생 투표",
                 style = DmsTheme.typography.headline3,
             )
-            StudentButton(text = "1학년")
-            StudentButton(text = "2학년")
-            StudentButton(text = "3학년")
+            Row(
+                modifier = modifier
+                    .horizontalPadding(),
+            ) {
+                StudentButton(text = "1학년")
+                StudentButton(text = "2학년")
+                StudentButton(text = "3학년")
+            }
             LazyColumn {
                 items(uiState.modelStudentCandidates) {
                     ModelStudentCard(
@@ -125,10 +131,9 @@ private fun StudentButton(
         ),
         border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
         shape = RoundedCornerShape(4.dp),
+
     ) {
         Text(
-            modifier = Modifier
-                .padding(vertical = 12.dp, horizontal = 14.dp),
             text = text,
         )
     }
@@ -159,3 +164,5 @@ private fun ModelStudentCard(
         )
     }
 }
+
+
