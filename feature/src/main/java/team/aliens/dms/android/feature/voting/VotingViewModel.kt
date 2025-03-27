@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,11 +43,14 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchedVoteSearch ->
                 reduce(
                     newState = stateFlow.value.copy(
+                        modelStudentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.MODEL_STUDENT_VOTE },
                         selectedVoteList = fetchedVoteSearch.filter { it.voteType == Vote.OPTION_VOTE },
                         studentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.STUDENT_VOTE },
                         approvalVoteList = fetchedVoteSearch.filter { it.voteType == Vote.APPROVAL_VOTE },
                     ),
                 )
+            }.onFailure {
+                it.message
             }
         }
     }
@@ -80,6 +84,8 @@ class VotingViewModel @Inject constructor(
                         modelStudentCandidates = listOf(fetchModelList),
                     ),
                 )
+            }.onFailure {
+                it.printStackTrace()
             }
         }
     }
