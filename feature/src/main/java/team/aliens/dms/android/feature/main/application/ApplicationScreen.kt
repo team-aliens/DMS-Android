@@ -68,8 +68,6 @@ internal fun ApplicationScreen(
 
     LocalLifecycleOwner.current.lifecycle.addObserver(viewModel)
 
-    Log.d("TEST", uiState.modelStudentVoteList.toString())
-
     Scaffold(
         modifier = modifier,
         topBar = {
