@@ -9,6 +9,7 @@ import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
 import team.aliens.dms.android.network.voting.model.FetchModelStudentCandidates
+import team.aliens.dms.android.shared.date.toLocalDateTime
 
 internal fun FetchAllVoteSearchResponse.toModel(): List<AllVoteSearch> =
     this.votingTopics.map(FetchAllVoteSearchResponse.VoteSearchResponse::toModel)
@@ -18,8 +19,8 @@ private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSear
         id = UUID.fromString(this.id),
         topicName = this.topicName,
         description = this.description,
-        startTime = this.startTime.toLocalDate(),
-        endTime = this.endTime.toLocalDate(),
+        startTime = this.startTime.toLocalDateTime(),
+        endTime = this.endTime.toLocalDateTime(),
         voteType = Vote.valueOf(this.voteType),
     )
 
