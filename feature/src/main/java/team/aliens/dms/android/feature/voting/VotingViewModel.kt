@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -18,7 +19,6 @@ import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
-import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
@@ -39,6 +39,9 @@ class VotingViewModel @Inject constructor(
         when (intent) {
             is VotingIntent.UpdateVotingItem -> updateCheckVotingItem(
                 intent.voteOption,
+            )
+            is VotingIntent.UpdateModelStudent -> updateModelStudentList(
+                intent.requestDate
             )
         }
     }
@@ -81,7 +84,7 @@ class VotingViewModel @Inject constructor(
         }
     }
     // 뷰모델 확인
-    private fun updateModelStudentList(requestDate: LocalDate) {
+    private fun updateModelStudentList(requestDate: LocalDateTime) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchModelStudentCandidates(
@@ -161,6 +164,7 @@ data class VotingUiState(
 
 sealed class VotingIntent : Intent() {
     class UpdateVotingItem(val voteOption: AllVoteSearch) : VotingIntent()
+    class UpdateModelStudent(val requestDate: LocalDateTime) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {

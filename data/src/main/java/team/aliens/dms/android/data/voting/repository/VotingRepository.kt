@@ -1,9 +1,9 @@
 package team.aliens.dms.android.data.voting.repository
 
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
-import java.time.LocalDate
 import java.util.UUID
 
 abstract class VotingRepository {
@@ -19,5 +19,5 @@ abstract class VotingRepository {
 
     abstract suspend fun fetchDeleteVotingItem(voteId: UUID)
 
-    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): ModelStudentCandidates
+    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDateTime): ModelStudentCandidates
 }
