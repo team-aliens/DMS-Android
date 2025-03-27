@@ -9,6 +9,10 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
+import team.aliens.dms.android.data.remains.repository.RemainsRepository
+import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
+import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
@@ -20,12 +24,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VotingViewModel @Inject constructor(
+    private val remainsRepository: RemainsRepository,
     private val votingRepository: VotingRepository,
+    private val studyRoomRepository: StudyRoomRepository,
 ) : BaseMviViewModel<VotingUiState, VotingIntent, VotingSideEffect>(
     initialState = VotingUiState.initial(),
 ) {
     init {
         fetchAllVoteSearch()
+        fetchAppliedRemainsOption()
     }
 
     override fun processIntent(intent: VotingIntent) {
@@ -68,11 +75,13 @@ class VotingViewModel @Inject constructor(
                         uiStateTitle = voteOption.topicName,
                     ),
                 )
+            }.onFailure {
+                Log.d("TEST", it.message.toString())
             }
         }
     }
     // 뷰모델 확인
-    private fun updateModelList(requestDate: LocalDate) {
+    private fun updateModelStudentList(requestDate: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchModelStudentCandidates(
@@ -96,6 +105,26 @@ class VotingViewModel @Inject constructor(
                 votingButtonEnabled = stateFlow.value.modelStudentCandidates.find { it.id == id }?.studentGcn!! >= 2000,
             ),
         )
+
+    private fun fetchAppliedRemainsOption() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                remainsRepository.fetchAppliedRemainsOption()
+            }.onSuccess { appliedRemainsOption ->
+                reduce(newState = stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption))
+            }
+        }
+    }
+
+    private fun fetchAppliedStudyRoom() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                studyRoomRepository.fetchAppliedStudyRoom()
+            }.onSuccess { appliedStudyRoom ->
+                reduce(newState = stateFlow.value.copy(appliedStudyRoom = appliedStudyRoom))
+            }
+        }
+    }
 }
 
 data class VotingUiState(
@@ -109,6 +138,8 @@ data class VotingUiState(
     val approvalVoteList: List<AllVoteSearch>,
     val votingTopicCheckList: List<CheckVotingItem>,
     val votingButtonEnabled: Boolean,
+    val appliedStudyRoom: AppliedStudyRoom?,
+    val appliedRemainsOption: AppliedRemainsOption?,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
@@ -122,6 +153,8 @@ data class VotingUiState(
             approvalVoteList = emptyList(),
             votingTopicCheckList = emptyList(),
             votingButtonEnabled = false,
+            appliedStudyRoom = null,
+            appliedRemainsOption = null,
         )
     }
 }
