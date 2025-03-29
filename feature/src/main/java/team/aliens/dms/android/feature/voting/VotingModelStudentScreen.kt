@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
@@ -50,10 +51,12 @@ import java.util.UUID
 internal fun VotingModelStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    votingDetailViewModel: VotingViewModel = hiltViewModel(),
-) {
-    val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+    voteId: UUID,
 
+) {
+    val votingDetailViewModel: VotingViewModel = hiltViewModel()
+    val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+    Log.d("TEST", voteId.toString())
     Scaffold(
         modifier = modifier,
         topBar = {

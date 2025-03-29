@@ -33,6 +33,7 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -40,8 +41,9 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 internal fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    votingDetailViewModel: VotingViewModel = hiltViewModel(),
+    voteId: UUID,
 ) {
+    val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
 
     Scaffold(
