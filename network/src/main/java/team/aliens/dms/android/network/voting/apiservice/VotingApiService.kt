@@ -29,7 +29,7 @@ internal interface VotingApiService {
     @RequiresAccessToken
     suspend fun fetchCreateVotingItem(
         @Path("voting-topic-id") votingTopicId: UUID,
-        @Query("selected_id") selectedId: UUID,
+        @Query("selected-id") selectedId: UUID,
     ): Response<Unit>?
 
     @DELETE("/votes/student/{vote_id}")
@@ -38,9 +38,9 @@ internal interface VotingApiService {
         @Path("vote_id") voteId: UUID,
     ): Response<Unit>?
 
-    @GET("/students/candidate-list/{requestDate}")
+    @GET("/students/candidate-list/{date}")
     @RequiresAccessToken
     suspend fun fetchModelStudentCandidates(
-        @Path("requestDate") requestDate: LocalDate,
+        @Path("date") requestDate: LocalDate,
     ): FetchModelStudentCandidates
 }
