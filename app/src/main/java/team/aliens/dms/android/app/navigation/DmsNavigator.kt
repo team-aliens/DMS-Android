@@ -14,6 +14,7 @@ import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavigator
 import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination
@@ -246,20 +247,20 @@ class DmsNavigator(
         navController.navigateSingleTop(VotingScreenDestination within VotingNavGraph)
     }
 
-    override fun openVotingApproval(voteId: UUID) {
-        navController.navigateSingleTop(VotingApprovalScreenDestination(voteId) within VotingNavGraph)
+    override fun openVotingApproval(voteOption: AllVoteSearch) {
+        navController.navigateSingleTop(VotingApprovalScreenDestination within VotingNavGraph)
     }
 
-    override fun openVotingModelStudent() {
+    override fun openVotingModelStudent(voteOption: AllVoteSearch) {
         navController.navigateSingleTop(VotingModelStudentScreenDestination within VotingNavGraph)
     }
 
-    override fun openVotingSelected(voteId: UUID) {
-        navController.navigateSingleTop(VotingSelectedScreenDestination(voteId) within VotingNavGraph)
+    override fun openVotingSelected(voteOption: AllVoteSearch) {
+        navController.navigateSingleTop(VotingSelectedScreenDestination within VotingNavGraph)
     }
 
-    override fun openVotingStudent(voteId: UUID) {
-        navController.navigateSingleTop(VotingStudentScreenDestination(voteId) within VotingNavGraph)
+    override fun openVotingStudent(voteOption: AllVoteSearch) {
+        navController.navigateSingleTop(VotingStudentScreenDestination within VotingNavGraph)
     }
 }
 

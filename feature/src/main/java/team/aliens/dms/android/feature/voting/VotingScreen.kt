@@ -54,6 +54,7 @@ import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
@@ -65,31 +66,13 @@ import java.util.UUID
 internal fun VotingScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    onNavigateToApprovalVote: (voteId: UUID) -> Unit,
-    onNavigateToStudentVoteVote: (voteId: UUID) -> Unit,
-    onNavigateToSelectedVoteVote: (voteId: UUID) -> Unit,
+    onNavigateToApprovalVote: (voteOption: AllVoteSearch) -> Unit,
+    onNavigateToStudentVoteVote: (voteOption: AllVoteSearch) -> Unit,
+    onNavigateToSelectedVoteVote: (voteOption: AllVoteSearch) -> Unit,
 ) {
-
     val viewModel: VotingViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
-
-//    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
-//        when (sideEffect) {
-//            is VotingSideEffect.MoveToVoteDetail -> {
-//                when (sideEffect.voteOption.voteType) {
-//                    Vote.MODEL_STUDENT_VOTE -> navigator.openVotingModelStudent()
-//                    Vote.STUDENT_VOTE -> navigator.openVotingStudent()
-//                    Vote.OPTION_VOTE -> navigator.openVotingSelected()
-//                    Vote.APPROVAL_VOTE -> navigator.openVotingApproval()
-//                    else -> {
-//                        // 처리 해야 할 작업 없음
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 
     Scaffold(
         modifier = modifier,
@@ -166,21 +149,7 @@ internal fun VotingScreen(
                         when (page) {
                             0 -> {
                                 items(3) {
-//                                    VoteCard(
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .topPadding(),
-//                                        title = "",
-//                                        appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
-//
-//                                        }.toString(),
-//                                        description = "",
-//                                        buttonText = "",
-//                                        onButtonClick = {},
-//                                        topStartTimeTitle =  LocalDateTime.now(),
-//                                        topEndTimeTitle =  LocalDateTime.now(),
-//                                        voteType =  null,
-//                                    )
+
                                 }
                             }
                             1 -> {
@@ -194,39 +163,35 @@ internal fun VotingScreen(
 
                                         },
                                         voteType = it.voteType,
-                                        voteId = UUID.fromString("")
                                     )
                                 }
                                 items(uiState.selectedVoteList) {
                                     VoteCard(
-                                        voteId = it.id,
                                         topStartTimeTitle = it.startTime,
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = onNavigateToSelectedVoteVote,
+                                        onButtonClick = { onNavigateToSelectedVoteVote(it) },
                                         voteType = it.voteType,
                                     )
                                 }
                                 items(uiState.studentVoteList) {
                                     VoteCard(
-                                        voteId = it.id,
                                         topStartTimeTitle = it.startTime,
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = onNavigateToStudentVoteVote,
+                                        onButtonClick = { onNavigateToStudentVoteVote(it) },
                                         voteType = it.voteType,
                                     )
                                 }
                                 items(uiState.approvalVoteList) {
                                     VoteCard(
-                                        voteId = it.id,
                                         topStartTimeTitle = it.startTime,
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = onNavigateToApprovalVote,
+                                        onButtonClick = { onNavigateToApprovalVote(it) },
                                         voteType = it.voteType,
                                     )
                                 }
@@ -242,14 +207,13 @@ internal fun VotingScreen(
 @Composable
 private fun VoteCard(
     modifier: Modifier = Modifier,
-    voteId: UUID,
     topStartTimeTitle: LocalDateTime,
     topEndTimeTitle: LocalDateTime,
     title: String,
     description: String,
     appliedTitle: String? = null,
     buttonText: String = "투표하기",
-    onButtonClick: (voteId: UUID) -> Unit,
+    onButtonClick: () -> Unit,
     voteType: Vote?,
 ) {
     if (enumValues<Vote>().contains(voteType)) {
@@ -324,7 +288,7 @@ private fun VoteCard(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(36.dp),
-                onClick = { onButtonClick(voteId) },
+                onClick = onButtonClick,
             ) {
                 Text(text = buttonText)
             }
