@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
@@ -37,11 +37,11 @@ class VotingViewModel @Inject constructor(
 
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
-            is VotingIntent.UpdateVotingItem -> updateCheckVotingItem(
+            is VotingIntent.UpdateVotingItem -> this.updateCheckVotingItem(
                 intent.voteOption,
             )
-            is VotingIntent.UpdateModelStudent -> updateModelStudentList(
-                intent.requestDate
+            is VotingIntent.UpdateModelStudent -> this.updateModelStudentList(
+                intent.requestDate,
             )
         }
     }
@@ -67,6 +67,7 @@ class VotingViewModel @Inject constructor(
 
     private fun updateCheckVotingItem(voteOption: AllVoteSearch) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("TEST", voteOption.id.toString())
             runCatching {
                 votingRepository.fetchCheckVotingItem(
                     votingTopicId = voteOption.id,
@@ -83,8 +84,8 @@ class VotingViewModel @Inject constructor(
             }
         }
     }
-    // 뷰모델 확인
-    private fun updateModelStudentList(requestDate: LocalDateTime) {
+
+    private fun updateModelStudentList(requestDate: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchModelStudentCandidates(
@@ -101,7 +102,7 @@ class VotingViewModel @Inject constructor(
             }
         }
     }
-
+    // 학년 필터링
     private fun updateGradeInfo(id: UUID): Boolean =
         reduce(
             newState = stateFlow.value.copy(
@@ -164,7 +165,7 @@ data class VotingUiState(
 
 sealed class VotingIntent : Intent() {
     class UpdateVotingItem(val voteOption: AllVoteSearch) : VotingIntent()
-    class UpdateModelStudent(val requestDate: LocalDateTime) : VotingIntent()
+    class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {

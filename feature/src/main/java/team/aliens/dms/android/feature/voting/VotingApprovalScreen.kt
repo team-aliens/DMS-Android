@@ -1,5 +1,7 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,10 +29,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonColors
+import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
@@ -72,11 +77,12 @@ internal fun VotingApprovalScreen(
                 .padding(padValues),
         ) {
             Text(
-                text = stringResource(R.string.voting_option_check),
+                text = uiState.uiStateTitle,
                 style = DmsTheme.typography.headline3,
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = modifier
+                    .horizontalPadding(),
             ) {
                 StudentButton(text = "1학년")
                 StudentButton(text = "2학년")
@@ -84,7 +90,18 @@ internal fun VotingApprovalScreen(
             }
             LazyColumn {
                 items(uiState.votingTopicCheckList) {
+
                 }
+            }
+            ContainedButton(
+                modifier = Modifier
+                    .animateContentSize()
+                    .fillMaxWidth()
+                    .horizontalPadding()
+                    .bottomPadding(),
+                onClick = { /* 상태 값 변경 */ },
+            ) {
+                Text(text = "투표하기")
             }
         }
     }
@@ -106,10 +123,9 @@ private fun StudentButton(
         ),
         border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
         shape = RoundedCornerShape(4.dp),
-    ) {
+
+        ) {
         Text(
-            modifier = Modifier
-                .padding(vertical = 12.dp, horizontal = 14.dp),
             text = text,
         )
     }
