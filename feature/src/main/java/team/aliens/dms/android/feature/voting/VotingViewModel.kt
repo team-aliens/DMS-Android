@@ -43,6 +43,10 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.UpdateModelStudent -> this.updateModelStudentList(
                 intent.requestDate,
             )
+            is VotingIntent.CreateVoteTable -> this.fetchCreateVoteTable(
+                votingTopicId =  intent.votingTopicId,
+                selectedId =  intent.selectedId,
+            )
         }
     }
 
@@ -65,7 +69,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun updateCheckVotingItem(voteOption: AllVoteSearch) {
+    internal fun updateCheckVotingItem(voteOption: AllVoteSearch) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("TEST", voteOption.id.toString())
             runCatching {
@@ -85,7 +89,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun updateModelStudentList(requestDate: LocalDate) {
+    internal fun updateModelStudentList(requestDate: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchModelStudentCandidates(
@@ -116,6 +120,19 @@ class VotingViewModel @Inject constructor(
                 remainsRepository.fetchAppliedRemainsOption()
             }.onSuccess { appliedRemainsOption ->
                 reduce(newState = stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption))
+            }
+        }
+    }
+
+    private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                votingRepository.fetchCreateVotingItem(
+                    votingTopicId = votingTopicId,
+                    selectedId = selectedId,
+                )
+            }.onSuccess {
+
             }
         }
     }
@@ -166,6 +183,7 @@ data class VotingUiState(
 sealed class VotingIntent : Intent() {
     class UpdateVotingItem(val voteOption: AllVoteSearch) : VotingIntent()
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
+    class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {

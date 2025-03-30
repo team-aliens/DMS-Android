@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonColors
 import team.aliens.dms.android.core.designsystem.ContainedButton
@@ -35,6 +38,7 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
@@ -45,10 +49,14 @@ import java.util.UUID
 internal fun VotingStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteId: UUID,
+    voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+    }
 
     Scaffold(
         modifier = modifier,

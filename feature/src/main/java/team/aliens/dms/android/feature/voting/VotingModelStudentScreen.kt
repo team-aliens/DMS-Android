@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,15 +31,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonColors
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
@@ -51,12 +53,13 @@ import java.util.UUID
 internal fun VotingModelStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteId: UUID,
-
+    voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
-    Log.d("TEST", voteId.toString())
+
+    votingDetailViewModel.updateModelStudentList(LocalDate.now())
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -101,6 +104,15 @@ internal fun VotingModelStudentScreen(
                         studentGcn = it.studentGcn,
                         name = it.name,
                         profileImageUrl = it.name,
+                        onclick = {
+                            votingDetailViewModel.postIntent(
+                                VotingIntent.CreateVoteTable(
+                                    votingTopicId = voteOption.id,
+                                    selectedId = it.id,
+                                )
+                            )
+                            navigator::navigateUp
+                        }
                     )
                 }
             }
@@ -148,12 +160,17 @@ private fun ModelStudentCard(
     studentGcn: Long,
     name: String,
     profileImageUrl: String,
+    onclick: () -> Unit,
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .horizontalPadding()
-            .verticalPadding(14.dp),
+            .verticalPadding(14.dp)
+            .clickable {
+                onclick()
+            }
     ) {
         AsyncImage(
             modifier = Modifier

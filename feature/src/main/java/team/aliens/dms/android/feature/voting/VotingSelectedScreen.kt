@@ -37,7 +37,9 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
@@ -48,10 +50,14 @@ import java.util.UUID
 internal fun VotingSelectedScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteId: UUID,
+    voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+    }
 
     Scaffold(
         modifier = modifier,

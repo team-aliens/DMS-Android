@@ -1,9 +1,7 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,9 +35,9 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -46,10 +45,14 @@ import java.util.UUID
 internal fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteId: UUID,
+    voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+    }
 
     Scaffold(
         modifier = modifier,
@@ -77,7 +80,7 @@ internal fun VotingApprovalScreen(
                 .padding(padValues),
         ) {
             Text(
-                text = uiState.uiStateTitle,
+                text = voteOption.topicName,
                 style = DmsTheme.typography.headline3,
             )
             Row(
