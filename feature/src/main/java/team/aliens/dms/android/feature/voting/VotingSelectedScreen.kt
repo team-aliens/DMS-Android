@@ -50,13 +50,13 @@ import java.util.UUID
 internal fun VotingSelectedScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteOption: AllVoteSearch,
+    //voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+        //votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
     }
 
     Scaffold(
@@ -107,7 +107,7 @@ internal fun VotingSelectedScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { /* 상태 값 변경 */ },
+                onClick = navigator::navigateUp,
             ) {
                 Text(text = "투표하기")
             }

@@ -53,7 +53,7 @@ import java.util.UUID
 internal fun VotingModelStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteOption: AllVoteSearch,
+    //voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -66,7 +66,10 @@ internal fun VotingModelStudentScreen(
             DmsTopAppBar(
                 title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.voting_submit))
+                        Text(
+                            text = stringResource(R.string.voting_submit),
+                            style = DmsTheme.typography.body2,
+                        )
                     }
                 },
                 navigationIcon = {
@@ -105,13 +108,13 @@ internal fun VotingModelStudentScreen(
                         name = it.name,
                         profileImageUrl = it.name,
                         onclick = {
-                            votingDetailViewModel.postIntent(
-                                VotingIntent.CreateVoteTable(
-                                    votingTopicId = voteOption.id,
-                                    selectedId = it.id,
-                                )
-                            )
-                            navigator::navigateUp
+//                            votingDetailViewModel.postIntent(
+//                                VotingIntent.CreateVoteTable(
+//                                    votingTopicId = voteOption.id,
+//                                    selectedId = it.id,
+//                                )
+//                            )
+
                         }
                     )
                 }
@@ -122,7 +125,7 @@ internal fun VotingModelStudentScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { /* 상태 값 변경 */ },
+                onClick = navigator::navigateUp,
             ) {
                 Text(text = "투표하기")
             }
@@ -168,9 +171,7 @@ private fun ModelStudentCard(
             .fillMaxWidth()
             .horizontalPadding()
             .verticalPadding(14.dp)
-            .clickable {
-                onclick()
-            }
+            .clickable(onClick = onclick)
     ) {
         AsyncImage(
             modifier = Modifier

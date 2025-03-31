@@ -45,13 +45,13 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 internal fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    voteOption: AllVoteSearch,
+    //voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+        //votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
     }
 
     Scaffold(
@@ -60,7 +60,10 @@ internal fun VotingApprovalScreen(
             DmsTopAppBar(
                 title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.voting_submit))
+                        Text(
+                            text = stringResource(R.string.voting_submit),
+                            style = DmsTheme.typography.body2,
+                        )
                     }
                 },
                 navigationIcon = {
@@ -80,7 +83,7 @@ internal fun VotingApprovalScreen(
                 .padding(padValues),
         ) {
             Text(
-                text = voteOption.topicName,
+                text = "voteOption.topicName",
                 style = DmsTheme.typography.headline3,
             )
             Row(
@@ -102,7 +105,8 @@ internal fun VotingApprovalScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = { /* 상태 값 변경 */ },
+                onClick = navigator::navigateUp,
+                enabled = true
             ) {
                 Text(text = "투표하기")
             }
@@ -126,7 +130,6 @@ private fun StudentButton(
         ),
         border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
         shape = RoundedCornerShape(4.dp),
-
         ) {
         Text(
             text = text,
