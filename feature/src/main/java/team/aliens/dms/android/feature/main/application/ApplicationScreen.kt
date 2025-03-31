@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -67,7 +68,7 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
-    onNavigateToModelStudent: (voteOption: AllVoteSearch) -> Unit,
+    onNavigateToModelStudent: () -> Unit,
     onNavigateToApprovalVote: (voteOption: AllVoteSearch) -> Unit,
     onNavigateToStudentVote: (voteOption: AllVoteSearch) -> Unit,
     onNavigateToSelectedVote: (voteOption: AllVoteSearch) -> Unit,
@@ -83,13 +84,20 @@ internal fun ApplicationScreen(
         topBar = {
             DmsTopAppBar(
                 title = {
-                    Text(
-                        text = when(pagerState.currentPage) {
-                            0 -> stringResource(R.string.application)
-                            else -> stringResource(R.string.voting_submit)
-                        },
-                        style = DmsTheme.typography.body2
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = when(pagerState.currentPage) {
+                                0 -> stringResource(R.string.application)
+                                else -> stringResource(R.string.voting_submit)
+                            },
+                            textAlign = TextAlign.Center,
+                            style = DmsTheme.typography.body2,
+                        )
+                    }
                 }
             )
         },
@@ -128,7 +136,7 @@ internal fun ApplicationScreen(
                                     .padding(horizontal = 4.dp)
                                     .clip(CircleShape)
                                     .background(color)
-                                    .size(8.dp)
+                                    .size(8.dp),
                             )
                         }
                     }
@@ -139,22 +147,22 @@ internal fun ApplicationScreen(
                         when (page) {
                             0 -> {
                                 items(1) {
-                                    ApplicationCard(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .topPadding(),
-                                        title = stringResource(id = R.string.study_room_application),
-                                        appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
-                                            stringResource(
-                                                id = R.string.format_study_room_applied_text,
-                                                studyRoom.floor,
-                                                studyRoom.name,
-                                            )
-                                        },
-                                        description = stringResource(id = R.string.study_room_description),
-                                        buttonText = stringResource(id = R.string.study_room_do_application),
-                                        onButtonClick = onNavigateToStudyRoomList,
-                                    )
+//                                    ApplicationCard(
+//                                        modifier = Modifier
+//                                            .fillMaxWidth()
+//                                            .topPadding(),
+//                                        title = stringResource(id = R.string.study_room_application),
+//                                        appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
+//                                            stringResource(
+//                                                id = R.string.format_study_room_applied_text,
+//                                                studyRoom.floor,
+//                                                studyRoom.name,
+//                                            )
+//                                        },
+//                                        description = stringResource(id = R.string.study_room_description),
+//                                        buttonText = stringResource(id = R.string.study_room_do_application),
+//                                        onButtonClick = onNavigateToStudyRoomList,
+//                                    )
                                     ApplicationCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         title = stringResource(id = R.string.remains_application),
@@ -162,13 +170,6 @@ internal fun ApplicationScreen(
                                         description = stringResource(id = R.string.remains_description),
                                         buttonText = stringResource(id = R.string.remains_do_application),
                                         onButtonClick = onNavigateToRemains,
-                                    )
-                                    ApplicationCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        title = stringResource(id = R.string.outing_application),
-                                        description = stringResource(id = R.string.outing_description),
-                                        buttonText = stringResource(id = R.string.outing_do_application),
-                                        onButtonClick = onNavigateToOuting,
                                     )
                                     ApplicationCard(
                                         modifier = Modifier.fillMaxWidth(),
@@ -186,9 +187,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = {
-
-                                        },
+                                        onButtonClick = onNavigateToModelStudent,
                                     )
                                 }
                                 items(uiState.selectedVoteList) {
@@ -197,9 +196,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = {
-                                            Log.d("TEST", it.id.toString())
-                                            onNavigateToSelectedVote(it) },
+                                        onButtonClick = { onNavigateToSelectedVote(it) },
                                     )
                                 }
                                 items(uiState.studentVoteList) {
