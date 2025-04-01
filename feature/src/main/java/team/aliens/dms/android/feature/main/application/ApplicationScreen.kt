@@ -58,6 +58,7 @@ import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -86,7 +87,8 @@ internal fun ApplicationScreen(
                 title = {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(end = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
