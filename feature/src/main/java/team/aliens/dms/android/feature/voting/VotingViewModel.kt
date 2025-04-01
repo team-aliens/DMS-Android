@@ -12,6 +12,8 @@ import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
 import team.aliens.dms.android.data.remains.repository.RemainsRepository
+import team.aliens.dms.android.data.student.model.Student
+import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
 import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
@@ -24,15 +26,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VotingViewModel @Inject constructor(
-    private val remainsRepository: RemainsRepository,
     private val votingRepository: VotingRepository,
-    private val studyRoomRepository: StudyRoomRepository,
+    private val studentRepository: StudentRepository
 ) : BaseMviViewModel<VotingUiState, VotingIntent, VotingSideEffect>(
     initialState = VotingUiState.initial(),
 ) {
     init {
         fetchAllVoteSearch()
-        fetchAppliedRemainsOption()
+        fetchStudents()
     }
 
     override fun processIntent(intent: VotingIntent) {
@@ -46,6 +47,10 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.CreateVoteTable -> this.fetchCreateVoteTable(
                 votingTopicId =  intent.votingTopicId,
                 selectedId =  intent.selectedId,
+            )
+
+            is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
+                voteTopicId = intent.voteTopicId,
             )
         }
     }
@@ -80,7 +85,6 @@ class VotingViewModel @Inject constructor(
                 reduce(
                     newState = stateFlow.value.copy(
                         votingTopicCheckList = listOf(fetchCheckVotingItem),
-                        uiStateTitle = voteOption.topicName,
                     ),
                 )
             }.onFailure {
@@ -114,16 +118,6 @@ class VotingViewModel @Inject constructor(
             ),
         )
 
-    private fun fetchAppliedRemainsOption() {
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                remainsRepository.fetchAppliedRemainsOption()
-            }.onSuccess { appliedRemainsOption ->
-                reduce(newState = stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption))
-            }
-        }
-    }
-
     private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -137,13 +131,25 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun fetchAppliedStudyRoom() {
+    private fun fetchStudents() = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            studentRepository.fetchStudents()
+        }.onSuccess { fetchedStudents ->
+            reduce(
+                newState = stateFlow.value.copy(
+                    allStudentsList = fetchedStudents,
+                ),
+            )
+        }
+    }
+
+    private fun setVoteTopicId(voteTopicId: UUID?) {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                studyRoomRepository.fetchAppliedStudyRoom()
-            }.onSuccess { appliedStudyRoom ->
-                reduce(newState = stateFlow.value.copy(appliedStudyRoom = appliedStudyRoom))
-            }
+            reduce(
+                newState = stateFlow.value.copy(
+                    voteTopicId = voteTopicId,
+                ),
+            )
         }
     }
 }
@@ -151,7 +157,7 @@ class VotingViewModel @Inject constructor(
 data class VotingUiState(
     val selectedVotingOptionId: UUID?,
     val pageCountState: Int,
-    val uiStateTitle: String,
+    val voteTopicId: UUID?,
     val modelStudentCandidates: List<ModelStudentCandidates>,
     val modelStudentVoteList: List<AllVoteSearch>,
     val selectedVoteList: List<AllVoteSearch>,
@@ -159,14 +165,13 @@ data class VotingUiState(
     val approvalVoteList: List<AllVoteSearch>,
     val votingTopicCheckList: List<CheckVotingItem>,
     val votingButtonEnabled: Boolean,
-    val appliedStudyRoom: AppliedStudyRoom?,
-    val appliedRemainsOption: AppliedRemainsOption?,
+    val allStudentsList: List<Student>,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
             selectedVotingOptionId = null,
             pageCountState = 0,
-            uiStateTitle = "",
+            voteTopicId = null,
             modelStudentCandidates = emptyList(),
             modelStudentVoteList = emptyList(),
             selectedVoteList = emptyList(),
@@ -174,8 +179,7 @@ data class VotingUiState(
             approvalVoteList = emptyList(),
             votingTopicCheckList = emptyList(),
             votingButtonEnabled = false,
-            appliedStudyRoom = null,
-            appliedRemainsOption = null,
+            allStudentsList = emptyList(),
         )
     }
 }
@@ -184,6 +188,7 @@ sealed class VotingIntent : Intent() {
     class UpdateVotingItem(val voteOption: AllVoteSearch) : VotingIntent()
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
     class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
+    class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
