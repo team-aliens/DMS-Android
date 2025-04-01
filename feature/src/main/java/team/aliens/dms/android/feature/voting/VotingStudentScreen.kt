@@ -5,6 +5,9 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +26,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -51,10 +56,12 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
@@ -74,7 +81,7 @@ internal fun VotingStudentScreen(
     val filterOptions = listOf("1학년", "2학년", "3학년")
 
     LaunchedEffect(Unit) {
-        //votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
     }
 
     Scaffold(
@@ -106,6 +113,8 @@ internal fun VotingStudentScreen(
                 .padding(padValues),
         ) {
             Text(
+                modifier = modifier
+                    .horizontalPadding(),
                 text = "학생 투표",
                 style = DmsTheme.typography.headline3,
             )
@@ -113,28 +122,42 @@ internal fun VotingStudentScreen(
             MultiToggleButton(
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
-                onToggleChange = { selectedFilter = it }
+                onToggleChange = { selectedFilter = it },
             )
-            LazyColumn {
-                items(uiState.votingTopicCheckList) {
-//                    StudentProfile(
-//                        id = ,
-//                        studentGcn = ,
-//                        name = ,
-//                        profileImageUrl = ,
-//                        onclick =
-//                    )
+            LazyColumn(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+            ) {
+                items(uiState.allStudentsList) {
+                    StudentProfile(
+                        studentGcn = it.gradeClassNumber,
+                        name = it.name,
+                        profileImageUrl = it.profileImageUrl,
+                        onClick = {
+                            VotingIntent.SetVoteTopicId(
+                                voteTopicId = it.id,
+                            )
+                        },
+                    )
                 }
             }
+
             ContainedButton(
                 modifier = Modifier
                     .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = navigator::navigateUp,
+                onClick = {
+//                    VotingIntent.CreateVoteTable(
+//                        votingTopicId = voteOption.id,
+//                        selectedId = uiState.voteTopicId!!
+//                    )
+                },
             ) {
-                Text(text = "투표하기")
+                Text(
+                    text = "투표하기",
+                )
             }
         }
     }
@@ -144,7 +167,7 @@ internal fun VotingStudentScreen(
 fun MultiToggleButton(
     currentSelection: String,
     toggleStates: List<String>,
-    onToggleChange: (String) -> Unit
+    onToggleChange: (String) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -177,19 +200,25 @@ fun MultiToggleButton(
 
 @Composable
 private fun StudentProfile(
-    id: UUID,
-    studentGcn: Long,
+    studentGcn: String,
     name: String,
     profileImageUrl: String,
-    onclick: () -> Unit,
+    onClick: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
 
-    Row(
+    HorizontalDivider(
+        thickness = 1.dp,
+        color = DmsTheme.colorScheme.onSurfaceVariant,
+    )
+    TextButton(
         modifier = Modifier
             .fillMaxWidth()
-            .horizontalPadding()
-            .verticalPadding(14.dp)
-            .clickable(onClick = onclick)
+            .background(color = color),
+        interactionSource = interactionSource,
+        onClick = onClick,
     ) {
         AsyncImage(
             modifier = Modifier
@@ -197,9 +226,12 @@ private fun StudentProfile(
                 .clip(CircleShape),
             model = profileImageUrl,
             contentDescription = "student_image",
+            alignment = Alignment.CenterStart,
         )
         Text(
             text = "$studentGcn $name",
+            textAlign = TextAlign.End,
+            color = Color.Black,
         )
     }
 }
