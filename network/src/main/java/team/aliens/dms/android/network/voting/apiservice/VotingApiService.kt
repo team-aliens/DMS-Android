@@ -38,7 +38,7 @@ internal interface VotingApiService {
         @Path("vote_id") voteId: UUID,
     ): Response<Unit>?
 
-    @GET("/students/candidate-list/{date}")
+    @GET("/students/step/candidate-list/{date}")
     @RequiresAccessToken
     suspend fun fetchModelStudentCandidates(
         @Path("date") requestDate: LocalDate,
