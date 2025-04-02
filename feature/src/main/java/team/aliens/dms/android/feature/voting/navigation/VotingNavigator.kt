@@ -1,12 +1,12 @@
 package team.aliens.dms.android.feature.voting.navigation
 
-import team.aliens.dms.android.data.voting.model.AllVoteSearch
+import java.util.UUID
 
 interface VotingNavigator {
     fun openVoting()
-    fun openVotingApproval(voteOption: AllVoteSearch)
+    fun openVotingApproval(voteOptionId: UUID)
     fun openVotingModelStudent()
-    fun openVotingSelected(voteOption: AllVoteSearch)
-    fun openVotingStudent(voteOption: AllVoteSearch)
+    fun openVotingSelected(voteOptionId: UUID)
+    fun openVotingStudent(voteOptionId: UUID)
     fun navigateUp()
 }

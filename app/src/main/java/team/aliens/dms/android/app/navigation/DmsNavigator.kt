@@ -247,20 +247,20 @@ class DmsNavigator(
         navController.navigateSingleTop(VotingScreenDestination within VotingNavGraph)
     }
 
-    override fun openVotingApproval(voteOption: AllVoteSearch) {
-        navController.navigateSingleTop(VotingApprovalScreenDestination within VotingNavGraph)
+    override fun openVotingApproval(voteOptionId: UUID) {
+        navController.navigateSingleTop(VotingApprovalScreenDestination(voteOptionId) within VotingNavGraph)
     }
 
     override fun openVotingModelStudent() {
         navController.navigateSingleTop(VotingModelStudentScreenDestination within VotingNavGraph)
     }
 
-    override fun openVotingSelected(voteOption: AllVoteSearch) {
-        navController.navigateSingleTop(VotingSelectedScreenDestination within VotingNavGraph)
+    override fun openVotingSelected(voteOptionId: UUID) {
+        navController.navigateSingleTop(VotingSelectedScreenDestination(voteOptionId) within VotingNavGraph)
     }
 
-    override fun openVotingStudent(voteOption: AllVoteSearch) {
-        navController.navigateSingleTop(VotingStudentScreenDestination within VotingNavGraph)
+    override fun openVotingStudent(voteOptionId: UUID) {
+        navController.navigateSingleTop(VotingStudentScreenDestination(voteOptionId) within VotingNavGraph)
     }
 }
 

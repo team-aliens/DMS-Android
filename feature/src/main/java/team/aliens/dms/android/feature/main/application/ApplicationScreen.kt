@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.main.application
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -39,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import team.aliens.dms.android.core.designsystem.ContainedButton
@@ -48,17 +46,13 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.shadow
-import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.ExtraLargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
-import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -70,9 +64,9 @@ internal fun ApplicationScreen(
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
     onNavigateToModelStudent: () -> Unit,
-    onNavigateToApprovalVote: (voteOption: AllVoteSearch) -> Unit,
-    onNavigateToStudentVote: (voteOption: AllVoteSearch) -> Unit,
-    onNavigateToSelectedVote: (voteOption: AllVoteSearch) -> Unit,
+    onNavigateToApprovalVote: (voteOptionId: UUID) -> Unit,
+    onNavigateToStudentVote: (voteOptionId: UUID) -> Unit,
+    onNavigateToSelectedVote: (voteOptionId: UUID) -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -198,7 +192,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToSelectedVote(it) },
+                                        onButtonClick = { onNavigateToSelectedVote(it.id) },
                                     )
                                 }
                                 items(uiState.studentVoteList) {
@@ -207,7 +201,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToStudentVote(it) },
+                                        onButtonClick = { onNavigateToStudentVote(it.id) },
                                     )
                                 }
                                 items(uiState.approvalVoteList) {
@@ -216,7 +210,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToApprovalVote(it) },
+                                        onButtonClick = { onNavigateToApprovalVote(it.id) },
                                     )
                                 }
                             }
