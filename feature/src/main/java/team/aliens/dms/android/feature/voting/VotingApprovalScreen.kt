@@ -35,9 +35,9 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -45,13 +45,13 @@ import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 internal fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    //voteOption: AllVoteSearch,
+    voteOptionId: UUID,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        //votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+        votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
     }
 
     Scaffold(
@@ -106,7 +106,7 @@ internal fun VotingApprovalScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = navigator::navigateUp,
-                enabled = true
+                enabled = true,
             ) {
                 Text(text = "투표하기")
             }

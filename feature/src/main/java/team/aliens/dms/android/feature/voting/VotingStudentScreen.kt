@@ -73,7 +73,7 @@ import java.util.UUID
 internal fun VotingStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    //voteOption: AllVoteSearch,
+    voteOptionId: UUID,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -81,7 +81,7 @@ internal fun VotingStudentScreen(
     val filterOptions = listOf("1학년", "2학년", "3학년")
 
     LaunchedEffect(Unit) {
-        votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+        votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
     }
 
     Scaffold(

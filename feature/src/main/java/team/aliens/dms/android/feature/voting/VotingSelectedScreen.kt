@@ -50,13 +50,13 @@ import java.util.UUID
 internal fun VotingSelectedScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    //voteOption: AllVoteSearch,
+    voteOptionId: UUID,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        //votingDetailViewModel.updateCheckVotingItem(voteOption = voteOption)
+        votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
     }
 
     Scaffold(

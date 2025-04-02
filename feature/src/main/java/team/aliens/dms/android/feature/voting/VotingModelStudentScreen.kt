@@ -3,6 +3,7 @@ package team.aliens.dms.android.feature.voting
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -53,7 +56,6 @@ import java.util.UUID
 internal fun VotingModelStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
-    //voteOption: AllVoteSearch,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -107,14 +109,13 @@ internal fun VotingModelStudentScreen(
                         studentGcn = it.studentGcn,
                         name = it.name,
                         profileImageUrl = it.name,
-                        onclick = {
+                        onClick = {
 //                            votingDetailViewModel.postIntent(
 //                                VotingIntent.CreateVoteTable(
 //                                    votingTopicId = voteOption.id,
 //                                    selectedId = it.id,
 //                                )
 //                            )
-
                         }
                     )
                 }
@@ -163,20 +164,22 @@ private fun ModelStudentCard(
     studentGcn: Long,
     name: String,
     profileImageUrl: String,
-    onclick: () -> Unit,
+    onClick: () -> Unit,
 ) {
-
+    HorizontalDivider(
+        thickness = 10.dp,
+        color = DmsTheme.colorScheme.primary,
+    )
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .horizontalPadding()
-            .verticalPadding(14.dp)
-            .clickable(onClick = onclick)
+            .clickable(onClick = onClick)
     ) {
         AsyncImage(
             modifier = Modifier
                 .size(28.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .verticalPadding(14.dp),
             model = profileImageUrl,
             contentDescription = "student_image",
         )
