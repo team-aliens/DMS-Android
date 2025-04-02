@@ -134,14 +134,14 @@ internal fun VotingStudentScreen(
                         name = it.name,
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
-                            VotingIntent.SetVoteTopicId(
+                            votingDetailViewModel.setVoteTopicId(
                                 voteTopicId = it.id,
                             )
                         },
                     )
                 }
             }
-
+            Log.d("TEST", "voteOptionId : $voteOptionId" + "voteTopicId: ${uiState.voteTopicId}")
             ContainedButton(
                 modifier = Modifier
                     .animateContentSize()
@@ -149,10 +149,10 @@ internal fun VotingStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-//                    VotingIntent.CreateVoteTable(
-//                        votingTopicId = voteOption.id,
-//                        selectedId = uiState.voteTopicId!!
-//                    )
+                    votingDetailViewModel.fetchCreateVoteTable(
+                        votingTopicId = voteOptionId,
+                        selectedId = uiState.voteTopicId!!,
+                    )
                 },
             ) {
                 Text(

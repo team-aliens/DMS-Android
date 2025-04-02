@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,12 +9,8 @@ import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
-import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
-import team.aliens.dms.android.data.remains.repository.RemainsRepository
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.repository.StudentRepository
-import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
-import team.aliens.dms.android.data.studyroom.repository.StudyRoomRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.CheckVotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
@@ -39,18 +34,10 @@ class VotingViewModel @Inject constructor(
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
             is VotingIntent.UpdateVotingItem -> this.updateCheckVotingItem(
-                intent.voteOption,
+                intent.voteOptionId,
             )
             is VotingIntent.UpdateModelStudent -> this.updateModelStudentList(
                 intent.requestDate,
-            )
-            is VotingIntent.CreateVoteTable -> this.fetchCreateVoteTable(
-                votingTopicId =  intent.votingTopicId,
-                selectedId =  intent.selectedId,
-            )
-
-            is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
-                voteTopicId = intent.voteTopicId,
             )
         }
     }
@@ -74,12 +61,11 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    internal fun updateCheckVotingItem(voteOption: AllVoteSearch) {
+    internal fun updateCheckVotingItem(voteOptionId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("TEST", voteOption.id.toString())
             runCatching {
                 votingRepository.fetchCheckVotingItem(
-                    votingTopicId = voteOption.id,
+                    votingTopicId = voteOptionId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
                 reduce(
@@ -87,8 +73,6 @@ class VotingViewModel @Inject constructor(
                         votingTopicCheckList = listOf(fetchCheckVotingItem),
                     ),
                 )
-            }.onFailure {
-                Log.d("TEST", it.message.toString())
             }
         }
     }
@@ -111,14 +95,18 @@ class VotingViewModel @Inject constructor(
         }
     }
     // 학년 필터링
-    private fun updateGradeInfo(id: UUID): Boolean =
+    private fun updateGradeInfo(grade: Long): Boolean =
         reduce(
             newState = stateFlow.value.copy(
-                votingButtonEnabled = stateFlow.value.modelStudentCandidates.find { it.id == id }?.studentGcn!! >= 2000,
+                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade }
             ),
         )
+    // 버튼 enable 상태 변경
+    private fun updateButtonEnableTime() {
 
-    private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
+    }
+
+    internal fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchCreateVotingItem(
@@ -143,15 +131,13 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    private fun setVoteTopicId(voteTopicId: UUID?) {
-        viewModelScope.launch(Dispatchers.IO) {
-            reduce(
-                newState = stateFlow.value.copy(
-                    voteTopicId = voteTopicId,
-                ),
-            )
-        }
-    }
+    internal fun setVoteTopicId(voteTopicId: UUID) =
+        reduce(
+            newState = stateFlow.value.copy(
+                voteTopicId = voteTopicId,
+            ),
+        )
+
 }
 
 data class VotingUiState(
@@ -164,6 +150,7 @@ data class VotingUiState(
     val studentVoteList: List<AllVoteSearch>,
     val approvalVoteList: List<AllVoteSearch>,
     val votingTopicCheckList: List<CheckVotingItem>,
+    val filteredModelStudentList: List<ModelStudentCandidates>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
 ) : UiState() {
@@ -178,6 +165,7 @@ data class VotingUiState(
             studentVoteList = emptyList(),
             approvalVoteList = emptyList(),
             votingTopicCheckList = emptyList(),
+            filteredModelStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
         )
@@ -185,10 +173,8 @@ data class VotingUiState(
 }
 
 sealed class VotingIntent : Intent() {
-    class UpdateVotingItem(val voteOption: AllVoteSearch) : VotingIntent()
+    class UpdateVotingItem(val voteOptionId: UUID) : VotingIntent()
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
-    class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
-    class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
