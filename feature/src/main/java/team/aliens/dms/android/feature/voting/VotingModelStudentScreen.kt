@@ -54,6 +54,7 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.verticalPadding
@@ -107,11 +108,13 @@ internal fun VotingModelStudentScreen(
         ) {
             Text(
                 modifier = modifier
-                    .horizontalPadding(),
+                    .horizontalPadding()
+                    .padding(top = PaddingDefaults.Large, bottom = PaddingDefaults.Small),
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
             MultiToggleButton(
+                modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
                 onToggleChange = {
@@ -120,7 +123,7 @@ internal fun VotingModelStudentScreen(
             )
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 16.dp),
+                    .padding(top = PaddingDefaults.Large),
             ) {
                 items(uiState.modelStudentCandidates) {
                     StudentProfile(
@@ -155,12 +158,13 @@ internal fun VotingModelStudentScreen(
 
 @Composable
 private fun MultiToggleButton(
+    modifier: Modifier = Modifier,
     currentSelection: String,
     toggleStates: List<String>,
     onToggleChange: (String) -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .horizontalPadding(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -170,7 +174,7 @@ private fun MultiToggleButton(
             val textColor = if (isSelected) Color.White else DmsTheme.colorScheme.primary
 
             OutlinedButton(
-                modifier = Modifier
+                modifier = modifier
                     .background(
                         color = backgroundColor,
                         shape = RoundedCornerShape(4.dp),

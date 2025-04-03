@@ -61,6 +61,7 @@ import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.verticalPadding
@@ -118,19 +119,21 @@ internal fun VotingStudentScreen(
         ) {
             Text(
                 modifier = modifier
-                    .horizontalPadding(),
+                    .horizontalPadding()
+                    .padding(top = PaddingDefaults.ExtraLarge, bottom = PaddingDefaults.Small),
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
 
             MultiToggleButton(
+                modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
                 onToggleChange = { selectedFilter = it },
             )
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(top = PaddingDefaults.Large)
             ) {
                 items(uiState.allStudentsList) {
                     StudentProfile(
@@ -169,6 +172,7 @@ internal fun VotingStudentScreen(
 
 @Composable
 private fun MultiToggleButton(
+    modifier: Modifier = Modifier,
     currentSelection: String,
     toggleStates: List<String>,
     onToggleChange: (String) -> Unit,

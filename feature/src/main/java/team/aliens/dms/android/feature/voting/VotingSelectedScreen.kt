@@ -37,9 +37,11 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
@@ -84,14 +86,20 @@ internal fun VotingSelectedScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(padValues),
+                .padding(padValues)
+                .horizontalPadding(),
         ) {
             Text(
-                modifier = Modifier.horizontalPadding(),
+                modifier = Modifier
+                    .horizontalPadding()
+                    .padding(top = PaddingDefaults.ExtraLarge),
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
-            LazyColumn {
+            LazyColumn(
+                modifier = modifier
+                    .verticalPadding(PaddingDefaults.Small)
+            ) {
                 items(uiState.votingTopicCheckList) {
 
                 }

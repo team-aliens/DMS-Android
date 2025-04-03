@@ -34,6 +34,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
@@ -86,11 +87,15 @@ internal fun VotingApprovalScreen(
         ) {
             Text(
                 modifier = modifier
-                    .horizontalPadding(),
+                    .horizontalPadding()
+                    .padding(top = PaddingDefaults.ExtraLarge),
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
-            LazyColumn {
+            LazyColumn(
+                modifier = modifier
+                    .padding(top = PaddingDefaults.Small)
+            ) {
                 items(uiState.votingTopicCheckList) {
 
                 }
