@@ -4,9 +4,9 @@ import java.util.UUID
 
 interface VotingNavigator {
     fun openVoting()
-    fun openVotingApproval(voteOptionId: UUID)
-    fun openVotingModelStudent()
-    fun openVotingSelected(voteOptionId: UUID)
-    fun openVotingStudent(voteOptionId: UUID)
+    fun openVotingApproval(voteOptionId: UUID, voteTopicTitle: String)
+    fun openVotingModelStudent(voteTopicTitle: String)
+    fun openVotingSelected(voteOptionId: UUID, voteTopicTitle: String)
+    fun openVotingStudent(voteOptionId: UUID, voteTopicTitle: String)
     fun navigateUp()
 }

@@ -63,10 +63,10 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
-    onNavigateToModelStudent: () -> Unit,
-    onNavigateToApprovalVote: (voteOptionId: UUID) -> Unit,
-    onNavigateToStudentVote: (voteOptionId: UUID) -> Unit,
-    onNavigateToSelectedVote: (voteOptionId: UUID) -> Unit,
+    onNavigateToModelStudent: (voteTopicTitle: String) -> Unit,
+    onNavigateToApprovalVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
+    onNavigateToStudentVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
+    onNavigateToSelectedVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -183,7 +183,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = onNavigateToModelStudent,
+                                        onButtonClick = { onNavigateToModelStudent(it.topicName) },
                                     )
                                 }
                                 items(uiState.selectedVoteList) {
@@ -192,7 +192,9 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToSelectedVote(it.id) },
+                                        onButtonClick = {
+                                            onNavigateToSelectedVote(it.id, it.topicName)
+                                        },
                                     )
                                 }
                                 items(uiState.studentVoteList) {
@@ -201,7 +203,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToStudentVote(it.id) },
+                                        onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
                                     )
                                 }
                                 items(uiState.approvalVoteList) {
@@ -210,7 +212,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToApprovalVote(it.id) },
+                                        onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
                                     )
                                 }
                             }
