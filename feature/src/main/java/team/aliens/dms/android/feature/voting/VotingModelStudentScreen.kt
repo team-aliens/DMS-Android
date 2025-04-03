@@ -68,6 +68,7 @@ import java.util.UUID
 internal fun VotingModelStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
+    voteTopicTitle: String,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -107,7 +108,7 @@ internal fun VotingModelStudentScreen(
             Text(
                 modifier = modifier
                     .horizontalPadding(),
-                text = "모범학생 투표",
+                text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
             MultiToggleButton(

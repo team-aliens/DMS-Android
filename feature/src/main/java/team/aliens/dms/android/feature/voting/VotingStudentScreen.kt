@@ -75,6 +75,7 @@ internal fun VotingStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
     voteOptionId: UUID,
+    voteTopicTitle: String,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -116,7 +117,7 @@ internal fun VotingStudentScreen(
             Text(
                 modifier = modifier
                     .horizontalPadding(),
-                text = "학생 투표",
+                text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
 

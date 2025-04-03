@@ -47,6 +47,7 @@ internal fun VotingApprovalScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
     voteOptionId: UUID,
+    voteTopicTitle: String,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
@@ -84,7 +85,7 @@ internal fun VotingApprovalScreen(
                 .padding(padValues),
         ) {
             Text(
-                text = "voteOption.topicName",
+                text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
             Row(
