@@ -3,7 +3,7 @@ package team.aliens.dms.android.network.voting.datasource
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
-import team.aliens.dms.android.network.voting.model.FetchModelStudentCandidates
+import team.aliens.dms.android.network.voting.model.FetchModelStudentCandidatesResponse
 import java.util.UUID
 
 abstract class NetworkVotingDataSource {
@@ -19,5 +19,5 @@ abstract class NetworkVotingDataSource {
 
     abstract suspend fun fetchDeleteVotingItem(voteId: UUID)
 
-    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): FetchModelStudentCandidates
+    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): FetchModelStudentCandidatesResponse
 }
