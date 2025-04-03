@@ -3,7 +3,10 @@ package team.aliens.dms.android.feature.voting
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,12 +26,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +46,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -102,13 +108,13 @@ internal fun VotingModelStudentScreen(
                 StudentButton(text = "2학년")
                 StudentButton(text = "3학년")
             }
+            Log.d("TEST", uiState.modelStudentCandidates.toString())
             LazyColumn {
                 items(uiState.modelStudentCandidates) {
-                    ModelStudentCard(
-                        id = it.id,
-                        studentGcn = it.studentGcn,
+                    StudentProfile(
+                        studentGcn = it.studentGcn.toString(),
                         name = it.name,
-                        profileImageUrl = it.name,
+                        profileImageUrl = it.profileImageUrl,
                         onClick = {
 //                            votingDetailViewModel.postIntent(
 //                                VotingIntent.CreateVoteTable(
@@ -159,32 +165,39 @@ private fun StudentButton(
 }
 
 @Composable
-private fun ModelStudentCard(
-    id: UUID,
-    studentGcn: Long,
+private fun StudentProfile(
+    studentGcn: String,
     name: String,
     profileImageUrl: String,
     onClick: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
+
     HorizontalDivider(
-        thickness = 10.dp,
-        color = DmsTheme.colorScheme.primary,
+        thickness = 1.dp,
+        color = DmsTheme.colorScheme.onSurfaceVariant,
     )
-    Row(
+    TextButton(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .background(color = color),
+        interactionSource = interactionSource,
+        onClick = onClick,
     ) {
         AsyncImage(
             modifier = Modifier
                 .size(28.dp)
-                .clip(CircleShape)
-                .verticalPadding(14.dp),
+                .clip(CircleShape),
             model = profileImageUrl,
             contentDescription = "student_image",
+            alignment = Alignment.CenterStart,
         )
         Text(
             text = "$studentGcn $name",
+            textAlign = TextAlign.End,
+            color = Color.Black,
         )
     }
 }
