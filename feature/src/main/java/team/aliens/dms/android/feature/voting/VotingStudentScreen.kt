@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -141,7 +142,7 @@ internal fun VotingStudentScreen(
                     )
                 }
             }
-            Log.d("TEST", "voteOptionId : $voteOptionId" + "voteTopicId: ${uiState.voteTopicId}")
+            Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
                     .animateContentSize()
@@ -164,7 +165,7 @@ internal fun VotingStudentScreen(
 }
 
 @Composable
-fun MultiToggleButton(
+private fun MultiToggleButton(
     currentSelection: String,
     toggleStates: List<String>,
     onToggleChange: (String) -> Unit,

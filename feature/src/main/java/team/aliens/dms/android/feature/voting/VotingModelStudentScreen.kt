@@ -7,9 +7,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,11 +28,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +46,7 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonColors
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -65,6 +71,8 @@ internal fun VotingModelStudentScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+    var selectedFilter by remember { mutableStateOf("Day") }
+    val filterOptions = listOf("1학년", "2학년", "3학년")
 
     votingDetailViewModel.updateModelStudentList(LocalDate.now())
 
@@ -97,19 +105,22 @@ internal fun VotingModelStudentScreen(
                 .padding(padValues),
         ) {
             Text(
+                modifier = modifier
+                    .horizontalPadding(),
                 text = "모범학생 투표",
                 style = DmsTheme.typography.headline3,
             )
-            Row(
-                modifier = modifier
-                    .horizontalPadding(),
+            MultiToggleButton(
+                currentSelection = selectedFilter,
+                toggleStates = filterOptions,
+                onToggleChange = {
+                    selectedFilter = it
+                },
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .padding(top = 16.dp),
             ) {
-                StudentButton(text = "1학년")
-                StudentButton(text = "2학년")
-                StudentButton(text = "3학년")
-            }
-            Log.d("TEST", uiState.modelStudentCandidates.toString())
-            LazyColumn {
                 items(uiState.modelStudentCandidates) {
                     StudentProfile(
                         studentGcn = it.studentGcn.toString(),
@@ -121,11 +132,12 @@ internal fun VotingModelStudentScreen(
 //                                    votingTopicId = voteOption.id,
 //                                    selectedId = it.id,
 //                                )
-//                            )
+//                           )
                         }
                     )
                 }
             }
+            Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
                     .animateContentSize()
@@ -141,26 +153,37 @@ internal fun VotingModelStudentScreen(
 }
 
 @Composable
-private fun StudentButton(
-    modifier: Modifier = Modifier,
-    text: String,
+private fun MultiToggleButton(
+    currentSelection: String,
+    toggleStates: List<String>,
+    onToggleChange: (String) -> Unit,
 ) {
-    OutlinedButton(
-        modifier = modifier,
-        onClick = {},
-        colors = ButtonColors(
-            containerColor = Color.White,
-            contentColor = DmsTheme.colorScheme.primary,
-            disabledContainerColor = DmsTheme.colorScheme.primary,
-            disabledContentColor = Color.White,
-        ),
-        border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
-        shape = RoundedCornerShape(4.dp),
-
+    Row(
+        modifier = Modifier
+            .horizontalPadding(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = text,
-        )
+        toggleStates.forEachIndexed { _, toggleState ->
+            val isSelected = currentSelection.equals(toggleState, ignoreCase = true)
+            val backgroundColor = if (isSelected) DmsTheme.colorScheme.primary else Color.White
+            val textColor = if (isSelected) Color.White else DmsTheme.colorScheme.primary
+
+            OutlinedButton(
+                modifier = Modifier
+                    .background(
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(4.dp),
+                    ),
+                onClick = { onToggleChange(toggleState) },
+                border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
+                shape = RoundedCornerShape(4.dp),
+            ) {
+                Text(
+                    text = toggleState,
+                    color = textColor,
+                )
+            }
+        }
     }
 }
 
@@ -173,6 +196,7 @@ private fun StudentProfile(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    var isClicked by remember { mutableStateOf(false) }
     val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
 
     HorizontalDivider(
@@ -184,21 +208,35 @@ private fun StudentProfile(
             .fillMaxWidth()
             .background(color = color),
         interactionSource = interactionSource,
-        onClick = onClick,
+        onClick = {
+            isClicked = !isClicked
+            onClick()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isClicked) DmsTheme.colorScheme.onPrimaryContainer else Color.Unspecified,
+        ),
     ) {
-        AsyncImage(
+        Row(
             modifier = Modifier
-                .size(28.dp)
-                .clip(CircleShape),
-            model = profileImageUrl,
-            contentDescription = "student_image",
-            alignment = Alignment.CenterStart,
-        )
-        Text(
-            text = "$studentGcn $name",
-            textAlign = TextAlign.End,
-            color = Color.Black,
-        )
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(CircleShape),
+                model = profileImageUrl,
+                contentDescription = "student_image",
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.CenterStart,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "$studentGcn $name",
+                textAlign = TextAlign.End,
+                color = Color.Black,
+            )
+        }
     }
 }
 
