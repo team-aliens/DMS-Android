@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonColors
+import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -209,6 +211,7 @@ private fun StudentProfile(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    var isClicked by remember { mutableStateOf(false) }
     val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
 
     HorizontalDivider(
@@ -220,21 +223,34 @@ private fun StudentProfile(
             .fillMaxWidth()
             .background(color = color),
         interactionSource = interactionSource,
-        onClick = onClick,
+        onClick = {
+            isClicked = !isClicked
+            onClick()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isClicked) DmsTheme.colorScheme.onPrimaryContainer else Color.Unspecified,
+        ),
     ) {
-        AsyncImage(
+        Row(
             modifier = Modifier
-                .size(28.dp)
-                .clip(CircleShape),
-            model = profileImageUrl,
-            contentDescription = "student_image",
-            alignment = Alignment.CenterStart,
-        )
-        Text(
-            text = "$studentGcn $name",
-            textAlign = TextAlign.End,
-            color = Color.Black,
-        )
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(CircleShape),
+                model = profileImageUrl,
+                contentDescription = "student_image",
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.CenterStart,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "$studentGcn $name",
+                textAlign = TextAlign.End,
+                color = Color.Black,
+            )
+        }
     }
 }
-

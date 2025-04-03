@@ -87,17 +87,10 @@ internal fun VotingSelectedScreen(
                 .padding(padValues),
         ) {
             Text(
+                modifier = Modifier.horizontalPadding(),
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
-            Row(
-                modifier = modifier
-                    .horizontalPadding(),
-            ) {
-                StudentButton(text = "1학년")
-                StudentButton(text = "2학년")
-                StudentButton(text = "3학년")
-            }
             LazyColumn {
                 items(uiState.votingTopicCheckList) {
 
@@ -115,29 +108,5 @@ internal fun VotingSelectedScreen(
                 Text(text = "투표하기")
             }
         }
-    }
-}
-
-@Composable
-private fun StudentButton(
-    modifier: Modifier = Modifier,
-    text: String,
-) {
-    OutlinedButton(
-        modifier = modifier,
-        onClick = {},
-        colors = ButtonColors(
-            containerColor = Color.White,
-            contentColor = DmsTheme.colorScheme.primary,
-            disabledContainerColor = DmsTheme.colorScheme.primary,
-            disabledContentColor = Color.White,
-        ),
-        border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
-        shape = RoundedCornerShape(4.dp),
-
-        ) {
-        Text(
-            text = text,
-        )
     }
 }
