@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +65,7 @@ class VotingViewModel @Inject constructor(
     internal fun updateCheckVotingItem(voteOptionId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
+
                 votingRepository.fetchCheckVotingItem(
                     votingTopicId = voteOptionId,
                 )
@@ -86,7 +88,7 @@ class VotingViewModel @Inject constructor(
             }.onSuccess { fetchModelList ->
                 reduce(
                     newState = stateFlow.value.copy(
-                        modelStudentCandidates = listOf(fetchModelList),
+                        modelStudentCandidates = fetchModelList,
                     ),
                 )
             }.onFailure {
