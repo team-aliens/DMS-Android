@@ -19,5 +19,5 @@ abstract class VotingRepository {
 
     abstract suspend fun fetchDeleteVotingItem(voteId: UUID)
 
-    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): ModelStudentCandidates
+    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): List<ModelStudentCandidates>
 }
