@@ -69,6 +69,7 @@ import java.util.UUID
 internal fun VotingModelStudentScreen(
     modifier: Modifier = Modifier,
     navigator: VotingNavigator,
+    voteOptionId: UUID,
     voteTopicTitle: String,
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
@@ -131,12 +132,12 @@ internal fun VotingModelStudentScreen(
                         name = it.name,
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
-//                            votingDetailViewModel.postIntent(
-//                                VotingIntent.CreateVoteTable(
-//                                    votingTopicId = voteOption.id,
-//                                    selectedId = it.id,
-//                                )
-//                           )
+                            votingDetailViewModel.postIntent(
+                                VotingIntent.CreateVoteTable(
+                                    votingTopicId = voteOptionId,
+                                    selectedId = it.id,
+                                )
+                           )
                         }
                     )
                 }
