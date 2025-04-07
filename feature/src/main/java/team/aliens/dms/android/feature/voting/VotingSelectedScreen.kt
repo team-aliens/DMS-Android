@@ -69,7 +69,12 @@ internal fun VotingSelectedScreen(
             DmsTopAppBar(
                 title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.voting_submit))
+                        Text(
+                            modifier = modifier
+                                .padding(end = 40.dp),
+                            text = stringResource(R.string.voting_submit),
+                            style = DmsTheme.typography.body2,
+                        )
                     }
                 },
                 navigationIcon = {

@@ -96,6 +96,8 @@ internal fun VotingStudentScreen(
                 title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Text(
+                            modifier = modifier
+                                .padding(end = 40.dp),
                             text = stringResource(R.string.voting_submit),
                             style = DmsTheme.typography.body2,
                         )
@@ -156,9 +158,11 @@ internal fun VotingStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    votingDetailViewModel.fetchCreateVoteTable(
-                        votingTopicId = voteOptionId,
-                        selectedId = uiState.voteTopicId!!,
+                    votingDetailViewModel.postIntent(
+                        VotingIntent.CreateVoteTable(
+                            votingTopicId = voteOptionId,
+                            selectedId = uiState.voteTopicId!!,
+                        )
                     )
                 },
             ) {

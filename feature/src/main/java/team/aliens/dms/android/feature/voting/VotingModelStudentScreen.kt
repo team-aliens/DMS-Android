@@ -86,6 +86,8 @@ internal fun VotingModelStudentScreen(
                 title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Text(
+                            modifier = modifier
+                                .padding(end = 40.dp),
                             text = stringResource(R.string.voting_submit),
                             style = DmsTheme.typography.body2,
                         )
