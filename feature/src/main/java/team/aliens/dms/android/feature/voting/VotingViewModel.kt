@@ -40,6 +40,13 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.UpdateModelStudent -> this.updateModelStudentList(
                 intent.requestDate,
             )
+            is VotingIntent.CreateVoteTable -> this.fetchCreateVoteTable(
+                votingTopicId = intent.votingTopicId,
+                selectedId = intent.selectedId,
+            )
+            is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
+                voteTopicId = intent.voteTopicId,
+            )
         }
     }
 
@@ -108,7 +115,7 @@ class VotingViewModel @Inject constructor(
 
     }
 
-    internal fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
+    private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchCreateVotingItem(
@@ -177,6 +184,8 @@ data class VotingUiState(
 sealed class VotingIntent : Intent() {
     class UpdateVotingItem(val voteOptionId: UUID) : VotingIntent()
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
+    class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
+    class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
