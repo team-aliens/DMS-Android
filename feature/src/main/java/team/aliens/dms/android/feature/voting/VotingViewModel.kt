@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -122,7 +121,6 @@ class VotingViewModel @Inject constructor(
                     selectedId = selectedId,
                 )
             }.onSuccess {
-
             }
         }
     }
@@ -145,8 +143,6 @@ class VotingViewModel @Inject constructor(
                 voteTopicId = voteTopicId,
             ),
         )
-
-
 }
 
 data class VotingUiState(
