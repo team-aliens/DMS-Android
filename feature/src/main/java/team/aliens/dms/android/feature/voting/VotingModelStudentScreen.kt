@@ -135,7 +135,7 @@ internal fun VotingModelStudentScreen(
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
                             votingDetailViewModel.postIntent(
-                                VotingIntent.SetVoteTopicId(
+                                intent = VotingIntent.SetVoteTopicId(
                                     voteTopicId = it.id,
                                 ),
                             )
@@ -152,10 +152,10 @@ internal fun VotingModelStudentScreen(
                     .bottomPadding(),
                 onClick = {
                     votingDetailViewModel.postIntent(
-                        VotingIntent.CreateVoteTable(
+                        intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
-                            selectedId = uiState.voteTopicId!!,
-                        )
+                            selectedId = uiState.voteTopicId!!, // TODO :: 널 익셉션 처리
+                        ),
                     )
                 },
             ) {

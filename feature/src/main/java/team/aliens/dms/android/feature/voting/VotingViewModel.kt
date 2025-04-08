@@ -72,7 +72,6 @@ class VotingViewModel @Inject constructor(
     internal fun updateCheckVotingItem(voteOptionId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-
                 votingRepository.fetchCheckVotingItem(
                     votingTopicId = voteOptionId,
                 )
@@ -140,12 +139,13 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    internal fun setVoteTopicId(voteTopicId: UUID) =
+    private fun setVoteTopicId(voteTopicId: UUID) =
         reduce(
             newState = stateFlow.value.copy(
                 voteTopicId = voteTopicId,
             ),
         )
+
 
 }
 
