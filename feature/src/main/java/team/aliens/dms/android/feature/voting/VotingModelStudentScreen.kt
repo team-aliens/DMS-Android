@@ -135,11 +135,8 @@ internal fun VotingModelStudentScreen(
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
                             votingDetailViewModel.postIntent(
-                                VotingIntent.CreateVoteTable(
-                                    votingTopicId = voteOptionId,
-                                    selectedId = it.id,
-                                )
-                           )
+                                VotingIntent.
+                            )
                         }
                     )
                 }
@@ -151,7 +148,14 @@ internal fun VotingModelStudentScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = navigator::navigateUp,
+                onClick = {
+                    votingDetailViewModel.postIntent(
+                        VotingIntent.CreateVoteTable(
+                            votingTopicId = voteOptionId,
+                            selectedId = uiState.voteTopicId!!,
+                        )
+                    )
+                },
             ) {
                 Text(text = "투표하기")
             }
