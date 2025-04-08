@@ -135,7 +135,9 @@ internal fun VotingModelStudentScreen(
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
                             votingDetailViewModel.postIntent(
-                                VotingIntent.
+                                VotingIntent.SetVoteTopicId(
+                                    voteTopicId = it.id,
+                                ),
                             )
                         }
                     )

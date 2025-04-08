@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -143,8 +144,10 @@ internal fun VotingStudentScreen(
                         name = it.name,
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
-                            votingDetailViewModel.setVoteTopicId(
-                                voteTopicId = it.id,
+                            votingDetailViewModel.postIntent(
+                                intent = VotingIntent.SetVoteTopicId(
+                                    voteTopicId = it.id,
+                                ),
                             )
                         },
                     )
@@ -238,6 +241,7 @@ private fun StudentProfile(
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isClicked) DmsTheme.colorScheme.onPrimaryContainer else Color.Unspecified,
         ),
+        shape = RectangleShape,
     ) {
         Row(
             modifier = Modifier
