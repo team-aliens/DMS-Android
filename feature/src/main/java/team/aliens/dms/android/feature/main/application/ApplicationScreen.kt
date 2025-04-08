@@ -63,7 +63,7 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
-    onNavigateToModelStudent: (voteTopicTitle: String) -> Unit,
+    onNavigateToModelStudent: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
     onNavigateToApprovalVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
     onNavigateToStudentVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
     onNavigateToSelectedVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
@@ -183,7 +183,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
-                                        onButtonClick = { onNavigateToModelStudent(it.topicName) },
+                                        onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
                                     )
                                 }
                                 items(uiState.selectedVoteList) {
