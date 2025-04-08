@@ -1,5 +1,6 @@
 package team.aliens.dms.android.app.navigation
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
 import com.ramcosta.composedestinations.dynamic.routedIn
