@@ -24,4 +24,12 @@ interface MainNavigator {
     fun openNoticeDetails(noticeId: UUID)
 
     fun openOutingNav()
+
+    fun openVotingApproval(voteOptionId: UUID, voteTopicTitle: String)
+
+    fun openVotingModelStudent(voteOptionId: UUID, voteTopicTitle: String)
+
+    fun openVotingSelected(voteOptionId: UUID, voteTopicTitle: String)
+
+    fun openVotingStudent(voteOptionId: UUID, voteTopicTitle: String)
 }
