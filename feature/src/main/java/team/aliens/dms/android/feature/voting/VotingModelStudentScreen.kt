@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -219,9 +220,10 @@ private fun StudentProfile(
             isClicked = !isClicked
             onClick()
         },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isClicked) DmsTheme.colorScheme.onPrimaryContainer else Color.Unspecified,
+        colors = if(isClicked) ButtonDefaults.containedButtonColors() else ButtonDefaults.buttonColors(
+            containerColor = Color.Unspecified,
         ),
+        shape = RectangleShape,
     ) {
         Row(
             modifier = Modifier
@@ -245,6 +247,6 @@ private fun StudentProfile(
             )
         }
     }
-}
+ }
 
 

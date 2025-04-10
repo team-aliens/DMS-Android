@@ -223,8 +223,8 @@ private fun StudentProfile(
             isClicked = !isClicked
             onClick()
         },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isClicked) DmsTheme.colorScheme.onPrimaryContainer else Color.Unspecified,
+        colors = if(isClicked) ButtonDefaults.containedButtonColors() else ButtonDefaults.buttonColors(
+            containerColor = Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
