@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,6 +72,7 @@ internal fun VotingModelStudentScreen(
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("Day") }
     val filterOptions = listOf("1학년", "2학년", "3학년")
+    var buttonEnable = false
 
     votingDetailViewModel.updateModelStudentList(LocalDate.now())
 
@@ -129,11 +132,11 @@ internal fun VotingModelStudentScreen(
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
                             votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it.id,
-                                ),
+                                    intent = VotingIntent.SetVoteTopicId(
+                                        voteTopicId = it.id,
+                                    ),
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -145,6 +148,14 @@ internal fun VotingModelStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+                    if (uiState.buttonEnable) {
+                        buttonEnable = !buttonEnable
+                    }
+                    votingDetailViewModel.postIntent(
+                        intent = VotingIntent.SetButtonEnabled(
+                            enabled = buttonEnable,
+                        )
+                    )
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
@@ -152,6 +163,7 @@ internal fun VotingModelStudentScreen(
                         ),
                     )
                 },
+                enabled = uiState.buttonEnable,
             ) {
                 Text(text = "투표하기")
             }
@@ -169,7 +181,7 @@ private fun MultiToggleButton(
     Row(
         modifier = modifier
             .horizontalPadding(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         toggleStates.forEachIndexed { _, toggleState ->
             val isSelected = currentSelection.equals(toggleState, ignoreCase = true)

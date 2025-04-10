@@ -1,5 +1,7 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
+import androidx.compose.ui.text.resolveDefaults
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +47,9 @@ class VotingViewModel @Inject constructor(
             )
             is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
                 voteTopicId = intent.voteTopicId,
+            )
+            is VotingIntent.SetButtonEnabled -> this.updateButtonEnable(
+                enabled = intent.enabled,
             )
         }
     }
@@ -109,9 +114,17 @@ class VotingViewModel @Inject constructor(
             ),
         )
     // 버튼 enable 상태 변경
-    private fun updateButtonEnableTime() {
-
+    // 에러코드가 409 일때 => 이미 투표된거임
+    // 투표 기간이 시작하지 않거나 지나지 않음
+    private fun updateButtonEnable(enabled: Boolean) {
+        reduce(
+            newState = stateFlow.value.copy(
+                buttonEnable = enabled,
+            ),
+        )
     }
+
+
 
     private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -158,6 +171,7 @@ data class VotingUiState(
     val filteredModelStudentList: List<ModelStudentCandidates>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
+    val buttonEnable: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
@@ -173,6 +187,7 @@ data class VotingUiState(
             filteredModelStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
+            buttonEnable = true,
         )
     }
 }
@@ -182,6 +197,7 @@ sealed class VotingIntent : Intent() {
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
     class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
+    class SetButtonEnabled(val enabled: Boolean) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
