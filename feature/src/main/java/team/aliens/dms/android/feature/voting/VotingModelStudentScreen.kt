@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
@@ -25,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -72,7 +74,7 @@ internal fun VotingModelStudentScreen(
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("Day") }
     val filterOptions = listOf("1학년", "2학년", "3학년")
-    var buttonEnable = false
+    var buttonEnable by rememberSaveable { mutableStateOf(true) }
 
     votingDetailViewModel.updateModelStudentList(LocalDate.now())
 
@@ -109,7 +111,10 @@ internal fun VotingModelStudentScreen(
             Text(
                 modifier = modifier
                     .horizontalPadding()
-                    .padding(top = PaddingDefaults.Large, bottom = PaddingDefaults.Small),
+                    .padding(
+                        top = PaddingDefaults.Large,
+                        bottom = PaddingDefaults.Small,
+                    ),
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
@@ -132,9 +137,9 @@ internal fun VotingModelStudentScreen(
                         profileImageUrl = it.profileImageUrl,
                         onClick = {
                             votingDetailViewModel.postIntent(
-                                    intent = VotingIntent.SetVoteTopicId(
-                                        voteTopicId = it.id,
-                                    ),
+                                intent = VotingIntent.SetVoteTopicId(
+                                    voteTopicId = it.id,
+                                ),
                             )
                         },
                     )
@@ -148,14 +153,7 @@ internal fun VotingModelStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    if (uiState.buttonEnable) {
-                        buttonEnable = !buttonEnable
-                    }
-                    votingDetailViewModel.postIntent(
-                        intent = VotingIntent.SetButtonEnabled(
-                            enabled = buttonEnable,
-                        )
-                    )
+                    buttonEnable = !buttonEnable
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
@@ -163,10 +161,11 @@ internal fun VotingModelStudentScreen(
                         ),
                     )
                 },
-                enabled = uiState.buttonEnable,
+                enabled = buttonEnable,
             ) {
                 Text(text = "투표하기")
             }
+
         }
     }
 }

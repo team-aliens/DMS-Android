@@ -48,9 +48,6 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
                 voteTopicId = intent.voteTopicId,
             )
-            is VotingIntent.SetButtonEnabled -> this.updateButtonEnable(
-                enabled = intent.enabled,
-            )
         }
     }
 
@@ -116,16 +113,6 @@ class VotingViewModel @Inject constructor(
     // 버튼 enable 상태 변경
     // 에러코드가 409 일때 => 이미 투표된거임
     // 투표 기간이 시작하지 않거나 지나지 않음
-    private fun updateButtonEnable(enabled: Boolean) {
-        reduce(
-            newState = stateFlow.value.copy(
-                buttonEnable = enabled,
-            ),
-        )
-    }
-
-
-
     private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -197,7 +184,6 @@ sealed class VotingIntent : Intent() {
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
     class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
-    class SetButtonEnabled(val enabled: Boolean) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect() {
