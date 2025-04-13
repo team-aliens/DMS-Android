@@ -1,6 +1,10 @@
 package team.aliens.dms.android.feature.voting
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,16 +23,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
+import org.jetbrains.annotations.Async
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
@@ -96,6 +105,11 @@ internal fun VotingApprovalScreen(
 
                 }
             }
+            ApprovalCard(
+                imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
+                contentName = "",
+                onClick = {},
+            )
             Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
@@ -109,5 +123,36 @@ internal fun VotingApprovalScreen(
                 Text(text = "투표하기")
             }
         }
+    }
+}
+
+@Composable
+fun ApprovalCard(
+    modifier: Modifier = Modifier,
+    @DrawableRes imageModelUrl: Int,
+    contentName: String,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = DmsTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(12.dp),
+            )
+            .clickable {
+                onClick()
+            }
+            .background(color = Color.White)
+    ) {
+        Image(
+            modifier = modifier
+                .padding(
+                vertical = 60.dp,
+                horizontal = 42.dp,
+            ),
+            painter = painterResource(imageModelUrl),
+            contentDescription = contentName,
+        )
     }
 }
