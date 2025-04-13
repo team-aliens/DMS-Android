@@ -57,6 +57,7 @@ internal fun VotingApprovalScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+    val topicIdList: MutableList<UUID> = mutableListOf()
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
@@ -104,7 +105,7 @@ internal fun VotingApprovalScreen(
                     .padding(top = PaddingDefaults.Small)
             ) {
                 items(uiState.votingTopicCheckList) {
-
+                    topicIdList.add(it.id)
                 }
             }
             Row(
@@ -116,12 +117,24 @@ internal fun VotingApprovalScreen(
                 ApprovalCard(
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
                     contentName = "",
-                    onClick = {},
+                    onClick = {
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.SetVoteTopicId(
+                                voteTopicId = topicIdList.component1()
+                            )
+                        )
+                    },
                 )
                 ApprovalCard(
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
                     contentName = "",
-                    onClick = {},
+                    onClick = {
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.SetVoteTopicId(
+                                voteTopicId = topicIdList.component2()
+                            )
+                        )
+                    },
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -131,7 +144,14 @@ internal fun VotingApprovalScreen(
                     .fillMaxWidth()
                     .horizontalPadding()
                     .bottomPadding(),
-                onClick = navigator::navigateUp,
+                onClick = {
+                    votingDetailViewModel.postIntent(
+                        intent = VotingIntent.CreateVoteTable(
+                            votingTopicId = voteOptionId,
+                            selectedId = uiState.voteTopicId!!,
+                        )
+                    )
+                },
                 enabled = true,
             ) {
                 Text(text = "투표하기")
