@@ -5,8 +5,10 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -105,11 +107,23 @@ internal fun VotingApprovalScreen(
 
                 }
             }
-            ApprovalCard(
-                imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
-                contentName = "",
-                onClick = {},
-            )
+            Row(
+                modifier = modifier
+                    .horizontalPadding(),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ApprovalCard(
+                    imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
+                    contentName = "",
+                    onClick = {},
+                )
+                ApprovalCard(
+                    imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
+                    contentName = "",
+                    onClick = {},
+                )
+            }
             Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
@@ -137,13 +151,13 @@ fun ApprovalCard(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = DmsTheme.colorScheme.surfaceVariant,
+                color = DmsTheme.colorScheme.onSurfaceVariant,
                 shape = RoundedCornerShape(12.dp),
             )
             .clickable {
                 onClick()
             }
-            .background(color = Color.White)
+            .background(color = Color.White),
     ) {
         Image(
             modifier = modifier
