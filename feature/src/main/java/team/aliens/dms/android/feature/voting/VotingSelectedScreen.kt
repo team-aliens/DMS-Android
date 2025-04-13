@@ -113,7 +113,11 @@ internal fun VotingSelectedScreen(
                     TopicProfile(
                         topicOption = it.optionName,
                         onClick = {
-                            // TODO : id 저장
+                            votingDetailViewModel.postIntent(
+                                intent = VotingIntent.SetVoteTopicId(
+                                    voteTopicId = it.id,
+                                ),
+                            )
                         },
                     )
                 }
@@ -126,7 +130,12 @@ internal fun VotingSelectedScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    // TODO : 표 생성
+                    votingDetailViewModel.postIntent(
+                        intent = VotingIntent.CreateVoteTable(
+                            votingTopicId = voteOptionId,
+                            selectedId = uiState.voteTopicId!!,
+                        )
+                    )
                 },
             ) {
                 Text(text = "투표하기")
