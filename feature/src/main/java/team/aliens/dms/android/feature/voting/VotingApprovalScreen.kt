@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -118,22 +119,22 @@ internal fun VotingApprovalScreen(
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
                     contentName = "",
                     onClick = {
-                        votingDetailViewModel.postIntent(
-                            intent = VotingIntent.SetVoteTopicId(
-                                voteTopicId = topicIdList.component1()
-                            )
-                        )
+//                        votingDetailViewModel.postIntent(
+//                            intent = VotingIntent.SetVoteTopicId(
+//                                voteTopicId = topicIdList.component1()
+//                            )
+//                        )
                     },
                 )
                 ApprovalCard(
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
                     contentName = "",
                     onClick = {
-                        votingDetailViewModel.postIntent(
-                            intent = VotingIntent.SetVoteTopicId(
-                                voteTopicId = topicIdList.component2()
-                            )
-                        )
+//                        votingDetailViewModel.postIntent(
+//                            intent = VotingIntent.SetVoteTopicId(
+//                                voteTopicId = topicIdList.component2()
+//                            )
+//                        )
                     },
                 )
             }
@@ -145,12 +146,12 @@ internal fun VotingApprovalScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    votingDetailViewModel.postIntent(
-                        intent = VotingIntent.CreateVoteTable(
-                            votingTopicId = voteOptionId,
-                            selectedId = uiState.voteTopicId!!,
-                        )
-                    )
+//                    votingDetailViewModel.postIntent(
+//                        intent = VotingIntent.CreateVoteTable(
+//                            votingTopicId = voteOptionId,
+//                            selectedId = uiState.voteTopicId!!,
+//                        )
+//                    )
                 },
                 enabled = true,
             ) {
