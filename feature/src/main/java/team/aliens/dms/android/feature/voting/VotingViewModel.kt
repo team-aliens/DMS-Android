@@ -1,7 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
-import androidx.compose.ui.text.resolveDefaults
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
