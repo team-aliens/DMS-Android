@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,9 +12,9 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.data.voting.model.Vote
+import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -76,14 +75,12 @@ class VotingViewModel @Inject constructor(
                     votingTopicId = voteOptionId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
-                Log.d("TEST", fetchCheckVotingItem.toString())
+
                 reduce(
                     newState = stateFlow.value.copy(
-                        votingTopicCheckList = listOf(fetchCheckVotingItem),
+                        votingTopicCheckList = fetchCheckVotingItem,
                     ),
                 )
-            }.onFailure {
-                Log.d("TEST", it.message.toString())
             }
         }
     }
@@ -188,6 +185,4 @@ sealed class VotingIntent : Intent() {
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
 }
 
-sealed class VotingSideEffect : SideEffect() {
-    data class MoveToVoteDetail(val voteOption: AllVoteSearch) : VotingSideEffect()
-}
+sealed class VotingSideEffect : SideEffect()

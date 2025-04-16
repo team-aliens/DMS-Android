@@ -112,7 +112,7 @@ internal fun VotingSelectedScreen(
             ) {
                 items(uiState.votingTopicCheckList) {
                     TopicProfile(
-                        topicOption = it.optionName,
+                        topicOption = it.votingOptionName,
                         onClick = {
                             votingDetailViewModel.postIntent(
                                 intent = VotingIntent.SetVoteTopicId(
