@@ -3,7 +3,7 @@ package team.aliens.dms.android.data.voting.repository
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.data.voting.mapper.toModel
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.CheckVotingItem
+import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.network.voting.datasource.NetworkVotingDataSource
 import java.util.UUID
@@ -15,7 +15,7 @@ internal class VotingRepositoryImpl @Inject constructor(
     override suspend fun fetchAllVoteSearch(): List<AllVoteSearch> =
         networkVotingDataSource.fetchAllVoteSearch().toModel()
 
-    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): CheckVotingItem =
+    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): VotingItem =
         networkVotingDataSource.fetchCheckVotingItem(votingTopicId).toModel()
 
     override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID) {

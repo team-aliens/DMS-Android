@@ -2,7 +2,7 @@ package team.aliens.dms.android.data.voting.model
 
 import java.util.UUID
 
-data class CheckVotingItem(
+data class VotingItem(
     val id: UUID,
-    val optionName: String,
+    val votingOptionName: String,
 )
