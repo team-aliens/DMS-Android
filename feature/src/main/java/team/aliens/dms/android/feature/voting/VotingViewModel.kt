@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,7 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.CheckVotingItem
+import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.repository.VotingRepository
@@ -75,11 +76,14 @@ class VotingViewModel @Inject constructor(
                     votingTopicId = voteOptionId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
+                Log.d("TEST", fetchCheckVotingItem.toString())
                 reduce(
                     newState = stateFlow.value.copy(
                         votingTopicCheckList = listOf(fetchCheckVotingItem),
                     ),
                 )
+            }.onFailure {
+                Log.d("TEST", it.message.toString())
             }
         }
     }
@@ -152,7 +156,7 @@ data class VotingUiState(
     val selectedVoteList: List<AllVoteSearch>,
     val studentVoteList: List<AllVoteSearch>,
     val approvalVoteList: List<AllVoteSearch>,
-    val votingTopicCheckList: List<CheckVotingItem>,
+    val votingTopicCheckList: List<VotingItem>,
     val filteredModelStudentList: List<ModelStudentCandidates>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,

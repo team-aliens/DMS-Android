@@ -1,7 +1,7 @@
 package team.aliens.dms.android.data.voting.mapper
 
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.CheckVotingItem
+import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
@@ -23,11 +23,15 @@ private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSear
         voteType = Vote.valueOf(this.voteType),
     )
 
-internal fun FetchCheckVotingItemResponse.toModel(): CheckVotingItem =
-    CheckVotingItem(
-        id = this.id,
-        optionName = this.optionName,
+internal fun FetchCheckVotingItemResponse.toModel(): List<VotingItem> =
+    this.votingOptions.map(FetchCheckVotingItemResponse.VotingItemResponse::toModel)
+
+private fun FetchCheckVotingItemResponse.VotingItemResponse.toModel(): VotingItem = 
+    VotingItem(
+        id = id,
+        votingOptionName = votingOptionName,
     )
+
 
 internal fun FetchModelStudentCandidatesResponse.toModel(): List<ModelStudentCandidates> =
     this.students.map(FetchModelStudentCandidatesResponse.ModelStudentCandidatesResponse::toModel)
