@@ -96,7 +96,6 @@ internal fun VotingSelectedScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(padValues)
-                .horizontalPadding(),
         ) {
             Text(
                 modifier = Modifier
@@ -107,7 +106,6 @@ internal fun VotingSelectedScreen(
             )
             LazyColumn(
                 modifier = modifier
-                    .verticalPadding(PaddingDefaults.Small)
                     .padding(top = PaddingDefaults.Small),
             ) {
                 items(uiState.votingTopicCheckList) {
