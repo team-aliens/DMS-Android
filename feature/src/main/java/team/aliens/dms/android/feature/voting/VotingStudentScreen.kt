@@ -99,6 +99,7 @@ internal fun VotingStudentScreen(
                 },
             )
         },
+        containerColor = Color.White,
     ) { padValues ->
         Column(
             modifier = modifier

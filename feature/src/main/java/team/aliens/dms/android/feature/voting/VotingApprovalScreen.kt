@@ -85,6 +85,7 @@ internal fun VotingApprovalScreen(
                 },
             )
         },
+        containerColor = Color.White,
     ) { padValues ->
         Column(
             modifier = modifier

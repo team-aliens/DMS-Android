@@ -65,8 +65,7 @@ internal fun VotingSelectedScreen(
     }
 
     Scaffold(
-        modifier = modifier
-            .background(Color.White),
+        modifier = modifier,
         topBar = {
             DmsTopAppBar(
                 title = {
@@ -89,6 +88,7 @@ internal fun VotingSelectedScreen(
                 },
             )
         },
+        containerColor = Color.White,
     ) { padValues ->
         Column(
             modifier = modifier
