@@ -1,7 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.adservices.topics.Topic
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -46,7 +44,6 @@ import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
@@ -68,7 +65,8 @@ internal fun VotingSelectedScreen(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .background(Color.White),
         topBar = {
             DmsTopAppBar(
                 title = {
@@ -95,7 +93,7 @@ internal fun VotingSelectedScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(padValues)
+                .padding(padValues),
         ) {
             Text(
                 modifier = Modifier
@@ -151,7 +149,6 @@ private fun TopicProfile(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     var isClicked by remember { mutableStateOf(false) }
-    val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -159,15 +156,14 @@ private fun TopicProfile(
     )
     TextButton(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(color = color),
+            .fillMaxWidth(),
         interactionSource = interactionSource,
         onClick = {
             isClicked = !isClicked
             onClick()
         },
-        colors = if(isClicked) ButtonDefaults.containedButtonColors() else ButtonDefaults.buttonColors(
-            containerColor = Color.Unspecified,
+        colors =  ButtonDefaults.buttonColors(
+            containerColor = if(isClicked) Color(0xffb1d0ff) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
