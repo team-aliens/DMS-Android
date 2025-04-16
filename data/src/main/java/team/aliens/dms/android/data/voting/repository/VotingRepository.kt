@@ -10,7 +10,7 @@ abstract class VotingRepository {
 
     abstract suspend fun fetchAllVoteSearch(): List<AllVoteSearch>
 
-    abstract suspend fun fetchCheckVotingItem(votingTopicId: UUID): VotingItem
+    abstract suspend fun fetchCheckVotingItem(votingTopicId: UUID): List<VotingItem>
 
     abstract suspend fun fetchCreateVotingItem(
         votingTopicId: UUID,

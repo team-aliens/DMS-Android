@@ -15,7 +15,7 @@ internal class VotingRepositoryImpl @Inject constructor(
     override suspend fun fetchAllVoteSearch(): List<AllVoteSearch> =
         networkVotingDataSource.fetchAllVoteSearch().toModel()
 
-    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): VotingItem =
+    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): List<VotingItem> =
         networkVotingDataSource.fetchCheckVotingItem(votingTopicId).toModel()
 
     override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID) {
