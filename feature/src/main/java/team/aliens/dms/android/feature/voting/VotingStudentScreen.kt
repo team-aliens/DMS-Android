@@ -1,11 +1,9 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -114,7 +112,6 @@ internal fun VotingStudentScreen(
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
-
             MultiToggleButton(
                 modifier = modifier,
                 currentSelection = selectedFilter,
@@ -126,14 +123,13 @@ internal fun VotingStudentScreen(
                             grade = int
                         )
                     )
-                    Log.d("TEST", uiState.filteredModelStudentList.toString())
                 },
             )
             LazyColumn(
                 modifier = Modifier
                     .padding(top = PaddingDefaults.Large)
             ) {
-                items(uiState.allStudentsList) {
+                items(uiState.filteredStudentList) {
                     StudentProfile(
                         studentGcn = it.gradeClassNumber,
                         name = it.name,

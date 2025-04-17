@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +46,7 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
                 voteTopicId = intent.voteTopicId,
             )
-            is VotingIntent.UpdateStudentStates -> this.updateGradeInfo(
+            is VotingIntent.UpdateStudentStates -> this.updateStudentGradeFilter(
                 grade = intent.grade,
             )
         }
@@ -107,12 +106,15 @@ class VotingViewModel @Inject constructor(
         }
     }
     // 학년 필터링
-    private fun updateGradeInfo(grade: Int): Boolean =
+    private fun updateStudentGradeFilter(grade: Int) =
         reduce(
             newState = stateFlow.value.copy(
-                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade }
+                filteredStudentList = stateFlow.value.allStudentsList.filter { it.gradeClassNumber.toInt() >= grade && it.gradeClassNumber.toInt() < grade + 1000 },
             ),
         )
+
+
+
     // 버튼 enable 상태 변경
     // 에러코드가 409 일때 => 이미 투표된거임
     // 투표 기간이 시작하지 않거나 지나지 않음
@@ -159,6 +161,7 @@ data class VotingUiState(
     val approvalVoteList: List<AllVoteSearch>,
     val votingTopicCheckList: List<VotingItem>,
     val filteredModelStudentList: List<ModelStudentCandidates>,
+    val filteredStudentList: List<Student>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
     val buttonEnable: Boolean,
@@ -175,6 +178,7 @@ data class VotingUiState(
             approvalVoteList = emptyList(),
             votingTopicCheckList = emptyList(),
             filteredModelStudentList = emptyList(),
+            filteredStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
             buttonEnable = true,
