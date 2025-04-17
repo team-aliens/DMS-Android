@@ -217,7 +217,6 @@ private fun StudentProfile(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     var isClicked by remember { mutableStateOf(false) }
-    val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -225,15 +224,14 @@ private fun StudentProfile(
     )
     TextButton(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(color = color),
+            .fillMaxWidth(),
         interactionSource = interactionSource,
         onClick = {
             isClicked = !isClicked
             onClick()
         },
-        colors = if(isClicked) ButtonDefaults.containedButtonColors() else ButtonDefaults.buttonColors(
-            containerColor = Color.Unspecified,
+        colors =  ButtonDefaults.buttonColors(
+            containerColor = if(isClicked) DmsTheme.colorScheme.primaryContainer else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {

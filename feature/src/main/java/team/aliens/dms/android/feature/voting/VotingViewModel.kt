@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +46,9 @@ class VotingViewModel @Inject constructor(
             )
             is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
                 voteTopicId = intent.voteTopicId,
+            )
+            is VotingIntent.UpdateStudentStates -> this.updateGradeInfo(
+                grade = intent.grade,
             )
         }
     }
@@ -103,7 +107,7 @@ class VotingViewModel @Inject constructor(
         }
     }
     // 학년 필터링
-    private fun updateGradeInfo(grade: Long): Boolean =
+    private fun updateGradeInfo(grade: Int): Boolean =
         reduce(
             newState = stateFlow.value.copy(
                 filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade }
@@ -183,6 +187,7 @@ sealed class VotingIntent : Intent() {
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
     class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
+    class UpdateStudentStates(val grade: Int) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect()

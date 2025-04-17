@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -68,8 +69,8 @@ internal fun VotingStudentScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
-    var selectedFilter by remember { mutableStateOf("Day") }
-    val filterOptions = listOf("1학년", "2학년", "3학년")
+    var selectedFilter by remember { mutableStateOf("2학년") }
+    val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
@@ -118,7 +119,15 @@ internal fun VotingStudentScreen(
                 modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
-                onToggleChange = { selectedFilter = it },
+                onToggleChange = { string, int ->
+                    selectedFilter = string
+                    votingDetailViewModel.postIntent(
+                        intent = VotingIntent.UpdateStudentStates(
+                            grade = int
+                        )
+                    )
+                    Log.d("TEST", uiState.filteredModelStudentList.toString())
+                },
             )
             LazyColumn(
                 modifier = Modifier
@@ -167,8 +176,8 @@ internal fun VotingStudentScreen(
 private fun MultiToggleButton(
     modifier: Modifier = Modifier,
     currentSelection: String,
-    toggleStates: List<String>,
-    onToggleChange: (String) -> Unit,
+    toggleStates: List<Pair<String, Int>>,
+    onToggleChange: (String, Int) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -176,7 +185,7 @@ private fun MultiToggleButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         toggleStates.forEachIndexed { _, toggleState ->
-            val isSelected = currentSelection.equals(toggleState, ignoreCase = true)
+            val isSelected = currentSelection.equals(toggleState.first, ignoreCase = true)
             val backgroundColor = if (isSelected) DmsTheme.colorScheme.primary else Color.White
             val textColor = if (isSelected) Color.White else DmsTheme.colorScheme.primary
 
@@ -186,12 +195,14 @@ private fun MultiToggleButton(
                             color = backgroundColor,
                             shape = RoundedCornerShape(4.dp),
                         ),
-                    onClick = { onToggleChange(toggleState) },
+                    onClick = {
+                        onToggleChange(toggleState.first, toggleState.second)
+                    },
                     border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
                     shape = RoundedCornerShape(4.dp),
                 ) {
                 Text(
-                    text = toggleState,
+                    text = toggleState.first,
                     color = textColor,
                 )
             }
@@ -207,9 +218,7 @@ private fun StudentProfile(
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
     var isClicked by remember { mutableStateOf(false) }
-    val color = if (isPressed) DmsTheme.colorScheme.primary else Color.Unspecified
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -217,15 +226,14 @@ private fun StudentProfile(
     )
     TextButton(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(color = color),
+            .fillMaxWidth(),
         interactionSource = interactionSource,
         onClick = {
             isClicked = !isClicked
             onClick()
         },
-        colors = if(isClicked) ButtonDefaults.containedButtonColors() else ButtonDefaults.buttonColors(
-            containerColor = Color.Unspecified,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if(isClicked) Color(0xffb1d0ff) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
