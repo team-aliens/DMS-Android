@@ -76,6 +76,7 @@ internal fun VotingModelStudentScreen(
 
     LaunchedEffect(Unit) {
         with(votingDetailViewModel) {
+            updateModelStudentList(LocalDate.now())
             postIntent(
                 intent = VotingIntent.UpdateModelStudentStates(
                     grade = 1000,
@@ -83,8 +84,6 @@ internal fun VotingModelStudentScreen(
             )
         }
     }
-
-    votingDetailViewModel.updateModelStudentList(LocalDate.now())
 
     Scaffold(
         modifier = modifier,
@@ -270,6 +269,6 @@ private fun StudentProfile(
             )
         }
     }
- }
+}
 
 

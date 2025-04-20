@@ -67,11 +67,18 @@ internal fun VotingStudentScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
-    var selectedFilter by remember { mutableStateOf("2학년") }
+    var selectedFilter by remember { mutableStateOf("1학년") }
     val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
 
     LaunchedEffect(Unit) {
-        votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
+        with(votingDetailViewModel) {
+            updateCheckVotingItem(voteOptionId = voteOptionId)
+            postIntent(
+                intent = VotingIntent.UpdateModelStudentStates(
+                    grade = 1000,
+                ),
+            )
+        }
     }
 
     Scaffold(
