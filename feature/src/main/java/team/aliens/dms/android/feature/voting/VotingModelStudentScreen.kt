@@ -71,6 +71,7 @@ internal fun VotingModelStudentScreen(
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
+    var selectedGcn by remember { mutableStateOf<Long?>(null) }
     val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
     var buttonEnable by rememberSaveable { mutableStateOf(true) }
 
@@ -148,7 +149,9 @@ internal fun VotingModelStudentScreen(
                         studentGcn = it.studentGcn.toString(),
                         name = it.name,
                         profileImageUrl = it.profileImageUrl,
+                        isSelected = it.studentGcn == selectedGcn,
                         onClick = {
+                            selectedGcn = it.studentGcn
                             votingDetailViewModel.postIntent(
                                 intent = VotingIntent.SetVoteTopicId(
                                     voteTopicId = it.id,
@@ -224,11 +227,11 @@ private fun StudentProfile(
     studentGcn: String,
     name: String,
     profileImageUrl: String,
+    isSelected: Boolean,
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    var isClicked by remember { mutableStateOf(false) }
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -238,12 +241,9 @@ private fun StudentProfile(
         modifier = Modifier
             .fillMaxWidth(),
         interactionSource = interactionSource,
-        onClick = {
-            isClicked = !isClicked
-            onClick()
-        },
+        onClick = onClick,
         colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isClicked) Color(0xffb1d0ff) else Color.Unspecified,
+            containerColor = if(isSelected) Color(0xffb1d0ff) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
