@@ -1,7 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.content.Context
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -26,7 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -231,7 +228,7 @@ private fun StudentProfile(
             onClick()
         },
         colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isClicked) DmsTheme.colorScheme.primaryContainer else Color.Unspecified,
+            containerColor = if(isClicked) Color(0xffb1d0ff) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
