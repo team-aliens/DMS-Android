@@ -46,7 +46,10 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
                 voteTopicId = intent.voteTopicId,
             )
-            is VotingIntent.UpdateStudentStates -> this.updateStudentGradeFilter(
+            is VotingIntent.UpdateStudentStates -> this.updateGradeFilterStudent(
+                grade = intent.grade,
+            )
+            is VotingIntent.UpdateModelStudentStates -> this.updateGradeFilterModelStudent(
                 grade = intent.grade,
             )
         }
@@ -106,14 +109,19 @@ class VotingViewModel @Inject constructor(
         }
     }
     // 학년 필터링
-    private fun updateStudentGradeFilter(grade: Int) =
+    private fun updateGradeFilterStudent(grade: Int) =
         reduce(
             newState = stateFlow.value.copy(
                 filteredStudentList = stateFlow.value.allStudentsList.filter { it.gradeClassNumber.toInt() >= grade && it.gradeClassNumber.toInt() < grade + 1000 },
             ),
         )
 
-
+    private fun updateGradeFilterModelStudent(grade: Int) =
+        reduce(
+            newState = stateFlow.value.copy(
+                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn.toInt() >= grade && it.studentGcn.toInt() < grade + 1000 },
+            ),
+        )
 
     // 버튼 enable 상태 변경
     // 에러코드가 409 일때 => 이미 투표된거임
@@ -192,6 +200,7 @@ sealed class VotingIntent : Intent() {
     class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
     class UpdateStudentStates(val grade: Int) : VotingIntent()
+    class UpdateModelStudentStates(val grade: Int) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect()
