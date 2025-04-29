@@ -55,7 +55,7 @@ internal fun VotingApprovalScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
-    val topicIdList: MutableList<UUID> = mutableListOf()
+    val approvalIdList: MutableList<UUID> = mutableListOf()
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
@@ -104,35 +104,37 @@ internal fun VotingApprovalScreen(
                     .padding(top = PaddingDefaults.Small)
             ) {
                 items(uiState.votingTopicCheckList) {
-                    topicIdList.add(it.id)
+                    approvalIdList.add(it.id)
                 }
             }
             Row(
                 modifier = modifier
                     .horizontalPadding(),
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
-                verticalAlignment = Alignment.CenterVertically,
+
             ) {
                 ApprovalCard(
+                    modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
                     contentName = "",
                     onClick = {
-//                        votingDetailViewModel.postIntent(
-//                            intent = VotingIntent.SetVoteTopicId(
-//                                voteTopicId = topicIdList.component1()
-//                            )
-//                        )
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.SetVoteTopicId(
+                                voteTopicId = approvalIdList.component1()
+                            )
+                        )
                     },
                 )
                 ApprovalCard(
+                    modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
                     contentName = "",
                     onClick = {
-//                        votingDetailViewModel.postIntent(
-//                            intent = VotingIntent.SetVoteTopicId(
-//                                voteTopicId = topicIdList.component2()
-//                            )
-//                        )
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.SetVoteTopicId(
+                                voteTopicId = approvalIdList.component2()
+                            )
+                        )
                     },
                 )
             }
@@ -144,12 +146,12 @@ internal fun VotingApprovalScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-//                    votingDetailViewModel.postIntent(
-//                        intent = VotingIntent.CreateVoteTable(
-//                            votingTopicId = voteOptionId,
-//                            selectedId = uiState.voteTopicId!!,
-//                        )
-//                    )
+                    votingDetailViewModel.postIntent(
+                        intent = VotingIntent.CreateVoteTable(
+                            votingTopicId = voteOptionId,
+                            selectedId = uiState.voteTopicId!!,
+                        )
+                    )
                 },
                 enabled = true,
             ) {
@@ -181,9 +183,9 @@ fun ApprovalCard(
         Image(
             modifier = modifier
                 .padding(
-                vertical = 60.dp,
-                horizontal = 42.dp,
-            ),
+                    vertical = 60.dp,
+                    horizontal = 42.dp,
+                ),
             painter = painterResource(imageModelUrl),
             contentDescription = contentName,
         )
