@@ -165,7 +165,7 @@ private fun TopicProfile(
             onClick()
         },
         colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isSelected) Color(0xffb1d0ff) else Color.Unspecified,
+            containerColor = if(isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
