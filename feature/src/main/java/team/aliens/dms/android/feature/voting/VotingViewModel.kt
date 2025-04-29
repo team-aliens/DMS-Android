@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,9 @@ class VotingViewModel @Inject constructor(
         fetchAllVoteSearch()
         fetchStudents()
     }
+
+    private val _buttonEnable = mutableStateOf(false)
+    var buttonEnabled = _buttonEnable
 
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
@@ -124,9 +128,12 @@ class VotingViewModel @Inject constructor(
             ),
         )
     }
-    // 버튼 enable 상태 변경
-    // 에러코드가 409 일때 => 이미 투표된거임
-    // 투표 기간이 시작하지 않거나 지나지 않음
+
+    // 투표 기간이 지났을 때 && 투표 아이디가 널이 아닐 때
+    private fun buttonEnableStateChange() {
+
+    }
+
     private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -173,7 +180,6 @@ data class VotingUiState(
     val filteredStudentList: List<Student>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
-    val buttonEnable: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
@@ -190,7 +196,6 @@ data class VotingUiState(
             filteredStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
-            buttonEnable = true,
         )
     }
 }

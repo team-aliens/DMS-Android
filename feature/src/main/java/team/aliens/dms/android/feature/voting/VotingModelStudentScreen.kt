@@ -45,7 +45,6 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.Colors
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -72,7 +71,7 @@ internal fun VotingModelStudentScreen(
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
     val filterOptions = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
-    var buttonEnable by rememberSaveable { mutableStateOf(true) }
+    var buttonEnable: Boolean by rememberSaveable { mutableStateOf(true) }
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
 
     votingDetailViewModel.updateModelStudentList(LocalDate.now())
@@ -160,19 +159,19 @@ internal fun VotingModelStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+                    votingDetailViewModel.buttonEnabled = mutableStateOf(true)
                     buttonEnable = !buttonEnable
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
-                            selectedId = uiState.voteTopicId!!, // TODO :: 널 익셉션 처리
+                            selectedId = uiState.voteTopicId!!
                         ),
                     )
                 },
-                enabled = buttonEnable,
+                enabled = uiState.voteTopicId != null,
             ) {
                 Text(text = "투표하기")
             }
-
         }
     }
 }

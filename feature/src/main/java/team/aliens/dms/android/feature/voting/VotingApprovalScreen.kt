@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -163,7 +164,7 @@ internal fun VotingApprovalScreen(
                         )
                     )
                 },
-                enabled = true,
+                enabled = uiState.voteTopicId != null,
             ) {
                 Text(text = "투표하기")
             }
@@ -179,7 +180,6 @@ fun ApprovalCard(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    Log.d("TEST", isSelected.toString())
     Box(
         modifier = modifier
             .border(
