@@ -131,7 +131,7 @@ internal fun VotingModelStudentScreen(
                 modifier = Modifier
                     .padding(top = PaddingDefaults.Large),
             ) {
-                items(uiState.modelStudentCandidates) {
+                items(uiState.filteredModelStudentList) {
                     StudentProfile(
                         studentGcn = it.studentGcn.toString(),
                         name = it.name,
@@ -257,6 +257,6 @@ private fun StudentProfile(
             )
         }
     }
- }
+}
 
 
