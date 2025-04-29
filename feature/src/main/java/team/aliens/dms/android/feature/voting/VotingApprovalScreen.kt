@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -23,6 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +60,7 @@ internal fun VotingApprovalScreen(
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     val approvalIdList: MutableList<UUID> = mutableListOf()
+    var approvalTopicId: UUID? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
@@ -109,7 +114,8 @@ internal fun VotingApprovalScreen(
             }
             Row(
                 modifier = modifier
-                    .horizontalPadding(),
+                    .horizontalPadding()
+                    .padding(top = 128.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
 
             ) {
@@ -117,7 +123,9 @@ internal fun VotingApprovalScreen(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
                     contentName = "",
+                    isSelected =  approvalIdList.any { approvalTopicId == approvalIdList.component1() },
                     onClick = {
+                        approvalTopicId = approvalIdList.component1()
                         votingDetailViewModel.postIntent(
                             intent = VotingIntent.SetVoteTopicId(
                                 voteTopicId = approvalIdList.component1()
@@ -129,7 +137,9 @@ internal fun VotingApprovalScreen(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
                     contentName = "",
+                    isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component2() },
                     onClick = {
+                        approvalTopicId = approvalIdList.component2()
                         votingDetailViewModel.postIntent(
                             intent = VotingIntent.SetVoteTopicId(
                                 voteTopicId = approvalIdList.component2()
@@ -166,8 +176,10 @@ fun ApprovalCard(
     modifier: Modifier = Modifier,
     @DrawableRes imageModelUrl: Int,
     contentName: String,
+    isSelected: Boolean,
     onClick: () -> Unit,
 ) {
+    Log.d("TEST", isSelected.toString())
     Box(
         modifier = modifier
             .border(
@@ -178,7 +190,7 @@ fun ApprovalCard(
             .clickable {
                 onClick()
             }
-            .background(color = Color.White),
+            .background(color = if (isSelected) Color(0xFFC5DCFF) else Color.White),
     ) {
         Image(
             modifier = modifier
