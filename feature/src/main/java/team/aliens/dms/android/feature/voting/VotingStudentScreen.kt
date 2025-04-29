@@ -71,6 +71,7 @@ internal fun VotingStudentScreen(
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
     val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
+    var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
@@ -137,7 +138,9 @@ internal fun VotingStudentScreen(
                         studentGcn = it.gradeClassNumber,
                         name = it.name,
                         profileImageUrl = it.profileImageUrl,
+                        isSelected = it.id == selectedVoteTopicId,
                         onClick = {
+                            selectedVoteTopicId = it.id
                             votingDetailViewModel.postIntent(
                                 intent = VotingIntent.SetVoteTopicId(
                                     voteTopicId = it.id,
@@ -214,10 +217,10 @@ private fun StudentProfile(
     studentGcn: String,
     name: String,
     profileImageUrl: String,
+    isSelected: Boolean,
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    var isClicked by remember { mutableStateOf(false) }
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -228,11 +231,10 @@ private fun StudentProfile(
             .fillMaxWidth(),
         interactionSource = interactionSource,
         onClick = {
-            isClicked = !isClicked
             onClick()
         },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if(isClicked) Color(0xffb1d0ff) else Color.Unspecified,
+            containerColor = if(isSelected) Color(0xffb1d0ff) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
