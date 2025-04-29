@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,7 +70,6 @@ internal fun VotingModelStudentScreen(
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
     val filterOptions = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
-    var buttonEnable: Boolean by rememberSaveable { mutableStateOf(true) }
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
 
     votingDetailViewModel.updateModelStudentList(LocalDate.now())
@@ -159,8 +157,7 @@ internal fun VotingModelStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    votingDetailViewModel.buttonEnabled = mutableStateOf(true)
-                    buttonEnable = !buttonEnable
+                    votingDetailViewModel.buttonEnabled = mutableStateOf(false)
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
@@ -168,7 +165,7 @@ internal fun VotingModelStudentScreen(
                         ),
                     )
                 },
-                enabled = uiState.voteTopicId != null,
+                enabled = votingDetailViewModel.buttonEnabled.value && uiState.voteTopicId != null,
             ) {
                 Text(text = "투표하기")
             }

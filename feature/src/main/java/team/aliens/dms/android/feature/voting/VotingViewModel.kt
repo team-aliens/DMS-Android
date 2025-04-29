@@ -32,7 +32,7 @@ class VotingViewModel @Inject constructor(
         fetchStudents()
     }
 
-    private val _buttonEnable = mutableStateOf(false)
+    private val _buttonEnable = mutableStateOf(true)
     var buttonEnabled = _buttonEnable
 
     override fun processIntent(intent: VotingIntent) {
