@@ -1,7 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.content.Context
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -26,7 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -72,8 +69,8 @@ internal fun VotingModelStudentScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
-    var selectedFilter by remember { mutableStateOf("Day") }
-    val filterOptions = listOf("1학년", "2학년", "3학년")
+    var selectedFilter by remember { mutableStateOf("1학년") }
+    val filterOptions = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
     var buttonEnable by rememberSaveable { mutableStateOf(true) }
 
     votingDetailViewModel.updateModelStudentList(LocalDate.now())
@@ -123,8 +120,13 @@ internal fun VotingModelStudentScreen(
                 modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
-                onToggleChange = {
-                    selectedFilter = it
+                onToggleChange = { text, grade ->
+                    selectedFilter = text
+                    votingDetailViewModel.postIntent(
+                        intent = VotingIntent.UpdateModelStudentStates(
+                            grade = grade,
+                        ),
+                    )
                 },
             )
             LazyColumn(
@@ -175,8 +177,8 @@ internal fun VotingModelStudentScreen(
 private fun MultiToggleButton(
     modifier: Modifier = Modifier,
     currentSelection: String,
-    toggleStates: List<String>,
-    onToggleChange: (String) -> Unit,
+    toggleStates: List<Pair<String, Int>>,
+    onToggleChange: (String, Int) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -184,7 +186,7 @@ private fun MultiToggleButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         toggleStates.forEachIndexed { _, toggleState ->
-            val isSelected = currentSelection.equals(toggleState, ignoreCase = true)
+            val isSelected = currentSelection.equals(toggleState.first, ignoreCase = true)
             val backgroundColor = if (isSelected) DmsTheme.colorScheme.primary else Color.White
             val textColor = if (isSelected) Color.White else DmsTheme.colorScheme.primary
 
@@ -194,12 +196,12 @@ private fun MultiToggleButton(
                         color = backgroundColor,
                         shape = RoundedCornerShape(4.dp),
                     ),
-                onClick = { onToggleChange(toggleState) },
+                onClick = { onToggleChange(toggleState.first, toggleState.second) },
                 border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
                 shape = RoundedCornerShape(4.dp),
             ) {
                 Text(
-                    text = toggleState,
+                    text = toggleState.first,
                     color = textColor,
                 )
             }

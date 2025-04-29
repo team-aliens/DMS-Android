@@ -119,11 +119,11 @@ internal fun VotingStudentScreen(
                 modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
-                onToggleChange = { string, int ->
-                    selectedFilter = string
+                onToggleChange = { text, grade ->
+                    selectedFilter = text
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.UpdateStudentStates(
-                            grade = int
+                            grade = grade
                         )
                     )
                 },
