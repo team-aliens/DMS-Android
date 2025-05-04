@@ -24,11 +24,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,9 +69,8 @@ internal fun VotingModelStudentScreen(
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
-    var selectedGcn by remember { mutableStateOf<Long?>(null) }
-    val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
-    var buttonEnable by rememberSaveable { mutableStateOf(true) }
+    val filterOptions = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
+    var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
         with(votingDetailViewModel) {
@@ -131,12 +128,12 @@ internal fun VotingModelStudentScreen(
                 modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
-                onToggleChange = { string, int ->
-                    selectedFilter = string
+                onToggleChange = { text, grade ->
+                    selectedFilter = text
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.UpdateModelStudentStates(
-                            grade = int
-                        )
+                            grade = grade,
+                        ),
                     )
                 },
             )
@@ -149,9 +146,9 @@ internal fun VotingModelStudentScreen(
                         studentGcn = it.studentGcn.toString(),
                         name = it.name,
                         profileImageUrl = it.profileImageUrl,
-                        isSelected = it.studentGcn == selectedGcn,
+                        isSelected = it.id == selectedVoteTopicId,
                         onClick = {
-                            selectedGcn = it.studentGcn
+                            selectedVoteTopicId = it.id
                             votingDetailViewModel.postIntent(
                                 intent = VotingIntent.SetVoteTopicId(
                                     voteTopicId = it.id,
@@ -169,19 +166,18 @@ internal fun VotingModelStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-                    buttonEnable = !buttonEnable
+                    votingDetailViewModel.buttonEnabled = mutableStateOf(false)
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
-                            selectedId = uiState.voteTopicId!!, // TODO :: 널 익셉션 처리
+                            selectedId = uiState.voteTopicId!!
                         ),
                     )
                 },
-                enabled = buttonEnable,
+                enabled = votingDetailViewModel.buttonEnabled.value && uiState.voteTopicId != null,
             ) {
                 Text(text = "투표하기")
             }
-
         }
     }
 }
@@ -209,7 +205,7 @@ private fun MultiToggleButton(
                         color = backgroundColor,
                         shape = RoundedCornerShape(4.dp),
                     ),
-                onClick = { onToggleChange(toggleState.first,toggleState.second) },
+                onClick = { onToggleChange(toggleState.first, toggleState.second) },
                 border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
                 shape = RoundedCornerShape(4.dp),
             ) {
@@ -243,7 +239,7 @@ private fun StudentProfile(
         interactionSource = interactionSource,
         onClick = onClick,
         colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isSelected) Color(0xffb1d0ff) else Color.Unspecified,
+            containerColor = if(isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {

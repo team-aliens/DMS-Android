@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,9 @@ class VotingViewModel @Inject constructor(
         fetchStudents()
     }
 
+    private val _buttonEnable = mutableStateOf(true)
+    var buttonEnabled = _buttonEnable
+
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
             is VotingIntent.UpdateVotingItem -> this.updateCheckVotingItem(
@@ -46,10 +50,10 @@ class VotingViewModel @Inject constructor(
             is VotingIntent.SetVoteTopicId -> this.setVoteTopicId(
                 voteTopicId = intent.voteTopicId,
             )
-            is VotingIntent.UpdateStudentStates -> this.updateGradeFilterStudent(
+            is VotingIntent.UpdateModelStudentStates -> this.updateModelStudentGradeInfo(
                 grade = intent.grade,
             )
-            is VotingIntent.UpdateModelStudentStates -> this.updateGradeFilterModelStudent(
+            is VotingIntent.UpdateStudentStates -> this.updateStudentGradeInfo(
                 grade = intent.grade,
             )
         }
@@ -112,16 +116,23 @@ class VotingViewModel @Inject constructor(
     private fun updateGradeFilterStudent(grade: Int) =
         reduce(
             newState = stateFlow.value.copy(
-                filteredStudentList = stateFlow.value.allStudentsList.filter { it.gradeClassNumber.toInt() >= grade && it.gradeClassNumber.toInt() < grade + 1000 },
+                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade && it.studentGcn <= grade + 1000 }
             ),
         )
+    }
 
-    private fun updateGradeFilterModelStudent(grade: Int) =
+    private fun updateStudentGradeInfo(grade: Int) {
         reduce(
             newState = stateFlow.value.copy(
-                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn.toInt() >= grade && it.studentGcn.toInt() < grade + 1000 },
+                filteredStudentList = stateFlow.value.allStudentsList.filter { it.gradeClassNumber >= grade.toString() && it.gradeClassNumber <= (grade + 1000).toString() }
             ),
         )
+    }
+
+    // 투표 기간이 지났을 때 && 투표 아이디가 널이 아닐 때
+    private fun buttonEnableStateChange() {
+
+    }
 
     // 버튼 enable 상태 변경
     // 에러코드가 409 일때 => 이미 투표된거임
@@ -172,7 +183,6 @@ data class VotingUiState(
     val filteredStudentList: List<Student>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
-    val buttonEnable: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
@@ -189,7 +199,6 @@ data class VotingUiState(
             filteredStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
-            buttonEnable = true,
         )
     }
 }
@@ -199,6 +208,7 @@ sealed class VotingIntent : Intent() {
     class UpdateModelStudent(val requestDate: LocalDate) : VotingIntent()
     class CreateVoteTable(val votingTopicId: UUID, val selectedId: UUID) : VotingIntent()
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
+    class UpdateModelStudentStates(val grade: Int) : VotingIntent()
     class UpdateStudentStates(val grade: Int) : VotingIntent()
     class UpdateModelStudentStates(val grade: Int) : VotingIntent()
 }

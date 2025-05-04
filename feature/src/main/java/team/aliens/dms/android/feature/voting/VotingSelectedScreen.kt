@@ -23,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +60,7 @@ internal fun VotingSelectedScreen(
 ) {
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
+    var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
@@ -109,7 +111,9 @@ internal fun VotingSelectedScreen(
                 items(uiState.votingTopicCheckList) {
                     TopicProfile(
                         topicOption = it.votingOptionName,
+                        isSelected = it.id == selectedVoteTopicId,
                         onClick = {
+                            selectedVoteTopicId = it.id
                             votingDetailViewModel.postIntent(
                                 intent = VotingIntent.SetVoteTopicId(
                                     voteTopicId = it.id,
@@ -134,6 +138,7 @@ internal fun VotingSelectedScreen(
                         )
                     )
                 },
+                enabled = uiState.voteTopicId != null,
             ) {
                 Text(text = "투표하기")
             }
@@ -144,11 +149,11 @@ internal fun VotingSelectedScreen(
 @Composable
 private fun TopicProfile(
     topicOption: String,
+    isSelected: Boolean,
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    var isClicked by remember { mutableStateOf(false) }
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -159,11 +164,10 @@ private fun TopicProfile(
             .fillMaxWidth(),
         interactionSource = interactionSource,
         onClick = {
-            isClicked = !isClicked
             onClick()
         },
         colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isClicked) Color(0xffb1d0ff) else Color.Unspecified,
+            containerColor = if(isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
