@@ -28,5 +28,4 @@ internal class VotingRepositoryImpl @Inject constructor(
 
     override suspend fun fetchModelStudentCandidates(requestDate: LocalDate): List<ModelStudentCandidates> =
         networkVotingDataSource.fetchModelStudentCandidates(requestDate).toModel()
-
 }

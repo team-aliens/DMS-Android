@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -20,14 +19,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -108,7 +105,7 @@ internal fun VotingApprovalScreen(
             )
             LazyColumn(
                 modifier = modifier
-                    .padding(top = PaddingDefaults.Small)
+                    .padding(top = PaddingDefaults.Small),
             ) {
                 items(uiState.votingTopicCheckList) {
                     approvalIdList.add(it.id)
@@ -125,7 +122,9 @@ internal fun VotingApprovalScreen(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
                     contentName = "",
-                    isSelected =  approvalIdList.any { approvalTopicId == approvalIdList.component1() },
+                    isSelected =
+
+                    approvalIdList.any { approvalTopicId == approvalIdList.component1() },
                     onClick = {
                         approvalTopicId = approvalIdList.component1()
                         votingDetailViewModel.postIntent(
@@ -144,7 +143,7 @@ internal fun VotingApprovalScreen(
                         approvalTopicId = approvalIdList.component2()
                         votingDetailViewModel.postIntent(
                             intent = VotingIntent.SetVoteTopicId(
-                                voteTopicId = approvalIdList.component2()
+                                voteTopicId = approvalIdList.component2(),
                             )
                         )
                     },

@@ -1,10 +1,10 @@
 package team.aliens.dms.android.data.voting.repository
 
+import java.util.UUID
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
-import java.util.UUID
 
 abstract class VotingRepository {
 

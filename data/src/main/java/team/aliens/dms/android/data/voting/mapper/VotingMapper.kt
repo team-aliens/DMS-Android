@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.voting.mapper
 
+import java.util.UUID
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
@@ -8,7 +9,6 @@ import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
 import team.aliens.dms.android.network.voting.model.FetchModelStudentCandidatesResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
-import java.util.UUID
 
 internal fun FetchAllVoteSearchResponse.toModel(): List<AllVoteSearch> =
     this.votingTopics.map(FetchAllVoteSearchResponse.VoteSearchResponse::toModel)
@@ -26,12 +26,11 @@ private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSear
 internal fun FetchCheckVotingItemResponse.toModel(): List<VotingItem> =
     this.votingOptions.map(FetchCheckVotingItemResponse.VotingItemResponse::toModel)
 
-private fun FetchCheckVotingItemResponse.VotingItemResponse.toModel(): VotingItem = 
+private fun FetchCheckVotingItemResponse.VotingItemResponse.toModel(): VotingItem =
     VotingItem(
         id = id,
         votingOptionName = votingOptionName,
     )
-
 
 internal fun FetchModelStudentCandidatesResponse.toModel(): List<ModelStudentCandidates> =
     this.students.map(FetchModelStudentCandidatesResponse.ModelStudentCandidatesResponse::toModel)

@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.main.application
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope

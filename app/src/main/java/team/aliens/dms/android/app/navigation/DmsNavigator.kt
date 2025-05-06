@@ -1,6 +1,5 @@
 package team.aliens.dms.android.app.navigation
 
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
 import com.ramcosta.composedestinations.dynamic.routedIn
@@ -15,7 +14,6 @@ import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavigator
 import team.aliens.dms.android.data.point.model.PointType
-import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestination
 import team.aliens.dms.android.feature.destinations.EnterEmailScreenDestination

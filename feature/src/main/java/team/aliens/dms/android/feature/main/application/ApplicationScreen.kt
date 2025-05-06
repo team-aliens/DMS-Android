@@ -86,7 +86,7 @@ internal fun ApplicationScreen(
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            text = when(pagerState.currentPage) {
+                            text = when (pagerState.currentPage) {
                                 0 -> stringResource(R.string.application)
                                 else -> stringResource(R.string.voting_submit)
                             },
@@ -94,7 +94,7 @@ internal fun ApplicationScreen(
                             style = DmsTheme.typography.body2,
                         )
                     }
-                }
+                },
             )
         },
     ) { padValues ->
@@ -114,13 +114,13 @@ internal fun ApplicationScreen(
                         .fillMaxSize()
                         .padding(horizontal = 16.dp)
                         .bottomPadding(100.dp),
-                    verticalArrangement = Arrangement.Top
+                    verticalArrangement = Arrangement.Top,
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center
+                        horizontalArrangement = Arrangement.Center,
                     ) {
                         repeat(2) { index ->
                             val color = if (pagerState.currentPage == index)
@@ -303,7 +303,6 @@ private fun ApplicationCard(
         }
     }
 }
-
 
 @Composable
 private fun VoteCard(

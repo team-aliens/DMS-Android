@@ -113,7 +113,7 @@ class VotingViewModel @Inject constructor(
         }
     }
     // 학년 필터링
-    private fun updateGradeFilterStudent(grade: Int) =
+    private fun updateModelStudentGradeInfo(grade: Int) {
         reduce(
             newState = stateFlow.value.copy(
                 filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade && it.studentGcn <= grade + 1000 }
@@ -129,14 +129,6 @@ class VotingViewModel @Inject constructor(
         )
     }
 
-    // 투표 기간이 지났을 때 && 투표 아이디가 널이 아닐 때
-    private fun buttonEnableStateChange() {
-
-    }
-
-    // 버튼 enable 상태 변경
-    // 에러코드가 409 일때 => 이미 투표된거임
-    // 투표 기간이 시작하지 않거나 지나지 않음
     private fun fetchCreateVoteTable(votingTopicId: UUID, selectedId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -210,7 +202,6 @@ sealed class VotingIntent : Intent() {
     class SetVoteTopicId(val voteTopicId: UUID) : VotingIntent()
     class UpdateModelStudentStates(val grade: Int) : VotingIntent()
     class UpdateStudentStates(val grade: Int) : VotingIntent()
-    class UpdateModelStudentStates(val grade: Int) : VotingIntent()
 }
 
 sealed class VotingSideEffect : SideEffect()

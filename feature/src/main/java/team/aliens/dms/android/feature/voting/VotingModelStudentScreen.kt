@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -170,7 +171,7 @@ internal fun VotingModelStudentScreen(
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
-                            selectedId = uiState.voteTopicId!!
+                            selectedId = uiState.voteTopicId!!,
                         ),
                     )
                 },
@@ -238,8 +239,8 @@ private fun StudentProfile(
             .fillMaxWidth(),
         interactionSource = interactionSource,
         onClick = onClick,
-        colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {
@@ -266,5 +267,3 @@ private fun StudentProfile(
         }
     }
 }
-
-
