@@ -38,7 +38,6 @@ import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestinati
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingApprovalScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingModelStudentScreenDestination
-import team.aliens.dms.android.feature.destinations.VotingScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingSelectedScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingStudentScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
@@ -240,10 +239,6 @@ class DmsNavigator(
 
     override fun openOutingApplication() {
         navController.navigateSingleTop(OutingApplicationScreenDestination within OutingNavGraph)
-    }
-
-    override fun openVoting() {
-        navController.navigateSingleTop(VotingScreenDestination within VotingNavGraph)
     }
 
     override fun openVotingApproval(voteOptionId: UUID, voteTopicTitle: String) {

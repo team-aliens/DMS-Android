@@ -16,7 +16,6 @@ import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestin
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingApprovalScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingModelStudentScreenDestination
-import team.aliens.dms.android.feature.destinations.VotingScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingSelectedScreenDestination
 import team.aliens.dms.android.feature.destinations.VotingStudentScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
@@ -47,7 +46,6 @@ object AuthorizedNavGraph : NavGraphSpec {
             NotificationBoxScreenDestination,
             NotificationSettingsScreenDestination,
             PointHistoryScreenDestination,
-            VotingScreenDestination,
             VotingModelStudentScreenDestination,
             VotingStudentScreenDestination,
             VotingSelectedScreenDestination,
