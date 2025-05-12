@@ -76,11 +76,6 @@ internal fun VotingModelStudentScreen(
     LaunchedEffect(Unit) {
         with(votingDetailViewModel) {
             updateModelStudentList(LocalDate.now())
-            postIntent(
-                intent = VotingIntent.UpdateModelStudentStates(
-                    grade = 1000,
-                ),
-            )
         }
     }
 

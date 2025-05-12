@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +31,7 @@ class VotingViewModel @Inject constructor(
     init {
         fetchAllVoteSearch()
         fetchStudents()
+        updateModelStudentGradeInfo(1000)
     }
 
     private val _buttonEnable = mutableStateOf(true)
@@ -85,12 +87,12 @@ class VotingViewModel @Inject constructor(
                     votingTopicId = voteOptionId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
-
                 reduce(
                     newState = stateFlow.value.copy(
                         votingTopicCheckList = fetchCheckVotingItem,
                     ),
                 )
+                updateStudentGradeInfo(1000)
             }
         }
     }
@@ -107,12 +109,13 @@ class VotingViewModel @Inject constructor(
                         modelStudentCandidates = fetchModelList,
                     ),
                 )
+                updateModelStudentGradeInfo(1000)
             }.onFailure {
                 it.printStackTrace()
             }
         }
     }
-    // 학년 필터링
+
     private fun updateModelStudentGradeInfo(grade: Int) {
         reduce(
             newState = stateFlow.value.copy(
