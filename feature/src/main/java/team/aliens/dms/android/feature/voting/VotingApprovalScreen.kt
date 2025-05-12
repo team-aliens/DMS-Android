@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -122,9 +123,8 @@ internal fun VotingApprovalScreen(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
                     contentName = "",
-                    isSelected =
-
-                    approvalIdList.any { approvalTopicId == approvalIdList.component1() },
+                    isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component1() },
+                    selectedColor = 0xFFC5DCFF,
                     onClick = {
                         approvalTopicId = approvalIdList.component1()
                         votingDetailViewModel.postIntent(
@@ -139,6 +139,7 @@ internal fun VotingApprovalScreen(
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
                     contentName = "",
                     isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component2() },
+                    selectedColor = 0xFFFFC3C3,
                     onClick = {
                         approvalTopicId = approvalIdList.component2()
                         votingDetailViewModel.postIntent(
@@ -179,19 +180,21 @@ fun ApprovalCard(
     @DrawableRes imageModelUrl: Int,
     contentName: String,
     isSelected: Boolean,
+    selectedColor: Long,
     onClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = DmsTheme.colorScheme.onSurfaceVariant,
+                color = Color(0xFFDEDEDE),
                 shape = RoundedCornerShape(12.dp),
             )
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = if (isSelected) Color(selectedColor) else Color.White)
             .clickable {
                 onClick()
-            }
-            .background(color = if (isSelected) Color(0xFFC5DCFF) else Color.White),
+            },
     ) {
         Image(
             modifier = modifier
