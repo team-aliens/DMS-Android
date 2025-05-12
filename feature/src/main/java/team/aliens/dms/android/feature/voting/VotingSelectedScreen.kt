@@ -137,6 +137,7 @@ internal fun VotingSelectedScreen(
                             selectedId = uiState.voteTopicId!!,
                         )
                     )
+                    navigator.navigateUp()
                 },
                 enabled = uiState.voteTopicId != null,
             ) {

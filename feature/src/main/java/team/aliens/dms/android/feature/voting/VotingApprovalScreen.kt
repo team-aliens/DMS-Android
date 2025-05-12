@@ -163,6 +163,7 @@ internal fun VotingApprovalScreen(
                             selectedId = uiState.voteTopicId!!,
                         )
                     )
+                    navigator.navigateUp()
                 },
                 enabled = uiState.voteTopicId != null,
             ) {

@@ -169,6 +169,7 @@ internal fun VotingStudentScreen(
                             selectedId = uiState.voteTopicId!!,
                         )
                     )
+                    navigator.navigateUp()
                 },
                 enabled = uiState.voteTopicId != null,
             ) {

@@ -169,6 +169,7 @@ internal fun VotingModelStudentScreen(
                             selectedId = uiState.voteTopicId!!,
                         ),
                     )
+                    navigator.navigateUp()
                 },
                 enabled = votingDetailViewModel.buttonEnabled.value && uiState.voteTopicId != null,
             ) {
