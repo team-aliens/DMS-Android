@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
 data class FetchCheckVotingItemResponse(
-    @SerializedName("voting_options") val votingOptions: List<VotingItemResponse>
+    @SerializedName("voting_options") val votingOptions: List<VotingItemResponse>,
 ) {
     data class VotingItemResponse(
         @SerializedName("id") val id: UUID,

@@ -1,7 +1,6 @@
 package team.aliens.dms.android.feature.voting
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -23,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -135,7 +133,7 @@ internal fun VotingSelectedScreen(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
                             selectedId = uiState.voteTopicId!!,
-                        )
+                        ),
                     )
                     navigator.navigateUp()
                 },
@@ -167,8 +165,8 @@ private fun TopicProfile(
         onClick = {
             onClick()
         },
-        colors =  ButtonDefaults.buttonColors(
-            containerColor = if(isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {

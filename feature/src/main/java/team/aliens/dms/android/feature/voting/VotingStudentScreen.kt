@@ -27,7 +27,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -122,21 +121,20 @@ internal fun VotingStudentScreen(
                 style = DmsTheme.typography.headline3,
             )
             MultiToggleButton(
-                modifier = modifier,
                 currentSelection = selectedFilter,
                 toggleStates = filterOptions,
                 onToggleChange = { text, grade ->
                     selectedFilter = text
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.UpdateStudentStates(
-                            grade = grade
-                        )
+                            grade = grade,
+                        ),
                     )
                 },
             )
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = PaddingDefaults.Large)
+                    .padding(top = PaddingDefaults.Large),
             ) {
                 items(uiState.filteredStudentList) {
                     StudentProfile(
@@ -164,10 +162,10 @@ internal fun VotingStudentScreen(
                     .bottomPadding(),
                 onClick = {
                     votingDetailViewModel.postIntent(
-                        VotingIntent.CreateVoteTable(
+                        intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
                             selectedId = uiState.voteTopicId!!,
-                        )
+                        ),
                     )
                     navigator.navigateUp()
                 },
@@ -183,7 +181,6 @@ internal fun VotingStudentScreen(
 
 @Composable
 private fun MultiToggleButton(
-    modifier: Modifier = Modifier,
     currentSelection: String,
     toggleStates: List<Pair<String, Int>>,
     onToggleChange: (String, Int) -> Unit,
@@ -191,7 +188,7 @@ private fun MultiToggleButton(
     Row(
         modifier = Modifier
             .horizontalPadding(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         toggleStates.forEachIndexed { _, toggleState ->
             val isSelected = currentSelection.equals(toggleState.first, ignoreCase = true)
@@ -199,17 +196,17 @@ private fun MultiToggleButton(
             val textColor = if (isSelected) Color.White else DmsTheme.colorScheme.primary
 
             OutlinedButton(
-                    modifier = Modifier
-                        .background(
-                            color = backgroundColor,
-                            shape = RoundedCornerShape(4.dp),
-                        ),
-                    onClick = {
-                        onToggleChange(toggleState.first, toggleState.second)
-                    },
-                    border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
-                    shape = RoundedCornerShape(4.dp),
-                ) {
+                modifier = Modifier
+                    .background(
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(4.dp),
+                    ),
+                onClick = {
+                    onToggleChange(toggleState.first, toggleState.second)
+                },
+                border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
+                shape = RoundedCornerShape(4.dp),
+            ) {
                 Text(
                     text = toggleState.first,
                     color = textColor,
@@ -239,7 +236,7 @@ private fun StudentProfile(
         interactionSource = interactionSource,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if(isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
+            containerColor = if (isSelected) Color(0xFFC5DCFF) else Color.Unspecified,
         ),
         shape = RectangleShape,
     ) {

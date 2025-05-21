@@ -129,8 +129,8 @@ internal fun VotingApprovalScreen(
                         approvalTopicId = approvalIdList.component1()
                         votingDetailViewModel.postIntent(
                             intent = VotingIntent.SetVoteTopicId(
-                                voteTopicId = approvalIdList.component1()
-                            )
+                                voteTopicId = approvalIdList.component1(),
+                            ),
                         )
                     },
                 )
@@ -145,7 +145,7 @@ internal fun VotingApprovalScreen(
                         votingDetailViewModel.postIntent(
                             intent = VotingIntent.SetVoteTopicId(
                                 voteTopicId = approvalIdList.component2(),
-                            )
+                            ),
                         )
                     },
                 )
@@ -162,7 +162,7 @@ internal fun VotingApprovalScreen(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
                             selectedId = uiState.voteTopicId!!,
-                        )
+                        ),
                     )
                     navigator.navigateUp()
                 },

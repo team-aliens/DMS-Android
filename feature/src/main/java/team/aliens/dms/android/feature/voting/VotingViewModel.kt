@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class VotingViewModel @Inject constructor(
     private val votingRepository: VotingRepository,
-    private val studentRepository: StudentRepository
+    private val studentRepository: StudentRepository,
 ) : BaseMviViewModel<VotingUiState, VotingIntent, VotingSideEffect>(
     initialState = VotingUiState.initial(),
 ) {
@@ -119,7 +118,7 @@ class VotingViewModel @Inject constructor(
     private fun updateModelStudentGradeInfo(grade: Int) {
         reduce(
             newState = stateFlow.value.copy(
-                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade && it.studentGcn <= grade + 1000 }
+                filteredModelStudentList = stateFlow.value.modelStudentCandidates.filter { it.studentGcn >= grade && it.studentGcn <= grade + 1000 },
             ),
         )
     }
@@ -127,7 +126,7 @@ class VotingViewModel @Inject constructor(
     private fun updateStudentGradeInfo(grade: Int) {
         reduce(
             newState = stateFlow.value.copy(
-                filteredStudentList = stateFlow.value.allStudentsList.filter { it.gradeClassNumber >= grade.toString() && it.gradeClassNumber <= (grade + 1000).toString() }
+                filteredStudentList = stateFlow.value.allStudentsList.filter { it.gradeClassNumber >= grade.toString() && it.gradeClassNumber <= (grade + 1000).toString() },
             ),
         )
     }
