@@ -21,7 +21,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class VotingViewModel @Inject constructor(
+internal class VotingViewModel @Inject constructor(
     private val votingRepository: VotingRepository,
     private val studentRepository: StudentRepository,
 ) : BaseMviViewModel<VotingUiState, VotingIntent, VotingSideEffect>(
@@ -79,7 +79,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    internal fun updateCheckVotingItem(voteOptionId: UUID) {
+    private fun updateCheckVotingItem(voteOptionId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchCheckVotingItem(
@@ -96,7 +96,7 @@ class VotingViewModel @Inject constructor(
         }
     }
 
-    internal fun updateModelStudentList(requestDate: LocalDate) {
+    private fun updateModelStudentList(requestDate: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 votingRepository.fetchModelStudentCandidates(

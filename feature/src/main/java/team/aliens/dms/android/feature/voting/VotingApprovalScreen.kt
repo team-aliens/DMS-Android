@@ -165,7 +165,7 @@ internal fun VotingApprovalScreen(
 }
 
 @Composable
-fun ApprovalCard(
+private fun ApprovalCard(
     modifier: Modifier = Modifier,
     @DrawableRes imageModelUrl: Int,
     contentName: String,
