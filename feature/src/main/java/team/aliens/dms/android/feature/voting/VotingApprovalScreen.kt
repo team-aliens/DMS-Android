@@ -61,7 +61,11 @@ internal fun VotingApprovalScreen(
     var approvalTopicId: UUID? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
-        votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
+        votingDetailViewModel.postIntent(
+            intent = VotingIntent.UpdateVotingItem(
+                voteOptionId = voteOptionId,
+            ),
+        )
         approvalIdList.addAll(uiState.votingTopicCheckList.map { it.id })
     }
 
@@ -112,7 +116,6 @@ internal fun VotingApprovalScreen(
                 ApprovalCard(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
-                    contentName = "",
                     isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component1() },
                     selectedColor = 0xFFC5DCFF,
                     onClick = {
@@ -127,7 +130,6 @@ internal fun VotingApprovalScreen(
                 ApprovalCard(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
-                    contentName = "",
                     isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component2() },
                     selectedColor = 0xFFFFC3C3,
                     onClick = {
@@ -168,7 +170,6 @@ internal fun VotingApprovalScreen(
 private fun ApprovalCard(
     modifier: Modifier = Modifier,
     @DrawableRes imageModelUrl: Int,
-    contentName: String,
     isSelected: Boolean,
     selectedColor: Long,
     onClick: () -> Unit,
@@ -193,7 +194,7 @@ private fun ApprovalCard(
                     horizontal = 42.dp,
                 ),
             painter = painterResource(imageModelUrl),
-            contentDescription = contentName,
+            contentDescription = "",
         )
     }
 }

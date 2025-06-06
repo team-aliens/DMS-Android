@@ -73,7 +73,11 @@ internal fun VotingStudentScreen(
 
     LaunchedEffect(Unit) {
         with(votingDetailViewModel) {
-            updateCheckVotingItem(voteOptionId = voteOptionId)
+            postIntent(
+                intent = VotingIntent.UpdateVotingItem(
+                    voteOptionId = voteOptionId,
+                ),
+            )
             postIntent(
                 intent = VotingIntent.UpdateModelStudentStates(
                     grade = 1000,

@@ -61,7 +61,11 @@ internal fun VotingSelectedScreen(
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
-        votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
+        votingDetailViewModel.postIntent(
+            intent = VotingIntent.UpdateVotingItem(
+                voteOptionId = voteOptionId,
+            ),
+        )
     }
 
     Scaffold(
