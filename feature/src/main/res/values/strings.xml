@@ -395,4 +395,5 @@
     <string name="fresh_man_grade">1학년</string>
     <string name="second_grade">2학년</string>
     <string name="senior_grade">3학년</string>
+    <string name="make_vote">투표하기</string>
 </resources>

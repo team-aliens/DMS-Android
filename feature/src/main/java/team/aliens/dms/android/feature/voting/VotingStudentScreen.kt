@@ -171,9 +171,7 @@ internal fun VotingStudentScreen(
                 },
                 enabled = uiState.voteTopicId != null,
             ) {
-                Text(
-                    text = "투표하기",
-                )
+                Text(text = stringResource(R.string.make_vote))
             }
         }
     }
