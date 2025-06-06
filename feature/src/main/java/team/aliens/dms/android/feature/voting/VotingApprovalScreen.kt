@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -64,6 +62,7 @@ internal fun VotingApprovalScreen(
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.updateCheckVotingItem(voteOptionId = voteOptionId)
+        approvalIdList.addAll(uiState.votingTopicCheckList.map { it.id })
     }
 
     Scaffold(
@@ -104,20 +103,11 @@ internal fun VotingApprovalScreen(
                 text = voteTopicTitle,
                 style = DmsTheme.typography.headline3,
             )
-            LazyColumn(
-                modifier = modifier
-                    .padding(top = PaddingDefaults.Small),
-            ) {
-                items(uiState.votingTopicCheckList) {
-                    approvalIdList.add(it.id)
-                }
-            }
             Row(
                 modifier = modifier
                     .horizontalPadding()
                     .padding(top = 128.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
-
             ) {
                 ApprovalCard(
                     modifier = Modifier.weight(1f),
