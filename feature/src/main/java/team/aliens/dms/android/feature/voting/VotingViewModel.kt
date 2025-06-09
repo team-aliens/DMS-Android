@@ -1,9 +1,12 @@
 package team.aliens.dms.android.feature.voting
 
+import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
@@ -21,7 +24,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-internal class VotingViewModel @Inject constructor(
+class VotingViewModel @Inject constructor(
     private val votingRepository: VotingRepository,
     private val studentRepository: StudentRepository,
 ) : BaseMviViewModel<VotingUiState, VotingIntent, VotingSideEffect>(
@@ -32,9 +35,6 @@ internal class VotingViewModel @Inject constructor(
         fetchStudents()
         updateModelStudentGradeInfo(1000)
     }
-
-    private val _buttonEnable = mutableStateOf(true)
-    var buttonEnabled = _buttonEnable
 
     override fun processIntent(intent: VotingIntent) {
         when (intent) {
@@ -86,11 +86,13 @@ internal class VotingViewModel @Inject constructor(
                     votingTopicId = voteOptionId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
+                Log.d("TEST", fetchCheckVotingItem.toString())
                 reduce(
                     newState = stateFlow.value.copy(
                         votingTopicCheckList = fetchCheckVotingItem,
                     ),
                 )
+                Log.d("TEST", stateFlow.value.votingTopicCheckList.toString())
                 updateStudentGradeInfo(1000)
             }
         }
@@ -161,6 +163,8 @@ internal class VotingViewModel @Inject constructor(
                 voteTopicId = voteTopicId,
             ),
         )
+
+    internal fun isVoteButtonEnable(): Boolean = stateFlow.value.voteTopicId != null
 }
 
 data class VotingUiState(

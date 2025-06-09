@@ -2,7 +2,6 @@ package team.aliens.dms.android.feature.voting
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -59,6 +58,7 @@ internal fun VotingSelectedScreen(
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
+    val buttonEnabled = remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.postIntent(
@@ -133,6 +133,7 @@ internal fun VotingSelectedScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+                    buttonEnabled.value = false
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
@@ -141,7 +142,7 @@ internal fun VotingSelectedScreen(
                     )
                     navigator.navigateUp()
                 },
-                enabled = uiState.voteTopicId != null,
+                enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {
                 Text(text = stringResource(R.string.make_vote))
             }
@@ -156,7 +157,6 @@ private fun TopicProfile(
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
 
     HorizontalDivider(
         thickness = 1.dp,

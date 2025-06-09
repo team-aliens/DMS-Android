@@ -70,6 +70,7 @@ internal fun VotingStudentScreen(
     var selectedFilter by remember { mutableStateOf("1학년") }
     val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
+    val buttonEnabled = remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         with(votingDetailViewModel) {
@@ -165,6 +166,7 @@ internal fun VotingStudentScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+                    buttonEnabled.value = false
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
@@ -173,7 +175,7 @@ internal fun VotingStudentScreen(
                     )
                     navigator.navigateUp()
                 },
-                enabled = uiState.voteTopicId != null,
+                enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {
                 Text(text = stringResource(R.string.make_vote))
             }

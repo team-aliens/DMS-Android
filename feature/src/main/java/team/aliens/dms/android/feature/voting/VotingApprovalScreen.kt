@@ -59,6 +59,7 @@ internal fun VotingApprovalScreen(
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     val approvalIdList: MutableList<UUID> = mutableListOf()
     var approvalTopicId: UUID? by remember { mutableStateOf(null) }
+    val buttonEnabled = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         votingDetailViewModel.postIntent(
@@ -66,9 +67,8 @@ internal fun VotingApprovalScreen(
                 voteOptionId = voteOptionId,
             ),
         )
-        approvalIdList.addAll(uiState.votingTopicCheckList.map { it.id })
     }
-
+    approvalIdList.addAll(uiState.votingTopicCheckList.map { it.id })
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -150,6 +150,7 @@ internal fun VotingApprovalScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+                    buttonEnabled.value = false
                     votingDetailViewModel.postIntent(
                         intent = VotingIntent.CreateVoteTable(
                             votingTopicId = voteOptionId,
@@ -158,7 +159,7 @@ internal fun VotingApprovalScreen(
                     )
                     navigator.navigateUp()
                 },
-                enabled = uiState.voteTopicId != null,
+                enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {
                 Text(text = stringResource(R.string.make_vote))
             }
