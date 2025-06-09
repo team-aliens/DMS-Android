@@ -1,12 +1,8 @@
 package team.aliens.dms.android.feature.voting
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
@@ -86,13 +82,11 @@ class VotingViewModel @Inject constructor(
                     votingTopicId = voteOptionId,
                 )
             }.onSuccess { fetchCheckVotingItem ->
-                Log.d("TEST", fetchCheckVotingItem.toString())
                 reduce(
                     newState = stateFlow.value.copy(
                         votingTopicCheckList = fetchCheckVotingItem,
                     ),
                 )
-                Log.d("TEST", stateFlow.value.votingTopicCheckList.toString())
                 updateStudentGradeInfo(1000)
             }
         }
@@ -163,8 +157,6 @@ class VotingViewModel @Inject constructor(
                 voteTopicId = voteTopicId,
             ),
         )
-
-    internal fun isVoteButtonEnable(): Boolean = stateFlow.value.voteTopicId != null
 }
 
 data class VotingUiState(

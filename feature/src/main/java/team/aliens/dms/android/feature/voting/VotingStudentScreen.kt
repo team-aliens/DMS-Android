@@ -52,6 +52,7 @@ import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.data.voting.model.StudentGcnInfo
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
 import java.util.UUID
@@ -68,7 +69,7 @@ internal fun VotingStudentScreen(
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
-    val filterOptions: List<Pair<String, Int>> = listOf(Pair("1학년", 1000), Pair("2학년", 2000), Pair("3학년", 3000))
+    val filterOptions = listOf(StudentGcnInfo("1학년", 1000), StudentGcnInfo("2학년", 2000), StudentGcnInfo("3학년", 3000))
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
     val buttonEnabled = remember { mutableStateOf(true) }
 
@@ -186,7 +187,7 @@ internal fun VotingStudentScreen(
 @Composable
 private fun MultiToggleButton(
     currentSelection: String,
-    toggleStates: List<Pair<String, Int>>,
+    toggleStates: List<StudentGcnInfo>,
     onToggleChange: (String, Int) -> Unit,
 ) {
     Row(
@@ -195,7 +196,7 @@ private fun MultiToggleButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         toggleStates.forEachIndexed { _, toggleState ->
-            val isSelected = currentSelection.equals(toggleState.first, ignoreCase = true)
+            val isSelected = currentSelection.equals(toggleState.studentGcn, ignoreCase = true)
             val backgroundColor = if (isSelected) DmsTheme.colorScheme.primary else Color.White
             val textColor = if (isSelected) Color.White else DmsTheme.colorScheme.primary
 
@@ -206,13 +207,13 @@ private fun MultiToggleButton(
                         shape = RoundedCornerShape(4.dp),
                     ),
                 onClick = {
-                    onToggleChange(toggleState.first, toggleState.second)
+                    onToggleChange(toggleState.studentGcn, toggleState.studentFilterId)
                 },
                 border = BorderStroke(1.dp, DmsTheme.colorScheme.primary),
                 shape = RoundedCornerShape(4.dp),
             ) {
                 Text(
-                    text = toggleState.first,
+                    text = toggleState.studentGcn,
                     color = textColor,
                 )
             }

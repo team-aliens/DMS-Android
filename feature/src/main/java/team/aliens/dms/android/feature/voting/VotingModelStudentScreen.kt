@@ -177,7 +177,7 @@ internal fun VotingModelStudentScreen(
                     )
                     navigator.navigateUp()
                 },
-                enabled = buttonEnabled.value && uiState.voteTopicId != null ,
+                enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {
                 Text(text = stringResource(R.string.make_vote))
             }
@@ -230,7 +230,6 @@ private fun StudentProfile(
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
 
     HorizontalDivider(
         thickness = 1.dp,
