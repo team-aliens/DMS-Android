@@ -112,7 +112,7 @@ internal fun VotingStudentScreen(
                 },
             )
         },
-        containerColor = Color.White,
+        containerColor = DmsTheme.colorScheme.onPrimary,
     ) { padValues ->
         Column(
             modifier = modifier
