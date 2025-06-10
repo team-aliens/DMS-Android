@@ -109,7 +109,6 @@ internal fun VotingModelStudentScreen(
                 },
             )
         },
-        containerColor = DmsTheme.colorScheme.onPrimary,
     ) { padValues ->
         Column(
             modifier = modifier

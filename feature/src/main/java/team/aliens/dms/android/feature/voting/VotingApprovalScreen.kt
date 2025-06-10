@@ -93,7 +93,6 @@ internal fun VotingApprovalScreen(
                 },
             )
         },
-        containerColor = DmsTheme.colorScheme.onPrimary,
     ) { padValues ->
         Column(
             modifier = modifier
