@@ -4,6 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -229,6 +230,11 @@ private fun StudentProfile(
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val color = if (isSystemInDarkTheme()) {
+        Color.White
+    } else {
+        Color.Black
+    }
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -262,7 +268,7 @@ private fun StudentProfile(
             Text(
                 text = "$studentGcn $name",
                 textAlign = TextAlign.End,
-                color = Color.Black,
+                color = color,
             )
         }
     }

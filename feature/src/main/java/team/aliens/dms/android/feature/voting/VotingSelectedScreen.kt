@@ -2,6 +2,7 @@ package team.aliens.dms.android.feature.voting
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -156,6 +157,11 @@ private fun TopicProfile(
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val color = if (isSystemInDarkTheme()) {
+        Color.White
+    } else {
+        Color.Black
+    }
 
     HorizontalDivider(
         thickness = 1.dp,
@@ -181,7 +187,7 @@ private fun TopicProfile(
             Text(
                 text = topicOption,
                 textAlign = TextAlign.End,
-                color = Color.Black,
+                color = color,
             )
         }
     }
