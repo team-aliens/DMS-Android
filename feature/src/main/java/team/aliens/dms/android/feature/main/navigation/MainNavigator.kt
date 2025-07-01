@@ -24,4 +24,6 @@ interface MainNavigator {
     fun openNoticeDetails(noticeId: UUID)
 
     fun openOutingNav()
+
+    fun openVolunteer()
 }
