@@ -17,15 +17,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination
 @Composable
-fun VolunteerScreen(
+fun VolunteersScreen(
     modifier: Modifier = Modifier,
+    navigator: VolunteersNavigator,
 ) {
     Scaffold(
         modifier = modifier,
@@ -63,7 +67,7 @@ fun VolunteerScreen(
 
                         settings.javaScriptEnabled = true
 
-                        loadUrl( "https://webview.dms-dsm.com/volunteers/application")
+                        loadUrl( "https://webview.dms-dsm.com/volunteer/application")
                     }
                 },
             )
