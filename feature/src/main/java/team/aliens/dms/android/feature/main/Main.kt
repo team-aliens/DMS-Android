@@ -124,6 +124,7 @@ internal fun Main(
                     onNavigateToStudyRoomList = mainNavigator::openStudyRoomList,
                     onNavigateToRemains = mainNavigator::openRemainsApplication,
                     onNavigateToOuting = mainNavigator::openOutingNav,
+                    onNavigateToVolunteers = mainNavigator::openVolunteer,
                 )
             }
 
