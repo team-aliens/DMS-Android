@@ -14,9 +14,11 @@ import team.aliens.dms.android.feature.destinations.PointHistoryScreenDestinatio
 import team.aliens.dms.android.feature.destinations.RemainsApplicationScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
+import team.aliens.dms.android.feature.destinations.VolunteersScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavGraph
+import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavGraph
 
 object AuthorizedNavGraph : NavGraphSpec {
     override val route: String = "authorized"
@@ -26,6 +28,7 @@ object AuthorizedNavGraph : NavGraphSpec {
             EditPasswordNavGraph,
             StudyRoomNavGraph,
             OutingNavGraph,
+            VolunteersNavGraph,
         )
 
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
@@ -40,6 +43,7 @@ object AuthorizedNavGraph : NavGraphSpec {
             NotificationBoxScreenDestination,
             NotificationSettingsScreenDestination,
             PointHistoryScreenDestination,
+            VolunteersScreenDestination,
         )
             .routedIn(navGraphSpec = this)
             .associateBy { it.route }
