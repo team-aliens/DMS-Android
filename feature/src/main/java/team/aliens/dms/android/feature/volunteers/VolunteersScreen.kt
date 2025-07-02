@@ -36,10 +36,10 @@ fun VolunteersScreen(
         topBar = {
             DmsTopAppBar(
                 title = {
-                    Text(text = stringResource(id = R.string.sign_up_terms))
+                    Text(text = stringResource(id = R.string.volunteers_submit))
                 },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                             contentDescription = stringResource(id = R.string.top_bar_back_button),
