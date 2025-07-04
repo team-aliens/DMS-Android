@@ -104,3 +104,5 @@ val LargeVerticalSpace = PaddingDefaults.Medium
 val DefaultHorizontalSpace = PaddingDefaults.Small
 
 val LargeHorizontalSpace = PaddingDefaults.Medium
+
+val ExtraLargeVerticalSpace = PaddingDefaults.ExtraLarge

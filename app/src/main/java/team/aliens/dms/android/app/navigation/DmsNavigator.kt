@@ -36,10 +36,15 @@ import team.aliens.dms.android.feature.destinations.SignUpSetPasswordScreenDesti
 import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
 import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.TermsScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingApprovalScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingModelStudentScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingSelectedScreenDestination
+import team.aliens.dms.android.feature.destinations.VotingStudentScreenDestination
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordNavGraph
 import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
+import team.aliens.dms.android.feature.voting.navigation.VotingNavGraph
 import java.util.UUID
 
 class DmsNavigator(
@@ -234,6 +239,22 @@ class DmsNavigator(
 
     override fun openOutingApplication() {
         navController.navigateSingleTop(OutingApplicationScreenDestination within OutingNavGraph)
+    }
+
+    override fun openVotingApproval(voteOptionId: UUID, voteTopicTitle: String) {
+        navController.navigateSingleTop(VotingApprovalScreenDestination(voteOptionId, voteTopicTitle) within VotingNavGraph)
+    }
+
+    override fun openVotingModelStudent(voteOptionId: UUID, voteTopicTitle: String) {
+        navController.navigateSingleTop(VotingModelStudentScreenDestination(voteOptionId, voteTopicTitle) within VotingNavGraph)
+    }
+
+    override fun openVotingSelected(voteOptionId: UUID, voteTopicTitle: String) {
+        navController.navigateSingleTop(VotingSelectedScreenDestination(voteOptionId, voteTopicTitle) within VotingNavGraph)
+    }
+
+    override fun openVotingStudent(voteOptionId: UUID, voteTopicTitle: String) {
+        navController.navigateSingleTop(VotingStudentScreenDestination(voteOptionId, voteTopicTitle) within VotingNavGraph)
     }
 }
 
