@@ -11,6 +11,7 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.feature.signup.SignUpSideEffect
 import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import java.util.UUID
 import javax.inject.Inject
@@ -100,6 +101,8 @@ class ResetPasswordViewModel @Inject constructor(
             }
         }.onSuccess {
             postSideEffect(ResetPasswordSideEffect.SendEmailVerificationCodeSuccess)
+        }.onFailure {
+            postSideEffect(ResetPasswordSideEffect.EmailVerificationTooManyRequest)
         }
 
     private fun updateEmailVerificationCode(value: String) = run {
@@ -221,4 +224,5 @@ sealed class ResetPasswordSideEffect : SideEffect() {
     data object EmailVerificationCodeIncorrect : ResetPasswordSideEffect()
     data object EmailVerificationSessionReset : ResetPasswordSideEffect()
     data object EmailVerificationSessionResetFailed : ResetPasswordSideEffect()
+    data object EmailVerificationTooManyRequest : ResetPasswordSideEffect()
 }
