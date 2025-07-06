@@ -80,7 +80,7 @@ fun AccountVerificationScreen(
             )
 
             ResetPasswordSideEffect.EmailVerificationTooManyRequest -> toast.showErrorToast(
-                message = context.getString(R.string.reset_password_account_verification_error_too_many_request)
+                message = context.getString(R.string.reset_password_account_verification_error_too_many_request),
             )
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()

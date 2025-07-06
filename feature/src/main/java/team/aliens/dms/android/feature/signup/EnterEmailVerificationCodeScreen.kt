@@ -102,7 +102,7 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
             )
 
             SignUpSideEffect.EmailVerificationTooManyRequest -> toast.showErrorToast(
-                message = context.getString(R.string.reset_password_account_verification_error_too_many_request)
+                message = context.getString(R.string.reset_password_account_verification_error_too_many_request),
             )
 
             SignUpSideEffect.EmailVerificationSessionReset -> {
