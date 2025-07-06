@@ -101,6 +101,10 @@ internal fun SignUpEnterEmailVerificationCodeScreen(
                 message = context.getString(R.string.sign_up_enter_email_verification_code_error_verification_code_incorrect),
             )
 
+            SignUpSideEffect.EmailVerificationTooManyRequest -> toast.showErrorToast(
+                message = context.getString(R.string.sign_up_enter_email_verification_code_error_too_many_request)
+            )
+
             SignUpSideEffect.EmailVerificationSessionReset -> {
                 isVerificationInputAvailable = true
                 with(timer) {
