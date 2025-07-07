@@ -173,7 +173,7 @@ fun AccountVerificationScreen(
                             Text(text = stringResource(id = R.string.reset_password_account_verification_enter_email))
                         },
                         onValueChange = {
-                            viewModel.postIntent(ResetPasswordIntent.UpdateEmail(value = it))
+                            viewModel.postIntent(ResetPasswordIntent.UpdateEmail(value = it.trim()))
                         },
                     )
                 }

@@ -149,7 +149,7 @@ internal fun EnterEmailScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                value = uiState.email,
+                value = uiState.email.trim(),
                 hint = {
                     Text(text = stringResource(id = R.string.sign_up_enter_email))
                 },
