@@ -1,8 +1,11 @@
 package team.aliens.dms.android.feature.volunteers
 
+import android.media.session.MediaSession.Token
+import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -22,6 +25,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,8 +33,17 @@ import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 @Composable
 fun VolunteersScreen(
     modifier: Modifier = Modifier,
+    termsUrl: TermsUrl,
     navigator: VolunteersNavigator,
 ) {
+    val extraToken = mutableMapOf<String, String>()
+    extraToken.put("Authorization", "bearer eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzUxODgzMDk3LCJleHAiOjE3NTE4ODY2OTd9._QcBCh7v3SRgog_PJCVhmhu8vsUPOfi_O_AIi0u_EgJSfVB2lyRgngUzAZopFIVKDLS2xriSkHcvNy6H0bMd2w")
+    val theme = if (isSystemInDarkTheme()) {
+        "dark"
+    } else {
+        "light"
+    }
+    Log.d("TEST", termsUrl.value)
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -67,7 +80,7 @@ fun VolunteersScreen(
 
                         settings.javaScriptEnabled = true
 
-                        loadUrl( "https://webview.dms-dsm.com/volunteer/application")
+                        loadUrl( "https://webview.dms-dsm.com/volunteer/application" + "?theme=$theme", extraToken)
                     }
                 },
             )
