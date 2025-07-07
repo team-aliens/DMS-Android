@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -50,6 +52,7 @@ import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.screenPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.findid.navigator.FindIdNavigator
@@ -122,7 +125,8 @@ internal fun FindIdScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .horizontalPadding()
-                .imePadding(),
+                .imePadding()
+                .verticalScroll(rememberScrollState()),
         ) {
             Banner(
                 modifier = Modifier
@@ -141,6 +145,7 @@ internal fun FindIdScreen(
             ContainedButton(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .topPadding()
                     .bottomPadding(),
                 onClick = { viewModel.postIntent(FindIdIntent.FindId) },
                 enabled = uiState.buttonEnabled,
