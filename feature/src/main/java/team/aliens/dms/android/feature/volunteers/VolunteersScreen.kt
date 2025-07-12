@@ -1,10 +1,7 @@
 package team.aliens.dms.android.feature.volunteers
 
-import android.graphics.Bitmap
-import android.os.Message
 import android.util.Log
 import android.view.ViewGroup
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,13 +14,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
-import com.ramcosta.composedestinations.BuildConfig
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
@@ -81,7 +75,6 @@ fun VolunteersScreen(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,
                         )
-
                         settings.javaScriptEnabled = true
                         webViewClient = object : WebViewClient() {
                             override fun onLoadResource(view: WebView?, url: String?) {
@@ -104,7 +97,8 @@ fun VolunteersScreen(
                                 }
                             }
                         }
-                        loadUrl( "https://webview.dms-dsm.com/volunteer/application?theme=$theme", extraToken)
+                        evaluateJavascript("""widow.setAuthToken("accessToken", "refreshToken")""", null)
+                        loadUrl( "https://webview.dms-dsm.com/volunteer/application?theme=$theme")
                     }
                 },
             )
