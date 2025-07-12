@@ -97,7 +97,7 @@ class DmsNavigator(
         }
     }
 
-    override fun openVolunteer() {
+    override fun openVolunteer(webViewUrl: String, accessToken: String) {
         navController.navigateSingleTop(VolunteersScreenDestination within VolunteersNavGraph)
     }
 

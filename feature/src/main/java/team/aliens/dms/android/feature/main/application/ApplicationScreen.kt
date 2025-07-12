@@ -52,7 +52,7 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
-    onNavigateToVolunteers: () -> Unit,
+    onNavigateToVolunteers: (String, String) -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -84,7 +84,7 @@ internal fun ApplicationScreen(
                 },
                 description = stringResource(id = R.string.study_room_description),
                 buttonText = stringResource(id = R.string.study_room_do_application),
-                onButtonClick = onNavigateToVolunteers,
+                onButtonClick = { onNavigateToVolunteers("", "") },
             )
             ApplicationCard(
                 modifier = Modifier.fillMaxWidth(),
