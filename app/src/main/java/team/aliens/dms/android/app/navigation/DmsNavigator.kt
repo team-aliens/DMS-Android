@@ -98,7 +98,7 @@ class DmsNavigator(
     }
 
     override fun openVolunteer(webViewUrl: String, accessToken: String) {
-        navController.navigateSingleTop(VolunteersScreenDestination within VolunteersNavGraph)
+        navController.navigateSingleTop(VolunteersScreenDestination(webViewUrl, accessToken) within VolunteersNavGraph)
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
