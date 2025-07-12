@@ -1,6 +1,6 @@
 package team.aliens.dms.android.feature.volunteers
 
-import android.media.session.MediaSession.Token
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebView
@@ -15,17 +15,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.feature.R
-import team.aliens.dms.android.feature.signup.TermsUrl
 import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,17 +32,17 @@ import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 @Composable
 fun VolunteersScreen(
     modifier: Modifier = Modifier,
-    termsUrl: TermsUrl,
     navigator: VolunteersNavigator,
 ) {
     val extraToken = mutableMapOf<String, String>()
-    extraToken.put("Authorization", "bearer eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzUxODgzMDk3LCJleHAiOjE3NTE4ODY2OTd9._QcBCh7v3SRgog_PJCVhmhu8vsUPOfi_O_AIi0u_EgJSfVB2lyRgngUzAZopFIVKDLS2xriSkHcvNy6H0bMd2w")
+    extraToken.put("access_token", "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2NTM3MzczMC02MjY2LTYzMzMtMmQzNy02MjMxMzYyZDMxMzEiLCJhdXRob3JpdHkiOiJNQU5BR0VSIiwiaWF0IjoxNzUyMzI2ODU2LCJleHAiOjE3NTIzMzA0NTZ9.U8zPGrhmTocZUYhAHGd7sSdUb9z1ajemYHuhI_KWysljxsCpmYNtGesW6cyhfkZ6fjC5_CSfcXu7O6vUu_UL_A")
     val theme = if (isSystemInDarkTheme()) {
         "dark"
     } else {
         "light"
     }
-    Log.d("TEST", termsUrl.value)
+    var isRedirected = false
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -76,11 +75,29 @@ fun VolunteersScreen(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,
                         )
-                        webViewClient = WebViewClient()
-
                         settings.javaScriptEnabled = true
-
-                        loadUrl( "https://webview.dms-dsm.com/volunteer/application" + "?theme=$theme", extraToken)
+                        webViewClient = object : WebViewClient() {
+                            override fun onLoadResource(view: WebView?, url: String?) {
+                                Log.d("TEST", url.toString())
+                                Log.d("TEST", isRedirected.toString())
+                                if (isRedirected) return
+                                when (url) {
+                                    "https://webview.dms-dsm.com/volunteers/my/application" -> {
+                                        Log.d("TEST", "봉사 내역 확인 페이지")
+                                        isRedirected = true
+                                        loadUrl("https://webview.dms-dsm.com/volunteer/history?theme=$theme", extraToken)
+                                    }
+                                    "https://webview.dms-dsm.com/volunteer" -> {
+                                        Log.d("TEST", "봉시 신청 페이지")
+                                        isRedirected = true
+                                        loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme", extraToken)
+                                    }
+                                    else -> {
+                                    }
+                                }
+                            }
+                        }
+                        loadUrl( "https://webview.dms-dsm.com/volunteer/application?theme=$theme", extraToken)
                     }
                 },
             )
