@@ -1,8 +1,10 @@
 package team.aliens.dms.android.feature.volunteers
 
 import android.graphics.Bitmap
+import android.os.Message
 import android.util.Log
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -21,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
+import com.ramcosta.composedestinations.BuildConfig
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
@@ -32,10 +35,13 @@ import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 @Composable
 fun VolunteersScreen(
     modifier: Modifier = Modifier,
+    webViewUrl: String,
+    accessToken: String,
     navigator: VolunteersNavigator,
 ) {
     val extraToken = mutableMapOf<String, String>()
-    extraToken.put("access_token", "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2NTM3MzczMC02MjY2LTYzMzMtMmQzNy02MjMxMzYyZDMxMzEiLCJhdXRob3JpdHkiOiJNQU5BR0VSIiwiaWF0IjoxNzUyMzI2ODU2LCJleHAiOjE3NTIzMzA0NTZ9.U8zPGrhmTocZUYhAHGd7sSdUb9z1ajemYHuhI_KWysljxsCpmYNtGesW6cyhfkZ6fjC5_CSfcXu7O6vUu_UL_A")
+    extraToken.put("Authorization", accessToken)
+    Log.d("TEST", "$accessToken\n$webViewUrl")
     val theme = if (isSystemInDarkTheme()) {
         "dark"
     } else {
@@ -75,6 +81,7 @@ fun VolunteersScreen(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,
                         )
+
                         settings.javaScriptEnabled = true
                         webViewClient = object : WebViewClient() {
                             override fun onLoadResource(view: WebView?, url: String?) {
@@ -87,7 +94,7 @@ fun VolunteersScreen(
                                         isRedirected = true
                                         loadUrl("https://webview.dms-dsm.com/volunteer/history?theme=$theme", extraToken)
                                     }
-                                    "https://webview.dms-dsm.com/volunteer" -> {
+                                    "https://webview.dms-dsm.com/volunteers" -> {
                                         Log.d("TEST", "봉시 신청 페이지")
                                         isRedirected = true
                                         loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme", extraToken)
