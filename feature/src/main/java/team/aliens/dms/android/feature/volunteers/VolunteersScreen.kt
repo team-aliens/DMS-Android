@@ -1,7 +1,9 @@
 package team.aliens.dms.android.feature.volunteers
 
+import android.os.Build
 import android.util.Log
 import android.view.ViewGroup
+import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -21,6 +23,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 
@@ -31,17 +34,28 @@ fun VolunteersScreen(
     modifier: Modifier = Modifier,
     webViewUrl: String,
     accessToken: String,
+    refreshToken: String,
     navigator: VolunteersNavigator,
 ) {
-    val extraToken = mutableMapOf<String, String>()
-    extraToken.put("Authorization", accessToken)
-    Log.d("TEST", "$accessToken\n$webViewUrl")
+    val accessTokens = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzUyOTM0ODY1LCJleHAiOjE3NTI5Mzg0NjV9.sPtt3_2k1yHnq-E3icWhoFvL5d118R_oX63J72-Pp7eBCKSvB20o_ld4f07oo5jZE8FMziCgNY3Ap-p9bjyyYA"
+    val refreshTokens = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NTI5MzQ4NjUsImV4cCI6MTc1NDE0MDQ2NX0.QkKNVxye-Dmfd3YJ3gEHhtMtDEUo4kivnRY27ubxz_ys5kvYsHfTbIMUt2PZBNuh3Yr4WgRoCYAeic44iTIq7Q"
     val theme = if (isSystemInDarkTheme()) {
         "dark"
     } else {
         "light"
     }
     var isRedirected = false
+
+
+    val cookieManager = CookieManager.getInstance()
+    cookieManager.setAcceptCookie(true)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        //cookieManager.setAcceptThirdPartyCookies(, true)
+    }
+
+    cookieManager.setCookie("https://webview.dms-dsm.com", "Authorization=bearer $accessTokens")
+    cookieManager.flush()
 
     Scaffold(
         modifier = modifier,
@@ -85,19 +99,19 @@ fun VolunteersScreen(
                                     "https://webview.dms-dsm.com/volunteers/my/application" -> {
                                         Log.d("TEST", "봉사 내역 확인 페이지")
                                         isRedirected = true
-                                        loadUrl("https://webview.dms-dsm.com/volunteer/history?theme=$theme", extraToken)
+                                        loadUrl("https://webview.dms-dsm.com/volunteer/history?theme=$theme")
                                     }
                                     "https://webview.dms-dsm.com/volunteers" -> {
                                         Log.d("TEST", "봉시 신청 페이지")
                                         isRedirected = true
-                                        loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme", extraToken)
+                                        loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme")
                                     }
                                     else -> {
                                     }
                                 }
                             }
                         }
-                        evaluateJavascript("""widow.setAuthToken("accessToken", "refreshToken")""", null)
+                        evaluateJavascript("""window.setAuthToken("$accessTokens", "$refreshTokens")""", null)
                         loadUrl( "https://webview.dms-dsm.com/volunteer/application?theme=$theme")
                     }
                 },
