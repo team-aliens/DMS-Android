@@ -30,12 +30,16 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import org.threeten.bp.LocalDateTime
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.shadow
+import team.aliens.dms.android.core.jwt.AccessToken
+import team.aliens.dms.android.core.jwt.RefreshToken
+import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -52,7 +56,7 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
-    onNavigateToVolunteers: (String, String) -> Unit,
+    onNavigateToVolunteers: (String, String, String) -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -84,7 +88,7 @@ internal fun ApplicationScreen(
                 },
                 description = stringResource(id = R.string.study_room_description),
                 buttonText = stringResource(id = R.string.study_room_do_application),
-                onButtonClick = { onNavigateToVolunteers("", "") },
+                onButtonClick = { onNavigateToVolunteers("", "", "") },
             )
             ApplicationCard(
                 modifier = Modifier.fillMaxWidth(),

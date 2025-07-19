@@ -13,6 +13,7 @@ import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavGraph
 import team.aliens.dms.android.app.navigation.authorized.AuthorizedNavigator
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavGraph
 import team.aliens.dms.android.app.navigation.unauthorized.UnauthorizedNavigator
+import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.destinations.EditPasswordSetPasswordScreenDestination
 import team.aliens.dms.android.feature.destinations.EditProfileImageScreenDestination
@@ -97,8 +98,8 @@ class DmsNavigator(
         }
     }
 
-    override fun openVolunteer(webViewUrl: String, accessToken: String) {
-        navController.navigateSingleTop(VolunteersScreenDestination(webViewUrl, accessToken) within VolunteersNavGraph)
+    override fun openVolunteer(webViewUrl: String, accessToken: String, refreshToken: String) {
+        navController.navigateSingleTop(VolunteersScreenDestination(webViewUrl, accessToken, refreshToken) within VolunteersNavGraph)
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {
