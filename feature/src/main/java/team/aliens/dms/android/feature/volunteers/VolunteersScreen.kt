@@ -37,25 +37,14 @@ fun VolunteersScreen(
     refreshToken: String,
     navigator: VolunteersNavigator,
 ) {
-    val accessTokens = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzUyOTM0ODY1LCJleHAiOjE3NTI5Mzg0NjV9.sPtt3_2k1yHnq-E3icWhoFvL5d118R_oX63J72-Pp7eBCKSvB20o_ld4f07oo5jZE8FMziCgNY3Ap-p9bjyyYA"
-    val refreshTokens = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NTI5MzQ4NjUsImV4cCI6MTc1NDE0MDQ2NX0.QkKNVxye-Dmfd3YJ3gEHhtMtDEUo4kivnRY27ubxz_ys5kvYsHfTbIMUt2PZBNuh3Yr4WgRoCYAeic44iTIq7Q"
+    val accessTokens = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzU0MDUzNDQ4LCJleHAiOjE3NTQwNTcwNDh9.MQtX2ulrgpmGLhXu5xbR9FEkopeZaTeEKgVFVS6Q40skiQ6cGd0rBStKLyyUqYFGi2gnmBEu9Q-EehmGMGCvWQ"
+    val refreshTokens = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NTQwNTM0NDgsImV4cCI6MTc1NTI1OTA0OH0.xJIatq4C1-EP9C2UNjv8pKuFk7oC_7Moq_0by1IgWCXfuARM_X_t3bxPo6sFYUzb5z9EZsmpsfPLahs60TGqlg"
     val theme = if (isSystemInDarkTheme()) {
         "dark"
     } else {
         "light"
     }
     var isRedirected = false
-
-
-    val cookieManager = CookieManager.getInstance()
-    cookieManager.setAcceptCookie(true)
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        //cookieManager.setAcceptThirdPartyCookies(, true)
-    }
-
-    cookieManager.setCookie("https://webview.dms-dsm.com", "Authorization=bearer $accessTokens")
-    cookieManager.flush()
 
     Scaffold(
         modifier = modifier,
