@@ -37,14 +37,15 @@ fun VolunteersScreen(
     refreshToken: String,
     navigator: VolunteersNavigator,
 ) {
-    val accessTokens = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzU0MDUzNDQ4LCJleHAiOjE3NTQwNTcwNDh9.MQtX2ulrgpmGLhXu5xbR9FEkopeZaTeEKgVFVS6Q40skiQ6cGd0rBStKLyyUqYFGi2gnmBEu9Q-EehmGMGCvWQ"
-    val refreshTokens = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NTQwNTM0NDgsImV4cCI6MTc1NTI1OTA0OH0.xJIatq4C1-EP9C2UNjv8pKuFk7oC_7Moq_0by1IgWCXfuARM_X_t3bxPo6sFYUzb5z9EZsmpsfPLahs60TGqlg"
+    val accessTokens = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzU0MzA4NTQzLCJleHAiOjE3NTQzMTIxNDN9.itupcJ2VlqYt9I1rJZsJXvv_FizGpPsDFPzltfbIu_bpfULKYdaU4Hph3jUN3KfLZZ8B48seOXoIGQEnWMKJOA"
+    val refreshTokens = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NTQzMDg1NDMsImV4cCI6MTc1NTUxNDE0M30.n6xR18jYV7QfBYzcd2_5w924FUujrRj7eqQqfubObomT9DTsUcOFwZW8wjBDzfV7aBxrSKimxVEjq3eSTgXTbA"
     val theme = if (isSystemInDarkTheme()) {
         "dark"
     } else {
         "light"
     }
     var isRedirected = false
+    var isTokenSet = false
 
     Scaffold(
         modifier = modifier,
@@ -80,17 +81,24 @@ fun VolunteersScreen(
                         )
                         settings.javaScriptEnabled = true
                         webViewClient = object : WebViewClient() {
+                            override fun onPageFinished(
+                                view: WebView?,
+                                url: String?,
+                            ) {
+                                if (!isTokenSet) {
+                                    view?.evaluateJavascript("window.setAuthToken('$accessToken', '$refreshToken')", null)
+                                    isTokenSet = true
+                                }
+                            }
+
                             override fun onLoadResource(view: WebView?, url: String?) {
-                                Log.d("TEST", url.toString())
-                                Log.d("TEST", isRedirected.toString())
-                                if (isRedirected) return
-                                when (url) {
-                                    "https://webview.dms-dsm.com/volunteers/my/application" -> {
+                                when {
+                                    url == "https://dev-api.dms-dsm.com/volunteers/my/application" && !url.contains("?theme=") -> {
                                         Log.d("TEST", "봉사 내역 확인 페이지")
                                         isRedirected = true
                                         loadUrl("https://webview.dms-dsm.com/volunteer/history?theme=$theme")
                                     }
-                                    "https://webview.dms-dsm.com/volunteers" -> {
+                                    url == "https://dev-api.dms-dsm.com/volunteers" && !url.contains("?theme=") -> {
                                         Log.d("TEST", "봉시 신청 페이지")
                                         isRedirected = true
                                         loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme")
@@ -100,8 +108,7 @@ fun VolunteersScreen(
                                 }
                             }
                         }
-                        evaluateJavascript("""window.setAuthToken("$accessTokens", "$refreshTokens")""", null)
-                        loadUrl( "https://webview.dms-dsm.com/volunteer/application?theme=$theme")
+                        loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme")
                     }
                 },
             )
