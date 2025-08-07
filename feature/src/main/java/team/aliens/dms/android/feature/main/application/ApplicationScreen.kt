@@ -8,6 +8,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -183,6 +186,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
+                                        isVoted = it.isVoted,
                                         onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
                                     )
                                 }
@@ -192,6 +196,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
+                                        isVoted = it.isVoted,
                                         onButtonClick = {
                                             onNavigateToSelectedVote(it.id, it.topicName)
                                         },
@@ -203,6 +208,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
+                                        isVoted = it.isVoted,
                                         onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
                                     )
                                 }
@@ -212,6 +218,7 @@ internal fun ApplicationScreen(
                                         topEndTimeTitle = it.endTime,
                                         title = it.topicName,
                                         description = it.description,
+                                        isVoted = it.isVoted,
                                         onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
                                     )
                                 }
@@ -312,10 +319,11 @@ private fun VoteCard(
     title: String,
     description: String,
     appliedTitle: String? = null,
-    buttonText: String = "투표하기",
+    isVoted: Boolean,
     onButtonClick: () -> Unit,
 ) {
     val formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm")
+    val buttonText = if (isVoted) "투표하기" else "투표 종료"
 
     Text(
         modifier = modifier
@@ -389,6 +397,7 @@ private fun VoteCard(
                     .horizontalPadding()
                     .bottomPadding(28.dp),
                 onClick = onButtonClick,
+                enabled = isVoted
             ) {
                 Text(text = buttonText)
             }

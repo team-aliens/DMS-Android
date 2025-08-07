@@ -61,6 +61,7 @@ class VotingViewModel @Inject constructor(
             runCatching {
                 votingRepository.fetchAllVoteSearch()
             }.onSuccess { fetchedVoteSearch ->
+                // TODO : 2번 실행되는 이유 확인
                 reduce(
                     newState = stateFlow.value.copy(
                         modelStudentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.MODEL_STUDENT_VOTE },
