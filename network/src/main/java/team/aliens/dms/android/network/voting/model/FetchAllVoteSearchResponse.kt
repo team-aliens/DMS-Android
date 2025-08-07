@@ -12,5 +12,6 @@ data class FetchAllVoteSearchResponse(
         @SerializedName("start_time") val startTime: String,
         @SerializedName("end_time") val endTime: String,
         @SerializedName("vote_type") val voteType: String,
+        @SerializedName("is_voted") val isVoted: Boolean,
     )
 }
