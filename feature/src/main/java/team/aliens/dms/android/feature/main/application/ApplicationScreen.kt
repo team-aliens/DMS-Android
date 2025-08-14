@@ -112,6 +112,26 @@ internal fun ApplicationScreen(
                     .align(Alignment.Start),
                 state = pagerState,
             ) { page ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    repeat(2) { index ->
+                        val color = if (pagerState.currentPage == index)
+                            DmsTheme.colorScheme.backgroundVariant
+                        else
+                            DmsTheme.colorScheme.onSurfaceVariant
+                        Box(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .clip(CircleShape)
+                                .background(color)
+                                .size(8.dp),
+                        )
+                    }
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -119,26 +139,6 @@ internal fun ApplicationScreen(
                         .bottomPadding(100.dp),
                     verticalArrangement = Arrangement.Top,
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        repeat(2) { index ->
-                            val color = if (pagerState.currentPage == index)
-                                DmsTheme.colorScheme.backgroundVariant
-                            else
-                                DmsTheme.colorScheme.onSurfaceVariant
-                            Box(
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .clip(CircleShape)
-                                    .background(color)
-                                    .size(8.dp),
-                            )
-                        }
-                    }
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(30.dp),
