@@ -8,7 +8,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,8 +28,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -119,10 +116,11 @@ internal fun ApplicationScreen(
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     repeat(2) { index ->
-                        val color = if (pagerState.currentPage == index)
+                        val color = if (pagerState.currentPage == index) {
                             DmsTheme.colorScheme.backgroundVariant
-                        else
+                        } else {
                             DmsTheme.colorScheme.onSurfaceVariant
+                        }
                         Box(
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
@@ -397,7 +395,7 @@ private fun VoteCard(
                     .horizontalPadding()
                     .bottomPadding(28.dp),
                 onClick = onButtonClick,
-                enabled = isVoted
+                enabled = isVoted,
             ) {
                 Text(text = buttonText)
             }
