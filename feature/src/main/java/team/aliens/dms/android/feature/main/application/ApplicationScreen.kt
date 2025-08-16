@@ -115,7 +115,7 @@ internal fun ApplicationScreen(
                         .padding(vertical = 16.dp),
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    repeat(2) { index ->
+                    repeat(pagerState.pageCount) { index ->
                         val color = if (pagerState.currentPage == index) {
                             DmsTheme.colorScheme.backgroundVariant
                         } else {
