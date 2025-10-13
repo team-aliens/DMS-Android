@@ -101,6 +101,7 @@
     <string name="sign_up_enter_email_verification_code_error_cannot_resend_verification_code">인증 코드를 재발송할 수 없습니다</string>
     <string name="sign_up_enter_email_verification_code_error_verification_code_incorrect">인증 코드가 일치하지 않습니다</string>
     <string name="sign_up_enter_email_verification_code_error_timeout">인증 시간이 만료되었습니다</string>
+    <string name="sign_up_enter_email_verification_code_error_too_many_request">요청이 너무 많습니다 잠시 후 다시 시도해주세요</string>
     <string name="sign_up_send_email_verification_code">인증 코드 발송</string>
     <string name="sign_up_email_resent">이메일이 재전송되었습니다</string>
     <string name="sign_up_email_please_enter_verification_code">이메일로 전송된 인증코드 6자리를 입력해 주세요</string>
@@ -375,6 +376,7 @@
     <string name="reset_password_account_verification_identification_verification">본인확인 인증</string>
     <string name="reset_password_account_verification_success_account_id_matches_email">아이디와 일치하는 이메일입니다</string>
     <string name="reset_password_account_verification_enter_account_id_invalid_format">아이디 형식이 일치하지 않습니다.</string>
+    <string name="reset_password_account_verification_error_too_many_request">요청이 너무 많습니다 잠시 후 다시 시도해주세요</string>
     <string name="reset_password_account_verification_enter_student_name">이름 입력</string>
     <string name="reset_password_account_verification_enter_email">이메일 입력</string>
     <string name="reset_password_set_password_password_success_changed">비밀번호가 변경되었습니다.</string>

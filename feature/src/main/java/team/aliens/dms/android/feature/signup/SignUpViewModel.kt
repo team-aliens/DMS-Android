@@ -132,11 +132,16 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private suspend fun sendEmailVerificationCode(email: String) =
-        authRepository.sendEmailVerificationCode(
-            email = email,
-            type = EmailVerificationType.SIGNUP,
-        )
+    private suspend fun sendEmailVerificationCode(email: String) {
+        runCatching {
+            authRepository.sendEmailVerificationCode(
+                email = email,
+                type = EmailVerificationType.SIGNUP,
+            )
+        }.onFailure {
+            postSideEffect(SignUpSideEffect.EmailVerificationTooManyRequest)
+        }
+    }
 
     private fun updateEmailVerificationCode(value: String) = run {
         if (value.length > EMAIL_VERIFICATION_CODE_LENGTH) {
@@ -438,6 +443,7 @@ sealed class SignUpSideEffect : SideEffect() {
     data object EmailVerificationCodeIncorrect : SignUpSideEffect()
     data object EmailVerificationSessionReset : SignUpSideEffect()
     data object EmailVerificationSessionResetFailed : SignUpSideEffect()
+    data object EmailVerificationTooManyRequest : SignUpSideEffect()
 
     // SetId
     class UserFound(val studentName: String) : SignUpSideEffect()
