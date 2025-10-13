@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.main.application
 
+import android.R.id.tabs
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -13,10 +14,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -24,17 +29,25 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -45,6 +58,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.ExtraLargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -71,6 +85,8 @@ internal fun ApplicationScreen(
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
+    var selectedTab by remember { mutableStateOf(0) }
+    val tabs = listOf("신청", "투표")
 
     LocalLifecycleOwner.current.lifecycle.addObserver(viewModel)
 
@@ -79,19 +95,45 @@ internal fun ApplicationScreen(
         topBar = {
             DmsTopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 12.dp),
-                        contentAlignment = Alignment.Center,
+                    Column(
+                        modifier = Modifier.background(Color.White)
                     ) {
-                        Text(
-                            text = when (pagerState.currentPage) {
-                                0 -> stringResource(R.string.application)
-                                else -> stringResource(R.string.voting_submit)
-                            },
-                            textAlign = TextAlign.Center,
-                            style = DmsTheme.typography.body2,
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            tabs.forEachIndexed { index, title ->
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight()
+                                        .clickable { selectedTab = index },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = title,
+                                        style = DmsTheme.typography.body2,
+                                        color = Color.Black,
+                                    )
+                                    if (selectedTab == index) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(2.dp)
+                                                .background( if (selectedTab == index) Color.Black else DmsTheme.colorScheme.line)
+                                                .align(Alignment.BottomCenter)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.dp)
+                                .background(Color(0xFFE5E5E5))
                         )
                     }
                 },
@@ -109,27 +151,6 @@ internal fun ApplicationScreen(
                     .align(Alignment.Start),
                 state = pagerState,
             ) { page ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    repeat(pagerState.pageCount) { index ->
-                        val color = if (pagerState.currentPage == index) {
-                            DmsTheme.colorScheme.backgroundVariant
-                        } else {
-                            DmsTheme.colorScheme.onSurfaceVariant
-                        }
-                        Box(
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp)
-                                .clip(CircleShape)
-                                .background(color)
-                                .size(8.dp),
-                        )
-                    }
-                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -141,7 +162,7 @@ internal fun ApplicationScreen(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(30.dp),
                     ) {
-                        when (page) {
+                        when (selectedTab) {
                             0 -> {
                                 items(1) {
 //                                    ApplicationCard(
@@ -195,9 +216,7 @@ internal fun ApplicationScreen(
                                         title = it.topicName,
                                         description = it.description,
                                         isVoted = it.isVoted,
-                                        onButtonClick = {
-                                            onNavigateToSelectedVote(it.id, it.topicName)
-                                        },
+                                        onButtonClick = { onNavigateToSelectedVote(it.id, it.topicName) },
                                     )
                                 }
                                 items(uiState.studentVoteList) {
@@ -321,7 +340,7 @@ private fun VoteCard(
     onButtonClick: () -> Unit,
 ) {
     val formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm")
-    val buttonText = if (isVoted) "투표하기" else "투표 종료"
+    val buttonText = if (isVoted) "투표 종료" else "투표하기"
 
     Text(
         modifier = modifier
@@ -395,7 +414,7 @@ private fun VoteCard(
                     .horizontalPadding()
                     .bottomPadding(28.dp),
                 onClick = onButtonClick,
-                enabled = isVoted,
+                enabled = !isVoted,
             ) {
                 Text(text = buttonText)
             }
