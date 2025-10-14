@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.main.application
 
-import android.R.id.tabs
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
@@ -14,40 +13,31 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -74,7 +64,6 @@ import java.util.UUID
 @Composable
 internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
-    onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
     onNavigateToModelStudent: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
@@ -85,7 +74,7 @@ internal fun ApplicationScreen(
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("신청", "투표")
 
     LocalLifecycleOwner.current.lifecycle.addObserver(viewModel)
@@ -96,13 +85,13 @@ internal fun ApplicationScreen(
             DmsTopAppBar(
                 title = {
                     Column(
-                        modifier = Modifier.background(Color.White)
+                        modifier = Modifier,
                     ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(56.dp),
-                            horizontalArrangement = Arrangement.Center
+                            horizontalArrangement = Arrangement.Center,
                         ) {
                             tabs.forEachIndexed { index, title ->
                                 Box(
@@ -110,20 +99,20 @@ internal fun ApplicationScreen(
                                         .weight(1f)
                                         .fillMaxHeight()
                                         .clickable { selectedTab = index },
-                                    contentAlignment = Alignment.Center
+                                    contentAlignment = Alignment.Center,
                                 ) {
                                     Text(
                                         text = title,
                                         style = DmsTheme.typography.body2,
-                                        color = Color.Black,
+                                        color = DmsTheme.colorScheme.onBackground,
                                     )
                                     if (selectedTab == index) {
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .height(2.dp)
-                                                .background( if (selectedTab == index) Color.Black else DmsTheme.colorScheme.line)
-                                                .align(Alignment.BottomCenter)
+                                                .background(if (selectedTab == index) DmsTheme.colorScheme.onBackground else DmsTheme.colorScheme.line)
+                                                .align(Alignment.BottomCenter),
                                         )
                                     }
                                 }
@@ -133,7 +122,7 @@ internal fun ApplicationScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(1.dp)
-                                .background(Color(0xFFE5E5E5))
+                                .background(Color(0xFFE5E5E5)),
                         )
                     }
                 },
@@ -148,7 +137,7 @@ internal fun ApplicationScreen(
             HorizontalPager(
                 modifier = modifier
                     .fillMaxSize()
-                    .align(Alignment.Start),
+                    .align(Alignment.CenterHorizontally),
                 state = pagerState,
             ) { page ->
                 Column(
@@ -156,7 +145,7 @@ internal fun ApplicationScreen(
                         .fillMaxSize()
                         .padding(horizontal = 16.dp)
                         .bottomPadding(100.dp),
-                    verticalArrangement = Arrangement.Top,
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -165,22 +154,6 @@ internal fun ApplicationScreen(
                         when (selectedTab) {
                             0 -> {
                                 items(1) {
-//                                    ApplicationCard(
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .topPadding(),
-//                                        title = stringResource(id = R.string.study_room_application),
-//                                        appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
-//                                            stringResource(
-//                                                id = R.string.format_study_room_applied_text,
-//                                                studyRoom.floor,
-//                                                studyRoom.name,
-//                                            )
-//                                        },
-//                                        description = stringResource(id = R.string.study_room_description),
-//                                        buttonText = stringResource(id = R.string.study_room_do_application),
-//                                        onButtonClick = onNavigateToStudyRoomList,
-//                                    )
                                     ApplicationCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         title = stringResource(id = R.string.remains_application),
@@ -199,45 +172,62 @@ internal fun ApplicationScreen(
                                 }
                             }
                             1 -> {
-                                items(uiState.modelStudentVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        isVoted = it.isVoted,
-                                        onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
-                                    )
-                                }
-                                items(uiState.selectedVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        isVoted = it.isVoted,
-                                        onButtonClick = { onNavigateToSelectedVote(it.id, it.topicName) },
-                                    )
-                                }
-                                items(uiState.studentVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        isVoted = it.isVoted,
-                                        onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
-                                    )
-                                }
-                                items(uiState.approvalVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        isVoted = it.isVoted,
-                                        onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
-                                    )
+                                if (uiState.studentVoteList.isEmpty() && uiState.modelStudentVoteList.isEmpty() && uiState.approvalVoteList.isEmpty() && uiState.selectedVoteList.isEmpty()) {
+                                    items(1) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillParentMaxHeight(),
+                                            contentAlignment = Alignment.Center,
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.not_vote_time),
+                                                style = DmsTheme.typography.body2,
+                                                textAlign = TextAlign.Center,
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    items(uiState.modelStudentVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
+                                        )
+                                    }
+                                    items(uiState.selectedVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToSelectedVote(it.id, it.topicName) },
+                                        )
+                                    }
+                                    items(uiState.studentVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
+                                        )
+                                    }
+                                    items(uiState.approvalVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
+                                        )
+                                    }
                                 }
                             }
                         }
