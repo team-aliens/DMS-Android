@@ -26,5 +26,5 @@ interface MainNavigator {
 
     fun openOutingNav()
 
-    fun openVolunteer(webViewUrl: String, accessToken: String, refreshToken: String,)
+    fun openVolunteer()
 }

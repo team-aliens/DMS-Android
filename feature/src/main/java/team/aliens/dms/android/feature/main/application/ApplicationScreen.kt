@@ -37,9 +37,6 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.shadow
-import team.aliens.dms.android.core.jwt.AccessToken
-import team.aliens.dms.android.core.jwt.RefreshToken
-import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.core.ui.DefaultVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
@@ -56,7 +53,7 @@ internal fun ApplicationScreen(
     onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
-    onNavigateToVolunteers: (String, String, String) -> Unit,
+    onNavigateToVolunteers: () -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -75,22 +72,6 @@ internal fun ApplicationScreen(
                 .padding(padValues),
         ) {
             ApplicationCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .topPadding(),
-                title = stringResource(id = R.string.study_room_application),
-                appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
-                    stringResource(
-                        id = R.string.format_study_room_applied_text,
-                        studyRoom.floor,
-                        studyRoom.name,
-                    )
-                },
-                description = stringResource(id = R.string.study_room_description),
-                buttonText = stringResource(id = R.string.study_room_do_application),
-                onButtonClick = { onNavigateToVolunteers("", "", "") },
-            )
-            ApplicationCard(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(id = R.string.remains_application),
                 appliedTitle = uiState.appliedRemainsOption?.title,
@@ -104,6 +85,15 @@ internal fun ApplicationScreen(
                 description = stringResource(id = R.string.outing_description),
                 buttonText = stringResource(id = R.string.outing_do_application),
                 onButtonClick = onNavigateToOuting,
+            )
+            ApplicationCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
+                title = stringResource(id = R.string.volunteers_application),
+                description = stringResource(id = R.string.volunteers_description),
+                buttonText = stringResource(id = R.string.volunteers_do_description),
+                onButtonClick = onNavigateToVolunteers,
             )
         }
     }
