@@ -390,5 +390,8 @@
     <string name="edit_profile_fail">프로필 변경에 실패했습니다</string>
 
     <!--  volunteers  -->
-    <string name="volunteers_submit">봉사 신청</string>
+    <string name="volunteers">봉사 신청</string>
+    <string name="volunteers_application">봉사 신청</string>
+    <string name="volunteers_description">학생들이 직접 봉사 활동을 신청하고\n신청한 활동에 참여할 수 있습니다.</string>
+    <string name="volunteers_do_description">봉사 신청하기</string>
 </resources>
