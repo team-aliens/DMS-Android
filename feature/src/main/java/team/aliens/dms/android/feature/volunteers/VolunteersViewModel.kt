@@ -13,9 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VolunteersViewModel @Inject constructor(
-    private val jwtDataStoreDataSource: JwtDataStoreDataSource
+    private val jwtDataStoreDataSource: JwtDataStoreDataSource,
 ) : BaseMviViewModel<VolunteersState, VolunteersIntent, VolunteersSideEffect>(
-    initialState = VolunteersState.initial()
+    initialState = VolunteersState.initial(),
 ) {
     init {
         loadToken()
@@ -26,7 +26,7 @@ class VolunteersViewModel @Inject constructor(
             newState = stateFlow.value.copy(
                 accessToken = jwtDataStoreDataSource.loadTokens().accessToken,
                 refreshToken = jwtDataStoreDataSource.loadTokens().refreshToken,
-            )
+            ),
         )
     }
 }
