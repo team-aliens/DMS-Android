@@ -1,31 +1,30 @@
 package team.aliens.dms.android.feature.volunteers
 
-import android.os.Build
+import android.app.Activity
 import android.util.Log
 import android.view.ViewGroup
-import android.webkit.CookieManager
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
 import com.ramcosta.composedestinations.annotation.Destination
-import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.Scaffold
-import team.aliens.dms.android.core.jwt.Tokens
-import team.aliens.dms.android.feature.R
+import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
+import team.aliens.dms.android.network.BuildConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -44,26 +43,12 @@ fun VolunteersScreen(
     } else {
         "light"
     }
+
     var isRedirected = false
     var isTokenSet = false
 
     Scaffold(
-        modifier = modifier,
-        topBar = {
-            DmsTopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.volunteers_submit))
-                },
-                navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                            contentDescription = stringResource(id = R.string.top_bar_back_button),
-                        )
-                    }
-                },
-            )
-        },
+        modifier = modifier.background(color = DmsTheme.colorScheme.background),
     ) { padValues ->
         Column(
             modifier = Modifier
@@ -81,34 +66,51 @@ fun VolunteersScreen(
                         )
                         settings.javaScriptEnabled = true
                         webViewClient = object : WebViewClient() {
+                            private val redirectedUrls = mutableSetOf<String>()
+
                             override fun onPageFinished(
                                 view: WebView?,
                                 url: String?,
                             ) {
                                 if (!isTokenSet) {
-                                    view?.evaluateJavascript("window.setAuthToken('$accessToken', '$refreshToken')", null)
+                                    view?.evaluateJavascript(
+                                        "window.setAuthToken('$accessToken', '$refreshToken')",
+                                        null
+                                    )
                                     isTokenSet = true
                                 }
                             }
 
-                            override fun onLoadResource(view: WebView?, url: String?) {
-                                when {
-                                    url == "https://dev-api.dms-dsm.com/volunteers/my/application" && !url.contains("?theme=") -> {
-                                        Log.d("TEST", "봉사 내역 확인 페이지")
-                                        isRedirected = true
-                                        loadUrl("https://webview.dms-dsm.com/volunteer/history?theme=$theme")
-                                    }
-                                    url == "https://dev-api.dms-dsm.com/volunteers" && !url.contains("?theme=") -> {
-                                        Log.d("TEST", "봉시 신청 페이지")
-                                        isRedirected = true
-                                        loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme")
-                                    }
-                                    else -> {
-                                    }
+                            override fun doUpdateVisitedHistory(
+                                view: WebView?,
+                                url: String?,
+                                isReload: Boolean
+                            ) {
+                                super.doUpdateVisitedHistory(view, url, isReload)
+                                Log.d(
+                                    "WEBVIEW_DEBUG",
+                                    "doUpdateVisitedHistory - URL: $url, isReload: $isReload"
+                                )
+
+                                if (url == null || isReload || redirectedUrls.contains(url)) return
+
+                                // 이미 theme 있으면 통과
+                                if (url.contains("theme=")) {
+                                    return
+                                }
+
+                                // volunteer URL인데 theme 없으면 리다이렉트
+                                if (url.contains("/volunteer")) {
+                                    val separator = if (url.contains("?")) "&" else "?"
+                                    val urlWithTheme = "$url${separator}theme=$theme"
+                                    Log.d("WEBVIEW_DEBUG", "✅ 테마 추가: $urlWithTheme")
+
+                                    redirectedUrls.add(urlWithTheme)
+                                    view?.loadUrl(urlWithTheme)
                                 }
                             }
                         }
-                        loadUrl("https://webview.dms-dsm.com/volunteer/application?theme=$theme")
+                        loadUrl("${BuildConfig.TERMS_URL}volunteer/application?theme=$theme")
                     }
                 },
             )
