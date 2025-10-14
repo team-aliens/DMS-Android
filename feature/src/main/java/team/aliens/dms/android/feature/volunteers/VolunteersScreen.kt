@@ -13,16 +13,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 import team.aliens.dms.android.network.BuildConfig
 
@@ -31,24 +38,35 @@ import team.aliens.dms.android.network.BuildConfig
 @Composable
 fun VolunteersScreen(
     modifier: Modifier = Modifier,
-    webViewUrl: String,
-    accessToken: String,
-    refreshToken: String,
     navigator: VolunteersNavigator,
 ) {
-    val accessTokens = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzU0MzA4NTQzLCJleHAiOjE3NTQzMTIxNDN9.itupcJ2VlqYt9I1rJZsJXvv_FizGpPsDFPzltfbIu_bpfULKYdaU4Hph3jUN3KfLZZ8B48seOXoIGQEnWMKJOA"
-    val refreshTokens = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NTQzMDg1NDMsImV4cCI6MTc1NTUxNDE0M30.n6xR18jYV7QfBYzcd2_5w924FUujrRj7eqQqfubObomT9DTsUcOFwZW8wjBDzfV7aBxrSKimxVEjq3eSTgXTbA"
+    val accessToken = "eyJKV1QiOiJhY2Nlc3MiLCJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJhdXRob3JpdHkiOiJTVFVERU5UIiwiaWF0IjoxNzYwNDE4MDIzLCJleHAiOjE3NjA0MjE2MjN9.NEjMHn-Ddbm4Y29ySh-XFF0n5vFx4KT8D6vpr10cWa20U95dhSGhPOIwq6uIoAHFVyjag5m9ZL3P6pMHz7bIew"
+    val refreshToken = "eyJKV1QiOiJyZWZyZXNoIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJmZmFlNDhmNS1lNGYwLTExZWUtYjMyMi03ZDRmZmIxYWIzZDciLCJpYXQiOjE3NjA0MTgwMjMsImV4cCI6MTc2MTYyMzYyM30.N5IorFvyZNA4HA7GCuC0sDUgC4VAT4dz34ZPa3Xhin--1GVy-ApI7WDl4Iu5sp_AIAGvMEXDkKjGJsAylr3ZaA"
     val theme = if (isSystemInDarkTheme()) {
         "dark"
     } else {
         "light"
     }
 
-    var isRedirected = false
     var isTokenSet = false
 
     Scaffold(
         modifier = modifier.background(color = DmsTheme.colorScheme.background),
+        topBar = {
+            DmsTopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.volunteers))
+                },
+                navigationIcon = {
+                    IconButton(onClick = navigator::navigateUp) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+                            contentDescription = stringResource(id = R.string.top_bar_back_button),
+                        )
+                    }
+                },
+            )
+        }
     ) { padValues ->
         Column(
             modifier = Modifier
