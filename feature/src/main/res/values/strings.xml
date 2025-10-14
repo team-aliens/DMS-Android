@@ -396,4 +396,5 @@
     <string name="second_grade">2학년</string>
     <string name="senior_grade">3학년</string>
     <string name="make_vote">투표하기</string>
+    <string name="not_vote_time">투표 기간이 아닙니다.</string>
 </resources>
