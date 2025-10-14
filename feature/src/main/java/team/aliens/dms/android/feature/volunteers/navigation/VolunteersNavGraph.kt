@@ -4,13 +4,11 @@ import com.ramcosta.composedestinations.dynamic.routedIn
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
-import team.aliens.dms.android.feature.destinations.StudyRoomDetailsScreenDestination
-import team.aliens.dms.android.feature.destinations.StudyRoomListScreenDestination
 import team.aliens.dms.android.feature.destinations.VolunteersScreenDestination
 
 object VolunteersNavGraph : NavGraphSpec {
     override val route: String = "volunteers"
-    override val startRoute: Route = VolunteersScreenDestination
+    override val startRoute: Route = VolunteersScreenDestination routedIn this
     override val destinationsByRoute: Map<String, DestinationSpec<*>> =
         listOf(
             VolunteersScreenDestination,
