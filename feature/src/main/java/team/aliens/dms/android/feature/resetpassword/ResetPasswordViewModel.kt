@@ -100,6 +100,8 @@ class ResetPasswordViewModel @Inject constructor(
             }
         }.onSuccess {
             postSideEffect(ResetPasswordSideEffect.SendEmailVerificationCodeSuccess)
+        }.onFailure {
+            postSideEffect(ResetPasswordSideEffect.EmailVerificationTooManyRequest)
         }
 
     private fun updateEmailVerificationCode(value: String) = run {
@@ -221,4 +223,5 @@ sealed class ResetPasswordSideEffect : SideEffect() {
     data object EmailVerificationCodeIncorrect : ResetPasswordSideEffect()
     data object EmailVerificationSessionReset : ResetPasswordSideEffect()
     data object EmailVerificationSessionResetFailed : ResetPasswordSideEffect()
+    data object EmailVerificationTooManyRequest : ResetPasswordSideEffect()
 }

@@ -10,6 +10,8 @@ import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
 import team.aliens.dms.android.feature.point.navigation.PointHistoryNavigator
 import team.aliens.dms.android.feature.remains.navigator.RemainsNavigator
 import team.aliens.dms.android.feature.studyroom.navigation.StudyRoomNavigator
+import team.aliens.dms.android.feature.voting.navigation.VotingNavigator
+import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 
 interface AuthorizedNavigator :
     MainNavigator,
@@ -21,4 +23,6 @@ interface AuthorizedNavigator :
     PointHistoryNavigator,
     RemainsNavigator,
     StudyRoomNavigator,
-    OutingNavigator
+    OutingNavigator,
+    VotingNavigator,
+    VolunteersNavigator

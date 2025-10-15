@@ -45,6 +45,7 @@ import team.aliens.dms.android.core.designsystem.slideInFromStart
 import team.aliens.dms.android.core.designsystem.slideOutFromEnd
 import team.aliens.dms.android.core.designsystem.slideOutFromStart
 import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms.android.feature.main.application.ApplicationScreen
 import team.aliens.dms.android.feature.main.home.HomeScreen
@@ -121,9 +122,13 @@ internal fun Main(
                 },
             ) {
                 ApplicationScreen(
-                    onNavigateToStudyRoomList = mainNavigator::openStudyRoomList,
                     onNavigateToRemains = mainNavigator::openRemainsApplication,
                     onNavigateToOuting = mainNavigator::openOutingNav,
+                    onNavigateToVolunteers = mainNavigator::openVolunteer,
+                    onNavigateToModelStudent = mainNavigator::openVotingModelStudent,
+                    onNavigateToApprovalVote = mainNavigator::openVotingApproval,
+                    onNavigateToStudentVote = mainNavigator::openVotingStudent,
+                    onNavigateToSelectedVote = mainNavigator::openVotingSelected,
                 )
             }
 
@@ -244,22 +249,22 @@ private enum class MainSections(
     HOME(
         route = "home",
         iconRes = DmsIcon.Home,
-        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_home,
+        labelRes = R.string.bottom_nav_home,
     ),
     APPLICATION(
         route = "application",
         iconRes = DmsIcon.Applicate,
-        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_application,
+        labelRes = R.string.bottom_nav_application,
     ),
     ANNOUNCEMENT_LIST(
         route = "announcement_list",
         iconRes = DmsIcon.Notice,
-        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_announcement_list,
+        labelRes = R.string.bottom_nav_announcement_list,
     ),
     MY_PAGE(
         route = "my_page",
         iconRes = DmsIcon.Person,
-        labelRes = team.aliens.dms.android.feature.R.string.bottom_nav_my_page,
+        labelRes = R.string.bottom_nav_my_page,
     ),
     ;
 }
