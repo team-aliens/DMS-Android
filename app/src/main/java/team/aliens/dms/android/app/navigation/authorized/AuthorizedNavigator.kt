@@ -23,4 +23,6 @@ interface AuthorizedNavigator :
     PointHistoryNavigator,
     RemainsNavigator,
     StudyRoomNavigator,
-    OutingNavigator
+    OutingNavigator,
+    VotingNavigator,
+    VolunteersNavigator
