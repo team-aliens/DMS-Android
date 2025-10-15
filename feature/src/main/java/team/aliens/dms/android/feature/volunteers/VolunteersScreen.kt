@@ -101,12 +101,10 @@ fun VolunteersScreen(
 
                                 if (url == null || isReload || redirectedUrls.contains(url)) return
 
-                                // 이미 theme 있으면 통과
                                 if (url.contains("theme=")) {
                                     return
                                 }
 
-                                // volunteer URL인데 theme 없으면 리다이렉트
                                 if (url.contains("/volunteer")) {
                                     val separator = if (url.contains("?")) "&" else "?"
                                     val urlWithTheme = "$url${separator}theme=$theme"
