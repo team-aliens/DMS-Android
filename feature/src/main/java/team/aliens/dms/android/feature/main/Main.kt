@@ -124,6 +124,7 @@ internal fun Main(
                 ApplicationScreen(
                     onNavigateToRemains = mainNavigator::openRemainsApplication,
                     onNavigateToOuting = mainNavigator::openOutingNav,
+                    onNavigateToVolunteers = mainNavigator::openVolunteer,
                     onNavigateToModelStudent = mainNavigator::openVotingModelStudent,
                     onNavigateToApprovalVote = mainNavigator::openVotingApproval,
                     onNavigateToStudentVote = mainNavigator::openVotingStudent,

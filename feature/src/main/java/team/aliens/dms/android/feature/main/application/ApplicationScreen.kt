@@ -66,6 +66,7 @@ internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
+    onNavigateToVolunteers: () -> Unit,
     onNavigateToModelStudent: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
     onNavigateToApprovalVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
     onNavigateToStudentVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
@@ -314,6 +315,15 @@ private fun ApplicationCard(
             ) {
                 Text(text = buttonText)
             }
+            ApplicationCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
+                title = stringResource(id = R.string.volunteers_application),
+                description = stringResource(id = R.string.volunteers_description),
+                buttonText = stringResource(id = R.string.volunteers_do_description),
+                onButtonClick = onNavigateToVolunteers,
+            )
         }
     }
 }

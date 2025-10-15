@@ -45,6 +45,7 @@ import team.aliens.dms.android.feature.outing.navigation.OutingNavGraph
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavGraph
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavGraph
 import team.aliens.dms.android.feature.voting.navigation.VotingNavGraph
+import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavGraph
 import java.util.UUID
 
 class DmsNavigator(
@@ -98,6 +99,10 @@ class DmsNavigator(
         navController.navigateSingleTop(OutingNavGraph) {
             restoreState = true
         }
+    }
+
+    override fun openVolunteer() {
+        navController.navigateSingleTop(VolunteersNavGraph)
     }
 
     override fun openEditPasswordSetPassword(currentPassword: String) {

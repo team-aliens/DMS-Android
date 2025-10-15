@@ -32,6 +32,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -59,7 +60,9 @@ dependencies {
     implementation(project(ProjectPaths.Core.DESIGN_SYSTEM))
     implementation(project(ProjectPaths.Core.FILE))
     implementation(project(ProjectPaths.Core.NOTIFICATION))
+    implementation(project(ProjectPaths.Core.JWT))
 
+    implementation(project(ProjectPaths.NETWORK))
     implementation(project(ProjectPaths.DATA))
 
     implementation(libs.androidx.core)
