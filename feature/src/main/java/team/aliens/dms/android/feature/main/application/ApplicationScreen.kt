@@ -324,6 +324,15 @@ private fun ApplicationCard(
             ) {
                 Text(text = buttonText)
             }
+            ApplicationCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .topPadding(),
+                title = stringResource(id = R.string.volunteers_application),
+                description = stringResource(id = R.string.volunteers_description),
+                buttonText = stringResource(id = R.string.volunteers_do_description),
+                onButtonClick = onNavigateToVolunteers,
+            )
         }
     }
 }
