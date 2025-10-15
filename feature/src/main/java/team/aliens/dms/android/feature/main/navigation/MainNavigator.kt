@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.main.navigation
 
+import team.aliens.dms.android.core.jwt.Tokens
 import team.aliens.dms.android.data.point.model.PointType
 import java.util.UUID
 
@@ -32,4 +33,6 @@ interface MainNavigator {
     fun openVotingSelected(voteOptionId: UUID, voteTopicTitle: String)
 
     fun openVotingStudent(voteOptionId: UUID, voteTopicTitle: String)
+
+    fun openVolunteer()
 }
