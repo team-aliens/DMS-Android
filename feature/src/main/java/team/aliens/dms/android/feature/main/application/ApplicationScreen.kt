@@ -13,24 +13,27 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +48,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
+import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.ExtraLargeVerticalSpace
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -60,7 +64,6 @@ import java.util.UUID
 @Composable
 internal fun ApplicationScreen(
     modifier: Modifier = Modifier,
-    onNavigateToStudyRoomList: () -> Unit,
     onNavigateToRemains: () -> Unit,
     onNavigateToOuting: () -> Unit,
     onNavigateToModelStudent: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
@@ -71,6 +74,8 @@ internal fun ApplicationScreen(
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { 2 })
+    var selectedTab by remember { mutableIntStateOf(0) }
+    val tabs = listOf("신청", "투표")
 
     LocalLifecycleOwner.current.lifecycle.addObserver(viewModel)
 
@@ -79,19 +84,45 @@ internal fun ApplicationScreen(
         topBar = {
             DmsTopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 12.dp),
-                        contentAlignment = Alignment.Center,
+                    Column(
+                        modifier = Modifier,
                     ) {
-                        Text(
-                            text = when (pagerState.currentPage) {
-                                0 -> stringResource(R.string.application)
-                                else -> stringResource(R.string.voting_submit)
-                            },
-                            textAlign = TextAlign.Center,
-                            style = DmsTheme.typography.body2,
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            tabs.forEachIndexed { index, title ->
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight()
+                                        .clickable { selectedTab = index },
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Text(
+                                        text = title,
+                                        style = DmsTheme.typography.body2,
+                                        color = DmsTheme.colorScheme.onBackground,
+                                    )
+                                    if (selectedTab == index) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(2.dp)
+                                                .background(if (selectedTab == index) DmsTheme.colorScheme.onBackground else DmsTheme.colorScheme.line)
+                                                .align(Alignment.BottomCenter),
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.dp)
+                                .background(Color(0xFFE5E5E5)),
                         )
                     }
                 },
@@ -106,7 +137,7 @@ internal fun ApplicationScreen(
             HorizontalPager(
                 modifier = modifier
                     .fillMaxSize()
-                    .align(Alignment.Start),
+                    .align(Alignment.CenterHorizontally),
                 state = pagerState,
             ) { page ->
                 Column(
@@ -114,51 +145,15 @@ internal fun ApplicationScreen(
                         .fillMaxSize()
                         .padding(horizontal = 16.dp)
                         .bottomPadding(100.dp),
-                    verticalArrangement = Arrangement.Top,
+                    verticalArrangement = Arrangement.Center,
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        repeat(2) { index ->
-                            val color = if (pagerState.currentPage == index)
-                                DmsTheme.colorScheme.backgroundVariant
-                            else
-                                DmsTheme.colorScheme.onSurfaceVariant
-                            Box(
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .clip(CircleShape)
-                                    .background(color)
-                                    .size(8.dp),
-                            )
-                        }
-                    }
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(30.dp),
                     ) {
-                        when (page) {
+                        when (selectedTab) {
                             0 -> {
                                 items(1) {
-//                                    ApplicationCard(
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .topPadding(),
-//                                        title = stringResource(id = R.string.study_room_application),
-//                                        appliedTitle = uiState.appliedStudyRoom?.let { studyRoom ->
-//                                            stringResource(
-//                                                id = R.string.format_study_room_applied_text,
-//                                                studyRoom.floor,
-//                                                studyRoom.name,
-//                                            )
-//                                        },
-//                                        description = stringResource(id = R.string.study_room_description),
-//                                        buttonText = stringResource(id = R.string.study_room_do_application),
-//                                        onButtonClick = onNavigateToStudyRoomList,
-//                                    )
                                     ApplicationCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         title = stringResource(id = R.string.remains_application),
@@ -177,43 +172,62 @@ internal fun ApplicationScreen(
                                 }
                             }
                             1 -> {
-                                items(uiState.modelStudentVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
-                                    )
-                                }
-                                items(uiState.selectedVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        onButtonClick = {
-                                            onNavigateToSelectedVote(it.id, it.topicName)
-                                        },
-                                    )
-                                }
-                                items(uiState.studentVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
-                                    )
-                                }
-                                items(uiState.approvalVoteList) {
-                                    VoteCard(
-                                        topStartTimeTitle = it.startTime,
-                                        topEndTimeTitle = it.endTime,
-                                        title = it.topicName,
-                                        description = it.description,
-                                        onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
-                                    )
+                                if (uiState.studentVoteList.isEmpty() && uiState.modelStudentVoteList.isEmpty() && uiState.approvalVoteList.isEmpty() && uiState.selectedVoteList.isEmpty()) {
+                                    items(1) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillParentMaxHeight(),
+                                            contentAlignment = Alignment.Center,
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.not_vote_time),
+                                                style = DmsTheme.typography.body2,
+                                                textAlign = TextAlign.Center,
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    items(uiState.modelStudentVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
+                                        )
+                                    }
+                                    items(uiState.selectedVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToSelectedVote(it.id, it.topicName) },
+                                        )
+                                    }
+                                    items(uiState.studentVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
+                                        )
+                                    }
+                                    items(uiState.approvalVoteList) {
+                                        VoteCard(
+                                            topStartTimeTitle = it.startTime,
+                                            topEndTimeTitle = it.endTime,
+                                            title = it.topicName,
+                                            description = it.description,
+                                            isVoted = it.isVoted,
+                                            onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -312,10 +326,11 @@ private fun VoteCard(
     title: String,
     description: String,
     appliedTitle: String? = null,
-    buttonText: String = "투표하기",
+    isVoted: Boolean,
     onButtonClick: () -> Unit,
 ) {
     val formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm")
+    val buttonText = if (isVoted) "투표 종료" else "투표하기"
 
     Text(
         modifier = modifier
@@ -389,6 +404,7 @@ private fun VoteCard(
                     .horizontalPadding()
                     .bottomPadding(28.dp),
                 onClick = onButtonClick,
+                enabled = !isVoted,
             ) {
                 Text(text = buttonText)
             }

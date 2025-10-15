@@ -10,4 +10,5 @@ data class AllVoteSearch(
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     val voteType: Vote,
+    val isVoted: Boolean,
 )

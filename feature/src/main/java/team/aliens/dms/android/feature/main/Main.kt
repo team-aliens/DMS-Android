@@ -122,7 +122,6 @@ internal fun Main(
                 },
             ) {
                 ApplicationScreen(
-                    onNavigateToStudyRoomList = mainNavigator::openStudyRoomList,
                     onNavigateToRemains = mainNavigator::openRemainsApplication,
                     onNavigateToOuting = mainNavigator::openOutingNav,
                     onNavigateToModelStudent = mainNavigator::openVotingModelStudent,

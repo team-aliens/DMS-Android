@@ -21,6 +21,7 @@ private fun FetchAllVoteSearchResponse.VoteSearchResponse.toModel(): AllVoteSear
         startTime = this.startTime.toLocalDateTime(),
         endTime = this.endTime.toLocalDateTime(),
         voteType = Vote.valueOf(this.voteType),
+        isVoted = this.isVoted,
     )
 
 internal fun FetchCheckVotingItemResponse.toModel(): List<VotingItem> =
