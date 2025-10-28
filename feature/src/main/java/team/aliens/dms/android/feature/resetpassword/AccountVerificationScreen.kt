@@ -83,14 +83,13 @@ fun AccountVerificationScreen(
                 message = context.getString(R.string.reset_password_account_verification_account_id_does_not_exist),
             )
 
-            ResetPasswordSideEffect.EmailVerificationTooManyRequest -> toast.showErrorToast(
-                message = context.getString(R.string.reset_password_account_verification_error_too_many_request),
+            ResetPasswordSideEffect.EmailVerificationUserNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.reset_password_account_verification_error_user_not_found),
             )
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
 
-            else -> { /* explicit blank */
-            }
+            else -> { /* explicit blank */ }
         }
     }
 
