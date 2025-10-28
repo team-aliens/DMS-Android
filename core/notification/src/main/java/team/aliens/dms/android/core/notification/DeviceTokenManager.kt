@@ -4,6 +4,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
 import javax.inject.Inject
 
@@ -15,13 +17,9 @@ class DeviceTokenManager @Inject constructor(
     }
 
     suspend fun fetchDeviceToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                // TODO: Handle error
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                notificationRepository.saveDeviceToken(deviceToken = task.result)
-            }
+        val token = FirebaseMessaging.getInstance().token.await()
+        withContext(Dispatchers.IO) {
+            notificationRepository.saveDeviceToken(deviceToken = token)
         }
     }
 }
