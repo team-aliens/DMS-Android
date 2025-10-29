@@ -49,6 +49,7 @@ import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
+import team.aliens.dms.android.shared.validator.checkIfEmailValid
 
 // TODO Pop backstack
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,6 +79,10 @@ fun AccountVerificationScreen(
 
             ResetPasswordSideEffect.EmailVerificationUserNotFound -> toast.showErrorToast(
                 message = context.getString(R.string.reset_password_account_verification_error_user_not_found),
+            )
+
+            ResetPasswordSideEffect.InvalidEmailFormat -> toast.showErrorToast(
+                message = context.getString(R.string.reset_password_account_verification_error_invalid_email_format)
             )
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
@@ -190,9 +195,10 @@ fun AccountVerificationScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+
                     viewModel.postIntent(
                         ResetPasswordIntent.SendEmailVerificationCode(
-                            uiState.email, // TODO :: 이메일 정규식 적용
+                            uiState.email,
                         ),
                     )
                 },

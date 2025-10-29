@@ -1,6 +1,6 @@
 package team.aliens.dms.android.feature.resetpassword
 
-import android.util.Log
+import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +16,7 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.shared.validator.checkIfEmailValid
 import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import java.util.UUID
 import javax.inject.Inject
@@ -114,6 +115,10 @@ class ResetPasswordViewModel @Inject constructor(
 
     private fun sendEmailVerificationCode(email: String) =
         viewModelScope.launch(Dispatchers.IO) {
+            if (!checkIfEmailValid(email)) {
+                postSideEffect(ResetPasswordSideEffect.InvalidEmailFormat)
+                return@launch
+            }
             runCatching {
                 authRepository.sendEmailVerificationCode(
                     email = email,
@@ -246,4 +251,5 @@ sealed class ResetPasswordSideEffect : SideEffect() {
     data object EmailVerificationSessionReset : ResetPasswordSideEffect()
     data object EmailVerificationSessionResetFailed : ResetPasswordSideEffect()
     data object EmailVerificationUserNotFound : ResetPasswordSideEffect()
+    data object InvalidEmailFormat :  ResetPasswordSideEffect()
 }
