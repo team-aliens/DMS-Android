@@ -64,14 +64,7 @@ fun AccountVerificationScreen(
     val context = LocalContext.current
     val (idChecked, onChangeIdChecked) = rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(uiState.accountId) {
-        if (uiState.accountId.isNotEmpty()) {
-            delay(300L)
-            viewModel.postIntent(ResetPasswordIntent.CheckAccountId)
-        }
-    }
-
-    val isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) }
+    val isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) } // TODO :: sideeffect로 true 구현
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
@@ -144,6 +137,7 @@ fun AccountVerificationScreen(
                     null
                 },
                 isError = isAccountIdError,
+                readOnly = idChecked,
             )
             AnimatedVisibility(
                 modifier = Modifier.fillMaxWidth(),
@@ -198,7 +192,7 @@ fun AccountVerificationScreen(
                 onClick = {
                     viewModel.postIntent(
                         ResetPasswordIntent.SendEmailVerificationCode(
-                            uiState.email,
+                            uiState.email, // TODO :: 이메일 정규식 적용
                         ),
                     )
                 },
