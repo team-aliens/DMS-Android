@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,7 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,9 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import kotlinx.coroutines.delay
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -60,15 +62,6 @@ fun AccountVerificationScreen(
     val context = LocalContext.current
     val (idChecked, onChangeIdChecked) = rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(uiState.accountId) {
-        if (uiState.accountId.isNotEmpty()) {
-            delay(300L)
-            viewModel.postIntent(ResetPasswordIntent.CheckAccountId)
-        }
-    }
-
-    val isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) }
-
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             ResetPasswordSideEffect.AccountIdExists -> {
@@ -79,14 +72,17 @@ fun AccountVerificationScreen(
                 message = context.getString(R.string.reset_password_account_verification_account_id_does_not_exist),
             )
 
-            ResetPasswordSideEffect.EmailVerificationTooManyRequest -> toast.showErrorToast(
-                message = context.getString(R.string.reset_password_account_verification_error_too_many_request),
+            ResetPasswordSideEffect.EmailVerificationUserNotFound -> toast.showErrorToast(
+                message = context.getString(R.string.reset_password_account_verification_error_user_not_found),
+            )
+
+            ResetPasswordSideEffect.InvalidEmailFormat -> toast.showErrorToast(
+                message = context.getString(R.string.reset_password_account_verification_error_invalid_email_format)
             )
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
 
-            else -> { /* explicit blank */
-            }
+            else -> { /* explicit blank */ }
         }
     }
 
@@ -112,7 +108,8 @@ fun AccountVerificationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padValues)
-                .imePadding(),
+                .imePadding()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(DefaultVerticalSpace),
         ) {
             Banner(
@@ -134,12 +131,13 @@ fun AccountVerificationScreen(
                     Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id))
                 },
                 onValueChange = { viewModel.postIntent(ResetPasswordIntent.UpdateAccountId(value = it)) },
-                supportingText = if (isAccountIdError) {
+                supportingText = if (uiState.isAccountIdError) {
                     { Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id_invalid_format)) }
                 } else {
                     null
                 },
-                isError = isAccountIdError,
+                isError = uiState.isAccountIdError,
+                readOnly = idChecked,
             )
             AnimatedVisibility(
                 modifier = Modifier.fillMaxWidth(),
@@ -167,6 +165,9 @@ fun AccountVerificationScreen(
                         onValueChange = {
                             viewModel.postIntent(ResetPasswordIntent.UpdateStudentName(value = it))
                         },
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Next
+                        ),
                     )
                     TextField(
                         modifier = Modifier
@@ -189,6 +190,7 @@ fun AccountVerificationScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
+
                     viewModel.postIntent(
                         ResetPasswordIntent.SendEmailVerificationCode(
                             uiState.email,
