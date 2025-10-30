@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.resetpassword
 
-import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -105,10 +104,16 @@ class ResetPasswordViewModel @Inject constructor(
             reduce(
                 newState = stateFlow.value.copy(
                     hashedEmail = it,
+                    isAccountIdError = false,
                 ),
             )
             postSideEffect(ResetPasswordSideEffect.AccountIdExists)
         }.onFailure {
+            reduce(
+                newState = stateFlow.value.copy(
+                    isAccountIdError = true,
+                ),
+            )
             postSideEffect(ResetPasswordSideEffect.AccountIdNotExists)
         }
     }
@@ -209,6 +214,7 @@ data class ResetPasswordUiState(
     val newPasswordRepeat: String,
     val hashedEmail: String,
     val sessionId: UUID,
+    val isAccountIdError: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = ResetPasswordUiState(
@@ -220,6 +226,7 @@ data class ResetPasswordUiState(
             newPasswordRepeat = "",
             hashedEmail = "",
             sessionId = UUID.randomUUID(),
+            isAccountIdError = false
         )
     }
 }

@@ -19,7 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import kotlinx.coroutines.delay
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -49,7 +47,6 @@ import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordNavigator
-import team.aliens.dms.android.shared.validator.checkIfEmailValid
 
 // TODO Pop backstack
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,8 +61,6 @@ fun AccountVerificationScreen(
     val toast = LocalToast.current
     val context = LocalContext.current
     val (idChecked, onChangeIdChecked) = rememberSaveable { mutableStateOf(false) }
-
-    val isAccountIdError by rememberSaveable(uiState.accountId) { mutableStateOf(false) } // TODO :: sideeffect로 true 구현
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
@@ -136,12 +131,12 @@ fun AccountVerificationScreen(
                     Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id))
                 },
                 onValueChange = { viewModel.postIntent(ResetPasswordIntent.UpdateAccountId(value = it)) },
-                supportingText = if (isAccountIdError) {
+                supportingText = if (uiState.isAccountIdError) {
                     { Text(text = stringResource(id = R.string.reset_password_account_verification_enter_account_id_invalid_format)) }
                 } else {
                     null
                 },
-                isError = isAccountIdError,
+                isError = uiState.isAccountIdError,
                 readOnly = idChecked,
             )
             AnimatedVisibility(
