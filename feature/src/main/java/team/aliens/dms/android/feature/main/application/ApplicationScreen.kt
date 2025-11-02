@@ -145,7 +145,7 @@ internal fun ApplicationScreen(
                 ) {
                     when (selectedTab) {
                         0 -> {
-                            items(1) {
+                            item {
                                 ApplicationCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     title = stringResource(id = R.string.remains_application),
@@ -174,7 +174,7 @@ internal fun ApplicationScreen(
                         }
                         1 -> {
                             if (uiState.studentVoteList.isEmpty() && uiState.modelStudentVoteList.isEmpty() && uiState.approvalVoteList.isEmpty() && uiState.selectedVoteList.isEmpty()) {
-                                items(1) {
+                                item {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -237,6 +237,8 @@ internal fun ApplicationScreen(
         }
     }
 }
+
+
 
 @Composable
 private fun ApplicationCard(
