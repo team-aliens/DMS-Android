@@ -19,8 +19,8 @@ internal class AnnouncementListViewModel @Inject constructor(
 ) : BaseMviViewModel<AnnouncementListUiState, AnnouncementIntent, AnnouncementSideEffect>(
     initialState = AnnouncementListUiState.initial(),
 ) {
-    private lateinit var noticesAscByDate: List<Notice>
-    private lateinit var noticesDescByDate: List<Notice>
+    private var noticesAscByDate: List<Notice> = emptyList()
+    private var noticesDescByDate: List<Notice> = emptyList()
 
     init {
         fetchNotices()
@@ -47,14 +47,14 @@ internal class AnnouncementListViewModel @Inject constructor(
     }
 
     private fun updateOrder(order: Order): Boolean = reduce(
-        newState = stateFlow.value.copy(
-            selectedOrder = order,
-            notices = when (order) {
-                Order.NEW -> this.noticesAscByDate
-                Order.OLD -> this.noticesDescByDate
-            },
-        ),
-    )
+            newState = stateFlow.value.copy(
+                selectedOrder = order,
+                notices = when (order) {
+                    Order.NEW -> this.noticesAscByDate
+                    Order.OLD -> this.noticesDescByDate
+                },
+            ),
+        )
 }
 
 internal data class AnnouncementListUiState(
