@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,6 +27,7 @@ import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
@@ -53,9 +55,16 @@ internal fun PointHistoryScreen(
 ) {
     val viewModel: PointHistoryViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.fetchPoints(pointType)
+        viewModel.sideEffectFlow.collect {
+            when (it) {
+                is PointHistorySideEffect.FetchPointError -> toast.showErrorToast(context.getString(R.string.point_history_error))
+            }
+        }
     }
 
     Scaffold(
@@ -91,10 +100,7 @@ internal fun PointHistoryScreen(
             )
             Text(
                 modifier = Modifier.startPadding(),
-                text = stringResource(
-                    id = R.string.format_point,
-                    uiState.totalPoints ?: 0, // TODO
-                ),
+                text = stringResource(id = R.string.format_point, uiState.totalPoints ?: 0), // TODO
                 style = DmsTheme.typography.headline1,
                 color = DmsTheme.colorScheme.surfaceVariant,
             )

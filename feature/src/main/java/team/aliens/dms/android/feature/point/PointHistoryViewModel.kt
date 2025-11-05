@@ -20,13 +20,13 @@ internal class PointHistoryViewModel @Inject constructor(
 ) : BaseMviViewModel<PointHistoryUiState, PointHistoryIntent, PointHistorySideEffect>(
     initialState = PointHistoryUiState.initial(),
 ) {
-    private lateinit var allPoints: List<Point>
+    private var allPoints: List<Point> = emptyList()
     private var scoreOfAllPoints by Delegates.notNull<Int>()
 
-    private lateinit var bonusPoints: List<Point>
+    private var bonusPoints: List<Point> = emptyList()
     private var scoreOfBonusPoints by Delegates.notNull<Int>()
 
-    private lateinit var minusPoints: List<Point>
+    private var minusPoints: List<Point> = emptyList()
     private var scoreOfMinusPoints by Delegates.notNull<Int>()
 
     override fun processIntent(intent: PointHistoryIntent) {
@@ -52,6 +52,8 @@ internal class PointHistoryViewModel @Inject constructor(
                 this@PointHistoryViewModel.scoreOfMinusPoints = minusPoints.sumOf { it.score }
 
                 updatePoints(pointType)
+            }.onFailure {
+                postSideEffect(PointHistorySideEffect.FetchPointError)
             }
         }
     }
@@ -91,4 +93,6 @@ internal sealed class PointHistoryIntent : Intent() {
     class UpdateSelectedPointType(val pointType: PointType) : PointHistoryIntent()
 }
 
-internal sealed class PointHistorySideEffect : SideEffect()
+internal sealed class PointHistorySideEffect : SideEffect() {
+    data object FetchPointError : PointHistorySideEffect()
+}
