@@ -3,6 +3,10 @@ package team.aliens.dms.android.feature.resetpassword
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
 import team.aliens.dms.android.core.ui.mvi.Intent
@@ -11,9 +15,12 @@ import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.auth.model.EmailVerificationType
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.shared.validator.checkIfEmailValid
 import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import java.util.UUID
 import javax.inject.Inject
+
+const val SEARCH_DEBOUNCE_MILLIS = 1000L
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
@@ -26,6 +33,10 @@ class ResetPasswordViewModel @Inject constructor(
        그다음 아이디를 입력 받은 다음에 "이메일 검증이라는 Api를 사용하여 이메일과 아이디를 서버에 보낸뒤 이 값들이 정보와 일치하는지 검사합니다."
        검사에서 가능이 뜨게 된다면 "이메일 인증번호 보내기 APi"를 사용해서 사용자 이메일에 이메일을 발송합니다.
        그리고 이메일 인증번호 확인 Api를 사용하여 인증을 완료하고 Students의 비밀번호 재설정 Api를 사용하여 재설정합니다.*/
+
+    init {
+        debounceName()
+    }
 
     override fun processIntent(intent: ResetPasswordIntent) {
         when (intent) {
@@ -40,6 +51,17 @@ class ResetPasswordViewModel @Inject constructor(
             is ResetPasswordIntent.UpdateEmail -> this.updateEmail(value = intent.value)
             is ResetPasswordIntent.SendEmailVerificationCode -> this.sendEmailVerificationCode(email = intent.value)
             is ResetPasswordIntent.UpdateNewPasswordRepeat -> updateNewPasswordRepeat(value = intent.value)
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun debounceName() {
+        viewModelScope.launch {
+            stateFlow.map { it.accountId }.distinctUntilChanged().debounce(SEARCH_DEBOUNCE_MILLIS).collect {
+                if (it.isNotBlank()) {
+                    checkIdExists()
+                }
+            }
         }
     }
 
@@ -82,30 +104,40 @@ class ResetPasswordViewModel @Inject constructor(
             reduce(
                 newState = stateFlow.value.copy(
                     hashedEmail = it,
+                    isAccountIdError = false,
                 ),
             )
             postSideEffect(ResetPasswordSideEffect.AccountIdExists)
         }.onFailure {
+            reduce(
+                newState = stateFlow.value.copy(
+                    isAccountIdError = true,
+                ),
+            )
             postSideEffect(ResetPasswordSideEffect.AccountIdNotExists)
         }
     }
 
     private fun sendEmailVerificationCode(email: String) =
-        runCatching {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (!checkIfEmailValid(email)) {
+                postSideEffect(ResetPasswordSideEffect.InvalidEmailFormat)
+                return@launch
+            }
+            runCatching {
                 authRepository.sendEmailVerificationCode(
                     email = email,
                     type = EmailVerificationType.PASSWORD,
                 )
+            }.onSuccess {
+                postSideEffect(ResetPasswordSideEffect.SendEmailVerificationCodeSuccess)
+            }.onFailure {
+                postSideEffect(ResetPasswordSideEffect.EmailVerificationUserNotFound)
             }
-        }.onSuccess {
-            postSideEffect(ResetPasswordSideEffect.SendEmailVerificationCodeSuccess)
-        }.onFailure {
-            postSideEffect(ResetPasswordSideEffect.EmailVerificationTooManyRequest)
         }
 
     private fun updateEmailVerificationCode(value: String) = run {
-        if (value.length > ResetPasswordViewModel.EMAIL_VERIFICATION_CODE_LENGTH) {
+        if (value.length > EMAIL_VERIFICATION_CODE_LENGTH) {
             return@run false
         }
         reduce(newState = stateFlow.value.copy(emailVerificationCode = value))
@@ -182,6 +214,7 @@ data class ResetPasswordUiState(
     val newPasswordRepeat: String,
     val hashedEmail: String,
     val sessionId: UUID,
+    val isAccountIdError: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = ResetPasswordUiState(
@@ -193,6 +226,7 @@ data class ResetPasswordUiState(
             newPasswordRepeat = "",
             hashedEmail = "",
             sessionId = UUID.randomUUID(),
+            isAccountIdError = false
         )
     }
 }
@@ -223,5 +257,6 @@ sealed class ResetPasswordSideEffect : SideEffect() {
     data object EmailVerificationCodeIncorrect : ResetPasswordSideEffect()
     data object EmailVerificationSessionReset : ResetPasswordSideEffect()
     data object EmailVerificationSessionResetFailed : ResetPasswordSideEffect()
-    data object EmailVerificationTooManyRequest : ResetPasswordSideEffect()
+    data object EmailVerificationUserNotFound : ResetPasswordSideEffect()
+    data object InvalidEmailFormat :  ResetPasswordSideEffect()
 }

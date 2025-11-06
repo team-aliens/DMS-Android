@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.point
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,15 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
@@ -53,9 +55,16 @@ internal fun PointHistoryScreen(
 ) {
     val viewModel: PointHistoryViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val toast = LocalToast.current
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.fetchPoints(pointType)
+        viewModel.sideEffectFlow.collect {
+            when (it) {
+                is PointHistorySideEffect.FetchPointError -> toast.showErrorToast(context.getString(R.string.point_history_error))
+            }
+        }
     }
 
     Scaffold(
@@ -91,10 +100,7 @@ internal fun PointHistoryScreen(
             )
             Text(
                 modifier = Modifier.startPadding(),
-                text = stringResource(
-                    id = R.string.format_point,
-                    uiState.totalPoints ?: 0, // TODO
-                ),
+                text = stringResource(id = R.string.format_point, uiState.totalPoints ?: 0), // TODO
                 style = DmsTheme.typography.headline1,
                 color = DmsTheme.colorScheme.surfaceVariant,
             )
@@ -120,21 +126,20 @@ private fun PointFilter(
     ) {
         PointType.entries.forEach { type ->
             val selected = selectedType == type
-            if (selected) {
-                ContainedButton(
-                    onClick = { },
-                    fillMinSize = false,
-                ) {
-                    Text(text = type.text)
-                }
-            } else {
-                OutlinedButton(
-                    onClick = { onPointTypeSelected(type) },
-                    colors = ButtonDefaults.outlinedGrayButtonColors(),
-                    fillMinSize = false,
-                ) {
-                    Text(text = type.text)
-                }
+            OutlinedButton(
+                onClick = if (selected) { {} } else { { onPointTypeSelected(type) } },
+                colors = if (selected) {
+                    ButtonDefaults.containedButtonColors()
+                } else {
+                    ButtonDefaults.outlinedGrayButtonColors()
+                },
+                border = if (selected) null else BorderStroke(
+                    width = ButtonDefaults.OutlineWidth,
+                    color = DmsTheme.colorScheme.backgroundVariant,
+                ),
+                fillMinSize = false,
+            ) {
+                Text(text = type.text)
             }
         }
     }

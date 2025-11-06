@@ -19,9 +19,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,6 +55,7 @@ import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.R
 import java.util.UUID
 
@@ -74,7 +74,6 @@ internal fun ApplicationScreen(
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
-    val pagerState = rememberPagerState(pageCount = { 2 })
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("신청", "투표")
 
@@ -135,115 +134,144 @@ internal fun ApplicationScreen(
                 .fillMaxSize()
                 .padding(padValues),
         ) {
-            HorizontalPager(
-                modifier = modifier
+            Column(
+                modifier = Modifier
                     .fillMaxSize()
-                    .align(Alignment.CenterHorizontally),
-                state = pagerState,
-            ) { page ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp)
-                        .bottomPadding(100.dp),
-                    verticalArrangement = Arrangement.Center,
+                    .padding(horizontal = 16.dp)
+                    .bottomPadding(100.dp),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(30.dp),
                 ) {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(30.dp),
-                    ) {
-                        when (selectedTab) {
-                            0 -> {
-                                items(1) {
-                                    ApplicationCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        title = stringResource(id = R.string.remains_application),
-                                        appliedTitle = uiState.appliedRemainsOption?.title,
-                                        description = stringResource(id = R.string.remains_description),
-                                        buttonText = stringResource(id = R.string.remains_do_application),
-                                        onButtonClick = onNavigateToRemains,
-                                    )
-                                    ApplicationCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        title = stringResource(id = R.string.outing_application),
-                                        description = stringResource(id = R.string.outing_description),
-                                        buttonText = stringResource(id = R.string.outing_do_application),
-                                        onButtonClick = onNavigateToOuting,
-                                    )
-                                    ApplicationCard(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .topPadding(),
-                                        title = stringResource(id = R.string.volunteers_application),
-                                        description = stringResource(id = R.string.volunteers_description),
-                                        buttonText = stringResource(id = R.string.volunteers_do_description),
-                                        onButtonClick = onNavigateToVolunteers,
-                                    )
-                                }
-                            }
-                            1 -> {
-                                if (uiState.studentVoteList.isEmpty() && uiState.modelStudentVoteList.isEmpty() && uiState.approvalVoteList.isEmpty() && uiState.selectedVoteList.isEmpty()) {
-                                    items(1) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .fillParentMaxHeight(),
-                                            contentAlignment = Alignment.Center,
-                                        ) {
-                                            Text(
-                                                text = stringResource(R.string.not_vote_time),
-                                                style = DmsTheme.typography.body2,
-                                                textAlign = TextAlign.Center,
-                                            )
-                                        }
-                                    }
-                                } else {
-                                    items(uiState.modelStudentVoteList) {
-                                        VoteCard(
-                                            topStartTimeTitle = it.startTime,
-                                            topEndTimeTitle = it.endTime,
-                                            title = it.topicName,
-                                            description = it.description,
-                                            isVoted = it.isVoted,
-                                            onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
-                                        )
-                                    }
-                                    items(uiState.selectedVoteList) {
-                                        VoteCard(
-                                            topStartTimeTitle = it.startTime,
-                                            topEndTimeTitle = it.endTime,
-                                            title = it.topicName,
-                                            description = it.description,
-                                            isVoted = it.isVoted,
-                                            onButtonClick = { onNavigateToSelectedVote(it.id, it.topicName) },
-                                        )
-                                    }
-                                    items(uiState.studentVoteList) {
-                                        VoteCard(
-                                            topStartTimeTitle = it.startTime,
-                                            topEndTimeTitle = it.endTime,
-                                            title = it.topicName,
-                                            description = it.description,
-                                            isVoted = it.isVoted,
-                                            onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
-                                        )
-                                    }
-                                    items(uiState.approvalVoteList) {
-                                        VoteCard(
-                                            topStartTimeTitle = it.startTime,
-                                            topEndTimeTitle = it.endTime,
-                                            title = it.topicName,
-                                            description = it.description,
-                                            isVoted = it.isVoted,
-                                            onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
-                                        )
-                                    }
-                                }
-                            }
+                    when (selectedTab) {
+                        0 -> {
+                            applicationTabContent(
+                                onNavigateToRemains = onNavigateToRemains,
+                                onNavigateToOuting = onNavigateToOuting,
+                                onNavigateToVolunteers = onNavigateToVolunteers,
+                                remainsOptionTitle = uiState.appliedRemainsOption?.title
+                            )
+                        }
+                        1 -> {
+                            voteTapContent(
+                                onNavigateToModelStudent = onNavigateToModelStudent,
+                                onNavigateToApprovalVote = onNavigateToApprovalVote,
+                                onNavigateToStudentVote = onNavigateToStudentVote,
+                                onNavigateToSelectedVote = onNavigateToSelectedVote,
+                                modelStudentVoteList = uiState.modelStudentVoteList,
+                                selectedVoteList = uiState.selectedVoteList,
+                                studentVoteList = uiState.studentVoteList,
+                                approvalVoteList = uiState.approvalVoteList,
+                            )
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+fun LazyListScope.applicationTabContent(
+    onNavigateToRemains: () -> Unit,
+    onNavigateToOuting: () -> Unit,
+    onNavigateToVolunteers: () -> Unit,
+    remainsOptionTitle: String?,
+) {
+    item {
+        ApplicationCard(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(id = R.string.remains_application),
+            appliedTitle = remainsOptionTitle,
+            description = stringResource(id = R.string.remains_description),
+            buttonText = stringResource(id = R.string.remains_do_application),
+            onButtonClick = onNavigateToRemains,
+        )
+        ApplicationCard(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(id = R.string.outing_application),
+            description = stringResource(id = R.string.outing_description),
+            buttonText = stringResource(id = R.string.outing_do_application),
+            onButtonClick = onNavigateToOuting,
+        )
+        ApplicationCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .topPadding(),
+            title = stringResource(id = R.string.volunteers_application),
+            description = stringResource(id = R.string.volunteers_description),
+            buttonText = stringResource(id = R.string.volunteers_do_description),
+            onButtonClick = onNavigateToVolunteers,
+        )
+    }
+}
+
+fun LazyListScope.voteTapContent(
+    onNavigateToModelStudent: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
+    onNavigateToApprovalVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
+    onNavigateToStudentVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
+    onNavigateToSelectedVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
+    modelStudentVoteList: List<AllVoteSearch>,
+    selectedVoteList: List<AllVoteSearch>,
+    studentVoteList: List<AllVoteSearch>,
+    approvalVoteList: List<AllVoteSearch>,
+) {
+    if (studentVoteList.isEmpty() && modelStudentVoteList.isEmpty() && approvalVoteList.isEmpty() && selectedVoteList.isEmpty()) {
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillParentMaxHeight(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = stringResource(R.string.not_vote_time),
+                    style = DmsTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+    } else {
+        items(modelStudentVoteList) {
+            VoteCard(
+                topStartTimeTitle = it.startTime,
+                topEndTimeTitle = it.endTime,
+                title = it.topicName,
+                description = it.description,
+                isVoted = it.isVoted,
+                onButtonClick = { onNavigateToModelStudent(it.id, it.topicName) },
+            )
+        }
+        items(selectedVoteList) {
+            VoteCard(
+                topStartTimeTitle = it.startTime,
+                topEndTimeTitle = it.endTime,
+                title = it.topicName,
+                description = it.description,
+                isVoted = it.isVoted,
+                onButtonClick = { onNavigateToSelectedVote(it.id, it.topicName) },
+            )
+        }
+        items(studentVoteList) {
+            VoteCard(
+                topStartTimeTitle = it.startTime,
+                topEndTimeTitle = it.endTime,
+                title = it.topicName,
+                description = it.description,
+                isVoted = it.isVoted,
+                onButtonClick = { onNavigateToStudentVote(it.id, it.topicName) },
+            )
+        }
+        items(approvalVoteList) {
+            VoteCard(
+                topStartTimeTitle = it.startTime,
+                topEndTimeTitle = it.endTime,
+                title = it.topicName,
+                description = it.description,
+                isVoted = it.isVoted,
+                onButtonClick = { onNavigateToApprovalVote(it.id, it.topicName) },
+            )
         }
     }
 }
