@@ -12,7 +12,6 @@ import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.data.point.repository.PointRepository
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 internal class PointHistoryViewModel @Inject constructor(
@@ -21,17 +20,22 @@ internal class PointHistoryViewModel @Inject constructor(
     initialState = PointHistoryUiState.initial(),
 ) {
     private var allPoints: List<Point> = emptyList()
-    private var scoreOfAllPoints by Delegates.notNull<Int>()
+    private var scoreOfAllPoints: Int = 0
 
     private var bonusPoints: List<Point> = emptyList()
-    private var scoreOfBonusPoints by Delegates.notNull<Int>()
+    private var scoreOfBonusPoints: Int = 0
 
     private var minusPoints: List<Point> = emptyList()
-    private var scoreOfMinusPoints by Delegates.notNull<Int>()
+    private var scoreOfMinusPoints: Int = 0
 
     override fun processIntent(intent: PointHistoryIntent) {
         when (intent) {
-            is PointHistoryIntent.UpdateSelectedPointType -> updatePoints(pointType = intent.pointType)
+            is PointHistoryIntent.UpdateSelectedPointType -> {
+                if (allPoints.isEmpty() && bonusPoints.isEmpty() && minusPoints.isEmpty()) {
+                    return
+                }
+                updatePoints(pointType = intent.pointType)
+            }
         }
     }
 

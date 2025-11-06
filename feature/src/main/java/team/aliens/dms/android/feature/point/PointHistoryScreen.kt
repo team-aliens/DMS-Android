@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.point
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
-import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
@@ -126,21 +126,20 @@ private fun PointFilter(
     ) {
         PointType.entries.forEach { type ->
             val selected = selectedType == type
-            if (selected) {
-                ContainedButton(
-                    onClick = { },
-                    fillMinSize = false,
-                ) {
-                    Text(text = type.text)
-                }
-            } else {
-                OutlinedButton(
-                    onClick = { onPointTypeSelected(type) },
-                    colors = ButtonDefaults.outlinedGrayButtonColors(),
-                    fillMinSize = false,
-                ) {
-                    Text(text = type.text)
-                }
+            OutlinedButton(
+                onClick = if (selected) { {} } else { { onPointTypeSelected(type) } },
+                colors = if (selected) {
+                    ButtonDefaults.containedButtonColors()
+                } else {
+                    ButtonDefaults.outlinedGrayButtonColors()
+                },
+                border = if (selected) null else BorderStroke(
+                    width = ButtonDefaults.OutlineWidth,
+                    color = DmsTheme.colorScheme.backgroundVariant,
+                ),
+                fillMinSize = false,
+            ) {
+                Text(text = type.text)
             }
         }
     }
