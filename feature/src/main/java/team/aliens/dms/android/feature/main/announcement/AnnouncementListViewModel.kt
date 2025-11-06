@@ -19,8 +19,8 @@ internal class AnnouncementListViewModel @Inject constructor(
 ) : BaseMviViewModel<AnnouncementListUiState, AnnouncementIntent, AnnouncementSideEffect>(
     initialState = AnnouncementListUiState.initial(),
 ) {
-    private lateinit var noticesAscByDate: List<Notice>
-    private lateinit var noticesDescByDate: List<Notice>
+    private var noticesAscByDate: List<Notice> = emptyList()
+    private var noticesDescByDate: List<Notice> = emptyList()
 
     init {
         fetchNotices()

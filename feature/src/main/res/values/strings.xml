@@ -236,6 +236,7 @@
 
     <!--point history-->
     <string name="point_history">상벌점 내역</string>
+    <string name="point_history_error">상벌점 내역을 조회할 수 없습니다.</string>
     <string name="format_point">%d점</string>
 
     <string name="my_page_are_you_sure_you_sign_out">사용자 정보가 기기에서 지워집니다. 정말 로그아웃하시겠습니까?</string>
