@@ -12,7 +12,6 @@ import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.data.point.repository.PointRepository
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 internal class PointHistoryViewModel @Inject constructor(
@@ -20,18 +19,23 @@ internal class PointHistoryViewModel @Inject constructor(
 ) : BaseMviViewModel<PointHistoryUiState, PointHistoryIntent, PointHistorySideEffect>(
     initialState = PointHistoryUiState.initial(),
 ) {
-    private lateinit var allPoints: List<Point>
-    private var scoreOfAllPoints by Delegates.notNull<Int>()
+    private var allPoints: List<Point> = emptyList()
+    private var scoreOfAllPoints: Int = 0
 
-    private lateinit var bonusPoints: List<Point>
-    private var scoreOfBonusPoints by Delegates.notNull<Int>()
+    private var bonusPoints: List<Point> = emptyList()
+    private var scoreOfBonusPoints: Int = 0
 
-    private lateinit var minusPoints: List<Point>
-    private var scoreOfMinusPoints by Delegates.notNull<Int>()
+    private var minusPoints: List<Point> = emptyList()
+    private var scoreOfMinusPoints: Int = 0
 
     override fun processIntent(intent: PointHistoryIntent) {
         when (intent) {
-            is PointHistoryIntent.UpdateSelectedPointType -> updatePoints(pointType = intent.pointType)
+            is PointHistoryIntent.UpdateSelectedPointType -> {
+                if (allPoints.isEmpty() && bonusPoints.isEmpty() && minusPoints.isEmpty()) {
+                    return
+                }
+                updatePoints(pointType = intent.pointType)
+            }
         }
     }
 
@@ -52,6 +56,8 @@ internal class PointHistoryViewModel @Inject constructor(
                 this@PointHistoryViewModel.scoreOfMinusPoints = minusPoints.sumOf { it.score }
 
                 updatePoints(pointType)
+            }.onFailure {
+                postSideEffect(PointHistorySideEffect.FetchPointError)
             }
         }
     }
@@ -91,4 +97,6 @@ internal sealed class PointHistoryIntent : Intent() {
     class UpdateSelectedPointType(val pointType: PointType) : PointHistoryIntent()
 }
 
-internal sealed class PointHistorySideEffect : SideEffect()
+internal sealed class PointHistorySideEffect : SideEffect() {
+    data object FetchPointError : PointHistorySideEffect()
+}
