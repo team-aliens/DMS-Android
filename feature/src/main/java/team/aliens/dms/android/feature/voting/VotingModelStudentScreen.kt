@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -110,61 +111,66 @@ internal fun VotingModelStudentScreen(
             )
         },
     ) { padValues ->
-        Column(
+        Box(
             modifier = modifier
                 .fillMaxSize()
                 .padding(padValues),
         ) {
-            Text(
-                modifier = modifier
-                    .horizontalPadding()
-                    .padding(
-                        top = PaddingDefaults.Large,
-                        bottom = PaddingDefaults.Small,
-                    ),
-                text = voteTopicTitle,
-                style = DmsTheme.typography.headline3,
-            )
-            MultiToggleButton(
-                modifier = modifier,
-                currentSelection = selectedFilter,
-                toggleStates = filterOptions,
-                onToggleChange = { text, grade ->
-                    selectedFilter = text
-                    votingDetailViewModel.postIntent(
-                        intent = VotingIntent.UpdateModelStudentStates(
-                            grade = grade,
-                        ),
-                    )
-                },
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = PaddingDefaults.Large),
+            Column(
+                modifier = Modifier.fillMaxSize(),
             ) {
-                items(uiState.filteredModelStudentList) {
-                    StudentProfile(
-                        studentGcn = it.studentGcn.toString(),
-                        name = it.name,
-                        profileImageUrl = it.profileImageUrl,
-                        isSelected = it.id == selectedVoteTopicId,
-                        onClick = {
-                            selectedVoteTopicId = it.id
-                            votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it.id,
-                                ),
-                            )
-                        },
-                    )
+                Text(
+                    modifier = modifier
+                        .horizontalPadding()
+                        .padding(
+                            top = PaddingDefaults.Large,
+                            bottom = PaddingDefaults.Small,
+                        ),
+                    text = voteTopicTitle,
+                    style = DmsTheme.typography.headline3,
+                )
+                MultiToggleButton(
+                    modifier = modifier,
+                    currentSelection = selectedFilter,
+                    toggleStates = filterOptions,
+                    onToggleChange = { text, grade ->
+                        selectedFilter = text
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.UpdateModelStudentStates(
+                                grade = grade,
+                            ),
+                        )
+                    },
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(top = PaddingDefaults.Large),
+                ) {
+                    items(uiState.filteredModelStudentList) {
+                        StudentProfile(
+                            studentGcn = it.studentGcn.toString(),
+                            name = it.name,
+                            profileImageUrl = it.profileImageUrl,
+                            isSelected = it.id == selectedVoteTopicId,
+                            onClick = {
+                                selectedVoteTopicId = it.id
+                                votingDetailViewModel.postIntent(
+                                    intent = VotingIntent.SetVoteTopicId(
+                                        voteTopicId = it.id,
+                                    ),
+                                )
+                            },
+                        )
+                    }
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
+                    .align(Alignment.BottomCenter)
                     .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding()
+                    .imePadding()
                     .bottomPadding(),
                 onClick = {
                     buttonEnabled.value = false

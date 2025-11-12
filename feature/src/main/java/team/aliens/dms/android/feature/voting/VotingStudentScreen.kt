@@ -114,54 +114,58 @@ internal fun VotingStudentScreen(
             )
         },
     ) { padValues ->
-        Column(
+        Box(
             modifier = modifier
                 .fillMaxSize()
                 .padding(padValues),
         ) {
-            Text(
-                modifier = modifier
-                    .horizontalPadding()
-                    .padding(top = PaddingDefaults.ExtraLarge, bottom = PaddingDefaults.Small),
-                text = voteTopicTitle,
-                style = DmsTheme.typography.headline3,
-            )
-            MultiToggleButton(
-                currentSelection = selectedFilter,
-                toggleStates = filterOptions,
-                onToggleChange = { text, grade ->
-                    selectedFilter = text
-                    votingDetailViewModel.postIntent(
-                        intent = VotingIntent.UpdateStudentStates(
-                            grade = grade,
-                        ),
-                    )
-                },
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = PaddingDefaults.Large),
+            Column(
+                modifier = Modifier.fillMaxSize(),
             ) {
-                items(uiState.filteredStudentList) {
-                    StudentProfile(
-                        studentGcn = it.gradeClassNumber,
-                        name = it.name,
-                        profileImageUrl = it.profileImageUrl,
-                        isSelected = it.id == selectedVoteTopicId,
-                        onClick = {
-                            selectedVoteTopicId = it.id
-                            votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it.id,
-                                ),
-                            )
-                        },
-                    )
+                Text(
+                    modifier = modifier
+                        .horizontalPadding()
+                        .padding(top = PaddingDefaults.ExtraLarge, bottom = PaddingDefaults.Small),
+                    text = voteTopicTitle,
+                    style = DmsTheme.typography.headline3,
+                )
+                MultiToggleButton(
+                    currentSelection = selectedFilter,
+                    toggleStates = filterOptions,
+                    onToggleChange = { text, grade ->
+                        selectedFilter = text
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.UpdateStudentStates(
+                                grade = grade,
+                            ),
+                        )
+                    },
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(top = PaddingDefaults.Large),
+                ) {
+                    items(uiState.filteredStudentList) {
+                        StudentProfile(
+                            studentGcn = it.gradeClassNumber,
+                            name = it.name,
+                            profileImageUrl = it.profileImageUrl,
+                            isSelected = it.id == selectedVoteTopicId,
+                            onClick = {
+                                selectedVoteTopicId = it.id
+                                votingDetailViewModel.postIntent(
+                                    intent = VotingIntent.SetVoteTopicId(
+                                        voteTopicId = it.id,
+                                    ),
+                                )
+                            },
+                        )
+                    }
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
+                    .align(Alignment.BottomCenter)
                     .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding()
