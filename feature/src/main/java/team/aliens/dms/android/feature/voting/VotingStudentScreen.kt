@@ -152,12 +152,14 @@ internal fun VotingStudentScreen(
                             profileImageUrl = it.profileImageUrl,
                             isSelected = it.id == selectedVoteTopicId,
                             onClick = {
-                                selectedVoteTopicId = it.id
-                                votingDetailViewModel.postIntent(
-                                    intent = VotingIntent.SetVoteTopicId(
-                                        voteTopicId = it.id,
-                                    ),
-                                )
+                                if (uiState.voteTopicListEnabled) {
+                                    selectedVoteTopicId = it.id
+                                    votingDetailViewModel.postIntent(
+                                        intent = VotingIntent.SetVoteTopicId(
+                                            voteTopicId = it.id,
+                                        ),
+                                    )
+                                }
                             },
                         )
                     }
@@ -178,7 +180,6 @@ internal fun VotingStudentScreen(
                             selectedId = uiState.voteTopicId!!,
                         ),
                     )
-                    navigator.navigateUp()
                 },
                 enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {

@@ -119,14 +119,16 @@ internal fun VotingApprovalScreen(
                     isSelected = approvalIdList.getOrNull(0)?.let { it == approvalTopicId } ?: false,
                     selectedColor = 0xFFC5DCFF,
                     onClick = {
-                        approvalIdList.getOrNull(0)?.let {
-                            approvalTopicId = it
-                            buttonEnabled.value = true
-                            votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it,
-                                ),
-                            )
+                        if (uiState.voteTopicListEnabled) {
+                            approvalIdList.getOrNull(0)?.let {
+                                approvalTopicId = it
+                                buttonEnabled.value = true
+                                votingDetailViewModel.postIntent(
+                                    intent = VotingIntent.SetVoteTopicId(
+                                        voteTopicId = it,
+                                    ),
+                                )
+                            }
                         }
                     },
                 )
@@ -136,14 +138,16 @@ internal fun VotingApprovalScreen(
                     isSelected = approvalIdList.getOrNull(1)?.let { it == approvalTopicId } ?: false,
                     selectedColor = 0xFFFFC3C3,
                     onClick = {
-                        approvalIdList.getOrNull(1)?.let {
-                            approvalTopicId = it
-                            buttonEnabled.value = true
-                            votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it,
-                                ),
-                            )
+                        if (uiState.voteTopicListEnabled) {
+                            approvalIdList.getOrNull(1)?.let {
+                                approvalTopicId = it
+                                buttonEnabled.value = true
+                                votingDetailViewModel.postIntent(
+                                    intent = VotingIntent.SetVoteTopicId(
+                                        voteTopicId = it,
+                                    ),
+                                )
+                            }
                         }
                     },
                 )
@@ -164,7 +168,6 @@ internal fun VotingApprovalScreen(
                                 selectedId = it,
                             ),
                         )
-                        navigator.navigateUp()
                     }
                 },
                 enabled = approvalTopicId != null && buttonEnabled.value,
