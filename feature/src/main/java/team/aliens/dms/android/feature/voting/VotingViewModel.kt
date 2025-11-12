@@ -103,6 +103,7 @@ class VotingViewModel @Inject constructor(
                 reduce(
                     newState = stateFlow.value.copy(
                         modelStudentCandidates = fetchModelList,
+                        filteredModelStudentList = fetchModelList.filter { it.studentGcn >= 1000 && it.studentGcn <= 2000 },
                     ),
                 )
                 updateModelStudentGradeInfo(1000)
@@ -147,6 +148,7 @@ class VotingViewModel @Inject constructor(
             reduce(
                 newState = stateFlow.value.copy(
                     allStudentsList = fetchedStudents,
+                    filteredStudentList = fetchedStudents.filter { it.gradeClassNumber.toInt() >= 1000 && it.gradeClassNumber.toInt() <= 2000 },
                 ),
             )
         }
