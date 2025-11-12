@@ -135,7 +135,7 @@ internal fun VotingSelectedScreen(
                         topicOption = it.votingOptionName,
                         isSelected = it.id == selectedVoteTopicId,
                         onClick = {
-                            if (uiState.voteTopicListEnabled) {
+                            if (uiState.voteTopicEnabled) {
                                 selectedVoteTopicId = it.id
                                 votingDetailViewModel.postIntent(
                                     intent = VotingIntent.SetVoteTopicId(

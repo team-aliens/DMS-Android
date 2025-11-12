@@ -138,8 +138,8 @@ class VotingViewModel @Inject constructor(
                 )
             }.onSuccess {
                 fetchAllVoteSearch()
+                reduce(newState = stateFlow.value.copy(voteTopicEnabled = false))
                 postSideEffect(VotingSideEffect.CreateVoteSuccess)
-                reduce(newState = stateFlow.value.copy(voteTopicListEnabled = false))
             }.onFailure {
                 postSideEffect(VotingSideEffect.CreateVoteFail)
             }
@@ -181,7 +181,7 @@ data class VotingUiState(
     val filteredStudentList: List<Student>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
-    val voteTopicListEnabled: Boolean,
+    val voteTopicEnabled: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
@@ -198,7 +198,7 @@ data class VotingUiState(
             filteredStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
-            voteTopicListEnabled = true,
+            voteTopicEnabled = true,
         )
     }
 }

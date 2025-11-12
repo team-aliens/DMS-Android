@@ -140,7 +140,7 @@ internal fun VotingApprovalScreen(
                     isSelected = approvalIdList.getOrNull(0)?.let { it == approvalTopicId } ?: false,
                     selectedColor = 0xFFC5DCFF,
                     onClick = {
-                        if (uiState.voteTopicListEnabled) {
+                        if (uiState.voteTopicEnabled) {
                             approvalIdList.getOrNull(0)?.let {
                                 approvalTopicId = it
                                 buttonEnabled.value = true
@@ -159,7 +159,7 @@ internal fun VotingApprovalScreen(
                     isSelected = approvalIdList.getOrNull(1)?.let { it == approvalTopicId } ?: false,
                     selectedColor = 0xFFFFC3C3,
                     onClick = {
-                        if (uiState.voteTopicListEnabled) {
+                        if (uiState.voteTopicEnabled) {
                             approvalIdList.getOrNull(1)?.let {
                                 approvalTopicId = it
                                 buttonEnabled.value = true
