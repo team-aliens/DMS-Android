@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -55,6 +57,8 @@ internal fun VotingApprovalScreen(
     voteOptionId: UUID,
     voteTopicTitle: String,
 ) {
+    val toast = LocalToast.current
+    val context = LocalContext.current
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     val approvalIdList: MutableList<UUID> = mutableListOf()
@@ -68,6 +72,23 @@ internal fun VotingApprovalScreen(
             ),
         )
     }
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.sideEffectFlow.collect {
+            when (it) {
+                is VotingSideEffect.CreateVoteSuccess -> {
+                    toast.showSuccessToast(
+                        message = context.getString(R.string.success_vote),
+                    )
+                }
+
+                is VotingSideEffect.CreateVoteFail -> toast.showErrorToast(
+                    message = context.getString(R.string.fail_vote),
+                )
+            }
+        }
+    }
+
     approvalIdList.addAll(uiState.votingTopicCheckList.map { it.id })
 
     Scaffold(

@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +50,7 @@ import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
@@ -69,6 +71,8 @@ internal fun VotingModelStudentScreen(
     voteOptionId: UUID,
     voteTopicTitle: String,
 ) {
+    val toast = LocalToast.current
+    val context = LocalContext.current
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
@@ -83,6 +87,22 @@ internal fun VotingModelStudentScreen(
                     requestDate = LocalDate.now(),
                 ),
             )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.sideEffectFlow.collect {
+            when (it) {
+                is VotingSideEffect.CreateVoteSuccess -> {
+                    toast.showSuccessToast(
+                        message = context.getString(R.string.success_vote),
+                    )
+                }
+
+                is VotingSideEffect.CreateVoteFail -> toast.showErrorToast(
+                    message = context.getString(R.string.fail_vote),
+                )
+            }
         }
     }
 
