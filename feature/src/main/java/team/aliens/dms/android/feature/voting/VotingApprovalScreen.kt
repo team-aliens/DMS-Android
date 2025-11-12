@@ -69,6 +69,7 @@ internal fun VotingApprovalScreen(
         )
     }
     approvalIdList.addAll(uiState.votingTopicCheckList.map { it.id })
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -115,29 +116,35 @@ internal fun VotingApprovalScreen(
                 ApprovalCard(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_circle_outline,
-                    isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component1() },
+                    isSelected = approvalIdList.getOrNull(0)?.let { it == approvalTopicId } ?: false,
                     selectedColor = 0xFFC5DCFF,
                     onClick = {
-                        approvalTopicId = approvalIdList.component1()
-                        votingDetailViewModel.postIntent(
-                            intent = VotingIntent.SetVoteTopicId(
-                                voteTopicId = approvalIdList.component1(),
-                            ),
-                        )
+                        approvalIdList.getOrNull(0)?.let {
+                            approvalTopicId = it
+                            buttonEnabled.value = true
+                            votingDetailViewModel.postIntent(
+                                intent = VotingIntent.SetVoteTopicId(
+                                    voteTopicId = it,
+                                ),
+                            )
+                        }
                     },
                 )
                 ApprovalCard(
                     modifier = Modifier.weight(1f),
                     imageModelUrl = team.aliens.dms.android.core.designsystem.R.drawable.ic_wrong,
-                    isSelected = approvalIdList.any { approvalTopicId == approvalIdList.component2() },
+                    isSelected = approvalIdList.getOrNull(1)?.let { it == approvalTopicId } ?: false,
                     selectedColor = 0xFFFFC3C3,
                     onClick = {
-                        approvalTopicId = approvalIdList.component2()
-                        votingDetailViewModel.postIntent(
-                            intent = VotingIntent.SetVoteTopicId(
-                                voteTopicId = approvalIdList.component2(),
-                            ),
-                        )
+                        approvalIdList.getOrNull(1)?.let {
+                            approvalTopicId = it
+                            buttonEnabled.value = true
+                            votingDetailViewModel.postIntent(
+                                intent = VotingIntent.SetVoteTopicId(
+                                    voteTopicId = it,
+                                ),
+                            )
+                        }
                     },
                 )
             }
@@ -150,15 +157,17 @@ internal fun VotingApprovalScreen(
                     .bottomPadding(),
                 onClick = {
                     buttonEnabled.value = false
-                    votingDetailViewModel.postIntent(
-                        intent = VotingIntent.CreateVoteTable(
-                            votingTopicId = voteOptionId,
-                            selectedId = uiState.voteTopicId!!,
-                        ),
-                    )
-                    navigator.navigateUp()
+                    approvalTopicId?.let {
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.CreateVoteTable(
+                                votingTopicId = voteOptionId,
+                                selectedId = it,
+                            ),
+                        )
+                        navigator.navigateUp()
+                    }
                 },
-                enabled = uiState.voteTopicId != null && buttonEnabled.value,
+                enabled = approvalTopicId != null && buttonEnabled.value,
             ) {
                 Text(text = stringResource(R.string.make_vote))
             }
