@@ -2,6 +2,7 @@ package team.aliens.dms.android.feature.volunteers
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
@@ -30,6 +31,17 @@ import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.volunteers.navigation.VolunteersNavigator
 import team.aliens.dms.android.network.BuildConfig
 
+private class WebAppInterface(
+    private val onSetAuthTokenReady: () -> Unit, // TODO :: 개선 필요
+) {
+    @JavascriptInterface
+    fun postMessage(message: String) {
+        if (message == "setAuthTokenReady") {
+            onSetAuthTokenReady()
+        }
+    }
+}
+
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -41,7 +53,6 @@ fun VolunteersScreen(
 ) {
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val theme = if (isSystemInDarkTheme()) "dark" else "light"
-    var isTokenSet = false
 
     Scaffold(
         modifier = modifier.background(color = DmsTheme.colorScheme.background),
@@ -69,28 +80,30 @@ fun VolunteersScreen(
         ) {
             AndroidView(
                 modifier = Modifier.weight(1f),
-                factory = {
-                    WebView(it).apply {
+                factory = { context ->
+                    WebView(context).apply {
                         layoutParams = ViewGroup.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,
                         )
                         settings.javaScriptEnabled = true
+
+                        val setAuthToken: () -> Unit = {
+                            this.post {
+                                this.evaluateJavascript(
+                                    "window.setAuthToken('${uiState.accessToken?.value}', '${uiState.refreshToken?.value}')",
+                                    null,
+                                )
+                            }
+                        }
+
+                        addJavascriptInterface(
+                            WebAppInterface(onSetAuthTokenReady = setAuthToken),
+                            "ReactNativeWebView",
+                        )
+
                         webViewClient = object : WebViewClient() {
                             private val redirectedUrls = mutableSetOf<String>()
-
-                            override fun onPageFinished(
-                                view: WebView?,
-                                url: String?,
-                            ) {
-                                if (!isTokenSet) {
-                                    view?.evaluateJavascript(
-                                        "window.setAuthToken('${uiState.accessToken}', '${uiState.refreshToken}')",
-                                        null,
-                                    )
-                                    isTokenSet = true
-                                }
-                            }
 
                             override fun doUpdateVisitedHistory(
                                 view: WebView?,
