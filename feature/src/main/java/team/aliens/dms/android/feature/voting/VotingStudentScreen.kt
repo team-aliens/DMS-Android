@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -47,6 +48,7 @@ import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
@@ -67,6 +69,8 @@ internal fun VotingStudentScreen(
     voteOptionId: UUID,
     voteTopicTitle: String,
 ) {
+    val toast = LocalToast.current
+    val context = LocalContext.current
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf("1학년") }
@@ -86,6 +90,22 @@ internal fun VotingStudentScreen(
                     grade = 1000,
                 ),
             )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.sideEffectFlow.collect {
+            when (it) {
+                is VotingSideEffect.CreateVoteSuccess -> {
+                    toast.showSuccessToast(
+                        message = context.getString(R.string.success_vote),
+                    )
+                }
+
+                is VotingSideEffect.CreateVoteFail -> toast.showErrorToast(
+                    message = context.getString(R.string.fail_vote),
+                )
+            }
         }
     }
 
@@ -114,54 +134,60 @@ internal fun VotingStudentScreen(
             )
         },
     ) { padValues ->
-        Column(
+        Box(
             modifier = modifier
                 .fillMaxSize()
                 .padding(padValues),
         ) {
-            Text(
-                modifier = modifier
-                    .horizontalPadding()
-                    .padding(top = PaddingDefaults.ExtraLarge, bottom = PaddingDefaults.Small),
-                text = voteTopicTitle,
-                style = DmsTheme.typography.headline3,
-            )
-            MultiToggleButton(
-                currentSelection = selectedFilter,
-                toggleStates = filterOptions,
-                onToggleChange = { text, grade ->
-                    selectedFilter = text
-                    votingDetailViewModel.postIntent(
-                        intent = VotingIntent.UpdateStudentStates(
-                            grade = grade,
-                        ),
-                    )
-                },
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = PaddingDefaults.Large),
+            Column(
+                modifier = Modifier.fillMaxSize(),
             ) {
-                items(uiState.filteredStudentList) {
-                    StudentProfile(
-                        studentGcn = it.gradeClassNumber,
-                        name = it.name,
-                        profileImageUrl = it.profileImageUrl,
-                        isSelected = it.id == selectedVoteTopicId,
-                        onClick = {
-                            selectedVoteTopicId = it.id
-                            votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it.id,
-                                ),
-                            )
-                        },
-                    )
+                Text(
+                    modifier = modifier
+                        .horizontalPadding()
+                        .padding(top = PaddingDefaults.ExtraLarge, bottom = PaddingDefaults.Small),
+                    text = voteTopicTitle,
+                    style = DmsTheme.typography.headline3,
+                )
+                MultiToggleButton(
+                    currentSelection = selectedFilter,
+                    toggleStates = filterOptions,
+                    onToggleChange = { text, grade ->
+                        selectedFilter = text
+                        votingDetailViewModel.postIntent(
+                            intent = VotingIntent.UpdateStudentStates(
+                                grade = grade,
+                            ),
+                        )
+                    },
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(top = PaddingDefaults.Large),
+                ) {
+                    items(uiState.filteredStudentList) {
+                        StudentProfile(
+                            studentGcn = it.gradeClassNumber,
+                            name = it.name,
+                            profileImageUrl = it.profileImageUrl,
+                            isSelected = it.id == selectedVoteTopicId,
+                            onClick = {
+                                if (uiState.voteTopicEnabled) {
+                                    selectedVoteTopicId = it.id
+                                    votingDetailViewModel.postIntent(
+                                        intent = VotingIntent.SetVoteTopicId(
+                                            voteTopicId = it.id,
+                                        ),
+                                    )
+                                }
+                            },
+                        )
+                    }
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
             ContainedButton(
                 modifier = Modifier
+                    .align(Alignment.BottomCenter)
                     .animateContentSize()
                     .fillMaxWidth()
                     .horizontalPadding()
@@ -174,7 +200,6 @@ internal fun VotingStudentScreen(
                             selectedId = uiState.voteTopicId!!,
                         ),
                     )
-                    navigator.navigateUp()
                 },
                 enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {
