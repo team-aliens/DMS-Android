@@ -83,7 +83,7 @@ internal class SignInViewModel @Inject constructor(
                 authRepository.signIn(
                     accountId = uiState.accountId.trim(),
                     password = uiState.password.trim(),
-                    deviceToken = "",
+                    deviceToken = deviceToken,
                 )
             }.onSuccess {
                 postSideEffect(SignInSideEffect.Success)
