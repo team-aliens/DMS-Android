@@ -407,4 +407,6 @@
     <string name="senior_grade">3학년</string>
     <string name="make_vote">투표하기</string>
     <string name="not_vote_time">투표 기간이 아닙니다.</string>
+    <string name="success_vote">투표가 성공적으로 완료되었습니다!</string>
+    <string name="fail_vote">투표가 정상적으로 처리되지 않았어요</string>
 </resources>

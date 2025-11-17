@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,6 +39,7 @@ import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.ContainedButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.ui.PaddingDefaults
@@ -56,6 +58,8 @@ internal fun VotingSelectedScreen(
     voteOptionId: UUID,
     voteTopicTitle: String,
 ) {
+    val toast = LocalToast.current
+    val context = LocalContext.current
     val votingDetailViewModel: VotingViewModel = hiltViewModel()
     val uiState by votingDetailViewModel.stateFlow.collectAsStateWithLifecycle()
     var selectedVoteTopicId: UUID? by remember { mutableStateOf(null) }
@@ -67,6 +71,22 @@ internal fun VotingSelectedScreen(
                 voteOptionId = voteOptionId,
             ),
         )
+    }
+
+    LaunchedEffect(Unit) {
+        votingDetailViewModel.sideEffectFlow.collect {
+            when (it) {
+                is VotingSideEffect.CreateVoteSuccess -> {
+                    toast.showSuccessToast(
+                        message = context.getString(R.string.success_vote),
+                    )
+                }
+
+                is VotingSideEffect.CreateVoteFail -> toast.showErrorToast(
+                    message = context.getString(R.string.fail_vote),
+                )
+            }
+        }
     }
 
     Scaffold(
@@ -115,12 +135,14 @@ internal fun VotingSelectedScreen(
                         topicOption = it.votingOptionName,
                         isSelected = it.id == selectedVoteTopicId,
                         onClick = {
-                            selectedVoteTopicId = it.id
-                            votingDetailViewModel.postIntent(
-                                intent = VotingIntent.SetVoteTopicId(
-                                    voteTopicId = it.id,
-                                ),
-                            )
+                            if (uiState.voteTopicEnabled) {
+                                selectedVoteTopicId = it.id
+                                votingDetailViewModel.postIntent(
+                                    intent = VotingIntent.SetVoteTopicId(
+                                        voteTopicId = it.id,
+                                    ),
+                                )
+                            }
                         },
                     )
                 }
@@ -140,7 +162,6 @@ internal fun VotingSelectedScreen(
                             selectedId = uiState.voteTopicId!!,
                         ),
                     )
-                    navigator.navigateUp()
                 },
                 enabled = uiState.voteTopicId != null && buttonEnabled.value,
             ) {

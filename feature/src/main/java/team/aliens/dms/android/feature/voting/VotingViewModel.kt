@@ -103,6 +103,7 @@ class VotingViewModel @Inject constructor(
                 reduce(
                     newState = stateFlow.value.copy(
                         modelStudentCandidates = fetchModelList,
+                        filteredModelStudentList = fetchModelList.filter { it.studentGcn >= 1000 && it.studentGcn <= 2000 },
                     ),
                 )
                 updateModelStudentGradeInfo(1000)
@@ -136,6 +137,11 @@ class VotingViewModel @Inject constructor(
                     selectedId = selectedId,
                 )
             }.onSuccess {
+                fetchAllVoteSearch()
+                reduce(newState = stateFlow.value.copy(voteTopicEnabled = false))
+                postSideEffect(VotingSideEffect.CreateVoteSuccess)
+            }.onFailure {
+                postSideEffect(VotingSideEffect.CreateVoteFail)
             }
         }
     }
@@ -147,6 +153,7 @@ class VotingViewModel @Inject constructor(
             reduce(
                 newState = stateFlow.value.copy(
                     allStudentsList = fetchedStudents,
+                    filteredStudentList = fetchedStudents.filter { it.gradeClassNumber.toInt() >= 1000 && it.gradeClassNumber.toInt() <= 2000 },
                 ),
             )
         }
@@ -174,6 +181,7 @@ data class VotingUiState(
     val filteredStudentList: List<Student>,
     val votingButtonEnabled: Boolean,
     val allStudentsList: List<Student>,
+    val voteTopicEnabled: Boolean,
 ) : UiState() {
     companion object {
         fun initial() = VotingUiState(
@@ -190,6 +198,7 @@ data class VotingUiState(
             filteredStudentList = emptyList(),
             votingButtonEnabled = false,
             allStudentsList = emptyList(),
+            voteTopicEnabled = true,
         )
     }
 }
@@ -203,4 +212,7 @@ sealed class VotingIntent : Intent() {
     class UpdateStudentStates(val grade: Int) : VotingIntent()
 }
 
-sealed class VotingSideEffect : SideEffect()
+sealed class VotingSideEffect : SideEffect() {
+    data object CreateVoteSuccess : VotingSideEffect()
+    data object CreateVoteFail : VotingSideEffect()
+}
