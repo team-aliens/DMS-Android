@@ -23,7 +23,7 @@ kotlinxSerializationJson = "1.6.3"
 lifecycle = "2.7.0"
 material = "1.11.0"
 materialCompose = "1.2.0"
-agp = "8.2.2"
+agp = "8.3.2"
 kotlinAndroid = "1.9.20"
 kotlinJvm = "1.9.20"
 hilt = "2.48"
@@ -37,6 +37,7 @@ threetenbp = "1.6.8"
 compose = "1.5.4"
 composeDestination = "1.9.54"
 navigation = "2.7.7"
+navigation3 = "1.0.0"
 hiltNavigation = "1.1.0"
 coil = "2.4.0"
 compileSdk = "34"
@@ -74,6 +75,8 @@ androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-j
 androidx-compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "materialCompose" }
 androidx-compose-material-window = { group = "androidx.compose.material3", name = "material3-window-size-class-android", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
 app-update = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdate" }
