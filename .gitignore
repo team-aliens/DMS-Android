@@ -193,3 +193,5 @@ app/.DS_Store
 app/debug/
 
 app/release/
+
+.claude/
