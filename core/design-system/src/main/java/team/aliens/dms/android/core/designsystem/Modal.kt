@@ -31,7 +31,6 @@ fun ModalBottomSheet(
     tonalElevation: Dp = BottomSheetDefaults.Elevation,
     scrimColor: Color = BottomSheetDefaults.ScrimColor,
     dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle(color = DmsTheme.colorScheme.onSurface) },
-    windowInsets: WindowInsets = WindowInsets.Companion.systemBars.only(WindowInsetsSides.Bottom),
     properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties(),
     content: @Composable ColumnScope.() -> Unit,
 ) = androidx.compose.material3.ModalBottomSheet(
@@ -45,7 +44,6 @@ fun ModalBottomSheet(
     tonalElevation = tonalElevation,
     scrimColor = scrimColor,
     dragHandle = dragHandle,
-    windowInsets = windowInsets,
     properties = properties,
     content = content,
 )
