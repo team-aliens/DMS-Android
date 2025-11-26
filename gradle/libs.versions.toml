@@ -1,3 +1,4 @@
+# TODO: androidx-window, androix-material 등으로 리팩토링
 [versions]
 activity = "1.8.2"
 appcompat = "1.6.1"
