@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.serialization)
     alias(libs.plugins.ktlint.gradle)
-    alias()
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
