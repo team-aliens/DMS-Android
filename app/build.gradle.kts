@@ -48,8 +48,6 @@ android {
         compose = true
     }
 
-
-
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -84,10 +82,7 @@ dependencies {
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.window)
     implementation(libs.androidx.activity.compose)
-
-    implementation(libs.accompanist.adaptive)
 
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.util)

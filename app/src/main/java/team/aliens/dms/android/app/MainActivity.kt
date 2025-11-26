@@ -8,7 +8,6 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
@@ -42,12 +41,12 @@ class MainActivity : ComponentActivity() {
         checkAppUpdate()
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
-            val displayFeatures = calculateDisplayFeatures(activity = this)
+//          TODO : 적응형 레이아웃 적용
 
             DmsTheme {
                 DmsApp(
                     windowSizeClass = windowSizeClass,
-                    displayFeatures = displayFeatures,
+
                     isJwtAvailable = isJwtAvailable,
                 )
             }
