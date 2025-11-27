@@ -14,7 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
@@ -592,10 +593,12 @@ private fun ButtonPreview() {
             Text(text = "Contained Refuse Button")
         }
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         OutlinedButton(
@@ -665,10 +668,12 @@ private fun ButtonPreview() {
             Text(text = "Outlined Error Button")
         }
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         TextButton(
@@ -738,10 +743,12 @@ private fun ButtonPreview() {
             Text(text = "Text Error Button")
         }
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         RoundedButton(
@@ -834,10 +841,12 @@ private fun ButtonPreview() {
             Text(text = "Rounded Refuse Button")
         }
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         androidx.compose.material3.Button(

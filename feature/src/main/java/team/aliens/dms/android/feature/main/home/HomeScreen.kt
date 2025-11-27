@@ -35,7 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -52,7 +52,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -112,21 +111,24 @@ internal fun HomeScreen(
     val context = LocalContext.current
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
     val pullToRefreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
 
-    val onRefresh = remember {
-        {
-            pullToRefreshState.startRefresh()
-            viewModel.postIntent(HomeIntent.UpdateMeal); Unit
-        }
+    val onRefresh: () -> Unit = {
+        isRefreshing = true
+        viewModel.postIntent(HomeIntent.UpdateMeal)
     }
+
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
-            HomeSideEffect.CannotFindMeal, HomeSideEffect.MealUpdateFailed -> toast.showErrorToast(
-                context.getString(R.string.meal_error_not_found),
-            )
+            HomeSideEffect.CannotFindMeal, HomeSideEffect.MealUpdateFailed -> {
+                isRefreshing = false
+                toast.showErrorToast(
+                    context.getString(R.string.meal_error_not_found),
+                )
+            }
 
             HomeSideEffect.MealUpdated -> {
-                pullToRefreshState.endRefresh()
+                isRefreshing = false
                 toast.showSuccessToast(
                     message = context.getString(R.string.home_success_meal_refreshed),
                 )
@@ -142,12 +144,6 @@ internal fun HomeScreen(
     }
 
     val (shouldShowCalendar, onShouldShowCalendarChange) = remember { mutableStateOf(false) }
-
-    LaunchedEffect(pullToRefreshState.isRefreshing) {
-        if (pullToRefreshState.isRefreshing) {
-            onRefresh()
-        }
-    }
 
     if (shouldShowCalendar) {
         ModalBottomSheet(
@@ -188,61 +184,60 @@ internal fun HomeScreen(
             )
         },
     ) { padValues ->
-        Column(
+        PullToRefreshBox(
             modifier = Modifier
-                .nestedScroll(pullToRefreshState.nestedScrollConnection)
-                .animateContentSize()
-                .background(brush = HomeBackgroundBrush)
                 .fillMaxSize()
                 .padding(padValues),
-            verticalArrangement = Arrangement.spacedBy(DefaultHomeScreenVerticalSpace),
+            state = pullToRefreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
         ) {
-            if (uiState.newNoticesExist) {
-                AnnouncementCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    visible = true,
-                    onNavigateToAnnouncementList = onNavigateToAnnouncementList,
-                )
-            } else {
-                Spacer(modifier = Modifier.height(DefaultHomeScreenVerticalSpace))
-            }
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.meal_todays_meal),
-                textAlign = TextAlign.Center,
-                style = DmsTheme.typography.title1,
-                color = DmsTheme.colorScheme.onSurface,
-            )
-            DateCard(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(),
-                selectedDate = uiState.selectedDate,
-                onShowCalendar = {
-                    onShouldShowCalendarChange(true)
-                    onChangeBottomAppBarVisibility(false)
-                },
-                onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
-                onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
-            )
+                    .animateContentSize()
+                    .background(brush = HomeBackgroundBrush)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(DefaultHomeScreenVerticalSpace),
+            ) {
+                if (uiState.newNoticesExist) {
+                    AnnouncementCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        visible = true,
+                        onNavigateToAnnouncementList = onNavigateToAnnouncementList,
+                    )
+                } else {
+                    Spacer(modifier = Modifier.height(DefaultHomeScreenVerticalSpace))
+                }
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.meal_todays_meal),
+                    textAlign = TextAlign.Center,
+                    style = DmsTheme.typography.title1,
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+                DateCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateContentSize(),
+                    selectedDate = uiState.selectedDate,
+                    onShowCalendar = {
+                        onShouldShowCalendarChange(true)
+                        onChangeBottomAppBarVisibility(false)
+                    },
+                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+                )
 
-            MealCards(
-                modifier = Modifier.weight(1f),
-                currentDate = uiState.selectedDate,
-                meal = uiState.currentMeal,
-                onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
-                onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
-                onRefresh = onRefresh,
-            )
-            Spacer(modifier = Modifier.height(76.dp))
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = padValues.calculateTopPadding()),
-            contentAlignment = Alignment.TopCenter,
-        ) {
-            PullToRefreshContainer(state = pullToRefreshState)
+                MealCards(
+                    modifier = Modifier.weight(1f),
+                    currentDate = uiState.selectedDate,
+                    meal = uiState.currentMeal,
+                    onNextDay = { onSelectedDateChange(uiState.selectedDate.plusDays(1)) },
+                    onPreviousDay = { onSelectedDateChange(uiState.selectedDate.minusDays(1)) },
+                    onRefresh = onRefresh,
+                )
+                Spacer(modifier = Modifier.height(76.dp))
+            }
         }
     }
 }

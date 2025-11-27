@@ -33,11 +33,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import org.threeten.bp.LocalDateTime
@@ -151,7 +151,7 @@ internal fun ApplicationScreen(
                                 onNavigateToRemains = onNavigateToRemains,
                                 onNavigateToOuting = onNavigateToOuting,
                                 onNavigateToVolunteers = onNavigateToVolunteers,
-                                remainsOptionTitle = uiState.appliedRemainsOption?.title
+                                remainsOptionTitle = uiState.appliedRemainsOption?.title,
                             )
                         }
                         1 -> {

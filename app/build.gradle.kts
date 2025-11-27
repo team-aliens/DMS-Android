@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -47,10 +48,6 @@ android {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
-
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -85,10 +82,7 @@ dependencies {
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.window)
     implementation(libs.androidx.activity.compose)
-
-    implementation(libs.accompanist.adaptive)
 
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.util)

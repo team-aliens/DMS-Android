@@ -26,7 +26,8 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheetDefaults
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -109,7 +110,7 @@ fun OutingApplicationScreen(
         ModalBottomSheet(
             sheetState = timeSheetState,
             onDismissRequest = { onChangeShouldShowTimePicker(false) },
-            properties = ModalBottomSheetDefaults.properties(
+            properties = ModalBottomSheetProperties(
                 shouldDismissOnBackPress = false,
             ),
         ) {
@@ -169,7 +170,7 @@ fun OutingApplicationScreen(
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = { onShouldShowCompanionListDialogChange(false) },
-            properties = ModalBottomSheetDefaults.properties(
+            properties = ModalBottomSheetProperties(
                 shouldDismissOnBackPress = false,
             ),
         ) {
@@ -404,7 +405,7 @@ fun OutingApplicationScreen(
                         onExpandedChange = onChangeOutingTypeMenuExpanded,
                     ) {
                         TextField(
-                            modifier = Modifier.menuAnchor(),
+                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                             value = uiState.selectedOutingType
                                 ?: stringResource(id = R.string.outing_select_outing_type),
                             onValueChange = { /* explicit blank */ },

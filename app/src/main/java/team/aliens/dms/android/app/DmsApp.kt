@@ -8,7 +8,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.window.layout.DisplayFeature
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.scope.DestinationScopeWithNoDependencies
@@ -35,7 +34,6 @@ import team.aliens.dms.android.network.BuildConfig
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
-    displayFeatures: List<DisplayFeature>,
     isJwtAvailable: StateFlow<Boolean>,
     appState: DmsAppState = rememberDmsAppState(
         isJwtAvailable = isJwtAvailable,
