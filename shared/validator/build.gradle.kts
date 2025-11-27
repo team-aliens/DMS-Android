@@ -7,8 +7,12 @@ plugins {
 java {
     sourceCompatibility = Versions.java
     targetCompatibility = Versions.java
+}
 
-    dependencies {
-        implementation(libs.junit)
-    }
+kotlin {
+    jvmToolchain(17)
+}
+
+dependencies {
+    implementation(libs.junit)
 }
