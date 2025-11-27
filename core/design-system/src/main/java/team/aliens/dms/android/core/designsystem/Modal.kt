@@ -1,13 +1,8 @@
 package team.aliens.dms.android.core.designsystem
 
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.contentColorFor
@@ -31,7 +26,9 @@ fun ModalBottomSheet(
     tonalElevation: Dp = BottomSheetDefaults.Elevation,
     scrimColor: Color = BottomSheetDefaults.ScrimColor,
     dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle(color = DmsTheme.colorScheme.onSurface) },
-    properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
+    properties: ModalBottomSheetProperties = ModalBottomSheetProperties(
+        shouldDismissOnBackPress = false,
+    ),
     content: @Composable ColumnScope.() -> Unit,
 ) = androidx.compose.material3.ModalBottomSheet(
     onDismissRequest = onDismissRequest,
