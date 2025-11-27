@@ -594,10 +594,11 @@ private fun ButtonPreview() {
             Text(text = "Contained Refuse Button")
         }
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
+            thickness = DividerDefaults.Thickness, color = DividerDefaults.color
         )
 
         OutlinedButton(
