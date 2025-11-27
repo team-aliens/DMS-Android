@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -29,6 +30,14 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var deviceTokenManager: DeviceTokenManager
 
+    private val updateLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode != RESULT_OK) {
+            // TODO :: 업데이트 취소 or 실패 시 강제 업데이트 모달
+        }
+    }
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +55,6 @@ class MainActivity : ComponentActivity() {
             DmsTheme {
                 DmsApp(
                     windowSizeClass = windowSizeClass,
-
                     isJwtAvailable = isJwtAvailable,
                 )
             }
@@ -62,17 +70,16 @@ class MainActivity : ComponentActivity() {
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            val isUpdateAvailable =
-                appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+            val updateOptions = AppUpdateOptions
+                .newBuilder(AppUpdateType.IMMEDIATE)
+                .setAllowAssetPackDeletion(true)
+                .build()
 
-            if (isUpdateAvailable && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                appUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
-                    this,
-                    0,
-                )
-            }
+            appUpdateManager.startUpdateFlowForResult(
+                appUpdateInfo,
+                updateLauncher,
+                updateOptions
+            )
         }
     }
 }
