@@ -405,7 +405,7 @@ fun OutingApplicationScreen(
                         onExpandedChange = onChangeOutingTypeMenuExpanded,
                     ) {
                         TextField(
-                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
+                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                             value = uiState.selectedOutingType
                                 ?: stringResource(id = R.string.outing_select_outing_type),
                             onValueChange = { /* explicit blank */ },
