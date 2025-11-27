@@ -103,7 +103,8 @@ internal fun NoticeDetailsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalPadding(),
-                thickness = DividerDefaults.Thickness, color = DmsTheme.colorScheme.line,
+                thickness = DividerDefaults.Thickness,
+                color = DmsTheme.colorScheme.line,
             )
 
             VerticallyFadedColumn(

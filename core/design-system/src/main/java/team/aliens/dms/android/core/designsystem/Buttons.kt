@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -598,7 +597,8 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
-            thickness = DividerDefaults.Thickness, color = DividerDefaults.color
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         OutlinedButton(
@@ -672,7 +672,8 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
-            thickness = DividerDefaults.Thickness, color = DividerDefaults.color
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         TextButton(
@@ -746,7 +747,8 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
-            thickness = DividerDefaults.Thickness, color = DividerDefaults.color
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         RoundedButton(
@@ -843,7 +845,8 @@ private fun ButtonPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
-            thickness = DividerDefaults.Thickness, color = DividerDefaults.color
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color,
         )
 
         androidx.compose.material3.Button(

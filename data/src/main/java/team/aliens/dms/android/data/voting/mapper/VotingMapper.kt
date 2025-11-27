@@ -1,14 +1,14 @@
 package team.aliens.dms.android.data.voting.mapper
 
-import java.util.UUID
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.data.voting.model.Vote
+import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.network.voting.model.FetchAllVoteSearchResponse
 import team.aliens.dms.android.network.voting.model.FetchCheckVotingItemResponse
 import team.aliens.dms.android.network.voting.model.FetchModelStudentCandidatesResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
+import java.util.UUID
 
 internal fun FetchAllVoteSearchResponse.toModel(): List<AllVoteSearch> =
     this.votingTopics.map(FetchAllVoteSearchResponse.VoteSearchResponse::toModel)
