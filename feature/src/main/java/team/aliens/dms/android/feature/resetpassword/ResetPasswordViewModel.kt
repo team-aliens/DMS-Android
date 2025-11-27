@@ -226,7 +226,7 @@ data class ResetPasswordUiState(
             newPasswordRepeat = "",
             hashedEmail = "",
             sessionId = UUID.randomUUID(),
-            isAccountIdError = false
+            isAccountIdError = false,
         )
     }
 }
@@ -258,5 +258,5 @@ sealed class ResetPasswordSideEffect : SideEffect() {
     data object EmailVerificationSessionReset : ResetPasswordSideEffect()
     data object EmailVerificationSessionResetFailed : ResetPasswordSideEffect()
     data object EmailVerificationUserNotFound : ResetPasswordSideEffect()
-    data object InvalidEmailFormat :  ResetPasswordSideEffect()
+    data object InvalidEmailFormat : ResetPasswordSideEffect()
 }

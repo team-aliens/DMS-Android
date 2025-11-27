@@ -151,7 +151,7 @@ internal fun ApplicationScreen(
                                 onNavigateToRemains = onNavigateToRemains,
                                 onNavigateToOuting = onNavigateToOuting,
                                 onNavigateToVolunteers = onNavigateToVolunteers,
-                                remainsOptionTitle = uiState.appliedRemainsOption?.title
+                                remainsOptionTitle = uiState.appliedRemainsOption?.title,
                             )
                         }
                         1 -> {

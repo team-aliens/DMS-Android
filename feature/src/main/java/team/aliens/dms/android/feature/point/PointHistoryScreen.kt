@@ -133,10 +133,10 @@ private fun PointFilter(
                 } else {
                     ButtonDefaults.outlinedGrayButtonColors()
                 },
-                border = if (selected) null else BorderStroke(
-                    width = ButtonDefaults.OutlineWidth,
-                    color = DmsTheme.colorScheme.backgroundVariant,
-                ),
+                border = if (selected) { null } else { BorderStroke(
+                        width = ButtonDefaults.OutlineWidth,
+                        color = DmsTheme.colorScheme.backgroundVariant,
+                    ) },
                 fillMinSize = false,
             ) {
                 Text(text = type.text)

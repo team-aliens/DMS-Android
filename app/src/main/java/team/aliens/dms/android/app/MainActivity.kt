@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
     lateinit var deviceTokenManager: DeviceTokenManager
 
     private val updateLauncher = registerForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
+        ActivityResultContracts.StartIntentSenderForResult(),
     ) { result ->
         if (result.resultCode != RESULT_OK) {
             // TODO :: 업데이트 취소 or 실패 시 강제 업데이트 모달
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
             appUpdateManager.startUpdateFlowForResult(
                 appUpdateInfo,
                 updateLauncher,
-                updateOptions
+                updateOptions,
             )
         }
     }

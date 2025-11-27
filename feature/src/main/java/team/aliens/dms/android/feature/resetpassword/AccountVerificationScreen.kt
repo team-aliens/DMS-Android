@@ -77,7 +77,7 @@ fun AccountVerificationScreen(
             )
 
             ResetPasswordSideEffect.InvalidEmailFormat -> toast.showErrorToast(
-                message = context.getString(R.string.reset_password_account_verification_error_invalid_email_format)
+                message = context.getString(R.string.reset_password_account_verification_error_invalid_email_format),
             )
 
             ResetPasswordSideEffect.SendEmailVerificationCodeSuccess -> navigator.openResetPasswordEnterEmailVerificationCode()
@@ -166,7 +166,7 @@ fun AccountVerificationScreen(
                             viewModel.postIntent(ResetPasswordIntent.UpdateStudentName(value = it))
                         },
                         keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Next
+                            imeAction = ImeAction.Next,
                         ),
                     )
                     TextField(
@@ -190,7 +190,6 @@ fun AccountVerificationScreen(
                     .horizontalPadding()
                     .bottomPadding(),
                 onClick = {
-
                     viewModel.postIntent(
                         ResetPasswordIntent.SendEmailVerificationCode(
                             uiState.email,
