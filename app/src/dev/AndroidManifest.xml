@@ -7,7 +7,7 @@
         tools:replace="android:name">
 
         <activity
-            android:name=".android.MainActivity"
+            android:name=".android.app.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:node="replace">

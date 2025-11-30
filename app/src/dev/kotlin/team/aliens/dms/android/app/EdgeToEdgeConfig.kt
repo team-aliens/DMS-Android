@@ -1,4 +1,4 @@
-package team.aliens.dms.android
+package team.aliens.dms.android.app
 
 import android.os.Build
 import androidx.activity.ComponentActivity

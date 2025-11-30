@@ -15,7 +15,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.DmsApp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.jwt.di.IsJwtAvailable
 import team.aliens.dms.android.core.notification.DeviceTokenManager
