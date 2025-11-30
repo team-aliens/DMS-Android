@@ -1,6 +1,5 @@
 package team.aliens.dms.android
 
-import android.R
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -27,7 +26,7 @@ data object ScreenB : NavKey
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
 //    displayFeatures: List<DisplayFeature>,
-    //isJwtAvailable: StateFlow<Boolean>,
+//    isJwtAvailable: StateFlow<Boolean>,
 //    appState: DmsAppState = rememberDmsAppState(
 //        isJwtAvailable = isJwtAvailable,
 //    ),
@@ -36,8 +35,8 @@ fun DmsApp(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding(),  // 시스템 바 영역 회피
-        contentAlignment = Alignment.Center  // 버튼을 중앙에 배치
+            .systemBarsPadding(),
+        contentAlignment = Alignment.Center,
     ) {
         NavDisplay(
             backStack = backStack,
@@ -54,7 +53,7 @@ fun DmsApp(
                         color = DmsTheme.colorScheme.onSurface,
                     )
                 }
-            }
+            },
         )
     }
 }
