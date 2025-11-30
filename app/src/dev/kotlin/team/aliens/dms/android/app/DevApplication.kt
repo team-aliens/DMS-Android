@@ -7,7 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class DmsApplication : Application(), Configuration.Provider {
+class DevApplication : Application(), Configuration.Provider {
 
     @Inject
     lateinit var workFactory: HiltWorkerFactory
