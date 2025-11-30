@@ -46,7 +46,7 @@ jobs:
 
       - name: Generate google-services.json
         run: |
-          echo '${{secrets.GOOGLE_SERVICES}}' > ./app/google-services.json
+         echo ${{secrets.GOOGLE_SERVICES}} | base64 --decode > ./app/google-services.json
 
       - name: Build with Gradle
         run: ./gradlew build
