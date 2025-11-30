@@ -7,12 +7,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
 
@@ -26,11 +29,19 @@ data object ScreenB : NavKey
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
 //    displayFeatures: List<DisplayFeature>,
-//    isJwtAvailable: StateFlow<Boolean>,
+    isJwtAvailable: StateFlow<Boolean>,
 //    appState: DmsAppState = rememberDmsAppState(
 //        isJwtAvailable = isJwtAvailable,
 //    ),
+    mainViewModel: MainActivityViewModel,
 ) {
+    val isUpdateFailed by mainViewModel.isUpdateFailed.collectAsState()
+
+    if (isUpdateFailed) {
+//        UpdateFailedDialog(
+//            onDismiss = { mainViewModel.consumeUpdateFailed() }
+//        )
+    }
     val backStack = rememberNavBackStack(ScreenA)
     Box(
         modifier = Modifier
