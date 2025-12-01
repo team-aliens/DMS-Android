@@ -37,6 +37,7 @@ fun DmsApp(
 //    ),
     mainViewModel: MainActivityViewModel,
 ) {
+    val backStack = rememberNavBackStack(ScreenA)
     val isUpdateFailed by mainViewModel.isUpdateFailed.collectAsState()
     val toast = LocalToast.current
 
@@ -46,8 +47,9 @@ fun DmsApp(
                 message = "업데이트 정보를 불러올 수 없습니다",
             )
         }
+        mainViewModel.consumeUpdateFailed()
     }
-    val backStack = rememberNavBackStack(ScreenA)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
