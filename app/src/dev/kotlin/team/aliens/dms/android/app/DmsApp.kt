@@ -7,6 +7,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.LocalToast
 
 @Serializable
 data object ScreenA : NavKey
@@ -36,11 +38,14 @@ fun DmsApp(
     mainViewModel: MainActivityViewModel,
 ) {
     val isUpdateFailed by mainViewModel.isUpdateFailed.collectAsState()
+    val toast = LocalToast.current
 
     if (isUpdateFailed) {
-//        UpdateFailedDialog(
-//            onDismiss = { mainViewModel.consumeUpdateFailed() }
-//        )
+        LaunchedEffect(Unit) {
+            toast.showErrorToast(
+                message = "업데이트 정보를 불러올 수 없습니다",
+            )
+        }
     }
     val backStack = rememberNavBackStack(ScreenA)
     Box(
