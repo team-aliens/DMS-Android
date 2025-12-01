@@ -26,7 +26,6 @@ jobs:
           echo $PROD_BASE_URL >> ./local.properties
           echo $DEV_BASE_URL >> ./local.properties
           echo $TERMS_URL >> ./local.properties
-          cat
         env:
           PROD_BASE_URL: ${{secrets.PROD_BASE_URL}}
           DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
@@ -35,18 +34,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Generate local.properties
-        run: |
-          echo $PROD_BASE_URL >> ./local.properties
-          echo $DEV_BASE_URL >> ./local.properties
-          cat
-        env:
-          PROD_BASE_URL: ${{secrets.PROD_BASE_URL}}
-          DEV_BASE_URL: ${{secrets.DEV_BASE_URL}}
-
       - name: Generate google-services.json
         run: |
-          echo '${{secrets.GOOGLE_SERVICES}}' > ./app/google-services.json
+          printf "%s" "${{ secrets.GOOGLE_SERVICES }}" | base64 --decode > ./app/google-services.json
 
       - name: Build with Gradle
         run: ./gradlew build
