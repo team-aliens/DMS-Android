@@ -44,6 +44,17 @@ android {
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
 }
 
 dependencies {
@@ -74,6 +85,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.coil.compose)
 
