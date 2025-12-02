@@ -43,6 +43,17 @@ android {
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
 }
 
 dependencies {
@@ -61,6 +72,7 @@ dependencies {
     implementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.compose.tooling.preview)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3)
 
     androidTestImplementation(libs.androidx.compose.test.junit)
 
