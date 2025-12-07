@@ -25,7 +25,6 @@ class Typography internal constructor(
     val button: TextStyle,
 ) {
     constructor(
-        defaultFontFamily: FontFamily = notoSansFontFamily,
         headlineB: TextStyle = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 32.sp,
@@ -97,18 +96,18 @@ class Typography internal constructor(
             lineHeight = 11.9.sp,
         ),
     ) : this(
-        headline1 = headlineB.withDefaultFontFamily(defaultFontFamily),
-        headline2 = headlineM.withDefaultFontFamily(defaultFontFamily),
-        headline3 = titleB.withDefaultFontFamily(defaultFontFamily),
-        title1 = titleM.withDefaultFontFamily(defaultFontFamily),
-        title2 = sTitleB.withDefaultFontFamily(defaultFontFamily),
-        title3 = sTitleM.withDefaultFontFamily(defaultFontFamily),
-        body1 = lBodyB.withDefaultFontFamily(defaultFontFamily),
-        body2 = lBodyM.withDefaultFontFamily(defaultFontFamily),
-        body3 = bodyB.withDefaultFontFamily(defaultFontFamily),
-        caption = bodyM.withDefaultFontFamily(defaultFontFamily),
-        overline = labelB.withDefaultFontFamily(defaultFontFamily),
-        button = labelM.withDefaultFontFamily(defaultFontFamily),
+        headline1 = headlineB.withDefaultFontFamily(notoSansFontFamily),
+        headline2 = headlineM.withDefaultFontFamily(notoSansFontFamily),
+        headline3 = titleB.withDefaultFontFamily(notoSansFontFamily),
+        title1 = titleM.withDefaultFontFamily(notoSansFontFamily),
+        title2 = sTitleB.withDefaultFontFamily(notoSansFontFamily),
+        title3 = sTitleM.withDefaultFontFamily(notoSansFontFamily),
+        body1 = lBodyB.withDefaultFontFamily(notoSansFontFamily),
+        body2 = lBodyM.withDefaultFontFamily(notoSansFontFamily),
+        body3 = bodyB.withDefaultFontFamily(notoSansFontFamily),
+        caption = bodyM.withDefaultFontFamily(notoSansFontFamily),
+        overline = labelB.withDefaultFontFamily(notoSansFontFamily),
+        button = labelM.withDefaultFontFamily(notoSansFontFamily),
     )
 
     fun copy(
@@ -177,7 +176,7 @@ class Typography internal constructor(
 
     override fun toString(): String {
         return "Typography(headline1=$headline1, " +
-            "headline2=$headline1, " +
+            "headline2=$headline2, " +
             "headline3=$headline3, " +
             "title1=$title1, " +
             "title2=$title2, " +
@@ -192,7 +191,7 @@ class Typography internal constructor(
     }
 }
 
-private val notoSansFontFamily: FontFamily = FontFamily(
+internal val notoSansFontFamily: FontFamily = FontFamily(
     Font(
         resId = R.font.noto_sans_kr_black,
         weight = FontWeight.Black,
@@ -231,5 +230,36 @@ private fun TextStyle.withDefaultFontFamily(default: FontFamily): TextStyle =
     } else {
         this.copy(fontFamily = default)
     }
+
+// 새 디자인 시스템 속성명으로 접근하기 위한 확장 속성
+inline val Typography.headlineB: TextStyle get() = headline1
+inline val Typography.headlineM: TextStyle get() = headline2
+inline val Typography.titleB: TextStyle get() = headline3
+inline val Typography.titleM: TextStyle get() = title1
+inline val Typography.sTitleB: TextStyle get() = title2
+inline val Typography.sTitleM: TextStyle get() = title3
+inline val Typography.lBodyB: TextStyle get() = body1
+inline val Typography.lBodyM: TextStyle get() = body2
+inline val Typography.bodyB: TextStyle get() = body3
+inline val Typography.bodyM: TextStyle get() = caption
+inline val Typography.labelB: TextStyle get() = overline
+inline val Typography.labelM: TextStyle get() = button
+
+// dev 전용 추가 속성
+val Typography.sLabelB: TextStyle
+    get() = TextStyle(
+        fontFamily = notoSansFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 10.sp,
+        lineHeight = 11.9.sp,
+    )
+
+val Typography.sLabelM: TextStyle
+    get() = TextStyle(
+        fontFamily = notoSansFontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+        lineHeight = 11.9.sp,
+    )
 
 internal val LocalTypography = staticCompositionLocalOf { Typography() }

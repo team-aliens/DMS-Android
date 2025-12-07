@@ -185,32 +185,32 @@ class Typography internal constructor(
 
 private val notoSansFontFamily: FontFamily = FontFamily(
     Font(
-        resId = team.aliens.dms.android.core.designsystem.R.font.noto_sans_kr_black,
+        resId = R.font.noto_sans_kr_black,
         weight = FontWeight.Black,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = team.aliens.dms.android.core.designsystem.R.font.noto_sans_kr_bold,
+        resId = R.font.noto_sans_kr_bold,
         weight = FontWeight.Bold,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = team.aliens.dms.android.core.designsystem.R.font.noto_sans_kr_light,
+        resId = R.font.noto_sans_kr_light,
         weight = FontWeight.Light,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = team.aliens.dms.android.core.designsystem.R.font.noto_sans_kr_medium,
+        resId = R.font.noto_sans_kr_medium,
         weight = FontWeight.Medium,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = team.aliens.dms.android.core.designsystem.R.font.noto_sans_kr_regular,
+        resId = R.font.noto_sans_kr_regular,
         weight = FontWeight.Normal,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = team.aliens.dms.android.core.designsystem.R.font.noto_sans_kr_thin,
+        resId = R.font.noto_sans_kr_thin,
         weight = FontWeight.Thin,
         style = FontStyle.Normal,
     ),

@@ -2,6 +2,7 @@ package team.aliens.dms.android.core.designsystem
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography as MaterialTypography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -10,7 +11,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 
-private val lightColorScheme = lightColorScheme(
+private val DmsLightColorScheme = lightColorScheme(
     primary = DmsColor.Light.blue400,
     onPrimary = DmsColor.Light.gray50,
     primaryContainer = DmsColor.Light.blue100,
@@ -40,7 +41,7 @@ private val lightColorScheme = lightColorScheme(
     surfaceTint = DmsColor.Light.blue300,
 )
 
-private val darkColorScheme = darkColorScheme(
+private val DmsDarkColorScheme = darkColorScheme(
     primary = DmsColor.Dark.blue200,
     onPrimary = DmsColor.Dark.gray900,
     primaryContainer = DmsColor.Dark.blue300,
@@ -75,7 +76,9 @@ fun DmsTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = remember(isDarkTheme) {
+    val m3ColorScheme = if (isDarkTheme) DmsDarkColorScheme else DmsLightColorScheme
+
+    val customColorScheme = remember(isDarkTheme) {
         if (isDarkTheme) {
             darkColors()
         } else {
@@ -83,13 +86,30 @@ fun DmsTheme(
         }
     }
 
+    val dmsTypography = DmsTheme.typography
+
     CompositionLocalProvider(
-        LocalColors provides colorScheme,
+        LocalColors provides customColorScheme,
         LocalShapes provides DmsTheme.shapes,
-        LocalTypography provides DmsTheme.typography,
+        LocalTypography provides dmsTypography,
     ) {
         ToastLayout(toastState = rememberToastState()) {
             MaterialTheme(
+                colorScheme = m3ColorScheme,
+                typography = MaterialTypography(
+                    headlineLarge = dmsTypography.headline1,
+                    headlineMedium = dmsTypography.headline2,
+                    headlineSmall = dmsTypography.headline3,
+                    titleLarge = dmsTypography.title1,
+                    titleMedium = dmsTypography.title2,
+                    titleSmall = dmsTypography.title3,
+                    bodyLarge = dmsTypography.body1,
+                    bodyMedium = dmsTypography.body2,
+                    bodySmall = dmsTypography.body3,
+                    labelLarge = dmsTypography.button,
+                    labelMedium = dmsTypography.caption,
+                    labelSmall = dmsTypography.overline,
+                ),
                 content = content,
             )
         }
@@ -98,7 +118,6 @@ fun DmsTheme(
 
 @Stable
 object DmsTheme {
-
     val colorScheme: Colors
         @Composable
         @ReadOnlyComposable
