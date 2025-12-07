@@ -1,11 +1,11 @@
-package team.aliens.dms.android.core.device.di
+package team.aliens.dms.android.onboarding.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms.android.core.device.datastore.DeviceDataStoreDataSource
-import team.aliens.dms.android.core.device.datastore.DeviceDataStoreDataSourceImpl
+import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
+import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -14,5 +14,5 @@ internal abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindDeviceDataStoreDataSource(impl: DeviceDataStoreDataSourceImpl): DeviceDataStoreDataSource
+    abstract fun bindOnboardingDataStoreDataSource(impl: OnboardingDataStoreDataSourceImpl): OnboardingDataStoreDataSource
 }

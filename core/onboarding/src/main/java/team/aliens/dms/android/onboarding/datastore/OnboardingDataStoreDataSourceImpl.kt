@@ -1,18 +1,16 @@
 package team.aliens.dms.android.onboarding.datastore
 
-import team.aliens.dms.android.core.device.datastore.store.DeviceStore
+import team.aliens.dms.android.onboarding.datastore.store.OnboardingStore
 import javax.inject.Inject
 
-internal class DeviceDataStoreDataSourceImpl @Inject constructor(
-    private val deviceStore: DeviceStore,
-) : DeviceDataStoreDataSource() {
-    override fun loadDeviceToken(): String = deviceStore.loadDeviceToken()
-
-    override suspend fun storeDeviceToken(deviceToken: String) {
-        deviceStore.storeDeviceToken(deviceToken)
+internal class OnboardingDataStoreDataSourceImpl @Inject constructor(
+    private val onboardingStore: OnboardingStore,
+) : OnboardingDataStoreDataSource() {
+    override suspend fun setOnboardingCompleted(isCompleted: Boolean) {
+        onboardingStore.setOnboardingCompleted(isCompleted)
     }
 
-    override suspend fun clearDeviceToken() {
-        deviceStore.clearDeviceToken()
+    override suspend fun getOnboardingCompleted(): Boolean {
+        return onboardingStore.getOnboardingCompleted()
     }
 }

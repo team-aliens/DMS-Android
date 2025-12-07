@@ -1,11 +1,11 @@
-package team.aliens.dms.android.core.device.di
+package team.aliens.dms.android.onboarding.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.aliens.dms.android.core.device.datastore.store.DeviceStore
-import team.aliens.dms.android.core.device.datastore.store.DeviceStoreImpl
+import team.aliens.dms.android.onboarding.datastore.store.OnboardingStore
+import team.aliens.dms.android.onboarding.datastore.store.OnboardingStoreImpl
 import javax.inject.Singleton
 
 @Module
@@ -14,5 +14,5 @@ internal abstract class StoreModule {
 
     @Binds
     @Singleton
-    abstract fun bindDeviceStore(impl: DeviceStoreImpl): DeviceStore
+    abstract fun bindOnboardingStore(impl: OnboardingStoreImpl): OnboardingStore
 }

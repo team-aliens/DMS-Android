@@ -1,10 +1,7 @@
 package team.aliens.dms.android.onboarding.datastore.store
 
-internal abstract class DeviceStore {
+internal abstract class OnboardingStore {
+    abstract suspend fun setOnboardingCompleted(isCompleted: Boolean)
 
-    abstract fun loadDeviceToken(): String
-
-    abstract suspend fun storeDeviceToken(deviceToken: String)
-
-    abstract suspend fun clearDeviceToken()
+    abstract suspend fun getOnboardingCompleted(): Boolean
 }

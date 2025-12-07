@@ -1,44 +1,33 @@
 package team.aliens.dms.android.onboarding.datastore.store
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
-import team.aliens.dms.android.core.datastore.DeviceDataStore
+import team.aliens.dms.android.core.datastore.OnboardingDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
 import team.aliens.dms.android.core.datastore.util.transform
-import team.aliens.dms.android.core.device.datastore.store.exception.CannotStoreDeviceTokenException
-import team.aliens.dms.android.core.device.datastore.store.exception.DeviceTokenNotFoundException
 import javax.inject.Inject
 
-internal class DeviceStoreImpl @Inject constructor(
-    @DeviceDataStore private val deviceDataStore: PreferencesDataStore,
-) : DeviceStore() {
+internal class OnboardingStoreImpl @Inject constructor(
+    @OnboardingDataStore private val onboardingDataStore: PreferencesDataStore,
+) : OnboardingStore() {
 
-    override fun loadDeviceToken(): String = runBlocking {
-        deviceDataStore.data.map { preferences ->
-            preferences[DEVICE_TOKEN] ?: throw DeviceTokenNotFoundException()
-        }.first()
-    }
-
-    override suspend fun storeDeviceToken(deviceToken: String) {
-        transform(
-            onFailure = { throw CannotStoreDeviceTokenException() },
-        ) {
-            deviceDataStore.edit { preferences ->
-                preferences[DEVICE_TOKEN] = deviceToken
+    override suspend fun setOnboardingCompleted(isCompleted: Boolean) {
+        transform {
+            onboardingDataStore.edit { preferences ->
+                preferences[ONBOARDING_COMPLETED] = isCompleted
             }
         }
     }
 
-    override suspend fun clearDeviceToken() {
-        transform {
-            deviceDataStore.edit { preferences -> preferences.clear() }
-        }
-    }
+    override suspend fun getOnboardingCompleted(): Boolean =
+        onboardingDataStore.data.map { preferences ->
+            preferences[ONBOARDING_COMPLETED] ?: false
+        }.first()
+
 
     private companion object {
-        val DEVICE_TOKEN = stringPreferencesKey("device-token")
+        val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding-completed")
     }
 }
