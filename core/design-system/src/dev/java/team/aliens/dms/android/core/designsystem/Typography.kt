@@ -71,7 +71,7 @@ class Typography internal constructor(
             lineHeight = 19.1.sp,
         ),
         bodyM: TextStyle = TextStyle(
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Medium,
             fontSize = 16.sp,
             lineHeight = 19.1.sp,
         ),
