@@ -13,3 +13,7 @@ annotation class FeaturesDataStore
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class JwtDataStore
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class OnboardingDataStore

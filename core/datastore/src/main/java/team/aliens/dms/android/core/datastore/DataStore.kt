@@ -8,3 +8,5 @@ internal val Context.jwtStore: PreferencesDataStore by preferencesDataStore("jwt
 internal val Context.featuresStore: PreferencesDataStore by preferencesDataStore("features-datastore")
 
 internal val Context.deviceStore: PreferencesDataStore by preferencesDataStore("device-datastore")
+
+internal val Context.onboardingStore: PreferencesDataStore by preferencesDataStore("onboarding-datastore")

@@ -9,10 +9,12 @@ import dagger.hilt.components.SingletonComponent
 import team.aliens.dms.android.core.datastore.DeviceDataStore
 import team.aliens.dms.android.core.datastore.FeaturesDataStore
 import team.aliens.dms.android.core.datastore.JwtDataStore
+import team.aliens.dms.android.core.datastore.OnboardingDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
 import team.aliens.dms.android.core.datastore.deviceStore
 import team.aliens.dms.android.core.datastore.featuresStore
 import team.aliens.dms.android.core.datastore.jwtStore
+import team.aliens.dms.android.core.datastore.onboardingStore
 import javax.inject.Singleton
 
 @Module
@@ -39,4 +41,11 @@ internal object DataStoreModule {
     fun provideDeviceDataStore(
         @ApplicationContext context: Context,
     ): PreferencesDataStore = context.deviceStore
+
+    @Provides
+    @Singleton
+    @OnboardingDataStore
+    fun provideOnboardingDataStore(
+        @ApplicationContext context: Context,
+    ): PreferencesDataStore = context.onboardingStore
 }
