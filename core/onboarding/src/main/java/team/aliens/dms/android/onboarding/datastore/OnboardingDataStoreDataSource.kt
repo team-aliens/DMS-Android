@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.device.datastore
+package team.aliens.dms.android.onboarding.datastore
 
 abstract class DeviceDataStoreDataSource {
 

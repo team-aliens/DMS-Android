@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.device.datastore
+package team.aliens.dms.android.onboarding.datastore
 
 import team.aliens.dms.android.core.device.datastore.store.DeviceStore
 import javax.inject.Inject
