@@ -102,10 +102,11 @@ dependencies {
     implementation(project(ProjectPaths.Core.NOTIFICATION))
     implementation(project(ProjectPaths.Core.DEVICE))
     implementation(project(ProjectPaths.Core.WIDGET))
+    implementation(project(ProjectPaths.Core.ONBOARDING))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))
-    add("prodImplementation", project(ProjectPaths.FEATURE))
+    implementation(project(ProjectPaths.FEATURE))
     implementation(project(ProjectPaths.NETWORK))
 
     implementation(libs.androidx.core)
@@ -124,6 +125,7 @@ dependencies {
     add("prodImplementation", libs.androidx.hilt.navigation.compose)
     add("devImplementation", libs.androidx.navigation3.runtime)
     add("devImplementation", libs.androidx.navigation3.ui)
+    add("devImplementation", libs.androidx.hilt.navigation.compose)
 
     implementation(libs.androidx.lifecycle.runtime.compose)
 
