@@ -73,7 +73,6 @@ import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.ModalBottomSheet
 import team.aliens.dms.android.core.designsystem.OutlinedButton
-import team.aliens.dms.android.core.designsystem.PrimaryDefault
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
@@ -195,7 +194,13 @@ internal fun HomeScreen(
             Column(
                 modifier = Modifier
                     .animateContentSize()
-                    .background(brush = HomeBackgroundBrush)
+                    .background(brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Transparent,
+                            DmsTheme.colorScheme.primary,
+                        ),
+                    ))
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(DefaultHomeScreenVerticalSpace),
             ) {
@@ -244,15 +249,6 @@ internal fun HomeScreen(
 
 @Stable
 private val DefaultHomeScreenVerticalSpace = 24.dp
-
-@Stable
-private val HomeBackgroundBrush: Brush = Brush.verticalGradient(
-    colors = listOf(
-        Color.Transparent,
-        Color.Transparent,
-        PrimaryDefault.copy(alpha = 0.1f),
-    ),
-)
 
 @Composable
 private fun AnnouncementCard(
