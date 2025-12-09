@@ -18,16 +18,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -113,9 +109,10 @@ internal fun CompleteContent(
                 ),
             ),
         ) {
+            // TODO :: 디자인 맞게 그림자 넣어줘야함
             Image(
                 painter = painterResource(R.drawable.img_3d_logo),
-                contentDescription = null,
+                contentDescription = "3d 로고 이미지",
             )
         }
         AnimatedVisibility(
@@ -143,7 +140,7 @@ internal fun CompleteContent(
                 Text(
                     text = "최고의",
                     style = DmsTheme.typography.headlineB,
-                    color = DmsTheme.colorScheme.primary,
+                    color = DmsTheme.colorScheme.backgroundVariant,
                 )
                 Text(
                     text = "기숙사 관리 시스템.",
@@ -181,7 +178,7 @@ internal fun IntroContent(
         targetValue = if (isPointVisible) {
             DmsTheme.colorScheme.primary
         } else {
-            DmsTheme.colorScheme.onPrimaryContainer
+            DmsTheme.colorScheme.backgroundVariant
         },
     )
 
@@ -222,7 +219,7 @@ internal fun IntroContent(
                     append("에\n오신걸 환영해요!")
                 },
                 style = DmsTheme.typography.headlineB,
-                color = DmsTheme.colorScheme.onPrimaryContainer,
+                color = DmsTheme.colorScheme.backgroundVariant,
                 textAlign = TextAlign.Center,
             )
         }
@@ -236,14 +233,14 @@ internal fun IntroContent(
             Text(
                 buildAnnotatedString {
                     withStyle(
-                        style = SpanStyle(color = DmsTheme.colorScheme.onPrimaryContainer),
+                        style = SpanStyle(color = pointColor),
                     ) {
                         append("DMS")
                     }
                     append("가\n새롭게 바뀌었어요!")
                 },
                 style = DmsTheme.typography.headlineB,
-                color = DmsTheme.colorScheme.onPrimaryContainer,
+                color = DmsTheme.colorScheme.backgroundVariant,
                 textAlign = TextAlign.Center,
             )
         }
@@ -256,7 +253,7 @@ internal fun IntroContent(
             Text(
                 text = "최고의\n기숙사 관리 시스템.",
                 style = DmsTheme.typography.headlineB,
-                color = DmsTheme.colorScheme.onPrimaryContainer,
+                color = DmsTheme.colorScheme.backgroundVariant,
                 textAlign = TextAlign.Center,
             )
         }
