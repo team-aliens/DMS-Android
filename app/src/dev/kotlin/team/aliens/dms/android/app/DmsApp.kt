@@ -18,8 +18,8 @@ import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.LocalToast
-import team.aliens.dms.android.feature.onboarding.OnboardingRoute
+import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
+import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 
 @Serializable
 data object OnboardingScreenNav : NavKey
@@ -54,40 +54,31 @@ fun DmsApp(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding(),
-        contentAlignment = Alignment.Center,
-    ) {
-        NavDisplay(
-            backStack = backStack,
-            onBack = { backStack.removeLastOrNull() },
-            entryProvider = entryProvider {
-                entry<OnboardingScreenNav> {
-                    OnboardingRoute(
-                        onComplete = {
-                            mainViewModel.completeOnboarding()
-                            backStack.clear()
-                            backStack.add(
-                                if (isJwtAvailableState) MainScreenNav else LoginScreenNav
-                            )
-                        }
-                    )
-                }
-                entry<LoginScreenNav> {
-                    Text(
-                        text = "Login Screen (TODO)",
-                        color = DmsTheme.colorScheme.onSurface,
-                    )
-                }
-                entry<MainScreenNav> {
-                    Text(
-                        text = "Main Screen (TODO)",
-                        color = DmsTheme.colorScheme.onSurface,
-                    )
-                }
-            },
-        )
-    }
+    NavDisplay(
+        modifier = Modifier.systemBarsPadding(),
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+            entry<OnboardingScreenNav> {
+                OnboardingRoute(
+                    onComplete = {
+                        mainViewModel.completeOnboarding()
+                        backStack.clear()
+                        backStack.add(
+                            if (isJwtAvailableState) MainScreenNav else LoginScreenNav
+                        )
+                    }
+                )
+            }
+            entry<LoginScreenNav> {
+                SignInRoute()
+            }
+            entry<MainScreenNav> {
+                Text(
+                    text = "Main Screen (TODO)",
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+            }
+        },
+    )
 }

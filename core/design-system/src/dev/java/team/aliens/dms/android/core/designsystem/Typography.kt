@@ -191,7 +191,7 @@ class Typography internal constructor(
     }
 }
 
-internal val notoSansFontFamily: FontFamily = FontFamily(
+val notoSansFontFamily: FontFamily = FontFamily(
     Font(
         resId = R.font.noto_sans_kr_black,
         weight = FontWeight.Black,

@@ -1,4 +1,4 @@
-package team.aliens.dms.android.feature.onboarding
+package team.aliens.dms.android.feature.onboarding.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
