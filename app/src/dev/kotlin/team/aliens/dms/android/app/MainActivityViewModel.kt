@@ -3,8 +3,10 @@ package team.aliens.dms.android.app
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
@@ -21,8 +23,8 @@ class MainActivityViewModel @Inject constructor(
     private val _isUpdateFailed = MutableStateFlow(false)
     val isUpdateFailed = _isUpdateFailed.asStateFlow()
 
-    private val _isOnboardingCompleted = MutableStateFlow<Boolean?>(null)
-    val isOnboardingCompleted: StateFlow<Boolean?> = _isOnboardingCompleted.asStateFlow()
+    private val _isOnboardingCompleted = MutableStateFlow(false)
+    val isOnboardingCompleted: StateFlow<Boolean> = _isOnboardingCompleted.asStateFlow()
 
     init {
         viewModelScope.launch {
