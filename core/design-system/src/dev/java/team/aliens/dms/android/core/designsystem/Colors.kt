@@ -14,6 +14,15 @@ class Colors(
     onPrimary: Color,
     primaryContainer: Color,
     onPrimaryContainer: Color,
+    inversePrimary: Color,
+    secondary: Color,
+    onSecondary: Color,
+    secondaryContainer: Color,
+    onSecondaryContainer: Color,
+    tertiary: Color,
+    onTertiary: Color,
+    tertiaryContainer: Color,
+    onTertiaryContainer: Color,
     error: Color,
     onError: Color,
     errorContainer: Color,
@@ -26,9 +35,13 @@ class Colors(
     onSurface: Color,
     surfaceVariant: Color,
     onSurfaceVariant: Color,
-    icon: Color,
-    line: Color,
-    isLight: Boolean,
+    surfaceTint: Color,
+    inverseSurface: Color,
+    inverseOnSurface: Color,
+    outline: Color,
+    outlineVariant: Color,
+    tint: Color,
+    divider: Color,
 ) {
     var primary by mutableStateOf(primary, structuralEqualityPolicy())
         internal set
@@ -37,6 +50,26 @@ class Colors(
     var primaryContainer by mutableStateOf(primaryContainer, structuralEqualityPolicy())
         internal set
     var onPrimaryContainer by mutableStateOf(onPrimaryContainer, structuralEqualityPolicy())
+        internal set
+    var inversePrimary by mutableStateOf(inversePrimary, structuralEqualityPolicy())
+        internal set
+
+    var secondary by mutableStateOf(secondary, structuralEqualityPolicy())
+        internal set
+    var onSecondary by mutableStateOf(onSecondary, structuralEqualityPolicy())
+        internal set
+    var secondaryContainer by mutableStateOf(secondaryContainer, structuralEqualityPolicy())
+        internal set
+    var onSecondaryContainer by mutableStateOf(onSecondaryContainer, structuralEqualityPolicy())
+        internal set
+
+    var tertiary by mutableStateOf(tertiary, structuralEqualityPolicy())
+        internal set
+    var onTertiary by mutableStateOf(onTertiary, structuralEqualityPolicy())
+        internal set
+    var tertiaryContainer by mutableStateOf(tertiaryContainer, structuralEqualityPolicy())
+        internal set
+    var onTertiaryContainer by mutableStateOf(onTertiaryContainer, structuralEqualityPolicy())
         internal set
 
     var error by mutableStateOf(error, structuralEqualityPolicy())
@@ -65,13 +98,22 @@ class Colors(
         internal set
     var onSurfaceVariant by mutableStateOf(onSurfaceVariant, structuralEqualityPolicy())
         internal set
-
-    var icon by mutableStateOf(icon, structuralEqualityPolicy())
-        internal set
-    var line by mutableStateOf(line, structuralEqualityPolicy())
+    var surfaceTint by mutableStateOf(surfaceTint, structuralEqualityPolicy())
         internal set
 
-    var isLight by mutableStateOf(isLight, structuralEqualityPolicy())
+    var inverseSurface by mutableStateOf(inverseSurface, structuralEqualityPolicy())
+        internal set
+    var inverseOnSurface by mutableStateOf(inverseOnSurface, structuralEqualityPolicy())
+        internal set
+
+    var outline by mutableStateOf(outline, structuralEqualityPolicy())
+        internal set
+    var outlineVariant by mutableStateOf(outlineVariant, structuralEqualityPolicy())
+        internal set
+
+    var icon by mutableStateOf(tint, structuralEqualityPolicy())
+        internal set
+    var line by mutableStateOf(divider, structuralEqualityPolicy())
         internal set
 
     fun copy(
@@ -79,6 +121,15 @@ class Colors(
         onPrimary: Color = this.onPrimary,
         primaryContainer: Color = this.primaryContainer,
         onPrimaryContainer: Color = this.onPrimaryContainer,
+        inversePrimary: Color = this.inversePrimary,
+        secondary: Color = this.secondary,
+        onSecondary: Color = this.onSecondary,
+        secondaryContainer: Color = this.secondaryContainer,
+        onSecondaryContainer: Color = this.onSecondaryContainer,
+        tertiary: Color = this.tertiary,
+        onTertiary: Color = this.onTertiary,
+        tertiaryContainer: Color = this.tertiaryContainer,
+        onTertiaryContainer: Color = this.onTertiaryContainer,
         error: Color = this.error,
         onError: Color = this.onError,
         errorContainer: Color = this.errorContainer,
@@ -91,14 +142,27 @@ class Colors(
         onSurface: Color = this.onSurface,
         surfaceVariant: Color = this.surfaceVariant,
         onSurfaceVariant: Color = this.onSurfaceVariant,
+        surfaceTint: Color = this.surfaceTint,
+        inverseSurface: Color = this.inverseSurface,
+        inverseOnSurface: Color = this.inverseOnSurface,
+        outline: Color = this.outline,
+        outlineVariant: Color = this.outlineVariant,
         icon: Color = this.icon,
         line: Color = this.line,
-        isLight: Boolean = this.isLight,
     ): Colors = Colors(
         primary = primary,
         onPrimary = onPrimary,
         primaryContainer = primaryContainer,
         onPrimaryContainer = onPrimaryContainer,
+        inversePrimary = inversePrimary,
+        secondary = secondary,
+        onSecondary = onSecondary,
+        secondaryContainer = secondaryContainer,
+        onSecondaryContainer = onSecondaryContainer,
+        tertiary = tertiary,
+        onTertiary = onTertiary,
+        tertiaryContainer = tertiaryContainer,
+        onTertiaryContainer = onTertiaryContainer,
         error = error,
         onError = onError,
         errorContainer = errorContainer,
@@ -111,9 +175,13 @@ class Colors(
         onSurface = onSurface,
         surfaceVariant = surfaceVariant,
         onSurfaceVariant = onSurfaceVariant,
-        icon = icon,
-        line = line,
-        isLight = isLight,
+        surfaceTint = surfaceTint,
+        inverseSurface = inverseSurface,
+        inverseOnSurface = inverseOnSurface,
+        outline = outline,
+        outlineVariant = outlineVariant,
+        tint = icon,
+        divider = line,
     )
 
     override fun toString(): String = "Colors(" +
@@ -121,6 +189,15 @@ class Colors(
         "onPrimary=$onPrimary, " +
         "primaryContainer=$primaryContainer, " +
         "onPrimaryContainer=$onPrimaryContainer, " +
+        "inversePrimary=$inversePrimary, " +
+        "secondary=$secondary, " +
+        "onSecondary=$onSecondary, " +
+        "secondaryContainer=$secondaryContainer, " +
+        "onSecondaryContainer=$onSecondaryContainer, " +
+        "tertiary=$tertiary, " +
+        "onTertiary=$onTertiary, " +
+        "tertiaryContainer=$tertiaryContainer, " +
+        "onTertiaryContainer=$onTertiaryContainer, " +
         "error=$error, " +
         "onError=$onError, " +
         "errorContainer=$errorContainer, " +
@@ -133,6 +210,11 @@ class Colors(
         "onSurface=$onSurface, " +
         "surfaceVariant=$surfaceVariant, " +
         "onSurfaceVariant=$onSurfaceVariant, " +
+        "surfaceTint=$surfaceTint, " +
+        "inverseSurface=$inverseSurface, " +
+        "inverseOnSurface=$inverseOnSurface, " +
+        "outline=$outline, " +
+        "outlineVariant=$outlineVariant" +
         ")"
 }
 
@@ -230,22 +312,36 @@ internal sealed class DmsColor(
 }
 
 fun lightColors(
-    primary: Color = DmsColor.Light.blue400,
+    primary: Color = DmsColor.Light.blue300,
     onPrimary: Color = DmsColor.Light.gray50,
-    primaryContainer: Color = DmsColor.Light.blue100,
-    onPrimaryContainer: Color = DmsColor.Light.blue500,
-    error: Color = DmsColor.Light.red300,
-    onError: Color = DmsColor.Light.gray50,
-    errorContainer: Color = DmsColor.Light.red50,
+    primaryContainer: Color = DmsColor.Light.blue200,
+    onPrimaryContainer: Color = DmsColor.Light.gray100,
+    inversePrimary: Color = DmsColor.Light.blue400,
+    secondary: Color = DmsColor.Light.blue500,
+    onSecondary: Color = DmsColor.Light.gray200,
+    secondaryContainer: Color = DmsColor.Light.blue100,
+    onSecondaryContainer: Color = DmsColor.Light.gray300,
+    tertiary: Color = DmsColor.Light.blue50,
+    onTertiary: Color = DmsColor.Light.gray500,
+    tertiaryContainer: Color = DmsColor.Light.gray600,
+    onTertiaryContainer: Color = DmsColor.Light.gray700,
+    error: Color = DmsColor.Light.red200,
+    onError: Color = DmsColor.Light.red300,
+    errorContainer: Color = DmsColor.Light.red400,
     onErrorContainer: Color = DmsColor.Light.red500,
     background: Color = DmsColor.Light.background,
     onBackground: Color = DmsColor.Light.gray900,
     backgroundVariant: Color = DmsColor.Light.gray700,
     onBackgroundVariant: Color = DmsColor.Light.gray200,
-    surface: Color = DmsColor.Light.gray100,
-    onSurface: Color = DmsColor.Light.gray900,
-    surfaceVariant: Color = DmsColor.Light.gray200,
-    onSurfaceVariant: Color = DmsColor.Light.gray700,
+    surface: Color = DmsColor.Light.container,
+    onSurface: Color = DmsColor.Light.gray800,
+    surfaceVariant: Color = DmsColor.Light.gray400,
+    onSurfaceVariant: Color = DmsColor.Light.button,
+    surfaceTint: Color = DmsColor.Light.hover,
+    inverseSurface: Color = DmsColor.Light.red50,
+    inverseOnSurface: Color = DmsColor.Light.red100,
+    outline: Color = DmsColor.Light.black,
+    outlineVariant: Color = DmsColor.Light.pressed,
     icon: Color = DmsColor.Light.gray600,
     line: Color = DmsColor.Light.gray300,
 ): Colors = Colors(
@@ -253,6 +349,15 @@ fun lightColors(
     onPrimary = onPrimary,
     primaryContainer = primaryContainer,
     onPrimaryContainer = onPrimaryContainer,
+    inversePrimary = inversePrimary,
+    secondary = secondary,
+    onSecondary = onSecondary,
+    secondaryContainer = secondaryContainer,
+    onSecondaryContainer = onSecondaryContainer,
+    tertiary = tertiary,
+    onTertiary = onTertiary,
+    tertiaryContainer = tertiaryContainer,
+    onTertiaryContainer = onTertiaryContainer,
     error = error,
     onError = onError,
     errorContainer = errorContainer,
@@ -265,28 +370,46 @@ fun lightColors(
     onSurface = onSurface,
     surfaceVariant = surfaceVariant,
     onSurfaceVariant = onSurfaceVariant,
-    icon = icon,
-    line = line,
-    isLight = true,
+    surfaceTint = surfaceTint,
+    inverseSurface = inverseSurface,
+    inverseOnSurface = inverseOnSurface,
+    outline = outline,
+    outlineVariant = outlineVariant,
+    tint = icon,
+    divider = line,
 )
 
 fun darkColors(
-    primary: Color = DmsColor.Dark.blue200,
-    onPrimary: Color = DmsColor.Dark.gray900,
-    primaryContainer: Color = DmsColor.Dark.blue300,
-    onPrimaryContainer: Color = DmsColor.Dark.gray50,
+    primary: Color = DmsColor.Dark.blue300,
+    onPrimary: Color = DmsColor.Dark.gray50,
+    primaryContainer: Color = DmsColor.Dark.blue200,
+    onPrimaryContainer: Color = DmsColor.Dark.gray100,
+    inversePrimary: Color = DmsColor.Dark.blue400,
+    secondary: Color = DmsColor.Dark.blue500,
+    onSecondary: Color = DmsColor.Dark.gray200,
+    secondaryContainer: Color = DmsColor.Dark.blue100,
+    onSecondaryContainer: Color = DmsColor.Dark.gray300,
+    tertiary: Color = DmsColor.Dark.blue50,
+    onTertiary: Color = DmsColor.Dark.gray500,
+    tertiaryContainer: Color = DmsColor.Dark.gray600,
+    onTertiaryContainer: Color = DmsColor.Dark.gray700,
     error: Color = DmsColor.Dark.red200,
-    onError: Color = DmsColor.Dark.gray900,
-    errorContainer: Color = DmsColor.Dark.red300,
-    onErrorContainer: Color = DmsColor.Dark.gray50,
-    background: Color = DmsColor.Dark.gray900,
-    onBackground: Color = DmsColor.Dark.gray100,
+    onError: Color = DmsColor.Dark.red300,
+    errorContainer: Color = DmsColor.Dark.red400,
+    onErrorContainer: Color = DmsColor.Dark.red500,
+    background: Color = DmsColor.Dark.background,
+    onBackground: Color = DmsColor.Dark.gray900,
     backgroundVariant: Color = DmsColor.Dark.gray700,
     onBackgroundVariant: Color = DmsColor.Dark.gray200,
-    surface: Color = DmsColor.Dark.gray800,
-    onSurface: Color = DmsColor.Dark.gray100,
-    surfaceVariant: Color = DmsColor.Dark.gray700,
-    onSurfaceVariant: Color = DmsColor.Dark.gray200,
+    surface: Color = DmsColor.Dark.container,
+    onSurface: Color = DmsColor.Dark.gray800,
+    surfaceVariant: Color = DmsColor.Dark.gray400,
+    onSurfaceVariant: Color = DmsColor.Dark.button,
+    surfaceTint: Color = DmsColor.Dark.hover,
+    inverseSurface: Color = DmsColor.Dark.red50,
+    inverseOnSurface: Color = DmsColor.Dark.red100,
+    outline: Color = DmsColor.Dark.black,
+    outlineVariant: Color = DmsColor.Dark.pressed,
     icon: Color = DmsColor.Dark.gray500,
     line: Color = DmsColor.Dark.gray400,
 ): Colors = Colors(
@@ -294,6 +417,15 @@ fun darkColors(
     onPrimary = onPrimary,
     primaryContainer = primaryContainer,
     onPrimaryContainer = onPrimaryContainer,
+    inversePrimary = inversePrimary,
+    secondary = secondary,
+    onSecondary = onSecondary,
+    secondaryContainer = secondaryContainer,
+    onSecondaryContainer = onSecondaryContainer,
+    tertiary = tertiary,
+    onTertiary = onTertiary,
+    tertiaryContainer = tertiaryContainer,
+    onTertiaryContainer = onTertiaryContainer,
     error = error,
     onError = onError,
     errorContainer = errorContainer,
@@ -306,9 +438,13 @@ fun darkColors(
     onSurface = onSurface,
     surfaceVariant = surfaceVariant,
     onSurfaceVariant = onSurfaceVariant,
-    icon = icon,
-    line = line,
-    isLight = false,
+    surfaceTint = surfaceTint,
+    inverseSurface = inverseSurface,
+    inverseOnSurface = inverseOnSurface,
+    outline = outline,
+    outlineVariant = outlineVariant,
+    tint = icon,
+    divider = line,
 )
 
 internal val LocalColors = staticCompositionLocalOf { lightColors() }
