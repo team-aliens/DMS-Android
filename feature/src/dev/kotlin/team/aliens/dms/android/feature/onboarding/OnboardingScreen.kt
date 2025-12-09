@@ -18,14 +18,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,7 +47,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import team.aliens.dms.android.core.designsystem.ContainedButton
+import team.aliens.dms.android.core.designsystem.ButtonColor
+import team.aliens.dms.android.core.designsystem.ButtonType
+import team.aliens.dms.android.core.designsystem.DmsButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.headlineB
@@ -143,8 +146,8 @@ internal fun CompleteContent(
                     color = DmsTheme.colorScheme.primary,
                 )
                 Text(
-                    text = "기숙사 관리 시스템",
-                    style = DmsTheme.typography.headlineB,
+                    text = "기숙사 관리 시스템.",
+                    style = DmsTheme.typography.headlineB.copy(brush = brush),
                     color = DmsTheme.colorScheme.onPrimaryContainer,
                 )
             }
@@ -154,15 +157,15 @@ internal fun CompleteContent(
 
         AnimatedVisibility(
             visible = step >= 3,
+            modifier = Modifier.padding(16.dp),
         ) {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp, vertical = 12.dp),
+            DmsButton(
+                text = "시작하기",
+                buttonType = ButtonType.Contained,
+                buttonColor = ButtonColor.Primary,
                 onClick = onCompleteClick,
-            ) {
-                Text(text = "시작하기")
-            }
+                enabled = true,
+            )
         }
     }
 }
@@ -176,7 +179,7 @@ internal fun IntroContent(
     var isPointVisible by remember { mutableStateOf(false) }
     val pointColor by animateColorAsState(
         targetValue = if (isPointVisible) {
-            DmsTheme.colorScheme.onPrimaryContainer
+            DmsTheme.colorScheme.primary
         } else {
             DmsTheme.colorScheme.onPrimaryContainer
         },
