@@ -14,14 +14,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.feature.onboarding.component.CompleteContent
 import team.aliens.dms.android.feature.onboarding.component.IntroContent
+import team.aliens.dms.android.feature.onboarding.viewmodel.OnboardingViewModel
 
 @Composable
 internal fun OnboardingScreen(
-    onComplete: () -> Unit,
+    navigateToSignIn: ()-> Unit,
 ) {
+    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
     var isLastStep by remember { mutableStateOf(false) }
 
     Column(
@@ -39,7 +42,10 @@ internal fun OnboardingScreen(
             contentAlignment = Alignment.Center,
         ) { isLast ->
             if (isLast) {
-                CompleteContent(onCompleteClick = onComplete)
+                CompleteContent(onCompleteClick = {
+                    onboardingViewModel.completeOnboarding()
+                    navigateToSignIn()
+                })
             } else {
                 IntroContent(
                     onAnimatedEnd = { isLastStep = true },
