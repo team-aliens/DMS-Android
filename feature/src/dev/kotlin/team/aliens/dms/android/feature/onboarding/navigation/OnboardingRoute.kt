@@ -5,9 +5,9 @@ import team.aliens.dms.android.feature.onboarding.ui.OnboardingScreen
 
 @Composable
 fun OnboardingRoute(
-    onComplete: () -> Unit,
+    navigateToSignIn: () -> Unit,
 ) {
     OnboardingScreen(
-        onComplete = onComplete,
+        navigateToSignIn = navigateToSignIn
     )
 }

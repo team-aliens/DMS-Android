@@ -1,7 +1,5 @@
 package team.aliens.dms.android.app
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -9,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -25,7 +22,7 @@ import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 data object OnboardingScreenNav : NavKey
 
 @Serializable
-data object LoginScreenNav : NavKey
+data object SignInScreenNav : NavKey
 
 @Serializable
 data object MainScreenNav : NavKey
@@ -38,16 +35,16 @@ fun DmsApp(
 ) {
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
     val isJwtAvailableState by isJwtAvailable.collectAsState()
-    
+
     val backStack = rememberNavBackStack(OnboardingScreenNav)
-    
+
     LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
             isJwtAvailableState -> MainScreenNav
-            else -> LoginScreenNav
+            else -> SignInScreenNav
         }
-        
+
         if (backStack.lastOrNull() != initialScreen) {
             backStack.clear()
             backStack.add(initialScreen)
@@ -61,16 +58,10 @@ fun DmsApp(
         entryProvider = entryProvider {
             entry<OnboardingScreenNav> {
                 OnboardingRoute(
-                    onComplete = {
-                        mainViewModel.completeOnboarding()
-                        backStack.clear()
-                        backStack.add(
-                            if (isJwtAvailableState) MainScreenNav else LoginScreenNav
-                        )
-                    }
+                    navigateToSignIn = { backStack.add(SignInScreenNav) },
                 )
             }
-            entry<LoginScreenNav> {
+            entry<SignInScreenNav> {
                 SignInRoute()
             }
             entry<MainScreenNav> {
