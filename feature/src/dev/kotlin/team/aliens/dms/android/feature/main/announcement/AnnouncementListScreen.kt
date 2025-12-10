@@ -51,13 +51,11 @@ internal fun AnnouncementListScreen(
     val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     val onOrderChange: () -> Unit = {
-        viewModel.postIntent(
-            AnnouncementIntent.UpdateOrder(
-                order = when (uiState.selectedOrder) {
-                    Order.NEW -> Order.OLD
-                    Order.OLD -> Order.NEW
-                },
-            ),
+        viewModel.updateOrder(
+            order = when (uiState.selectedOrder) {
+                Order.NEW -> Order.OLD
+                Order.OLD -> Order.NEW
+            },
         )
     }
 

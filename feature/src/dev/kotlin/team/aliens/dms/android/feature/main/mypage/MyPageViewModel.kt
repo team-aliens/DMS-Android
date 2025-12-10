@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
+import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.repository.StudentRepository
@@ -17,18 +17,11 @@ import javax.inject.Inject
 internal class MyPageViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val studentRepository: StudentRepository,
-) : BaseMviViewModel<MyPageUiState, MyPageIntent, MyPageSideEffect>(
+) : BaseStateViewModel<MyPageUiState, MyPageSideEffect>(
     initialState = MyPageUiState.initial(),
 ) {
     init {
         fetchMyPage()
-    }
-
-    override fun processIntent(intent: MyPageIntent) {
-        when (intent) {
-            MyPageIntent.SignOut -> signOut()
-            MyPageIntent.Withdraw -> withdraw()
-        }
     }
 
     private fun fetchMyPage() {
@@ -36,12 +29,14 @@ internal class MyPageViewModel @Inject constructor(
             runCatching {
                 studentRepository.fetchMyPage()
             }.onSuccess { myPage ->
-                reduce(newState = stateFlow.value.copy(myPage = myPage))
+                setState {
+                    stateFlow.value.copy(myPage = myPage)
+                }
             }
         }
     }
 
-    private fun signOut() {
+    fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 authRepository.signOut()
@@ -51,7 +46,7 @@ internal class MyPageViewModel @Inject constructor(
         }
     }
 
-    private fun withdraw() {
+    fun withdraw() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 studentRepository.withdraw()
@@ -70,13 +65,6 @@ internal data class MyPageUiState(
             myPage = null,
         )
     }
-}
-
-internal sealed class MyPageIntent : Intent() {
-
-    data object SignOut : MyPageIntent()
-
-    data object Withdraw : MyPageIntent()
 }
 
 internal sealed class MyPageSideEffect : SideEffect() {

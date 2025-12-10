@@ -6,10 +6,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
-import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.remains.model.AppliedRemainsOption
 import team.aliens.dms.android.data.remains.repository.RemainsRepository
 import team.aliens.dms.android.data.studyroom.model.AppliedStudyRoom
@@ -24,7 +22,7 @@ internal class ApplicationViewModel @Inject constructor(
     private val studyRoomRepository: StudyRoomRepository,
     private val remainsRepository: RemainsRepository,
     private val votingRepository: VotingRepository,
-) : BaseMviViewModel<ApplicationUiState, ApplicationIntent, ApplicationSideEffect>(
+) : BaseStateViewModel<ApplicationUiState, Unit>(
     initialState = ApplicationUiState.initial(),
 ),
     DefaultLifecycleObserver {
@@ -44,7 +42,7 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 studyRoomRepository.fetchAppliedStudyRoom()
             }.onSuccess { appliedStudyRoom ->
-                reduce(newState = stateFlow.value.copy(appliedStudyRoom = appliedStudyRoom))
+                setState { stateFlow.value.copy(appliedStudyRoom = appliedStudyRoom) }
             }
         }
     }
@@ -54,7 +52,7 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 remainsRepository.fetchAppliedRemainsOption()
             }.onSuccess { appliedRemainsOption ->
-                reduce(newState = stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption))
+                setState { stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption) }
             }
         }
     }
@@ -64,14 +62,14 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 votingRepository.fetchAllVoteSearch()
             }.onSuccess { fetchedVoteSearch ->
-                reduce(
-                    newState = stateFlow.value.copy(
+                setState {
+                    stateFlow.value.copy(
                         modelStudentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.MODEL_STUDENT_VOTE },
                         selectedVoteList = fetchedVoteSearch.filter { it.voteType == Vote.OPTION_VOTE },
                         studentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.STUDENT_VOTE },
                         approvalVoteList = fetchedVoteSearch.filter { it.voteType == Vote.APPROVAL_VOTE },
-                    ),
-                )
+                    )
+                }
             }
         }
     }
@@ -96,7 +94,3 @@ internal data class ApplicationUiState(
         )
     }
 }
-
-internal sealed class ApplicationIntent : Intent()
-
-internal sealed class ApplicationSideEffect : SideEffect()

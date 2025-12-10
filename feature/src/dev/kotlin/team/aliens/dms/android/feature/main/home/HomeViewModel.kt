@@ -5,10 +5,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
+import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
 import team.aliens.dms.android.data.meal.exception.CannotFindMealException
 import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.data.meal.repository.MealRepository
@@ -20,7 +20,7 @@ import javax.inject.Inject
 internal class HomeViewModel @Inject constructor(
     private val mealRepository: MealRepository,
     private val noticeRepository: NoticeRepository,
-) : BaseMviViewModel<HomeUiState, HomeIntent, HomeSideEffect>(
+) : BaseStateViewModel<HomeUiState, HomeSideEffect>(
     initialState = HomeUiState.initial(),
 ) {
     init {
@@ -28,34 +28,29 @@ internal class HomeViewModel @Inject constructor(
         updateDate(date = stateFlow.value.selectedDate)
     }
 
-    override fun processIntent(intent: HomeIntent) {
-        when (intent) {
-            is HomeIntent.UpdateSelectedDate -> updateDate(intent.selectedDate)
-            HomeIntent.UpdateMeal -> updateMeal()
-        }
-    }
-
     private fun fetchWhetherNewNoticeExists() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 noticeRepository.fetchWhetherNewNoticesExist()
             }.onSuccess { newNoticesExist ->
-                reduce(newState = stateFlow.value.copy(newNoticesExist = newNoticesExist))
+                setState {
+                    stateFlow.value.copy(newNoticesExist = newNoticesExist)
+                }
             }
         }
     }
 
-    private fun updateDate(date: LocalDate) {
+    fun updateDate(date: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 mealRepository.fetchMeal(date)
             }.onSuccess { meal ->
-                reduce(
-                    newState = stateFlow.value.copy(
+                setState {
+                    stateFlow.value.copy(
                         selectedDate = date,
                         currentMeal = meal,
-                    ),
-                )
+                    )
+                }
             }.onFailure { exception ->
                 when (exception) {
                     is CannotFindMealException -> postSideEffect(HomeSideEffect.CannotFindMeal)
@@ -64,19 +59,19 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateMeal() =
+    fun updateMeal() =
         viewModelScope.launch(Dispatchers.IO) {
             println("LOGLOG1")
             val capturedDate = stateFlow.value.selectedDate
             runCatching {
                 mealRepository.updateMeal(capturedDate)
             }.onSuccess { meal ->
-                reduce(
-                    newState = stateFlow.value.copy(
+                setState {
+                    stateFlow.value.copy(
                         selectedDate = capturedDate,
                         currentMeal = meal,
-                    ),
-                )
+                    )
+                }
                 postSideEffect(HomeSideEffect.MealUpdated)
             }.onFailure {
                 postSideEffect(HomeSideEffect.MealUpdateFailed)
@@ -112,11 +107,6 @@ internal data class HomeUiState(
             )
         }
     }
-}
-
-internal sealed class HomeIntent : Intent() {
-    class UpdateSelectedDate(val selectedDate: LocalDate) : HomeIntent()
-    data object UpdateMeal : HomeIntent()
 }
 
 internal sealed class HomeSideEffect : SideEffect() {

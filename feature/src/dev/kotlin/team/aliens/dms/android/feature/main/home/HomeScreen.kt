@@ -114,7 +114,7 @@ internal fun HomeScreen(
 
     val onRefresh: () -> Unit = {
         isRefreshing = true
-        viewModel.postIntent(HomeIntent.UpdateMeal)
+        viewModel.updateMeal()
     }
 
     viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
@@ -137,7 +137,7 @@ internal fun HomeScreen(
 
     val onSelectedDateChange = remember {
         { selectedDate: LocalDate ->
-            viewModel.postIntent(HomeIntent.UpdateSelectedDate(selectedDate))
+            viewModel.updateDate(selectedDate)
             Unit
         }
     }

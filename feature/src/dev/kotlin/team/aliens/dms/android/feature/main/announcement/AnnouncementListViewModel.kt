@@ -4,10 +4,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
-import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
+import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.notice.model.Notice
 import team.aliens.dms.android.data.notice.repository.NoticeRepository
 import team.aliens.dms.android.shared.model.Order
@@ -16,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AnnouncementListViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
-) : BaseMviViewModel<AnnouncementListUiState, AnnouncementIntent, AnnouncementSideEffect>(
+) : BaseStateViewModel<AnnouncementListUiState, Unit>(
     initialState = AnnouncementListUiState.initial(),
 ) {
     private var noticesAscByDate: List<Notice> = emptyList()
@@ -26,12 +24,6 @@ internal class AnnouncementListViewModel @Inject constructor(
         fetchNotices()
     }
 
-    override fun processIntent(intent: AnnouncementIntent) {
-        when (intent) {
-            is AnnouncementIntent.UpdateOrder -> updateOrder(intent.order)
-        }
-    }
-
     private fun fetchNotices() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -39,22 +31,24 @@ internal class AnnouncementListViewModel @Inject constructor(
             }.onSuccess { notices ->
                 noticesAscByDate = notices
                 noticesDescByDate = notices.reversed()
-                reduce(newState = stateFlow.value.copy(notices = notices))
+                setState {
+                    stateFlow.value.copy(notices = notices)
+                }
             }.onFailure {
                 it.printStackTrace()
             }
         }
     }
 
-    private fun updateOrder(order: Order): Boolean = reduce(
-        newState = stateFlow.value.copy(
+    fun updateOrder(order: Order) = setState {
+        stateFlow.value.copy(
             selectedOrder = order,
             notices = when (order) {
                 Order.NEW -> this.noticesAscByDate
                 Order.OLD -> this.noticesDescByDate
             },
-        ),
-    )
+        )
+    }
 }
 
 internal data class AnnouncementListUiState(
@@ -68,12 +62,6 @@ internal data class AnnouncementListUiState(
         )
     }
 }
-
-internal sealed class AnnouncementIntent : Intent() {
-    class UpdateOrder(val order: Order) : AnnouncementIntent()
-}
-
-internal sealed class AnnouncementSideEffect : SideEffect()
 
 /*
 

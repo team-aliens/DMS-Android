@@ -96,7 +96,7 @@ internal fun MyPageScreen(
             onDismissRequest = { onShouldShowSignOutDialogChange(false) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.postIntent(MyPageIntent.SignOut) },
+                    onClick = { viewModel.signOut() },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
@@ -118,7 +118,7 @@ internal fun MyPageScreen(
             onDismissRequest = { onShouldShowWithdrawDialogChange(false) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.postIntent(MyPageIntent.Withdraw) },
+                    onClick = { viewModel.withdraw() },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
