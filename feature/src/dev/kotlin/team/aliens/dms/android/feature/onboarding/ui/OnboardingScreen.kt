@@ -22,7 +22,7 @@ import team.aliens.dms.android.feature.onboarding.viewmodel.OnboardingViewModel
 
 @Composable
 internal fun OnboardingScreen(
-    navigateToSignIn: ()-> Unit,
+    navigateToSignIn: () -> Unit,
 ) {
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
     var isLastStep by remember { mutableStateOf(false) }
