@@ -6,5 +6,3 @@ fun Modifier.modifyIf(
     condition: Boolean,
     modify: Modifier.() -> Modifier,
 ): Modifier = if (condition) modify() else this
-
-

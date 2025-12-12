@@ -28,7 +28,7 @@ class Typography internal constructor(
         headlineB: TextStyle = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 32.sp,
-            lineHeight = 38.2.sp
+            lineHeight = 38.2.sp,
         ),
         headlineM: TextStyle = TextStyle(
             fontWeight = FontWeight.Medium,
