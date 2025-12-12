@@ -58,7 +58,10 @@ fun DmsApp(
         entryProvider = entryProvider {
             entry<OnboardingScreenNav> {
                 OnboardingRoute(
-                    navigateToSignIn = { backStack.add(SignInScreenNav) },
+                    navigateToSignIn = {
+                        backStack.clear()
+                        backStack.add(SignInScreenNav)
+                    },
                 )
             }
             entry<SignInScreenNav> {
