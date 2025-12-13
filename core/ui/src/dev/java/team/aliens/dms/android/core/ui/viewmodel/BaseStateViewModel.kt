@@ -18,8 +18,9 @@ import kotlinx.coroutines.launch
  *
  * BaseMviViewModel과 달리 Intent 없이 직접 메서드 호출 방식을 사용합니다.
  *
- * @param S UiState 타입
- * @param E SideEffect 타입 (필요 없으면 Unit 사용)
+ * @param S UI 상태를 나타내는 데이터 클래스 타입.
+ * @param E Side Effect를 나타내는 타입. (필요 없으면 Unit 사용)
+ * @param initialState ViewModel의 초기 상태.
  */
 abstract class BaseStateViewModel<S, E>(initialState: S) : ViewModel() {
 
@@ -29,10 +30,8 @@ abstract class BaseStateViewModel<S, E>(initialState: S) : ViewModel() {
     private val sideEffectChannel: Channel<E> = Channel(Channel.CONFLATED)
     val sideEffectFlow: Flow<E> = sideEffectChannel.receiveAsFlow()
 
-    protected fun setState(newState: () -> S) {
-        _stateFlow.update {
-            newState()
-        }
+    protected fun setState(newState: (S) -> S) {
+        _stateFlow.update(newState)
     }
 
     protected fun postSideEffect(sideEffect: E) {
