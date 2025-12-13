@@ -48,7 +48,7 @@ internal fun AnnouncementListScreen(
     onNavigateToNoticeDetails: (noticeId: UUID) -> Unit,
 ) {
     val viewModel: AnnouncementListViewModel = hiltViewModel()
-    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val onOrderChange: () -> Unit = {
         viewModel.updateOrder(

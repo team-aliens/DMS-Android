@@ -31,8 +31,8 @@ internal class AnnouncementListViewModel @Inject constructor(
             }.onSuccess { notices ->
                 noticesAscByDate = notices
                 noticesDescByDate = notices.reversed()
-                setState {
-                    stateFlow.value.copy(notices = notices)
+                setState { uiState ->
+                    uiState.copy(notices = notices)
                 }
             }.onFailure {
                 it.printStackTrace()
@@ -41,7 +41,7 @@ internal class AnnouncementListViewModel @Inject constructor(
     }
 
     fun updateOrder(order: Order) = setState {
-        stateFlow.value.copy(
+        it.copy(
             selectedOrder = order,
             notices = when (order) {
                 Order.NEW -> this.noticesAscByDate

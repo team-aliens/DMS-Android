@@ -81,7 +81,7 @@ internal fun MyPageScreen(
     onNavigateToUnauthorizedNav: () -> Unit,
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
-    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val (shouldShowSignOutDialog, onShouldShowSignOutDialogChange) = remember {
         mutableStateOf(false)
     }
@@ -133,7 +133,7 @@ internal fun MyPageScreen(
         )
     }
 
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+    viewModel.effectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             MyPageSideEffect.SignOutSuccess -> onNavigateToUnauthorizedNav()
             MyPageSideEffect.WithdrawalSuccess -> onNavigateToUnauthorizedNav()

@@ -42,7 +42,7 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 studyRoomRepository.fetchAppliedStudyRoom()
             }.onSuccess { appliedStudyRoom ->
-                setState { stateFlow.value.copy(appliedStudyRoom = appliedStudyRoom) }
+                setState { it.copy(appliedStudyRoom = appliedStudyRoom) }
             }
         }
     }
@@ -52,7 +52,7 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 remainsRepository.fetchAppliedRemainsOption()
             }.onSuccess { appliedRemainsOption ->
-                setState { stateFlow.value.copy(appliedRemainsOption = appliedRemainsOption) }
+                setState { it.copy(appliedRemainsOption = appliedRemainsOption) }
             }
         }
     }
@@ -63,7 +63,7 @@ internal class ApplicationViewModel @Inject constructor(
                 votingRepository.fetchAllVoteSearch()
             }.onSuccess { fetchedVoteSearch ->
                 setState {
-                    stateFlow.value.copy(
+                    it.copy(
                         modelStudentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.MODEL_STUDENT_VOTE },
                         selectedVoteList = fetchedVoteSearch.filter { it.voteType == Vote.OPTION_VOTE },
                         studentVoteList = fetchedVoteSearch.filter { it.voteType == Vote.STUDENT_VOTE },

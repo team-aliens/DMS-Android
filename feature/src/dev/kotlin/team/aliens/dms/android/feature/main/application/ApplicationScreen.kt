@@ -73,7 +73,7 @@ internal fun ApplicationScreen(
     onNavigateToSelectedVote: (voteOptionId: UUID, voteTopicTitle: String) -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
-    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("신청", "투표")
 

@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
-import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.repository.StudentRepository
@@ -30,7 +29,7 @@ internal class MyPageViewModel @Inject constructor(
                 studentRepository.fetchMyPage()
             }.onSuccess { myPage ->
                 setState {
-                    stateFlow.value.copy(myPage = myPage)
+                    uiState.value.copy(myPage = myPage)
                 }
             }
         }
@@ -41,7 +40,7 @@ internal class MyPageViewModel @Inject constructor(
             runCatching {
                 authRepository.signOut()
             }.onSuccess {
-                postSideEffect(MyPageSideEffect.SignOutSuccess)
+                sendEffect(MyPageSideEffect.SignOutSuccess)
             }
         }
     }
@@ -51,7 +50,7 @@ internal class MyPageViewModel @Inject constructor(
             runCatching {
                 studentRepository.withdraw()
             }.onSuccess {
-                postSideEffect(MyPageSideEffect.WithdrawalSuccess)
+                sendEffect(MyPageSideEffect.WithdrawalSuccess)
             }
         }
     }

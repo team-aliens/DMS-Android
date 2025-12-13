@@ -8,7 +8,6 @@ import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.ui.mvi.SideEffect
 import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
-import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
 import team.aliens.dms.android.data.meal.exception.CannotFindMealException
 import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.data.meal.repository.MealRepository
@@ -25,7 +24,7 @@ internal class HomeViewModel @Inject constructor(
 ) {
     init {
         fetchWhetherNewNoticeExists()
-        updateDate(date = stateFlow.value.selectedDate)
+        updateDate(date = uiState.value.selectedDate)
     }
 
     private fun fetchWhetherNewNoticeExists() {
@@ -34,7 +33,7 @@ internal class HomeViewModel @Inject constructor(
                 noticeRepository.fetchWhetherNewNoticesExist()
             }.onSuccess { newNoticesExist ->
                 setState {
-                    stateFlow.value.copy(newNoticesExist = newNoticesExist)
+                    it.copy(newNoticesExist = newNoticesExist)
                 }
             }
         }
@@ -46,14 +45,14 @@ internal class HomeViewModel @Inject constructor(
                 mealRepository.fetchMeal(date)
             }.onSuccess { meal ->
                 setState {
-                    stateFlow.value.copy(
+                    it.copy(
                         selectedDate = date,
                         currentMeal = meal,
                     )
                 }
             }.onFailure { exception ->
                 when (exception) {
-                    is CannotFindMealException -> postSideEffect(HomeSideEffect.CannotFindMeal)
+                    is CannotFindMealException -> sendEffect(HomeSideEffect.CannotFindMeal)
                 }
             }
         }
@@ -62,19 +61,19 @@ internal class HomeViewModel @Inject constructor(
     fun updateMeal() =
         viewModelScope.launch(Dispatchers.IO) {
             println("LOGLOG1")
-            val capturedDate = stateFlow.value.selectedDate
+            val capturedDate = uiState.value.selectedDate
             runCatching {
                 mealRepository.updateMeal(capturedDate)
             }.onSuccess { meal ->
                 setState {
-                    stateFlow.value.copy(
+                    uiState.value.copy(
                         selectedDate = capturedDate,
                         currentMeal = meal,
                     )
                 }
-                postSideEffect(HomeSideEffect.MealUpdated)
+                sendEffect(HomeSideEffect.MealUpdated)
             }.onFailure {
-                postSideEffect(HomeSideEffect.MealUpdateFailed)
+                sendEffect(HomeSideEffect.MealUpdateFailed)
             }.also {
                 println("LOGLOG ${it.isSuccess}")
             }

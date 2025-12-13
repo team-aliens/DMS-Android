@@ -108,7 +108,7 @@ internal fun HomeScreen(
 ) {
     val toast = LocalToast.current
     val context = LocalContext.current
-    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pullToRefreshState = rememberPullToRefreshState()
     var isRefreshing by remember { mutableStateOf(false) }
 
@@ -117,7 +117,7 @@ internal fun HomeScreen(
         viewModel.updateMeal()
     }
 
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+    viewModel.effectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             HomeSideEffect.CannotFindMeal, HomeSideEffect.MealUpdateFailed -> {
                 isRefreshing = false

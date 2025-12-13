@@ -24,22 +24,22 @@ import kotlinx.coroutines.launch
  */
 abstract class BaseStateViewModel<S, E>(initialState: S) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<S> = MutableStateFlow(initialState)
-    val stateFlow: StateFlow<S> = _stateFlow.asStateFlow()
+    private val _uiState: MutableStateFlow<S> = MutableStateFlow(initialState)
+    val uiState: StateFlow<S> = _uiState.asStateFlow()
 
-    private val sideEffectChannel: Channel<E> = Channel(Channel.CONFLATED)
-    val sideEffectFlow: Flow<E> = sideEffectChannel.receiveAsFlow()
+    private val _effectChannel: Channel<E> = Channel(Channel.CONFLATED)
+    val effectFlow: Flow<E> = _effectChannel.receiveAsFlow()
 
     protected fun setState(newState: (S) -> S) {
-        _stateFlow.update(newState)
+        _uiState.update(newState)
     }
 
-    protected fun postSideEffect(sideEffect: E) {
-        sideEffectChannel.trySend(sideEffect)
+    protected fun sendEffect(sideEffect: E) {
+        _effectChannel.trySend(sideEffect)
     }
 
     override fun onCleared() {
         super.onCleared()
-        sideEffectChannel.close()
+        _effectChannel.close()
     }
 }
