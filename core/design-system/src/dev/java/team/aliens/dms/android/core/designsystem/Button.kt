@@ -2,6 +2,7 @@ package team.aliens.dms.android.core.designsystem
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,7 +38,6 @@ data class ButtonState(
 
 enum class ButtonColor {
     Primary,
-    Gray,
     Error,
 }
 
@@ -67,21 +67,6 @@ private fun ButtonColor.containedColorScheme() = when (this) {
         pressed = ButtonTheme(
             textColor = DmsTheme.colorScheme.onPrimaryContainer,
             backgroundColor = DmsTheme.colorScheme.inversePrimary,
-        ),
-    )
-
-    ButtonColor.Gray -> ButtonState(
-        enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-            backgroundColor = DmsTheme.colorScheme.surface,
-        ),
-        disabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-            backgroundColor = DmsTheme.colorScheme.surfaceVariant,
-        ),
-        pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-            backgroundColor = DmsTheme.colorScheme.surface,
         ),
     )
 
@@ -115,18 +100,6 @@ private fun ButtonColor.textcolorScheme() = when (this) {
         ),
     )
 
-    ButtonColor.Gray -> ButtonState(
-        enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-        ),
-        pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-        ),
-        disabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onSurfaceVariant,
-        ),
-    )
-
     ButtonColor.Error -> ButtonState(
         enabled = ButtonTheme(
             textColor = DmsTheme.colorScheme.surface,
@@ -154,18 +127,6 @@ private fun ButtonColor.underlinecolorScheme() = when (this) {
         ),
     )
 
-    ButtonColor.Gray -> ButtonState(
-        enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-        ),
-        pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
-        ),
-        disabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onSurfaceVariant,
-        ),
-    )
-
     ButtonColor.Error -> ButtonState(
         enabled = ButtonTheme(
             textColor = DmsTheme.colorScheme.surface,
@@ -186,7 +147,6 @@ private fun BasicButton(
     enabled: Boolean,
     shape: Shape,
     borderColor: Color,
-    buttonType: ButtonType,
     onClick: () -> Unit,
     onPressed: (pressed: Boolean) -> Unit,
     keyboardInteractionEnabled: Boolean,
@@ -228,6 +188,13 @@ private fun BasicButton(
             }
             .clip(shape = shapeByKeyboardShow)
             .background(color = backgroundColor, shape = shapeByKeyboardShow)
+            .modifyIf(borderColor != Color.Transparent) {
+                border(
+                    width = 1.dp,
+                    color = borderColor,
+                    shape = shapeByKeyboardShow
+                )
+            }
             .clickable(
                 pressDepth = pressDepth,
                 enabled = enabled,
@@ -257,15 +224,14 @@ fun DmsButton(
     onClick: () -> Unit,
 ) {
     var pressed by remember { mutableStateOf(false) }
-
+    val clickEnabled = enabled && !isLoading
     val buttoncolorScheme = when (buttonType) {
         ButtonType.Contained -> buttonColor.containedColorScheme()
         ButtonType.Text -> buttonColor.textcolorScheme()
         ButtonType.Underline -> buttonColor.underlinecolorScheme()
     }
-
     val backgroundColor by animateColorAsState(
-        targetValue = if (!enabled) {
+        targetValue = if (!clickEnabled) {
             buttoncolorScheme.disabled.backgroundColor ?: Color.Transparent
         } else if (pressed) {
             buttoncolorScheme.pressed.backgroundColor ?: Color.Transparent
@@ -274,7 +240,7 @@ fun DmsButton(
         },
     )
     val borderColor by animateColorAsState(
-        targetValue = if (!enabled) {
+        targetValue = if (!clickEnabled) {
             buttoncolorScheme.disabled.borderColor ?: Color.Transparent
         } else if (pressed) {
             buttoncolorScheme.pressed.borderColor ?: Color.Transparent
@@ -283,7 +249,7 @@ fun DmsButton(
         },
     )
     val contentColor by animateColorAsState(
-        targetValue = if (!enabled) {
+        targetValue = if (!clickEnabled) {
             buttoncolorScheme.disabled.textColor
         } else if (pressed) {
             buttoncolorScheme.pressed.textColor
@@ -304,10 +270,9 @@ fun DmsButton(
     BasicButton(
         modifier = modifier,
         backgroundColor = backgroundColor,
-        enabled = enabled,
+        enabled = clickEnabled,
         shape = shape,
         borderColor = borderColor,
-        buttonType = buttonType,
         onClick = onClick,
         onPressed = { pressed = it },
         keyboardInteractionEnabled = keyboardInteractionEnabled,
