@@ -245,6 +245,7 @@ internal fun HomeScreen(
 @Stable
 private val DefaultHomeScreenVerticalSpace = 24.dp
 
+
 @Stable
 private val HomeBackgroundBrush: Brush = Brush.verticalGradient(
     colors = listOf(

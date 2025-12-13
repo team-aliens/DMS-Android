@@ -1,16 +1,12 @@
 package team.aliens.dms.android.app
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -19,59 +15,64 @@ import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.LocalToast
+import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
+import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 
 @Serializable
-data object ScreenA : NavKey
+data object OnboardingScreenNav : NavKey
 
 @Serializable
-data object ScreenB : NavKey
+data object SignInScreenNav : NavKey
+
+@Serializable
+data object MainScreenNav : NavKey
 
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
-//    displayFeatures: List<DisplayFeature>,
     isJwtAvailable: StateFlow<Boolean>,
-//    appState: DmsAppState = rememberDmsAppState(
-//        isJwtAvailable = isJwtAvailable,
-//    ),
     mainViewModel: MainActivityViewModel,
 ) {
-    val backStack = rememberNavBackStack(ScreenA)
-    val isUpdateFailed by mainViewModel.isUpdateFailed.collectAsState()
-    val toast = LocalToast.current
+    val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
+    val isJwtAvailableState by isJwtAvailable.collectAsState()
 
-    if (isUpdateFailed) {
-        LaunchedEffect(Unit) {
-            toast.showErrorToast(
-                message = "업데이트 정보를 불러올 수 없습니다",
-            )
+    val backStack = rememberNavBackStack(OnboardingScreenNav)
+
+    LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
+        val initialScreen = when {
+            !isOnboardingCompleted -> OnboardingScreenNav
+            isJwtAvailableState -> MainScreenNav
+            else -> SignInScreenNav
         }
-        mainViewModel.consumeUpdateFailed()
+
+        if (backStack.lastOrNull() != initialScreen) {
+            backStack.clear()
+            backStack.add(initialScreen)
+        }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding(),
-        contentAlignment = Alignment.Center,
-    ) {
-        NavDisplay(
-            backStack = backStack,
-            onBack = { backStack.removeLastOrNull() },
-            entryProvider = entryProvider {
-                entry<ScreenA> {
-                    Button(onClick = { backStack.add(ScreenB) }) {
-                        Text("Go to Screen B")
-                    }
-                }
-                entry<ScreenB> {
-                    Text(
-                        text = "Screen B",
-                        color = DmsTheme.colorScheme.onSurface,
-                    )
-                }
-            },
-        )
-    }
+    NavDisplay(
+        modifier = Modifier.systemBarsPadding(),
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+            entry<OnboardingScreenNav> {
+                OnboardingRoute(
+                    navigateToSignIn = {
+                        backStack.clear()
+                        backStack.add(SignInScreenNav)
+                    },
+                )
+            }
+            entry<SignInScreenNav> {
+                SignInRoute()
+            }
+            entry<MainScreenNav> {
+                Text(
+                    text = "Main Screen (TODO)",
+                    color = DmsTheme.colorScheme.onSurface,
+                )
+            }
+        },
+    )
 }

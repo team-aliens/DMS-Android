@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
-    implementation(libs.androidx.datastore.preferences)
+    api(libs.androidx.datastore.preferences)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)

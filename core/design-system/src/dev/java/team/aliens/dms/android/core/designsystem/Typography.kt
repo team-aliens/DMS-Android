@@ -28,7 +28,7 @@ class Typography internal constructor(
         headlineB: TextStyle = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 32.sp,
-            lineHeight = 38.2.sp
+            lineHeight = 38.2.sp,
         ),
         headlineM: TextStyle = TextStyle(
             fontWeight = FontWeight.Medium,
@@ -191,7 +191,7 @@ class Typography internal constructor(
     }
 }
 
-internal val notoSansFontFamily: FontFamily = FontFamily(
+val notoSansFontFamily: FontFamily = FontFamily(
     Font(
         resId = R.font.noto_sans_kr_black,
         weight = FontWeight.Black,

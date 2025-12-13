@@ -49,7 +49,6 @@ import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
-import team.aliens.dms.android.core.designsystem.Gray10
 import team.aliens.dms.android.core.designsystem.RoundedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.ShadowDefaults
@@ -82,7 +81,7 @@ internal fun MyPageScreen(
     onNavigateToUnauthorizedNav: () -> Unit,
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
-    val uiState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val (shouldShowSignOutDialog, onShouldShowSignOutDialogChange) = remember {
         mutableStateOf(false)
     }
@@ -97,7 +96,7 @@ internal fun MyPageScreen(
             onDismissRequest = { onShouldShowSignOutDialogChange(false) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.postIntent(MyPageIntent.SignOut) },
+                    onClick = { viewModel.signOut() },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
@@ -119,7 +118,7 @@ internal fun MyPageScreen(
             onDismissRequest = { onShouldShowWithdrawDialogChange(false) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.postIntent(MyPageIntent.Withdraw) },
+                    onClick = { viewModel.withdraw() },
                 ) {
                     Text(text = stringResource(id = R.string.accept))
                 }
@@ -134,7 +133,7 @@ internal fun MyPageScreen(
         )
     }
 
-    viewModel.sideEffectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
+    viewModel.effectFlow.collectInLaunchedEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             MyPageSideEffect.SignOutSuccess -> onNavigateToUnauthorizedNav()
             MyPageSideEffect.WithdrawalSuccess -> onNavigateToUnauthorizedNav()
@@ -302,7 +301,7 @@ private fun PhraseCard(
         shape = DmsTheme.shapes.surfaceSmall,
         colors = CardDefaults.cardColors(
             containerColor = DmsTheme.colorScheme.primaryContainer,
-            contentColor = Gray10,
+            contentColor = DmsTheme.colorScheme.onPrimaryContainer,
         ),
         elevation = CardDefaults.outlinedCardElevation(defaultElevation = ShadowDefaults.SmallElevation),
     ) {
