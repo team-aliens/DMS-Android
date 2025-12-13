@@ -20,9 +20,7 @@ class OnboardingViewModel @Inject constructor(
                 onboardingDataSource.getOnboardingCompleted()
             }.onSuccess { isCompleted ->
                 setState {
-                    uiState.value.copy(
-                        isOnboardingCompleted = isCompleted,
-                    )
+                    it.copy(isOnboardingCompleted = isCompleted,)
                 }
             }
         }
@@ -31,7 +29,7 @@ class OnboardingViewModel @Inject constructor(
     fun completeOnboarding() {
         viewModelScope.launch {
             onboardingDataSource.setOnboardingCompleted(true)
-            setState { uiState.value.copy(isOnboardingCompleted = true) }
+            setState { it.copy(isOnboardingCompleted = true) }
         }
     }
 }
