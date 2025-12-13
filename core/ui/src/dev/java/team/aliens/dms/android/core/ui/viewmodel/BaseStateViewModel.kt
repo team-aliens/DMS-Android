@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +26,7 @@ abstract class BaseStateViewModel<S, E>(initialState: S) : ViewModel() {
     private val _stateFlow: MutableStateFlow<S> = MutableStateFlow(initialState)
     val stateFlow: StateFlow<S> = _stateFlow.asStateFlow()
 
-    private val sideEffectChannel: Channel<E> = Channel()
+    private val sideEffectChannel: Channel<E> = Channel(Channel.CONFLATED)
     val sideEffectFlow: Flow<E> = sideEffectChannel.receiveAsFlow()
 
     protected fun setState(newState: () -> S) {
@@ -34,8 +35,9 @@ abstract class BaseStateViewModel<S, E>(initialState: S) : ViewModel() {
         }
     }
 
-    protected fun postSideEffect(sideEffect: E): Job =
-        viewModelScope.launch { sideEffectChannel.send(sideEffect) }
+    protected fun postSideEffect(sideEffect: E) {
+        sideEffectChannel.trySend(sideEffect)
+    }
 
     override fun onCleared() {
         super.onCleared()
