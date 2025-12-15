@@ -38,6 +38,7 @@ data class ButtonState(
 
 enum class ButtonColor {
     Primary,
+    Gray,
     Error,
 }
 
@@ -57,31 +58,46 @@ data class ButtonTheme(
 private fun ButtonColor.containedColorScheme() = when (this) {
     ButtonColor.Primary -> ButtonState(
         enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onPrimary,
-            backgroundColor = DmsTheme.colorScheme.primary,
-        ),
-        disabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onPrimary,
-            backgroundColor = DmsTheme.colorScheme.secondaryContainer,
+            textColor = DmsTheme.colorScheme.surface,
+            backgroundColor = DmsTheme.colorScheme.onPrimaryContainer,
         ),
         pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onPrimaryContainer,
+            textColor = DmsTheme.colorScheme.surface,
             backgroundColor = DmsTheme.colorScheme.inversePrimary,
+        ),
+        disabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.surfaceVariant,
+            backgroundColor = DmsTheme.colorScheme.onPrimary,
+        ),
+    )
+
+   ButtonColor.Gray -> ButtonState(
+        enabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.surfaceTint,
+            backgroundColor = DmsTheme.colorScheme.inverseOnSurface,
+        ),
+        pressed = ButtonTheme(
+            textColor = DmsTheme.colorScheme.surfaceTint,
+            backgroundColor = DmsTheme.colorScheme.onSecondary,
+        ),
+        disabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.surfaceTint,
+            backgroundColor = DmsTheme.colorScheme.surfaceVariant,
         ),
     )
 
     ButtonColor.Error -> ButtonState(
         enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onPrimary,
-            backgroundColor = DmsTheme.colorScheme.onError,
-        ),
-        disabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onPrimary,
-            backgroundColor = DmsTheme.colorScheme.inverseOnSurface,
+            textColor = DmsTheme.colorScheme.surface,
+            backgroundColor = DmsTheme.colorScheme.onErrorContainer,
         ),
         pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onPrimaryContainer,
-            backgroundColor = DmsTheme.colorScheme.errorContainer,
+            textColor = DmsTheme.colorScheme.surface,
+            backgroundColor = DmsTheme.colorScheme.onErrorContainer,
+        ),
+        disabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.inverseSurface,
+            backgroundColor = DmsTheme.colorScheme.outlineVariant,
         ),
     )
 }
@@ -97,6 +113,18 @@ private fun ButtonColor.textcolorScheme() = when (this) {
         ),
         disabled = ButtonTheme(
             textColor = DmsTheme.colorScheme.primaryContainer,
+        ),
+    )
+
+    ButtonColor.Gray -> ButtonState(
+        enabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.primary,
+        ),
+        pressed = ButtonTheme(
+            textColor = DmsTheme.colorScheme.surface,
+        ),
+        disabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.onSurfaceVariant,
         ),
     )
 
@@ -117,25 +145,37 @@ private fun ButtonColor.textcolorScheme() = when (this) {
 private fun ButtonColor.underlinecolorScheme() = when (this) {
     ButtonColor.Primary -> ButtonState(
         enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
+            textColor = DmsTheme.colorScheme.inverseSurface,
         ),
         pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
+            textColor = DmsTheme.colorScheme.onSecondaryContainer,
         ),
         disabled = ButtonTheme(
             textColor = DmsTheme.colorScheme.primaryContainer,
         ),
     )
 
-    ButtonColor.Error -> ButtonState(
+    ButtonColor.Gray -> ButtonState(
         enabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.surface,
+            textColor = DmsTheme.colorScheme.inverseSurface,
         ),
         pressed = ButtonTheme(
-            textColor = DmsTheme.colorScheme.errorContainer,
+            textColor = DmsTheme.colorScheme.tertiaryContainer,
         ),
         disabled = ButtonTheme(
-            textColor = DmsTheme.colorScheme.onError,
+            textColor = DmsTheme.colorScheme.onSurfaceVariant,
+        ),
+    )
+
+    ButtonColor.Error -> ButtonState(
+        enabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.inversePrimary,
+        ),
+        pressed = ButtonTheme(
+            textColor = DmsTheme.colorScheme.primaryContainer,
+        ),
+        disabled = ButtonTheme(
+            textColor = DmsTheme.colorScheme.onPrimary,
         ),
     )
 }
@@ -286,8 +326,7 @@ fun DmsButton(
 
         Box(
             modifier = Modifier
-                .padding(padding)
-                .fillMaxWidth(),
+                .padding(padding),
             contentAlignment = Alignment.Center,
         ) {
             if (isLoading) {

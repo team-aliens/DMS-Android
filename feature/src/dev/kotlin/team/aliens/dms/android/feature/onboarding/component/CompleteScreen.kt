@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -93,7 +94,7 @@ internal fun CompleteContent(
                 Text(
                     text = "최고의",
                     style = DmsTheme.typography.headlineB,
-                    color = DmsTheme.colorScheme.backgroundVariant,
+                    color = DmsTheme.colorScheme.onTertiaryContainer,
                 )
                 Text(
                     text = "기숙사 관리 시스템.",
@@ -110,6 +111,7 @@ internal fun CompleteContent(
             modifier = Modifier.padding(16.dp),
         ) {
             DmsButton(
+                modifier = Modifier.fillMaxWidth(),
                 text = "시작하기",
                 buttonType = ButtonType.Contained,
                 buttonColor = ButtonColor.Primary,

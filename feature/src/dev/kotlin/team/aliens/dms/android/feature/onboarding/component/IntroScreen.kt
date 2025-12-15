@@ -37,9 +37,9 @@ internal fun IntroContent(
     var isPointVisible by remember { mutableStateOf(false) }
     val pointColor by animateColorAsState(
         targetValue = if (isPointVisible) {
-            DmsTheme.colorScheme.primary
+            DmsTheme.colorScheme.onPrimaryContainer
         } else {
-            DmsTheme.colorScheme.backgroundVariant
+            DmsTheme.colorScheme.onTertiaryContainer
         },
     )
 
@@ -80,7 +80,7 @@ internal fun IntroContent(
                     append("에\n오신걸 환영해요!")
                 },
                 style = DmsTheme.typography.headlineB,
-                color = DmsTheme.colorScheme.backgroundVariant,
+                color = DmsTheme.colorScheme.onTertiaryContainer,
                 textAlign = TextAlign.Center,
             )
         }
@@ -101,7 +101,7 @@ internal fun IntroContent(
                     append("가\n새롭게 바뀌었어요!")
                 },
                 style = DmsTheme.typography.headlineB,
-                color = DmsTheme.colorScheme.backgroundVariant,
+                color = DmsTheme.colorScheme.onTertiaryContainer,
                 textAlign = TextAlign.Center,
             )
         }
@@ -114,7 +114,7 @@ internal fun IntroContent(
             Text(
                 text = "최고의\n기숙사 관리 시스템.",
                 style = DmsTheme.typography.headlineB,
-                color = DmsTheme.colorScheme.backgroundVariant,
+                color = DmsTheme.colorScheme.onTertiaryContainer,
                 textAlign = TextAlign.Center,
             )
         }
