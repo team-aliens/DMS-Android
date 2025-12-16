@@ -1,6 +1,6 @@
 package team.aliens.dms.android.core.widget.meal
 
-import team.aliens.dms.android.core.designsystem.DmsIcon
+import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.shared.date.util.now
 
 private const val BreakfastStartTime: Int = 9

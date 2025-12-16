@@ -1,4 +1,6 @@
-package team.aliens.dms.android.core.designsystem
+package team.aliens.dms.android.core.designsystem.foundation
+
+import team.aliens.dms.android.core.designsystem.R
 
 object DmsIcon {
     val Applicate = R.drawable.ic_applicate
