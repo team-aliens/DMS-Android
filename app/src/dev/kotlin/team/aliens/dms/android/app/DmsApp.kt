@@ -1,13 +1,22 @@
 package team.aliens.dms.android.app
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -15,6 +24,9 @@ import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 
@@ -32,6 +44,7 @@ fun DmsApp(
     windowSizeClass: WindowSizeClass,
     isJwtAvailable: StateFlow<Boolean>,
     mainViewModel: MainActivityViewModel,
+    appState: DmsAppState = rememberDmsAppState()
 ) {
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
     val isJwtAvailableState by isJwtAvailable.collectAsState()
@@ -51,28 +64,53 @@ fun DmsApp(
         }
     }
 
-    NavDisplay(
-        modifier = Modifier.systemBarsPadding(),
-        backStack = backStack,
-        onBack = { backStack.removeLastOrNull() },
-        entryProvider = entryProvider {
-            entry<OnboardingScreenNav> {
-                OnboardingRoute(
-                    navigateToSignIn = {
-                        backStack.clear()
-                        backStack.add(SignInScreenNav)
-                    },
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        NavDisplay(
+            modifier = Modifier.systemBarsPadding(),
+            backStack = backStack,
+            onBack = { backStack.removeLastOrNull() },
+            entryProvider = entryProvider {
+                entry<OnboardingScreenNav> {
+                    OnboardingRoute(
+                        navigateToSignIn = {
+                            backStack.clear()
+                            backStack.add(SignInScreenNav)
+                        },
+                    )
+                }
+                entry<SignInScreenNav> {
+                    SignInRoute(
+                        navigateToMain = {},
+                        navigateToSignUp = {},
+                        onShowSnackBar = { snackBarType, message ->
+                            appState.showSnackBar(snackBarType, message)
+                        },
+                    )
+                }
+                entry<MainScreenNav> {
+                    Text(
+                        text = "Main Screen (TODO)",
+                        color = DmsTheme.colorScheme.onSurface,
+                    )
+                }
+            },
+        )
+        SnackbarHost(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .statusBarsPadding()
+                .padding(top = 16.dp)
+                .zIndex(2f),
+            hostState = appState.snackBarHostState,
+            snackbar = {
+                val visuals = it.visuals as? DmsSnackBarVisuals ?: return@SnackbarHost
+                DmsSnackBar(
+                    snackBarType = visuals.snackBarType,
+                    message = visuals.message,
                 )
-            }
-            entry<SignInScreenNav> {
-                SignInRoute()
-            }
-            entry<MainScreenNav> {
-                Text(
-                    text = "Main Screen (TODO)",
-                    color = DmsTheme.colorScheme.onSurface,
-                )
-            }
-        },
-    )
+            },
+        )
+    }
 }
