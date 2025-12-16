@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.signin.ui
 
+import android.inputmethodservice.Keyboard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -165,7 +167,7 @@ private fun UserInformationInputs(
                 .padding(top = 32.dp),
             label = "비밀번호",
             value = password,
-            hint = "비빌번호 입력",
+            hint = "비밀번호 입력",
             onValueChange = onPasswordChange,
             showVisibleIcon = true,
         )

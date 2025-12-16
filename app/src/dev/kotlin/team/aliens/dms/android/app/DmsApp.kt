@@ -82,7 +82,7 @@ fun DmsApp(
                 }
                 entry<SignInScreenNav> {
                     SignInRoute(
-                        navigateToMain = {},
+                        navigateToMain = { backStack.add(MainScreenNav) },
                         navigateToSignUp = {},
                         onShowSnackBar = { snackBarType, message ->
                             appState.showSnackBar(snackBarType, message)
