@@ -18,6 +18,9 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,31 +29,60 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.foundation.DmsSymbol
 import team.aliens.dms.android.core.designsystem.labelM
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 import team.aliens.dms.android.core.designsystem.titleB
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.feature.signin.viewmodel.SignInSideEffect
+import team.aliens.dms.android.feature.signin.viewmodel.SignInState
+import team.aliens.dms.android.feature.signin.viewmodel.SignInViewModel
 
 @Composable
 internal fun SignIn(
-//    navigateToMain: () -> Unit,
-//    navigateToSignUp: () -> Unit,
-//    navigateToFindId: () -> Unit,
-//    navigateToFindPassword: () -> Unit,
-   //onShowSnackBar: (DmsSnackBarType, String) -> Unit,
+    navigateToMain: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    navigateToFindId: () -> Unit,
+    navigateToFindPassword: () -> Unit,
+    onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-    SignInScreen()
+    val viewModel: SignInViewModel = hiltViewModel()
+    val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.effectFlow.collect {
+            when (it) {
+                SignInSideEffect.NavigateToMain -> navigateToMain()
+                is SignInSideEffect.ShowSnackBar -> onShowSnackBar(it.snackBarType, it.message)
+            }
+        }
+    }
+
+    SignInScreen(
+        onSignInClick = viewModel::signIn,
+        navigateToSignUp = navigateToSignUp,
+        state = state,
+        onAccountIdChange = viewModel::setAccountId,
+        onPasswordChange = viewModel::setPassword,
+    )
 }
 
 @Composable
-private fun SignInScreen() {
+private fun SignInScreen(
+    onSignInClick: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    state: SignInState,
+    onAccountIdChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+) {
     val id = remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
     Column(
@@ -59,8 +91,6 @@ private fun SignInScreen() {
             .systemBarsPadding()
             .navigationBarsPadding()
             .background(DmsTheme.colorScheme.surfaceTint)
-            .padding(top = 52.dp)
-            .padding(horizontal = 24.dp)
             .pointerInput(Unit) { // TODO KMP 구현
                 detectTapGestures(
                     onTap = {
@@ -69,9 +99,15 @@ private fun SignInScreen() {
                 )
             },
     ) {
-        DmsSymbol()
+        DmsSymbol(
+            modifier = Modifier
+                .topPadding(52.dp)
+                .horizontalPadding(24.dp)
+        )
         Text(
-            modifier = Modifier.padding(top = 20.dp),
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .horizontalPadding(24.dp),
             text = "로그인",
             style = DmsTheme.typography.titleB,
             color = DmsTheme.colorScheme.onTertiaryContainer,
