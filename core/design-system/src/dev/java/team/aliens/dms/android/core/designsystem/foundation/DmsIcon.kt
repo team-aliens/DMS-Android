@@ -43,4 +43,5 @@ object DmsIcon {
     val ProfileDefault = R.drawable.ic_profile_default
     val SymbolLight = R.drawable.ic_symbol_light
     val SymbolDark = R.drawable.ic_symbol_dark
+    val Cancel = R.drawable.ic_cancel
 }
