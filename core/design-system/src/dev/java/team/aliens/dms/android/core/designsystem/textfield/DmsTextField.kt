@@ -34,7 +34,6 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.button.DmsIconButton
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
-import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
 
 @Composable
