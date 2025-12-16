@@ -60,7 +60,7 @@ fun DmsTextField(
         targetValue = if (isFocused || value.isNotEmpty()) {
             DmsTheme.colorScheme.onPrimaryContainer
         } else {
-            DmsTheme.colorScheme.secondaryContainer
+            DmsTheme.colorScheme.surfaceContainer
         },
     )
 
@@ -187,7 +187,7 @@ private fun TextField(
                             modifier = Modifier.alpha(hintAlpha),
                             text = hint,
                             style = DmsTheme.typography.bodyM,
-                            color = DmsTheme.colorScheme.inverseOnSurface,
+                            color = DmsTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
