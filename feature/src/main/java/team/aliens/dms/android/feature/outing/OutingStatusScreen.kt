@@ -40,15 +40,15 @@ import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.shadow
-import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
-import team.aliens.dms.android.core.ui.DefaultVerticalSpace
-import team.aliens.dms.android.core.ui.PaddingDefaults
-import team.aliens.dms.android.core.ui.bottomPadding
-import team.aliens.dms.android.core.ui.composable.FloatingNotice
-import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.startPadding
-import team.aliens.dms.android.core.ui.topPadding
-import team.aliens.dms.android.core.ui.verticalPadding
+import ui.DefaultHorizontalSpace
+import ui.DefaultVerticalSpace
+import ui.PaddingDefaults
+import ui.bottomPadding
+import ui.composable.FloatingNotice
+import ui.horizontalPadding
+import ui.startPadding
+import ui.topPadding
+import ui.verticalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.outing.navigation.OutingNavigator
 

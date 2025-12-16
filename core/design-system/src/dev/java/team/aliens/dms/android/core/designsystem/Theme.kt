@@ -88,29 +88,11 @@ fun DmsTheme(
 
     CompositionLocalProvider(
         LocalColors provides m3ColorScheme,
-        LocalShapes provides DmsTheme.shapes,
         LocalTypography provides dmsTypography,
+        // TODO :: shape 구현
     ) {
-        ToastLayout(toastState = rememberToastState()) {
-            MaterialTheme(
-                colorScheme = m3ColorScheme,
-                typography = MaterialTypography(
-                    headlineLarge = dmsTypography.headline1,
-                    headlineMedium = dmsTypography.headline2,
-                    headlineSmall = dmsTypography.headline3,
-                    titleLarge = dmsTypography.title1,
-                    titleMedium = dmsTypography.title2,
-                    titleSmall = dmsTypography.title3,
-                    bodyLarge = dmsTypography.body1,
-                    bodyMedium = dmsTypography.body2,
-                    bodySmall = dmsTypography.body3,
-                    labelLarge = dmsTypography.button,
-                    labelMedium = dmsTypography.caption,
-                    labelSmall = dmsTypography.overline,
-                ),
-                content = content,
-            )
-        }
+        // TODO :: ToastLayout 구현
+        content()
     }
 }
 
@@ -120,11 +102,6 @@ object DmsTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalColors.current
-
-    val shapes: Shapes
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalShapes.current
 
     val typography: Typography
         @Composable

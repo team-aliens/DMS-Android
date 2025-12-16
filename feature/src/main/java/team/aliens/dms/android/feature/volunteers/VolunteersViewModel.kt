@@ -5,10 +5,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import team.aliens.dms.android.core.jwt.AccessToken
 import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
-import team.aliens.dms.android.core.ui.mvi.SideEffect
-import team.aliens.dms.android.core.ui.mvi.UiState
+import ui.mvi.BaseMviViewModel
+import ui.mvi.Intent
+import ui.mvi.SideEffect
+import ui.mvi.UiState
 import javax.inject.Inject
 
 @HiltViewModel

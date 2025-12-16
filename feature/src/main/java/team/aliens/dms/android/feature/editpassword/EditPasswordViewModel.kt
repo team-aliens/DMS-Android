@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
-import team.aliens.dms.android.core.ui.mvi.Intent
-import team.aliens.dms.android.core.ui.mvi.SideEffect
-import team.aliens.dms.android.core.ui.mvi.UiState
+import ui.mvi.BaseMviViewModel
+import ui.mvi.Intent
+import ui.mvi.SideEffect
+import ui.mvi.UiState
 import team.aliens.dms.android.data.user.repository.UserRepository
 import team.aliens.dms.android.shared.validator.checkIfPasswordValid
 import javax.inject.Inject
