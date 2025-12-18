@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import kotlin.time.Duration
@@ -17,17 +18,14 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun rememberDmsAppState(
-    navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ): DmsAppState {
     return remember(
-        navController,
         coroutineScope,
         snackBarHostState,
     ) {
         DmsAppState(
-            navController = navController,
             coroutineScope = coroutineScope,
             snackBarHostState = snackBarHostState,
         )
@@ -36,7 +34,6 @@ fun rememberDmsAppState(
 
 @Stable
 class DmsAppState(
-    val navController: NavHostController,
     val coroutineScope: CoroutineScope,
     val snackBarHostState: SnackbarHostState,
 ) {
@@ -45,11 +42,9 @@ class DmsAppState(
         duration: Duration = 2.seconds,
     ) {
         coroutineScope.launch {
-            val job = launch {
+            withTimeoutOrNull(duration) {
                 snackBarHostState.showSnackbar(visuals)
             }
-            delay(duration)
-            job.cancel()
         }
     }
 

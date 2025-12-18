@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
-import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
@@ -44,7 +42,7 @@ fun DmsApp(
     windowSizeClass: WindowSizeClass,
     isJwtAvailable: StateFlow<Boolean>,
     mainViewModel: MainActivityViewModel,
-    appState: DmsAppState = rememberDmsAppState()
+    appState: DmsAppState = rememberDmsAppState(),
 ) {
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
     val isJwtAvailableState by isJwtAvailable.collectAsState()
