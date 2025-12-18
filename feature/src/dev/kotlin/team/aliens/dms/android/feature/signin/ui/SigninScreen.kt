@@ -1,12 +1,8 @@
 package team.aliens.dms.android.feature.signin.ui
 
-import android.inputmethodservice.Keyboard
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,10 +22,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -41,7 +36,6 @@ import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 import team.aliens.dms.android.core.designsystem.titleB
-import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.signin.viewmodel.SignInSideEffect
@@ -58,6 +52,7 @@ internal fun SignIn(
 ) {
     val viewModel: SignInViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         viewModel.effectFlow.collect {
@@ -74,6 +69,7 @@ internal fun SignIn(
         state = state,
         onAccountIdChange = viewModel::setAccountId,
         onPasswordChange = viewModel::setPassword,
+        onClearFocus = { focusManager.clearFocus() },
     )
 }
 
@@ -84,9 +80,8 @@ private fun SignInScreen(
     state: SignInState,
     onAccountIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onClearFocus: () -> Unit,
 ) {
-    val id = remember { mutableStateOf("") }
-    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,9 +90,7 @@ private fun SignInScreen(
             .background(DmsTheme.colorScheme.surfaceTint)
             .pointerInput(Unit) { // TODO KMP 구현
                 detectTapGestures(
-                    onTap = {
-                        focusManager.clearFocus(force = true)
-                    }
+                    onTap = { onClearFocus() }
                 )
             },
     ) {
