@@ -194,7 +194,7 @@ class Typography internal constructor(
 val pretendardFontFamily: FontFamily = FontFamily(
     Font(
         resId = R.font.pretendard_regular,
-        weight = FontWeight.Thin,
+        weight = FontWeight.Normal,
         style = FontStyle.Normal,
     ),
     Font(

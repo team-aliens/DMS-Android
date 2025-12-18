@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.material3.Typography as MaterialTypography
 
@@ -75,7 +74,7 @@ private val darkColorScheme = darkColorScheme(
     onTertiary = DmsColor.Dark.pressed,
 )
 
-val LocalColors = staticCompositionLocalOf { lightColorScheme() }
+val LocalColors = staticCompositionLocalOf { lightColorScheme }
 
 @Composable
 fun DmsTheme(
@@ -91,8 +90,25 @@ fun DmsTheme(
         LocalTypography provides dmsTypography,
         // TODO :: shape 구현
     ) {
-        // TODO :: ToastLayout 구현
-        content()
+        MaterialTheme(
+            colorScheme = m3ColorScheme,
+            typography = MaterialTypography(
+                headlineLarge = dmsTypography.headline1,
+                headlineMedium = dmsTypography.headline2,
+                headlineSmall = dmsTypography.headline3,
+                titleLarge = dmsTypography.title1,
+                titleMedium = dmsTypography.title2,
+                titleSmall = dmsTypography.title3,
+                bodyLarge = dmsTypography.body1,
+                bodyMedium = dmsTypography.body2,
+                bodySmall = dmsTypography.body3,
+                labelLarge = dmsTypography.button,
+                labelMedium = dmsTypography.caption,
+                labelSmall = dmsTypography.overline,
+            ),
+        ) {
+            content()
+        }
     }
 }
 
