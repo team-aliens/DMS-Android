@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,9 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import team.aliens.dms.android.core.designsystem.ButtonColor
-import team.aliens.dms.android.core.designsystem.ButtonType
-import team.aliens.dms.android.core.designsystem.DmsButton
+import team.aliens.dms.android.core.designsystem.button.ButtonColor
+import team.aliens.dms.android.core.designsystem.button.ButtonType
+import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.headlineB
@@ -93,7 +94,7 @@ internal fun CompleteContent(
                 Text(
                     text = "최고의",
                     style = DmsTheme.typography.headlineB,
-                    color = DmsTheme.colorScheme.backgroundVariant,
+                    color = DmsTheme.colorScheme.onTertiaryContainer,
                 )
                 Text(
                     text = "기숙사 관리 시스템.",
@@ -110,6 +111,7 @@ internal fun CompleteContent(
             modifier = Modifier.padding(16.dp),
         ) {
             DmsButton(
+                modifier = Modifier.fillMaxWidth(),
                 text = "시작하기",
                 buttonType = ButtonType.Contained,
                 buttonColor = ButtonColor.Primary,

@@ -1,5 +1,6 @@
 package team.aliens.dms.android.app
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -7,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.jwt.JwtProvider
-import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
 import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val jwtProvider: JwtProvider,
     private val onboardingDataSource: OnboardingDataStoreDataSource,
-) : BaseViewModel() {
+) : ViewModel() {
     val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedAccessTokenAvailable
 
     private val _isUpdateFailed = MutableStateFlow(false)

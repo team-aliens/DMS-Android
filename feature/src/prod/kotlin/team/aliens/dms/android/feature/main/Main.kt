@@ -37,14 +37,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import team.aliens.dms.android.core.designsystem.DmsIcon
+import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.slideInFromEnd
 import team.aliens.dms.android.core.designsystem.slideInFromStart
 import team.aliens.dms.android.core.designsystem.slideOutFromEnd
 import team.aliens.dms.android.core.designsystem.slideOutFromStart
-import team.aliens.dms.android.core.ui.PaddingDefaults
+import ui.PaddingDefaults
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms.android.feature.main.application.ApplicationScreen

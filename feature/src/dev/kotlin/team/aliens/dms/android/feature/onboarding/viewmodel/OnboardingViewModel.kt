@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
 import javax.inject.Inject
@@ -36,7 +35,7 @@ class OnboardingViewModel @Inject constructor(
 
 data class OnboardingState(
     val isOnboardingCompleted: Boolean,
-) : UiState() {
+)  {
     companion object {
         fun initialState() = OnboardingState(
             isOnboardingCompleted = false,

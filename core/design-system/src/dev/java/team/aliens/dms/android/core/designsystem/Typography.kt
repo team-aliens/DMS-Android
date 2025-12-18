@@ -96,18 +96,18 @@ class Typography internal constructor(
             lineHeight = 11.9.sp,
         ),
     ) : this(
-        headline1 = headlineB.withDefaultFontFamily(notoSansFontFamily),
-        headline2 = headlineM.withDefaultFontFamily(notoSansFontFamily),
-        headline3 = titleB.withDefaultFontFamily(notoSansFontFamily),
-        title1 = titleM.withDefaultFontFamily(notoSansFontFamily),
-        title2 = sTitleB.withDefaultFontFamily(notoSansFontFamily),
-        title3 = sTitleM.withDefaultFontFamily(notoSansFontFamily),
-        body1 = lBodyB.withDefaultFontFamily(notoSansFontFamily),
-        body2 = lBodyM.withDefaultFontFamily(notoSansFontFamily),
-        body3 = bodyB.withDefaultFontFamily(notoSansFontFamily),
-        caption = bodyM.withDefaultFontFamily(notoSansFontFamily),
-        overline = labelB.withDefaultFontFamily(notoSansFontFamily),
-        button = labelM.withDefaultFontFamily(notoSansFontFamily),
+        headline1 = headlineB.withDefaultFontFamily(pretendardFontFamily),
+        headline2 = headlineM.withDefaultFontFamily(pretendardFontFamily),
+        headline3 = titleB.withDefaultFontFamily(pretendardFontFamily),
+        title1 = titleM.withDefaultFontFamily(pretendardFontFamily),
+        title2 = sTitleB.withDefaultFontFamily(pretendardFontFamily),
+        title3 = sTitleM.withDefaultFontFamily(pretendardFontFamily),
+        body1 = lBodyB.withDefaultFontFamily(pretendardFontFamily),
+        body2 = lBodyM.withDefaultFontFamily(pretendardFontFamily),
+        body3 = bodyB.withDefaultFontFamily(pretendardFontFamily),
+        caption = bodyM.withDefaultFontFamily(pretendardFontFamily),
+        overline = labelB.withDefaultFontFamily(pretendardFontFamily),
+        button = labelM.withDefaultFontFamily(pretendardFontFamily),
     )
 
     fun copy(
@@ -159,19 +159,19 @@ class Typography internal constructor(
     }
 
     override fun hashCode(): Int {
-        var result = headline1.hashCode()
-        result = 31 * result + headline2.hashCode()
-        result = 31 * result + headline3.hashCode()
-        result = 31 * result + title1.hashCode()
-        result = 31 * result + title2.hashCode()
-        result = 31 * result + title3.hashCode()
-        result = 31 * result + body1.hashCode()
-        result = 31 * result + body2.hashCode()
-        result = 31 * result + body3.hashCode()
-        result = 31 * result + caption.hashCode()
-        result = 31 * result + overline.hashCode()
-        result = 31 * result + button.hashCode()
-        return result
+        var Rult = headline1.hashCode()
+        Rult = 31 * Rult + headline2.hashCode()
+        Rult = 31 * Rult + headline3.hashCode()
+        Rult = 31 * Rult + title1.hashCode()
+        Rult = 31 * Rult + title2.hashCode()
+        Rult = 31 * Rult + title3.hashCode()
+        Rult = 31 * Rult + body1.hashCode()
+        Rult = 31 * Rult + body2.hashCode()
+        Rult = 31 * Rult + body3.hashCode()
+        Rult = 31 * Rult + caption.hashCode()
+        Rult = 31 * Rult + overline.hashCode()
+        Rult = 31 * Rult + button.hashCode()
+        return Rult
     }
 
     override fun toString(): String {
@@ -191,35 +191,25 @@ class Typography internal constructor(
     }
 }
 
-val notoSansFontFamily: FontFamily = FontFamily(
+val pretendardFontFamily: FontFamily = FontFamily(
     Font(
-        resId = R.font.noto_sans_kr_black,
-        weight = FontWeight.Black,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_bold,
-        weight = FontWeight.Bold,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_light,
-        weight = FontWeight.Light,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_medium,
-        weight = FontWeight.Medium,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_regular,
+        resId = R.font.pretendard_regular,
         weight = FontWeight.Normal,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = R.font.noto_sans_kr_thin,
-        weight = FontWeight.Thin,
+        resId = R.font.pretendard_medium,
+        weight = FontWeight.Medium,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.pretendard_semi_bold,
+        weight = FontWeight.SemiBold,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.pretendard_bold,
+        weight = FontWeight.Bold,
         style = FontStyle.Normal,
     ),
 )
@@ -248,7 +238,7 @@ inline val Typography.labelM: TextStyle get() = button
 // dev 전용 추가 속성
 val Typography.sLabelB: TextStyle
     get() = TextStyle(
-        fontFamily = notoSansFontFamily,
+        fontFamily = pretendardFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 10.sp,
         lineHeight = 11.9.sp,
@@ -256,7 +246,7 @@ val Typography.sLabelB: TextStyle
 
 val Typography.sLabelM: TextStyle
     get() = TextStyle(
-        fontFamily = notoSansFontFamily,
+        fontFamily = pretendardFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 10.sp,
         lineHeight = 11.9.sp,
