@@ -2,7 +2,6 @@ package team.aliens.dms.android.core.designsystem.button
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
@@ -21,7 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -340,7 +338,7 @@ fun DmsButton(
                 DmsDotsLoadingIndicator(
                     activeColor = contentColor,
                 )
-            } else { 
+            } else {
                 Text(
                     text = text,
                     style = textStyle,
@@ -351,4 +349,3 @@ fun DmsButton(
         }
     }
 }
-

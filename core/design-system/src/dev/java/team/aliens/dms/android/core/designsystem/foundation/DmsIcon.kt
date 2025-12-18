@@ -10,7 +10,7 @@ object DmsIcon {
     val BlueBell = R.drawable.ic_blue_bell
     val BlueBreakfast = R.drawable.ic_blue_breakfast
     val BlueDinner = R.drawable.ic_blue_dinner
-    val BlueLaunch = R.drawable.ic_blue_lunch
+    val BlueLunch = R.drawable.ic_blue_lunch
     val Breakfast = R.drawable.ic_breakfast
     val Calender = R.drawable.ic_calender
     val Camera = R.drawable.ic_camera
