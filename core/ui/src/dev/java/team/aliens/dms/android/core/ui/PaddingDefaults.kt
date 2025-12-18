@@ -49,7 +49,7 @@ object PaddingDefaults {
         start = horizontal,
         top = vertical,
         end = horizontal,
-        bottom = horizontal,
+        bottom = vertical,
     )
 }
 
@@ -96,13 +96,3 @@ fun Modifier.endPadding(
 fun Modifier.bottomPadding(
     value: Dp = PaddingDefaults.Medium,
 ): Modifier = padding(bottom = value)
-
-val DefaultVerticalSpace = PaddingDefaults.Medium
-
-val LargeVerticalSpace = PaddingDefaults.Medium
-
-val DefaultHorizontalSpace = PaddingDefaults.Small
-
-val LargeHorizontalSpace = PaddingDefaults.Medium
-
-val ExtraLargeVerticalSpace = PaddingDefaults.ExtraLarge

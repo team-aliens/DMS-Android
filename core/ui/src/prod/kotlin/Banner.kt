@@ -1,4 +1,4 @@
-package ui
+package team.aliens.dms.android.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import ui.composable.AppLogo
+import team.aliens.dms.android.core.ui.composable.AppLogo
 
 @Composable
 fun Banner(

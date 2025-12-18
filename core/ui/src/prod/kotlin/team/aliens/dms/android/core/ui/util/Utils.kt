@@ -1,1 +1,1 @@
-package ui.util
+package team.aliens.dms.android.core.ui.util

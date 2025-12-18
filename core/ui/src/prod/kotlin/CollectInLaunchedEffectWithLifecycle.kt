@@ -1,4 +1,4 @@
-package ui
+package team.aliens.dms.android.core.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable

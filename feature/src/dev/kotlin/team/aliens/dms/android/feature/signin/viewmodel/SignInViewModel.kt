@@ -1,6 +1,8 @@
 package team.aliens.dms.android.feature.signin.viewmodel
 
 import android.util.Log
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -111,7 +113,7 @@ internal data class SignInState(
             showAccountIdErrorDescription = false,
             showPasswordErrorDescription = false,
             isLoading = false,
-            deviceToken = ""
+            deviceToken = "",
         )
     }
 }

@@ -1,4 +1,4 @@
-package ui.composable
+package team.aliens.dms.android.core.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
