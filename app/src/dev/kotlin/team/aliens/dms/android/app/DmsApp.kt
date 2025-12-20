@@ -1,10 +1,14 @@
 package team.aliens.dms.android.app
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -25,6 +29,9 @@ import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
+import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
+import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
+import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 
@@ -35,7 +42,13 @@ data object OnboardingScreenNav : NavKey
 data object SignInScreenNav : NavKey
 
 @Serializable
-data object MainScreenNav : NavKey
+data object HomeScreenNav : NavKey
+
+@Serializable
+data object ApplicationScreenNav : NavKey
+
+@Serializable
+data object MyPageScreenNav : NavKey
 
 @Composable
 fun DmsApp(
@@ -48,11 +61,16 @@ fun DmsApp(
     val isJwtAvailableState by isJwtAvailable.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
+    val currentScreen = backStack.lastOrNull()
+    val shouldShowBottomBar = currentScreen in listOf(
+        SignInScreenNav,
+        OnboardingScreenNav,
+    )
 
-    LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
+    LaunchedEffect(isOnboardingCompleted) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
-            isJwtAvailableState -> MainScreenNav
+            isJwtAvailableState -> HomeScreenNav
             else -> SignInScreenNav
         }
 
@@ -62,11 +80,34 @@ fun DmsApp(
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxWidth(),
+        bottomBar = {
+            if (!shouldShowBottomBar) {
+                BottomNavigationBar(
+                    currentScreen = currentScreen,
+                    onNavigate = { destination ->
+                        if (currentScreen != destination) {
+                            // 기존 메인 화면들 제거
+                            backStack.clear()
+                            backStack.removeAll {
+                                it is HomeScreenNav ||
+                                it is ApplicationScreenNav ||
+                                it is MyPageScreenNav
+                            }
+                            // 새 화면 추가
+                            backStack.add(destination)
+                        }
+                    }
+                )
+            }
+        }
+    ) { _ ->
         NavDisplay(
-            modifier = Modifier.systemBarsPadding(),
+            modifier = Modifier
+                .navigationBarsPadding()
+                .systemBarsPadding(),
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryProvider = entryProvider {
@@ -80,27 +121,31 @@ fun DmsApp(
                 }
                 entry<SignInScreenNav> {
                     SignInRoute(
-                        navigateToMain = { backStack.add(MainScreenNav) },
+                        navigateToMain = {
+                            backStack.clear()
+                            backStack.add(HomeScreenNav)
+                        },
                         navigateToSignUp = {},
                         onShowSnackBar = { snackBarType, message ->
                             appState.showSnackBar(snackBarType, message)
                         },
                     )
                 }
-                entry<MainScreenNav> {
-                    Text(
-                        text = "Main Screen (TODO)",
-                        color = DmsTheme.colorScheme.onSurface,
-                    )
+                entry<HomeScreenNav> {
+                    HomeRoute()
+                }
+                entry<ApplicationScreenNav> {
+                    ApplicationRoute()
+                }
+                entry<MyPageScreenNav> {
+                    MyPageRoute()
                 }
             },
         )
         SnackbarHost(
             modifier = Modifier
-                .align(Alignment.TopCenter)
                 .statusBarsPadding()
-                .padding(top = 16.dp)
-                .zIndex(2f),
+                .padding(top = 16.dp),
             hostState = appState.snackBarHostState,
             snackbar = {
                 val visuals = it.visuals as? DmsSnackBarVisuals ?: return@SnackbarHost
