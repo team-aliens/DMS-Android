@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 internal fun MyPage() {
-    MyPage()
+    MyPageScreen()
 }
 
 @Composable
