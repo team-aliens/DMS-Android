@@ -1,13 +1,10 @@
-package team.aliens.dms.android.feature.home.navigation
+package team.aliens.dms.android.feature.main.application.navigation
 
 import androidx.compose.runtime.Composable
 import kotlinx.serialization.Serializable
-import team.aliens.dms.android.feature.home.ui.Home
-
-@Serializable
-data object HomeRoute
+import team.aliens.dms.android.feature.main.application.ui.Application
 
 @Composable
-fun HomeRoute() {
-    Home()
+fun ApplicationRoute() {
+    Application()
 }

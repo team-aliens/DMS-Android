@@ -1,13 +1,13 @@
-package team.aliens.dms.android.feature.home.ui
+package team.aliens.dms.android.feature.main.application.ui
 
 import androidx.compose.runtime.Composable
 
 @Composable
-internal fun Home() {
-    HomeScreen()
+internal fun Application() {
+    ApplicationScreen()
 }
 
 @Composable
-private fun HomeScreen() {
+private fun ApplicationScreen() {
 
 }
