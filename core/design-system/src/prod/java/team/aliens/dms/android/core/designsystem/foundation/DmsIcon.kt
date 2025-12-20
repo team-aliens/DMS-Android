@@ -21,6 +21,11 @@ object DmsIcon {
     val Down = R.drawable.ic_down
     val Forward = R.drawable.ic_forward
     val Home = R.drawable.ic_home
+    val HomeFill = R.drawable.ic_home_fill
+    val CheckCircle = R.drawable.ic_application
+    val CheckCircleFill = R.drawable.ic_application_fill
+    val MyPage = R.drawable.ic_my_page
+    val MyPageFill = R.drawable.ic_my_page_fill
     val Information = R.drawable.ic_information
     val LogoDark = R.drawable.ic_logo_dark
     val LogoLight = R.drawable.ic_logo_light
