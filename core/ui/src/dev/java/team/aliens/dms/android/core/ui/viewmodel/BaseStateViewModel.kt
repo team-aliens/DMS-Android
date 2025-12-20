@@ -24,7 +24,7 @@ abstract class BaseStateViewModel<S, E>(initialState: S) : ViewModel() {
     val uiState: StateFlow<S> = _uiState.asStateFlow()
 
     private val _effectChannel: Channel<E> = Channel(Channel.CONFLATED)
-    val effectFlow: Flow<E> = _effectChannel.receiveAsFlow()
+    val sideEffect: Flow<E> = _effectChannel.receiveAsFlow()
 
     protected fun setState(newState: (S) -> S) {
         _uiState.update(newState)
