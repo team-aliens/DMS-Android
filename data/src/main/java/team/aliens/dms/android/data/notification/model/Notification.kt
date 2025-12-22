@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.notification.model
 
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import team.aliens.dms.android.network.notification.model.FetchNotificationsResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
 import java.util.UUID

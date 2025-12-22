@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.outing.model
 
-import org.threeten.bp.DayOfWeek
+import java.time.DayOfWeek
 import team.aliens.dms.android.network.outing.model.OutingAvailableTimeResponse
 import java.util.UUID
 

@@ -5,12 +5,14 @@ import kotlinx.serialization.Serializable
 import team.aliens.dms.android.feature.main.home.ui.Home
 
 @Composable
-fun HomeRoute() {
+fun HomeRoute(
+    onNavigateMeal: () -> Unit,
+) {
     Home(
         onNavigateNotice = { },
         onNavigateNoticeDetail = { },
         onNavigatePointHistory = { },
-        onNavigateMeal = { },
+        onNavigateMeal = onNavigateMeal,
         onShowSnackBar = { _, _ -> },
     )
 }

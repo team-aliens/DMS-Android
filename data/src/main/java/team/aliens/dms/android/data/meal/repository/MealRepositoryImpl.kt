@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.meal.repository
 
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import team.aliens.dms.android.data.meal.exception.CannotFindMealException
 import team.aliens.dms.android.data.meal.mapper.toEntity
 import team.aliens.dms.android.data.meal.mapper.toModel
@@ -13,20 +13,17 @@ internal class MealRepositoryImpl @Inject constructor(
     private val databaseMealDataSource: DatabaseMealDataSource,
     private val networkMealDataSource: NetworkMealDataSource,
 ) : MealRepository() {
-    override suspend fun fetchMeal(date: LocalDate): Meal = try {
+    override suspend fun fetchMeal(date: LocalDate): Result<Meal> = runCatching {
         databaseMealDataSource.queryMeal(date).toModel()
-    } catch (_: Exception) {
-        try {
-            this.updateMeal(date = date)
-        } catch (_: Exception) {
+    }.onFailure {
+        this.updateMeal(date = date).onFailure {
             throw CannotFindMealException()
         }
     }
 
-    override suspend fun updateMeal(date: LocalDate): Meal {
-        return networkMealDataSource.fetchMeals(date).toModel().also { meals ->
+    override suspend fun updateMeal(date: LocalDate): Result<Meal> = runCatching {
+        networkMealDataSource.fetchMeals(date).toModel().also { meals ->
             databaseMealDataSource.saveMeals(meals.toEntity())
-        }
-            .find { it.date == date }!!
+        }.find { it.date == date }!!
     }
 }

@@ -33,8 +33,8 @@ import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 import team.aliens.dms.android.core.designsystem.titleB
-import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.feature.signin.viewmodel.SignInSideEffect
 import team.aliens.dms.android.feature.signin.viewmodel.SignInState
 import team.aliens.dms.android.feature.signin.viewmodel.SignInViewModel

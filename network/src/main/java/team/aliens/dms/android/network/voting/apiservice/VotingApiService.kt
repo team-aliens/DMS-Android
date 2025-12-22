@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.voting.apiservice
 
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET

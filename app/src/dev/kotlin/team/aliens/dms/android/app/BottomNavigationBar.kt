@@ -1,6 +1,7 @@
 package team.aliens.dms.android.app
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -14,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
@@ -56,6 +58,7 @@ fun BottomNavigationBar(
                 },
                 icon = {
                     Column(
+                        modifier = Modifier.background(Color.Unspecified),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Icon(

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import team.aliens.dms.android.core.database.entity.MealEntity
 
 @Dao

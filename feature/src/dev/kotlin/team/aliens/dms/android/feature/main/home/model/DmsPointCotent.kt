@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.main.home.model
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -99,9 +100,8 @@ private fun PointItem(
                 .padding(6.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(
+            Image(
                 painter = painterResource(icon),
-                tint = textColor,
                 contentDescription = null,
             )
         }
