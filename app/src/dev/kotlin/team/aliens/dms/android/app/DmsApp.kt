@@ -32,6 +32,7 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
+import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 
@@ -43,6 +44,9 @@ data object SignInScreenNav : NavKey
 
 @Serializable
 data object HomeScreenNav : NavKey
+
+@Serializable
+data object MealScreenNav : NavKey
 
 @Serializable
 data object ApplicationScreenNav : NavKey
@@ -132,13 +136,22 @@ fun DmsApp(
                     )
                 }
                 entry<HomeScreenNav> {
-                    HomeRoute()
+                    HomeRoute(
+                        onNavigateMeal = {
+                            backStack.add(MealScreenNav)
+                        }
+                    )
                 }
                 entry<ApplicationScreenNav> {
                     ApplicationRoute()
                 }
                 entry<MyPageScreenNav> {
                     MyPageRoute()
+                }
+                entry<MealScreenNav> {
+                    MealRoute(
+                        onNavigateBack = { backStack.removeLast() }
+                    )
                 }
             },
         )
