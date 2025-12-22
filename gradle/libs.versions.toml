@@ -49,6 +49,7 @@ firebase-crashlytics = "2.9.9"
 org-jlleitschuh-ktlint-gradle = "11.3.1"
 composeCompiler = "2.0.0"
 kotlinxDatetime = "0.6.1"
+kotlinx-collections-immutable = "0.3.8"
 material3 = "1.4.0"
 
 [libraries]
@@ -88,6 +89,8 @@ firebase-messaging = { module = "com.google.firebase:firebase-messaging", versio
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+
 
 # Deprecated
 junit = { module = "junit:junit", version.ref = "junit" }
