@@ -127,8 +127,6 @@ private fun MealScreen(
                 MealCardType.DINNER -> MealCardType.LUNCH
             }
         }
-
-        previousPage = pagerState.currentPage
     }
 
     Column(

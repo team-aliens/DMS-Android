@@ -1,10 +1,12 @@
 package team.aliens.dms.android.feature.main.home.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,7 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +27,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.main.home.model.AnnouncementButton
 import team.aliens.dms.android.feature.main.home.model.DmsPointContent
@@ -39,6 +47,13 @@ internal fun Home(
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val gradient = Brush.radialGradient(
+        colors = listOf(
+            Color(0xFF002051).copy(alpha = 0.2f),
+            Color(0xFF0F6EFE).copy(alpha = 0.2f),
+        )
+    )
+
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
@@ -58,6 +73,7 @@ internal fun Home(
 
     HomeScreen(
         state = state,
+        gradient = gradient,
         onNavigateNotice = onNavigateNotice,
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateMeal = onNavigateMeal,
@@ -69,6 +85,7 @@ internal fun Home(
 @Composable
 private fun HomeScreen(
     state: HomeState,
+    gradient: Brush,
     onNavigateNotice: () -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateMeal: () -> Unit,
@@ -102,6 +119,7 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
+                backgroundGradient = gradient,
                 onMealClick = onNavigateMeal,
             )
             DmsPointContent(

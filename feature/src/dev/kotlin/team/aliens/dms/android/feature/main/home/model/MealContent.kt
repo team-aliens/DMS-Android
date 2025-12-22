@@ -40,14 +40,16 @@ internal fun MealContent(
             .padding(24.dp),
     ) {
         Canvas(
-            modifier = Modifier
+            modifier = modifier
                 .align(Alignment.TopCenter)
                 .size(300.dp)
-                .blur(radius = 120.dp, edgeTreatment = BlurredEdgeTreatment.Rectangle),
-            onDraw = {
-                drawCircle(backgroundGradient)
-            },
-        )
+                .blur(
+                    radius = 120.dp,
+                    edgeTreatment = BlurredEdgeTreatment.Unbounded
+                )
+        ) {
+            drawCircle(brush = backgroundGradient)
+        }
         Text(
             text = "급식",
             style = DmsTheme.typography.bodyB,

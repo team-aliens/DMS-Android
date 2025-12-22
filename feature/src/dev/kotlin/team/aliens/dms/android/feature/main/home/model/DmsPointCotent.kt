@@ -92,19 +92,10 @@ private fun PointItem(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            modifier = Modifier
-                .size(24.dp)
-                .clip(CircleShape)
-                .background(iconBackgroundColor)
-                .padding(6.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Image(
-                painter = painterResource(icon),
-                contentDescription = null,
-            )
-        }
+        Image(
+            painter = painterResource(icon),
+            contentDescription = null,
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = title,
