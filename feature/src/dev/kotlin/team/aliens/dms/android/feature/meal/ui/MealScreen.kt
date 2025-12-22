@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -34,6 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
@@ -50,7 +53,10 @@ import team.aliens.dms.android.feature.meal.component.DateChip
 import team.aliens.dms.android.feature.meal.component.MealContent
 import team.aliens.dms.android.feature.meal.viewmodel.MealState
 import team.aliens.dms.android.feature.meal.viewmodel.MealViewModel
+import team.aliens.dms.android.feature.meal.viewmodel.getProperMeal
 import team.aliens.dms.android.shared.date.util.now
+
+const val MAX_CALENDAR_COUNT = 366
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +66,34 @@ internal fun Meal(
     val viewModel: MealViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val calendarBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val pageCount = MAX_CALENDAR_COUNT
+    val pagerState = rememberPagerState(
+        initialPage = pageCount / 2,
+        pageCount = { pageCount },
+    )
+    var previousPage by remember { mutableStateOf(pagerState.currentPage) }
+    val (dailyMeals, kcal) = when (state.currentCardType) {
+        MealCardType.BREAKFAST -> state.meal.breakfast to state.meal.kcalOfBreakfast
+        MealCardType.LUNCH -> state.meal.lunch to state.meal.kcalOfLunch
+        MealCardType.DINNER -> state.meal.dinner to state.meal.kcalOfDinner
+    }
+    val mealCardGradientColors = when (state.currentCardType) {
+        MealCardType.BREAKFAST -> listOf(Color(0xFF0F6EFE), Color(0xFFFFCB52))
+        MealCardType.LUNCH -> listOf(Color(0xFF0F6EFE), Color(0xFFFFFFFF))
+        MealCardType.DINNER -> listOf(Color(0xFF7A3BA1), Color(0xFFFFFFFF))
+    }
+    val backgroundGradient = Brush.verticalGradient(mealCardGradientColors)
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (pagerState.currentPage > previousPage) {
+            viewModel.setNextMealType()
+        }
+        if (pagerState.currentPage < previousPage) {
+            viewModel.setPreviousMealType()
+        }
+        previousPage = pagerState.currentPage
+    }
 
     if (state.isShowCalendar) {
         ModalBottomSheet(
@@ -76,59 +110,39 @@ internal fun Meal(
     }
     MealScreen(
         state = state,
-        onNextDay = viewModel::setNextDate,
-        onPreviousDay = viewModel::setPreviousDate,
+        pagerState = pagerState,
+        currentCardType = state.currentCardType,
+        kcal = kcal,
+        dailyMeals = dailyMeals.toPersistentList(),
+        backgroundGradient = backgroundGradient,
         onBackClick = onNavigateBack,
         onCalendarClick = viewModel::showCalendarBottomSheet,
+        onPreviousClick = {
+            scope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            }
+        },
+        onNextClick = {
+            scope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+            }
+        }
     )
 }
 
 @Composable
 private fun MealScreen(
     state: MealState,
-    onNextDay: () -> Unit,
-    onPreviousDay: () -> Unit,
+    currentCardType: MealCardType,
+    kcal: String?,
+    dailyMeals: ImmutableList<String>,
+    backgroundGradient: Brush,
+    pagerState: PagerState,
     onBackClick: () -> Unit,
     onCalendarClick: () -> Unit,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
 ) {
-    val pageCount = Int.MAX_VALUE
-    val pagerState = rememberPagerState(
-        initialPage = pageCount / 2,
-        pageCount = { pageCount },
-    )
-    val meal = state.meal
-    var previousPage by remember { mutableStateOf(pagerState.currentPage) }
-    val scope = rememberCoroutineScope()
-    var currentCardType by remember { mutableStateOf(getProperMeal()) }
-    val (dailyMeals, kcal) = when (currentCardType) {
-        MealCardType.BREAKFAST -> meal.breakfast to meal.kcalOfBreakfast
-        MealCardType.LUNCH -> meal.lunch to meal.kcalOfLunch
-        MealCardType.DINNER -> meal.dinner to meal.kcalOfDinner
-    }
-    val mealCardGradientColors = when (currentCardType) {
-        MealCardType.BREAKFAST -> listOf(Color(0xFF0F6EFE), Color(0xFFFFCB52))
-        MealCardType.LUNCH -> listOf(Color(0xFF0F6EFE), Color(0xFFFFFFFF))
-        MealCardType.DINNER -> listOf(Color(0xFF7A3BA1), Color(0xFFFFFFFF))
-    }
-    val backgroundGradient = Brush.verticalGradient(mealCardGradientColors)
-
-    LaunchedEffect(pagerState.currentPage) {
-        if (pagerState.currentPage > previousPage) {
-            currentCardType = when (currentCardType) {
-                MealCardType.BREAKFAST -> MealCardType.LUNCH
-                MealCardType.LUNCH -> MealCardType.DINNER
-                MealCardType.DINNER -> MealCardType.BREAKFAST.also { onNextDay() }
-            }
-        }
-        if (pagerState.currentPage < previousPage) {
-            currentCardType = when (currentCardType) {
-                MealCardType.BREAKFAST -> MealCardType.DINNER.also { onPreviousDay() }
-                MealCardType.LUNCH -> MealCardType.BREAKFAST
-                MealCardType.DINNER -> MealCardType.LUNCH
-            }
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -188,11 +202,7 @@ private fun MealScreen(
                         resource = DmsIcon.Backward,
                         tint = DmsTheme.colorScheme.scrim,
                         size = 34.dp,
-                        onClick = {
-                            scope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                            }
-                        },
+                        onClick = onPreviousClick,
                     )
                     DmsIconButton(
                         modifier = Modifier
@@ -202,11 +212,7 @@ private fun MealScreen(
                         resource = DmsIcon.Backward,
                         tint = DmsTheme.colorScheme.scrim,
                         size = 34.dp,
-                        onClick = {
-                            scope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            }
-                        },
+                        onClick = onNextClick,
                     )
                 }
                 MealContent(
@@ -249,12 +255,3 @@ internal enum class MealCardType(
     ),
 }
 
-private const val BreakfastStartTime: Int = 9
-private const val LunchStartTime: Int = 13
-private const val DinnerStartTime: Int = 19
-
-private fun getProperMeal(): MealCardType = when (now.hour) {
-    in BreakfastStartTime until LunchStartTime -> MealCardType.LUNCH
-    in LunchStartTime until DinnerStartTime -> MealCardType.DINNER
-    else -> MealCardType.BREAKFAST
-}
