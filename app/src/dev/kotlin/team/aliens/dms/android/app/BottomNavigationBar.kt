@@ -9,6 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,9 +58,11 @@ fun BottomNavigationBar(
                 onClick = {
                     onNavigate(destination.route)
                 },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color.Transparent,
+                ),
                 icon = {
                     Column(
-                        modifier = Modifier.background(Color.Unspecified),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Icon(
