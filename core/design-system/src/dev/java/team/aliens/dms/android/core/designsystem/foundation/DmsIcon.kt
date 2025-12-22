@@ -33,7 +33,7 @@ object DmsIcon {
     val Notification = R.drawable.ic_notice
     val Lunch = R.drawable.ic_lunch
     val Person = R.drawable.ic_person
-    val Notice = R.drawable.ic_notice
+    val Announcement = R.drawable.ic_announcement
     val Palette = R.drawable.ic_palette
     val PasswordInvisible = R.drawable.ic_password_invisible
     val PasswordVisible = R.drawable.ic_password_visible

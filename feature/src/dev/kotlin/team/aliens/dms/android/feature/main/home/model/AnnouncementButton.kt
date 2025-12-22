@@ -35,7 +35,7 @@ internal fun AnnouncementButton(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            painter = painterResource(DmsIcon.Notice),
+            painter = painterResource(DmsIcon.Announcement),
             contentDescription = null,
             tint = DmsTheme.colorScheme.scrim,
         )
