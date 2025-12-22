@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.ui.util.toLocate
 
 @Composable
 internal fun DateChip(
@@ -30,7 +31,7 @@ internal fun DateChip(
             .padding(horizontal = 12.dp, vertical = 16.dp),
     ) {
         Text(
-            text = "${date.year}.${date.monthValue}.${date.dayOfMonth} (${date.dayOfWeek.name})",
+            text = "${date.year}.${date.monthValue}.${date.dayOfMonth} (${date.dayOfWeek.toLocate()})",
             style = DmsTheme.typography.bodyB,
             color = DmsTheme.colorScheme.onPrimaryContainer,
         )

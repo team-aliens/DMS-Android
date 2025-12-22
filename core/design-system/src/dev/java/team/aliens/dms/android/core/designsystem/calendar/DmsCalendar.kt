@@ -34,6 +34,7 @@ import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.verticalPadding
 import java.time.LocalDate
 import java.time.YearMonth
+import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -116,7 +117,7 @@ private fun Day(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = day.date.toString(),
+                text = day.date.dayOfMonth.toString(),
                 style = DmsTheme.typography.bodyM,
                 color = textColor,
                 textAlign = TextAlign.Center,
