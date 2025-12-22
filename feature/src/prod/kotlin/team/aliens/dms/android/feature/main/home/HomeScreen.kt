@@ -63,8 +63,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
-import org.threeten.bp.DayOfWeek
-import org.threeten.bp.LocalDate
+import java.time.DayOfWeek
+import java.time.LocalDate
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsCalendar
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
@@ -81,7 +81,7 @@ import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import ui.DefaultHorizontalSpace
 import ui.DefaultVerticalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.collectInLaunchedEffectWithLifecycle
 import ui.composable.AppLogo

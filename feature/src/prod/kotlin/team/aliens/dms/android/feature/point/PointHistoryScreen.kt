@@ -34,7 +34,7 @@ import team.aliens.dms.android.core.designsystem.VerticallyFadedLazyColumn
 import team.aliens.dms.android.core.designsystem.shadow
 import ui.DefaultHorizontalSpace
 import ui.DefaultVerticalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.horizontalPadding
 import ui.startPadding

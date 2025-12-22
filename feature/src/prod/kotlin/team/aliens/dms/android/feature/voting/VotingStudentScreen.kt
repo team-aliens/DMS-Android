@@ -52,7 +52,7 @@ import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.OutlinedButton
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextButton
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.horizontalPadding
 import team.aliens.dms.android.data.voting.model.StudentGcnInfo

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import team.aliens.dms.android.core.designsystem.ButtonDefaults
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
@@ -30,7 +30,7 @@ import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import ui.DefaultVerticalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.horizontalPadding
 import ui.topPadding

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.shadow
 import ui.DefaultHorizontalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.endPadding
 import ui.horizontalPadding
 import ui.startPadding

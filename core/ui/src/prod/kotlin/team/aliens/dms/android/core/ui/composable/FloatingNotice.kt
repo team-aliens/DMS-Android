@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.shadow
-import team.aliens.dms.android.core.ui.PaddingDefaults
-import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.verticalPadding
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.verticalPadding
 
 @Composable
 fun FloatingNotice(
