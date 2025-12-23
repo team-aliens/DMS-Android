@@ -3,7 +3,7 @@ package team.aliens.dms.android.core.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity(tableName = "tbl_notices")

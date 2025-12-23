@@ -1,13 +1,14 @@
 package team.aliens.dms.android.data.meal.model
 
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
+import team.aliens.dms.android.shared.date.util.today
 
 data class Meal(
-    val date: LocalDate,
-    val breakfast: List<String>,
-    val kcalOfBreakfast: String?,
-    val lunch: List<String>,
-    val kcalOfLunch: String?,
-    val dinner: List<String>,
-    val kcalOfDinner: String?,
+    val date: LocalDate = today,
+    val breakfast: List<String> = emptyList(),
+    val kcalOfBreakfast: String? = null,
+    val lunch: List<String> = emptyList(),
+    val kcalOfLunch: String? = null,
+    val dinner: List<String> = emptyList(),
+    val kcalOfDinner: String? = null,
 )

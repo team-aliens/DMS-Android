@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.notice.model
 
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class Notice(

@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.coil.compose)
 

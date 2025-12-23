@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.threeten.bp.ZoneOffset
+import java.time.ZoneOffset
 import team.aliens.dms.android.core.database.DmsDatabase
 import team.aliens.dms.android.core.database.converter.DateTypeConverter
 import team.aliens.dms.android.core.database.converter.StringListTypeConverter

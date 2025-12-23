@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.remains.model
 
-import org.threeten.bp.DayOfWeek
+import java.time.DayOfWeek
 
 data class RemainsApplicationTime(
     val startDayOfWeek: DayOfWeek,

@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.threeten.bp.ZoneOffset
+import java.time.ZoneOffset
 import javax.inject.Singleton
 
 @Module

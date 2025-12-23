@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.remains.model
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.DayOfWeek
+import java.time.DayOfWeek
 
 data class FetchRemainsApplicationTimeResponse(
     @SerializedName("start_day_of_week") val startDayOfWeek: DayOfWeek,

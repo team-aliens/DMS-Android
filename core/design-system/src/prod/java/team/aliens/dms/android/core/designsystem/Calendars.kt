@@ -6,7 +6,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import team.aliens.dms.android.shared.date.toEpochMilli
 
 @Composable

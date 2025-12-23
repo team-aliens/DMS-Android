@@ -42,7 +42,7 @@ import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.shadow
 import ui.DefaultHorizontalSpace
 import ui.DefaultVerticalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.composable.FloatingNotice
 import ui.horizontalPadding

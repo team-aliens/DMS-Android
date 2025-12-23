@@ -6,8 +6,8 @@ import team.aliens.dms.android.shared.model.Sex
 
 internal fun FetchMyPageResponse.toModel(): MyPage = MyPage(
     schoolName = this.schoolName,
-    studentName = this.studentName,
-    gradeClassNumber = this.gradeClassNumber,
+    name = this.studentName,
+    gcn = this.gradeClassNumber,
     profileImageUrl = this.profileImageUrl,
     sex = Sex.valueOf(this.sex),
     bonusPoint = this.bonusPoint,

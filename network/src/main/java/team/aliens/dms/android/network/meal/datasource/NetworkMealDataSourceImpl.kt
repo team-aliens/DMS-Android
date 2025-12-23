@@ -1,6 +1,6 @@
 package team.aliens.dms.android.network.meal.datasource
 
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.meal.apiservice.MealApiService
 import team.aliens.dms.android.network.meal.model.FetchMealsResponse

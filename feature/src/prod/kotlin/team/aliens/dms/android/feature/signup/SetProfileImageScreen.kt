@@ -43,7 +43,7 @@ import team.aliens.dms.android.core.designsystem.clickable
 import ui.Banner
 import ui.BannerDefaults
 import ui.DefaultVerticalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.collectInLaunchedEffectWithLifecycle
 import ui.horizontalPadding

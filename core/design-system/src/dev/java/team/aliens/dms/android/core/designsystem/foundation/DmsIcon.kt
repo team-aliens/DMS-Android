@@ -21,6 +21,11 @@ object DmsIcon {
     val Down = R.drawable.ic_down
     val Forward = R.drawable.ic_forward
     val Home = R.drawable.ic_home
+    val HomeFill = R.drawable.ic_home_fill
+    val CheckCircle = R.drawable.ic_application
+    val CheckCircleFill = R.drawable.ic_application_fill
+    val MyPage = R.drawable.ic_my_page
+    val MyPageFill = R.drawable.ic_my_page_fill
     val Information = R.drawable.ic_information
     val LogoDark = R.drawable.ic_logo_dark
     val LogoLight = R.drawable.ic_logo_light
@@ -28,13 +33,15 @@ object DmsIcon {
     val Notification = R.drawable.ic_notice
     val Lunch = R.drawable.ic_lunch
     val Person = R.drawable.ic_person
-    val Notice = R.drawable.ic_notice
+    val Announcement = R.drawable.ic_announcement
     val Palette = R.drawable.ic_palette
     val PasswordInvisible = R.drawable.ic_password_invisible
     val PasswordVisible = R.drawable.ic_password_visible
     val Photo = R.drawable.ic_photo
     val PhotoClose = R.drawable.ic_photo_close
     val Plus = R.drawable.ic_plus
+    val Minus = R.drawable.ic_minus
+    val Equal = R.drawable.ic_equal
     val Sort = R.drawable.ic_sort
     val Visible = R.drawable.ic_visible
     val Warning = R.drawable.ic_warning
@@ -44,4 +51,5 @@ object DmsIcon {
     val SymbolLight = R.drawable.ic_symbol_light
     val SymbolDark = R.drawable.ic_symbol_dark
     val Cancel = R.drawable.ic_cancel
+    val OutingPass = R.drawable.ic_outing_pass
 }

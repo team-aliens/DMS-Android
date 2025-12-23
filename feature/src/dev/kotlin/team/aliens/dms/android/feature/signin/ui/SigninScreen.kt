@@ -18,11 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
@@ -36,8 +33,8 @@ import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 import team.aliens.dms.android.core.designsystem.titleB
-import team.aliens.dms.android.core.ui.horizontalPadding
-import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.feature.signin.viewmodel.SignInSideEffect
 import team.aliens.dms.android.feature.signin.viewmodel.SignInState
 import team.aliens.dms.android.feature.signin.viewmodel.SignInViewModel
@@ -55,7 +52,7 @@ internal fun SignIn(
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
-        viewModel.effectFlow.collect {
+        viewModel.sideEffect.collect {
             when (it) {
                 SignInSideEffect.NavigateToMain -> navigateToMain()
                 is SignInSideEffect.ShowSnackBar -> onShowSnackBar(it.snackBarType, it.message)
@@ -85,8 +82,6 @@ private fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
-            .navigationBarsPadding()
             .background(DmsTheme.colorScheme.surfaceTint)
             .pointerInput(Unit) { // TODO KMP 구현
                 detectTapGestures(

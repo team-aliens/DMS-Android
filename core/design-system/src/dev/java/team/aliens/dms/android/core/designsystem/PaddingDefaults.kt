@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.ui
+package team.aliens.dms.android.core.designsystem
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding

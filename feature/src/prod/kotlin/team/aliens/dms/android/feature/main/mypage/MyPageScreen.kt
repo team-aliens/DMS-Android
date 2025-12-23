@@ -57,7 +57,7 @@ import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import ui.DefaultHorizontalSpace
 import ui.LargeVerticalSpace
-import ui.PaddingDefaults
+import team.aliens.dms.android.core.designsystem.PaddingDefaults
 import ui.bottomPadding
 import ui.collectInLaunchedEffectWithLifecycle
 import ui.endPadding

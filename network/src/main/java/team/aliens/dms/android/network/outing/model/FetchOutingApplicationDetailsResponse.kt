@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.outing.model
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class FetchOutingApplicationDetailsResponse(

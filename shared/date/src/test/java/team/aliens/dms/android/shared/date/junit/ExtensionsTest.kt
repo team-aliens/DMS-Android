@@ -2,9 +2,9 @@ package team.aliens.dms.android.shared.date.junit
 
 import org.junit.Before
 import org.junit.Test
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import team.aliens.dms.android.shared.date.toDate
 import team.aliens.dms.android.shared.date.toEpochMilli
 import team.aliens.dms.android.shared.date.toLocalDate
