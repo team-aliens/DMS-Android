@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import team.aliens.dms.android.core.jwt.JwtProvider
-import ui.viewmodel.BaseViewModel
+import team.aliens.dms.android.core.ui.viewmodel.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel

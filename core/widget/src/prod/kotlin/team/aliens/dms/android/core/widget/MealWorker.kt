@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.widget.meal
+package team.aliens.dms.android.core.widget
 
 import android.content.Context
 import android.os.Build
@@ -15,6 +15,9 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import team.aliens.dms.android.core.widget.meal.MealGlanceWidget
+import team.aliens.dms.android.core.widget.meal.MealInfo
+import team.aliens.dms.android.core.widget.meal.MealInfoStateDefinition
 import team.aliens.dms.android.core.widget.meal.mapper.toEntity
 import team.aliens.dms.android.data.meal.repository.MealRepository
 import team.aliens.dms.android.shared.date.util.now
@@ -65,7 +68,7 @@ class MealWorker @AssistedInject constructor(
 
             try {
                 val mealDate = if (now.hour >= 19) today.plusDays(1) else today
-                val response = mealRepository.fetchMeal(mealDate)
+                val response = mealRepository.fetchMeal(mealDate).getOrThrow()
                 setWidgetState(glanceIds, response.toEntity())
             } catch (e: Exception) {
                 Result.failure()

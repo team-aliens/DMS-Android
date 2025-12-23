@@ -5,10 +5,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import ui.mvi.BaseMviViewModel
-import ui.mvi.Intent
-import ui.mvi.SideEffect
-import ui.mvi.UiState
+import team.aliens.dms.android.core.ui.mvi.BaseMviViewModel
+import team.aliens.dms.android.core.ui.mvi.Intent
+import team.aliens.dms.android.core.ui.mvi.SideEffect
+import team.aliens.dms.android.core.ui.mvi.UiState
 import team.aliens.dms.android.data.notice.repository.NoticeRepository
 import java.util.UUID
 import javax.inject.Inject
