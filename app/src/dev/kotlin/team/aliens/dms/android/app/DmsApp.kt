@@ -1,32 +1,25 @@
 package team.aliens.dms.android.app
 
-import android.util.Log
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
-import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
@@ -71,7 +64,7 @@ fun DmsApp(
         OnboardingScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted) {
+    LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
             isJwtAvailableState -> HomeScreenNav
@@ -93,14 +86,11 @@ fun DmsApp(
                     currentScreen = currentScreen,
                     onNavigate = { destination ->
                         if (currentScreen != destination) {
-                            // 기존 메인 화면들 제거
-                            backStack.clear()
                             backStack.removeAll {
                                 it is HomeScreenNav ||
                                 it is ApplicationScreenNav ||
                                 it is MyPageScreenNav
                             }
-                            // 새 화면 추가
                             backStack.add(destination)
                         }
                     }

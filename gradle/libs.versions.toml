@@ -41,6 +41,7 @@ coil = "2.4.0"
 compileSdk = "36"
 minSdk = "23"
 targetSdk = "34"
+desugarJdkLibs = "2.0.4"
 java = "17"
 junitKtx = "1.1.5"
 workRuntime = "2.9.0"
@@ -115,6 +116,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 compose-calendar = { module = "com.kizitonwose.calendar:compose", version.ref = "composeCalendar" }
 
 [plugins]
