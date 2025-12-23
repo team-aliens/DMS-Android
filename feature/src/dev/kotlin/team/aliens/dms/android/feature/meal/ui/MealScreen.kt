@@ -146,9 +146,7 @@ private fun MealScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding()
-            .navigationBarsPadding(),
+            .background(DmsTheme.colorScheme.background),
     ) {
         DmsTopAppBar(
             onBackPressed = onBackClick,
