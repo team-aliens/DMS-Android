@@ -2,7 +2,7 @@ package team.aliens.dms.android.core.ui.util
 
 import java.time.DayOfWeek
 
-fun DayOfWeek.toLocate(): String = when (this) {
+fun DayOfWeek.toLocale(): String = when (this) {
     DayOfWeek.MONDAY -> "월요일"
     DayOfWeek.TUESDAY -> "화요일"
     DayOfWeek.WEDNESDAY -> "수요일"

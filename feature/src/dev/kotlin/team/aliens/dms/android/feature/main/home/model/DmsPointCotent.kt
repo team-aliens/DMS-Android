@@ -3,17 +3,13 @@ package team.aliens.dms.android.feature.main.home.model
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
-import team.aliens.dms.android.core.designsystem.util.clickable
 
 @Composable
 fun DmsPointContent(
@@ -50,7 +45,6 @@ fun DmsPointContent(
         )
         PointItem(
             modifier = Modifier.padding(top = 16.dp),
-            iconBackgroundColor = DmsTheme.colorScheme.onSurfaceVariant,
             textColor = DmsTheme.colorScheme.onTertiaryContainer,
             buttonColor = DmsTheme.colorScheme.onSurface,
             icon = DmsIcon.Equal,
@@ -59,7 +53,6 @@ fun DmsPointContent(
         )
         PointItem(
             modifier = Modifier.padding(top = 12.dp),
-            iconBackgroundColor = DmsTheme.colorScheme.onPrimary,
             textColor = DmsTheme.colorScheme.onPrimaryContainer,
             buttonColor = DmsTheme.colorScheme.primary,
             icon = DmsIcon.Plus,
@@ -68,7 +61,6 @@ fun DmsPointContent(
         )
         PointItem(
             modifier = Modifier.padding(top = 12.dp),
-            iconBackgroundColor = DmsTheme.colorScheme.onError,
             textColor = DmsTheme.colorScheme.onErrorContainer,
             buttonColor = DmsTheme.colorScheme.error,
             icon = DmsIcon.Minus,
@@ -81,7 +73,6 @@ fun DmsPointContent(
 @Composable
 private fun PointItem(
     modifier: Modifier = Modifier,
-    iconBackgroundColor: Color,
     textColor: Color,
     buttonColor: Color,
     @DrawableRes icon: Int,
