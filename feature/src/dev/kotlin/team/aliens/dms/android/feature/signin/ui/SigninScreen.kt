@@ -81,9 +81,7 @@ private fun SignInScreen(
 ) {
     Column(
         modifier = Modifier
-            .navigationBarsPadding()
             .fillMaxSize()
-            .systemBarsPadding()
             .background(DmsTheme.colorScheme.surfaceTint)
             .pointerInput(Unit) { // TODO KMP 구현
                 detectTapGestures(

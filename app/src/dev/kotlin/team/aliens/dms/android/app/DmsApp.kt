@@ -1,5 +1,6 @@
 package team.aliens.dms.android.app
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
@@ -60,8 +62,9 @@ fun DmsApp(
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val currentScreen = backStack.lastOrNull()
     val shouldShowBottomBar = currentScreen in listOf(
-        SignInScreenNav,
-        OnboardingScreenNav,
+        HomeScreenNav,
+        ApplicationScreenNav,
+        MyPageScreenNav,
     )
 
     LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
@@ -78,10 +81,8 @@ fun DmsApp(
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxWidth(),
         bottomBar = {
-            if (!shouldShowBottomBar) {
+            if (shouldShowBottomBar) {
                 BottomNavigationBar(
                     currentScreen = currentScreen,
                     onNavigate = { destination ->
@@ -97,11 +98,11 @@ fun DmsApp(
                 )
             }
         }
-    ) { _ ->
+    ) { paddingValues ->
         NavDisplay(
             modifier = Modifier
-                .navigationBarsPadding()
-                .systemBarsPadding(),
+                .padding(paddingValues)
+                .navigationBarsPadding(),
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryProvider = entryProvider {
@@ -140,23 +141,26 @@ fun DmsApp(
                 }
                 entry<MealScreenNav> {
                     MealRoute(
-                        onNavigateBack = { backStack.removeLast() }
+                        onNavigateBack = { backStack.removeLastOrNull() }
                     )
                 }
             },
         )
-        SnackbarHost(
-            modifier = Modifier
-                .statusBarsPadding()
-                .padding(top = 16.dp),
-            hostState = appState.snackBarHostState,
-            snackbar = {
-                val visuals = it.visuals as? DmsSnackBarVisuals ?: return@SnackbarHost
-                DmsSnackBar(
-                    snackBarType = visuals.snackBarType,
-                    message = visuals.message,
-                )
-            },
-        )
+        Box {
+            SnackbarHost(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(top = 16.dp)
+                    .align(Alignment.Center),
+                hostState = appState.snackBarHostState,
+                snackbar = {
+                    val visuals = it.visuals as? DmsSnackBarVisuals ?: return@SnackbarHost
+                    DmsSnackBar(
+                        snackBarType = visuals.snackBarType,
+                        message = visuals.message,
+                    )
+                },
+            )
+        }
     }
 }

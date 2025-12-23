@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -92,12 +93,10 @@ private fun HomeScreen(
     onOutingPassClick: () -> Unit,
     onNotificationClick: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding(),
+            .background(DmsTheme.colorScheme.background),
     ) {
         HomeTopAppBar(
             onOutingPassClick = onOutingPassClick,
@@ -106,7 +105,7 @@ private fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(state = scrollState)
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 10.dp, vertical = 16.dp),
         ) {
             AnnouncementButton(
@@ -139,4 +138,5 @@ private fun HomeScreen(
             )
         }
     }
+
 }
