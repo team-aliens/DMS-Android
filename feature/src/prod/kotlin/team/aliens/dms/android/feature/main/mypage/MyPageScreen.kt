@@ -57,7 +57,7 @@ import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
 import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
 import team.aliens.dms.android.core.ui.LargeVerticalSpace
-import team.aliens.dms.android.core.designsystem.PaddingDefaults
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.core.ui.bottomPadding
 import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
 import team.aliens.dms.android.core.ui.endPadding
@@ -160,8 +160,8 @@ internal fun MyPageScreen(
         ) {
             UserInformation(
                 modifier = Modifier.fillMaxWidth(),
-                gradeClassNumber = uiState.myPage?.gradeClassNumber,
-                studentName = uiState.myPage?.studentName,
+                gradeClassNumber = uiState.myPage?.gcn,
+                studentName = uiState.myPage?.name,
                 sex = uiState.myPage?.sex,
                 schoolName = uiState.myPage?.schoolName,
                 profileImageUrl = uiState.myPage?.profileImageUrl,

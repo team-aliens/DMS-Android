@@ -47,9 +47,7 @@ internal class HomeViewModel @Inject constructor(
 
     private fun updateDate(date: LocalDate) {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                mealRepository.fetchMeal(date)
-            }.onSuccess { meal ->
+            mealRepository.fetchMeal(date).onSuccess { meal ->
                 reduce(
                     newState = stateFlow.value.copy(
                         selectedDate = date,
@@ -68,9 +66,7 @@ internal class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             println("LOGLOG1")
             val capturedDate = stateFlow.value.selectedDate
-            runCatching {
-                mealRepository.updateMeal(capturedDate)
-            }.onSuccess { meal ->
+            mealRepository.updateMeal(capturedDate).onSuccess { meal ->
                 reduce(
                     newState = stateFlow.value.copy(
                         selectedDate = capturedDate,

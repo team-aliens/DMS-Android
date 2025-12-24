@@ -44,7 +44,7 @@ import team.aliens.dms.android.core.designsystem.slideInFromEnd
 import team.aliens.dms.android.core.designsystem.slideInFromStart
 import team.aliens.dms.android.core.designsystem.slideOutFromEnd
 import team.aliens.dms.android.core.designsystem.slideOutFromStart
-import team.aliens.dms.android.core.designsystem.PaddingDefaults
+import team.aliens.dms.android.core.ui.PaddingDefaults
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.main.announcement.AnnouncementListScreen
 import team.aliens.dms.android.feature.main.application.ApplicationScreen
