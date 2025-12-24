@@ -68,7 +68,7 @@ class MealWorker @AssistedInject constructor(
 
             try {
                 val mealDate = if (now.hour >= 19) today.plusDays(1) else today
-                val response = mealRepository.fetchMeal(mealDate).getOrThrow()
+                val response = mealRepository.fetchMeal(mealDate)
                 setWidgetState(glanceIds, response.toEntity())
             } catch (e: Exception) {
                 Result.failure()
