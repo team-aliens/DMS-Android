@@ -26,7 +26,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         password: String,
         deviceToken: String,
         autoSignIn: Boolean,
-    ) {
+    ): Result<Unit> = runCatching {
         val signInResponse = statusMapping(
             onBadRequest = { throw BadRequestException() },
             onUnauthorized = { throw PasswordMismatchException() },
@@ -53,7 +53,7 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun sendEmailVerificationCode(
         email: String,
         type: EmailVerificationType,
-    ) {
+    ): Result<Unit> = runCatching {
         networkAuthDataSource.sendEmailVerificationCode(
             request = SendEmailVerificationCodeRequest(
                 email = email,
@@ -66,7 +66,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         email: String,
         code: String,
         type: EmailVerificationType,
-    ) {
+    ): Result<Unit> = runCatching {
         networkAuthDataSource.checkEmailVerificationCode(
             email = email,
             code = code,
@@ -74,12 +74,14 @@ internal class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun checkIdExists(accountId: String): HashedEmail =
+    override suspend fun checkIdExists(accountId: String): Result<HashedEmail> = runCatching {
         networkAuthDataSource.checkIdExists(
             accountId = accountId,
         ).email
+    }
 
-    override suspend fun signOut() {
+
+    override suspend fun signOut(): Result<Unit> = runCatching {
         jwtProvider.clearCaches()
         schoolProvider.clearCaches()
     }

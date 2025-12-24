@@ -13,9 +13,11 @@ internal class PointRepositoryImpl @Inject constructor(
         type: PointType,
         page: Long?,
         size: Long?,
-    ): PointStatus = networkPointDataSource.fetchPoints(
-        type = type.name,
-        page = page,
-        size = size,
-    ).toModel()
+    ): Result<PointStatus> = runCatching {
+        networkPointDataSource.fetchPoints(
+            type = type.name,
+            page = page,
+            size = size,
+        ).toModel()
+    }
 }

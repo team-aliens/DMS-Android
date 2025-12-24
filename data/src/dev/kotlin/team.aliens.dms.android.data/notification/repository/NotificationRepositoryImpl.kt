@@ -16,53 +16,62 @@ internal class NotificationRepositoryImpl @Inject constructor(
     private val deviceDataStoreDataSource: DeviceDataStoreDataSource,
 ) : NotificationRepository() {
 
-    override suspend fun registerDeviceNotificationToken(deviceToken: String) {
+    override suspend fun registerDeviceNotificationToken(deviceToken: String): Result<Unit> = runCatching {
         TODO("Not yet implemented")
     }
 
-    override suspend fun cancelDeviceTokenRegistration(deviceToken: String) {
+    override suspend fun cancelDeviceTokenRegistration(deviceToken: String): Result<Unit> = runCatching {
         TODO("Not yet implemented")
     }
 
     override suspend fun subscribeNotificationTopic(
         deviceToken: String,
         topic: NotificationTopic,
-    ) = networkNotificationDataSource.subscribeNotificationTopic(
-        request = SubscribeNotificationTopicRequest(
-            deviceToken = deviceToken,
-            topic = topic.name,
-        ),
-    )
+    ): Result<Unit> = runCatching {
+        networkNotificationDataSource.subscribeNotificationTopic(
+            request = SubscribeNotificationTopicRequest(
+                deviceToken = deviceToken,
+                topic = topic.name,
+            ),
+        )
+    }
 
     override suspend fun unsubscribeNotificationTopic(
         deviceToken: String,
         topic: NotificationTopic,
-    ) = networkNotificationDataSource.unsubscribeNotificationTopic(
-        request = UnsubscribeNotificationTopicRequest(
-            deviceToken = deviceToken,
-            topic = topic.name,
-        ),
-    )
+    ): Result<Unit> = runCatching {
+        networkNotificationDataSource.unsubscribeNotificationTopic(
+            request = UnsubscribeNotificationTopicRequest(
+                deviceToken = deviceToken,
+                topic = topic.name,
+            ),
+        )
+    }
 
     override suspend fun batchUpdateNotificationTopic(
         subscriptions: List<NotificationTopic.Subscription>,
-    ) = networkNotificationDataSource.batchUpdateNotificationTopic(
-        request = BatchUpdateNotificationTopicRequest(
-            topics = subscriptions.toModel(),
-        ),
-    )
+    ): Result<Unit> = runCatching {
+        networkNotificationDataSource.batchUpdateNotificationTopic(
+            request = BatchUpdateNotificationTopicRequest(
+                topics = subscriptions.toModel(),
+            ),
+        )
+    }
 
-    override suspend fun fetchNotificationStatus(deviceToken: String): List<NotificationTopicGroup.Status> =
+    override suspend fun fetchNotificationStatus(deviceToken: String): Result<List<NotificationTopicGroup.Status>> = runCatching {
         networkNotificationDataSource.fetchNotificationTopicStatus(deviceToken = deviceToken)
             .toModel()
+    }
 
-    override suspend fun fetchNotifications(): List<Notification> =
+    override suspend fun fetchNotifications(): Result<List<Notification>> = runCatching {
         networkNotificationDataSource.fetchNotifications().toModel()
+    }
 
-    override suspend fun saveDeviceToken(deviceToken: String) {
+    override suspend fun saveDeviceToken(deviceToken: String): Result<Unit> = runCatching {
         deviceDataStoreDataSource.storeDeviceToken(deviceToken)
     }
 
-    override suspend fun getDeviceToken(): String =
+    override suspend fun getDeviceToken(): Result<String> = runCatching {
         deviceDataStoreDataSource.loadDeviceToken()
+    }
 }

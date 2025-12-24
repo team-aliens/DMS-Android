@@ -13,20 +13,15 @@ internal class MealRepositoryImpl @Inject constructor(
     private val databaseMealDataSource: DatabaseMealDataSource,
     private val networkMealDataSource: NetworkMealDataSource,
 ) : MealRepository() {
-    override suspend fun fetchMeal(date: LocalDate): Meal = try {
+    override suspend fun fetchMeal(date: LocalDate): Result<Meal> = runCatching {
         databaseMealDataSource.queryMeal(date).toModel()
-    } catch (_: Exception) {
-        try {
-            this.updateMeal(date = date)
-        } catch (_: Exception) {
-            throw CannotFindMealException()
-        }
+    }.recoverCatching {
+        updateMeal(date = date).getOrElse { throw CannotFindMealException() }
     }
 
-    override suspend fun updateMeal(date: LocalDate): Meal {
-        return networkMealDataSource.fetchMeals(date).toModel().also { meals ->
+    override suspend fun updateMeal(date: LocalDate): Result<Meal> = runCatching {
+        networkMealDataSource.fetchMeals(date).toModel().also { meals ->
             databaseMealDataSource.saveMeals(meals.toEntity())
-        }
-            .find { it.date == date }!!
+        }.find { it.date == date }!!
     }
 }

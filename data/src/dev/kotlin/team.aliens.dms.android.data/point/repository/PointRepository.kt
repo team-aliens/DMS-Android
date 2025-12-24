@@ -9,5 +9,5 @@ abstract class PointRepository {
         type: PointType,
         page: Long? = null,
         size: Long? = null,
-    ): PointStatus
+    ): Result<PointStatus>
 }

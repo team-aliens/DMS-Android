@@ -10,20 +10,20 @@ abstract class AuthRepository {
         password: String,
         deviceToken: String,
         autoSignIn: Boolean = true,
-    )
+    ): Result<Unit>
 
     abstract suspend fun sendEmailVerificationCode(
         email: String,
         type: EmailVerificationType,
-    )
+    ): Result<Unit>
 
     abstract suspend fun checkEmailVerificationCode(
         email: String,
         code: String,
         type: EmailVerificationType,
-    )
+    ): Result<Unit>
 
-    abstract suspend fun checkIdExists(accountId: String): HashedEmail
+    abstract suspend fun checkIdExists(accountId: String): Result<HashedEmail>
 
-    abstract suspend fun signOut()
+    abstract suspend fun signOut(): Result<Unit>
 }

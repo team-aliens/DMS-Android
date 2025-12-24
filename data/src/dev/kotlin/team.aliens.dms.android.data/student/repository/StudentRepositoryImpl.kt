@@ -35,7 +35,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         accountId: String,
         password: String,
         profileImageUrl: String?,
-    ) {
+    ): Result<Unit> = runCatching {
         val response: SignUpResponse = networkStudentDataSource.signUp(
             request = SignUpRequest(
                 schoolVerificationCode = schoolVerificationCode,
@@ -62,12 +62,14 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classroom: Int,
         number: Int,
-    ): StudentName = networkStudentDataSource.examineStudentNumber(
-        schoolId = schoolId,
-        grade = grade,
-        classroom = classroom,
-        number = number,
-    ).studentName
+    ): Result<StudentName> = runCatching {
+        networkStudentDataSource.examineStudentNumber(
+            schoolId = schoolId,
+            grade = grade,
+            classroom = classroom,
+            number = number,
+        ).studentName
+    }
 
     override suspend fun findId(
         schoolId: UUID,
@@ -75,7 +77,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): HashedEmail =
+    ): Result<HashedEmail> = runCatching {
         networkStudentDataSource.findId(
             schoolId = schoolId,
             studentName = studentName,
@@ -83,6 +85,7 @@ internal class StudentRepositoryImpl @Inject constructor(
             classRoom = classRoom,
             number = number,
         ).email
+    }
 
     override suspend fun resetPassword(
         accountId: String,
@@ -90,7 +93,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         email: String,
         emailVerificationCode: String,
         newPassword: String,
-    ) {
+    ): Result<Unit> = runCatching {
         networkStudentDataSource.resetPassword(
             ResetPasswordRequest(
                 accountId = accountId,
@@ -102,26 +105,29 @@ internal class StudentRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun checkIdDuplication(id: String) {
+    override suspend fun checkIdDuplication(id: String): Result<Unit> = runCatching {
         networkStudentDataSource.checkIdDuplication(id = id)
     }
 
-    override suspend fun checkEmailDuplication(email: String) {
+    override suspend fun checkEmailDuplication(email: String): Result<Unit> = runCatching {
         networkStudentDataSource.checkEmailDuplication(email = email)
     }
 
-    override suspend fun fetchMyPage(): MyPage = networkStudentDataSource.fetchMyPage().toModel()
+    override suspend fun fetchMyPage(): Result<MyPage> = runCatching {
+        networkStudentDataSource.fetchMyPage().toModel()
+    }
 
-    override suspend fun editProfile(profileImageUrl: String) {
+    override suspend fun editProfile(profileImageUrl: String): Result<Unit> = runCatching {
         networkStudentDataSource.editProfile(request = EditProfileRequest(profileImageUrl))
     }
 
-    override suspend fun withdraw() {
+    override suspend fun withdraw(): Result<Unit> = runCatching {
         networkStudentDataSource.withdraw()
         jwtProvider.clearCaches()
         schoolProvider.clearCaches()
     }
 
-    override suspend fun fetchStudents(): List<Student> =
+    override suspend fun fetchStudents(): Result<List<Student>> = runCatching {
         networkStudentDataSource.fetchStudents().toModel()
+    }
 }

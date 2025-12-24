@@ -19,14 +19,14 @@ abstract class StudentRepository {
         accountId: String,
         password: String,
         profileImageUrl: String?,
-    )
+    ): Result<Unit>
 
     abstract suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
         classroom: Int,
         number: Int,
-    ): StudentName
+    ): Result<StudentName>
 
     abstract suspend fun findId(
         schoolId: UUID,
@@ -34,7 +34,7 @@ abstract class StudentRepository {
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): HashedEmail
+    ): Result<HashedEmail>
 
     abstract suspend fun resetPassword(
         accountId: String,
@@ -42,17 +42,17 @@ abstract class StudentRepository {
         email: String,
         emailVerificationCode: String,
         newPassword: String,
-    )
+    ): Result<Unit>
 
-    abstract suspend fun checkIdDuplication(id: String)
+    abstract suspend fun checkIdDuplication(id: String): Result<Unit>
 
-    abstract suspend fun checkEmailDuplication(email: String)
+    abstract suspend fun checkEmailDuplication(email: String): Result<Unit>
 
-    abstract suspend fun fetchMyPage(): MyPage
+    abstract suspend fun fetchMyPage(): Result<MyPage>
 
-    abstract suspend fun editProfile(profileImageUrl: String)
+    abstract suspend fun editProfile(profileImageUrl: String): Result<Unit>
 
-    abstract suspend fun withdraw()
+    abstract suspend fun withdraw(): Result<Unit>
 
-    abstract suspend fun fetchStudents(): List<Student>
+    abstract suspend fun fetchStudents(): Result<List<Student>>
 }
