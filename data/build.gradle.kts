@@ -38,6 +38,17 @@ android {
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
 }
 
 dependencies {
