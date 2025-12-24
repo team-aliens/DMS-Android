@@ -43,14 +43,14 @@ import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.TextField
 import team.aliens.dms.android.core.designsystem.clickable
-import ui.Banner
-import ui.BannerDefaults
-import ui.DefaultHorizontalSpace
-import ui.DefaultVerticalSpace
-import ui.bottomPadding
-import ui.collectInLaunchedEffectWithLifecycle
-import ui.horizontalPadding
-import ui.topPadding
+import team.aliens.dms.android.core.ui.Banner
+import team.aliens.dms.android.core.ui.BannerDefaults
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.findid.navigator.FindIdNavigator
 

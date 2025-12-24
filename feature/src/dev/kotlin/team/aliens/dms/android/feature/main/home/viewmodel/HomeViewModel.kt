@@ -20,9 +20,7 @@ internal class HomeViewModel @Inject constructor(
 
     private fun getMyPage() {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                studentRepository.fetchMyPage()
-            }.onSuccess { myPage ->
+            studentRepository.fetchMyPage().onSuccess { myPage ->
                 setState { it.copy(myPage = myPage) }
             }.onFailure {
                 throw it

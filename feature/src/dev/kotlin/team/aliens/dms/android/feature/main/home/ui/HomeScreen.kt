@@ -1,24 +1,17 @@
 package team.aliens.dms.android.feature.main.home.ui
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -28,7 +21,6 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
-import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.main.home.model.AnnouncementButton
 import team.aliens.dms.android.feature.main.home.model.DmsPointContent
@@ -138,5 +130,4 @@ private fun HomeScreen(
             )
         }
     }
-
 }

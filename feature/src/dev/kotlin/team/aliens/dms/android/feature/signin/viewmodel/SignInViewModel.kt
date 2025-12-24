@@ -58,9 +58,7 @@ internal class SignInViewModel @Inject constructor(
 
     private fun getDeviceToken() {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                notificationRepository.getDeviceToken()
-            }.onSuccess { deviceToken ->
+            notificationRepository.getDeviceToken().onSuccess { deviceToken ->
                 setState { it.copy(deviceToken = deviceToken) }
             }
         }

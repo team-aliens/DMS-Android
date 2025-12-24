@@ -1,11 +1,9 @@
 package team.aliens.dms.android.app
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -80,78 +78,81 @@ fun DmsApp(
         }
     }
 
-    Scaffold(
-        bottomBar = {
-            if (shouldShowBottomBar) {
-                BottomNavigationBar(
-                    currentScreen = currentScreen,
-                    onNavigate = { destination ->
-                        if (currentScreen != destination) {
-                            backStack.removeAll {
-                                it is HomeScreenNav ||
-                                it is ApplicationScreenNav ||
-                                it is MyPageScreenNav
+    Box {
+        Scaffold(
+            bottomBar = {
+                if (shouldShowBottomBar) {
+                    BottomNavigationBar(
+                        currentScreen = currentScreen,
+                        onNavigate = { destination ->
+                            if (currentScreen != destination) {
+                                backStack.removeAll {
+                                    it is HomeScreenNav ||
+                                            it is ApplicationScreenNav ||
+                                            it is MyPageScreenNav
+                                }
+                                backStack.add(destination)
                             }
-                            backStack.add(destination)
                         }
-                    }
-                )
+                    )
+                }
             }
-        }
-    ) { paddingValues ->
-        NavDisplay(
-            modifier = Modifier
-                .padding(paddingValues)
-                .navigationBarsPadding(),
-            backStack = backStack,
-            onBack = { backStack.removeLastOrNull() },
-            entryProvider = entryProvider {
-                entry<OnboardingScreenNav> {
-                    OnboardingRoute(
-                        navigateToSignIn = {
-                            backStack.clear()
-                            backStack.add(SignInScreenNav)
-                        },
-                    )
-                }
-                entry<SignInScreenNav> {
-                    SignInRoute(
-                        navigateToMain = {
-                            backStack.clear()
-                            backStack.add(HomeScreenNav)
-                        },
-                        navigateToSignUp = {},
-                        onShowSnackBar = { snackBarType, message ->
-                            appState.showSnackBar(snackBarType, message)
-                        },
-                    )
-                }
-                entry<HomeScreenNav> {
-                    HomeRoute(
-                        onNavigateMeal = {
-                            backStack.add(MealScreenNav)
-                        }
-                    )
-                }
-                entry<ApplicationScreenNav> {
-                    ApplicationRoute()
-                }
-                entry<MyPageScreenNav> {
-                    MyPageRoute()
-                }
-                entry<MealScreenNav> {
-                    MealRoute(
-                        onNavigateBack = { backStack.removeLastOrNull() }
-                    )
-                }
-            },
-        )
-        Box {
+        ) { paddingValues ->
+            NavDisplay(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .navigationBarsPadding(),
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                entryProvider = entryProvider {
+                    entry<OnboardingScreenNav> {
+                        OnboardingRoute(
+                            navigateToSignIn = {
+                                backStack.clear()
+                                backStack.add(SignInScreenNav)
+                            },
+                        )
+                    }
+                    entry<SignInScreenNav> {
+                        SignInRoute(
+                            navigateToMain = {
+                                backStack.clear()
+                                backStack.add(HomeScreenNav)
+                            },
+                            navigateToSignUp = {},
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            },
+                        )
+                    }
+                    entry<HomeScreenNav> {
+                        HomeRoute(
+                            onNavigateMeal = {
+                                backStack.add(MealScreenNav)
+                            },
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            },
+                        )
+                    }
+                    entry<ApplicationScreenNav> {
+                        ApplicationRoute()
+                    }
+                    entry<MyPageScreenNav> {
+                        MyPageRoute()
+                    }
+                    entry<MealScreenNav> {
+                        MealRoute(
+                            onNavigateBack = { backStack.removeLastOrNull() }
+                        )
+                    }
+                },
+            )
             SnackbarHost(
                 modifier = Modifier
                     .statusBarsPadding()
                     .padding(top = 16.dp)
-                    .align(Alignment.Center),
+                    .align(Alignment.TopCenter),
                 hostState = appState.snackBarHostState,
                 snackbar = {
                     val visuals = it.visuals as? DmsSnackBarVisuals ?: return@SnackbarHost

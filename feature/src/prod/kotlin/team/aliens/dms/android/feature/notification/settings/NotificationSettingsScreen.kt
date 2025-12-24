@@ -37,10 +37,10 @@ import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
 import team.aliens.dms.android.core.designsystem.Switch
 import team.aliens.dms.android.core.notification.notificationPermissionGranted
-import team.aliens.dms.android.core.designsystem.PaddingDefaults
-import ui.collectInLaunchedEffectWithLifecycle
-import ui.horizontalPadding
-import ui.topPadding
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.topPadding
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.notification.navigation.NotificationSettingsNavigator

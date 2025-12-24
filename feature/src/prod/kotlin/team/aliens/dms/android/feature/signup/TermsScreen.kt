@@ -31,11 +31,11 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.LocalToast
 import team.aliens.dms.android.core.designsystem.Scaffold
-import ui.DefaultHorizontalSpace
-import ui.DefaultVerticalSpace
-import ui.bottomPadding
-import ui.collectInLaunchedEffectWithLifecycle
-import ui.horizontalPadding
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.DefaultVerticalSpace
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.horizontalPadding
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.feature.signup.navigation.SignUpNavigator
 

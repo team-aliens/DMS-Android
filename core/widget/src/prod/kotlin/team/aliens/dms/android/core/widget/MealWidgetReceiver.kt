@@ -3,6 +3,7 @@ package team.aliens.dms.android.core.widget.meal
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import team.aliens.dms.android.core.widget.MealWorker
 
 class MealWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget

@@ -27,10 +27,9 @@ internal class MealViewModel @Inject constructor(
     private fun getMeal(date: LocalDate? = null) {
         val selectedDate = date ?: uiState.value.selectedDate
         viewModelScope.launch(Dispatchers.IO) {
-            mealRepository.fetchMeal(date = selectedDate)
-                .onSuccess { successfulMeal ->
-                    setState { it.copy(meal = successfulMeal) }
-                }
+            mealRepository.fetchMeal(date = selectedDate).onSuccess { successfulMeal ->
+                setState { it.copy(meal = successfulMeal) }
+            }
         }
     }
 

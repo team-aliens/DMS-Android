@@ -55,16 +55,16 @@ import team.aliens.dms.android.core.designsystem.ShadowDefaults
 import team.aliens.dms.android.core.designsystem.TextButton
 import team.aliens.dms.android.core.designsystem.clickable
 import team.aliens.dms.android.core.designsystem.shadow
-import ui.DefaultHorizontalSpace
-import ui.LargeVerticalSpace
-import team.aliens.dms.android.core.designsystem.PaddingDefaults
-import ui.bottomPadding
-import ui.collectInLaunchedEffectWithLifecycle
-import ui.endPadding
-import ui.horizontalPadding
-import ui.startPadding
-import ui.topPadding
-import ui.verticalPadding
+import team.aliens.dms.android.core.ui.DefaultHorizontalSpace
+import team.aliens.dms.android.core.ui.LargeVerticalSpace
+import team.aliens.dms.android.core.ui.PaddingDefaults
+import team.aliens.dms.android.core.ui.bottomPadding
+import team.aliens.dms.android.core.ui.collectInLaunchedEffectWithLifecycle
+import team.aliens.dms.android.core.ui.endPadding
+import team.aliens.dms.android.core.ui.horizontalPadding
+import team.aliens.dms.android.core.ui.startPadding
+import team.aliens.dms.android.core.ui.topPadding
+import team.aliens.dms.android.core.ui.verticalPadding
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.R
 import team.aliens.dms.android.shared.model.Sex
@@ -160,8 +160,8 @@ internal fun MyPageScreen(
         ) {
             UserInformation(
                 modifier = Modifier.fillMaxWidth(),
-                gradeClassNumber = uiState.myPage?.gradeClassNumber,
-                studentName = uiState.myPage?.studentName,
+                gradeClassNumber = uiState.myPage?.gcn,
+                studentName = uiState.myPage?.name,
                 sex = uiState.myPage?.sex,
                 schoolName = uiState.myPage?.schoolName,
                 profileImageUrl = uiState.myPage?.profileImageUrl,
