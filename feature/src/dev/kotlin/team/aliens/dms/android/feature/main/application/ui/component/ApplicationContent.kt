@@ -1,0 +1,42 @@
+package team.aliens.dms.kmp.feature.application.ui.component
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import team.aliens.dms.android.core.designsystem.R
+import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
+import kotlin.to
+
+@Composable
+internal fun ApplicationContent(
+    modifier: Modifier = Modifier,
+    onNavigateRemainApplication: () -> Unit,
+    onNavigateOutingApplication: () -> Unit,
+    onNavigateVolunteerApplication: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(
+                horizontal = 10.dp,
+                vertical = 16.dp,
+            ),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        listOf(
+            Triple("잔류", R.drawable.img_home, onNavigateRemainApplication),
+            Triple("외출 신청하기", R.drawable.img_outing, onNavigateOutingApplication),
+            Triple("봉사 활동 신청하기", R.drawable.img_volunteer, onNavigateVolunteerApplication),
+        ).forEach { (title, icon, onClick) ->
+            DmsApplicationCard(
+                title = title,
+                iconRes = icon,
+                onClick = onClick,
+            )
+        }
+    }
+}
