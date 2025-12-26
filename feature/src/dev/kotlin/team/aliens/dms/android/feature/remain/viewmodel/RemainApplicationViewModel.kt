@@ -37,8 +37,8 @@ class RemainApplicationViewModel @Inject constructor(
 
     private fun getRemainsApplicationTime() {
         viewModelScope.launch {
-            remainsRepository.fetchRemainsApplicationTime().onSuccess {
-                setState { it.copy(remainsApplicationTime = it.remainsApplicationTime) }
+            remainsRepository.fetchRemainsApplicationTime().onSuccess { time ->
+                setState { it.copy(remainsApplicationTime = time) }
             }
         }
     }
@@ -50,7 +50,7 @@ class RemainApplicationViewModel @Inject constructor(
     internal fun changeRemainsOption() {
         viewModelScope.launch {
             val remainOptionId = uiState.value.selectRemainsOptionId
-            remainsRepository.updateRemainsOption(optionId = remainOptionId).onSuccess {
+            remainsRepository.updateRemainsOption(optionId = remainOptionId!!).onSuccess {
                 val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
                     if (remainsOption.id == uiState.value.selectRemainsOptionId) {
                         remainsOption.copy(applied = true)

@@ -153,14 +153,18 @@ fun DmsApp(
                         )
                     }
                     entry<RemainScreenNav> {
-                        RemainApplicationRoute()
+                        RemainApplicationRoute(
+                            onBackPressed = {
+                                backStack.remove(RemainScreenNav)
+                            }
+                        )
                     }
                     entry<MyPageScreenNav> {
                         MyPageRoute()
                     }
                     entry<MealScreenNav> {
                         MealRoute(
-                            onNavigateBack = { backStack.removeLastOrNull() }
+                            onNavigateBack = { backStack.remove(MealScreenNav) }
                         )
                     }
                 },

@@ -4,6 +4,10 @@ import androidx.compose.runtime.Composable
 import team.aliens.dms.android.feature.remain.ui.RemainApplication
 
 @Composable
-fun RemainApplicationRoute() {
-    RemainApplication()
+fun RemainApplicationRoute(
+    onBackPressed: () -> Unit,
+) {
+    RemainApplication(
+        onNavigateBack = onBackPressed,
+    )
 }
