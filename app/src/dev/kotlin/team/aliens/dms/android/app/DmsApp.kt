@@ -27,6 +27,7 @@ import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
+import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 
 @Serializable
@@ -43,6 +44,9 @@ data object MealScreenNav : NavKey
 
 @Serializable
 data object ApplicationScreenNav : NavKey
+
+@Serializable
+data object RemainScreenNav : NavKey
 
 @Serializable
 data object MyPageScreenNav : NavKey
@@ -136,7 +140,20 @@ fun DmsApp(
                         )
                     }
                     entry<ApplicationScreenNav> {
-                        ApplicationRoute()
+                        ApplicationRoute(
+                            onNavigateRemainApplication = {
+                                backStack.add(RemainScreenNav)
+                            },
+                            onNavigateOutingApplication = {},
+                            onNavigateVolunteerApplication = {},
+                            onNavigateVote = {},
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            },
+                        )
+                    }
+                    entry<RemainScreenNav> {
+                        RemainApplicationRoute()
                     }
                     entry<MyPageScreenNav> {
                         MyPageRoute()
