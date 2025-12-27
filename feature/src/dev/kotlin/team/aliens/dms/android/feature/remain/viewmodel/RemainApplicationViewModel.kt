@@ -46,20 +46,65 @@ class RemainApplicationViewModel @Inject constructor(
         setState { it.copy(selectRemainsOptionId = remainsOptionId) }
     }
 
-    internal fun changeRemainsOption() {
+    internal fun changeRemainsOption(
+        onShowSnackBar: (DmsSnackBarType, String) -> Unit,
+    ) {
         viewModelScope.launch {
-            val remainOptionId = uiState.value.selectRemainsOptionId
-            remainsRepository.updateRemainsOption(optionId = remainOptionId ?: UUID.randomUUID()).onSuccess {
-                val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
-                    if (remainsOption.id == uiState.value.selectRemainsOptionId) {
-                        setState { it.copy(selectedRemainTitle = remainsOption.title) }
-                        remainsOption.copy(applied = true)
-                    } else {
-                        remainsOption.copy(applied = false)
-                    }
-                }
-                setState { it.copy(remainsOptions = remainsOptions) }
+            if (!isWithinApplicationTime()) {
+                onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청 시간이 아닙니다")
+                return@launch
             }
+            val remainOptionId = uiState.value.selectRemainsOptionId
+            remainsRepository.updateRemainsOption(optionId = remainOptionId ?: UUID.randomUUID())
+                .onSuccess {
+                    val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
+                        if (remainsOption.id == uiState.value.selectRemainsOptionId) {
+                            setState { it.copy(selectedRemainTitle = remainsOption.title) }
+                            remainsOption.copy(applied = true)
+                        } else {
+                            remainsOption.copy(applied = false)
+                        }
+                    }
+                    val appliedOption = remainsOptions.find { it.applied }
+                    setState {
+                        it.copy(
+                            remainsOptions = remainsOptions,
+                            selectedRemainTitle = appliedOption?.title
+                        )
+                    }
+                    onShowSnackBar(DmsSnackBarType.SUCCESS, "잔류 신청이 완료되었습니다")
+                }.onFailure {
+                    onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청에 실패했습니다")
+                }
+        }
+    }
+
+    private fun isWithinApplicationTime(): Boolean {
+        val now = LocalDateTime.now()
+        val currentDayOfWeek = now.dayOfWeek.value
+        val currentTime = now.toLocalTime()
+
+        val applicationTime = uiState.value.remainsApplicationTime
+
+        if (applicationTime.startTime.isEmpty() || applicationTime.endTime.isEmpty()) {
+            return true
+        }
+
+        val startTime = LocalTime.parse(applicationTime.startTime)
+        val endTime = LocalTime.parse(applicationTime.endTime)
+        val startDayValue = applicationTime.startDayOfWeek.value
+        val endDayValue = applicationTime.endDayOfWeek.value
+
+        if (startDayValue == endDayValue) {
+            return currentDayOfWeek == startDayValue &&
+                    currentTime >= startTime && currentTime <= endTime
+        }
+
+        return when {
+            currentDayOfWeek == startDayValue -> currentTime >= startTime
+            currentDayOfWeek == endDayValue -> currentTime <= endTime
+            currentDayOfWeek in (startDayValue + 1)..<endDayValue -> true
+            else -> false
         }
     }
 }
