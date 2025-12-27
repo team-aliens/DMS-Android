@@ -99,6 +99,7 @@ fun DmsApplicationCard(
                     style = DmsTheme.typography.labelM,
                     color = DmsTheme.colorScheme.inverseSurface,
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 appliedTitle?.let {
                     AppliedTitleText(appliedTitle = appliedTitle)
                 }
