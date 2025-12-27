@@ -5,9 +5,9 @@ import team.aliens.dms.android.feature.remain.ui.RemainApplication
 
 @Composable
 fun RemainApplicationRoute(
-    onBackPressed: () -> Unit,
+    onNavigateBack: (String) -> Unit,
 ) {
     RemainApplication(
-        onNavigateBack = onBackPressed,
+        onNavigateBack = onNavigateBack,
     )
 }

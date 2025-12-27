@@ -112,6 +112,10 @@ internal class JwtProviderImpl @Inject constructor(
             jwtReissueManager(refreshToken = cachedRefreshToken.value)
         }.onSuccess { tokens ->
             this@JwtProviderImpl.updateTokens(tokens = tokens)
+        }.onFailure { exception ->
+            if (exception is retrofit2.HttpException && exception.code() == 401) {
+                this@JwtProviderImpl.clearCaches()
+            }
         }
         this@JwtProviderImpl.refreshTokenAbility()
     }

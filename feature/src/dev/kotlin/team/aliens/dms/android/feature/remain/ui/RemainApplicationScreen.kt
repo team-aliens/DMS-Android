@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.remain.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,7 @@ import java.util.UUID
 
 @Composable
 internal fun RemainApplication(
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (String) -> Unit,
 ) {
     val remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel()
     val state by remainApplicationViewModel.uiState.collectAsStateWithLifecycle()
@@ -48,7 +49,7 @@ internal fun RemainApplication(
 
 @Composable
 private fun RemainApplicationScreen(
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (String) -> Unit,
     state: RemainApplicationState,
     setSelectRemainsOption: (UUID) -> Unit,
     changeRemainsOption: () -> Unit,
@@ -60,7 +61,7 @@ private fun RemainApplicationScreen(
     ) {
         DmsTopAppBar(
             title = "잔류 신청",
-            onBackPressed = onNavigateBack,
+            onBackPressed = { onNavigateBack(state.selectedRemainTitle) },
         )
         DmsFloatingNotice(
             modifier = Modifier
@@ -107,7 +108,7 @@ private fun RemainApplicationScreen(
             text = "변경하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
-            enabled = state.selectRemainsOptionId.toString().isNotEmpty(),
+            enabled = state.selectRemainsOptionId != null,
             onClick = changeRemainsOption,
         )
     }

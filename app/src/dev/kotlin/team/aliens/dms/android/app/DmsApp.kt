@@ -1,5 +1,6 @@
 package team.aliens.dms.android.app
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,6 +24,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
+import team.aliens.dms.android.core.ui.navigation.LocalResultStore
+import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
@@ -62,6 +66,7 @@ fun DmsApp(
     val isJwtAvailableState by isJwtAvailable.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
+    val resultStore = rememberResultStore()
     val currentScreen = backStack.lastOrNull()
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
@@ -102,13 +107,14 @@ fun DmsApp(
                 }
             }
         ) { paddingValues ->
-            NavDisplay(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .navigationBarsPadding(),
-                backStack = backStack,
-                onBack = { backStack.removeLastOrNull() },
-                entryProvider = entryProvider {
+            CompositionLocalProvider(LocalResultStore provides resultStore) {
+                NavDisplay(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .navigationBarsPadding(),
+                    backStack = backStack,
+                    onBack = { backStack.removeLastOrNull() },
+                    entryProvider = entryProvider {
                     entry<OnboardingScreenNav> {
                         OnboardingRoute(
                             navigateToSignIn = {
@@ -154,7 +160,8 @@ fun DmsApp(
                     }
                     entry<RemainScreenNav> {
                         RemainApplicationRoute(
-                            onBackPressed = {
+                            onNavigateBack = { title ->
+                                resultStore.setResult<String?>("remain_application_result", title)
                                 backStack.remove(RemainScreenNav)
                             }
                         )
@@ -168,7 +175,8 @@ fun DmsApp(
                         )
                     }
                 },
-            )
+                )
+            }
             SnackbarHost(
                 modifier = Modifier
                     .statusBarsPadding()

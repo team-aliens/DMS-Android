@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.main.application.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,8 +9,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +22,8 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
+import team.aliens.dms.android.core.ui.navigation.LocalResultStore
+import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationState
 import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationViewModel
@@ -35,8 +40,18 @@ internal fun Application(
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val resultStore = LocalResultStore.current
 
-
+    LaunchedEffect(Unit) {
+        snapshotFlow {
+            resultStore.resultStateMap["remain_application_result"]?.value as? String?
+        }.collect { result ->
+            if (result != null) {
+                // ViewModel 업데이트
+                resultStore.removeResult<String?>(resultKey = "remain_application_result")
+            }
+        }
+    }
 
     ApplicationScreen(
         state = state,
