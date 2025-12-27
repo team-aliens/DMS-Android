@@ -21,8 +21,8 @@ internal class ApplicationViewModel @Inject constructor(
     private fun getAllVotes() {
         viewModelScope.launch(Dispatchers.IO) {
             votingRepository.fetchAllVoteSearch()
-                .onSuccess {
-                    setState { it.copy(votes = it.votes) }
+                .onSuccess { votes ->
+                    setState { it.copy(votes = votes) }
                 }.onFailure {
 //                    Logger.a(it) { it.message.toString() }
                 }
