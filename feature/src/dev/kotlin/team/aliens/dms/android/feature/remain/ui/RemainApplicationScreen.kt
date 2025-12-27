@@ -24,6 +24,7 @@ import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.verticalPadding
 import team.aliens.dms.android.core.ui.util.toLocale
@@ -34,7 +35,8 @@ import java.util.UUID
 
 @Composable
 internal fun RemainApplication(
-    onNavigateBack: (String) -> Unit,
+    onNavigateBack: (String?) -> Unit,
+    onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel()
     val state by remainApplicationViewModel.uiState.collectAsStateWithLifecycle()
@@ -43,13 +45,15 @@ internal fun RemainApplication(
         onNavigateBack = onNavigateBack,
         state = state,
         setSelectRemainsOption = remainApplicationViewModel::setSelectRemainsOption,
-        changeRemainsOption = remainApplicationViewModel::changeRemainsOption,
+        changeRemainsOption =  {
+            remainApplicationViewModel.changeRemainsOption(onShowSnackBar)
+        },
     )
 }
 
 @Composable
 private fun RemainApplicationScreen(
-    onNavigateBack: (String) -> Unit,
+    onNavigateBack: (String?) -> Unit,
     state: RemainApplicationState,
     setSelectRemainsOption: (UUID) -> Unit,
     changeRemainsOption: () -> Unit,

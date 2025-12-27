@@ -3,6 +3,9 @@ package team.aliens.dms.android.feature.remain.viewmodel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.remain.model.RemainsApplicationTime
 import team.aliens.dms.android.data.remain.model.RemainsOption
@@ -23,7 +26,8 @@ class RemainApplicationViewModel @Inject constructor(
     private fun getRemainsOptions() {
         viewModelScope.launch {
             remainsRepository.fetchRemainsOptions().onSuccess { remainsOptions ->
-                val selectRemainsOptionId = remainsOptions.find { it.applied }?.id ?: UUID.randomUUID()
+                val selectRemainsOptionId =
+                    remainsOptions.find { it.applied }?.id ?: UUID.randomUUID()
                 setState {
                     it.copy(
                         remainsOptions = remainsOptions,
@@ -34,7 +38,7 @@ class RemainApplicationViewModel @Inject constructor(
         }
     }
 
-    private fun getRemainsApplicationTime() { // TODO :: 2일 이상인 경우 시간이 아닌 날짜로 선택할 수 있도록 구현
+    private fun getRemainsApplicationTime() {
         viewModelScope.launch {
             remainsRepository.fetchRemainsApplicationTime().onSuccess { time ->
                 setState { it.copy(remainsApplicationTime = time) }
@@ -112,6 +116,6 @@ class RemainApplicationViewModel @Inject constructor(
 data class RemainApplicationState(
     val remainsOptions: List<RemainsOption> = emptyList(),
     val selectRemainsOptionId: UUID? = null,
-    val selectedRemainTitle: String = "금요 귀가",
+    val selectedRemainTitle: String? = null,
     val remainsApplicationTime: RemainsApplicationTime = RemainsApplicationTime(),
 )

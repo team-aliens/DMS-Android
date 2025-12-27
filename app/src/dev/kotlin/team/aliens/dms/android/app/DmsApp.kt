@@ -163,6 +163,9 @@ fun DmsApp(
                             onNavigateBack = { title ->
                                 resultStore.setResult<String?>("remain_application_result", title)
                                 backStack.remove(RemainScreenNav)
+                            },
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
                             }
                         )
                     }
