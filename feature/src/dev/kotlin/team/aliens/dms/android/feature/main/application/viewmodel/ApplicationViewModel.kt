@@ -28,8 +28,13 @@ internal class ApplicationViewModel @Inject constructor(
                 }
         }
     }
+
+    internal fun setRemainApplication(title: String) {
+        setState { it.copy(remainApplicationTitle = title) }
+    }
 }
 
 data class ApplicationState(
     val votes: List<AllVoteSearch> = emptyList(),
+    val remainApplicationTitle: String? = null,
 )

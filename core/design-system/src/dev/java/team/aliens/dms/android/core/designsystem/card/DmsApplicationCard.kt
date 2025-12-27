@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.endPadding
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
@@ -76,6 +77,12 @@ fun DmsApplicationCard(
                 color = DmsTheme.colorScheme.inverseOnSurface,
             )
             Spacer(modifier = Modifier.weight(1f))
+            if (description == null && appliedTitle != null) {
+                AppliedTitleText(
+                    modifier = Modifier.endPadding(16.dp),
+                    appliedTitle = appliedTitle,
+                )
+            }
             Icon(
                 painter = painterResource(DmsIcon.Forward),
                 tint = DmsTheme.colorScheme.scrim,

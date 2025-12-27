@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
-import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationState
 import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationViewModel
@@ -47,7 +45,7 @@ internal fun Application(
             resultStore.resultStateMap["remain_application_result"]?.value as? String?
         }.collect { result ->
             if (result != null) {
-                // ViewModel 업데이트
+                viewModel.setRemainApplication(result)
                 resultStore.removeResult<String?>(resultKey = "remain_application_result")
             }
         }
@@ -113,6 +111,7 @@ private fun ApplicationScreen(
             ) {
                 if (page == 0) {
                     ApplicationContent(
+                        appliedTitle = state.remainApplicationTitle,
                         onNavigateOutingApplication = onNavigateOutingApplication,
                         onNavigateRemainApplication = onNavigateRemainApplication,
                         onNavigateVolunteerApplication = onNavigateVolunteerApplication,

@@ -14,6 +14,7 @@ import kotlin.to
 @Composable
 internal fun ApplicationContent(
     modifier: Modifier = Modifier,
+    appliedTitle: String?,
     onNavigateRemainApplication: () -> Unit,
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
@@ -36,6 +37,7 @@ internal fun ApplicationContent(
                 title = title,
                 iconRes = icon,
                 onClick = onClick,
+                appliedTitle = if (title == "잔류") appliedTitle else null,
             )
         }
     }
