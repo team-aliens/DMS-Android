@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.main.application.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,8 +24,8 @@ import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationState
 import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationViewModel
-import team.aliens.dms.kmp.feature.application.ui.component.ApplicationContent
-import team.aliens.dms.kmp.feature.application.ui.component.VoteContent
+import team.aliens.dms.android.feature.main.application.ui.component.ApplicationContent
+import team.aliens.dms.android.feature.main.application.ui.component.VoteContent
 
 @Composable
 internal fun Application(

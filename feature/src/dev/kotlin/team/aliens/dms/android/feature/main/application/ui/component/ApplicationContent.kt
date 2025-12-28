@@ -1,4 +1,4 @@
-package team.aliens.dms.kmp.feature.application.ui.component
+package team.aliens.dms.android.feature.main.application.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
-import kotlin.to
 
 @Composable
 internal fun ApplicationContent(
