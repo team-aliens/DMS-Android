@@ -1,13 +1,122 @@
 package team.aliens.dms.android.feature.vote.ui
 
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.button.ButtonColor
+import team.aliens.dms.android.core.designsystem.button.ButtonType
+import team.aliens.dms.android.core.designsystem.button.DmsButton
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.feature.main.application.ui.component.VoteContent
+import team.aliens.dms.android.feature.vote.ui.component.VoteItemContent
+import team.aliens.dms.android.feature.vote.viewmodel.VoteSideEffect
+import team.aliens.dms.android.feature.vote.viewmodel.VoteState
+import team.aliens.dms.android.feature.vote.viewmodel.VoteViewModel
+import java.util.UUID
 
 @Composable
-internal fun Vote() {
-    VoteScreen()
+internal fun Vote(
+    title: String,
+    onShowSnackBar: (DmsSnackBarType, String) -> Unit,
+    onNavigateBack: () -> Unit,
+) {
+    val viewModel: VoteViewModel = hiltViewModel()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect {
+            when (it) {
+                is VoteSideEffect.VoteSuccess -> onShowSnackBar(
+                    DmsSnackBarType.SUCCESS,
+                    "투표를 완료했어요!",
+                )
+
+                is VoteSideEffect.VoteConflict -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    "이미 해당 투표에 참여했어요",
+                )
+
+                is VoteSideEffect.VoteFail -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    "투표 중 오류가 발생했어요",
+                )
+
+                is VoteSideEffect.VoteLoadFail -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    "정보를 불러오지 못했어요",
+                )
+            }
+        }
+    }
+
+    VoteScreen(
+        state = state,
+        title = title,
+        onNavigateBack = onNavigateBack,
+        onSelectItem = { selectedId -> viewModel.setSelectId(UUID.fromString(selectedId)) },
+        submitVote = viewModel::postVote,
+    )
 }
 
 @Composable
-private fun VoteScreen() {
-
+private fun VoteScreen(
+    modifier: Modifier = Modifier,
+    state: VoteState,
+    title: String,
+    onNavigateBack: () -> Unit,
+    onSelectItem: (String) -> Unit,
+    submitVote: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(DmsTheme.colorScheme.background),
+    ) {
+        DmsTopAppBar(
+            title = "투표",
+            onBackPressed = onNavigateBack,
+        )
+        VoteItemContent(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            vote = state.vote.voteType,
+            title = title,
+            startTime = state.vote.startTime,
+            endTime = state.vote.endTime,
+            options = state.options,
+            students = state.students,
+            modelStudents = state.modelStudent,
+            selectItem = state.selectId.toString(),
+            onSelect = onSelectItem,
+        )
+        DmsButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 24.dp,
+                    end = 24.dp,
+                    top = 80.dp,
+                    bottom = 18.dp,
+                ),
+            text = "투표하기",
+            buttonType = ButtonType.Contained,
+            buttonColor = ButtonColor.Primary,
+            onClick = submitVote,
+            enabled = state.buttonEnabled,
+            isLoading = state.isLoading,
+        )
+    }
 }

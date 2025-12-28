@@ -70,6 +70,8 @@ dependencies {
     implementation(project(ProjectPaths.Core.NOTIFICATION))
     implementation(project(ProjectPaths.Core.JWT))
     implementation(project(ProjectPaths.Core.ONBOARDING))
+    implementation(project(ProjectPaths.Core.NETWORK))
+
 
     implementation(project(ProjectPaths.NETWORK))
     implementation(project(ProjectPaths.DATA))
