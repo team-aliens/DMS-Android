@@ -1,8 +1,8 @@
 package team.aliens.dms.android.data.voting.repository
 
+import team.aliens.dms.android.data.student.model.Student
 import java.time.LocalDate
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.data.voting.model.ModelStudentCandidates
 import team.aliens.dms.android.data.voting.model.VotingItem
 import java.util.UUID
 
@@ -19,5 +19,5 @@ abstract class VotingRepository {
 
     abstract suspend fun fetchDeleteVotingItem(voteId: UUID): Result<Unit>
 
-    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): Result<List<ModelStudentCandidates>>
+    abstract suspend fun fetchModelStudentCandidates(requestDate: LocalDate): Result<List<Student>>
 }
