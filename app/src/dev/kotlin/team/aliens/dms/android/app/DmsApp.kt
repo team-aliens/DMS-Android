@@ -26,6 +26,7 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
@@ -51,7 +52,7 @@ data object MealScreenNav : NavKey
 data object ApplicationScreenNav : NavKey
 
 @Serializable
-data object VoteScreenNav : NavKey
+data class VoteScreenNav(val title: String) : NavKey
 
 @Serializable
 data object RemainScreenNav : NavKey
@@ -157,15 +158,21 @@ fun DmsApp(
                             onNavigateOutingApplication = {},
                             onNavigateVolunteerApplication = {},
                             onNavigateVote = {
-                                backStack.add(VoteScreenNav)
+                                backStack.add(VoteScreenNav(it.topicName))
                             },
                             onShowSnackBar = { snackBarType, message ->
                                 appState.showSnackBar(snackBarType, message)
                             },
                         )
                     }
-                    entry<VoteScreenNav> {
-                        VoteRoute()
+                    entry<VoteScreenNav> { voteNav ->
+                        VoteRoute(
+                            title = voteNav.title,
+                            onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title)) },
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            }
+                        )
                     }
                     entry<RemainScreenNav> {
                         RemainApplicationRoute(
