@@ -24,11 +24,14 @@ import team.aliens.dms.android.feature.vote.ui.component.VoteItemContent
 import team.aliens.dms.android.feature.vote.viewmodel.VoteSideEffect
 import team.aliens.dms.android.feature.vote.viewmodel.VoteState
 import team.aliens.dms.android.feature.vote.viewmodel.VoteViewModel
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Composable
 internal fun Vote(
     title: String,
+    startTime: String,
+    endTime: String,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
@@ -36,6 +39,7 @@ internal fun Vote(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        viewModel.initState(title, startTime, endTime)
         viewModel.sideEffect.collect {
             when (it) {
                 is VoteSideEffect.VoteSuccess -> onShowSnackBar(
@@ -63,7 +67,6 @@ internal fun Vote(
 
     VoteScreen(
         state = state,
-        title = title,
         onNavigateBack = onNavigateBack,
         onSelectItem = { selectedId -> viewModel.setSelectId(UUID.fromString(selectedId)) },
         submitVote = viewModel::postVote,
@@ -74,7 +77,6 @@ internal fun Vote(
 private fun VoteScreen(
     modifier: Modifier = Modifier,
     state: VoteState,
-    title: String,
     onNavigateBack: () -> Unit,
     onSelectItem: (String) -> Unit,
     submitVote: () -> Unit,
@@ -93,7 +95,7 @@ private fun VoteScreen(
                 .fillMaxSize()
                 .weight(1f),
             vote = state.vote.voteType,
-            title = title,
+            title = state.vote.topicName,
             startTime = state.vote.startTime,
             endTime = state.vote.endTime,
             options = state.options,

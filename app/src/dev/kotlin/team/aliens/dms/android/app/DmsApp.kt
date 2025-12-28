@@ -35,6 +35,7 @@ import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
+import java.time.LocalDateTime
 
 @Serializable
 data object OnboardingScreenNav : NavKey
@@ -52,7 +53,7 @@ data object MealScreenNav : NavKey
 data object ApplicationScreenNav : NavKey
 
 @Serializable
-data class VoteScreenNav(val title: String) : NavKey
+data class VoteScreenNav(val title: String, val startTime: String, val endTime: String) : NavKey
 
 @Serializable
 data object RemainScreenNav : NavKey
@@ -158,7 +159,7 @@ fun DmsApp(
                             onNavigateOutingApplication = {},
                             onNavigateVolunteerApplication = {},
                             onNavigateVote = {
-                                backStack.add(VoteScreenNav(it.topicName))
+                                backStack.add(VoteScreenNav(it.topicName, it.startTime.toString(), it.endTime.toString()))
                             },
                             onShowSnackBar = { snackBarType, message ->
                                 appState.showSnackBar(snackBarType, message)
@@ -168,7 +169,9 @@ fun DmsApp(
                     entry<VoteScreenNav> { voteNav ->
                         VoteRoute(
                             title = voteNav.title,
-                            onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title)) },
+                            startTime = voteNav.startTime,
+                            endTime = voteNav.endTime,
+                            onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title, voteNav.startTime, voteNav.endTime)) },
                             onShowSnackBar = { snackBarType, message ->
                                 appState.showSnackBar(snackBarType, message)
                             }

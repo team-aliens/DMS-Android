@@ -12,7 +12,10 @@ import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.repository.VotingRepository
+import team.aliens.dms.android.shared.date.toLocalDateTime
 import team.aliens.dms.android.shared.date.util.today
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -26,10 +29,10 @@ internal class VoteViewModel @Inject constructor(
         fetchVotesByType()
     }
 
-    internal fun initState(vote: AllVoteSearch) {
+    internal fun initState(title: String, startTime: String, endTime: String) {
         setState {
             it.copy(
-                vote = vote,
+                vote = it.vote.copy(topicName = title, startTime = startTime.toLocalDateTime(), endTime = endTime.toLocalDateTime()),
             )
         }
     }
