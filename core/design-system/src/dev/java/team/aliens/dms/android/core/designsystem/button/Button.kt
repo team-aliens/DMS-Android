@@ -315,8 +315,6 @@ fun DmsButton(
             PaddingValues(horizontal = 20.dp, vertical = 16.dp)
         }
 
-    // val buttonShape = if (buttonType == ButtonType.Rounded) RoundedCornerShape(24.dp) else shape
-
     BasicButton(
         modifier = modifier,
         backgroundColor = backgroundColor,
@@ -371,7 +369,7 @@ fun DmsLayeredButton(
 ) {
     Box(
         modifier = modifier
-            .background(color = Color(0xFFFFFFFF), shape = shape)
+            .background(color = Color.White, shape = shape)
             .windowInsetsPadding(WindowInsets.navigationBars)
             .padding(layerOffset),
     ) {
@@ -383,7 +381,6 @@ fun DmsLayeredButton(
             buttonType = buttonType,
             buttonColor = buttonColor,
             enabled = enabled,
-            // 3. 버튼에도 별도의 shape를 전달합니다.
             isLoading = isLoading,
             onClick = onClick,
         )
