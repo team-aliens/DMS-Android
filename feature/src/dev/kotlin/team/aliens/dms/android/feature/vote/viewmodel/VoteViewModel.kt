@@ -14,8 +14,6 @@ import team.aliens.dms.android.data.voting.model.VotingItem
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import team.aliens.dms.android.shared.date.toLocalDateTime
 import team.aliens.dms.android.shared.date.util.today
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -51,7 +49,6 @@ internal class VoteViewModel @Inject constructor(
             studentRepository.fetchStudents()
                 .onSuccess { student -> setState { it.copy(students = student) } }
                 .onFailure {
-//                    Logger.a(it) { it.message.toString() }
                     sendEffect(VoteSideEffect.VoteLoadFail)
                 }
         }
@@ -62,7 +59,6 @@ internal class VoteViewModel @Inject constructor(
             voteRepository.fetchCheckVotingItem(uiState.value.vote.id)
                 .onSuccess { voteItems -> setState { it.copy(options = voteItems) } }
                 .onFailure {
-//                    Logger.a(it) { it.message.toString() }
                     sendEffect(VoteSideEffect.VoteLoadFail)
                 }
         }
@@ -73,7 +69,6 @@ internal class VoteViewModel @Inject constructor(
             voteRepository.fetchModelStudentCandidates(requestDate = today)
                 .onSuccess { modelStudents -> setState { it.copy(modelStudent = modelStudents) } }
                 .onFailure {
-//                    Logger.a(it) { it.message.toString() }
                     sendEffect(VoteSideEffect.VoteLoadFail)
                 }
         }
@@ -101,7 +96,6 @@ internal class VoteViewModel @Inject constructor(
                     sendEffect(VoteSideEffect.VoteSuccess)
                 }.onFailure {
                     setState { uiState.value.copy(isLoading = false, buttonEnabled = true) }
-//                Logger.a(it) { it.message.toString() }
                     when (it) {
                         is ConflictException -> sendEffect(VoteSideEffect.VoteConflict)
                         else -> sendEffect(VoteSideEffect.VoteFail)

@@ -15,7 +15,7 @@ abstract class NetworkVotingDataSource {
     abstract suspend fun fetchCreateVotingItem(
         votingTopicId: UUID,
         selectedId: UUID,
-    )
+    ): Result<Unit>
 
     abstract suspend fun fetchDeleteVotingItem(voteId: UUID)
 

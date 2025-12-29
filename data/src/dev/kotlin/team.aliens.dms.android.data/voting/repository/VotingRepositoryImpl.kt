@@ -1,5 +1,6 @@
 package team.aliens.dms.android.data.voting.repository
 
+import team.aliens.dms.android.core.network.exception.NotFoundException
 import team.aliens.dms.android.data.student.model.Student
 import java.time.LocalDate
 import team.aliens.dms.android.data.voting.mapper.toModel
@@ -21,7 +22,7 @@ internal class VotingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID): Result<Unit> = runCatching {
-        networkVotingDataSource.fetchCreateVotingItem(votingTopicId, selectedId)
+        networkVotingDataSource.fetchCreateVotingItem(votingTopicId, selectedId).getOrThrow()
     }
 
     override suspend fun fetchDeleteVotingItem(voteId: UUID): Result<Unit> = runCatching {
