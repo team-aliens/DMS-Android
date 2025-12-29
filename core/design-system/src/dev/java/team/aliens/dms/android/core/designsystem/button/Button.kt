@@ -4,9 +4,15 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyM
@@ -308,8 +315,6 @@ fun DmsButton(
             PaddingValues(horizontal = 20.dp, vertical = 16.dp)
         }
 
-    // val buttonShape = if (buttonType == ButtonType.Rounded) RoundedCornerShape(24.dp) else shape
-
     BasicButton(
         modifier = modifier,
         backgroundColor = backgroundColor,
@@ -347,5 +352,37 @@ fun DmsButton(
                 )
             }
         }
+    }
+}
+@Composable
+fun DmsLayeredButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    buttonType: ButtonType,
+    buttonColor: ButtonColor,
+    enabled: Boolean = true,
+    shape: RoundedCornerShape,
+    backgroundColor: Color = DmsTheme.colorScheme.surfaceVariant,
+    layerOffset: Dp = 24.dp,
+    isLoading: Boolean,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .background(color = Color.White, shape = shape)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .padding(layerOffset),
+    ) {
+        DmsButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center),
+            text = text,
+            buttonType = buttonType,
+            buttonColor = buttonColor,
+            enabled = enabled,
+            isLoading = isLoading,
+            onClick = onClick,
+        )
     }
 }

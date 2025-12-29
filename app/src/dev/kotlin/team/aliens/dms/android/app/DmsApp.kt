@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,12 +23,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
+import team.aliens.dms.android.core.ui.navigation.LocalResultStore
+import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
+import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
+import team.aliens.dms.android.feature.vote.navigation.VoteRoute
 
 @Serializable
 data object OnboardingScreenNav : NavKey
@@ -45,6 +50,12 @@ data object MealScreenNav : NavKey
 data object ApplicationScreenNav : NavKey
 
 @Serializable
+data class VoteScreenNav(val title: String, val startTime: String, val endTime: String) : NavKey
+
+@Serializable
+data object RemainScreenNav : NavKey
+
+@Serializable
 data object MyPageScreenNav : NavKey
 
 @Composable
@@ -58,6 +69,7 @@ fun DmsApp(
     val isJwtAvailableState by isJwtAvailable.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
+    val resultStore = rememberResultStore()
     val currentScreen = backStack.lastOrNull()
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
@@ -98,13 +110,14 @@ fun DmsApp(
                 }
             }
         ) { paddingValues ->
-            NavDisplay(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .navigationBarsPadding(),
-                backStack = backStack,
-                onBack = { backStack.removeLastOrNull() },
-                entryProvider = entryProvider {
+            CompositionLocalProvider(LocalResultStore provides resultStore) {
+                NavDisplay(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .navigationBarsPadding(),
+                    backStack = backStack,
+                    onBack = { backStack.removeLastOrNull() },
+                    entryProvider = entryProvider {
                     entry<OnboardingScreenNav> {
                         OnboardingRoute(
                             navigateToSignIn = {
@@ -136,18 +149,53 @@ fun DmsApp(
                         )
                     }
                     entry<ApplicationScreenNav> {
-                        ApplicationRoute()
+                        ApplicationRoute(
+                            onNavigateRemainApplication = {
+                                backStack.add(RemainScreenNav)
+                            },
+                            onNavigateOutingApplication = {},
+                            onNavigateVolunteerApplication = {},
+                            onNavigateVote = {
+                                backStack.add(VoteScreenNav(it.topicName, it.startTime.toString(), it.endTime.toString()))
+                            },
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            },
+                        )
+                    }
+                    entry<VoteScreenNav> { voteNav ->
+                        VoteRoute(
+                            title = voteNav.title,
+                            startTime = voteNav.startTime,
+                            endTime = voteNav.endTime,
+                            onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title, voteNav.startTime, voteNav.endTime)) },
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            }
+                        )
+                    }
+                    entry<RemainScreenNav> {
+                        RemainApplicationRoute(
+                            onNavigateBack = { title ->
+                                resultStore.setResult<String?>("remain_application_result", title)
+                                backStack.remove(RemainScreenNav)
+                            },
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            }
+                        )
                     }
                     entry<MyPageScreenNav> {
                         MyPageRoute()
                     }
                     entry<MealScreenNav> {
                         MealRoute(
-                            onNavigateBack = { backStack.removeLastOrNull() }
+                            onNavigateBack = { backStack.remove(MealScreenNav) }
                         )
                     }
                 },
-            )
+                )
+            }
             SnackbarHost(
                 modifier = Modifier
                     .statusBarsPadding()

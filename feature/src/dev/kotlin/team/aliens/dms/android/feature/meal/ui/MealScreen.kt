@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -146,13 +148,15 @@ private fun MealScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState()),
     ) {
         DmsTopAppBar(
             onBackPressed = onBackClick,
         )
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
         ) {
             Canvas(
                 modifier = Modifier

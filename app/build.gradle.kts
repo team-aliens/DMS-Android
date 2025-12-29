@@ -35,10 +35,6 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
             buildConfigField("String", "ENVIRONMENT", "\"dev\"")
-
-            compileOptions {
-                isCoreLibraryDesugaringEnabled = true
-            }
         }
 
         create("prod") {
@@ -144,7 +140,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.javax.inject)
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
+//    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor.logging)
