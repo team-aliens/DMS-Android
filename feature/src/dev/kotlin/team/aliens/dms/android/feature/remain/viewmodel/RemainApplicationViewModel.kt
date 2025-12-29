@@ -1,20 +1,17 @@
 package team.aliens.dms.android.feature.remain.viewmodel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.LocalTime
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.remain.model.RemainsApplicationTime
 import team.aliens.dms.android.data.remain.model.RemainsOption
 import team.aliens.dms.android.data.remain.repository.RemainsRepository
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.collections.map
 
 @HiltViewModel
 class RemainApplicationViewModel @Inject constructor(
