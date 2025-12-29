@@ -113,8 +113,14 @@ internal class JwtProviderImpl @Inject constructor(
         }.onSuccess { tokens ->
             this@JwtProviderImpl.updateTokens(tokens = tokens)
         }.onFailure { exception ->
-            if (exception is retrofit2.HttpException && exception.code() == 401) {
-                this@JwtProviderImpl.clearCaches()
+            when {
+                exception is retrofit2.HttpException && exception.code() == 401 -> {
+                    this@JwtProviderImpl.clearCaches()
+                }
+                exception is CannotUseRefreshTokenException -> {
+                    this@JwtProviderImpl.clearCaches()
+                }
+                else -> {}
             }
         }
         this@JwtProviderImpl.refreshTokenAbility()
