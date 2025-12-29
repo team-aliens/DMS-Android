@@ -1,11 +1,10 @@
 package team.aliens.dms.android.feature.vote.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,14 +16,12 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
-import team.aliens.dms.android.core.designsystem.button.DmsButton
+import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
-import team.aliens.dms.android.feature.main.application.ui.component.VoteContent
 import team.aliens.dms.android.feature.vote.ui.component.VoteItemContent
 import team.aliens.dms.android.feature.vote.viewmodel.VoteSideEffect
 import team.aliens.dms.android.feature.vote.viewmodel.VoteState
 import team.aliens.dms.android.feature.vote.viewmodel.VoteViewModel
-import java.time.LocalDateTime
 import java.util.UUID
 
 @Composable
@@ -87,7 +84,6 @@ private fun VoteScreen(
             .background(DmsTheme.colorScheme.background),
     ) {
         DmsTopAppBar(
-            title = "투표",
             onBackPressed = onNavigateBack,
         )
         VoteItemContent(
@@ -104,18 +100,18 @@ private fun VoteScreen(
             selectItem = state.selectId.toString(),
             onSelect = onSelectItem,
         )
-        DmsButton(
+        DmsLayeredButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 24.dp,
-                    end = 24.dp,
-                    top = 80.dp,
-                    bottom = 18.dp,
-                ),
+                .fillMaxWidth(),
             text = "투표하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
+            shape = RoundedCornerShape(
+                topStart = 32.dp,
+                topEnd = 32.dp,
+                bottomStart = 0.dp,
+                bottomEnd = 0.dp,
+            ),
             onClick = submitVote,
             enabled = state.buttonEnabled,
             isLoading = state.isLoading,

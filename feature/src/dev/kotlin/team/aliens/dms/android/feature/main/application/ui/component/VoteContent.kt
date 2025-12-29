@@ -10,8 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
+import team.aliens.dms.android.core.ui.util.toDateString
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.Vote
+import team.aliens.dms.android.shared.date.toDate
 
 @Composable
 internal fun VoteContent(
@@ -38,7 +40,7 @@ internal fun VoteContent(
             DmsApplicationCard(
                 title = vote.topicName,
                 appliedTitle = null,
-                period = "${vote.startTime.toLocalTime()} ~ ${vote.endTime.toLocalTime()}",
+                period = "${vote.startTime.toDateString()} ~ ${vote.endTime.toDateString()}",
                 description = vote.description,
                 iconRes = icon,
                 onClick = { onNavigateVote(vote) },
