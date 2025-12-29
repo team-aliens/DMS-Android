@@ -1,5 +1,7 @@
 package team.aliens.dms.android.feature.remain.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,6 +20,7 @@ import kotlin.collections.map
 class RemainApplicationViewModel @Inject constructor(
    val remainsRepository: RemainsRepository
 ): BaseStateViewModel<RemainApplicationState, Unit>(RemainApplicationState()) {
+
     init {
         getRemainsOptions()
         getRemainsApplicationTime()
@@ -46,7 +49,7 @@ class RemainApplicationViewModel @Inject constructor(
         }
     }
 
-    internal fun setSelectRemainsOption(remainsOptionId: UUID) {
+    internal fun setSelectRemainsOption(remainsOptionId: UUID?) {
         setState { it.copy(selectRemainsOptionId = remainsOptionId) }
     }
 
@@ -58,29 +61,25 @@ class RemainApplicationViewModel @Inject constructor(
                 onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청 시간이 아닙니다")
                 return@launch
             }
-            val remainOptionId = uiState.value.selectRemainsOptionId
-            remainsRepository.updateRemainsOption(optionId = remainOptionId ?: UUID.randomUUID())
-                .onSuccess {
-                    val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
-                        if (remainsOption.id == uiState.value.selectRemainsOptionId) {
-                            setState { it.copy(selectedRemainTitle = remainsOption.title) }
-                            remainsOption.copy(applied = true)
-                        } else {
-                            remainsOption.copy(applied = false)
+            uiState.value.selectRemainsOptionId?.let { optionId ->
+                remainsRepository.updateRemainsOption(optionId = optionId)
+                    .onSuccess {
+                        val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
+                            remainsOption.copy(applied = remainsOption.id == uiState.value.selectRemainsOptionId)
                         }
+                        val appliedOption = remainsOptions.find { it.applied }
+                        setState {
+                            it.copy(
+                                remainsOptions = remainsOptions,
+                                selectedRemainTitle = appliedOption?.title
+                            )
+                        }
+                        onShowSnackBar(DmsSnackBarType.SUCCESS, "잔류 신청이 완료되었습니다")
+                    }.onFailure {
+                        onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청에 실패했습니다")
                     }
-                    val appliedOption = remainsOptions.find { it.applied }
-                    setState {
-                        it.copy(
-                            remainsOptions = remainsOptions,
-                            selectedRemainTitle = appliedOption?.title
-                        )
-                    }
-                    onShowSnackBar(DmsSnackBarType.SUCCESS, "잔류 신청이 완료되었습니다")
-                }.onFailure {
-                    onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청에 실패했습니다")
                 }
-        }
+            }
     }
 
     private fun isWithinApplicationTime(): Boolean {
@@ -104,10 +103,10 @@ class RemainApplicationViewModel @Inject constructor(
                     currentTime >= startTime && currentTime <= endTime
         }
 
-        return when {
-            currentDayOfWeek == startDayValue -> currentTime >= startTime
-            currentDayOfWeek == endDayValue -> currentTime <= endTime
-            currentDayOfWeek in (startDayValue + 1)..<endDayValue -> true
+        return when (currentDayOfWeek) {
+            startDayValue -> currentTime >= startTime
+            endDayValue -> currentTime <= endTime
+            in (startDayValue + 1)..<endDayValue -> true
             else -> false
         }
     }

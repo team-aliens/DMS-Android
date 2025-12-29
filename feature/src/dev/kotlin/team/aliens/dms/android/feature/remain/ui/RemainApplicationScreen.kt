@@ -1,6 +1,8 @@
 package team.aliens.dms.android.feature.remain.ui
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -55,7 +57,7 @@ internal fun RemainApplication(
 private fun RemainApplicationScreen(
     onNavigateBack: (String?) -> Unit,
     state: RemainApplicationState,
-    setSelectRemainsOption: (UUID) -> Unit,
+    setSelectRemainsOption: (UUID?) -> Unit,
     changeRemainsOption: () -> Unit,
 ) {
     Column(
