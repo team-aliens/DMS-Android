@@ -186,7 +186,12 @@ fun DmsApp(
                         )
                     }
                     entry<MyPageScreenNav> {
-                        MyPageRoute()
+                        MyPageRoute(
+                            onNavigatePointHistory = {},
+                            onShowSnackBar = { snackBarType, message ->
+                                appState.showSnackBar(snackBarType, message)
+                            },
+                        )
                     }
                     entry<MealScreenNav> {
                         MealRoute(
