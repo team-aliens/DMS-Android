@@ -22,6 +22,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.startPadding
@@ -36,8 +37,6 @@ internal fun ProfileContent(
     genderType: Sex,
     profileImageUrl: String?,
 ) {
-    val context = LocalContext.current
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -49,9 +48,7 @@ internal fun ProfileContent(
             modifier = Modifier
                 .size(60.dp)
                 .clip(CircleShape),
-            model = ImageRequest.Builder(context = context)
-                .data(profileImageUrl)
-                .build(),
+            model = profileImageUrl ?: DmsIcon.ProfileDefault,
             contentDescription = null,
             contentScale = ContentScale.Crop,
         )
