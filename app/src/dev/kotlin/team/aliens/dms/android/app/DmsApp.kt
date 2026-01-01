@@ -26,11 +26,13 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
+import team.aliens.dms.android.feature.pointhistory.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
@@ -62,6 +64,10 @@ data object MyPageScreenNav : NavKey
 
 @Serializable
 data object SettingScreenNav : NavKey
+
+@Serializable
+data class PointHistoryScreenNav(val pointType: PointType) : NavKey
+
 
 @Composable
 fun DmsApp(
@@ -212,6 +218,9 @@ fun DmsApp(
                                     appState.showSnackBar(snackBarType, message)
                                 }
                             )
+                        }
+                        entry<PointHistoryScreenNav> {
+                            PointHistoryRoute()
                         }
                     },
                 )
