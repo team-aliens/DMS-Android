@@ -113,8 +113,7 @@ fun DmsApp(
             CompositionLocalProvider(LocalResultStore provides resultStore) {
                 NavDisplay(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .navigationBarsPadding(),
+                        .padding(paddingValues),
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
                     entryProvider = entryProvider {

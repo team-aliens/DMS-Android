@@ -370,7 +370,6 @@ fun DmsLayeredButton(
     Box(
         modifier = modifier
             .background(color = Color.White, shape = shape)
-            .windowInsetsPadding(WindowInsets.navigationBars)
             .padding(layerOffset),
     ) {
         DmsButton(
