@@ -15,6 +15,6 @@ fun SignInRoute(
         navigateToSignUp = navigateToSignUp,
         navigateToFindId = {},
         navigateToFindPassword = {},
-        onShowSnackBar = onShowSnackBar
+        onShowSnackBar = onShowSnackBar,
     )
 }
