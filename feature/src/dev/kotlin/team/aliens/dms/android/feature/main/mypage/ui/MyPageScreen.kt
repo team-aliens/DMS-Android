@@ -30,6 +30,7 @@ import team.aliens.dms.android.feature.main.mypage.viewmodel.MyPageViewModel
 @Composable
 internal fun MyPage(
     onNavigatePointHistory: (PointType) -> Unit,
+    onNavigateSetting: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
@@ -38,7 +39,7 @@ internal fun MyPage(
     MyPageScreen(
         state = state,
         onNavigatePointHistory = onNavigatePointHistory,
-        onSettingClick = { onShowSnackBar(DmsSnackBarType.SUCCESS, "준비중인 기능이에요") },
+        onSettingClick = onNavigateSetting,
     )
 }
 
@@ -87,7 +88,7 @@ private fun MyPageScreen(
                 minusPoint = state.myPage.minusPoint,
             )
             DmsItemButton(
-                iconRes = painterResource(R.drawable.img_calendar),
+                iconRes = R.drawable.img_calendar,
                 text = "상벌점 이력 보러가기",
                 onClick = { onNavigatePointHistory(PointType.ALL) },
             )

@@ -230,7 +230,7 @@ private fun MealScreen(
                         .fillMaxWidth()
                         .topPadding(20.dp)
                         .horizontalPadding(10.dp),
-                    iconRes = painterResource(R.drawable.img_calendar),
+                    iconRes = R.drawable.img_calendar,
                     text = "급식 캘린더 보기",
                     onClick = onCalendarClick,
                 )
