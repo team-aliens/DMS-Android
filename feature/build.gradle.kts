@@ -71,6 +71,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.JWT))
     implementation(project(ProjectPaths.Core.ONBOARDING))
     implementation(project(ProjectPaths.Core.NETWORK))
+    implementation(project(ProjectPaths.Core.DEVICE))
 
 
     implementation(project(ProjectPaths.NETWORK))

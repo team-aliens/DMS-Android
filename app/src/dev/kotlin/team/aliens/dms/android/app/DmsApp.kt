@@ -207,7 +207,10 @@ fun DmsApp(
                         }
                         entry<SettingScreenNav> {
                             SettingRoute(
-                                onBackPressed = { backStack.remove(SettingScreenNav) }
+                                onBackPressed = { backStack.remove(SettingScreenNav) },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
                             )
                         }
                     },
