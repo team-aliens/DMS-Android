@@ -21,6 +21,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
+import okhttp3.internal.http2.Settings
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
@@ -31,6 +32,7 @@ import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
+import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
 
@@ -57,6 +59,9 @@ data object RemainScreenNav : NavKey
 
 @Serializable
 data object MyPageScreenNav : NavKey
+
+@Serializable
+data object SettingScreenNav : NavKey
 
 @Composable
 fun DmsApp(
@@ -117,87 +122,95 @@ fun DmsApp(
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
                     entryProvider = entryProvider {
-                    entry<OnboardingScreenNav> {
-                        OnboardingRoute(
-                            navigateToSignIn = {
-                                backStack.clear()
-                                backStack.add(SignInScreenNav)
-                            },
-                        )
-                    }
-                    entry<SignInScreenNav> {
-                        SignInRoute(
-                            navigateToMain = {
-                                backStack.clear()
-                                backStack.add(HomeScreenNav)
-                            },
-                            navigateToSignUp = {},
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<HomeScreenNav> {
-                        HomeRoute(
-                            onNavigateMeal = {
-                                backStack.add(MealScreenNav)
-                            },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<ApplicationScreenNav> {
-                        ApplicationRoute(
-                            onNavigateRemainApplication = {
-                                backStack.add(RemainScreenNav)
-                            },
-                            onNavigateOutingApplication = {},
-                            onNavigateVolunteerApplication = {},
-                            onNavigateVote = {
-                                backStack.add(VoteScreenNav(it.topicName, it.startTime.toString(), it.endTime.toString()))
-                            },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<VoteScreenNav> { voteNav ->
-                        VoteRoute(
-                            title = voteNav.title,
-                            startTime = voteNav.startTime,
-                            endTime = voteNav.endTime,
-                            onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title, voteNav.startTime, voteNav.endTime)) },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            }
-                        )
-                    }
-                    entry<RemainScreenNav> {
-                        RemainApplicationRoute(
-                            onNavigateBack = { title ->
-                                resultStore.setResult<String?>("remain_application_result", title)
-                                backStack.remove(RemainScreenNav)
-                            },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            }
-                        )
-                    }
-                    entry<MyPageScreenNav> {
-                        MyPageRoute(
-                            onNavigatePointHistory = {},
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<MealScreenNav> {
-                        MealRoute(
-                            onNavigateBack = { backStack.remove(MealScreenNav) }
-                        )
-                    }
-                },
+                        entry<OnboardingScreenNav> {
+                            OnboardingRoute(
+                                navigateToSignIn = {
+                                    backStack.clear()
+                                    backStack.add(SignInScreenNav)
+                                },
+                            )
+                        }
+                        entry<SignInScreenNav> {
+                            SignInRoute(
+                                navigateToMain = {
+                                    backStack.clear()
+                                    backStack.add(HomeScreenNav)
+                                },
+                                navigateToSignUp = {},
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<HomeScreenNav> {
+                            HomeRoute(
+                                onNavigateMeal = {
+                                    backStack.add(MealScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<ApplicationScreenNav> {
+                            ApplicationRoute(
+                                onNavigateRemainApplication = {
+                                    backStack.add(RemainScreenNav)
+                                },
+                                onNavigateOutingApplication = {},
+                                onNavigateVolunteerApplication = {},
+                                onNavigateVote = {
+                                    backStack.add(VoteScreenNav(it.topicName, it.startTime.toString(), it.endTime.toString()))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<VoteScreenNav> { voteNav ->
+                            VoteRoute(
+                                title = voteNav.title,
+                                startTime = voteNav.startTime,
+                                endTime = voteNav.endTime,
+                                onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title, voteNav.startTime, voteNav.endTime)) },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
+                            )
+                        }
+                        entry<RemainScreenNav> {
+                            RemainApplicationRoute(
+                                onNavigateBack = { title ->
+                                    resultStore.setResult<String?>("remain_application_result", title)
+                                    backStack.remove(RemainScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
+                            )
+                        }
+                        entry<MyPageScreenNav> {
+                            MyPageRoute(
+                                onNavigatePointHistory = {},
+                                onNavigateSetting = {
+                                    backStack.add(SettingScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<MealScreenNav> {
+                            MealRoute(
+                                onNavigateBack = { backStack.remove(MealScreenNav) }
+                            )
+                        }
+                        entry<SettingScreenNav> {
+                            SettingRoute(
+                                onBackPressed = { backStack.remove(SettingScreenNav) }
+                            )
+                        }
+                    },
                 )
             }
             SnackbarHost(
