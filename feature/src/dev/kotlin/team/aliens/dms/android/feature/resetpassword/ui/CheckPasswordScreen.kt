@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,15 +18,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
-import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
-import team.aliens.dms.android.core.designsystem.foundation.DmsSymbol
+import team.aliens.dms.android.core.designsystem.foundation.DmsSymbolContent
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
-import team.aliens.dms.android.core.designsystem.titleB
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.feature.resetpassword.viewmodel.CheckPasswordSideEffect
 import team.aliens.dms.android.feature.resetpassword.viewmodel.CheckPasswordState
@@ -83,26 +80,11 @@ private fun CheckPasswordScreen(
             },
     ) {
         DmsTopAppBar(onBackPressed = onBackPressed)
-        DmsSymbol(
+        DmsSymbolContent(
             modifier = Modifier
-                .topPadding(52.dp)
-                .horizontalPadding(24.dp)
-        )
-        Text(
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .horizontalPadding(24.dp),
-            text = "비밀번호 확인",
-            style = DmsTheme.typography.titleB,
-            color = DmsTheme.colorScheme.onTertiaryContainer,
-        )
-        Text(
-            modifier = Modifier
-                .topPadding(12.dp)
-                .horizontalPadding(24.dp),
-            text = "기존 비밀번호를 입력해주세요",
-            style = DmsTheme.typography.bodyM,
-            color = DmsTheme.colorScheme.inverseSurface
+                .topPadding(52.dp),
+            title = "비밀번호 확인",
+            description = "기존 비밀번호를 입력해주세요",
         )
         DmsTextField(
             modifier = Modifier
