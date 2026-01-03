@@ -26,6 +26,7 @@ import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
 @Composable
 internal fun Setting(
     onBackPressed: () -> Unit,
+    onNavigateResetPassword: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: SettingViewModel = hiltViewModel()
@@ -43,7 +44,8 @@ internal fun Setting(
 
     SettingScreen(
         rotated = state.isOnNotification,
-        onClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
+        onNavigateResetPassword = onNavigateResetPassword,
+        onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
         onBackPressed = onBackPressed,
     )
 }
@@ -51,7 +53,8 @@ internal fun Setting(
 @Composable
 private fun SettingScreen(
     rotated: Boolean,
-    onClick: () -> Unit,
+    onNavigateResetPassword: () -> Unit,
+    onNotificationClick: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
     Column(
@@ -70,7 +73,7 @@ private fun SettingScreen(
             DmsItemButton(
                 iconRes = R.drawable.img_3d_key,
                 text = "비밀번호 재설정",
-                onClick = { },
+                onClick = onNavigateResetPassword,
             )
             DmsItemButton(
                 iconRes = R.drawable.img_calendar,
@@ -81,7 +84,7 @@ private fun SettingScreen(
                 iconRes = R.drawable.img_repeat,
                 text = "푸시 알림 켜기",
                 rotated = rotated,
-                onClick = onClick,
+                onClick = onNotificationClick,
             )
             DmsItemButton(
                 iconRes = R.drawable.img_3d_out,

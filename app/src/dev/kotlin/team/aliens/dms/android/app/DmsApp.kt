@@ -32,6 +32,7 @@ import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
+import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
@@ -66,6 +67,8 @@ data object SettingScreenNav : NavKey
 @Serializable
 data class PointHistoryScreenNav(val pointType: PointType) : NavKey
 
+@Serializable
+data object ResetPasswordScreenNav : NavKey
 
 @Composable
 fun DmsApp(
@@ -217,6 +220,7 @@ fun DmsApp(
                         entry<SettingScreenNav> {
                             SettingRoute(
                                 onBackPressed = { backStack.remove(SettingScreenNav) },
+                                onNavigateResetPassword = { backStack.add(ResetPasswordScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 }
@@ -226,6 +230,9 @@ fun DmsApp(
                             PointHistoryRoute(
                                 onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) }
                             )
+                        }
+                        entry<ResetPasswordScreenNav> {
+                            ResetPasswordRoute()
                         }
                     },
                 )
