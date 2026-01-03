@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.coil.compose)
 

@@ -1,7 +1,6 @@
 package team.aliens.dms.android.app
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -21,7 +20,6 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
-import okhttp3.internal.http2.Settings
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
@@ -32,7 +30,7 @@ import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
-import team.aliens.dms.android.feature.pointhistory.navigation.PointHistoryRoute
+import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
@@ -150,6 +148,9 @@ fun DmsApp(
                         }
                         entry<HomeScreenNav> {
                             HomeRoute(
+                                onNavigatePointHistory = {
+                                    backStack.add(PointHistoryScreenNav(it))
+                                },
                                 onNavigateMeal = {
                                     backStack.add(MealScreenNav)
                                 },
@@ -197,7 +198,9 @@ fun DmsApp(
                         }
                         entry<MyPageScreenNav> {
                             MyPageRoute(
-                                onNavigatePointHistory = {},
+                                onNavigatePointHistory = {
+                                    backStack.add(PointHistoryScreenNav(it))
+                                },
                                 onNavigateSetting = {
                                     backStack.add(SettingScreenNav)
                                 },
@@ -220,7 +223,9 @@ fun DmsApp(
                             )
                         }
                         entry<PointHistoryScreenNav> {
-                            PointHistoryRoute()
+                            PointHistoryRoute(
+                                onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) }
+                            )
                         }
                     },
                 )

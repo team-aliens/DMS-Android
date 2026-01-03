@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.point.model
 
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
 import java.util.UUID
 
 data class Point(

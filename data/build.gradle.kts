@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.okhttp.interceptor.logging)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.kotlinx.datetime)
 
     // TODO: remove dependency
     implementation(libs.coroutines.android)
