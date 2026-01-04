@@ -236,7 +236,16 @@ fun DmsApp(
                             )
                         }
                         entry<ResetPasswordScreenNav> {
-                            ResetPasswordRoute()
+                            ResetPasswordRoute(
+                                onBackPressed = { backStack.removeLast() },
+                                onNavigateSetting = {
+                                    backStack.removeLastOrNull()
+                                    backStack.remove(CheckPasswordScreenNav)
+                                },
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                },
+                            )
                         }
                         entry<CheckPasswordScreenNav> {
                             CheckPasswordRoute(

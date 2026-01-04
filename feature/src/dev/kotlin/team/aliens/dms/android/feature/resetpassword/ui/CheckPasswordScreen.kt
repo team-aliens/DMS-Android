@@ -101,7 +101,7 @@ private fun CheckPasswordScreen(
         DmsButton(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = "로그인",
+            text = "다음",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
             keyboardInteractionEnabled = true,
