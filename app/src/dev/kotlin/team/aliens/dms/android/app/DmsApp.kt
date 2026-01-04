@@ -18,7 +18,6 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
@@ -77,12 +76,11 @@ data object ResetPasswordScreenNav : NavKey
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
-    isJwtAvailable: StateFlow<Boolean>,
+    isJwtAvailable: Boolean,
     mainViewModel: MainActivityViewModel,
     appState: DmsAppState = rememberDmsAppState(),
 ) {
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
-    val isJwtAvailableState by isJwtAvailable.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val resultStore = rememberResultStore()
@@ -93,10 +91,10 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
+    LaunchedEffect(isOnboardingCompleted, isJwtAvailable) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
-            isJwtAvailableState -> HomeScreenNav
+            isJwtAvailable -> HomeScreenNav
             else -> SignInScreenNav
         }
 
@@ -225,6 +223,10 @@ fun DmsApp(
                             SettingRoute(
                                 onBackPressed = { backStack.remove(SettingScreenNav) },
                                 onNavigateResetPassword = { backStack.add(CheckPasswordScreenNav) },
+                                onNavigateSignIn = {
+                                    backStack.clear()
+                                    backStack.add(SignInScreenNav)
+                                },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 }
