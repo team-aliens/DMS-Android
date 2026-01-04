@@ -35,6 +35,7 @@ import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
 internal fun Setting(
     onBackPressed: () -> Unit,
     onNavigateResetPassword: () -> Unit,
+    onNavigateSelectProfile: () -> Unit,
     onNavigateSignIn: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
@@ -82,6 +83,7 @@ internal fun Setting(
     SettingScreen(
         rotated = state.isOnNotification,
         onNavigateResetPassword = onNavigateResetPassword,
+        onNavigateSelectProfile = onNavigateSelectProfile,
         onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
         onShowSignOutDialogChange = { onShouldShowSignOutDialogChange(true) },
         onBackPressed = onBackPressed,
@@ -92,6 +94,7 @@ internal fun Setting(
 private fun SettingScreen(
     rotated: Boolean,
     onNavigateResetPassword: () -> Unit,
+    onNavigateSelectProfile: () -> Unit,
     onNotificationClick: () -> Unit,
     onShowSignOutDialogChange: () -> Unit,
     onBackPressed: () -> Unit,
@@ -117,7 +120,7 @@ private fun SettingScreen(
             DmsItemButton(
                 iconRes = R.drawable.img_calendar,
                 text = "프로필 사진 변경",
-                onClick = { },
+                onClick = onNavigateSelectProfile,
             )
             SettingRotateContent(
                 iconRes = R.drawable.img_repeat,

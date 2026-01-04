@@ -73,6 +73,9 @@ data object CheckPasswordScreenNav : NavKey
 @Serializable
 data object ResetPasswordScreenNav : NavKey
 
+@Serializable
+data object SelectProfileScreenNav : NavKey
+
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
@@ -223,6 +226,7 @@ fun DmsApp(
                             SettingRoute(
                                 onBackPressed = { backStack.remove(SettingScreenNav) },
                                 onNavigateResetPassword = { backStack.add(CheckPasswordScreenNav) },
+                                onNavigateSelectProfile = { backStack.add(SelectProfileScreenNav) },
                                 onNavigateSignIn = {
                                     backStack.clear()
                                     backStack.add(SignInScreenNav)

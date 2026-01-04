@@ -8,12 +8,14 @@ import team.aliens.dms.android.feature.setting.ui.Setting
 fun SettingRoute(
     onBackPressed: () -> Unit,
     onNavigateResetPassword: () -> Unit,
+    onNavigateSelectProfile: () -> Unit,
     onNavigateSignIn: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit
 ) {
     Setting(
         onBackPressed = onBackPressed,
         onNavigateResetPassword = onNavigateResetPassword,
+        onNavigateSelectProfile = onNavigateSelectProfile,
         onNavigateSignIn = onNavigateSignIn,
         onShowSnackBar = onShowSnackBar
     )
