@@ -92,6 +92,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.telephoto.zoomable.image.coil)
 
     implementation(libs.coil.compose)
 
