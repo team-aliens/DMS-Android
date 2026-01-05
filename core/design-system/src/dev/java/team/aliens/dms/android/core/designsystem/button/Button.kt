@@ -361,7 +361,10 @@ fun DmsLayeredButton(
     buttonType: ButtonType,
     buttonColor: ButtonColor,
     enabled: Boolean = true,
-    shape: RoundedCornerShape,
+    shape: RoundedCornerShape = RoundedCornerShape(
+        topStart = 32.dp,
+        topEnd = 32.dp,
+    ),
     backgroundColor: Color = DmsTheme.colorScheme.surfaceVariant,
     layerOffset: Dp = 24.dp,
     isLoading: Boolean,

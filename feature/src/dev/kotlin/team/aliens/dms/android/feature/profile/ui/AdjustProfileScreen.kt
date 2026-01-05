@@ -1,20 +1,39 @@
 package team.aliens.dms.android.feature.profile.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.dp
 import me.saket.telephoto.zoomable.ZoomSpec
 import me.saket.telephoto.zoomable.coil.ZoomableAsyncImage
 import me.saket.telephoto.zoomable.rememberZoomableImageState
 import me.saket.telephoto.zoomable.rememberZoomableState
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.button.ButtonColor
+import team.aliens.dms.android.core.designsystem.button.ButtonType
+import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
+import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.topPadding
+import team.aliens.dms.android.core.designsystem.verticalPadding
+import team.aliens.dms.android.feature.remain.ui.component.DmsFloatingNotice
 
 @Composable
 internal fun AdjustProfile(
@@ -42,23 +61,57 @@ private fun AdjustProfileScreen(
     )
     val currentZoomScale by remember {
         derivedStateOf {
-            // contentTransformation이 null이 아닐 때 scaleX 값을 가져옴 (기본값 1f)
             zoomImageState.zoomableState.contentTransformation.scale.scaleX
         }
     }
-    Log.d("TEST", currentZoomScale.toString())
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black).onSizeChanged {
 
-    }) {
-        // 3. Telephoto의 ZoomableAsyncImage 사용
-        ZoomableAsyncImage(
-            model = model,
-            contentDescription = "Zoomable Photo",
-            state = zoomImageState,
-            modifier = Modifier.fillMaxSize(),
-            // 클릭 리스너 등 필요 시 추가
-            onClick = { /* 클릭 시 UI 토글 등 */ }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        DmsTopAppBar(
+            onBackPressed = onBackPressed
         )
+        Column(
+            modifier = Modifier
+                .topPadding(68.dp)
+                .horizontalPadding(10.dp)
+                .clip(RoundedCornerShape(32.dp))
+                .background(DmsTheme.colorScheme.surface),
+        ) {
+            Text(
+                modifier = Modifier
+                    .topPadding(24.dp)
+                    .horizontalPadding(16.dp),
+                text = "이미지 조정",
+                style = DmsTheme.typography.bodyB,
+            )
+            Box(
+                modifier = Modifier
+                    .horizontalPadding(16.dp)
+                    .verticalPadding(24.dp)
+                    .clip(RoundedCornerShape(32.dp))
+                    .onSizeChanged {
 
+                    }
+            ) {
+                ZoomableAsyncImage(
+                    modifier = Modifier.aspectRatio(1f),
+                    model = model,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "Zoomable Photo",
+                    state = zoomImageState,
+                )
+
+            }
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        DmsLayeredButton(
+            modifier = Modifier,
+            text = "변경하기",
+            buttonType = ButtonType.Contained,
+            buttonColor = ButtonColor.Primary,
+            isLoading = false,
+            onClick = {}
+        )
     }
 }
