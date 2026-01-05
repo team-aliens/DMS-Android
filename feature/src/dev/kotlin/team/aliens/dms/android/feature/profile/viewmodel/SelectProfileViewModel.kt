@@ -4,6 +4,7 @@ import android.R
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
+import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -46,20 +47,22 @@ internal class SelectProfileViewModel @Inject constructor(
     }
 
     internal fun selectImage(uri: String) {
-        val currentSet = uiState.value.selectedUris
-        val isSelected = currentSet.contains(uri)
+        with(uiState.value) {
+            val isSelected = selectedUri == uri && selectedUri.isNotBlank()
 
-        // 로직 수행
-        val newSet = if (isSelected) {
-            currentSet - uri
-        } else {
-            currentSet + uri
+            val newSelectedUri = if (isSelected) {
+                ""
+            } else {
+                uri
+            }
+
+            setState { it.copy(selectedUri = newSelectedUri, enabled = !isSelected) }
         }
-        setState { it.copy(selectedUris = newSet) }
     }
 }
 
 data class SelectProfileState(
-    val selectedUris: Set<String> = emptySet(),
+    val selectedUri: String = "",
+    val enabled: Boolean = false,
     val uriList: List<String> = emptyList(),
 )
