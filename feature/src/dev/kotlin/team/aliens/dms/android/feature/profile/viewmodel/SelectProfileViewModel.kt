@@ -3,18 +3,25 @@ package team.aliens.dms.android.feature.profile.viewmodel
 import android.R
 import android.content.ContentUris
 import android.content.Context
+import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
+import team.aliens.dms.android.data.file.repository.FileRepository
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SelectProfileViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-): BaseStateViewModel<SelectProfileState, Unit>(SelectProfileState()) {
+    private val fileRepository: FileRepository,
+): BaseStateViewModel<SelectProfileState, SelectProfileSideEffect>(SelectProfileState()) {
 
     init {
         getUriImage()
@@ -59,10 +66,65 @@ internal class SelectProfileViewModel @Inject constructor(
             setState { it.copy(selectedUri = newSelectedUri, enabled = !isSelected) }
         }
     }
+
+    internal fun uploadProfileImage(
+        uri: Uri?,
+    ) {
+        if (uri != null) {
+            setState { it.copy(uri = uri) }
+            fetchPresignedUrl(
+                file = team.aliens.dms.android.core.file.File.toFile(
+                    context = context,
+                    uri = uri,
+                ),
+            )
+        } else {
+            sendEffect(SelectProfileSideEffect.ProfileImageBadRequest)
+        }
+    }
+
+    internal fun fetchPresignedUrl(
+        file: File,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                fileRepository.fetchPresignedUrl(fileName = file.name)
+            }.onSuccess { fileUrl ->
+                runCatching {
+                    fileRepository.uploadFile(
+                        presignedUrl = fileUrl.fileUploadUrl,
+                        file = file,
+                    )
+                }.onSuccess {
+                    setState {
+                        it.copy(
+                            profileImageUrl = fileUrl.fileUrl,
+                            buttonEnabled = true,
+                        )
+                    }
+                    sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl.fileUrl))
+                }.onFailure {
+                    sendEffect(SelectProfileSideEffect.FailProfileImage)
+                }
+            }.onFailure {
+                sendEffect(SelectProfileSideEffect.ProfileImageBadRequest)
+            }
+        }
+    }
 }
 
 data class SelectProfileState(
     val selectedUri: String = "",
     val enabled: Boolean = false,
     val uriList: List<String> = emptyList(),
+    val profileImageUrl: String? = null,
+    val uri: Uri? = null,
+    val buttonEnabled: Boolean = false,
 )
+
+sealed class SelectProfileSideEffect {
+    data class SuccessProfileImage(val profileImageUrl: String) : SelectProfileSideEffect()
+    data object ProfileImageBadRequest : SelectProfileSideEffect()
+
+    data object FailProfileImage : SelectProfileSideEffect()
+}

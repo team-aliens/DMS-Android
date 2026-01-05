@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.profile.ui
 
 import android.Manifest
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -47,6 +49,8 @@ import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.feature.profile.viewmodel.SelectProfileSideEffect
 import team.aliens.dms.android.feature.profile.viewmodel.SelectProfileViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -54,6 +58,7 @@ import team.aliens.dms.android.feature.profile.viewmodel.SelectProfileViewModel
 internal fun SelectProfile(
     onBackPressed: () -> Unit,
     onNavigateAdjustProfile: (String) -> Unit,
+    onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val request = rememberPermissionState(permission = Manifest.permission.READ_MEDIA_IMAGES)
     val viewModel: SelectProfileViewModel = hiltViewModel()
@@ -62,11 +67,18 @@ internal fun SelectProfile(
 
     LaunchedEffect(Unit) {
         request.launchPermissionRequest()
+        viewModel.sideEffect.collect {
+            when (it) {
+                is SelectProfileSideEffect.SuccessProfileImage -> onNavigateAdjustProfile(it.profileImageUrl)
+                is SelectProfileSideEffect.ProfileImageBadRequest -> onShowSnackBar(DmsSnackBarType.SUCCESS, "업로드 성공!")
+                is SelectProfileSideEffect.FailProfileImage -> onShowSnackBar(DmsSnackBarType.ERROR, "이미지 업로드에 실패했어요")
+            }
+        }
     }
 
     SelectProfileScreen(
         onBackPressed = onBackPressed,
-        onNavigateAdjustProfile = onNavigateAdjustProfile,
+        uploadProfileImage = viewModel::uploadProfileImage,
         uriList = state.uriList.toPersistentList(),
         selectedUri = state.selectedUri,
         enabled = state.enabled,
@@ -77,7 +89,7 @@ internal fun SelectProfile(
 @Composable
 private fun SelectProfileScreen(
     onBackPressed: () -> Unit,
-    onNavigateAdjustProfile: (String) -> Unit,
+    uploadProfileImage: (Uri?) -> Unit,
     uriList: ImmutableList<String>,
     selectedUri: String,
     enabled: Boolean,
@@ -90,7 +102,7 @@ private fun SelectProfileScreen(
             onBackPressed = onBackPressed,
             actions = {
                 DmsButton(
-                    onClick = { onNavigateAdjustProfile(selectedUri) },
+                    onClick = { uploadProfileImage(selectedUri.toUri()) },
                     text = "선택",
                     buttonType = ButtonType.Text,
                     buttonColor = ButtonColor.Primary,

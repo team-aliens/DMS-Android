@@ -270,13 +270,19 @@ fun DmsApp(
                         entry<SelectProfileScreenNav> {
                             SelectProfileRoute(
                                 onBackPressed = { backStack.remove(SelectProfileScreenNav) },
-                                onNavigateAdjustProfile = { backStack.add(AdjustProfileScreenNav(model = it)) }
+                                onNavigateAdjustProfile = { backStack.add(AdjustProfileScreenNav(model = it)) },
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                }
                             )
                         }
                         entry<AdjustProfileScreenNav> {
                             AdjustProfileRoute(
                                 onBackPressed = { backStack.remove(AdjustProfileScreenNav(it.model)) },
-                                model = it.model
+                                model = it.model,
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                }
                             )
                         }
                     },

@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.profile.ui
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -20,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import me.saket.telephoto.zoomable.ZoomSpec
 import me.saket.telephoto.zoomable.coil.ZoomableAsyncImage
 import me.saket.telephoto.zoomable.rememberZoomableImageState
@@ -31,24 +34,43 @@ import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.verticalPadding
+import team.aliens.dms.android.feature.profile.viewmodel.AdjustProfileSideEffect
+import team.aliens.dms.android.feature.profile.viewmodel.AdjustProfileViewModel
 import team.aliens.dms.android.feature.remain.ui.component.DmsFloatingNotice
 
 @Composable
 internal fun AdjustProfile(
     onBackPressed: () -> Unit,
     model: String,
+    onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
+    val viewModel: AdjustProfileViewModel = hiltViewModel()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect {
+            when (it) {
+                is AdjustProfileSideEffect.ProfileImageSet -> onBackPressed()
+                is AdjustProfileSideEffect.ProfileImageBadRequest -> onShowSnackBar(
+                    DmsSnackBarType.ERROR, "실패"
+                )
+            }
+        }
+    }
+
     AdjustProfileScreen(
         onBackPressed = onBackPressed,
-        model = model
+        model = model,
+        updateProfileImage = { viewModel.editProfile(model) }
     )
 }
 
 @Composable
 private fun AdjustProfileScreen(
     onBackPressed: () -> Unit,
+    updateProfileImage: () -> Unit,
     model: String,
 ) {
     val zoomImageState = rememberZoomableImageState(
@@ -111,7 +133,7 @@ private fun AdjustProfileScreen(
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
             isLoading = false,
-            onClick = {}
+            onClick = updateProfileImage,
         )
     }
 }
