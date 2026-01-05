@@ -1,3 +1,5 @@
 package team.aliens.dms.android.data.file.model
 
-typealias FileUrl = String
+data class FileUrl(
+    val fileUrl: String,
+)
