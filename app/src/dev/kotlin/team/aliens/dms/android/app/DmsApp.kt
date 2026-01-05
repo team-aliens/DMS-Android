@@ -30,6 +30,7 @@ import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
+import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
 import team.aliens.dms.android.feature.profile.route.SelectProfileRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.resetpassword.navigation.CheckPasswordRoute
@@ -76,6 +77,9 @@ data object ResetPasswordScreenNav : NavKey
 
 @Serializable
 data object SelectProfileScreenNav : NavKey
+
+@Serializable
+data class AdjustProfileScreenNav(val model: String) : NavKey
 
 @Composable
 fun DmsApp(
@@ -244,7 +248,7 @@ fun DmsApp(
                         }
                         entry<ResetPasswordScreenNav> {
                             ResetPasswordRoute(
-                                onBackPressed = { backStack.removeLast() },
+                                onBackPressed = { backStack.removeLastOrNull() },
                                 onNavigateSetting = {
                                     backStack.removeLastOrNull()
                                     backStack.remove(CheckPasswordScreenNav)
@@ -264,7 +268,16 @@ fun DmsApp(
                             )
                         }
                         entry<SelectProfileScreenNav> {
-                            SelectProfileRoute()
+                            SelectProfileRoute(
+                                onBackPressed = { backStack.remove(SelectProfileScreenNav) },
+                                onNavigateAdjustProfile = { backStack.add(AdjustProfileScreenNav(model = it)) }
+                            )
+                        }
+                        entry<AdjustProfileScreenNav> {
+                            AdjustProfileRoute(
+                                onBackPressed = { backStack.remove(AdjustProfileScreenNav(it.model)) },
+                                model = it.model
+                            )
                         }
                     },
                 )

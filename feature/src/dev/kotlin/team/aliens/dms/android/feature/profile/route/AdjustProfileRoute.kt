@@ -1,15 +1,16 @@
 package team.aliens.dms.android.feature.profile.route
 
 import androidx.compose.runtime.Composable
+import team.aliens.dms.android.feature.profile.ui.AdjustProfile
 import team.aliens.dms.android.feature.profile.ui.SelectProfile
 
 @Composable
-fun SelectProfileRoute(
+fun AdjustProfileRoute(
     onBackPressed: () -> Unit,
-    onNavigateAdjustProfile: (String) -> Unit,
+    model: String,
 ) {
-    SelectProfile(
+    AdjustProfile(
         onBackPressed = onBackPressed,
-        onNavigateAdjustProfile = onNavigateAdjustProfile
+        model = model
     )
 }

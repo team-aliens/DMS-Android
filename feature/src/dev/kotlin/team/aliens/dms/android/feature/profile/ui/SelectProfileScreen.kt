@@ -1,6 +1,8 @@
 package team.aliens.dms.android.feature.profile.ui
 
 import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,6 +21,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Circle
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,11 +44,17 @@ import kotlinx.collections.immutable.toPersistentSet
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.bodyM
+import team.aliens.dms.android.core.designsystem.button.ButtonColor
+import team.aliens.dms.android.core.designsystem.button.ButtonType
+import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.feature.profile.viewmodel.SelectProfileViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-internal fun SelectProfile() {
+internal fun SelectProfile(
+    onBackPressed: () -> Unit,
+    onNavigateAdjustProfile: (String) -> Unit,
+) {
     val request = rememberPermissionState(permission = Manifest.permission.READ_MEDIA_IMAGES)
     val viewModel: SelectProfileViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -56,9 +65,11 @@ internal fun SelectProfile() {
     }
 
     SelectProfileScreen(
-        onBackPressed = {},
+        onBackPressed = onBackPressed,
+        onNavigateAdjustProfile = onNavigateAdjustProfile,
         uriList = state.uriList.toPersistentList(),
-        selectedUris = state.selectedUris.toPersistentSet(),
+        selectedUri = state.selectedUri,
+        enabled = state.enabled,
         onImageSelected = viewModel::selectImage,
     )
 }
@@ -66,8 +77,10 @@ internal fun SelectProfile() {
 @Composable
 private fun SelectProfileScreen(
     onBackPressed: () -> Unit,
+    onNavigateAdjustProfile: (String) -> Unit,
     uriList: ImmutableList<String>,
-    selectedUris: ImmutableSet<String>,
+    selectedUri: String,
+    enabled: Boolean,
     onImageSelected: (String) -> Unit,
 ) {
     Column(
@@ -76,12 +89,14 @@ private fun SelectProfileScreen(
         DmsTopAppBar(
             onBackPressed = onBackPressed,
             actions = {
-                Text(
+                DmsButton(
+                    onClick = { onNavigateAdjustProfile(selectedUri) },
                     text = "선택",
-                    color = DmsTheme.colorScheme.primaryContainer,
-                    style = DmsTheme.typography.bodyM,
+                    buttonType = ButtonType.Text,
+                    buttonColor = ButtonColor.Primary,
+                    enabled = enabled,
                 )
-            }
+            },
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
@@ -91,7 +106,7 @@ private fun SelectProfileScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             items(uriList) { uri ->
-                val isSelected = selectedUris.contains(uri)
+                val isSelected = selectedUri.isNotEmpty() && selectedUri == uri
                 ImageItem(
                     imageUri = uri,
                     isSelected = isSelected,
@@ -148,36 +163,3 @@ fun ImageItem(
         }
     }
 }
-//
-//@Composable
-//fun TestUi() {
-//    val zoomImageState = rememberZoomableImageState(
-//        zoomableState = rememberZoomableState(
-//            zoomSpec = ZoomSpec(
-//                maxZoomFactor = 3f,
-//                preventOverOrUnderZoom = false
-//            )
-//        )
-//    )
-//    val currentZoomScale by remember {
-//        derivedStateOf {
-//            // contentTransformation이 null이 아닐 때 scaleX 값을 가져옴 (기본값 1f)
-//            zoomImageState.zoomableState.contentTransformation.scale.scaleX
-//        }
-//    }
-//    Log.d("TEST", currentZoomScale.toString())
-//    Box(modifier = Modifier.fillMaxSize().background(Color.Black).onSizeChanged {
-//
-//    }) {
-//        // 3. Telephoto의 ZoomableAsyncImage 사용
-//        ZoomableAsyncImage(
-//            model = "https://picsum.photos/1080/1920",
-//            contentDescription = "Zoomable Photo",
-//            state = zoomImageState,
-//            modifier = Modifier.fillMaxSize(),
-//            // 클릭 리스너 등 필요 시 추가
-//            onClick = { /* 클릭 시 UI 토글 등 */ }
-//        )
-//
-//    }
-//}
