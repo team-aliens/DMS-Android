@@ -30,6 +30,7 @@ import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
+import team.aliens.dms.android.feature.profile.route.SelectProfileRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.resetpassword.navigation.CheckPasswordRoute
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRoute
@@ -261,6 +262,9 @@ fun DmsApp(
                                     appState.showSnackBar(snackBar, message)
                                 }
                             )
+                        }
+                        entry<SelectProfileScreenNav> {
+                            SelectProfileRoute()
                         }
                     },
                 )
