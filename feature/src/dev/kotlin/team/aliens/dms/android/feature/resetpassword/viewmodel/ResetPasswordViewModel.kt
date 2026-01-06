@@ -36,6 +36,10 @@ class ResetPasswordViewModel @Inject constructor(
             sendEffect(ResetPasswordSideEffect.PasswordMismatch("비밀번호가 형식에 맞지 않습니다"))
             return@run
         }
+        if (currentPassword == uiState.value.checkNewPassword) {
+            sendEffect(ResetPasswordSideEffect.PasswordMismatch("기존 비밀번호는 변경 불가합니다"))
+            return@run
+        }
         viewModelScope.launch {
             setState { it.copy(isLoading = true, buttonEnabled = false) }
             userRepository.editPassword(
