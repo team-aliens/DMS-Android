@@ -24,6 +24,7 @@ import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.dialog.AlertDialog
+import team.aliens.dms.android.core.designsystem.sTitleM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.titleB
 import team.aliens.dms.android.core.designsystem.titleM
@@ -58,7 +59,7 @@ internal fun Setting(
 
     if (shouldShowSignOutDialog) {
         AlertDialog(
-            title = { Text(text = "로그아웃", style = DmsTheme.typography.titleM) },
+            title = { Text(text = "로그아웃", style = DmsTheme.typography.sTitleM) },
             text = { Text(text = "사용자 정보가 기기에서 지워집니다. 정말 로그아웃 하시겠습니까?", style = DmsTheme.typography.bodyM) },
             onDismissRequest = { onShouldShowSignOutDialogChange(false) },
             confirmButton = {
