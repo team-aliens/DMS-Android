@@ -33,6 +33,7 @@ import team.aliens.dms.android.feature.resetpassword.viewmodel.ResetPasswordView
 @Composable
 internal fun ResetPassword(
     onBackPressed: () -> Unit,
+    currentPassword: String,
     onNavigateSetting: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
@@ -47,13 +48,16 @@ internal fun ResetPassword(
                 is ResetPasswordSideEffect.FailResetPassword -> onShowSnackBar(
                     DmsSnackBarType.ERROR, it.message
                 )
+                is ResetPasswordSideEffect.PasswordMismatch -> onShowSnackBar(
+                    DmsSnackBarType.ERROR, it.message
+                )
             }
         }
     }
 
     ResetPasswordScreen(
         onBackPressed = onBackPressed,
-        onResetPasswordClick = viewModel::resetPassword,
+        onResetPasswordClick = { viewModel.resetPassword(currentPassword) },
         state = state,
         onNewPasswordChange = viewModel::setNewPassword,
         onCheckNewPasswordChange = viewModel::setCheckNewPassword,

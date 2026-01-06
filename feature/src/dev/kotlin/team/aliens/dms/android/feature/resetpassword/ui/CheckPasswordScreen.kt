@@ -33,7 +33,7 @@ import team.aliens.dms.android.feature.resetpassword.viewmodel.CheckPasswordView
 @Composable
 internal fun CheckPassword(
     onBackPressed: () -> Unit,
-    onNavigateResetPassword: () -> Unit,
+    onNavigateResetPassword: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: CheckPasswordViewModel = hiltViewModel()
@@ -43,7 +43,7 @@ internal fun CheckPassword(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is CheckPasswordSideEffect.SuccessCheckPassword -> onNavigateResetPassword()
+                is CheckPasswordSideEffect.SuccessCheckPassword -> onNavigateResetPassword(state.currentPassword)
 
                 is CheckPasswordSideEffect.FailCheckPassword -> onShowSnackBar(
                     DmsSnackBarType.ERROR, it.message

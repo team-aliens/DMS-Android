@@ -7,7 +7,7 @@ import team.aliens.dms.android.feature.resetpassword.ui.CheckPassword
 @Composable
 fun CheckPasswordRoute(
     onBackPressed: () -> Unit,
-    onNavigateResetPassword: () -> Unit,
+    onNavigateResetPassword: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     CheckPassword(

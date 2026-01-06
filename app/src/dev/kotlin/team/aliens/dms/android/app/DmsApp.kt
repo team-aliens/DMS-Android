@@ -73,7 +73,7 @@ data class PointHistoryScreenNav(val pointType: PointType) : NavKey
 data object CheckPasswordScreenNav : NavKey
 
 @Serializable
-data object ResetPasswordScreenNav : NavKey
+data class ResetPasswordScreenNav(val currentPassword: String) : NavKey
 
 @Serializable
 data object SelectProfileScreenNav : NavKey
@@ -249,6 +249,7 @@ fun DmsApp(
                         entry<ResetPasswordScreenNav> {
                             ResetPasswordRoute(
                                 onBackPressed = { backStack.removeLastOrNull() },
+                                currentPassword = it.currentPassword,
                                 onNavigateSetting = {
                                     backStack.removeLastOrNull()
                                     backStack.remove(CheckPasswordScreenNav)
@@ -261,7 +262,7 @@ fun DmsApp(
                         entry<CheckPasswordScreenNav> {
                             CheckPasswordRoute(
                                 onBackPressed = { backStack.remove(CheckPasswordScreenNav) },
-                                onNavigateResetPassword = { backStack.add(ResetPasswordScreenNav) },
+                                onNavigateResetPassword = { backStack.add(ResetPasswordScreenNav(it)) },
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
                                 }

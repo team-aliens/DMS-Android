@@ -19,7 +19,6 @@ internal class UserRepositoryImpl @Inject constructor(
             ),
         )
     }
-
     override suspend fun comparePassword(password: String): Result<Unit> = runCatching {
         networkUserDataSource.comparePassword(password = password)
     }
