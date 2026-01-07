@@ -30,8 +30,6 @@ internal class SelectProfileViewModel @Inject constructor(
         val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Images.Media._ID)
 
-
-        // contentResolver를 사용하여 외부 저장소에서 이미지 데이터 쿼리
         val cursor = context.contentResolver.query(
             contentUri,
             projection,
@@ -46,9 +44,9 @@ internal class SelectProfileViewModel @Inject constructor(
                 val id = cursor.getLong(idColumn)
                 val imageUri = ContentUris.withAppendedId(contentUri, id)
                 uriList.add(imageUri.toString())
-                setState { it.copy(uriList = uriList) }
             }
         }
+        setState { it.copy(uriList = uriList) }
     }
 
     internal fun selectImage(uri: String) {

@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.resetpassword.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -11,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
-    val userRepository: UserRepository
+    private val userRepository: UserRepository
 ): BaseStateViewModel<ResetPasswordState, ResetPasswordSideEffect>(ResetPasswordState()) {
 
     internal fun setNewPassword(password: String) {
@@ -50,7 +49,7 @@ class ResetPasswordViewModel @Inject constructor(
                 sendEffect(ResetPasswordSideEffect.SuccessResetPassword)
             }.onFailure {
                 setState { it.copy(isLoading = false, buttonEnabled = true) }
-                sendEffect(ResetPasswordSideEffect.FailResetPassword(it.cause?.message.toString()))
+                sendEffect(ResetPasswordSideEffect.FailResetPassword("비밀번호 변경에 실패했습니다"))
             }
         }
     }
