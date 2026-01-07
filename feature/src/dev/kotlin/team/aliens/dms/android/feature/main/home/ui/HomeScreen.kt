@@ -33,8 +33,7 @@ import team.aliens.dms.android.feature.main.home.viewmodel.HomeViewModel
 
 @Composable
 internal fun Home(
-    onNavigateNotice: () -> Unit,
-    onNavigateNoticeDetail: (String) -> Unit,
+    onNavigateNotification: () -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateMeal: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
@@ -68,7 +67,7 @@ internal fun Home(
     HomeScreen(
         state = state,
         gradient = gradient,
-        onNavigateNotice = onNavigateNotice,
+        onNavigateNotice = onNavigateNotification,
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateMeal = onNavigateMeal,
         onOutingPassClick = viewModel::showOutingPassDialog,

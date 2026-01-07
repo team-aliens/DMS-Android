@@ -29,6 +29,7 @@ import team.aliens.dms.android.feature.main.application.navigation.ApplicationRo
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
+import team.aliens.dms.android.feature.notification.navigation.NotificationRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
@@ -81,6 +82,9 @@ data object SelectProfileScreenNav : NavKey
 
 @Serializable
 data class AdjustProfileScreenNav(val model: String) : NavKey
+
+@Serializable
+data object NotificationScreenNav : NavKey
 
 @Composable
 fun DmsApp(
@@ -162,6 +166,9 @@ fun DmsApp(
                         }
                         entry<HomeScreenNav> {
                             HomeRoute(
+                                onNavigateNotification = {
+                                    backStack.add(NotificationScreenNav)
+                                },
                                 onNavigatePointHistory = {
                                     backStack.add(PointHistoryScreenNav(it))
                                 },
@@ -284,6 +291,9 @@ fun DmsApp(
                                     appState.showSnackBar(snackBar, message)
                                 }
                             )
+                        }
+                        entry<NotificationScreenNav> {
+                            NotificationRoute()
                         }
                     },
                 )
