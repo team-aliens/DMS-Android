@@ -4,12 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -24,6 +23,7 @@ import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.main.home.model.DmsPointContent
 import team.aliens.dms.android.feature.main.mypage.ui.component.PhraseContent
 import team.aliens.dms.android.feature.main.mypage.ui.component.ProfileContent
+import team.aliens.dms.android.feature.main.mypage.viewmodel.MyPageSideEffect
 import team.aliens.dms.android.feature.main.mypage.viewmodel.MyPageState
 import team.aliens.dms.android.feature.main.mypage.viewmodel.MyPageViewModel
 
@@ -35,6 +35,16 @@ internal fun MyPage(
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect {
+            when (it) {
+                is MyPageSideEffect.FailFetchMyPage -> onShowSnackBar(
+                    DmsSnackBarType.ERROR, it.message,
+                )
+            }
+        }
+    }
 
     MyPageScreen(
         state = state,

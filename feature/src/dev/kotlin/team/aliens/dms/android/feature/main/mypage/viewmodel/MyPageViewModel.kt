@@ -23,6 +23,7 @@ internal class MyPageViewModel @Inject constructor(
             studentRepository.fetchMyPage().onSuccess { myPage ->
                 setState { it.copy(myPage = myPage) }
             }.onFailure {
+                sendEffect(MyPageSideEffect.FailFetchMyPage("마이페이지 정보 조회를 실패했어요"))
             }
         }
     }
@@ -32,4 +33,6 @@ internal data class MyPageState(
     val myPage: MyPage = MyPage(),
 )
 
-sealed interface MyPageSideEffect
+sealed interface MyPageSideEffect {
+    data class FailFetchMyPage(val message: String) : MyPageSideEffect
+}
