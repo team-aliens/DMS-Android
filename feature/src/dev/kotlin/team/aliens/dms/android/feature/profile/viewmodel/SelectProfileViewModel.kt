@@ -26,27 +26,29 @@ internal class SelectProfileViewModel @Inject constructor(
     }
 
     internal fun getUriImage() {
-        val uriList = mutableListOf<String>()
-        val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.Images.Media._ID)
+        viewModelScope.launch(Dispatchers.IO) {
+            val uriList = mutableListOf<String>()
+            val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            val projection = arrayOf(MediaStore.Images.Media._ID)
 
-        val cursor = context.contentResolver.query(
-            contentUri,
-            projection,
-            null,
-            null,
-            "${MediaStore.Images.Media.DATE_ADDED} DESC"
-        )
+            val cursor = context.contentResolver.query(
+                contentUri,
+                projection,
+                null,
+                null,
+                "${MediaStore.Images.Media.DATE_ADDED} DESC"
+            )
 
-        cursor?.use {
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumn)
-                val imageUri = ContentUris.withAppendedId(contentUri, id)
-                uriList.add(imageUri.toString())
+            cursor?.use {
+                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(idColumn)
+                    val imageUri = ContentUris.withAppendedId(contentUri, id)
+                    uriList.add(imageUri.toString())
+                }
             }
+            setState { it.copy(uriList = uriList) }
         }
-        setState { it.copy(uriList = uriList) }
     }
 
     internal fun selectImage(uri: String) {
