@@ -1,12 +1,9 @@
 package team.aliens.dms.android.feature.profile.viewmodel
 
-import android.R
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,11 +20,12 @@ internal class SelectProfileViewModel @Inject constructor(
     private val fileRepository: FileRepository,
 ): BaseStateViewModel<SelectProfileState, SelectProfileSideEffect>(SelectProfileState()) {
 
-    init {
+    internal fun loadImagesIfNeeded() {
+        if (uiState.value.uriList.isNotEmpty()) return
         getUriImage()
     }
 
-    private fun getUriImage() {
+    internal fun getUriImage() {
         val uriList = mutableListOf<String>()
         val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Images.Media._ID)
@@ -87,9 +85,10 @@ internal class SelectProfileViewModel @Inject constructor(
         file: File,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
+            val presignedInfo = fileRepository.fetchPresignedUrl(file.name)
             runCatching {
                 fileRepository.uploadFile(
-                    presignedUrl = file.toString(),
+                    presignedUrl = presignedInfo.fileUploadUrl,
                     file = file,
                 )
             }.onSuccess { fileUrl ->
