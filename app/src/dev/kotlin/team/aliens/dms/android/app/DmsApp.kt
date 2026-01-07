@@ -24,6 +24,7 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
@@ -55,7 +56,7 @@ data object MealScreenNav : NavKey
 data object ApplicationScreenNav : NavKey
 
 @Serializable
-data class VoteScreenNav(val title: String, val startTime: String, val endTime: String) : NavKey
+data object VoteScreenNav : NavKey
 
 @Serializable
 data object RemainScreenNav : NavKey
@@ -180,19 +181,17 @@ fun DmsApp(
                                 onNavigateOutingApplication = {},
                                 onNavigateVolunteerApplication = {},
                                 onNavigateVote = {
-                                    backStack.add(VoteScreenNav(it.topicName, it.startTime.toString(), it.endTime.toString()))
+                                    resultStore.setResult<AllVoteSearch?>("vote_result", it)
+                                    backStack.add(VoteScreenNav)
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
                             )
                         }
-                        entry<VoteScreenNav> { voteNav ->
+                        entry<VoteScreenNav> {
                             VoteRoute(
-                                title = voteNav.title,
-                                startTime = voteNav.startTime,
-                                endTime = voteNav.endTime,
-                                onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title, voteNav.startTime, voteNav.endTime)) },
+                                onNavigateBack = { backStack.remove(VoteScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +19,8 @@ import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.core.ui.navigation.LocalResultStore
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.vote.ui.component.VoteItemContent
 import team.aliens.dms.android.feature.vote.viewmodel.VoteSideEffect
 import team.aliens.dms.android.feature.vote.viewmodel.VoteState
@@ -26,17 +29,26 @@ import java.util.UUID
 
 @Composable
 internal fun Vote(
-    title: String,
-    startTime: String,
-    endTime: String,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     val viewModel: VoteViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val resultStore = LocalResultStore.current
 
     LaunchedEffect(Unit) {
-        viewModel.initState(title, startTime, endTime)
+        snapshotFlow {
+            resultStore.resultStateMap["vote_result"]?.value as? AllVoteSearch?
+        }.collect { result ->
+            if (result != null) {
+                viewModel.initState(result.topicName, result.startTime, result.endTime, result.id)
+                resultStore.removeResult<String?>(resultKey = "vote_result")
+            } else {
+                onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
+            }
+        }
+
+
         viewModel.sideEffect.collect {
             when (it) {
                 is VoteSideEffect.VoteSuccess -> onShowSnackBar(
