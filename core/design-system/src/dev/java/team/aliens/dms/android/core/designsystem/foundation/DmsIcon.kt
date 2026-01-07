@@ -52,4 +52,5 @@ object DmsIcon {
     val SymbolDark = R.drawable.ic_symbol_dark
     val Cancel = R.drawable.ic_cancel
     val OutingPass = R.drawable.ic_outing_pass
+    val Setting = R.drawable.ic_setting
 }

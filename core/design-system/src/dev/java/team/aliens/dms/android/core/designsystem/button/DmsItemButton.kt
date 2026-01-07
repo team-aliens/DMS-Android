@@ -2,6 +2,7 @@ package team.aliens.dms.android.core.designsystem.button
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -31,7 +33,7 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 @Composable
 fun DmsItemButton(
     modifier: Modifier = Modifier,
-    iconRes: Painter,
+    @DrawableRes iconRes: Int,
     text: String,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -61,8 +63,9 @@ fun DmsItemButton(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            modifier = Modifier.size(24.dp),
-            painter = iconRes,
+            modifier = Modifier
+                .size(24.dp),
+            painter = painterResource(iconRes),
             contentDescription = null,
         )
         Text(

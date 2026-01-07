@@ -1,6 +1,7 @@
 package team.aliens.dms.android.app
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -60,7 +61,7 @@ class MainActivity : ComponentActivity() {
             DmsTheme {
                 DmsApp(
                     windowSizeClass = windowSizeClass,
-                    isJwtAvailable = isJwtAvailable,
+                    isJwtAvailable = isJwtAvailable.value,
                     mainViewModel = mainViewModel,
                 )
             }

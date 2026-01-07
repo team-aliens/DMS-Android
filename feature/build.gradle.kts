@@ -71,6 +71,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.JWT))
     implementation(project(ProjectPaths.Core.ONBOARDING))
     implementation(project(ProjectPaths.Core.NETWORK))
+    implementation(project(ProjectPaths.Core.DEVICE))
 
 
     implementation(project(ProjectPaths.NETWORK))
@@ -90,6 +91,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.telephoto.zoomable.image.coil)
 
     implementation(libs.coil.compose)
 

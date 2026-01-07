@@ -1,7 +1,6 @@
 package team.aliens.dms.android.app
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -19,18 +18,25 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
+import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
+import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
+import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
+import team.aliens.dms.android.feature.profile.route.SelectProfileRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
+import team.aliens.dms.android.feature.resetpassword.navigation.CheckPasswordRoute
+import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRoute
+import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
 
@@ -50,7 +56,7 @@ data object MealScreenNav : NavKey
 data object ApplicationScreenNav : NavKey
 
 @Serializable
-data class VoteScreenNav(val title: String, val startTime: String, val endTime: String) : NavKey
+data object VoteScreenNav : NavKey
 
 @Serializable
 data object RemainScreenNav : NavKey
@@ -58,15 +64,32 @@ data object RemainScreenNav : NavKey
 @Serializable
 data object MyPageScreenNav : NavKey
 
+@Serializable
+data object SettingScreenNav : NavKey
+
+@Serializable
+data class PointHistoryScreenNav(val pointType: PointType) : NavKey
+
+@Serializable
+data object CheckPasswordScreenNav : NavKey
+
+@Serializable
+data class ResetPasswordScreenNav(val currentPassword: String) : NavKey
+
+@Serializable
+data object SelectProfileScreenNav : NavKey
+
+@Serializable
+data class AdjustProfileScreenNav(val model: String) : NavKey
+
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
-    isJwtAvailable: StateFlow<Boolean>,
+    isJwtAvailable: Boolean,
     mainViewModel: MainActivityViewModel,
     appState: DmsAppState = rememberDmsAppState(),
 ) {
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
-    val isJwtAvailableState by isJwtAvailable.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val resultStore = rememberResultStore()
@@ -77,10 +100,10 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted, isJwtAvailableState) {
+    LaunchedEffect(isOnboardingCompleted, isJwtAvailable) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
-            isJwtAvailableState -> HomeScreenNav
+            isJwtAvailable -> HomeScreenNav
             else -> SignInScreenNav
         }
 
@@ -113,87 +136,156 @@ fun DmsApp(
             CompositionLocalProvider(LocalResultStore provides resultStore) {
                 NavDisplay(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .navigationBarsPadding(),
+                        .padding(paddingValues),
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
                     entryProvider = entryProvider {
-                    entry<OnboardingScreenNav> {
-                        OnboardingRoute(
-                            navigateToSignIn = {
-                                backStack.clear()
-                                backStack.add(SignInScreenNav)
-                            },
-                        )
-                    }
-                    entry<SignInScreenNav> {
-                        SignInRoute(
-                            navigateToMain = {
-                                backStack.clear()
-                                backStack.add(HomeScreenNav)
-                            },
-                            navigateToSignUp = {},
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<HomeScreenNav> {
-                        HomeRoute(
-                            onNavigateMeal = {
-                                backStack.add(MealScreenNav)
-                            },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<ApplicationScreenNav> {
-                        ApplicationRoute(
-                            onNavigateRemainApplication = {
-                                backStack.add(RemainScreenNav)
-                            },
-                            onNavigateOutingApplication = {},
-                            onNavigateVolunteerApplication = {},
-                            onNavigateVote = {
-                                backStack.add(VoteScreenNav(it.topicName, it.startTime.toString(), it.endTime.toString()))
-                            },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            },
-                        )
-                    }
-                    entry<VoteScreenNav> { voteNav ->
-                        VoteRoute(
-                            title = voteNav.title,
-                            startTime = voteNav.startTime,
-                            endTime = voteNav.endTime,
-                            onNavigateBack = { backStack.remove(VoteScreenNav(voteNav.title, voteNav.startTime, voteNav.endTime)) },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            }
-                        )
-                    }
-                    entry<RemainScreenNav> {
-                        RemainApplicationRoute(
-                            onNavigateBack = { title ->
-                                resultStore.setResult<String?>("remain_application_result", title)
-                                backStack.remove(RemainScreenNav)
-                            },
-                            onShowSnackBar = { snackBarType, message ->
-                                appState.showSnackBar(snackBarType, message)
-                            }
-                        )
-                    }
-                    entry<MyPageScreenNav> {
-                        MyPageRoute()
-                    }
-                    entry<MealScreenNav> {
-                        MealRoute(
-                            onNavigateBack = { backStack.remove(MealScreenNav) }
-                        )
-                    }
-                },
+                        entry<OnboardingScreenNav> {
+                            OnboardingRoute(
+                                navigateToSignIn = {
+                                    backStack.clear()
+                                    backStack.add(SignInScreenNav)
+                                },
+                            )
+                        }
+                        entry<SignInScreenNav> {
+                            SignInRoute(
+                                navigateToMain = {
+                                    backStack.clear()
+                                    backStack.add(HomeScreenNav)
+                                },
+                                navigateToSignUp = {},
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<HomeScreenNav> {
+                            HomeRoute(
+                                onNavigatePointHistory = {
+                                    backStack.add(PointHistoryScreenNav(it))
+                                },
+                                onNavigateMeal = {
+                                    backStack.add(MealScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<ApplicationScreenNav> {
+                            ApplicationRoute(
+                                onNavigateRemainApplication = {
+                                    backStack.add(RemainScreenNav)
+                                },
+                                onNavigateOutingApplication = {},
+                                onNavigateVolunteerApplication = {},
+                                onNavigateVote = {
+                                    resultStore.setResult<AllVoteSearch?>("vote_result", it)
+                                    backStack.add(VoteScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<VoteScreenNav> {
+                            VoteRoute(
+                                onNavigateBack = { backStack.remove(VoteScreenNav) },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
+                            )
+                        }
+                        entry<RemainScreenNav> {
+                            RemainApplicationRoute(
+                                onNavigateBack = { title ->
+                                    resultStore.setResult<String?>("remain_application_result", title)
+                                    backStack.remove(RemainScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
+                            )
+                        }
+                        entry<MyPageScreenNav> {
+                            MyPageRoute(
+                                onNavigatePointHistory = {
+                                    backStack.add(PointHistoryScreenNav(it))
+                                },
+                                onNavigateSetting = {
+                                    backStack.add(SettingScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<MealScreenNav> {
+                            MealRoute(
+                                onNavigateBack = { backStack.remove(MealScreenNav) }
+                            )
+                        }
+                        entry<SettingScreenNav> {
+                            SettingRoute(
+                                onBackPressed = { backStack.remove(SettingScreenNav) },
+                                onNavigateResetPassword = { backStack.add(CheckPasswordScreenNav) },
+                                onNavigateSelectProfile = { backStack.add(SelectProfileScreenNav) },
+                                onNavigateSignIn = {
+                                    backStack.clear()
+                                    backStack.add(SignInScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
+                            )
+                        }
+                        entry<PointHistoryScreenNav> {
+                            PointHistoryRoute(
+                                onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) }
+                            )
+                        }
+                        entry<ResetPasswordScreenNav> {
+                            ResetPasswordRoute(
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                currentPassword = it.currentPassword,
+                                onNavigateSetting = {
+                                    backStack.removeLastOrNull()
+                                    backStack.remove(CheckPasswordScreenNav)
+                                },
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                },
+                            )
+                        }
+                        entry<CheckPasswordScreenNav> {
+                            CheckPasswordRoute(
+                                onBackPressed = { backStack.remove(CheckPasswordScreenNav) },
+                                onNavigateResetPassword = { backStack.add(ResetPasswordScreenNav(it)) },
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                }
+                            )
+                        }
+                        entry<SelectProfileScreenNav> {
+                            SelectProfileRoute(
+                                onBackPressed = { backStack.remove(SelectProfileScreenNav) },
+                                onNavigateAdjustProfile = { backStack.add(AdjustProfileScreenNav(model = it)) },
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                }
+                            )
+                        }
+                        entry<AdjustProfileScreenNav> {
+                            AdjustProfileRoute(
+                                onBackPressed = { backStack.remove(AdjustProfileScreenNav(it.model)) },
+                                model = it.model,
+                                onShowSnackBar = { snackBar, message ->
+                                    appState.showSnackBar(snackBar, message)
+                                }
+                            )
+                        }
+                    },
                 )
             }
             SnackbarHost(

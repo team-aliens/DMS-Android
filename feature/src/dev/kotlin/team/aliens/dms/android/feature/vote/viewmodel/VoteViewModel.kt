@@ -15,6 +15,7 @@ import team.aliens.dms.android.data.voting.repository.VotingRepository
 import team.aliens.dms.android.shared.date.toLocalDateTime
 import team.aliens.dms.android.shared.date.util.today
 import java.util.UUID
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,10 +28,15 @@ internal class VoteViewModel @Inject constructor(
         fetchVotesByType()
     }
 
-    internal fun initState(title: String, startTime: String, endTime: String) {
+    internal fun initState(title: String, startTime: LocalDateTime, endTime: LocalDateTime, votingTopicId: UUID) {
         setState {
             it.copy(
-                vote = it.vote.copy(topicName = title, startTime = startTime.toLocalDateTime(), endTime = endTime.toLocalDateTime()),
+                vote = it.vote.copy(
+                    topicName = title,
+                    startTime = startTime,
+                    endTime = endTime,
+                    id = votingTopicId,
+                ),
             )
         }
     }
@@ -90,7 +96,7 @@ internal class VoteViewModel @Inject constructor(
                 setState { uiState.value.copy(isLoading = true, buttonEnabled = false) }
                 voteRepository.fetchCreateVotingItem(
                     votingTopicId = uiState.value.vote.id,
-                    selectedId = uiState.value.selectId ?: UUID.randomUUID(),
+                    selectedId = uiState.value.selectId!!,
                 ).onSuccess {
                     setState { uiState.value.copy(buttonEnabled = false, isLoading = false) }
                     sendEffect(VoteSideEffect.VoteSuccess)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -124,7 +125,7 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
-                iconRes = painterResource(R.drawable.img_calendar),
+                iconRes = R.drawable.img_calendar,
                 text = "상벌점 이력 보러가기",
                 onClick = { onNavigatePointHistory(PointType.ALL) },
             )

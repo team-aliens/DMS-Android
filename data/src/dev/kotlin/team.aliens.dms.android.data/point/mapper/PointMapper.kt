@@ -1,5 +1,7 @@
 package team.aliens.dms.android.data.point.mapper
 
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toLocalDate
 import team.aliens.dms.android.data.point.model.Point
 import team.aliens.dms.android.data.point.model.PointStatus
 import team.aliens.dms.android.data.point.model.PointType
@@ -16,7 +18,7 @@ private fun List<FetchPointsResponse.PointResponse>.toModel(): List<Point> =
 
 private fun FetchPointsResponse.PointResponse.toModel(): Point = Point(
     id = this.id,
-    date = this.date.toLocalDate(),
+    date = LocalDate.parse(date),
     type = PointType.valueOf(this.type),
     name = this.name,
     score = this.score,

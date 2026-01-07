@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -28,12 +26,11 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
-import team.aliens.dms.android.core.designsystem.foundation.DmsSymbol
+import team.aliens.dms.android.core.designsystem.foundation.DmsSymbolContent
+import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
-import team.aliens.dms.android.core.designsystem.titleB
-import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.feature.signin.viewmodel.SignInSideEffect
 import team.aliens.dms.android.feature.signin.viewmodel.SignInState
@@ -89,18 +86,10 @@ private fun SignInScreen(
                 )
             },
     ) {
-        DmsSymbol(
+        DmsSymbolContent(
             modifier = Modifier
-                .topPadding(52.dp)
-                .horizontalPadding(24.dp)
-        )
-        Text(
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .horizontalPadding(24.dp),
-            text = "로그인",
-            style = DmsTheme.typography.titleB,
-            color = DmsTheme.colorScheme.onTertiaryContainer,
+                .topPadding(52.dp),
+            title = "로그인"
         )
         UserInformationInputs(
             modifier = Modifier
