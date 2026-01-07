@@ -20,7 +20,6 @@ class SettingViewModel @Inject constructor(
 
     init {
         fetchDeviceToken()
-        fetchNotificationStatus()
     }
 
     private fun fetchDeviceToken() {
@@ -33,8 +32,8 @@ class SettingViewModel @Inject constructor(
                         deviceToken = deviceToken,
                     )
                 }
+                fetchNotificationStatus()
             }
-
         }
     }
 
@@ -48,7 +47,8 @@ class SettingViewModel @Inject constructor(
 
     private fun fetchNotificationStatus() {
         viewModelScope.launch {
-            notificationRepository.fetchNotificationStatus(uiState.value.deviceToken.toString()).onSuccess { statuses ->
+            val deviceToken = uiState.value.deviceToken ?: return@launch
+            notificationRepository.fetchNotificationStatus(deviceToken).onSuccess { statuses ->
                 val isOnNotification = statuses.any { status ->
                     status.topicSubscriptions.any { subscription ->
                         subscription.subscribed
