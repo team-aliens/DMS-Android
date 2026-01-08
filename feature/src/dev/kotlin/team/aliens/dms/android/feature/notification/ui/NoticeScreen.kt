@@ -1,8 +1,10 @@
 package team.aliens.dms.android.feature.notification.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,12 +29,15 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
+import team.aliens.dms.android.core.designsystem.labelM
+import team.aliens.dms.android.core.designsystem.sLabelM
+import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.util.clickable
-import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeUi
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
@@ -133,22 +138,34 @@ internal fun NotificationItems(
             key = { item -> item.id }
         ) {
             Row(
-                modifier = modifier.padding(horizontal = 24.dp, vertical = 20.dp)
+                modifier = modifier.padding(horizontal = 24.dp, vertical = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    painter = painterResource(DmsIcon.Notification),
+                Image(
+                    painter = painterResource(DmsIcon.Plus),
                     contentDescription = null,
                 )
-                Column {
+                Column(
+                    modifier = modifier.startPadding(12.dp),
+                ) {
                     Text(
-                        text = it.title
+                        text = it.title,
+                        style = DmsTheme.typography.bodyM,
                     )
                     Text(
-                        text = it.content ?: ""
+                        text = it.content ?: "",
+                        style = DmsTheme.typography.labelM,
                     )
                 }
+                Spacer(modifier = modifier.weight(1f))
                 Text(
-                    text = it.elapsedText
+                    text = it.elapsedText,
+                    style = DmsTheme.typography.labelM,
+                )
+                Image(
+                    modifier = modifier.startPadding(10.dp),
+                    painter = painterResource(DmsIcon.Forward),
+                    contentDescription = null,
                 )
             }
         }
