@@ -29,7 +29,8 @@ import team.aliens.dms.android.feature.main.application.navigation.ApplicationRo
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
-import team.aliens.dms.android.feature.notification.navigation.NotificationRoute
+import team.aliens.dms.android.feature.notification.navigation.NoticeDetailRoute
+import team.aliens.dms.android.feature.notification.navigation.NoticeRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
@@ -40,6 +41,7 @@ import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRou
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
+import java.util.UUID
 
 @Serializable
 data object OnboardingScreenNav : NavKey
@@ -84,7 +86,10 @@ data object SelectProfileScreenNav : NavKey
 data class AdjustProfileScreenNav(val model: String) : NavKey
 
 @Serializable
-data object NotificationScreenNav : NavKey
+data object NoticeScreenNav : NavKey
+
+@Serializable
+data object NoticeDetailScreenNav : NavKey
 
 @Composable
 fun DmsApp(
@@ -167,7 +172,7 @@ fun DmsApp(
                         entry<HomeScreenNav> {
                             HomeRoute(
                                 onNavigateNotification = {
-                                    backStack.add(NotificationScreenNav)
+                                    backStack.add(NoticeScreenNav)
                                 },
                                 onNavigatePointHistory = {
                                     backStack.add(PointHistoryScreenNav(it))
@@ -292,8 +297,24 @@ fun DmsApp(
                                 }
                             )
                         }
-                        entry<NotificationScreenNav> {
-                            NotificationRoute()
+                        entry<NoticeScreenNav> {
+                            NoticeRoute(
+                                onNavigateBack = { backStack.remove(NoticeScreenNav) },
+                                onNoticeDetailClick = {
+                                    resultStore.setResult<UUID?>("notice_result", it)
+                                    backStack.add(NoticeDetailScreenNav)
+                                },
+                            )
+                        }
+                        entry<NoticeDetailScreenNav> {
+                            NoticeDetailRoute(
+                                onNavigateBack = {
+                                    backStack.remove(NoticeDetailScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
                         }
                     },
                 )
