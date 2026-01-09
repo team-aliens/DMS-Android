@@ -41,6 +41,7 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeUi
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
 import java.util.UUID
 
 @Composable
@@ -128,7 +129,7 @@ private fun NoticesScreen(
 @Composable
 internal fun NotificationItems(
     modifier: Modifier = Modifier,
-    notifications: ImmutableList<NoticeUi>
+    notifications: ImmutableList<NotificationUi>
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
@@ -136,38 +137,10 @@ internal fun NotificationItems(
         items(
             items = notifications,
             key = { item -> item.id }
-        ) {
-            Row(
-                modifier = modifier.padding(horizontal = 24.dp, vertical = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    painter = painterResource(DmsIcon.Plus),
-                    contentDescription = null,
-                )
-                Column(
-                    modifier = modifier.startPadding(12.dp),
-                ) {
-                    Text(
-                        text = it.title,
-                        style = DmsTheme.typography.bodyM,
-                    )
-                    Text(
-                        text = it.content ?: "",
-                        style = DmsTheme.typography.labelM,
-                    )
-                }
-                Spacer(modifier = modifier.weight(1f))
-                Text(
-                    text = it.elapsedText,
-                    style = DmsTheme.typography.labelM,
-                )
-                Image(
-                    modifier = modifier.startPadding(10.dp),
-                    painter = painterResource(DmsIcon.Forward),
-                    contentDescription = null,
-                )
-            }
+        ) {notification ->
+            NotificationItem(
+                notification = notification
+            )
         }
     }
 }
@@ -175,7 +148,7 @@ internal fun NotificationItems(
 @Composable
 private fun NoticeItems(
     modifier: Modifier = Modifier,
-    notices: List<NoticeUi>,
+    notices: List<NotificationUi>,
     onNoticeDetailClick: (UUID) -> Unit,
 ) {
     LazyColumn(
@@ -194,21 +167,63 @@ private fun NoticeItems(
 }
 
 @Composable
-internal fun NotificationItem() {
+internal fun NotificationItem(
+    modifier: Modifier = Modifier,
+    notification: NotificationUi,
+) {
+    Row(
+        modifier = modifier.padding(horizontal = 24.dp, vertical = 20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painter = painterResource(DmsIcon.Plus),
+            contentDescription = null,
+        )
+        Column(
+            modifier = modifier.startPadding(12.dp),
+        ) {
+            Text(
+                text = notification.title,
+                style = DmsTheme.typography.bodyM,
+            )
+            Row {
+                if (notification.isRead) {
+                    Text(
+                        text = "읽음",
+                        style = DmsTheme.typography.labelM,
+                    )
+                }
+                Text(
+                    text = notification.content,
+                    style = DmsTheme.typography.labelM,
+                )
+            }
 
+        }
+        Spacer(modifier = modifier.weight(1f))
+        Text(
+            text = notification.elapsedText,
+            style = DmsTheme.typography.labelM,
+        )
+        Image(
+            modifier = modifier.startPadding(10.dp),
+            painter = painterResource(DmsIcon.Forward),
+            contentDescription = null,
+        )
+    }
 }
 
 
 @Composable
 internal fun NoticeItem(
     modifier: Modifier = Modifier,
-    notice: NoticeUi,
+    notice: NotificationUi,
     onNoticeDetailClick: (UUID) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onNoticeDetailClick(notice.id) })
+            .clickable(onClick = { onNoticeDetailClick(notice.linkId) })
             .padding(horizontal = 24.dp, vertical = 22.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
