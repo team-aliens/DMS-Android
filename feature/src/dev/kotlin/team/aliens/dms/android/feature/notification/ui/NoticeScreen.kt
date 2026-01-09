@@ -43,6 +43,7 @@ import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeUi
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
@@ -51,8 +52,9 @@ import java.util.UUID
 
 @Composable
 internal fun Notices(
-    onNavigateBack: () -> Unit,
-    onNoticeDetailClick: (UUID) -> Unit,
+    onBackClick: () -> Unit,
+    onNavigateNoticeDetailClick: (UUID) -> Unit,
+    onNavigatePointHistory: (PointType) -> Unit,
 ) {
     val viewModel: NoticeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
@@ -77,8 +79,9 @@ internal fun Notices(
                 pagerState.animateScrollToPage(page)
             }
         },
-        onBackClick = onNavigateBack,
-        onNoticeDetailClick = onNoticeDetailClick,
+        onBackClick = onBackClick,
+        onNoticeDetailClick = onNavigateNoticeDetailClick,
+        onNotificationClick = onNavigatePointHistory,
     )
 }
 
@@ -91,6 +94,7 @@ private fun NoticesScreen(
     onTabClick: (Int) -> Unit,
     onBackClick: () -> Unit,
     onNoticeDetailClick: (UUID) -> Unit,
+    onNotificationClick: (PointType) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -119,6 +123,7 @@ private fun NoticesScreen(
             if (pagerState.currentPage == 0) {
                 NotificationItems(
                     notifications = state.notifications.toPersistentList(),
+                    onNotificationClick = onNotificationClick,
                 )
             } else {
                 NoticeItems(
@@ -134,7 +139,8 @@ private fun NoticesScreen(
 @Composable
 internal fun NotificationItems(
     modifier: Modifier = Modifier,
-    notifications: ImmutableList<NotificationUi>
+    notifications: ImmutableList<NotificationUi>,
+    onNotificationClick: (PointType) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
@@ -144,7 +150,8 @@ internal fun NotificationItems(
             key = { item -> item.id }
         ) {notification ->
             NotificationItem(
-                notification = notification
+                notification = notification,
+                onNotificationClick = onNotificationClick,
             )
         }
     }
@@ -175,9 +182,13 @@ private fun NoticeItems(
 internal fun NotificationItem(
     modifier: Modifier = Modifier,
     notification: NotificationUi,
+    onNotificationClick: (PointType) -> Unit,
 ) {
     Row(
-        modifier = modifier.padding(horizontal = 24.dp, vertical = 20.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = { onNotificationClick(PointType.ALL) })
+            .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(

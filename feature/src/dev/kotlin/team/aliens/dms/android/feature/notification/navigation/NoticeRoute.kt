@@ -1,16 +1,19 @@
 package team.aliens.dms.android.feature.notification.navigation
 
 import androidx.compose.runtime.Composable
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.notification.ui.Notices
 import java.util.UUID
 
 @Composable
 fun NoticeRoute(
-    onNavigateBack: () -> Unit,
-    onNoticeDetailClick: (UUID) -> Unit
+    onBackClick: () -> Unit,
+    onNavigateNoticeDetailClick: (UUID) -> Unit,
+    onNavigatePointHistory: (PointType) -> Unit,
 ) {
     Notices(
-        onNavigateBack = onNavigateBack,
-        onNoticeDetailClick = onNoticeDetailClick,
+        onBackClick = onBackClick,
+        onNavigateNoticeDetailClick = onNavigateNoticeDetailClick,
+        onNavigatePointHistory = onNavigatePointHistory,
     )
 }
