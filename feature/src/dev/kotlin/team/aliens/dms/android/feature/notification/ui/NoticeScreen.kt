@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +41,7 @@ import team.aliens.dms.android.core.designsystem.sLabelM
 import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
+import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeUi
 import team.aliens.dms.android.feature.notification.viewmodel.NoticeViewModel
@@ -186,28 +191,35 @@ internal fun NotificationItem(
                 text = notification.title,
                 style = DmsTheme.typography.bodyM,
             )
-            Row {
-                if (notification.isRead) {
-                    Text(
-                        text = "읽음",
-                        style = DmsTheme.typography.labelM,
+            Row(
+                modifier = modifier.topPadding(6.dp)
+            ) {
+                if (!notification.isRead) {
+                    Icon(
+                        modifier = modifier.size(4.dp),
+                        imageVector = Icons.Filled.Circle,
+                        contentDescription = null,
+                        tint = DmsTheme.colorScheme.primaryContainer,
                     )
                 }
                 Text(
+                    modifier = modifier
+                        .startPadding(4.dp),
                     text = notification.content,
                     style = DmsTheme.typography.labelM,
                 )
             }
-
         }
         Spacer(modifier = modifier.weight(1f))
         Text(
+            modifier = Modifier.padding(horizontal = 10.dp),
             text = notification.elapsedText,
-            style = DmsTheme.typography.labelM,
+            style = DmsTheme.typography.bodyM,
+            color = DmsTheme.colorScheme.inverseSurface,
         )
-        Image(
-            modifier = modifier.startPadding(10.dp),
+        Icon(
             painter = painterResource(DmsIcon.Forward),
+            tint = DmsTheme.colorScheme.scrim,
             contentDescription = null,
         )
     }
@@ -232,15 +244,33 @@ internal fun NoticeItem(
             tint = DmsTheme.colorScheme.scrim,
             contentDescription = null,
         )
-        Text(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 12.dp),
-            text = notice.title,
-            maxLines = 1,
-            style = DmsTheme.typography.bodyM,
-            color = DmsTheme.colorScheme.onBackground,
-        )
+        Column(
+            modifier = modifier.startPadding(12.dp),
+        ) {
+            Text(
+                text = notice.title,
+                style = DmsTheme.typography.bodyM,
+            )
+            Row(
+                modifier = modifier.topPadding(6.dp)
+            ) {
+                if (!notice.isRead) {
+                    Icon(
+                        modifier = modifier.size(4.dp),
+                        imageVector = Icons.Filled.Circle,
+                        contentDescription = null,
+                        tint = DmsTheme.colorScheme.primaryContainer,
+                    )
+                }
+                Text(
+                    modifier = modifier
+                        .startPadding(4.dp),
+                    text = notice.content,
+                    style = DmsTheme.typography.labelM,
+                )
+            }
+        }
+        Spacer(modifier = modifier.weight(1f))
         Text(
             modifier = Modifier.padding(horizontal = 10.dp),
             text = notice.elapsedText,
