@@ -111,7 +111,7 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted, isJwtAvailable) {
+    LaunchedEffect(Unit) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
             isJwtAvailable -> HomeScreenNav
@@ -134,8 +134,8 @@ fun DmsApp(
                             if (currentScreen != destination) {
                                 backStack.removeAll {
                                     it is HomeScreenNav ||
-                                            it is ApplicationScreenNav ||
-                                            it is MyPageScreenNav
+                                    it is ApplicationScreenNav ||
+                                    it is MyPageScreenNav
                                 }
                                 backStack.add(destination)
                             }
