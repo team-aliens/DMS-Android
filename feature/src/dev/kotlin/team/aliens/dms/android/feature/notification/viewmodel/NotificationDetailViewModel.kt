@@ -12,16 +12,16 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-internal class NoticeDetailViewModel @Inject constructor(
+internal class NotificationDetailViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
-) : BaseStateViewModel<NoticeDetailState, NoticeDetailSideEffect>(NoticeDetailState()) {
+) : BaseStateViewModel<NotificationDetailState, NotificationDetailSideEffect>(NotificationDetailState()) {
 
-    internal fun getNoticeDetail(noticeId: UUID) {
+    internal fun getNotificationDetail(noticeId: UUID) {
         viewModelScope.launch {
             runCatching {
                 noticeRepository.fetchNoticeDetails(noticeId = noticeId)
             }.onSuccess { notice ->
-                val noticeUi = NoticeDetailUi(
+                val noticeUi = NotificationDetailUi(
                     id = notice.id,
                     title = notice.title,
                     content = notice.content,
@@ -34,7 +34,7 @@ internal class NoticeDetailViewModel @Inject constructor(
     }
 }
 
-internal data class NoticeDetailUi(
+internal data class NotificationDetailUi(
     val id: UUID,
     val title: String,
     val content: String?,
@@ -42,8 +42,8 @@ internal data class NoticeDetailUi(
     val elapsedCreatedAt: String,
 )
 
-internal data class NoticeDetailState(
-    val notice: NoticeDetailUi = NoticeDetailUi(
+internal data class NotificationDetailState(
+    val notice: NotificationDetailUi = NotificationDetailUi(
         id = UUID.randomUUID(),
         title = "",
         content = "",
@@ -52,4 +52,4 @@ internal data class NoticeDetailState(
     ),
 )
 
-internal sealed interface NoticeDetailSideEffect
+internal sealed interface NotificationDetailSideEffect

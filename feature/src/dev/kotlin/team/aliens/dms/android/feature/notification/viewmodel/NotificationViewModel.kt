@@ -1,27 +1,22 @@
 package team.aliens.dms.android.feature.notification.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
-import team.aliens.dms.android.data.notice.repository.NoticeRepository
-import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
 import team.aliens.dms.android.shared.date.toElapsedText
 import team.aliens.dms.android.shared.date.util.now
-import team.aliens.dms.android.shared.model.Order
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-internal class NoticeViewModel @Inject constructor(
+internal class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-) : BaseStateViewModel<NotificationState, NoticesSideEffect>(NotificationState()) {
+) : BaseStateViewModel<NotificationState, NotificationSideEffect>(NotificationState()) {
 
     init {
         fetchNotifications()
@@ -53,14 +48,6 @@ internal class NoticeViewModel @Inject constructor(
     }
 }
 
-internal data class NoticeUi(
-    val id: UUID,
-    val title: String,
-    val content: String?,
-    val createdAt: LocalDateTime,
-    val elapsedText: String,
-)
-
 internal data class NotificationUi(
     val id: UUID,
     val topic: NotificationTopic,
@@ -78,4 +65,4 @@ internal data class NotificationState(
     val notifications: List<NotificationUi> = emptyList(),
 )
 
-internal sealed interface NoticesSideEffect
+internal sealed interface NotificationSideEffect

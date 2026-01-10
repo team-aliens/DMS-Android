@@ -92,7 +92,7 @@ private fun HomeScreen(
     ) {
         HomeTopAppBar(
             onOutingPassClick = onOutingPassClick,
-            onNotificationClick = onNotificationClick,
+            onNotificationClick = onNavigateNotice,
         )
         Column(
             modifier = Modifier

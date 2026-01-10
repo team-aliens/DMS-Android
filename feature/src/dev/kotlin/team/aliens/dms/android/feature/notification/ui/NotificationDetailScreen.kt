@@ -28,17 +28,17 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.verticalPadding
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
-import team.aliens.dms.android.feature.notification.viewmodel.NoticeDetailState
-import team.aliens.dms.android.feature.notification.viewmodel.NoticeDetailUi
-import team.aliens.dms.android.feature.notification.viewmodel.NoticeDetailViewModel
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationDetailState
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationDetailUi
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationDetailViewModel
 import java.util.UUID
 
 @Composable
-internal fun NoticeDetail(
+internal fun NotificationDetail(
     onNavigateBack: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-    val viewModel: NoticeDetailViewModel = hiltViewModel()
+    val viewModel: NotificationDetailViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val resultStore = LocalResultStore.current
 
@@ -47,7 +47,7 @@ internal fun NoticeDetail(
             resultStore.resultStateMap["notice_result"]?.value as? UUID?
         }.collect { result ->
             if (result != null) {
-                viewModel.getNoticeDetail(result)
+                viewModel.getNotificationDetail(result)
                 resultStore.removeResult<String?>(resultKey = "vote_result")
             } else {
                 onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
@@ -55,15 +55,15 @@ internal fun NoticeDetail(
         }
     }
 
-    NoticeDetailsScreen(
+    NotificationDetailsScreen(
         state = state,
         onNavigateBack = onNavigateBack,
     )
 }
 
 @Composable
-private fun NoticeDetailsScreen(
-    state: NoticeDetailState,
+private fun NotificationDetailsScreen(
+    state: NotificationDetailState,
     onNavigateBack: () -> Unit,
 ) {
     Column(
@@ -75,16 +75,16 @@ private fun NoticeDetailsScreen(
             title = "안내",
             onBackPressed = onNavigateBack,
         )
-        Notice(
+        NotificationDetailContent(
             notice = state.notice,
         )
     }
 }
 
 @Composable
-private fun Notice(
+private fun NotificationDetailContent(
     modifier: Modifier = Modifier,
-    notice: NoticeDetailUi,
+    notice: NotificationDetailUi,
 ) {
     Column(
         modifier = modifier

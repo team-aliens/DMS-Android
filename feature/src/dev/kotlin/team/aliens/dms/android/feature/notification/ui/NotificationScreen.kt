@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -33,30 +32,27 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
-import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.labelM
-import team.aliens.dms.android.core.designsystem.sLabelM
 import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.data.point.model.PointType
-import team.aliens.dms.android.feature.notification.viewmodel.NoticeUi
-import team.aliens.dms.android.feature.notification.viewmodel.NoticeViewModel
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
 import java.util.UUID
 
 @Composable
-internal fun Notices(
+internal fun NotificationScreen(
     onBackClick: () -> Unit,
-    onNavigateNoticeDetailClick: (UUID) -> Unit,
+    onNavigateNotificationDetailClick: (UUID) -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
 ) {
-    val viewModel: NoticeViewModel = hiltViewModel()
+    val viewModel: NotificationViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val tabData = listOf(
         "알림",
@@ -64,36 +60,36 @@ internal fun Notices(
     )
     val pagerState = rememberPagerState(
         pageCount = { tabData.size },
-        initialPage = 1,
+        initialPage = 0,
     )
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
 
-    NoticesScreen(
+    NotificationScreenContent(
         state = state,
         tabData = tabData.toPersistentList(),
         pagerState = pagerState,
         tabIndex = tabIndex,
-        onTabClick = {page ->
+        onTabClick = { page ->
             coroutineScope.launch {
                 pagerState.animateScrollToPage(page)
             }
         },
         onBackClick = onBackClick,
-        onNoticeDetailClick = onNavigateNoticeDetailClick,
+        onNotificationDetailClick = onNavigateNotificationDetailClick,
         onNotificationClick = onNavigatePointHistory,
     )
 }
 
 @Composable
-private fun NoticesScreen(
+private fun NotificationScreenContent(
     state: NotificationState,
     tabData: ImmutableList<String>,
     pagerState: PagerState,
     tabIndex: Int,
     onTabClick: (Int) -> Unit,
     onBackClick: () -> Unit,
-    onNoticeDetailClick: (UUID) -> Unit,
+    onNotificationDetailClick: (UUID) -> Unit,
     onNotificationClick: (PointType) -> Unit,
 ) {
     Column(
@@ -128,7 +124,7 @@ private fun NoticesScreen(
             } else {
                 NoticeItems(
                     notices = state.notices,
-                    onNoticeDetailClick = onNoticeDetailClick,
+                    onNotificationDetailClick = onNotificationDetailClick,
                 )
             }
         }
@@ -161,7 +157,7 @@ internal fun NotificationItems(
 private fun NoticeItems(
     modifier: Modifier = Modifier,
     notices: List<NotificationUi>,
-    onNoticeDetailClick: (UUID) -> Unit,
+    onNotificationDetailClick: (UUID) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
@@ -172,7 +168,7 @@ private fun NoticeItems(
         ) { notice ->
             NoticeItem(
                 notice = notice,
-                onNoticeDetailClick = onNoticeDetailClick,
+                onNotificationDetailClick = onNotificationDetailClick,
             )
         }
     }
@@ -241,12 +237,12 @@ internal fun NotificationItem(
 internal fun NoticeItem(
     modifier: Modifier = Modifier,
     notice: NotificationUi,
-    onNoticeDetailClick: (UUID) -> Unit,
+    onNotificationDetailClick: (UUID) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onNoticeDetailClick(notice.linkId) })
+            .clickable(onClick = { onNotificationDetailClick(notice.linkId) })
             .padding(horizontal = 24.dp, vertical = 22.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
