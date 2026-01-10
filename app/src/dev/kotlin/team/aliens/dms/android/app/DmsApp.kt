@@ -1,5 +1,6 @@
 package team.aliens.dms.android.app
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -9,6 +10,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,8 +31,8 @@ import team.aliens.dms.android.feature.main.application.navigation.ApplicationRo
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
-import team.aliens.dms.android.feature.notification.navigation.NoticeDetailRoute
-import team.aliens.dms.android.feature.notification.navigation.NoticeRoute
+import team.aliens.dms.android.feature.notification.navigation.NotificationDetailRoute
+import team.aliens.dms.android.feature.notification.navigation.NotificationRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
@@ -86,18 +88,18 @@ data object SelectProfileScreenNav : NavKey
 data class AdjustProfileScreenNav(val model: String) : NavKey
 
 @Serializable
-data object NoticeScreenNav : NavKey
+data object NotificationScreenNav : NavKey
 
 @Serializable
-data object NoticeDetailScreenNav : NavKey
+data object NotificationDetailScreenNav : NavKey
 
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
-    isJwtAvailable: Boolean,
     mainViewModel: MainActivityViewModel,
     appState: DmsAppState = rememberDmsAppState(),
 ) {
+    val isJwtAvailable by mainViewModel.autoSignInAvailable.collectAsState()
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
@@ -172,7 +174,7 @@ fun DmsApp(
                         entry<HomeScreenNav> {
                             HomeRoute(
                                 onNavigateNotification = {
-                                    backStack.add(NoticeScreenNav)
+                                    backStack.add(NotificationScreenNav)
                                 },
                                 onNavigatePointHistory = {
                                     backStack.add(PointHistoryScreenNav(it))
@@ -297,22 +299,22 @@ fun DmsApp(
                                 }
                             )
                         }
-                        entry<NoticeScreenNav> {
-                            NoticeRoute(
-                                onBackClick = { backStack.remove(NoticeScreenNav) },
-                                onNavigateNoticeDetailClick = {
+                        entry<NotificationScreenNav> {
+                            NotificationRoute(
+                                onBackClick = { backStack.remove(NotificationScreenNav) },
+                                onNavigateNotificationDetailClick = {
                                     resultStore.setResult<UUID?>("notice_result", it)
-                                    backStack.add(NoticeDetailScreenNav)
+                                    backStack.add(NotificationDetailScreenNav)
                                 },
                                 onNavigatePointHistory = { pointValue ->
                                     backStack.add(PointHistoryScreenNav(pointValue))
                                 }
                             )
                         }
-                        entry<NoticeDetailScreenNav> {
-                            NoticeDetailRoute(
+                        entry<NotificationDetailScreenNav> {
+                            NotificationDetailRoute(
                                 onNavigateBack = {
-                                    backStack.remove(NoticeDetailScreenNav)
+                                    backStack.remove(NotificationDetailScreenNav)
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)

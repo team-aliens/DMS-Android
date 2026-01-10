@@ -61,7 +61,6 @@ class MainActivity : ComponentActivity() {
             DmsTheme {
                 DmsApp(
                     windowSizeClass = windowSizeClass,
-                    isJwtAvailable = isJwtAvailable.value,
                     mainViewModel = mainViewModel,
                 )
             }
