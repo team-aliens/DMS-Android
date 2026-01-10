@@ -1,7 +1,9 @@
 package team.aliens.dms.android.feature.setting.ui.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -36,8 +38,12 @@ fun SettingRotateContent(
     onClick: () -> Unit,
 ) {
     val rotationAngle by animateFloatAsState(
-        targetValue = if (rotated) 360f else 0f,
-        label = "",
+        targetValue = if (rotated) 180f else 0f,
+        animationSpec = tween(
+            durationMillis = 500,
+            delayMillis = 0,
+            easing = LinearEasing
+        ),
     )
 
     Row(
