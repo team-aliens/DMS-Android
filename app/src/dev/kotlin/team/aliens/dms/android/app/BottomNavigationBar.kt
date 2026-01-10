@@ -35,7 +35,6 @@ fun BottomNavigationBar(
     currentScreen: NavKey?,
     onNavigate: (NavKey) -> Unit,
 ) {
-
     BottomAppBar(
         modifier = Modifier
             .fillMaxWidth()
