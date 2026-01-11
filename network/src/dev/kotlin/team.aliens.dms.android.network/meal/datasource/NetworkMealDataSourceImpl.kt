@@ -9,6 +9,6 @@ import javax.inject.Inject
 internal class NetworkMealDataSourceImpl @Inject constructor(
     private val mealApiService: MealApiService,
 ) : NetworkMealDataSource() {
-    override suspend fun fetchMeals(date: LocalDate): FetchMealsResponse =
-        handleNetworkRequest { mealApiService.fetchMeals(date) }
+    override suspend fun fetchMeals(date: LocalDate): Result<FetchMealsResponse> =
+        runCatching { handleNetworkRequest { mealApiService.fetchMeals(date) } }
 }

@@ -19,9 +19,10 @@ internal class MealRepositoryImpl @Inject constructor(
         updateMeal(date = date).getOrElse { throw CannotFindMealException() }
     }
 
-    override suspend fun updateMeal(date: LocalDate): Result<Meal> = runCatching {
-        networkMealDataSource.fetchMeals(date).toModel().also { meals ->
-            databaseMealDataSource.saveMeals(meals.toEntity())
-        }.find { it.date == date }!!
-    }
+    override suspend fun updateMeal(date: LocalDate): Result<Meal> =
+        networkMealDataSource.fetchMeals(date).map { response ->
+            response.toModel().also { meals ->
+                databaseMealDataSource.saveMeals(meals.toEntity())
+            }.find { it.date == date } ?: throw CannotFindMealException()
+        }
 }

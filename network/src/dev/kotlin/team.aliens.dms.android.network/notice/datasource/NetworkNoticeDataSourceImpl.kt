@@ -11,12 +11,12 @@ import javax.inject.Inject
 internal class NetworkNoticeDataSourceImpl @Inject constructor(
     private val noticeApiService: NoticeApiService,
 ) : NetworkNoticeDataSource() {
-    override suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse =
-        handleNetworkRequest { noticeApiService.fetchWhetherNewNoticesExist() }
+    override suspend fun fetchWhetherNewNoticesExist(): Result<FetchWhetherNewNoticesExistResponse> =
+        runCatching { handleNetworkRequest { noticeApiService.fetchWhetherNewNoticesExist() } }
 
-    override suspend fun fetchNotices(order: String): FetchNoticesResponse =
-        handleNetworkRequest { noticeApiService.fetchNotices(order) }
+    override suspend fun fetchNotices(order: String): Result<FetchNoticesResponse> =
+        runCatching { handleNetworkRequest { noticeApiService.fetchNotices(order) } }
 
-    override suspend fun fetchNoticeDetails(noticeId: UUID): FetchNoticeDetailsResponse =
-        handleNetworkRequest { noticeApiService.fetchNoticeDetails(noticeId) }
+    override suspend fun fetchNoticeDetails(noticeId: UUID): Result<FetchNoticeDetailsResponse> =
+        runCatching { handleNetworkRequest { noticeApiService.fetchNoticeDetails(noticeId) } }
 }

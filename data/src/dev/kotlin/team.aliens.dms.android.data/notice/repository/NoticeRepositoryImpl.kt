@@ -11,12 +11,15 @@ internal class NoticeRepositoryImpl @Inject constructor(
     private val networkNoticeDataSource: NetworkNoticeDataSource,
 ) : NoticeRepository() {
 
-    override suspend fun fetchWhetherNewNoticesExist(): Boolean =
-        networkNoticeDataSource.fetchWhetherNewNoticesExist().whetherNewNotices
+    override suspend fun fetchWhetherNewNoticesExist(): Result<Boolean> =
+        networkNoticeDataSource.fetchWhetherNewNoticesExist()
+            .map { it.whetherNewNotices }
 
-    override suspend fun fetchNoticeDetails(noticeId: UUID): Notice =
-        networkNoticeDataSource.fetchNoticeDetails(noticeId).toModel()
+    override suspend fun fetchNoticeDetails(noticeId: UUID): Result<Notice> =
+        networkNoticeDataSource.fetchNoticeDetails(noticeId)
+            .map { it.toModel() }
 
-    override suspend fun fetchNotices(order: Order): List<Notice> =
-        networkNoticeDataSource.fetchNotices(order.name).toModel()
+    override suspend fun fetchNotices(order: Order): Result<List<Notice>> =
+        networkNoticeDataSource.fetchNotices(order.name)
+            .map { it.toModel() }
 }

@@ -12,19 +12,18 @@ internal class RemainsRepositoryImpl @Inject constructor(
     private val networkRemainsDataSource: NetworkRemainsDataSource,
 ) : RemainsRepository() {
 
-    override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> = runCatching {
+    override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> =
         networkRemainsDataSource.updateRemainsOption(optionId)
-    }
 
-    override suspend fun fetchAppliedRemainsOption(): Result<AppliedRemainsOption> = runCatching {
-        networkRemainsDataSource.fetchAppliedRemainsOption().toModel()
-    }
+    override suspend fun fetchAppliedRemainsOption(): Result<AppliedRemainsOption> =
+        networkRemainsDataSource.fetchAppliedRemainsOption()
+            .map { it.toModel() }
 
-    override suspend fun fetchRemainsApplicationTime(): Result<RemainsApplicationTime> = runCatching {
-        networkRemainsDataSource.fetchRemainsApplicationTime().toModel()
-    }
+    override suspend fun fetchRemainsApplicationTime(): Result<RemainsApplicationTime> =
+        networkRemainsDataSource.fetchRemainsApplicationTime()
+            .map { it.toModel() }
 
-    override suspend fun fetchRemainsOptions(): Result<List<RemainsOption>> = runCatching {
-        networkRemainsDataSource.fetchRemainsOptions().toModel()
-    }
+    override suspend fun fetchRemainsOptions(): Result<List<RemainsOption>> =
+        networkRemainsDataSource.fetchRemainsOptions()
+            .map { it.toModel() }
 }

@@ -7,9 +7,9 @@ import java.util.UUID
 
 abstract class NetworkNoticeDataSource {
 
-    abstract suspend fun fetchWhetherNewNoticesExist(): FetchWhetherNewNoticesExistResponse
+    abstract suspend fun fetchWhetherNewNoticesExist(): Result<FetchWhetherNewNoticesExistResponse>
 
-    abstract suspend fun fetchNotices(order: String): FetchNoticesResponse
+    abstract suspend fun fetchNotices(order: String): Result<FetchNoticesResponse>
 
-    abstract suspend fun fetchNoticeDetails(noticeId: UUID): FetchNoticeDetailsResponse
+    abstract suspend fun fetchNoticeDetails(noticeId: UUID): Result<FetchNoticeDetailsResponse>
 }

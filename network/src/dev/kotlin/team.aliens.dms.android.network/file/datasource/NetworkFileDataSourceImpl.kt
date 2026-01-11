@@ -16,17 +16,19 @@ import javax.inject.Inject
 internal class NetworkFileDataSourceImpl @Inject constructor(
     private val fileApiService: FileApiService,
 ) : NetworkFileDataSource() {
-    override suspend fun fetchPresignedUrl(fileName: String): FetchPresignedUrlResponse =
-        handleNetworkRequest { fileApiService.fetchPresignedUrl(fileName) }
+    override suspend fun fetchPresignedUrl(fileName: String): Result<FetchPresignedUrlResponse> =
+        runCatching { handleNetworkRequest { fileApiService.fetchPresignedUrl(fileName) } }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun uploadFile(presignedUrl: String, file: File): FetchFileUrlResponse =
-        handleNetworkRequest {
-            fileApiService.uploadFile(
-                presignedUrl = presignedUrl,
-                file = Files.readAllBytes(file.toPath()).toRequestBody(
-                    contentType = RequestType.Binary.toMediaTypeOrNull(),
-                ),
-            )
+    override suspend fun uploadFile(presignedUrl: String, file: File): Result<FetchFileUrlResponse> =
+        runCatching {
+            handleNetworkRequest {
+                fileApiService.uploadFile(
+                    presignedUrl = presignedUrl,
+                    file = Files.readAllBytes(file.toPath()).toRequestBody(
+                        contentType = RequestType.Binary.toMediaTypeOrNull(),
+                    ),
+                )
+            }
         }
 }

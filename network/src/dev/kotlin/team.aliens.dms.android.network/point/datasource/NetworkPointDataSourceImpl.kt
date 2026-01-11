@@ -13,5 +13,6 @@ internal class NetworkPointDataSourceImpl @Inject constructor(
         type: String,
         page: Long?,
         size: Long?,
-    ): FetchPointsResponse = handleNetworkRequest { pointApiService.fetchPoints(type, page, size) }
+    ): Result<FetchPointsResponse> =
+        runCatching { handleNetworkRequest { pointApiService.fetchPoints(type, page, size) } }
 }

@@ -19,7 +19,7 @@ internal class NotificationDetailViewModel @Inject constructor(
     internal fun getNotificationDetail(noticeId: UUID) {
         viewModelScope.launch {
             runCatching {
-                noticeRepository.fetchNoticeDetails(noticeId = noticeId)
+                noticeRepository.fetchNoticeDetails(noticeId = noticeId).getOrThrow()
             }.onSuccess { notice ->
                 val noticeUi = NotificationDetailUi(
                     id = notice.id,

@@ -11,15 +11,15 @@ import javax.inject.Inject
 internal class NetworkRemainsDataSourceImpl @Inject constructor(
     private val remainsApiService: RemainsApiService,
 ) : NetworkRemainsDataSource() {
-    override suspend fun updateRemainsOption(optionId: UUID) =
-        handleNetworkRequest { remainsApiService.updateRemainsOption(optionId) }
+    override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> =
+        runCatching { handleNetworkRequest { remainsApiService.updateRemainsOption(optionId) } }
 
-    override suspend fun fetchAppliedRemainsOption(): FetchAppliedRemainsOptionResponse =
-        handleNetworkRequest { remainsApiService.fetchAppliedRemainsOption() }
+    override suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse> =
+        runCatching { handleNetworkRequest { remainsApiService.fetchAppliedRemainsOption() } }
 
-    override suspend fun fetchRemainsApplicationTime(): FetchRemainsApplicationTimeResponse =
-        handleNetworkRequest { remainsApiService.fetchRemainsApplicationTime() }
+    override suspend fun fetchRemainsApplicationTime(): Result<FetchRemainsApplicationTimeResponse> =
+        runCatching { handleNetworkRequest { remainsApiService.fetchRemainsApplicationTime() } }
 
-    override suspend fun fetchRemainsOptions(): FetchRemainsOptionsResponse =
-        handleNetworkRequest { remainsApiService.fetchRemainsOptions() }
+    override suspend fun fetchRemainsOptions(): Result<FetchRemainsOptionsResponse> =
+        runCatching { handleNetworkRequest { remainsApiService.fetchRemainsOptions() } }
 }

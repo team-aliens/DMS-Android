@@ -12,19 +12,24 @@ import javax.inject.Inject
 internal class NetworkVotingDataSourceImpl @Inject constructor(
     private val votingApiService: VotingApiService,
 ) : NetworkVotingDataSource() {
-    override suspend fun fetchAllVoteSearch(): FetchAllVoteSearchResponse =
-        handleNetworkRequest { votingApiService.fetchAllVoteSearch() }
+    override suspend fun fetchAllVoteSearch(): Result<FetchAllVoteSearchResponse> =
+        runCatching { handleNetworkRequest { votingApiService.fetchAllVoteSearch() } }
 
-    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): FetchCheckVotingItemResponse =
-        handleNetworkRequest { votingApiService.fetchCheckVotingItem(votingTopicId) }
+    override suspend fun fetchCheckVotingItem(votingTopicId: UUID): Result<FetchCheckVotingItemResponse> =
+        runCatching { handleNetworkRequest { votingApiService.fetchCheckVotingItem(votingTopicId) } }
 
-    override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID): Result<Unit> = runCatching {
-        handleNetworkRequest { votingApiService.fetchCreateVotingItem(votingTopicId, selectedId) }
-    }
+    override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID): Result<Unit> =
+        runCatching {
+            handleNetworkRequest { votingApiService.fetchCreateVotingItem(votingTopicId, selectedId) }
+                ?.getOrThrow() ?: Unit
+        }
 
-    override suspend fun fetchDeleteVotingItem(voteId: UUID): Unit =
-        handleNetworkRequest { votingApiService.fetchDeleteVotingItem(voteId) }
+    override suspend fun fetchDeleteVotingItem(voteId: UUID): Result<Unit> =
+        runCatching { handleNetworkRequest { votingApiService.fetchDeleteVotingItem(voteId) } }
+            .map { Unit }
 
-    override suspend fun fetchModelStudentCandidates(requestDate: LocalDate): FetchModelStudentCandidatesResponse =
-        handleNetworkRequest { votingApiService.fetchModelStudentCandidates(requestDate) }
+    override suspend fun fetchModelStudentCandidates(
+        requestDate: LocalDate,
+    ): Result<FetchModelStudentCandidatesResponse> =
+        runCatching { handleNetworkRequest { votingApiService.fetchModelStudentCandidates(requestDate) } }
 }

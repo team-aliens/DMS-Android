@@ -6,9 +6,9 @@ import java.util.UUID
 
 abstract class NoticeRepository {
 
-    abstract suspend fun fetchWhetherNewNoticesExist(): Boolean
+    abstract suspend fun fetchWhetherNewNoticesExist(): Result<Boolean>
 
-    abstract suspend fun fetchNoticeDetails(noticeId: UUID): Notice
+    abstract suspend fun fetchNoticeDetails(noticeId: UUID): Result<Notice>
 
-    abstract suspend fun fetchNotices(order: Order = Order.NEW): List<Notice>
+    abstract suspend fun fetchNotices(order: Order = Order.NEW): Result<List<Notice>>
 }
