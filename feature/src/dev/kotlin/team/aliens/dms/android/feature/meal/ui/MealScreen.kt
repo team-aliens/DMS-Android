@@ -172,7 +172,10 @@ private fun MealScreen(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                DateChip(date = state.selectedDate)
+                DateChip(
+                    date = state.selectedDate,
+                    onDateClick = onCalendarClick,
+                )
 
                 Box(
                     modifier = Modifier.fillMaxWidth(),

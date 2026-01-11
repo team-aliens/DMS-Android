@@ -104,7 +104,7 @@ private fun Day(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = { onDayClick(day.date) })
-            .padding(vertical = 12.dp),
+            .padding(vertical = 14.dp),
         contentAlignment = Alignment.Center,
     ) {
         Box(

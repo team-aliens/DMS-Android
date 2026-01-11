@@ -13,12 +13,14 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.ui.util.toLocale
 
 @Composable
 internal fun DateChip(
     modifier: Modifier = Modifier,
     date: LocalDate,
+    onDateClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -28,6 +30,7 @@ internal fun DateChip(
                 shape = CircleShape,
             )
             .border(width = 1.dp, color = DmsTheme.colorScheme.primary, shape = CircleShape)
+            .clickable(onClick = onDateClick)
             .padding(horizontal = 12.dp, vertical = 16.dp),
     ) {
         Text(
