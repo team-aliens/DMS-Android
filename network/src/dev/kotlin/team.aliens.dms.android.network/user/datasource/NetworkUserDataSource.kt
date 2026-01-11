@@ -4,7 +4,7 @@ import team.aliens.dms.android.network.user.model.EditPasswordRequest
 
 abstract class NetworkUserDataSource {
 
-    abstract suspend fun editPassword(request: EditPasswordRequest)
+    abstract suspend fun editPassword(request: EditPasswordRequest): Result<Unit>
 
-    abstract suspend fun comparePassword(password: String)
+    abstract suspend fun comparePassword(password: String): Result<Unit>
 }
