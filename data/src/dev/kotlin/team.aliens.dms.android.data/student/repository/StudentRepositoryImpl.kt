@@ -10,6 +10,8 @@ import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.data.student.model.toModel
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
 import team.aliens.dms.android.network.student.model.EditProfileRequest
+import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
+import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
@@ -17,6 +19,7 @@ import team.aliens.dms.android.network.student.model.extractFeatures
 import team.aliens.dms.android.network.student.model.extractTokens
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.map
 
 internal class StudentRepositoryImpl @Inject constructor(
     private val networkStudentDataSource: NetworkStudentDataSource,
@@ -36,7 +39,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         password: String,
         profileImageUrl: String?,
     ): Result<Unit> = runCatching {
-        val response: SignUpResponse = networkStudentDataSource.signUp(
+        val response: Result<SignUpResponse> = networkStudentDataSource.signUp(
             request = SignUpRequest(
                 schoolVerificationCode = schoolVerificationCode,
                 schoolVerificationAnswer = schoolVerificationAnswer,
@@ -50,11 +53,10 @@ internal class StudentRepositoryImpl @Inject constructor(
                 profileImageUrl = profileImageUrl,
             ),
         )
-        val tokens = response.extractTokens()
-        val features = response.extractFeatures()
-
-        jwtProvider.updateTokens(tokens = tokens)
-        schoolProvider.updateFeatures(features = features)
+        response.onSuccess {
+            jwtProvider.updateTokens(tokens = it.extractTokens())
+            schoolProvider.updateFeatures(features = it.extractFeatures())
+        }
     }
 
     override suspend fun examineStudentNumber(
@@ -62,14 +64,21 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classroom: Int,
         number: Int,
-    ): Result<StudentName> = runCatching {
+    ): Result<ExamineStudentNumberResponse> =
         networkStudentDataSource.examineStudentNumber(
             schoolId = schoolId,
             grade = grade,
             classroom = classroom,
             number = number,
-        ).studentName
-    }
+        )
+// TODO :: usecase 사용
+//        networkStudentDataSource.examineStudentNumber(
+//            schoolId = schoolId,
+//            grade = grade,
+//            classroom = classroom,
+//            number = number,
+//        ).studentName
+
 
     override suspend fun findId(
         schoolId: UUID,
@@ -77,15 +86,24 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): Result<HashedEmail> = runCatching {
+    ): Result<FindIdResponse> =
         networkStudentDataSource.findId(
             schoolId = schoolId,
             studentName = studentName,
             grade = grade,
             classRoom = classRoom,
             number = number,
-        ).email
-    }
+        )
+
+//    runCatching {
+//        networkStudentDataSource.findId(
+//            schoolId = schoolId,
+//            studentName = studentName,
+//            grade = grade,
+//            classRoom = classRoom,
+//            number = number,
+//        ).email
+//    }
 
     override suspend fun resetPassword(
         accountId: String,
@@ -105,29 +123,27 @@ internal class StudentRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun checkIdDuplication(id: String): Result<Unit> = runCatching {
+    override suspend fun checkIdDuplication(id: String): Result<Unit> =
         networkStudentDataSource.checkIdDuplication(id = id)
-    }
 
-    override suspend fun checkEmailDuplication(email: String): Result<Unit> = runCatching {
+    override suspend fun checkEmailDuplication(email: String): Result<Unit> =
         networkStudentDataSource.checkEmailDuplication(email = email)
-    }
 
-    override suspend fun fetchMyPage(): Result<MyPage> = runCatching {
-        networkStudentDataSource.fetchMyPage().toModel()
-    }
+    override suspend fun fetchMyPage(): Result<MyPage> =
+        networkStudentDataSource.fetchMyPage().map { it.toModel() }
 
-    override suspend fun editProfile(profileImageUrl: String): Result<Unit> = runCatching {
+
+    override suspend fun editProfile(profileImageUrl: String): Result<Unit> =
         networkStudentDataSource.editProfile(request = EditProfileRequest(profileImageUrl))
-    }
 
-    override suspend fun withdraw(): Result<Unit> = runCatching {
-        networkStudentDataSource.withdraw()
+
+    override suspend fun withdraw(): Result<Unit> {
         jwtProvider.clearCaches()
         schoolProvider.clearCaches()
+        return networkStudentDataSource.withdraw()
     }
 
-    override suspend fun fetchStudents(): Result<List<Student>> = runCatching {
-        networkStudentDataSource.fetchStudents().toModel()
-    }
+    override suspend fun fetchStudents(): Result<List<Student>> =
+        networkStudentDataSource.fetchStudents().map { it.toModel() }
+
 }

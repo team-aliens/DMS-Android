@@ -16,20 +16,23 @@ import javax.inject.Inject
 internal class NetworkStudentDataSourceImpl @Inject constructor(
     private val studentApiService: StudentApiService,
 ) : NetworkStudentDataSource() {
-    override suspend fun signUp(request: SignUpRequest): SignUpResponse =
-        handleNetworkRequest { studentApiService.signUp(request) }
+    override suspend fun signUp(request: SignUpRequest): Result<SignUpResponse> = runCatching {
+        studentApiService.signUp(request)
+    }
 
     override suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
         classroom: Int,
         number: Int,
-    ): ExamineStudentNumberResponse = studentApiService.examineStudentNumber(
-        schoolId = schoolId,
-        grade = grade,
-        classRoom = classroom,
-        number = number,
-    )
+    ): Result<ExamineStudentNumberResponse> = runCatching {
+        studentApiService.examineStudentNumber(
+            schoolId = schoolId,
+            grade = grade,
+            classRoom = classroom,
+            number = number,
+        )
+    }
 
     override suspend fun findId(
         schoolId: UUID,
@@ -37,30 +40,37 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): FindIdResponse = studentApiService.findId(
-        schoolId = schoolId,
-        studentName = studentName,
-        grade = grade,
-        classRoom = classRoom,
-        number = number,
-    )
+    ): Result<FindIdResponse> = runCatching {
+        studentApiService.findId(
+            schoolId = schoolId,
+            studentName = studentName,
+            grade = grade,
+            classRoom = classRoom,
+            number = number,
+        )
+    }
 
-    override suspend fun resetPassword(request: ResetPasswordRequest): Unit =
-        handleNetworkRequest { studentApiService.resetPassword(request) }
+    override suspend fun resetPassword(request: ResetPasswordRequest): Result<Unit> = runCatching {
+        studentApiService.resetPassword(request)
+    }
 
-    override suspend fun checkIdDuplication(id: String) =
-        handleNetworkRequest { studentApiService.checkIdDuplication(id) }
+    override suspend fun checkIdDuplication(id: String): Result<Unit> = runCatching {
+        studentApiService.checkIdDuplication(id)
+    }
 
-    override suspend fun checkEmailDuplication(email: String) =
-        handleNetworkRequest { studentApiService.checkEmailDuplication(email) }
+    override suspend fun checkEmailDuplication(email: String): Result<Unit> = runCatching {
+        studentApiService.checkEmailDuplication(email)
+    }
 
-    override suspend fun fetchMyPage(): FetchMyPageResponse =
-        handleNetworkRequest { studentApiService.fetchMyPage() }
+    override suspend fun fetchMyPage(): Result<FetchMyPageResponse> = runCatching {
+        studentApiService.fetchMyPage()
+    }
 
-    override suspend fun editProfile(request: EditProfileRequest): Unit =
-        handleNetworkRequest { studentApiService.editProfile(request) }
+    override suspend fun editProfile(request: EditProfileRequest): Result<Unit> = runCatching {
+        studentApiService.editProfile(request)
+    }
 
-    override suspend fun withdraw() = handleNetworkRequest { studentApiService.withdraw() }
-    override suspend fun fetchStudents(): FetchStudentsResponse =
-        handleNetworkRequest { studentApiService.fetchStudents() }
+    override suspend fun withdraw() = runCatching { studentApiService.withdraw() }
+    override suspend fun fetchStudents(): Result<FetchStudentsResponse> =
+        runCatching { studentApiService.fetchStudents() }
 }

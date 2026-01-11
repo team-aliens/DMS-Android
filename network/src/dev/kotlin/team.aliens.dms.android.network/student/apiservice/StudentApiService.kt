@@ -42,7 +42,7 @@ internal interface StudentApiService {
     ): FindIdResponse
 
     @PATCH("/students/password/initialization")
-    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<Unit>?
+    suspend fun resetPassword(@Body request: ResetPasswordRequest)
 
     @GET("/students/account-id/duplication")
     suspend fun checkIdDuplication(@Query("account_id") accountId: String)
@@ -56,7 +56,7 @@ internal interface StudentApiService {
 
     @PATCH("/students/profile")
     @RequiresAccessToken
-    suspend fun editProfile(@Body request: EditProfileRequest): Response<Unit>?
+    suspend fun editProfile(@Body request: EditProfileRequest)
 
     @DELETE("/students")
     @RequiresAccessToken
