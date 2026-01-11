@@ -11,18 +11,23 @@ import javax.inject.Inject
 internal class NetworkAuthDataSourceImpl @Inject constructor(
     private val authApiService: AuthApiService,
 ) : NetworkAuthDataSource() {
-    override suspend fun signIn(request: SignInRequest): SignInResponse =
-        handleNetworkRequest { authApiService.signIn(request) }
+    override suspend fun signIn(request: SignInRequest): Result<SignInResponse> = runCatching {
+        authApiService.signIn(request)
+    }
 
-    override suspend fun sendEmailVerificationCode(request: SendEmailVerificationCodeRequest) =
-        handleNetworkRequest { authApiService.sendEmailVerificationCode(request) }
+    override suspend fun sendEmailVerificationCode(request: SendEmailVerificationCodeRequest): Result<Unit> = runCatching {
+        authApiService.sendEmailVerificationCode(request)
+    }
 
     override suspend fun checkEmailVerificationCode(
         email: String,
         code: String,
         type: String,
-    ) = handleNetworkRequest { authApiService.checkEmailVerificationCode(email, code, type) }
+    ) = runCatching {
+        authApiService.checkEmailVerificationCode(email, code, type)
+    }
 
-    override suspend fun checkIdExists(accountId: String): CheckIdExistsResponse =
-        handleNetworkRequest { authApiService.checkIdExists(accountId) }
+    override suspend fun checkIdExists(accountId: String): Result<CheckIdExistsResponse> = runCatching {
+        authApiService.checkIdExists(accountId)
+    }
 }

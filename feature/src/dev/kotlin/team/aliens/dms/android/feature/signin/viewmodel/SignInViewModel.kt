@@ -68,13 +68,11 @@ internal class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             with(uiState.value) {
                 setState { this.copy(isLoading = true, buttonEnabled = false) }
-                runCatching {
-                    authRepository.signIn(
-                        accountId = this.accountId,
-                        password = this.password,
-                        deviceToken = deviceToken,
-                    )
-                }.onSuccess {
+                authRepository.signIn(
+                    accountId = this.accountId,
+                    password = this.password,
+                    deviceToken = deviceToken,
+                ).onSuccess {
                     setState { this.copy(isLoading = false, buttonEnabled = true) }
                     sendEffect(SignInSideEffect.NavigateToMain)
                 }.onFailure {
