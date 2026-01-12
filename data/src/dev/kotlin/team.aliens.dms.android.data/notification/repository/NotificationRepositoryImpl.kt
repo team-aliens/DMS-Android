@@ -11,6 +11,7 @@ import team.aliens.dms.android.network.notification.model.CancelFcmDeviceTokenRe
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
 import team.aliens.dms.android.network.notification.model.SubscribeNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.UnsubscribeNotificationTopicRequest
+import java.util.UUID
 import javax.inject.Inject
 
 internal class NotificationRepositoryImpl @Inject constructor(
@@ -75,4 +76,8 @@ internal class NotificationRepositoryImpl @Inject constructor(
     override suspend fun getDeviceToken(): Result<String> = runCatching {
         deviceDataStoreDataSource.loadDeviceToken()
     }
+
+    override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>? =
+        networkNotificationDataSource.updateNotificationReadStatus(notification)
+
 }
