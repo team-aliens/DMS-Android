@@ -31,10 +31,6 @@ internal class HomeViewModel @Inject constructor(
     internal fun showOutingPassDialog() {
         sendEffect(HomeSideEffect.ShowOutingPassDialog)
     }
-
-    internal fun navigateToNotification() {
-        sendEffect(HomeSideEffect.NavigateToNotification)
-    }
 }
 
 internal data class HomeState(
@@ -44,5 +40,4 @@ internal data class HomeState(
 
 internal sealed interface HomeSideEffect {
     data object ShowOutingPassDialog : HomeSideEffect
-    data object NavigateToNotification : HomeSideEffect
 }

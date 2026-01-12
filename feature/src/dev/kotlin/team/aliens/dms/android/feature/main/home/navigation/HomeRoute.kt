@@ -8,12 +8,14 @@ import team.aliens.dms.android.feature.main.home.ui.Home
 
 @Composable
 fun HomeRoute(
+    onNavigateNotice: () -> Unit,
     onNavigateNotification: () -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateMeal: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     Home(
+        onNavigateNotice = onNavigateNotice,
         onNavigateNotification = onNavigateNotification,
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateMeal = onNavigateMeal,
