@@ -85,23 +85,27 @@ internal class SelectProfileViewModel @Inject constructor(
         file: File,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            fileRepository.fetchPresignedUrl(file.name)
-                .map { presignedInfo ->
+            fileRepository.fetchPresignedUrl(file.name).fold(
+                onSuccess = { presignedInfo ->
                     fileRepository.uploadFile(
                         presignedUrl = presignedInfo.fileUploadUrl,
                         file = file,
-                    ).getOrThrow()
-                }.onSuccess { fileUrl ->
-                    setState {
-                        it.copy(
-                            profileImageUrl = fileUrl.fileUrl,
-                            buttonEnabled = true,
-                        )
+                    ).onSuccess { fileUrl ->
+                        setState {
+                            it.copy(
+                                profileImageUrl = fileUrl.fileUrl,
+                                buttonEnabled = true,
+                            )
+                        }
+                        sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl?.fileUrl.toString()))
+                    }.onFailure {
+                        sendEffect(SelectProfileSideEffect.FailProfileImage)
                     }
-                    sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl.fileUrl))
-                }.onFailure {
-                    sendEffect(SelectProfileSideEffect.FailProfileImage)
+                },
+                onFailure = {
+
                 }
+            )
         }
     }
 }
