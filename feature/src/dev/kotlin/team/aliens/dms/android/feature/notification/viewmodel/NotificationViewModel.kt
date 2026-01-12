@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
+import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.shared.date.toElapsedText
 import team.aliens.dms.android.shared.date.util.now
 import java.time.LocalDateTime
@@ -34,6 +35,7 @@ internal class NotificationViewModel @Inject constructor(
                         isRead = notification.isRead,
                         linkId = notification.linkId,
                         topic = notification.topic,
+                        pointDetailTopic = notification.pointDetailTopic,
                         elapsedText = notification.createdAt.toElapsedText(now),
                     ) }
                     val notification = notificationsUi.filter { it.topic == NotificationTopic.POINT }
@@ -51,6 +53,7 @@ internal class NotificationViewModel @Inject constructor(
 internal data class NotificationUi(
     val id: UUID,
     val topic: NotificationTopic,
+    val pointDetailTopic: PointType,
     val linkId: UUID,
     val title: String,
     val content: String,

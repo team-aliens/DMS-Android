@@ -183,12 +183,12 @@ internal fun NotificationItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onNotificationClick(PointType.ALL) })
+            .clickable(onClick = { onNotificationClick(notification.pointDetailTopic) })
             .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(DmsIcon.Plus),
+            painter = painterResource(if (notification.pointDetailTopic == PointType.PLUS) DmsIcon.Plus else DmsIcon.Minus),
             contentDescription = null,
         )
         Column(

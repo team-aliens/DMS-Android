@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -15,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -33,6 +31,7 @@ import team.aliens.dms.android.feature.main.home.viewmodel.HomeViewModel
 
 @Composable
 internal fun Home(
+    onNavigateNotice: () -> Unit,
     onNavigateNotification: () -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateMeal: () -> Unit,
@@ -47,16 +46,10 @@ internal fun Home(
         )
     )
 
-
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is HomeSideEffect.ShowOutingPassDialog -> onShowSnackBar(
-                    DmsSnackBarType.SUCCESS,
-                    "개발중인 기능이에요",
-                )
-
-                is HomeSideEffect.NavigateToNotification -> onShowSnackBar(
                     DmsSnackBarType.SUCCESS,
                     "개발중인 기능이에요",
                 )
@@ -67,11 +60,11 @@ internal fun Home(
     HomeScreen(
         state = state,
         gradient = gradient,
-        onNavigateNotice = onNavigateNotification,
+        onNavigateNotice = onNavigateNotice,
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateMeal = onNavigateMeal,
         onOutingPassClick = viewModel::showOutingPassDialog,
-        onNotificationClick = viewModel::navigateToNotification,
+        onNotificationClick = onNavigateNotification,
     )
 }
 
@@ -92,7 +85,7 @@ private fun HomeScreen(
     ) {
         HomeTopAppBar(
             onOutingPassClick = onOutingPassClick,
-            onNotificationClick = onNavigateNotice,
+            onNotificationClick = onNotificationClick,
         )
         Column(
             modifier = Modifier

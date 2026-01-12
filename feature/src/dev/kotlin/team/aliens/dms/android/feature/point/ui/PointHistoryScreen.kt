@@ -32,16 +32,14 @@ import team.aliens.dms.android.feature.point.viewmodel.PointHistoryViewModel
 
 @Composable
 internal fun PointHistory(
+    pointType: PointType,
     onBackClick: () -> Unit,
 ) {
     val viewModel: PointHistoryViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(Unit) {
-
-    }
-
     PointHistoryScreen(
+        pointType = pointType,
         state = state,
         onBackClick = onBackClick,
     )
@@ -49,6 +47,7 @@ internal fun PointHistory(
 
 @Composable
 private fun PointHistoryScreen(
+    pointType: PointType,
     state: PointHistoryState,
     onBackClick: () -> Unit,
 ) {
@@ -63,12 +62,12 @@ private fun PointHistoryScreen(
         )
         val tabData = listOf(
             PointTab.All,
-            PointTab.Bonus,
+            PointTab.PLUS,
             PointTab.Minus,
         )
         val pagerState = rememberPagerState(
             pageCount = { tabData.size },
-            initialPage = state.initialTab,
+            initialPage = pointType.ordinal,
         )
         val tabIndex = pagerState.currentPage
         val coroutineScope = rememberCoroutineScope()
@@ -100,7 +99,7 @@ private fun PointHistoryScreen(
                 val pointHistoryList = remember(page, state.allPointList) {
                     when (tabData[page]) {
                         PointTab.All -> state.allPointList
-                        PointTab.Bonus -> state.bonusPointList
+                        PointTab.PLUS -> state.plusPointList
                         PointTab.Minus -> state.minusPointList
                     }
                 }
@@ -130,6 +129,6 @@ internal sealed class PointTab(
     val pointType: PointType,
 ) {
     data object All : PointTab(title = "전체", pointType = PointType.ALL)
-    data object Bonus : PointTab(title = "상점", pointType = PointType.BONUS)
+    data object PLUS : PointTab(title = "상점", pointType = PointType.PLUS)
     data object Minus : PointTab(title = "벌점", pointType = PointType.MINUS)
 }
