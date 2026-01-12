@@ -7,6 +7,7 @@ import team.aliens.dms.android.network.notification.model.FetchNotificationsResp
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
 import team.aliens.dms.android.network.notification.model.SubscribeNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.UnsubscribeNotificationTopicRequest
+import java.util.UUID
 import javax.inject.Inject
 
 internal class NetworkNotificationDataSourceImpl @Inject constructor(
@@ -36,4 +37,7 @@ internal class NetworkNotificationDataSourceImpl @Inject constructor(
 
     override suspend fun fetchNotifications(): Result<FetchNotificationsResponse> =
         runCatching { notificationApiService.fetchNotifications() }
+
+    override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>? =
+        runCatching { notificationApiService.updateNotificationReadStatus(notification) }
 }
