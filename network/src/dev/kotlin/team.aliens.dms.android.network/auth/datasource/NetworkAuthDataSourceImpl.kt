@@ -1,6 +1,4 @@
 package team.aliens.dms.android.network.auth.datasource
-
-import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.auth.apiservice.AuthApiService
 import team.aliens.dms.android.network.auth.model.CheckIdExistsResponse
 import team.aliens.dms.android.network.auth.model.SendEmailVerificationCodeRequest

@@ -1,6 +1,4 @@
 package team.aliens.dms.android.network.remains.datasource
-
-import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.remains.apiservice.RemainsApiService
 import team.aliens.dms.android.network.remains.model.FetchAppliedRemainsOptionResponse
 import team.aliens.dms.android.network.remains.model.FetchRemainsApplicationTimeResponse
@@ -12,14 +10,14 @@ internal class NetworkRemainsDataSourceImpl @Inject constructor(
     private val remainsApiService: RemainsApiService,
 ) : NetworkRemainsDataSource() {
     override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> =
-        runCatching { handleNetworkRequest { remainsApiService.updateRemainsOption(optionId) } }
+        runCatching { remainsApiService.updateRemainsOption(optionId) }
 
     override suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse> =
-        runCatching { handleNetworkRequest { remainsApiService.fetchAppliedRemainsOption() } }
+        runCatching { remainsApiService.fetchAppliedRemainsOption() }
 
     override suspend fun fetchRemainsApplicationTime(): Result<FetchRemainsApplicationTimeResponse> =
-        runCatching { handleNetworkRequest { remainsApiService.fetchRemainsApplicationTime() } }
+        runCatching { remainsApiService.fetchRemainsApplicationTime() }
 
     override suspend fun fetchRemainsOptions(): Result<FetchRemainsOptionsResponse> =
-        runCatching { handleNetworkRequest { remainsApiService.fetchRemainsOptions() } }
+        runCatching { remainsApiService.fetchRemainsOptions() }
 }

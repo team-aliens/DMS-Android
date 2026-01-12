@@ -1,6 +1,4 @@
 package team.aliens.dms.android.network.student.datasource
-
-import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.student.apiservice.StudentApiService
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse

@@ -1,6 +1,4 @@
 package team.aliens.dms.android.network.notice.datasource
-
-import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.notice.apiservice.NoticeApiService
 import team.aliens.dms.android.network.notice.model.FetchNoticeDetailsResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
@@ -12,11 +10,11 @@ internal class NetworkNoticeDataSourceImpl @Inject constructor(
     private val noticeApiService: NoticeApiService,
 ) : NetworkNoticeDataSource() {
     override suspend fun fetchWhetherNewNoticesExist(): Result<FetchWhetherNewNoticesExistResponse> =
-        runCatching { handleNetworkRequest { noticeApiService.fetchWhetherNewNoticesExist() } }
+        runCatching { noticeApiService.fetchWhetherNewNoticesExist() }
 
     override suspend fun fetchNotices(order: String): Result<FetchNoticesResponse> =
-        runCatching { handleNetworkRequest { noticeApiService.fetchNotices(order) } }
+        runCatching { noticeApiService.fetchNotices(order) }
 
     override suspend fun fetchNoticeDetails(noticeId: UUID): Result<FetchNoticeDetailsResponse> =
-        runCatching { handleNetworkRequest { noticeApiService.fetchNoticeDetails(noticeId) } }
+        runCatching { noticeApiService.fetchNoticeDetails(noticeId) }
 }

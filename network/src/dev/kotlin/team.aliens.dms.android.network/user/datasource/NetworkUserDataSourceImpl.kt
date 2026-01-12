@@ -1,6 +1,4 @@
 package team.aliens.dms.android.network.user.datasource
-
-import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.user.apiservice.UserApiService
 import team.aliens.dms.android.network.user.exception.PasswordMismatchException
 import team.aliens.dms.android.network.user.model.EditPasswordRequest

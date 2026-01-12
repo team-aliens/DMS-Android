@@ -1,6 +1,4 @@
 package team.aliens.dms.android.network.point.datasource
-
-import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.point.apiservice.PointApiService
 import team.aliens.dms.android.network.point.model.FetchPointsResponse
 import javax.inject.Inject
@@ -14,5 +12,5 @@ internal class NetworkPointDataSourceImpl @Inject constructor(
         page: Long?,
         size: Long?,
     ): Result<FetchPointsResponse> =
-        runCatching { handleNetworkRequest { pointApiService.fetchPoints(type, page, size) } }
+        runCatching { pointApiService.fetchPoints(type, page, size) }
 }
