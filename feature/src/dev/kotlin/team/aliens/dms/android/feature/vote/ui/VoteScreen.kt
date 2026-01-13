@@ -42,7 +42,7 @@ internal fun Vote(
             resultStore.resultStateMap["vote_result"]?.value as? AllVoteSearch?
         }.collect { result ->
             if (result != null) {
-                viewModel.initState(result.topicName, result.startTime, result.endTime, result.id)
+                viewModel.initState(result)
                 resultStore.removeResult<String?>(resultKey = "vote_result")
             } else {
                 onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")

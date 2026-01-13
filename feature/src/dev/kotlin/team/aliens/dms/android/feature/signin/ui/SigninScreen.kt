@@ -6,16 +6,25 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -27,9 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.bottomPadding
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
@@ -39,6 +51,7 @@ import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 import team.aliens.dms.android.core.designsystem.topPadding
+import team.aliens.dms.android.core.designsystem.verticalPadding
 import team.aliens.dms.android.core.notification.notificationPermissionGranted
 import team.aliens.dms.android.feature.signin.viewmodel.SignInSideEffect
 import team.aliens.dms.android.feature.signin.viewmodel.SignInState
@@ -90,6 +103,7 @@ internal fun SignIn(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SignInScreen(
     onSignInClick: () -> Unit,
@@ -102,6 +116,7 @@ private fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .imePadding()
             .background(DmsTheme.colorScheme.surfaceTint)
             .systemBarsPadding()
             .navigationBarsPadding()
@@ -111,34 +126,41 @@ private fun SignInScreen(
                 )
             },
     ) {
-        DmsSymbolContent(
+        Column(
             modifier = Modifier
-                .topPadding(52.dp),
-            title = "로그인"
-        )
-        UserInformationInputs(
-            modifier = Modifier
-                .topPadding(48.dp)
-                .horizontalPadding(24.dp),
-            accountId = state.accountId,
-            onAccountIdChange = onAccountIdChange,
-            password = state.password,
-            onPasswordChange = onPasswordChange,
-            onFindId = {},
-            onResetPassword = {},
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        SignupActions(onSignUp = navigateToSignUp)
-        DmsButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "로그인",
-            buttonType = ButtonType.Contained,
-            buttonColor = ButtonColor.Primary,
-            keyboardInteractionEnabled = true,
-            onClick = onSignInClick,
-            enabled = state.buttonEnabled,
-            isLoading = state.isLoading,
-        )
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            DmsSymbolContent(
+                modifier = Modifier
+                    .topPadding(52.dp),
+                title = "로그인"
+            )
+            Spacer(modifier = Modifier.weight(0.2f))
+            UserInformationInputs(
+                modifier = Modifier
+                    .horizontalPadding(24.dp),
+                accountId = state.accountId,
+                onAccountIdChange = onAccountIdChange,
+                password = state.password,
+                onPasswordChange = onPasswordChange,
+                onFindId = {},
+                onResetPassword = {},
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            SignupActions(onSignUp = navigateToSignUp)
+            DmsButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "로그인",
+                buttonType = ButtonType.Contained,
+                buttonColor = ButtonColor.Primary,
+                keyboardInteractionEnabled = true,
+                onClick = onSignInClick,
+                enabled = state.buttonEnabled,
+                isLoading = state.isLoading,
+            )
+        }
     }
 }
 
@@ -161,6 +183,7 @@ private fun UserInformationInputs(
             value = accountId,
             hint = "아이디 입력",
             onValueChange = onAccountIdChange,
+            imeAction = ImeAction.Next,
         )
         DmsTextField(
             modifier = Modifier
@@ -170,6 +193,7 @@ private fun UserInformationInputs(
             value = password,
             hint = "비밀번호 입력",
             onValueChange = onPasswordChange,
+            imeAction = ImeAction.Done,
             showVisibleIcon = true,
         )
         Row(
@@ -225,4 +249,3 @@ private fun SignupActions(
         )
     }
 }
-
