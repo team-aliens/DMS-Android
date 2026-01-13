@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -76,8 +78,14 @@ internal fun NotificationScreen(
             }
         },
         onBackClick = onBackClick,
-        onNotificationDetailClick = onNavigateNotificationDetailClick,
-        onNotificationClick = onNavigatePointHistory,
+        onNotificationDetailClick = { linkId, notificationId ->
+            viewModel.updateNotificationReadStatus(notificationId)
+            onNavigateNotificationDetailClick(linkId)
+        },
+        onNotificationClick = { point, notificationId ->
+            viewModel.updateNotificationReadStatus(notificationId)
+            onNavigatePointHistory(point)
+        },
     )
 }
 
@@ -89,13 +97,14 @@ private fun NotificationScreenContent(
     tabIndex: Int,
     onTabClick: (Int) -> Unit,
     onBackClick: () -> Unit,
-    onNotificationDetailClick: (UUID) -> Unit,
-    onNotificationClick: (PointType) -> Unit,
+    onNotificationDetailClick: (UUID, UUID) -> Unit,
+    onNotificationClick: (PointType, UUID) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             onBackPressed = onBackClick,
@@ -136,7 +145,7 @@ private fun NotificationScreenContent(
 internal fun NotificationItems(
     modifier: Modifier = Modifier,
     notifications: ImmutableList<NotificationUi>,
-    onNotificationClick: (PointType) -> Unit,
+    onNotificationClick: (PointType, UUID) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
@@ -157,7 +166,7 @@ internal fun NotificationItems(
 private fun NoticeItems(
     modifier: Modifier = Modifier,
     notices: List<NotificationUi>,
-    onNotificationDetailClick: (UUID) -> Unit,
+    onNotificationDetailClick: (UUID, UUID) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
@@ -178,12 +187,12 @@ private fun NoticeItems(
 internal fun NotificationItem(
     modifier: Modifier = Modifier,
     notification: NotificationUi,
-    onNotificationClick: (PointType) -> Unit,
+    onNotificationClick: (PointType, UUID) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onNotificationClick(notification.pointDetailTopic) })
+            .clickable(onClick = { onNotificationClick(notification.pointDetailTopic, notification.id) })
             .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -237,12 +246,12 @@ internal fun NotificationItem(
 internal fun NoticeItem(
     modifier: Modifier = Modifier,
     notice: NotificationUi,
-    onNotificationDetailClick: (UUID) -> Unit,
+    onNotificationDetailClick: (UUID, UUID) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onNotificationDetailClick(notice.linkId) })
+            .clickable(onClick = { onNotificationDetailClick(notice.linkId, notice.id) })
             .padding(horizontal = 24.dp, vertical = 22.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

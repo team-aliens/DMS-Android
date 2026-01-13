@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -101,6 +103,8 @@ private fun SignInScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.surfaceTint)
+            .systemBarsPadding()
+            .navigationBarsPadding()
             .pointerInput(Unit) { // TODO KMP 구현
                 detectTapGestures(
                     onTap = { onClearFocus() }
@@ -126,8 +130,7 @@ private fun SignInScreen(
         Spacer(modifier = Modifier.weight(1f))
         SignupActions(onSignUp = navigateToSignUp)
         DmsButton(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             text = "로그인",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,

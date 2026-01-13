@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -149,6 +150,8 @@ private fun MealScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding()
+            .navigationBarsPadding()
             .verticalScroll(rememberScrollState()),
     ) {
         DmsTopAppBar(

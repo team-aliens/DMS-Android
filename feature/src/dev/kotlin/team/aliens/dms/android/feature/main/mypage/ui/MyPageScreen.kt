@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -65,7 +67,9 @@ private fun MyPageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding()
+            .navigationBarsPadding(),
     ) {
         DmsTopAppBar(
             actions = {

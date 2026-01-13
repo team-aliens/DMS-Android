@@ -48,6 +48,20 @@ internal class NotificationViewModel @Inject constructor(
                 }
         }
     }
+
+    internal fun updateNotificationReadStatus(notificationId: UUID) {
+        viewModelScope.launch(Dispatchers.IO) {
+            notificationRepository.updateNotificationReadStatus(notificationId)?.fold(
+                onSuccess = {
+                    fetchNotifications()
+                },
+                onFailure = {
+                    sendEffect(NotificationSideEffect.SuccessUpdateNotification)
+                },
+            )
+        }
+    }
+
 }
 
 internal data class NotificationUi(
@@ -68,4 +82,6 @@ internal data class NotificationState(
     val notifications: List<NotificationUi> = emptyList(),
 )
 
-internal sealed interface NotificationSideEffect
+internal sealed interface NotificationSideEffect {
+    object SuccessUpdateNotification : NotificationSideEffect
+}

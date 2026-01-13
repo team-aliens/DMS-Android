@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -93,7 +94,8 @@ private fun VoteScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             onBackPressed = onNavigateBack,

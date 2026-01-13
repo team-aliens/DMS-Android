@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -60,7 +61,8 @@ private fun RemainApplicationScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             title = "잔류 신청",
