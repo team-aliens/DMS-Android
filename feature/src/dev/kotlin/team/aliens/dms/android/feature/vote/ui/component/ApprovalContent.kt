@@ -25,9 +25,11 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.bodyM
+import team.aliens.dms.android.core.designsystem.bottomPadding
 import team.aliens.dms.android.core.designsystem.modifier.DmsShadowType
 import team.aliens.dms.android.core.designsystem.modifier.dmsShadowModifier
 import team.aliens.dms.android.core.designsystem.titleB
+import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.data.voting.model.VotingItem
 
@@ -41,15 +43,13 @@ internal fun ApprovalContent(
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 60.dp,
-            alignment = Alignment.CenterVertically,
-        ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
+                .topPadding(80.dp)
+                .bottomPadding(60.dp)
                 .padding(horizontal = 24.dp),
             text = title,
             style = DmsTheme.typography.titleB,

@@ -23,22 +23,14 @@ internal class VoteViewModel @Inject constructor(
     private val voteRepository: VotingRepository,
     private val studentRepository: StudentRepository,
 ) : BaseStateViewModel<VoteState, VoteSideEffect>(VoteState()) {
-     
-    init {
-        fetchVotesByType()
-    }
 
-    internal fun initState(title: String, startTime: LocalDateTime, endTime: LocalDateTime, votingTopicId: UUID) {
+    internal fun initState(vote: AllVoteSearch) {
         setState {
             it.copy(
-                vote = it.vote.copy(
-                    topicName = title,
-                    startTime = startTime,
-                    endTime = endTime,
-                    id = votingTopicId,
-                ),
+                vote = vote
             )
         }
+        fetchVotesByType()
     }
 
     private fun fetchVotesByType() {
