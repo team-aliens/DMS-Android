@@ -361,14 +361,14 @@ fun DmsLayeredButton(
         topStart = 32.dp,
         topEnd = 32.dp,
     ),
-    backgroundColor: Color = DmsTheme.colorScheme.surfaceVariant,
+    backgroundColor: Color = DmsTheme.colorScheme.surfaceTint,
     layerOffset: Dp = 24.dp,
     isLoading: Boolean,
     onClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
-            .background(color = Color.White, shape = shape)
+            .background(color = backgroundColor, shape = shape)
             .padding(layerOffset),
     ) {
         DmsButton(
