@@ -27,7 +27,7 @@ internal class PointHistoryViewModel @Inject constructor(
                 size = null,
             ).onSuccess { pointHistory ->
                 val pointHistories = pointHistory.points
-                val bonusPoints = pointHistories.filter { it.type == PointType.PLUS }
+                val bonusPoints = pointHistories.filter { it.type == PointType.BONUS }
                 val minusPoints = pointHistories.filter { it.type == PointType.MINUS }
                 setState {
                     it.copy(
@@ -53,4 +53,3 @@ internal data class PointHistoryState(
 )
 
 internal sealed interface PointHistorySideEffect
-
