@@ -197,7 +197,7 @@ internal fun NotificationItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(if (notification.pointDetailTopic == PointType.PLUS) DmsIcon.Plus else DmsIcon.Minus),
+            painter = painterResource(if (notification.pointDetailTopic == PointType.MINUS) DmsIcon.Minus else DmsIcon.Plus),
             contentDescription = null,
         )
         Column(
