@@ -4,15 +4,10 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -272,7 +267,7 @@ fun DmsButton(
 ) {
     var pressed by remember { mutableStateOf(false) }
 
-    val buttoncolorScheme = when (buttonType) {
+    val buttonColorScheme = when (buttonType) {
         ButtonType.Contained -> buttonColor.containedColorScheme()
         ButtonType.Text -> buttonColor.textcolorScheme()
         ButtonType.Underline -> buttonColor.underlinecolorScheme()
@@ -280,29 +275,29 @@ fun DmsButton(
 
     val backgroundColor by animateColorAsState(
         targetValue = if (!enabled) {
-            buttoncolorScheme.disabled.backgroundColor ?: Color.Transparent
+            buttonColorScheme.disabled.backgroundColor ?: Color.Transparent
         } else if (pressed) {
-            buttoncolorScheme.pressed.backgroundColor ?: Color.Transparent
+            buttonColorScheme.pressed.backgroundColor ?: Color.Transparent
         } else {
-            buttoncolorScheme.enabled.backgroundColor ?: Color.Transparent
+            buttonColorScheme.enabled.backgroundColor ?: Color.Transparent
         },
     )
     val borderColor by animateColorAsState(
         targetValue = if (!enabled) {
-            buttoncolorScheme.disabled.borderColor ?: Color.Transparent
+            buttonColorScheme.disabled.borderColor ?: Color.Transparent
         } else if (pressed) {
-            buttoncolorScheme.pressed.borderColor ?: Color.Transparent
+            buttonColorScheme.pressed.borderColor ?: Color.Transparent
         } else {
-            buttoncolorScheme.enabled.borderColor ?: Color.Transparent
+            buttonColorScheme.enabled.borderColor ?: Color.Transparent
         },
     )
     val contentColor by animateColorAsState(
         targetValue = if (!enabled) {
-            buttoncolorScheme.disabled.textColor
+            buttonColorScheme.disabled.textColor
         } else if (pressed) {
-            buttoncolorScheme.pressed.textColor
+            buttonColorScheme.pressed.textColor
         } else {
-            buttoncolorScheme.enabled.textColor
+            buttonColorScheme.enabled.textColor
         },
     )
     val innerPadding =
@@ -354,6 +349,7 @@ fun DmsButton(
         }
     }
 }
+
 @Composable
 fun DmsLayeredButton(
     modifier: Modifier = Modifier,
