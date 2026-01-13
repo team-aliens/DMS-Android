@@ -1,6 +1,10 @@
 package team.aliens.dms.android.app
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -13,12 +17,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.Serializable
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
@@ -30,7 +36,6 @@ import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
 import team.aliens.dms.android.feature.notice.navigation.NoticeDetailRoute
-import team.aliens.dms.android.feature.notification.navigation.NotificationDetailRoute
 import team.aliens.dms.android.feature.notification.navigation.NotificationRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
@@ -89,8 +94,6 @@ data class AdjustProfileScreenNav(val model: String) : NavKey
 @Serializable
 data object NotificationScreenNav : NavKey
 
-@Serializable
-data object NotificationDetailScreenNav : NavKey
 
 @Serializable
 data object NoticeDetailScreenNav : NavKey
@@ -126,8 +129,11 @@ fun DmsApp(
         }
     }
 
-    Box {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Scaffold(
+            contentWindowInsets = WindowInsets(0),
             bottomBar = {
                 if (shouldShowBottomBar) {
                     BottomNavigationBar(
@@ -153,6 +159,7 @@ fun DmsApp(
             CompositionLocalProvider(LocalResultStore provides resultStore) {
                 NavDisplay(
                     modifier = Modifier
+                        .background(DmsTheme.colorScheme.surfaceTint)
                         .padding(paddingValues),
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
@@ -242,6 +249,9 @@ fun DmsApp(
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
+                                onNavigateNotification = {
+                                    backStack.add(NotificationScreenNav)
+                                }
                             )
                         }
                         entry<MealScreenNav> {
@@ -314,25 +324,22 @@ fun DmsApp(
                                 onBackClick = { backStack.remove(NotificationScreenNav) },
                                 onNavigateNotificationDetailClick = {
                                     resultStore.setResult<UUID?>("notice_result", it)
-                                    backStack.add(NotificationDetailScreenNav)
+                                    backStack.add(NoticeDetailScreenNav)
                                 },
                                 onNavigatePointHistory = { pointValue ->
                                     backStack.add(PointHistoryScreenNav(pointValue))
                                 }
                             )
                         }
-                        entry<NotificationDetailScreenNav> {
-                            NotificationDetailRoute(
+                        entry<NoticeDetailScreenNav> {
+                            NoticeDetailRoute(
                                 onNavigateBack = {
-                                    backStack.remove(NotificationDetailScreenNav)
+                                    backStack.remove(NoticeDetailScreenNav)
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
                             )
-                        }
-                        entry<NoticeDetailScreenNav> {
-                            NoticeDetailRoute()
                         }
                     },
                 )
