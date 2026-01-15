@@ -363,7 +363,7 @@ fun DmsLayeredButton(
     ),
     backgroundColor: Color = DmsTheme.colorScheme.surfaceTint,
     layerOffset: Dp = 24.dp,
-    isLoading: Boolean,
+    isLoading: Boolean = false,
     onClick: () -> Unit,
 ) {
     Box(
