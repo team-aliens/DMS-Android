@@ -186,7 +186,8 @@ fun DmsApp(
                         }
                         entry<HomeScreenNav> {
                             HomeRoute(
-                                onNavigateNotice = {
+                                onNavigateNoticeDetail = {
+                                    resultStore.setResult<UUID?>("notice_detail_result", it)
                                     backStack.add(NoticeDetailScreenNav)
                                 },
                                 onNavigateNotification = {

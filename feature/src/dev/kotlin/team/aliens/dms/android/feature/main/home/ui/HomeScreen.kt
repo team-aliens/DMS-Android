@@ -30,10 +30,11 @@ import team.aliens.dms.android.feature.main.home.model.MealContent
 import team.aliens.dms.android.feature.main.home.viewmodel.HomeSideEffect
 import team.aliens.dms.android.feature.main.home.viewmodel.HomeState
 import team.aliens.dms.android.feature.main.home.viewmodel.HomeViewModel
+import java.util.UUID
 
 @Composable
 internal fun Home(
-    onNavigateNotice: () -> Unit,
+    onNavigateNoticeDetail: (UUID?) -> Unit,
     onNavigateNotification: () -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateMeal: () -> Unit,
@@ -62,7 +63,7 @@ internal fun Home(
     HomeScreen(
         state = state,
         gradient = gradient,
-        onNavigateNotice = onNavigateNotice,
+        onNavigateNoticeDetail = onNavigateNoticeDetail,
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateMeal = onNavigateMeal,
         onOutingPassClick = viewModel::showOutingPassDialog,
@@ -74,7 +75,7 @@ internal fun Home(
 private fun HomeScreen(
     state: HomeState,
     gradient: Brush,
-    onNavigateNotice: () -> Unit,
+    onNavigateNoticeDetail: (UUID?) -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateMeal: () -> Unit,
     onOutingPassClick: () -> Unit,
@@ -101,7 +102,7 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 4.dp),
-                onClick = onNavigateNotice,
+                onClick = { onNavigateNoticeDetail(state.noticeId) },
             )
             MealContent(
                 modifier = Modifier

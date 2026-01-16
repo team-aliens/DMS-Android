@@ -2,6 +2,7 @@ package team.aliens.dms.android.feature.remain.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,7 +62,7 @@ private fun RemainApplicationScreen(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {

@@ -19,6 +19,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import okio.utf8Size
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.bodyM
@@ -45,11 +46,11 @@ internal fun NoticeDetail(
 
     LaunchedEffect(Unit) {
         snapshotFlow {
-            resultStore.resultStateMap["notice_result"]?.value as? UUID?
+            resultStore.resultStateMap["notice_detail_result"]?.value as? UUID?
         }.collect { result ->
             if (result != null) {
                 viewModel.getNotificationDetail(result)
-                resultStore.removeResult<String?>(resultKey = "vote_result")
+                resultStore.removeResult<String?>(resultKey = "notice_detail_result")
             } else {
                 onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
             }
