@@ -16,11 +16,9 @@ internal class DeviceStoreImpl @Inject constructor(
     @DeviceDataStore private val deviceDataStore: PreferencesDataStore,
 ) : DeviceStore() {
 
-    override fun loadDeviceToken(): String = runBlocking {
-        deviceDataStore.data.map { preferences ->
-            preferences[DEVICE_TOKEN] ?: throw DeviceTokenNotFoundException()
-        }.first()
-    }
+    override suspend fun loadDeviceToken(): String = deviceDataStore.data.map { preferences ->
+        preferences[DEVICE_TOKEN] ?: throw DeviceTokenNotFoundException()
+    }.first()
 
     override suspend fun storeDeviceToken(deviceToken: String) {
         transform(

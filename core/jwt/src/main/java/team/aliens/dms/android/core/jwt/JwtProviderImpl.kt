@@ -42,7 +42,6 @@ internal class JwtProviderImpl @Inject constructor(
                 throw CannotUseRefreshTokenException()
             }
             if (_cachedRefreshToken!!.isExpired()) {
-                Log.d("TEST _cachedRefreshToken!!.isExpired()", _cachedRefreshToken!!.isExpired().toString())
                 throw CannotUseRefreshTokenException()
             }
             return _cachedRefreshToken!!
@@ -67,8 +66,8 @@ internal class JwtProviderImpl @Inject constructor(
         }.onSuccess { tokens ->
             this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
             this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
-        }.onFailure {
-
+        }.onFailure { exception ->
+            Log.e("JwtProvider", "Failed to persist tokens", exception)
         }
         this.refreshTokenAbility()
     }

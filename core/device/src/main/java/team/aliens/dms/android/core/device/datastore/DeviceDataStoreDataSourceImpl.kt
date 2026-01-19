@@ -7,13 +7,13 @@ import javax.inject.Inject
 internal class DeviceDataStoreDataSourceImpl @Inject constructor(
     private val deviceStore: DeviceStore,
 ) : DeviceDataStoreDataSource() {
-    override fun loadDeviceToken() = suspendRunCatching { deviceStore.loadDeviceToken() }
+    override suspend fun loadDeviceToken(): Result<String> = suspendRunCatching { deviceStore.loadDeviceToken() }
 
-    override suspend fun storeDeviceToken(deviceToken: String) = suspendRunCatching {
+    override suspend fun storeDeviceToken(deviceToken: String): Result<Unit> = suspendRunCatching {
         deviceStore.storeDeviceToken(deviceToken)
     }
 
-    override suspend fun clearDeviceToken() = suspendRunCatching {
+    override suspend fun clearDeviceToken(): Result<Unit> = suspendRunCatching {
         deviceStore.clearDeviceToken()
     }
 }
