@@ -103,7 +103,7 @@ internal class SelectProfileViewModel @Inject constructor(
                     }
                 },
                 onFailure = {
-
+                    sendEffect(SelectProfileSideEffect.FailFetchPresignedUrl("이미지가 존재하지 않습니다"))
                 }
             )
         }
@@ -124,4 +124,6 @@ sealed class SelectProfileSideEffect {
     data object ProfileImageBadRequest : SelectProfileSideEffect()
 
     data object FailProfileImage : SelectProfileSideEffect()
+
+    data class FailFetchPresignedUrl(val message: String) : SelectProfileSideEffect()
 }

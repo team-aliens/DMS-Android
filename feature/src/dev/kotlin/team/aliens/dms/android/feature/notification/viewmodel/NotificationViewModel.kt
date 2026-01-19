@@ -25,38 +25,39 @@ internal class NotificationViewModel @Inject constructor(
 
     private fun fetchNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
-            notificationRepository.fetchNotifications()
-                .onSuccess { notifications ->
-                    val notificationsUi = notifications.map { notification -> NotificationUi(
-                        id = notification.id,
-                        title = notification.title,
-                        content = notification.content,
-                        createdAt = notification.createdAt,
-                        isRead = notification.isRead,
-                        linkId = notification.linkId,
-                        topic = notification.topic,
-                        pointDetailTopic = notification.pointDetailTopic,
-                        elapsedText = notification.createdAt.toElapsedText(now),
-                    ) }
-                    val notification = notificationsUi.filter { it.topic == NotificationTopic.POINT }
-                    val notices = notificationsUi.filter { it.topic == NotificationTopic.NOTICE }
+            notificationRepository.fetchNotifications().onSuccess { notifications ->
+                val notificationsUi = notifications.map { notification -> NotificationUi(
+                    id = notification.id,
+                    title = notification.title,
+                    content = notification.content,
+                    createdAt = notification.createdAt,
+                    isRead = notification.isRead,
+                    linkId = notification.linkId,
+                    topic = notification.topic,
+                    pointDetailTopic = notification.pointDetailTopic,
+                    elapsedText = notification.createdAt.toElapsedText(now),
+                ) }
+                val notification = notificationsUi.filter { it.topic == NotificationTopic.POINT }
+                val notices = notificationsUi.filter { it.topic == NotificationTopic.NOTICE }
 
-                    setState { it.copy(
-                        notifications = notification,
-                        notices = notices
-                    ) }
-                }
+                setState { it.copy(
+                    notifications = notification,
+                    notices = notices
+                ) }
+            }.onFailure {
+                sendEffect(NotificationSideEffect.FailFetchNotification)
+            }
         }
     }
 
     internal fun updateNotificationReadStatus(notificationId: UUID) {
         viewModelScope.launch(Dispatchers.IO) {
-            notificationRepository.updateNotificationReadStatus(notificationId)?.fold(
+            notificationRepository.updateNotificationReadStatus(notificationId).fold(
                 onSuccess = {
                     fetchNotifications()
                 },
                 onFailure = {
-                    sendEffect(NotificationSideEffect.SuccessUpdateNotification)
+                    sendEffect(NotificationSideEffect.FailUpdateNotification)
                 },
             )
         }
@@ -83,5 +84,6 @@ internal data class NotificationState(
 )
 
 internal sealed interface NotificationSideEffect {
-    object SuccessUpdateNotification : NotificationSideEffect
+    object FailFetchNotification : NotificationSideEffect
+    object FailUpdateNotification : NotificationSideEffect
 }

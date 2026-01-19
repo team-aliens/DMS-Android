@@ -74,6 +74,7 @@ internal fun SelectProfile(
                 is SelectProfileSideEffect.SuccessProfileImage -> onNavigateAdjustProfile(it.profileImageUrl)
                 is SelectProfileSideEffect.ProfileImageBadRequest -> onShowSnackBar(DmsSnackBarType.SUCCESS, "업로드 성공!")
                 is SelectProfileSideEffect.FailProfileImage -> onShowSnackBar(DmsSnackBarType.ERROR, "이미지 업로드에 실패했어요")
+                is SelectProfileSideEffect.FailFetchPresignedUrl -> onShowSnackBar(DmsSnackBarType.ERROR, it.message)
             }
         }
     }
