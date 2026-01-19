@@ -65,7 +65,6 @@ internal class JwtProviderImpl @Inject constructor(
         runCatching {
             jwtDataStoreDataSource.loadTokens()
         }.onSuccess { tokens ->
-            Log.d("TEST loadTokens", tokens.refreshToken.toString())
             this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
             this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
         }.onFailure {
@@ -81,7 +80,7 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch {
             runCatching {
                 jwtDataStoreDataSource.storeTokens(tokens = tokens)
-            }.onFailure { Log.d("TEST", it.message.toString()) }
+            }.onFailure {  }
         }
     }
 
