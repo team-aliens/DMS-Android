@@ -69,13 +69,13 @@ internal class NotificationRepositoryImpl @Inject constructor(
     override suspend fun fetchNotifications(): Result<List<Notification>> =
         networkNotificationDataSource.fetchNotifications().map { it.toModel() }
 
-    override suspend fun saveDeviceToken(deviceToken: String): Result<Unit> = runCatching {
+    override suspend fun saveDeviceToken(deviceToken: String): Result<Unit> =
         deviceDataStoreDataSource.storeDeviceToken(deviceToken)
-    }
 
-    override suspend fun getDeviceToken(): Result<String> = runCatching {
+
+    override suspend fun getDeviceToken(): Result<String> =
         deviceDataStoreDataSource.loadDeviceToken()
-    }
+
 
     override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit> =
         networkNotificationDataSource.updateNotificationReadStatus(notification)
