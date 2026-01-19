@@ -28,7 +28,7 @@ abstract class StudentRepository {
         grade: Int,
         classroom: Int,
         number: Int,
-    ): Result<ExamineStudentNumberResponse>
+    ): Result<StudentName>
 
     abstract suspend fun findId(
         schoolId: UUID,
@@ -36,7 +36,7 @@ abstract class StudentRepository {
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): Result<FindIdResponse>
+    ): Result<HashedEmail>
 
     abstract suspend fun resetPassword(
         accountId: String,

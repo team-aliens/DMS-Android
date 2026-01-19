@@ -10,8 +10,6 @@ import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.data.student.model.toModel
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
 import team.aliens.dms.android.network.student.model.EditProfileRequest
-import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
-import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.ResetPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
@@ -19,7 +17,6 @@ import team.aliens.dms.android.network.student.model.extractFeatures
 import team.aliens.dms.android.network.student.model.extractTokens
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.map
 
 internal class StudentRepositoryImpl @Inject constructor(
     private val networkStudentDataSource: NetworkStudentDataSource,
@@ -64,21 +61,13 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classroom: Int,
         number: Int,
-    ): Result<ExamineStudentNumberResponse> =
+    ): Result<StudentName> =
         networkStudentDataSource.examineStudentNumber(
             schoolId = schoolId,
             grade = grade,
             classroom = classroom,
             number = number,
-        )
-// TODO :: usecase 사용
-//        networkStudentDataSource.examineStudentNumber(
-//            schoolId = schoolId,
-//            grade = grade,
-//            classroom = classroom,
-//            number = number,
-//        ).studentName
-
+        ).map { it.studentName }
 
     override suspend fun findId(
         schoolId: UUID,
@@ -86,24 +75,14 @@ internal class StudentRepositoryImpl @Inject constructor(
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): Result<FindIdResponse> =
+    ): Result<HashedEmail> =
         networkStudentDataSource.findId(
             schoolId = schoolId,
             studentName = studentName,
             grade = grade,
             classRoom = classRoom,
             number = number,
-        )
-
-//    runCatching {
-//        networkStudentDataSource.findId(
-//            schoolId = schoolId,
-//            studentName = studentName,
-//            grade = grade,
-//            classRoom = classRoom,
-//            number = number,
-//        ).email
-//    }
+        ).map { it.email }
 
     override suspend fun resetPassword(
         accountId: String,
@@ -111,7 +90,7 @@ internal class StudentRepositoryImpl @Inject constructor(
         email: String,
         emailVerificationCode: String,
         newPassword: String,
-    ): Result<Unit> = runCatching {
+    ): Result<Unit> =
         networkStudentDataSource.resetPassword(
             ResetPasswordRequest(
                 accountId = accountId,
@@ -121,7 +100,6 @@ internal class StudentRepositoryImpl @Inject constructor(
                 newPassword = newPassword,
             ),
         )
-    }
 
     override suspend fun checkIdDuplication(id: String): Result<Unit> =
         networkStudentDataSource.checkIdDuplication(id = id)
