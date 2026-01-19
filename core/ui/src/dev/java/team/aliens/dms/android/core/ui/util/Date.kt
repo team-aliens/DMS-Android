@@ -7,4 +7,4 @@ fun LocalDateTime.toDateString(): String {
 }
 
 fun LocalDateTime.toDateTimeString(): String =
-    "${this.year}.${this.monthValue}.${this.dayOfMonth}. ${if (this.hour > 12) "오후" else "오전"} ${this.hour}시 ${this.minute}분"
+    "${this.year}.${this.monthValue}.${this.dayOfMonth}. ${if (this.hour >= 12) "오후" else "오전"} ${if (this.hour == 0) 12 else if (this.hour > 12) this.hour - 12 else this.hour}시 ${this.minute}분"
