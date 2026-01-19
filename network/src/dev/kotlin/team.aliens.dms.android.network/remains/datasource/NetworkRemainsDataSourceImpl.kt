@@ -3,6 +3,7 @@ import team.aliens.dms.android.network.remains.apiservice.RemainsApiService
 import team.aliens.dms.android.network.remains.model.FetchAppliedRemainsOptionResponse
 import team.aliens.dms.android.network.remains.model.FetchRemainsApplicationTimeResponse
 import team.aliens.dms.android.network.remains.model.FetchRemainsOptionsResponse
+import team.aliens.dms.android.shared.exception.util.suspendRunCatching
 import java.util.UUID
 import javax.inject.Inject
 
@@ -10,14 +11,14 @@ internal class NetworkRemainsDataSourceImpl @Inject constructor(
     private val remainsApiService: RemainsApiService,
 ) : NetworkRemainsDataSource() {
     override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> =
-        runCatching { remainsApiService.updateRemainsOption(optionId) }
+        suspendRunCatching { remainsApiService.updateRemainsOption(optionId) }
 
     override suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse> =
-        runCatching { remainsApiService.fetchAppliedRemainsOption() }
+        suspendRunCatching { remainsApiService.fetchAppliedRemainsOption() }
 
     override suspend fun fetchRemainsApplicationTime(): Result<FetchRemainsApplicationTimeResponse> =
-        runCatching { remainsApiService.fetchRemainsApplicationTime() }
+        suspendRunCatching { remainsApiService.fetchRemainsApplicationTime() }
 
     override suspend fun fetchRemainsOptions(): Result<FetchRemainsOptionsResponse> =
-        runCatching { remainsApiService.fetchRemainsOptions() }
+        suspendRunCatching { remainsApiService.fetchRemainsOptions() }
 }

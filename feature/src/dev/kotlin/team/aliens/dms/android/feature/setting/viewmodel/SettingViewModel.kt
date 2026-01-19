@@ -24,9 +24,7 @@ class SettingViewModel @Inject constructor(
 
     private fun fetchDeviceToken() {
         viewModelScope.launch {
-            runCatching {
-                deviceDataStoreDataSource.loadDeviceToken()
-            }.onSuccess { deviceToken ->
+            deviceDataStoreDataSource.loadDeviceToken().onSuccess { deviceToken ->
                 setState { settingState ->
                     settingState.copy(
                         deviceToken = deviceToken,

@@ -35,8 +35,8 @@ internal class StudentRepositoryImpl @Inject constructor(
         accountId: String,
         password: String,
         profileImageUrl: String?,
-    ): Result<Unit> = runCatching {
-        val response: Result<SignUpResponse> = networkStudentDataSource.signUp(
+    ): Result<Unit> =
+        networkStudentDataSource.signUp(
             request = SignUpRequest(
                 schoolVerificationCode = schoolVerificationCode,
                 schoolVerificationAnswer = schoolVerificationAnswer,
@@ -49,12 +49,10 @@ internal class StudentRepositoryImpl @Inject constructor(
                 password = password,
                 profileImageUrl = profileImageUrl,
             ),
-        )
-        response.onSuccess {
+        ).onSuccess {
             jwtProvider.updateTokens(tokens = it.extractTokens())
             schoolProvider.updateFeatures(features = it.extractFeatures())
-        }
-    }
+        }.map {  }
 
     override suspend fun examineStudentNumber(
         schoolId: UUID,
