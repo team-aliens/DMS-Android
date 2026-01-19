@@ -14,14 +14,12 @@ import javax.inject.Inject
 @HiltViewModel
 internal class NoticeDetailViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
-) : BaseStateViewModel<NotificationDetailState, NotificationDetailSideEffect>(NotificationDetailState()) {
+) : BaseStateViewModel<NoticeDetailState, NoticeDetailSideEffect>(NoticeDetailState()) {
 
     internal fun getNotificationDetail(noticeId: UUID) {
         viewModelScope.launch {
-            runCatching {
-                noticeRepository.fetchNoticeDetails(noticeId = noticeId).getOrThrow()
-            }.onSuccess { notice ->
-                val noticeUi = NotificationDetailUi(
+            noticeRepository.fetchNoticeDetails(noticeId = noticeId).onSuccess { notice ->
+                val noticeUi = NoticeDetailUi(
                     id = notice.id,
                     title = notice.title,
                     content = notice.content,
@@ -29,12 +27,14 @@ internal class NoticeDetailViewModel @Inject constructor(
                     elapsedCreatedAt = notice.createdAt.toDateTimeString(),
                 )
                 setState { it.copy(notice = noticeUi) }
+            }.onFailure {
+                sendEffect(NoticeDetailSideEffect.FailNoticeDetail)
             }
         }
     }
 }
 
-internal data class NotificationDetailUi(
+internal data class NoticeDetailUi(
     val id: UUID,
     val title: String,
     val content: String?,
@@ -42,8 +42,8 @@ internal data class NotificationDetailUi(
     val elapsedCreatedAt: String,
 )
 
-internal data class NotificationDetailState(
-    val notice: NotificationDetailUi = NotificationDetailUi(
+internal data class NoticeDetailState(
+    val notice: NoticeDetailUi = NoticeDetailUi(
         id = UUID.randomUUID(),
         title = "",
         content = "",
@@ -52,4 +52,6 @@ internal data class NotificationDetailState(
     ),
 )
 
-internal sealed interface NotificationDetailSideEffect
+internal sealed interface NoticeDetailSideEffect {
+    object FailNoticeDetail : NoticeDetailSideEffect
+}

@@ -19,7 +19,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import okio.utf8Size
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.bodyM
@@ -30,8 +29,9 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.verticalPadding
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
-import team.aliens.dms.android.feature.notice.viewmodel.NotificationDetailState
-import team.aliens.dms.android.feature.notice.viewmodel.NotificationDetailUi
+import team.aliens.dms.android.feature.notice.viewmodel.NoticeDetailSideEffect
+import team.aliens.dms.android.feature.notice.viewmodel.NoticeDetailState
+import team.aliens.dms.android.feature.notice.viewmodel.NoticeDetailUi
 import team.aliens.dms.android.feature.notice.viewmodel.NoticeDetailViewModel
 import java.util.UUID
 
@@ -57,6 +57,16 @@ internal fun NoticeDetail(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect {
+            when (it) {
+                is NoticeDetailSideEffect.FailNoticeDetail -> onShowSnackBar(
+                    DmsSnackBarType.ERROR, "데이터를 조회할 수 없어요"
+                )
+            }
+        }
+    }
+
     NoticeDetailsScreen(
         state = state,
         onNavigateBack = onNavigateBack,
@@ -65,7 +75,7 @@ internal fun NoticeDetail(
 
 @Composable
 private fun NoticeDetailsScreen(
-    state: NotificationDetailState,
+    state: NoticeDetailState,
     onNavigateBack: () -> Unit,
 ) {
     Column(
@@ -87,7 +97,7 @@ private fun NoticeDetailsScreen(
 @Composable
 private fun NotificationDetailContent(
     modifier: Modifier = Modifier,
-    notice: NotificationDetailUi,
+    notice: NoticeDetailUi,
 ) {
     Column(
         modifier = modifier

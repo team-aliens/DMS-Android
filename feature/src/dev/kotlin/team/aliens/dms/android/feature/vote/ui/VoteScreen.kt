@@ -48,8 +48,9 @@ internal fun Vote(
                 onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
             }
         }
+    }
 
-
+    LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
                 is VoteSideEffect.VoteSuccess -> onShowSnackBar(
