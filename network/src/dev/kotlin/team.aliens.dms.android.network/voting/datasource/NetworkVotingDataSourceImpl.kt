@@ -20,12 +20,10 @@ internal class NetworkVotingDataSourceImpl @Inject constructor(
     override suspend fun fetchCreateVotingItem(votingTopicId: UUID, selectedId: UUID): Result<Unit> =
         runCatching {
             votingApiService.fetchCreateVotingItem(votingTopicId, selectedId)
-                ?.getOrThrow() ?: Unit
         }
 
     override suspend fun fetchDeleteVotingItem(voteId: UUID): Result<Unit> =
         runCatching { votingApiService.fetchDeleteVotingItem(voteId) }
-            .map { Unit }
 
     override suspend fun fetchModelStudentCandidates(
         requestDate: LocalDate,

@@ -2,6 +2,7 @@ package team.aliens.dms.android.data.meal.repository
 
 import java.time.LocalDate
 import team.aliens.dms.android.data.meal.exception.CannotFindMealException
+import team.aliens.dms.android.data.meal.exception.CannotSaveMealException
 import team.aliens.dms.android.data.meal.mapper.toEntity
 import team.aliens.dms.android.data.meal.mapper.toModel
 import team.aliens.dms.android.data.meal.model.Meal
@@ -16,11 +17,11 @@ internal class MealRepositoryImpl @Inject constructor(
     override suspend fun fetchMeal(date: LocalDate): Result<Meal> = runCatching {
         databaseMealDataSource.queryMeal(date).toModel()
     }.recoverCatching {
-        updateMeal(date = date).getOrElse { throw CannotFindMealException() }
+        updateMeal(date = date).getOrElse { throw CannotSaveMealException() }
     }
 
     override suspend fun updateMeal(date: LocalDate): Result<Meal> =
-        networkMealDataSource.fetchMeals(date).map { response ->
+        networkMealDataSource.fetchMeals(date).mapCatching { response ->
             response.toModel().also { meals ->
                 databaseMealDataSource.saveMeals(meals.toEntity())
             }.find { it.date == date } ?: throw CannotFindMealException()

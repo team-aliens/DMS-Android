@@ -138,9 +138,10 @@ internal class StudentRepositoryImpl @Inject constructor(
 
 
     override suspend fun withdraw(): Result<Unit> {
-        jwtProvider.clearCaches()
-        schoolProvider.clearCaches()
-        return networkStudentDataSource.withdraw()
+        return networkStudentDataSource.withdraw().onSuccess {
+            jwtProvider.clearCaches()
+            schoolProvider.clearCaches()
+        }
     }
 
     override suspend fun fetchStudents(): Result<List<Student>> =
