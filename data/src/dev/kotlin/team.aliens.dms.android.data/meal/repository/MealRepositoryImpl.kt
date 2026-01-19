@@ -17,7 +17,13 @@ internal class MealRepositoryImpl @Inject constructor(
     override suspend fun fetchMeal(date: LocalDate): Result<Meal> = runCatching {
         databaseMealDataSource.queryMeal(date).toModel()
     }.recoverCatching {
-        updateMeal(date = date).getOrElse { throw CannotSaveMealException() }
+        try {
+            updateMeal(date).getOrThrow()
+        } catch (e: CannotFindMealException) {
+            throw e
+        } catch (_: Throwable) {
+            throw CannotSaveMealException()
+        }
     }
 
     override suspend fun updateMeal(date: LocalDate): Result<Meal> =

@@ -97,13 +97,13 @@ internal class SelectProfileViewModel @Inject constructor(
                                 buttonEnabled = true,
                             )
                         }
-                        sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl?.fileUrl.toString()))
+                        sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl.fileUrl))
                     }.onFailure {
                         sendEffect(SelectProfileSideEffect.FailProfileImage)
                     }
                 },
                 onFailure = {
-                    sendEffect(SelectProfileSideEffect.FailFetchPresignedUrl("이미지가 존재하지 않습니다"))
+                    sendEffect(SelectProfileSideEffect.FailFetchPresignedUrl("프로필 이미지 업로드에 실패했습니다"))
                 }
             )
         }

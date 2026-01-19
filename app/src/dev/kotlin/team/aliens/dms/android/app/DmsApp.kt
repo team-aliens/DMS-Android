@@ -324,7 +324,7 @@ fun DmsApp(
                             NotificationRoute(
                                 onBackClick = { backStack.remove(NotificationScreenNav) },
                                 onNavigateNotificationDetailClick = {
-                                    resultStore.setResult<UUID?>("notice_result", it)
+                                    resultStore.setResult<UUID?>("notice_detail_result", it)
                                     backStack.add(NoticeDetailScreenNav)
                                 },
                                 onNavigatePointHistory = { pointValue ->
