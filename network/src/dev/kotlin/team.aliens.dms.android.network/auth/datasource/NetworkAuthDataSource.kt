@@ -7,15 +7,15 @@ import team.aliens.dms.android.network.auth.model.SignInResponse
 
 abstract class NetworkAuthDataSource {
 
-    abstract suspend fun signIn(request: SignInRequest): SignInResponse
+    abstract suspend fun signIn(request: SignInRequest): Result<SignInResponse>
 
-    abstract suspend fun sendEmailVerificationCode(request: SendEmailVerificationCodeRequest)
+    abstract suspend fun sendEmailVerificationCode(request: SendEmailVerificationCodeRequest): Result<Unit>
 
     abstract suspend fun checkEmailVerificationCode(
         email: String,
         code: String,
         type: String,
-    )
+    ): Result<Unit>
 
-    abstract suspend fun checkIdExists(accountId: String): CheckIdExistsResponse
+    abstract suspend fun checkIdExists(accountId: String): Result<CheckIdExistsResponse>
 }

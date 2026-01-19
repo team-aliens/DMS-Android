@@ -3,6 +3,7 @@ package team.aliens.dms.android.data.notification.repository
 import team.aliens.dms.android.data.notification.model.Notification
 import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
+import java.util.UUID
 
 abstract class NotificationRepository {
 
@@ -34,4 +35,6 @@ abstract class NotificationRepository {
     abstract suspend fun saveDeviceToken(deviceToken: String): Result<Unit>
 
     abstract suspend fun getDeviceToken(): Result<String>
+
+    abstract suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>
 }

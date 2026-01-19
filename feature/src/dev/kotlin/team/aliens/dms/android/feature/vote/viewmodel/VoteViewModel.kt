@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.vote.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,22 +24,14 @@ internal class VoteViewModel @Inject constructor(
     private val voteRepository: VotingRepository,
     private val studentRepository: StudentRepository,
 ) : BaseStateViewModel<VoteState, VoteSideEffect>(VoteState()) {
-     
-    init {
-        fetchVotesByType()
-    }
 
-    internal fun initState(title: String, startTime: LocalDateTime, endTime: LocalDateTime, votingTopicId: UUID) {
+    internal fun initState(vote: AllVoteSearch) {
         setState {
             it.copy(
-                vote = it.vote.copy(
-                    topicName = title,
-                    startTime = startTime,
-                    endTime = endTime,
-                    id = votingTopicId,
-                ),
+                vote = vote
             )
         }
+        fetchVotesByType()
     }
 
     private fun fetchVotesByType() {
@@ -102,8 +95,9 @@ internal class VoteViewModel @Inject constructor(
                     sendEffect(VoteSideEffect.VoteSuccess)
                 }.onFailure {
                     setState { uiState.value.copy(isLoading = false, buttonEnabled = true) }
-                    when (it) {
-                        is ConflictException -> sendEffect(VoteSideEffect.VoteConflict)
+                    Log.d("TEST", it.toString())
+                    when (it.message?.drop(5)?.trim()) {
+                        "409" -> sendEffect(VoteSideEffect.VoteConflict)
                         else -> sendEffect(VoteSideEffect.VoteFail)
                     }
                 }

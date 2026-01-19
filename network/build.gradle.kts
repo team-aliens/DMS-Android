@@ -86,6 +86,7 @@ dependencies {
 
     implementation(project(ProjectPaths.Shared.MODEL))
     implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
 
     implementation(project(ProjectPaths.Core.JWT))
     implementation(project(ProjectPaths.Core.NETWORK))

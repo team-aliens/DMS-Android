@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.repository.StudentRepository
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,18 +32,14 @@ internal class HomeViewModel @Inject constructor(
     internal fun showOutingPassDialog() {
         sendEffect(HomeSideEffect.ShowOutingPassDialog)
     }
-
-    internal fun navigateToNotification() {
-        sendEffect(HomeSideEffect.NavigateToNotification)
-    }
 }
 
 internal data class HomeState(
     val newNoticesExist: Boolean = false,
     val myPage: MyPage = MyPage(),
+    val noticeId: UUID? = null
 )
 
 internal sealed interface HomeSideEffect {
     data object ShowOutingPassDialog : HomeSideEffect
-    data object NavigateToNotification : HomeSideEffect
 }

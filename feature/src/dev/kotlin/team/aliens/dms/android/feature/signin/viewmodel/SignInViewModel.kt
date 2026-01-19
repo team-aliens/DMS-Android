@@ -1,20 +1,13 @@
 package team.aliens.dms.android.feature.signin.viewmodel
 
-import android.util.Log
-import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
-import team.aliens.dms.android.data.auth.exception.BadRequestException
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
-import team.aliens.dms.android.shared.exception.network.InternalServerErrorException
-import team.aliens.dms.android.shared.exception.network.NotFoundException
-import team.aliens.dms.android.shared.exception.network.UnprocessableEntityException
 import javax.inject.Inject
 
 
@@ -68,23 +61,20 @@ internal class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             with(uiState.value) {
                 setState { this.copy(isLoading = true, buttonEnabled = false) }
-                runCatching {
-                    authRepository.signIn(
-                        accountId = this.accountId,
-                        password = this.password,
-                        deviceToken = deviceToken,
-                    )
-                }.onSuccess {
+                authRepository.signIn(
+                    accountId = this.accountId,
+                    password = this.password,
+                    deviceToken = deviceToken,
+                ).onSuccess {
                     setState { this.copy(isLoading = false, buttonEnabled = true) }
                     sendEffect(SignInSideEffect.NavigateToMain)
                 }.onFailure {
                     setState { this.copy(isLoading = false, buttonEnabled = true) }
-                    Log.d("TEST", it.toString())
-                    val errorMessage = when (it) { // TODO :: onFailure 자체에서 받아올 수 있게 구조 변경
-                        is BadRequestException -> "잘못된 형식이에요"
-                        is UnprocessableEntityException -> "비밀번호가 일치하지 않아요"
-                        is NotFoundException -> "로그인 정보를 다시 확인해주세요"
-                        is InternalServerErrorException -> "서버에 문제가 발생했어요"
+                    val errorMessage = when (it.message?.drop(5)?.trim()) { // TODO :: 더 좋은 방법 고려
+                        "400" -> "잘못된 비밀번호 형식이에요"
+                        "422" -> "비밀번호가 일치하지 않아요"
+                        "404" -> "존재하지 않는 학생입니다"
+                        "500" -> "서버에 문제가 발생했어요"
                         else -> "일시적인 오류로 로그인을 할 수 없어요"
                     }
                     sendEffect(SignInSideEffect.ShowSnackBar(DmsSnackBarType.ERROR, errorMessage))

@@ -9,11 +9,13 @@ import team.aliens.dms.android.feature.main.mypage.ui.MyPage
 fun MyPageRoute(
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateSetting: () -> Unit,
+    onNavigateNotification: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     MyPage(
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateSetting = onNavigateSetting,
+        onNavigateNotification = onNavigateNotification,
         onShowSnackBar = onShowSnackBar,
     )
 }

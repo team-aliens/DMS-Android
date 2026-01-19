@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -73,6 +74,7 @@ internal fun SelectProfile(
                 is SelectProfileSideEffect.SuccessProfileImage -> onNavigateAdjustProfile(it.profileImageUrl)
                 is SelectProfileSideEffect.ProfileImageBadRequest -> onShowSnackBar(DmsSnackBarType.SUCCESS, "업로드 성공!")
                 is SelectProfileSideEffect.FailProfileImage -> onShowSnackBar(DmsSnackBarType.ERROR, "이미지 업로드에 실패했어요")
+                is SelectProfileSideEffect.FailFetchPresignedUrl -> onShowSnackBar(DmsSnackBarType.ERROR, it.message)
             }
         }
     }
@@ -103,7 +105,9 @@ private fun SelectProfileScreen(
     onImageSelected: (String) -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             onBackPressed = onBackPressed,

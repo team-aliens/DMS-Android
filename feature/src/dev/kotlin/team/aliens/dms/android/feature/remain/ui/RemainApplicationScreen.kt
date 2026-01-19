@@ -2,11 +2,13 @@ package team.aliens.dms.android.feature.remain.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
+import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
@@ -59,8 +62,9 @@ private fun RemainApplicationScreen(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .fillMaxWidth()
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             title = "잔류 신청",
@@ -103,11 +107,9 @@ private fun RemainApplicationScreen(
             }
         }
         Spacer(modifier = Modifier.weight(1f))
-        DmsButton(
+        DmsLayeredButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .horizontalPadding(24.dp)
-                .verticalPadding(16.dp),
+                .fillMaxWidth(),
             text = "변경하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,

@@ -9,6 +9,7 @@ data class FetchNotificationsResponse(
     data class NotificationResponse(
         @SerializedName("id") val id: UUID,
         @SerializedName("topic") val topic: String,
+        @SerializedName("point_detail_topic") val pointDetailTopic: String?,
         @SerializedName("link_identifier") val linkId: UUID,
         @SerializedName("title") val title: String,
         @SerializedName("content") val content: String,

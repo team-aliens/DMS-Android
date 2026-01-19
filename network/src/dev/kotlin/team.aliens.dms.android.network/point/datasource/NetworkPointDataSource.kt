@@ -7,5 +7,5 @@ abstract class NetworkPointDataSource {
         type: String,
         page: Long?,
         size: Long?,
-    ): FetchPointsResponse
+    ): Result<FetchPointsResponse>
 }

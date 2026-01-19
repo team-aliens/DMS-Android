@@ -12,14 +12,14 @@ import java.util.UUID
 
 abstract class NetworkStudentDataSource {
 
-    abstract suspend fun signUp(request: SignUpRequest): SignUpResponse
+    abstract suspend fun signUp(request: SignUpRequest): Result<SignUpResponse>
 
     abstract suspend fun examineStudentNumber(
         schoolId: UUID,
         grade: Int,
         classroom: Int,
         number: Int,
-    ): ExamineStudentNumberResponse
+    ): Result<ExamineStudentNumberResponse>
 
     abstract suspend fun findId(
         schoolId: UUID,
@@ -27,19 +27,19 @@ abstract class NetworkStudentDataSource {
         grade: Int,
         classRoom: Int,
         number: Int,
-    ): FindIdResponse
+    ): Result<FindIdResponse>
 
-    abstract suspend fun resetPassword(request: ResetPasswordRequest)
+    abstract suspend fun resetPassword(request: ResetPasswordRequest):Result<Unit>
 
-    abstract suspend fun checkIdDuplication(id: String)
+    abstract suspend fun checkIdDuplication(id: String): Result<Unit>
 
-    abstract suspend fun checkEmailDuplication(email: String)
+    abstract suspend fun checkEmailDuplication(email: String): Result<Unit>
 
-    abstract suspend fun fetchMyPage(): FetchMyPageResponse
+    abstract suspend fun fetchMyPage(): Result<FetchMyPageResponse>
 
-    abstract suspend fun editProfile(request: EditProfileRequest)
+    abstract suspend fun editProfile(request: EditProfileRequest): Result<Unit>
 
-    abstract suspend fun withdraw()
+    abstract suspend fun withdraw(): Result<Unit>
 
-    abstract suspend fun fetchStudents(): FetchStudentsResponse
+    abstract suspend fun fetchStudents(): Result<FetchStudentsResponse>
 }

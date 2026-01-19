@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -32,16 +31,14 @@ import team.aliens.dms.android.feature.point.viewmodel.PointHistoryViewModel
 
 @Composable
 internal fun PointHistory(
+    pointType: PointType,
     onBackClick: () -> Unit,
 ) {
     val viewModel: PointHistoryViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(Unit) {
-
-    }
-
     PointHistoryScreen(
+        pointType = pointType,
         state = state,
         onBackClick = onBackClick,
     )
@@ -49,13 +46,15 @@ internal fun PointHistory(
 
 @Composable
 private fun PointHistoryScreen(
+    pointType: PointType,
     state: PointHistoryState,
     onBackClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             onBackPressed = onBackClick,
@@ -63,12 +62,12 @@ private fun PointHistoryScreen(
         )
         val tabData = listOf(
             PointTab.All,
-            PointTab.Bonus,
+            PointTab.BONUS,
             PointTab.Minus,
         )
         val pagerState = rememberPagerState(
             pageCount = { tabData.size },
-            initialPage = state.initialTab,
+            initialPage = pointType.ordinal,
         )
         val tabIndex = pagerState.currentPage
         val coroutineScope = rememberCoroutineScope()
@@ -100,7 +99,7 @@ private fun PointHistoryScreen(
                 val pointHistoryList = remember(page, state.allPointList) {
                     when (tabData[page]) {
                         PointTab.All -> state.allPointList
-                        PointTab.Bonus -> state.bonusPointList
+                        PointTab.BONUS -> state.plusPointList
                         PointTab.Minus -> state.minusPointList
                     }
                 }
@@ -130,6 +129,6 @@ internal sealed class PointTab(
     val pointType: PointType,
 ) {
     data object All : PointTab(title = "전체", pointType = PointType.ALL)
-    data object Bonus : PointTab(title = "상점", pointType = PointType.BONUS)
+    data object BONUS : PointTab(title = "상점", pointType = PointType.BONUS)
     data object Minus : PointTab(title = "벌점", pointType = PointType.MINUS)
 }

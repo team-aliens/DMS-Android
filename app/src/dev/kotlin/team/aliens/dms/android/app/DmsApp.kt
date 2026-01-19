@@ -1,6 +1,10 @@
 package team.aliens.dms.android.app
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -13,12 +17,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.Serializable
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
@@ -29,6 +35,8 @@ import team.aliens.dms.android.feature.main.application.navigation.ApplicationRo
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 import team.aliens.dms.android.feature.meal.navigation.MealRoute
+import team.aliens.dms.android.feature.notice.navigation.NoticeDetailRoute
+import team.aliens.dms.android.feature.notification.navigation.NotificationRoute
 import team.aliens.dms.android.feature.onboarding.navigation.OnboardingRoute
 import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
@@ -39,6 +47,7 @@ import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRou
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
+import java.util.UUID
 
 @Serializable
 data object OnboardingScreenNav : NavKey
@@ -82,13 +91,20 @@ data object SelectProfileScreenNav : NavKey
 @Serializable
 data class AdjustProfileScreenNav(val model: String) : NavKey
 
+@Serializable
+data object NotificationScreenNav : NavKey
+
+
+@Serializable
+data object NoticeDetailScreenNav : NavKey
+
 @Composable
 fun DmsApp(
     windowSizeClass: WindowSizeClass,
-    isJwtAvailable: Boolean,
     mainViewModel: MainActivityViewModel,
     appState: DmsAppState = rememberDmsAppState(),
 ) {
+    val isJwtAvailable by mainViewModel.autoSignInAvailable.collectAsState()
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
@@ -100,7 +116,7 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted, isJwtAvailable) {
+    LaunchedEffect(isOnboardingCompleted) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
             isJwtAvailable -> HomeScreenNav
@@ -113,18 +129,25 @@ fun DmsApp(
         }
     }
 
-    Box {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Scaffold(
+            contentWindowInsets = WindowInsets(0),
             bottomBar = {
                 if (shouldShowBottomBar) {
                     BottomNavigationBar(
                         currentScreen = currentScreen,
                         onNavigate = { destination ->
                             if (currentScreen != destination) {
+                                when (destination) {
+                                    is HomeScreenNav -> {
+                                        backStack.remove(HomeScreenNav)
+                                    }
+                                }
                                 backStack.removeAll {
-                                    it is HomeScreenNav ||
-                                            it is ApplicationScreenNav ||
-                                            it is MyPageScreenNav
+                                    it is ApplicationScreenNav ||
+                                    it is MyPageScreenNav
                                 }
                                 backStack.add(destination)
                             }
@@ -136,6 +159,7 @@ fun DmsApp(
             CompositionLocalProvider(LocalResultStore provides resultStore) {
                 NavDisplay(
                     modifier = Modifier
+                        .background(DmsTheme.colorScheme.surfaceTint)
                         .padding(paddingValues),
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
@@ -162,6 +186,13 @@ fun DmsApp(
                         }
                         entry<HomeScreenNav> {
                             HomeRoute(
+                                onNavigateNoticeDetail = {
+                                    resultStore.setResult<UUID?>("notice_detail_result", it)
+                                    backStack.add(NoticeDetailScreenNav)
+                                },
+                                onNavigateNotification = {
+                                    backStack.add(NotificationScreenNav)
+                                },
                                 onNavigatePointHistory = {
                                     backStack.add(PointHistoryScreenNav(it))
                                 },
@@ -219,6 +250,9 @@ fun DmsApp(
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
+                                onNavigateNotification = {
+                                    backStack.add(NotificationScreenNav)
+                                }
                             )
                         }
                         entry<MealScreenNav> {
@@ -242,6 +276,7 @@ fun DmsApp(
                         }
                         entry<PointHistoryScreenNav> {
                             PointHistoryRoute(
+                                pointType = it.pointType,
                                 onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) }
                             )
                         }
@@ -283,6 +318,31 @@ fun DmsApp(
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
                                 }
+                            )
+                        }
+                        entry<NotificationScreenNav> {
+                            NotificationRoute(
+                                onBackClick = { backStack.remove(NotificationScreenNav) },
+                                onNavigateNotificationDetailClick = {
+                                    resultStore.setResult<UUID?>("notice_detail_result", it)
+                                    backStack.add(NoticeDetailScreenNav)
+                                },
+                                onNavigatePointHistory = { pointValue ->
+                                    backStack.add(PointHistoryScreenNav(pointValue))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                }
+                            )
+                        }
+                        entry<NoticeDetailScreenNav> {
+                            NoticeDetailRoute(
+                                onNavigateBack = {
+                                    backStack.remove(NoticeDetailScreenNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
                             )
                         }
                     },

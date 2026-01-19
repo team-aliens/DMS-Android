@@ -1,5 +1,6 @@
 package team.aliens.dms.android.core.jwt
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
 import team.aliens.dms.android.core.jwt.network.JwtReissueManager
+import team.aliens.dms.android.shared.date.util.now
 import javax.inject.Inject
 
 internal class JwtProviderImpl @Inject constructor(
@@ -64,6 +66,8 @@ internal class JwtProviderImpl @Inject constructor(
         }.onSuccess { tokens ->
             this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
             this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
+        }.onFailure { exception ->
+            Log.e("JwtProvider", "Failed to persist tokens", exception)
         }
         this.refreshTokenAbility()
     }
@@ -73,7 +77,9 @@ internal class JwtProviderImpl @Inject constructor(
         this._cachedRefreshToken = tokens.refreshToken
         this.refreshTokenAbility()
         CoroutineScope(Dispatchers.Default).launch {
-            jwtDataStoreDataSource.storeTokens(tokens = tokens)
+            runCatching {
+                jwtDataStoreDataSource.storeTokens(tokens = tokens)
+            }.onFailure {  }
         }
     }
 

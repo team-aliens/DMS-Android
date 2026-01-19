@@ -85,23 +85,27 @@ internal class SelectProfileViewModel @Inject constructor(
         file: File,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val presignedInfo = fileRepository.fetchPresignedUrl(file.name)
-            runCatching {
-                fileRepository.uploadFile(
-                    presignedUrl = presignedInfo.fileUploadUrl,
-                    file = file,
-                )
-            }.onSuccess { fileUrl ->
-                setState {
-                    it.copy(
-                        profileImageUrl = fileUrl.fileUrl,
-                        buttonEnabled = true,
-                    )
+            fileRepository.fetchPresignedUrl(file.name).fold(
+                onSuccess = { presignedInfo ->
+                    fileRepository.uploadFile(
+                        presignedUrl = presignedInfo.fileUploadUrl,
+                        file = file,
+                    ).onSuccess { fileUrl ->
+                        setState {
+                            it.copy(
+                                profileImageUrl = fileUrl.fileUrl,
+                                buttonEnabled = true,
+                            )
+                        }
+                        sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl.fileUrl))
+                    }.onFailure {
+                        sendEffect(SelectProfileSideEffect.FailProfileImage)
+                    }
+                },
+                onFailure = {
+                    sendEffect(SelectProfileSideEffect.FailFetchPresignedUrl("프로필 이미지 업로드에 실패했습니다"))
                 }
-                sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl.fileUrl))
-            }.onFailure {
-                sendEffect(SelectProfileSideEffect.FailProfileImage)
-            }
+            )
         }
     }
 }
@@ -120,4 +124,6 @@ sealed class SelectProfileSideEffect {
     data object ProfileImageBadRequest : SelectProfileSideEffect()
 
     data object FailProfileImage : SelectProfileSideEffect()
+
+    data class FailFetchPresignedUrl(val message: String) : SelectProfileSideEffect()
 }

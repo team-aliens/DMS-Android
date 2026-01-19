@@ -5,6 +5,6 @@ import team.aliens.dms.android.network.file.model.FetchPresignedUrlResponse
 import java.io.File
 
 abstract class NetworkFileDataSource {
-    abstract suspend fun fetchPresignedUrl(fileName: String): FetchPresignedUrlResponse
-    abstract suspend fun uploadFile(presignedUrl: String, file: File): FetchFileUrlResponse
+    abstract suspend fun fetchPresignedUrl(fileName: String): Result<FetchPresignedUrlResponse>
+    abstract suspend fun uploadFile(presignedUrl: String, file: File): Result<FetchFileUrlResponse>
 }

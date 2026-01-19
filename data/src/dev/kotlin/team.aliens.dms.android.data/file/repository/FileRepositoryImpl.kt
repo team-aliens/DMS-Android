@@ -10,9 +10,11 @@ import javax.inject.Inject
 internal class FileRepositoryImpl @Inject constructor(
     private val networkFileDataSource: NetworkFileDataSource,
 ) : FileRepository() {
-    override suspend fun fetchPresignedUrl(fileName: String): PresignedFileUrl =
-        networkFileDataSource.fetchPresignedUrl(fileName = fileName).toModel()
+    override suspend fun fetchPresignedUrl(fileName: String): Result<PresignedFileUrl> =
+        networkFileDataSource.fetchPresignedUrl(fileName = fileName)
+            .map { it.toModel() }
 
-    override suspend fun uploadFile(presignedUrl: String, file: File): FileUrl =
-        networkFileDataSource.uploadFile(presignedUrl = presignedUrl, file = file).toModel()
+    override suspend fun uploadFile(presignedUrl: String, file: File): Result<FileUrl> =
+        networkFileDataSource.uploadFile(presignedUrl = presignedUrl, file = file)
+            .map { it.toModel() }
 }

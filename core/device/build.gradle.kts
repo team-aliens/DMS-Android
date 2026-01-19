@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(ProjectPaths.Core.DATASTORE))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

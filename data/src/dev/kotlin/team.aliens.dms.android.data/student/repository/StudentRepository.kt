@@ -4,6 +4,8 @@ import team.aliens.dms.android.data.student.model.HashedEmail
 import team.aliens.dms.android.data.student.model.MyPage
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.student.model.StudentName
+import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
+import team.aliens.dms.android.network.student.model.FindIdResponse
 import java.util.UUID
 
 abstract class StudentRepository {

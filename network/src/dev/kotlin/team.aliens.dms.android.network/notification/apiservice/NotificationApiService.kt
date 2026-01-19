@@ -1,11 +1,13 @@
 package team.aliens.dms.android.network.notification.apiservice
 
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.CancelFcmDeviceTokenRegistrationRequest
@@ -14,6 +16,7 @@ import team.aliens.dms.android.network.notification.model.FetchNotificationsResp
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
 import team.aliens.dms.android.network.notification.model.SubscribeNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.UnsubscribeNotificationTopicRequest
+import java.util.UUID
 
 internal interface NotificationApiService {
 
@@ -49,4 +52,9 @@ internal interface NotificationApiService {
 
     @GET("/notifications")
     suspend fun fetchNotifications(): FetchNotificationsResponse
+
+    @PATCH("/notifications/{notification-of-user-id}/read")
+    suspend fun updateNotificationReadStatus(
+        @Path("notification-of-user-id") notificationOfUserId: UUID,
+    ): Response<Unit>?
 }

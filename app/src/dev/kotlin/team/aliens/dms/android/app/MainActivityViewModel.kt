@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val jwtProvider: JwtProvider,
+    jwtProvider: JwtProvider,
     private val onboardingDataSource: OnboardingDataStoreDataSource,
 ) : ViewModel() {
     val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedAccessTokenAvailable

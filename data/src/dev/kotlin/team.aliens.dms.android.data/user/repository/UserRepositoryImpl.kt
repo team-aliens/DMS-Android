@@ -11,15 +11,13 @@ internal class UserRepositoryImpl @Inject constructor(
     override suspend fun editPassword(
         currentPassword: String,
         newPassword: String,
-    ): Result<Unit> = runCatching {
-        networkUserDataSource.editPassword(
-            request = EditPasswordRequest(
-                currentPassword = currentPassword,
-                newPassword = newPassword,
-            ),
-        )
-    }
-    override suspend fun comparePassword(password: String): Result<Unit> = runCatching {
+    ): Result<Unit> = networkUserDataSource.editPassword(
+        request = EditPasswordRequest(
+            currentPassword = currentPassword,
+            newPassword = newPassword,
+        ),
+    )
+
+    override suspend fun comparePassword(password: String): Result<Unit> =
         networkUserDataSource.comparePassword(password = password)
-    }
 }

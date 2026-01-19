@@ -30,13 +30,13 @@ internal interface VotingApiService {
     suspend fun fetchCreateVotingItem(
         @Path("voting-topic-id") votingTopicId: UUID,
         @Query("selected-id") selectedId: UUID,
-    ): Result<Unit>?
+    )
 
     @DELETE("/votes/student/{vote_id}")
     @RequiresAccessToken
     suspend fun fetchDeleteVotingItem(
         @Path("vote_id") voteId: UUID,
-    ): Response<Unit>?
+    )
 
     @GET("/students/step/candidate-list")
     @RequiresAccessToken

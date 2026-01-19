@@ -3,9 +3,6 @@ package team.aliens.dms.android.app
 import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
-import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
-import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
-import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
 
 sealed class BottomMenu(
     val route: NavKey,

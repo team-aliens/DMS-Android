@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,14 +42,15 @@ internal fun Vote(
             resultStore.resultStateMap["vote_result"]?.value as? AllVoteSearch?
         }.collect { result ->
             if (result != null) {
-                viewModel.initState(result.topicName, result.startTime, result.endTime, result.id)
+                viewModel.initState(result)
                 resultStore.removeResult<String?>(resultKey = "vote_result")
             } else {
                 onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
             }
         }
+    }
 
-
+    LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
                 is VoteSideEffect.VoteSuccess -> onShowSnackBar(
@@ -93,7 +95,8 @@ private fun VoteScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background),
+            .background(DmsTheme.colorScheme.background)
+            .systemBarsPadding(),
     ) {
         DmsTopAppBar(
             onBackPressed = onNavigateBack,

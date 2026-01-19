@@ -30,7 +30,7 @@ object DmsIcon {
     val LogoDark = R.drawable.ic_logo_dark
     val LogoLight = R.drawable.ic_logo_light
     val Logo = R.drawable.ic_logo
-    val Notification = R.drawable.ic_notice
+    val Notification = R.drawable.ic_notification
     val Lunch = R.drawable.ic_lunch
     val Person = R.drawable.ic_person
     val Announcement = R.drawable.ic_announcement
@@ -53,4 +53,5 @@ object DmsIcon {
     val Cancel = R.drawable.ic_cancel
     val OutingPass = R.drawable.ic_outing_pass
     val Setting = R.drawable.ic_setting
+    val Notice = R.drawable.ic_notice
 }
