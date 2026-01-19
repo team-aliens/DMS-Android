@@ -77,7 +77,7 @@ internal class NotificationRepositoryImpl @Inject constructor(
         deviceDataStoreDataSource.loadDeviceToken()
     }
 
-    override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>? =
+    override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit> =
         networkNotificationDataSource.updateNotificationReadStatus(notification)
 
 }

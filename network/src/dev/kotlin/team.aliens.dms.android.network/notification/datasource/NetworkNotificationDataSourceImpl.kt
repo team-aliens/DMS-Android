@@ -38,6 +38,6 @@ internal class NetworkNotificationDataSourceImpl @Inject constructor(
     override suspend fun fetchNotifications(): Result<FetchNotificationsResponse> =
         runCatching { notificationApiService.fetchNotifications() }
 
-    override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>? =
+    override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit> =
         runCatching { notificationApiService.updateNotificationReadStatus(notification) }
 }

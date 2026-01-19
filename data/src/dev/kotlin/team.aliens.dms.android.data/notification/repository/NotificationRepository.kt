@@ -36,5 +36,5 @@ abstract class NotificationRepository {
 
     abstract suspend fun getDeviceToken(): Result<String>
 
-    abstract suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>?
+    abstract suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>
 }

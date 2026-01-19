@@ -30,5 +30,5 @@ abstract class NetworkNotificationDataSource {
 
     abstract suspend fun fetchNotifications(): Result<FetchNotificationsResponse>
 
-    abstract suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>?
+    abstract suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit>
 }
