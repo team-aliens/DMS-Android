@@ -329,6 +329,9 @@ fun DmsApp(
                                 },
                                 onNavigatePointHistory = { pointValue ->
                                     backStack.add(PointHistoryScreenNav(pointValue))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
                                 }
                             )
                         }

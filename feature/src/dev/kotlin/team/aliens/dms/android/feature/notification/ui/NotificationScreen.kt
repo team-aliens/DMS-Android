@@ -37,12 +37,14 @@ import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.labelM
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationSideEffect
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
@@ -53,6 +55,7 @@ internal fun NotificationScreen(
     onBackClick: () -> Unit,
     onNavigateNotificationDetailClick: (UUID) -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
+    onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: NotificationViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
@@ -66,6 +69,19 @@ internal fun NotificationScreen(
     )
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect {
+            when (it) {
+                is NotificationSideEffect.FailFetchNotification -> onShowSnackBar(
+                    DmsSnackBarType.ERROR, "알림 조회를 실패했어요"
+                )
+                is NotificationSideEffect.FailUpdateNotification -> onShowSnackBar(
+                    DmsSnackBarType.ERROR, "업데이트 실패 했어요"
+                )
+            }
+        }
+    }
 
     NotificationScreenContent(
         state = state,
@@ -124,8 +140,8 @@ private fun NotificationScreenContent(
             modifier = Modifier.fillMaxWidth(),
             state = pagerState,
             beyondViewportPageCount = 1
-        ) {
-            if (pagerState.currentPage == 0) {
+        ) { page ->
+            if (page == 0) {
                 NotificationItems(
                     notifications = state.notifications.toPersistentList(),
                     onNotificationClick = onNotificationClick,
