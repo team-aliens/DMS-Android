@@ -9,6 +9,7 @@ import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.database.meal.datasource.DatabaseMealDataSource
 import team.aliens.dms.android.network.meal.datasource.NetworkMealDataSource
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 internal class MealRepositoryImpl @Inject constructor(
     private val databaseMealDataSource: DatabaseMealDataSource,
@@ -19,7 +20,9 @@ internal class MealRepositoryImpl @Inject constructor(
     }.recoverCatching {
         try {
             updateMeal(date).getOrThrow()
-        } catch (e: CannotFindMealException) {
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: CannotSaveMealException) {
             throw e
         } catch (_: Throwable) {
             throw CannotSaveMealException()
