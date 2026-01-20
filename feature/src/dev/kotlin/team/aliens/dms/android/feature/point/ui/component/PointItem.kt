@@ -44,7 +44,7 @@ internal fun PointItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        val (backgroundColor, icon, pointColor) = if (pointType == PointType.BONUS) {
+        val (backgroundColor, icon, pointColor) = if (pointType == PointType.PLUS) {
             Triple(
                 DmsTheme.colorScheme.onPrimary,
                 R.drawable.ic_plus,

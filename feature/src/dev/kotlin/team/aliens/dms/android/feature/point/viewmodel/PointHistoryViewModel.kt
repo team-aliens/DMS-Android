@@ -27,12 +27,12 @@ internal class PointHistoryViewModel @Inject constructor(
                 size = null,
             ).onSuccess { pointHistory ->
                 val pointHistories = pointHistory.points
-                val bonusPoints = pointHistories.filter { it.type == PointType.BONUS }
+                val plusPoints = pointHistories.filter { it.type == PointType.PLUS }
                 val minusPoints = pointHistories.filter { it.type == PointType.MINUS }
                 setState {
                     it.copy(
                         allPointList = pointHistories,
-                        plusPointList = bonusPoints,
+                        plusPointList = plusPoints,
                         minusPointList = minusPoints,
                     )
                 }

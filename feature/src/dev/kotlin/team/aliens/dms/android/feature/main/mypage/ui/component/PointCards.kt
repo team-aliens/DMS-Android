@@ -23,7 +23,7 @@ import team.aliens.dms.android.data.point.model.PointType
 @Composable
 internal fun PointCards(
     modifier: Modifier = Modifier,
-    bonusPoint: Int,
+    PLUSPoint: Int,
     minusPoint: Int,
     onNavigatePointHistory: (PointType) -> Unit,
 ) {
@@ -33,9 +33,9 @@ internal fun PointCards(
     ) {
         PointCard(
             modifier = Modifier.weight(1f),
-            point = bonusPoint,
-            pointType = PointType.BONUS,
-            onClick = { onNavigatePointHistory(PointType.BONUS) },
+            point = PLUSPoint,
+            pointType = PointType.PLUS,
+            onClick = { onNavigatePointHistory(PointType.PLUS) },
         )
         PointCard(
             modifier = Modifier.weight(1f),
@@ -54,7 +54,7 @@ private fun PointCard(
     onClick: () -> Unit,
 ) {
     val (text, textColor, backgroundColor) = when (pointType) {
-        PointType.BONUS -> Triple("상점", DmsTheme.colorScheme.secondary, DmsTheme.colorScheme.primary)
+        PointType.PLUS -> Triple("상점", DmsTheme.colorScheme.secondary, DmsTheme.colorScheme.primary)
         PointType.MINUS -> Triple("벌점", DmsTheme.colorScheme.onErrorContainer, DmsTheme.colorScheme.error)
         else -> Triple("", DmsTheme.colorScheme.onSurface, DmsTheme.colorScheme.surface)
     }
