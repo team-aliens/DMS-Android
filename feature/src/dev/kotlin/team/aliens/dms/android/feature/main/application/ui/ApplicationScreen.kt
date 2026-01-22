@@ -1,13 +1,17 @@
 package team.aliens.dms.android.feature.main.application.ui
 
+import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,10 +19,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
@@ -120,6 +126,17 @@ private fun ApplicationScreen(
                         onNavigateVolunteerApplication = onNavigateVolunteerApplication,
                     )
                 } else {
+                    if (state.votes.isEmpty()) {
+                        Text(
+                            text = """
+                                예정된 투표가 없습니다.
+                                결과를 확인하시고 싶으시면 알림함을 확인해주세요!
+                            """.trimIndent(),
+                            style = DmsTheme.typography.bodyM,
+                            color = DmsTheme.colorScheme.inverseSurface,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                     VoteContent(
                         votes = state.votes,
                         onNavigateVote = onNavigateVote,
