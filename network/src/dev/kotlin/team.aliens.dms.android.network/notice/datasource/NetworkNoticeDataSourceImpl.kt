@@ -1,5 +1,6 @@
 package team.aliens.dms.android.network.notice.datasource
 import team.aliens.dms.android.network.notice.apiservice.NoticeApiService
+import team.aliens.dms.android.network.notice.model.FetchLatestNoticeResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticeDetailsResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
 import team.aliens.dms.android.network.notice.model.FetchWhetherNewNoticesExistResponse
@@ -18,4 +19,7 @@ internal class NetworkNoticeDataSourceImpl @Inject constructor(
 
     override suspend fun fetchNoticeDetails(noticeId: UUID): Result<FetchNoticeDetailsResponse> =
         suspendRunCatching { noticeApiService.fetchNoticeDetails(noticeId) }
+
+    override suspend fun fetchLatestNotice(): Result<FetchLatestNoticeResponse> =
+        suspendRunCatching { noticeApiService.fetchLatestNotice() }
 }
