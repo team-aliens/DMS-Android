@@ -102,7 +102,8 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 4.dp),
-                onClick = { onNavigateNoticeDetail(state.noticeId) },
+                title = state.latestNotice.title,
+                onClick = { onNavigateNoticeDetail(state.latestNotice.id) },
             )
             MealContent(
                 modifier = Modifier
@@ -115,7 +116,7 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
-                plusPoint = state.myPage.bonusPoint,
+                bonusPoint = state.myPage.bonusPoint,
                 minusPoint = state.myPage.minusPoint,
             )
             DmsItemButton(

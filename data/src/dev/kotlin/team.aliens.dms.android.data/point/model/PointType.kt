@@ -1,6 +1,6 @@
 package team.aliens.dms.android.data.point.model
 
 enum class PointType {
-    ALL, PLUS, MINUS,
+    ALL, BONUS, MINUS,
     ;
 }

@@ -101,7 +101,7 @@ private fun MyPageScreen(
             )
             DmsPointContent(
                 modifier = Modifier,
-                plusPoint = state.myPage.bonusPoint,
+                bonusPoint = state.myPage.bonusPoint,
                 minusPoint = state.myPage.minusPoint,
             )
             DmsItemButton(
